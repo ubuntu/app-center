@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ubuntu_store_flutter/pages/page_items.dart';
 import 'package:ubuntu_store_flutter/view/layout/narrow_layout.dart';
 import 'package:ubuntu_store_flutter/view/layout/wide_layout.dart';
 import 'package:yaru/yaru.dart' as yaru;
@@ -37,6 +38,21 @@ class UbuntuStoreApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+  final pageItems = [
+    PageItem(
+        title: 'Explore',
+        builder: (_) => Text('Explore'),
+        iconData: Icons.explore),
+    PageItem(
+        title: 'My Apps',
+        builder: (_) => Text('My Apps'),
+        iconData: Icons.apps),
+    PageItem(
+        title: 'Updates',
+        builder: (_) => Text('Updates'),
+        iconData: Icons.system_update_alt),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -44,9 +60,13 @@ class HomePage extends StatelessWidget {
         body: LayoutBuilder(
           builder: (context, constraints) {
             if (constraints.maxWidth > 600) {
-              return WideLayoutBody();
+              return WideLayout(
+                pageItems: pageItems,
+              );
             } else {
-              return NarrowLayoutBody();
+              return NarrowLayout(
+                pageItems: pageItems,
+              );
             }
           },
         ),
