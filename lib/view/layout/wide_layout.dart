@@ -27,7 +27,6 @@ class _WideLayoutBodyState extends State<WideLayoutBody> {
       return Scaffold(
         appBar: AppBar(
           title: Text('Ubuntu Software Store'),
-          elevation: 1.0,
         ),
         body: Row(
           children: [

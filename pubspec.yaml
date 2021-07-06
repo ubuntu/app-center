@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  yaru: ^0.0.7
+  yaru: ^0.0.8
   cupertino_icons: ^1.0.2
   yaru_icons: ^0.0.1
 

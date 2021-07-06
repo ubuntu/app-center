@@ -53,7 +53,6 @@ class _NarrowLayoutBodyState extends State<NarrowLayoutBody> {
         ),
         appBar: AppBar(
           title: Text('Ubuntu Store'),
-          elevation: 1.0,
         ));
   }
 }
