@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ubuntu_store_flutter/pages/page_items.dart';
-import 'package:ubuntu_store_flutter/view/layout/narrow_layout.dart';
-import 'package:ubuntu_store_flutter/view/layout/wide_layout.dart';
+import 'package:ubuntu_software_store/pages/page_items.dart';
+import 'package:ubuntu_software_store/view/layout/narrow_layout.dart';
+import 'package:ubuntu_software_store/view/layout/wide_layout.dart';
 import 'package:yaru/yaru.dart' as yaru;
 
 void main() {

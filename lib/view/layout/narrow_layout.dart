@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ubuntu_store_flutter/pages/page_items.dart';
+import 'package:ubuntu_software_store/pages/page_items.dart';
 
 class NarrowLayout extends StatefulWidget {
   final List<PageItem> pageItems;

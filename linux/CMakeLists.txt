@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "ubuntu_store_flutter")
-set(APPLICATION_ID "com.example.ubuntu_store_flutter")
+set(BINARY_NAME "ubuntu_software_store")
+set(APPLICATION_ID "org.ubuntu.ubuntu_software_store")
 
 cmake_policy(SET CMP0063 NEW)
 
