@@ -27,6 +27,8 @@ dependencies:
   yaru: ^0.0.8
   cupertino_icons: ^1.0.2
   yaru_icons: ^0.0.1
+  snapd: ^0.1.1
+  provider: ^5.0.0
 
 dev_dependencies:
   flutter_test:

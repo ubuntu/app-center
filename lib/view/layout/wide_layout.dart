@@ -23,33 +23,32 @@ class _WideLayoutState extends State<WideLayout> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraint) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Ubuntu Software Store'),
-        ),
-        body: Row(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
-              child: NavigationRail(
-                selectedIndex: _selectedIndex,
-                onDestinationSelected: (index) =>
-                    setState(() => _selectedIndex = index),
-                labelType: NavigationRailLabelType.selected,
-                destinations: widget.pageItems
-                    .map((pageItem) => NavigationRailDestination(
-                        icon: Icon(pageItem.iconData),
-                        label: Text(pageItem.title)))
-                    .toList(),
+      return SafeArea(
+        child: Scaffold(
+          body: Row(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height,
+                child: NavigationRail(
+                  selectedIndex: _selectedIndex,
+                  onDestinationSelected: (index) =>
+                      setState(() => _selectedIndex = index),
+                  labelType: NavigationRailLabelType.selected,
+                  destinations: widget.pageItems
+                      .map((pageItem) => NavigationRailDestination(
+                          icon: Icon(pageItem.iconData),
+                          label: Text(pageItem.title)))
+                      .toList(),
+                ),
               ),
-            ),
-            VerticalDivider(thickness: 1, width: 1),
-            Expanded(
-              child: Center(
-                child: widget.pageItems[_selectedIndex].builder(context),
-              ),
-            )
-          ],
+              VerticalDivider(thickness: 1, width: 1),
+              Expanded(
+                child: Center(
+                  child: widget.pageItems[_selectedIndex].builder(context),
+                ),
+              )
+            ],
+          ),
         ),
       );
     });

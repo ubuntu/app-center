@@ -21,26 +21,25 @@ class _NarrowLayoutState extends State<NarrowLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
-          children: <Widget>[
-            Expanded(
-              child: Center(
-                child: widget.pageItems[_selectedIndex].builder(context),
-              ),
+    return SafeArea(
+      child: Scaffold(
+          body: Column(
+        children: <Widget>[
+          Expanded(
+            child: Center(
+              child: widget.pageItems[_selectedIndex].builder(context),
             ),
-            BottomNavigationBar(
-              items: widget.pageItems
-                  .map((pageItem) => BottomNavigationBarItem(
-                      icon: Icon(pageItem.iconData), label: pageItem.title))
-                  .toList(),
-              currentIndex: _selectedIndex,
-              onTap: (index) => setState(() => _selectedIndex = index),
-            ),
-          ],
-        ),
-        appBar: AppBar(
-          title: Text('Ubuntu Store'),
-        ));
+          ),
+          BottomNavigationBar(
+            items: widget.pageItems
+                .map((pageItem) => BottomNavigationBarItem(
+                    icon: Icon(pageItem.iconData), label: pageItem.title))
+                .toList(),
+            currentIndex: _selectedIndex,
+            onTap: (index) => setState(() => _selectedIndex = index),
+          ),
+        ],
+      )),
+    );
   }
 }
