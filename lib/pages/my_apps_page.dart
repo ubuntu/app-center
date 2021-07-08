@@ -18,33 +18,58 @@ class MyAppsPage extends StatelessWidget {
           if (snapshot.hasData) {
             return ListView(
               children: snapshot.data!
-                  .map((e) => InkWell(
+                  .map((snapApp) => InkWell(
                         onTap: () => {
                           showDialog(
                               context: context,
                               builder: (_) =>
                                   StatefulBuilder(builder: (context, setState) {
+                                    double changeValue = 0;
+
                                     return AlertDialog(
-                                      title: Text(e.name),
+                                      title: Text(snapApp.name),
                                       content: SizedBox(
                                         height:
                                             MediaQuery.of(context).size.height /
-                                                4,
+                                                6,
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            OutlinedButton(
+                                            TextButton(
                                                 onPressed: () async {
-                                                  await client
-                                                      .loadAuthorization();
-                                                  await client
-                                                      .remove([e.name]).then(
-                                                          (value) => setState);
+                                                  String appId = await client
+                                                      .loadAuthorization()
+                                                      .then((value) => client
+                                                          .remove(
+                                                              [snapApp.name]));
+                                                  client
+                                                      .getChange(appId)
+                                                      .asStream()
+                                                      .cast()
+                                                      .listen((event) {
+                                                    setState(() {
+                                                      changeValue = event;
+                                                    });
+                                                  });
                                                 },
-                                                child: Text('Uninstall'))
+                                                child: Text('Uninstall',
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .error))),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10, bottom: 10),
+                                              child: SizedBox(
+                                                width: 90,
+                                                child: LinearProgressIndicator(
+                                                  value: changeValue,
+                                                ),
+                                              ),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -62,7 +87,7 @@ class MyAppsPage extends StatelessWidget {
                         },
                         child: ListTile(
                             leading: Icon(Icons.settings_applications),
-                            title: Text(e.name)),
+                            title: Text(snapApp.name)),
                       ))
                   .toList(),
             );
