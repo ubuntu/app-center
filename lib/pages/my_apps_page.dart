@@ -1,19 +1,48 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 
-class MyAppsPage extends StatelessWidget {
-  const MyAppsPage({Key? key}) : super(key: key);
+class MyAppsPage extends StatefulWidget {
+  MyAppsPage({Key? key}) : super(key: key);
+
+  @override
+  State<MyAppsPage> createState() => _MyAppsPageState();
+}
+
+class _MyAppsPageState extends State<MyAppsPage> {
+  double _progress = 0;
+  String appId = '';
+  late SnapdClient client;
+
+  late Future<List<SnapApp>> _apps;
+
+  void startTimer() {
+    Timer.periodic(
+      Duration(seconds: 1),
+      (Timer timer) => setState(
+        () {
+          if (_progress == 1) {
+            timer.cancel();
+          } else {
+            // client.getChange(appId);
+            _progress += 0.2;
+          }
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final client = context.watch<SnapdClient>();
-
+    client = context.watch<SnapdClient>();
     Provider.of<SnapdClient>(context, listen: false);
+    _apps = getSnapApps(context);
 
     return FutureBuilder(
-        future: getSnapApps(context),
+        future: _apps,
         builder: (BuildContext context, AsyncSnapshot<List<SnapApp>> snapshot) {
           if (snapshot.hasData) {
             return ListView(
@@ -22,10 +51,8 @@ class MyAppsPage extends StatelessWidget {
                         onTap: () => {
                           showDialog(
                               context: context,
-                              builder: (_) =>
+                              builder: (context) =>
                                   StatefulBuilder(builder: (context, setState) {
-                                    double changeValue = 0;
-
                                     return AlertDialog(
                                       title: Text(snapApp.name),
                                       content: SizedBox(
@@ -40,20 +67,11 @@ class MyAppsPage extends StatelessWidget {
                                           children: [
                                             TextButton(
                                                 onPressed: () async {
-                                                  String appId = await client
+                                                  await client
                                                       .loadAuthorization()
                                                       .then((value) => client
                                                           .remove(
                                                               [snapApp.name]));
-                                                  client
-                                                      .getChange(appId)
-                                                      .asStream()
-                                                      .cast()
-                                                      .listen((event) {
-                                                    setState(() {
-                                                      changeValue = event;
-                                                    });
-                                                  });
                                                 },
                                                 child: Text('Uninstall',
                                                     style: TextStyle(
@@ -66,7 +84,7 @@ class MyAppsPage extends StatelessWidget {
                                               child: SizedBox(
                                                 width: 90,
                                                 child: LinearProgressIndicator(
-                                                  value: changeValue,
+                                                  value: _progress,
                                                 ),
                                               ),
                                             )
@@ -77,8 +95,9 @@ class MyAppsPage extends StatelessWidget {
                                         OutlinedButton(
                                             onPressed: () {
                                               setState(() {
-                                                Navigator.of(context).pop();
+                                                _apps = getSnapApps(context);
                                               });
+                                              Navigator.pop(context);
                                             },
                                             child: Text('Close')),
                                       ],
@@ -98,6 +117,8 @@ class MyAppsPage extends StatelessWidget {
 
   Future<List<SnapApp>> getSnapApps(BuildContext context) async {
     final client = context.watch<SnapdClient>();
+    Provider.of<SnapdClient>(context, listen: false);
+
     await client.loadAuthorization();
     return await client.apps();
   }
