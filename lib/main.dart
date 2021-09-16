@@ -6,6 +6,7 @@ import 'package:ubuntu_software_store/pages/page_items.dart';
 import 'package:ubuntu_software_store/view/layout/narrow_layout.dart';
 import 'package:ubuntu_software_store/view/layout/wide_layout.dart';
 import 'package:yaru/yaru.dart' as yaru;
+import 'package:yaru_icons/widgets/yaru_icons.dart';
 
 void main() async {
   runApp(MultiProvider(
@@ -23,13 +24,15 @@ class UbuntuStoreApp extends StatelessWidget {
     PageItem(
         title: 'Explore',
         builder: (_) => Text('Explore'),
-        iconData: Icons.explore),
+        iconData: YaruIcons.search),
     PageItem(
-        title: 'My Apps', builder: (_) => MyAppsPage(), iconData: Icons.apps),
+        title: 'My Apps',
+        builder: (_) => MyAppsPage(),
+        iconData: YaruIcons.app_grid),
     PageItem(
         title: 'Updates',
         builder: (_) => Text('Updates'),
-        iconData: Icons.update),
+        iconData: YaruIcons.save),
   ];
 
   UbuntuStoreApp({Key? key, required this.title}) : super(key: key);

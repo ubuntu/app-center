@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:yaru_icons/widgets/yaru_icons.dart';
 
 class MyAppsPage extends StatefulWidget {
   MyAppsPage({Key? key}) : super(key: key);
@@ -105,7 +106,7 @@ class _MyAppsPageState extends State<MyAppsPage> {
                                   }))
                         },
                         child: ListTile(
-                            leading: Icon(Icons.settings_applications),
+                            leading: Icon(YaruIcons.package),
                             title: Text(snapApp.name)),
                       ))
                   .toList(),
