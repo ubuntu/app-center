@@ -9,9 +9,9 @@ An alternative software store for the Ubuntu Desktop made with Flutter.
 
 - [ ] Great UX
 - [X] Adaptive Layout
-- [ ] Snap support
-- [ ] Firmware support
-- [ ] deb support
+- [ ] Snap support (https://github.com/canonical/snapd.dart)
+- [ ] Firmware support (https://github.com/canonical/fwupd.dart & https://github.com/canonical/firmware-updater)
+- [ ] deb support (https://github.com/robert-ancell/dpkg.dart)
 
 ## Optional long term goals
 
