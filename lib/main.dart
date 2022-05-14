@@ -9,7 +9,8 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 void main() async {
   runApp(MultiProvider(
     providers: [
-      Provider(create: (_) => SnapdClient()),
+      Provider<SnapdClient>(
+          create: (_) => SnapdClient(), dispose: (_, client) => client.close()),
     ],
     child: UbuntuStoreApp(title: 'Ubuntu Software App'),
   ));
