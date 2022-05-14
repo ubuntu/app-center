@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "ubuntu_software_store")
-set(APPLICATION_ID "org.ubuntu.ubuntu_software_store")
+set(BINARY_NAME "software")
+set(APPLICATION_ID "org.ubuntu.software")
 
 cmake_policy(SET CMP0063 NEW)
 

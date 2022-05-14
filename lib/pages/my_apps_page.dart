@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:yaru_icons/widgets/yaru_icons.dart';
+import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MyAppsPage extends StatefulWidget {
   MyAppsPage({Key? key}) : super(key: key);
@@ -54,17 +54,18 @@ class _MyAppsPageState extends State<MyAppsPage> {
                               context: context,
                               builder: (context) =>
                                   StatefulBuilder(builder: (context, setState) {
-                                    return AlertDialog(
-                                      title: Text(snapApp.name),
-                                      content: SizedBox(
+                                    return YaruAlertDialog(
+                                      closeIconData: YaruIcons.window_close,
+                                      title: snapApp.name,
+                                      child: SizedBox(
                                         height:
                                             MediaQuery.of(context).size.height /
                                                 6,
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                              MainAxisAlignment.center,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              CrossAxisAlignment.center,
                                           children: [
                                             TextButton(
                                                 onPressed: () async {
@@ -112,7 +113,9 @@ class _MyAppsPageState extends State<MyAppsPage> {
                   .toList(),
             );
           }
-          return CircularProgressIndicator();
+          return Center(
+            child: YaruCircularProgressIndicator(),
+          );
         });
   }
 
