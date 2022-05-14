@@ -10,37 +10,22 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       Provider<SnapdClient>(
-          create: (_) => SnapdClient(), dispose: (_, client) => client.close()),
+        create: (_) => SnapdClient(),
+        dispose: (_, client) => client.close(),
+      ),
     ],
-    child: UbuntuStoreApp(title: 'Ubuntu Software App'),
+    child: App(),
   ));
 }
 
-class UbuntuStoreApp extends StatelessWidget {
-  final String title;
-
-  final pageItems = [
-    YaruPageItem(
-        titleBuilder: (context) => Text('My Apps'),
-        builder: (_) => MyAppsPage(),
-        iconData: YaruIcons.app_grid),
-    YaruPageItem(
-        titleBuilder: (context) => Text('Explore'),
-        builder: (_) => Center(child: Text('Explore')),
-        iconData: YaruIcons.search),
-    YaruPageItem(
-        titleBuilder: (context) => Text('Updates'),
-        builder: (_) => Center(child: Text('Updates')),
-        iconData: YaruIcons.save),
-  ];
-
-  UbuntuStoreApp({Key? key, required this.title}) : super(key: key);
+class App extends StatelessWidget {
+  App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: title,
+      title: 'Ubuntu Software App',
       home: YaruTheme(
         child: Scaffold(
           body: YaruCompactLayout(
@@ -51,3 +36,18 @@ class UbuntuStoreApp extends StatelessWidget {
     );
   }
 }
+
+final pageItems = [
+  YaruPageItem(
+      titleBuilder: (context) => Text('My Apps'),
+      builder: (_) => MyAppsPage(),
+      iconData: YaruIcons.app_grid),
+  YaruPageItem(
+      titleBuilder: (context) => Text('Explore'),
+      builder: (_) => Center(child: Text('Explore')),
+      iconData: YaruIcons.search),
+  YaruPageItem(
+      titleBuilder: (context) => Text('Updates'),
+      builder: (_) => Center(child: Text('Updates')),
+      iconData: YaruIcons.save),
+];
