@@ -7,7 +7,7 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MyAppsPage extends StatefulWidget {
-  MyAppsPage({Key? key}) : super(key: key);
+  MyAppsPage({super.key});
 
   @override
   State<MyAppsPage> createState() => _MyAppsPageState();

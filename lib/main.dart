@@ -19,7 +19,7 @@ void main() async {
 }
 
 class App extends StatelessWidget {
-  App({Key? key}) : super(key: key);
+  App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +39,18 @@ class App extends StatelessWidget {
 
 final pageItems = [
   YaruPageItem(
-      titleBuilder: (context) => Text('My Apps'),
-      builder: (_) => MyAppsPage(),
-      iconData: YaruIcons.app_grid),
+    titleBuilder: (context) => Text('My Apps'),
+    builder: (_) => MyAppsPage(),
+    iconData: YaruIcons.app_grid,
+  ),
   YaruPageItem(
-      titleBuilder: (context) => Text('Explore'),
-      builder: (_) => Center(child: Text('Explore')),
-      iconData: YaruIcons.search),
+    titleBuilder: (context) => Text('Explore'),
+    builder: (_) => Center(child: Text('Explore')),
+    iconData: YaruIcons.search,
+  ),
   YaruPageItem(
-      titleBuilder: (context) => Text('Updates'),
-      builder: (_) => Center(child: Text('Updates')),
-      iconData: YaruIcons.save),
+    titleBuilder: (context) => Text('Updates'),
+    builder: (_) => Center(child: Text('Updates')),
+    iconData: YaruIcons.save,
+  ),
 ];
