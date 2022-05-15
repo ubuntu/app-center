@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/pages/explore_page.dart';
 import 'package:software/pages/my_apps_page.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -45,7 +46,7 @@ final pageItems = [
   ),
   YaruPageItem(
     titleBuilder: (context) => Text('Explore'),
-    builder: (_) => Center(child: Text('Explore')),
+    builder: (_) => ExplorePage(),
     iconData: YaruIcons.search,
   ),
   YaruPageItem(
