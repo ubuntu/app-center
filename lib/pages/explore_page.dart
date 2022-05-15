@@ -30,9 +30,8 @@ class _ExplorePageState extends State<ExplorePage> {
                     .where((element) => element.media.isNotEmpty)
                     .take(10)
                     .map((e) => Card(
-                          color: Image.network(e.media.first.url).color,
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          surfaceTintColor:
+                              Image.network(e.media.first.url).color,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -51,7 +50,38 @@ class _ExplorePageState extends State<ExplorePage> {
                         ))
                     .toList())
             : YaruCircularProgressIndicator(),
-      )
+      ),
+      SizedBox(
+        height: 40,
+      ),
+      FutureBuilder<List<Snap>>(
+          future: findSnapApps(),
+          builder: (context, snapshot) => snapshot.hasData
+              ? GridView(
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    crossAxisSpacing: 40,
+                    mainAxisSpacing: 40,
+                    maxCrossAxisExtent: 100,
+                  ),
+                  children: snapshot.data!
+                      .where((element) => element.media.isNotEmpty)
+                      .take(20)
+                      .map(
+                        (e) => Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Image.network(
+                              e.media.first.url,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList())
+              : YaruCircularProgressIndicator()),
     ]);
   }
 
