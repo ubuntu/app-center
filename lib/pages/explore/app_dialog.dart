@@ -86,18 +86,11 @@ class AppDialog extends StatelessWidget {
               elevation: 1,
               value: 'snap: stable',
               items: [
-                DropdownMenuItem(
-                  child: Text('snap: stable'),
-                  value: 'snap: stable',
-                ),
-                DropdownMenuItem(
-                  child: Text('snap: edge'),
-                  value: 'snap: edge',
-                ),
-                DropdownMenuItem(
-                  child: Text('deb'),
-                  value: 'deb',
-                ),
+                for (final channel in snap.channels.entries)
+                  DropdownMenuItem(
+                    child: Text(channel.value.revision),
+                    value: channel.value.revision,
+                  ),
               ],
               onChanged: (v) {}),
         ),
