@@ -8,6 +8,29 @@ import 'package:software/pages/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+const sections = <String, String>{
+  'art-and-design': 'art-and-design',
+  'books-and-reference': 'books-and-reference',
+  'development': 'development',
+  'devices-and-iot': 'devices-and-iot',
+  'education': 'education',
+  'entertainment': 'entertainment',
+  'featured': 'featured',
+  'finance': 'finance',
+  'games': 'games',
+  'health-and-fitness': 'health-and-fitness',
+  'music-and-audio': 'music-and-audio',
+  'news-and-weather': 'news-and-weather',
+  'personalisation': 'personalisation',
+  'photo-and-video': 'photo-and-video',
+  'productivity': 'productivity',
+  'science': 'science',
+  'security': 'security',
+  'server-and-cloud': 'server-and-cloud',
+  'social': 'social',
+  'utilities': 'utilities',
+};
+
 class ExplorePage extends StatelessWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
@@ -58,29 +81,12 @@ class ExplorePage extends StatelessWidget {
                     child: YaruCircularProgressIndicator(),
                   ),
           ),
-          AppGrid(
-            sectionName: 'featured',
-            headline: 'Editor\'s choice',
-            showHeadline: true,
-          ),
-          // SizedBox(
-          //   height: 40,
-          // ),
-          // SizedBox(
-          //   height: 500,
-          //   child: YaruTabbedPage(tabIcons: [
-          //     YaruIcons.headset,
-          //     YaruIcons.camera_video_filed
-          //   ], tabTitles: [
-          //     'Health',
-          //     'Video'
-          //   ], views: [
-          //     SnapGrid(
-          //       sectionName: 'health-and-fitness',
-          //     ),
-          //     Text('data')
-          //   ]),
-          // )
+          for (final section in sections.entries)
+            AppGrid(
+              sectionName: section.key,
+              headline: section.value,
+              showHeadline: true,
+            )
         ]),
         Positioned(
           bottom: 20,
