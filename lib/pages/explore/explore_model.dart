@@ -6,8 +6,8 @@ class ExploreModel extends SafeChangeNotifier {
 
   ExploreModel(this.client);
 
-  Future<List<Snap>> findSnapApps() async {
-    final snaps = await client.find();
+  Future<List<Snap>> findSnapApps({String? section}) async {
+    final snaps = await client.find(section: section);
     return snaps;
   }
 }
