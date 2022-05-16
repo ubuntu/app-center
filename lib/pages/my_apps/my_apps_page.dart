@@ -43,7 +43,7 @@ class MyAppsPage extends StatelessWidget {
                                               MainAxisAlignment.center,
                                           children: [
                                             TextButton(
-                                              onPressed: () async =>
+                                              onPressed: () =>
                                                   model.unInstallSnap(snapApp),
                                               child: Text(
                                                 'Uninstall',

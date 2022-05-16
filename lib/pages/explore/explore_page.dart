@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/pages/explore/explore_model.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatelessWidget {
@@ -34,9 +35,15 @@ class ExplorePage extends StatelessWidget {
                     .where((element) => element.media.isNotEmpty)
                     .take(10)
                     .map(
-                      (e) => SnapBanner(
-                        snap: e,
-                        onTap: () => showAboutDialog(context: context),
+                      (snap) => AppBanner(
+                        snap: snap,
+                        onTap: () => showDialog(
+                          context: context,
+                          builder: (context) => ChangeNotifierProvider.value(
+                            value: model,
+                            child: AppDialog(snap: snap),
+                          ),
+                        ),
                       ),
                     )
                     .toList())
@@ -45,7 +52,7 @@ class ExplorePage extends StatelessWidget {
                 child: YaruCircularProgressIndicator(),
               ),
       ),
-      SnapGrid(
+      AppGrid(
         sectionName: 'featured',
         headline: 'Editor\'s choice',
         showHeadline: true,
@@ -72,8 +79,8 @@ class ExplorePage extends StatelessWidget {
   }
 }
 
-class SnapBanner extends StatelessWidget {
-  const SnapBanner({
+class AppBanner extends StatelessWidget {
+  const AppBanner({
     Key? key,
     required this.snap,
     this.onTap,
@@ -106,8 +113,8 @@ class SnapBanner extends StatelessWidget {
   }
 }
 
-class SnapGrid extends StatelessWidget {
-  const SnapGrid(
+class AppGrid extends StatelessWidget {
+  const AppGrid(
       {Key? key,
       required this.sectionName,
       required this.showHeadline,
@@ -151,7 +158,7 @@ class SnapGrid extends StatelessWidget {
                         .where((element) => element.media.isNotEmpty)
                         .take(20)
                         .map(
-                          (snap) => SnapCard(snap: snap),
+                          (snap) => AppCard(snap: snap),
                         )
                         .toList(),
                   ),
@@ -163,8 +170,8 @@ class SnapGrid extends StatelessWidget {
   }
 }
 
-class SnapCard extends StatelessWidget {
-  const SnapCard({Key? key, this.onTap, required this.snap}) : super(key: key);
+class AppCard extends StatelessWidget {
+  const AppCard({Key? key, this.onTap, required this.snap}) : super(key: key);
 
   final Function()? onTap;
   final Snap snap;
@@ -189,6 +196,84 @@ class SnapCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class AppDialog extends StatelessWidget {
+  const AppDialog({Key? key, required this.snap}) : super(key: key);
+
+  final Snap snap;
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<ExploreModel>();
+    return SimpleDialog(
+      contentPadding: EdgeInsets.only(left: 40, right: 40, bottom: 30),
+      titlePadding: EdgeInsets.zero,
+      title: YaruDialogTitle(
+        mainAxisAlignment: MainAxisAlignment.center,
+        titleWidget: Row(
+          children: [
+            if (snap.media.isNotEmpty)
+              Image.network(
+                snap.media.first.url,
+                height: 50,
+              ),
+            SizedBox(
+              width: 15,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(snap.title),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  snap.summary,
+                  style: Theme.of(context).textTheme.caption,
+                )
+              ],
+            ),
+            SizedBox(
+              width: 15,
+            ),
+            ElevatedButton(
+                onPressed:
+                    model.installing ? null : () => model.installSnap(snap),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Install'),
+                    if (model.installing)
+                      SizedBox(
+                        height: 15,
+                        child: YaruCircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                  ],
+                ))
+          ],
+        ),
+        closeIconData: YaruIcons.window_close,
+      ),
+      children: [
+        YaruCarousel(height: 300, children: [
+          for (int i = 1; i < snap.media.length; i++)
+            Image.network(snap.media[i].url)
+        ]),
+        SizedBox(
+          height: 20,
+        ),
+        Text(
+          snap.description,
+          style: Theme.of(context).textTheme.caption,
+          textAlign: TextAlign.center,
+        )
+      ],
     );
   }
 }

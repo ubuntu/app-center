@@ -15,11 +15,10 @@ class MyAppsModel extends SafeChangeNotifier {
 
   Future<void> unInstallSnap(SnapApp snapApp) async {
     {
-      uninstalling = true;
-      notifyListeners();
-
       await client.loadAuthorization();
       final id = await client.remove([snapApp.name]);
+      uninstalling = true;
+      notifyListeners();
       while (true) {
         final change = await client.getChange(id);
         if (change.ready) {
@@ -32,6 +31,8 @@ class MyAppsModel extends SafeChangeNotifier {
           Duration(milliseconds: 100),
         );
       }
+      uninstalling = false;
+      notifyListeners();
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
@@ -26,6 +27,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scrollBehavior: TouchMouseStylusScrollBehavior(),
       debugShowCheckedModeBanner: false,
       title: 'Ubuntu Software App',
       home: YaruTheme(
@@ -41,14 +43,14 @@ class App extends StatelessWidget {
 
 final pageItems = [
   YaruPageItem(
-    titleBuilder: MyAppsPage.createTitle,
-    builder: MyAppsPage.create,
-    iconData: YaruIcons.app_grid,
-  ),
-  YaruPageItem(
     titleBuilder: ExplorePage.createTitle,
     builder: ExplorePage.create,
     iconData: YaruIcons.search,
+  ),
+  YaruPageItem(
+    titleBuilder: MyAppsPage.createTitle,
+    builder: MyAppsPage.create,
+    iconData: YaruIcons.app_grid,
   ),
   YaruPageItem(
     titleBuilder: (context) => Text('Updates'),
@@ -61,3 +63,12 @@ final pageItems = [
     iconData: YaruIcons.settings,
   )
 ];
+
+class TouchMouseStylusScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.stylus
+      };
+}
