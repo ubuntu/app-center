@@ -114,8 +114,6 @@ class SearchAppsDialog extends StatefulWidget {
 }
 
 class _SearchAppsDialogState extends State<SearchAppsDialog> {
-  TextEditingController controller = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
@@ -124,32 +122,14 @@ class _SearchAppsDialogState extends State<SearchAppsDialog> {
         Padding(
           padding: const EdgeInsets.all(18.0),
           child: TextField(
-            onEditingComplete: () => model.snapSearch = controller.value.text,
-            controller: controller,
+            onChanged: (value) => model.snapSearch = value,
             autofocus: true,
             decoration: InputDecoration(
               border: UnderlineInputBorder(),
             ),
           ),
         ),
-        FutureBuilder<List<Snap>>(
-          future: model.findSnapsByName(),
-          builder: (context, snapshot) => snapshot.hasData
-              ? Column(
-                  children: snapshot.data!
-                      .map((e) => ListTile(
-                            onTap: () => showDialog(
-                                context: context,
-                                builder: (context) =>
-                                    ChangeNotifierProvider.value(
-                                      value: model,
-                                      child: AppDialog(snap: e),
-                                    )),
-                            title: Text(e.name),
-                          ))
-                      .toList())
-              : YaruCircularProgressIndicator(),
-        )
+        ...model.searchedSnaps.map((e) => ListTile()).toList()
       ],
     );
   }
