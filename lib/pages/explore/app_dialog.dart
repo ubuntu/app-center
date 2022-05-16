@@ -59,7 +59,8 @@ class AppDialog extends StatelessWidget {
           children: [
             YaruCarousel(height: 300, children: [
               for (int i = 1; i < snap.media.length; i++)
-                Image.network(snap.media[i].url)
+                if (snap.media[i].url.endsWith('png'))
+                  Image.network(snap.media[i].url)
             ]),
             SizedBox(
               height: 20,

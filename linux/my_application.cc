@@ -48,10 +48,14 @@ static void my_application_activate(GApplication* application) {
     gtk_window_set_title(window, "Ubuntu Software Store");
   }
 
-  GdkGeometry geometry;
-  geometry.min_width = 600;
-  geometry.min_height = 700;
-  gtk_window_set_geometry_hints(window, nullptr, &geometry, GDK_HINT_MIN_SIZE);
+  GdkGeometry geometry_min;
+  geometry_min.min_width = 600;
+  geometry_min.min_height = 700;
+  GdkGeometry geometry_max;
+  geometry_max.max_width = 1200;
+  gtk_window_set_geometry_hints(window, nullptr, &geometry_min, GDK_HINT_MIN_SIZE);
+  gtk_window_set_geometry_hints(window, nullptr, &geometry_max, GDK_HINT_MAX_SIZE);
+
 
   gtk_window_set_default_size(window, 700, 720);
 
