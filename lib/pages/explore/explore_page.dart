@@ -33,25 +33,26 @@ class ExplorePage extends StatelessWidget {
                 children: snapshot.data!
                     .where((element) => element.media.isNotEmpty)
                     .take(10)
-                    .map((e) => Card(
-                          surfaceTintColor:
-                              Image.network(e.media.first.url).color,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                    .map(
+                      (e) => Card(
+                        elevation: 6,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: ListTile(
+                            contentPadding:
+                                EdgeInsets.only(left: 18, right: 18),
+                            subtitle: Text(e.summary),
+                            title: Text(e.title),
+                            leading: Image.network(e.media.first.url,
+                                fit: BoxFit.cover),
                           ),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: ListTile(
-                              contentPadding:
-                                  EdgeInsets.only(left: 18, right: 18),
-                              subtitle: Text(e.summary),
-                              title: Text(e.title),
-                              leading: Image.network(e.media.first.url,
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                          margin: EdgeInsets.all(10),
-                        ))
+                        ),
+                        margin: EdgeInsets.all(10),
+                      ),
+                    )
                     .toList())
             : YaruCircularProgressIndicator(),
       ),
@@ -72,9 +73,12 @@ class ExplorePage extends StatelessWidget {
                       .where((element) => element.media.isNotEmpty)
                       .take(20)
                       .map(
-                        (e) => Card(
-                          shape: RoundedRectangleBorder(
+                        (e) => Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                                color: Theme.of(context).dividerColor),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
