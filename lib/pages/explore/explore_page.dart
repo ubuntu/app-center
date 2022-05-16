@@ -93,7 +93,7 @@ class AppBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(10),
       child: Card(
         elevation: 6,
         shape: RoundedRectangleBorder(
@@ -158,7 +158,17 @@ class AppGrid extends StatelessWidget {
                         .where((element) => element.media.isNotEmpty)
                         .take(20)
                         .map(
-                          (snap) => AppCard(snap: snap),
+                          (snap) => AppCard(
+                            snap: snap,
+                            onTap: () => showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  ChangeNotifierProvider.value(
+                                value: model,
+                                child: AppDialog(snap: snap),
+                              ),
+                            ),
+                          ),
                         )
                         .toList(),
                   ),
@@ -179,7 +189,7 @@ class AppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(10),
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
