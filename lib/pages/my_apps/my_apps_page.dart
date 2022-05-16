@@ -74,6 +74,7 @@ class MyAppsDialog extends StatelessWidget {
             onPressed:
                 model.uninstalling ? null : () => model.unInstallSnap(snapApp),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'Uninstall',
