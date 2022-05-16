@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/pages/explore_page.dart';
-import 'package:software/pages/my_apps_page.dart';
+import 'package:software/pages/explore/explore_page.dart';
+import 'package:software/pages/my_apps/my_apps_page.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -40,13 +40,13 @@ class App extends StatelessWidget {
 
 final pageItems = [
   YaruPageItem(
-    titleBuilder: (context) => Text('My Apps'),
-    builder: (_) => MyAppsPage(),
+    titleBuilder: MyAppsPage.createTitle,
+    builder: MyAppsPage.create,
     iconData: YaruIcons.app_grid,
   ),
   YaruPageItem(
-    titleBuilder: (context) => Text('Explore'),
-    builder: (_) => ExplorePage(),
+    titleBuilder: ExplorePage.createTitle,
+    builder: ExplorePage.create,
     iconData: YaruIcons.search,
   ),
   YaruPageItem(

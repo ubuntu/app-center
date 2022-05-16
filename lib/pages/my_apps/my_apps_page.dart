@@ -1,25 +1,28 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/pages/my_apps/my_apps_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class MyAppsPage extends StatefulWidget {
-  MyAppsPage({super.key});
+class MyAppsPage extends StatelessWidget {
+  const MyAppsPage({super.key});
 
-  @override
-  State<MyAppsPage> createState() => _MyAppsPageState();
-}
+  static Widget create(BuildContext context) {
+    final client = Provider.of<SnapdClient>(context, listen: false);
+    return ChangeNotifierProvider<MyAppsModel>(
+      create: (_) => MyAppsModel(client),
+      child: const MyAppsPage(),
+    );
+  }
 
-class _MyAppsPageState extends State<MyAppsPage> {
-  bool uninstalling = false;
+  static Widget createTitle(BuildContext context) => Text('My Apps');
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<MyAppsModel>();
     return FutureBuilder<List<SnapApp>>(
-        future: getSnapApps(context),
+        future: model.snapApps,
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
             return ListView(
@@ -41,8 +44,7 @@ class _MyAppsPageState extends State<MyAppsPage> {
                                           children: [
                                             TextButton(
                                               onPressed: () async =>
-                                                  unInstallSnap(setState,
-                                                      snapApp, context),
+                                                  model.unInstallSnap(snapApp),
                                               child: Text(
                                                 'Uninstall',
                                                 style: TextStyle(
@@ -50,7 +52,7 @@ class _MyAppsPageState extends State<MyAppsPage> {
                                                         .errorColor),
                                               ),
                                             ),
-                                            if (uninstalling)
+                                            if (model.uninstalling)
                                               YaruCircularProgressIndicator()
                                           ],
                                         ),
@@ -77,36 +79,5 @@ class _MyAppsPageState extends State<MyAppsPage> {
             child: YaruCircularProgressIndicator(),
           );
         });
-  }
-
-  Future<void> unInstallSnap(
-      StateSetter setState, SnapApp snapApp, BuildContext context) async {
-    {
-      final client = context.read<SnapdClient>();
-      setState(() {
-        uninstalling = true;
-      });
-      await client.loadAuthorization();
-      final id = await client.remove([snapApp.name]);
-      while (true) {
-        final change = await client.getChange(id);
-        if (change.ready) {
-          setState(() {
-            uninstalling = false;
-          });
-          break;
-        }
-
-        await Future.delayed(
-          Duration(milliseconds: 100),
-        );
-      }
-    }
-  }
-
-  Future<List<SnapApp>> getSnapApps(BuildContext context) async {
-    final client = context.read<SnapdClient>();
-    await client.loadAuthorization();
-    return await client.apps();
   }
 }

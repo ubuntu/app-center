@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/pages/explore/explore_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class ExplorePage extends StatefulWidget {
+class ExplorePage extends StatelessWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
-  @override
-  State<ExplorePage> createState() => _ExplorePageState();
-}
+  static Widget create(BuildContext context) {
+    final client = context.read<SnapdClient>();
+    return ChangeNotifierProvider(
+      create: (_) => ExploreModel(client),
+      child: const ExplorePage(),
+    );
+  }
 
-class _ExplorePageState extends State<ExplorePage> {
+  static Widget createTitle(BuildContext context) => Text('Explore');
+
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<ExploreModel>();
     return YaruPage(children: [
       FutureBuilder<List<Snap>>(
-        future: findSnapApps(),
+        future: model.findSnapApps(),
         builder: (context, snapshot) => snapshot.hasData
             ? YaruCarousel(
                 placeIndicator: false,
@@ -52,7 +59,7 @@ class _ExplorePageState extends State<ExplorePage> {
         height: 40,
       ),
       FutureBuilder<List<Snap>>(
-          future: findSnapApps(),
+          future: model.findSnapApps(),
           builder: (context, snapshot) => snapshot.hasData
               ? GridView(
                   shrinkWrap: true,
@@ -80,11 +87,5 @@ class _ExplorePageState extends State<ExplorePage> {
                       .toList())
               : YaruCircularProgressIndicator()),
     ]);
-  }
-
-  Future<List<Snap>> findSnapApps() async {
-    final client = context.read<SnapdClient>();
-    final snaps = await client.find();
-    return snaps;
   }
 }
