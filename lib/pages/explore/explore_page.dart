@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/pages/explore/explore_model.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatelessWidget {
@@ -35,23 +34,9 @@ class ExplorePage extends StatelessWidget {
                     .where((element) => element.media.isNotEmpty)
                     .take(10)
                     .map(
-                      (e) => Card(
-                        elevation: 6,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: ListTile(
-                            contentPadding:
-                                EdgeInsets.only(left: 18, right: 18),
-                            subtitle: Text(e.summary),
-                            title: Text(e.title),
-                            leading: Image.network(e.media.first.url,
-                                fit: BoxFit.cover),
-                          ),
-                        ),
-                        margin: EdgeInsets.all(10),
+                      (e) => SnapBanner(
+                        snap: e,
+                        onTap: () => showAboutDialog(context: context),
                       ),
                     )
                     .toList())
@@ -81,6 +66,40 @@ class ExplorePage extends StatelessWidget {
       //   ]),
       // )
     ]);
+  }
+}
+
+class SnapBanner extends StatelessWidget {
+  const SnapBanner({
+    Key? key,
+    required this.snap,
+    this.onTap,
+  }) : super(key: key);
+
+  final Snap snap;
+  final Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(18),
+      child: Card(
+        elevation: 6,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: ListTile(
+            contentPadding: EdgeInsets.only(left: 18, right: 18),
+            subtitle: Text(snap.summary),
+            title: Text(snap.title),
+            leading: Image.network(snap.media.first.url, fit: BoxFit.cover),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -129,30 +148,7 @@ class SnapGrid extends StatelessWidget {
                         .where((element) => element.media.isNotEmpty)
                         .take(20)
                         .map(
-                          (e) => InkWell(
-                            borderRadius: BorderRadius.circular(20),
-                            onTap: () => showAboutDialog(context: context),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? Theme.of(context).cardColor
-                                    : Theme.of(context)
-                                        .colorScheme
-                                        .onSurface
-                                        .withOpacity(0.05),
-                                borderRadius: BorderRadius.circular(10.0),
-                                border: Border.all(
-                                    color: Theme.of(context).dividerColor),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Image.network(
-                                  e.media.first.url,
-                                ),
-                              ),
-                            ),
-                          ),
+                          (snap) => SnapCard(snap: snap),
                         )
                         .toList(),
                   ),
@@ -160,6 +156,36 @@ class SnapGrid extends StatelessWidget {
               ),
             )
           : YaruCircularProgressIndicator(),
+    );
+  }
+}
+
+class SnapCard extends StatelessWidget {
+  const SnapCard({Key? key, this.onTap, required this.snap}) : super(key: key);
+
+  final Function()? onTap;
+  final Snap snap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.light
+              ? Theme.of(context).cardColor
+              : Theme.of(context).colorScheme.onSurface.withOpacity(0.05),
+          borderRadius: BorderRadius.circular(10.0),
+          border: Border.all(color: Theme.of(context).dividerColor),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Image.network(
+            snap.media.first.url,
+          ),
+        ),
+      ),
     );
   }
 }
