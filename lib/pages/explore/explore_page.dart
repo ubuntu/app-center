@@ -22,7 +22,7 @@ class ExplorePage extends StatelessWidget {
     final model = context.read<ExploreModel>();
     return YaruPage(children: [
       FutureBuilder<List<Snap>>(
-        future: model.findSnapApps(),
+        future: model.findSnapApps(section: 'development'),
         builder: (context, snapshot) => snapshot.hasData
             ? YaruCarousel(
                 placeIndicator: false,
@@ -40,7 +40,10 @@ class ExplorePage extends StatelessWidget {
                       ),
                     )
                     .toList())
-            : YaruCircularProgressIndicator(),
+            : Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: YaruCircularProgressIndicator(),
+              ),
       ),
       SnapGrid(
         sectionName: 'featured',
