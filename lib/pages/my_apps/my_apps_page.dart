@@ -30,43 +30,14 @@ class MyAppsPage extends StatelessWidget {
                   .map((snapApp) => InkWell(
                         onTap: () => {
                           showDialog(
-                              context: context,
-                              builder: (context) =>
-                                  StatefulBuilder(builder: (context, setState) {
-                                    return YaruAlertDialog(
-                                      closeIconData: YaruIcons.window_close,
-                                      title: snapApp.name,
-                                      child: SizedBox(
-                                        height: 100,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            TextButton(
-                                              onPressed: () =>
-                                                  model.unInstallSnap(snapApp),
-                                              child: Text(
-                                                'Uninstall',
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .errorColor),
-                                              ),
-                                            ),
-                                            if (model.uninstalling)
-                                              YaruCircularProgressIndicator()
-                                          ],
-                                        ),
-                                      ),
-                                      actions: [
-                                        OutlinedButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text('Close'),
-                                        ),
-                                      ],
-                                    );
-                                  }))
+                            context: context,
+                            builder: (context) => ChangeNotifierProvider.value(
+                              value: model,
+                              child: MyAppsDialog(
+                                snapApp: snapApp,
+                              ),
+                            ),
+                          )
                         },
                         child: ListTile(
                             leading: Icon(YaruIcons.package),
@@ -79,5 +50,53 @@ class MyAppsPage extends StatelessWidget {
             child: YaruCircularProgressIndicator(),
           );
         });
+  }
+}
+
+class MyAppsDialog extends StatelessWidget {
+  const MyAppsDialog({Key? key, required this.snapApp}) : super(key: key);
+
+  final SnapApp snapApp;
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<MyAppsModel>();
+    return SimpleDialog(
+      titlePadding: EdgeInsets.zero,
+      title: YaruDialogTitle(
+        title: snapApp.name,
+        closeIconData: YaruIcons.window_close,
+      ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextButton(
+            onPressed:
+                model.uninstalling ? null : () => model.unInstallSnap(snapApp),
+            child: Row(
+              children: [
+                Text(
+                  'Uninstall',
+                  style: TextStyle(
+                    color: model.uninstalling
+                        ? Theme.of(context).disabledColor
+                        : Theme.of(context).errorColor,
+                  ),
+                ),
+                if (model.uninstalling)
+                  SizedBox(
+                      height: 15,
+                      child: YaruCircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: model.uninstalling
+                            ? Theme.of(context).disabledColor
+                            : Theme.of(context).errorColor,
+                      ))
+              ],
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

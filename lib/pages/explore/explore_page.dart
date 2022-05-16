@@ -236,13 +236,17 @@ class AppDialog extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(snap.title),
+                Text(
+                  snap.title,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 SizedBox(
                   height: 5,
                 ),
                 Text(
                   snap.summary,
                   style: Theme.of(context).textTheme.caption,
+                  overflow: TextOverflow.ellipsis,
                 )
               ],
             ),
@@ -261,7 +265,9 @@ class AppDialog extends StatelessWidget {
                         height: 15,
                         child: YaruCircularProgressIndicator(
                           strokeWidth: 2,
-                          color: Colors.white,
+                          color: model.installing
+                              ? Theme.of(context).disabledColor
+                              : Colors.white,
                         ),
                       )
                   ],
