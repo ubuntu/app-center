@@ -26,42 +26,58 @@ class ExplorePage extends StatelessWidget {
     final model = context.watch<ExploreModel>();
     return YaruPage(children: [
       AppBannerCarousel(),
-      Padding(
-        padding:
-            const EdgeInsets.only(left: 10, right: 10, top: 30, bottom: 10),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: IconButton(
-                  splashRadius: 20,
-                  onPressed: () => model.searchActive = !model.searchActive,
-                  icon: Icon(
-                    YaruIcons.search,
-                    color: model.searchActive
-                        ? Theme.of(context).primaryColor
-                        : Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.8),
+      Row(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 10, right: 0, top: 30, bottom: 10),
+            child: IconButton(
+              splashRadius: 20,
+              onPressed: () => model.searchActive = !model.searchActive,
+              icon: Icon(
+                YaruIcons.search,
+                color: model.searchActive
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 600,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10, top: 30, bottom: 10),
+              child: SingleChildScrollView(
+                controller: ScrollController(),
+                scrollDirection: Axis.horizontal,
+                child: IntrinsicHeight(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 20,
+                        child: VerticalDivider(
+                          thickness: 1,
+                          width: 30,
+                          color: Theme.of(context).dividerColor,
+                        ),
+                      ),
+                      for (final section in SnapSection.values)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: FilterPill(
+                              onPressed: () =>
+                                  model.setFilter(snapSections: [section]),
+                              selected: model.filters[section]!,
+                              iconData: snapSectionToIcon[section]!),
+                        )
+                    ],
                   ),
                 ),
               ),
-              for (final section in SnapSection.values)
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: FilterPill(
-                      onPressed: () => model.setFilter(snapSections: [section]),
-                      selected: model.filters[section]!,
-                      iconData: snapSectionToIcon[section]!),
-                )
-            ],
+            ),
           ),
-        ),
+        ],
       ),
       if (model.searchActive) SearchField(),
       if (model.searchActive)
