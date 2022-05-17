@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/explore/explore_page.dart';
 import 'package:software/pages/my_apps/my_apps_page.dart';
 import 'package:software/pages/settings/settings_page.dart';
@@ -30,13 +31,18 @@ class App extends StatelessWidget {
       scrollBehavior: TouchMouseStylusScrollBehavior(),
       debugShowCheckedModeBanner: false,
       title: 'Ubuntu Software App',
-      home: YaruTheme(
-        child: Scaffold(
-          body: YaruCompactLayout(
-            pageItems: pageItems,
-          ),
-        ),
-      ),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      onGenerateTitle: (context) => context.l10n.appTitle,
+      routes: {
+        Navigator.defaultRouteName: (context) => YaruTheme(
+              child: Scaffold(
+                body: YaruCompactLayout(
+                  pageItems: pageItems,
+                ),
+              ),
+            ),
+      },
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/settings/settings_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -13,7 +14,8 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  static Widget createTitle(BuildContext context) => Text('Settings');
+  static Widget createTitle(BuildContext context) =>
+      Text(context.l10n.settingsPageTitle);
 
   @override
   Widget build(BuildContext context) {

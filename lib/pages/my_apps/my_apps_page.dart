@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/my_apps/my_apps_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -16,7 +17,8 @@ class MyAppsPage extends StatelessWidget {
     );
   }
 
-  static Widget createTitle(BuildContext context) => Text('My Apps');
+  static Widget createTitle(BuildContext context) =>
+      Text(context.l10n.myAppsPageTitle);
 
   @override
   Widget build(BuildContext context) {

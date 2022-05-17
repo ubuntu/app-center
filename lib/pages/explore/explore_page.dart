@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/explore/app_banner.dart';
 import 'package:software/pages/explore/app_dialog.dart';
 import 'package:software/pages/explore/app_grid.dart';
@@ -19,7 +20,8 @@ class ExplorePage extends StatefulWidget {
     );
   }
 
-  static Widget createTitle(BuildContext context) => Text('Explore');
+  static Widget createTitle(BuildContext context) =>
+      Text(context.l10n.explorePageTitle);
 
   @override
   State<ExplorePage> createState() => _ExplorePageState();
