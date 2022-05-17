@@ -19,6 +19,7 @@ dependencies:
   provider: ^6.0.2
   safe_change_notifier: ^0.1.0+1
   snapd: ^0.1.1
+  url_launcher: ^6.1.2
   yaru: ^0.3.2
   yaru_icons:
     git: https://github.com/ubuntu/yaru_icons.dart

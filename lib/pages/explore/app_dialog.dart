@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/common_widgets/link.dart';
 import 'package:software/pages/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -65,6 +66,8 @@ class AppDialog extends StatelessWidget {
       ),
       content: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             if (snap.media.isNotEmpty)
               YaruCarousel(
@@ -76,7 +79,24 @@ class AppDialog extends StatelessWidget {
                 ],
               ),
             SizedBox(
-              height: 20,
+              width: 350,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: IntrinsicHeight(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('License: ${snap.license!}'),
+                      SizedBox(height: 20, child: VerticalDivider()),
+                      if (snap.storeUrl != null)
+                        Link(
+                          url: snap.contact!,
+                          linkText: 'Contact  ' + snap.publisher!.displayName,
+                        ),
+                    ],
+                  ),
+                ),
+              ),
             ),
             SizedBox(
               width: 350,
