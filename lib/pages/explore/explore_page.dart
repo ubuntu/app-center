@@ -8,7 +8,7 @@ import 'package:software/pages/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class ExplorePage extends StatelessWidget {
+class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
   static Widget create(BuildContext context) {
@@ -20,6 +20,14 @@ class ExplorePage extends StatelessWidget {
   }
 
   static Widget createTitle(BuildContext context) => Text('Explore');
+
+  @override
+  State<ExplorePage> createState() => _ExplorePageState();
+}
+
+class _ExplorePageState extends State<ExplorePage> {
+  final ScrollController _controller = ScrollController();
+  double _position = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -51,31 +59,54 @@ class ExplorePage extends StatelessWidget {
               height: 20,
               child: VerticalDivider(
                 thickness: 1,
-                width: 30,
+                width: 20,
                 color: Theme.of(context).dividerColor,
               ),
             ),
+            IconButton(
+              onPressed: () {
+                if (_position >= 1) _position -= 40;
+                _controller.animateTo(
+                  _position,
+                  duration: Duration(milliseconds: 100),
+                  curve: Curves.linear,
+                );
+              },
+              icon: Icon(YaruIcons.pan_start),
+              splashRadius: 20,
+            ),
             Expanded(
               child: SingleChildScrollView(
+                controller: _controller,
                 scrollDirection: Axis.horizontal,
-                child: IntrinsicHeight(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      for (final section in SnapSection.values)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: FilterPill(
-                              onPressed: () =>
-                                  model.setFilter(snapSections: [section]),
-                              selected: model.filters[section]!,
-                              iconData: snapSectionToIcon[section]!),
-                        )
-                    ],
-                  ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    for (final section in SnapSection.values)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: FilterPill(
+                            onPressed: () =>
+                                model.setFilter(snapSections: [section]),
+                            selected: model.filters[section]!,
+                            iconData: snapSectionToIcon[section]!),
+                      )
+                  ],
                 ),
               ),
+            ),
+            IconButton(
+              onPressed: () {
+                _position += 40;
+                _controller.animateTo(
+                  _position,
+                  duration: Duration(milliseconds: 100),
+                  curve: Curves.linear,
+                );
+              },
+              icon: Icon(YaruIcons.pan_end),
+              splashRadius: 20,
             ),
           ],
         ),
@@ -117,6 +148,7 @@ class _SearchFieldState extends State<SearchField> {
         onChanged: (value) => model.snapSearch = value,
         autofocus: true,
         decoration: InputDecoration(
+          isDense: false,
           border: UnderlineInputBorder(),
         ),
       ),
