@@ -74,7 +74,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   curve: Curves.linear,
                 );
               },
-              icon: Icon(YaruIcons.pan_start),
+              icon: Icon(YaruIcons.go_previous),
               splashRadius: 20,
             ),
             Expanded(
@@ -107,7 +107,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   curve: Curves.linear,
                 );
               },
-              icon: Icon(YaruIcons.pan_end),
+              icon: Icon(YaruIcons.go_next),
               splashRadius: 20,
             ),
           ],
