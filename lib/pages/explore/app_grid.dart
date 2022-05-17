@@ -68,7 +68,12 @@ class AppGrid extends StatelessWidget {
                 ],
               ),
             )
-          : YaruCircularProgressIndicator(),
+          : Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: YaruCircularProgressIndicator(),
+              ),
+            ),
     );
   }
 }

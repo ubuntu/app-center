@@ -53,32 +53,37 @@ class ExplorePage extends StatelessWidget {
           FutureBuilder<List<Snap>>(
             future: model.findSnapsBySection(section: 'development'),
             builder: (context, snapshot) => snapshot.hasData
-                ? YaruCarousel(
-                    placeIndicator: false,
-                    autoScrollDuration: Duration(seconds: 3),
-                    width: 600,
-                    height: 140,
-                    autoScroll: true,
-                    children: snapshot.data!
-                        .where((element) => element.media.isNotEmpty)
-                        .take(10)
-                        .map(
-                          (snap) => AppBanner(
-                            snap: snap,
-                            onTap: () => showDialog(
-                              context: context,
-                              builder: (context) =>
-                                  ChangeNotifierProvider.value(
-                                value: model,
-                                child: AppDialog(snap: snap),
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: YaruCarousel(
+                        placeIndicator: false,
+                        autoScrollDuration: Duration(seconds: 3),
+                        width: MediaQuery.of(context).size.width - 30,
+                        height: MediaQuery.of(context).size.height / 5,
+                        autoScroll: true,
+                        children: snapshot.data!
+                            .where((element) => element.media.isNotEmpty)
+                            .take(10)
+                            .map(
+                              (snap) => AppBanner(
+                                snap: snap,
+                                onTap: () => showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      ChangeNotifierProvider.value(
+                                    value: model,
+                                    child: AppDialog(snap: snap),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        )
-                        .toList())
-                : Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: YaruCircularProgressIndicator(),
+                            )
+                            .toList()),
+                  )
+                : Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: YaruCircularProgressIndicator(),
+                    ),
                   ),
           ),
           for (final section in sections.entries)

@@ -40,7 +40,7 @@ class MyAppsPage extends StatelessWidget {
                           )
                         },
                         child: ListTile(
-                            leading: Icon(YaruIcons.package),
+                            leading: Icon(YaruIcons.package_snap),
                             title: Text(snapApp.name)),
                       ))
                   .toList(),

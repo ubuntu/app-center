@@ -313,9 +313,11 @@ packages:
   yaru_icons:
     dependency: "direct main"
     description:
-      name: yaru_icons
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: b9f816e14ba0731a7875addbbe88bb70f5b3b93a
+      url: "https://github.com/ubuntu/yaru_icons.dart"
+    source: git
     version: "0.2.1"
   yaru_widgets:
     dependency: "direct main"

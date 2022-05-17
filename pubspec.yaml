@@ -18,7 +18,8 @@ dependencies:
   safe_change_notifier: ^0.1.0+1
   snapd: ^0.1.1
   yaru: ^0.3.1
-  yaru_icons: ^0.2.1
+  yaru_icons:
+    git: https://github.com/ubuntu/yaru_icons.dart
   yaru_widgets:
     git: https://github.com/ubuntu/yaru_widgets.dart
 
