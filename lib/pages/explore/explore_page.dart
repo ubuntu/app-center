@@ -124,7 +124,7 @@ class _ExplorePageState extends State<ExplorePage> {
         for (int i = 0; i < model.filters.entries.length; i++)
           if (model.filters.entries.elementAt(i).value == true)
             AppGrid(
-              topPadding: i == 0 ? 0 : 10,
+              topPadding: i == 0 ? 10 : 30,
               name: model.filters.entries.elementAt(i).key.title(),
               headline: model.filters.entries.elementAt(i).key.title(),
               findByName: false,
