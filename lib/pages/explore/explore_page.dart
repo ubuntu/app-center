@@ -165,7 +165,7 @@ class AppBannerCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.read<ExploreModel>();
     return FutureBuilder<List<Snap>>(
-      future: model.findSnapsBySection(section: 'development'),
+      future: model.findSnapsBySection(section: 'featured'),
       builder: (context, snapshot) => snapshot.hasData
           ? Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
