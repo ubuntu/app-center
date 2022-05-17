@@ -8,14 +8,14 @@ import 'package:software/pages/explore/explore_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class FilterPill extends StatelessWidget {
-  final SnapSection snapSection;
   final IconData iconData;
   final bool selected;
+  final Function()? onPressed;
 
   FilterPill({
     required this.selected,
-    required this.snapSection,
     required this.iconData,
+    this.onPressed,
     super.key,
   });
 
@@ -23,12 +23,12 @@ class FilterPill extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       splashRadius: 20,
-      onPressed: () {},
+      onPressed: onPressed,
       icon: Icon(
         iconData,
         color: selected
             ? Theme.of(context).primaryColor
-            : Theme.of(context).disabledColor,
+            : Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
       ),
     );
   }
@@ -49,6 +49,7 @@ class ExplorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<ExploreModel>();
     return YaruPage(children: [
       AppBannerCarousel(),
       Padding(
@@ -59,22 +60,26 @@ class ExplorePage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              for (final snapStoreSection in [])
+              for (final section in SnapSection.values)
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
-                  child: snapStoreSection,
+                  child: FilterPill(
+                      onPressed: () => model.setFilter(snapSections: [section]),
+                      selected: model.filters[section]!,
+                      iconData: snapSectionToIcon[section]!),
                 )
             ],
           ),
         ),
       ),
-      for (int i = 0; i < SnapSection.values.length; i++)
-        AppGrid(
-          topPadding: i == 0 ? 0 : 50,
-          sectionName: SnapSection.values.elementAt(i).title(),
-          headline: SnapSection.values.elementAt(i).title(),
-          showHeadline: true,
-        )
+      for (int i = 0; i < model.filters.entries.length; i++)
+        if (model.filters.entries.elementAt(i).value == true)
+          AppGrid(
+            topPadding: i == 0 ? 0 : 10,
+            sectionName: model.filters.entries.elementAt(i).key.title(),
+            headline: model.filters.entries.elementAt(i).key.title(),
+            showHeadline: true,
+          )
     ]);
   }
 }

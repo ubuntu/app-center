@@ -35,6 +35,13 @@ class ExploreModel extends SafeChangeNotifier {
     SnapSection.utilities: false,
   };
 
+  void setFilter({required List<SnapSection> snapSections}) {
+    for (var snapSection in snapSections) {
+      filters[snapSection] = !filters[snapSection]!;
+    }
+    notifyListeners();
+  }
+
   ExploreModel(this.client) : installing = false;
 
   Future<List<Snap>> findSnapsBySection({String? section}) async {
