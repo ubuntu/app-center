@@ -22,7 +22,7 @@ dependencies:
   yaru: ^0.3.2
   yaru_icons:
     git: https://github.com/ubuntu/yaru_icons.dart
-  yaru_widgets: ^1.0.11
+  yaru_widgets: ^1.0.12
 
 dev_dependencies:
   flutter_test:
