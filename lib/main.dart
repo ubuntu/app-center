@@ -45,7 +45,7 @@ final pageItems = [
   YaruPageItem(
     titleBuilder: ExplorePage.createTitle,
     builder: ExplorePage.create,
-    iconData: YaruIcons.search,
+    iconData: YaruIcons.compass,
   ),
   YaruPageItem(
     titleBuilder: MyAppsPage.createTitle,

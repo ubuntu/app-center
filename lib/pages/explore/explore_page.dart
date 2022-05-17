@@ -5,31 +5,34 @@ import 'package:software/pages/explore/app_banner.dart';
 import 'package:software/pages/explore/app_dialog.dart';
 import 'package:software/pages/explore/app_grid.dart';
 import 'package:software/pages/explore/explore_model.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-const sections = <String, String>{
-  'art-and-design': 'art-and-design',
-  'books-and-reference': 'books-and-reference',
-  'development': 'development',
-  'devices-and-iot': 'devices-and-iot',
-  'education': 'education',
-  'entertainment': 'entertainment',
-  'featured': 'featured',
-  'finance': 'finance',
-  'games': 'games',
-  'health-and-fitness': 'health-and-fitness',
-  'music-and-audio': 'music-and-audio',
-  'news-and-weather': 'news-and-weather',
-  'personalisation': 'personalisation',
-  'photo-and-video': 'photo-and-video',
-  'productivity': 'productivity',
-  'science': 'science',
-  'security': 'security',
-  'server-and-cloud': 'server-and-cloud',
-  'social': 'social',
-  'utilities': 'utilities',
-};
+class FilterPill extends StatelessWidget {
+  final SnapSection snapSection;
+  final IconData iconData;
+  final bool selected;
+
+  FilterPill({
+    required this.selected,
+    required this.snapSection,
+    required this.iconData,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      splashRadius: 20,
+      onPressed: () {},
+      icon: Icon(
+        iconData,
+        color: selected
+            ? Theme.of(context).primaryColor
+            : Theme.of(context).disabledColor,
+      ),
+    );
+  }
+}
 
 class ExplorePage extends StatelessWidget {
   const ExplorePage({Key? key}) : super(key: key);
@@ -48,10 +51,28 @@ class ExplorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return YaruPage(children: [
       AppBannerCarousel(),
-      for (final section in sections.entries)
+      Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              for (final snapStoreSection in [])
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: snapStoreSection,
+                )
+            ],
+          ),
+        ),
+      ),
+      for (int i = 0; i < SnapSection.values.length; i++)
         AppGrid(
-          sectionName: section.key,
-          headline: section.value,
+          topPadding: i == 0 ? 0 : 50,
+          sectionName: SnapSection.values.elementAt(i).title(),
+          headline: SnapSection.values.elementAt(i).title(),
           showHeadline: true,
         )
     ]);

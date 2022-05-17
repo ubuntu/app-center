@@ -7,16 +7,18 @@ import 'package:software/pages/explore/explore_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppGrid extends StatelessWidget {
-  const AppGrid(
-      {Key? key,
-      required this.sectionName,
-      required this.showHeadline,
-      required this.headline})
-      : super(key: key);
+  const AppGrid({
+    Key? key,
+    required this.sectionName,
+    required this.showHeadline,
+    required this.headline,
+    this.topPadding = 50,
+  }) : super(key: key);
 
   final String sectionName;
   final String headline;
   final bool showHeadline;
+  final double topPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class AppGrid extends StatelessWidget {
       future: model.findSnapsBySection(section: sectionName),
       builder: (context, snapshot) => snapshot.hasData
           ? Padding(
-              padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+              padding: EdgeInsets.only(top: topPadding, left: 20, right: 20),
               child: Column(
                 children: [
                   if (showHeadline)

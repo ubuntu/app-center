@@ -24,10 +24,16 @@ class AppBanner extends StatelessWidget {
         child: Align(
           alignment: Alignment.center,
           child: ListTile(
-            contentPadding: EdgeInsets.only(left: 18, right: 18),
             subtitle: Text(snap.summary),
-            title: Text(snap.title),
-            leading: Image.network(snap.media.first.url, fit: BoxFit.cover),
+            title: Text(
+              snap.title,
+              style:
+                  TextStyle(fontSize: MediaQuery.of(context).size.height / 25),
+            ),
+            leading: SizedBox(
+                width: MediaQuery.of(context).size.height / 10,
+                child:
+                    Image.network(snap.media.first.url, fit: BoxFit.fitHeight)),
           ),
         ),
       ),
