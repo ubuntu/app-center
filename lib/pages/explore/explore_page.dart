@@ -46,68 +46,15 @@ class ExplorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<ExploreModel>();
-    return Stack(
-      children: [
-        YaruPage(children: [
-          FutureBuilder<List<Snap>>(
-            future: model.findSnapsBySection(section: 'development'),
-            builder: (context, snapshot) => snapshot.hasData
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: YaruCarousel(
-                        placeIndicator: false,
-                        autoScrollDuration: Duration(seconds: 3),
-                        width: MediaQuery.of(context).size.width - 30,
-                        height: MediaQuery.of(context).size.height / 5,
-                        autoScroll: true,
-                        children: snapshot.data!
-                            .where((element) => element.media.isNotEmpty)
-                            .take(10)
-                            .map(
-                              (snap) => AppBanner(
-                                snap: snap,
-                                onTap: () => showDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      ChangeNotifierProvider.value(
-                                    value: model,
-                                    child: AppDialog(snap: snap),
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList()),
-                  )
-                : Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: YaruCircularProgressIndicator(),
-                    ),
-                  ),
-          ),
-          for (final section in sections.entries)
-            AppGrid(
-              sectionName: section.key,
-              headline: section.value,
-              showHeadline: true,
-            )
-        ]),
-        Positioned(
-          bottom: 20,
-          right: 20,
-          child: FloatingActionButton(
-            onPressed: () => showDialog(
-                context: context,
-                builder: (context) => ChangeNotifierProvider.value(
-                      value: model,
-                      child: SearchAppsDialog(),
-                    )),
-            child: Icon(YaruIcons.search),
-          ),
-        ),
-      ],
-    );
+    return YaruPage(children: [
+      AppBannerCarousel(),
+      for (final section in sections.entries)
+        AppGrid(
+          sectionName: section.key,
+          headline: section.value,
+          showHeadline: true,
+        )
+    ]);
   }
 }
 
@@ -136,6 +83,51 @@ class _SearchAppsDialogState extends State<SearchAppsDialog> {
         ),
         ...model.searchedSnaps.map((e) => ListTile()).toList()
       ],
+    );
+  }
+}
+
+class AppBannerCarousel extends StatelessWidget {
+  const AppBannerCarousel({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.read<ExploreModel>();
+    return FutureBuilder<List<Snap>>(
+      future: model.findSnapsBySection(section: 'development'),
+      builder: (context, snapshot) => snapshot.hasData
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: YaruCarousel(
+                placeIndicator: false,
+                autoScrollDuration: Duration(seconds: 3),
+                width: MediaQuery.of(context).size.width - 30,
+                height: MediaQuery.of(context).size.height / 5,
+                autoScroll: true,
+                children: snapshot.data!
+                    .where((element) => element.media.isNotEmpty)
+                    .take(10)
+                    .map(
+                      (snap) => AppBanner(
+                        snap: snap,
+                        onTap: () => showDialog(
+                          context: context,
+                          builder: (context) => ChangeNotifierProvider.value(
+                            value: model,
+                            child: AppDialog(snap: snap),
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            )
+          : Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: YaruCircularProgressIndicator(),
+              ),
+            ),
     );
   }
 }
