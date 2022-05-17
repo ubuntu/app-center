@@ -151,26 +151,3 @@ Map<SnapSection, IconData> snapSectionToIcon = {
   SnapSection.social: YaruIcons.users,
   SnapSection.utilities: YaruIcons.utilities,
 };
-
-const sections = <String, String>{
-  'art-and-design': 'art-and-design',
-  'books-and-reference': 'books-and-reference',
-  'development': 'development',
-  'devices-and-iot': 'devices-and-iot',
-  'education': 'education',
-  'entertainment': 'entertainment',
-  'featured': 'featured',
-  'finance': 'finance',
-  'games': 'games',
-  'health-and-fitness': 'health-and-fitness',
-  'music-and-audio': 'music-and-audio',
-  'news-and-weather': 'news-and-weather',
-  'personalisation': 'personalisation',
-  'photo-and-video': 'photo-and-video',
-  'productivity': 'productivity',
-  'science': 'science',
-  'security': 'security',
-  'server-and-cloud': 'server-and-cloud',
-  'social': 'social',
-  'utilities': 'utilities',
-};
