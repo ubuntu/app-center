@@ -25,7 +25,7 @@ class AppGrid extends StatelessWidget {
     final model = context.read<ExploreModel>();
     return FutureBuilder<List<Snap>>(
       future: findByName
-          ? model.findSnapsByName()
+          ? model.findSnapsByQuery()
           : model.findSnapsBySection(section: name),
       builder: (context, snapshot) => snapshot.hasData
           ? Padding(

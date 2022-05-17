@@ -71,9 +71,7 @@ class AppDialog extends StatelessWidget {
                 height: 300,
                 children: [
                   for (int i = 1; i < snap.media.length; i++)
-                    if (snap.media[i].url.endsWith('png') ||
-                        snap.media[i].url.endsWith('jpg') ||
-                        snap.media[i].url.endsWith('jpeg'))
+                    if (snap.media[i].type == 'screenshot')
                       Image.network(snap.media[i].url)
                 ],
               ),
@@ -92,21 +90,23 @@ class AppDialog extends StatelessWidget {
         ),
       ),
       actions: [
-        // SizedBox(
-        //   height: 35,
-        //   child: DropdownButton<String>(
-        //       borderRadius: BorderRadius.circular(10),
-        //       elevation: 1,
-        //       value: 'snap: stable',
-        //       items: [
-        //         for (final channel in snap.channels.entries)
-        //           DropdownMenuItem(
-        //             child: Text(channel.value.revision),
-        //             value: channel.value.revision,
-        //           ),
-        //       ],
-        //       onChanged: (v) {}),
-        // ),
+        FutureBuilder<Snap>(
+          future: model.findSnapByName(snap.name),
+          builder: (context, snapshot) => snapshot.hasData
+              ? DropdownButton<String>(
+                  borderRadius: BorderRadius.circular(10),
+                  elevation: 1,
+                  value: snapshot.data!.channels.entries.first.key,
+                  items: [
+                    for (final channel in snapshot.data!.channels.entries)
+                      DropdownMenuItem<String>(
+                        child: Text(channel.key),
+                        value: channel.key,
+                      ),
+                  ],
+                  onChanged: (v) {})
+              : YaruCircularProgressIndicator(),
+        ),
         ElevatedButton(
           onPressed: model.installing ? null : () => model.installSnap(snap),
           child: Row(
