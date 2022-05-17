@@ -15,7 +15,7 @@ class AppBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final double titleFontSize = size.width / 25 > 40 ? 40 : size.width / 25;
+    final double titleFontSize = size.width / 25 > 30 ? 30 : size.width / 25;
     Widget image = Icon(
       YaruIcons.package_snap,
       size: 65,
