@@ -14,7 +14,7 @@ class AppBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final double titleFontSize = size.width / 20 > 40 ? 40 : size.width / 20;
+    final double titleFontSize = size.width / 25 > 40 ? 40 : size.width / 25;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(10),

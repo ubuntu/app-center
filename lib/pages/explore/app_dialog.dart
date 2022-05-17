@@ -79,21 +79,21 @@ class AppDialog extends StatelessWidget {
         ),
       ),
       actions: [
-        SizedBox(
-          height: 35,
-          child: DropdownButton<String>(
-              borderRadius: BorderRadius.circular(10),
-              elevation: 1,
-              value: 'snap: stable',
-              items: [
-                for (final channel in snap.channels.entries)
-                  DropdownMenuItem(
-                    child: Text(channel.value.revision),
-                    value: channel.value.revision,
-                  ),
-              ],
-              onChanged: (v) {}),
-        ),
+        // SizedBox(
+        //   height: 35,
+        //   child: DropdownButton<String>(
+        //       borderRadius: BorderRadius.circular(10),
+        //       elevation: 1,
+        //       value: 'snap: stable',
+        //       items: [
+        //         for (final channel in snap.channels.entries)
+        //           DropdownMenuItem(
+        //             child: Text(channel.value.revision),
+        //             value: channel.value.revision,
+        //           ),
+        //       ],
+        //       onChanged: (v) {}),
+        // ),
         ElevatedButton(
           onPressed: model.installing ? null : () => model.installSnap(snap),
           child: Row(

@@ -9,34 +9,36 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class AppGrid extends StatelessWidget {
   const AppGrid({
     Key? key,
-    required this.sectionName,
-    required this.showHeadline,
-    required this.headline,
+    required this.name,
+    this.headline,
     this.topPadding = 50,
+    required this.findByName,
   }) : super(key: key);
 
-  final String sectionName;
-  final String headline;
-  final bool showHeadline;
+  final String name;
+  final String? headline;
   final double topPadding;
+  final bool findByName;
 
   @override
   Widget build(BuildContext context) {
     final model = context.read<ExploreModel>();
     return FutureBuilder<List<Snap>>(
-      future: model.findSnapsBySection(section: sectionName),
+      future: findByName
+          ? model.findSnapsByName()
+          : model.findSnapsBySection(section: name),
       builder: (context, snapshot) => snapshot.hasData
           ? Padding(
               padding: EdgeInsets.only(top: topPadding, left: 20, right: 20),
               child: Column(
                 children: [
-                  if (showHeadline)
+                  if (headline != null)
                     Row(
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
-                            headline,
+                            headline!,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),

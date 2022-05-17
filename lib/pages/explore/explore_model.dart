@@ -6,34 +6,33 @@ import 'package:yaru_icons/yaru_icons.dart';
 class ExploreModel extends SafeChangeNotifier {
   final SnapdClient client;
 
-  bool installing;
+  bool _installing;
+  bool get installing => _installing;
+  set installing(bool value) {
+    if (value == _installing) return;
+    _installing = !_installing;
+    notifyListeners();
+  }
 
-  String snapSearch = '';
+  bool _searchActive;
+  bool get searchActive => _searchActive;
+  set searchActive(bool value) {
+    if (value == _searchActive) return;
+    _searchActive = value;
+    notifyListeners();
+  }
 
-  List<Snap> searchedSnaps = [];
+  String _snapSearch;
+  String get snapSearch => _snapSearch;
+  set snapSearch(String value) {
+    if (value == _snapSearch) return;
+    _snapSearch = value;
+    notifyListeners();
+  }
 
-  Map<SnapSection, bool> filters = {
-    SnapSection.art_and_design: false,
-    SnapSection.books_and_reference: false,
-    SnapSection.development: false,
-    SnapSection.devices_and_iot: false,
-    SnapSection.education: false,
-    SnapSection.entertainment: false,
-    SnapSection.featured: false,
-    SnapSection.finance: false,
-    SnapSection.games: false,
-    SnapSection.health_and_fitness: false,
-    SnapSection.music_and_audio: false,
-    SnapSection.news_and_weather: false,
-    SnapSection.personalisation: false,
-    SnapSection.photo_and_video: false,
-    SnapSection.productivity: false,
-    SnapSection.science: false,
-    SnapSection.security: false,
-    SnapSection.server_and_cloud: false,
-    SnapSection.social: false,
-    SnapSection.utilities: false,
-  };
+  final List<Snap> searchedSnaps;
+
+  final Map<SnapSection, bool> filters;
 
   void setFilter({required List<SnapSection> snapSections}) {
     for (var snapSection in snapSections) {
@@ -42,30 +41,53 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  ExploreModel(this.client) : installing = false;
+  ExploreModel(this.client)
+      : _installing = false,
+        _searchActive = false,
+        _snapSearch = '',
+        searchedSnaps = [],
+        filters = {
+          SnapSection.art_and_design: false,
+          SnapSection.books_and_reference: false,
+          SnapSection.development: true,
+          SnapSection.devices_and_iot: false,
+          SnapSection.education: false,
+          SnapSection.entertainment: false,
+          SnapSection.featured: false,
+          SnapSection.finance: false,
+          SnapSection.games: false,
+          SnapSection.health_and_fitness: false,
+          SnapSection.music_and_audio: false,
+          SnapSection.news_and_weather: false,
+          SnapSection.personalisation: false,
+          SnapSection.photo_and_video: false,
+          SnapSection.productivity: false,
+          SnapSection.science: false,
+          SnapSection.security: false,
+          SnapSection.server_and_cloud: false,
+          SnapSection.social: false,
+          SnapSection.utilities: false,
+        };
 
   Future<List<Snap>> findSnapsBySection({String? section}) async {
     final snaps = await client.find(section: section);
     return snaps;
   }
 
-  void findSnapsByName() async {
+  Future<List<Snap>> findSnapsByName() async {
     searchedSnaps.clear();
-    if (snapSearch.isEmpty) return;
-    final snaps = await client.find(name: snapSearch);
-    searchedSnaps.addAll(snaps);
-    notifyListeners();
+    return snapSearch.isEmpty ? [] : await client.find(name: _snapSearch);
   }
 
   Future<void> installSnap(Snap snap) async {
     await client.loadAuthorization();
     final changeId = await client.install([snap.name]);
-    installing = true;
+    _installing = true;
     notifyListeners();
     while (true) {
       final change = await client.getChange(changeId);
       if (change.ready) {
-        installing = false;
+        _installing = false;
         notifyListeners();
         break;
       }
@@ -74,7 +96,7 @@ class ExploreModel extends SafeChangeNotifier {
         Duration(milliseconds: 100),
       );
     }
-    installing = false;
+    _installing = false;
     notifyListeners();
   }
 }
