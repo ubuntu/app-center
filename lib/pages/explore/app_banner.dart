@@ -13,6 +13,8 @@ class AppBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final double titleFontSize = size.width / 20 > 40 ? 40 : size.width / 20;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(10),
@@ -27,11 +29,10 @@ class AppBanner extends StatelessWidget {
             subtitle: Text(snap.summary),
             title: Text(
               snap.title,
-              style:
-                  TextStyle(fontSize: MediaQuery.of(context).size.height / 25),
+              style: TextStyle(fontSize: titleFontSize),
             ),
             leading: SizedBox(
-                width: MediaQuery.of(context).size.height / 10,
+                width: size.height / 10,
                 child:
                     Image.network(snap.media.first.url, fit: BoxFit.fitHeight)),
           ),
