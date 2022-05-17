@@ -19,6 +19,9 @@ class ExploreModel extends SafeChangeNotifier {
   set searchActive(bool value) {
     if (value == _searchActive) return;
     _searchActive = value;
+    if (_searchActive == false) {
+      snapSearch = '';
+    }
     notifyListeners();
   }
 
