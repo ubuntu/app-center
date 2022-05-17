@@ -52,7 +52,6 @@ class AppGrid extends StatelessWidget {
                       maxCrossAxisExtent: 100,
                     ),
                     children: snapshot.data!
-                        .where((element) => element.media.isNotEmpty)
                         .take(20)
                         .map(
                           (snap) => AppCard(

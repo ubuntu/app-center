@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 
 class AppCard extends StatelessWidget {
   const AppCard({Key? key, this.onTap, required this.snap}) : super(key: key);
@@ -9,6 +10,18 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget image = Icon(YaruIcons.snapcraft);
+    for (var i = 0; i < snap.media.length; i++) {
+      if (snap.media[i].type == 'icon') {
+        image = Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Image.network(
+            snap.media[i].url,
+          ),
+        );
+        break;
+      }
+    }
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: onTap,
@@ -20,12 +33,7 @@ class AppCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
           border: Border.all(color: Theme.of(context).dividerColor),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Image.network(
-            snap.media.first.url,
-          ),
-        ),
+        child: image,
       ),
     );
   }

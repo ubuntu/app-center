@@ -13,6 +13,19 @@ class AppDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
+    Widget image = Icon(
+      YaruIcons.package_snap,
+      size: 65,
+    );
+    for (var i = 0; i < snap.media.length; i++) {
+      if (snap.media[i].type == 'icon') {
+        image = Image.network(
+          snap.media[i].url,
+          height: 50,
+        );
+        break;
+      }
+    }
     return AlertDialog(
       contentPadding: EdgeInsets.only(bottom: 20),
       titlePadding: EdgeInsets.zero,
@@ -20,11 +33,7 @@ class AppDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         titleWidget: Row(
           children: [
-            if (snap.media.isNotEmpty)
-              Image.network(
-                snap.media.first.url,
-                height: 50,
-              ),
+            image,
             SizedBox(
               width: 15,
             ),
@@ -57,13 +66,17 @@ class AppDialog extends StatelessWidget {
       content: SingleChildScrollView(
         child: Column(
           children: [
-            YaruCarousel(height: 300, children: [
-              for (int i = 1; i < snap.media.length; i++)
-                if (snap.media[i].url.endsWith('png') ||
-                    snap.media[i].url.endsWith('jpg') ||
-                    snap.media[i].url.endsWith('jpeg'))
-                  Image.network(snap.media[i].url)
-            ]),
+            if (snap.media.isNotEmpty)
+              YaruCarousel(
+                height: 300,
+                children: [
+                  for (int i = 1; i < snap.media.length; i++)
+                    if (snap.media[i].url.endsWith('png') ||
+                        snap.media[i].url.endsWith('jpg') ||
+                        snap.media[i].url.endsWith('jpeg'))
+                      Image.network(snap.media[i].url)
+                ],
+              ),
             SizedBox(
               height: 20,
             ),

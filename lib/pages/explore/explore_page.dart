@@ -176,7 +176,6 @@ class AppBannerCarousel extends StatelessWidget {
                 height: MediaQuery.of(context).size.height / 5,
                 autoScroll: true,
                 children: snapshot.data!
-                    .where((element) => element.media.isNotEmpty)
                     .take(10)
                     .map(
                       (snap) => AppBanner(
