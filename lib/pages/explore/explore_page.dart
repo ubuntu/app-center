@@ -26,42 +26,43 @@ class ExplorePage extends StatelessWidget {
     final model = context.watch<ExploreModel>();
     return YaruPage(children: [
       AppBannerCarousel(),
-      Row(
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 10, right: 0, top: 30, bottom: 10),
-            child: IconButton(
-              splashRadius: 20,
-              onPressed: () => model.searchActive = !model.searchActive,
-              icon: Icon(
-                YaruIcons.search,
-                color: model.searchActive
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+      Padding(
+        padding: const EdgeInsets.only(left: 10, right: 0, top: 30, bottom: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 40,
+              child: IconButton(
+                splashRadius: 20,
+                onPressed: () => model.searchActive = !model.searchActive,
+                icon: Icon(
+                  YaruIcons.search,
+                  color: model.searchActive
+                      ? Theme.of(context).primaryColor
+                      : Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.8),
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            width: 600,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10, top: 30, bottom: 10),
+            SizedBox(
+              height: 20,
+              child: VerticalDivider(
+                thickness: 1,
+                width: 30,
+                color: Theme.of(context).dividerColor,
+              ),
+            ),
+            Expanded(
               child: SingleChildScrollView(
-                controller: ScrollController(),
                 scrollDirection: Axis.horizontal,
                 child: IntrinsicHeight(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: 20,
-                        child: VerticalDivider(
-                          thickness: 1,
-                          width: 30,
-                          color: Theme.of(context).dividerColor,
-                        ),
-                      ),
                       for (final section in SnapSection.values)
                         Padding(
                           padding: const EdgeInsets.only(right: 10),
@@ -76,8 +77,8 @@ class ExplorePage extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       if (model.searchActive) SearchField(),
       if (model.searchActive)
