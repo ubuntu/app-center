@@ -126,20 +126,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
-  http:
-    dependency: transitive
-    description:
-      name: http
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.13.4"
-  http_parser:
-    dependency: transitive
-    description:
-      name: http_parser
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.0"
   image:
     dependency: "direct main"
     description:
@@ -246,10 +232,12 @@ packages:
   snapd:
     dependency: "direct main"
     description:
-      name: snapd
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.2"
+      path: "."
+      ref: HEAD
+      resolved-ref: "048a8d0914e24b781ecee2c880e0e6bd7bcf4658"
+      url: "https://github.com/canonical/snapd.dart"
+    source: git
+    version: "0.2.0"
   source_span:
     dependency: transitive
     description:
@@ -402,16 +390,18 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: b9f816e14ba0731a7875addbbe88bb70f5b3b93a
+      resolved-ref: ca212a19e8259dd02435ebf7969f215f9059cab5
       url: "https://github.com/ubuntu/yaru_icons.dart"
     source: git
     version: "0.2.1"
   yaru_widgets:
     dependency: "direct main"
     description:
-      name: yaru_widgets
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: c4bba9c45448cc574af8db7a51256c937f6e3606
+      url: "https://github.com/ubuntu/yaru_widgets.dart"
+    source: git
     version: "1.0.12"
 sdks:
   dart: ">=2.17.0 <3.0.0"

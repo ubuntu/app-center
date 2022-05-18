@@ -61,7 +61,7 @@ final pageItems = [
   YaruPageItem(
     titleBuilder: (context) => Text('Updates'),
     builder: (_) => Center(child: Text('Updates')),
-    iconData: YaruIcons.save,
+    iconData: YaruIcons.synchronizing,
   ),
   YaruPageItem(
     titleBuilder: SettingsPage.createTitle,

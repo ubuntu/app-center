@@ -18,12 +18,14 @@ dependencies:
   image: ^3.1.3
   provider: ^6.0.2
   safe_change_notifier: ^0.1.0+1
-  snapd: ^0.1.1
+  snapd:
+    git: https://github.com/canonical/snapd.dart
   url_launcher: ^6.1.2
   yaru: ^0.3.2
   yaru_icons:
     git: https://github.com/ubuntu/yaru_icons.dart
-  yaru_widgets: ^1.0.12
+  yaru_widgets:
+    git: https://github.com/ubuntu/yaru_widgets.dart
 
 dev_dependencies:
   flutter_test:
