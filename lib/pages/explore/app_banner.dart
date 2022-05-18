@@ -21,7 +21,10 @@ class AppBanner extends StatelessWidget {
       size: 65,
     );
     for (var i = 0; i < snap.media.length; i++) {
-      if (snap.media[i].type == 'icon') {
+      if (snap.media[i].type == 'icon' &&
+          (snap.media[i].url.endsWith('.png') ||
+              snap.media[i].url.endsWith('.jpg') ||
+              snap.media[i].url.endsWith('.jpeg'))) {
         image = Image.network(
           snap.media[i].url,
           fit: BoxFit.fitHeight,

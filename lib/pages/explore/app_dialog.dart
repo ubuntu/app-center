@@ -112,20 +112,21 @@ class AppDialog extends StatelessWidget {
       actions: [
         FutureBuilder<Snap>(
           future: model.findSnapByName(snap.name),
-          builder: (context, snapshot) => snapshot.hasData
-              ? DropdownButton<String>(
-                  borderRadius: BorderRadius.circular(10),
-                  elevation: 1,
-                  value: snapshot.data!.channels.entries.first.key,
-                  items: [
-                    for (final channel in snapshot.data!.channels.entries)
-                      DropdownMenuItem<String>(
-                        child: Text(channel.key),
-                        value: channel.key,
-                      ),
-                  ],
-                  onChanged: (v) {})
-              : YaruCircularProgressIndicator(),
+          builder: (context, snapshot) =>
+              snapshot.hasData && snapshot.data!.channels.isNotEmpty
+                  ? DropdownButton<String>(
+                      borderRadius: BorderRadius.circular(10),
+                      elevation: 1,
+                      value: snapshot.data!.channels.entries.first.key,
+                      items: [
+                        for (final channel in snapshot.data!.channels.entries)
+                          DropdownMenuItem<String>(
+                            child: Text(channel.key),
+                            value: channel.key,
+                          ),
+                      ],
+                      onChanged: (v) {})
+                  : SizedBox(),
         ),
         ElevatedButton(
           onPressed: model.installing ? null : () => model.installSnap(snap),

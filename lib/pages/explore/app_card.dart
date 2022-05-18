@@ -15,7 +15,10 @@ class AppCard extends StatelessWidget {
       size: 50,
     );
     for (var i = 0; i < snap.media.length; i++) {
-      if (snap.media[i].type == 'icon') {
+      if (snap.media[i].type == 'icon' &&
+          (snap.media[i].url.endsWith('.png') ||
+              snap.media[i].url.endsWith('.jpg') ||
+              snap.media[i].url.endsWith('.jpeg'))) {
         image = Padding(
           padding: const EdgeInsets.all(15.0),
           child: Image.network(
