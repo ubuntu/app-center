@@ -73,25 +73,26 @@ class MyAppsDialog extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextButton(
-            onPressed:
-                model.uninstalling ? null : () => model.unInstallSnap(snapApp),
+            onPressed: model.appChangeInProgress
+                ? null
+                : () => model.unInstallSnap(snapApp),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'Uninstall',
                   style: TextStyle(
-                    color: model.uninstalling
+                    color: model.appChangeInProgress
                         ? Theme.of(context).disabledColor
                         : Theme.of(context).errorColor,
                   ),
                 ),
-                if (model.uninstalling)
+                if (model.appChangeInProgress)
                   SizedBox(
                       height: 15,
                       child: YaruCircularProgressIndicator(
                         strokeWidth: 2,
-                        color: model.uninstalling
+                        color: model.appChangeInProgress
                             ? Theme.of(context).disabledColor
                             : Theme.of(context).errorColor,
                       ))

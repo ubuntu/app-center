@@ -6,6 +6,7 @@ import 'package:software/pages/explore/app_banner.dart';
 import 'package:software/pages/explore/app_dialog.dart';
 import 'package:software/pages/explore/app_grid.dart';
 import 'package:software/pages/explore/explore_model.dart';
+import 'package:software/pages/snap_section.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -119,7 +120,7 @@ class _ExplorePageState extends State<ExplorePage> {
       if (model.searchActive)
         AppGrid(
           topPadding: 0,
-          name: model.snapSearch,
+          name: model.searchQuery,
           findByName: true,
         ),
       if (!model.searchActive)
@@ -149,7 +150,7 @@ class _SearchFieldState extends State<SearchField> {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
       child: TextField(
-        onChanged: (value) => model.snapSearch = value,
+        onChanged: (value) => model.searchQuery = value,
         autofocus: true,
         decoration: InputDecoration(
           isDense: false,

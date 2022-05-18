@@ -44,18 +44,19 @@ class AppDialog extends StatelessWidget {
                   : SizedBox(),
         ),
         ElevatedButton(
-          onPressed: model.installing ? null : () => model.installSnap(snap),
+          onPressed:
+              model.appChangeInProgress ? null : () => model.installSnap(snap),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text('Install'),
-              if (model.installing)
+              if (model.appChangeInProgress)
                 SizedBox(
                   height: 15,
                   child: YaruCircularProgressIndicator(
                     strokeWidth: 2,
-                    color: model.installing
+                    color: model.appChangeInProgress
                         ? Theme.of(context).disabledColor
                         : Colors.white,
                   ),

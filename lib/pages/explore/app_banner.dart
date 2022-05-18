@@ -54,22 +54,3 @@ class AppBanner extends StatelessWidget {
     );
   }
 }
-
-class _ImageBanner extends StatelessWidget {
-  const _ImageBanner({Key? key, required this.url, required this.borderRadius})
-      : super(key: key);
-
-  final String url;
-  final BorderRadius borderRadius;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: borderRadius,
-      child: Image.network(
-        url,
-        fit: BoxFit.fitHeight,
-      ),
-    );
-  }
-}
