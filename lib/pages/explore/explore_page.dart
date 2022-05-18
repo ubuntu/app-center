@@ -127,7 +127,7 @@ class _ExplorePageState extends State<ExplorePage> {
         for (int i = 0; i < model.filters.entries.length; i++)
           if (model.filters.entries.elementAt(i).value == true)
             AppGrid(
-              topPadding: i == 0 ? 10 : 30,
+              topPadding: i == 0 ? 10 : 20,
               name: model.filters.entries.elementAt(i).key.title(),
               headline: model.filters.entries.elementAt(i).key.title(),
               findByName: false,
@@ -144,15 +144,26 @@ class SearchField extends StatefulWidget {
 }
 
 class _SearchFieldState extends State<SearchField> {
+  TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
       child: TextField(
+        controller: _controller,
         onChanged: (value) => model.searchQuery = value,
         autofocus: true,
         decoration: InputDecoration(
+          prefixIcon: model.searchQuery == ''
+              ? null
+              : IconButton(
+                  splashRadius: 20,
+                  onPressed: () {
+                    model.searchQuery = '';
+                    _controller.text = '';
+                  },
+                  icon: Icon(YaruIcons.edit_clear)),
           isDense: false,
           border: UnderlineInputBorder(),
         ),
