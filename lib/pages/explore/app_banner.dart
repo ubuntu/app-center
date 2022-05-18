@@ -15,9 +15,6 @@ class AppBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final borderRadius = BorderRadius.circular(10);
-    final size = MediaQuery.of(context).size;
-    final double titleFontSize =
-        size.width > 1200 && size.height > 1000 ? 50 : 20;
     Widget image = Icon(
       YaruIcons.package_snap,
       size: 65,
@@ -45,10 +42,10 @@ class AppBanner extends StatelessWidget {
             subtitle: Text(snap.summary),
             title: Text(
               snap.title,
-              style: TextStyle(fontSize: titleFontSize),
+              style: TextStyle(fontSize: 20),
             ),
             leading: SizedBox(
-              width: size.height / 10,
+              width: 60,
               child: image,
             ),
           ),
