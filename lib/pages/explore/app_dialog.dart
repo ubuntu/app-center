@@ -144,7 +144,23 @@ class _Content extends StatelessWidget {
               children: [
                 for (int i = 1; i < snap.media.length; i++)
                   if (snap.media[i].type == 'screenshot')
-                    Image.network(snap.media[i].url)
+                    InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () => showDialog(
+                          context: context,
+                          builder: (context) => SimpleDialog(
+                                children: [
+                                  Image.network(
+                                    snap.media[i].url,
+                                    fit: BoxFit.contain,
+                                  )
+                                ],
+                              )),
+                      child: Image.network(
+                        snap.media[i].url,
+                        fit: BoxFit.fitHeight,
+                      ),
+                    )
               ],
             ),
           SizedBox(
