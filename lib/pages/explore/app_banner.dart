@@ -14,46 +14,57 @@ class AppBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final borderRadius = BorderRadius.circular(10);
     final size = MediaQuery.of(context).size;
-    final double titleFontSize = size.width / 25 > 30 ? 30 : size.width / 25;
+    final double titleFontSize =
+        size.width > 1200 && size.height > 1000 ? 50 : 20;
     Widget image = Icon(
       YaruIcons.package_snap,
       size: 65,
     );
+    Widget? banner;
     for (var i = 0; i < snap.media.length; i++) {
-      if (snap.media[i].type == 'icon' &&
-          (snap.media[i].url.endsWith('.png') ||
-              snap.media[i].url.endsWith('.jpg') ||
-              snap.media[i].url.endsWith('.jpeg'))) {
+      if (snap.media[i].type == 'banner') {
+        banner = ClipRRect(
+          borderRadius: borderRadius,
+          child: Image.network(
+            snap.media[i].url,
+            fit: BoxFit.fitHeight,
+          ),
+        );
+        break;
+      }
+      if (snap.media[i].type == 'icon') {
         image = Image.network(
           snap.media[i].url,
           fit: BoxFit.fitHeight,
         );
-        break;
       }
     }
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: borderRadius,
       child: Card(
         elevation: 6,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: borderRadius,
         ),
-        child: Align(
-          alignment: Alignment.center,
-          child: ListTile(
-            subtitle: Text(snap.summary),
-            title: Text(
-              snap.title,
-              style: TextStyle(fontSize: titleFontSize),
-            ),
-            leading: SizedBox(
-              width: size.height / 10,
-              child: image,
-            ),
-          ),
-        ),
+        child: banner != null
+            ? banner
+            : Align(
+                alignment: Alignment.center,
+                child: ListTile(
+                  subtitle: Text(snap.summary),
+                  title: Text(
+                    snap.title,
+                    style: TextStyle(fontSize: titleFontSize),
+                  ),
+                  leading: SizedBox(
+                    width: size.height / 10,
+                    child: image,
+                  ),
+                ),
+              ),
       ),
     );
   }

@@ -34,10 +34,12 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
+    final width = MediaQuery.of(context).size.width;
     return YaruPage(children: [
-      AppBannerCarousel(),
+      if (width < 1000) AppBannerCarousel(),
       Padding(
-        padding: const EdgeInsets.only(left: 10, right: 0, top: 30, bottom: 10),
+        padding: EdgeInsets.only(
+            left: 10, right: 0, top: width < 1000 ? 30 : 0, bottom: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -164,6 +166,7 @@ class AppBannerCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.read<ExploreModel>();
+    final size = MediaQuery.of(context).size;
     return FutureBuilder<List<Snap>>(
       future: model.findSnapsBySection(section: 'featured'),
       builder: (context, snapshot) => snapshot.hasData
@@ -172,8 +175,8 @@ class AppBannerCarousel extends StatelessWidget {
               child: YaruCarousel(
                 placeIndicator: false,
                 autoScrollDuration: Duration(seconds: 3),
-                width: MediaQuery.of(context).size.width - 30,
-                height: MediaQuery.of(context).size.height / 5,
+                width: size.width - 30,
+                height: 178,
                 autoScroll: true,
                 children: snapshot.data!
                     .take(10)
