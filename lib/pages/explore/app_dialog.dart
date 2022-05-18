@@ -151,9 +151,12 @@ class _Content extends StatelessWidget {
                           context: context,
                           builder: (context) => SimpleDialog(
                                 children: [
-                                  Image.network(
-                                    snap.media[i].url,
-                                    fit: BoxFit.contain,
+                                  InkWell(
+                                    onTap: () => Navigator.of(context).pop(),
+                                    child: Image.network(
+                                      snap.media[i].url,
+                                      fit: BoxFit.contain,
+                                    ),
                                   )
                                 ],
                               )),
