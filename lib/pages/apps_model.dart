@@ -8,7 +8,7 @@ class AppsModel extends SafeChangeNotifier {
   bool get appChangeInProgress => _appChangeInProgress;
   set appChangeInProgress(bool value) {
     if (value == _appChangeInProgress) return;
-    _appChangeInProgress = !_appChangeInProgress;
+    _appChangeInProgress = value;
     notifyListeners();
   }
 
@@ -38,8 +38,7 @@ class AppsModel extends SafeChangeNotifier {
         Duration(milliseconds: 100),
       );
     }
-    _appChangeInProgress = false;
-    notifyListeners();
+    appChangeInProgress = false;
   }
 
   Future<List<SnapApp>> get snapApps async {
@@ -52,12 +51,10 @@ class AppsModel extends SafeChangeNotifier {
       await client.loadAuthorization();
       final id = await client.remove([snapApp.name]);
       appChangeInProgress = true;
-      notifyListeners();
       while (true) {
         final change = await client.getChange(id);
         if (change.ready) {
           appChangeInProgress = false;
-          notifyListeners();
           break;
         }
 
@@ -66,7 +63,6 @@ class AppsModel extends SafeChangeNotifier {
         );
       }
       appChangeInProgress = false;
-      notifyListeners();
     }
   }
 }
