@@ -14,100 +14,15 @@ class AppDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    Widget image = Icon(
-      YaruIcons.package_snap,
-      size: 65,
-    );
-    for (var i = 0; i < snap.media.length; i++) {
-      if (snap.media[i].type == 'icon') {
-        image = Image.network(
-          snap.media[i].url,
-          height: 50,
-        );
-        break;
-      }
-    }
+
     return AlertDialog(
       contentPadding: EdgeInsets.only(bottom: 20),
       titlePadding: EdgeInsets.zero,
-      title: YaruDialogTitle(
-        mainAxisAlignment: MainAxisAlignment.center,
-        titleWidget: Row(
-          children: [
-            image,
-            SizedBox(
-              width: 15,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  snap.title,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                SizedBox(
-                  width: 300,
-                  child: Text(
-                    snap.summary,
-                    style: Theme.of(context).textTheme.caption,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 10,
-                  ),
-                )
-              ],
-            ),
-          ],
-        ),
-        closeIconData: YaruIcons.window_close,
+      title: _Title(
+        snap: snap,
       ),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (snap.media.isNotEmpty)
-              YaruCarousel(
-                height: 300,
-                children: [
-                  for (int i = 1; i < snap.media.length; i++)
-                    if (snap.media[i].type == 'screenshot')
-                      Image.network(snap.media[i].url)
-                ],
-              ),
-            SizedBox(
-              width: 350,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 30),
-                child: IntrinsicHeight(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('License: ${snap.license!}'),
-                      SizedBox(height: 20, child: VerticalDivider()),
-                      if (snap.storeUrl != null)
-                        Link(
-                          url: snap.contact!,
-                          linkText: 'Contact  ' + snap.publisher!.displayName,
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 350,
-              child: Text(
-                snap.description,
-                style: Theme.of(context).textTheme.caption,
-                textAlign: TextAlign.left,
-              ),
-            )
-          ],
-        ),
+      content: _Content(
+        snap: snap,
       ),
       actions: [
         FutureBuilder<Snap>(
@@ -149,6 +64,119 @@ class AppDialog extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+}
+
+class _Title extends StatelessWidget {
+  const _Title({Key? key, required this.snap}) : super(key: key);
+
+  final Snap snap;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget image = Icon(
+      YaruIcons.package_snap,
+      size: 65,
+    );
+    for (var i = 0; i < snap.media.length; i++) {
+      if (snap.media[i].type == 'icon') {
+        image = Image.network(
+          snap.media[i].url,
+          height: 50,
+        );
+        break;
+      }
+    }
+
+    return YaruDialogTitle(
+      mainAxisAlignment: MainAxisAlignment.center,
+      titleWidget: Row(
+        children: [
+          image,
+          SizedBox(
+            width: 15,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                snap.title,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              SizedBox(
+                width: 300,
+                child: Text(
+                  snap.summary,
+                  style: Theme.of(context).textTheme.caption,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 10,
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
+      closeIconData: YaruIcons.window_close,
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content({Key? key, required this.snap}) : super(key: key);
+
+  final Snap snap;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (snap.media.isNotEmpty)
+            YaruCarousel(
+              height: 300,
+              children: [
+                for (int i = 1; i < snap.media.length; i++)
+                  if (snap.media[i].type == 'screenshot')
+                    Image.network(snap.media[i].url)
+              ],
+            ),
+          SizedBox(
+            width: 350,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              child: IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('License: ${snap.license!}'),
+                    SizedBox(height: 20, child: VerticalDivider()),
+                    if (snap.storeUrl != null)
+                      Link(
+                        url: snap.contact!,
+                        linkText: 'Contact  ' + snap.publisher!.displayName,
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 350,
+            child: Text(
+              snap.description,
+              style: Theme.of(context).textTheme.caption,
+              textAlign: TextAlign.left,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
