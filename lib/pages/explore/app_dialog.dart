@@ -43,28 +43,91 @@ class AppDialog extends StatelessWidget {
                       onChanged: (v) {})
                   : SizedBox(),
         ),
-        ElevatedButton(
-          onPressed:
-              model.appChangeInProgress ? null : () => model.installSnap(snap),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Install'),
-              if (model.appChangeInProgress)
-                SizedBox(
-                  height: 15,
-                  child: YaruCircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: model.appChangeInProgress
-                        ? Theme.of(context).disabledColor
-                        : Colors.white,
-                  ),
-                )
-            ],
-          ),
+        FutureBuilder<bool>(
+          future: model.snapIsIstalled(snap),
+          builder: (context, snapshot) {
+            return snapshot.hasData
+                ? ChangeNotifierProvider.value(
+                    value: model,
+                    child: snapshot.data!
+                        ? _RemoveButton(snap: snap)
+                        : _InstallButton(
+                            snap: snap,
+                          ),
+                  )
+                : SizedBox();
+          },
         )
       ],
+    );
+  }
+}
+
+class _RemoveButton extends StatelessWidget {
+  const _RemoveButton({Key? key, required this.snap}) : super(key: key);
+
+  final Snap snap;
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<ExploreModel>();
+
+    return OutlinedButton(
+      onPressed: model.appChangeInProgress
+          ? null
+          : () => model.unInstallSnap(SnapApp(snap.name, snap.name)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Remove',
+          ),
+          if (model.appChangeInProgress)
+            SizedBox(
+              height: 15,
+              child: YaruCircularProgressIndicator(
+                strokeWidth: 2,
+                color: model.appChangeInProgress
+                    ? Theme.of(context).disabledColor
+                    : Colors.white,
+              ),
+            )
+        ],
+      ),
+    );
+  }
+}
+
+class _InstallButton extends StatelessWidget {
+  const _InstallButton({Key? key, required this.snap}) : super(key: key);
+
+  final Snap snap;
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<ExploreModel>();
+
+    return ElevatedButton(
+      onPressed:
+          model.appChangeInProgress ? null : () => model.installSnap(snap),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('Install'),
+          if (model.appChangeInProgress)
+            SizedBox(
+              height: 15,
+              child: YaruCircularProgressIndicator(
+                strokeWidth: 2,
+                color: model.appChangeInProgress
+                    ? Theme.of(context).disabledColor
+                    : Colors.white,
+              ),
+            )
+        ],
+      ),
     );
   }
 }

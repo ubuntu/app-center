@@ -65,4 +65,12 @@ class AppsModel extends SafeChangeNotifier {
       appChangeInProgress = false;
     }
   }
+
+  Future<bool> snapIsIstalled(Snap snap) async {
+    final snaps = await snapApps;
+    for (var snapApp in snaps) {
+      if (snap.name == snapApp.name) return true;
+    }
+    return false;
+  }
 }
