@@ -31,7 +31,7 @@ Map<SnapSection, IconData> snapSectionToIcon = {
   SnapSection.books_and_reference: YaruIcons.book,
   SnapSection.development: YaruIcons.wrench,
   SnapSection.devices_and_iot: YaruIcons.chip,
-  SnapSection.education: YaruIcons.bookmarks,
+  SnapSection.education: YaruIcons.education,
   SnapSection.entertainment: YaruIcons.television,
   SnapSection.featured: YaruIcons.star,
   SnapSection.finance: YaruIcons.calculator,

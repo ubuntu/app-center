@@ -125,7 +125,7 @@ packages:
       name: handy_window
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.4"
+    version: "0.1.4+1"
   image:
     dependency: "direct main"
     description:
@@ -397,7 +397,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: ca212a19e8259dd02435ebf7969f215f9059cab5
+      resolved-ref: b0253a7833ed5fb7b8362ad313433d0498039977
       url: "https://github.com/ubuntu/yaru_icons.dart"
     source: git
     version: "0.2.1"
