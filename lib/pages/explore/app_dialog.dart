@@ -202,32 +202,34 @@ class _Content extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (snap.media.isNotEmpty)
+          if (snap.media
+              .where((snapMedia) => snapMedia.type == 'screenshot')
+              .toList()
+              .isNotEmpty)
             YaruCarousel(
               height: 300,
               children: [
                 for (int i = 1; i < snap.media.length; i++)
-                  if (snap.media[i].type == 'screenshot')
-                    InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () => showDialog(
-                          context: context,
-                          builder: (context) => SimpleDialog(
-                                children: [
-                                  InkWell(
-                                    onTap: () => Navigator.of(context).pop(),
-                                    child: Image.network(
-                                      snap.media[i].url,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  )
-                                ],
-                              )),
-                      child: Image.network(
-                        snap.media[i].url,
-                        fit: BoxFit.fitHeight,
-                      ),
-                    )
+                  InkWell(
+                    borderRadius: BorderRadius.circular(10),
+                    onTap: () => showDialog(
+                        context: context,
+                        builder: (context) => SimpleDialog(
+                              children: [
+                                InkWell(
+                                  onTap: () => Navigator.of(context).pop(),
+                                  child: Image.network(
+                                    snap.media[i].url,
+                                    fit: BoxFit.contain,
+                                  ),
+                                )
+                              ],
+                            )),
+                    child: Image.network(
+                      snap.media[i].url,
+                      fit: BoxFit.fitHeight,
+                    ),
+                  )
               ],
             ),
           SizedBox(
