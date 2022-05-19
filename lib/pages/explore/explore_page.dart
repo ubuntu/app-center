@@ -105,10 +105,9 @@ class __FilterBarState extends State<_FilterBar> {
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(
-          width: 40,
+          width: 50,
           child: IconButton(
             splashRadius: 20,
             onPressed: () => model.searchActive = !model.searchActive,
@@ -130,10 +129,10 @@ class __FilterBarState extends State<_FilterBar> {
         ),
         IconButton(
           onPressed: () {
-            if (_position >= 1) _position -= 40;
+            if (_position >= 1) _position -= 50;
             _controller.animateTo(
               _position,
-              duration: Duration(milliseconds: 100),
+              duration: Duration(milliseconds: 50),
               curve: Curves.linear,
             );
           },
@@ -145,12 +144,10 @@ class __FilterBarState extends State<_FilterBar> {
             controller: _controller,
             scrollDirection: Axis.horizontal,
             child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 for (final section in SnapSection.values)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
+                  SizedBox(
+                    width: 50,
                     child: _FilterPill(
                         onPressed: () =>
                             model.setFilter(snapSections: [section]),
@@ -163,10 +160,10 @@ class __FilterBarState extends State<_FilterBar> {
         ),
         IconButton(
           onPressed: () {
-            _position += 40;
+            _position += 50;
             _controller.animateTo(
               _position,
-              duration: Duration(milliseconds: 100),
+              duration: Duration(milliseconds: 50),
               curve: Curves.linear,
             );
           },
