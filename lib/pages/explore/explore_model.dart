@@ -45,6 +45,16 @@ class ExploreModel extends AppsModel {
     SnapSection.utilities: false,
   };
 
+  List<SnapSection> get selectedFilters =>
+      filters.entries
+          .where((entry) => entry.value == true)
+          .map((e) => e.key)
+          .toList() +
+      filters.entries
+          .where((entry) => entry.value == false)
+          .map((e) => e.key)
+          .toList();
+
   void setFilter({required List<SnapSection> snapSections}) {
     for (var snapSection in snapSections) {
       filters[snapSection] = !filters[snapSection]!;

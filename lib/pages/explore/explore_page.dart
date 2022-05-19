@@ -145,7 +145,7 @@ class __FilterBarState extends State<_FilterBar> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                for (final section in SnapSection.values)
+                for (final section in model.selectedFilters)
                   SizedBox(
                     width: 50,
                     child: _FilterPill(
