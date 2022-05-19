@@ -10,7 +10,7 @@ import 'package:software/pages/snap_section.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class ExplorePage extends StatefulWidget {
+class ExplorePage extends StatelessWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
   static Widget create(BuildContext context) {
@@ -25,98 +25,17 @@ class ExplorePage extends StatefulWidget {
       Text(context.l10n.explorePageTitle);
 
   @override
-  State<ExplorePage> createState() => _ExplorePageState();
-}
-
-class _ExplorePageState extends State<ExplorePage> {
-  final ScrollController _controller = ScrollController();
-  double _position = 0;
-
-  @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
     final width = MediaQuery.of(context).size.width;
     return YaruPage(children: [
-      if (width < 1000) AppBannerCarousel(),
+      if (width < 1000) _AppBannerCarousel(),
       Padding(
         padding: EdgeInsets.only(
             left: 10, right: 0, top: width < 1000 ? 30 : 0, bottom: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 40,
-              child: IconButton(
-                splashRadius: 20,
-                onPressed: () => model.searchActive = !model.searchActive,
-                icon: Icon(
-                  YaruIcons.search,
-                  color: model.searchActive
-                      ? Theme.of(context).primaryColor
-                      : Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.8),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-              child: VerticalDivider(
-                thickness: 1,
-                width: 20,
-                color: Theme.of(context).dividerColor,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                if (_position >= 1) _position -= 40;
-                _controller.animateTo(
-                  _position,
-                  duration: Duration(milliseconds: 100),
-                  curve: Curves.linear,
-                );
-              },
-              icon: Icon(YaruIcons.go_previous),
-              splashRadius: 20,
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                controller: _controller,
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    for (final section in SnapSection.values)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: FilterPill(
-                            onPressed: () =>
-                                model.setFilter(snapSections: [section]),
-                            selected: model.filters[section]!,
-                            iconData: snapSectionToIcon[section]!),
-                      )
-                  ],
-                ),
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                _position += 40;
-                _controller.animateTo(
-                  _position,
-                  duration: Duration(milliseconds: 100),
-                  curve: Curves.linear,
-                );
-              },
-              icon: Icon(YaruIcons.go_next),
-              splashRadius: 20,
-            ),
-          ],
-        ),
+        child: ChangeNotifierProvider.value(value: model, child: _FilterBar()),
       ),
-      if (model.searchActive) SearchField(),
+      if (model.searchActive) _SearchField(),
       if (model.searchActive)
         AppGrid(
           topPadding: 0,
@@ -136,14 +55,14 @@ class _ExplorePageState extends State<ExplorePage> {
   }
 }
 
-class SearchField extends StatefulWidget {
-  const SearchField({Key? key}) : super(key: key);
+class _SearchField extends StatefulWidget {
+  const _SearchField({Key? key}) : super(key: key);
 
   @override
-  State<SearchField> createState() => _SearchFieldState();
+  State<_SearchField> createState() => _SearchFieldState();
 }
 
-class _SearchFieldState extends State<SearchField> {
+class _SearchFieldState extends State<_SearchField> {
   TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -172,8 +91,95 @@ class _SearchFieldState extends State<SearchField> {
   }
 }
 
-class AppBannerCarousel extends StatelessWidget {
-  const AppBannerCarousel({Key? key}) : super(key: key);
+class _FilterBar extends StatefulWidget {
+  const _FilterBar({Key? key}) : super(key: key);
+
+  @override
+  State<_FilterBar> createState() => __FilterBarState();
+}
+
+class __FilterBarState extends State<_FilterBar> {
+  final ScrollController _controller = ScrollController();
+  double _position = 0;
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<ExploreModel>();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 40,
+          child: IconButton(
+            splashRadius: 20,
+            onPressed: () => model.searchActive = !model.searchActive,
+            icon: Icon(
+              YaruIcons.search,
+              color: model.searchActive
+                  ? Theme.of(context).primaryColor
+                  : Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+          child: VerticalDivider(
+            thickness: 1,
+            width: 20,
+            color: Theme.of(context).dividerColor,
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            if (_position >= 1) _position -= 40;
+            _controller.animateTo(
+              _position,
+              duration: Duration(milliseconds: 100),
+              curve: Curves.linear,
+            );
+          },
+          icon: Icon(YaruIcons.go_previous),
+          splashRadius: 20,
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            controller: _controller,
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                for (final section in SnapSection.values)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: _FilterPill(
+                        onPressed: () =>
+                            model.setFilter(snapSections: [section]),
+                        selected: model.filters[section]!,
+                        iconData: snapSectionToIcon[section]!),
+                  )
+              ],
+            ),
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            _position += 40;
+            _controller.animateTo(
+              _position,
+              duration: Duration(milliseconds: 100),
+              curve: Curves.linear,
+            );
+          },
+          icon: Icon(YaruIcons.go_next),
+          splashRadius: 20,
+        ),
+      ],
+    );
+  }
+}
+
+class _AppBannerCarousel extends StatelessWidget {
+  const _AppBannerCarousel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -217,17 +223,17 @@ class AppBannerCarousel extends StatelessWidget {
   }
 }
 
-class FilterPill extends StatelessWidget {
+class _FilterPill extends StatelessWidget {
   final IconData iconData;
   final bool selected;
   final Function()? onPressed;
 
-  FilterPill({
+  _FilterPill({
+    Key? key,
     required this.selected,
     required this.iconData,
     this.onPressed,
-    super.key,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
