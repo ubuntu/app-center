@@ -33,7 +33,7 @@ class AppBanner extends StatelessWidget {
       child: FutureBuilder<Color>(
         future: getSurfaceTintColor(NetworkImage(snap.media[iconIndex!].url)),
         builder: (context, snapshot) => Card(
-          surfaceTintColor: snapshot.data,
+          surfaceTintColor: snapshot.data ?? Colors.transparent,
           elevation: 6,
           shape: RoundedRectangleBorder(
             borderRadius: borderRadius,
