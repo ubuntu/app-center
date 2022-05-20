@@ -35,7 +35,6 @@ class ExplorePage extends StatelessWidget {
             left: 10, right: 0, top: width < 1000 ? 30 : 0, bottom: 10),
         child: ChangeNotifierProvider.value(value: model, child: _FilterBar()),
       ),
-      if (model.searchActive) _SearchField(),
       if (model.searchActive)
         AppGrid(
           topPadding: 0,
@@ -105,9 +104,11 @@ class __FilterBarState extends State<_FilterBar> {
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           width: 50,
+          height: 50,
           child: IconButton(
             splashRadius: 20,
             onPressed: () => model.searchActive = !model.searchActive,
@@ -120,56 +121,69 @@ class __FilterBarState extends State<_FilterBar> {
           ),
         ),
         SizedBox(
-          height: 20,
+          height: 50,
           child: VerticalDivider(
             thickness: 1,
-            width: 20,
+            width: 30,
             color: Theme.of(context).dividerColor,
           ),
         ),
-        IconButton(
-          onPressed: () {
-            if (_position >= 1) _position -= 50;
-            _controller.animateTo(
-              _position,
-              duration: Duration(milliseconds: 50),
-              curve: Curves.linear,
-            );
-          },
-          icon: Icon(YaruIcons.go_previous),
-          splashRadius: 20,
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            controller: _controller,
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                for (final section in model.selectedFilters)
-                  SizedBox(
-                    width: 50,
-                    child: _FilterPill(
-                        onPressed: () =>
-                            model.setFilter(snapSections: [section]),
-                        selected: model.filters[section]!,
-                        iconData: snapSectionToIcon[section]!),
-                  )
-              ],
+        if (!model.searchActive)
+          SizedBox(
+            height: 50,
+            child: IconButton(
+              onPressed: () {
+                if (_position >= 1) _position -= 50;
+                _controller.animateTo(
+                  _position,
+                  duration: Duration(milliseconds: 50),
+                  curve: Curves.linear,
+                );
+              },
+              icon: Icon(YaruIcons.go_previous),
+              splashRadius: 20,
             ),
           ),
-        ),
-        IconButton(
-          onPressed: () {
-            _position += 50;
-            _controller.animateTo(
-              _position,
-              duration: Duration(milliseconds: 50),
-              curve: Curves.linear,
-            );
-          },
-          icon: Icon(YaruIcons.go_next),
-          splashRadius: 20,
-        ),
+        if (!model.searchActive)
+          Expanded(
+            child: SingleChildScrollView(
+              controller: _controller,
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                height: 50,
+                child: Row(
+                  children: [
+                    for (final section in model.selectedFilters)
+                      SizedBox(
+                        width: 50,
+                        child: _FilterPill(
+                            onPressed: () =>
+                                model.setFilter(snapSections: [section]),
+                            selected: model.filters[section]!,
+                            iconData: snapSectionToIcon[section]!),
+                      )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        if (model.searchActive) Expanded(child: _SearchField()),
+        if (!model.searchActive)
+          SizedBox(
+            height: 50,
+            child: IconButton(
+              onPressed: () {
+                _position += 50;
+                _controller.animateTo(
+                  _position,
+                  duration: Duration(milliseconds: 50),
+                  curve: Curves.linear,
+                );
+              },
+              icon: Icon(YaruIcons.go_next),
+              splashRadius: 20,
+            ),
+          ),
       ],
     );
   }
