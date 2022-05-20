@@ -234,14 +234,20 @@ class _FilterPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      splashRadius: 20,
-      onPressed: onPressed,
-      icon: Icon(
-        iconData,
-        color: selected
-            ? Theme.of(context).primaryColor
-            : Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+    return CircleAvatar(
+      backgroundColor: selected
+          ? Theme.of(context).colorScheme.onSurface.withOpacity(0.05)
+          : Colors.transparent,
+      child: IconButton(
+        color: selected ? Colors.grey : null,
+        splashRadius: 20,
+        onPressed: onPressed,
+        icon: Icon(
+          iconData,
+          color: selected
+              ? Theme.of(context).primaryColor
+              : Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+        ),
       ),
     );
   }
