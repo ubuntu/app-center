@@ -56,7 +56,7 @@ final pageItems = [
   YaruPageItem(
     titleBuilder: MyAppsPage.createTitle,
     builder: MyAppsPage.create,
-    iconData: YaruIcons.app_grid,
+    iconData: YaruIcons.ok,
   ),
   YaruPageItem(
     titleBuilder: (context) => Text('Updates'),
