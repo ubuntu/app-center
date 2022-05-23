@@ -72,7 +72,7 @@ class AppsModel extends SafeChangeNotifier {
   Future<bool> snapIsIstalled(Snap snap) async {
     final snaps = await snapApps;
     for (var snapApp in snaps) {
-      if (snap.name == snapApp.name) return true;
+      if (snap.name == snapApp.snap) return true;
     }
     return false;
   }
