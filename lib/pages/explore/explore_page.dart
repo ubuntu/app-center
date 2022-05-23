@@ -201,6 +201,7 @@ class _AppBannerCarousel extends StatelessWidget {
                       (snap) => AppBanner(
                         snap: snap,
                         onTap: () => showDialog(
+                          barrierColor: Colors.black.withOpacity(0.9),
                           context: context,
                           builder: (context) => ChangeNotifierProvider.value(
                             value: model,
@@ -279,6 +280,7 @@ class ExploreGrid extends StatelessWidget {
                         surfaceTint: false,
                         snap: snap,
                         onTap: () => showDialog(
+                          barrierColor: Colors.black.withOpacity(0.9),
                           context: context,
                           builder: (context) => ChangeNotifierProvider.value(
                             value: model,
