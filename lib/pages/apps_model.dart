@@ -26,7 +26,10 @@ class AppsModel extends SafeChangeNotifier {
 
   Future<void> installSnap(Snap snap) async {
     await client.loadAuthorization();
-    final changeId = await client.install([snap.name]);
+    final changeId = await client.install(
+      snap.name,
+      classic: snap.confinement == SnapConfinement.classic,
+    );
     appChangeInProgress = true;
     while (true) {
       final change = await client.getChange(changeId);
@@ -49,7 +52,7 @@ class AppsModel extends SafeChangeNotifier {
   Future<void> unInstallSnap(SnapApp snapApp) async {
     {
       await client.loadAuthorization();
-      final id = await client.remove([snapApp.name]);
+      final id = await client.remove(snapApp.name);
       appChangeInProgress = true;
       while (true) {
         final change = await client.getChange(id);

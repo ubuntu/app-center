@@ -223,7 +223,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.2"
+    version: "6.0.3"
   safe_change_notifier:
     dependency: "direct main"
     description:
@@ -241,7 +241,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "048a8d0914e24b781ecee2c880e0e6bd7bcf4658"
+      resolved-ref: "7069ef0a47df382b46a32482a286eab958ae524a"
       url: "https://github.com/canonical/snapd.dart"
     source: git
     version: "0.2.0"
@@ -314,7 +314,7 @@ packages:
       name: url_launcher_ios
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.16"
+    version: "6.0.17"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -397,7 +397,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: b0253a7833ed5fb7b8362ad313433d0498039977
+      resolved-ref: "57dcaa5fc8657bc9734c56a71e3d779804b75d21"
       url: "https://github.com/ubuntu/yaru_icons.dart"
     source: git
     version: "0.2.1"
