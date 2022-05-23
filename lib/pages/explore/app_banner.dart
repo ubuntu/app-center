@@ -28,38 +28,39 @@ class AppBanner extends StatelessWidget {
       break;
     }
     return InkWell(
-      onTap: onTap,
-      borderRadius: borderRadius,
-      child: FutureBuilder<Color>(
-        future: getSurfaceTintColor(NetworkImage(snap.media[iconIndex!].url)),
-        builder: (context, snapshot) => Card(
-          surfaceTintColor: snapshot.data ?? Colors.transparent,
-          elevation: 6,
-          shape: RoundedRectangleBorder(
-            borderRadius: borderRadius,
-          ),
-          child: Align(
-            alignment: Alignment.center,
-            child: ListTile(
-              subtitle: Text(snap.summary),
-              title: Text(
-                snap.title,
-                style: TextStyle(fontSize: 20),
-              ),
-              leading: SizedBox(
-                width: 60,
-                child: iconIndex != null
-                    ? Image.network(
-                        snap.media[iconIndex].url,
-                        fit: BoxFit.fitHeight,
-                      )
-                    : fallBackIcon,
+        onTap: onTap,
+        borderRadius: borderRadius,
+        child: FutureBuilder<Color>(
+          future: iconIndex != null
+              ? getSurfaceTintColor(NetworkImage(snap.media[iconIndex].url))
+              : Future(() => Theme.of(context).primaryColor),
+          builder: (context, snapshot) => Card(
+            surfaceTintColor: snapshot.data ?? Colors.transparent,
+            elevation: 6,
+            shape: RoundedRectangleBorder(
+              borderRadius: borderRadius,
+            ),
+            child: Align(
+              alignment: Alignment.center,
+              child: ListTile(
+                subtitle: Text(snap.summary),
+                title: Text(
+                  snap.title,
+                  style: TextStyle(fontSize: 20),
+                ),
+                leading: SizedBox(
+                  width: 60,
+                  child: iconIndex != null
+                      ? Image.network(
+                          snap.media[iconIndex].url,
+                          fit: BoxFit.fitHeight,
+                        )
+                      : fallBackIcon,
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   Future<Color> getSurfaceTintColor(ImageProvider imageProvider) async {

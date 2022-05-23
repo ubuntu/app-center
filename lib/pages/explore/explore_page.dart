@@ -28,29 +28,39 @@ class ExplorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
     final width = MediaQuery.of(context).size.width;
-    return YaruPage(children: [
-      if (width < 1000) _AppBannerCarousel(),
-      Padding(
-        padding: EdgeInsets.only(
-            left: 10, right: 0, top: width < 1000 ? 30 : 0, bottom: 10),
-        child: ChangeNotifierProvider.value(value: model, child: _FilterBar()),
-      ),
-      if (model.searchActive)
-        AppGrid(
-          topPadding: 0,
-          name: model.searchQuery,
-          findByName: true,
+    return Column(
+      children: [
+        AppBar(
+          title:
+              ChangeNotifierProvider.value(value: model, child: _FilterBar()),
         ),
-      if (!model.searchActive)
-        for (int i = 0; i < model.filters.entries.length; i++)
-          if (model.filters.entries.elementAt(i).value == true)
-            AppGrid(
-              topPadding: i == 0 ? 10 : 20,
-              name: model.filters.entries.elementAt(i).key.title(),
-              headline: model.filters.entries.elementAt(i).key.title(),
-              findByName: false,
-            ),
-    ]);
+        Expanded(
+          child: YaruPage(children: [
+            if (width < 1000 && model.exploreMode) _AppBannerCarousel(),
+            if (model.searchActive)
+              AppGrid(
+                topPadding: 0,
+                name: model.searchQuery,
+                findByName: true,
+              ),
+            if (!model.searchActive)
+              for (int i = 0; i < model.filters.entries.length; i++)
+                if (model.filters.entries.elementAt(i).value == true)
+                  AppGrid(
+                    topPadding: i == 0 ? 10 : 20,
+                    name: model.filters.entries.elementAt(i).key.title(),
+                    headline: model.filters.entries.elementAt(i).key.title(),
+                    findByName: false,
+                  ),
+            if (model.exploreMode)
+              ChangeNotifierProvider.value(
+                value: model,
+                child: ExploreGrid(snapSection: SnapSection.featured),
+              )
+          ]),
+        ),
+      ],
+    );
   }
 }
 
@@ -66,25 +76,22 @@ class _SearchFieldState extends State<_SearchField> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
-      child: TextField(
-        controller: _controller,
-        onChanged: (value) => model.searchQuery = value,
-        autofocus: true,
-        decoration: InputDecoration(
-          prefixIcon: model.searchQuery == ''
-              ? null
-              : IconButton(
-                  splashRadius: 20,
-                  onPressed: () {
-                    model.searchQuery = '';
-                    _controller.text = '';
-                  },
-                  icon: Icon(YaruIcons.edit_clear)),
-          isDense: false,
-          border: UnderlineInputBorder(),
-        ),
+    return TextField(
+      controller: _controller,
+      onChanged: (value) => model.searchQuery = value,
+      autofocus: true,
+      decoration: InputDecoration(
+        prefixIcon: model.searchQuery == ''
+            ? null
+            : IconButton(
+                splashRadius: 20,
+                onPressed: () {
+                  model.searchQuery = '';
+                  _controller.text = '';
+                },
+                icon: Icon(YaruIcons.edit_clear)),
+        isDense: false,
+        border: UnderlineInputBorder(),
       ),
     );
   }
@@ -104,29 +111,19 @@ class __FilterBarState extends State<_FilterBar> {
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: 50,
-          height: 50,
-          child: IconButton(
-            splashRadius: 20,
-            onPressed: () => model.searchActive = !model.searchActive,
-            icon: Icon(
-              YaruIcons.search,
-              color: model.searchActive
-                  ? Theme.of(context).primaryColor
-                  : Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
-            ),
+        IconButton(
+          splashRadius: 20,
+          onPressed: () => model.searchActive = !model.searchActive,
+          icon: Icon(
+            YaruIcons.search,
+            color: model.searchActive
+                ? Theme.of(context).primaryColor
+                : Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
           ),
         ),
-        SizedBox(
-          height: 50,
-          child: VerticalDivider(
-            thickness: 1,
-            width: 30,
-            color: Theme.of(context).dividerColor,
-          ),
+        const SizedBox(
+          width: 10,
         ),
         if (!model.searchActive)
           SizedBox(
@@ -200,11 +197,11 @@ class _AppBannerCarousel extends StatelessWidget {
       future: model.findSnapsBySection(section: 'featured'),
       builder: (context, snapshot) => snapshot.hasData
           ? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.only(bottom: 20, right: 5, left: 5),
               child: YaruCarousel(
                 placeIndicator: false,
                 autoScrollDuration: Duration(seconds: 3),
-                width: size.width - 30,
+                width: size.width,
                 height: 178,
                 autoScroll: true,
                 children: snapshot.data!
@@ -263,6 +260,43 @@ class _FilterPill extends StatelessWidget {
               : Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
         ),
       ),
+    );
+  }
+}
+
+class ExploreGrid extends StatelessWidget {
+  const ExploreGrid({Key? key, required this.snapSection}) : super(key: key);
+
+  final SnapSection snapSection;
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<ExploreModel>();
+    return FutureBuilder<List<Snap>>(
+      future: model.findSnapsBySection(section: snapSection.title()),
+      builder: (context, snapshot) => snapshot.hasData
+          ? GridView(
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                mainAxisExtent: 150,
+                mainAxisSpacing: 20,
+                crossAxisSpacing: 20,
+                maxCrossAxisExtent: 500,
+              ),
+              children: snapshot.data!
+                  .map((snap) => AppBanner(
+                        snap: snap,
+                        onTap: () => showDialog(
+                          context: context,
+                          builder: (context) => ChangeNotifierProvider.value(
+                            value: model,
+                            child: AppDialog(snap: snap),
+                          ),
+                        ),
+                      ))
+                  .toList(),
+            )
+          : YaruCircularProgressIndicator(),
     );
   }
 }

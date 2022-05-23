@@ -25,7 +25,7 @@ class ExploreModel extends AppsModel {
   final Map<SnapSection, bool> filters = {
     SnapSection.art_and_design: false,
     SnapSection.books_and_reference: false,
-    SnapSection.development: true,
+    SnapSection.development: false,
     SnapSection.devices_and_iot: false,
     SnapSection.education: false,
     SnapSection.entertainment: false,
@@ -61,6 +61,10 @@ class ExploreModel extends AppsModel {
     }
     notifyListeners();
   }
+
+  bool get exploreMode =>
+      !searchActive &&
+      filters.entries.where((element) => element.value == true).isEmpty;
 
   ExploreModel(super.client)
       : _searchActive = false,
