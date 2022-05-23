@@ -197,19 +197,19 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = snap.media
+        .where((snapMedia) => snapMedia.type == 'screenshot')
+        .toList();
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (snap.media
-              .where((snapMedia) => snapMedia.type == 'screenshot')
-              .toList()
-              .isNotEmpty)
+          if (media.isNotEmpty)
             YaruCarousel(
               height: 300,
               children: [
-                for (int i = 1; i < snap.media.length; i++)
+                for (final image in media)
                   InkWell(
                     borderRadius: BorderRadius.circular(10),
                     onTap: () => showDialog(
@@ -219,14 +219,14 @@ class _Content extends StatelessWidget {
                                 InkWell(
                                   onTap: () => Navigator.of(context).pop(),
                                   child: Image.network(
-                                    snap.media[i].url,
+                                    image.url,
                                     fit: BoxFit.contain,
                                   ),
                                 )
                               ],
                             )),
                     child: Image.network(
-                      snap.media[i].url,
+                      image.url,
                       fit: BoxFit.fitHeight,
                     ),
                   )
