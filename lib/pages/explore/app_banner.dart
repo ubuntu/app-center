@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:snapd/snapd.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class AppBanner extends StatelessWidget {
@@ -42,13 +43,13 @@ class AppBanner extends StatelessWidget {
           builder: (context, snapshot) => Card(
             surfaceTintColor: snapshot.data == null || surfaceTint == false
                 ? light
-                    ? Theme.of(context).cardColor
+                    ? YaruColors.warmGrey.shade900
                     : Theme.of(context).colorScheme.onBackground
                 : snapshot.data,
             elevation: surfaceTint
                 ? 6
                 : light
-                    ? 3
+                    ? 2
                     : 1,
             shape: RoundedRectangleBorder(
               borderRadius: borderRadius,

@@ -386,7 +386,7 @@ packages:
     source: hosted
     version: "0.1.0"
   yaru_colors:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: yaru_colors
       url: "https://pub.dartlang.org"
