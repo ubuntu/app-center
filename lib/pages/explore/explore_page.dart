@@ -56,18 +56,19 @@ class ExplorePage extends StatelessWidget {
                     selected: !model.exploreMode,
                     iconData: YaruIcons.format_unordered_list,
                   ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: IntrinsicHeight(
-                    child: SizedBox(
-                      height: 40,
-                      child: VerticalDivider(
-                        width: 20,
-                        thickness: 0.5,
+                if (!model.exploreMode || model.searchActive)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: IntrinsicHeight(
+                      child: SizedBox(
+                        height: 40,
+                        child: VerticalDivider(
+                          width: 20,
+                          thickness: 0.5,
+                        ),
                       ),
                     ),
                   ),
-                ),
                 model.searchActive
                     ? Expanded(child: _SearchField())
                     : ChangeNotifierProvider.value(
