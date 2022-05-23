@@ -30,20 +30,67 @@ class ExplorePage extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
-        AppBar(
-          title:
-              ChangeNotifierProvider.value(value: model, child: _FilterBar()),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: SizedBox(
+            height: 60,
+            child: Row(
+              children: [
+                _FilterPill(
+                  onPressed: () => model.searchActive = !model.searchActive,
+                  selected: model.searchActive,
+                  iconData: YaruIcons.search,
+                ),
+                if (!model.searchActive)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: _FilterPill(
+                      onPressed: () => model.exploreMode = !model.exploreMode,
+                      selected: model.exploreMode,
+                      iconData: YaruIcons.image,
+                    ),
+                  ),
+                if (!model.searchActive)
+                  _FilterPill(
+                    onPressed: () => model.exploreMode = !model.exploreMode,
+                    selected: !model.exploreMode,
+                    iconData: YaruIcons.format_unordered_list,
+                  ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: IntrinsicHeight(
+                    child: SizedBox(
+                      height: 40,
+                      child: VerticalDivider(
+                        width: 20,
+                        thickness: 0.5,
+                      ),
+                    ),
+                  ),
+                ),
+                model.searchActive
+                    ? Expanded(child: _SearchField())
+                    : ChangeNotifierProvider.value(
+                        value: model,
+                        child: Expanded(
+                            child: !model.exploreMode
+                                ? _FilterBar()
+                                : SizedBox())),
+              ],
+            ),
+          ),
         ),
         Expanded(
           child: YaruPage(children: [
-            if (width < 1000 && model.exploreMode) _AppBannerCarousel(),
+            if (width < 1000 && !model.searchActive && model.exploreMode)
+              _AppBannerCarousel(),
             if (model.searchActive)
               AppGrid(
                 topPadding: 0,
                 name: model.searchQuery,
                 findByName: true,
               ),
-            if (!model.searchActive)
+            if (!model.searchActive && !model.exploreMode)
               for (int i = 0; i < model.filters.entries.length; i++)
                 if (model.filters.entries.elementAt(i).value == true)
                   AppGrid(
@@ -52,7 +99,7 @@ class ExplorePage extends StatelessWidget {
                     headline: model.filters.entries.elementAt(i).key.title(),
                     findByName: false,
                   ),
-            if (model.exploreMode)
+            if (!model.searchActive && model.exploreMode)
               ChangeNotifierProvider.value(
                 value: model,
                 child: ExploreGrid(snapSection: SnapSection.featured),
@@ -76,112 +123,52 @@ class _SearchFieldState extends State<_SearchField> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    return TextField(
-      controller: _controller,
-      onChanged: (value) => model.searchQuery = value,
-      autofocus: true,
-      decoration: InputDecoration(
-        prefixIcon: model.searchQuery == ''
-            ? null
-            : IconButton(
-                splashRadius: 20,
-                onPressed: () {
-                  model.searchQuery = '';
-                  _controller.text = '';
-                },
-                icon: Icon(YaruIcons.edit_clear)),
-        isDense: false,
-        border: UnderlineInputBorder(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: TextField(
+        controller: _controller,
+        onChanged: (value) => model.searchQuery = value,
+        autofocus: true,
+        decoration: InputDecoration(
+          prefixIcon: model.searchQuery == ''
+              ? null
+              : IconButton(
+                  splashRadius: 20,
+                  onPressed: () {
+                    model.searchQuery = '';
+                    _controller.text = '';
+                  },
+                  icon: Icon(YaruIcons.edit_clear)),
+          isDense: false,
+          border: UnderlineInputBorder(),
+        ),
       ),
     );
   }
 }
 
-class _FilterBar extends StatefulWidget {
+class _FilterBar extends StatelessWidget {
   const _FilterBar({Key? key}) : super(key: key);
 
   @override
-  State<_FilterBar> createState() => __FilterBarState();
-}
-
-class __FilterBarState extends State<_FilterBar> {
-  final ScrollController _controller = ScrollController();
-  double _position = 0;
-  @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    return Row(
-      children: [
-        IconButton(
-          splashRadius: 20,
-          onPressed: () => model.searchActive = !model.searchActive,
-          icon: Icon(
-            YaruIcons.search,
-            color: model.searchActive
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
-          ),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        if (!model.searchActive)
-          SizedBox(
-            height: 50,
-            child: IconButton(
-              onPressed: () {
-                if (_position >= 1) _position -= 50;
-                _controller.animateTo(
-                  _position,
-                  duration: Duration(milliseconds: 50),
-                  curve: Curves.linear,
-                );
-              },
-              icon: Icon(YaruIcons.go_previous),
-              splashRadius: 20,
+    return SizedBox(
+      width: 1000,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        children: [
+          for (final section in model.selectedFilters)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: _FilterPill(
+                  onPressed: () => model.setFilter(snapSections: [section]),
+                  selected: model.filters[section]!,
+                  iconData: snapSectionToIcon[section]!),
             ),
-          ),
-        if (!model.searchActive)
-          Expanded(
-            child: SingleChildScrollView(
-              controller: _controller,
-              scrollDirection: Axis.horizontal,
-              child: SizedBox(
-                height: 50,
-                child: Row(
-                  children: [
-                    for (final section in model.selectedFilters)
-                      SizedBox(
-                        width: 50,
-                        child: _FilterPill(
-                            onPressed: () =>
-                                model.setFilter(snapSections: [section]),
-                            selected: model.filters[section]!,
-                            iconData: snapSectionToIcon[section]!),
-                      )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        if (model.searchActive) Expanded(child: _SearchField()),
-        if (!model.searchActive)
-          SizedBox(
-            height: 50,
-            child: IconButton(
-              onPressed: () {
-                _position += 50;
-                _controller.animateTo(
-                  _position,
-                  duration: Duration(milliseconds: 50),
-                  curve: Curves.linear,
-                );
-              },
-              icon: Icon(YaruIcons.go_next),
-              splashRadius: 20,
-            ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }

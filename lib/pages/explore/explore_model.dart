@@ -14,6 +14,14 @@ class ExploreModel extends AppsModel {
     notifyListeners();
   }
 
+  bool _exploreMode;
+  bool get exploreMode => _exploreMode;
+  set exploreMode(bool value) {
+    if (value == _exploreMode) return;
+    _exploreMode = value;
+    notifyListeners();
+  }
+
   String _searchQuery;
   String get searchQuery => _searchQuery;
   set searchQuery(String value) {
@@ -62,13 +70,10 @@ class ExploreModel extends AppsModel {
     notifyListeners();
   }
 
-  bool get exploreMode =>
-      !searchActive &&
-      filters.entries.where((element) => element.value == true).isEmpty;
-
   ExploreModel(super.client)
       : _searchActive = false,
-        _searchQuery = '';
+        _searchQuery = '',
+        _exploreMode = true;
 
   Future<List<Snap>> findSnapsByQuery() async {
     return searchQuery.isEmpty ? [] : await client.find(query: _searchQuery);
