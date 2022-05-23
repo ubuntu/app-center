@@ -8,10 +8,12 @@ class AppBanner extends StatelessWidget {
     Key? key,
     required this.snap,
     this.onTap,
+    this.surfaceTint = true,
   }) : super(key: key);
 
   final Snap snap;
   final Function()? onTap;
+  final bool surfaceTint;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,9 @@ class AppBanner extends StatelessWidget {
       }
       break;
     }
+
+    bool light = Theme.of(context).brightness == Brightness.light;
+
     return InkWell(
         onTap: onTap,
         borderRadius: borderRadius,
@@ -35,8 +40,16 @@ class AppBanner extends StatelessWidget {
               ? getSurfaceTintColor(NetworkImage(snap.media[iconIndex].url))
               : Future(() => Theme.of(context).primaryColor),
           builder: (context, snapshot) => Card(
-            surfaceTintColor: snapshot.data ?? Colors.transparent,
-            elevation: 6,
+            surfaceTintColor: snapshot.data == null || surfaceTint == false
+                ? light
+                    ? Theme.of(context).cardColor
+                    : Theme.of(context).colorScheme.onBackground
+                : snapshot.data,
+            elevation: surfaceTint
+                ? 6
+                : light
+                    ? 3
+                    : 1,
             shape: RoundedRectangleBorder(
               borderRadius: borderRadius,
             ),

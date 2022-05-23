@@ -285,6 +285,7 @@ class ExploreGrid extends StatelessWidget {
               ),
               children: snapshot.data!
                   .map((snap) => AppBanner(
+                        surfaceTint: false,
                         snap: snap,
                         onTap: () => showDialog(
                           context: context,

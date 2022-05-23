@@ -240,7 +240,12 @@ class _Content extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('License: ${snap.license!}'),
+                    Expanded(
+                      child: Text(
+                        'License: ${snap.license!}',
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                     SizedBox(height: 20, child: VerticalDivider()),
                     if (snap.storeUrl != null)
                       Link(
