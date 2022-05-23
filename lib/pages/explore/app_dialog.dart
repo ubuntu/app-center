@@ -197,6 +197,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = 350.0;
     final media = snap.media
         .where((snapMedia) => snapMedia.type == 'screenshot')
         .toList();
@@ -206,63 +207,121 @@ class _Content extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (media.isNotEmpty)
-            YaruCarousel(
-              height: 300,
-              children: [
-                for (final image in media)
-                  InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    onTap: () => showDialog(
-                        context: context,
-                        builder: (context) => SimpleDialog(
-                              children: [
-                                InkWell(
-                                  onTap: () => Navigator.of(context).pop(),
-                                  child: Image.network(
-                                    image.url,
-                                    fit: BoxFit.contain,
-                                  ),
-                                )
-                              ],
-                            )),
-                    child: Image.network(
-                      image.url,
-                      fit: BoxFit.fitHeight,
-                    ),
-                  )
-              ],
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: YaruCarousel(
+                height: 300,
+                children: [
+                  for (final image in media)
+                    InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () => showDialog(
+                          context: context,
+                          builder: (context) => SimpleDialog(
+                                children: [
+                                  InkWell(
+                                    onTap: () => Navigator.of(context).pop(),
+                                    child: Image.network(
+                                      image.url,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  )
+                                ],
+                              )),
+                      child: Image.network(
+                        image.url,
+                        fit: BoxFit.fitHeight,
+                      ),
+                    )
+                ],
+              ),
             ),
-          SizedBox(
-            width: 350,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30),
-              child: IntrinsicHeight(
+          if (snap.license != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: SizedBox(
+                width: width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Text(
-                        'License: ${snap.license!}',
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    Text('License:'),
+                    Text(
+                      snap.license!.split(' ').first,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 20, child: VerticalDivider()),
-                    if (snap.storeUrl != null)
-                      Link(
-                        url: snap.contact!,
-                        linkText: 'Contact  ' + snap.publisher!.displayName,
-                      ),
                   ],
                 ),
               ),
             ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: SizedBox(
+              width: width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Confinement:'),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        snap.confinement == SnapConfinement.strict
+                            ? YaruIcons.shield
+                            : YaruIcons.warning,
+                        size: 18,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(snap.confinement.name),
+                    ],
+                  )
+                ],
+              ),
+            ),
           ),
-          SizedBox(
-            width: 350,
-            child: Text(
-              snap.description,
-              style: Theme.of(context).textTheme.caption,
-              textAlign: TextAlign.left,
+          if (snap.contact != null && snap.publisher != null)
+            SizedBox(
+              width: width,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: IntrinsicHeight(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Contact:'),
+                      Link(
+                        url: snap.contact!,
+                        linkText: snap.publisher!.displayName,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          if (snap.website != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: SizedBox(
+                width: width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Website:'),
+                    Link(url: snap.website!, linkText: 'Link'),
+                  ],
+                ),
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: SizedBox(
+              width: width,
+              child: Text(
+                snap.description,
+                style: Theme.of(context).textTheme.caption,
+                textAlign: TextAlign.left,
+              ),
             ),
           )
         ],
