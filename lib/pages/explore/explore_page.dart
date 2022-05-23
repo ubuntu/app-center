@@ -82,30 +82,33 @@ class ExplorePage extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: YaruPage(children: [
-            if (width < 1000 && !model.searchActive && model.exploreMode)
-              _AppBannerCarousel(),
-            if (model.searchActive)
-              AppGrid(
-                topPadding: 0,
-                name: model.searchQuery,
-                findByName: true,
-              ),
-            if (!model.searchActive && !model.exploreMode)
-              for (int i = 0; i < model.filters.entries.length; i++)
-                if (model.filters.entries.elementAt(i).value == true)
-                  AppGrid(
-                    topPadding: i == 0 ? 10 : 20,
-                    name: model.filters.entries.elementAt(i).key.title(),
-                    headline: model.filters.entries.elementAt(i).key.title(),
-                    findByName: false,
-                  ),
-            if (!model.searchActive && model.exploreMode)
-              ChangeNotifierProvider.value(
-                value: model,
-                child: ExploreGrid(snapSection: SnapSection.featured),
-              )
-          ]),
+          child: YaruPage(
+            padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+            children: [
+              if (width < 1000 && !model.searchActive && model.exploreMode)
+                _AppBannerCarousel(),
+              if (model.searchActive)
+                AppGrid(
+                  topPadding: 0,
+                  name: model.searchQuery,
+                  findByName: true,
+                ),
+              if (!model.searchActive && !model.exploreMode)
+                for (int i = 0; i < model.filters.entries.length; i++)
+                  if (model.filters.entries.elementAt(i).value == true)
+                    AppGrid(
+                      topPadding: i == 0 ? 20 : 40,
+                      name: model.filters.entries.elementAt(i).key.title(),
+                      headline: model.filters.entries.elementAt(i).key.title(),
+                      findByName: false,
+                    ),
+              if (!model.searchActive && model.exploreMode)
+                ChangeNotifierProvider.value(
+                  value: model,
+                  child: ExploreGrid(snapSection: SnapSection.featured),
+                ),
+            ],
+          ),
         ),
       ],
     );
