@@ -2,6 +2,8 @@
 
 An alternative software store for the Ubuntu Desktop made with Flutter.
 
+![](.github/assets/exploremodelight.png)
+![](.github/assets/exploremodedark.png)
 ![](.github/assets/light.png)
 ![](.github/assets/dark.png)
 
