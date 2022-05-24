@@ -38,7 +38,28 @@ class App extends StatelessWidget {
         Navigator.defaultRouteName: (context) => YaruTheme(
               child: Scaffold(
                 body: YaruCompactLayout(
-                  pageItems: pageItems,
+                  pageItems: [
+                    YaruPageItem(
+                      titleBuilder: ExplorePage.createTitle,
+                      builder: ExplorePage.create,
+                      iconData: YaruIcons.compass,
+                    ),
+                    YaruPageItem(
+                      titleBuilder: MyAppsPage.createTitle,
+                      builder: MyAppsPage.create,
+                      iconData: YaruIcons.ok,
+                    ),
+                    YaruPageItem(
+                      titleBuilder: (context) => Text('Updates'),
+                      builder: (_) => Center(child: Text('Updates')),
+                      iconData: YaruIcons.synchronizing,
+                    ),
+                    YaruPageItem(
+                      titleBuilder: SettingsPage.createTitle,
+                      builder: SettingsPage.create,
+                      iconData: YaruIcons.settings,
+                    )
+                  ],
                 ),
               ),
             ),
@@ -46,29 +67,6 @@ class App extends StatelessWidget {
     );
   }
 }
-
-final pageItems = [
-  YaruPageItem(
-    titleBuilder: ExplorePage.createTitle,
-    builder: ExplorePage.create,
-    iconData: YaruIcons.compass,
-  ),
-  YaruPageItem(
-    titleBuilder: MyAppsPage.createTitle,
-    builder: MyAppsPage.create,
-    iconData: YaruIcons.ok,
-  ),
-  YaruPageItem(
-    titleBuilder: (context) => Text('Updates'),
-    builder: (_) => Center(child: Text('Updates')),
-    iconData: YaruIcons.synchronizing,
-  ),
-  YaruPageItem(
-    titleBuilder: SettingsPage.createTitle,
-    builder: SettingsPage.create,
-    iconData: YaruIcons.settings,
-  )
-];
 
 class TouchMouseStylusScrollBehavior extends MaterialScrollBehavior {
   @override
