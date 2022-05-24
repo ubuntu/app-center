@@ -47,7 +47,7 @@ class AppBanner extends StatelessWidget {
                     : Theme.of(context).colorScheme.onBackground
                 : snapshot.data,
             elevation: surfaceTint
-                ? 6
+                ? 4
                 : light
                     ? 2
                     : 1,

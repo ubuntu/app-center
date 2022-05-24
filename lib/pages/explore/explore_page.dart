@@ -209,8 +209,12 @@ class _AppBannerCarousel extends StatelessWidget {
       future: model.findSnapsBySection(section: 'featured'),
       builder: (context, snapshot) => snapshot.hasData
           ? Padding(
-              padding: const EdgeInsets.only(bottom: 20, right: 5, left: 5),
+              padding: const EdgeInsets.only(
+                bottom: 20,
+              ),
               child: YaruCarousel(
+                margin: EdgeInsets.zero,
+                viewportFraction: 1,
                 placeIndicator: false,
                 autoScrollDuration: Duration(seconds: 3),
                 width: size.width,
