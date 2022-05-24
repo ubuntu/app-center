@@ -34,48 +34,76 @@ class AppBanner extends StatelessWidget {
     bool light = Theme.of(context).brightness == Brightness.light;
 
     return InkWell(
-        onTap: onTap,
-        borderRadius: borderRadius,
-        child: FutureBuilder<Color>(
-          future: iconIndex != null
-              ? getSurfaceTintColor(NetworkImage(snap.media[iconIndex].url))
-              : Future(() => Theme.of(context).primaryColor),
-          builder: (context, snapshot) => Card(
-            surfaceTintColor: snapshot.data == null || surfaceTint == false
-                ? light
-                    ? YaruColors.warmGrey.shade900
-                    : Theme.of(context).colorScheme.onBackground
-                : snapshot.data,
-            elevation: surfaceTint
-                ? 4
-                : light
-                    ? 2
-                    : 1,
-            shape: RoundedRectangleBorder(
-              borderRadius: borderRadius,
-            ),
-            child: Align(
-              alignment: Alignment.center,
-              child: ListTile(
-                subtitle: Text(snap.summary, overflow: TextOverflow.ellipsis),
-                title: Text(
-                  snap.title,
-                  style: TextStyle(fontSize: 20),
+      onTap: onTap,
+      borderRadius: borderRadius,
+      child: surfaceTint
+          ? FutureBuilder<Color>(
+              future: iconIndex != null
+                  ? getSurfaceTintColor(NetworkImage(snap.media[iconIndex].url))
+                  : Future(() => Theme.of(context).primaryColor),
+              builder: (context, snapshot) => Card(
+                surfaceTintColor: snapshot.data == null
+                    ? light
+                        ? YaruColors.warmGrey.shade900
+                        : Theme.of(context).colorScheme.onBackground
+                    : snapshot.data,
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: borderRadius,
                 ),
-                leading: SizedBox(
-                  width: 60,
-                  child: iconIndex != null
-                      ? Image.network(
-                          snap.media[iconIndex].url,
-                          fit: BoxFit.fitHeight,
-                          filterQuality: FilterQuality.medium,
-                        )
-                      : fallBackIcon,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: ListTile(
+                    subtitle:
+                        Text(snap.summary, overflow: TextOverflow.ellipsis),
+                    title: Text(
+                      snap.title,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    leading: SizedBox(
+                      width: 60,
+                      child: iconIndex != null
+                          ? Image.network(
+                              snap.media[iconIndex].url,
+                              fit: BoxFit.fitHeight,
+                              filterQuality: FilterQuality.medium,
+                            )
+                          : fallBackIcon,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : Card(
+              surfaceTintColor: light
+                  ? YaruColors.warmGrey.shade900
+                  : Theme.of(context).colorScheme.onBackground,
+              elevation: light ? 2 : 1,
+              shape: RoundedRectangleBorder(
+                borderRadius: borderRadius,
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: ListTile(
+                  subtitle: Text(snap.summary, overflow: TextOverflow.ellipsis),
+                  title: Text(
+                    snap.title,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  leading: SizedBox(
+                    width: 60,
+                    child: iconIndex != null
+                        ? Image.network(
+                            snap.media[iconIndex].url,
+                            fit: BoxFit.fitHeight,
+                            filterQuality: FilterQuality.medium,
+                          )
+                        : fallBackIcon,
+                  ),
                 ),
               ),
             ),
-          ),
-        ));
+    );
   }
 
   Future<Color> getSurfaceTintColor(ImageProvider imageProvider) async {
