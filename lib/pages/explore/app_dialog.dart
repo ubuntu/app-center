@@ -39,12 +39,15 @@ class AppDialog extends StatelessWidget {
                     for (final channel in snapshot.data!.channels.entries)
                       DropdownMenuItem<String>(
                         child: Text(channel.key),
-                        value: !channel.key.contains('latest/')
+                        value: !channel.key.contains('latest/') &&
+                                !channel.key.contains('insiders/')
                             ? 'latest/${channel.key}'
                             : channel.key,
                       ),
                   ],
-                  onChanged: (v) => model.currentSnapChannel = v!,
+                  onChanged: (v) {
+                    model.currentSnapChannel = v!;
+                  },
                 )
               : SizedBox(),
         ),

@@ -8,7 +8,9 @@ class ExploreModel extends AppsModel {
   set currentSnapChannel(String value) {
     if (_currentSnapChannel == value) return;
     _currentSnapChannel =
-        !value.contains('latest/') ? 'latest/' + value : value;
+        !value.contains('latest/') && !value.contains('insiders/')
+            ? 'latest/' + value
+            : value;
     notifyListeners();
   }
 

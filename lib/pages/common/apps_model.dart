@@ -64,7 +64,9 @@ class AppsModel extends SafeChangeNotifier {
 
   Future<void> refreshSnapApp(Snap snap, String snapChannel) async {
     await client.loadAuthorization();
-    final id = await client.refresh(snap.name, channel: snapChannel);
+    final id = await client.refresh(snap.name,
+        channel:
+            snapChannel.replaceAll('latest/', '').replaceAll('insiders/', ''));
     appChangeInProgress = true;
     while (true) {
       final change = await client.getChange(id);
