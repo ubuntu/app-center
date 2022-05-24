@@ -23,6 +23,7 @@ class AppCard extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: Image.network(
             snap.media[i].url,
+            filterQuality: FilterQuality.medium,
           ),
         );
         break;

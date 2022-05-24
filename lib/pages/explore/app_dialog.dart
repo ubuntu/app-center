@@ -148,6 +148,7 @@ class _Title extends StatelessWidget {
         image = Image.network(
           snap.media[i].url,
           height: 50,
+          filterQuality: FilterQuality.medium,
         );
         break;
       }
@@ -224,6 +225,7 @@ class _Content extends StatelessWidget {
                                     child: Image.network(
                                       image.url,
                                       fit: BoxFit.contain,
+                                      filterQuality: FilterQuality.medium,
                                     ),
                                   )
                                 ],
@@ -231,6 +233,7 @@ class _Content extends StatelessWidget {
                       child: Image.network(
                         image.url,
                         fit: BoxFit.fitHeight,
+                        filterQuality: FilterQuality.medium,
                       ),
                     )
                 ],

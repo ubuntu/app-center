@@ -57,7 +57,7 @@ class AppBanner extends StatelessWidget {
             child: Align(
               alignment: Alignment.center,
               child: ListTile(
-                subtitle: Text(snap.summary),
+                subtitle: Text(snap.summary, overflow: TextOverflow.ellipsis),
                 title: Text(
                   snap.title,
                   style: TextStyle(fontSize: 20),
@@ -68,6 +68,7 @@ class AppBanner extends StatelessWidget {
                       ? Image.network(
                           snap.media[iconIndex].url,
                           fit: BoxFit.fitHeight,
+                          filterQuality: FilterQuality.medium,
                         )
                       : fallBackIcon,
                 ),

@@ -89,7 +89,7 @@ class ExplorePage extends StatelessWidget {
                 _AppBannerCarousel(),
               if (model.searchActive)
                 AppGrid(
-                  topPadding: 0,
+                  topPadding: 20,
                   name: model.searchQuery,
                   findByName: true,
                 ),
