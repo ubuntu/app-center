@@ -6,7 +6,7 @@ import 'package:software/pages/explore/app_banner.dart';
 import 'package:software/pages/explore/app_dialog.dart';
 import 'package:software/pages/explore/app_grid.dart';
 import 'package:software/pages/explore/explore_model.dart';
-import 'package:software/pages/snap_section.dart';
+import 'package:software/pages/common/snap_section.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 

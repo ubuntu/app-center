@@ -6,6 +6,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/explore/explore_page.dart';
 import 'package:software/pages/my_apps/my_apps_page.dart';
 import 'package:software/pages/settings/settings_page.dart';
+import 'package:software/pages/updates/updates_page.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -50,8 +51,8 @@ class App extends StatelessWidget {
                       iconData: YaruIcons.ok,
                     ),
                     YaruPageItem(
-                      titleBuilder: (context) => Text('Updates'),
-                      builder: (_) => Center(child: Text('Updates')),
+                      titleBuilder: UpdatesPage.createTitle,
+                      builder: UpdatesPage.create,
                       iconData: YaruIcons.synchronizing,
                     ),
                     YaruPageItem(

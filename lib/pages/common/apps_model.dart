@@ -44,29 +44,45 @@ class AppsModel extends SafeChangeNotifier {
     appChangeInProgress = false;
   }
 
+  Future<void> unInstallSnap(SnapApp snapApp) async {
+    await client.loadAuthorization();
+    final id = await client.remove(snapApp.name);
+    appChangeInProgress = true;
+    while (true) {
+      final change = await client.getChange(id);
+      if (change.ready) {
+        appChangeInProgress = false;
+        break;
+      }
+
+      await Future.delayed(
+        Duration(milliseconds: 100),
+      );
+    }
+    appChangeInProgress = false;
+  }
+
+  Future<void> refreshSnapApp(SnapApp snapApp, String snapChannel) async {
+    await client.loadAuthorization();
+    final id = await client.refresh(snapApp.name, channel: snapChannel);
+    appChangeInProgress = true;
+    while (true) {
+      final change = await client.getChange(id);
+      if (change.ready) {
+        appChangeInProgress = false;
+        break;
+      }
+
+      await Future.delayed(
+        Duration(milliseconds: 100),
+      );
+    }
+    appChangeInProgress = false;
+  }
+
   Future<List<SnapApp>> get snapApps async {
     await client.loadAuthorization();
     return await client.apps();
-  }
-
-  Future<void> unInstallSnap(SnapApp snapApp) async {
-    {
-      await client.loadAuthorization();
-      final id = await client.remove(snapApp.name);
-      appChangeInProgress = true;
-      while (true) {
-        final change = await client.getChange(id);
-        if (change.ready) {
-          appChangeInProgress = false;
-          break;
-        }
-
-        await Future.delayed(
-          Duration(milliseconds: 100),
-        );
-      }
-      appChangeInProgress = false;
-    }
   }
 
   Future<bool> snapIsIstalled(Snap snap) async {

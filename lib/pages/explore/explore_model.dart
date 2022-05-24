@@ -1,6 +1,6 @@
 import 'package:snapd/snapd.dart';
-import 'package:software/pages/apps_model.dart';
-import 'package:software/pages/snap_section.dart';
+import 'package:software/pages/common/apps_model.dart';
+import 'package:software/pages/common/snap_section.dart';
 
 class ExploreModel extends AppsModel {
   bool _searchActive;
