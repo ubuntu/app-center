@@ -203,7 +203,7 @@ class _AppBannerCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<ExploreModel>();
+    final model = context.watch<ExploreModel>();
     final size = MediaQuery.of(context).size;
     return FutureBuilder<List<Snap>>(
       future: model.findSnapsBySection(section: 'featured'),
@@ -220,18 +220,20 @@ class _AppBannerCarousel extends StatelessWidget {
                 height: 178,
                 autoScroll: true,
                 children: snapshot.data!
-                    .take(10)
                     .map(
                       (snap) => AppBanner(
                         snap: snap,
-                        onTap: () => showDialog(
-                          barrierColor: Colors.black.withOpacity(0.9),
-                          context: context,
-                          builder: (context) => ChangeNotifierProvider.value(
-                            value: model,
-                            child: AppDialog(snap: snap),
-                          ),
-                        ),
+                        onTap: () {
+                          model.currentSnapChannel = snap.channel;
+                          showDialog(
+                            barrierColor: Colors.black.withOpacity(0.9),
+                            context: context,
+                            builder: (context) => ChangeNotifierProvider.value(
+                              value: model,
+                              child: AppDialog(snap: snap),
+                            ),
+                          );
+                        },
                       ),
                     )
                     .toList(),
@@ -306,14 +308,17 @@ class ExploreGrid extends StatelessWidget {
                   .map((snap) => AppBanner(
                         surfaceTint: false,
                         snap: snap,
-                        onTap: () => showDialog(
-                          barrierColor: Colors.black.withOpacity(0.9),
-                          context: context,
-                          builder: (context) => ChangeNotifierProvider.value(
-                            value: model,
-                            child: AppDialog(snap: snap),
-                          ),
-                        ),
+                        onTap: () {
+                          model.currentSnapChannel = snap.channel;
+                          showDialog(
+                            barrierColor: Colors.black.withOpacity(0.9),
+                            context: context,
+                            builder: (context) => ChangeNotifierProvider.value(
+                              value: model,
+                              child: AppDialog(snap: snap),
+                            ),
+                          );
+                        },
                       ))
                   .toList(),
             )

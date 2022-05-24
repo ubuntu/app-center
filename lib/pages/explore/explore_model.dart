@@ -3,6 +3,15 @@ import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/common/snap_section.dart';
 
 class ExploreModel extends AppsModel {
+  String _currentSnapChannel;
+  String get currentSnapChannel => _currentSnapChannel;
+  set currentSnapChannel(String value) {
+    if (_currentSnapChannel == value) return;
+    _currentSnapChannel =
+        !value.contains('latest/') ? 'latest/' + value : value;
+    notifyListeners();
+  }
+
   bool _searchActive;
   bool get searchActive => _searchActive;
   set searchActive(bool value) {
@@ -73,7 +82,8 @@ class ExploreModel extends AppsModel {
   ExploreModel(super.client)
       : _searchActive = false,
         _searchQuery = '',
-        _exploreMode = true;
+        _exploreMode = true,
+        _currentSnapChannel = '';
 
   Future<List<Snap>> findSnapsByQuery() async {
     return searchQuery.isEmpty ? [] : await client.find(query: _searchQuery);

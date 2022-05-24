@@ -62,9 +62,9 @@ class AppsModel extends SafeChangeNotifier {
     appChangeInProgress = false;
   }
 
-  Future<void> refreshSnapApp(SnapApp snapApp, String snapChannel) async {
+  Future<void> refreshSnapApp(Snap snap, String snapChannel) async {
     await client.loadAuthorization();
-    final id = await client.refresh(snapApp.name, channel: snapChannel);
+    final id = await client.refresh(snap.name, channel: snapChannel);
     appChangeInProgress = true;
     while (true) {
       final change = await client.getChange(id);
@@ -86,8 +86,8 @@ class AppsModel extends SafeChangeNotifier {
   }
 
   Future<bool> snapIsIstalled(Snap snap) async {
-    final snaps = await snapApps;
-    for (var snapApp in snaps) {
+    final installedSnapApps = await snapApps;
+    for (var snapApp in installedSnapApps) {
       if (snap.name == snapApp.snap) return true;
     }
     return false;

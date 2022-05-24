@@ -27,21 +27,26 @@ class AppDialog extends StatelessWidget {
       actions: [
         FutureBuilder<Snap>(
           future: model.findSnapByName(snap.name),
-          builder: (context, snapshot) =>
-              snapshot.hasData && snapshot.data!.channels.isNotEmpty
-                  ? DropdownButton<String>(
-                      borderRadius: BorderRadius.circular(10),
-                      elevation: 1,
-                      value: snapshot.data!.channels.entries.first.key,
-                      items: [
-                        for (final channel in snapshot.data!.channels.entries)
-                          DropdownMenuItem<String>(
-                            child: Text(channel.key),
-                            value: channel.key,
-                          ),
-                      ],
-                      onChanged: (v) {})
-                  : SizedBox(),
+          builder: (context, snapshot) => snapshot.hasData &&
+                  snapshot.data!.channels.isNotEmpty &&
+                  snapshot.data!.channels.entries.isNotEmpty &&
+                  model.currentSnapChannel.isNotEmpty
+              ? DropdownButton<String>(
+                  borderRadius: BorderRadius.circular(10),
+                  elevation: 1,
+                  value: model.currentSnapChannel,
+                  items: [
+                    for (final channel in snapshot.data!.channels.entries)
+                      DropdownMenuItem<String>(
+                        child: Text(channel.key),
+                        value: !channel.key.contains('latest/')
+                            ? 'latest/${channel.key}'
+                            : channel.key,
+                      ),
+                  ],
+                  onChanged: (v) => model.currentSnapChannel = v!,
+                )
+              : SizedBox(),
         ),
         FutureBuilder<bool>(
           future: model.snapIsIstalled(snap),
@@ -49,15 +54,14 @@ class AppDialog extends StatelessWidget {
             return snapshot.hasData
                 ? ChangeNotifierProvider.value(
                     value: model,
-                    child: snapshot.data!
-                        ? _RemoveButton(snap: snap)
-                        : _InstallButton(
-                            snap: snap,
-                          ),
+                    child:
+                        snapshot.data! ? _RemoveButton(snap: snap) : SizedBox(),
                   )
                 : SizedBox();
           },
-        )
+        ),
+        _RefreshButton(snap: snap),
+        _InstallButton(snap: snap),
       ],
     );
   }
@@ -82,6 +86,7 @@ class _RemoveButton extends StatelessWidget {
         children: [
           Text(
             'Remove',
+            style: TextStyle(color: Theme.of(context).errorColor),
           ),
           if (model.appChangeInProgress)
             SizedBox(
@@ -116,6 +121,40 @@ class _InstallButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text('Install'),
+          if (model.appChangeInProgress)
+            SizedBox(
+              height: 15,
+              child: YaruCircularProgressIndicator(
+                strokeWidth: 2,
+                color: model.appChangeInProgress
+                    ? Theme.of(context).disabledColor
+                    : Colors.white,
+              ),
+            )
+        ],
+      ),
+    );
+  }
+}
+
+class _RefreshButton extends StatelessWidget {
+  const _RefreshButton({Key? key, required this.snap}) : super(key: key);
+
+  final Snap snap;
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<ExploreModel>();
+
+    return OutlinedButton(
+      onPressed: model.appChangeInProgress
+          ? null
+          : () => model.refreshSnapApp(snap, model.currentSnapChannel),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('Refresh'),
           if (model.appChangeInProgress)
             SizedBox(
               height: 15,
