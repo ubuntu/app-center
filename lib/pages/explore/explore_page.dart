@@ -213,7 +213,6 @@ class _AppBannerCarousel extends StatelessWidget {
                 bottom: 20,
               ),
               child: YaruCarousel(
-                margin: EdgeInsets.zero,
                 viewportFraction: 1,
                 placeIndicator: false,
                 autoScrollDuration: Duration(seconds: 3),
