@@ -151,29 +151,50 @@ class _SearchFieldState extends State<_SearchField> {
   }
 }
 
-class _FilterBar extends StatelessWidget {
+class _FilterBar extends StatefulWidget {
   const _FilterBar({Key? key}) : super(key: key);
+
+  @override
+  State<_FilterBar> createState() => _FilterBarState();
+}
+
+class _FilterBarState extends State<_FilterBar> {
+  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
     return SizedBox(
       width: 1000,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        children: [
-          for (final section in model.selectedFilters)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: _FilterPill(
-                  onPressed: () => model.setFilter(snapSections: [section]),
-                  selected: model.filters[section]!,
-                  iconData: snapSectionToIcon[section]!),
-            ),
-        ],
+      child: ScrollbarTheme(
+        data: ScrollbarThemeData(
+            thumbVisibility: MaterialStateProperty.resolveWith((states) =>
+                states.contains(MaterialState.hovered) ? true : false)),
+        child: Scrollbar(
+          controller: _controller,
+          child: ListView(
+            controller: _controller,
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            children: [
+              for (final section in model.selectedFilters)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: _FilterPill(
+                      tooltip: section.title(),
+                      onPressed: () => model.setFilter(snapSections: [section]),
+                      selected: model.filters[section]!,
+                      iconData: snapSectionToIcon[section]!),
+                ),
+            ],
+          ),
+        ),
       ),
     );
+  }
+
+  String getSectionTranslation(BuildContext context) {
+    return '';
   }
 }
 
@@ -227,12 +248,14 @@ class _FilterPill extends StatelessWidget {
   final IconData iconData;
   final bool selected;
   final Function()? onPressed;
+  final String? tooltip;
 
   _FilterPill({
     Key? key,
     required this.selected,
     required this.iconData,
     this.onPressed,
+    this.tooltip,
   }) : super(key: key);
 
   @override
@@ -242,6 +265,7 @@ class _FilterPill extends StatelessWidget {
           ? Theme.of(context).colorScheme.onSurface.withOpacity(0.05)
           : Colors.transparent,
       child: IconButton(
+        tooltip: tooltip,
         color: selected ? Colors.grey : null,
         splashRadius: 20,
         onPressed: onPressed,
