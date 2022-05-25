@@ -53,15 +53,21 @@ class _UpdatesPageState extends State<UpdatesPage> {
                   shrinkWrap: true,
                   itemCount: model.snapAppToSnapMap.length,
                   itemBuilder: (context, index) => ListTile(
-                    onTap: () => showDialog(
-                        context: context,
-                        builder: (context) => ChangeNotifierProvider.value(
-                              value: model,
-                              child: AppDialog(
-                                  snap: model.snapAppToSnapMap.entries
-                                      .elementAt(index)
-                                      .value),
-                            )),
+                    onTap: () {
+                      model.currentSnapChannel = model.snapAppToSnapMap.entries
+                          .elementAt(index)
+                          .value
+                          .channel;
+                      showDialog(
+                          context: context,
+                          builder: (context) => ChangeNotifierProvider.value(
+                                value: model,
+                                child: AppDialog(
+                                    snap: model.snapAppToSnapMap.entries
+                                        .elementAt(index)
+                                        .value),
+                              ));
+                    },
                     leading: Icon(YaruIcons.package_snap),
                     title: Text(model.snapAppToSnapMap.entries
                             .elementAt(index)
