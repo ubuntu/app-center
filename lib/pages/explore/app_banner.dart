@@ -32,7 +32,7 @@ class AppBanner extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       borderRadius: borderRadius,
-      child: surfaceTint && iconIndex != null
+      child: iconIndex != null && surfaceTint
           ? FutureBuilder<Color>(
               future:
                   getSurfaceTintColor(NetworkImage(snap.media[iconIndex].url)),
@@ -118,6 +118,7 @@ class _Card extends StatelessWidget {
       child: Align(
         alignment: Alignment.center,
         child: ListTile(
+          mouseCursor: SystemMouseCursors.click,
           subtitle: Text(summary, overflow: TextOverflow.ellipsis),
           title: Text(
             title,
