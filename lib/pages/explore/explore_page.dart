@@ -71,12 +71,8 @@ class ExplorePage extends StatelessWidget {
                   ),
                 model.searchActive
                     ? Expanded(child: _SearchField())
-                    : ChangeNotifierProvider.value(
-                        value: model,
-                        child: Expanded(
-                            child: !model.exploreMode
-                                ? _FilterBar()
-                                : SizedBox())),
+                    : Expanded(
+                        child: !model.exploreMode ? _FilterBar() : SizedBox()),
               ],
             ),
           ),
@@ -103,10 +99,7 @@ class ExplorePage extends StatelessWidget {
                       findByName: false,
                     ),
               if (!model.searchActive && model.exploreMode)
-                ChangeNotifierProvider.value(
-                  value: model,
-                  child: _ExploreGrid(snapSection: SnapSection.featured),
-                ),
+                _ExploreGrid(snapSection: SnapSection.featured),
             ],
           ),
         ),
@@ -237,12 +230,7 @@ class _AppBannerCarousel extends StatelessWidget {
                   .toList(),
             ),
           )
-        : Center(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: YaruCircularProgressIndicator(),
-            ),
-          );
+        : SizedBox();
   }
 }
 
