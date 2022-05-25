@@ -16,8 +16,8 @@ An alternative software store for the Ubuntu Desktop made with Flutter.
   - [X] search
   - [X] remove
   - [X] filter for sections
-  - [ ] refresh
-  - [ ] switch channels
+  - [X] refresh
+  - [X] switch channels
 - [ ] Firmware support (https://github.com/canonical/fwupd.dart & https://github.com/canonical/firmware-updater)
 - [ ] deb support (https://github.com/robert-ancell/dpkg.dart)
 

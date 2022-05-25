@@ -24,10 +24,11 @@ class AppsModel extends SafeChangeNotifier {
     return snaps.first;
   }
 
-  Future<void> installSnap(Snap snap) async {
+  Future<void> installSnap(Snap snap, String? channel) async {
     await client.loadAuthorization();
     final changeId = await client.install(
       snap.name,
+      channel: channel,
       classic: snap.confinement == SnapConfinement.classic,
     );
     appChangeInProgress = true;

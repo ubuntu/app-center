@@ -130,8 +130,9 @@ class _InstallButton extends StatelessWidget {
     final model = context.watch<ExploreModel>();
 
     return ElevatedButton(
-      onPressed:
-          model.appChangeInProgress ? null : () => model.installSnap(snap),
+      onPressed: model.appChangeInProgress
+          ? null
+          : () => model.installSnap(snap, model.currentSnapChannel),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
