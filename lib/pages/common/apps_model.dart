@@ -195,10 +195,11 @@ class AppsModel extends SafeChangeNotifier {
   Future<void> mapSnaps() async {
     final installedSnaps = await snapApps;
 
-    for (var snapApp in installedSnaps) {
+    for (var snapApp
+        in installedSnaps.where((element) => element.desktopFile != null)) {
       final List<Snap> snapsWithThisName =
           await client.find(name: snapApp.snap);
-      snapAppToSnapMap.addAll({snapApp: snapsWithThisName.first});
+      snapAppToSnapMap.putIfAbsent(snapApp, () => snapsWithThisName.first);
     }
   }
 }
