@@ -53,18 +53,31 @@ class AppDialog extends StatelessWidget {
         ),
         FutureBuilder<bool>(
           future: model.snapIsIstalled(snap),
-          builder: (context, snapshot) {
-            return snapshot.hasData
-                ? ChangeNotifierProvider.value(
-                    value: model,
-                    child:
-                        snapshot.data! ? _RemoveButton(snap: snap) : SizedBox(),
-                  )
-                : SizedBox();
-          },
+          builder: (context, snapshot) => snapshot.hasData && snapshot.data!
+              ? ChangeNotifierProvider.value(
+                  value: model,
+                  child: _RemoveButton(snap: snap),
+                )
+              : SizedBox(),
         ),
-        _RefreshButton(snap: snap),
-        _InstallButton(snap: snap),
+        FutureBuilder<bool>(
+          future: model.snapIsIstalled(snap),
+          builder: (context, snapshot) => snapshot.hasData && snapshot.data!
+              ? ChangeNotifierProvider.value(
+                  value: model,
+                  child: _RefreshButton(snap: snap),
+                )
+              : SizedBox(),
+        ),
+        FutureBuilder<bool>(
+          future: model.snapIsIstalled(snap),
+          builder: (context, snapshot) => snapshot.hasData && !snapshot.data!
+              ? ChangeNotifierProvider.value(
+                  value: model,
+                  child: _InstallButton(snap: snap),
+                )
+              : SizedBox(),
+        ),
       ],
     );
   }
