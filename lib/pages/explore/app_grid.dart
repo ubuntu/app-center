@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/explore/app_card.dart';
 import 'package:software/pages/explore/app_dialog.dart';
-import 'package:software/pages/explore/explore_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppGrid extends StatelessWidget {
@@ -22,7 +22,7 @@ class AppGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<ExploreModel>();
+    final model = context.read<AppsModel>();
     return FutureBuilder<List<Snap>>(
       future: findByName
           ? model.findSnapsByQuery()

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/explore/app_banner.dart';
 import 'package:software/pages/explore/app_dialog.dart';
 import 'package:software/pages/explore/app_grid.dart';
-import 'package:software/pages/explore/explore_model.dart';
 import 'package:software/pages/common/snap_section.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -16,7 +16,7 @@ class ExplorePage extends StatelessWidget {
   static Widget create(BuildContext context) {
     final client = context.read<SnapdClient>();
     return ChangeNotifierProvider(
-      create: (_) => ExploreModel(client),
+      create: (_) => AppsModel(client),
       child: const ExplorePage(),
     );
   }
@@ -26,7 +26,7 @@ class ExplorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final model = context.watch<AppsModel>();
     final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
@@ -126,7 +126,7 @@ class _SearchFieldState extends State<_SearchField> {
   TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final model = context.watch<AppsModel>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: TextField(
@@ -163,7 +163,7 @@ class _FilterBarState extends State<_FilterBar> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final model = context.watch<AppsModel>();
     return SizedBox(
       width: 1000,
       child: ScrollbarTheme(
@@ -203,7 +203,7 @@ class _AppBannerCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final model = context.watch<AppsModel>();
     final size = MediaQuery.of(context).size;
     return FutureBuilder<List<Snap>>(
       future: model.findSnapsBySection(section: 'featured'),
@@ -292,7 +292,7 @@ class ExploreGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final model = context.watch<AppsModel>();
     return FutureBuilder<List<Snap>>(
       future: model.findSnapsBySection(section: snapSection.title()),
       builder: (context, snapshot) => snapshot.hasData

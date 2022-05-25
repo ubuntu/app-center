@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/pages/my_apps/my_apps_model.dart';
+import 'package:software/pages/common/apps_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -11,8 +11,8 @@ class MyAppsPage extends StatelessWidget {
 
   static Widget create(BuildContext context) {
     final client = Provider.of<SnapdClient>(context, listen: false);
-    return ChangeNotifierProvider<MyAppsModel>(
-      create: (_) => MyAppsModel(client),
+    return ChangeNotifierProvider<AppsModel>(
+      create: (_) => AppsModel(client),
       child: const MyAppsPage(),
     );
   }
@@ -22,7 +22,7 @@ class MyAppsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<MyAppsModel>();
+    final model = context.watch<AppsModel>();
     return FutureBuilder<List<SnapApp>>(
         future: model.snapApps,
         builder: (BuildContext context, snapshot) {
@@ -62,7 +62,7 @@ class MyAppsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<MyAppsModel>();
+    final model = context.watch<AppsModel>();
     return SimpleDialog(
       titlePadding: EdgeInsets.zero,
       title: YaruDialogTitle(

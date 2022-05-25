@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/common/link.dart';
-import 'package:software/pages/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -13,7 +13,7 @@ class AppDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final model = context.watch<AppsModel>();
 
     return AlertDialog(
       contentPadding: EdgeInsets.only(bottom: 20),
@@ -90,7 +90,7 @@ class _RemoveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final model = context.watch<AppsModel>();
 
     return OutlinedButton(
       onPressed: model.appChangeInProgress
@@ -127,7 +127,7 @@ class _InstallButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final model = context.watch<AppsModel>();
 
     return ElevatedButton(
       onPressed: model.appChangeInProgress
@@ -161,7 +161,7 @@ class _RefreshButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final model = context.watch<AppsModel>();
 
     return OutlinedButton(
       onPressed: model.appChangeInProgress
