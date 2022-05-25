@@ -105,7 +105,7 @@ class ExplorePage extends StatelessWidget {
               if (!model.searchActive && model.exploreMode)
                 ChangeNotifierProvider.value(
                   value: model,
-                  child: ExploreGrid(snapSection: SnapSection.featured),
+                  child: _ExploreGrid(snapSection: SnapSection.featured),
                 ),
             ],
           ),
@@ -205,47 +205,44 @@ class _AppBannerCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<AppsModel>();
     final size = MediaQuery.of(context).size;
-    return FutureBuilder<List<Snap>>(
-      future: model.findSnapsBySection(section: 'featured'),
-      builder: (context, snapshot) => snapshot.hasData
-          ? Padding(
-              padding: const EdgeInsets.only(
-                bottom: 20,
-              ),
-              child: YaruCarousel(
-                viewportFraction: 1,
-                placeIndicator: false,
-                autoScrollDuration: Duration(seconds: 3),
-                width: size.width,
-                height: 178,
-                autoScroll: true,
-                children: snapshot.data!
-                    .map(
-                      (snap) => AppBanner(
-                        snap: snap,
-                        onTap: () {
-                          model.currentSnapChannel = snap.channel;
-                          showDialog(
-                            barrierColor: Colors.black.withOpacity(0.9),
-                            context: context,
-                            builder: (context) => ChangeNotifierProvider.value(
-                              value: model,
-                              child: AppDialog(snap: snap),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                    .toList(),
-              ),
-            )
-          : Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: YaruCircularProgressIndicator(),
-              ),
+    return model.featuredSnaps.isNotEmpty
+        ? Padding(
+            padding: const EdgeInsets.only(
+              bottom: 20,
             ),
-    );
+            child: YaruCarousel(
+              viewportFraction: 1,
+              placeIndicator: false,
+              autoScrollDuration: Duration(seconds: 3),
+              width: size.width,
+              height: 178,
+              autoScroll: true,
+              children: model.featuredSnaps
+                  .map(
+                    (snap) => AppBanner(
+                      snap: snap,
+                      onTap: () {
+                        model.currentSnapChannel = snap.channel;
+                        showDialog(
+                          barrierColor: Colors.black.withOpacity(0.9),
+                          context: context,
+                          builder: (context) => ChangeNotifierProvider.value(
+                            value: model,
+                            child: AppDialog(snap: snap),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                  .toList(),
+            ),
+          )
+        : Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: YaruCircularProgressIndicator(),
+            ),
+          );
   }
 }
 
@@ -285,44 +282,52 @@ class _FilterPill extends StatelessWidget {
   }
 }
 
-class ExploreGrid extends StatelessWidget {
-  const ExploreGrid({Key? key, required this.snapSection}) : super(key: key);
+class _ExploreGrid extends StatefulWidget {
+  const _ExploreGrid({Key? key, required this.snapSection}) : super(key: key);
 
   final SnapSection snapSection;
 
   @override
+  State<_ExploreGrid> createState() => _ExploreGridState();
+}
+
+class _ExploreGridState extends State<_ExploreGrid> {
+  @override
+  void initState() {
+    context.read<AppsModel>().loadFeaturedSnaps();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final model = context.watch<AppsModel>();
-    return FutureBuilder<List<Snap>>(
-      future: model.findSnapsBySection(section: snapSection.title()),
-      builder: (context, snapshot) => snapshot.hasData
-          ? GridView(
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                mainAxisExtent: 150,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20,
-                maxCrossAxisExtent: 500,
-              ),
-              children: snapshot.data!
-                  .map((snap) => AppBanner(
-                        surfaceTint: false,
-                        snap: snap,
-                        onTap: () {
-                          model.currentSnapChannel = snap.channel;
-                          showDialog(
-                            barrierColor: Colors.black.withOpacity(0.9),
-                            context: context,
-                            builder: (context) => ChangeNotifierProvider.value(
-                              value: model,
-                              child: AppDialog(snap: snap),
-                            ),
-                          );
-                        },
-                      ))
-                  .toList(),
-            )
-          : YaruCircularProgressIndicator(),
-    );
+    return model.featuredSnaps.isNotEmpty
+        ? GridView(
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              mainAxisExtent: 150,
+              mainAxisSpacing: 20,
+              crossAxisSpacing: 20,
+              maxCrossAxisExtent: 500,
+            ),
+            children: model.featuredSnaps
+                .map((snap) => AppBanner(
+                      surfaceTint: false,
+                      snap: snap,
+                      onTap: () {
+                        model.currentSnapChannel = snap.channel;
+                        showDialog(
+                          barrierColor: Colors.black.withOpacity(0.9),
+                          context: context,
+                          builder: (context) => ChangeNotifierProvider.value(
+                            value: model,
+                            child: AppDialog(snap: snap),
+                          ),
+                        );
+                      },
+                    ))
+                .toList(),
+          )
+        : YaruCircularProgressIndicator();
   }
 }

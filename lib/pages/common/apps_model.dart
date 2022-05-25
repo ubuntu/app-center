@@ -11,7 +11,8 @@ class AppsModel extends SafeChangeNotifier {
         _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
-        _currentSnapChannel = '';
+        _currentSnapChannel = '',
+        featuredSnaps = [];
 
   bool _appChangeInProgress;
   bool get appChangeInProgress => _appChangeInProgress;
@@ -201,5 +202,14 @@ class AppsModel extends SafeChangeNotifier {
           await client.find(name: snapApp.snap);
       snapAppToSnapMap.putIfAbsent(snapApp, () => snapsWithThisName.first);
     }
+  }
+
+  List<Snap> featuredSnaps;
+
+  Future<void> loadFeaturedSnaps() async {
+    for (final featuredSnap in await findSnapsBySection(section: 'featured')) {
+      featuredSnaps.add(featuredSnap);
+    }
+    notifyListeners();
   }
 }
