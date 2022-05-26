@@ -88,11 +88,20 @@ class SnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  String _channelToBeInstalled;
+  String get channelToBeInstalled => _channelToBeInstalled;
+  set channelToBeInstalled(String value) {
+    if (value == _channelToBeInstalled) return;
+    _channelToBeInstalled = value;
+    notifyListeners();
+  }
+
   SnapModel({
     required this.client,
     required this.huskSnapName,
   })  : _appChangeInProgress = false,
-        _snapIsInstalled = false;
+        _snapIsInstalled = false,
+        _channelToBeInstalled = '';
 
   Future<void> init() async {
     snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
@@ -121,6 +130,7 @@ class SnapModel extends SafeChangeNotifier {
       type = snap!.type;
       version = snap!.version;
       website = snap!.website;
+      _channelToBeInstalled = '${tracks.first}/$channel';
     }
     notifyListeners();
   }
@@ -173,16 +183,12 @@ class SnapModel extends SafeChangeNotifier {
 
   Future<void> refreshSnapApp(Snap snap, String snapChannel) async {
     await client.loadAuthorization();
-    final id = await client.refresh(snap.name,
-        channel:
-            snapChannel.replaceAll('latest/', '').replaceAll('insiders/', ''));
+    final id = await client.refresh(snap.name, channel: snapChannel);
     appChangeInProgress = true;
     while (true) {
       final change = await client.getChange(id);
       if (change.ready) {
         appChangeInProgress = false;
-        snapIsInstalled = false;
-
         break;
       }
 

@@ -37,18 +37,20 @@ class _AppDialogState extends State<AppDialog> {
               snap: model.snap!,
             ),
             actions: [
-              // DropdownButton<String>(
-              //   value: '${model.tracks.first}/${model.channel}',
-              //   items: [
-              //     for (final track in model.tracks)
-              //       DropdownMenuItem<String>(
-              //           child: Text(track),
-              //           value: '${model.tracks}/${model.channel}'),
-              //   ],
-              //   onChanged: (v) {
-              //     // model.currentSnapChannel = v!;
-              //   },
-              // ),
+              if (model.channels.isNotEmpty &&
+                  model.channelToBeInstalled.isNotEmpty)
+                DropdownButton<String>(
+                  value: model.channelToBeInstalled,
+                  items: [
+                    for (final entry in model.channels.entries)
+                      DropdownMenuItem<String>(
+                          child: Text('${entry.key} ${entry.value.version}'),
+                          value: entry.key),
+                  ],
+                  onChanged: (v) {
+                    model.channelToBeInstalled = v!;
+                  },
+                ),
               if (model.snapIsInstalled) _RemoveButton(snap: model.snap!),
               if (model.snapIsInstalled) _RefreshButton(snap: model.snap!),
               if (!model.snapIsInstalled) _InstallButton(snap: model.snap!),
@@ -123,7 +125,7 @@ class _RefreshButton extends StatelessWidget {
     return OutlinedButton(
       onPressed: model.appChangeInProgress
           ? null
-          : () => model.refreshSnapApp(snap, model.channel),
+          : () => model.refreshSnapApp(snap, model.channelToBeInstalled),
       child: Text('Refresh'),
     );
   }
@@ -261,9 +263,7 @@ class _Content extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Version:'),
-                  Text(snap.tracks.isNotEmpty
-                      ? snap.channels[snap.tracks.first]?.version ?? ''
-                      : ''),
+                  Text(snap.version),
                 ],
               ),
             ),

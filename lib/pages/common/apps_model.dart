@@ -11,7 +11,6 @@ class AppsModel extends SafeChangeNotifier {
         _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
-        _currentSnapChannel = '',
         featuredSnaps = [];
 
   bool _appChangeInProgress;
@@ -32,50 +31,9 @@ class AppsModel extends SafeChangeNotifier {
     return snaps.first;
   }
 
-  Future<void> installSnap(Snap snap, String? channel) async {
-    await client.loadAuthorization();
-    final changeId = await client.install(
-      snap.name,
-      channel: channel,
-      classic: snap.confinement == SnapConfinement.classic,
-    );
-    appChangeInProgress = true;
-    while (true) {
-      final change = await client.getChange(changeId);
-      if (change.ready) {
-        appChangeInProgress = false;
-        break;
-      }
-      await Future.delayed(
-        Duration(milliseconds: 100),
-      );
-    }
-    appChangeInProgress = false;
-  }
-
   Future<void> unInstallSnap(SnapApp snapApp) async {
     await client.loadAuthorization();
     final id = await client.remove(snapApp.name);
-    appChangeInProgress = true;
-    while (true) {
-      final change = await client.getChange(id);
-      if (change.ready) {
-        appChangeInProgress = false;
-        break;
-      }
-
-      await Future.delayed(
-        Duration(milliseconds: 100),
-      );
-    }
-    appChangeInProgress = false;
-  }
-
-  Future<void> refreshSnapApp(Snap snap, String snapChannel) async {
-    await client.loadAuthorization();
-    final id = await client.refresh(snap.name,
-        channel:
-            snapChannel.replaceAll('latest/', '').replaceAll('insiders/', ''));
     appChangeInProgress = true;
     while (true) {
       final change = await client.getChange(id);
@@ -102,17 +60,6 @@ class AppsModel extends SafeChangeNotifier {
       if (snap.name == snapApp.snap) return true;
     }
     return false;
-  }
-
-  String _currentSnapChannel;
-  String get currentSnapChannel => _currentSnapChannel;
-  set currentSnapChannel(String value) {
-    if (_currentSnapChannel == value) return;
-    _currentSnapChannel =
-        !value.contains('latest/') && !value.contains('insiders/')
-            ? 'latest/' + value
-            : value;
-    notifyListeners();
   }
 
   bool _searchActive;
