@@ -6,20 +6,11 @@ class AppsModel extends SafeChangeNotifier {
   final SnapdClient client;
 
   AppsModel(this.client)
-      : _appChangeInProgress = false,
-        snapAppToSnapMap = {},
+      : snapAppToSnapMap = {},
         _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
         featuredSnaps = [];
-
-  bool _appChangeInProgress;
-  bool get appChangeInProgress => _appChangeInProgress;
-  set appChangeInProgress(bool value) {
-    if (value == _appChangeInProgress) return;
-    _appChangeInProgress = value;
-    notifyListeners();
-  }
 
   Future<List<Snap>> findSnapsBySection({String? section}) async {
     final snaps = await client.find(section: section);
@@ -29,24 +20,6 @@ class AppsModel extends SafeChangeNotifier {
   Future<Snap> findSnapByName(String name) async {
     final snaps = await client.find(name: name);
     return snaps.first;
-  }
-
-  Future<void> unInstallSnap(SnapApp snapApp) async {
-    await client.loadAuthorization();
-    final id = await client.remove(snapApp.name);
-    appChangeInProgress = true;
-    while (true) {
-      final change = await client.getChange(id);
-      if (change.ready) {
-        appChangeInProgress = false;
-        break;
-      }
-
-      await Future.delayed(
-        Duration(milliseconds: 100),
-      );
-    }
-    appChangeInProgress = false;
   }
 
   Future<List<SnapApp>> get snapApps async {

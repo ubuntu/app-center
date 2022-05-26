@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/apps_model.dart';
+import 'package:software/pages/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -22,9 +23,9 @@ class MyAppsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final appsModel = context.watch<AppsModel>();
     return FutureBuilder<List<SnapApp>>(
-        future: model.snapApps,
+        future: appsModel.snapApps,
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
             return ListView(
@@ -33,12 +34,20 @@ class MyAppsPage extends StatelessWidget {
                         onTap: () => {
                           showDialog(
                             context: context,
-                            builder: (context) => ChangeNotifierProvider.value(
-                              value: model,
-                              child: MyAppsDialog(
-                                snapApp: snapApp,
-                              ),
-                            ),
+                            builder: (context) => snapApp.snap != null
+                                ? ChangeNotifierProvider(
+                                    create: (context) => SnapModel(
+                                        client: context.read<SnapdClient>(),
+                                        huskSnapName: snapApp.snap!),
+                                    child: MyAppsDialog(
+                                      snapApp: snapApp,
+                                    ),
+                                  )
+                                : AlertDialog(
+                                    content: Center(
+                                      child: YaruCircularProgressIndicator(),
+                                    ),
+                                  ),
                           )
                         },
                         child: ListTile(
@@ -62,7 +71,7 @@ class MyAppsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final model = context.watch<SnapModel>();
     return SimpleDialog(
       titlePadding: EdgeInsets.zero,
       title: YaruDialogTitle(
