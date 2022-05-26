@@ -58,7 +58,7 @@ class _SnapUpdatesPage extends StatefulWidget {
 class __SnapUpdatesPageState extends State<_SnapUpdatesPage> {
   @override
   void initState() {
-    context.read<AppsModel>().init();
+    context.read<AppsModel>().mapSnaps();
     super.initState();
   }
 

@@ -10,26 +10,27 @@ class AppsModel extends SafeChangeNotifier {
         _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
-        featuredSnaps = [];
+        featuredSnaps = [],
+        snapApps = [];
 
-  Future<List<Snap>> findSnapsBySection({String? section}) async {
-    final snaps = await client.find(section: section);
-    return snaps;
-  }
+  Future<List<Snap>> findSnapsBySection({String? section}) async =>
+      (await client.find(section: section));
 
-  Future<Snap> findSnapByName(String name) async {
-    final snaps = await client.find(name: name);
-    return snaps.first;
-  }
+  Future<Snap> findSnapByName(String name) async =>
+      (await client.find(name: name)).first;
 
-  Future<List<SnapApp>> get snapApps async {
+  List<SnapApp> snapApps;
+  Future<List<SnapApp>> loadSnapApps() async {
     await client.loadAuthorization();
-    return await client.apps();
+    final apps = await client.apps();
+    snapApps.clear();
+    snapApps.addAll(apps.where((element) => element.desktopFile != null));
+    notifyListeners();
+    return apps;
   }
 
   Future<bool> snapIsIstalled(Snap snap) async {
-    final installedSnapApps = await snapApps;
-    for (var snapApp in installedSnapApps) {
+    for (var snapApp in (await loadSnapApps())) {
       if (snap.name == snapApp.snap) return true;
     }
     return false;
@@ -102,30 +103,21 @@ class AppsModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Snap>> findSnapsByQuery() async {
-    return searchQuery.isEmpty ? [] : await client.find(query: _searchQuery);
-  }
+  Future<List<Snap>> findSnapsByQuery() async =>
+      searchQuery.isEmpty ? [] : await client.find(query: _searchQuery);
 
   Map<SnapApp, Snap> snapAppToSnapMap;
-
-  Future<void> init() async {
-    await mapSnaps();
-    notifyListeners();
-  }
-
   Future<void> mapSnaps() async {
-    final installedSnaps = await snapApps;
-
-    for (var snapApp
-        in installedSnaps.where((element) => element.desktopFile != null)) {
+    for (var snapApp in (await loadSnapApps())
+        .where((element) => element.desktopFile != null)) {
       final List<Snap> snapsWithThisName =
           await client.find(name: snapApp.snap);
       snapAppToSnapMap.putIfAbsent(snapApp, () => snapsWithThisName.first);
     }
+    notifyListeners();
   }
 
   List<Snap> featuredSnaps;
-
   Future<void> loadFeaturedSnaps() async {
     for (final featuredSnap in await findSnapsBySection(section: 'featured')) {
       featuredSnaps.add(featuredSnap);
