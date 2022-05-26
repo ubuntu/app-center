@@ -3,10 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/apps_model.dart';
+import 'package:software/pages/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class MyAppsPage extends StatelessWidget {
+class MyAppsPage extends StatefulWidget {
   const MyAppsPage({super.key});
 
   static Widget create(BuildContext context) {
@@ -21,37 +22,53 @@ class MyAppsPage extends StatelessWidget {
       Text(context.l10n.myAppsPageTitle);
 
   @override
+  State<MyAppsPage> createState() => _MyAppsPageState();
+}
+
+class _MyAppsPageState extends State<MyAppsPage> {
+  @override
+  void initState() {
+    context.read<AppsModel>().loadSnapApps();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
-    return FutureBuilder<List<SnapApp>>(
-        future: model.snapApps,
-        builder: (BuildContext context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView(
-              children: snapshot.data!
-                  .map((snapApp) => InkWell(
-                        onTap: () => {
-                          showDialog(
-                            context: context,
-                            builder: (context) => ChangeNotifierProvider.value(
-                              value: model,
+    final appsModel = context.watch<AppsModel>();
+
+    if (appsModel.snapApps.isNotEmpty) {
+      return ListView(
+        children: appsModel.snapApps
+            .map((snapApp) => InkWell(
+                  onTap: () => {
+                    showDialog(
+                      context: context,
+                      builder: (context) => snapApp.snap != null
+                          ? ChangeNotifierProvider(
+                              create: (context) => SnapModel(
+                                  client: context.read<SnapdClient>(),
+                                  huskSnapName: snapApp.snap!),
                               child: MyAppsDialog(
                                 snapApp: snapApp,
                               ),
+                            )
+                          : AlertDialog(
+                              content: Center(
+                                child: YaruCircularProgressIndicator(),
+                              ),
                             ),
-                          )
-                        },
-                        child: ListTile(
-                            leading: Icon(YaruIcons.package_snap),
-                            title: Text(snapApp.name)),
-                      ))
-                  .toList(),
-            );
-          }
-          return Center(
-            child: YaruCircularProgressIndicator(),
-          );
-        });
+                    ).then((value) => appsModel.loadSnapApps)
+                  },
+                  child: ListTile(
+                      leading: Icon(YaruIcons.package_snap),
+                      title: Text(snapApp.name)),
+                ))
+            .toList(),
+      );
+    }
+    return Center(
+      child: YaruCircularProgressIndicator(),
+    );
   }
 }
 
@@ -62,7 +79,7 @@ class MyAppsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final model = context.watch<SnapModel>();
     return SimpleDialog(
       titlePadding: EdgeInsets.zero,
       title: YaruDialogTitle(

@@ -6,113 +6,34 @@ class AppsModel extends SafeChangeNotifier {
   final SnapdClient client;
 
   AppsModel(this.client)
-      : _appChangeInProgress = false,
-        snapAppToSnapMap = {},
+      : snapAppToSnapMap = {},
         _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
-        _currentSnapChannel = '',
-        featuredSnaps = [];
+        featuredSnaps = [],
+        snapApps = [];
 
-  bool _appChangeInProgress;
-  bool get appChangeInProgress => _appChangeInProgress;
-  set appChangeInProgress(bool value) {
-    if (value == _appChangeInProgress) return;
-    _appChangeInProgress = value;
+  Future<List<Snap>> findSnapsBySection({String? section}) async =>
+      (await client.find(section: section));
+
+  Future<Snap> findSnapByName(String name) async =>
+      (await client.find(name: name)).first;
+
+  List<SnapApp> snapApps;
+  Future<List<SnapApp>> loadSnapApps() async {
+    await client.loadAuthorization();
+    final apps = await client.apps();
+    snapApps.clear();
+    snapApps.addAll(apps.where((element) => element.desktopFile != null));
     notifyListeners();
-  }
-
-  Future<List<Snap>> findSnapsBySection({String? section}) async {
-    final snaps = await client.find(section: section);
-    return snaps;
-  }
-
-  Future<Snap> findSnapByName(String name) async {
-    final snaps = await client.find(name: name);
-    return snaps.first;
-  }
-
-  Future<void> installSnap(Snap snap, String? channel) async {
-    await client.loadAuthorization();
-    final changeId = await client.install(
-      snap.name,
-      channel: channel,
-      classic: snap.confinement == SnapConfinement.classic,
-    );
-    appChangeInProgress = true;
-    while (true) {
-      final change = await client.getChange(changeId);
-      if (change.ready) {
-        appChangeInProgress = false;
-        break;
-      }
-      await Future.delayed(
-        Duration(milliseconds: 100),
-      );
-    }
-    appChangeInProgress = false;
-  }
-
-  Future<void> unInstallSnap(SnapApp snapApp) async {
-    await client.loadAuthorization();
-    final id = await client.remove(snapApp.name);
-    appChangeInProgress = true;
-    while (true) {
-      final change = await client.getChange(id);
-      if (change.ready) {
-        appChangeInProgress = false;
-        break;
-      }
-
-      await Future.delayed(
-        Duration(milliseconds: 100),
-      );
-    }
-    appChangeInProgress = false;
-  }
-
-  Future<void> refreshSnapApp(Snap snap, String snapChannel) async {
-    await client.loadAuthorization();
-    final id = await client.refresh(snap.name,
-        channel:
-            snapChannel.replaceAll('latest/', '').replaceAll('insiders/', ''));
-    appChangeInProgress = true;
-    while (true) {
-      final change = await client.getChange(id);
-      if (change.ready) {
-        appChangeInProgress = false;
-        break;
-      }
-
-      await Future.delayed(
-        Duration(milliseconds: 100),
-      );
-    }
-    appChangeInProgress = false;
-  }
-
-  Future<List<SnapApp>> get snapApps async {
-    await client.loadAuthorization();
-    return await client.apps();
+    return apps;
   }
 
   Future<bool> snapIsIstalled(Snap snap) async {
-    final installedSnapApps = await snapApps;
-    for (var snapApp in installedSnapApps) {
+    for (var snapApp in (await loadSnapApps())) {
       if (snap.name == snapApp.snap) return true;
     }
     return false;
-  }
-
-  String _currentSnapChannel;
-  String get currentSnapChannel => _currentSnapChannel;
-  set currentSnapChannel(String value) {
-    if (_currentSnapChannel == value) return;
-    _currentSnapChannel =
-        !value.contains('latest/') && !value.contains('insiders/')
-            ? 'latest/' + value
-            : value;
-    notifyListeners();
   }
 
   bool _searchActive;
@@ -182,30 +103,21 @@ class AppsModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Snap>> findSnapsByQuery() async {
-    return searchQuery.isEmpty ? [] : await client.find(query: _searchQuery);
-  }
+  Future<List<Snap>> findSnapsByQuery() async =>
+      searchQuery.isEmpty ? [] : await client.find(query: _searchQuery);
 
   Map<SnapApp, Snap> snapAppToSnapMap;
-
-  Future<void> init() async {
-    await mapSnaps();
-    notifyListeners();
-  }
-
   Future<void> mapSnaps() async {
-    final installedSnaps = await snapApps;
-
-    for (var snapApp
-        in installedSnaps.where((element) => element.desktopFile != null)) {
+    for (var snapApp in (await loadSnapApps())
+        .where((element) => element.desktopFile != null)) {
       final List<Snap> snapsWithThisName =
           await client.find(name: snapApp.snap);
       snapAppToSnapMap.putIfAbsent(snapApp, () => snapsWithThisName.first);
     }
+    notifyListeners();
   }
 
   List<Snap> featuredSnaps;
-
   Future<void> loadFeaturedSnaps() async {
     for (final featuredSnap in await findSnapsBySection(section: 'featured')) {
       featuredSnaps.add(featuredSnap);

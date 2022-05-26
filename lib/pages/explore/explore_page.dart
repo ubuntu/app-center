@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/apps_model.dart';
+import 'package:software/pages/common/snap_model.dart';
 import 'package:software/pages/explore/app_banner.dart';
 import 'package:software/pages/explore/app_dialog.dart';
 import 'package:software/pages/explore/app_grid.dart';
@@ -215,13 +216,17 @@ class _AppBannerCarousel extends StatelessWidget {
                     (snap) => AppBanner(
                       snap: snap,
                       onTap: () {
-                        model.currentSnapChannel = snap.channel;
+                        final client = context.read<SnapdClient>();
                         showDialog(
                           barrierColor: Colors.black.withOpacity(0.9),
                           context: context,
                           builder: (context) => ChangeNotifierProvider.value(
                             value: model,
-                            child: AppDialog(snap: snap),
+                            child: ChangeNotifierProvider<SnapModel>(
+                              create: (context) => SnapModel(
+                                  client: client, huskSnapName: snap.name),
+                              child: AppDialog(),
+                            ),
                           ),
                         );
                       },
@@ -303,13 +308,17 @@ class _ExploreGridState extends State<_ExploreGrid> {
                       surfaceTint: false,
                       snap: snap,
                       onTap: () {
-                        model.currentSnapChannel = snap.channel;
+                        final client = context.read<SnapdClient>();
                         showDialog(
                           barrierColor: Colors.black.withOpacity(0.9),
                           context: context,
                           builder: (context) => ChangeNotifierProvider.value(
                             value: model,
-                            child: AppDialog(snap: snap),
+                            child: ChangeNotifierProvider<SnapModel>(
+                              create: (context) => SnapModel(
+                                  client: client, huskSnapName: snap.name),
+                              child: AppDialog(),
+                            ),
                           ),
                         );
                       },

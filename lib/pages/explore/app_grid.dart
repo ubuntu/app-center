@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/pages/common/apps_model.dart';
+import 'package:software/pages/common/snap_model.dart';
 import 'package:software/pages/explore/app_card.dart';
 import 'package:software/pages/explore/app_dialog.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -57,14 +58,15 @@ class AppGrid extends StatelessWidget {
                           (snap) => AppCard(
                             snap: snap,
                             onTap: () {
-                              model.currentSnapChannel = snap.channel;
+                              final client = context.read<SnapdClient>();
                               showDialog(
                                 barrierColor: Colors.black.withOpacity(0.9),
                                 context: context,
                                 builder: (context) =>
-                                    ChangeNotifierProvider.value(
-                                  value: model,
-                                  child: AppDialog(snap: snap),
+                                    ChangeNotifierProvider<SnapModel>(
+                                  create: (context) => SnapModel(
+                                      client: client, huskSnapName: snap.name),
+                                  child: AppDialog(),
                                 ),
                               );
                             },

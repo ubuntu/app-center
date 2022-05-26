@@ -1,85 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/common/link.dart';
+import 'package:software/pages/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class AppDialog extends StatelessWidget {
-  const AppDialog({Key? key, required this.snap}) : super(key: key);
+class AppDialog extends StatefulWidget {
+  const AppDialog({
+    Key? key,
+  }) : super(key: key);
 
-  final Snap snap;
+  @override
+  State<AppDialog> createState() => _AppDialogState();
+}
+
+class _AppDialogState extends State<AppDialog> {
+  @override
+  void initState() {
+    context.read<SnapModel>().init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final model = context.watch<SnapModel>();
 
-    return AlertDialog(
-      contentPadding: EdgeInsets.only(bottom: 20),
-      titlePadding: EdgeInsets.zero,
-      title: _Title(
-        snap: snap,
-      ),
-      content: _Content(
-        snap: snap,
-      ),
-      actions: [
-        FutureBuilder<Snap>(
-          future: model.findSnapByName(snap.name),
-          builder: (context, snapshot) => snapshot.hasData &&
-                  snapshot.data!.channels.isNotEmpty &&
-                  snapshot.data!.channels.entries.isNotEmpty &&
-                  model.currentSnapChannel.isNotEmpty
-              ? DropdownButton<String>(
-                  borderRadius: BorderRadius.circular(10),
-                  elevation: 1,
-                  value: model.currentSnapChannel,
+    return model.snap != null
+        ? AlertDialog(
+            contentPadding: EdgeInsets.only(bottom: 20),
+            titlePadding: EdgeInsets.zero,
+            title: _Title(
+              snap: model.snap!,
+            ),
+            content: _Content(
+              snap: model.snap!,
+            ),
+            actions: [
+              if (model.channels.isNotEmpty &&
+                  model.channelToBeInstalled.isNotEmpty)
+                DropdownButton<String>(
+                  value: model.channelToBeInstalled,
                   items: [
-                    for (final channel in snapshot.data!.channels.entries)
+                    for (final entry in model.channels.entries)
                       DropdownMenuItem<String>(
-                        child: Text(channel.key),
-                        value: !channel.key.contains('latest/') &&
-                                !channel.key.contains('insiders/')
-                            ? 'latest/${channel.key}'
-                            : channel.key,
-                      ),
+                          child: Text('${entry.key} ${entry.value.version}'),
+                          value: entry.key),
                   ],
-                  onChanged: (v) {
-                    model.currentSnapChannel = v!;
-                  },
+                  onChanged: model.appChangeInProgress
+                      ? null
+                      : (v) => model.channelToBeInstalled = v!,
+                ),
+              if (model.snapIsInstalled) _RemoveButton(snap: model.snap!),
+              if (model.snapIsInstalled) _RefreshButton(snap: model.snap!),
+              if (!model.snapIsInstalled) _InstallButton(snap: model.snap!),
+              if (model.appChangeInProgress)
+                SizedBox(
+                  height: 25,
+                  child: YaruCircularProgressIndicator(
+                    strokeWidth: 3,
+                  ),
                 )
-              : SizedBox(),
-        ),
-        FutureBuilder<bool>(
-          future: model.snapIsIstalled(snap),
-          builder: (context, snapshot) => snapshot.hasData && snapshot.data!
-              ? ChangeNotifierProvider.value(
-                  value: model,
-                  child: _RemoveButton(snap: snap),
-                )
-              : SizedBox(),
-        ),
-        FutureBuilder<bool>(
-          future: model.snapIsIstalled(snap),
-          builder: (context, snapshot) => snapshot.hasData && snapshot.data!
-              ? ChangeNotifierProvider.value(
-                  value: model,
-                  child: _RefreshButton(snap: snap),
-                )
-              : SizedBox(),
-        ),
-        FutureBuilder<bool>(
-          future: model.snapIsIstalled(snap),
-          builder: (context, snapshot) => snapshot.hasData && !snapshot.data!
-              ? ChangeNotifierProvider.value(
-                  value: model,
-                  child: _InstallButton(snap: snap),
-                )
-              : SizedBox(),
-        ),
-      ],
-    );
+            ],
+          )
+        : AlertDialog(
+            content: Center(
+              child: YaruCircularProgressIndicator(),
+            ),
+          );
   }
 }
 
@@ -90,31 +78,18 @@ class _RemoveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final model = context.watch<SnapModel>();
 
     return OutlinedButton(
       onPressed: model.appChangeInProgress
           ? null
           : () => model.unInstallSnap(SnapApp(snap.name, snap.name)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Remove',
-            style: TextStyle(color: Theme.of(context).errorColor),
-          ),
-          if (model.appChangeInProgress)
-            SizedBox(
-              height: 15,
-              child: YaruCircularProgressIndicator(
-                strokeWidth: 2,
-                color: model.appChangeInProgress
-                    ? Theme.of(context).disabledColor
-                    : Colors.white,
-              ),
-            )
-        ],
+      child: Text(
+        'Remove',
+        style: TextStyle(
+            color: model.appChangeInProgress
+                ? Theme.of(context).disabledColor
+                : Theme.of(context).errorColor),
       ),
     );
   }
@@ -127,29 +102,13 @@ class _InstallButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final model = context.watch<SnapModel>();
 
     return ElevatedButton(
       onPressed: model.appChangeInProgress
           ? null
-          : () => model.installSnap(snap, model.currentSnapChannel),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('Install'),
-          if (model.appChangeInProgress)
-            SizedBox(
-              height: 15,
-              child: YaruCircularProgressIndicator(
-                strokeWidth: 2,
-                color: model.appChangeInProgress
-                    ? Theme.of(context).disabledColor
-                    : Colors.white,
-              ),
-            )
-        ],
-      ),
+          : () => model.installSnap(snap, model.channel),
+      child: Text('Install'),
     );
   }
 }
@@ -161,29 +120,13 @@ class _RefreshButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final model = context.watch<SnapModel>();
 
     return OutlinedButton(
       onPressed: model.appChangeInProgress
           ? null
-          : () => model.refreshSnapApp(snap, model.currentSnapChannel),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('Refresh'),
-          if (model.appChangeInProgress)
-            SizedBox(
-              height: 15,
-              child: YaruCircularProgressIndicator(
-                strokeWidth: 2,
-                color: model.appChangeInProgress
-                    ? Theme.of(context).disabledColor
-                    : Colors.white,
-              ),
-            )
-        ],
-      ),
+          : () => model.refreshSnapApp(snap, model.channelToBeInstalled),
+      child: Text('Refresh'),
     );
   }
 }
@@ -258,6 +201,10 @@ class _Content extends StatelessWidget {
     final media = snap.media
         .where((snapMedia) => snapMedia.type == 'screenshot')
         .toList();
+    final model = context.watch<SnapModel>();
+    final version = model.channels[model.channelToBeInstalled] != null
+        ? model.channels[model.channelToBeInstalled]!.version
+        : '';
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -312,6 +259,25 @@ class _Content extends StatelessWidget {
                 ),
               ),
             ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: SizedBox(
+              width: width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Version:'),
+                  Text(
+                    version,
+                    style: TextStyle(
+                        color: model.version == version
+                            ? Theme.of(context).colorScheme.onSurface
+                            : Theme.of(context).primaryColor),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: SizedBox(
