@@ -47,9 +47,9 @@ class _AppDialogState extends State<AppDialog> {
                           child: Text('${entry.key} ${entry.value.version}'),
                           value: entry.key),
                   ],
-                  onChanged: (v) {
-                    model.channelToBeInstalled = v!;
-                  },
+                  onChanged: model.appChangeInProgress
+                      ? null
+                      : (v) => model.channelToBeInstalled = v!,
                 ),
               if (model.snapIsInstalled) _RemoveButton(snap: model.snap!),
               if (model.snapIsInstalled) _RefreshButton(snap: model.snap!),
