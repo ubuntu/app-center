@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/apps_model.dart';
+import 'package:software/pages/common/snap_model.dart';
 import 'package:software/pages/explore/app_dialog.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -63,39 +64,41 @@ class __SnapUpdatesPageState extends State<_SnapUpdatesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final appsModel = context.watch<AppsModel>();
 
     return Center(
-      child: model.snapAppToSnapMap.isEmpty
+      child: appsModel.snapAppToSnapMap.isEmpty
           ? YaruCircularProgressIndicator()
           : Padding(
               padding: const EdgeInsets.only(top: 20),
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: model.snapAppToSnapMap.length,
-                itemBuilder: (context, index) => ListTile(
-                  onTap: () {
-                    model.currentSnapChannel = model.snapAppToSnapMap.entries
-                        .elementAt(index)
-                        .value
-                        .channel;
-                    showDialog(
-                        context: context,
-                        builder: (context) => ChangeNotifierProvider.value(
-                              value: model,
-                              child: AppDialog(
-                                  snap: model.snapAppToSnapMap.entries
-                                      .elementAt(index)
-                                      .value),
-                            ));
-                  },
-                  leading: Icon(YaruIcons.package_snap),
-                  title: Text(model.snapAppToSnapMap.entries
-                          .elementAt(index)
-                          .key
-                          .snap ??
-                      ''),
-                ),
+                itemCount: appsModel.snapAppToSnapMap.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            final client = context.read<SnapdClient>();
+
+                            return ChangeNotifierProvider(
+                                create: (context) => SnapModel(
+                                    client: client,
+                                    huskSnap: appsModel.snapAppToSnapMap.entries
+                                        .elementAt(index)
+                                        .value),
+                                child: AppDialog());
+                          });
+                    },
+                    leading: Icon(YaruIcons.package_snap),
+                    title: Text(appsModel.snapAppToSnapMap.entries
+                            .elementAt(index)
+                            .key
+                            .snap ??
+                        ''),
+                  );
+                },
               ),
             ),
     );
