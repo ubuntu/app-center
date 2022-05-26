@@ -189,6 +189,7 @@ class SnapModel extends SafeChangeNotifier {
       final change = await client.getChange(id);
       if (change.ready) {
         appChangeInProgress = false;
+        channelToBeInstalled = snapChannel;
         break;
       }
 

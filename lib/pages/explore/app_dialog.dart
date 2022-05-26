@@ -201,6 +201,10 @@ class _Content extends StatelessWidget {
     final media = snap.media
         .where((snapMedia) => snapMedia.type == 'screenshot')
         .toList();
+    final model = context.watch<SnapModel>();
+    final version = model.channels[model.channelToBeInstalled] != null
+        ? model.channels[model.channelToBeInstalled]!.version
+        : '';
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -263,7 +267,13 @@ class _Content extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Version:'),
-                  Text(snap.version),
+                  Text(
+                    version,
+                    style: TextStyle(
+                        color: model.version == version
+                            ? Theme.of(context).colorScheme.onSurface
+                            : Theme.of(context).primaryColor),
+                  ),
                 ],
               ),
             ),
