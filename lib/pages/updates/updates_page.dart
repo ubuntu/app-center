@@ -75,6 +75,10 @@ class __SnapUpdatesPageState extends State<_SnapUpdatesPage> {
                 shrinkWrap: true,
                 itemCount: appsModel.snapAppToSnapMap.length,
                 itemBuilder: (context, index) {
+                  final huskSnapName = appsModel.snapAppToSnapMap.entries
+                      .elementAt(index)
+                      .value
+                      .name;
                   return ListTile(
                     onTap: () {
                       showDialog(
@@ -84,10 +88,7 @@ class __SnapUpdatesPageState extends State<_SnapUpdatesPage> {
 
                             return ChangeNotifierProvider(
                                 create: (context) => SnapModel(
-                                    client: client,
-                                    huskSnap: appsModel.snapAppToSnapMap.entries
-                                        .elementAt(index)
-                                        .value),
+                                    client: client, huskSnapName: huskSnapName),
                                 child: AppDialog());
                           });
                     },

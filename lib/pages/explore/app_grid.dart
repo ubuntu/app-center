@@ -64,8 +64,8 @@ class AppGrid extends StatelessWidget {
                                 context: context,
                                 builder: (context) =>
                                     ChangeNotifierProvider<SnapModel>(
-                                  create: (context) =>
-                                      SnapModel(client: client, huskSnap: snap),
+                                  create: (context) => SnapModel(
+                                      client: client, huskSnapName: snap.name),
                                   child: AppDialog(),
                                 ),
                               );

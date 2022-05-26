@@ -38,23 +38,17 @@ class _AppDialogState extends State<AppDialog> {
             ),
             actions: [
               // DropdownButton<String>(
-              //           borderRadius: BorderRadius.circular(10),
-              //           elevation: 1,
-              //           value: model.channel,
-              //           items: [
-              //             for (final channel in model.channels.entries)
-              //               DropdownMenuItem<String>(
-              //                 child: Text('${channel.key} ${channel.value.version}'),
-              //                 value: !channel.key.contains('latest/') &&
-              //                         !channel.key.contains('insiders/')
-              //                     ? 'latest/${channel.key}'
-              //                     : channel.key,
-              //               ),
-              //           ],
-              //           onChanged: (v) {
-              //             // model.currentSnapChannel = v!;
-              //           },
-              //         ),
+              //   value: '${model.tracks.first}/${model.channel}',
+              //   items: [
+              //     for (final track in model.tracks)
+              //       DropdownMenuItem<String>(
+              //           child: Text(track),
+              //           value: '${model.tracks}/${model.channel}'),
+              //   ],
+              //   onChanged: (v) {
+              //     // model.currentSnapChannel = v!;
+              //   },
+              // ),
               if (model.snapIsInstalled) _RemoveButton(snap: model.snap!),
               if (model.snapIsInstalled) _RefreshButton(snap: model.snap!),
               if (!model.snapIsInstalled) _InstallButton(snap: model.snap!),

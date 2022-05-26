@@ -223,8 +223,8 @@ class _AppBannerCarousel extends StatelessWidget {
                           builder: (context) => ChangeNotifierProvider.value(
                             value: model,
                             child: ChangeNotifierProvider<SnapModel>(
-                              create: (context) =>
-                                  SnapModel(client: client, huskSnap: snap),
+                              create: (context) => SnapModel(
+                                  client: client, huskSnapName: snap.name),
                               child: AppDialog(),
                             ),
                           ),
@@ -315,8 +315,8 @@ class _ExploreGridState extends State<_ExploreGrid> {
                           builder: (context) => ChangeNotifierProvider.value(
                             value: model,
                             child: ChangeNotifierProvider<SnapModel>(
-                              create: (context) =>
-                                  SnapModel(client: client, huskSnap: snap),
+                              create: (context) => SnapModel(
+                                  client: client, huskSnapName: snap.name),
                               child: AppDialog(),
                             ),
                           ),

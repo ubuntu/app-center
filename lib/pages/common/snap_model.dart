@@ -3,7 +3,7 @@ import 'package:snapd/snapd.dart';
 
 class SnapModel extends SafeChangeNotifier {
   final SnapdClient client;
-  final Snap huskSnap;
+  final String huskSnapName;
   Snap? snap;
 
   /// Apps this snap provides.
@@ -90,13 +90,13 @@ class SnapModel extends SafeChangeNotifier {
 
   SnapModel({
     required this.client,
-    required this.huskSnap,
+    required this.huskSnapName,
   })  : _appChangeInProgress = false,
         _snapIsInstalled = false;
 
   Future<void> init() async {
-    snapIsInstalled = await _checkIfSnapIsInstalled(huskSnap);
-    snap = await findSnapByName(huskSnap.name);
+    snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
+    snap = await findSnapByName(huskSnapName);
 
     if (snap != null) {
       apps = snap!.apps;
@@ -197,10 +197,10 @@ class SnapModel extends SafeChangeNotifier {
     return await client.apps();
   }
 
-  Future<bool> _checkIfSnapIsInstalled(Snap snap) async {
+  Future<bool> _checkIfSnapIsInstalled(String snap) async {
     final installedSnapApps = await snapApps;
     for (var snapApp in installedSnapApps) {
-      if (snap.name == snapApp.snap) return true;
+      if (snap == snapApp.snap) return true;
     }
     return false;
   }
