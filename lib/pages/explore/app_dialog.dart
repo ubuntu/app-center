@@ -176,15 +176,21 @@ class _Title extends StatelessWidget {
   }
 }
 
-class _Content extends StatelessWidget {
+class _Content extends StatefulWidget {
   const _Content({Key? key, required this.snap}) : super(key: key);
 
   final Snap snap;
 
   @override
+  State<_Content> createState() => _ContentState();
+}
+
+class _ContentState extends State<_Content> {
+  bool infoExpanded = false;
+  @override
   Widget build(BuildContext context) {
-    final width = 350.0;
-    final media = snap.media
+    final width = 445.0;
+    final media = widget.snap.media
         .where((snapMedia) => snapMedia.type == 'screenshot')
         .toList();
     final model = context.watch<SnapModel>();
@@ -225,50 +231,7 @@ class _Content extends StatelessWidget {
                 ],
               ),
             ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: SizedBox(
-              width: width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Version:'),
-                  if (model.channels.isNotEmpty &&
-                      model.channelToBeInstalled.isNotEmpty)
-                    DropdownButton<String>(
-                      borderRadius: BorderRadius.circular(10),
-                      elevation: 1,
-                      value: model.channelToBeInstalled,
-                      items: [
-                        for (final entry in model.channels.entries)
-                          DropdownMenuItem<String>(
-                              child: SizedBox(
-                                width: 200,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(
-                                        width: 100,
-                                        child: Text('${entry.key}')),
-                                    Expanded(
-                                        child: Text(
-                                      '${entry.value.version}',
-                                      overflow: TextOverflow.ellipsis,
-                                    ))
-                                  ],
-                                ),
-                              ),
-                              value: entry.key),
-                      ],
-                      onChanged: model.appChangeInProgress
-                          ? null
-                          : (v) => model.channelToBeInstalled = v!,
-                    ),
-                ],
-              ),
-            ),
-          ),
-          if (snap.license != null)
+          if (widget.snap.license != null)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: SizedBox(
@@ -278,7 +241,7 @@ class _Content extends StatelessWidget {
                   children: [
                     Text('License:'),
                     Text(
-                      snap.license!.split(' ').first,
+                      widget.snap.license!.split(' ').first,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -297,7 +260,7 @@ class _Content extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Icon(
-                        snap.confinement == SnapConfinement.strict
+                        widget.snap.confinement == SnapConfinement.strict
                             ? YaruIcons.shield
                             : YaruIcons.warning,
                         size: 18,
@@ -305,14 +268,14 @@ class _Content extends StatelessWidget {
                       const SizedBox(
                         width: 5,
                       ),
-                      Text(snap.confinement.name),
+                      Text(widget.snap.confinement.name),
                     ],
                   )
                 ],
               ),
             ),
           ),
-          if (snap.contact != null && snap.publisher != null)
+          if (widget.snap.contact != null && widget.snap.publisher != null)
             SizedBox(
               width: width,
               child: Padding(
@@ -323,15 +286,15 @@ class _Content extends StatelessWidget {
                     children: [
                       Text('Contact:'),
                       Link(
-                        url: snap.contact!,
-                        linkText: snap.publisher!.displayName,
+                        url: widget.snap.contact!,
+                        linkText: widget.snap.publisher!.displayName,
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-          if (snap.website != null)
+          if (widget.snap.website != null)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: SizedBox(
@@ -340,22 +303,84 @@ class _Content extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Website:'),
-                    Link(url: snap.website!, linkText: 'Link'),
+                    Link(url: widget.snap.website!, linkText: 'Link'),
                   ],
                 ),
               ),
             ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: SizedBox(
-              width: width,
-              child: Text(
-                snap.description,
-                style: Theme.of(context).textTheme.caption,
-                textAlign: TextAlign.left,
+          SizedBox(
+            width: width,
+            child: InkWell(
+              onTap: () => setState(() {
+                infoExpanded = !infoExpanded;
+              }),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Description'),
+                    Icon(infoExpanded ? YaruIcons.pan_up : YaruIcons.pan_down)
+                  ],
+                ),
               ),
             ),
-          )
+          ),
+          if (infoExpanded)
+            SizedBox(
+              width: width,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  widget.snap.description,
+                  style: Theme.of(context).textTheme.caption,
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ),
+          if (model.channels.isNotEmpty &&
+              model.channelToBeInstalled.isNotEmpty)
+            SizedBox(
+              width: width,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: DropdownButton<String>(
+                      icon: Icon(YaruIcons.pan_down),
+                      borderRadius: BorderRadius.circular(10),
+                      elevation: 1,
+                      value: model.channelToBeInstalled,
+                      isExpanded: true,
+                      items: [
+                        for (final entry in model.channels.entries)
+                          DropdownMenuItem<String>(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    '${entry.key}: ',
+                                    overflow: TextOverflow.ellipsis,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  Text(
+                                    '${entry.value.version}',
+                                    overflow: TextOverflow.ellipsis,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  )
+                                ],
+                              ),
+                              value: entry.key),
+                      ],
+                      onChanged: model.appChangeInProgress
+                          ? null
+                          : (v) => model.channelToBeInstalled = v!,
+                    ),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );

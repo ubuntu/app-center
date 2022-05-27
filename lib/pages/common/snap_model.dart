@@ -130,7 +130,9 @@ class SnapModel extends SafeChangeNotifier {
       type = snap!.type;
       version = snap!.version;
       website = snap!.website;
-      _channelToBeInstalled = '${tracks.first}/$channel';
+      _channelToBeInstalled = snapIsInstalled
+          ? '${tracks.first}/$channel'
+          : channels.entries.first.key;
     }
     notifyListeners();
   }
