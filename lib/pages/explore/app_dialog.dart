@@ -352,13 +352,8 @@ class _Content extends StatelessWidget {
             ),
           SizedBox(
             width: width + 16,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: ExpandableText(
-                  text: snap.description,
-                  maxLines: 2,
-                  headerText: 'Description'),
-            ),
+            child: ExpandableText(
+                text: snap.description, maxLines: 1, headerText: 'Description'),
           ),
           SizedBox(
             height: 10,
