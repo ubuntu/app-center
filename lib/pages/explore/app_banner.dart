@@ -131,7 +131,7 @@ class _Card extends StatelessWidget {
         alignment: Alignment.center,
         child: ListTile(
           mouseCursor: SystemMouseCursors.click,
-          subtitle: Text(summary, overflow: TextOverflow.ellipsis),
+          subtitle: Text(summary, overflow: TextOverflow.visible),
           title: Text(
             title,
             style: const TextStyle(fontSize: 20),
