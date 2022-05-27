@@ -20,11 +20,18 @@ class AppBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderRadius = BorderRadius.circular(10);
     int? iconIndex;
+
+    Widget image = _FallbackIcon();
     for (var i = 0; i < snap.media.length; i++) {
       if (snap.media[i].type == 'icon') {
         iconIndex = i;
+        image = Image.network(
+          snap.media[i].url,
+          filterQuality: FilterQuality.medium,
+          fit: BoxFit.fitHeight,
+        );
+        break;
       }
-      break;
     }
 
     bool light = Theme.of(context).brightness == Brightness.light;
@@ -37,16 +44,13 @@ class AppBanner extends StatelessWidget {
               future:
                   getSurfaceTintColor(NetworkImage(snap.media[iconIndex].url)),
               builder: (context, snapshot) => _Card(
-                  borderRadius: borderRadius,
-                  color: snapshot.data ?? Colors.transparent,
-                  title: snap.title,
-                  summary: snap.summary,
-                  elevation: 4,
-                  icon: Image.network(
-                    snap.media[iconIndex!].url,
-                    fit: BoxFit.fitHeight,
-                    filterQuality: FilterQuality.medium,
-                  )),
+                borderRadius: borderRadius,
+                color: snapshot.data ?? Colors.transparent,
+                title: snap.title,
+                summary: snap.summary,
+                elevation: 4,
+                icon: image,
+              ),
             )
           : _Card(
               borderRadius: borderRadius,
@@ -54,13 +58,7 @@ class AppBanner extends StatelessWidget {
                   ? YaruColors.warmGrey.shade900
                   : Theme.of(context).colorScheme.onBackground,
               elevation: light ? 2 : 1,
-              icon: iconIndex != null
-                  ? Image.network(
-                      snap.media[iconIndex].url,
-                      fit: BoxFit.fitHeight,
-                      filterQuality: FilterQuality.medium,
-                    )
-                  : _FallbackIcon(),
+              icon: image,
               title: snap.title,
               summary: snap.summary,
             ),

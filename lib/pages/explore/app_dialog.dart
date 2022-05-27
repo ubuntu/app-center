@@ -45,7 +45,7 @@ class _AppDialogState extends State<AppDialog> {
               if (model.channels.isNotEmpty &&
                   model.channelToBeInstalled.isNotEmpty)
                 SizedBox(
-                  width: 200,
+                  width: 180,
                   child: DropdownButton<String>(
                     icon: Icon(YaruIcons.pan_down),
                     borderRadius: BorderRadius.circular(10),
@@ -57,6 +57,7 @@ class _AppDialogState extends State<AppDialog> {
                         DropdownMenuItem<String>(
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: Text(
@@ -66,13 +67,13 @@ class _AppDialogState extends State<AppDialog> {
                                         Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    '${entry.value.version}',
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  '${entry.value.version}',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                 )
                               ],
                             ),
@@ -107,7 +108,8 @@ class _AppDialogState extends State<AppDialog> {
             ],
           )
         : AlertDialog(
-            content: Center(
+            content: Padding(
+              padding: const EdgeInsets.all(20.0),
               child: YaruCircularProgressIndicator(),
             ),
           );
