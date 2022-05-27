@@ -215,21 +215,16 @@ class _AppBannerCarousel extends StatelessWidget {
                   .map(
                     (snap) => AppBanner(
                       snap: snap,
-                      onTap: () {
-                        final client = context.read<SnapdClient>();
-                        showDialog(
-                          barrierColor: Colors.black.withOpacity(0.9),
-                          context: context,
-                          builder: (context) => ChangeNotifierProvider.value(
-                            value: model,
-                            child: ChangeNotifierProvider<SnapModel>(
-                              create: (context) => SnapModel(
-                                  client: client, huskSnapName: snap.name),
-                              child: AppDialog(),
-                            ),
-                          ),
-                        );
-                      },
+                      onTap: () => showDialog(
+                        barrierColor: Colors.black.withOpacity(0.9),
+                        context: context,
+                        builder: (context) => ChangeNotifierProvider<SnapModel>(
+                          create: (context) => SnapModel(
+                              client: context.read<SnapdClient>(),
+                              huskSnapName: snap.name),
+                          child: AppDialog(),
+                        ),
+                      ),
                     ),
                   )
                   .toList(),
@@ -307,21 +302,16 @@ class _ExploreGridState extends State<_ExploreGrid> {
                 .map((snap) => AppBanner(
                       surfaceTint: false,
                       snap: snap,
-                      onTap: () {
-                        final client = context.read<SnapdClient>();
-                        showDialog(
-                          barrierColor: Colors.black.withOpacity(0.9),
-                          context: context,
-                          builder: (context) => ChangeNotifierProvider.value(
-                            value: model,
-                            child: ChangeNotifierProvider<SnapModel>(
-                              create: (context) => SnapModel(
-                                  client: client, huskSnapName: snap.name),
-                              child: AppDialog(),
-                            ),
-                          ),
-                        );
-                      },
+                      onTap: () => showDialog(
+                        barrierColor: Colors.black.withOpacity(0.9),
+                        context: context,
+                        builder: (context) => ChangeNotifierProvider<SnapModel>(
+                          create: (context) => SnapModel(
+                              client: context.read<SnapdClient>(),
+                              huskSnapName: snap.name),
+                          child: AppDialog(),
+                        ),
+                      ),
                     ))
                 .toList(),
           )

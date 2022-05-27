@@ -57,19 +57,17 @@ class AppGrid extends StatelessWidget {
                         .map(
                           (snap) => AppCard(
                             snap: snap,
-                            onTap: () {
-                              final client = context.read<SnapdClient>();
-                              showDialog(
-                                barrierColor: Colors.black.withOpacity(0.9),
-                                context: context,
-                                builder: (context) =>
-                                    ChangeNotifierProvider<SnapModel>(
-                                  create: (context) => SnapModel(
-                                      client: client, huskSnapName: snap.name),
-                                  child: AppDialog(),
-                                ),
-                              );
-                            },
+                            onTap: () => showDialog(
+                              barrierColor: Colors.black.withOpacity(0.9),
+                              context: context,
+                              builder: (context) =>
+                                  ChangeNotifierProvider<SnapModel>(
+                                create: (context) => SnapModel(
+                                    client: context.read<SnapdClient>(),
+                                    huskSnapName: snap.name),
+                                child: AppDialog(),
+                              ),
+                            ),
                           ),
                         )
                         .toList(),
