@@ -28,7 +28,10 @@ class _AppDialogState extends State<AppDialog> {
 
     return model.snap != null
         ? AlertDialog(
-            contentPadding: EdgeInsets.only(bottom: 20),
+            actionsAlignment: MainAxisAlignment.end,
+            contentPadding: EdgeInsets.only(
+              bottom: 10,
+            ),
             titlePadding: EdgeInsets.zero,
             title: _Title(
               snap: model.snap!,
@@ -140,7 +143,7 @@ class _Title extends StatelessWidget {
     }
 
     return YaruDialogTitle(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       titleWidget: Row(
         children: [
           image,
@@ -189,7 +192,7 @@ class _ContentState extends State<_Content> {
   bool infoExpanded = false;
   @override
   Widget build(BuildContext context) {
-    final width = 445.0;
+    final width = 350.0;
     final media = widget.snap.media
         .where((snapMedia) => snapMedia.type == 'screenshot')
         .toList();
@@ -199,6 +202,10 @@ class _ContentState extends State<_Content> {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
+          Divider(),
+          SizedBox(
+            height: 10,
+          ),
           if (media.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
@@ -231,6 +238,7 @@ class _ContentState extends State<_Content> {
                 ],
               ),
             ),
+          if (media.isNotEmpty) Divider(),
           if (widget.snap.license != null)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -381,6 +389,10 @@ class _ContentState extends State<_Content> {
                 ],
               ),
             ),
+          SizedBox(
+            height: 10,
+          ),
+          Divider(),
         ],
       ),
     );
