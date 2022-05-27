@@ -117,7 +117,14 @@ class _SearchField extends StatefulWidget {
 }
 
 class _SearchFieldState extends State<_SearchField> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<AppsModel>();
@@ -154,6 +161,12 @@ class _FilterBar extends StatefulWidget {
 
 class _FilterBarState extends State<_FilterBar> {
   final ScrollController _controller = ScrollController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
