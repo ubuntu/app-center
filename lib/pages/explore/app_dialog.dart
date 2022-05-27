@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
@@ -28,7 +29,8 @@ class _AppDialogState extends State<AppDialog> {
 
     return model.snap != null
         ? AlertDialog(
-            actionsAlignment: MainAxisAlignment.end,
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actionsPadding: EdgeInsets.only(left: 20),
             contentPadding: EdgeInsets.only(
               bottom: 10,
             ),
@@ -40,15 +42,67 @@ class _AppDialogState extends State<AppDialog> {
               snap: model.snap!,
             ),
             actions: [
-              if (model.snapIsInstalled) _RemoveButton(snap: model.snap!),
-              if (model.snapIsInstalled) _RefreshButton(snap: model.snap!),
-              if (!model.snapIsInstalled) _InstallButton(snap: model.snap!),
+              if (model.channels.isNotEmpty &&
+                  model.channelToBeInstalled.isNotEmpty)
+                SizedBox(
+                  width: 200,
+                  child: DropdownButton<String>(
+                    icon: Icon(YaruIcons.pan_down),
+                    borderRadius: BorderRadius.circular(10),
+                    elevation: 1,
+                    value: model.channelToBeInstalled,
+                    isExpanded: true,
+                    items: [
+                      for (final entry in model.channels.entries)
+                        DropdownMenuItem<String>(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    '${entry.key}: ',
+                                    overflow: TextOverflow.ellipsis,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '${entry.value.version}',
+                                    overflow: TextOverflow.ellipsis,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                )
+                              ],
+                            ),
+                            value: entry.key),
+                    ],
+                    onChanged: model.appChangeInProgress
+                        ? null
+                        : (v) => model.channelToBeInstalled = v!,
+                  ),
+                ),
               if (model.appChangeInProgress)
                 SizedBox(
                   height: 25,
                   child: YaruCircularProgressIndicator(
                     strokeWidth: 3,
                   ),
+                ),
+              if (!model.appChangeInProgress)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (model.snapIsInstalled) _RemoveButton(snap: model.snap!),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    if (model.snapIsInstalled)
+                      _RefreshButton(snap: model.snap!),
+                    if (!model.snapIsInstalled)
+                      _InstallButton(snap: model.snap!),
+                  ],
                 )
             ],
           )
@@ -143,41 +197,80 @@ class _Title extends StatelessWidget {
     }
 
     return YaruDialogTitle(
-      mainAxisAlignment: MainAxisAlignment.start,
-      titleWidget: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      titleWidget: Column(
         children: [
-          image,
-          SizedBox(
-            width: 15,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+          Row(
             children: [
-              Text(
-                snap.title,
-                overflow: TextOverflow.ellipsis,
-              ),
+              image,
               SizedBox(
-                height: 5,
+                width: 15,
               ),
-              SizedBox(
-                width: 300,
-                child: Text(
-                  snap.summary,
-                  style: Theme.of(context).textTheme.caption,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 10,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    snap.title,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SizedBox(
+                    width: 300,
+                    child: Text(
+                      snap.summary,
+                      style: Theme.of(context).textTheme.caption,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 10,
+                    ),
+                  ),
+                ],
               ),
-              if (snap.license != null)
-                Text(
-                  snap.license!.split(' ').first,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.caption,
-                ),
             ],
           ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: [
+              Column(
+                children: [
+                  Text('Confinment:',
+                      style: Theme.of(context).textTheme.bodyMedium),
+                  Row(
+                    children: [
+                      Icon(
+                        snap.confinement == SnapConfinement.strict
+                            ? YaruIcons.shield
+                            : YaruIcons.warning,
+                        size: 18,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(snap.confinement.name,
+                          style: Theme.of(context).textTheme.bodyMedium),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 50, width: 30, child: VerticalDivider()),
+              if (snap.license != null)
+                Column(
+                  children: [
+                    Text('License:',
+                        style: Theme.of(context).textTheme.bodyMedium),
+                    Text(
+                      snap.license!.split(' ').first,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    )
+                  ],
+                )
+            ],
+          )
         ],
       ),
       closeIconData: YaruIcons.window_close,
@@ -185,24 +278,16 @@ class _Title extends StatelessWidget {
   }
 }
 
-class _Content extends StatefulWidget {
+class _Content extends StatelessWidget {
   const _Content({Key? key, required this.snap}) : super(key: key);
 
   final Snap snap;
-
-  @override
-  State<_Content> createState() => _ContentState();
-}
-
-class _ContentState extends State<_Content> {
-  bool infoExpanded = false;
   @override
   Widget build(BuildContext context) {
     final width = 350.0;
-    final media = widget.snap.media
+    final media = snap.media
         .where((snapMedia) => snapMedia.type == 'screenshot')
         .toList();
-    final model = context.watch<SnapModel>();
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -245,34 +330,7 @@ class _ContentState extends State<_Content> {
               ),
             ),
           if (media.isNotEmpty) Divider(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: SizedBox(
-              width: width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Confinement:'),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        widget.snap.confinement == SnapConfinement.strict
-                            ? YaruIcons.shield
-                            : YaruIcons.warning,
-                        size: 18,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(widget.snap.confinement.name),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-          if (widget.snap.contact != null && widget.snap.publisher != null)
+          if (snap.contact != null && snap.publisher != null)
             SizedBox(
               width: width,
               child: Padding(
@@ -281,12 +339,11 @@ class _ContentState extends State<_Content> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if (widget.snap.website != null)
-                        Link(url: widget.snap.website!, linkText: 'Website'),
+                      if (snap.website != null)
+                        Link(url: snap.website!, linkText: 'Website'),
                       Link(
-                        url: widget.snap.contact!,
-                        linkText:
-                            'Contact ' + widget.snap.publisher!.displayName,
+                        url: snap.contact!,
+                        linkText: 'Contact ' + snap.publisher!.displayName,
                       ),
                     ],
                   ),
@@ -295,77 +352,22 @@ class _ContentState extends State<_Content> {
             ),
           SizedBox(
             width: width,
-            child: InkWell(
-              onTap: () => setState(() {
-                infoExpanded = !infoExpanded;
-              }),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Description'),
-                    Icon(infoExpanded ? YaruIcons.pan_up : YaruIcons.pan_down)
-                  ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: ExpandablePanel(
+                header: Text('Summary'),
+                collapsed: Text(
+                  snap.description,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                expanded: Text(
+                  snap.description,
+                  softWrap: true,
                 ),
               ),
             ),
           ),
-          if (infoExpanded)
-            SizedBox(
-              width: width,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text(
-                  widget.snap.description,
-                  style: Theme.of(context).textTheme.caption,
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ),
-          if (model.channels.isNotEmpty &&
-              model.channelToBeInstalled.isNotEmpty)
-            SizedBox(
-              width: width,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: DropdownButton<String>(
-                      icon: Icon(YaruIcons.pan_down),
-                      borderRadius: BorderRadius.circular(10),
-                      elevation: 1,
-                      value: model.channelToBeInstalled,
-                      isExpanded: true,
-                      items: [
-                        for (final entry in model.channels.entries)
-                          DropdownMenuItem<String>(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '${entry.key}: ',
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                  Text(
-                                    '${entry.value.version}',
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  )
-                                ],
-                              ),
-                              value: entry.key),
-                      ],
-                      onChanged: model.appChangeInProgress
-                          ? null
-                          : (v) => model.channelToBeInstalled = v!,
-                    ),
-                  ),
-                ],
-              ),
-            ),
           SizedBox(
             height: 10,
           ),

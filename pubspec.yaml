@@ -10,6 +10,7 @@ environment:
   flutter: ">=3.0.0"
 
 dependencies:
+  expandable: ^5.0.1
   flutter:
     sdk: flutter
   flutter_localizations:
