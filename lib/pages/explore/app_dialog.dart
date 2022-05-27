@@ -169,7 +169,13 @@ class _Title extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 10,
                 ),
-              )
+              ),
+              if (snap.license != null)
+                Text(
+                  snap.license!.split(' ').first,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.caption,
+                ),
             ],
           ),
         ],
@@ -239,23 +245,6 @@ class _ContentState extends State<_Content> {
               ),
             ),
           if (media.isNotEmpty) Divider(),
-          if (widget.snap.license != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: SizedBox(
-                width: width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('License:'),
-                    Text(
-                      widget.snap.license!.split(' ').first,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: SizedBox(
@@ -292,27 +281,15 @@ class _ContentState extends State<_Content> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Contact:'),
+                      if (widget.snap.website != null)
+                        Link(url: widget.snap.website!, linkText: 'Website'),
                       Link(
                         url: widget.snap.contact!,
-                        linkText: widget.snap.publisher!.displayName,
+                        linkText:
+                            'Contact ' + widget.snap.publisher!.displayName,
                       ),
                     ],
                   ),
-                ),
-              ),
-            ),
-          if (widget.snap.website != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: SizedBox(
-                width: width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Website:'),
-                    Link(url: widget.snap.website!, linkText: 'Link'),
-                  ],
                 ),
               ),
             ),
