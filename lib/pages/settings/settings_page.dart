@@ -21,10 +21,10 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return YaruPage(children: [
       YaruRow(
-        trailingWidget: Text('Software'),
+        trailingWidget: const Text('Software'),
         actionWidget: TextButton(
             onPressed: () => showAboutDialog(context: context),
-            child: Text('Show About Dialog')),
+            child: const Text('Show About Dialog')),
         enabled: true,
         width: 500,
       )

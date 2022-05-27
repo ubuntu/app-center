@@ -40,14 +40,15 @@ class AppGrid extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             headline!,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
                     ),
                   GridView(
                     shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
                       crossAxisSpacing: 40,
                       mainAxisSpacing: 40,
                       maxCrossAxisExtent: 100,
@@ -65,7 +66,7 @@ class AppGrid extends StatelessWidget {
                                 create: (context) => SnapModel(
                                     client: context.read<SnapdClient>(),
                                     huskSnapName: snap.name),
-                                child: AppDialog(),
+                                child: const AppDialog(),
                               ),
                             ),
                           ),
@@ -75,9 +76,9 @@ class AppGrid extends StatelessWidget {
                 ],
               ),
             )
-          : Center(
+          : const Center(
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(20.0),
                 child: YaruCircularProgressIndicator(),
               ),
             ),

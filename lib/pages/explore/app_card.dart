@@ -10,7 +10,7 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget image = Icon(
+    Widget image = const Icon(
       YaruIcons.snapcraft,
       size: 50,
     );

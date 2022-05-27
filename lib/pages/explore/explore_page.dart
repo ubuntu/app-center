@@ -58,8 +58,8 @@ class ExplorePage extends StatelessWidget {
                     iconData: YaruIcons.format_unordered_list,
                   ),
                 if (!model.exploreMode || model.searchActive)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 10),
                     child: IntrinsicHeight(
                       child: SizedBox(
                         height: 40,
@@ -71,19 +71,21 @@ class ExplorePage extends StatelessWidget {
                     ),
                   ),
                 model.searchActive
-                    ? Expanded(child: _SearchField())
+                    ? const Expanded(child: _SearchField())
                     : Expanded(
-                        child: !model.exploreMode ? _FilterBar() : SizedBox()),
+                        child: !model.exploreMode
+                            ? const _FilterBar()
+                            : const SizedBox()),
               ],
             ),
           ),
         ),
         Expanded(
           child: YaruPage(
-            padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
             children: [
               if (width < 1000 && !model.searchActive && model.exploreMode)
-                _AppBannerCarousel(),
+                const _AppBannerCarousel(),
               if (model.searchActive)
                 AppGrid(
                   topPadding: 20,
@@ -95,12 +97,12 @@ class ExplorePage extends StatelessWidget {
                   if (model.filters.entries.elementAt(i).value == true)
                     AppGrid(
                       topPadding: i == 0 ? 20 : 40,
-                      name: model.filters.entries.elementAt(i).key.title(),
-                      headline: model.filters.entries.elementAt(i).key.title(),
+                      name: model.filters.entries.elementAt(i).key.name,
+                      headline: model.filters.entries.elementAt(i).key.name,
                       findByName: false,
                     ),
               if (!model.searchActive && model.exploreMode)
-                _ExploreGrid(snapSection: SnapSection.featured),
+                const _ExploreGrid(snapSection: SnapSection.featured),
             ],
           ),
         ),
@@ -143,9 +145,9 @@ class _SearchFieldState extends State<_SearchField> {
                     model.searchQuery = '';
                     _controller.text = '';
                   },
-                  icon: Icon(YaruIcons.edit_clear)),
+                  icon: const Icon(YaruIcons.edit_clear)),
           isDense: false,
-          border: UnderlineInputBorder(),
+          border: const UnderlineInputBorder(),
         ),
       ),
     );
@@ -188,7 +190,7 @@ class _FilterBarState extends State<_FilterBar> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: _FilterPill(
-                      tooltip: section.title(),
+                      tooltip: section.name,
                       onPressed: () => model.setFilter(snapSections: [section]),
                       selected: model.filters[section]!,
                       iconData: snapSectionToIcon[section]!),
@@ -220,7 +222,7 @@ class _AppBannerCarousel extends StatelessWidget {
             child: YaruCarousel(
               viewportFraction: 1,
               placeIndicator: false,
-              autoScrollDuration: Duration(seconds: 3),
+              autoScrollDuration: const Duration(seconds: 3),
               width: size.width,
               height: 178,
               autoScroll: true,
@@ -235,7 +237,7 @@ class _AppBannerCarousel extends StatelessWidget {
                           create: (context) => SnapModel(
                               client: context.read<SnapdClient>(),
                               huskSnapName: snap.name),
-                          child: AppDialog(),
+                          child: const AppDialog(),
                         ),
                       ),
                     ),
@@ -243,7 +245,7 @@ class _AppBannerCarousel extends StatelessWidget {
                   .toList(),
             ),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 }
 
@@ -253,7 +255,7 @@ class _FilterPill extends StatelessWidget {
   final Function()? onPressed;
   final String? tooltip;
 
-  _FilterPill({
+  const _FilterPill({
     Key? key,
     required this.selected,
     required this.iconData,
@@ -305,7 +307,7 @@ class _ExploreGridState extends State<_ExploreGrid> {
     return model.featuredSnaps.isNotEmpty
         ? GridView(
             shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               mainAxisExtent: 150,
               mainAxisSpacing: 20,
               crossAxisSpacing: 20,
@@ -322,12 +324,12 @@ class _ExploreGridState extends State<_ExploreGrid> {
                           create: (context) => SnapModel(
                               client: context.read<SnapdClient>(),
                               huskSnapName: snap.name),
-                          child: AppDialog(),
+                          child: const AppDialog(),
                         ),
                       ),
                     ))
                 .toList(),
           )
-        : YaruCircularProgressIndicator();
+        : const YaruCircularProgressIndicator();
   }
 }

@@ -36,7 +36,7 @@ class _ExpandableTextState extends State<ExpandableText> {
                 Icon(isExpanded ? YaruIcons.pan_up : YaruIcons.pan_down)
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             isExpanded
                 ? Text(widget.text)
                 : Text(

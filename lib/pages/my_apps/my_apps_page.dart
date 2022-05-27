@@ -52,7 +52,7 @@ class _MyAppsPageState extends State<MyAppsPage> {
                                 snapApp: snapApp,
                               ),
                             )
-                          : AlertDialog(
+                          : const AlertDialog(
                               content: Center(
                                 child: YaruCircularProgressIndicator(),
                               ),
@@ -60,13 +60,13 @@ class _MyAppsPageState extends State<MyAppsPage> {
                     ).then((value) => appsModel.loadSnapApps)
                   },
                   child: ListTile(
-                      leading: Icon(YaruIcons.package_snap),
+                      leading: const Icon(YaruIcons.package_snap),
                       title: Text(snapApp.name)),
                 ))
             .toList(),
       );
     }
-    return Center(
+    return const Center(
       child: YaruCircularProgressIndicator(),
     );
   }

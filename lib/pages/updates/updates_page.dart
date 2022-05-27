@@ -20,20 +20,20 @@ class UpdatesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruTabbedPage(tabIcons: [
+    return YaruTabbedPage(tabIcons: const [
       YaruIcons.package_snap,
       YaruIcons.package_deb,
       YaruIcons.chip
-    ], tabTitles: [
+    ], tabTitles: const [
       'Snaps',
       'Debs',
       'Firmware'
     ], views: [
       _SnapUpdatesPage.create(context),
-      Center(
+      const Center(
         child: Text('Debs'),
       ),
-      Center(
+      const Center(
         child: Text('Firmware'),
       )
     ]);
@@ -50,7 +50,7 @@ class _SnapUpdatesPage extends StatefulWidget {
     final client = context.read<SnapdClient>();
     return ChangeNotifierProvider(
       create: (_) => AppsModel(client),
-      child: _SnapUpdatesPage(),
+      child: const _SnapUpdatesPage(),
     );
   }
 }
@@ -68,7 +68,7 @@ class __SnapUpdatesPageState extends State<_SnapUpdatesPage> {
 
     return Center(
       child: appsModel.snapAppToSnapMap.isEmpty
-          ? YaruCircularProgressIndicator()
+          ? const YaruCircularProgressIndicator()
           : Padding(
               padding: const EdgeInsets.only(top: 20),
               child: ListView.builder(
@@ -89,10 +89,10 @@ class __SnapUpdatesPageState extends State<_SnapUpdatesPage> {
                             return ChangeNotifierProvider(
                                 create: (context) => SnapModel(
                                     client: client, huskSnapName: huskSnapName),
-                                child: AppDialog());
+                                child: const AppDialog());
                           });
                     },
-                    leading: Icon(YaruIcons.package_snap),
+                    leading: const Icon(YaruIcons.package_snap),
                     title: Text(appsModel.snapAppToSnapMap.entries
                             .elementAt(index)
                             .key

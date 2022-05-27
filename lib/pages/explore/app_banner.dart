@@ -21,7 +21,7 @@ class AppBanner extends StatelessWidget {
     final borderRadius = BorderRadius.circular(10);
     int? iconIndex;
 
-    Widget image = _FallbackIcon();
+    Widget image = const _FallbackIcon();
     for (var i = 0; i < snap.media.length; i++) {
       if (snap.media[i].type == 'icon') {
         iconIndex = i;
@@ -94,7 +94,7 @@ class _FallbackIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Icon(
+    return const Icon(
       YaruIcons.package_snap,
       size: 65,
     );
@@ -134,7 +134,7 @@ class _Card extends StatelessWidget {
           subtitle: Text(summary, overflow: TextOverflow.ellipsis),
           title: Text(
             title,
-            style: TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20),
           ),
           leading: SizedBox(
             width: 60,

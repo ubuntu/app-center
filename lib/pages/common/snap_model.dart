@@ -157,7 +157,7 @@ class SnapModel extends SafeChangeNotifier {
         break;
       }
       await Future.delayed(
-        Duration(milliseconds: 100),
+        const Duration(milliseconds: 100),
       );
     }
     appChangeInProgress = false;
@@ -177,7 +177,7 @@ class SnapModel extends SafeChangeNotifier {
       }
 
       await Future.delayed(
-        Duration(milliseconds: 100),
+        const Duration(milliseconds: 100),
       );
     }
     appChangeInProgress = false;
@@ -196,7 +196,7 @@ class SnapModel extends SafeChangeNotifier {
       }
 
       await Future.delayed(
-        Duration(milliseconds: 100),
+        const Duration(milliseconds: 100),
       );
     }
   }

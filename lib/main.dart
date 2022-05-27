@@ -19,12 +19,12 @@ void main() async {
         dispose: (_, client) => client.close(),
       ),
     ],
-    child: App(),
+    child: const App(),
   ));
 }
 
 class App extends StatelessWidget {
-  App({super.key});
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class App extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateTitle: (context) => context.l10n.appTitle,
       routes: {
-        Navigator.defaultRouteName: (context) => YaruTheme(
+        Navigator.defaultRouteName: (context) => const YaruTheme(
               child: Scaffold(
                 body: YaruCompactLayout(
                   pageItems: [

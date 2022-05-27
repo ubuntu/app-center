@@ -30,8 +30,8 @@ class _AppDialogState extends State<AppDialog> {
     return model.snap != null
         ? AlertDialog(
             actionsAlignment: MainAxisAlignment.spaceBetween,
-            actionsPadding: EdgeInsets.only(left: 20),
-            contentPadding: EdgeInsets.only(
+            actionsPadding: const EdgeInsets.only(left: 20),
+            contentPadding: const EdgeInsets.only(
               bottom: 10,
             ),
             titlePadding: EdgeInsets.zero,
@@ -47,7 +47,7 @@ class _AppDialogState extends State<AppDialog> {
                 SizedBox(
                   width: 180,
                   child: DropdownButton<String>(
-                    icon: Icon(YaruIcons.pan_down),
+                    icon: const Icon(YaruIcons.pan_down),
                     borderRadius: BorderRadius.circular(10),
                     elevation: 1,
                     value: model.channelToBeInstalled,
@@ -55,6 +55,7 @@ class _AppDialogState extends State<AppDialog> {
                     items: [
                       for (final entry in model.channels.entries)
                         DropdownMenuItem<String>(
+                            value: entry.key,
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,17 +68,16 @@ class _AppDialogState extends State<AppDialog> {
                                         Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Text(
-                                  '${entry.value.version}',
+                                  entry.value.version,
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 )
                               ],
-                            ),
-                            value: entry.key),
+                            )),
                     ],
                     onChanged: model.appChangeInProgress
                         ? null
@@ -85,7 +85,7 @@ class _AppDialogState extends State<AppDialog> {
                   ),
                 ),
               if (model.appChangeInProgress)
-                SizedBox(
+                const SizedBox(
                   height: 25,
                   child: YaruCircularProgressIndicator(
                     strokeWidth: 3,
@@ -96,7 +96,7 @@ class _AppDialogState extends State<AppDialog> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (model.snapIsInstalled) _RemoveButton(snap: model.snap!),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     if (model.snapIsInstalled)
@@ -107,9 +107,9 @@ class _AppDialogState extends State<AppDialog> {
                 )
             ],
           )
-        : AlertDialog(
+        : const AlertDialog(
             content: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(20.0),
               child: YaruCircularProgressIndicator(),
             ),
           );
@@ -153,7 +153,7 @@ class _InstallButton extends StatelessWidget {
       onPressed: model.appChangeInProgress
           ? null
           : () => model.installSnap(snap, model.channel),
-      child: Text('Install'),
+      child: const Text('Install'),
     );
   }
 }
@@ -171,7 +171,7 @@ class _RefreshButton extends StatelessWidget {
       onPressed: model.appChangeInProgress
           ? null
           : () => model.refreshSnapApp(snap, model.channelToBeInstalled),
-      child: Text('Refresh'),
+      child: const Text('Refresh'),
     );
   }
 }
@@ -183,7 +183,7 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget image = Icon(
+    Widget image = const Icon(
       YaruIcons.package_snap,
       size: 65,
     );
@@ -205,7 +205,7 @@ class _Title extends StatelessWidget {
           Row(
             children: [
               image,
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               SizedBox(
@@ -218,7 +218,7 @@ class _Title extends StatelessWidget {
                       snap.title,
                       overflow: TextOverflow.visible,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Text(
@@ -232,7 +232,7 @@ class _Title extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -258,7 +258,7 @@ class _Title extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 50, width: 30, child: VerticalDivider()),
+              const SizedBox(height: 50, width: 30, child: VerticalDivider()),
               if (snap.license != null)
                 Column(
                   children: [
@@ -286,7 +286,7 @@ class _Content extends StatelessWidget {
   final Snap snap;
   @override
   Widget build(BuildContext context) {
-    final width = 350.0;
+    const width = 350.0;
     final media = snap.media
         .where((snapMedia) => snapMedia.type == 'screenshot')
         .toList();
@@ -295,8 +295,8 @@ class _Content extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Divider(),
-          SizedBox(
+          const Divider(),
+          const SizedBox(
             height: 10,
           ),
           if (media.isNotEmpty)
@@ -331,7 +331,7 @@ class _Content extends StatelessWidget {
                 ],
               ),
             ),
-          if (media.isNotEmpty) Divider(),
+          if (media.isNotEmpty) const Divider(),
           if (snap.contact != null && snap.publisher != null)
             SizedBox(
               width: width,
@@ -345,7 +345,7 @@ class _Content extends StatelessWidget {
                         Link(url: snap.website!, linkText: 'Website'),
                       Link(
                         url: snap.contact!,
-                        linkText: 'Contact ' + snap.publisher!.displayName,
+                        linkText: 'Contact ${snap.publisher!.displayName}',
                       ),
                     ],
                   ),
@@ -357,10 +357,10 @@ class _Content extends StatelessWidget {
             child: ExpandableText(
                 text: snap.description, maxLines: 1, headerText: 'Description'),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          Divider(),
+          const Divider(),
         ],
       ),
     );
