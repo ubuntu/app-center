@@ -208,27 +208,27 @@ class _Title extends StatelessWidget {
               SizedBox(
                 width: 15,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    snap.title,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SizedBox(
-                    width: 300,
-                    child: Text(
+              SizedBox(
+                width: 300,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      snap.title,
+                      overflow: TextOverflow.visible,
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
                       snap.summary,
                       style: Theme.of(context).textTheme.caption,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 10,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
