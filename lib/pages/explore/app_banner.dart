@@ -40,17 +40,31 @@ class AppBanner extends StatelessWidget {
       onTap: onTap,
       borderRadius: borderRadius,
       child: iconIndex != null && surfaceTint
-          ? FutureBuilder<Color>(
-              future:
-                  getSurfaceTintColor(NetworkImage(snap.media[iconIndex].url)),
-              builder: (context, snapshot) => _Card(
-                borderRadius: borderRadius,
-                color: snapshot.data ?? Colors.transparent,
-                title: snap.title,
-                summary: snap.summary,
-                elevation: 4,
-                icon: image,
-              ),
+          ? Stack(
+              children: [
+                FutureBuilder<Color>(
+                  future: getSurfaceTintColor(
+                      NetworkImage(snap.media[iconIndex].url)),
+                  builder: (context, snapshot) => _Card(
+                    borderRadius: borderRadius,
+                    color: snapshot.data ?? Colors.transparent,
+                    title: snap.title,
+                    summary: snap.summary,
+                    elevation: 4,
+                    icon: image,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Opacity(
+                      opacity: 0.1,
+                      child: SizedBox(height: 130, child: image),
+                    ),
+                  ),
+                ),
+              ],
             )
           : _Card(
               borderRadius: borderRadius,
