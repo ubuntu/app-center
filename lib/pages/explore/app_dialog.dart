@@ -37,20 +37,6 @@ class _AppDialogState extends State<AppDialog> {
               snap: model.snap!,
             ),
             actions: [
-              if (model.channels.isNotEmpty &&
-                  model.channelToBeInstalled.isNotEmpty)
-                DropdownButton<String>(
-                  value: model.channelToBeInstalled,
-                  items: [
-                    for (final entry in model.channels.entries)
-                      DropdownMenuItem<String>(
-                          child: Text('${entry.key} ${entry.value.version}'),
-                          value: entry.key),
-                  ],
-                  onChanged: model.appChangeInProgress
-                      ? null
-                      : (v) => model.channelToBeInstalled = v!,
-                ),
               if (model.snapIsInstalled) _RemoveButton(snap: model.snap!),
               if (model.snapIsInstalled) _RefreshButton(snap: model.snap!),
               if (!model.snapIsInstalled) _InstallButton(snap: model.snap!),
@@ -202,9 +188,6 @@ class _Content extends StatelessWidget {
         .where((snapMedia) => snapMedia.type == 'screenshot')
         .toList();
     final model = context.watch<SnapModel>();
-    final version = model.channels[model.channelToBeInstalled] != null
-        ? model.channels[model.channelToBeInstalled]!.version
-        : '';
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -214,7 +197,7 @@ class _Content extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: YaruCarousel(
-                height: 300,
+                height: 250,
                 children: [
                   for (final image in media)
                     InkWell(
@@ -242,6 +225,49 @@ class _Content extends StatelessWidget {
                 ],
               ),
             ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: SizedBox(
+              width: width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Version:'),
+                  if (model.channels.isNotEmpty &&
+                      model.channelToBeInstalled.isNotEmpty)
+                    DropdownButton<String>(
+                      borderRadius: BorderRadius.circular(10),
+                      elevation: 1,
+                      value: model.channelToBeInstalled,
+                      items: [
+                        for (final entry in model.channels.entries)
+                          DropdownMenuItem<String>(
+                              child: SizedBox(
+                                width: 200,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                        width: 100,
+                                        child: Text('${entry.key}')),
+                                    Expanded(
+                                        child: Text(
+                                      '${entry.value.version}',
+                                      overflow: TextOverflow.ellipsis,
+                                    ))
+                                  ],
+                                ),
+                              ),
+                              value: entry.key),
+                      ],
+                      onChanged: model.appChangeInProgress
+                          ? null
+                          : (v) => model.channelToBeInstalled = v!,
+                    ),
+                ],
+              ),
+            ),
+          ),
           if (snap.license != null)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -259,25 +285,6 @@ class _Content extends StatelessWidget {
                 ),
               ),
             ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: SizedBox(
-              width: width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Version:'),
-                  Text(
-                    version,
-                    style: TextStyle(
-                        color: model.version == version
-                            ? Theme.of(context).colorScheme.onSurface
-                            : Theme.of(context).primaryColor),
-                  ),
-                ],
-              ),
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: SizedBox(
