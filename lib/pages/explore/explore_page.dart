@@ -8,6 +8,7 @@ import 'package:software/pages/explore/app_banner.dart';
 import 'package:software/pages/explore/app_dialog.dart';
 import 'package:software/pages/explore/app_grid.dart';
 import 'package:software/pages/common/snap_section.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -15,7 +16,7 @@ class ExplorePage extends StatelessWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
   static Widget create(BuildContext context) {
-    final client = context.read<SnapdClient>();
+    final client = getService<SnapdClient>();
     return ChangeNotifierProvider(
       create: (_) => AppsModel(client),
       child: const ExplorePage(),
@@ -229,7 +230,7 @@ class _AppBannerCarousel extends StatelessWidget {
                 (snap) {
                   final snapModel = SnapModel(
                       huskSnapName: snap.name,
-                      client: context.read<SnapdClient>());
+                      client: getService<SnapdClient>());
                   return ChangeNotifierProvider.value(
                     value: snapModel,
                     child: AppBanner(
@@ -317,7 +318,7 @@ class _ExploreGridState extends State<_ExploreGrid> {
             ),
             children: model.sectionNameToSnapsMap['featured']!.map((snap) {
               final snapModel = SnapModel(
-                  huskSnapName: snap.name, client: context.read<SnapdClient>());
+                  huskSnapName: snap.name, client: getService<SnapdClient>());
               return ChangeNotifierProvider<SnapModel>(
                 create: (context) => snapModel,
                 child: AppBanner(

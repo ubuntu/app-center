@@ -22,6 +22,7 @@ dependencies:
   safe_change_notifier: ^0.1.0+1
   snapd:
     git: https://github.com/canonical/snapd.dart
+  ubuntu_service: ^0.1.0
   url_launcher: ^6.1.2
   yaru: ^0.3.2
   yaru_colors: ^0.1.0
