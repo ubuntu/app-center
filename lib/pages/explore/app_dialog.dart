@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/pages/common/expandable_text.dart';
 import 'package:software/pages/common/link.dart';
 import 'package:software/pages/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -353,8 +352,19 @@ class _Content extends StatelessWidget {
             ),
           SizedBox(
             width: width + 16,
-            child: ExpandableText(
-                text: snap.description, maxLines: 1, headerText: 'Description'),
+            child: YaruExpandable(
+              header: const Text(
+                'Description',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              expandIcon: const Icon(YaruIcons.pan_end),
+              collapsedChild: Text(
+                snap.description,
+                maxLines: 3,
+                overflow: TextOverflow.fade,
+              ),
+              child: Text(snap.description),
+            ),
           ),
           const SizedBox(
             height: 10,
