@@ -213,4 +213,8 @@ class SnapModel extends SafeChangeNotifier {
     }
     return false;
   }
+
+  String get versionString => channels[channelToBeInstalled] != null
+      ? channels[channelToBeInstalled]!.version
+      : version;
 }

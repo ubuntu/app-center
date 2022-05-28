@@ -44,45 +44,25 @@ class _AppDialogState extends State<AppDialog> {
             actions: [
               if (model.channels.isNotEmpty &&
                   model.channelToBeInstalled.isNotEmpty)
-                SizedBox(
-                  width: 180,
-                  child: DropdownButton<String>(
-                    icon: const Icon(YaruIcons.pan_down),
-                    borderRadius: BorderRadius.circular(10),
-                    elevation: 1,
-                    value: model.channelToBeInstalled,
-                    isExpanded: true,
-                    items: [
-                      for (final entry in model.channels.entries)
-                        DropdownMenuItem<String>(
-                            value: entry.key,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    '${entry.key}: ',
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  entry.value.version,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                )
-                              ],
-                            )),
-                    ],
-                    onChanged: model.appChangeInProgress
-                        ? null
-                        : (v) => model.channelToBeInstalled = v!,
-                  ),
+                DropdownButton<String>(
+                  icon: const Icon(YaruIcons.pan_down),
+                  borderRadius: BorderRadius.circular(10),
+                  elevation: 1,
+                  value: model.channelToBeInstalled,
+                  items: [
+                    for (final entry in model.channels.entries)
+                      DropdownMenuItem<String>(
+                        value: entry.key,
+                        child: Text(
+                          entry.key,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                  ],
+                  onChanged: model.appChangeInProgress
+                      ? null
+                      : (v) => model.channelToBeInstalled = v!,
                 ),
               if (model.appChangeInProgress)
                 const SizedBox(
@@ -183,6 +163,7 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<SnapModel>();
     Widget image = const Icon(
       YaruIcons.package_snap,
       size: 65,
@@ -258,7 +239,8 @@ class _Title extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 50, width: 30, child: VerticalDivider()),
+              if (snap.license != null)
+                const SizedBox(height: 50, width: 30, child: VerticalDivider()),
               if (snap.license != null)
                 Column(
                   children: [
@@ -270,7 +252,22 @@ class _Title extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyMedium,
                     )
                   ],
-                )
+                ),
+              const SizedBox(height: 50, width: 30, child: VerticalDivider()),
+              Column(
+                children: [
+                  Text('Version:',
+                      style: Theme.of(context).textTheme.bodyMedium),
+                  Text(
+                    model.versionString,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: model.versionString != snap.version
+                            ? Theme.of(context).primaryColor
+                            : Theme.of(context).colorScheme.onSurface),
+                  )
+                ],
+              ),
             ],
           )
         ],
