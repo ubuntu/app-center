@@ -209,12 +209,12 @@ class _FilterBarState extends State<_FilterBar> {
 
 class _AppBannerCarousel extends StatelessWidget {
   const _AppBannerCarousel({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final model = context.watch<AppsModel>();
     final size = MediaQuery.of(context).size;
-    return model.featuredSnaps.isNotEmpty
+    return model.sectionNameToSnapsMap['featured'] != null &&
+            model.sectionNameToSnapsMap['featured']!.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.only(
               bottom: 20,
@@ -226,23 +226,25 @@ class _AppBannerCarousel extends StatelessWidget {
               width: size.width,
               height: 178,
               autoScroll: true,
-              children: model.featuredSnaps
-                  .map(
-                    (snap) => AppBanner(
+              children: model.sectionNameToSnapsMap['featured']!.map(
+                (snap) {
+                  final snapModel = SnapModel(
+                      huskSnapName: snap.name,
+                      client: context.read<SnapdClient>());
+                  return ChangeNotifierProvider.value(
+                    value: snapModel,
+                    child: AppBanner(
                       snap: snap,
                       onTap: () => showDialog(
                         barrierColor: Colors.black.withOpacity(0.9),
                         context: context,
-                        builder: (context) => ChangeNotifierProvider<SnapModel>(
-                          create: (context) => SnapModel(
-                              client: context.read<SnapdClient>(),
-                              huskSnapName: snap.name),
-                          child: const AppDialog(),
-                        ),
+                        builder: (context) => ChangeNotifierProvider.value(
+                            value: snapModel, child: const AppDialog()),
                       ),
                     ),
-                  )
-                  .toList(),
+                  );
+                },
+              ).toList(),
             ),
           )
         : const SizedBox();
@@ -297,14 +299,15 @@ class _ExploreGrid extends StatefulWidget {
 class _ExploreGridState extends State<_ExploreGrid> {
   @override
   void initState() {
-    context.read<AppsModel>().loadFeaturedSnaps();
+    context.read<AppsModel>().loadSection('featured');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<AppsModel>();
-    return model.featuredSnaps.isNotEmpty
+    return model.sectionNameToSnapsMap['featured'] != null &&
+            model.sectionNameToSnapsMap['featured']!.isNotEmpty
         ? GridView(
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -313,22 +316,23 @@ class _ExploreGridState extends State<_ExploreGrid> {
               crossAxisSpacing: 20,
               maxCrossAxisExtent: 500,
             ),
-            children: model.featuredSnaps
-                .map((snap) => AppBanner(
-                      surfaceTint: false,
-                      snap: snap,
-                      onTap: () => showDialog(
-                        barrierColor: Colors.black.withOpacity(0.9),
-                        context: context,
-                        builder: (context) => ChangeNotifierProvider<SnapModel>(
-                          create: (context) => SnapModel(
-                              client: context.read<SnapdClient>(),
-                              huskSnapName: snap.name),
-                          child: const AppDialog(),
-                        ),
-                      ),
-                    ))
-                .toList(),
+            children: model.sectionNameToSnapsMap['featured']!.map((snap) {
+              final snapModel = SnapModel(
+                  huskSnapName: snap.name, client: context.read<SnapdClient>());
+              return ChangeNotifierProvider<SnapModel>(
+                create: (context) => snapModel,
+                child: AppBanner(
+                  surfaceTint: false,
+                  snap: snap,
+                  onTap: () => showDialog(
+                    barrierColor: Colors.black.withOpacity(0.9),
+                    context: context,
+                    builder: (context) => ChangeNotifierProvider.value(
+                        value: snapModel, child: const AppDialog()),
+                  ),
+                ),
+              );
+            }).toList(),
           )
         : const YaruCircularProgressIndicator();
   }
