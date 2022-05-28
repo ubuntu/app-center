@@ -126,4 +126,6 @@ class AppsModel extends SafeChangeNotifier {
     sectionNameToSnapsMap.putIfAbsent(name, () => sectionList);
     notifyListeners();
   }
+
+  List<Snap> get featuredSnaps => sectionNameToSnapsMap['featured'] ?? [];
 }

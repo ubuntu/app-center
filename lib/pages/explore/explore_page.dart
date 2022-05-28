@@ -213,8 +213,7 @@ class _AppBannerCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<AppsModel>();
     final size = MediaQuery.of(context).size;
-    return model.sectionNameToSnapsMap['featured'] != null &&
-            model.sectionNameToSnapsMap['featured']!.isNotEmpty
+    return model.featuredSnaps.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.only(
               bottom: 20,
