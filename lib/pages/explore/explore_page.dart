@@ -90,7 +90,7 @@ class ExplorePage extends StatelessWidget {
                 AppGrid(
                   topPadding: 20,
                   name: model.searchQuery,
-                  findByName: true,
+                  findByQuery: true,
                 ),
               if (!model.searchActive && !model.exploreMode)
                 for (int i = 0; i < model.filters.entries.length; i++)
@@ -99,7 +99,7 @@ class ExplorePage extends StatelessWidget {
                       topPadding: i == 0 ? 20 : 40,
                       name: model.filters.entries.elementAt(i).key.title,
                       headline: model.filters.entries.elementAt(i).key.title,
-                      findByName: false,
+                      findByQuery: false,
                     ),
               if (!model.searchActive && model.exploreMode)
                 const _ExploreGrid(snapSection: SnapSection.featured),
