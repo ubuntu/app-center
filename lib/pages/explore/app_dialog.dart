@@ -20,8 +20,8 @@ class AppDialog extends StatefulWidget {
 class _AppDialogState extends State<AppDialog> {
   @override
   void initState() {
-    context.read<SnapModel>().init();
     super.initState();
+    context.read<SnapModel>().init();
   }
 
   @override

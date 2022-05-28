@@ -29,8 +29,8 @@ class MyAppsPage extends StatefulWidget {
 class _MyAppsPageState extends State<MyAppsPage> {
   @override
   void initState() {
-    context.read<AppsModel>().loadSnapApps();
     super.initState();
+    context.read<AppsModel>().loadSnapApps();
   }
 
   @override
