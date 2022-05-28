@@ -133,7 +133,7 @@ class _InstallButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: model.appChangeInProgress
           ? null
-          : () => model.installSnap(snap, model.channel),
+          : () => model.installSnap(snap, model.channelToBeInstalled),
       child: const Text('Install'),
     );
   }
