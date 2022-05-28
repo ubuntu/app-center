@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/pages/common/snap_model.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
-class AppBanner extends StatelessWidget {
+class AppBanner extends StatefulWidget {
   const AppBanner({
     Key? key,
     required this.snap,
@@ -17,42 +19,55 @@ class AppBanner extends StatelessWidget {
   final bool surfaceTint;
 
   @override
-  Widget build(BuildContext context) {
-    final borderRadius = BorderRadius.circular(10);
-    int? iconIndex;
+  State<AppBanner> createState() => _AppBannerState();
+}
 
-    Widget image = const _FallbackIcon();
-    for (var i = 0; i < snap.media.length; i++) {
-      if (snap.media[i].type == 'icon') {
+class _AppBannerState extends State<AppBanner> {
+  int? iconIndex;
+
+  Widget image = const _FallbackIcon();
+
+  @override
+  void initState() {
+    super.initState();
+    for (var i = 0; i < widget.snap.media.length; i++) {
+      if (widget.snap.media[i].type == 'icon') {
         iconIndex = i;
         image = Image.network(
-          snap.media[i].url,
+          widget.snap.media[i].url,
           filterQuality: FilterQuality.medium,
           fit: BoxFit.fitHeight,
         );
+
         break;
       }
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final borderRadius = BorderRadius.circular(10);
 
     bool light = Theme.of(context).brightness == Brightness.light;
-
+    final model = context.watch<SnapModel>();
+    if (iconIndex != null && widget.surfaceTint) {
+      context
+          .read<SnapModel>()
+          .getSurfaceTintColor(widget.snap.media[iconIndex!].url);
+    }
     return InkWell(
-      onTap: onTap,
+      onTap: widget.onTap,
       borderRadius: borderRadius,
-      child: iconIndex != null && surfaceTint
+      child: widget.surfaceTint
           ? Stack(
               children: [
-                FutureBuilder<Color>(
-                  future: getSurfaceTintColor(
-                      NetworkImage(snap.media[iconIndex].url)),
-                  builder: (context, snapshot) => _Card(
-                    borderRadius: borderRadius,
-                    color: snapshot.data ?? Colors.transparent,
-                    title: snap.title,
-                    summary: snap.summary,
-                    elevation: 4,
-                    icon: image,
-                  ),
+                _Card(
+                  borderRadius: borderRadius,
+                  color: model.surfaceTintColor,
+                  title: widget.snap.title,
+                  summary: widget.snap.summary,
+                  elevation: 4,
+                  icon: image,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
@@ -73,8 +88,8 @@ class AppBanner extends StatelessWidget {
                   : Theme.of(context).colorScheme.onBackground,
               elevation: light ? 2 : 1,
               icon: image,
-              title: snap.title,
-              summary: snap.summary,
+              title: widget.snap.title,
+              summary: widget.snap.summary,
             ),
     );
   }

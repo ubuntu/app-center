@@ -10,7 +10,6 @@ class AppsModel extends SafeChangeNotifier {
         _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
-        featuredSnaps = [],
         snapApps = [],
         sectionNameToSnapsMap = {};
 
@@ -118,14 +117,6 @@ class AppsModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  List<Snap> featuredSnaps;
-  Future<void> loadFeaturedSnaps() async {
-    for (final featuredSnap in await findSnapsBySection(section: 'featured')) {
-      featuredSnaps.add(featuredSnap);
-    }
-    notifyListeners();
-  }
-
   Map<String, List<Snap>> sectionNameToSnapsMap;
   Future<void> loadSection(String name) async {
     List<Snap> sectionList = [];
@@ -135,4 +126,6 @@ class AppsModel extends SafeChangeNotifier {
     sectionNameToSnapsMap.putIfAbsent(name, () => sectionList);
     notifyListeners();
   }
+
+  List<Snap> get featuredSnaps => sectionNameToSnapsMap['featured'] ?? [];
 }
