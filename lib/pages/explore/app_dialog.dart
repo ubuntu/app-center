@@ -301,6 +301,8 @@ class _Content extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: YaruCarousel(
+                nextIcon: const Icon(YaruIcons.go_next),
+                previousIcon: const Icon(YaruIcons.go_previous),
                 navigationControls: true,
                 viewportFraction: 1,
                 height: 250,
