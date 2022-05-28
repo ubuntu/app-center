@@ -301,6 +301,8 @@ class _Content extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: YaruCarousel(
+                navigationControls: true,
+                viewportFraction: 1,
                 height: 250,
                 children: [
                   for (final image in media)
