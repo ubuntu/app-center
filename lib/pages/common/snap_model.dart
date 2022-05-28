@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:palette_generator/palette_generator.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/snapx.dart';
+import 'package:software/services/color_generator.dart';
 
 class SnapModel extends SafeChangeNotifier {
   final SnapdClient client;
+  final ColorGenerator? colorGenerator;
   final String huskSnapName;
   Snap? snap;
 
@@ -100,11 +102,11 @@ class SnapModel extends SafeChangeNotifier {
 
   SnapModel({
     required this.client,
+    this.colorGenerator,
     required this.huskSnapName,
   })  : _appChangeInProgress = false,
         _snapIsInstalled = false,
-        _channelToBeInstalled = '',
-        _surfaceTintColor = Colors.transparent;
+        _channelToBeInstalled = '';
 
   Future<void> init() async {
     snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
@@ -221,14 +223,21 @@ class SnapModel extends SafeChangeNotifier {
       ? channels[channelToBeInstalled]!.version
       : version;
 
-  Color get surfaceTintColor => _surfaceTintColor;
-  Color _surfaceTintColor;
-  Future<void> getSurfaceTintColor(String url) async {
-    if (_surfaceTintColor != Colors.transparent) return;
-    final paletteGenerator = await PaletteGenerator.fromImageProvider(
-      NetworkImage(url),
-    );
-    _surfaceTintColor = paletteGenerator.paletteColors.first.color;
-    notifyListeners();
+  Color get surfaceTintColor {
+    if (_surfaceTintColor == null && colorGenerator != null) {
+      _generateSurfaceTintColor();
+    }
+    return _surfaceTintColor ?? Colors.transparent;
+  }
+
+  Color? _surfaceTintColor;
+
+  Future<void> _generateSurfaceTintColor() async {
+    final url = snap?.iconUrl;
+    final color = url != null ? await colorGenerator?.generateColor(url) : null;
+    if (_surfaceTintColor != color) {
+      _surfaceTintColor = color;
+      notifyListeners();
+    }
   }
 }
