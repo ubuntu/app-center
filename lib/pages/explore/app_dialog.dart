@@ -179,6 +179,13 @@ class _Title extends StatelessWidget {
       }
     }
 
+    final headerStyle = Theme.of(context).textTheme.bodyMedium != null
+        ? Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(fontWeight: FontWeight.w500)
+        : const TextStyle(fontWeight: FontWeight.w500);
+
     return YaruDialogTitle(
       mainAxisAlignment: MainAxisAlignment.center,
       titleWidget: Column(
@@ -220,8 +227,10 @@ class _Title extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Text('Confinment:',
-                      style: Theme.of(context).textTheme.bodyMedium),
+                  Text(
+                    'Confinment',
+                    style: headerStyle,
+                  ),
                   Row(
                     children: [
                       Icon(
@@ -244,8 +253,7 @@ class _Title extends StatelessWidget {
               if (snap.license != null)
                 Column(
                   children: [
-                    Text('License:',
-                        style: Theme.of(context).textTheme.bodyMedium),
+                    Text('License', style: headerStyle),
                     Text(
                       snap.license!.split(' ').first,
                       overflow: TextOverflow.ellipsis,
@@ -256,8 +264,7 @@ class _Title extends StatelessWidget {
               const SizedBox(height: 50, width: 30, child: VerticalDivider()),
               Column(
                 children: [
-                  Text('Version:',
-                      style: Theme.of(context).textTheme.bodyMedium),
+                  Text('Version', style: headerStyle),
                   Text(
                     model.versionString,
                     overflow: TextOverflow.ellipsis,
