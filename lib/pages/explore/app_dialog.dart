@@ -179,12 +179,7 @@ class _Title extends StatelessWidget {
       }
     }
 
-    final headerStyle = Theme.of(context).textTheme.bodyMedium != null
-        ? Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .copyWith(fontWeight: FontWeight.w500)
-        : const TextStyle(fontWeight: FontWeight.w500);
+    const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
     return YaruDialogTitle(
       mainAxisAlignment: MainAxisAlignment.center,
