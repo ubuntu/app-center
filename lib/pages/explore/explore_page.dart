@@ -226,7 +226,7 @@ class _AppBannerCarousel extends StatelessWidget {
               width: size.width,
               height: 178,
               autoScroll: true,
-              children: model.sectionNameToSnapsMap['featured']!.map(
+              children: model.featuredSnaps.map(
                 (snap) {
                   final snapModel = SnapModel(
                       huskSnapName: snap.name,
@@ -306,8 +306,7 @@ class _ExploreGridState extends State<_ExploreGrid> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<AppsModel>();
-    return model.sectionNameToSnapsMap['featured'] != null &&
-            model.sectionNameToSnapsMap['featured']!.isNotEmpty
+    return model.featuredSnaps.isNotEmpty
         ? GridView(
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -316,7 +315,7 @@ class _ExploreGridState extends State<_ExploreGrid> {
               crossAxisSpacing: 20,
               maxCrossAxisExtent: 500,
             ),
-            children: model.sectionNameToSnapsMap['featured']!.map((snap) {
+            children: model.featuredSnaps.map((snap) {
               final snapModel = SnapModel(
                   huskSnapName: snap.name, client: getService<SnapdClient>());
               return ChangeNotifierProvider<SnapModel>(
