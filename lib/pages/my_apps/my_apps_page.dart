@@ -4,6 +4,7 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/common/snap_model.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -11,7 +12,7 @@ class MyAppsPage extends StatefulWidget {
   const MyAppsPage({super.key});
 
   static Widget create(BuildContext context) {
-    final client = Provider.of<SnapdClient>(context, listen: false);
+    final client = getService<SnapdClient>();
     return ChangeNotifierProvider<AppsModel>(
       create: (_) => AppsModel(client),
       child: const MyAppsPage(),
@@ -46,7 +47,7 @@ class _MyAppsPageState extends State<MyAppsPage> {
                       builder: (context) => snapApp.snap != null
                           ? ChangeNotifierProvider(
                               create: (context) => SnapModel(
-                                  client: context.read<SnapdClient>(),
+                                  client: getService<SnapdClient>(),
                                   huskSnapName: snapApp.snap!),
                               child: MyAppsDialog(
                                 snapApp: snapApp,

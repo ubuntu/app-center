@@ -5,6 +5,7 @@ import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/common/snap_model.dart';
 import 'package:software/pages/explore/app_card.dart';
 import 'package:software/pages/explore/app_dialog.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppGrid extends StatefulWidget {
@@ -137,7 +138,7 @@ class _GridState extends State<_Grid> {
                       context: context,
                       builder: (context) => ChangeNotifierProvider<SnapModel>(
                         create: (context) => SnapModel(
-                            client: context.read<SnapdClient>(),
+                            client: getService<SnapdClient>(),
                             huskSnapName: snap.name),
                         child: const AppDialog(),
                       ),
