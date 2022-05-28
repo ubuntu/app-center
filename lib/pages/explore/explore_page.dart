@@ -97,8 +97,8 @@ class ExplorePage extends StatelessWidget {
                   if (model.filters.entries.elementAt(i).value == true)
                     AppGrid(
                       topPadding: i == 0 ? 20 : 40,
-                      name: model.filters.entries.elementAt(i).key.name,
-                      headline: model.filters.entries.elementAt(i).key.name,
+                      name: model.filters.entries.elementAt(i).key.title,
+                      headline: model.filters.entries.elementAt(i).key.title,
                       findByName: false,
                     ),
               if (!model.searchActive && model.exploreMode)

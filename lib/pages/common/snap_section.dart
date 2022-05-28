@@ -1,48 +1,52 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/widgets.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 enum SnapSection {
-  artAndDesign,
-  booksAndReference,
+  art_and_design,
+  books_and_reference,
   development,
-  devicesAndIot,
+  devices_and_iot,
   education,
   entertainment,
   featured,
   finance,
   games,
-  healthAndFitness,
-  musicAndAudio,
-  newsAndWeather,
+  health_and_fitness,
+  music_and_audio,
+  news_and_weather,
   personalisation,
-  photoAndVideo,
+  photo_and_video,
   productivity,
   science,
   security,
-  serverAndCloud,
+  server_and_cloud,
   social,
   utilities;
+
+  String get title => name.replaceAll('_', '-');
 }
 
 Map<SnapSection, IconData> snapSectionToIcon = {
-  SnapSection.artAndDesign: YaruIcons.template,
-  SnapSection.booksAndReference: YaruIcons.book,
+  SnapSection.art_and_design: YaruIcons.template,
+  SnapSection.books_and_reference: YaruIcons.book,
   SnapSection.development: YaruIcons.wrench,
-  SnapSection.devicesAndIot: YaruIcons.chip,
+  SnapSection.devices_and_iot: YaruIcons.chip,
   SnapSection.education: YaruIcons.education,
   SnapSection.entertainment: YaruIcons.television,
   SnapSection.featured: YaruIcons.star,
   SnapSection.finance: YaruIcons.calculator,
   SnapSection.games: YaruIcons.games,
-  SnapSection.healthAndFitness: YaruIcons.health,
-  SnapSection.musicAndAudio: YaruIcons.headphones,
-  SnapSection.newsAndWeather: YaruIcons.weather_storm,
+  SnapSection.health_and_fitness: YaruIcons.health,
+  SnapSection.music_and_audio: YaruIcons.headphones,
+  SnapSection.news_and_weather: YaruIcons.weather_storm,
   SnapSection.personalisation: YaruIcons.desktop_appearance,
-  SnapSection.photoAndVideo: YaruIcons.camera_photo,
+  SnapSection.photo_and_video: YaruIcons.camera_photo,
   SnapSection.productivity: YaruIcons.clock,
   SnapSection.science: YaruIcons.beaker,
   SnapSection.security: YaruIcons.shield,
-  SnapSection.serverAndCloud: YaruIcons.computer,
+  SnapSection.server_and_cloud: YaruIcons.computer,
   SnapSection.social: YaruIcons.subtitles,
   SnapSection.utilities: YaruIcons.utilities,
 };
