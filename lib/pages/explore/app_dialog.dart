@@ -6,6 +6,8 @@ import 'package:software/pages/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
+
 class AppDialog extends StatefulWidget {
   const AppDialog({
     Key? key,
@@ -177,8 +179,6 @@ class _Title extends StatelessWidget {
         break;
       }
     }
-
-    const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
     return YaruDialogTitle(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -355,7 +355,7 @@ class _Content extends StatelessWidget {
             child: YaruExpandable(
               header: const Text(
                 'Description',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: headerStyle,
               ),
               expandIcon: const Icon(YaruIcons.pan_end),
               collapsedChild: Text(
