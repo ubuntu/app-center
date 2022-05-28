@@ -353,7 +353,7 @@ class _Content extends StatelessWidget {
               ),
             ),
           SizedBox(
-            width: width + 16,
+            width: width,
             child: YaruExpandable(
               header: const Text(
                 'Description',
@@ -362,7 +362,7 @@ class _Content extends StatelessWidget {
               expandIcon: const Icon(YaruIcons.pan_end),
               collapsedChild: Text(
                 snap.description,
-                maxLines: 3,
+                maxLines: 2,
                 overflow: TextOverflow.fade,
               ),
               child: Text(snap.description),
