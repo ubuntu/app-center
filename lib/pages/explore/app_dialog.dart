@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/pages/common/expandable_text.dart';
 import 'package:software/pages/common/link.dart';
 import 'package:software/pages/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
 class AppDialog extends StatefulWidget {
   const AppDialog({
@@ -179,8 +180,6 @@ class _Title extends StatelessWidget {
       }
     }
 
-    const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
-
     return YaruDialogTitle(
       mainAxisAlignment: MainAxisAlignment.center,
       titleWidget: Column(
@@ -353,8 +352,19 @@ class _Content extends StatelessWidget {
             ),
           SizedBox(
             width: width + 16,
-            child: ExpandableText(
-                text: snap.description, maxLines: 1, headerText: 'Description'),
+            child: YaruExpandable(
+              header: const Text(
+                'Description',
+                style: headerStyle,
+              ),
+              expandIcon: const Icon(YaruIcons.pan_end),
+              collapsedChild: Text(
+                snap.description,
+                maxLines: 3,
+                overflow: TextOverflow.fade,
+              ),
+              child: Text(snap.description),
+            ),
           ),
           const SizedBox(
             height: 10,
