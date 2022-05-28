@@ -222,7 +222,7 @@ class _Title extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Text(
+                  const Text(
                     'Confinment',
                     style: headerStyle,
                   ),
@@ -248,7 +248,7 @@ class _Title extends StatelessWidget {
               if (snap.license != null)
                 Column(
                   children: [
-                    Text('License', style: headerStyle),
+                    const Text('License', style: headerStyle),
                     Text(
                       snap.license!.split(' ').first,
                       overflow: TextOverflow.ellipsis,
@@ -259,7 +259,7 @@ class _Title extends StatelessWidget {
               const SizedBox(height: 50, width: 30, child: VerticalDivider()),
               Column(
                 children: [
-                  Text('Version', style: headerStyle),
+                  const Text('Version', style: headerStyle),
                   Text(
                     model.versionString,
                     overflow: TextOverflow.ellipsis,
