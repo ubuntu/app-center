@@ -6,12 +6,14 @@ import 'package:software/pages/explore/explore_page.dart';
 import 'package:software/pages/my_apps/my_apps_page.dart';
 import 'package:software/pages/settings/settings_page.dart';
 import 'package:software/pages/updates/updates_page.dart';
+import 'package:software/services/color_generator.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 void main() async {
+  registerService<ColorGenerator>(DominantColorGenerator.new);
   registerService<SnapdClient>(SnapdClient.new, dispose: (s) => s.close());
   runApp(const App());
 }
