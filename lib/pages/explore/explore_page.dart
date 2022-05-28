@@ -299,8 +299,8 @@ class _ExploreGrid extends StatefulWidget {
 class _ExploreGridState extends State<_ExploreGrid> {
   @override
   void initState() {
-    context.read<AppsModel>().loadSection('featured');
     super.initState();
+    context.read<AppsModel>().loadSection('featured');
   }
 
   @override

@@ -31,8 +31,8 @@ class AppGrid extends StatefulWidget {
 class _AppGridState extends State<AppGrid> {
   @override
   void initState() {
-    if (!widget.findByQuery) context.read<AppsModel>().loadSection(widget.name);
     super.initState();
+    if (!widget.findByQuery) context.read<AppsModel>().loadSection(widget.name);
   }
 
   @override
@@ -89,8 +89,8 @@ class _GridState extends State<_Grid> {
 
   @override
   void initState() {
-    amount = widget.snapAmount;
     super.initState();
+    amount = widget.snapAmount;
   }
 
   @override
