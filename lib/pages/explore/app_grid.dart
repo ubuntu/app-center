@@ -110,6 +110,9 @@ class _GridState extends State<_Grid> {
                     widget.headline!,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  const SizedBox(
+                    width: 20,
+                  ),
                   TextButton(
                       onPressed: () => setState(() => amount =
                           amount == widget.snapAmount

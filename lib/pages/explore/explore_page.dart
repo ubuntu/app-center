@@ -3,12 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/apps_model.dart';
-import 'package:software/pages/common/snap_model.dart';
-import 'package:software/pages/explore/app_banner.dart';
-import 'package:software/pages/explore/app_dialog.dart';
-import 'package:software/pages/explore/app_grid.dart';
+import 'package:software/pages/common/filter_button.dart';
 import 'package:software/pages/common/snap_section.dart';
-import 'package:software/services/color_generator.dart';
+import 'package:software/pages/explore/app_banner_carousel.dart';
+import 'package:software/pages/explore/app_banner_grid.dart';
+import 'package:software/pages/explore/app_grid.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -39,7 +38,7 @@ class ExplorePage extends StatelessWidget {
             height: 60,
             child: Row(
               children: [
-                _FilterPill(
+                FilterButton(
                   onPressed: () => model.searchActive = !model.searchActive,
                   selected: model.searchActive,
                   iconData: YaruIcons.search,
@@ -47,14 +46,14 @@ class ExplorePage extends StatelessWidget {
                 if (!model.searchActive)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: _FilterPill(
+                    child: FilterButton(
                       onPressed: () => model.exploreMode = !model.exploreMode,
                       selected: model.exploreMode,
                       iconData: YaruIcons.image,
                     ),
                   ),
                 if (!model.searchActive)
-                  _FilterPill(
+                  FilterButton(
                     onPressed: () => model.exploreMode = !model.exploreMode,
                     selected: !model.exploreMode,
                     iconData: YaruIcons.format_unordered_list,
@@ -62,13 +61,11 @@ class ExplorePage extends StatelessWidget {
                 if (!model.exploreMode || model.searchActive)
                   const Padding(
                     padding: EdgeInsets.only(left: 10),
-                    child: IntrinsicHeight(
-                      child: SizedBox(
-                        height: 40,
-                        child: VerticalDivider(
-                          width: 20,
-                          thickness: 0.5,
-                        ),
+                    child: SizedBox(
+                      height: 40,
+                      child: VerticalDivider(
+                        width: 20,
+                        thickness: 0.5,
                       ),
                     ),
                   ),
@@ -87,7 +84,7 @@ class ExplorePage extends StatelessWidget {
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
             children: [
               if (width < 1000 && !model.searchActive && model.exploreMode)
-                const _AppBannerCarousel(),
+                const AppBannerCarousel(),
               if (model.searchActive)
                 AppGrid(
                   topPadding: 20,
@@ -98,13 +95,16 @@ class ExplorePage extends StatelessWidget {
                 for (int i = 0; i < model.filters.entries.length; i++)
                   if (model.filters.entries.elementAt(i).value == true)
                     AppGrid(
-                      topPadding: i == 0 ? 20 : 40,
+                      topPadding: i == 0 ? 10 : 40,
                       name: model.filters.entries.elementAt(i).key.title,
-                      headline: model.filters.entries.elementAt(i).key.title,
+                      headline: model.filters.entries
+                          .elementAt(i)
+                          .key
+                          .localize(context.l10n),
                       findByQuery: false,
                     ),
               if (!model.searchActive && model.exploreMode)
-                const _ExploreGrid(snapSection: SnapSection.featured),
+                const AppBannerGrid(snapSection: SnapSection.featured),
             ],
           ),
         ),
@@ -191,8 +191,8 @@ class _FilterBarState extends State<_FilterBar> {
               for (final section in model.selectedFilters)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: _FilterPill(
-                      tooltip: section.name,
+                  child: FilterButton(
+                      tooltip: section.localize(context.l10n),
                       onPressed: () => model.setFilter(snapSections: [section]),
                       selected: model.filters[section]!,
                       iconData: snapSectionToIcon[section]!),
@@ -202,170 +202,5 @@ class _FilterBarState extends State<_FilterBar> {
         ),
       ),
     );
-  }
-
-  String getSectionTranslation(BuildContext context) {
-    return '';
-  }
-}
-
-class _AppBannerCarousel extends StatelessWidget {
-  const _AppBannerCarousel({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
-    final size = MediaQuery.of(context).size;
-    return model.featuredSnaps.isNotEmpty
-        ? Padding(
-            padding: const EdgeInsets.only(
-              bottom: 20,
-            ),
-            child: YaruCarousel(
-              viewportFraction: 1,
-              placeIndicator: false,
-              autoScrollDuration: const Duration(seconds: 3),
-              width: size.width,
-              height: 178,
-              autoScroll: true,
-              children: [
-                for (final snap in model.featuredSnaps)
-                  _AppBannerCarouselItem.create(context, snap)
-              ],
-            ),
-          )
-        : const SizedBox();
-  }
-}
-
-class _AppBannerCarouselItem extends StatefulWidget {
-  const _AppBannerCarouselItem({
-    Key? key,
-    required this.snap,
-  }) : super(key: key);
-
-  final Snap snap;
-
-  static Widget create(BuildContext context, Snap snap) {
-    return ChangeNotifierProvider<SnapModel>(
-      create: (_) => SnapModel(
-        huskSnapName: snap.name,
-        client: getService<SnapdClient>(),
-        colorGenerator: getService<ColorGenerator>(),
-      ),
-      child: _AppBannerCarouselItem(snap: snap),
-    );
-  }
-
-  @override
-  State<_AppBannerCarouselItem> createState() => _AppBannerCarouselItemState();
-}
-
-class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<SnapModel>().init();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<SnapModel>();
-    return AppBanner(
-      snap: widget.snap,
-      surfaceTintColor: model.surfaceTintColor,
-      onTap: () => showDialog(
-        barrierColor: Colors.black.withOpacity(0.9),
-        context: context,
-        builder: (context) => ChangeNotifierProvider.value(
-          value: model,
-          child: const AppDialog(),
-        ),
-      ),
-    );
-  }
-}
-
-class _FilterPill extends StatelessWidget {
-  final IconData iconData;
-  final bool selected;
-  final Function()? onPressed;
-  final String? tooltip;
-
-  const _FilterPill({
-    Key? key,
-    required this.selected,
-    required this.iconData,
-    this.onPressed,
-    this.tooltip,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      backgroundColor: selected
-          ? Theme.of(context).colorScheme.onSurface.withOpacity(0.05)
-          : Colors.transparent,
-      child: IconButton(
-        tooltip: tooltip,
-        color: selected ? Colors.grey : null,
-        splashRadius: 20,
-        onPressed: onPressed,
-        icon: Icon(
-          iconData,
-          color: selected
-              ? Theme.of(context).primaryColor
-              : Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
-        ),
-      ),
-    );
-  }
-}
-
-class _ExploreGrid extends StatefulWidget {
-  const _ExploreGrid({Key? key, required this.snapSection}) : super(key: key);
-
-  final SnapSection snapSection;
-
-  @override
-  State<_ExploreGrid> createState() => _ExploreGridState();
-}
-
-class _ExploreGridState extends State<_ExploreGrid> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<AppsModel>().loadSection('featured');
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
-    return model.featuredSnaps.isNotEmpty
-        ? GridView(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              mainAxisExtent: 150,
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 20,
-              maxCrossAxisExtent: 500,
-            ),
-            children: model.featuredSnaps.map((snap) {
-              final snapModel = SnapModel(
-                  huskSnapName: snap.name, client: getService<SnapdClient>());
-              return ChangeNotifierProvider<SnapModel>(
-                create: (context) => snapModel,
-                child: AppBanner(
-                  snap: snap,
-                  onTap: () => showDialog(
-                    barrierColor: Colors.black.withOpacity(0.9),
-                    context: context,
-                    builder: (context) => ChangeNotifierProvider.value(
-                        value: snapModel, child: const AppDialog()),
-                  ),
-                ),
-              );
-            }).toList(),
-          )
-        : const YaruCircularProgressIndicator();
   }
 }
