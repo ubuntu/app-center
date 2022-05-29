@@ -3,13 +3,12 @@
 An alternative software store for the Ubuntu Desktop made with Flutter.
 
 ![](.github/assets/light.png)
-![](.github/assets/dark.png)
-![](.github/assets/dialog_light.png)
-![](.github/assets/dialog_dark.png)
+![](.github/assets/light_dialog.png)
 
-## First goals
+## Goals
 
-- [ ] Great UX
+- [X] Great UX
+- [X] Fast
 - [X] Adaptive Layout
 - [X] Snap support (https://github.com/canonical/snapd.dart)
   - [X] install
@@ -21,6 +20,8 @@ An alternative software store for the Ubuntu Desktop made with Flutter.
   - [ ] manage plugs and permissions
 - [ ] Firmware support (https://github.com/canonical/fwupd.dart & https://github.com/canonical/firmware-updater)
 - [ ] deb support (https://github.com/robert-ancell/dpkg.dart)
+  - [ ] install from file-explorer
+  - [ ] remove
 
 ## Optional long term goals
 
