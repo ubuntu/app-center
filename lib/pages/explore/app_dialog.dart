@@ -34,6 +34,8 @@ class _AppDialogState extends State<AppDialog> {
             actionsPadding: const EdgeInsets.only(left: 20),
             contentPadding: const EdgeInsets.only(
               bottom: 10,
+              left: 25,
+              right: 25,
             ),
             titlePadding: EdgeInsets.zero,
             title: _Title(
@@ -284,79 +286,73 @@ class _Content extends StatelessWidget {
   final Snap snap;
   @override
   Widget build(BuildContext context) {
-    const width = 425.0;
     final media = snap.media
         .where((snapMedia) => snapMedia.type == 'screenshot')
         .toList();
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Divider(),
-          const SizedBox(
-            height: 10,
-          ),
-          if (media.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: YaruCarousel(
-                nextIcon: const Icon(YaruIcons.go_next),
-                previousIcon: const Icon(YaruIcons.go_previous),
-                navigationControls: media.length > 1,
-                viewportFraction: 1,
-                height: 250,
-                children: [
-                  for (final image in media)
-                    InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () => showDialog(
-                          context: context,
-                          builder: (context) => SimpleDialog(
-                                children: [
-                                  InkWell(
-                                    onTap: () => Navigator.of(context).pop(),
-                                    child: Image.network(
-                                      image.url,
-                                      fit: BoxFit.contain,
-                                      filterQuality: FilterQuality.medium,
-                                    ),
-                                  )
-                                ],
-                              )),
-                      child: Image.network(
-                        image.url,
-                        fit: BoxFit.fitHeight,
-                        filterQuality: FilterQuality.medium,
-                      ),
-                    )
-                ],
-              ),
+    return SizedBox(
+      width: 450,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Divider(),
+            const SizedBox(
+              height: 10,
             ),
-          if (media.isNotEmpty) const Divider(),
-          if (snap.contact != null && snap.publisher != null)
-            SizedBox(
-              width: width,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: IntrinsicHeight(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (snap.website != null)
-                        Link(url: snap.website!, linkText: 'Website'),
-                      Link(
-                        url: snap.contact!,
-                        linkText: 'Contact ${snap.publisher!.displayName}',
-                      ),
-                    ],
-                  ),
+            if (media.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: YaruCarousel(
+                  nextIcon: const Icon(YaruIcons.go_next),
+                  previousIcon: const Icon(YaruIcons.go_previous),
+                  navigationControls: media.length > 1,
+                  viewportFraction: 1,
+                  height: 250,
+                  children: [
+                    for (final image in media)
+                      InkWell(
+                        borderRadius: BorderRadius.circular(10),
+                        onTap: () => showDialog(
+                            context: context,
+                            builder: (context) => SimpleDialog(
+                                  children: [
+                                    InkWell(
+                                      onTap: () => Navigator.of(context).pop(),
+                                      child: Image.network(
+                                        image.url,
+                                        fit: BoxFit.contain,
+                                        filterQuality: FilterQuality.medium,
+                                      ),
+                                    )
+                                  ],
+                                )),
+                        child: Image.network(
+                          image.url,
+                          fit: BoxFit.fitHeight,
+                          filterQuality: FilterQuality.medium,
+                        ),
+                      )
+                  ],
                 ),
               ),
-            ),
-          SizedBox(
-            width: width,
-            child: YaruExpandable(
+            if (media.isNotEmpty) const Divider(),
+            if (snap.contact != null && snap.publisher != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (snap.website != null)
+                      Link(url: snap.website!, linkText: 'Website'),
+                    Link(
+                      url: snap.contact!,
+                      linkText: 'Contact ${snap.publisher!.displayName}',
+                    ),
+                  ],
+                ),
+              ),
+            YaruExpandable(
               header: const Text(
                 'Description',
                 style: headerStyle,
@@ -369,12 +365,12 @@ class _Content extends StatelessWidget {
               ),
               child: Text(snap.description),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          const Divider(),
-        ],
+            const SizedBox(
+              height: 10,
+            ),
+            const Divider(),
+          ],
+        ),
       ),
     );
   }
