@@ -109,6 +109,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_svg:
+    dependency: "direct main"
+    description:
+      name: flutter_svg
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -133,6 +140,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.5"
+  gtk_icon_theme:
+    dependency: transitive
+    description:
+      path: "../../.pub-cache/git/xdg_icons-ec18dcce446a3e5baa878ceede7db899173d6359/packages/gtk_icon_theme"
+      relative: true
+    source: path
+    version: "0.0.1"
   handy_window:
     dependency: "direct main"
     description:
@@ -210,6 +224,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.1"
+  path_drawing:
+    dependency: transitive
+    description:
+      name: path_drawing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
+  path_parsing:
+    dependency: transitive
+    description:
+      name: path_parsing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   petitparser:
     dependency: transitive
     description:
@@ -399,6 +427,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0+1"
+  xdg_icons:
+    dependency: "direct main"
+    description:
+      path: "packages/xdg_icons"
+      ref: HEAD
+      resolved-ref: ec18dcce446a3e5baa878ceede7db899173d6359
+      url: "https://github.com/ubuntu-flutter-community/xdg_icons"
+    source: git
+    version: "0.0.1"
   xml:
     dependency: transitive
     description:
