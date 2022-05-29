@@ -7,6 +7,7 @@ import 'package:software/pages/explore/app_banner.dart';
 import 'package:software/pages/explore/app_dialog.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppBannerCarousel extends StatelessWidget {
@@ -74,7 +75,9 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
       snap: widget.snap,
       surfaceTintColor: model.surfaceTintColor,
       onTap: () => showDialog(
-        barrierColor: Colors.black.withOpacity(0.9),
+        barrierColor: Theme.of(context).brightness == Brightness.light
+            ? YaruColors.warmGrey.withOpacity(0.8)
+            : Colors.black.withOpacity(0.7),
         context: context,
         builder: (context) => ChangeNotifierProvider.value(
           value: model,

@@ -86,8 +86,11 @@ class ExplorePage extends StatelessWidget {
               if (width < 1000 && !model.searchActive && model.exploreMode)
                 const AppBannerCarousel(),
               if (model.searchActive)
+                const SizedBox(
+                  height: 20,
+                ),
+              if (model.searchActive)
                 AppGrid(
-                  topPadding: 20,
                   name: model.searchQuery,
                   findByQuery: true,
                 ),
@@ -95,7 +98,7 @@ class ExplorePage extends StatelessWidget {
                 for (int i = 0; i < model.filters.entries.length; i++)
                   if (model.filters.entries.elementAt(i).value == true)
                     AppGrid(
-                      topPadding: i == 0 ? 10 : 40,
+                      appendBottomDivier: true,
                       name: model.filters.entries.elementAt(i).key.title,
                       headline: model.filters.entries
                           .elementAt(i)

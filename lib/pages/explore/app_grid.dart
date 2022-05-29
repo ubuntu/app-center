@@ -6,6 +6,7 @@ import 'package:software/pages/common/snap_model.dart';
 import 'package:software/pages/explore/app_card.dart';
 import 'package:software/pages/explore/app_dialog.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppGrid extends StatefulWidget {
@@ -13,16 +14,16 @@ class AppGrid extends StatefulWidget {
     Key? key,
     required this.name,
     this.headline,
-    this.topPadding = 50,
     required this.findByQuery,
     this.snapAmount = 20,
+    this.appendBottomDivier = false,
   }) : super(key: key);
 
   final String name;
   final String? headline;
-  final double topPadding;
   final bool findByQuery;
   final int snapAmount;
+  final bool appendBottomDivier;
 
   @override
   State<AppGrid> createState() => _AppGridState();
@@ -42,8 +43,8 @@ class _AppGridState extends State<AppGrid> {
     if (!widget.findByQuery) {
       final snaps = model.sectionNameToSnapsMap[widget.name];
       return _Grid(
+          appendBottomDivider: widget.appendBottomDivier,
           snapAmount: widget.snapAmount,
-          topPadding: widget.topPadding,
           headline: widget.headline,
           snaps: snaps ?? []);
     }
@@ -52,8 +53,8 @@ class _AppGridState extends State<AppGrid> {
       future: model.findSnapsByQuery(),
       builder: (context, snapshot) => snapshot.hasData
           ? _Grid(
+              appendBottomDivider: widget.appendBottomDivier,
               snapAmount: widget.snapAmount,
-              topPadding: widget.topPadding,
               headline: widget.headline,
               snaps: snapshot.data!)
           : const Center(
@@ -69,16 +70,16 @@ class _AppGridState extends State<AppGrid> {
 class _Grid extends StatefulWidget {
   const _Grid({
     Key? key,
-    required this.topPadding,
     required this.headline,
     required this.snaps,
     required this.snapAmount,
+    required this.appendBottomDivider,
   }) : super(key: key);
 
-  final double topPadding;
   final String? headline;
   final List<Snap> snaps;
   final int snapAmount;
+  final bool appendBottomDivider;
 
   @override
   State<_Grid> createState() => _GridState();
@@ -96,33 +97,30 @@ class _GridState extends State<_Grid> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: widget.topPadding, left: 20, right: 20),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
         children: [
           if (widget.headline != null)
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 20,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    widget.headline!,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  TextButton(
-                      onPressed: () => setState(() => amount =
-                          amount == widget.snapAmount
-                              ? 100
-                              : widget.snapAmount),
-                      child: Text(amount == widget.snapAmount
-                          ? 'Show more'
-                          : 'Show less'))
-                ],
-              ),
+            Row(
+              children: [
+                Text(
+                  widget.headline!,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                TextButton(
+                    onPressed: () => setState(() => amount =
+                        amount == widget.snapAmount ? 100 : widget.snapAmount),
+                    child: Text(amount == widget.snapAmount
+                        ? 'Show more'
+                        : 'Show less'))
+              ],
+            ),
+          if (widget.headline != null)
+            const SizedBox(
+              height: 15,
             ),
           GridView(
             shrinkWrap: true,
@@ -137,7 +135,10 @@ class _GridState extends State<_Grid> {
                   (snap) => AppCard(
                     snap: snap,
                     onTap: () => showDialog(
-                      barrierColor: Colors.black.withOpacity(0.9),
+                      barrierColor:
+                          Theme.of(context).brightness == Brightness.light
+                              ? YaruColors.warmGrey
+                              : YaruColors.jet,
                       context: context,
                       builder: (context) => ChangeNotifierProvider<SnapModel>(
                         create: (context) => SnapModel(
@@ -150,6 +151,14 @@ class _GridState extends State<_Grid> {
                 )
                 .toList(),
           ),
+          if (widget.appendBottomDivider)
+            const SizedBox(
+              height: 20,
+            ),
+          if (widget.appendBottomDivider)
+            const Divider(
+              height: 40,
+            )
         ],
       ),
     );
