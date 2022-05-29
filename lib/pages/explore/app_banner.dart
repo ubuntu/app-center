@@ -111,17 +111,20 @@ class _Card extends StatelessWidget {
         borderRadius: borderRadius,
       ),
       child: Align(
-        alignment: Alignment.center,
-        child: ListTile(
-          mouseCursor: SystemMouseCursors.click,
-          subtitle: Text(summary, overflow: TextOverflow.visible),
-          title: Text(
-            title,
-            style: const TextStyle(fontSize: 20),
-          ),
-          leading: SizedBox(
-            width: 60,
-            child: icon,
+        alignment: Alignment.centerLeft,
+        child: SizedBox(
+          width: 370,
+          child: ListTile(
+            mouseCursor: SystemMouseCursors.click,
+            subtitle: Text(summary, overflow: TextOverflow.visible),
+            title: Text(
+              title,
+              style: const TextStyle(fontSize: 20),
+            ),
+            leading: SizedBox(
+              width: 60,
+              child: icon,
+            ),
           ),
         ),
       ),
