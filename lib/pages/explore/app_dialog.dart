@@ -303,7 +303,7 @@ class _Content extends StatelessWidget {
               child: YaruCarousel(
                 nextIcon: const Icon(YaruIcons.go_next),
                 previousIcon: const Icon(YaruIcons.go_previous),
-                navigationControls: true,
+                navigationControls: media.length > 1,
                 viewportFraction: 1,
                 height: 250,
                 children: [
