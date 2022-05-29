@@ -34,6 +34,7 @@ class AppBanner extends StatelessWidget {
                   summary: snap.summary,
                   elevation: 4,
                   icon: _SnapIcon(snap),
+                  textOverflow: TextOverflow.visible,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
@@ -56,6 +57,7 @@ class AppBanner extends StatelessWidget {
               icon: _SnapIcon(snap),
               title: snap.title,
               summary: snap.summary,
+              textOverflow: TextOverflow.ellipsis,
             ),
     );
   }
@@ -93,6 +95,7 @@ class _Card extends StatelessWidget {
     required this.elevation,
     required this.icon,
     required this.borderRadius,
+    required this.textOverflow,
   }) : super(key: key);
 
   final Color color;
@@ -101,6 +104,7 @@ class _Card extends StatelessWidget {
   final double elevation;
   final Widget icon;
   final BorderRadius borderRadius;
+  final TextOverflow textOverflow;
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +120,7 @@ class _Card extends StatelessWidget {
           width: 370,
           child: ListTile(
             mouseCursor: SystemMouseCursors.click,
-            subtitle: Text(summary, overflow: TextOverflow.visible),
+            subtitle: Text(summary, overflow: textOverflow),
             title: Text(
               title,
               style: const TextStyle(fontSize: 20),
