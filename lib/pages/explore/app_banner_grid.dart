@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/color_scheme.dart';
 import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/common/snap_model.dart';
 import 'package:software/pages/common/snap_section.dart';
 import 'package:software/pages/explore/app_banner.dart';
 import 'package:software/pages/explore/app_dialog.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppBannerGrid extends StatefulWidget {
@@ -48,8 +48,8 @@ class _AppBannerGridState extends State<AppBannerGrid> {
                   onTap: () => showDialog(
                     barrierColor:
                         Theme.of(context).brightness == Brightness.light
-                            ? YaruColors.warmGrey
-                            : YaruColors.jet,
+                            ? Theme.of(context).colorScheme.barrierColorLight
+                            : Theme.of(context).colorScheme.barrierColorDark,
                     context: context,
                     builder: (context) => ChangeNotifierProvider.value(
                         value: snapModel, child: const AppDialog()),

@@ -8,6 +8,7 @@ import 'package:software/pages/explore/app_dialog.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import 'package:software/color_scheme.dart';
 
 class UpdatesPage extends StatelessWidget {
   const UpdatesPage({Key? key}) : super(key: key);
@@ -83,6 +84,10 @@ class __SnapUpdatesPageState extends State<_SnapUpdatesPage> {
                   return ListTile(
                     onTap: () {
                       showDialog(
+                          barrierColor: Theme.of(context).brightness ==
+                                  Brightness.light
+                              ? Theme.of(context).colorScheme.barrierColorLight
+                              : Theme.of(context).colorScheme.barrierColorDark,
                           context: context,
                           builder: (context) {
                             final client = getService<SnapdClient>();
