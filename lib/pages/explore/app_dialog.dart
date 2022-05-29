@@ -284,7 +284,7 @@ class _Content extends StatelessWidget {
   final Snap snap;
   @override
   Widget build(BuildContext context) {
-    const width = 350.0;
+    const width = 425.0;
     final media = snap.media
         .where((snapMedia) => snapMedia.type == 'screenshot')
         .toList();
