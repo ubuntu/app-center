@@ -26,12 +26,16 @@ class DebInstallerApp extends StatelessWidget {
                     ),
                   ),
                   body: YaruPage(children: [
-                    YaruRow(
-                      width: 500,
-                      trailingWidget: Text(control.package),
-                      actionWidget: ElevatedButton(
-                          onPressed: () {}, child: const Text('Install')),
-                      enabled: true,
+                    YaruSection(
+                      width: 650,
+                      children: [
+                        YaruRow(
+                          trailingWidget: Text(control.version),
+                          actionWidget: ElevatedButton(
+                              onPressed: () {}, child: const Text('Install')),
+                          enabled: true,
+                        ),
+                      ],
                     )
                   ]));
             } else {
