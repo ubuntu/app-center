@@ -95,9 +95,12 @@ class ExplorePage extends StatelessWidget {
                 for (int i = 0; i < model.filters.entries.length; i++)
                   if (model.filters.entries.elementAt(i).value == true)
                     AppGrid(
-                      topPadding: i == 0 ? 20 : 40,
+                      topPadding: i == 0 ? 10 : 40,
                       name: model.filters.entries.elementAt(i).key.title,
-                      headline: model.filters.entries.elementAt(i).key.title,
+                      headline: model.filters.entries
+                          .elementAt(i)
+                          .key
+                          .localize(context.l10n),
                       findByQuery: false,
                     ),
               if (!model.searchActive && model.exploreMode)
@@ -189,7 +192,7 @@ class _FilterBarState extends State<_FilterBar> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: FilterButton(
-                      tooltip: section.name,
+                      tooltip: section.localize(context.l10n),
                       onPressed: () => model.setFilter(snapSections: [section]),
                       selected: model.filters[section]!,
                       iconData: snapSectionToIcon[section]!),
