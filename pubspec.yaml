@@ -11,6 +11,8 @@ environment:
 
 dependencies:
   collection: ^1.16.0
+  dpkg:
+    git: https://github.com/robert-ancell/dpkg.dart
   flutter:
     sdk: flutter
   flutter_lints: ^2.0.1

@@ -71,6 +71,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.4"
+  dpkg:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "8be3eaf0edbedc94a387ed3f1e4daebede95fb03"
+      url: "https://github.com/robert-ancell/dpkg.dart"
+    source: git
+    version: "0.0.1"
   fake_async:
     dependency: transitive
     description:
