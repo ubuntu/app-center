@@ -22,7 +22,10 @@ class SnapModel extends SafeChangeNotifier {
   /// Apps this snap provides.
   List<SnapApp>? get apps => _snap?.apps;
 
-  /// Channel this snap is tracking.
+  /// The base snap this snap uses.
+  String? get base => _snap?.base;
+
+  /// The channel this snap is from, e.g. "stable".
   String? get channel => _snap?.channel;
 
   /// Channels available for this snap.
@@ -78,6 +81,9 @@ class SnapModel extends SafeChangeNotifier {
   /// Title of this snap.
   String? get title => _snap?.title;
 
+  /// The channel that updates will be installed from, e.g. "stable".
+  String? get trackingChannel => _snap?.trackingChannel;
+
   /// Tracks this snap uses.
   List<String>? get tracks => _snap?.tracks;
 
@@ -111,7 +117,7 @@ class SnapModel extends SafeChangeNotifier {
   Future<bool> _checkIfSnapIsInstalled(String snap) async {
     final installedSnapApps = await snapApps;
     for (var snapApp in installedSnapApps) {
-      if (snap == snapApp.name) return true;
+      if (snap == snapApp.snap) return true;
     }
     return false;
   }
@@ -170,6 +176,7 @@ class SnapModel extends SafeChangeNotifier {
     }
     _snap = await findSnapByName(huskSnapName);
     snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
+    _snap = await findSnapByName(huskSnapName);
     notifyListeners();
   }
 
@@ -190,6 +197,8 @@ class SnapModel extends SafeChangeNotifier {
     }
     _snap = await findSnapByName(huskSnapName);
     snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
+    _snap = await findSnapByName(huskSnapName);
+
     notifyListeners();
   }
 
@@ -211,6 +220,8 @@ class SnapModel extends SafeChangeNotifier {
     }
     _snap = await findSnapByName(huskSnapName);
     snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
+    _snap = await findSnapByName(huskSnapName);
+
     notifyListeners();
   }
 

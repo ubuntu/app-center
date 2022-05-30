@@ -299,7 +299,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "42ab539b692b69c82efee7203bafa1ad2ebd8dd6"
+      resolved-ref: "5c47c65db2abedbc8feb65f04cd92495f018c91a"
       url: "https://github.com/canonical/snapd.dart"
     source: git
     version: "0.3.0"
@@ -480,7 +480,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "6d0e0ea62504c79e1ead42ec905c8080aedf6c28"
+      resolved-ref: "5b3cccf3cb874e52f551ed69a4b08dec4654306a"
       url: "https://github.com/ubuntu/yaru_widgets.dart"
     source: git
     version: "1.0.13"
