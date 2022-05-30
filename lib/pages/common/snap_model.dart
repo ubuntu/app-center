@@ -98,6 +98,8 @@ class SnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  // TODO: when [installDate] is provided for any installed channel we only need to check it for null in this getter
+  // and remove the setter
   bool _snapIsInstalled;
   bool get snapIsInstalled => _snapIsInstalled;
   set snapIsInstalled(bool value) {
@@ -109,7 +111,7 @@ class SnapModel extends SafeChangeNotifier {
   Future<bool> _checkIfSnapIsInstalled(String snap) async {
     final installedSnapApps = await snapApps;
     for (var snapApp in installedSnapApps) {
-      if (snap == snapApp.snap) return true;
+      if (snap == snapApp.name) return true;
     }
     return false;
   }
@@ -123,13 +125,21 @@ class SnapModel extends SafeChangeNotifier {
   }
 
   Future<void> init() async {
-    _snap = await findSnapByName(huskSnapName);
     snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
+    _snap = await findSnapByName(huskSnapName);
 
-    if (_snap != null && channels != null) {
-      channelToBeInstalled = snapIsInstalled && tracks != null
-          ? '${tracks!.first}/$channel'
-          : channels!.entries.first.key;
+    if (_snap != null) {
+      if (channels != null && channels!.entries.isNotEmpty) {
+        if (snapIsInstalled) {
+          for (var entry in channels!.entries) {
+            if (entry.value.version == version) {
+              channelToBeInstalled = entry.key;
+            }
+          }
+        } else {
+          channelToBeInstalled = channels!.entries.first.key;
+        }
+      }
     }
     notifyListeners();
   }

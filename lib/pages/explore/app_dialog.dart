@@ -40,9 +40,9 @@ class _AppDialogState extends State<AppDialog> {
       title: const _Title(),
       content: const _Content(),
       actions: [
-        if ((model.channels != null &&
+        if (model.channels != null &&
             model.channels!.isNotEmpty &&
-            model.channelToBeInstalled.isNotEmpty))
+            model.channelToBeInstalled.isNotEmpty)
           DropdownButton<String>(
             icon: const Icon(YaruIcons.pan_down),
             borderRadius: BorderRadius.circular(10),
@@ -63,6 +63,7 @@ class _AppDialogState extends State<AppDialog> {
                 ? null
                 : (v) => model.channelToBeInstalled = v!,
           ),
+        Text(model.versionString ?? ''),
         if (model.appChangeInProgress)
           const SizedBox(
             height: 25,
