@@ -157,9 +157,8 @@ class OfflineDialog extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextButton(
-            onPressed: model.appChangeInProgress
-                ? null
-                : () => model.unInstallSnap(snapApp),
+            onPressed:
+                model.appChangeInProgress ? null : () => model.removeSnap(),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
