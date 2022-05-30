@@ -28,90 +28,77 @@ class _AppDialogState extends State<AppDialog> {
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
 
-    return model.snap != null
-        ? AlertDialog(
-            actionsAlignment: MainAxisAlignment.spaceBetween,
-            actionsPadding: const EdgeInsets.only(left: 20),
-            contentPadding: const EdgeInsets.only(
-              bottom: 10,
-              left: 25,
-              right: 25,
-            ),
-            titlePadding: EdgeInsets.zero,
-            title: _Title(
-              snap: model.snap!,
-            ),
-            content: _Content(
-              snap: model.snap!,
-            ),
-            actions: [
-              if (model.channels.isNotEmpty &&
-                  model.channelToBeInstalled.isNotEmpty)
-                DropdownButton<String>(
-                  icon: const Icon(YaruIcons.pan_down),
-                  borderRadius: BorderRadius.circular(10),
-                  elevation: 1,
-                  value: model.channelToBeInstalled,
-                  items: [
-                    for (final entry in model.channels.entries)
-                      DropdownMenuItem<String>(
-                        value: entry.key,
-                        child: Text(
-                          entry.key,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ),
-                  ],
-                  onChanged: model.appChangeInProgress
-                      ? null
-                      : (v) => model.channelToBeInstalled = v!,
-                ),
-              if (model.appChangeInProgress)
-                const SizedBox(
-                  height: 25,
-                  child: YaruCircularProgressIndicator(
-                    strokeWidth: 3,
+    return AlertDialog(
+      actionsAlignment: MainAxisAlignment.spaceBetween,
+      actionsPadding: const EdgeInsets.only(left: 20),
+      contentPadding: const EdgeInsets.only(
+        bottom: 10,
+        left: 25,
+        right: 25,
+      ),
+      titlePadding: EdgeInsets.zero,
+      title: const _Title(),
+      content: const _Content(),
+      actions: [
+        if (model.channels != null &&
+            model.channels!.isNotEmpty &&
+            model.channelToBeInstalled.isNotEmpty)
+          DropdownButton<String>(
+            icon: const Icon(YaruIcons.pan_down),
+            borderRadius: BorderRadius.circular(10),
+            elevation: 1,
+            value: model.channelToBeInstalled,
+            items: [
+              for (final entry in model.channels!.entries)
+                DropdownMenuItem<String>(
+                  value: entry.key,
+                  child: Text(
+                    entry.key,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
-              if (!model.appChangeInProgress)
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (model.snapIsInstalled) _RemoveButton(snap: model.snap!),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    if (model.snapIsInstalled)
-                      _RefreshButton(snap: model.snap!),
-                    if (!model.snapIsInstalled)
-                      _InstallButton(snap: model.snap!),
-                  ],
-                )
+            ],
+            onChanged: model.appChangeInProgress
+                ? null
+                : (v) => model.channelToBeInstalled = v!,
+          ),
+        Text(model.versionString ?? ''),
+        if (model.appChangeInProgress)
+          const SizedBox(
+            height: 25,
+            child: YaruCircularProgressIndicator(
+              strokeWidth: 3,
+            ),
+          ),
+        if (!model.appChangeInProgress)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (model.snapIsInstalled) const _RemoveButton(),
+              const SizedBox(
+                width: 10,
+              ),
+              if (model.snapIsInstalled) const _RefreshButton(),
+              if (!model.snapIsInstalled) const _InstallButton(),
             ],
           )
-        : const AlertDialog(
-            content: Padding(
-              padding: EdgeInsets.all(20.0),
-              child: YaruCircularProgressIndicator(),
-            ),
-          );
+      ],
+    );
   }
 }
 
 class _RemoveButton extends StatelessWidget {
-  const _RemoveButton({Key? key, required this.snap}) : super(key: key);
-
-  final Snap snap;
+  const _RemoveButton({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
 
     return OutlinedButton(
-      onPressed: model.appChangeInProgress
-          ? null
-          : () => model.unInstallSnap(SnapApp(snap.name, snap.name)),
+      onPressed: () => model.removeSnap(),
       child: Text(
         'Remove',
         style: TextStyle(
@@ -124,45 +111,40 @@ class _RemoveButton extends StatelessWidget {
 }
 
 class _InstallButton extends StatelessWidget {
-  const _InstallButton({Key? key, required this.snap}) : super(key: key);
-
-  final Snap snap;
+  const _InstallButton({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-
     return ElevatedButton(
-      onPressed: model.appChangeInProgress
-          ? null
-          : () => model.installSnap(snap, model.channelToBeInstalled),
+      onPressed: model.appChangeInProgress ? null : () => model.installSnap(),
       child: const Text('Install'),
     );
   }
 }
 
 class _RefreshButton extends StatelessWidget {
-  const _RefreshButton({Key? key, required this.snap}) : super(key: key);
-
-  final Snap snap;
+  const _RefreshButton({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
 
     return OutlinedButton(
-      onPressed: model.appChangeInProgress
-          ? null
-          : () => model.refreshSnapApp(snap, model.channelToBeInstalled),
+      onPressed: () => model.refreshSnapApp(),
       child: const Text('Refresh'),
     );
   }
 }
 
 class _Title extends StatelessWidget {
-  const _Title({Key? key, required this.snap}) : super(key: key);
-
-  final Snap snap;
+  const _Title({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -171,10 +153,10 @@ class _Title extends StatelessWidget {
       YaruIcons.package_snap,
       size: 65,
     );
-    for (var i = 0; i < snap.media.length; i++) {
-      if (snap.media[i].type == 'icon') {
+    for (final medium in model.media ?? []) {
+      if (medium.type == 'icon') {
         image = Image.network(
-          snap.media[i].url,
+          medium.url,
           height: 50,
           filterQuality: FilterQuality.medium,
         );
@@ -199,14 +181,14 @@ class _Title extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      snap.title,
+                      model.title ?? '',
                       overflow: TextOverflow.visible,
                     ),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(
-                      snap.summary,
+                      model.summary ?? '',
                       style: Theme.of(context).textTheme.caption,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 10,
@@ -230,7 +212,7 @@ class _Title extends StatelessWidget {
                   Row(
                     children: [
                       Icon(
-                        snap.confinement == SnapConfinement.strict
+                        model.confinement == SnapConfinement.strict
                             ? YaruIcons.shield
                             : YaruIcons.warning,
                         size: 18,
@@ -238,20 +220,20 @@ class _Title extends StatelessWidget {
                       const SizedBox(
                         width: 5,
                       ),
-                      Text(snap.confinement.name,
+                      Text(model.confinement?.name ?? '',
                           style: Theme.of(context).textTheme.bodyMedium),
                     ],
                   ),
                 ],
               ),
-              if (snap.license != null)
+              if (model.license != null)
                 const SizedBox(height: 50, width: 30, child: VerticalDivider()),
-              if (snap.license != null)
+              if (model.license != null)
                 Column(
                   children: [
                     const Text('License', style: headerStyle),
                     Text(
-                      snap.license!.split(' ').first,
+                      model.license!.split(' ').first,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodyMedium,
                     )
@@ -260,15 +242,11 @@ class _Title extends StatelessWidget {
               const SizedBox(height: 50, width: 30, child: VerticalDivider()),
               Column(
                 children: [
-                  const Text('Version', style: headerStyle),
+                  const Text('Last updated', style: headerStyle),
                   Text(
-                    model.versionString,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: model.versionString != snap.version
-                            ? Theme.of(context).primaryColor
-                            : Theme.of(context).colorScheme.onSurface),
-                  )
+                    model.installDate,
+                    style: headerStyle.copyWith(fontWeight: FontWeight.normal),
+                  ),
                 ],
               ),
             ],
@@ -281,14 +259,18 @@ class _Title extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  const _Content({Key? key, required this.snap}) : super(key: key);
+  const _Content({
+    Key? key,
+  }) : super(key: key);
 
-  final Snap snap;
   @override
   Widget build(BuildContext context) {
-    final media = snap.media
-        .where((snapMedia) => snapMedia.type == 'screenshot')
-        .toList();
+    final model = context.watch<SnapModel>();
+    final media = model.media != null
+        ? model.media!
+            .where((snapMedia) => snapMedia.type == 'screenshot')
+            .toList()
+        : [];
     return SizedBox(
       width: 450,
       child: SingleChildScrollView(
@@ -337,34 +319,35 @@ class _Content extends StatelessWidget {
                 ),
               ),
             if (media.isNotEmpty) const Divider(),
-            if (snap.contact != null && snap.publisher != null)
+            if (model.contact != null && model.publisher != null)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (snap.website != null)
-                      Link(url: snap.website!, linkText: 'Website'),
+                    if (model.website != null)
+                      Link(url: model.website!, linkText: 'Website'),
                     Link(
-                      url: snap.contact!,
-                      linkText: 'Contact ${snap.publisher!.displayName}',
+                      url: model.contact!,
+                      linkText: 'Contact ${model.publisher!.displayName}',
                     ),
                   ],
                 ),
               ),
-            YaruExpandable(
-              header: const Text(
-                'Description',
-                style: headerStyle,
+            if (model.description != null)
+              YaruExpandable(
+                header: const Text(
+                  'Description',
+                  style: headerStyle,
+                ),
+                expandIcon: const Icon(YaruIcons.pan_end),
+                collapsedChild: Text(
+                  model.description!,
+                  maxLines: 2,
+                  overflow: TextOverflow.fade,
+                ),
+                child: Text(model.description!),
               ),
-              expandIcon: const Icon(YaruIcons.pan_end),
-              collapsedChild: Text(
-                snap.description,
-                maxLines: 2,
-                overflow: TextOverflow.fade,
-              ),
-              child: Text(snap.description),
-            ),
             const SizedBox(
               height: 10,
             ),
