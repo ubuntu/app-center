@@ -47,9 +47,9 @@ class SnapModel extends SafeChangeNotifier {
   String? get id => _snap?.id;
 
   /// The date this snap was installed.
-  String get installDate => _snap != null && _snap!.installDate != null
+  String get installDate => _snap != null
       ? DateFormat.yMMMEd().format(_snap!.installDate!)
-      : '';
+      : 'not installed';
 
   /// Installed size in bytes.
   int? get installedSize => _snap?.installedSize;
@@ -124,8 +124,7 @@ class SnapModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     _snap = await findSnapByName(huskSnapName);
-
-    snapIsInstalled = await _checkIfSnapIsInstalled(name!);
+    snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
 
     if (_snap != null && channels != null) {
       channelToBeInstalled = snapIsInstalled && tracks != null
@@ -160,6 +159,7 @@ class SnapModel extends SafeChangeNotifier {
       );
     }
     _snap = await findSnapByName(huskSnapName);
+    snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
     notifyListeners();
   }
 
@@ -179,6 +179,7 @@ class SnapModel extends SafeChangeNotifier {
       );
     }
     _snap = await findSnapByName(huskSnapName);
+    snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
     notifyListeners();
   }
 
@@ -199,6 +200,7 @@ class SnapModel extends SafeChangeNotifier {
       );
     }
     _snap = await findSnapByName(huskSnapName);
+    snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
     notifyListeners();
   }
 
