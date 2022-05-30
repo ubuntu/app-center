@@ -143,9 +143,11 @@ packages:
   gtk_icon_theme:
     dependency: transitive
     description:
-      path: "../../.pub-cache/git/xdg_icons-ec18dcce446a3e5baa878ceede7db899173d6359/packages/gtk_icon_theme"
-      relative: true
-    source: path
+      path: "packages/gtk_icon_theme"
+      ref: HEAD
+      resolved-ref: f5f6e695c9612f79aac9b30bab3ccc3224c75d4a
+      url: "https://github.com/ubuntu-flutter-community/xdg_icons"
+    source: git
     version: "0.0.1"
   handy_window:
     dependency: "direct main"
@@ -297,7 +299,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4776e5cb33a787175521421c801386298e637459"
+      resolved-ref: "42ab539b692b69c82efee7203bafa1ad2ebd8dd6"
       url: "https://github.com/canonical/snapd.dart"
     source: git
     version: "0.3.0"
@@ -432,7 +434,7 @@ packages:
     description:
       path: "packages/xdg_icons"
       ref: HEAD
-      resolved-ref: ec18dcce446a3e5baa878ceede7db899173d6359
+      resolved-ref: f5f6e695c9612f79aac9b30bab3ccc3224c75d4a
       url: "https://github.com/ubuntu-flutter-community/xdg_icons"
     source: git
     version: "0.0.1"

@@ -30,7 +30,7 @@ dependencies:
   xdg_icons:
     git:
       url: https://github.com/ubuntu-flutter-community/xdg_icons
-      path: packages/gtk_icon_theme
+      path: packages/xdg_icons
   yaru: ^0.3.2
   yaru_colors: ^0.1.0
   yaru_icons:
