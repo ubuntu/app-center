@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/apps_model.dart';
-import 'package:software/pages/common/filter_button.dart';
 import 'package:software/pages/common/snap_section.dart';
 import 'package:software/pages/explore/app_banner_carousel.dart';
 import 'package:software/pages/explore/app_banner_grid.dart';
@@ -38,7 +37,7 @@ class ExplorePage extends StatelessWidget {
             height: 60,
             child: Row(
               children: [
-                FilterButton(
+                YaruRoundToggleButton(
                   onPressed: () => model.searchActive = !model.searchActive,
                   selected: model.searchActive,
                   iconData: YaruIcons.search,
@@ -46,14 +45,14 @@ class ExplorePage extends StatelessWidget {
                 if (!model.searchActive)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: FilterButton(
+                    child: YaruRoundToggleButton(
                       onPressed: () => model.exploreMode = !model.exploreMode,
                       selected: model.exploreMode,
                       iconData: YaruIcons.image,
                     ),
                   ),
                 if (!model.searchActive)
-                  FilterButton(
+                  YaruRoundToggleButton(
                     onPressed: () => model.exploreMode = !model.exploreMode,
                     selected: !model.exploreMode,
                     iconData: YaruIcons.format_unordered_list,
@@ -194,7 +193,7 @@ class _FilterBarState extends State<_FilterBar> {
               for (final section in model.selectedFilters)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: FilterButton(
+                  child: YaruRoundToggleButton(
                       tooltip: section.localize(context.l10n),
                       onPressed: () => model.setFilter(snapSections: [section]),
                       selected: model.filters[section]!,
