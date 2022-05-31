@@ -2,8 +2,8 @@
 
 An alternative software store for the Ubuntu Desktop made with Flutter.
 
-![](.github/assets/light.png)
-![](.github/assets/light_dialog.png)
+![](.github/assets/explore.png)
+![](.github/assets/dialog.png)
 
 ## Goals
 
