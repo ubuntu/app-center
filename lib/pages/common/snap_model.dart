@@ -253,12 +253,11 @@ class SnapModel extends SafeChangeNotifier {
     }
   }
 
-  Future<void> open() async {
+  void open() {
     Process.start(
       huskSnapName,
       [],
       mode: ProcessStartMode.detached,
-      includeParentEnvironment: false,
     );
   }
 }
