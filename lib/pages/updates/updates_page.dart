@@ -25,19 +25,14 @@ class UpdatesPage extends StatelessWidget {
     return YaruTabbedPage(tabIcons: const [
       YaruIcons.package_snap,
       YaruIcons.package_deb,
-      YaruIcons.chip
     ], tabTitles: const [
       'Snaps',
       'Debs',
-      'Firmware'
     ], views: [
       SnapUpdatesPage.create(context),
       const Center(
         child: Text('Debs'),
       ),
-      const Center(
-        child: Text('Firmware'),
-      )
     ]);
   }
 }
