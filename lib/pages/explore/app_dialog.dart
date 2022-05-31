@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/pages/common/link.dart';
 import 'package:software/pages/common/snap_model.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -178,9 +179,30 @@ class _Title extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      model.title ?? '',
-                      overflow: TextOverflow.visible,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  model.title ?? '',
+                                  overflow: TextOverflow.visible,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        if (model.snapIsInstalled)
+                          SizedBox(
+                              child: ElevatedButton(
+                                  onPressed: () => model.open(),
+                                  child: const Text('Open')))
+                      ],
                     ),
                     const SizedBox(
                       height: 5,

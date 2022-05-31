@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
@@ -120,7 +122,6 @@ class SnapModel extends SafeChangeNotifier {
   Future<void> init() async {
     _localSnap = await findLocalSnap(huskSnapName);
     _storeSnap = await findSnapByName(huskSnapName);
-    print(tracks);
     if (_storeSnap != null && _storeSnap!.tracks.isNotEmpty) {
       for (var track in _storeSnap!.tracks) {
         for (var risk in ['stable', 'candidate', 'beta', 'edge']) {
@@ -250,5 +251,14 @@ class SnapModel extends SafeChangeNotifier {
       _surfaceTintColor = color;
       notifyListeners();
     }
+  }
+
+  Future<void> open() async {
+    Process.start(
+      huskSnapName,
+      [],
+      mode: ProcessStartMode.detached,
+      includeParentEnvironment: false,
+    );
   }
 }
