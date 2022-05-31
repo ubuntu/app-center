@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
@@ -16,8 +17,9 @@ class ExplorePage extends StatelessWidget {
 
   static Widget create(BuildContext context) {
     final client = getService<SnapdClient>();
+    final connectivity = getService<Connectivity>();
     return ChangeNotifierProvider(
-      create: (_) => AppsModel(client),
+      create: (_) => AppsModel(client, connectivity),
       child: const ExplorePage(),
     );
   }

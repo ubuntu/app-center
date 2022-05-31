@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/common/snap_model.dart';
+import 'package:software/pages/explore/app_dialog.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:xdg_icons/xdg_icons.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -18,8 +20,9 @@ class MyAppsPage extends StatefulWidget {
 
   static Widget create(BuildContext context) {
     final client = getService<SnapdClient>();
+    final connectivity = getService<Connectivity>();
     return ChangeNotifierProvider<AppsModel>(
-      create: (_) => AppsModel(client),
+      create: (_) => AppsModel(client, connectivity),
       child: const MyAppsPage(),
     );
   }
@@ -32,10 +35,13 @@ class MyAppsPage extends StatefulWidget {
 }
 
 class _MyAppsPageState extends State<MyAppsPage> {
+  bool appIsOnline = false;
   @override
   void initState() {
     super.initState();
-    context.read<AppsModel>().loadSnapApps();
+    final appsModel = context.read<AppsModel>();
+    appsModel.loadSnapApps();
+    appsModel.init();
   }
 
   @override
@@ -55,20 +61,30 @@ class _MyAppsPageState extends State<MyAppsPage> {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return snapApp.snap != null
-                      ? ChangeNotifierProvider(
+                  if (snapApp.snap != null) {
+                    if (appsModel.appIsOnline) {
+                      return ChangeNotifierProvider(
                           create: (context) => SnapModel(
                               client: getService<SnapdClient>(),
                               huskSnapName: snapApp.snap!),
-                          child: OfflineDialog(
-                            snapApp: snapApp,
-                          ),
-                        )
-                      : const AlertDialog(
-                          content: Center(
-                            child: YaruCircularProgressIndicator(),
-                          ),
-                        );
+                          child: const AppDialog());
+                    }
+
+                    return ChangeNotifierProvider(
+                      create: (context) => SnapModel(
+                          client: getService<SnapdClient>(),
+                          huskSnapName: snapApp.snap!),
+                      child: OfflineDialog(
+                        snapApp: snapApp,
+                      ),
+                    );
+                  } else {
+                    return const AlertDialog(
+                      content: Center(
+                        child: YaruCircularProgressIndicator(),
+                      ),
+                    );
+                  }
                 },
               ).then((value) => appsModel.loadSnapApps);
             },
@@ -155,7 +171,7 @@ class OfflineDialog extends StatelessWidget {
       ),
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
           child: TextButton(
             onPressed:
                 model.appChangeInProgress ? null : () => model.removeSnap(),
@@ -172,17 +188,26 @@ class OfflineDialog extends StatelessWidget {
                 ),
                 if (model.appChangeInProgress)
                   SizedBox(
-                      height: 15,
-                      child: YaruCircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: model.appChangeInProgress
-                            ? Theme.of(context).disabledColor
-                            : Theme.of(context).errorColor,
-                      ))
+                    height: 15,
+                    child: YaruCircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: model.appChangeInProgress
+                          ? Theme.of(context).disabledColor
+                          : Theme.of(context).errorColor,
+                    ),
+                  )
               ],
             ),
           ),
-        )
+        ),
+        // if (model.snapIsInstalled)
+        Padding(
+            padding: const EdgeInsets.only(
+              left: 12,
+              right: 12,
+            ),
+            child: ElevatedButton(
+                onPressed: () => model.open(), child: const Text('Open')))
       ],
     );
   }
