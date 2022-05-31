@@ -4,19 +4,36 @@ import 'package:snapd/snapd.dart';
 import 'package:software/color_scheme.dart';
 import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/common/snap_model.dart';
+import 'package:software/pages/common/snap_section.dart';
 import 'package:software/pages/explore/app_banner.dart';
 import 'package:software/pages/common/app_dialog.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class AppBannerCarousel extends StatelessWidget {
-  const AppBannerCarousel({Key? key}) : super(key: key);
+class AppBannerCarousel extends StatefulWidget {
+  const AppBannerCarousel({Key? key, required this.snapSection})
+      : super(key: key);
+
+  final SnapSection snapSection;
+
+  @override
+  State<AppBannerCarousel> createState() => _AppBannerCarouselState();
+}
+
+class _AppBannerCarouselState extends State<AppBannerCarousel> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AppsModel>().loadSection(widget.snapSection.title);
+  }
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<AppsModel>();
     final size = MediaQuery.of(context).size;
-    return model.featuredSnaps.isNotEmpty
+    final sections = model.sectionNameToSnapsMap['featured'] ?? [];
+    return sections.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.only(
               bottom: 20,
@@ -29,7 +46,7 @@ class AppBannerCarousel extends StatelessWidget {
               height: 178,
               autoScroll: true,
               children: [
-                for (final snap in model.featuredSnaps)
+                for (final snap in sections)
                   _AppBannerCarouselItem.create(context, snap)
               ],
             ),
@@ -72,6 +89,7 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
     return AppBanner(
+      watermark: true,
       snap: widget.snap,
       surfaceTintColor: model.surfaceTintColor,
       onTap: () => showDialog(

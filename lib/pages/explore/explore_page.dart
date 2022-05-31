@@ -85,7 +85,9 @@ class ExplorePage extends StatelessWidget {
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
             children: [
               if (width < 1000 && !model.searchActive && model.exploreMode)
-                const AppBannerCarousel(),
+                const AppBannerCarousel(
+                  snapSection: SnapSection.featured,
+                ),
               if (model.searchActive)
                 const SizedBox(
                   height: 20,
@@ -108,7 +110,7 @@ class ExplorePage extends StatelessWidget {
                       findByQuery: false,
                     ),
               if (!model.searchActive && model.exploreMode)
-                const AppBannerGrid(snapSection: SnapSection.featured),
+                const AppBannerGrid(snapSection: SnapSection.development)
             ],
           ),
         ),

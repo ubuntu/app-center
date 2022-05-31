@@ -10,11 +10,13 @@ class AppBanner extends StatelessWidget {
     required this.snap,
     this.onTap,
     this.surfaceTintColor,
+    this.watermark = false,
   }) : super(key: key);
 
   final Snap snap;
   final Function()? onTap;
   final Color? surfaceTintColor;
+  final bool watermark;
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +38,17 @@ class AppBanner extends StatelessWidget {
                   icon: _SnapIcon(snap),
                   textOverflow: TextOverflow.visible,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Opacity(
-                      opacity: 0.1,
-                      child: SizedBox(height: 130, child: _SnapIcon(snap)),
+                if (watermark == true)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Opacity(
+                        opacity: 0.1,
+                        child: SizedBox(height: 130, child: _SnapIcon(snap)),
+                      ),
                     ),
                   ),
-                ),
               ],
             )
           : _Card(

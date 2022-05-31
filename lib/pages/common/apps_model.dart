@@ -109,14 +109,12 @@ class AppsModel extends SafeChangeNotifier {
   Map<String, List<Snap>> sectionNameToSnapsMap;
   Future<void> loadSection(String name) async {
     List<Snap> sectionList = [];
-    for (final featuredSnap in await findSnapsBySection(section: name)) {
-      sectionList.add(featuredSnap);
+    for (final snap in await findSnapsBySection(section: name)) {
+      sectionList.add(snap);
     }
     sectionNameToSnapsMap.putIfAbsent(name, () => sectionList);
     notifyListeners();
   }
-
-  List<Snap> get featuredSnaps => sectionNameToSnapsMap['featured'] ?? [];
 
   Future<void> refresh() {
     return _connectivity.checkConnectivity().then((state) {
