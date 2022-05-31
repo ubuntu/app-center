@@ -17,7 +17,8 @@ class SnapModel extends SafeChangeNotifier {
     this.colorGenerator,
     required this.huskSnapName,
   })  : _appChangeInProgress = false,
-        _channelToBeInstalled = '';
+        _channelToBeInstalled = '',
+        selectableChannels = {};
 
   /// Apps this snap provides.
   List<SnapApp>? get apps => _storeSnap?.apps;
@@ -28,8 +29,7 @@ class SnapModel extends SafeChangeNotifier {
   /// The channel this snap is from, e.g. "stable".
   String? get channel => _storeSnap?.channel;
 
-  /// Channels available for this snap.
-  Map<String, SnapChannel>? get channels => _storeSnap?.channels;
+  Map<String, SnapChannel> selectableChannels;
 
   /// Common IDs this snap contains.
   List<String>? get commonIds => _storeSnap?.commonIds;
@@ -57,7 +57,7 @@ class SnapModel extends SafeChangeNotifier {
   }
 
   /// Installed size in bytes.
-  int? get installedSize => _storeSnap?.installedSize;
+  int? get installedSize => _localSnap?.installedSize;
 
   /// Package license.
   String? get license => _storeSnap?.license;
@@ -84,7 +84,7 @@ class SnapModel extends SafeChangeNotifier {
   String? get title => _storeSnap?.title;
 
   /// The channel that updates will be installed from, e.g. "stable".
-  String? get trackingChannel => _storeSnap?.trackingChannel;
+  String? get trackingChannel => _localSnap?.trackingChannel;
 
   /// Tracks this snap uses.
   List<String>? get tracks => _storeSnap?.tracks;
@@ -120,10 +120,30 @@ class SnapModel extends SafeChangeNotifier {
   Future<void> init() async {
     _localSnap = await findLocalSnap(huskSnapName);
     _storeSnap = await findSnapByName(huskSnapName);
-    if (snapIsInstalled && _localSnap!.trackingChannel != null) {
-      channelToBeInstalled = _localSnap!.trackingChannel!;
+    print(tracks);
+    if (_storeSnap != null && _storeSnap!.tracks.isNotEmpty) {
+      for (var track in _storeSnap!.tracks) {
+        for (var risk in ['stable', 'candidate', 'beta', 'edge']) {
+          var name = '$track/$risk';
+          var channel = _storeSnap!.channels[name];
+          final channelName = '$track/$risk';
+          if (channel != null) {
+            selectableChannels.putIfAbsent(channelName, () => channel);
+          }
+        }
+      }
+    }
+    if (snapIsInstalled) {
+      if (trackingChannel != null &&
+          selectableChannels.entries
+              .where((element) => element.key == trackingChannel)
+              .isNotEmpty) {
+        channelToBeInstalled = trackingChannel!;
+      } else {
+        channelToBeInstalled = selectableChannels.entries.first.key;
+      }
     } else if (_storeSnap != null) {
-      channelToBeInstalled = channels!.entries.first.key;
+      channelToBeInstalled = selectableChannels.entries.first.key;
     }
     notifyListeners();
   }
@@ -210,8 +230,8 @@ class SnapModel extends SafeChangeNotifier {
     return await client.getApps();
   }
 
-  String? get versionString => channels?[channelToBeInstalled] != null
-      ? channels![channelToBeInstalled]!.version
+  String? get versionString => selectableChannels[channelToBeInstalled] != null
+      ? selectableChannels[channelToBeInstalled]!.version
       : version;
 
   Color get surfaceTintColor {

@@ -40,16 +40,14 @@ class _AppDialogState extends State<AppDialog> {
       title: const _Title(),
       content: const _Content(),
       actions: [
-        if (model.channels != null &&
-            model.channels!.isNotEmpty &&
-            model.channelToBeInstalled.isNotEmpty)
+        if (model.selectableChannels.isNotEmpty)
           DropdownButton<String>(
             icon: const Icon(YaruIcons.pan_down),
             borderRadius: BorderRadius.circular(10),
             elevation: 1,
             value: model.channelToBeInstalled,
             items: [
-              for (final entry in model.channels!.entries)
+              for (final entry in model.selectableChannels.entries)
                 DropdownMenuItem<String>(
                   value: entry.key,
                   child: Text(
