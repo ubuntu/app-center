@@ -30,7 +30,7 @@ class AppBanner extends StatelessWidget {
                 _Card(
                   borderRadius: borderRadius,
                   color: surfaceTintColor!,
-                  title: snap.title,
+                  title: snap.title ?? '',
                   summary: snap.summary,
                   elevation: 4,
                   icon: _SnapIcon(snap),
@@ -55,7 +55,7 @@ class AppBanner extends StatelessWidget {
                   : Theme.of(context).colorScheme.onBackground,
               elevation: light ? 2 : 1,
               icon: _SnapIcon(snap),
-              title: snap.title,
+              title: snap.title ?? '',
               summary: snap.summary,
               textOverflow: TextOverflow.ellipsis,
             ),

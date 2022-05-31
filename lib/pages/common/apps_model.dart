@@ -22,7 +22,7 @@ class AppsModel extends SafeChangeNotifier {
   List<SnapApp> snapApps;
   Future<List<SnapApp>> loadSnapApps() async {
     await client.loadAuthorization();
-    final apps = await client.apps();
+    final apps = await client.getApps();
     snapApps.clear();
     snapApps.addAll(apps.where((element) => element.desktopFile != null));
     notifyListeners();

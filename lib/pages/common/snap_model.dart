@@ -2,99 +2,100 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/snapx.dart';
 import 'package:software/services/color_generator.dart';
+import 'package:software/snapx.dart';
 
 class SnapModel extends SafeChangeNotifier {
   final SnapdClient client;
   final ColorGenerator? colorGenerator;
   final String huskSnapName;
-  Snap? _snap;
+  Snap? _storeSnap;
+  Snap? _localSnap;
 
   SnapModel({
     required this.client,
     this.colorGenerator,
     required this.huskSnapName,
   })  : _appChangeInProgress = false,
-        _channelToBeInstalled = '',
-        _snapIsInstalled = false;
+        _channelToBeInstalled = '';
 
   /// Apps this snap provides.
-  List<SnapApp>? get apps => _snap?.apps;
+  List<SnapApp>? get apps => _storeSnap?.apps;
 
   /// The base snap this snap uses.
-  String? get base => _snap?.base;
+  String? get base => _storeSnap?.base;
 
   /// The channel this snap is from, e.g. "stable".
-  String? get channel => _snap?.channel;
+  String? get channel => _storeSnap?.channel;
 
   /// Channels available for this snap.
-  Map<String, SnapChannel>? get channels => _snap?.channels;
+  Map<String, SnapChannel>? get channels => _storeSnap?.channels;
 
   /// Common IDs this snap contains.
-  List<String>? get commonIds => _snap?.commonIds;
+  List<String>? get commonIds => _storeSnap?.commonIds;
 
   /// The confinement this snap is using.
-  SnapConfinement? get confinement => _snap?.confinement;
+  SnapConfinement? get confinement => _storeSnap?.confinement;
 
   /// Contact URL.
-  String? get contact => _snap?.contact;
+  String? get contact => _storeSnap?.contact;
 
   /// Multi line description.
-  String? get description => _snap?.description;
+  String? get description => _storeSnap?.description;
 
   /// Download size in bytes.
-  int? get downloadSize => _snap?.downloadSize;
+  int? get downloadSize => _storeSnap?.downloadSize;
 
   /// Unique ID for this snap.
-  String? get id => _snap?.id;
+  String? get id => _storeSnap?.id;
 
   /// The date this snap was installed.
-  String get installDate => _snap != null && _snap!.installDate != null
-      ? DateFormat.yMMMEd().format(_snap!.installDate!)
-      : 'not installed';
+  String get installDate =>
+      _storeSnap != null && _localSnap!.installDate != null
+          ? DateFormat.yMMMEd().format(_localSnap!.installDate!)
+          : 'not installed';
 
   /// Installed size in bytes.
-  int? get installedSize => _snap?.installedSize;
+  int? get installedSize => _storeSnap?.installedSize;
 
   /// Package license.
-  String? get license => _snap?.license;
+  String? get license => _storeSnap?.license;
 
   /// Media associated with this snap.
-  List<SnapMedia>? get media => _snap?.media;
+  List<SnapMedia>? get media => _storeSnap?.media;
 
   /// Unique name for this snap. Use [title] for displaying.
-  String? get name => _snap?.name;
+  String? get name => _storeSnap?.name;
 
   /// Publisher information.
-  SnapPublisher? get publisher => _snap?.publisher;
+  SnapPublisher? get publisher => _storeSnap?.publisher;
 
   /// Revision of this snap.
-  String? get revision => _snap?.revision;
+  String? get revision => _storeSnap?.revision;
 
   /// URL linking to the snap store page on this snap.
-  String? get storeUrl => _snap?.storeUrl;
+  String? get storeUrl => _storeSnap?.storeUrl;
 
   /// Single line summary.
-  String? get summary => _snap?.summary;
+  String? get summary => _storeSnap?.summary;
 
   /// Title of this snap.
-  String? get title => _snap?.title;
+  String? get title => _storeSnap?.title;
 
   /// The channel that updates will be installed from, e.g. "stable".
-  String? get trackingChannel => _snap?.trackingChannel;
+  String? get trackingChannel => _storeSnap?.trackingChannel;
 
   /// Tracks this snap uses.
-  List<String>? get tracks => _snap?.tracks;
+  List<String>? get tracks => _storeSnap?.tracks;
 
   /// Type of snap.
-  String? get type => _snap?.type;
+  String? get type => _storeSnap?.type;
 
   /// Version of this snap.
-  String? get version => _snap?.version;
+  String? get version => _storeSnap?.version;
 
   /// Website URL.
-  String? get website => _snap?.website;
+  String? get website => _storeSnap?.website;
 
   bool _appChangeInProgress;
   bool get appChangeInProgress => _appChangeInProgress;
@@ -104,23 +105,8 @@ class SnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  // TODO: when [installDate] is provided for any installed channel we only need to check it for null in this getter
-  // and remove the setter
-  bool _snapIsInstalled;
-  bool get snapIsInstalled => _snapIsInstalled;
-  set snapIsInstalled(bool value) {
-    if (value == _snapIsInstalled) return;
-    _snapIsInstalled = value;
-    notifyListeners();
-  }
-
-  Future<bool> _checkIfSnapIsInstalled(String snap) async {
-    final installedSnapApps = await snapApps;
-    for (var snapApp in installedSnapApps) {
-      if (snap == snapApp.snap) return true;
-    }
-    return false;
-  }
+  bool get snapIsInstalled =>
+      _localSnap != null && _localSnap!.installDate != null;
 
   String _channelToBeInstalled;
   String get channelToBeInstalled => _channelToBeInstalled;
@@ -131,23 +117,23 @@ class SnapModel extends SafeChangeNotifier {
   }
 
   Future<void> init() async {
-    snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
-    _snap = await findSnapByName(huskSnapName);
-
-    if (_snap != null) {
-      if (channels != null && channels!.entries.isNotEmpty) {
-        if (snapIsInstalled) {
-          for (var entry in channels!.entries) {
-            if (entry.value.version == version) {
-              channelToBeInstalled = entry.key;
-            }
-          }
-        } else {
-          channelToBeInstalled = channels!.entries.first.key;
-        }
-      }
+    _localSnap = await findLocalSnap(huskSnapName);
+    _storeSnap = await findSnapByName(huskSnapName);
+    if (snapIsInstalled && _localSnap!.trackingChannel != null) {
+      channelToBeInstalled = _localSnap!.trackingChannel!;
+    } else if (_storeSnap != null) {
+      channelToBeInstalled = channels!.entries.first.key;
     }
     notifyListeners();
+  }
+
+  Future<Snap?> findLocalSnap(String huskSnapName) async {
+    await client.loadAuthorization();
+    try {
+      return await client.getSnap(huskSnapName);
+    } on SnapdException {
+      return null;
+    }
   }
 
   Future<Snap> findSnapByName(String name) async {
@@ -174,9 +160,7 @@ class SnapModel extends SafeChangeNotifier {
         const Duration(milliseconds: 100),
       );
     }
-    _snap = await findSnapByName(huskSnapName);
-    snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
-    _snap = await findSnapByName(huskSnapName);
+    _localSnap = await findLocalSnap(huskSnapName);
     notifyListeners();
   }
 
@@ -195,10 +179,7 @@ class SnapModel extends SafeChangeNotifier {
         const Duration(milliseconds: 100),
       );
     }
-    _snap = await findSnapByName(huskSnapName);
-    snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
-    _snap = await findSnapByName(huskSnapName);
-
+    _localSnap = await findLocalSnap(huskSnapName);
     notifyListeners();
   }
 
@@ -218,16 +199,14 @@ class SnapModel extends SafeChangeNotifier {
         const Duration(milliseconds: 100),
       );
     }
-    _snap = await findSnapByName(huskSnapName);
-    snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
-    _snap = await findSnapByName(huskSnapName);
+    _localSnap = await findLocalSnap(huskSnapName);
 
     notifyListeners();
   }
 
   Future<List<SnapApp>> get snapApps async {
     await client.loadAuthorization();
-    return await client.apps();
+    return await client.getApps();
   }
 
   String? get versionString => channels?[channelToBeInstalled] != null
@@ -244,7 +223,7 @@ class SnapModel extends SafeChangeNotifier {
   Color? _surfaceTintColor;
 
   Future<void> _generateSurfaceTintColor() async {
-    final url = _snap?.iconUrl;
+    final url = _storeSnap?.iconUrl;
     final color = url != null ? await colorGenerator?.generateColor(url) : null;
     if (_surfaceTintColor != color) {
       _surfaceTintColor = color;
