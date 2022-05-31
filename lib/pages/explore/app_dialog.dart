@@ -244,7 +244,9 @@ class _Title extends StatelessWidget {
                 children: [
                   const Text('Last updated', style: headerStyle),
                   Text(
-                    model.installDate,
+                    model.installDate.isNotEmpty
+                        ? model.installDate
+                        : 'Not installed',
                     style: headerStyle.copyWith(fontWeight: FontWeight.normal),
                   ),
                 ],

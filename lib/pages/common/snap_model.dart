@@ -50,10 +50,11 @@ class SnapModel extends SafeChangeNotifier {
   String? get id => _storeSnap?.id;
 
   /// The date this snap was installed.
-  String get installDate =>
-      _storeSnap != null && _localSnap!.installDate != null
-          ? DateFormat.yMMMEd().format(_localSnap!.installDate!)
-          : 'not installed';
+  String get installDate {
+    if (_localSnap == null || _localSnap!.installDate == null) return '';
+
+    return DateFormat.yMMMEd().format(_localSnap!.installDate!);
+  }
 
   /// Installed size in bytes.
   int? get installedSize => _storeSnap?.installedSize;
