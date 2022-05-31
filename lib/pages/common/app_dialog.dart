@@ -97,13 +97,10 @@ class _RemoveButton extends StatelessWidget {
 
     return OutlinedButton(
       onPressed: () => model.removeSnap(),
-      child: Text(
-        'Remove',
-        style: TextStyle(
-            color: model.appChangeInProgress
-                ? Theme.of(context).disabledColor
-                : Theme.of(context).errorColor),
-      ),
+      child: Text('Remove',
+          style: model.appChangeInProgress
+              ? TextStyle(color: Theme.of(context).disabledColor)
+              : null),
     );
   }
 }
@@ -198,9 +195,23 @@ class _Title extends StatelessWidget {
                         ),
                         if (model.snapIsInstalled)
                           SizedBox(
-                              child: ElevatedButton(
-                                  onPressed: () => model.open(),
-                                  child: const Text('Open')))
+                            child: CircleAvatar(
+                              backgroundColor: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.05),
+                              child: IconButton(
+                                tooltip: 'open',
+                                splashRadius: 20,
+                                onPressed: () => model.open(),
+                                icon: Icon(
+                                  YaruIcons.checkmark,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
+                              ),
+                            ),
+                          )
                       ],
                     ),
                     const SizedBox(
