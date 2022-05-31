@@ -17,30 +17,11 @@ class AppsModel extends SafeChangeNotifier {
         _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
-        snapApps = [],
         sectionNameToSnapsMap = {};
 
-  Future<List<Snap>> findSnapsBySection({String? section}) async =>
-      (await client.find(section: section));
-
-  Future<Snap> findSnapByName(String name) async =>
-      (await client.find(name: name)).first;
-
-  List<SnapApp> snapApps;
-  Future<List<SnapApp>> loadSnapApps() async {
-    await client.loadAuthorization();
-    final apps = await client.getApps();
-    snapApps.clear();
-    snapApps.addAll(apps.where((element) => element.desktopFile != null));
-    notifyListeners();
-    return apps;
-  }
-
-  Future<bool> snapIsIstalled(Snap snap) async {
-    for (var snapApp in (await loadSnapApps())) {
-      if (snap.name == snapApp.snap) return true;
-    }
-    return false;
+  Future<List<Snap>> findSnapsBySection({String? section}) async {
+    if (section == null) return [];
+    return (await client.find(section: section));
   }
 
   bool _searchActive;
@@ -115,7 +96,9 @@ class AppsModel extends SafeChangeNotifier {
 
   Map<SnapApp, Snap> snapAppToSnapMap;
   Future<void> mapSnaps() async {
-    for (var snapApp in (await loadSnapApps()).where(
+    await client.loadAuthorization();
+    final snapApps = await client.getApps();
+    for (var snapApp in snapApps.where(
         (snapApp) => snapApp.desktopFile != null && snapApp.snap != null)) {
       final snapsWithThisName = await client.getSnap(snapApp.snap!);
       snapAppToSnapMap.putIfAbsent(snapApp, () => snapsWithThisName);
@@ -151,7 +134,8 @@ class AppsModel extends SafeChangeNotifier {
   bool get appIsOnline =>
       _state == ConnectivityResult.ethernet ||
       _state == ConnectivityResult.wifi;
-  Future<void> init() async {
+
+  Future<void> initConnectivity() async {
     _sub = _connectivity.onConnectivityChanged.listen((state) {
       _state = state;
       notifyListeners();

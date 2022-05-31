@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/explore/explore_page.dart';
-import 'package:software/pages/my_apps/my_apps_page.dart';
 import 'package:software/pages/settings/settings_page.dart';
 import 'package:software/pages/updates/updates_page.dart';
 import 'package:software/store_model.dart';
@@ -49,8 +48,8 @@ class _StoreAppState extends State<StoreApp> {
                         iconData: YaruIcons.compass,
                       ),
                     const YaruPageItem(
-                      titleBuilder: MyAppsPage.createTitle,
-                      builder: MyAppsPage.create,
+                      titleBuilder: SnapUpdatesPage.createTitle,
+                      builder: SnapUpdatesPage.create,
                       iconData: YaruIcons.ok,
                     ),
                     if (model.appIsOnline)

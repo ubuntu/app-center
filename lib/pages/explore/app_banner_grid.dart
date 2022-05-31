@@ -6,7 +6,7 @@ import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/common/snap_model.dart';
 import 'package:software/pages/common/snap_section.dart';
 import 'package:software/pages/explore/app_banner.dart';
-import 'package:software/pages/explore/app_dialog.dart';
+import 'package:software/pages/common/app_dialog.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 

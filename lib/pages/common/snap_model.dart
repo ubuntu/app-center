@@ -1,11 +1,19 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/snapx.dart';
+import 'package:xdg_icons/xdg_icons.dart';
+import 'package:yaru_icons/yaru_icons.dart';
+
+const fallBackIcon = XdgIconTheme(
+    data: XdgIconThemeData(theme: 'Yaru'),
+    child: XdgIcon(name: 'application-x-executable', size: 50));
 
 class SnapModel extends SafeChangeNotifier {
   final SnapdClient client;
@@ -20,10 +28,11 @@ class SnapModel extends SafeChangeNotifier {
     required this.huskSnapName,
   })  : _appChangeInProgress = false,
         _channelToBeInstalled = '',
-        selectableChannels = {};
+        selectableChannels = {},
+        icon = fallBackIcon;
 
   /// Apps this snap provides.
-  List<SnapApp>? get apps => _storeSnap?.apps;
+  List<SnapApp>? get apps => _localSnap?.apps;
 
   /// The base snap this snap uses.
   String? get base => _storeSnap?.base;
@@ -259,5 +268,40 @@ class SnapModel extends SafeChangeNotifier {
       [],
       mode: ProcessStartMode.detached,
     );
+  }
+
+  Widget icon;
+  Future<void> getIcon(File file) async {
+    final iconLine = (await file
+            .openRead()
+            .map(utf8.decode)
+            .transform(const LineSplitter())
+            .where((line) => line.contains('Icon='))
+            .first)
+        .replaceAll('Icon=', '');
+    if (iconLine.endsWith('.png') || iconLine.endsWith('.jpg')) {
+      icon = Image.file(
+        File(iconLine),
+        filterQuality: FilterQuality.medium,
+        width: 50,
+      );
+    }
+    if (iconLine.endsWith('.svg')) {
+      try {
+        icon = SvgPicture.file(
+          File(iconLine),
+          width: 50,
+        );
+      } finally {
+        icon = fallBackIcon;
+      }
+    }
+    if (!iconLine.contains('/')) {
+      icon = XdgIconTheme(
+        data: const XdgIconThemeData(theme: 'Yaru'),
+        child: XdgIcon(name: iconLine, size: 48),
+      );
+    }
+    notifyListeners();
   }
 }
