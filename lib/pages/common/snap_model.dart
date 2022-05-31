@@ -9,7 +9,6 @@ import 'package:snapd/snapd.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/snapx.dart';
 import 'package:xdg_icons/xdg_icons.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 
 const fallBackIcon = XdgIconTheme(
     data: XdgIconThemeData(theme: 'Yaru'),
