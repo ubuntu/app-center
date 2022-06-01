@@ -19,15 +19,26 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruPage(children: [
-      YaruRow(
-        trailingWidget: const Text('Software'),
-        actionWidget: TextButton(
-            onPressed: () => showAboutDialog(context: context),
-            child: const Text('Show About Dialog')),
-        enabled: true,
-        width: 500,
-      )
-    ]);
+    return Navigator(
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (context) {
+            return YaruPage(children: [
+              YaruRow(
+                trailingWidget: const Text('Software v0.0.1-alpha'),
+                actionWidget: TextButton(
+                    onPressed: () {
+                      showAboutDialog(
+                          context: context, useRootNavigator: false);
+                    },
+                    child: const Text('About')),
+                enabled: true,
+                width: 500,
+              )
+            ]);
+          },
+        );
+      },
+    );
   }
 }
