@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/apps_model.dart';
-import 'package:software/pages/common/offline_page.dart';
 import 'package:software/pages/common/snap_model.dart';
 import 'package:software/pages/common/snap_tile.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -70,36 +69,40 @@ class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
   Widget build(BuildContext context) {
     final appsModel = context.watch<AppsModel>();
 
-    return appsModel.appIsOnline
-        ? Center(
-            child: appsModel.snapAppToSnapMap.isEmpty
-                ? const YaruCircularProgressIndicator()
-                : Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: appsModel.snapAppToSnapMap.length,
-                      itemBuilder: (context, index) {
-                        final huskSnapName = appsModel.snapAppToSnapMap.entries
+    if (!appsModel.appIsOnline) {
+      return const Center(
+        child: YaruCircularProgressIndicator(),
+      );
+    } else {
+      return Center(
+        child: appsModel.snapAppToSnapMap.isEmpty
+            ? const YaruCircularProgressIndicator()
+            : Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: appsModel.snapAppToSnapMap.length,
+                  itemBuilder: (context, index) {
+                    final huskSnapName = appsModel.snapAppToSnapMap.entries
+                        .elementAt(index)
+                        .value
+                        .name;
+                    return ChangeNotifierProvider(
+                      create: (context) => SnapModel(
+                        client: getService<SnapdClient>(),
+                        huskSnapName: huskSnapName,
+                      ),
+                      child: SnapTile(
+                        appIsOnline: appsModel.appIsOnline,
+                        snapApp: appsModel.snapAppToSnapMap.entries
                             .elementAt(index)
-                            .value
-                            .name;
-                        return ChangeNotifierProvider(
-                          create: (context) => SnapModel(
-                            client: getService<SnapdClient>(),
-                            huskSnapName: huskSnapName,
-                          ),
-                          child: SnapTile(
-                            appIsOnline: appsModel.appIsOnline,
-                            snapApp: appsModel.snapAppToSnapMap.entries
-                                .elementAt(index)
-                                .key,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-          )
-        : const OfflinePage();
+                            .key,
+                      ),
+                    );
+                  },
+                ),
+              ),
+      );
+    }
   }
 }

@@ -9,7 +9,6 @@ import 'package:software/pages/common/snap_model.dart';
 import 'package:software/pages/common/snap_section.dart';
 import 'package:software/pages/explore/app_banner.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppBannerGrid extends StatefulWidget {
   const AppBannerGrid({Key? key, required this.snapSection, this.amount = 20})
@@ -33,51 +32,52 @@ class _AppBannerGridState extends State<AppBannerGrid> {
   Widget build(BuildContext context) {
     final model = context.watch<AppsModel>();
     final sections = model.sectionNameToSnapsMap[widget.snapSection.title];
-    return sections != null && sections.isNotEmpty
-        ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 6, top: 10, bottom: 10),
-                child: Text(
-                  widget.snapSection.localize(context.l10n),
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4!
-                      .copyWith(fontWeight: FontWeight.w200),
-                ),
-              ),
-              GridView(
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  mainAxisExtent: 110,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 20,
-                  maxCrossAxisExtent: 500,
-                ),
-                children: sections.take(widget.amount).map((snap) {
-                  final snapModel = SnapModel(
-                      huskSnapName: snap.name,
-                      client: getService<SnapdClient>());
-                  return ChangeNotifierProvider<SnapModel>(
-                    create: (context) => snapModel,
-                    child: AppBanner(
-                      snap: snap,
-                      onTap: () => showDialog(
-                        barrierColor: Theme.of(context).brightness ==
-                                Brightness.light
+    if (sections == null || sections.isEmpty) {
+      return const SizedBox();
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 6, top: 10, bottom: 10),
+            child: Text(
+              widget.snapSection.localize(context.l10n),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4!
+                  .copyWith(fontWeight: FontWeight.w200),
+            ),
+          ),
+          GridView(
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              mainAxisExtent: 110,
+              mainAxisSpacing: 20,
+              crossAxisSpacing: 20,
+              maxCrossAxisExtent: 500,
+            ),
+            children: sections.take(widget.amount).map((snap) {
+              final snapModel = SnapModel(
+                  huskSnapName: snap.name, client: getService<SnapdClient>());
+              return ChangeNotifierProvider<SnapModel>(
+                create: (context) => snapModel,
+                child: AppBanner(
+                  snap: snap,
+                  onTap: () => showDialog(
+                    barrierColor:
+                        Theme.of(context).brightness == Brightness.light
                             ? Theme.of(context).colorScheme.barrierColorLight
                             : Theme.of(context).colorScheme.barrierColorDark,
-                        context: context,
-                        builder: (context) => ChangeNotifierProvider.value(
-                            value: snapModel, child: const AppDialog()),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
-          )
-        : const YaruCircularProgressIndicator();
+                    context: context,
+                    builder: (context) => ChangeNotifierProvider.value(
+                        value: snapModel, child: const AppDialog()),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      );
+    }
   }
 }
