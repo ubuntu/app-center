@@ -129,7 +129,11 @@ class _ExplorePageState extends State<ExplorePage> {
                             findByQuery: false,
                           ),
                     if (!model.searchActive && model.exploreMode)
-                      const AppBannerGrid(snapSection: SnapSection.development)
+                      for (int i = 0; i < model.filters.entries.length; i++)
+                        if (model.filters.entries.elementAt(i).value == true)
+                          AppBannerGrid(
+                              snapSection:
+                                  model.filters.entries.elementAt(i).key)
                   ],
                 ),
               ),

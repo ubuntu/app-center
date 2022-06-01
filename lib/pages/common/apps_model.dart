@@ -54,7 +54,7 @@ class AppsModel extends SafeChangeNotifier {
   final Map<SnapSection, bool> filters = {
     SnapSection.art_and_design: false,
     SnapSection.books_and_reference: false,
-    SnapSection.development: false,
+    SnapSection.development: true,
     SnapSection.devices_and_iot: false,
     SnapSection.education: false,
     SnapSection.entertainment: false,
