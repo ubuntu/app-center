@@ -262,8 +262,9 @@ class SnapModel extends SafeChangeNotifier {
   }
 
   void open() {
+    if (_localSnap == null && _localSnap!.apps.isEmpty) return;
     Process.start(
-      huskSnapName,
+      _localSnap!.apps.first.name,
       [],
       mode: ProcessStartMode.detached,
     );
