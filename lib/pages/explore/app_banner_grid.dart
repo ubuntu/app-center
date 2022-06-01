@@ -50,7 +50,7 @@ class _AppBannerGridState extends State<AppBannerGrid> {
               GridView(
                 shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  mainAxisExtent: 150,
+                  mainAxisExtent: 110,
                   mainAxisSpacing: 20,
                   crossAxisSpacing: 20,
                   maxCrossAxisExtent: 500,
