@@ -12,6 +12,11 @@ class AppsModel extends SafeChangeNotifier {
   ConnectivityResult? _state;
   ConnectivityResult? get state => _state;
 
+  final Map<SnapSection, bool> filters = {
+    for (final snapSection in SnapSection.values)
+      snapSection: snapSection == SnapSection.development ? true : false,
+  };
+
   AppsModel(this.client, this._connectivity)
       : snapAppToSnapMap = {},
         _searchActive = false,
@@ -50,29 +55,6 @@ class AppsModel extends SafeChangeNotifier {
     _searchQuery = value;
     notifyListeners();
   }
-
-  final Map<SnapSection, bool> filters = {
-    SnapSection.art_and_design: false,
-    SnapSection.books_and_reference: false,
-    SnapSection.development: true,
-    SnapSection.devices_and_iot: false,
-    SnapSection.education: false,
-    SnapSection.entertainment: false,
-    SnapSection.featured: false,
-    SnapSection.finance: false,
-    SnapSection.games: false,
-    SnapSection.health_and_fitness: false,
-    SnapSection.music_and_audio: false,
-    SnapSection.news_and_weather: false,
-    SnapSection.personalisation: false,
-    SnapSection.photo_and_video: false,
-    SnapSection.productivity: false,
-    SnapSection.science: false,
-    SnapSection.security: false,
-    SnapSection.server_and_cloud: false,
-    SnapSection.social: false,
-    SnapSection.utilities: false,
-  };
 
   List<SnapSection> get selectedFilters =>
       filters.entries
@@ -140,4 +122,6 @@ class AppsModel extends SafeChangeNotifier {
     });
     return refresh();
   }
+
+  Future<void> loadSnapsWithUpdates() async {}
 }
