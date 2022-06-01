@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/explore/explore_page.dart';
-import 'package:software/pages/my_apps/my_apps_page.dart';
 import 'package:software/pages/settings/settings_page.dart';
 import 'package:software/pages/updates/updates_page.dart';
 import 'package:yaru/yaru.dart';
@@ -32,8 +31,8 @@ class StoreApp extends StatelessWidget {
                       iconData: YaruIcons.compass,
                     ),
                     YaruPageItem(
-                      titleBuilder: MyAppsPage.createTitle,
-                      builder: MyAppsPage.create,
+                      titleBuilder: SnapUpdatesPage.createTitle,
+                      builder: SnapUpdatesPage.create,
                       iconData: YaruIcons.ok,
                     ),
                     YaruPageItem(

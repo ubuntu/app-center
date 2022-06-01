@@ -2,8 +2,8 @@
 
 An alternative software store for the Ubuntu Desktop made with Flutter.
 
-![](.github/assets/light.png)
-![](.github/assets/light_dialog.png)
+![](.github/assets/explore.png)
+![](.github/assets/dialog.png)
 
 ## Goals
 
@@ -18,14 +18,13 @@ An alternative software store for the Ubuntu Desktop made with Flutter.
   - [X] refresh
   - [X] switch channels
   - [ ] manage plugs and permissions
-- [ ] Firmware support (https://github.com/canonical/fwupd.dart & https://github.com/canonical/firmware-updater)
-- [ ] deb support (https://github.com/robert-ancell/dpkg.dart)
+- [ ] deb support (https://github.com/canonical/packagekit.dart)
   - [ ] install from file-explorer
   - [ ] remove
 
-## Optional long term goals
+## Firmware updater
 
-- [ ]  flatpak support
+For the firmware updates the flutter linux desktop, yaru-designed application [firmware-updater](https://github.com/canonical/firmware-updater) is recommended
 
 
 ## Build

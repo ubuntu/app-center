@@ -1,80 +1,112 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/snapx.dart';
 import 'package:software/services/color_generator.dart';
+import 'package:software/snapx.dart';
+import 'package:xdg_icons/xdg_icons.dart';
+
+const fallBackIcon = XdgIconTheme(
+    data: XdgIconThemeData(theme: 'Yaru'),
+    child: XdgIcon(name: 'application-x-executable', size: 50));
 
 class SnapModel extends SafeChangeNotifier {
   final SnapdClient client;
   final ColorGenerator? colorGenerator;
   final String huskSnapName;
-  Snap? snap;
+  Snap? _storeSnap;
+  Snap? _localSnap;
+
+  SnapModel({
+    required this.client,
+    this.colorGenerator,
+    required this.huskSnapName,
+  })  : _appChangeInProgress = false,
+        _channelToBeInstalled = '',
+        selectableChannels = {},
+        icon = fallBackIcon;
 
   /// Apps this snap provides.
-  late List<SnapApp> apps;
+  List<SnapApp>? get apps => _localSnap?.apps;
 
-  /// Channel this snap is tracking.
-  late String channel;
+  /// The base snap this snap uses.
+  String? get base => _storeSnap?.base;
 
-  /// Channels available for this snap.
-  late Map<String, SnapChannel> channels;
+  /// The channel this snap is from, e.g. "stable".
+  String? get channel => _storeSnap?.channel;
+
+  Map<String, SnapChannel> selectableChannels;
 
   /// Common IDs this snap contains.
-  late List<String> commonIds;
+  List<String>? get commonIds => _storeSnap?.commonIds;
 
   /// The confinement this snap is using.
-  late SnapConfinement confinement;
+  SnapConfinement? get confinement => _storeSnap?.confinement;
 
   /// Contact URL.
-  late String? contact;
+  String? get contact => _storeSnap?.contact;
 
   /// Multi line description.
-  late String description;
+  String? get description => _storeSnap?.description;
 
   /// Download size in bytes.
-  late int? downloadSize;
+  int? get downloadSize => _storeSnap?.downloadSize;
 
   /// Unique ID for this snap.
-  late String id;
+  String? get id => _storeSnap?.id;
+
+  /// The date this snap was installed.
+  String get installDate {
+    if (_localSnap == null || _localSnap!.installDate == null) return '';
+
+    return DateFormat.yMMMEd().format(_localSnap!.installDate!);
+  }
 
   /// Installed size in bytes.
-  late int? installedSize;
+  int? get installedSize => _localSnap?.installedSize;
 
   /// Package license.
-  late String? license;
+  String? get license => _storeSnap?.license;
 
   /// Media associated with this snap.
-  late List<SnapMedia> media;
+  List<SnapMedia>? get media => _storeSnap?.media;
 
   /// Unique name for this snap. Use [title] for displaying.
-  late String name;
+  String? get name => _storeSnap?.name;
 
   /// Publisher information.
-  late SnapPublisher? publisher;
+  SnapPublisher? get publisher => _storeSnap?.publisher;
 
   /// Revision of this snap.
-  late String revision;
+  String? get revision => _storeSnap?.revision;
 
   /// URL linking to the snap store page on this snap.
-  late String? storeUrl;
+  String? get storeUrl => _storeSnap?.storeUrl;
 
   /// Single line summary.
-  late String summary;
+  String? get summary => _storeSnap?.summary;
 
   /// Title of this snap.
-  late String title;
+  String? get title => _storeSnap?.title;
+
+  /// The channel that updates will be installed from, e.g. "stable".
+  String? get trackingChannel => _localSnap?.trackingChannel;
 
   /// Tracks this snap uses.
-  late List<String> tracks;
+  List<String>? get tracks => _storeSnap?.tracks;
 
   /// Type of snap.
-  late String type;
+  String? get type => _storeSnap?.type;
 
   /// Version of this snap.
-  late String version;
+  String? get version => _storeSnap?.version;
 
   /// Website URL.
-  late String? website;
+  String? get website => _storeSnap?.website;
 
   bool _appChangeInProgress;
   bool get appChangeInProgress => _appChangeInProgress;
@@ -84,13 +116,8 @@ class SnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  bool _snapIsInstalled;
-  bool get snapIsInstalled => _snapIsInstalled;
-  set snapIsInstalled(bool value) {
-    if (value == _snapIsInstalled) return;
-    _snapIsInstalled = value;
-    notifyListeners();
-  }
+  bool get snapIsInstalled =>
+      _localSnap != null && _localSnap!.installDate != null;
 
   String _channelToBeInstalled;
   String get channelToBeInstalled => _channelToBeInstalled;
@@ -100,46 +127,43 @@ class SnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  SnapModel({
-    required this.client,
-    this.colorGenerator,
-    required this.huskSnapName,
-  })  : _appChangeInProgress = false,
-        _snapIsInstalled = false,
-        _channelToBeInstalled = '';
-
   Future<void> init() async {
-    snapIsInstalled = await _checkIfSnapIsInstalled(huskSnapName);
-    snap = await findSnapByName(huskSnapName);
-
-    if (snap != null) {
-      apps = snap!.apps;
-      channel = snap!.channel;
-      channels = snap!.channels;
-      commonIds = snap!.commonIds;
-      confinement = snap!.confinement;
-      contact = snap!.contact;
-      description = snap!.description;
-      downloadSize = snap!.downloadSize;
-      id = snap!.id;
-      installedSize = snap!.installedSize;
-      license = snap!.license;
-      media = snap!.media;
-      name = snap!.name;
-      publisher = snap!.publisher;
-      revision = snap!.revision;
-      storeUrl = snap!.storeUrl;
-      summary = snap!.summary;
-      title = snap!.title;
-      tracks = snap!.tracks;
-      type = snap!.type;
-      version = snap!.version;
-      website = snap!.website;
-      _channelToBeInstalled = snapIsInstalled
-          ? '${tracks.first}/$channel'
-          : channels.entries.first.key;
+    _localSnap = await findLocalSnap(huskSnapName);
+    _storeSnap = await findSnapByName(huskSnapName);
+    if (_storeSnap != null && _storeSnap!.tracks.isNotEmpty) {
+      for (var track in _storeSnap!.tracks) {
+        for (var risk in ['stable', 'candidate', 'beta', 'edge']) {
+          var name = '$track/$risk';
+          var channel = _storeSnap!.channels[name];
+          final channelName = '$track/$risk';
+          if (channel != null) {
+            selectableChannels.putIfAbsent(channelName, () => channel);
+          }
+        }
+      }
+    }
+    if (snapIsInstalled) {
+      if (trackingChannel != null &&
+          selectableChannels.entries
+              .where((element) => element.key == trackingChannel)
+              .isNotEmpty) {
+        channelToBeInstalled = trackingChannel!;
+      } else {
+        channelToBeInstalled = selectableChannels.entries.first.key;
+      }
+    } else if (_storeSnap != null) {
+      channelToBeInstalled = selectableChannels.entries.first.key;
     }
     notifyListeners();
+  }
+
+  Future<Snap?> findLocalSnap(String huskSnapName) async {
+    await client.loadAuthorization();
+    try {
+      return await client.getSnap(huskSnapName);
+    } on SnapdException {
+      return null;
+    }
   }
 
   Future<Snap> findSnapByName(String name) async {
@@ -147,12 +171,13 @@ class SnapModel extends SafeChangeNotifier {
     return snaps.first;
   }
 
-  Future<void> installSnap(Snap snap, String? channel) async {
+  Future<void> installSnap() async {
+    if (name == null) return;
     await client.loadAuthorization();
     final changeId = await client.install(
-      snap.name,
-      channel: channel,
-      classic: snap.confinement == SnapConfinement.classic,
+      name!,
+      channel: channelToBeInstalled,
+      classic: confinement == SnapConfinement.classic,
     );
     appChangeInProgress = true;
     while (true) {
@@ -165,19 +190,38 @@ class SnapModel extends SafeChangeNotifier {
         const Duration(milliseconds: 100),
       );
     }
-    appChangeInProgress = false;
-    snapIsInstalled = true;
+    _localSnap = await findLocalSnap(huskSnapName);
+    notifyListeners();
   }
 
-  Future<void> unInstallSnap(SnapApp snapApp) async {
+  Future<void> removeSnap() async {
+    if (name == null) return;
     await client.loadAuthorization();
-    final id = await client.remove(snapApp.name);
+    final id = await client.remove(name!);
     appChangeInProgress = true;
     while (true) {
       final change = await client.getChange(id);
       if (change.ready) {
         appChangeInProgress = false;
-        snapIsInstalled = false;
+        break;
+      }
+      await Future.delayed(
+        const Duration(milliseconds: 100),
+      );
+    }
+    _localSnap = await findLocalSnap(huskSnapName);
+    notifyListeners();
+  }
+
+  Future<void> refreshSnapApp() async {
+    if (name == null || channelToBeInstalled.isEmpty) return;
+    await client.loadAuthorization();
+    final id = await client.refresh(name!, channel: channelToBeInstalled);
+    appChangeInProgress = true;
+    while (true) {
+      final change = await client.getChange(id);
+      if (change.ready) {
+        appChangeInProgress = false;
         break;
       }
 
@@ -185,42 +229,18 @@ class SnapModel extends SafeChangeNotifier {
         const Duration(milliseconds: 100),
       );
     }
-    appChangeInProgress = false;
-  }
+    _localSnap = await findLocalSnap(huskSnapName);
 
-  Future<void> refreshSnapApp(Snap snap, String snapChannel) async {
-    await client.loadAuthorization();
-    final id = await client.refresh(snap.name, channel: snapChannel);
-    appChangeInProgress = true;
-    while (true) {
-      final change = await client.getChange(id);
-      if (change.ready) {
-        appChangeInProgress = false;
-        channelToBeInstalled = snapChannel;
-        break;
-      }
-
-      await Future.delayed(
-        const Duration(milliseconds: 100),
-      );
-    }
+    notifyListeners();
   }
 
   Future<List<SnapApp>> get snapApps async {
     await client.loadAuthorization();
-    return await client.apps();
+    return await client.getApps();
   }
 
-  Future<bool> _checkIfSnapIsInstalled(String snap) async {
-    final installedSnapApps = await snapApps;
-    for (var snapApp in installedSnapApps) {
-      if (snap == snapApp.snap) return true;
-    }
-    return false;
-  }
-
-  String get versionString => channels[channelToBeInstalled] != null
-      ? channels[channelToBeInstalled]!.version
+  String? get versionString => selectableChannels[channelToBeInstalled] != null
+      ? selectableChannels[channelToBeInstalled]!.version
       : version;
 
   Color get surfaceTintColor {
@@ -233,11 +253,55 @@ class SnapModel extends SafeChangeNotifier {
   Color? _surfaceTintColor;
 
   Future<void> _generateSurfaceTintColor() async {
-    final url = snap?.iconUrl;
+    final url = _storeSnap?.iconUrl;
     final color = url != null ? await colorGenerator?.generateColor(url) : null;
     if (_surfaceTintColor != color) {
       _surfaceTintColor = color;
       notifyListeners();
     }
+  }
+
+  void open() {
+    if (_localSnap == null && _localSnap!.apps.isEmpty) return;
+    Process.start(
+      _localSnap!.apps.first.name,
+      [],
+      mode: ProcessStartMode.detached,
+    );
+  }
+
+  Widget icon;
+  Future<void> getIcon(File file) async {
+    final iconLine = (await file
+            .openRead()
+            .map(utf8.decode)
+            .transform(const LineSplitter())
+            .where((line) => line.contains('Icon='))
+            .first)
+        .replaceAll('Icon=', '');
+    if (iconLine.endsWith('.png') || iconLine.endsWith('.jpg')) {
+      icon = Image.file(
+        File(iconLine),
+        filterQuality: FilterQuality.medium,
+        width: 50,
+      );
+    }
+    if (iconLine.endsWith('.svg')) {
+      try {
+        icon = SvgPicture.file(
+          File(iconLine),
+          width: 50,
+        );
+      } finally {
+        icon = fallBackIcon;
+      }
+    }
+    if (!iconLine.contains('/')) {
+      icon = XdgIconTheme(
+        data: const XdgIconThemeData(theme: 'Yaru'),
+        child: XdgIcon(name: iconLine, size: 48),
+      );
+    }
+    notifyListeners();
   }
 }
