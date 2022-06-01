@@ -25,7 +25,7 @@ class MyAppsPage extends StatefulWidget {
   }
 
   static Widget createTitle(BuildContext context) =>
-      Text(context.l10n.updatesPageTitle);
+      Text(context.l10n.myAppsPageTitle);
 }
 
 class _MyAppsPageState extends State<MyAppsPage> {

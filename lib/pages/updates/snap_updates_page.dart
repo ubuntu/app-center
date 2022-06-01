@@ -33,8 +33,8 @@ class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
   void initState() {
     super.initState();
     final appsModel = context.read<AppsModel>();
-    appsModel.mapSnaps();
     appsModel.initConnectivity();
+    appsModel.checkUpdates();
   }
 
   @override
@@ -47,15 +47,15 @@ class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
       );
     } else {
       return Center(
-        child: appsModel.snapAppToSnapMap.isEmpty
+        child: appsModel.updatesMap.isEmpty
             ? const YaruCircularProgressIndicator()
             : Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: appsModel.snapAppToSnapMap.length,
+                  itemCount: appsModel.updatesMap.length,
                   itemBuilder: (context, index) {
-                    final huskSnapName = appsModel.snapAppToSnapMap.entries
+                    final huskSnapName = appsModel.updatesMap.entries
                         .elementAt(index)
                         .value
                         .name;
@@ -66,9 +66,8 @@ class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
                       ),
                       child: SnapTile(
                         appIsOnline: appsModel.appIsOnline,
-                        snapApp: appsModel.snapAppToSnapMap.entries
-                            .elementAt(index)
-                            .key,
+                        snapApp:
+                            appsModel.updatesMap.entries.elementAt(index).key,
                       ),
                     );
                   },

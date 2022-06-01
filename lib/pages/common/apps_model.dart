@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/pages/common/snap_section.dart';
+import 'package:version/version.dart';
 
 class AppsModel extends SafeChangeNotifier {
   final SnapdClient client;
@@ -22,7 +23,8 @@ class AppsModel extends SafeChangeNotifier {
         _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
-        sectionNameToSnapsMap = {};
+        sectionNameToSnapsMap = {},
+        updatesMap = {};
 
   Future<List<Snap>> findSnapsBySection({String? section}) async {
     if (section == null) return [];
@@ -123,5 +125,29 @@ class AppsModel extends SafeChangeNotifier {
     return refresh();
   }
 
-  Future<void> loadSnapsWithUpdates() async {}
+  Map<SnapApp, Snap> updatesMap;
+  Future<void> checkUpdates() async {
+    await mapSnaps();
+    final updates = snapAppToSnapMap.entries.where((e) {
+      final snap = e.value;
+      final trackingChannel = snap.channels[snap.trackingChannel];
+      final tChanVersionString =
+          trackingChannel != null ? trackingChannel.version : snap.version;
+      var currentVersion = Version(0, 0, 1);
+      try {
+        currentVersion = Version.parse(snap.version);
+        // ignore: empty_catches
+      } catch (e) {}
+      var tChanVersion = Version(0, 0, 1);
+      try {
+        tChanVersion = Version.parse(tChanVersionString);
+        // ignore: empty_catches
+      } catch (e) {}
+      return currentVersion < tChanVersion;
+    });
+    for (final update in updates) {
+      updatesMap.putIfAbsent(update.key, () => update.value);
+    }
+    notifyListeners();
+  }
 }
