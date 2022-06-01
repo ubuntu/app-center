@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/deb_installer_model.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -11,7 +13,8 @@ class DebInstallerApp extends StatefulWidget {
 
   static Widget create(String debFileName) {
     return ChangeNotifierProvider(
-      create: (context) => DebInstallerModel(debFileName),
+      create: (context) =>
+          DebInstallerModel(debFileName, getService<PackageKitClient>()),
       child: const DebInstallerApp(),
     );
   }
@@ -48,7 +51,8 @@ class _DebInstallerAppState extends State<DebInstallerApp> {
                 YaruRow(
                   trailingWidget: Text(model.version),
                   actionWidget: ElevatedButton(
-                      onPressed: () {}, child: const Text('Install')),
+                      onPressed: () => model.install(),
+                      child: const Text('Install')),
                   enabled: true,
                 ),
               ],

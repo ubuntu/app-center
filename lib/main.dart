@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/deb_installer_app.dart';
 import 'package:software/services/color_generator.dart';
@@ -13,6 +14,10 @@ void main(List<String> args) async {
     registerService<Connectivity>(Connectivity.new);
     runApp(const StoreApp());
   } else if (args.first.endsWith('.deb')) {
+    registerService<PackageKitClient>(
+      PackageKitClient.new,
+      dispose: (service) => service.close(),
+    );
     runApp(DebInstallerApp.create(args.first));
   }
 }
