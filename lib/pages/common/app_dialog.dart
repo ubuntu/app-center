@@ -205,7 +205,7 @@ class _Title extends StatelessWidget {
                                 splashRadius: 20,
                                 onPressed: () => model.open(),
                                 icon: Icon(
-                                  Icons.open_in_new,
+                                  YaruIcons.external_link,
                                   color:
                                       Theme.of(context).colorScheme.onSurface,
                                 ),

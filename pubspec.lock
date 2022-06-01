@@ -63,7 +63,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.1"
+    version: "2.3.2"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -98,7 +98,7 @@ packages:
       name: connectivity_plus_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   crypto:
     dependency: transitive
     description:
@@ -283,7 +283,7 @@ packages:
       name: palette_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.3"
+    version: "0.3.3+1"
   path:
     dependency: transitive
     description:
@@ -487,6 +487,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  version:
+    dependency: "direct main"
+    description:
+      name: version
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   xdg_directories:
     dependency: transitive
     description:
@@ -536,7 +543,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "57dcaa5fc8657bc9734c56a71e3d779804b75d21"
+      resolved-ref: e473744793b7838c03d15e018c93e8a3f34c462b
       url: "https://github.com/ubuntu/yaru_icons.dart"
     source: git
     version: "0.2.1"
