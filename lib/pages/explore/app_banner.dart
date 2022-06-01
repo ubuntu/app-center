@@ -77,8 +77,9 @@ class _SnapIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const fallbackIcon = Icon(YaruIcons.package_snap, size: 65);
+    if (snap.iconUrl == null) return fallbackIcon;
     return Image.network(
-      snap.iconUrl ?? '',
+      snap.iconUrl!,
       filterQuality: FilterQuality.medium,
       fit: BoxFit.fitHeight,
       frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
