@@ -76,6 +76,7 @@ class _AppBannerGridState extends State<AppBannerGrid> {
               );
             }).toList(),
           ),
+          const SizedBox(height: 20),
         ],
       );
     }
