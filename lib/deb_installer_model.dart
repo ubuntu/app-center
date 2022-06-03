@@ -28,6 +28,14 @@ class DebInstallerModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  bool _appIsInstalled;
+  bool get appIsInstalled => _appIsInstalled;
+  set appIsInstalled(bool value) {
+    if (value == _appIsInstalled) return;
+    _appIsInstalled = value;
+    notifyListeners();
+  }
+
   bool _installationComplete;
   bool get installationComplete => _installationComplete;
   set installationComplete(bool value) {
@@ -48,7 +56,8 @@ class DebInstallerModel extends SafeChangeNotifier {
       : _progress = 0,
         _installationComplete = false,
         _removeComplete = false,
-        _status = '';
+        _status = '',
+        _appIsInstalled = false;
 
   Future<void> init() async {
     await client.connect();
@@ -64,32 +73,6 @@ class DebInstallerModel extends SafeChangeNotifier {
     if (_debBinaryFile != null) {
       _debBinaryFile!.close();
     }
-  }
-
-  Future<void> checkIsInstalled() async {
-    var transaction = await client.createTransaction();
-    var completer = Completer();
-    transaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        var id = event.packageId;
-        var status = {
-              PackageKitInfo.available: 'Available',
-              PackageKitInfo.installed: 'Installed'
-            }[event.info] ??
-            '         ';
-        print(
-          '$status ${id.name}-${id.version}.${id.arch} (${id.data})  ${event.summary}',
-        );
-      } else if (event is PackageKitErrorCodeEvent) {
-        print('${event.code}: ${event.details}');
-      } else if (event is PackageKitFinishedEvent) {
-        completer.complete();
-      }
-    });
-    await transaction.getPackages();
-    await completer.future;
-
-    await client.close();
   }
 
   Future<void> install() async {
