@@ -32,7 +32,8 @@ class _AppBannerCarouselState extends State<AppBannerCarousel> {
   Widget build(BuildContext context) {
     final model = context.watch<AppsModel>();
     final size = MediaQuery.of(context).size;
-    final sections = model.sectionNameToSnapsMap['featured'] ?? [];
+    final sections =
+        model.sectionNameToSnapsMap[SnapSection.featured.name] ?? [];
     return sections.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.only(

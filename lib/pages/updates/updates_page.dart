@@ -21,14 +21,14 @@ class UpdatesPage extends StatelessWidget {
         YaruIcons.package_snap,
         YaruIcons.package_deb,
       ],
-      tabTitles: const [
-        'Snaps',
-        'Debs',
+      tabTitles: [
+        context.l10n.snapPackages,
+        context.l10n.debianPackages,
       ],
       views: [
         SnapUpdatesPage.create(context),
-        const Center(
-          child: Text('Debs'),
+        Center(
+          child: Text(context.l10n.debianPackages),
         ),
       ],
     );

@@ -36,5 +36,11 @@
   "website": "Website",
   "description": "Description",
   "open": "Open",
-  "contact": "Contact"
+  "contact": "Contact",
+  "about": "About",
+  "showMore": "Show more",
+  "showLess": "Show less",
+  "offline": "Offline",
+  "snapPackages": "Snap packages",
+  "debianPackages": "Debian packages"
 } 

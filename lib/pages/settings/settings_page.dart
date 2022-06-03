@@ -34,7 +34,7 @@ class SettingsPage extends StatelessWidget {
                         useRootNavigator: false,
                       );
                     },
-                    child: const Text('About'),
+                    child: Text(context.l10n.about),
                   ),
                   enabled: true,
                   width: 500,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/color_scheme.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/common/snap_model.dart';
 import 'package:software/pages/explore/app_card.dart';
@@ -118,7 +119,9 @@ class _GridState extends State<_Grid> {
                         amount == widget.snapAmount ? 100 : widget.snapAmount,
                   ),
                   child: Text(
-                    amount == widget.snapAmount ? 'Show more' : 'Show less',
+                    amount == widget.snapAmount
+                        ? context.l10n.showMore
+                        : context.l10n.showLess,
                   ),
                 )
               ],
