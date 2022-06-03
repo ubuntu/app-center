@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Link extends StatelessWidget {
-  const Link(
-      {required this.url, required this.linkText, this.textStyle, super.key});
+  const Link({
+    required this.url,
+    required this.linkText,
+    this.textStyle,
+    super.key,
+  });
 
   final String url;
   final String linkText;

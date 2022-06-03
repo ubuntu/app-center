@@ -11,8 +11,9 @@ import 'package:software/snapx.dart';
 import 'package:xdg_icons/xdg_icons.dart';
 
 const fallBackIcon = XdgIconTheme(
-    data: XdgIconThemeData(theme: 'Yaru'),
-    child: XdgIcon(name: 'application-x-executable', size: 50));
+  data: XdgIconThemeData(theme: 'Yaru'),
+  child: XdgIcon(name: 'application-x-executable', size: 50),
+);
 
 class SnapModel extends SafeChangeNotifier {
   final SnapdClient client;

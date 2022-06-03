@@ -98,10 +98,12 @@ class _RemoveButton extends StatelessWidget {
 
     return OutlinedButton(
       onPressed: () => model.removeSnap(),
-      child: Text(context.l10n.remove,
-          style: model.appChangeInProgress
-              ? TextStyle(color: Theme.of(context).disabledColor)
-              : null),
+      child: Text(
+        context.l10n.remove,
+        style: model.appChangeInProgress
+            ? TextStyle(color: Theme.of(context).disabledColor)
+            : null,
+      ),
     );
   }
 }
@@ -251,8 +253,10 @@ class _Title extends StatelessWidget {
                       const SizedBox(
                         width: 5,
                       ),
-                      Text(model.confinement?.name ?? '',
-                          style: Theme.of(context).textTheme.bodyMedium),
+                      Text(
+                        model.confinement?.name ?? '',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                     ],
                   ),
                 ],
@@ -329,19 +333,20 @@ class _Content extends StatelessWidget {
                       InkWell(
                         borderRadius: BorderRadius.circular(10),
                         onTap: () => showDialog(
-                            context: context,
-                            builder: (context) => SimpleDialog(
-                                  children: [
-                                    InkWell(
-                                      onTap: () => Navigator.of(context).pop(),
-                                      child: Image.network(
-                                        image.url,
-                                        fit: BoxFit.contain,
-                                        filterQuality: FilterQuality.medium,
-                                      ),
-                                    )
-                                  ],
-                                )),
+                          context: context,
+                          builder: (context) => SimpleDialog(
+                            children: [
+                              InkWell(
+                                onTap: () => Navigator.of(context).pop(),
+                                child: Image.network(
+                                  image.url,
+                                  fit: BoxFit.contain,
+                                  filterQuality: FilterQuality.medium,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                         child: Image.network(
                           image.url,
                           fit: BoxFit.fitHeight,

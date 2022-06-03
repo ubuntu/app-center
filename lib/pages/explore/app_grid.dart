@@ -43,10 +43,11 @@ class _AppGridState extends State<AppGrid> {
     if (!widget.findByQuery) {
       final snaps = model.sectionNameToSnapsMap[widget.name];
       return _Grid(
-          appendBottomDivider: widget.appendBottomDivier,
-          snapAmount: widget.snapAmount,
-          headline: widget.headline,
-          snaps: snaps ?? []);
+        appendBottomDivider: widget.appendBottomDivier,
+        snapAmount: widget.snapAmount,
+        headline: widget.headline,
+        snaps: snaps ?? [],
+      );
     }
 
     return FutureBuilder<List<Snap>>(
@@ -56,7 +57,8 @@ class _AppGridState extends State<AppGrid> {
               appendBottomDivider: widget.appendBottomDivier,
               snapAmount: widget.snapAmount,
               headline: widget.headline,
-              snaps: snapshot.data!)
+              snaps: snapshot.data!,
+            )
           : const Center(
               child: Padding(
                 padding: EdgeInsets.all(20.0),
@@ -111,11 +113,14 @@ class _GridState extends State<_Grid> {
                   width: 20,
                 ),
                 TextButton(
-                    onPressed: () => setState(() => amount =
-                        amount == widget.snapAmount ? 100 : widget.snapAmount),
-                    child: Text(amount == widget.snapAmount
-                        ? 'Show more'
-                        : 'Show less'))
+                  onPressed: () => setState(
+                    () => amount =
+                        amount == widget.snapAmount ? 100 : widget.snapAmount,
+                  ),
+                  child: Text(
+                    amount == widget.snapAmount ? 'Show more' : 'Show less',
+                  ),
+                )
               ],
             ),
           if (widget.headline != null)
@@ -142,8 +147,9 @@ class _GridState extends State<_Grid> {
                       context: context,
                       builder: (context) => ChangeNotifierProvider<SnapModel>(
                         create: (context) => SnapModel(
-                            client: getService<SnapdClient>(),
-                            huskSnapName: snap.name),
+                          client: getService<SnapdClient>(),
+                          huskSnapName: snap.name,
+                        ),
                         child: const AppDialog(),
                       ),
                     ),

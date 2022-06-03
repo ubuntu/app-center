@@ -41,21 +41,24 @@ class _SnapTileState extends State<SnapTile> {
       minVerticalPadding: 20,
       onTap: () {
         showDialog(
-            barrierColor: Theme.of(context).brightness == Brightness.light
-                ? Theme.of(context).colorScheme.barrierColorLight
-                : Theme.of(context).colorScheme.barrierColorDark,
-            context: context,
-            builder: (context) {
-              if (widget.appIsOnline) {
-                return ChangeNotifierProvider.value(
-                    value: model, child: const AppDialog());
-              } else {
-                return ChangeNotifierProvider.value(
-                  value: model,
-                  child: OfflineDialog(snapApp: widget.snapApp),
-                );
-              }
-            });
+          barrierColor: Theme.of(context).brightness == Brightness.light
+              ? Theme.of(context).colorScheme.barrierColorLight
+              : Theme.of(context).colorScheme.barrierColorDark,
+          context: context,
+          builder: (context) {
+            if (widget.appIsOnline) {
+              return ChangeNotifierProvider.value(
+                value: model,
+                child: const AppDialog(),
+              );
+            } else {
+              return ChangeNotifierProvider.value(
+                value: model,
+                child: OfflineDialog(snapApp: widget.snapApp),
+              );
+            }
+          },
+        );
       },
       leading: model.icon,
       title: Text(widget.snapApp.snap!),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -29,7 +30,7 @@ class OfflineDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Uninstall',
+                  context.l10n.remove,
                   style: TextStyle(
                     color: model.appChangeInProgress
                         ? Theme.of(context).disabledColor
@@ -52,12 +53,15 @@ class OfflineDialog extends StatelessWidget {
         ),
         // if (model.snapIsInstalled)
         Padding(
-            padding: const EdgeInsets.only(
-              left: 12,
-              right: 12,
-            ),
-            child: ElevatedButton(
-                onPressed: () => model.open(), child: const Text('Open')))
+          padding: const EdgeInsets.only(
+            left: 12,
+            right: 12,
+          ),
+          child: ElevatedButton(
+            onPressed: () => model.open(),
+            child: Text(context.l10n.open),
+          ),
+        ),
       ],
     );
   }
