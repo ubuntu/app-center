@@ -98,7 +98,7 @@ packages:
       name: connectivity_plus_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.2"
   crypto:
     dependency: transitive
     description:
@@ -113,6 +113,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.4"
+  dpkg:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "8be3eaf0edbedc94a387ed3f1e4daebede95fb03"
+      url: "https://github.com/robert-ancell/dpkg.dart"
+    source: git
+    version: "0.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -261,6 +270,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.0"
+  packagekit:
+    dependency: "direct main"
+    description:
+      name: packagekit
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.2"
   palette_generator:
     dependency: "direct main"
     description:
