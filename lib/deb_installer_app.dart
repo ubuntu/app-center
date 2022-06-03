@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/deb_installer_model.dart';
@@ -85,18 +86,24 @@ class _DebInstallerPageState extends State<DebInstallerPage> {
             Stack(
               alignment: Alignment.center,
               children: [
-                Icon(
-                  YaruIcons.package_deb,
-                  size: 200,
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
+                SizedBox(
+                  width: 125,
+                  height: 145,
+                  child: LiquidLinearProgressIndicator(
+                    value:
+                        model.installationComplete ? 1 : model.progress / 100,
+                    backgroundColor: Colors.white.withOpacity(0.5),
+                    valueColor:
+                        AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+                    direction: Axis.vertical,
+                    borderRadius: 20,
+                  ),
                 ),
                 Icon(
-                  YaruIcons.package_deb,
-                  size: 200,
-                  color: Theme.of(context)
-                      .primaryColor
-                      .withOpacity(model.progress / 100),
+                  YaruIcons.debian,
+                  size: 100,
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
                 ),
               ],
             ),
@@ -104,5 +111,19 @@ class _DebInstallerPageState extends State<DebInstallerPage> {
         ),
       ),
     );
+  }
+
+  Path _buildBoatPath() {
+    return Path()
+      ..moveTo(15, 120)
+      ..lineTo(0, 85)
+      ..lineTo(50, 85)
+      ..lineTo(50, 0)
+      ..lineTo(105, 80)
+      ..lineTo(60, 80)
+      ..lineTo(60, 85)
+      ..lineTo(120, 85)
+      ..lineTo(105, 120)
+      ..close();
   }
 }
