@@ -18,6 +18,8 @@ void main(List<String> args) async {
       PackageKitClient.new,
       dispose: (service) => service.close(),
     );
-    runApp(DebInstallerApp.create(args.first));
+    runApp(
+      DebInstallerApp(filename: args.first),
+    );
   }
 }
