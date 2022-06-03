@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class OfflinePage extends StatelessWidget {
@@ -16,7 +17,7 @@ class OfflinePage extends StatelessWidget {
             color: Theme.of(context).disabledColor,
           ),
           Text(
-            'Offline',
+            context.l10n.offline,
             style: Theme.of(context).textTheme.headline3,
           )
         ],

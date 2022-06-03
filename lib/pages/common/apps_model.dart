@@ -83,7 +83,8 @@ class AppsModel extends SafeChangeNotifier {
     await client.loadAuthorization();
     final snapApps = await client.getApps();
     for (var snapApp in snapApps.where(
-        (snapApp) => snapApp.desktopFile != null && snapApp.snap != null)) {
+      (snapApp) => snapApp.desktopFile != null && snapApp.snap != null,
+    )) {
       final snapsWithThisName = await client.getSnap(snapApp.snap!);
       snapAppToSnapMap.putIfAbsent(snapApp, () => snapsWithThisName);
     }

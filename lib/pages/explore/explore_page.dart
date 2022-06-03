@@ -89,7 +89,8 @@ class _ExplorePageState extends State<ExplorePage> {
                       : Expanded(
                           child: !model.exploreMode
                               ? const _FilterBar()
-                              : const SizedBox()),
+                              : const SizedBox(),
+                        ),
                 ],
               ),
             ),
@@ -127,7 +128,8 @@ class _ExplorePageState extends State<ExplorePage> {
                   for (int i = 0; i < model.filters.entries.length; i++)
                     if (model.filters.entries.elementAt(i).value == true)
                       AppBannerGrid(
-                          snapSection: model.filters.entries.elementAt(i).key)
+                        snapSection: model.filters.entries.elementAt(i).key,
+                      ),
               ],
             ),
           ),
@@ -171,7 +173,8 @@ class _SearchFieldState extends State<_SearchField> {
                     model.searchQuery = '';
                     _controller.text = '';
                   },
-                  icon: const Icon(YaruIcons.edit_clear)),
+                  icon: const Icon(YaruIcons.edit_clear),
+                ),
           isDense: false,
           border: const UnderlineInputBorder(),
         ),
@@ -203,8 +206,10 @@ class _FilterBarState extends State<_FilterBar> {
       width: 1000,
       child: ScrollbarTheme(
         data: ScrollbarThemeData(
-            thumbVisibility: MaterialStateProperty.resolveWith((states) =>
-                states.contains(MaterialState.hovered) ? true : false)),
+          thumbVisibility: MaterialStateProperty.resolveWith(
+            (states) => states.contains(MaterialState.hovered) ? true : false,
+          ),
+        ),
         child: Scrollbar(
           controller: _controller,
           child: ListView(
@@ -216,10 +221,11 @@ class _FilterBarState extends State<_FilterBar> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: YaruRoundToggleButton(
-                      tooltip: section.localize(context.l10n),
-                      onPressed: () => model.setFilter(snapSections: [section]),
-                      selected: model.filters[section]!,
-                      iconData: snapSectionToIcon[section]!),
+                    tooltip: section.localize(context.l10n),
+                    onPressed: () => model.setFilter(snapSections: [section]),
+                    selected: model.filters[section]!,
+                    iconData: snapSectionToIcon[section]!,
+                  ),
                 ),
             ],
           ),

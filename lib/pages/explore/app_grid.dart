@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/color_scheme.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/apps_model.dart';
 import 'package:software/pages/common/snap_model.dart';
 import 'package:software/pages/explore/app_card.dart';
@@ -43,10 +44,11 @@ class _AppGridState extends State<AppGrid> {
     if (!widget.findByQuery) {
       final snaps = model.sectionNameToSnapsMap[widget.name];
       return _Grid(
-          appendBottomDivider: widget.appendBottomDivier,
-          snapAmount: widget.snapAmount,
-          headline: widget.headline,
-          snaps: snaps ?? []);
+        appendBottomDivider: widget.appendBottomDivier,
+        snapAmount: widget.snapAmount,
+        headline: widget.headline,
+        snaps: snaps ?? [],
+      );
     }
 
     return FutureBuilder<List<Snap>>(
@@ -56,7 +58,8 @@ class _AppGridState extends State<AppGrid> {
               appendBottomDivider: widget.appendBottomDivier,
               snapAmount: widget.snapAmount,
               headline: widget.headline,
-              snaps: snapshot.data!)
+              snaps: snapshot.data!,
+            )
           : const Center(
               child: Padding(
                 padding: EdgeInsets.all(20.0),
@@ -111,11 +114,16 @@ class _GridState extends State<_Grid> {
                   width: 20,
                 ),
                 TextButton(
-                    onPressed: () => setState(() => amount =
-                        amount == widget.snapAmount ? 100 : widget.snapAmount),
-                    child: Text(amount == widget.snapAmount
-                        ? 'Show more'
-                        : 'Show less'))
+                  onPressed: () => setState(
+                    () => amount =
+                        amount == widget.snapAmount ? 100 : widget.snapAmount,
+                  ),
+                  child: Text(
+                    amount == widget.snapAmount
+                        ? context.l10n.showMore
+                        : context.l10n.showLess,
+                  ),
+                )
               ],
             ),
           if (widget.headline != null)
@@ -142,8 +150,9 @@ class _GridState extends State<_Grid> {
                       context: context,
                       builder: (context) => ChangeNotifierProvider<SnapModel>(
                         create: (context) => SnapModel(
-                            client: getService<SnapdClient>(),
-                            huskSnapName: snap.name),
+                          client: getService<SnapdClient>(),
+                          huskSnapName: snap.name,
+                        ),
                         child: const AppDialog(),
                       ),
                     ),

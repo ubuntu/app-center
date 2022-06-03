@@ -16,17 +16,21 @@ class UpdatesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruTabbedPage(tabIcons: const [
-      YaruIcons.package_snap,
-      YaruIcons.package_deb,
-    ], tabTitles: const [
-      'Snaps',
-      'Debs',
-    ], views: [
-      SnapUpdatesPage.create(context),
-      const Center(
-        child: Text('Debs'),
-      ),
-    ]);
+    return YaruTabbedPage(
+      tabIcons: const [
+        YaruIcons.package_snap,
+        YaruIcons.package_deb,
+      ],
+      tabTitles: [
+        context.l10n.snapPackages,
+        context.l10n.debianPackages,
+      ],
+      views: [
+        SnapUpdatesPage.create(context),
+        Center(
+          child: Text(context.l10n.debianPackages),
+        ),
+      ],
+    );
   }
 }

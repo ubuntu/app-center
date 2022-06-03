@@ -58,7 +58,9 @@ class _AppBannerGridState extends State<AppBannerGrid> {
             ),
             children: sections.take(widget.amount).map((snap) {
               final snapModel = SnapModel(
-                  huskSnapName: snap.name, client: getService<SnapdClient>());
+                huskSnapName: snap.name,
+                client: getService<SnapdClient>(),
+              );
               return ChangeNotifierProvider<SnapModel>(
                 create: (context) => snapModel,
                 child: AppBanner(
@@ -70,12 +72,15 @@ class _AppBannerGridState extends State<AppBannerGrid> {
                             : Theme.of(context).colorScheme.barrierColorDark,
                     context: context,
                     builder: (context) => ChangeNotifierProvider.value(
-                        value: snapModel, child: const AppDialog()),
+                      value: snapModel,
+                      child: const AppDialog(),
+                    ),
                   ),
                 ),
               );
             }).toList(),
           ),
+          const SizedBox(height: 20),
         ],
       );
     }

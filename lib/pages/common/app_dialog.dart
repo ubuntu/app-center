@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/pages/common/link.dart';
 import 'package:software/pages/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -97,10 +98,12 @@ class _RemoveButton extends StatelessWidget {
 
     return OutlinedButton(
       onPressed: () => model.removeSnap(),
-      child: Text('Remove',
-          style: model.appChangeInProgress
-              ? TextStyle(color: Theme.of(context).disabledColor)
-              : null),
+      child: Text(
+        context.l10n.remove,
+        style: model.appChangeInProgress
+            ? TextStyle(color: Theme.of(context).disabledColor)
+            : null,
+      ),
     );
   }
 }
@@ -115,7 +118,7 @@ class _InstallButton extends StatelessWidget {
     final model = context.watch<SnapModel>();
     return ElevatedButton(
       onPressed: model.appChangeInProgress ? null : () => model.installSnap(),
-      child: const Text('Install'),
+      child: Text(context.l10n.install),
     );
   }
 }
@@ -131,7 +134,7 @@ class _RefreshButton extends StatelessWidget {
 
     return OutlinedButton(
       onPressed: () => model.refreshSnapApp(),
-      child: const Text('Refresh'),
+      child: Text(context.l10n.refresh),
     );
   }
 }
@@ -201,7 +204,7 @@ class _Title extends StatelessWidget {
                                   .onSurface
                                   .withOpacity(0.05),
                               child: IconButton(
-                                tooltip: 'open',
+                                tooltip: context.l10n.open,
                                 splashRadius: 20,
                                 onPressed: () => model.open(),
                                 icon: Icon(
@@ -235,8 +238,8 @@ class _Title extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  const Text(
-                    'Confinment',
+                  Text(
+                    context.l10n.confinement,
                     style: headerStyle,
                   ),
                   Row(
@@ -250,8 +253,10 @@ class _Title extends StatelessWidget {
                       const SizedBox(
                         width: 5,
                       ),
-                      Text(model.confinement?.name ?? '',
-                          style: Theme.of(context).textTheme.bodyMedium),
+                      Text(
+                        model.confinement?.name ?? '',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                     ],
                   ),
                 ],
@@ -261,7 +266,7 @@ class _Title extends StatelessWidget {
               if (model.license != null)
                 Column(
                   children: [
-                    const Text('License', style: headerStyle),
+                    Text(context.l10n.license, style: headerStyle),
                     Text(
                       model.license!.split(' ').first,
                       overflow: TextOverflow.ellipsis,
@@ -272,11 +277,11 @@ class _Title extends StatelessWidget {
               const SizedBox(height: 50, width: 30, child: VerticalDivider()),
               Column(
                 children: [
-                  const Text('Last updated', style: headerStyle),
+                  Text(context.l10n.installDate, style: headerStyle),
                   Text(
                     model.installDate.isNotEmpty
                         ? model.installDate
-                        : 'Not installed',
+                        : context.l10n.notInstalled,
                     style: headerStyle.copyWith(fontWeight: FontWeight.normal),
                   ),
                 ],
@@ -328,19 +333,20 @@ class _Content extends StatelessWidget {
                       InkWell(
                         borderRadius: BorderRadius.circular(10),
                         onTap: () => showDialog(
-                            context: context,
-                            builder: (context) => SimpleDialog(
-                                  children: [
-                                    InkWell(
-                                      onTap: () => Navigator.of(context).pop(),
-                                      child: Image.network(
-                                        image.url,
-                                        fit: BoxFit.contain,
-                                        filterQuality: FilterQuality.medium,
-                                      ),
-                                    )
-                                  ],
-                                )),
+                          context: context,
+                          builder: (context) => SimpleDialog(
+                            children: [
+                              InkWell(
+                                onTap: () => Navigator.of(context).pop(),
+                                child: Image.network(
+                                  image.url,
+                                  fit: BoxFit.contain,
+                                  filterQuality: FilterQuality.medium,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                         child: Image.network(
                           image.url,
                           fit: BoxFit.fitHeight,
@@ -358,18 +364,19 @@ class _Content extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     if (model.website != null)
-                      Link(url: model.website!, linkText: 'Website'),
+                      Link(url: model.website!, linkText: context.l10n.website),
                     Link(
                       url: model.contact!,
-                      linkText: 'Contact ${model.publisher!.displayName}',
+                      linkText:
+                          '${context.l10n.contact} ${model.publisher!.displayName}',
                     ),
                   ],
                 ),
               ),
             if (model.description != null)
               YaruExpandable(
-                header: const Text(
-                  'Description',
+                header: Text(
+                  context.l10n.description,
                   style: headerStyle,
                 ),
                 expandIcon: const Icon(YaruIcons.pan_end),

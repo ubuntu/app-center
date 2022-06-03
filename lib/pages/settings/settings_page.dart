@@ -23,19 +23,24 @@ class SettingsPage extends StatelessWidget {
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
           builder: (context) {
-            return YaruPage(children: [
-              YaruRow(
-                trailingWidget: const Text('Software v0.0.1-alpha'),
-                actionWidget: TextButton(
+            return YaruPage(
+              children: [
+                YaruRow(
+                  trailingWidget: const Text('Software v0.0.1-alpha'),
+                  actionWidget: TextButton(
                     onPressed: () {
                       showAboutDialog(
-                          context: context, useRootNavigator: false);
+                        context: context,
+                        useRootNavigator: false,
+                      );
                     },
-                    child: const Text('About')),
-                enabled: true,
-                width: 500,
-              )
-            ]);
+                    child: Text(context.l10n.about),
+                  ),
+                  enabled: true,
+                  width: 500,
+                )
+              ],
+            );
           },
         );
       },
