@@ -98,7 +98,7 @@ packages:
       name: connectivity_plus_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.2"
   crypto:
     dependency: transitive
     description:
@@ -276,7 +276,7 @@ packages:
       name: packagekit
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.1"
+    version: "0.2.2"
   palette_generator:
     dependency: "direct main"
     description:

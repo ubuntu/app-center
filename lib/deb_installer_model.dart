@@ -11,8 +11,15 @@ class DebInstallerModel extends SafeChangeNotifier {
   DebControl? _control;
   String get packageName => _control != null ? _control!.package : '';
   String get version => _control != null ? _control!.version : '';
+  int _progress;
+  int get progress => _progress;
+  set progress(int value) {
+    if (value == _progress) return;
+    _progress = value;
+    notifyListeners();
+  }
 
-  DebInstallerModel(this.path, this.client);
+  DebInstallerModel(this.path, this.client) : _progress = 0;
 
   Future<void> init() async {
     await client.connect();
@@ -30,26 +37,9 @@ class DebInstallerModel extends SafeChangeNotifier {
   }
 
   Future<void> install() async {
-    final packageNames = [path];
+    final paths = [path];
 
-    final resolveTransaction = await client.createTransaction();
-    final resolveCompleter = Completer();
-    final packageIds = <PackageKitPackageId>[];
-    resolveTransaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        packageIds.add(event.packageId);
-      } else if (event is PackageKitErrorCodeEvent) {
-        print('${event.code}: ${event.details}');
-      } else if (event is PackageKitFinishedEvent) {
-        resolveCompleter.complete();
-      }
-    });
-    await resolveTransaction.resolve(packageNames);
-    await resolveCompleter.future;
-    if (packageIds.isEmpty) {
-      print('No packages found');
-      return;
-    }
+    await client.connect();
 
     final installTransaction = await client.createTransaction();
     final installCompleter = Completer();
@@ -58,11 +48,14 @@ class DebInstallerModel extends SafeChangeNotifier {
         print('[${event.packageId.name}] ${event.info}');
       } else if (event is PackageKitItemProgressEvent) {
         print('[${event.packageId.name}] ${event.status} ${event.percentage}%');
+        _progress = event.percentage;
       } else if (event is PackageKitFinishedEvent) {
         installCompleter.complete();
       }
     });
-    await installTransaction.installPackages(packageIds);
+    await installTransaction.installFiles(paths);
     await installCompleter.future;
+
+    await client.close();
   }
 }

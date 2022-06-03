@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/deb_installer_model.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -37,29 +38,36 @@ class _DebInstallerAppState extends State<DebInstallerApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: YaruTheme(
-          child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            model.packageName,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              model.packageName,
+            ),
+          ),
+          body: YaruPage(
+            children: [
+              Center(
+                child: YaruSection(
+                  width: 500,
+                  children: [
+                    YaruRow(
+                      trailingWidget: Text(model.version),
+                      actionWidget: ElevatedButton(
+                        onPressed: () => model.install(),
+                        child: Text(context.l10n.install),
+                      ),
+                      enabled: true,
+                    ),
+                    YaruLinearProgressIndicator(
+                      value: model.progress.toDouble(),
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
         ),
-        body: YaruPage(
-          children: [
-            YaruSection(
-              width: 650,
-              children: [
-                YaruRow(
-                  trailingWidget: Text(model.version),
-                  actionWidget: ElevatedButton(
-                      onPressed: () => model.install(),
-                      child: const Text('Install')),
-                  enabled: true,
-                ),
-              ],
-            )
-          ],
-        ),
-      )),
+      ),
     );
   }
 }
