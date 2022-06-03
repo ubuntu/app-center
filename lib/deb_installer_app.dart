@@ -68,7 +68,7 @@ class _DebInstallerPageState extends State<DebInstallerPage> {
                   trailingWidget: Text('${model.packageName} ${model.version}'),
                   actionWidget: model.installationComplete
                       ? ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => model.remove(),
                           child: const Text('Remove'),
                         )
                       : ElevatedButton(
@@ -77,23 +77,6 @@ class _DebInstallerPageState extends State<DebInstallerPage> {
                         ),
                   enabled: true,
                 ),
-                if (model.status.isNotEmpty && !model.installationComplete)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Text(
-                      model.status,
-                      style: TextStyle(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onBackground
-                            .withOpacity(0.5),
-                      ),
-                    ),
-                  ),
-                if (model.progress != 0)
-                  YaruLinearProgressIndicator(
-                    value: model.progress.toDouble(),
-                  )
               ],
             ),
             const SizedBox(
@@ -106,14 +89,15 @@ class _DebInstallerPageState extends State<DebInstallerPage> {
                   YaruIcons.package_deb,
                   size: 200,
                   color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
                 ),
                 Icon(
                   YaruIcons.package_deb,
                   size: 200,
-                  color:
-                      Theme.of(context).primaryColor.withAlpha(model.progress),
-                )
+                  color: Theme.of(context)
+                      .primaryColor
+                      .withOpacity(model.progress / 100),
+                ),
               ],
             ),
           ],

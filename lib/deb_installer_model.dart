@@ -36,9 +36,18 @@ class DebInstallerModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  bool _removeComplete;
+  bool get removeComplete => _removeComplete;
+  set removeComplete(bool value) {
+    if (value == _removeComplete) return;
+    _removeComplete = value;
+    notifyListeners();
+  }
+
   DebInstallerModel(this.path, this.client)
       : _progress = 0,
         _installationComplete = false,
+        _removeComplete = false,
         _status = '';
 
   Future<void> init() async {
@@ -98,9 +107,52 @@ class DebInstallerModel extends SafeChangeNotifier {
       } else if (event is PackageKitFinishedEvent) {
         installCompleter.complete();
         installationComplete = true;
+        removeComplete = false;
       }
     });
     await installTransaction.installFiles(paths);
     await installCompleter.future;
+  }
+
+  Future<void> remove() async {
+    var packageNames = [packageName];
+
+    final resolveTransaction = await client.createTransaction();
+    final resolveCompleter = Completer();
+    final packageIds = <PackageKitPackageId>[];
+    resolveTransaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        packageIds.add(event.packageId);
+      } else if (event is PackageKitFinishedEvent) {
+        resolveCompleter.complete();
+      }
+    });
+    await resolveTransaction.resolve(packageNames);
+    await resolveCompleter.future;
+    if (packageIds.isEmpty) {
+      print('No packages found');
+      await client.close();
+      return;
+    }
+
+    final removeTransaction = await client.createTransaction();
+    final removeCompleter = Completer();
+    removeTransaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        print('[${event.packageId.name}] ${event.info}');
+        status = '[${event.packageId.name}] ${event.info}';
+      } else if (event is PackageKitItemProgressEvent) {
+        print('[${event.packageId.name}] ${event.status} ${event.percentage}%');
+        progress = event.percentage;
+      } else if (event is PackageKitErrorCodeEvent) {
+        print('${event.code}: ${event.details}');
+      } else if (event is PackageKitFinishedEvent) {
+        removeCompleter.complete();
+        removeComplete = true;
+        installationComplete = false;
+      }
+    });
+    await removeTransaction.removePackages(packageIds);
+    await removeCompleter.future;
   }
 }
