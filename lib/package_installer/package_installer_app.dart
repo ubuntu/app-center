@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
-import 'package:software/deb_installer/deb_installer_model.dart';
-import 'package:software/deb_installer/wizard_page.dart';
+import 'package:software/package_installer/package_installer_model.dart';
+import 'package:software/package_installer/wizard_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class DebInstallerApp extends StatelessWidget {
-  const DebInstallerApp({Key? key, required this.filename}) : super(key: key);
+class PackageInstallerApp extends StatelessWidget {
+  const PackageInstallerApp({Key? key, required this.filename})
+      : super(key: key);
 
   final String filename;
 
@@ -22,28 +23,29 @@ class DebInstallerApp extends StatelessWidget {
       // onGenerateTitle: (context) => context.l10n.appTitle,
       routes: {
         Navigator.defaultRouteName: (context) =>
-            YaruTheme(child: DebInstallerPage.create(filename))
+            YaruTheme(child: _PackageInstallerPage.create(filename))
       },
     );
   }
 }
 
-class DebInstallerPage extends StatefulWidget {
-  const DebInstallerPage({super.key});
+class _PackageInstallerPage extends StatefulWidget {
+  // ignore: unused_element
+  const _PackageInstallerPage({super.key});
 
   static Widget create(String debFileName) {
     return ChangeNotifierProvider(
       create: (context) =>
           DebInstallerModel(debFileName, getService<PackageKitClient>()),
-      child: const DebInstallerPage(),
+      child: const _PackageInstallerPage(),
     );
   }
 
   @override
-  State<DebInstallerPage> createState() => _DebInstallerPageState();
+  State<_PackageInstallerPage> createState() => _PackageInstallerPageState();
 }
 
-class _DebInstallerPageState extends State<DebInstallerPage> {
+class _PackageInstallerPageState extends State<_PackageInstallerPage> {
   @override
   void initState() {
     super.initState();
@@ -56,7 +58,7 @@ class _DebInstallerPageState extends State<DebInstallerPage> {
     final model = context.watch<DebInstallerModel>();
 
     return WizardPage(
-      title: const Text('Debian Package installer'),
+      title: const Text('Package installer'),
       actions: [
         model.installationComplete
             ? ElevatedButton(
