@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/pages/common/apps_model.dart';
-import 'package:software/store_app/pages/common/snap_model.dart';
-import 'package:software/store_app/pages/common/snap_tile.dart';
+import 'package:software/store_app/common/apps_model.dart';
+import 'package:software/store_app/common/snap_model.dart';
+import 'package:software/store_app/common/snap_tile.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/color_scheme.dart';
-import 'package:software/store_app/pages/common/app_dialog.dart';
-import 'package:software/store_app/pages/common/offline_dialog.dart';
-import 'package:software/store_app/pages/common/snap_model.dart';
+import 'package:software/store_app/common/app_dialog.dart';
+import 'package:software/store_app/common/offline_dialog.dart';
+import 'package:software/store_app/common/snap_model.dart';
 
 class SnapTile extends StatefulWidget {
   const SnapTile({Key? key, required this.snapApp, required this.appIsOnline})

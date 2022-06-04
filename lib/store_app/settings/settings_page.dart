@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/pages/settings/settings_model.dart';
+import 'package:software/store_app/settings/settings_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SettingsPage extends StatelessWidget {

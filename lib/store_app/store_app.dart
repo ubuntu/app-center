@@ -1,10 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/pages/explore/explore_page.dart';
-import 'package:software/store_app/pages/my_apps/my_apps_page.dart';
-import 'package:software/store_app/pages/settings/settings_page.dart';
-import 'package:software/store_app/pages/updates/updates_page.dart';
+import 'package:software/store_app/explore/explore_page.dart';
+import 'package:software/store_app/my_apps/my_apps_page.dart';
+import 'package:software/store_app/settings/settings_page.dart';
+import 'package:software/store_app/updates/updates_page.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
