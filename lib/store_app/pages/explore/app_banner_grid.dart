@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/color_scheme.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/pages/common/app_dialog.dart';
-import 'package:software/pages/common/apps_model.dart';
-import 'package:software/pages/common/snap_model.dart';
-import 'package:software/pages/common/snap_section.dart';
-import 'package:software/pages/explore/app_banner.dart';
+import 'package:software/store_app/pages/common/app_dialog.dart';
+import 'package:software/store_app/pages/common/apps_model.dart';
+import 'package:software/store_app/pages/common/snap_model.dart';
+import 'package:software/store_app/pages/common/snap_section.dart';
+import 'package:software/store_app/pages/explore/app_banner.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class AppBannerGrid extends StatefulWidget {

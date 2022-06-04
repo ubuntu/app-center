@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/pages/common/snap_section.dart';
+import 'package:software/store_app/pages/common/snap_section.dart';
 import 'package:version/version.dart';
 
 class AppsModel extends SafeChangeNotifier {

@@ -3,38 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/pages/common/apps_model.dart';
-import 'package:software/pages/common/snap_model.dart';
-import 'package:software/pages/common/snap_tile.dart';
+import 'package:software/store_app/pages/common/apps_model.dart';
+import 'package:software/store_app/pages/common/snap_model.dart';
+import 'package:software/store_app/pages/common/snap_tile.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class SnapUpdatesPage extends StatefulWidget {
-  const SnapUpdatesPage({Key? key}) : super(key: key);
+class MyAppsPage extends StatefulWidget {
+  const MyAppsPage({Key? key}) : super(key: key);
 
   @override
-  State<SnapUpdatesPage> createState() => _SnapUpdatesPageState();
+  State<MyAppsPage> createState() => _MyAppsPageState();
 
   static Widget create(BuildContext context) {
     final client = getService<SnapdClient>();
     final connectivity = getService<Connectivity>();
     return ChangeNotifierProvider(
       create: (_) => AppsModel(client, connectivity),
-      child: const SnapUpdatesPage(),
+      child: const MyAppsPage(),
     );
   }
 
   static Widget createTitle(BuildContext context) =>
-      Text(context.l10n.updatesPageTitle);
+      Text(context.l10n.myAppsPageTitle);
 }
 
-class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
+class _MyAppsPageState extends State<MyAppsPage> {
   @override
   void initState() {
     super.initState();
     final appsModel = context.read<AppsModel>();
+    appsModel.mapSnaps();
     appsModel.initConnectivity();
-    appsModel.checkUpdates();
   }
 
   @override
@@ -47,15 +47,15 @@ class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
       );
     } else {
       return Center(
-        child: appsModel.updatesMap.isEmpty
+        child: appsModel.snapAppToSnapMap.isEmpty
             ? const YaruCircularProgressIndicator()
             : Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: appsModel.updatesMap.length,
+                  itemCount: appsModel.snapAppToSnapMap.length,
                   itemBuilder: (context, index) {
-                    final huskSnapName = appsModel.updatesMap.entries
+                    final huskSnapName = appsModel.snapAppToSnapMap.entries
                         .elementAt(index)
                         .value
                         .name;
@@ -66,8 +66,9 @@ class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
                       ),
                       child: SnapTile(
                         appIsOnline: appsModel.appIsOnline,
-                        snapApp:
-                            appsModel.updatesMap.entries.elementAt(index).key,
+                        snapApp: appsModel.snapAppToSnapMap.entries
+                            .elementAt(index)
+                            .key,
                       ),
                     );
                   },
