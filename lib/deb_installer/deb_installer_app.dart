@@ -54,6 +54,7 @@ class _DebInstallerPageState extends State<DebInstallerPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<DebInstallerModel>();
+
     return WizardPage(
       title: const Text('Debian Package installer'),
       actions: [
@@ -120,9 +121,7 @@ class _DebInstallerPageState extends State<DebInstallerPage> {
                       width: 145,
                       height: 185,
                       child: LiquidLinearProgressIndicator(
-                        value: model.installationComplete
-                            ? 1
-                            : model.progress / 100,
+                        value: model.progress.toDouble(),
                         backgroundColor: Colors.white.withOpacity(0.5),
                         valueColor: AlwaysStoppedAnimation(
                           Theme.of(context).primaryColor,

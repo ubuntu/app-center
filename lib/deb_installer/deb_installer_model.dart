@@ -18,9 +18,17 @@ class DebInstallerModel extends SafeChangeNotifier {
   final PackageKitClient client;
   final String path;
 
-  int _progress;
-  int get progress => _progress;
-  set progress(int value) {
+  num _progress;
+  num get progress {
+    if (installationComplete) {
+      return 1;
+    } else if (removeComplete) {
+      return 0;
+    }
+    return _progress / 100;
+  }
+
+  set progress(num value) {
     if (value == _progress) return;
     _progress = value;
     notifyListeners();
