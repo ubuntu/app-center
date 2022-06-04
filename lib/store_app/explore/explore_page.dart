@@ -99,7 +99,7 @@ class _ExplorePageState extends State<ExplorePage> {
             child: YaruPage(
               padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
               children: [
-                if (width < 1000 && !model.searchActive && model.exploreMode)
+                if (width < 1100 && !model.searchActive && model.exploreMode)
                   const AppBannerCarousel(
                     snapSection: SnapSection.featured,
                   ),
