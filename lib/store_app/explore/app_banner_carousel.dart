@@ -68,7 +68,6 @@ class _AppBannerCarouselItem extends StatefulWidget {
     return ChangeNotifierProvider<SnapModel>(
       create: (_) => SnapModel(
         huskSnapName: snap.name,
-        client: getService<SnapdClient>(),
         colorGenerator: getService<ColorGenerator>(),
       ),
       child: _AppBannerCarouselItem(snap: snap),

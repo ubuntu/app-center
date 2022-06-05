@@ -61,7 +61,6 @@ class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
                         .name;
                     return ChangeNotifierProvider(
                       create: (context) => SnapModel(
-                        client: getService<SnapdClient>(),
                         huskSnapName: huskSnapName,
                       ),
                       child: SnapTile(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -7,7 +8,9 @@ import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/color_generator.dart';
+import 'package:software/services/snap_change_service.dart';
 import 'package:software/snapx.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:xdg_icons/xdg_icons.dart';
 
 const fallBackIcon = XdgIconTheme(
@@ -16,6 +19,7 @@ const fallBackIcon = XdgIconTheme(
 );
 
 class SnapModel extends SafeChangeNotifier {
+  final SnapChangeService _snapChangeService;
   final SnapdClient client;
   final ColorGenerator? colorGenerator;
   final String huskSnapName;
@@ -23,13 +27,16 @@ class SnapModel extends SafeChangeNotifier {
   Snap? _localSnap;
 
   SnapModel({
-    required this.client,
     this.colorGenerator,
     required this.huskSnapName,
   })  : _appChangeInProgress = false,
         _channelToBeInstalled = '',
         selectableChannels = {},
-        icon = fallBackIcon;
+        icon = fallBackIcon,
+        client = getService<SnapdClient>(),
+        _snapChangeService = getService<SnapChangeService>();
+
+  StreamSubscription<bool>? _snapChangesSub;
 
   /// Apps this snap provides.
   List<SnapApp>? get apps => _localSnap?.apps;
@@ -144,6 +151,9 @@ class SnapModel extends SafeChangeNotifier {
       }
     }
     if (snapIsInstalled) {
+      if (_snapChangeService.getChange(_localSnap!) != null) {
+        appChangeInProgress = true;
+      }
       if (trackingChannel != null &&
           selectableChannels.entries
               .where((element) => element.key == trackingChannel)
@@ -154,8 +164,27 @@ class SnapModel extends SafeChangeNotifier {
       }
     } else if (_storeSnap != null) {
       channelToBeInstalled = selectableChannels.entries.first.key;
+      if (_snapChangeService.getChange(_storeSnap!) != null) {
+        appChangeInProgress = true;
+      }
     }
+
+    _snapChangesSub = _snapChangeService.snapChanges.listen((_) {
+      notifyListeners();
+    });
+
     notifyListeners();
+  }
+
+  void addChange(Snap snap, SnapdChange change) {
+    _snapChangeService.addChange(snap, change);
+    notifyListeners();
+  }
+
+  @override
+  Future<void> dispose() async {
+    await _snapChangesSub?.cancel();
+    super.dispose();
   }
 
   Future<Snap?> findLocalSnap(String huskSnapName) async {
@@ -181,10 +210,12 @@ class SnapModel extends SafeChangeNotifier {
       classic: confinement == SnapConfinement.classic,
     );
     appChangeInProgress = true;
+    _snapChangeService.addChange(_storeSnap!, await client.getChange(changeId));
     while (true) {
       final change = await client.getChange(changeId);
       if (change.ready) {
         appChangeInProgress = false;
+        _snapChangeService.removeChange(_storeSnap!);
         break;
       }
       await Future.delayed(
@@ -200,10 +231,12 @@ class SnapModel extends SafeChangeNotifier {
     await client.loadAuthorization();
     final id = await client.remove(name!);
     appChangeInProgress = true;
+    _snapChangeService.addChange(_localSnap!, await client.getChange(id));
     while (true) {
       final change = await client.getChange(id);
       if (change.ready) {
         appChangeInProgress = false;
+        _snapChangeService.removeChange(_storeSnap!);
         break;
       }
       await Future.delayed(
@@ -223,6 +256,8 @@ class SnapModel extends SafeChangeNotifier {
       final change = await client.getChange(id);
       if (change.ready) {
         appChangeInProgress = false;
+        _snapChangeService.addChange(_localSnap!, await client.getChange(id));
+        _snapChangeService.removeChange(_storeSnap!);
         break;
       }
 
