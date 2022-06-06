@@ -2,22 +2,42 @@ import 'dart:async';
 
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/snap_section.dart';
 
 class AppsModel extends SafeChangeNotifier {
   final SnapdClient client;
+  final AppChangeService _appChangeService;
+  StreamSubscription<bool>? _snapChangesSub;
 
   final Map<SnapSection, bool> filters = {
     for (final snapSection in SnapSection.values)
       snapSection: snapSection == SnapSection.development ? true : false,
   };
 
-  AppsModel(this.client)
-      : snapAppToSnapMap = {},
+  AppsModel(
+    this.client,
+    this._appChangeService,
+  )   : _localSnaps = [],
         _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
         sectionNameToSnapsMap = {};
+
+  Future<void> init() async {
+    await _loadLocalSnaps();
+    _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) async {
+      await _loadLocalSnaps();
+      notifyListeners();
+    });
+    notifyListeners();
+  }
+
+  @override
+  Future<void> dispose() async {
+    await _snapChangesSub?.cancel();
+    super.dispose();
+  }
 
   Future<List<Snap>> findSnapsBySection({String? section}) async {
     if (section == null) return [];
@@ -71,17 +91,20 @@ class AppsModel extends SafeChangeNotifier {
   Future<List<Snap>> findSnapsByQuery() async =>
       searchQuery.isEmpty ? [] : await client.find(query: _searchQuery);
 
-  Map<SnapApp, Snap> snapAppToSnapMap;
-  Future<void> mapSnaps() async {
+  final List<Snap> _localSnaps;
+  List<Snap> get localSnaps => _localSnaps;
+  Future<void> _loadLocalSnaps() async {
     await client.loadAuthorization();
-    final snapApps = await client.getApps();
+    final localSnaps = <Snap>[];
+    final snapApps = (await client.getApps());
     for (var snapApp in snapApps.where(
       (snapApp) => snapApp.desktopFile != null && snapApp.snap != null,
     )) {
-      final snapsWithThisName = await client.getSnap(snapApp.snap!);
-      snapAppToSnapMap.putIfAbsent(snapApp, () => snapsWithThisName);
+      final localSnap = await client.getSnap(snapApp.snap!);
+      localSnaps.add(localSnap);
     }
-    notifyListeners();
+    _localSnaps.clear();
+    _localSnaps.addAll(localSnaps);
   }
 
   Map<String, List<Snap>> sectionNameToSnapsMap;

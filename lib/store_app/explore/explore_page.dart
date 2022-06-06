@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/apps_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/app_banner_carousel.dart';
@@ -15,10 +16,10 @@ class ExplorePage extends StatelessWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
   static Widget create(BuildContext context) {
-    final client = getService<SnapdClient>();
     return ChangeNotifierProvider(
       create: (_) => AppsModel(
-        client,
+        getService<SnapdClient>(),
+        getService<AppChangeService>(),
       ),
       child: const ExplorePage(),
     );
