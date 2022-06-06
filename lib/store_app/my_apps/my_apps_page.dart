@@ -1,13 +1,11 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/apps_model.dart';
-import 'package:software/store_app/common/snap_model.dart';
-import 'package:software/store_app/common/snap_tile.dart';
+import 'package:software/store_app/explore/app_banner.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MyAppsPage extends StatefulWidget {
@@ -18,9 +16,8 @@ class MyAppsPage extends StatefulWidget {
 
   static Widget create(BuildContext context) {
     final client = getService<SnapdClient>();
-    final connectivity = getService<Connectivity>();
     return ChangeNotifierProvider(
-      create: (_) => AppsModel(client, connectivity),
+      create: (_) => AppsModel(client),
       child: const MyAppsPage(),
     );
   }
@@ -32,51 +29,46 @@ class MyAppsPage extends StatefulWidget {
 class _MyAppsPageState extends State<MyAppsPage> {
   @override
   void initState() {
-    super.initState();
     final appsModel = context.read<AppsModel>();
     appsModel.mapSnaps();
-    appsModel.initConnectivity();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final appsModel = context.watch<AppsModel>();
 
-    if (!appsModel.appIsOnline) {
-      return const Center(
-        child: YaruCircularProgressIndicator(),
-      );
-    } else {
-      return Center(
-        child: appsModel.snapAppToSnapMap.isEmpty
-            ? const YaruCircularProgressIndicator()
-            : Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: appsModel.snapAppToSnapMap.length,
-                  itemBuilder: (context, index) {
-                    final huskSnapName = appsModel.snapAppToSnapMap.entries
-                        .elementAt(index)
-                        .value
-                        .name;
-                    return ChangeNotifierProvider(
-                      create: (context) => SnapModel(
-                        getService<SnapdClient>(),
-                        getService<AppChangeService>(),
-                        huskSnapName: huskSnapName,
-                      ),
-                      child: SnapTile(
-                        appIsOnline: appsModel.appIsOnline,
-                        snapApp: appsModel.snapAppToSnapMap.entries
-                            .elementAt(index)
-                            .key,
-                      ),
-                    );
-                  },
+    return YaruTabbedPage(
+      tabIcons: const [YaruIcons.package_snap, YaruIcons.package_deb],
+      tabTitles: const ['Snaps', 'Debian packages'],
+      views: [
+        Center(
+          child: appsModel.snapAppToSnapMap.isEmpty
+              ? const YaruCircularProgressIndicator()
+              : Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                      mainAxisExtent: 110,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
+                      maxCrossAxisExtent: 1000,
+                    ),
+                    shrinkWrap: true,
+                    itemCount: appsModel.snapAppToSnapMap.length,
+                    itemBuilder: (context, index) {
+                      final entry =
+                          appsModel.snapAppToSnapMap.entries.elementAt(index);
+                      return AppBanner.create(context, entry.value);
+                    },
+                  ),
                 ),
-              ),
-      );
-    }
+        ),
+        const Center(
+          child: Text('Debian'),
+        )
+      ],
+    );
   }
 }

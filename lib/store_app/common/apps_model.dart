@@ -1,30 +1,23 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/store_app/common/snap_section.dart';
-import 'package:version/version.dart';
 
 class AppsModel extends SafeChangeNotifier {
   final SnapdClient client;
-  final Connectivity _connectivity;
-  StreamSubscription? _sub;
-  ConnectivityResult? _state;
-  ConnectivityResult? get state => _state;
 
   final Map<SnapSection, bool> filters = {
     for (final snapSection in SnapSection.values)
       snapSection: snapSection == SnapSection.development ? true : false,
   };
 
-  AppsModel(this.client, this._connectivity)
+  AppsModel(this.client)
       : snapAppToSnapMap = {},
         _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
-        sectionNameToSnapsMap = {},
-        updatesMap = {};
+        sectionNameToSnapsMap = {};
 
   Future<List<Snap>> findSnapsBySection({String? section}) async {
     if (section == null) return [];
@@ -98,57 +91,6 @@ class AppsModel extends SafeChangeNotifier {
       sectionList.add(snap);
     }
     sectionNameToSnapsMap.putIfAbsent(name, () => sectionList);
-    notifyListeners();
-  }
-
-  Future<void> refresh() {
-    return _connectivity.checkConnectivity().then((state) {
-      _state = state;
-      notifyListeners();
-    });
-  }
-
-  @override
-  void dispose() {
-    _sub?.cancel();
-    super.dispose();
-  }
-
-  bool get appIsOnline =>
-      _state == ConnectivityResult.ethernet ||
-      _state == ConnectivityResult.wifi;
-
-  Future<void> initConnectivity() async {
-    _sub = _connectivity.onConnectivityChanged.listen((state) {
-      _state = state;
-      notifyListeners();
-    });
-    return refresh();
-  }
-
-  Map<SnapApp, Snap> updatesMap;
-  Future<void> checkUpdates() async {
-    await mapSnaps();
-    final updates = snapAppToSnapMap.entries.where((e) {
-      final snap = e.value;
-      final trackingChannel = snap.channels[snap.trackingChannel];
-      final tChanVersionString =
-          trackingChannel != null ? trackingChannel.version : snap.version;
-      var currentVersion = Version(0, 0, 1);
-      try {
-        currentVersion = Version.parse(snap.version);
-        // ignore: empty_catches
-      } catch (e) {}
-      var tChanVersion = Version(0, 0, 1);
-      try {
-        tChanVersion = Version.parse(tChanVersionString);
-        // ignore: empty_catches
-      } catch (e) {}
-      return currentVersion < tChanVersion;
-    });
-    for (final update in updates) {
-      updatesMap.putIfAbsent(update.key, () => update.value);
-    }
     notifyListeners();
   }
 }

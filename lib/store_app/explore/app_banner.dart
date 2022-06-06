@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/color_scheme.dart';
+import 'package:software/services/app_change_service.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/app_dialog.dart';
+import 'package:software/store_app/common/snap_model.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
@@ -17,6 +23,30 @@ class AppBanner extends StatelessWidget {
   final Function()? onTap;
   final Color? surfaceTintColor;
   final bool watermark;
+
+  static Widget create(BuildContext context, Snap snap) {
+    final snapModel = SnapModel(
+      getService<SnapdClient>(),
+      getService<AppChangeService>(),
+      huskSnapName: snap.name,
+    );
+    return ChangeNotifierProvider<SnapModel>(
+      create: (context) => snapModel,
+      child: AppBanner(
+        snap: snap,
+        onTap: () => showDialog(
+          barrierColor: Theme.of(context).brightness == Brightness.light
+              ? Theme.of(context).colorScheme.barrierColorLight
+              : Theme.of(context).colorScheme.barrierColorDark,
+          context: context,
+          builder: (context) => AppDialog.createFromValue(
+            context: context,
+            value: snapModel,
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
