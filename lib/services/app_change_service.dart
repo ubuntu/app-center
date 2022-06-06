@@ -8,13 +8,14 @@ class AppChangeService {
   Map<Snap, SnapdChange> get snapChanges => _snapChanges;
   final SnapdClient _snapDClient;
 
-  Future<void> addChange(Snap snap, SnapdChange change) async {
-    _snapChanges.putIfAbsent(snap, () => change);
+  Future<void> addChange(Snap snap, String id) async {
+    final newChange = await _snapDClient.getChange(id);
+    _snapChanges.putIfAbsent(snap, () => newChange);
     if (!_snapChangesController.isClosed) {
       _snapChangesController.add(true);
     }
     while (true) {
-      final newChange = await _snapDClient.getChange(change.id);
+      final newChange = await _snapDClient.getChange(id);
       if (newChange.ready) {
         removeChange(snap);
         break;

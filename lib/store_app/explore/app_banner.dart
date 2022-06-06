@@ -39,9 +39,9 @@ class AppBanner extends StatelessWidget {
               ? Theme.of(context).colorScheme.barrierColorLight
               : Theme.of(context).colorScheme.barrierColorDark,
           context: context,
-          builder: (context) => AppDialog.createFromValue(
-            context: context,
+          builder: (context) => ChangeNotifierProvider.value(
             value: snapModel,
+            child: const AppDialog(),
           ),
         ),
       ),

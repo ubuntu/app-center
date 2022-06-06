@@ -149,8 +149,8 @@ class SnapModel extends SafeChangeNotifier {
   }
 
   Future<void> init() async {
-    _localSnap = await findLocalSnap(huskSnapName);
-    _storeSnap = await findSnapByName(huskSnapName);
+    _localSnap = await _findLocalSnap(huskSnapName);
+    _storeSnap = await _findSnapByName(huskSnapName);
     if (_storeSnap != null && _storeSnap!.tracks.isNotEmpty) {
       for (var track in _storeSnap!.tracks) {
         for (var risk in ['stable', 'candidate', 'beta', 'edge']) {
@@ -177,7 +177,7 @@ class SnapModel extends SafeChangeNotifier {
     }
 
     _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) {
-      if (_storeSnap != null) {
+      if (_storeSnap != null && _localSnap == null) {
         appChangeInProgress = _appChangeService.getChange(_storeSnap!) != null;
       }
       if (_localSnap != null) {
@@ -189,18 +189,13 @@ class SnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  void addChange(Snap snap, SnapdChange change) {
-    _appChangeService.addChange(snap, change);
-    notifyListeners();
-  }
-
   @override
   Future<void> dispose() async {
     await _snapChangesSub?.cancel();
     super.dispose();
   }
 
-  Future<Snap?> findLocalSnap(String huskSnapName) async {
+  Future<Snap?> _findLocalSnap(String huskSnapName) async {
     await _client.loadAuthorization();
     try {
       return await _client.getSnap(huskSnapName);
@@ -209,9 +204,14 @@ class SnapModel extends SafeChangeNotifier {
     }
   }
 
-  Future<Snap> findSnapByName(String name) async {
-    final snaps = await _client.find(name: name);
-    return snaps.first;
+  Future<Snap?> _findSnapByName(String name) async {
+    await _client.loadAuthorization();
+    try {
+      final snaps = (await _client.find(name: name));
+      return snaps.first;
+    } on SnapdException {
+      return null;
+    }
   }
 
   Future<void> installSnap() async {
@@ -224,33 +224,28 @@ class SnapModel extends SafeChangeNotifier {
     );
     await _appChangeService.addChange(
       _storeSnap!,
-      await _client.getChange(changeId),
+      changeId,
     );
-    _localSnap = await findLocalSnap(huskSnapName);
+    _localSnap = await _findLocalSnap(huskSnapName);
     notifyListeners();
   }
 
   Future<void> removeSnap() async {
     if (name == null) return;
     await _client.loadAuthorization();
-    final id = await _client.remove(name!);
-    await _appChangeService.addChange(_localSnap!, await _client.getChange(id));
-    _localSnap = await findLocalSnap(huskSnapName);
+    final changeId = await _client.remove(name!);
+    await _appChangeService.addChange(_localSnap!, changeId);
+    _localSnap = await _findLocalSnap(huskSnapName);
     notifyListeners();
   }
 
   Future<void> refreshSnapApp() async {
     if (name == null || channelToBeInstalled.isEmpty) return;
     await _client.loadAuthorization();
-    final id = await _client.refresh(name!, channel: channelToBeInstalled);
-    await _appChangeService.addChange(_localSnap!, await _client.getChange(id));
-    _localSnap = await findLocalSnap(huskSnapName);
+    final changeId =
+        await _client.refresh(name!, channel: channelToBeInstalled);
+    await _appChangeService.addChange(_localSnap!, changeId);
     notifyListeners();
-  }
-
-  Future<List<SnapApp>> get snapApps async {
-    await _client.loadAuthorization();
-    return await _client.getApps();
   }
 
   String? get versionString => selectableChannels[channelToBeInstalled] != null

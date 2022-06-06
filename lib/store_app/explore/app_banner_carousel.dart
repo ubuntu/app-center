@@ -101,7 +101,7 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
             : Theme.of(context).colorScheme.barrierColorDark,
         context: context,
         builder: (context) =>
-            AppDialog.createFromValue(context: context, value: model),
+            AppDialog.create(context: context, huskSnapName: widget.snap.name),
       ),
     );
   }

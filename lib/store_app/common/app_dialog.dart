@@ -29,15 +29,6 @@ class AppDialog extends StatefulWidget {
         child: const AppDialog(),
       );
 
-  static Widget createFromValue({
-    required BuildContext context,
-    required SnapModel value,
-  }) =>
-      ChangeNotifierProvider<SnapModel>.value(
-        value: value,
-        child: const AppDialog(),
-      );
-
   @override
   State<AppDialog> createState() => _AppDialogState();
 }
