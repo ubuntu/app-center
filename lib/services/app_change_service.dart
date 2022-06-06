@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-class SnapChangeService {
+class AppChangeService {
   final Map<Snap, SnapdChange> _snapChanges;
   Map<Snap, SnapdChange> get snapChanges => _snapChanges;
-  final SnapdClient _client;
+  final SnapdClient _snapDClient;
 
   Future<void> addChange(Snap snap, SnapdChange change) async {
     _snapChanges.putIfAbsent(snap, () => change);
@@ -14,7 +14,7 @@ class SnapChangeService {
       _snapChangesController.add(true);
     }
     while (true) {
-      final newChange = await _client.getChange(change.id);
+      final newChange = await _snapDClient.getChange(change.id);
       if (newChange.ready) {
         removeChange(snap);
         break;
@@ -40,7 +40,7 @@ class SnapChangeService {
 
   Stream<bool> get snapChangesInserted => _snapChangesController.stream;
 
-  SnapChangeService()
+  AppChangeService()
       : _snapChanges = {},
-        _client = getService<SnapdClient>();
+        _snapDClient = getService<SnapdClient>();
 }

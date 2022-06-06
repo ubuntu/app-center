@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/color_generator.dart';
-import 'package:software/services/snap_change_service.dart';
+import 'package:software/services/app_change_service.dart';
 import 'package:software/snapx.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:xdg_icons/xdg_icons.dart';
@@ -19,7 +19,7 @@ const fallBackIcon = XdgIconTheme(
 );
 
 class SnapModel extends SafeChangeNotifier {
-  final SnapChangeService _snapChangeService;
+  final AppChangeService _appChangeService;
   final SnapdClient client;
   final ColorGenerator? colorGenerator;
   final String huskSnapName;
@@ -34,7 +34,7 @@ class SnapModel extends SafeChangeNotifier {
         selectableChannels = {},
         icon = fallBackIcon,
         client = getService<SnapdClient>(),
-        _snapChangeService = getService<SnapChangeService>();
+        _appChangeService = getService<AppChangeService>();
 
   StreamSubscription<bool>? _snapChangesSub;
 
@@ -163,10 +163,10 @@ class SnapModel extends SafeChangeNotifier {
       channelToBeInstalled = selectableChannels.entries.first.key;
     }
 
-    _snapChangesSub = _snapChangeService.snapChangesInserted.listen((_) {
+    _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) {
       if (_storeSnap != null) {
         appChangeInProgress =
-            _snapChangeService.getChange(_localSnap ?? _storeSnap!) != null;
+            _appChangeService.getChange(_localSnap ?? _storeSnap!) != null;
       }
       notifyListeners();
     });
@@ -175,7 +175,7 @@ class SnapModel extends SafeChangeNotifier {
   }
 
   void addChange(Snap snap, SnapdChange change) {
-    _snapChangeService.addChange(snap, change);
+    _appChangeService.addChange(snap, change);
     notifyListeners();
   }
 
@@ -207,7 +207,7 @@ class SnapModel extends SafeChangeNotifier {
       channel: channelToBeInstalled,
       classic: confinement == SnapConfinement.classic,
     );
-    await _snapChangeService.addChange(
+    await _appChangeService.addChange(
         _storeSnap!, await client.getChange(changeId));
     _localSnap = await findLocalSnap(huskSnapName);
     notifyListeners();
@@ -217,7 +217,7 @@ class SnapModel extends SafeChangeNotifier {
     if (name == null) return;
     await client.loadAuthorization();
     final id = await client.remove(name!);
-    await _snapChangeService.addChange(_localSnap!, await client.getChange(id));
+    await _appChangeService.addChange(_localSnap!, await client.getChange(id));
     _localSnap = await findLocalSnap(huskSnapName);
     notifyListeners();
   }
@@ -226,7 +226,7 @@ class SnapModel extends SafeChangeNotifier {
     if (name == null || channelToBeInstalled.isEmpty) return;
     await client.loadAuthorization();
     final id = await client.refresh(name!, channel: channelToBeInstalled);
-    await _snapChangeService.addChange(_localSnap!, await client.getChange(id));
+    await _appChangeService.addChange(_localSnap!, await client.getChange(id));
     _localSnap = await findLocalSnap(huskSnapName);
     notifyListeners();
   }
