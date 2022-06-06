@@ -14,7 +14,7 @@ void main(List<String> args) async {
     registerService<SnapdClient>(SnapdClient.new, dispose: (s) => s.close());
     registerService<Connectivity>(Connectivity.new);
     registerService<SnapChangeService>(SnapChangeService.new);
-    runApp(const StoreApp());
+    runApp(StoreApp.create());
   } else if (args.first.endsWith('.deb')) {
     registerService<PackageKitClient>(
       PackageKitClient.new,

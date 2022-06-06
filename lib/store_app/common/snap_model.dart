@@ -151,9 +151,6 @@ class SnapModel extends SafeChangeNotifier {
       }
     }
     if (snapIsInstalled) {
-      if (_snapChangeService.getChange(_localSnap!) != null) {
-        appChangeInProgress = true;
-      }
       if (trackingChannel != null &&
           selectableChannels.entries
               .where((element) => element.key == trackingChannel)
@@ -164,12 +161,13 @@ class SnapModel extends SafeChangeNotifier {
       }
     } else if (_storeSnap != null) {
       channelToBeInstalled = selectableChannels.entries.first.key;
-      if (_snapChangeService.getChange(_storeSnap!) != null) {
-        appChangeInProgress = true;
-      }
     }
 
-    _snapChangesSub = _snapChangeService.snapChanges.listen((_) {
+    _snapChangesSub = _snapChangeService.snapChangesInserted.listen((_) {
+      if (_storeSnap != null) {
+        appChangeInProgress =
+            _snapChangeService.getChange(_localSnap ?? _storeSnap!) != null;
+      }
       notifyListeners();
     });
 
@@ -209,19 +207,8 @@ class SnapModel extends SafeChangeNotifier {
       channel: channelToBeInstalled,
       classic: confinement == SnapConfinement.classic,
     );
-    appChangeInProgress = true;
-    _snapChangeService.addChange(_storeSnap!, await client.getChange(changeId));
-    while (true) {
-      final change = await client.getChange(changeId);
-      if (change.ready) {
-        appChangeInProgress = false;
-        _snapChangeService.removeChange(_storeSnap!);
-        break;
-      }
-      await Future.delayed(
-        const Duration(milliseconds: 100),
-      );
-    }
+    await _snapChangeService.addChange(
+        _storeSnap!, await client.getChange(changeId));
     _localSnap = await findLocalSnap(huskSnapName);
     notifyListeners();
   }
@@ -230,19 +217,7 @@ class SnapModel extends SafeChangeNotifier {
     if (name == null) return;
     await client.loadAuthorization();
     final id = await client.remove(name!);
-    appChangeInProgress = true;
-    _snapChangeService.addChange(_localSnap!, await client.getChange(id));
-    while (true) {
-      final change = await client.getChange(id);
-      if (change.ready) {
-        appChangeInProgress = false;
-        _snapChangeService.removeChange(_storeSnap!);
-        break;
-      }
-      await Future.delayed(
-        const Duration(milliseconds: 100),
-      );
-    }
+    await _snapChangeService.addChange(_localSnap!, await client.getChange(id));
     _localSnap = await findLocalSnap(huskSnapName);
     notifyListeners();
   }
@@ -251,22 +226,8 @@ class SnapModel extends SafeChangeNotifier {
     if (name == null || channelToBeInstalled.isEmpty) return;
     await client.loadAuthorization();
     final id = await client.refresh(name!, channel: channelToBeInstalled);
-    appChangeInProgress = true;
-    while (true) {
-      final change = await client.getChange(id);
-      if (change.ready) {
-        appChangeInProgress = false;
-        _snapChangeService.addChange(_localSnap!, await client.getChange(id));
-        _snapChangeService.removeChange(_storeSnap!);
-        break;
-      }
-
-      await Future.delayed(
-        const Duration(milliseconds: 100),
-      );
-    }
+    await _snapChangeService.addChange(_localSnap!, await client.getChange(id));
     _localSnap = await findLocalSnap(huskSnapName);
-
     notifyListeners();
   }
 

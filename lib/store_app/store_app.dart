@@ -1,19 +1,38 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/explore/explore_page.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
+import 'package:software/store_app/store_model.dart';
 import 'package:software/store_app/updates/updates_page.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class StoreApp extends StatelessWidget {
+class StoreApp extends StatefulWidget {
   const StoreApp({super.key});
+
+  static Widget create() => ChangeNotifierProvider(
+        create: (context) => StoreModel(),
+        child: const StoreApp(),
+      );
+
+  @override
+  State<StoreApp> createState() => _StoreAppState();
+}
+
+class _StoreAppState extends State<StoreApp> {
+  @override
+  void initState() {
+    context.read<StoreModel>().init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<StoreModel>();
     return MaterialApp(
       scrollBehavior: TouchMouseStylusScrollBehavior(),
       debugShowCheckedModeBanner: false,
@@ -22,11 +41,11 @@ class StoreApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateTitle: (context) => context.l10n.appTitle,
       routes: {
-        Navigator.defaultRouteName: (context) => const YaruTheme(
+        Navigator.defaultRouteName: (context) => YaruTheme(
               child: Scaffold(
                 body: YaruCompactLayout(
                   pageItems: [
-                    YaruPageItem(
+                    const YaruPageItem(
                       titleBuilder: ExplorePage.createTitle,
                       builder: ExplorePage.create,
                       iconData: YaruIcons.compass,
@@ -35,13 +54,21 @@ class StoreApp extends StatelessWidget {
                       titleBuilder: MyAppsPage.createTitle,
                       builder: MyAppsPage.create,
                       iconData: YaruIcons.ok,
+                      itemWidget: model.snapChanges.isNotEmpty
+                          ? const SizedBox(
+                              height: 20,
+                              child: YaruCircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : null,
                     ),
-                    YaruPageItem(
+                    const YaruPageItem(
                       titleBuilder: UpdatesPage.createTitle,
                       builder: UpdatesPage.create,
                       iconData: YaruIcons.synchronizing,
                     ),
-                    YaruPageItem(
+                    const YaruPageItem(
                       titleBuilder: SettingsPage.createTitle,
                       builder: SettingsPage.create,
                       iconData: YaruIcons.settings,

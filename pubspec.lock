@@ -550,7 +550,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "5b3cccf3cb874e52f551ed69a4b08dec4654306a"
+      resolved-ref: "7d7fbc124d4591edc11f95cd7241025f73283d34"
       url: "https://github.com/ubuntu/yaru_widgets.dart"
     source: git
     version: "1.0.13"
