@@ -101,7 +101,9 @@ class AppsModel extends SafeChangeNotifier {
       (snapApp) => snapApp.desktopFile != null && snapApp.snap != null,
     )) {
       final localSnap = await client.getSnap(snapApp.snap!);
-      localSnaps.add(localSnap);
+      if (localSnap.type == 'app') {
+        localSnaps.add(localSnap);
+      }
     }
     _localSnaps.clear();
     _localSnaps.addAll(localSnaps);

@@ -61,8 +61,8 @@ class _MyAppsPageState extends State<MyAppsPage> {
                     shrinkWrap: true,
                     itemCount: appsModel.localSnaps.length,
                     itemBuilder: (context, index) {
-                      final entry = appsModel.localSnaps.elementAt(index);
-                      return AppBanner.create(context, entry);
+                      final snap = appsModel.localSnaps.elementAt(index);
+                      return AppBanner.create(context, snap);
                     },
                   ),
                 ),
