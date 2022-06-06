@@ -1,13 +1,15 @@
 import 'package:badges/badges.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/store_app/common/offline_page.dart';
 import 'package:software/store_app/explore/explore_page.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
 import 'package:software/store_app/store_model.dart';
-import 'package:software/store_app/updates/updates_page.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -16,7 +18,7 @@ class StoreApp extends StatefulWidget {
   const StoreApp({super.key});
 
   static Widget create() => ChangeNotifierProvider(
-        create: (context) => StoreModel(),
+        create: (context) => StoreModel(getService<Connectivity>()),
         child: const StoreApp(),
       );
 
@@ -46,9 +48,11 @@ class _StoreAppState extends State<StoreApp> {
               child: Scaffold(
                 body: YaruCompactLayout(
                   pageItems: [
-                    const YaruPageItem(
+                    YaruPageItem(
                       titleBuilder: ExplorePage.createTitle,
-                      builder: ExplorePage.create,
+                      builder: model.appIsOnline
+                          ? ExplorePage.create
+                          : (context) => const OfflinePage(),
                       iconData: YaruIcons.compass,
                     ),
                     YaruPageItem(
@@ -70,11 +74,6 @@ class _StoreAppState extends State<StoreApp> {
                               ),
                             )
                           : null,
-                    ),
-                    const YaruPageItem(
-                      titleBuilder: UpdatesPage.createTitle,
-                      builder: UpdatesPage.create,
-                      iconData: YaruIcons.synchronizing,
                     ),
                     const YaruPageItem(
                       titleBuilder: SettingsPage.createTitle,

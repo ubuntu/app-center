@@ -47,30 +47,33 @@ class SnapModel extends SafeChangeNotifier {
   List<SnapApp>? get apps => _localSnap?.apps;
 
   /// The base snap this snap uses.
-  String? get base => _storeSnap?.base;
+  String? get base => _storeSnap?.base ?? _localSnap?.base;
 
   /// The channel this snap is from, e.g. "stable".
-  String? get channel => _storeSnap?.channel;
+  String? get channel => _storeSnap?.channel ?? _localSnap?.channel;
 
   Map<String, SnapChannel> selectableChannels;
 
   /// Common IDs this snap contains.
-  List<String>? get commonIds => _storeSnap?.commonIds;
+  List<String>? get commonIds => _storeSnap?.commonIds ?? _localSnap?.commonIds;
 
   /// The confinement this snap is using.
-  SnapConfinement? get confinement => _storeSnap?.confinement;
+  SnapConfinement? get confinement =>
+      _storeSnap?.confinement ?? _localSnap?.confinement;
 
   /// Contact URL.
-  String? get contact => _storeSnap?.contact;
+  String? get contact => _storeSnap?.contact ?? _localSnap?.contact;
 
   /// Multi line description.
-  String? get description => _storeSnap?.description;
+  String? get description => _storeSnap?.description ?? _localSnap?.description;
 
   /// Download size in bytes.
-  int? get downloadSize => _storeSnap?.downloadSize;
+  int? get downloadSize => _storeSnap?.downloadSize ?? _localSnap?.downloadSize;
+
+  String? get iconUrl => _storeSnap?.iconUrl ?? _localSnap?.iconUrl;
 
   /// Unique ID for this snap.
-  String? get id => _storeSnap?.id;
+  String? get id => _storeSnap?.id ?? _localSnap?.id;
 
   /// The date this snap was installed.
   String get installDate {
@@ -83,30 +86,31 @@ class SnapModel extends SafeChangeNotifier {
   int? get installedSize => _localSnap?.installedSize;
 
   /// Package license.
-  String? get license => _storeSnap?.license;
+  String? get license => _storeSnap?.license ?? _localSnap?.license;
 
   /// Media associated with this snap.
-  List<SnapMedia>? get media => _storeSnap?.media;
+  List<SnapMedia>? get media => _storeSnap?.media ?? _localSnap?.media;
 
   String? get iconUrl => _storeSnap?.iconUrl;
 
   /// Unique name for this snap. Use [title] for displaying.
-  String? get name => _storeSnap?.name;
+  String? get name => _storeSnap?.name ?? _localSnap?.name;
 
   /// Publisher information.
-  SnapPublisher? get publisher => _storeSnap?.publisher;
+  SnapPublisher? get publisher =>
+      _storeSnap?.publisher ?? _localSnap?.publisher;
 
   /// Revision of this snap.
-  String? get revision => _storeSnap?.revision;
+  String? get revision => _storeSnap?.revision ?? _localSnap?.revision;
 
   /// URL linking to the snap store page on this snap.
-  String? get storeUrl => _storeSnap?.storeUrl;
+  String? get storeUrl => _storeSnap?.storeUrl ?? _localSnap?.storeUrl;
 
   /// Single line summary.
-  String? get summary => _storeSnap?.summary;
+  String? get summary => _storeSnap?.summary ?? _localSnap?.summary;
 
   /// Title of this snap.
-  String? get title => _storeSnap?.title;
+  String? get title => _storeSnap?.title ?? _localSnap?.title;
 
   /// The channel that updates will be installed from, e.g. "stable".
   String? get trackingChannel => _localSnap?.trackingChannel;
@@ -115,13 +119,17 @@ class SnapModel extends SafeChangeNotifier {
   List<String>? get tracks => _storeSnap?.tracks;
 
   /// Type of snap.
-  String? get type => _storeSnap?.type;
+  String? get type => _storeSnap?.type ?? _localSnap?.type;
 
   /// Version of this snap.
-  String? get version => _storeSnap?.version;
+  String? get version => _localSnap?.version ?? _storeSnap?.version;
 
   /// Website URL.
-  String? get website => _storeSnap?.website;
+  String? get website => _storeSnap?.website ?? _localSnap?.website;
+
+  num? get installPercent => downloadSize == null || installedSize == null
+      ? 0
+      : installedSize! / downloadSize!;
 
   bool _appChangeInProgress;
   bool get appChangeInProgress => _appChangeInProgress;
