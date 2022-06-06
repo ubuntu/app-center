@@ -112,7 +112,9 @@ class _AppDialogState extends State<AppDialog> {
     } else {
       return const AlertDialog(
         content: SizedBox(
-            height: 200, child: Center(child: YaruCircularProgressIndicator())),
+          height: 200,
+          child: Center(child: YaruCircularProgressIndicator()),
+        ),
       );
     }
   }

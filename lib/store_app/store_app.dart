@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -55,10 +56,17 @@ class _StoreAppState extends State<StoreApp> {
                       builder: MyAppsPage.create,
                       iconData: YaruIcons.ok,
                       itemWidget: model.snapChanges.isNotEmpty
-                          ? const SizedBox(
-                              height: 20,
-                              child: YaruCircularProgressIndicator(
-                                strokeWidth: 2,
+                          ? Badge(
+                              badgeColor: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.2),
+                              badgeContent:
+                                  Text(model.snapChanges.length.toString()),
+                              child: const SizedBox(
+                                height: 20,
+                                child: YaruCircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               ),
                             )
                           : null,
