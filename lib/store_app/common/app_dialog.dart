@@ -53,61 +53,68 @@ class _AppDialogState extends State<AppDialog> {
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
 
-    return AlertDialog(
-      actionsAlignment: MainAxisAlignment.spaceBetween,
-      actionsPadding: const EdgeInsets.only(left: 20),
-      contentPadding: const EdgeInsets.only(
-        bottom: 10,
-        left: 25,
-        right: 25,
-      ),
-      titlePadding: EdgeInsets.zero,
-      title: const _Title(),
-      content: const _Content(),
-      actions: [
-        if (model.selectableChannels.isNotEmpty)
-          DropdownButton<String>(
-            icon: const Icon(YaruIcons.pan_down),
-            borderRadius: BorderRadius.circular(10),
-            elevation: 1,
-            value: model.channelToBeInstalled,
-            items: [
-              for (final entry in model.selectableChannels.entries)
-                DropdownMenuItem<String>(
-                  value: entry.key,
-                  child: Text(
-                    entry.key,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodyMedium,
+    if (model.name != null) {
+      return AlertDialog(
+        actionsAlignment: MainAxisAlignment.spaceBetween,
+        actionsPadding: const EdgeInsets.only(left: 20),
+        contentPadding: const EdgeInsets.only(
+          bottom: 10,
+          left: 25,
+          right: 25,
+        ),
+        titlePadding: EdgeInsets.zero,
+        title: const _Title(),
+        content: const _Content(),
+        actions: [
+          if (model.selectableChannels.isNotEmpty)
+            DropdownButton<String>(
+              icon: const Icon(YaruIcons.pan_down),
+              borderRadius: BorderRadius.circular(10),
+              elevation: 1,
+              value: model.channelToBeInstalled,
+              items: [
+                for (final entry in model.selectableChannels.entries)
+                  DropdownMenuItem<String>(
+                    value: entry.key,
+                    child: Text(
+                      entry.key,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
-                ),
-            ],
-            onChanged: model.appChangeInProgress
-                ? null
-                : (v) => model.channelToBeInstalled = v!,
-          ),
-        Text(model.versionString ?? ''),
-        if (model.appChangeInProgress)
-          const SizedBox(
-            height: 25,
-            child: YaruCircularProgressIndicator(
-              strokeWidth: 3,
+              ],
+              onChanged: model.appChangeInProgress
+                  ? null
+                  : (v) => model.channelToBeInstalled = v!,
             ),
-          ),
-        if (!model.appChangeInProgress)
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (model.snapIsInstalled) const _RemoveButton(),
-              const SizedBox(
-                width: 10,
+          Text(model.versionString ?? ''),
+          if (model.appChangeInProgress)
+            const SizedBox(
+              height: 25,
+              child: YaruCircularProgressIndicator(
+                strokeWidth: 3,
               ),
-              if (model.snapIsInstalled) const _RefreshButton(),
-              if (!model.snapIsInstalled) const _InstallButton(),
-            ],
-          )
-      ],
-    );
+            ),
+          if (!model.appChangeInProgress)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (model.snapIsInstalled) const _RemoveButton(),
+                const SizedBox(
+                  width: 10,
+                ),
+                if (model.snapIsInstalled) const _RefreshButton(),
+                if (!model.snapIsInstalled) const _InstallButton(),
+              ],
+            )
+        ],
+      );
+    } else {
+      return const AlertDialog(
+        content: SizedBox(
+            height: 200, child: Center(child: YaruCircularProgressIndicator())),
+      );
+    }
   }
 }
 

@@ -164,8 +164,10 @@ class SnapModel extends SafeChangeNotifier {
 
     _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) {
       if (_storeSnap != null) {
-        appChangeInProgress =
-            _appChangeService.getChange(_localSnap ?? _storeSnap!) != null;
+        appChangeInProgress = _appChangeService.getChange(_storeSnap!) != null;
+      }
+      if (_localSnap != null) {
+        appChangeInProgress = _appChangeService.getChange(_localSnap!) != null;
       }
       notifyListeners();
     });
