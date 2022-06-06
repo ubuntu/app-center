@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/apps_model.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_tile.dart';
@@ -61,6 +62,8 @@ class _MyAppsPageState extends State<MyAppsPage> {
                         .name;
                     return ChangeNotifierProvider(
                       create: (context) => SnapModel(
+                        getService<SnapdClient>(),
+                        getService<AppChangeService>(),
                         huskSnapName: huskSnapName,
                       ),
                       child: SnapTile(

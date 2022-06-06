@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/link.dart';
 import 'package:software/store_app/common/snap_model.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -13,6 +15,28 @@ class AppDialog extends StatefulWidget {
   const AppDialog({
     Key? key,
   }) : super(key: key);
+
+  static Widget create({
+    required BuildContext context,
+    required String huskSnapName,
+  }) =>
+      ChangeNotifierProvider<SnapModel>(
+        create: (context) => SnapModel(
+          getService<SnapdClient>(),
+          getService<AppChangeService>(),
+          huskSnapName: huskSnapName,
+        ),
+        child: const AppDialog(),
+      );
+
+  static Widget createFromValue({
+    required BuildContext context,
+    required SnapModel value,
+  }) =>
+      ChangeNotifierProvider<SnapModel>.value(
+        value: value,
+        child: const AppDialog(),
+      );
 
   @override
   State<AppDialog> createState() => _AppDialogState();

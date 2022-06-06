@@ -3,10 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/color_scheme.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/apps_model.dart';
-import 'package:software/store_app/common/snap_model.dart';
-import 'package:software/store_app/explore/app_card.dart';
 import 'package:software/store_app/common/app_dialog.dart';
+import 'package:software/store_app/common/apps_model.dart';
+import 'package:software/store_app/explore/app_card.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppGrid extends StatefulWidget {
@@ -147,11 +146,9 @@ class _GridState extends State<_Grid> {
                               ? Theme.of(context).colorScheme.barrierColorLight
                               : Theme.of(context).colorScheme.barrierColorDark,
                       context: context,
-                      builder: (context) => ChangeNotifierProvider<SnapModel>(
-                        create: (context) => SnapModel(
-                          huskSnapName: snap.name,
-                        ),
-                        child: const AppDialog(),
+                      builder: (context) => AppDialog.create(
+                        context: context,
+                        huskSnapName: snap.name,
                       ),
                     ),
                   ),

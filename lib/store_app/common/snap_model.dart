@@ -7,10 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/services/color_generator.dart';
 import 'package:software/services/app_change_service.dart';
+import 'package:software/services/color_generator.dart';
 import 'package:software/snapx.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:xdg_icons/xdg_icons.dart';
 
 const fallBackIcon = XdgIconTheme(
@@ -20,21 +19,21 @@ const fallBackIcon = XdgIconTheme(
 
 class SnapModel extends SafeChangeNotifier {
   final AppChangeService _appChangeService;
-  final SnapdClient client;
+  final SnapdClient _client;
   final ColorGenerator? colorGenerator;
   final String huskSnapName;
   Snap? _storeSnap;
   Snap? _localSnap;
 
-  SnapModel({
+  SnapModel(
+    this._client,
+    this._appChangeService, {
     this.colorGenerator,
     required this.huskSnapName,
   })  : _appChangeInProgress = false,
         _channelToBeInstalled = '',
         selectableChannels = {},
-        icon = fallBackIcon,
-        client = getService<SnapdClient>(),
-        _appChangeService = getService<AppChangeService>();
+        icon = fallBackIcon;
 
   StreamSubscription<bool>? _snapChangesSub;
 
@@ -186,54 +185,56 @@ class SnapModel extends SafeChangeNotifier {
   }
 
   Future<Snap?> findLocalSnap(String huskSnapName) async {
-    await client.loadAuthorization();
+    await _client.loadAuthorization();
     try {
-      return await client.getSnap(huskSnapName);
+      return await _client.getSnap(huskSnapName);
     } on SnapdException {
       return null;
     }
   }
 
   Future<Snap> findSnapByName(String name) async {
-    final snaps = await client.find(name: name);
+    final snaps = await _client.find(name: name);
     return snaps.first;
   }
 
   Future<void> installSnap() async {
     if (name == null) return;
-    await client.loadAuthorization();
-    final changeId = await client.install(
+    await _client.loadAuthorization();
+    final changeId = await _client.install(
       name!,
       channel: channelToBeInstalled,
       classic: confinement == SnapConfinement.classic,
     );
     await _appChangeService.addChange(
-        _storeSnap!, await client.getChange(changeId));
+      _storeSnap!,
+      await _client.getChange(changeId),
+    );
     _localSnap = await findLocalSnap(huskSnapName);
     notifyListeners();
   }
 
   Future<void> removeSnap() async {
     if (name == null) return;
-    await client.loadAuthorization();
-    final id = await client.remove(name!);
-    await _appChangeService.addChange(_localSnap!, await client.getChange(id));
+    await _client.loadAuthorization();
+    final id = await _client.remove(name!);
+    await _appChangeService.addChange(_localSnap!, await _client.getChange(id));
     _localSnap = await findLocalSnap(huskSnapName);
     notifyListeners();
   }
 
   Future<void> refreshSnapApp() async {
     if (name == null || channelToBeInstalled.isEmpty) return;
-    await client.loadAuthorization();
-    final id = await client.refresh(name!, channel: channelToBeInstalled);
-    await _appChangeService.addChange(_localSnap!, await client.getChange(id));
+    await _client.loadAuthorization();
+    final id = await _client.refresh(name!, channel: channelToBeInstalled);
+    await _appChangeService.addChange(_localSnap!, await _client.getChange(id));
     _localSnap = await findLocalSnap(huskSnapName);
     notifyListeners();
   }
 
   Future<List<SnapApp>> get snapApps async {
-    await client.loadAuthorization();
-    return await client.getApps();
+    await _client.loadAuthorization();
+    return await _client.getApps();
   }
 
   String? get versionString => selectableChannels[channelToBeInstalled] != null

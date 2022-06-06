@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snapd/snapd.dart';
 import 'package:software/color_scheme.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/app_dialog.dart';
 import 'package:software/store_app/common/apps_model.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/app_banner.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 class AppBannerGrid extends StatefulWidget {
   const AppBannerGrid({Key? key, required this.snapSection, this.amount = 20})
@@ -56,6 +59,8 @@ class _AppBannerGridState extends State<AppBannerGrid> {
             ),
             children: sections.take(widget.amount).map((snap) {
               final snapModel = SnapModel(
+                getService<SnapdClient>(),
+                getService<AppChangeService>(),
                 huskSnapName: snap.name,
               );
               return ChangeNotifierProvider<SnapModel>(
@@ -68,9 +73,9 @@ class _AppBannerGridState extends State<AppBannerGrid> {
                             ? Theme.of(context).colorScheme.barrierColorLight
                             : Theme.of(context).colorScheme.barrierColorDark,
                     context: context,
-                    builder: (context) => ChangeNotifierProvider.value(
+                    builder: (context) => AppDialog.createFromValue(
+                      context: context,
                       value: snapModel,
-                      child: const AppDialog(),
                     ),
                   ),
                 ),
