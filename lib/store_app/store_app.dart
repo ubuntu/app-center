@@ -44,46 +44,47 @@ class _StoreAppState extends State<StoreApp> {
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateTitle: (context) => context.l10n.appTitle,
       routes: {
-        Navigator.defaultRouteName: (context) => YaruTheme(
-              child: Scaffold(
-                body: YaruCompactLayout(
-                  pageItems: [
-                    YaruPageItem(
-                      titleBuilder: ExplorePage.createTitle,
-                      builder: model.appIsOnline
-                          ? ExplorePage.create
-                          : (context) => const OfflinePage(),
-                      iconData: YaruIcons.compass,
+        Navigator.defaultRouteName: (context) {
+          final myAppsBadgeIcon = model.snapChanges.isNotEmpty
+              ? Badge(
+                  badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
+                  badgeContent: Text(model.snapChanges.length.toString()),
+                  child: const SizedBox(
+                    height: 20,
+                    child: YaruCircularProgressIndicator(
+                      strokeWidth: 2,
                     ),
-                    YaruPageItem(
-                      titleBuilder: MyAppsPage.createTitle,
-                      builder: MyAppsPage.create,
-                      iconData: YaruIcons.ok,
-                      itemWidget: model.snapChanges.isNotEmpty
-                          ? Badge(
-                              badgeColor: Theme.of(context)
-                                  .primaryColor
-                                  .withOpacity(0.2),
-                              badgeContent:
-                                  Text(model.snapChanges.length.toString()),
-                              child: const SizedBox(
-                                height: 20,
-                                child: YaruCircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              ),
-                            )
-                          : null,
-                    ),
-                    const YaruPageItem(
-                      titleBuilder: SettingsPage.createTitle,
-                      builder: SettingsPage.create,
-                      iconData: YaruIcons.settings,
-                    )
-                  ],
-                ),
+                  ),
+                )
+              : null;
+          return YaruTheme(
+            child: Scaffold(
+              body: YaruCompactLayout(
+                pageItems: [
+                  YaruPageItem(
+                    titleBuilder: ExplorePage.createTitle,
+                    builder: model.appIsOnline
+                        ? ExplorePage.create
+                        : (context) => const OfflinePage(),
+                    iconData: YaruIcons.compass,
+                  ),
+                  YaruPageItem(
+                    titleBuilder: MyAppsPage.createTitle,
+                    builder: MyAppsPage.create,
+                    iconData: YaruIcons.ok,
+                    selectedItemWidget: myAppsBadgeIcon,
+                    itemWidget: myAppsBadgeIcon,
+                  ),
+                  const YaruPageItem(
+                    titleBuilder: SettingsPage.createTitle,
+                    builder: SettingsPage.create,
+                    iconData: YaruIcons.settings,
+                  )
+                ],
               ),
             ),
+          );
+        },
       },
     );
   }
