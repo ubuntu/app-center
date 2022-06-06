@@ -91,8 +91,6 @@ class SnapModel extends SafeChangeNotifier {
   /// Media associated with this snap.
   List<SnapMedia>? get media => _storeSnap?.media ?? _localSnap?.media;
 
-  String? get iconUrl => _storeSnap?.iconUrl;
-
   /// Unique name for this snap. Use [title] for displaying.
   String? get name => _storeSnap?.name ?? _localSnap?.name;
 
