@@ -99,12 +99,31 @@ class _AppDialogState extends State<AppDialog> {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (model.snapIsInstalled) const _RemoveButton(),
+                if (model.snapIsInstalled)
+                  OutlinedButton(
+                    onPressed: () => model.removeSnap(),
+                    child: Text(
+                      context.l10n.remove,
+                      style: model.appChangeInProgress
+                          ? TextStyle(color: Theme.of(context).disabledColor)
+                          : null,
+                    ),
+                  ),
                 const SizedBox(
                   width: 10,
                 ),
-                if (model.snapIsInstalled) const _RefreshButton(),
-                if (!model.snapIsInstalled) const _InstallButton(),
+                if (model.snapIsInstalled)
+                  OutlinedButton(
+                    onPressed: () => model.refreshSnapApp(),
+                    child: Text(context.l10n.refresh),
+                  ),
+                if (!model.snapIsInstalled)
+                  ElevatedButton(
+                    onPressed: model.appChangeInProgress
+                        ? null
+                        : () => model.installSnap(),
+                    child: Text(context.l10n.install),
+                  ),
               ],
             )
         ],
@@ -120,58 +139,6 @@ class _AppDialogState extends State<AppDialog> {
   }
 }
 
-class _RemoveButton extends StatelessWidget {
-  const _RemoveButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<SnapModel>();
-
-    return OutlinedButton(
-      onPressed: () => model.removeSnap(),
-      child: Text(
-        context.l10n.remove,
-        style: model.appChangeInProgress
-            ? TextStyle(color: Theme.of(context).disabledColor)
-            : null,
-      ),
-    );
-  }
-}
-
-class _InstallButton extends StatelessWidget {
-  const _InstallButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<SnapModel>();
-    return ElevatedButton(
-      onPressed: model.appChangeInProgress ? null : () => model.installSnap(),
-      child: Text(context.l10n.install),
-    );
-  }
-}
-
-class _RefreshButton extends StatelessWidget {
-  const _RefreshButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<SnapModel>();
-
-    return OutlinedButton(
-      onPressed: () => model.refreshSnapApp(),
-      child: Text(context.l10n.refresh),
-    );
-  }
-}
-
 class _Title extends StatelessWidget {
   const _Title({
     Key? key,
@@ -180,19 +147,13 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-    Widget image = const Icon(
-      YaruIcons.package_snap,
-      size: 65,
-    );
-    for (final medium in model.media ?? []) {
-      if (medium.type == 'icon') {
-        image = Image.network(
-          medium.url,
-          height: 50,
-          filterQuality: FilterQuality.medium,
-        );
-        break;
-      }
+    Widget image = fallBackIcon;
+    if (model.iconUrl != null) {
+      image = Image.network(
+        model.iconUrl!,
+        height: 50,
+        filterQuality: FilterQuality.medium,
+      );
     }
 
     return YaruDialogTitle(
