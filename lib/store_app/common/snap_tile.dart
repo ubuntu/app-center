@@ -47,14 +47,12 @@ class _SnapTileState extends State<SnapTile> {
           context: context,
           builder: (context) {
             if (widget.appIsOnline) {
-              return ChangeNotifierProvider.value(
-                value: model,
-                child: const AppDialog(),
-              );
+              return AppDialog.createFromValue(context: context, value: model);
             } else {
-              return ChangeNotifierProvider.value(
+              return OfflineDialog.createFromValue(
+                context: context,
                 value: model,
-                child: OfflineDialog(snapApp: widget.snapApp),
+                snapApp: widget.snapApp,
               );
             }
           },

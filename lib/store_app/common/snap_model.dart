@@ -11,10 +11,16 @@ import 'package:software/services/app_change_service.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/snapx.dart';
 import 'package:xdg_icons/xdg_icons.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 
-const fallBackIcon = XdgIconTheme(
+const fallBackXdgIcon = XdgIconTheme(
   data: XdgIconThemeData(theme: 'Yaru'),
   child: XdgIcon(name: 'application-x-executable', size: 50),
+);
+
+const fallBackIcon = Icon(
+  YaruIcons.package_snap,
+  size: 65,
 );
 
 class SnapModel extends SafeChangeNotifier {
@@ -33,7 +39,7 @@ class SnapModel extends SafeChangeNotifier {
   })  : _appChangeInProgress = false,
         _channelToBeInstalled = '',
         selectableChannels = {},
-        icon = fallBackIcon;
+        icon = fallBackXdgIcon;
 
   StreamSubscription<bool>? _snapChangesSub;
 
@@ -81,6 +87,8 @@ class SnapModel extends SafeChangeNotifier {
 
   /// Media associated with this snap.
   List<SnapMedia>? get media => _storeSnap?.media;
+
+  String? get iconUrl => _storeSnap?.iconUrl;
 
   /// Unique name for this snap. Use [title] for displaying.
   String? get name => _storeSnap?.name;
@@ -293,7 +301,7 @@ class SnapModel extends SafeChangeNotifier {
           width: 50,
         );
       } finally {
-        icon = fallBackIcon;
+        icon = fallBackXdgIcon;
       }
     }
     if (!iconLine.contains('/')) {

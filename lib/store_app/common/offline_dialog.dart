@@ -9,6 +9,18 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class OfflineDialog extends StatelessWidget {
   const OfflineDialog({Key? key, required this.snapApp}) : super(key: key);
 
+  static Widget createFromValue({
+    required BuildContext context,
+    required SnapModel value,
+    required SnapApp snapApp,
+  }) =>
+      ChangeNotifierProvider<SnapModel>.value(
+        value: value,
+        child: OfflineDialog(
+          snapApp: snapApp,
+        ),
+      );
+
   final SnapApp snapApp;
 
   @override
