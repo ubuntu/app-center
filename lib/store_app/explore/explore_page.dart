@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
-import 'package:software/store_app/common/apps_model.dart';
+import 'package:software/store_app/common/multi_snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
-import 'package:software/store_app/explore/app_banner_carousel.dart';
+import 'package:software/store_app/explore/snap_banner_carousel.dart';
 import 'package:software/store_app/explore/section_banner_grid.dart';
-import 'package:software/store_app/explore/app_grid.dart';
+import 'package:software/store_app/explore/snap_tile_grid.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -17,7 +17,7 @@ class ExplorePage extends StatelessWidget {
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => AppsModel(
+      create: (_) => MultiSnapModel(
         getService<SnapdClient>(),
         getService<AppChangeService>(),
       ),
@@ -29,7 +29,7 @@ class ExplorePage extends StatelessWidget {
       Text(context.l10n.explorePageTitle);
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final model = context.watch<MultiSnapModel>();
     final width = MediaQuery.of(context).size.width;
 
     return Column(
@@ -87,7 +87,7 @@ class ExplorePage extends StatelessWidget {
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
             children: [
               if (width < 1100 && !model.searchActive && model.exploreMode)
-                const AppBannerCarousel(
+                const SnapBannerCarousel(
                   snapSection: SnapSection.featured,
                 ),
               if (model.searchActive)
@@ -95,14 +95,14 @@ class ExplorePage extends StatelessWidget {
                   height: 20,
                 ),
               if (model.searchActive)
-                AppGrid(
+                SnapTileGrid(
                   name: model.searchQuery,
                   findByQuery: true,
                 ),
               if (!model.searchActive && !model.exploreMode)
                 for (int i = 0; i < model.filters.entries.length; i++)
                   if (model.filters.entries.elementAt(i).value == true)
-                    AppGrid(
+                    SnapTileGrid(
                       appendBottomDivier: true,
                       name: model.filters.entries.elementAt(i).key.title,
                       headline: model.filters.entries
@@ -143,7 +143,7 @@ class _SearchFieldState extends State<_SearchField> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final model = context.watch<MultiSnapModel>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: TextField(
@@ -187,7 +187,7 @@ class _FilterBarState extends State<_FilterBar> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final model = context.watch<MultiSnapModel>();
     return SizedBox(
       width: 1000,
       child: ScrollbarTheme(
@@ -203,7 +203,7 @@ class _FilterBarState extends State<_FilterBar> {
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
             children: [
-              for (final section in model.selectedFilters)
+              for (final section in model.sortedFilters)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: YaruRoundToggleButton(

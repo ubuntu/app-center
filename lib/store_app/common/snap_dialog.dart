@@ -11,8 +11,8 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
-class AppDialog extends StatefulWidget {
-  const AppDialog({
+class SnapDialog extends StatefulWidget {
+  const SnapDialog({
     Key? key,
   }) : super(key: key);
 
@@ -26,14 +26,14 @@ class AppDialog extends StatefulWidget {
           getService<AppChangeService>(),
           huskSnapName: huskSnapName,
         ),
-        child: const AppDialog(),
+        child: const SnapDialog(),
       );
 
   @override
-  State<AppDialog> createState() => _AppDialogState();
+  State<SnapDialog> createState() => _SnapDialogState();
 }
 
-class _AppDialogState extends State<AppDialog> {
+class _SnapDialogState extends State<SnapDialog> {
   @override
   void initState() {
     super.initState();

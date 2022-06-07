@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/app_banner.dart';
-import 'package:software/store_app/common/app_dialog.dart';
-import 'package:software/store_app/common/offline_dialog.dart';
+import 'package:software/store_app/common/snap_dialog.dart';
+import 'package:software/store_app/my_apps/offline_dialog.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_colors/yaru_colors.dart';
@@ -54,7 +54,7 @@ class _LocalSnapBannerState extends State<LocalSnapBanner> {
           if (widget.online) {
             return ChangeNotifierProvider.value(
               value: model,
-              child: const AppDialog(),
+              child: const SnapDialog(),
             );
           } else {
             return OfflineDialog.createFromValue(

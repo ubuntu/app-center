@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
-import 'package:software/store_app/common/apps_model.dart';
+import 'package:software/store_app/common/multi_snap_model.dart';
 import 'package:software/store_app/my_apps/local_snap_banner.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -19,7 +19,7 @@ class MyAppsPage extends StatefulWidget {
 
   static Widget create(BuildContext context, bool online) {
     return ChangeNotifierProvider(
-      create: (_) => AppsModel(
+      create: (_) => MultiSnapModel(
         getService<SnapdClient>(),
         getService<AppChangeService>(),
       ),
@@ -36,14 +36,14 @@ class MyAppsPage extends StatefulWidget {
 class _MyAppsPageState extends State<MyAppsPage> {
   @override
   void initState() {
-    final appsModel = context.read<AppsModel>();
+    final appsModel = context.read<MultiSnapModel>();
     appsModel.init();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final appsModel = context.watch<AppsModel>();
+    final appsModel = context.watch<MultiSnapModel>();
 
     return YaruTabbedPage(
       tabIcons: const [YaruIcons.package_snap, YaruIcons.package_deb],

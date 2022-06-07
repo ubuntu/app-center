@@ -2,35 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
-import 'package:software/store_app/common/apps_model.dart';
+import 'package:software/store_app/common/multi_snap_model.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/snap_banner.dart';
-import 'package:software/store_app/common/app_dialog.dart';
+import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class AppBannerCarousel extends StatefulWidget {
-  const AppBannerCarousel({Key? key, required this.snapSection})
+class SnapBannerCarousel extends StatefulWidget {
+  const SnapBannerCarousel({Key? key, required this.snapSection})
       : super(key: key);
 
   final SnapSection snapSection;
 
   @override
-  State<AppBannerCarousel> createState() => _AppBannerCarouselState();
+  State<SnapBannerCarousel> createState() => _SnapBannerCarouselState();
 }
 
-class _AppBannerCarouselState extends State<AppBannerCarousel> {
+class _SnapBannerCarouselState extends State<SnapBannerCarousel> {
   @override
   void initState() {
     super.initState();
-    context.read<AppsModel>().loadSection(widget.snapSection.title);
+    context.read<MultiSnapModel>().loadSection(widget.snapSection.title);
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final model = context.watch<MultiSnapModel>();
     final size = MediaQuery.of(context).size;
     final sections =
         model.sectionNameToSnapsMap[SnapSection.featured.name] ?? [];
@@ -97,7 +97,7 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
       onTap: () => showDialog(
         context: context,
         builder: (context) =>
-            AppDialog.create(context: context, huskSnapName: widget.snap.name),
+            SnapDialog.create(context: context, huskSnapName: widget.snap.name),
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/apps_model.dart';
+import 'package:software/store_app/common/multi_snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/snap_banner.dart';
 
@@ -23,12 +23,12 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
   @override
   void initState() {
     super.initState();
-    context.read<AppsModel>().loadSection(widget.snapSection.title);
+    context.read<MultiSnapModel>().loadSection(widget.snapSection.title);
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppsModel>();
+    final model = context.watch<MultiSnapModel>();
     final sections = model.sectionNameToSnapsMap[widget.snapSection.title];
     if (sections == null || sections.isEmpty) {
       return const SizedBox();

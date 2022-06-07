@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/app_dialog.dart';
-import 'package:software/store_app/common/apps_model.dart';
-import 'package:software/store_app/explore/snap_tile.dart';
+import 'package:software/snapx.dart';
+import 'package:software/store_app/common/snap_dialog.dart';
+import 'package:software/store_app/common/multi_snap_model.dart';
+import 'package:software/store_app/common/app_tile.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class AppGrid extends StatefulWidget {
-  const AppGrid({
+class SnapTileGrid extends StatefulWidget {
+  const SnapTileGrid({
     Key? key,
     required this.name,
     this.headline,
@@ -24,23 +26,25 @@ class AppGrid extends StatefulWidget {
   final bool appendBottomDivier;
 
   @override
-  State<AppGrid> createState() => _AppGridState();
+  State<SnapTileGrid> createState() => _SnapTileGridState();
 }
 
-class _AppGridState extends State<AppGrid> {
+class _SnapTileGridState extends State<SnapTileGrid> {
   @override
   void initState() {
     super.initState();
-    if (!widget.findByQuery) context.read<AppsModel>().loadSection(widget.name);
+    if (!widget.findByQuery) {
+      context.read<MultiSnapModel>().loadSection(widget.name);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<AppsModel>();
+    final model = context.read<MultiSnapModel>();
 
     if (!widget.findByQuery) {
       final snaps = model.sectionNameToSnapsMap[widget.name];
-      return _SnapGrid(
+      return _Grid(
         appendBottomDivider: widget.appendBottomDivier,
         snapAmount: widget.itemCount,
         headline: widget.headline,
@@ -51,7 +55,7 @@ class _AppGridState extends State<AppGrid> {
     return FutureBuilder<List<Snap>>(
       future: model.findSnapsByQuery(),
       builder: (context, snapshot) => snapshot.hasData
-          ? _SnapGrid(
+          ? _Grid(
               appendBottomDivider: widget.appendBottomDivier,
               snapAmount: widget.itemCount,
               headline: widget.headline,
@@ -67,8 +71,8 @@ class _AppGridState extends State<AppGrid> {
   }
 }
 
-class _SnapGrid extends StatefulWidget {
-  const _SnapGrid({
+class _Grid extends StatefulWidget {
+  const _Grid({
     Key? key,
     required this.headline,
     required this.snaps,
@@ -82,10 +86,10 @@ class _SnapGrid extends StatefulWidget {
   final bool appendBottomDivider;
 
   @override
-  State<_SnapGrid> createState() => _SnapGridState();
+  State<_Grid> createState() => _GridState();
 }
 
-class _SnapGridState extends State<_SnapGrid> {
+class _GridState extends State<_Grid> {
   int amount = 20;
 
   @override
@@ -137,11 +141,22 @@ class _SnapGridState extends State<_SnapGrid> {
             children: widget.snaps
                 .take(amount)
                 .map(
-                  (snap) => SnapTile(
-                    snap: snap,
+                  (snap) => AppTile(
+                    icon: snap.iconUrl != null
+                        ? Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Image.network(
+                              snap.iconUrl!,
+                              filterQuality: FilterQuality.medium,
+                            ),
+                          )
+                        : const Icon(
+                            YaruIcons.snapcraft,
+                            size: 50,
+                          ),
                     onTap: () => showDialog(
                       context: context,
-                      builder: (context) => AppDialog.create(
+                      builder: (context) => SnapDialog.create(
                         context: context,
                         huskSnapName: snap.name,
                       ),

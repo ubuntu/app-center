@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
-import 'package:software/store_app/common/app_dialog.dart';
+import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/app_banner.dart';
 import 'package:software/store_app/common/snap_icon.dart';
 import 'package:software/store_app/common/snap_model.dart';
@@ -37,7 +37,7 @@ class SnapBanner extends StatelessWidget {
           context: context,
           builder: (context) => ChangeNotifierProvider.value(
             value: snapModel,
-            child: const AppDialog(),
+            child: const SnapDialog(),
           ),
         ),
       ),

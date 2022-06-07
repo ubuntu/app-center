@@ -5,17 +5,12 @@ import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/snap_section.dart';
 
-class AppsModel extends SafeChangeNotifier {
+class MultiSnapModel extends SafeChangeNotifier {
   final SnapdClient client;
   final AppChangeService _appChangeService;
   StreamSubscription<bool>? _snapChangesSub;
 
-  final Map<SnapSection, bool> filters = {
-    for (final snapSection in SnapSection.values)
-      snapSection: snapSection == SnapSection.development ? true : false,
-  };
-
-  AppsModel(
+  MultiSnapModel(
     this.client,
     this._appChangeService,
   )   : _localSnaps = [],
@@ -71,19 +66,25 @@ class AppsModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  List<SnapSection> get selectedFilters =>
-      filters.entries
+  final Map<SnapSection, bool> _filters = {
+    for (final snapSection in SnapSection.values)
+      snapSection: snapSection == SnapSection.development ? true : false,
+  };
+  Map<SnapSection, bool> get filters => _filters;
+
+  List<SnapSection> get sortedFilters =>
+      _filters.entries
           .where((entry) => entry.value == true)
           .map((e) => e.key)
           .toList() +
-      filters.entries
+      _filters.entries
           .where((entry) => entry.value == false)
           .map((e) => e.key)
           .toList();
 
   void setFilter({required List<SnapSection> snapSections}) {
     for (var snapSection in snapSections) {
-      filters[snapSection] = !filters[snapSection]!;
+      _filters[snapSection] = !_filters[snapSection]!;
       loadSection(snapSection.title);
     }
   }
