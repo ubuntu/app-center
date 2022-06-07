@@ -4,8 +4,8 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
-import 'package:software/store_app/common/multi_snap_model.dart';
 import 'package:software/store_app/common/app_tile.dart';
+import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -34,13 +34,13 @@ class _SnapTileGridState extends State<SnapTileGrid> {
   void initState() {
     super.initState();
     if (!widget.findByQuery) {
-      context.read<MultiSnapModel>().loadSection(widget.name);
+      context.read<ExploreModel>().loadSection(widget.name);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<MultiSnapModel>();
+    final model = context.read<ExploreModel>();
 
     if (!widget.findByQuery) {
       final snaps = model.sectionNameToSnapsMap[widget.name];

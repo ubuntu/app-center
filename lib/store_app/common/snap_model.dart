@@ -11,16 +11,10 @@ import 'package:software/services/app_change_service.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/snapx.dart';
 import 'package:xdg_icons/xdg_icons.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 
 const fallBackXdgIcon = XdgIconTheme(
   data: XdgIconThemeData(theme: 'Yaru'),
   child: XdgIcon(name: 'application-x-executable', size: 50),
-);
-
-const fallBackIcon = Icon(
-  YaruIcons.package_snap,
-  size: 65,
 );
 
 class SnapModel extends SafeChangeNotifier {

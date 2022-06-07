@@ -138,7 +138,10 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-    Widget image = fallBackIcon;
+    Widget image = const Icon(
+      YaruIcons.package_snap,
+      size: 65,
+    );
     if (model.iconUrl != null) {
       image = Image.network(
         model.iconUrl!,

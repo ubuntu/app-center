@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
-import 'package:software/store_app/common/multi_snap_model.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
+import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/snap_banner.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/services/color_generator.dart';
@@ -25,12 +25,12 @@ class _SnapBannerCarouselState extends State<SnapBannerCarousel> {
   @override
   void initState() {
     super.initState();
-    context.read<MultiSnapModel>().loadSection(widget.snapSection.title);
+    context.read<ExploreModel>().loadSection(widget.snapSection.title);
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<MultiSnapModel>();
+    final model = context.watch<ExploreModel>();
     final size = MediaQuery.of(context).size;
     final sections =
         model.sectionNameToSnapsMap[SnapSection.featured.name] ?? [];

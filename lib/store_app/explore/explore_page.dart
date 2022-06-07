@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/app_change_service.dart';
-import 'package:software/store_app/common/multi_snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
+import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/snap_banner_carousel.dart';
 import 'package:software/store_app/explore/section_banner_grid.dart';
 import 'package:software/store_app/explore/snap_tile_grid.dart';
@@ -17,9 +16,8 @@ class ExplorePage extends StatelessWidget {
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MultiSnapModel(
+      create: (_) => ExploreModel(
         getService<SnapdClient>(),
-        getService<AppChangeService>(),
       ),
       child: const ExplorePage(),
     );
@@ -29,7 +27,7 @@ class ExplorePage extends StatelessWidget {
       Text(context.l10n.explorePageTitle);
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<MultiSnapModel>();
+    final model = context.watch<ExploreModel>();
     final width = MediaQuery.of(context).size.width;
 
     return Column(
@@ -143,7 +141,7 @@ class _SearchFieldState extends State<_SearchField> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<MultiSnapModel>();
+    final model = context.watch<ExploreModel>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: TextField(
@@ -187,7 +185,7 @@ class _FilterBarState extends State<_FilterBar> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<MultiSnapModel>();
+    final model = context.watch<ExploreModel>();
     return SizedBox(
       width: 1000,
       child: ScrollbarTheme(

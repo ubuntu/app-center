@@ -2,39 +2,17 @@ import 'dart:async';
 
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/snap_section.dart';
 
-class MultiSnapModel extends SafeChangeNotifier {
+class ExploreModel extends SafeChangeNotifier {
   final SnapdClient client;
-  final AppChangeService _appChangeService;
-  StreamSubscription<bool>? _snapChangesSub;
 
-  MultiSnapModel(
+  ExploreModel(
     this.client,
-    this._appChangeService,
-  )   : _localSnaps = [],
-        _localSnapsWithChanges = [],
-        _searchActive = false,
+  )   : _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
         sectionNameToSnapsMap = {};
-
-  Future<void> init() async {
-    await _loadLocalSnaps();
-    _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) async {
-      await client.getSnaps();
-      await _loadLocalSnaps();
-      notifyListeners();
-    });
-    notifyListeners();
-  }
-
-  @override
-  Future<void> dispose() async {
-    await _snapChangesSub?.cancel();
-    super.dispose();
-  }
 
   Future<List<Snap>> findSnapsBySection({String? section}) async {
     if (section == null) return [];
@@ -68,11 +46,11 @@ class MultiSnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  Map<SnapSection, bool> get filters => _filters;
   final Map<SnapSection, bool> _filters = {
     for (final snapSection in SnapSection.values)
       snapSection: snapSection == SnapSection.development ? true : false,
   };
-  Map<SnapSection, bool> get filters => _filters;
 
   List<SnapSection> get sortedFilters =>
       _filters.entries
@@ -93,27 +71,6 @@ class MultiSnapModel extends SafeChangeNotifier {
 
   Future<List<Snap>> findSnapsByQuery() async =>
       searchQuery.isEmpty ? [] : await client.find(query: _searchQuery);
-
-  List<Snap> _localSnaps;
-  List<Snap> get localSnaps => _localSnaps;
-  List<Snap> _localSnapsWithChanges;
-  List<Snap> get localSnapsWithChanges => _localSnapsWithChanges;
-
-  Future<void> _loadLocalSnaps() async {
-    await client.loadAuthorization();
-
-    _localSnaps = (await client.getSnaps())
-        .where(
-          (snap) => _appChangeService.getChange(snap) == null,
-        )
-        .toList();
-    _localSnaps.sort((a, b) => b.name.compareTo(a.name));
-    _localSnapsWithChanges = (await client.getSnaps())
-        .where(
-          (snap) => _appChangeService.getChange(snap) != null,
-        )
-        .toList();
-  }
 
   Map<String, List<Snap>> sectionNameToSnapsMap;
   Future<void> loadSection(String name) async {
