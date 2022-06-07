@@ -40,8 +40,7 @@ class SnapModel extends SafeChangeNotifier {
     this.online = true,
   })  : _appChangeInProgress = false,
         _channelToBeInstalled = '',
-        selectableChannels = {},
-        offlineIcon = fallBackXdgIcon;
+        selectableChannels = {};
 
   StreamSubscription<bool>? _snapChangesSub;
 
@@ -287,7 +286,7 @@ class SnapModel extends SafeChangeNotifier {
           ? apps!.first.desktopFile!
           : null;
 
-  Widget offlineIcon;
+  Widget? offlineIcon;
   Future<void> loadOfflineIcon() async {
     if (_desktopFile != null) {
       File? file = File(_desktopFile!);
@@ -321,7 +320,7 @@ class SnapModel extends SafeChangeNotifier {
           child: XdgIcon(name: iconLine, size: 48),
         );
       }
-      notifyListeners();
     }
+    notifyListeners();
   }
 }

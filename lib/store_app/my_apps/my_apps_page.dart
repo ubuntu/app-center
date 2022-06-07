@@ -36,45 +36,50 @@ class MyAppsPage extends StatefulWidget {
 class _MyAppsPageState extends State<MyAppsPage> {
   @override
   void initState() {
-    final appsModel = context.read<MultiSnapModel>();
-    appsModel.init();
+    context.read<MultiSnapModel>().init();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final appsModel = context.watch<MultiSnapModel>();
+    final multiSnapModel = context.watch<MultiSnapModel>();
 
     return YaruTabbedPage(
       tabIcons: const [YaruIcons.package_snap, YaruIcons.package_deb],
       tabTitles: const ['Snaps', 'Debian packages'],
       views: [
-        Center(
-          child: appsModel.localSnaps.isEmpty
-              ? const YaruCircularProgressIndicator()
-              : Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                      mainAxisExtent: 110,
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 20,
-                      maxCrossAxisExtent: 1000,
-                    ),
-                    shrinkWrap: true,
-                    itemCount: appsModel.localSnaps.length,
-                    itemBuilder: (context, index) {
-                      final snap = appsModel.localSnaps.elementAt(index);
+        YaruPage(
+          children: [
+            for (final snapList in [
+              // multiSnapModel.localSnapsWithChanges,
+              multiSnapModel.localSnaps
+            ])
+              snapList.isEmpty
+                  ? const Padding(
+                      padding: EdgeInsets.all(50),
+                      child: YaruCircularProgressIndicator(),
+                    )
+                  : GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                        mainAxisExtent: 110,
+                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 15,
+                        maxCrossAxisExtent: 1000,
+                      ),
+                      shrinkWrap: true,
+                      itemCount: snapList.length,
+                      itemBuilder: (context, index) {
+                        final snap = snapList.elementAt(index);
 
-                      return LocalSnapBanner.create(
-                        context,
-                        snap.name,
-                        widget.online,
-                      );
-                    },
-                  ),
-                ),
+                        return LocalSnapBanner.create(
+                          context,
+                          snap.name,
+                          widget.online,
+                        );
+                      },
+                    ),
+          ],
         ),
         const Center(
           child: Text('Debian'),

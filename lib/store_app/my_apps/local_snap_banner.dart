@@ -35,8 +35,7 @@ class _LocalSnapBannerState extends State<LocalSnapBanner> {
   @override
   void initState() {
     final model = context.read<SnapModel>();
-    model.init();
-    model.loadOfflineIcon();
+    model.init().then((value) => model.loadOfflineIcon());
 
     super.initState();
   }
@@ -46,7 +45,6 @@ class _LocalSnapBannerState extends State<LocalSnapBanner> {
     final borderRadius = BorderRadius.circular(10);
     bool light = Theme.of(context).brightness == Brightness.light;
     final model = context.watch<SnapModel>();
-    model.loadOfflineIcon();
     return InkWell(
       onTap: () => showDialog(
         context: context,
@@ -64,14 +62,14 @@ class _LocalSnapBannerState extends State<LocalSnapBanner> {
           }
         },
       ),
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: borderRadius,
       child: AppBanner(
         borderRadius: borderRadius,
         color: light
             ? YaruColors.warmGrey.shade900
             : Theme.of(context).colorScheme.onBackground,
         elevation: light ? 2 : 1,
-        icon: model.offlineIcon,
+        icon: model.offlineIcon ?? fallBackXdgIcon,
         title: model.title ?? '',
         summary: model.summary ?? '',
         textOverflow: TextOverflow.ellipsis,

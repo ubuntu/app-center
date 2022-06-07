@@ -14,6 +14,7 @@ class MultiSnapModel extends SafeChangeNotifier {
     this.client,
     this._appChangeService,
   )   : _localSnaps = [],
+        _localSnapsWithChanges = [],
         _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
@@ -22,6 +23,7 @@ class MultiSnapModel extends SafeChangeNotifier {
   Future<void> init() async {
     await _loadLocalSnaps();
     _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) async {
+      await client.getSnaps();
       await _loadLocalSnaps();
       notifyListeners();
     });
@@ -92,22 +94,25 @@ class MultiSnapModel extends SafeChangeNotifier {
   Future<List<Snap>> findSnapsByQuery() async =>
       searchQuery.isEmpty ? [] : await client.find(query: _searchQuery);
 
-  final List<Snap> _localSnaps;
+  List<Snap> _localSnaps;
   List<Snap> get localSnaps => _localSnaps;
+  List<Snap> _localSnapsWithChanges;
+  List<Snap> get localSnapsWithChanges => _localSnapsWithChanges;
+
   Future<void> _loadLocalSnaps() async {
     await client.loadAuthorization();
-    final localSnaps = <Snap>[];
-    final snapApps = (await client.getApps());
-    for (var snapApp in snapApps.where(
-      (snapApp) => snapApp.desktopFile != null && snapApp.snap != null,
-    )) {
-      final localSnap = await client.getSnap(snapApp.snap!);
-      if (localSnap.type == 'app') {
-        localSnaps.add(localSnap);
-      }
-    }
-    _localSnaps.clear();
-    _localSnaps.addAll(localSnaps);
+
+    _localSnaps = (await client.getSnaps())
+        .where(
+          (snap) => _appChangeService.getChange(snap) == null,
+        )
+        .toList();
+    _localSnaps.sort((a, b) => b.name.compareTo(a.name));
+    _localSnapsWithChanges = (await client.getSnaps())
+        .where(
+          (snap) => _appChangeService.getChange(snap) != null,
+        )
+        .toList();
   }
 
   Map<String, List<Snap>> sectionNameToSnapsMap;

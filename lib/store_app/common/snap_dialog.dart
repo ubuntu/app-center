@@ -36,8 +36,8 @@ class SnapDialog extends StatefulWidget {
 class _SnapDialogState extends State<SnapDialog> {
   @override
   void initState() {
-    super.initState();
     context.read<SnapModel>().init();
+    super.initState();
   }
 
   @override

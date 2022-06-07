@@ -369,10 +369,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: bf671a8b36aa32106df58e098feeacf91082a317
+      resolved-ref: e21bf236ed602e36f8b7eea1cc56f3e1540e5e06
       url: "https://github.com/canonical/snapd.dart"
     source: git
-    version: "0.3.0"
+    version: "0.4.0"
   source_span:
     dependency: transitive
     description:
