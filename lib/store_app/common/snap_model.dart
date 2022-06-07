@@ -83,6 +83,14 @@ class SnapModel extends SafeChangeNotifier {
   /// Package license.
   String? get license => _storeSnap?.license ?? _localSnap?.license;
 
+  /// The date this snap was installed.
+  String get releasedAt {
+    if (selectableChannels[channelToBeInstalled] == null) return '';
+
+    return DateFormat.yMMMEd()
+        .format(selectableChannels[channelToBeInstalled]!.releasedAt);
+  }
+
   /// Media associated with this snap.
   List<SnapMedia>? get media => _storeSnap?.media ?? _localSnap?.media;
 

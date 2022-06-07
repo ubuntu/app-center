@@ -25,6 +25,7 @@
   "social": "Social",
   "utilities": "Utilities",
   "installDate": "Installation Date",
+  "lastUpdated": "Last updated",
   "notInstalled": "Not installed",
   "confinement": "Confinement",
   "license": "License",
