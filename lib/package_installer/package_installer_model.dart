@@ -6,121 +6,15 @@ import 'package:safe_change_notifier/safe_change_notifier.dart';
 class DebInstallerModel extends SafeChangeNotifier {
   DebInstallerModel(this.path, this.client)
       : _progress = 0,
-        _installationComplete = false,
-        _removeComplete = false,
         _status = '',
-        _appIsInstalled = false,
         _license = '',
         _size = 0,
         _summary = '',
-        _url = '';
+        _url = '',
+        _installedPackageIds = {};
 
   final PackageKitClient client;
   final String path;
-
-  num _progress;
-  num get progress {
-    if (installationComplete) {
-      return 1;
-    } else if (removeComplete) {
-      return 0;
-    }
-    return _progress / 100;
-  }
-
-  set progress(num value) {
-    if (value == _progress) return;
-    _progress = value;
-    notifyListeners();
-  }
-
-  String _status;
-  String get status => _status;
-  set status(String value) {
-    if (value == _status) return;
-    _status = value;
-    notifyListeners();
-  }
-
-  bool _appIsInstalled;
-  bool get appIsInstalled => _appIsInstalled;
-  set appIsInstalled(bool value) {
-    if (value == _appIsInstalled) return;
-    _appIsInstalled = value;
-    notifyListeners();
-  }
-
-  bool _installationComplete;
-  bool get installationComplete => _installationComplete;
-  set installationComplete(bool value) {
-    if (value == _installationComplete) return;
-    _installationComplete = value;
-    notifyListeners();
-  }
-
-  bool _removeComplete;
-  bool get removeComplete => _removeComplete;
-  set removeComplete(bool value) {
-    if (value == _removeComplete) return;
-    _removeComplete = value;
-    notifyListeners();
-  }
-
-  Future<void> install() async {
-    final paths = [path];
-
-    final installTransaction = await client.createTransaction();
-    final installCompleter = Completer();
-    installTransaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        status = '[${event.packageId.name}] ${event.info}';
-      } else if (event is PackageKitItemProgressEvent) {
-        progress = event.percentage;
-      } else if (event is PackageKitFinishedEvent) {
-        installCompleter.complete();
-        installationComplete = true;
-        removeComplete = false;
-      }
-    });
-    await installTransaction.installFiles(paths);
-    await installCompleter.future;
-  }
-
-  Future<void> remove() async {
-    final resolveTransaction = await client.createTransaction();
-    final resolveCompleter = Completer();
-    final packageIds = <PackageKitPackageId>[];
-    resolveTransaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        packageIds.add(event.packageId);
-      } else if (event is PackageKitFinishedEvent) {
-        resolveCompleter.complete();
-      }
-    });
-    await resolveTransaction.resolve([name]);
-    await resolveCompleter.future;
-    if (packageIds.isEmpty) {
-      await client.close();
-      return;
-    }
-
-    final removeTransaction = await client.createTransaction();
-    final removeCompleter = Completer();
-    removeTransaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        status = '[${event.packageId.name}] ${event.info}';
-      } else if (event is PackageKitItemProgressEvent) {
-        progress = event.percentage;
-      } else if (event is PackageKitErrorCodeEvent) {
-      } else if (event is PackageKitFinishedEvent) {
-        removeCompleter.complete();
-        removeComplete = true;
-        installationComplete = false;
-      }
-    });
-    await removeTransaction.removePackages(packageIds);
-    await removeCompleter.future;
-  }
 
   /// The ID of the package this event relates to.
   PackageKitPackageId? _packageId;
@@ -131,19 +25,29 @@ class DebInstallerModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  // Convenience getters
   String get version => _packageId != null ? _packageId!.version : '';
   String get name => _packageId != null ? _packageId!.name : '';
   String get arch => _packageId != null ? _packageId!.arch : '';
   String get data => _packageId != null ? _packageId!.data : '';
 
-  /// The group this package belongs to.
-  // PackageKitGroup _group;
-  // PackageKitGroup get group => _group;
-  // set group(PackageKitGroup value) {
-  //   if (value == _group) return;
-  //   _group = value;
-  //   notifyListeners();
-  // }
+  // The group this package belongs to.
+  PackageKitGroup? _group;
+  PackageKitGroup? get group => _group;
+  set group(PackageKitGroup? value) {
+    if (value == _group) return;
+    _group = value;
+    notifyListeners();
+  }
+
+  // The multi-line package description in markdown syntax.
+  String? _description;
+  String get description => _description ?? '';
+  set description(String value) {
+    if (value == _description) return;
+    _description = value;
+    notifyListeners();
+  }
 
   /// The one line package summary, e.g. "Clipart for OpenOffice"
   String _summary;
@@ -153,15 +57,6 @@ class DebInstallerModel extends SafeChangeNotifier {
     _summary = value;
     notifyListeners();
   }
-
-  ///The multi-line package description in markdown syntax.
-  // String _description;
-  // String get description => _description;
-  // set description(String value) {
-  //   if (value == _description) return;
-  //   _description = value;
-  //   notifyListeners();
-  // }
 
   // The upstream project homepage.
   String _url;
@@ -190,7 +85,95 @@ class DebInstallerModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  final Set<PackageKitPackageId> _installedPackageIds;
+
+  List<PackageKitPackageId> get installedPackages =>
+      _installedPackageIds.toList();
+
+  bool get packageIsInstalled => _installedPackageIds.contains(packageId);
+
+  num _progress;
+  num get progress {
+    return packageIsInstalled ? (1 - (_progress / 100)) : (_progress / 100);
+  }
+
+  set progress(num value) {
+    if (value == _progress) return;
+    _progress = value;
+    notifyListeners();
+  }
+
+  String _status;
+  String get status => _status;
+  set status(String value) {
+    if (value == _status) return;
+    _status = value;
+    notifyListeners();
+  }
+
+  Future<void> install() async {
+    final paths = [path];
+
+    final installTransaction = await client.createTransaction();
+    final installCompleter = Completer();
+    installTransaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        status = '[${event.packageId.name}] ${event.info}';
+      } else if (event is PackageKitItemProgressEvent) {
+        progress = event.percentage;
+      } else if (event is PackageKitFinishedEvent) {
+        installCompleter.complete();
+      }
+    });
+    await installTransaction.installFiles(paths);
+    await installCompleter.future;
+    await init();
+    notifyListeners();
+  }
+
+  Future<void> remove() async {
+    final resolveTransaction = await client.createTransaction();
+    final resolveCompleter = Completer();
+    final packageIds = <PackageKitPackageId>[];
+    resolveTransaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        packageIds.add(event.packageId);
+      } else if (event is PackageKitFinishedEvent) {
+        resolveCompleter.complete();
+      }
+    });
+    await resolveTransaction.resolve([name]);
+    await resolveCompleter.future;
+    if (packageIds.isEmpty) {
+      await client.close();
+      return;
+    }
+    final removeTransaction = await client.createTransaction();
+    final removeCompleter = Completer();
+    removeTransaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        status = '[${event.packageId.name}] ${event.info}';
+      } else if (event is PackageKitItemProgressEvent) {
+        progress = event.percentage;
+      } else if (event is PackageKitErrorCodeEvent) {
+      } else if (event is PackageKitFinishedEvent) {
+        removeCompleter.complete();
+      }
+    });
+    await removeTransaction.removePackages(packageIds);
+    await removeCompleter.future;
+    await init();
+    notifyListeners();
+  }
+
   Future<void> init() async {
+    await _getInstalledPackages();
+    await _getDetailsAboutLocalPackage();
+    progress = packageIsInstalled ? 1 : 0;
+    notifyListeners();
+  }
+
+  Future<void> _getDetailsAboutLocalPackage() async {
     final transaction = await client.createTransaction();
     final detailsCompleter = Completer();
     transaction.events.listen((event) {
@@ -200,12 +183,30 @@ class DebInstallerModel extends SafeChangeNotifier {
         url = event.url;
         license = event.license;
         size = event.size;
+        group = event.group;
+        description = event.description;
       } else if (event is PackageKitFinishedEvent) {
         detailsCompleter.complete();
       }
     });
     await transaction.getDetailsLocal([path]);
     await detailsCompleter.future;
-    notifyListeners();
+  }
+
+  Future<void> _getInstalledPackages() async {
+    final transaction = await client.createTransaction();
+    final completer = Completer();
+    transaction.events.listen((packageKitEvent) {
+      if (packageKitEvent is PackageKitPackageEvent) {
+        _installedPackageIds.add(packageKitEvent.packageId);
+      } else if (packageKitEvent is PackageKitErrorCodeEvent) {
+      } else if (packageKitEvent is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+    await transaction.getPackages(
+      filter: {PackageKitFilter.installed, PackageKitFilter.application},
+    );
+    await completer.future;
   }
 }

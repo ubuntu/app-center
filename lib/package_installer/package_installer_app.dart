@@ -60,13 +60,13 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
     return WizardPage(
       title: const Text('Package installer'),
       actions: [
-        model.installationComplete
+        model.packageIsInstalled
             ? ElevatedButton(
-                onPressed: () => model.remove(),
+                onPressed: model.name.isEmpty ? null : () => model.remove(),
                 child: const Text('Remove'),
               )
             : ElevatedButton(
-                onPressed: () => model.install(),
+                onPressed: model.name.isEmpty ? null : () => model.install(),
                 child: const Text('Install'),
               ),
       ],
@@ -109,6 +109,13 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
                   YaruSingleInfoRow(
                     infoLabel: 'Size',
                     infoValue: model.size.toString(),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  YaruSingleInfoRow(
+                    infoLabel: 'Description',
+                    infoValue: model.description.toString(),
                   ),
                 ],
               ),
