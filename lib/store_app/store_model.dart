@@ -10,9 +10,9 @@ class StoreModel extends SafeChangeNotifier {
   final AppChangeService _appChangeService;
   StreamSubscription<bool>? _snapChangesSub;
   final Connectivity _connectivity;
-  StreamSubscription? _sub;
-  ConnectivityResult? _result;
-  ConnectivityResult? get state => _result;
+  StreamSubscription? _connectivitySub;
+  ConnectivityResult? _connectivityResult;
+  ConnectivityResult? get state => _connectivityResult;
 
   StoreModel(this._connectivity)
       : _appChangeService = getService<AppChangeService>();
@@ -29,25 +29,25 @@ class StoreModel extends SafeChangeNotifier {
   @override
   Future<void> dispose() async {
     await _snapChangesSub?.cancel();
-    _sub?.cancel();
+    _connectivitySub?.cancel();
 
     super.dispose();
   }
 
   Future<void> refreshConnectivity() {
     return _connectivity.checkConnectivity().then((state) {
-      _result = state;
+      _connectivityResult = state;
       notifyListeners();
     });
   }
 
   bool get appIsOnline =>
-      _result == ConnectivityResult.ethernet ||
-      _result == ConnectivityResult.wifi;
+      _connectivityResult == ConnectivityResult.ethernet ||
+      _connectivityResult == ConnectivityResult.wifi;
 
   Future<void> initConnectivity() async {
-    _sub = _connectivity.onConnectivityChanged.listen((result) {
-      _result = result;
+    _connectivitySub = _connectivity.onConnectivityChanged.listen((result) {
+      _connectivityResult = result;
 
       notifyListeners();
     });

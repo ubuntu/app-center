@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/color_scheme.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/app_dialog.dart';
 import 'package:software/store_app/common/apps_model.dart';
-import 'package:software/store_app/explore/app_card.dart';
+import 'package:software/store_app/explore/snap_tile.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppGrid extends StatefulWidget {
@@ -14,14 +13,14 @@ class AppGrid extends StatefulWidget {
     required this.name,
     this.headline,
     required this.findByQuery,
-    this.snapAmount = 20,
+    this.itemCount = 20,
     this.appendBottomDivier = false,
   }) : super(key: key);
 
   final String name;
   final String? headline;
   final bool findByQuery;
-  final int snapAmount;
+  final int itemCount;
   final bool appendBottomDivier;
 
   @override
@@ -41,9 +40,9 @@ class _AppGridState extends State<AppGrid> {
 
     if (!widget.findByQuery) {
       final snaps = model.sectionNameToSnapsMap[widget.name];
-      return _Grid(
+      return _SnapGrid(
         appendBottomDivider: widget.appendBottomDivier,
-        snapAmount: widget.snapAmount,
+        snapAmount: widget.itemCount,
         headline: widget.headline,
         snaps: snaps ?? [],
       );
@@ -52,9 +51,9 @@ class _AppGridState extends State<AppGrid> {
     return FutureBuilder<List<Snap>>(
       future: model.findSnapsByQuery(),
       builder: (context, snapshot) => snapshot.hasData
-          ? _Grid(
+          ? _SnapGrid(
               appendBottomDivider: widget.appendBottomDivier,
-              snapAmount: widget.snapAmount,
+              snapAmount: widget.itemCount,
               headline: widget.headline,
               snaps: snapshot.data!,
             )
@@ -68,8 +67,8 @@ class _AppGridState extends State<AppGrid> {
   }
 }
 
-class _Grid extends StatefulWidget {
-  const _Grid({
+class _SnapGrid extends StatefulWidget {
+  const _SnapGrid({
     Key? key,
     required this.headline,
     required this.snaps,
@@ -83,10 +82,10 @@ class _Grid extends StatefulWidget {
   final bool appendBottomDivider;
 
   @override
-  State<_Grid> createState() => _GridState();
+  State<_SnapGrid> createState() => _SnapGridState();
 }
 
-class _GridState extends State<_Grid> {
+class _SnapGridState extends State<_SnapGrid> {
   int amount = 20;
 
   @override
@@ -138,13 +137,9 @@ class _GridState extends State<_Grid> {
             children: widget.snaps
                 .take(amount)
                 .map(
-                  (snap) => AppCard(
+                  (snap) => SnapTile(
                     snap: snap,
                     onTap: () => showDialog(
-                      barrierColor:
-                          Theme.of(context).brightness == Brightness.light
-                              ? Theme.of(context).colorScheme.barrierColorLight
-                              : Theme.of(context).colorScheme.barrierColorDark,
                       context: context,
                       builder: (context) => AppDialog.create(
                         context: context,

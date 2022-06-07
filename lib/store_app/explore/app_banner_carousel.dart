@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/color_scheme.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/apps_model.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
-import 'package:software/store_app/explore/app_banner.dart';
+import 'package:software/store_app/explore/snap_banner.dart';
 import 'package:software/store_app/common/app_dialog.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -91,14 +90,11 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-    return AppBanner(
+    return SnapBanner(
       watermark: true,
       snap: widget.snap,
       surfaceTintColor: model.surfaceTintColor,
       onTap: () => showDialog(
-        barrierColor: Theme.of(context).brightness == Brightness.light
-            ? Theme.of(context).colorScheme.barrierColorLight
-            : Theme.of(context).colorScheme.barrierColorDark,
         context: context,
         builder: (context) =>
             AppDialog.create(context: context, huskSnapName: widget.snap.name),

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/color_scheme.dart';
 import 'package:software/services/app_change_service.dart';
-import 'package:software/snapx.dart';
 import 'package:software/store_app/common/app_dialog.dart';
+import 'package:software/store_app/common/app_banner.dart';
+import 'package:software/store_app/common/snap_icon.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_colors/yaru_colors.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 
-class AppBanner extends StatelessWidget {
-  const AppBanner({
+class SnapBanner extends StatelessWidget {
+  const SnapBanner({
     Key? key,
     required this.snap,
     this.onTap,
@@ -32,12 +31,9 @@ class AppBanner extends StatelessWidget {
     );
     return ChangeNotifierProvider<SnapModel>(
       create: (context) => snapModel,
-      child: AppBanner(
+      child: SnapBanner(
         snap: snap,
         onTap: () => showDialog(
-          barrierColor: Theme.of(context).brightness == Brightness.light
-              ? Theme.of(context).colorScheme.barrierColorLight
-              : Theme.of(context).colorScheme.barrierColorDark,
           context: context,
           builder: (context) => ChangeNotifierProvider.value(
             value: snapModel,
@@ -59,13 +55,13 @@ class AppBanner extends StatelessWidget {
       child: surfaceTintColor != null
           ? Stack(
               children: [
-                _Card(
+                AppBanner(
                   borderRadius: borderRadius,
                   color: surfaceTintColor!,
                   title: snap.title ?? '',
                   summary: snap.summary,
                   elevation: 4,
-                  icon: _SnapIcon(snap),
+                  icon: SnapIcon(snap),
                   textOverflow: TextOverflow.visible,
                 ),
                 if (watermark == true)
@@ -75,97 +71,23 @@ class AppBanner extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       child: Opacity(
                         opacity: 0.1,
-                        child: SizedBox(height: 130, child: _SnapIcon(snap)),
+                        child: SizedBox(height: 130, child: SnapIcon(snap)),
                       ),
                     ),
                   ),
               ],
             )
-          : _Card(
+          : AppBanner(
               borderRadius: borderRadius,
               color: light
                   ? YaruColors.warmGrey.shade900
                   : Theme.of(context).colorScheme.onBackground,
               elevation: light ? 2 : 1,
-              icon: _SnapIcon(snap),
+              icon: SnapIcon(snap),
               title: snap.title ?? '',
               summary: snap.summary,
               textOverflow: TextOverflow.ellipsis,
             ),
-    );
-  }
-}
-
-class _SnapIcon extends StatelessWidget {
-  const _SnapIcon(
-    this.snap, {
-    Key? key,
-  }) : super(key: key);
-
-  final Snap snap;
-
-  @override
-  Widget build(BuildContext context) {
-    const fallbackIcon = Icon(YaruIcons.package_snap, size: 65);
-    if (snap.iconUrl == null) return fallbackIcon;
-    return Image.network(
-      snap.iconUrl!,
-      filterQuality: FilterQuality.medium,
-      fit: BoxFit.fitHeight,
-      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-        return frame == null ? fallbackIcon : child;
-      },
-      errorBuilder: (context, error, stackTrace) => fallbackIcon,
-    );
-  }
-}
-
-class _Card extends StatelessWidget {
-  const _Card({
-    Key? key,
-    required this.color,
-    required this.title,
-    required this.summary,
-    required this.elevation,
-    required this.icon,
-    required this.borderRadius,
-    required this.textOverflow,
-  }) : super(key: key);
-
-  final Color color;
-  final String title;
-  final String summary;
-  final double elevation;
-  final Widget icon;
-  final BorderRadius borderRadius;
-  final TextOverflow textOverflow;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      surfaceTintColor: color,
-      elevation: elevation,
-      shape: RoundedRectangleBorder(
-        borderRadius: borderRadius,
-      ),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: SizedBox(
-          width: 370,
-          child: ListTile(
-            mouseCursor: SystemMouseCursors.click,
-            subtitle: Text(summary, overflow: textOverflow),
-            title: Text(
-              title,
-              style: const TextStyle(fontSize: 20),
-            ),
-            leading: SizedBox(
-              width: 60,
-              child: icon,
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class OfflineDialog extends StatelessWidget {
-  const OfflineDialog({Key? key, required this.snapApp}) : super(key: key);
+  const OfflineDialog({
+    Key? key,
+  }) : super(key: key);
 
   static Widget createFromValue({
     required BuildContext context,
     required SnapModel value,
-    required SnapApp snapApp,
   }) =>
       ChangeNotifierProvider<SnapModel>.value(
         value: value,
-        child: OfflineDialog(
-          snapApp: snapApp,
-        ),
+        child: const OfflineDialog(),
       );
-
-  final SnapApp snapApp;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +25,7 @@ class OfflineDialog extends StatelessWidget {
     return SimpleDialog(
       titlePadding: EdgeInsets.zero,
       title: YaruDialogTitle(
-        title: snapApp.name,
+        title: model.title,
         closeIconData: YaruIcons.window_close,
       ),
       children: [

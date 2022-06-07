@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
-class AppCard extends StatelessWidget {
-  const AppCard({Key? key, this.onTap, required this.snap}) : super(key: key);
+class SnapTile extends StatelessWidget {
+  const SnapTile({Key? key, this.onTap, required this.snap}) : super(key: key);
 
   final Function()? onTap;
   final Snap snap;

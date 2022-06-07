@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/apps_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
-import 'package:software/store_app/explore/app_banner.dart';
+import 'package:software/store_app/explore/snap_banner.dart';
 
 class SectionBannerGrid extends StatefulWidget {
   const SectionBannerGrid({
@@ -55,7 +55,7 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
               maxCrossAxisExtent: 500,
             ),
             children: sections.take(widget.amount).map((snap) {
-              return AppBanner.create(context, snap);
+              return SnapBanner.create(context, snap);
             }).toList(),
           ),
           const SizedBox(height: 20),

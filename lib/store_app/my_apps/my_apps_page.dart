@@ -4,7 +4,7 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/apps_model.dart';
-import 'package:software/store_app/explore/app_banner.dart';
+import 'package:software/store_app/my_apps/local_snap_banner.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -62,7 +62,12 @@ class _MyAppsPageState extends State<MyAppsPage> {
                     itemCount: appsModel.localSnaps.length,
                     itemBuilder: (context, index) {
                       final snap = appsModel.localSnaps.elementAt(index);
-                      return AppBanner.create(context, snap);
+
+                      return LocalSnapBanner.create(
+                        context,
+                        snap.name,
+                        appsModel.appIsOnline,
+                      );
                     },
                   ),
                 ),

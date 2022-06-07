@@ -30,16 +30,18 @@ class SnapModel extends SafeChangeNotifier {
   final String huskSnapName;
   Snap? _storeSnap;
   Snap? _localSnap;
+  bool online;
 
   SnapModel(
     this._client,
     this._appChangeService, {
     this.colorGenerator,
     required this.huskSnapName,
+    this.online = true,
   })  : _appChangeInProgress = false,
         _channelToBeInstalled = '',
         selectableChannels = {},
-        icon = fallBackXdgIcon;
+        offlineIcon = fallBackXdgIcon;
 
   StreamSubscription<bool>? _snapChangesSub;
 
@@ -150,7 +152,9 @@ class SnapModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     _localSnap = await _findLocalSnap(huskSnapName);
-    _storeSnap = await _findSnapByName(huskSnapName);
+    if (online) {
+      _storeSnap = await _findSnapByName(huskSnapName);
+    }
     if (_storeSnap != null && _storeSnap!.tracks.isNotEmpty) {
       for (var track in _storeSnap!.tracks) {
         for (var risk in ['stable', 'candidate', 'beta', 'edge']) {
@@ -163,7 +167,7 @@ class SnapModel extends SafeChangeNotifier {
         }
       }
     }
-    if (snapIsInstalled) {
+    if (snapIsInstalled && selectableChannels.entries.isNotEmpty) {
       if (trackingChannel != null &&
           selectableChannels.entries
               .where((element) => element.key == trackingChannel)
@@ -185,7 +189,6 @@ class SnapModel extends SafeChangeNotifier {
       }
       notifyListeners();
     });
-
     notifyListeners();
   }
 
@@ -279,38 +282,46 @@ class SnapModel extends SafeChangeNotifier {
     );
   }
 
-  Widget icon;
-  Future<void> getIcon(File file) async {
-    final iconLine = (await file
-            .openRead()
-            .map(utf8.decode)
-            .transform(const LineSplitter())
-            .where((line) => line.contains('Icon='))
-            .first)
-        .replaceAll('Icon=', '');
-    if (iconLine.endsWith('.png') || iconLine.endsWith('.jpg')) {
-      icon = Image.file(
-        File(iconLine),
-        filterQuality: FilterQuality.medium,
-        width: 50,
-      );
-    }
-    if (iconLine.endsWith('.svg')) {
-      try {
-        icon = SvgPicture.file(
+  String? get _desktopFile =>
+      apps != null && apps!.isNotEmpty && apps!.first.desktopFile != null
+          ? apps!.first.desktopFile!
+          : null;
+
+  Widget offlineIcon;
+  Future<void> loadOfflineIcon() async {
+    if (_desktopFile != null) {
+      File? file = File(_desktopFile!);
+      final iconLine = (await file
+              .openRead()
+              .map(utf8.decode)
+              .transform(const LineSplitter())
+              .where((line) => line.contains('Icon='))
+              .first)
+          .replaceAll('Icon=', '');
+      if (iconLine.endsWith('.png') || iconLine.endsWith('.jpg')) {
+        offlineIcon = Image.file(
           File(iconLine),
+          filterQuality: FilterQuality.medium,
           width: 50,
         );
-      } finally {
-        icon = fallBackXdgIcon;
       }
+      if (iconLine.endsWith('.svg')) {
+        try {
+          offlineIcon = SvgPicture.file(
+            File(iconLine),
+            width: 50,
+          );
+        } finally {
+          offlineIcon = fallBackXdgIcon;
+        }
+      }
+      if (!iconLine.contains('/')) {
+        offlineIcon = XdgIconTheme(
+          data: const XdgIconThemeData(theme: 'Yaru'),
+          child: XdgIcon(name: iconLine, size: 48),
+        );
+      }
+      notifyListeners();
     }
-    if (!iconLine.contains('/')) {
-      icon = XdgIconTheme(
-        data: const XdgIconThemeData(theme: 'Yaru'),
-        child: XdgIcon(name: iconLine, size: 48),
-      );
-    }
-    notifyListeners();
   }
 }
