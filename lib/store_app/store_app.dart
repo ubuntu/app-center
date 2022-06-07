@@ -60,6 +60,7 @@ class _StoreAppState extends State<StoreApp> {
           return YaruTheme(
             child: Scaffold(
               body: YaruCompactLayout(
+                labelType: NavigationRailLabelType.all,
                 pageItems: [
                   YaruPageItem(
                     titleBuilder: ExplorePage.createTitle,
