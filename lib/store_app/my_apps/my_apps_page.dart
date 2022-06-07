@@ -10,18 +10,22 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MyAppsPage extends StatefulWidget {
-  const MyAppsPage({Key? key}) : super(key: key);
+  const MyAppsPage({Key? key, this.online = true}) : super(key: key);
+
+  final bool online;
 
   @override
   State<MyAppsPage> createState() => _MyAppsPageState();
 
-  static Widget create(BuildContext context) {
+  static Widget create(BuildContext context, bool online) {
     return ChangeNotifierProvider(
       create: (_) => AppsModel(
         getService<SnapdClient>(),
         getService<AppChangeService>(),
       ),
-      child: const MyAppsPage(),
+      child: MyAppsPage(
+        online: online,
+      ),
     );
   }
 
@@ -66,7 +70,7 @@ class _MyAppsPageState extends State<MyAppsPage> {
                       return LocalSnapBanner.create(
                         context,
                         snap.name,
-                        appsModel.appIsOnline,
+                        widget.online,
                       );
                     },
                   ),
