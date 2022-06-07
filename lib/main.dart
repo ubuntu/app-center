@@ -9,6 +9,10 @@ import 'package:software/store_app/store_app.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 void main(List<String> args) async {
+  registerService<PackageKitClient>(
+    PackageKitClient.new,
+    dispose: (service) => service.close(),
+  );
   if (args.isEmpty) {
     registerService<ColorGenerator>(DominantColorGenerator.new);
     registerService<SnapdClient>(SnapdClient.new, dispose: (s) => s.close());
@@ -16,10 +20,6 @@ void main(List<String> args) async {
     registerService<AppChangeService>(AppChangeService.new);
     runApp(StoreApp.create());
   } else if (args.first.endsWith('.deb')) {
-    registerService<PackageKitClient>(
-      PackageKitClient.new,
-      dispose: (service) => service.close(),
-    );
     runApp(
       PackageInstallerApp(filename: args.first),
     );

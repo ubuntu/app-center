@@ -85,11 +85,13 @@ class _SnapDialogState extends State<SnapDialog> {
                 child: Column(
                   children: [
                     YaruSingleInfoRow(
-                        infoLabel: context.l10n.version,
-                        infoValue: model.versionString ?? ''),
+                      infoLabel: context.l10n.version,
+                      infoValue: model.versionString ?? '',
+                    ),
                     YaruSingleInfoRow(
-                        infoLabel: context.l10n.lastUpdated,
-                        infoValue: model.releasedAt),
+                      infoLabel: context.l10n.lastUpdated,
+                      infoValue: model.releasedAt,
+                    ),
                   ],
                 ),
               ),

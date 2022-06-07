@@ -71,8 +71,7 @@ class _StoreAppState extends State<StoreApp> {
                   ),
                   YaruPageItem(
                     titleBuilder: MyAppsPage.createTitle,
-                    builder: (context) =>
-                        MyAppsPage.create(context, model.appIsOnline),
+                    builder: (context) => MyAppsPage(online: model.appIsOnline),
                     iconData: YaruIcons.ok,
                     selectedItemWidget: myAppsBadgeIcon,
                     itemWidget: myAppsBadgeIcon,
