@@ -10,10 +10,9 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageInstallerApp extends StatelessWidget {
-  const PackageInstallerApp({Key? key, required this.filename})
-      : super(key: key);
+  const PackageInstallerApp({Key? key, required this.path}) : super(key: key);
 
-  final String filename;
+  final String path;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class PackageInstallerApp extends StatelessWidget {
       // onGenerateTitle: (context) => context.l10n.appTitle,
       routes: {
         Navigator.defaultRouteName: (context) =>
-            YaruTheme(child: _PackageInstallerPage.create(filename))
+            YaruTheme(child: _PackageInstallerPage.create(path))
       },
     );
   }
@@ -33,10 +32,10 @@ class _PackageInstallerPage extends StatefulWidget {
   // ignore: unused_element
   const _PackageInstallerPage({super.key});
 
-  static Widget create(String debFileName) {
+  static Widget create(String path) {
     return ChangeNotifierProvider(
       create: (context) =>
-          DebInstallerModel(debFileName, getService<PackageKitClient>()),
+          DebInstallerModel(getService<PackageKitClient>(), path: path),
       child: const _PackageInstallerPage(),
     );
   }
@@ -66,7 +65,8 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
                 child: const Text('Remove'),
               )
             : ElevatedButton(
-                onPressed: model.name.isEmpty ? null : () => model.install(),
+                onPressed:
+                    model.name.isEmpty ? null : () => model.installLocalFile(),
                 child: const Text('Install'),
               ),
       ],

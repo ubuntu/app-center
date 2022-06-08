@@ -21,7 +21,7 @@ void main(List<String> args) async {
     runApp(StoreApp.create());
   } else if (args.first.endsWith('.deb')) {
     runApp(
-      PackageInstallerApp(filename: args.first),
+      PackageInstallerApp(path: args.first),
     );
   }
 }

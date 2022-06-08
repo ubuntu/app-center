@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 
 class DebInstallerModel extends SafeChangeNotifier {
-  DebInstallerModel(this.path, this.client)
+  DebInstallerModel(this._client, {required this.path})
       : _progress = 0,
         _status = '',
         _license = '',
@@ -13,10 +14,17 @@ class DebInstallerModel extends SafeChangeNotifier {
         _url = '',
         _installedPackageIds = {};
 
-  final PackageKitClient client;
+  final PackageKitClient _client;
   final String path;
 
-  /// The ID of the package this event relates to.
+  Future<void> init() async {
+    await _getInstalledPackages();
+    await _getDetailsAboutLocalPackage();
+    progress = packageIsInstalled ? 1 : 0;
+    notifyListeners();
+  }
+
+  /// The ID of the local package.
   PackageKitPackageId? _packageId;
   PackageKitPackageId? get packageId => _packageId;
   set packageId(PackageKitPackageId? value) {
@@ -85,13 +93,7 @@ class DebInstallerModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  final Set<PackageKitPackageId> _installedPackageIds;
-
-  List<PackageKitPackageId> get installedPackages =>
-      _installedPackageIds.toList();
-
-  bool get packageIsInstalled => _installedPackageIds.contains(packageId);
-
+  /// Progress of the installation/removal
   num _progress;
   num get progress {
     return packageIsInstalled ? (1 - (_progress / 100)) : (_progress / 100);
@@ -103,6 +105,7 @@ class DebInstallerModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  /// Status of the transaction
   String _status;
   String get status => _status;
   set status(String value) {
@@ -111,10 +114,17 @@ class DebInstallerModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> install() async {
-    final paths = [path];
+  /// Load all installed packageIds into this set to check
+  /// if the package is already installed
+  final Set<PackageKitPackageId> _installedPackageIds;
+  List<PackageKitPackageId> get installedPackages =>
+      _installedPackageIds.toList();
+  bool get packageIsInstalled => _installedPackageIds.contains(packageId);
 
-    final installTransaction = await client.createTransaction();
+  /// Install the local package from [path]
+  Future<void> installLocalFile() async {
+    if (path.isEmpty || !(await File(path).exists())) return;
+    final installTransaction = await _client.createTransaction();
     final installCompleter = Completer();
     installTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
@@ -125,30 +135,15 @@ class DebInstallerModel extends SafeChangeNotifier {
         installCompleter.complete();
       }
     });
-    await installTransaction.installFiles(paths);
+    await installTransaction.installFiles([path]);
     await installCompleter.future;
     await init();
-    notifyListeners();
   }
 
+  /// Removes with package with [packageId]
   Future<void> remove() async {
-    final resolveTransaction = await client.createTransaction();
-    final resolveCompleter = Completer();
-    final packageIds = <PackageKitPackageId>[];
-    resolveTransaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        packageIds.add(event.packageId);
-      } else if (event is PackageKitFinishedEvent) {
-        resolveCompleter.complete();
-      }
-    });
-    await resolveTransaction.resolve([name]);
-    await resolveCompleter.future;
-    if (packageIds.isEmpty) {
-      await client.close();
-      return;
-    }
-    final removeTransaction = await client.createTransaction();
+    if (packageId == null) return;
+    final removeTransaction = await _client.createTransaction();
     final removeCompleter = Completer();
     removeTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
@@ -160,21 +155,15 @@ class DebInstallerModel extends SafeChangeNotifier {
         removeCompleter.complete();
       }
     });
-    await removeTransaction.removePackages(packageIds);
+    await removeTransaction.removePackages([packageId!]);
     await removeCompleter.future;
     await init();
-    notifyListeners();
   }
 
-  Future<void> init() async {
-    await _getInstalledPackages();
-    await _getDetailsAboutLocalPackage();
-    progress = packageIsInstalled ? 1 : 0;
-    notifyListeners();
-  }
-
+  /// Finds the [packageId] from [path] and sets info fields
   Future<void> _getDetailsAboutLocalPackage() async {
-    final transaction = await client.createTransaction();
+    if (path.isEmpty || !(await File(path).exists())) return;
+    final transaction = await _client.createTransaction();
     final detailsCompleter = Completer();
     transaction.events.listen((event) {
       if (event is PackageKitDetailsEvent) {
@@ -193,8 +182,9 @@ class DebInstallerModel extends SafeChangeNotifier {
     await detailsCompleter.future;
   }
 
+  /// Fills [_installedPackageIds] with the ids of all installed applications.
   Future<void> _getInstalledPackages() async {
-    final transaction = await client.createTransaction();
+    final transaction = await _client.createTransaction();
     final completer = Completer();
     transaction.events.listen((packageKitEvent) {
       if (packageKitEvent is PackageKitPackageEvent) {
