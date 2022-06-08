@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/offline_page.dart';
 import 'package:software/store_app/explore/explore_page.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
@@ -18,7 +19,10 @@ class StoreApp extends StatefulWidget {
   const StoreApp({super.key});
 
   static Widget create() => ChangeNotifierProvider(
-        create: (context) => StoreModel(getService<Connectivity>()),
+        create: (context) => StoreModel(
+          getService<Connectivity>(),
+          getService<AppChangeService>(),
+        ),
         child: const StoreApp(),
       );
 
