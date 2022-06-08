@@ -4,7 +4,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/settings/settings_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   static Widget create(BuildContext context) {
@@ -18,7 +18,19 @@ class SettingsPage extends StatelessWidget {
       Text(context.l10n.settingsPageTitle);
 
   @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  @override
+  void initState() {
+    context.read<SettingsModel>().init();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final model = context.watch<SettingsModel>();
     return Navigator(
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
@@ -26,7 +38,9 @@ class SettingsPage extends StatelessWidget {
             return YaruPage(
               children: [
                 YaruRow(
-                  trailingWidget: const Text('Software v0.0.1-alpha'),
+                  trailingWidget: Text(
+                    '${model.appName} ${model.version} ${model.buildNumber}',
+                  ),
                   actionWidget: TextButton(
                     onPressed: () {
                       showAboutDialog(
