@@ -24,7 +24,7 @@ class MyPackagesPage extends StatefulWidget {
 class _MyPackagesPageState extends State<MyPackagesPage> {
   @override
   void initState() {
-    context.read<MyPackagesModel>().getPackages();
+    context.read<MyPackagesModel>().init();
     super.initState();
   }
 

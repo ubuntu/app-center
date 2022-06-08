@@ -11,6 +11,11 @@ class MyPackagesModel extends SafeChangeNotifier {
   final Set<PackageKitPackageId> _packageIds;
   List<PackageKitPackageId> get packages => _packageIds.toList();
 
+  Future<void> init() async {
+    await getPackages();
+    notifyListeners();
+  }
+
   Future<void> getPackages() async {
     final transaction = await _client.createTransaction();
     final completer = Completer();
@@ -27,6 +32,5 @@ class MyPackagesModel extends SafeChangeNotifier {
       filter: {PackageKitFilter.installed, PackageKitFilter.application},
     );
     await completer.future;
-    notifyListeners();
   }
 }
