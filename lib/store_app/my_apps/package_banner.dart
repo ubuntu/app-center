@@ -10,7 +10,7 @@ import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class PackageBanner extends StatefulWidget {
+class PackageBanner extends StatelessWidget {
   const PackageBanner({Key? key}) : super(key: key);
 
   static Widget create(BuildContext context, PackageKitPackageId packageId) =>
@@ -19,17 +19,6 @@ class PackageBanner extends StatefulWidget {
             PackageModel(getService<PackageKitClient>(), packageId: packageId),
         child: const PackageBanner(),
       );
-
-  @override
-  State<PackageBanner> createState() => _PackageBannerState();
-}
-
-class _PackageBannerState extends State<PackageBanner> {
-  @override
-  void initState() {
-    context.read<PackageModel>().init();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +51,20 @@ class _PackageBannerState extends State<PackageBanner> {
   }
 }
 
-class _PackageDialog extends StatelessWidget {
+class _PackageDialog extends StatefulWidget {
   const _PackageDialog({Key? key}) : super(key: key);
+
+  @override
+  State<_PackageDialog> createState() => _PackageDialogState();
+}
+
+class _PackageDialogState extends State<_PackageDialog> {
+  @override
+  void initState() {
+    context.read<PackageModel>().init();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
