@@ -11,11 +11,7 @@ import 'package:software/services/app_change_service.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/snapx.dart';
 import 'package:xdg_icons/xdg_icons.dart';
-
-const fallBackXdgIcon = XdgIconTheme(
-  data: XdgIconThemeData(theme: 'Yaru'),
-  child: XdgIcon(name: 'application-x-executable', size: 50),
-);
+import 'package:yaru_icons/yaru_icons.dart';
 
 class SnapModel extends SafeChangeNotifier {
   final AppChangeService _appChangeService;
@@ -288,40 +284,53 @@ class SnapModel extends SafeChangeNotifier {
           ? apps!.first.desktopFile!
           : null;
 
-  Widget? offlineIcon;
-  Future<void> loadOfflineIcon() async {
+  Widget offlineIcon = const Icon(
+    YaruIcons.package_snap,
+    size: 50,
+  );
+  String _iconLine = '';
+
+  void loadOfflineIcon() {
     if (_desktopFile != null) {
       File? file = File(_desktopFile!);
-      final iconLine = (await file
+      (file
               .openRead()
               .map(utf8.decode)
               .transform(const LineSplitter())
               .where((line) => line.contains('Icon='))
               .first)
-          .replaceAll('Icon=', '');
-      if (iconLine.endsWith('.png') || iconLine.endsWith('.jpg')) {
-        offlineIcon = Image.file(
-          File(iconLine),
-          filterQuality: FilterQuality.medium,
-          width: 50,
-        );
-      }
-      if (iconLine.endsWith('.svg')) {
-        try {
-          offlineIcon = SvgPicture.file(
-            File(iconLine),
+          .then((line) {
+        _iconLine = line.replaceAll('Icon=', '');
+        if (_iconLine.endsWith('.png') ||
+            _iconLine.endsWith('.jpg') ||
+            _iconLine.endsWith('.jpeg')) {
+          offlineIcon = Image.file(
+            File(_iconLine),
+            filterQuality: FilterQuality.medium,
             width: 50,
           );
-        } finally {
-          offlineIcon = fallBackXdgIcon;
         }
-      }
-      if (!iconLine.contains('/')) {
-        offlineIcon = XdgIconTheme(
-          data: const XdgIconThemeData(theme: 'Yaru'),
-          child: XdgIcon(name: iconLine, size: 48),
-        );
-      }
+        if (_iconLine.endsWith('.svg')) {
+          try {
+            offlineIcon = SvgPicture.file(
+              File(_iconLine),
+              width: 50,
+            );
+          } finally {
+            if (offlineIcon != offlineIcon) {
+              offlineIcon = offlineIcon;
+            }
+          }
+        }
+        if (!_iconLine.contains('/')) {
+          offlineIcon = XdgIconTheme(
+            data: const XdgIconThemeData(theme: 'Yaru'),
+            child: XdgIcon(name: _iconLine, size: 48),
+          );
+        }
+        notifyListeners();
+        return;
+      });
     }
     notifyListeners();
   }

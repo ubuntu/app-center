@@ -69,7 +69,7 @@ class _LocalSnapBannerState extends State<LocalSnapBanner> {
             ? YaruColors.warmGrey.shade900
             : Theme.of(context).colorScheme.onBackground,
         elevation: light ? 2 : 1,
-        icon: model.offlineIcon ?? fallBackXdgIcon,
+        icon: model.offlineIcon,
         title: model.title ?? '',
         summary: model.summary ?? '',
         textOverflow: TextOverflow.ellipsis,

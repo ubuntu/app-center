@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/my_apps/local_snap_banner.dart';
+import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/my_apps/my_snaps_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -44,17 +45,9 @@ class _MySnapsPageState extends State<MySnapsPage> {
           mySnapsModel.localSnaps
         ])
           snapList.isEmpty
-              ? const Padding(
-                  padding: EdgeInsets.all(50),
-                  child: YaruCircularProgressIndicator(),
-                )
+              ? Container()
               : GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    mainAxisExtent: 110,
-                    mainAxisSpacing: 15,
-                    crossAxisSpacing: 15,
-                    maxCrossAxisExtent: 1000,
-                  ),
+                  gridDelegate: myAppsGridDelegate,
                   shrinkWrap: true,
                   itemCount: snapList.length,
                   itemBuilder: (context, index) {

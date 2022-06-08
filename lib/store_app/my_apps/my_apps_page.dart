@@ -16,12 +16,29 @@ class MyAppsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruTabbedPage(
-      tabIcons: const [YaruIcons.package_snap, YaruIcons.package_deb],
-      tabTitles: const ['Snaps', 'Debian packages'],
+      tabIcons: const [
+        YaruIcons.package_snap,
+        YaruIcons.package_deb,
+        YaruIcons.computer
+      ],
+      tabTitles: const ['Snaps', 'Debian packages', 'System upgrades'],
       views: [
         MySnapsPage.create(context, online),
         MyPackagesPage.create(context),
+        const Center(
+          child: Icon(
+            YaruIcons.computer,
+            size: 100,
+          ),
+        )
       ],
     );
   }
 }
+
+const myAppsGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+  mainAxisExtent: 110,
+  mainAxisSpacing: 15,
+  crossAxisSpacing: 15,
+  maxCrossAxisExtent: 600,
+);

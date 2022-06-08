@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/store_app/common/app_banner.dart';
+import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/my_apps/my_packages_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_colors/yaru_colors.dart';
@@ -36,35 +37,31 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
 
     return YaruPage(
       children: [
-        model.packages.isEmpty
-            ? const YaruCircularProgressIndicator()
-            : GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  mainAxisExtent: 110,
-                  mainAxisSpacing: 15,
-                  crossAxisSpacing: 15,
-                  maxCrossAxisExtent: 700,
+        if (model.packages.isEmpty)
+          Container()
+        else
+          GridView.builder(
+            gridDelegate: myAppsGridDelegate,
+            shrinkWrap: true,
+            itemCount: model.packages.length,
+            itemBuilder: (context, index) {
+              final package = model.packages.elementAt(index);
+              return AppBanner(
+                color: light
+                    ? YaruColors.warmGrey.shade900
+                    : Theme.of(context).colorScheme.onBackground,
+                elevation: light ? 2 : 1,
+                title: package.name,
+                summary: package.version,
+                icon: const Icon(
+                  YaruIcons.package_deb,
+                  size: 50,
                 ),
-                shrinkWrap: true,
-                itemCount: model.packages.length,
-                itemBuilder: (context, index) {
-                  final package = model.packages.elementAt(index);
-                  return AppBanner(
-                    color: light
-                        ? YaruColors.warmGrey.shade900
-                        : Theme.of(context).colorScheme.onBackground,
-                    elevation: light ? 2 : 1,
-                    title: package.name,
-                    summary: package.version,
-                    icon: const Icon(
-                      YaruIcons.package_deb,
-                      size: 50,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                    textOverflow: TextOverflow.ellipsis,
-                  );
-                },
-              ),
+                borderRadius: BorderRadius.circular(10),
+                textOverflow: TextOverflow.ellipsis,
+              );
+            },
+          ),
       ],
     );
   }
