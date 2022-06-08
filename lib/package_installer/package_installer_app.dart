@@ -35,7 +35,7 @@ class _PackageInstallerPage extends StatefulWidget {
   static Widget create(String path) {
     return ChangeNotifierProvider(
       create: (context) =>
-          DebInstallerModel(getService<PackageKitClient>(), path: path),
+          PackageInstallerModel(getService<PackageKitClient>(), path: path),
       child: const _PackageInstallerPage(),
     );
   }
@@ -48,13 +48,13 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
   @override
   void initState() {
     super.initState();
-    final model = context.read<DebInstallerModel>();
+    final model = context.read<PackageInstallerModel>();
     model.init();
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<DebInstallerModel>();
+    final model = context.watch<PackageInstallerModel>();
 
     return WizardPage(
       title: const Text('Package installer'),

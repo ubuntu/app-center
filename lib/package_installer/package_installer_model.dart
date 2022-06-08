@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 
-class DebInstallerModel extends SafeChangeNotifier {
-  DebInstallerModel(this._client, {required this.path})
+class PackageInstallerModel extends SafeChangeNotifier {
+  PackageInstallerModel(this._client, {required this.path})
       : _progress = 0,
         _status = '',
         _license = '',
