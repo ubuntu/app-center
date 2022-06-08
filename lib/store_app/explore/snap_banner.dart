@@ -3,12 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/safe_image.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/app_banner.dart';
-import 'package:software/store_app/common/snap_icon.dart';
+
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_colors/yaru_colors.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 
 class SnapBanner extends StatelessWidget {
   const SnapBanner({
@@ -62,7 +64,10 @@ class SnapBanner extends StatelessWidget {
                   title: snap.title ?? '',
                   summary: snap.summary,
                   elevation: 4,
-                  icon: SnapIcon(snap.iconUrl),
+                  icon: SafeImage(
+                    url: snap.iconUrl,
+                    fallBackIconData: YaruIcons.package_snap,
+                  ),
                   textOverflow: TextOverflow.visible,
                 ),
                 if (watermark == true)
@@ -74,7 +79,10 @@ class SnapBanner extends StatelessWidget {
                         opacity: 0.1,
                         child: SizedBox(
                           height: 130,
-                          child: SnapIcon(snap.iconUrl),
+                          child: SafeImage(
+                            url: snap.iconUrl,
+                            fallBackIconData: YaruIcons.package_snap,
+                          ),
                         ),
                       ),
                     ),
@@ -87,7 +95,10 @@ class SnapBanner extends StatelessWidget {
                   ? YaruColors.warmGrey.shade900
                   : Theme.of(context).colorScheme.onBackground,
               elevation: light ? 2 : 1,
-              icon: SnapIcon(snap.iconUrl),
+              icon: SafeImage(
+                url: snap.iconUrl,
+                fallBackIconData: YaruIcons.package_snap,
+              ),
               title: snap.title ?? '',
               summary: snap.summary,
               textOverflow: TextOverflow.ellipsis,

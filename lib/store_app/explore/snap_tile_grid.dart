@@ -3,9 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/safe_image.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/app_tile.dart';
-import 'package:software/store_app/common/snap_icon.dart';
+
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -146,7 +147,10 @@ class _GridState extends State<_Grid> {
                     icon: snap.iconUrl != null
                         ? Padding(
                             padding: const EdgeInsets.all(15.0),
-                            child: SnapIcon(snap.iconUrl),
+                            child: SafeImage(
+                              url: snap.iconUrl,
+                              fallBackIconData: YaruIcons.package_snap,
+                            ),
                           )
                         : const Icon(
                             YaruIcons.snapcraft,

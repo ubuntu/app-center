@@ -8,16 +8,18 @@ class SafeImage extends StatelessWidget {
     this.filterQuality = FilterQuality.medium,
     this.fit = BoxFit.fitHeight,
     this.fallBackIconData = YaruIcons.image,
+    this.iconSize = 65,
   }) : super(key: key);
 
   final String? url;
   final FilterQuality filterQuality;
   final BoxFit fit;
   final IconData fallBackIconData;
+  final double iconSize;
 
   @override
   Widget build(BuildContext context) {
-    final fallbackIcon = Icon(fallBackIconData, size: 65);
+    final fallbackIcon = Icon(fallBackIconData, size: iconSize);
     if (url == null) return fallbackIcon;
     return Image.network(
       url!,

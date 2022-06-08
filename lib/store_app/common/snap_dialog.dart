@@ -5,7 +5,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/link.dart';
 import 'package:software/store_app/common/safe_image.dart';
-import 'package:software/store_app/common/snap_icon.dart';
+
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -163,7 +163,13 @@ class _Title extends StatelessWidget {
         children: [
           Row(
             children: [
-              SizedBox(height: 50, child: SnapIcon(model.iconUrl)),
+              SizedBox(
+                height: 50,
+                child: SafeImage(
+                  url: model.iconUrl,
+                  fallBackIconData: YaruIcons.package_snap,
+                ),
+              ),
               const SizedBox(
                 width: 15,
               ),
