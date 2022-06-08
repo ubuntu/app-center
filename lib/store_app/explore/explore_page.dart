@@ -83,39 +83,55 @@ class ExplorePage extends StatelessWidget {
         Expanded(
           child: YaruPage(
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-            children: [
-              if (width < 1100 && !model.searchActive && model.exploreMode)
-                const SnapBannerCarousel(
-                  snapSection: SnapSection.featured,
-                ),
-              if (model.searchActive)
-                const SizedBox(
-                  height: 20,
-                ),
-              if (model.searchActive)
-                SnapTileGrid(
-                  name: model.searchQuery,
-                  findByQuery: true,
-                ),
-              if (!model.searchActive && !model.exploreMode)
-                for (int i = 0; i < model.filters.entries.length; i++)
-                  if (model.filters.entries.elementAt(i).value == true)
-                    SnapTileGrid(
-                      appendBottomDivier: true,
-                      name: model.filters.entries.elementAt(i).key.title,
-                      headline: model.filters.entries
-                          .elementAt(i)
-                          .key
-                          .localize(context.l10n),
-                      findByQuery: false,
-                    ),
-              if (!model.searchActive && model.exploreMode)
-                for (int i = 0; i < model.filters.entries.length; i++)
-                  if (model.filters.entries.elementAt(i).value == true)
-                    SectionBannerGrid(
-                      snapSection: model.filters.entries.elementAt(i).key,
-                    ),
-            ],
+            children: model.errorMessage.isNotEmpty
+                ? [
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: SelectableText(
+                          model.errorMessage,
+                          style: const TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    )
+                  ]
+                : [
+                    if (width < 1100 &&
+                        !model.searchActive &&
+                        model.exploreMode)
+                      const SnapBannerCarousel(
+                        snapSection: SnapSection.featured,
+                      ),
+                    if (model.searchActive)
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    if (model.searchActive)
+                      SnapTileGrid(
+                        name: model.searchQuery,
+                        findByQuery: true,
+                      ),
+                    if (!model.searchActive && !model.exploreMode)
+                      for (int i = 0; i < model.filters.entries.length; i++)
+                        if (model.filters.entries.elementAt(i).value == true)
+                          SnapTileGrid(
+                            appendBottomDivier: true,
+                            name: model.filters.entries.elementAt(i).key.title,
+                            headline: model.filters.entries
+                                .elementAt(i)
+                                .key
+                                .localize(context.l10n),
+                            findByQuery: false,
+                          ),
+                    if (!model.searchActive && model.exploreMode)
+                      for (int i = 0; i < model.filters.entries.length; i++)
+                        if (model.filters.entries.elementAt(i).value == true)
+                          SectionBannerGrid(
+                            snapSection: model.filters.entries.elementAt(i).key,
+                          ),
+                  ],
           ),
         ),
       ],

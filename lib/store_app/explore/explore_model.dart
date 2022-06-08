@@ -12,11 +12,15 @@ class ExploreModel extends SafeChangeNotifier {
   )   : _searchActive = false,
         _searchQuery = '',
         _exploreMode = true,
-        sectionNameToSnapsMap = {};
+        sectionNameToSnapsMap = {},
+        _errorMessage = '';
 
-  Future<List<Snap>> findSnapsBySection({String? section}) async {
-    if (section == null) return [];
-    return (await client.find(section: section));
+  String _errorMessage;
+  String get errorMessage => _errorMessage;
+  set errorMessage(String value) {
+    if (value == _errorMessage) return;
+    _errorMessage = value;
+    notifyListeners();
   }
 
   bool _searchActive;
@@ -41,6 +45,7 @@ class ExploreModel extends SafeChangeNotifier {
   String _searchQuery;
   String get searchQuery => _searchQuery;
   set searchQuery(String value) {
+    errorMessage = '';
     if (value == _searchQuery) return;
     _searchQuery = value;
     notifyListeners();
@@ -69,8 +74,28 @@ class ExploreModel extends SafeChangeNotifier {
     }
   }
 
-  Future<List<Snap>> findSnapsByQuery() async =>
-      searchQuery.isEmpty ? [] : await client.find(query: _searchQuery);
+  Future<List<Snap>> findSnapsByQuery() async {
+    if (searchQuery.isEmpty) {
+      return [];
+    } else {
+      try {
+        return await client.find(query: _searchQuery);
+      } on SnapdException catch (e) {
+        errorMessage = e.message.toString();
+        return [];
+      }
+    }
+  }
+
+  Future<List<Snap>> findSnapsBySection({String? section}) async {
+    if (section == null) return [];
+    try {
+      return (await client.find(section: section));
+    } on SnapdException catch (e) {
+      errorMessage = e.toString();
+      return [];
+    }
+  }
 
   Map<String, List<Snap>> sectionNameToSnapsMap;
   Future<void> loadSection(String name) async {
