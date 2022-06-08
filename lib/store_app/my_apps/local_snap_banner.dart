@@ -4,7 +4,7 @@ import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/app_banner.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
-import 'package:software/store_app/my_apps/offline_dialog.dart';
+
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_colors/yaru_colors.dart';
@@ -48,19 +48,10 @@ class _LocalSnapBannerState extends State<LocalSnapBanner> {
     return InkWell(
       onTap: () => showDialog(
         context: context,
-        builder: (context) {
-          if (widget.online) {
-            return ChangeNotifierProvider.value(
-              value: model,
-              child: const SnapDialog(),
-            );
-          } else {
-            return OfflineDialog.createFromValue(
-              context: context,
-              value: model,
-            );
-          }
-        },
+        builder: (context) => ChangeNotifierProvider.value(
+          value: model,
+          child: const SnapDialog(),
+        ),
       ),
       borderRadius: borderRadius,
       child: AppBanner(
@@ -70,8 +61,8 @@ class _LocalSnapBannerState extends State<LocalSnapBanner> {
             : Theme.of(context).colorScheme.onBackground,
         elevation: light ? 2 : 1,
         icon: model.offlineIcon,
-        title: model.title ?? '',
-        summary: model.summary ?? '',
+        title: model.title ?? '______________',
+        summary: model.summary ?? '______________',
         textOverflow: TextOverflow.ellipsis,
       ),
     );

@@ -59,45 +59,50 @@ class _SnapDialogState extends State<SnapDialog> {
         title: const _Title(),
         content: const _Content(),
         actions: [
-          if (model.selectableChannels.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: YaruExpandable(
-                expandIcon: const Icon(YaruIcons.pan_end),
-                header: DropdownButton<String>(
-                  icon: const Icon(YaruIcons.pan_down),
-                  borderRadius: BorderRadius.circular(10),
-                  elevation: 1,
-                  value: model.channelToBeInstalled,
-                  items: [
-                    for (final entry in model.selectableChannels.entries)
-                      DropdownMenuItem<String>(
-                        value: entry.key,
-                        child: Text(
-                          '${context.l10n.channel}: ${entry.key}',
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodyMedium,
+          model.selectableChannels.isEmpty
+              ? IconButton(
+                  splashRadius: 20,
+                  icon: const Icon(YaruIcons.refresh),
+                  onPressed: () => model.init(),
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: YaruExpandable(
+                    expandIcon: const Icon(YaruIcons.pan_end),
+                    header: DropdownButton<String>(
+                      icon: const Icon(YaruIcons.pan_down),
+                      borderRadius: BorderRadius.circular(10),
+                      elevation: 1,
+                      value: model.channelToBeInstalled,
+                      items: [
+                        for (final entry in model.selectableChannels.entries)
+                          DropdownMenuItem<String>(
+                            value: entry.key,
+                            child: Text(
+                              '${context.l10n.channel}: ${entry.key}',
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                      ],
+                      onChanged: model.appChangeInProgress
+                          ? null
+                          : (v) => model.channelToBeInstalled = v!,
+                    ),
+                    child: Column(
+                      children: [
+                        YaruSingleInfoRow(
+                          infoLabel: context.l10n.version,
+                          infoValue: model.versionString ?? '',
                         ),
-                      ),
-                  ],
-                  onChanged: model.appChangeInProgress
-                      ? null
-                      : (v) => model.channelToBeInstalled = v!,
-                ),
-                child: Column(
-                  children: [
-                    YaruSingleInfoRow(
-                      infoLabel: context.l10n.version,
-                      infoValue: model.versionString ?? '',
+                        YaruSingleInfoRow(
+                          infoLabel: context.l10n.lastUpdated,
+                          infoValue: model.releasedAt,
+                        ),
+                      ],
                     ),
-                    YaruSingleInfoRow(
-                      infoLabel: context.l10n.lastUpdated,
-                      infoValue: model.releasedAt,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
           if (model.appChangeInProgress)
             const SizedBox(
               height: 25,

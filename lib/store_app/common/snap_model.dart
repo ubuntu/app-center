@@ -150,7 +150,13 @@ class SnapModel extends SafeChangeNotifier {
   Future<void> init() async {
     _localSnap = await _findLocalSnap(huskSnapName);
     if (online) {
-      _storeSnap = await _findSnapByName(huskSnapName);
+      _storeSnap = await _findSnapByName(huskSnapName).timeout(
+        const Duration(milliseconds: 2500),
+        onTimeout: () {
+          notifyListeners();
+          return null;
+        },
+      );
     }
     if (_storeSnap != null && _storeSnap!.tracks.isNotEmpty) {
       for (var track in _storeSnap!.tracks) {
@@ -284,10 +290,7 @@ class SnapModel extends SafeChangeNotifier {
           ? apps!.first.desktopFile!
           : null;
 
-  Widget offlineIcon = const Icon(
-    YaruIcons.package_snap,
-    size: 50,
-  );
+  Widget offlineIcon = fallbackSnapIcon;
   String _iconLine = '';
 
   void loadOfflineIcon() {
@@ -317,8 +320,8 @@ class SnapModel extends SafeChangeNotifier {
               width: 50,
             );
           } finally {
-            if (offlineIcon != offlineIcon) {
-              offlineIcon = offlineIcon;
+            if (offlineIcon != fallbackSnapIcon) {
+              offlineIcon = fallbackSnapIcon;
             }
           }
         }
@@ -335,3 +338,8 @@ class SnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 }
+
+const fallbackSnapIcon = Icon(
+  YaruIcons.package_snap,
+  size: 50,
+);
