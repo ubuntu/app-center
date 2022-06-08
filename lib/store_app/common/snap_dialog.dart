@@ -4,6 +4,8 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/link.dart';
+import 'package:software/store_app/common/safe_image.dart';
+import 'package:software/store_app/common/snap_icon.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -155,25 +157,13 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-    Widget image = const Icon(
-      YaruIcons.package_snap,
-      size: 65,
-    );
-    if (model.iconUrl != null) {
-      image = Image.network(
-        model.iconUrl!,
-        height: 50,
-        filterQuality: FilterQuality.medium,
-      );
-    }
-
     return YaruDialogTitle(
       mainAxisAlignment: MainAxisAlignment.center,
       titleWidget: Column(
         children: [
           Row(
             children: [
-              image,
+              SizedBox(height: 50, child: SnapIcon(model.iconUrl)),
               const SizedBox(
                 width: 15,
               ),
@@ -308,7 +298,7 @@ class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-    final media = model.media != null
+    final List<SnapMedia> media = model.media != null
         ? model.media!
             .where((snapMedia) => snapMedia.type == 'screenshot')
             .toList()
@@ -343,8 +333,8 @@ class _Content extends StatelessWidget {
                             children: [
                               InkWell(
                                 onTap: () => Navigator.of(context).pop(),
-                                child: Image.network(
-                                  image.url,
+                                child: SafeImage(
+                                  url: image.url,
                                   fit: BoxFit.contain,
                                   filterQuality: FilterQuality.medium,
                                 ),
@@ -352,10 +342,8 @@ class _Content extends StatelessWidget {
                             ],
                           ),
                         ),
-                        child: Image.network(
-                          image.url,
-                          fit: BoxFit.fitHeight,
-                          filterQuality: FilterQuality.medium,
+                        child: SafeImage(
+                          url: image.url,
                         ),
                       )
                   ],

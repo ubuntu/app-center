@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
+import 'package:software/snapx.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/app_banner.dart';
 import 'package:software/store_app/common/snap_icon.dart';
@@ -61,7 +62,7 @@ class SnapBanner extends StatelessWidget {
                   title: snap.title ?? '',
                   summary: snap.summary,
                   elevation: 4,
-                  icon: SnapIcon(snap),
+                  icon: SnapIcon(snap.iconUrl),
                   textOverflow: TextOverflow.visible,
                 ),
                 if (watermark == true)
@@ -71,7 +72,10 @@ class SnapBanner extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       child: Opacity(
                         opacity: 0.1,
-                        child: SizedBox(height: 130, child: SnapIcon(snap)),
+                        child: SizedBox(
+                          height: 130,
+                          child: SnapIcon(snap.iconUrl),
+                        ),
                       ),
                     ),
                   ),
@@ -83,7 +87,7 @@ class SnapBanner extends StatelessWidget {
                   ? YaruColors.warmGrey.shade900
                   : Theme.of(context).colorScheme.onBackground,
               elevation: light ? 2 : 1,
-              icon: SnapIcon(snap),
+              icon: SnapIcon(snap.iconUrl),
               title: snap.title ?? '',
               summary: snap.summary,
               textOverflow: TextOverflow.ellipsis,
