@@ -68,7 +68,7 @@ class SnapBanner extends StatelessWidget {
                     url: snap.iconUrl,
                     fallBackIconData: YaruIcons.package_snap,
                   ),
-                  textOverflow: TextOverflow.visible,
+                  textOverflow: TextOverflow.fade,
                 ),
                 if (watermark == true)
                   Padding(
