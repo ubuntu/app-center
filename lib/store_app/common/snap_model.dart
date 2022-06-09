@@ -30,7 +30,8 @@ class SnapModel extends SafeChangeNotifier {
     this.online = true,
   })  : _appChangeInProgress = false,
         _channelToBeInstalled = '',
-        selectableChannels = {};
+        selectableChannels = {},
+        connections = {};
 
   StreamSubscription<bool>? _snapChangesSub;
 
@@ -192,6 +193,8 @@ class SnapModel extends SafeChangeNotifier {
       }
       notifyListeners();
     });
+
+    await loadConnections();
     notifyListeners();
   }
 
@@ -252,6 +255,49 @@ class SnapModel extends SafeChangeNotifier {
         await _client.refresh(name!, channel: channelToBeInstalled);
     await _appChangeService.addChange(_localSnap!, changeId);
     notifyListeners();
+  }
+
+  Future<void> connect({
+    required String snap,
+    required String plug,
+    required String slotSnap,
+    required String slot,
+  }) async {
+    await _client.loadAuthorization();
+    await _client.connect(snap, plug, slotSnap, slot);
+    notifyListeners();
+  }
+
+  Future<void> disconnect({
+    required String snap,
+    required String plug,
+    required String slotSnap,
+    required String slot,
+  }) async {
+    await _client.loadAuthorization();
+    await _client.disconnect(snap, plug, slotSnap, slot);
+    notifyListeners();
+  }
+
+  Map<String, Set<String>> connections;
+  Future<void> loadConnections() async {
+    await _client.loadAuthorization();
+    final response = await _client.getConnections();
+
+    for (final connection in response.established) {
+      final interface = connection.interface;
+      final plug = '${connection.plug.snap}:${connection.plug.plug}';
+      final slot =
+          '${connection.slot.snap != 'core' ? connection.slot.snap : ''}:${connection.slot.slot}';
+
+      if (connection.plug.snap.contains(huskSnapName) &&
+          interface != 'content') {
+        connections.putIfAbsent(
+          interface,
+          () => {plug, slot},
+        );
+      }
+    }
   }
 
   String? get versionString => selectableChannels[channelToBeInstalled] != null

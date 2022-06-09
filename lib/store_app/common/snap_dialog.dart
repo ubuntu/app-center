@@ -38,7 +38,9 @@ class SnapDialog extends StatefulWidget {
 class _SnapDialogState extends State<SnapDialog> {
   @override
   void initState() {
-    context.read<SnapModel>().init();
+    final model = context.read<SnapModel>();
+    model.init();
+
     super.initState();
   }
 
@@ -377,16 +379,28 @@ class _Content extends StatelessWidget {
                   ],
                 ),
               ),
+            YaruExpandable(
+              header: Text(context.l10n.connections),
+              expandIcon: const Icon(YaruIcons.pan_end),
+              child: Column(children: [
+                if (model.connections.isNotEmpty)
+                  for (final connection in model.connections.entries)
+                    YaruSwitchRow(
+                      trailingWidget: Text(connection.key),
+                      value: true,
+                      onChanged: (v) {},
+                    ),
+              ]),
+            ),
             if (model.description != null)
               YaruExpandable(
                 header: Text(
                   context.l10n.description,
-                  style: headerStyle,
                 ),
                 expandIcon: const Icon(YaruIcons.pan_end),
                 collapsedChild: Text(
                   model.description!,
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.fade,
                 ),
                 child: Text(model.description!),

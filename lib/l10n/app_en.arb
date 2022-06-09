@@ -43,5 +43,6 @@
   "showLess": "Show less",
   "offline": "Offline",
   "snapPackages": "Snap packages",
-  "debianPackages": "Debian packages"
+  "debianPackages": "Debian packages",
+  "connections": "Connections"
 } 
