@@ -4,8 +4,9 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
+import 'package:software/store_app/explore/filter_bar.dart';
+import 'package:software/store_app/explore/search_field.dart';
 import 'package:software/store_app/explore/snap_banner_carousel.dart';
-import 'package:software/store_app/explore/section_banner_grid.dart';
 import 'package:software/store_app/explore/snap_tile_grid.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -28,209 +29,221 @@ class ExplorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    final width = MediaQuery.of(context).size.width;
-
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: SizedBox(
-            height: 60,
-            child: Row(
-              children: [
-                YaruRoundToggleButton(
-                  onPressed: () => model.searchActive = !model.searchActive,
-                  selected: model.searchActive,
-                  iconData: YaruIcons.search,
-                ),
-                if (!model.searchActive)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: YaruRoundToggleButton(
-                      onPressed: () => model.exploreMode = !model.exploreMode,
-                      selected: model.exploreMode,
-                      iconData: YaruIcons.image,
-                    ),
-                  ),
-                if (!model.searchActive)
-                  YaruRoundToggleButton(
-                    onPressed: () => model.exploreMode = !model.exploreMode,
-                    selected: !model.exploreMode,
-                    iconData: YaruIcons.format_unordered_list,
-                  ),
-                if (!model.exploreMode || model.searchActive)
-                  const Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: SizedBox(
-                      height: 40,
-                      child: VerticalDivider(
-                        width: 20,
-                        thickness: 0.5,
-                      ),
-                    ),
-                  ),
-                model.searchActive
-                    ? const Expanded(child: _SearchField())
-                    : Expanded(
-                        child: !model.exploreMode
-                            ? const _FilterBar()
-                            : const SizedBox(),
-                      ),
-              ],
-            ),
-          ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: _HeaderBar(),
         ),
         Expanded(
-          child: YaruPage(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-            children: model.errorMessage.isNotEmpty
-                ? [
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: SelectableText(
-                          model.errorMessage,
-                          style: const TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    )
-                  ]
-                : [
-                    if (width < 1100 &&
-                        !model.searchActive &&
-                        model.exploreMode)
-                      const SnapBannerCarousel(
-                        snapSection: SnapSection.featured,
-                      ),
-                    if (model.searchActive)
-                      const SizedBox(
-                        height: 20,
-                      ),
-                    if (model.searchActive)
-                      SnapTileGrid(
-                        name: model.searchQuery,
-                        findByQuery: true,
-                      ),
-                    if (!model.searchActive && !model.exploreMode)
-                      for (int i = 0; i < model.filters.entries.length; i++)
-                        if (model.filters.entries.elementAt(i).value == true)
-                          SnapTileGrid(
-                            appendBottomDivier: true,
-                            name: model.filters.entries.elementAt(i).key.title,
-                            headline: model.filters.entries
-                                .elementAt(i)
-                                .key
-                                .localize(context.l10n),
-                            findByQuery: false,
-                          ),
-                    if (!model.searchActive && model.exploreMode)
-                      for (int i = 0; i < model.filters.entries.length; i++)
-                        if (model.filters.entries.elementAt(i).value == true)
-                          SectionBannerGrid(
-                            snapSection: model.filters.entries.elementAt(i).key,
-                          ),
-                  ],
-          ),
+          child: model.errorMessage.isNotEmpty
+              ? const _ErrorPage()
+              : model.exploreMode && !model.searchActive
+                  ? const _ExploreModePage()
+                  : const _GridViewPage(),
         ),
       ],
     );
   }
 }
 
-class _SearchField extends StatefulWidget {
-  const _SearchField({Key? key}) : super(key: key);
-
-  @override
-  State<_SearchField> createState() => _SearchFieldState();
-}
-
-class _SearchFieldState extends State<_SearchField> {
-  final TextEditingController _controller = TextEditingController();
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
+class _HeaderBar extends StatelessWidget {
+  const _HeaderBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: TextField(
-        controller: _controller,
-        onChanged: (value) => model.searchQuery = value,
-        autofocus: true,
-        decoration: InputDecoration(
-          prefixIcon: model.searchQuery == ''
-              ? null
-              : IconButton(
-                  splashRadius: 20,
-                  onPressed: () {
-                    model.searchQuery = '';
-                    _controller.text = '';
-                  },
-                  icon: const Icon(YaruIcons.edit_clear),
+
+    return SizedBox(
+      height: 60,
+      child: Row(
+        children: [
+          YaruRoundToggleButton(
+            onPressed: () => model.searchActive = !model.searchActive,
+            selected: model.searchActive,
+            iconData: YaruIcons.search,
+          ),
+          if (!model.searchActive)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: YaruRoundToggleButton(
+                onPressed: () => model.exploreMode = !model.exploreMode,
+                selected: model.exploreMode,
+                iconData: YaruIcons.image,
+              ),
+            ),
+          if (!model.searchActive)
+            YaruRoundToggleButton(
+              onPressed: () => model.exploreMode = !model.exploreMode,
+              selected: !model.exploreMode,
+              iconData: YaruIcons.format_unordered_list,
+            ),
+          if (!model.exploreMode || model.searchActive)
+            const Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: SizedBox(
+                height: 40,
+                child: VerticalDivider(
+                  width: 20,
+                  thickness: 0.5,
                 ),
-          isDense: false,
-          border: const UnderlineInputBorder(),
-        ),
+              ),
+            ),
+          model.searchActive
+              ? const Expanded(child: SearchField())
+              : Expanded(
+                  child:
+                      !model.exploreMode ? const FilterBar() : const SizedBox(),
+                ),
+        ],
       ),
     );
   }
 }
 
-class _FilterBar extends StatefulWidget {
-  const _FilterBar({Key? key}) : super(key: key);
-
-  @override
-  State<_FilterBar> createState() => _FilterBarState();
-}
-
-class _FilterBarState extends State<_FilterBar> {
-  final ScrollController _controller = ScrollController();
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
+class _ExploreModePage extends StatelessWidget {
+  const _ExploreModePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    return SizedBox(
-      width: 1000,
-      child: ScrollbarTheme(
-        data: ScrollbarThemeData(
-          thumbVisibility: MaterialStateProperty.resolveWith(
-            (states) => states.contains(MaterialState.hovered) ? true : false,
-          ),
+    final width = MediaQuery.of(context).size.width;
+
+    return YaruPage(
+      children: [
+        const SnapBannerCarousel(
+          snapSection: SnapSection.featured,
         ),
-        child: Scrollbar(
-          controller: _controller,
-          child: ListView(
-            controller: _controller,
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            children: [
-              for (final section in model.sortedFilters)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: YaruRoundToggleButton(
-                    tooltip: section.localize(context.l10n),
-                    onPressed: () => model.setFilter(snapSections: [section]),
-                    selected: model.filters[section]!,
-                    iconData: snapSectionToIcon[section]!,
-                  ),
+        Row(
+          children: [
+            const Expanded(
+              child: SnapBannerCarousel(
+                snapSection: SnapSection.games,
+                duration: Duration(seconds: 4),
+              ),
+            ),
+            if (model.showTwoCarousels(width: width))
+              const SizedBox(
+                width: 20,
+              ),
+            if (model.showTwoCarousels(width: width))
+              const Expanded(
+                child: SnapBannerCarousel(
+                  snapSection: SnapSection.development,
+                  duration: Duration(seconds: 6),
                 ),
-            ],
-          ),
+              ),
+            if (model.showThreeCarousels(width: width))
+              const SizedBox(
+                width: 20,
+              ),
+            if (model.showThreeCarousels(width: width))
+              const Expanded(
+                child: SnapBannerCarousel(
+                  snapSection: SnapSection.art_and_design,
+                  duration: Duration(seconds: 6),
+                ),
+              )
+          ],
         ),
-      ),
+        const SnapBannerCarousel(
+          snapSection: SnapSection.devices_and_iot,
+          duration: Duration(seconds: 10),
+        ),
+        Row(
+          children: [
+            const Expanded(
+              child: SnapBannerCarousel(
+                snapSection: SnapSection.books_and_reference,
+                duration: Duration(seconds: 4),
+              ),
+            ),
+            if (model.showTwoCarousels(width: width))
+              const SizedBox(
+                width: 20,
+              ),
+            if (model.showTwoCarousels(width: width))
+              const Expanded(
+                child: SnapBannerCarousel(
+                  snapSection: SnapSection.education,
+                  duration: Duration(seconds: 6),
+                ),
+              ),
+            if (model.showThreeCarousels(width: width))
+              const SizedBox(
+                width: 20,
+              ),
+            if (model.showThreeCarousels(width: width))
+              const Expanded(
+                child: SnapBannerCarousel(
+                  snapSection: SnapSection.finance,
+                  duration: Duration(seconds: 6),
+                ),
+              )
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _GridViewPage extends StatelessWidget {
+  const _GridViewPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<ExploreModel>();
+
+    return YaruPage(
+      children: [
+        if (model.searchActive)
+          const SizedBox(
+            height: 20,
+          ),
+        if (model.searchActive)
+          SnapTileGrid(
+            name: model.searchQuery,
+            findByQuery: true,
+          ),
+        if (!model.searchActive)
+          for (int i = 0; i < model.filters.entries.length; i++)
+            if (model.filters.entries.elementAt(i).value == true)
+              SnapTileGrid(
+                appendBottomDivier: true,
+                name: model.filters.entries.elementAt(i).key.title,
+                headline: model.filters.entries
+                    .elementAt(i)
+                    .key
+                    .localize(context.l10n),
+                findByQuery: false,
+              ),
+      ],
+    );
+  }
+}
+
+class _ErrorPage extends StatelessWidget {
+  const _ErrorPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<ExploreModel>();
+
+    return YaruPage(
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      children: [
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: SelectableText(
+              model.errorMessage,
+              style: const TextStyle(
+                fontSize: 15,
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

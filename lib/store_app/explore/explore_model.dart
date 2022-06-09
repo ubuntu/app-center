@@ -17,6 +17,10 @@ class ExploreModel extends SafeChangeNotifier {
 
   String _errorMessage;
   String get errorMessage => _errorMessage;
+
+  bool showTwoCarousels({required double width}) => width > 800;
+  bool showThreeCarousels({required double width}) => width > 1500;
+
   set errorMessage(String value) {
     if (value == _errorMessage) return;
     _errorMessage = value;
@@ -54,7 +58,7 @@ class ExploreModel extends SafeChangeNotifier {
   Map<SnapSection, bool> get filters => _filters;
   final Map<SnapSection, bool> _filters = {
     for (final snapSection in SnapSection.values)
-      snapSection: snapSection == SnapSection.development ? true : false,
+      snapSection: snapSection == SnapSection.featured ? true : false,
   };
 
   List<SnapSection> get sortedFilters =>

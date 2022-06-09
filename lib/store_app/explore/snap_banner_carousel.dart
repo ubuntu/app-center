@@ -12,10 +12,14 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapBannerCarousel extends StatefulWidget {
-  const SnapBannerCarousel({Key? key, required this.snapSection})
-      : super(key: key);
+  const SnapBannerCarousel({
+    Key? key,
+    required this.snapSection,
+    this.duration = const Duration(seconds: 3),
+  }) : super(key: key);
 
   final SnapSection snapSection;
+  final Duration duration;
 
   @override
   State<SnapBannerCarousel> createState() => _SnapBannerCarouselState();
@@ -33,7 +37,7 @@ class _SnapBannerCarouselState extends State<SnapBannerCarousel> {
     final model = context.watch<ExploreModel>();
     final size = MediaQuery.of(context).size;
     final sections =
-        model.sectionNameToSnapsMap[SnapSection.featured.name] ?? [];
+        model.sectionNameToSnapsMap[widget.snapSection.title] ?? [];
     return sections.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.only(
@@ -42,7 +46,7 @@ class _SnapBannerCarouselState extends State<SnapBannerCarousel> {
             child: YaruCarousel(
               viewportFraction: 1,
               placeIndicator: false,
-              autoScrollDuration: const Duration(seconds: 3),
+              autoScrollDuration: widget.duration,
               width: size.width,
               height: 178,
               autoScroll: true,
