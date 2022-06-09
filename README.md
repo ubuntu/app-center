@@ -2,12 +2,11 @@
 
 An alternative software store for the Ubuntu Desktop made with Flutter.
 
-![image_2022-06-07_19-10-39](https://user-images.githubusercontent.com/15329494/172443561-cd3871cd-d892-4a0f-b656-03076fd81bcd.png)
-![image_2022-06-07_19-10-39 (4)](https://user-images.githubusercontent.com/15329494/172443572-63f73577-ad49-4359-9307-cef2b389394b.png)
-![image_2022-06-07_19-10-39 (5)](https://user-images.githubusercontent.com/15329494/172443573-f38a6b0a-6926-433c-b13a-b4bb6e5ee611.png)
-![image_2022-06-07_19-10-39 (3)](https://user-images.githubusercontent.com/15329494/172443577-8ac6d34f-bf56-49ca-b359-e4cf8e459aee.png)
-![image_2022-06-07_19-10-39 (2)](https://user-images.githubusercontent.com/15329494/172443580-2875cc5b-b4de-49f7-bc01-632adfa91627.png)
-
+![1](.github/assets/1.png)
+![2](.github/assets/2.png)
+![3](.github/assets/3.png)
+![4](.github/assets/4.png)
+![5](.github/assets/5.png)
 
 ## Goals
 
