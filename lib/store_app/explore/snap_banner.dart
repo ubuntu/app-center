@@ -63,7 +63,7 @@ class SnapBanner extends StatelessWidget {
                   color: surfaceTintColor!,
                   title: snap.title ?? '',
                   summary: snap.summary,
-                  elevation: 4,
+                  elevation: light ? 4 : 6,
                   icon: SafeImage(
                     url: snap.iconUrl,
                     fallBackIconData: YaruIcons.package_snap,
