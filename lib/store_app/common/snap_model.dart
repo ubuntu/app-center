@@ -258,43 +258,43 @@ class SnapModel extends SafeChangeNotifier {
   }
 
   Future<void> connect({
-    required String snap,
-    required String plug,
-    required String slotSnap,
-    required String slot,
+    required SnapConnection con,
   }) async {
     await _client.loadAuthorization();
-    await _client.connect(snap, plug, slotSnap, slot);
+    await _client.connect(
+      con.plug.snap,
+      con.plug.plug,
+      con.slot.snap,
+      con.slot.slot,
+    );
     notifyListeners();
   }
 
   Future<void> disconnect({
-    required String snap,
-    required String plug,
-    required String slotSnap,
-    required String slot,
+    required SnapConnection con,
   }) async {
     await _client.loadAuthorization();
-    await _client.disconnect(snap, plug, slotSnap, slot);
+    await _client.disconnect(
+      con.plug.snap,
+      con.plug.plug,
+      con.slot.snap,
+      con.slot.slot,
+    );
     notifyListeners();
   }
 
-  Map<String, Set<String>> connections;
+  Map<String, SnapConnection> connections;
   Future<void> loadConnections() async {
     await _client.loadAuthorization();
     final response = await _client.getConnections();
 
     for (final connection in response.established) {
       final interface = connection.interface;
-      final plug = '${connection.plug.snap}:${connection.plug.plug}';
-      final slot =
-          '${connection.slot.snap != 'core' ? connection.slot.snap : ''}:${connection.slot.slot}';
-
       if (connection.plug.snap.contains(huskSnapName) &&
           interface != 'content') {
         connections.putIfAbsent(
           interface,
-          () => {plug, slot},
+          () => connection,
         );
       }
     }
