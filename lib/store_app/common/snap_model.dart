@@ -120,7 +120,7 @@ class SnapModel extends SafeChangeNotifier {
   String? get type => _storeSnap?.type ?? _localSnap?.type;
 
   /// Version of this snap.
-  String? get version => _localSnap?.version ?? _storeSnap?.version;
+  String get version => _localSnap?.version ?? _storeSnap?.version ?? '';
 
   /// Website URL.
   String? get website => _storeSnap?.website ?? _localSnap?.website;
@@ -300,9 +300,10 @@ class SnapModel extends SafeChangeNotifier {
     }
   }
 
-  String? get versionString => selectableChannels[channelToBeInstalled] != null
-      ? selectableChannels[channelToBeInstalled]!.version
-      : version;
+  String? get selectedChannelVersion =>
+      selectableChannels[channelToBeInstalled] != null
+          ? selectableChannels[channelToBeInstalled]!.version
+          : '';
 
   Color get surfaceTintColor {
     if (_surfaceTintColor == null && colorGenerator != null) {

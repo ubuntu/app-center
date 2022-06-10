@@ -50,10 +50,10 @@ class _SnapDialogState extends State<SnapDialog> {
 
     if (model.name != null) {
       return AlertDialog(
+        scrollable: true,
         actionsAlignment: MainAxisAlignment.spaceBetween,
         actionsPadding: const EdgeInsets.only(left: 20),
         contentPadding: const EdgeInsets.only(
-          bottom: 10,
           left: 25,
           right: 25,
         ),
@@ -70,6 +70,7 @@ class _SnapDialogState extends State<SnapDialog> {
               : Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: YaruExpandable(
+                    isExpanded: true,
                     expandIcon: const Icon(YaruIcons.pan_end),
                     header: DropdownButton<String>(
                       icon: const Icon(YaruIcons.pan_down),
@@ -95,7 +96,7 @@ class _SnapDialogState extends State<SnapDialog> {
                       children: [
                         YaruSingleInfoRow(
                           infoLabel: context.l10n.version,
-                          infoValue: model.versionString ?? '',
+                          infoValue: model.selectedChannelVersion ?? '',
                         ),
                         YaruSingleInfoRow(
                           infoLabel: context.l10n.lastUpdated,
@@ -288,7 +289,7 @@ class _Title extends StatelessWidget {
                   Text(context.l10n.installDate, style: headerStyle),
                   Text(
                     model.installDate.isNotEmpty
-                        ? model.installDate
+                        ? '${model.installDate}, ${model.version}'
                         : context.l10n.notInstalled,
                     style: headerStyle.copyWith(fontWeight: FontWeight.normal),
                   ),
@@ -318,71 +319,91 @@ class _Content extends StatelessWidget {
         : [];
     return SizedBox(
       width: 450,
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Divider(),
-            const SizedBox(
-              height: 10,
-            ),
-            if (media.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: YaruCarousel(
-                  nextIcon: const Icon(YaruIcons.go_next),
-                  previousIcon: const Icon(YaruIcons.go_previous),
-                  navigationControls: media.length > 1,
-                  viewportFraction: 1,
-                  height: 250,
-                  children: [
-                    for (final image in media)
-                      InkWell(
-                        borderRadius: BorderRadius.circular(10),
-                        onTap: () => showDialog(
-                          context: context,
-                          builder: (context) => SimpleDialog(
-                            children: [
-                              InkWell(
-                                onTap: () => Navigator.of(context).pop(),
-                                child: SafeImage(
-                                  url: image.url,
-                                  fit: BoxFit.contain,
-                                  filterQuality: FilterQuality.medium,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        child: SafeImage(
-                          url: image.url,
-                        ),
-                      )
-                  ],
-                ),
-              ),
-            if (media.isNotEmpty) const Divider(),
-            if (model.contact != null && model.publisher != null)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (model.website != null)
-                      Link(url: model.website!, linkText: context.l10n.website),
-                    Link(
-                      url: model.contact!,
-                      linkText:
-                          '${context.l10n.contact} ${model.publisher!.displayName}',
-                    ),
-                  ],
-                ),
-              ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Divider(),
+          const SizedBox(
+            height: 0,
+          ),
+          if (media.isNotEmpty)
             YaruExpandable(
-              header: Text(context.l10n.connections),
               expandIcon: const Icon(YaruIcons.pan_end),
-              child: Column(children: [
+              isExpanded: true,
+              header: const SizedBox(),
+              collapsedChild: const Padding(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Icon(YaruIcons.image),
+              ),
+              child: YaruCarousel(
+                nextIcon: const Icon(YaruIcons.go_next),
+                previousIcon: const Icon(YaruIcons.go_previous),
+                navigationControls: media.length > 1,
+                viewportFraction: 1,
+                height: 250,
+                children: [
+                  for (final image in media)
+                    InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () => showDialog(
+                        context: context,
+                        builder: (context) => SimpleDialog(
+                          children: [
+                            InkWell(
+                              onTap: () => Navigator.of(context).pop(),
+                              child: SafeImage(
+                                url: image.url,
+                                fit: BoxFit.contain,
+                                filterQuality: FilterQuality.medium,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      child: SafeImage(
+                        url: image.url,
+                      ),
+                    )
+                ],
+              ),
+            ),
+          if (media.isNotEmpty)
+            const Divider(
+              height: 40,
+            ),
+          if (model.contact != null && model.publisher != null)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (model.website != null)
+                  Link(url: model.website!, linkText: context.l10n.website),
+                Link(
+                  url: model.contact!,
+                  linkText:
+                      '${context.l10n.contact} ${model.publisher!.displayName}',
+                ),
+              ],
+            ),
+          const SizedBox(
+            height: 10,
+          ),
+          if (model.description != null)
+            YaruExpandable(
+              header: Text(
+                context.l10n.description,
+              ),
+              expandIcon: const Icon(YaruIcons.pan_end),
+              child: Text(
+                model.description!,
+                overflow: TextOverflow.fade,
+              ),
+            ),
+          YaruExpandable(
+            header: Text(context.l10n.connections),
+            expandIcon: const Icon(YaruIcons.pan_end),
+            child: Column(
+              children: [
                 if (model.connections.isNotEmpty)
                   for (final connection in model.connections.entries)
                     YaruSwitchRow(
@@ -390,27 +411,11 @@ class _Content extends StatelessWidget {
                       value: true,
                       onChanged: (v) {},
                     ),
-              ]),
+              ],
             ),
-            if (model.description != null)
-              YaruExpandable(
-                header: Text(
-                  context.l10n.description,
-                ),
-                expandIcon: const Icon(YaruIcons.pan_end),
-                collapsedChild: Text(
-                  model.description!,
-                  maxLines: 1,
-                  overflow: TextOverflow.fade,
-                ),
-                child: Text(model.description!),
-              ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Divider(),
-          ],
-        ),
+          ),
+          const Divider(),
+        ],
       ),
     );
   }
