@@ -399,21 +399,22 @@ class _Content extends StatelessWidget {
                 overflow: TextOverflow.fade,
               ),
             ),
-          YaruExpandable(
-            header: Text(context.l10n.connections),
-            expandIcon: const Icon(YaruIcons.pan_end),
-            child: Column(
-              children: [
-                if (model.connections.isNotEmpty)
-                  for (final connection in model.connections.entries)
-                    YaruSwitchRow(
-                      trailingWidget: Text(connection.key),
-                      value: true,
-                      onChanged: (v) {},
-                    ),
-              ],
+          if (model.snapIsInstalled)
+            YaruExpandable(
+              header: Text(context.l10n.connections),
+              expandIcon: const Icon(YaruIcons.pan_end),
+              child: Column(
+                children: [
+                  if (model.connections.isNotEmpty)
+                    for (final connection in model.connections.entries)
+                      YaruSwitchRow(
+                        trailingWidget: Text(connection.key),
+                        value: true,
+                        onChanged: (v) {},
+                      ),
+                ],
+              ),
             ),
-          ),
           const Divider(),
         ],
       ),
