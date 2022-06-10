@@ -33,9 +33,7 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
     final model = context.watch<MyPackagesModel>();
     return YaruPage(
       children: [
-        if (model.packages.isEmpty)
-          Container()
-        else
+        if (model.packages.isNotEmpty)
           GridView.builder(
             gridDelegate: myAppsGridDelegate,
             shrinkWrap: true,

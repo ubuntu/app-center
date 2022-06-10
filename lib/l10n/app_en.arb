@@ -44,5 +44,10 @@
   "offline": "Offline",
   "snapPackages": "Snap packages",
   "debianPackages": "Debian packages",
-  "connections": "Connections"
+  "connections": "Connections",
+  "updateAvailable": "Update available",
+  "size": "Size",
+  "name": "Name",
+  "sortBy": "Sort by"
+
 } 

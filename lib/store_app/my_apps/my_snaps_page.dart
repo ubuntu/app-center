@@ -40,26 +40,20 @@ class _MySnapsPageState extends State<MySnapsPage> {
     final mySnapsModel = context.watch<MySnapsModel>();
     return YaruPage(
       children: [
-        for (final snapList in [
-          // multiSnapModel.localSnapsWithChanges,
-          mySnapsModel.localSnaps
-        ])
-          snapList.isEmpty
-              ? Container()
-              : GridView.builder(
-                  gridDelegate: myAppsGridDelegate,
-                  shrinkWrap: true,
-                  itemCount: snapList.length,
-                  itemBuilder: (context, index) {
-                    final snap = snapList.elementAt(index);
-
-                    return LocalSnapBanner.create(
-                      context,
-                      snap.name,
-                      widget.online,
-                    );
-                  },
-                ),
+        if (mySnapsModel.localSnaps.isNotEmpty)
+          GridView.builder(
+            gridDelegate: myAppsGridDelegate,
+            shrinkWrap: true,
+            itemCount: mySnapsModel.localSnaps.length,
+            itemBuilder: (context, index) {
+              final snap = mySnapsModel.localSnaps.elementAt(index);
+              return LocalSnapBanner.create(
+                context,
+                snap.name,
+                widget.online,
+              );
+            },
+          ),
       ],
     );
   }
