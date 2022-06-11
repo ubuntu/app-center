@@ -40,45 +40,50 @@ class _StoreAppState extends State<StoreApp> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<StoreModel>();
-    return MaterialApp(
-      scrollBehavior: TouchMouseStylusScrollBehavior(),
-      debugShowCheckedModeBanner: false,
-      title: 'Ubuntu Software App',
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      onGenerateTitle: (context) => context.l10n.appTitle,
-      routes: {
-        Navigator.defaultRouteName: (context) {
-          return YaruTheme(
-            child: Scaffold(
-              body: YaruCompactLayout(
-                labelType: NavigationRailLabelType.all,
-                pageItems: [
-                  YaruPageItem(
-                    titleBuilder: ExplorePage.createTitle,
-                    builder: model.appIsOnline
-                        ? ExplorePage.create
-                        : (context) => const OfflinePage(),
-                    iconData: YaruIcons.compass,
-                  ),
-                  YaruPageItem(
-                    titleBuilder: MyAppsPage.createTitle,
-                    builder: (context) => MyAppsPage(online: model.appIsOnline),
-                    iconData: YaruIcons.ok,
-                    itemWidget: model.snapChanges.isNotEmpty
-                        ? _MyAppsIcon(count: model.snapChanges.length)
-                        : null,
-                  ),
-                  const YaruPageItem(
-                    titleBuilder: SettingsPage.createTitle,
-                    builder: SettingsPage.create,
-                    iconData: YaruIcons.settings,
-                  )
-                ],
-              ),
-            ),
-          );
-        },
+    return YaruTheme(
+      builder: (context, yaru, child) {
+        return MaterialApp(
+          theme: yaru.variant?.theme ?? yaruLight,
+          darkTheme: yaru.variant?.darkTheme ?? yaruDark,
+          scrollBehavior: TouchMouseStylusScrollBehavior(),
+          debugShowCheckedModeBanner: false,
+          title: 'Ubuntu Software App',
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          onGenerateTitle: (context) => context.l10n.appTitle,
+          routes: {
+            Navigator.defaultRouteName: (context) {
+              return Scaffold(
+                body: YaruCompactLayout(
+                  labelType: NavigationRailLabelType.all,
+                  pageItems: [
+                    YaruPageItem(
+                      titleBuilder: ExplorePage.createTitle,
+                      builder: model.appIsOnline
+                          ? ExplorePage.create
+                          : (context) => const OfflinePage(),
+                      iconData: YaruIcons.compass,
+                    ),
+                    YaruPageItem(
+                      titleBuilder: MyAppsPage.createTitle,
+                      builder: (context) =>
+                          MyAppsPage(online: model.appIsOnline),
+                      iconData: YaruIcons.ok,
+                      itemWidget: model.snapChanges.isNotEmpty
+                          ? _MyAppsIcon(count: model.snapChanges.length)
+                          : null,
+                    ),
+                    const YaruPageItem(
+                      titleBuilder: SettingsPage.createTitle,
+                      builder: SettingsPage.create,
+                      iconData: YaruIcons.settings,
+                    )
+                  ],
+                ),
+              );
+            },
+          },
+        );
       },
     );
   }
