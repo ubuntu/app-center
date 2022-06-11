@@ -20,10 +20,14 @@ An alternative software store for the Ubuntu Desktop made with Flutter.
   - [X] filter for sections
   - [X] refresh
   - [X] switch channels
-  - [ ] manage plugs and permissions
-- [ ] deb support (https://github.com/canonical/packagekit.dart)
-  - [ ] install from file-explorer
-  - [ ] remove
+  - [ ] manage permissions
+    - [X] list permissions
+    - [ ] activate/deactive permissions
+- [X] deb/rpm (packagekit) support (https://github.com/canonical/packagekit.dart)
+  - [X] install from file-explorer
+  - [X] list installed debs/rpms
+  - [X] remove
+  - [ ] search for debs/rpms (TBD if wanted)
 
 ## Firmware updater
 
