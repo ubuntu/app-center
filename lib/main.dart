@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
@@ -18,6 +19,10 @@ void main(List<String> args) async {
     registerService<SnapdClient>(SnapdClient.new, dispose: (s) => s.close());
     registerService<Connectivity>(Connectivity.new);
     registerService<AppChangeService>(AppChangeService.new);
+    registerService<NotificationsClient>(
+      NotificationsClient.new,
+      dispose: (s) => s.close(),
+    );
     runApp(StoreApp.create());
   } else if (args.first.endsWith('.deb')) {
     runApp(
