@@ -49,18 +49,6 @@ class _StoreAppState extends State<StoreApp> {
       onGenerateTitle: (context) => context.l10n.appTitle,
       routes: {
         Navigator.defaultRouteName: (context) {
-          final myAppsBadgeIcon = model.snapChanges.isNotEmpty
-              ? Badge(
-                  badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
-                  badgeContent: Text(model.snapChanges.length.toString()),
-                  child: const SizedBox(
-                    height: 20,
-                    child: YaruCircularProgressIndicator(
-                      strokeWidth: 2,
-                    ),
-                  ),
-                )
-              : null;
           return YaruTheme(
             child: Scaffold(
               body: YaruCompactLayout(
@@ -77,8 +65,9 @@ class _StoreAppState extends State<StoreApp> {
                     titleBuilder: MyAppsPage.createTitle,
                     builder: (context) => MyAppsPage(online: model.appIsOnline),
                     iconData: YaruIcons.ok,
-                    selectedItemWidget: myAppsBadgeIcon,
-                    itemWidget: myAppsBadgeIcon,
+                    itemWidget: model.snapChanges.isNotEmpty
+                        ? _MyAppsIcon(count: model.snapChanges.length)
+                        : null,
                   ),
                   const YaruPageItem(
                     titleBuilder: SettingsPage.createTitle,
@@ -102,4 +91,25 @@ class TouchMouseStylusScrollBehavior extends MaterialScrollBehavior {
         PointerDeviceKind.mouse,
         PointerDeviceKind.stylus
       };
+}
+
+class _MyAppsIcon extends StatelessWidget {
+  // ignore: unused_element
+  const _MyAppsIcon({super.key, required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    return Badge(
+      badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
+      badgeContent: Text(count.toString()),
+      child: const SizedBox(
+        height: 20,
+        child: YaruCircularProgressIndicator(
+          strokeWidth: 2,
+        ),
+      ),
+    );
+  }
 }
