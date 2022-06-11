@@ -588,9 +588,11 @@ packages:
   yaru:
     dependency: "direct main"
     description:
-      name: yaru
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "897b59237669bd29c4baf47b8332289a4b26b5fd"
+      url: "https://github.com/ubuntu/yaru.dart"
+    source: git
     version: "0.3.2"
   yaru_color_generator:
     dependency: transitive
@@ -620,7 +622,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "2cd9fa3cae41aa04eeface6a6939a51fe5c04b30"
+      resolved-ref: a04cdbb60bea7828ec02f8b14d5c700b5738ca35
       url: "https://github.com/ubuntu/yaru_widgets.dart"
     source: git
     version: "1.0.13"

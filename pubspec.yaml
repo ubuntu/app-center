@@ -40,7 +40,8 @@ dependencies:
     git:
       url: https://github.com/ubuntu-flutter-community/xdg_icons
       path: packages/xdg_icons
-  yaru: ^0.3.2
+  yaru:
+    git: https://github.com/ubuntu/yaru.dart
   yaru_colors: ^0.1.0
   yaru_icons:
     git: https://github.com/ubuntu/yaru_icons.dart
