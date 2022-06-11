@@ -53,6 +53,8 @@ class SnapModel extends SafeChangeNotifier {
   SnapConfinement? get confinement =>
       _storeSnap?.confinement ?? _localSnap?.confinement;
 
+  bool get strict => confinement == SnapConfinement.strict;
+
   /// Contact URL.
   String? get contact => _storeSnap?.contact ?? _localSnap?.contact;
 
