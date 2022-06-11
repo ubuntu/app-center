@@ -113,6 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.4"
+  desktop_notifications:
+    dependency: "direct main"
+    description:
+      name: desktop_notifications
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.3"
   fake_async:
     dependency: transitive
     description:
