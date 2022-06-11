@@ -61,10 +61,9 @@ class _SnapDialogState extends State<SnapDialog> {
         content: const SnapContent(),
         actions: [
           if (model.selectableChannels.isEmpty)
-            IconButton(
-              splashRadius: 20,
-              icon: const Icon(YaruIcons.refresh),
-              onPressed: () => model.init(),
+            YaruRoundIconButton(
+              child: const Icon(YaruIcons.refresh),
+              onTap: () => model.init(),
             )
           else
             const Padding(

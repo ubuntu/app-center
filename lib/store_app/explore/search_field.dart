@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SearchField extends StatefulWidget {
   const SearchField({Key? key}) : super(key: key);
@@ -31,13 +32,12 @@ class _SearchFieldState extends State<SearchField> {
         decoration: InputDecoration(
           prefixIcon: model.searchQuery == ''
               ? null
-              : IconButton(
-                  splashRadius: 20,
-                  onPressed: () {
+              : YaruRoundIconButton(
+                  onTap: () {
                     model.searchQuery = '';
                     _controller.text = '';
                   },
-                  icon: const Icon(YaruIcons.edit_clear),
+                  child: const Icon(YaruIcons.edit_clear),
                 ),
           isDense: false,
           border: const UnderlineInputBorder(),

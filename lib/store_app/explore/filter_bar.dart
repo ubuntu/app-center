@@ -41,8 +41,14 @@ class _FilterBarState extends State<FilterBar> {
             children: [
               for (final section in model.sortedFilters)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  padding: const EdgeInsets.only(
+                    top: 12,
+                    bottom: 12,
+                    left: 5,
+                    right: 5,
+                  ),
                   child: YaruRoundToggleButton(
+                    size: 36,
                     tooltip: section.localize(context.l10n),
                     onPressed: () => model.setFilter(snapSections: [section]),
                     selected: model.filters[section]!,
