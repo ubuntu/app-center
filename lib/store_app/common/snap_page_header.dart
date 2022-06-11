@@ -54,20 +54,16 @@ class SnapPageHeader extends StatelessWidget {
                         width: 10,
                       ),
                       if (model.snapIsInstalled)
-                        SizedBox(
-                          child: CircleAvatar(
-                            backgroundColor: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withOpacity(0.05),
-                            child: YaruRoundIconButton(
-                              tooltip: context.l10n.open,
-                              onTap: () => model.open(),
-                              child: Icon(
-                                YaruIcons.external_link,
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                            ),
+                        YaruRoundIconButton(
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.05),
+                          tooltip: context.l10n.open,
+                          onTap: () => model.open(),
+                          child: Icon(
+                            YaruIcons.external_link,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         )
                     ],
