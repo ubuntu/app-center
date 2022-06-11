@@ -66,18 +66,7 @@ class _StoreAppState extends State<StoreApp> {
                     builder: (context) => MyAppsPage(online: model.appIsOnline),
                     iconData: YaruIcons.ok,
                     itemWidget: model.snapChanges.isNotEmpty
-                        ? Badge(
-                            badgeColor:
-                                Theme.of(context).primaryColor.withOpacity(0.2),
-                            badgeContent:
-                                Text(model.snapChanges.length.toString()),
-                            child: const SizedBox(
-                              height: 20,
-                              child: YaruCircularProgressIndicator(
-                                strokeWidth: 2,
-                              ),
-                            ),
-                          )
+                        ? _MyAppsIcon(count: model.snapChanges.length)
                         : null,
                   ),
                   const YaruPageItem(
@@ -102,4 +91,25 @@ class TouchMouseStylusScrollBehavior extends MaterialScrollBehavior {
         PointerDeviceKind.mouse,
         PointerDeviceKind.stylus
       };
+}
+
+class _MyAppsIcon extends StatelessWidget {
+  // ignore: unused_element
+  const _MyAppsIcon({super.key, required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    return Badge(
+      badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
+      badgeContent: Text(count.toString()),
+      child: const SizedBox(
+        height: 20,
+        child: YaruCircularProgressIndicator(
+          strokeWidth: 2,
+        ),
+      ),
+    );
+  }
 }
