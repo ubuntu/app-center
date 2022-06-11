@@ -4,6 +4,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/safe_image.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
@@ -59,11 +60,10 @@ class SnapPageHeader extends StatelessWidget {
                                 .colorScheme
                                 .onSurface
                                 .withOpacity(0.05),
-                            child: IconButton(
+                            child: YaruRoundIconButton(
                               tooltip: context.l10n.open,
-                              splashRadius: 20,
-                              onPressed: () => model.open(),
-                              icon: Icon(
+                              onTap: () => model.open(),
+                              child: Icon(
                                 YaruIcons.external_link,
                                 color: Theme.of(context).colorScheme.onSurface,
                               ),

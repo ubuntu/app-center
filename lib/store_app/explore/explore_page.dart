@@ -59,6 +59,7 @@ class _HeaderBar extends StatelessWidget {
       child: Row(
         children: [
           YaruRoundToggleButton(
+            size: 36,
             onPressed: () => model.searchActive = !model.searchActive,
             selected: model.searchActive,
             iconData: YaruIcons.search,
@@ -67,6 +68,7 @@ class _HeaderBar extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: YaruRoundToggleButton(
+                size: 36,
                 onPressed: () => model.exploreMode = !model.exploreMode,
                 selected: model.exploreMode,
                 iconData: YaruIcons.image,
@@ -74,6 +76,7 @@ class _HeaderBar extends StatelessWidget {
             ),
           if (!model.searchActive)
             YaruRoundToggleButton(
+              size: 36,
               onPressed: () => model.exploreMode = !model.exploreMode,
               selected: !model.exploreMode,
               iconData: YaruIcons.format_unordered_list,
@@ -84,7 +87,7 @@ class _HeaderBar extends StatelessWidget {
               child: SizedBox(
                 height: 40,
                 child: VerticalDivider(
-                  width: 20,
+                  width: 10,
                   thickness: 0.5,
                 ),
               ),
