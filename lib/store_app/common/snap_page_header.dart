@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/safe_image.dart';
 import 'package:software/store_app/common/snap_model.dart';
@@ -20,7 +21,7 @@ class SnapPageHeader extends StatelessWidget {
         Row(
           children: [
             SizedBox(
-              height: 50,
+              height: 65,
               child: SafeImage(
                 url: model.iconUrl,
                 fallBackIconData: YaruIcons.package_snap,
@@ -53,19 +54,7 @@ class SnapPageHeader extends StatelessWidget {
                       const SizedBox(
                         width: 10,
                       ),
-                      if (model.snapIsInstalled)
-                        YaruRoundIconButton(
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withOpacity(0.05),
-                          tooltip: context.l10n.open,
-                          onTap: () => model.open(),
-                          child: Icon(
-                            YaruIcons.external_link,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        )
+                      // if (model.snapIsInstalled)
                     ],
                   ),
                   const SizedBox(
@@ -77,6 +66,57 @@ class SnapPageHeader extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 10,
                   ),
+                  if (model.snapIsInstalled)
+                    SizedBox(
+                      height: 30,
+                      child: Row(
+                        children: [
+                          YaruRoundIconButton(
+                            size: 30,
+                            tooltip: model.version,
+                            child: const Icon(
+                              YaruIcons.ok_filled,
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          YaruRoundIconButton(
+                            size: 30,
+                            tooltip: context.l10n.open,
+                            onTap: () => model.open(),
+                            child: Icon(
+                              YaruIcons.external_link,
+                              color: Theme.of(context).colorScheme.onSurface,
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          if (model.snapIsInstalled &&
+                              model.connections.isNotEmpty)
+                            YaruRoundIconButton(
+                              size: 30,
+                              backgroundColor: model.connectionsExpanded
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withOpacity(0.05)
+                                  : Colors.transparent,
+                              tooltip: context.l10n.connections,
+                              onTap: () => model.connectionsExpanded =
+                                  !model.connectionsExpanded,
+                              child: Icon(
+                                YaruIcons.lock,
+                                color: Theme.of(context).colorScheme.onSurface,
+                                size: 20,
+                              ),
+                            )
+                        ],
+                      ),
+                    )
                 ],
               ),
             ),
@@ -129,15 +169,47 @@ class SnapPageHeader extends StatelessWidget {
                 Text(context.l10n.installDate, style: headerStyle),
                 Text(
                   model.installDate.isNotEmpty
-                      ? '${model.installDate}, ${model.version}'
+                      ? model.installDate
                       : context.l10n.notInstalled,
                   style: headerStyle.copyWith(fontWeight: FontWeight.normal),
                 ),
               ],
             ),
           ],
-        )
+        ),
       ],
+    );
+  }
+}
+
+class ConnectionsSettings extends StatelessWidget {
+  const ConnectionsSettings({super.key, required this.connections});
+
+  final Map<String, SnapConnection> connections;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: YaruExpandable(
+        isExpanded: true,
+        header: Text(
+          context.l10n.connections,
+          style: const TextStyle(fontWeight: FontWeight.w500),
+        ),
+        expandIcon: const Icon(YaruIcons.pan_end),
+        child: Column(
+          children: [
+            if (connections.isNotEmpty)
+              for (final connection in connections.entries)
+                YaruSwitchRow(
+                  trailingWidget: Text(connection.key),
+                  value: true,
+                  onChanged: (v) {},
+                ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -55,10 +55,13 @@ class _SnapDialogState extends State<SnapDialog> {
         ),
         titlePadding: EdgeInsets.zero,
         title: const YaruDialogTitle(
+          mainAxisAlignment: MainAxisAlignment.center,
           closeIconData: YaruIcons.window_close,
           titleWidget: SnapPageHeader(),
         ),
-        content: const SnapContent(),
+        content: model.connectionsExpanded && model.connections.isNotEmpty
+            ? ConnectionsSettings(connections: model.connections)
+            : const SnapContent(),
         actions: [
           if (model.selectableChannels.isEmpty)
             YaruRoundIconButton(

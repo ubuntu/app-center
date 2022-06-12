@@ -21,25 +21,20 @@ class SnapContent extends StatelessWidget {
             .where((snapMedia) => snapMedia.type == 'screenshot')
             .toList()
         : [];
-    return SizedBox(
-      width: 450,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Divider(),
-          const SizedBox(
-            height: 0,
-          ),
-          if (media.isNotEmpty)
-            YaruExpandable(
-              expandIcon: const Icon(YaruIcons.pan_end),
-              isExpanded: true,
-              header: const SizedBox(),
-              collapsedChild: const Padding(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Icon(YaruIcons.image),
-              ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (media.isNotEmpty)
+          YaruExpandable(
+            expandIcon: const Icon(YaruIcons.pan_end),
+            isExpanded: true,
+            header: const SizedBox(
+              width: 395,
+              child: Divider(),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: YaruCarousel(
                 nextIcon: const Icon(YaruIcons.go_next),
                 previousIcon: const Icon(YaruIcons.go_previous),
@@ -72,12 +67,14 @@ class SnapContent extends StatelessWidget {
                 ],
               ),
             ),
-          if (media.isNotEmpty)
-            const Divider(
-              height: 40,
-            ),
-          if (model.contact != null && model.publisher != null)
-            Row(
+          ),
+        const SizedBox(
+          height: 10,
+        ),
+        if (model.contact != null && model.publisher != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (model.website != null)
@@ -89,39 +86,28 @@ class SnapContent extends StatelessWidget {
                 ),
               ],
             ),
-          const SizedBox(
-            height: 10,
           ),
-          if (model.description != null)
-            YaruExpandable(
-              header: Text(
-                context.l10n.description,
-              ),
-              expandIcon: const Icon(YaruIcons.pan_end),
-              child: Text(
-                model.description!,
-                overflow: TextOverflow.fade,
-              ),
+        const SizedBox(
+          height: 10,
+        ),
+        if (model.description != null)
+          YaruExpandable(
+            header: Text(
+              context.l10n.description,
             ),
-          if (model.snapIsInstalled)
-            YaruExpandable(
-              header: Text(context.l10n.connections),
-              expandIcon: const Icon(YaruIcons.pan_end),
-              child: Column(
-                children: [
-                  if (model.connections.isNotEmpty)
-                    for (final connection in model.connections.entries)
-                      YaruSwitchRow(
-                        trailingWidget: Text(connection.key),
-                        value: true,
-                        onChanged: (v) {},
-                      ),
-                ],
-              ),
+            expandIcon: const Icon(YaruIcons.pan_end),
+            child: Text(
+              model.description!,
+              overflow: TextOverflow.fade,
             ),
-          const Divider(),
-        ],
-      ),
+          ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Divider(
+          height: 10,
+        ),
+      ],
     );
   }
 }

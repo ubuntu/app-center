@@ -33,6 +33,7 @@ class _SearchFieldState extends State<SearchField> {
           prefixIcon: model.searchQuery == ''
               ? null
               : YaruRoundIconButton(
+                  size: 36,
                   onTap: () {
                     model.searchQuery = '';
                     _controller.text = '';

@@ -24,39 +24,27 @@ class _FilterBarState extends State<FilterBar> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    return SizedBox(
-      width: 1000,
-      child: ScrollbarTheme(
-        data: ScrollbarThemeData(
-          thumbVisibility: MaterialStateProperty.resolveWith(
-            (states) => states.contains(MaterialState.hovered) ? true : false,
-          ),
-        ),
-        child: Scrollbar(
+    return Padding(
+      padding: const EdgeInsets.only(left: 5),
+      child: SizedBox(
+        height: 36,
+        child: ListView(
           controller: _controller,
-          child: ListView(
-            controller: _controller,
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            children: [
-              for (final section in model.sortedFilters)
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 12,
-                    bottom: 12,
-                    left: 5,
-                    right: 5,
-                  ),
-                  child: YaruRoundToggleButton(
-                    size: 36,
-                    tooltip: section.localize(context.l10n),
-                    onPressed: () => model.setFilter(snapSections: [section]),
-                    selected: model.filters[section]!,
-                    iconData: snapSectionToIcon[section]!,
-                  ),
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          children: [
+            for (final section in model.sortedFilters)
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: YaruRoundToggleButton(
+                  size: 36,
+                  tooltip: section.localize(context.l10n),
+                  onPressed: () => model.setFilter(snapSections: [section]),
+                  selected: model.filters[section]!,
+                  iconData: snapSectionToIcon[section]!,
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       ),
     );
