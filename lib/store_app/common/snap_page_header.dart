@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/safe_image.dart';
 import 'package:software/store_app/common/snap_model.dart';
@@ -66,34 +67,54 @@ class SnapPageHeader extends StatelessWidget {
                     maxLines: 10,
                   ),
                   if (model.snapIsInstalled)
-                    Row(
-                      children: [
-                        const Icon(
-                          YaruIcons.ok_filled,
-                          size: 14,
-                        ),
-                        Text(
-                          ' ${context.l10n.version}: ${model.version}',
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        YaruRoundIconButton(
-                          size: 30,
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withOpacity(0.05),
-                          tooltip: context.l10n.open,
-                          onTap: () => model.open(),
-                          child: Icon(
-                            YaruIcons.external_link,
-                            color: Theme.of(context).colorScheme.onSurface,
-                            size: 20,
+                    SizedBox(
+                      height: 30,
+                      child: Row(
+                        children: [
+                          YaruRoundIconButton(
+                            size: 30,
+                            tooltip: model.version,
+                            child: const Icon(
+                              YaruIcons.ok_filled,
+                              size: 20,
+                            ),
                           ),
-                        )
-                      ],
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          YaruRoundIconButton(
+                            size: 30,
+                            tooltip: context.l10n.open,
+                            onTap: () => model.open(),
+                            child: Icon(
+                              YaruIcons.external_link,
+                              color: Theme.of(context).colorScheme.onSurface,
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          if (model.snapIsInstalled)
+                            YaruRoundIconButton(
+                              size: 30,
+                              backgroundColor: model.connectionsExpanded
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withOpacity(0.05)
+                                  : Colors.transparent,
+                              tooltip: context.l10n.connections,
+                              onTap: () => model.connectionsExpanded =
+                                  !model.connectionsExpanded,
+                              child: Icon(
+                                YaruIcons.lock,
+                                color: Theme.of(context).colorScheme.onSurface,
+                                size: 20,
+                              ),
+                            )
+                        ],
+                      ),
                     )
                 ],
               ),
@@ -156,6 +177,35 @@ class SnapPageHeader extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class ConnectionsSettings extends StatelessWidget {
+  const ConnectionsSettings({super.key, required this.connections});
+
+  final Map<String, SnapConnection> connections;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: YaruExpandable(
+        isExpanded: true,
+        header: Text(context.l10n.connections),
+        expandIcon: const Icon(YaruIcons.pan_end),
+        child: Column(
+          children: [
+            if (connections.isNotEmpty)
+              for (final connection in connections.entries)
+                YaruSwitchRow(
+                  trailingWidget: Text(connection.key),
+                  value: true,
+                  onChanged: (v) {},
+                ),
+          ],
+        ),
+      ),
     );
   }
 }

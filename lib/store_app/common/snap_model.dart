@@ -31,7 +31,8 @@ class SnapModel extends SafeChangeNotifier {
   })  : _appChangeInProgress = false,
         _channelToBeInstalled = '',
         selectableChannels = {},
-        connections = {};
+        connections = {},
+        _connectionsExpanded = false;
 
   StreamSubscription<bool>? _snapChangesSub;
 
@@ -147,6 +148,14 @@ class SnapModel extends SafeChangeNotifier {
   set channelToBeInstalled(String value) {
     if (value == _channelToBeInstalled) return;
     _channelToBeInstalled = value;
+    notifyListeners();
+  }
+
+  bool _connectionsExpanded;
+  bool get connectionsExpanded => _connectionsExpanded;
+  set connectionsExpanded(bool value) {
+    if (value == _connectionsExpanded) return;
+    _connectionsExpanded = value;
     notifyListeners();
   }
 

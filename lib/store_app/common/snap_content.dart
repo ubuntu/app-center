@@ -24,89 +24,70 @@ class SnapContent extends StatelessWidget {
     return SizedBox(
       width: 450,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Divider(),
-          const SizedBox(
-            height: 0,
-          ),
           if (media.isNotEmpty)
             YaruExpandable(
               expandIcon: const Icon(YaruIcons.pan_end),
               isExpanded: true,
-              header: const SizedBox(),
-              collapsedChild: const Padding(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Icon(YaruIcons.image),
+              header: const SizedBox(
+                width: 395,
+                child: Divider(),
               ),
-              child: YaruCarousel(
-                nextIcon: const Icon(YaruIcons.go_next),
-                previousIcon: const Icon(YaruIcons.go_previous),
-                navigationControls: media.length > 1,
-                viewportFraction: 1,
-                height: 250,
-                children: [
-                  for (final image in media)
-                    InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () => showDialog(
-                        context: context,
-                        builder: (context) => SimpleDialog(
-                          children: [
-                            InkWell(
-                              onTap: () => Navigator.of(context).pop(),
-                              child: SafeImage(
-                                url: image.url,
-                                fit: BoxFit.contain,
-                                filterQuality: FilterQuality.medium,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      child: SafeImage(
-                        url: image.url,
-                      ),
-                    )
-                ],
-              ),
-            ),
-          if (model.snapIsInstalled)
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: YaruExpandable(
-                header: Text(context.l10n.connections),
-                expandIcon: const Icon(YaruIcons.pan_end),
-                child: Column(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: YaruCarousel(
+                  nextIcon: const Icon(YaruIcons.go_next),
+                  previousIcon: const Icon(YaruIcons.go_previous),
+                  navigationControls: media.length > 1,
+                  viewportFraction: 1,
+                  height: 250,
                   children: [
-                    if (model.connections.isNotEmpty)
-                      for (final connection in model.connections.entries)
-                        YaruSwitchRow(
-                          trailingWidget: Text(connection.key),
-                          value: true,
-                          onChanged: (v) {},
+                    for (final image in media)
+                      InkWell(
+                        borderRadius: BorderRadius.circular(10),
+                        onTap: () => showDialog(
+                          context: context,
+                          builder: (context) => SimpleDialog(
+                            children: [
+                              InkWell(
+                                onTap: () => Navigator.of(context).pop(),
+                                child: SafeImage(
+                                  url: image.url,
+                                  fit: BoxFit.contain,
+                                  filterQuality: FilterQuality.medium,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
+                        child: SafeImage(
+                          url: image.url,
+                        ),
+                      )
                   ],
                 ),
               ),
             ),
-          if (media.isNotEmpty)
-            const Divider(
-              height: 40,
-            ),
+          const SizedBox(
+            height: 10,
+          ),
           if (model.contact != null && model.publisher != null)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (model.website != null)
-                  Link(url: model.website!, linkText: context.l10n.website),
-                Link(
-                  url: model.contact!,
-                  linkText:
-                      '${context.l10n.contact} ${model.publisher!.displayName}',
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (model.website != null)
+                    Link(url: model.website!, linkText: context.l10n.website),
+                  Link(
+                    url: model.contact!,
+                    linkText:
+                        '${context.l10n.contact} ${model.publisher!.displayName}',
+                  ),
+                ],
+              ),
             ),
           const SizedBox(
             height: 10,
@@ -122,7 +103,12 @@ class SnapContent extends StatelessWidget {
                 overflow: TextOverflow.fade,
               ),
             ),
-          const Divider(),
+          const SizedBox(
+            height: 10,
+          ),
+          const Divider(
+            height: 10,
+          ),
         ],
       ),
     );
