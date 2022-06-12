@@ -20,7 +20,7 @@ class SnapPageHeader extends StatelessWidget {
         Row(
           children: [
             SizedBox(
-              height: 50,
+              height: 65,
               child: SafeImage(
                 url: model.iconUrl,
                 fallBackIconData: YaruIcons.package_snap,
@@ -53,19 +53,7 @@ class SnapPageHeader extends StatelessWidget {
                       const SizedBox(
                         width: 10,
                       ),
-                      if (model.snapIsInstalled)
-                        YaruRoundIconButton(
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withOpacity(0.05),
-                          tooltip: context.l10n.open,
-                          onTap: () => model.open(),
-                          child: Icon(
-                            YaruIcons.external_link,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        )
+                      // if (model.snapIsInstalled)
                     ],
                   ),
                   const SizedBox(
@@ -78,21 +66,34 @@ class SnapPageHeader extends StatelessWidget {
                     maxLines: 10,
                   ),
                   if (model.snapIsInstalled)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            YaruIcons.ok_filled,
-                            size: 14,
+                    Row(
+                      children: [
+                        const Icon(
+                          YaruIcons.ok_filled,
+                          size: 14,
+                        ),
+                        Text(
+                          ' ${context.l10n.version}: ${model.version}',
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        YaruRoundIconButton(
+                          size: 30,
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.05),
+                          tooltip: context.l10n.open,
+                          onTap: () => model.open(),
+                          child: Icon(
+                            YaruIcons.external_link,
+                            color: Theme.of(context).colorScheme.onSurface,
+                            size: 20,
                           ),
-                          Text(
-                            ' ${context.l10n.version}: ${model.version}',
-                            style: Theme.of(context).textTheme.caption,
-                          ),
-                        ],
-                      ),
+                        )
+                      ],
                     )
                 ],
               ),
@@ -153,7 +154,7 @@ class SnapPageHeader extends StatelessWidget {
               ],
             ),
           ],
-        )
+        ),
       ],
     );
   }

@@ -72,6 +72,25 @@ class SnapContent extends StatelessWidget {
                 ],
               ),
             ),
+          if (model.snapIsInstalled)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: YaruExpandable(
+                header: Text(context.l10n.connections),
+                expandIcon: const Icon(YaruIcons.pan_end),
+                child: Column(
+                  children: [
+                    if (model.connections.isNotEmpty)
+                      for (final connection in model.connections.entries)
+                        YaruSwitchRow(
+                          trailingWidget: Text(connection.key),
+                          value: true,
+                          onChanged: (v) {},
+                        ),
+                  ],
+                ),
+              ),
+            ),
           if (media.isNotEmpty)
             const Divider(
               height: 40,
@@ -101,22 +120,6 @@ class SnapContent extends StatelessWidget {
               child: Text(
                 model.description!,
                 overflow: TextOverflow.fade,
-              ),
-            ),
-          if (model.snapIsInstalled)
-            YaruExpandable(
-              header: Text(context.l10n.connections),
-              expandIcon: const Icon(YaruIcons.pan_end),
-              child: Column(
-                children: [
-                  if (model.connections.isNotEmpty)
-                    for (final connection in model.connections.entries)
-                      YaruSwitchRow(
-                        trailingWidget: Text(connection.key),
-                        value: true,
-                        onChanged: (v) {},
-                      ),
-                ],
               ),
             ),
           const Divider(),

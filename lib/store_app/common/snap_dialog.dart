@@ -55,6 +55,7 @@ class _SnapDialogState extends State<SnapDialog> {
         ),
         titlePadding: EdgeInsets.zero,
         title: const YaruDialogTitle(
+          mainAxisAlignment: MainAxisAlignment.center,
           closeIconData: YaruIcons.window_close,
           titleWidget: SnapPageHeader(),
         ),
