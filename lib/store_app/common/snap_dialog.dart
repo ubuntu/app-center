@@ -59,7 +59,7 @@ class _SnapDialogState extends State<SnapDialog> {
           closeIconData: YaruIcons.window_close,
           titleWidget: SnapPageHeader(),
         ),
-        content: model.connectionsExpanded
+        content: model.connectionsExpanded && model.connections.isNotEmpty
             ? ConnectionsSettings(connections: model.connections)
             : const SnapContent(),
         actions: [

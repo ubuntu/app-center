@@ -95,7 +95,8 @@ class SnapPageHeader extends StatelessWidget {
                           const SizedBox(
                             width: 5,
                           ),
-                          if (model.snapIsInstalled)
+                          if (model.snapIsInstalled &&
+                              model.connections.isNotEmpty)
                             YaruRoundIconButton(
                               size: 30,
                               backgroundColor: model.connectionsExpanded
@@ -189,10 +190,13 @@ class ConnectionsSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.only(bottom: 8),
       child: YaruExpandable(
         isExpanded: true,
-        header: Text(context.l10n.connections),
+        header: Text(
+          context.l10n.connections,
+          style: const TextStyle(fontWeight: FontWeight.w500),
+        ),
         expandIcon: const Icon(YaruIcons.pan_end),
         child: Column(
           children: [
