@@ -31,10 +31,7 @@ class ExplorePage extends StatelessWidget {
     final model = context.watch<ExploreModel>();
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: _HeaderBar(),
-        ),
+        const _HeaderBar(),
         Expanded(
           child: model.errorMessage.isNotEmpty
               ? const _ErrorPage()
@@ -54,51 +51,58 @@ class _HeaderBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
 
-    return SizedBox(
-      height: 60,
-      child: Row(
-        children: [
-          YaruRoundToggleButton(
-            size: 36,
-            onPressed: () => model.searchActive = !model.searchActive,
-            selected: model.searchActive,
-            iconData: YaruIcons.search,
-          ),
-          if (!model.searchActive)
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: SizedBox(
+        height: 60,
+        child: Row(
+          children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               child: YaruRoundToggleButton(
                 size: 36,
-                onPressed: () => model.exploreMode = !model.exploreMode,
-                selected: model.exploreMode,
-                iconData: YaruIcons.image,
+                onPressed: () => model.searchActive = !model.searchActive,
+                selected: model.searchActive,
+                iconData: YaruIcons.search,
               ),
             ),
-          if (!model.searchActive)
-            YaruRoundToggleButton(
-              size: 36,
-              onPressed: () => model.exploreMode = !model.exploreMode,
-              selected: !model.exploreMode,
-              iconData: YaruIcons.format_unordered_list,
-            ),
-          if (!model.exploreMode || model.searchActive)
-            const Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: SizedBox(
-                height: 40,
+            if (!model.searchActive)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: YaruRoundToggleButton(
+                  size: 36,
+                  onPressed: () => model.exploreMode = !model.exploreMode,
+                  selected: model.exploreMode,
+                  iconData: YaruIcons.image,
+                ),
+              ),
+            if (!model.searchActive)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: YaruRoundToggleButton(
+                  size: 36,
+                  onPressed: () => model.exploreMode = !model.exploreMode,
+                  selected: !model.exploreMode,
+                  iconData: YaruIcons.format_unordered_list,
+                ),
+              ),
+            if (!model.exploreMode || model.searchActive)
+              const SizedBox(
+                height: 36,
                 child: VerticalDivider(
-                  width: 10,
+                  width: 20,
                   thickness: 0.5,
                 ),
               ),
-            ),
-          model.searchActive
-              ? const Expanded(child: SearchField())
-              : Expanded(
-                  child:
-                      !model.exploreMode ? const FilterBar() : const SizedBox(),
-                ),
-        ],
+            model.searchActive
+                ? const Expanded(child: SearchField())
+                : Expanded(
+                    child: !model.exploreMode
+                        ? const FilterBar()
+                        : const SizedBox(),
+                  ),
+          ],
+        ),
       ),
     );
   }
@@ -113,6 +117,7 @@ class _ExploreModePage extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     return YaruPage(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       children: [
         const SnapBannerCarousel(
           snapSection: SnapSection.featured,
@@ -198,6 +203,7 @@ class _GridViewPage extends StatelessWidget {
     final model = context.watch<ExploreModel>();
 
     return YaruPage(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       children: [
         if (model.searchActive)
           const SizedBox(

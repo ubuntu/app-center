@@ -77,6 +77,23 @@ class SnapPageHeader extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 10,
                   ),
+                  if (model.snapIsInstalled)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            YaruIcons.ok_filled,
+                            size: 14,
+                          ),
+                          Text(
+                            ' ${context.l10n.version}: ${model.version}',
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                        ],
+                      ),
+                    )
                 ],
               ),
             ),
@@ -129,7 +146,7 @@ class SnapPageHeader extends StatelessWidget {
                 Text(context.l10n.installDate, style: headerStyle),
                 Text(
                   model.installDate.isNotEmpty
-                      ? '${model.installDate}, ${model.version}'
+                      ? model.installDate
                       : context.l10n.notInstalled,
                   style: headerStyle.copyWith(fontWeight: FontWeight.normal),
                 ),
