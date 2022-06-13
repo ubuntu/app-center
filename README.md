@@ -40,7 +40,7 @@ For the firmware updates the flutter linux desktop, yaru-designed application [f
 
 ```bash
 sudo apt install git curl cmake meson make clang libgtk-3-dev pkg-config
-mkdir ~/development
+mkdir -p ~/development
 cd ~/development
 git clone https://github.com/flutter/flutter.git -b stable
 echo 'export PATH="$PATH:$HOME/development/flutter/bin"' >> ~/.bashrc
