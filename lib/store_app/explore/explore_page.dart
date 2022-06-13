@@ -6,6 +6,7 @@ import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/filter_bar.dart';
 import 'package:software/store_app/explore/search_field.dart';
+import 'package:software/store_app/explore/section_banner_grid.dart';
 import 'package:software/store_app/explore/snap_banner_carousel.dart';
 import 'package:software/store_app/explore/snap_tile_grid.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -113,83 +114,15 @@ class _ExploreModePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
-    final width = MediaQuery.of(context).size.width;
-
-    return YaruPage(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+    return const YaruPage(
+      padding: EdgeInsets.symmetric(horizontal: 20),
       children: [
-        const SnapBannerCarousel(
+        SnapBannerCarousel(
           snapSection: SnapSection.featured,
+          height: 220,
         ),
-        Row(
-          children: [
-            const Expanded(
-              child: SnapBannerCarousel(
-                snapSection: SnapSection.games,
-                duration: Duration(seconds: 4),
-              ),
-            ),
-            if (model.showTwoCarousels(width: width))
-              const SizedBox(
-                width: 20,
-              ),
-            if (model.showTwoCarousels(width: width))
-              const Expanded(
-                child: SnapBannerCarousel(
-                  snapSection: SnapSection.development,
-                  duration: Duration(seconds: 6),
-                ),
-              ),
-            if (model.showThreeCarousels(width: width))
-              const SizedBox(
-                width: 20,
-              ),
-            if (model.showThreeCarousels(width: width))
-              const Expanded(
-                child: SnapBannerCarousel(
-                  snapSection: SnapSection.art_and_design,
-                  duration: Duration(seconds: 6),
-                ),
-              )
-          ],
-        ),
-        const SnapBannerCarousel(
-          snapSection: SnapSection.devices_and_iot,
-          duration: Duration(seconds: 10),
-        ),
-        Row(
-          children: [
-            const Expanded(
-              child: SnapBannerCarousel(
-                snapSection: SnapSection.books_and_reference,
-                duration: Duration(seconds: 4),
-              ),
-            ),
-            if (model.showTwoCarousels(width: width))
-              const SizedBox(
-                width: 20,
-              ),
-            if (model.showTwoCarousels(width: width))
-              const Expanded(
-                child: SnapBannerCarousel(
-                  snapSection: SnapSection.education,
-                  duration: Duration(seconds: 6),
-                ),
-              ),
-            if (model.showThreeCarousels(width: width))
-              const SizedBox(
-                width: 20,
-              ),
-            if (model.showThreeCarousels(width: width))
-              const Expanded(
-                child: SnapBannerCarousel(
-                  snapSection: SnapSection.finance,
-                  duration: Duration(seconds: 6),
-                ),
-              )
-          ],
-        ),
+        SectionBannerGrid(snapSection: SnapSection.development),
+        SectionBannerGrid(snapSection: SnapSection.games)
       ],
     );
   }
