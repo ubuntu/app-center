@@ -16,10 +16,12 @@ class SnapBannerCarousel extends StatefulWidget {
     Key? key,
     required this.snapSection,
     this.duration = const Duration(seconds: 3),
+    this.height = 178,
   }) : super(key: key);
 
   final SnapSection snapSection;
   final Duration duration;
+  final double height;
 
   @override
   State<SnapBannerCarousel> createState() => _SnapBannerCarouselState();
@@ -48,7 +50,7 @@ class _SnapBannerCarouselState extends State<SnapBannerCarousel> {
               placeIndicator: false,
               autoScrollDuration: widget.duration,
               width: size.width,
-              height: 178,
+              height: widget.height,
               autoScroll: true,
               children: [
                 for (final snap in sections)
