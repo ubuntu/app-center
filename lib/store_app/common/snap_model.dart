@@ -185,7 +185,7 @@ class SnapModel extends SafeChangeNotifier {
     if (snapIsInstalled && selectableChannels.entries.isNotEmpty) {
       if (trackingChannel != null &&
           selectableChannels.entries
-              .where((element) => element.key == trackingChannel)
+              .where((element) => element.key.contains(trackingChannel!))
               .isNotEmpty) {
         channelToBeInstalled = trackingChannel!;
       } else {
