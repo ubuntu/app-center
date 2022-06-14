@@ -4,7 +4,7 @@ description: An Ubuntu software app made with Flutter.
 
 publish_to: "none"
 
-version: 0.0.3-alpha
+version: 0.0.4-alpha
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
