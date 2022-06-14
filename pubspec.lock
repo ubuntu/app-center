@@ -63,7 +63,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.3"
+    version: "2.3.4"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -91,7 +91,7 @@ packages:
       name: connectivity_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.2"
   connectivity_plus_windows:
     dependency: transitive
     description:
@@ -425,7 +425,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "9a819ec5c9229052fd32af9f44d290f06d971188"
+      resolved-ref: e0576c7d57d7adf17146d12e2187feca301f2b97
       url: "https://github.com/canonical/snapd.dart"
     source: git
     version: "0.4.2"
@@ -622,7 +622,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a04cdbb60bea7828ec02f8b14d5c700b5738ca35
+      resolved-ref: "08e6f41af1f296d01021a27e8bdb7c3d461ccd41"
       url: "https://github.com/ubuntu/yaru_widgets.dart"
     source: git
     version: "1.0.13"
