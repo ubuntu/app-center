@@ -12,41 +12,65 @@ class SnapChannelExpandable extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
 
-    return YaruExpandable(
-      isExpanded: true,
-      expandIcon: const Icon(YaruIcons.pan_end),
-      header: DropdownButton<String>(
-        icon: const Icon(YaruIcons.pan_down),
-        borderRadius: BorderRadius.circular(10),
-        elevation: 1,
-        value: model.channelToBeInstalled,
-        items: [
-          for (final entry in model.selectableChannels.entries)
-            DropdownMenuItem<String>(
-              value: entry.key,
-              child: Text(
-                '${context.l10n.channel}: ${entry.key}',
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
+    return model.selectableChannels.isEmpty
+        ? Row(
+            children: [
+              YaruRoundIconButton(
+                child: const Icon(YaruIcons.refresh),
+                onTap: () => model.init(),
+              )
+            ],
+          )
+        : YaruExpandable(
+            isExpanded: true,
+            expandIcon: const Icon(YaruIcons.pan_end),
+            header: DropdownButton<String>(
+              icon: const Icon(YaruIcons.pan_down),
+              borderRadius: BorderRadius.circular(10),
+              elevation: 1,
+              value: model.channelToBeInstalled,
+              items: [
+                for (final entry in model.selectableChannels.entries)
+                  DropdownMenuItem<String>(
+                    value: entry.key,
+                    child: Text(
+                      '${context.l10n.channel}: ${entry.key}',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+              ],
+              onChanged: model.appChangeInProgress
+                  ? null
+                  : (v) => model.channelToBeInstalled = v!,
             ),
-        ],
-        onChanged: model.appChangeInProgress
-            ? null
-            : (v) => model.channelToBeInstalled = v!,
-      ),
-      child: Column(
-        children: [
-          YaruSingleInfoRow(
-            infoLabel: context.l10n.version,
-            infoValue: model.selectedChannelVersion ?? '',
-          ),
-          YaruSingleInfoRow(
-            infoLabel: context.l10n.lastUpdated,
-            infoValue: model.releasedAt,
-          ),
-        ],
-      ),
-    );
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(context.l10n.version),
+                      SelectableText(model.selectedChannelVersion ?? ''),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(context.l10n.lastUpdated),
+                      SelectableText(model.releasedAt),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 }
