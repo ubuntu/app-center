@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/safe_image.dart';
 import 'package:software/store_app/common/snap_model.dart';
@@ -178,38 +177,6 @@ class SnapPageHeader extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-}
-
-class ConnectionsSettings extends StatelessWidget {
-  const ConnectionsSettings({super.key, required this.connections});
-
-  final Map<String, SnapConnection> connections;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: YaruExpandable(
-        isExpanded: true,
-        header: Text(
-          context.l10n.connections,
-          style: const TextStyle(fontWeight: FontWeight.w500),
-        ),
-        expandIcon: const Icon(YaruIcons.pan_end),
-        child: Column(
-          children: [
-            if (connections.isNotEmpty)
-              for (final connection in connections.entries)
-                YaruSwitchRow(
-                  trailingWidget: Text(connection.key),
-                  value: true,
-                  onChanged: (v) {},
-                ),
-          ],
-        ),
-      ),
     );
   }
 }

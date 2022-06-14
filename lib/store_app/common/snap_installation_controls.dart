@@ -20,7 +20,8 @@ class SnapInstallationControls extends StatelessWidget {
       );
     } else {
       return Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           if (model.snapIsInstalled)
             OutlinedButton(
