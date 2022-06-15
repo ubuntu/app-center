@@ -9,10 +9,12 @@ class SectionBannerGrid extends StatefulWidget {
     Key? key,
     required this.snapSection,
     this.amount = 20,
+    this.controller,
   }) : super(key: key);
 
   final SnapSection snapSection;
   final int amount;
+  final ScrollController? controller;
 
   @override
   State<SectionBannerGrid> createState() => _SectionBannerGridState();
@@ -31,12 +33,13 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
     final sections = model.sectionNameToSnapsMap[widget.snapSection.title];
 
     return GridView(
+      controller: widget.controller,
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         mainAxisExtent: 110,
         mainAxisSpacing: 20,
         crossAxisSpacing: 20,
-        maxCrossAxisExtent: 500,
+        maxCrossAxisExtent: 450,
       ),
       children: sections != null && sections.isNotEmpty
           ? sections.take(widget.amount).map((snap) {

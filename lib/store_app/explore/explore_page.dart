@@ -114,15 +114,17 @@ class _ExploreModePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const YaruPage(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+    return YaruPage(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       children: [
-        SnapBannerCarousel(
+        const SnapBannerCarousel(
           snapSection: SnapSection.featured,
           height: 220,
         ),
-        SectionBannerGrid(snapSection: SnapSection.development),
-        SectionBannerGrid(snapSection: SnapSection.games)
+        SectionBannerGrid(
+          controller: ScrollController(),
+          snapSection: SnapSection.featured,
+        ),
       ],
     );
   }
@@ -136,7 +138,7 @@ class _GridViewPage extends StatelessWidget {
     final model = context.watch<ExploreModel>();
 
     return YaruPage(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(0),
       children: [
         if (model.searchActive)
           const SizedBox(
@@ -151,6 +153,7 @@ class _GridViewPage extends StatelessWidget {
           for (int i = 0; i < model.filters.entries.length; i++)
             if (model.filters.entries.elementAt(i).value == true)
               SnapTileGrid(
+                controller: ScrollController(),
                 appendBottomDivier: true,
                 name: model.filters.entries.elementAt(i).key.title,
                 headline: model.filters.entries

@@ -6,7 +6,6 @@ import 'package:software/store_app/my_apps/local_snap_banner.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/my_apps/my_snaps_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MySnapsPage extends StatefulWidget {
   const MySnapsPage({Key? key, required this.online}) : super(key: key);
@@ -38,10 +37,9 @@ class _MySnapsPageState extends State<MySnapsPage> {
   @override
   Widget build(BuildContext context) {
     final mySnapsModel = context.watch<MySnapsModel>();
-    return YaruPage(
-      children: [
-        if (mySnapsModel.localSnaps.isNotEmpty)
-          GridView.builder(
+    return mySnapsModel.localSnaps.isNotEmpty
+        ? GridView.builder(
+            padding: const EdgeInsets.all(20.0),
             gridDelegate: myAppsGridDelegate,
             shrinkWrap: true,
             itemCount: mySnapsModel.localSnaps.length,
@@ -53,8 +51,7 @@ class _MySnapsPageState extends State<MySnapsPage> {
                 widget.online,
               );
             },
-          ),
-      ],
-    );
+          )
+        : const SizedBox();
   }
 }
