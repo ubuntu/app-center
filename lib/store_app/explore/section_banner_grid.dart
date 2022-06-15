@@ -29,21 +29,20 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
     final sections = model.sectionNameToSnapsMap[widget.snapSection.title];
-    if (sections == null || sections.isEmpty) {
-      return const SizedBox();
-    } else {
-      return GridView(
-        shrinkWrap: true,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          mainAxisExtent: 110,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20,
-          maxCrossAxisExtent: 500,
-        ),
-        children: sections.take(widget.amount).map((snap) {
-          return SnapBanner.create(context, snap);
-        }).toList(),
-      );
-    }
+
+    return GridView(
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        mainAxisExtent: 110,
+        mainAxisSpacing: 20,
+        crossAxisSpacing: 20,
+        maxCrossAxisExtent: 500,
+      ),
+      children: sections != null && sections.isNotEmpty
+          ? sections.take(widget.amount).map((snap) {
+              return SnapBanner.create(context, snap);
+            }).toList()
+          : [],
+    );
   }
 }
