@@ -1,6 +1,5 @@
 import 'package:badges/badges.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
@@ -45,7 +44,6 @@ class _StoreAppState extends State<StoreApp> {
         return MaterialApp(
           theme: yaru.variant?.theme ?? yaruLight,
           darkTheme: yaru.variant?.darkTheme ?? yaruDark,
-          scrollBehavior: TouchMouseStylusScrollBehavior(),
           debugShowCheckedModeBanner: false,
           title: 'Ubuntu Software App',
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -87,15 +85,6 @@ class _StoreAppState extends State<StoreApp> {
       },
     );
   }
-}
-
-class TouchMouseStylusScrollBehavior extends MaterialScrollBehavior {
-  @override
-  Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-        PointerDeviceKind.stylus
-      };
 }
 
 class _MyAppsIcon extends StatelessWidget {

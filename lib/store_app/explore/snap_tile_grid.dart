@@ -19,6 +19,7 @@ class SnapTileGrid extends StatefulWidget {
     required this.findByQuery,
     this.itemCount = 20,
     this.appendBottomDivier = false,
+    this.controller,
   }) : super(key: key);
 
   final String name;
@@ -26,6 +27,7 @@ class SnapTileGrid extends StatefulWidget {
   final bool findByQuery;
   final int itemCount;
   final bool appendBottomDivier;
+  final ScrollController? controller;
 
   @override
   State<SnapTileGrid> createState() => _SnapTileGridState();
@@ -47,6 +49,7 @@ class _SnapTileGridState extends State<SnapTileGrid> {
     if (!widget.findByQuery) {
       final snaps = model.sectionNameToSnapsMap[widget.name];
       return _Grid(
+        controller: widget.controller,
         appendBottomDivider: widget.appendBottomDivier,
         snapAmount: widget.itemCount,
         headline: widget.headline,
@@ -58,6 +61,7 @@ class _SnapTileGridState extends State<SnapTileGrid> {
       future: model.findSnapsByQuery(),
       builder: (context, snapshot) => snapshot.hasData
           ? _Grid(
+              controller: widget.controller,
               appendBottomDivider: widget.appendBottomDivier,
               snapAmount: widget.itemCount,
               headline: widget.headline,
@@ -80,12 +84,14 @@ class _Grid extends StatefulWidget {
     required this.snaps,
     required this.snapAmount,
     required this.appendBottomDivider,
+    this.controller,
   }) : super(key: key);
 
   final String? headline;
   final List<Snap> snaps;
   final int snapAmount;
   final bool appendBottomDivider;
+  final ScrollController? controller;
 
   @override
   State<_Grid> createState() => _GridState();
@@ -134,6 +140,7 @@ class _GridState extends State<_Grid> {
               height: 15,
             ),
           GridView(
+            controller: widget.controller,
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               crossAxisSpacing: 40,
