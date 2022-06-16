@@ -1,17 +1,13 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/snapx.dart';
-import 'package:xdg_icons/xdg_icons.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 
 class SnapModel extends SafeChangeNotifier {
   final AppChangeService _appChangeService;
@@ -21,10 +17,12 @@ class SnapModel extends SafeChangeNotifier {
   Snap? _storeSnap;
   Snap? _localSnap;
   bool online;
+  final String doneString;
 
   SnapModel(
     this._client,
     this._appChangeService, {
+    required this.doneString,
     this.colorGenerator,
     required this.huskSnapName,
     this.online = true,
@@ -245,6 +243,7 @@ class SnapModel extends SafeChangeNotifier {
     await _appChangeService.addChange(
       _storeSnap!,
       changeId,
+      doneString,
     );
     _localSnap = await _findLocalSnap(huskSnapName);
     notifyListeners();
@@ -254,7 +253,11 @@ class SnapModel extends SafeChangeNotifier {
     if (name == null) return;
     await _client.loadAuthorization();
     final changeId = await _client.remove(name!);
-    await _appChangeService.addChange(_localSnap!, changeId);
+    await _appChangeService.addChange(
+      _localSnap!,
+      changeId,
+      doneString,
+    );
     _localSnap = await _findLocalSnap(huskSnapName);
     notifyListeners();
   }
@@ -264,7 +267,11 @@ class SnapModel extends SafeChangeNotifier {
     await _client.loadAuthorization();
     final changeId =
         await _client.refresh(name!, channel: channelToBeInstalled);
-    await _appChangeService.addChange(_localSnap!, changeId);
+    await _appChangeService.addChange(
+      _localSnap!,
+      changeId,
+      doneString,
+    );
     notifyListeners();
   }
 
@@ -342,62 +349,4 @@ class SnapModel extends SafeChangeNotifier {
       mode: ProcessStartMode.detached,
     );
   }
-
-  String? get _desktopFile =>
-      apps != null && apps!.isNotEmpty && apps!.first.desktopFile != null
-          ? apps!.first.desktopFile!
-          : null;
-
-  Widget offlineIcon = fallbackSnapIcon;
-  String _iconLine = '';
-
-  void loadOfflineIcon() {
-    if (_desktopFile != null) {
-      File? file = File(_desktopFile!);
-      (file
-              .openRead()
-              .map(utf8.decode)
-              .transform(const LineSplitter())
-              .where((line) => line.contains('Icon='))
-              .first)
-          .then((line) {
-        _iconLine = line.replaceAll('Icon=', '');
-        if (_iconLine.endsWith('.png') ||
-            _iconLine.endsWith('.jpg') ||
-            _iconLine.endsWith('.jpeg')) {
-          offlineIcon = Image.file(
-            File(_iconLine),
-            filterQuality: FilterQuality.medium,
-            width: 50,
-          );
-        }
-        if (_iconLine.endsWith('.svg')) {
-          try {
-            offlineIcon = SvgPicture.file(
-              File(_iconLine),
-              width: 50,
-            );
-          } finally {
-            if (offlineIcon != fallbackSnapIcon) {
-              offlineIcon = fallbackSnapIcon;
-            }
-          }
-        }
-        if (!_iconLine.contains('/')) {
-          offlineIcon = XdgIconTheme(
-            data: const XdgIconThemeData(theme: 'Yaru'),
-            child: XdgIcon(name: _iconLine, size: 48),
-          );
-        }
-        notifyListeners();
-        return;
-      });
-    }
-    notifyListeners();
-  }
 }
-
-const fallbackSnapIcon = Icon(
-  YaruIcons.package_snap,
-  size: 50,
-);

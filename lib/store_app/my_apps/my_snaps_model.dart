@@ -8,7 +8,7 @@ class MySnapsModel extends SafeChangeNotifier {
   final SnapdClient _client;
   final AppChangeService _appChangeService;
   StreamSubscription<bool>? _snapChangesSub;
-  List<Snap> _localSnaps;
+  final List<Snap> _localSnaps;
   List<Snap> get localSnaps => _localSnaps;
 
   MySnapsModel(
@@ -18,9 +18,10 @@ class MySnapsModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     await _loadLocalSnaps();
-    _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) async {
-      await _loadLocalSnaps();
-      notifyListeners();
+    _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) {
+      if (_appChangeService.snapChanges.isEmpty) {
+        _loadLocalSnaps().then((value) => notifyListeners());
+      }
     });
     notifyListeners();
   }
@@ -33,11 +34,13 @@ class MySnapsModel extends SafeChangeNotifier {
 
   Future<void> _loadLocalSnaps() async {
     await _client.loadAuthorization();
-    _localSnaps = (await _client.getSnaps())
+    final snaps = (await _client.getSnaps())
         .where(
           (snap) => _appChangeService.getChange(snap) == null,
         )
         .toList();
-    _localSnaps.sort((a, b) => a.name.compareTo(b.name));
+    snaps.sort((a, b) => a.name.compareTo(b.name));
+    _localSnaps.clear();
+    _localSnaps.addAll(snaps);
   }
 }

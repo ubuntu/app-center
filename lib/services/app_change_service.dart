@@ -10,7 +10,7 @@ class AppChangeService {
   final SnapdClient _snapDClient;
   final NotificationsClient _notificationsClient;
 
-  Future<void> addChange(Snap snap, String id) async {
+  Future<void> addChange(Snap snap, String id, String doneString) async {
     final newChange = await _snapDClient.getChange(id);
     _snapChanges.putIfAbsent(snap, () => newChange);
     if (!_snapChangesController.isClosed) {
@@ -22,12 +22,12 @@ class AppChangeService {
         removeChange(snap);
         _notificationsClient.notify(
           'Software',
-          body: newChange.summary,
+          body: '$doneString: ${newChange.summary}',
           appName: snap.name,
           appIcon: 'snap-store',
           hints: [
             NotificationHint.desktopEntry('software'),
-            NotificationHint.urgency(NotificationUrgency.critical)
+            NotificationHint.urgency(NotificationUrgency.normal)
           ],
         );
         break;

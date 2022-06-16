@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:software/snapx.dart';
+import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/snap_banner.dart';
@@ -43,7 +45,18 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
       ),
       children: sections != null && sections.isNotEmpty
           ? sections.take(widget.amount).map((snap) {
-              return SnapBanner.create(context, snap);
+              return SnapBanner(
+                name: snap.name,
+                summary: snap.summary,
+                url: snap.iconUrl,
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => SnapDialog.create(
+                    context: context,
+                    huskSnapName: snap.name,
+                  ),
+                ),
+              );
             }).toList()
           : [],
     );
