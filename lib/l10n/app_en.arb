@@ -49,5 +49,6 @@
   "size": "Size",
   "name": "Name",
   "sortBy": "Sort by",
-  "media": "Media"
+  "media": "Media",
+  "done": "Done"
 } 

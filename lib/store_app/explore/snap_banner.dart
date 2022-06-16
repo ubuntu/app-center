@@ -1,51 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
-import 'package:software/services/app_change_service.dart';
-import 'package:software/snapx.dart';
-import 'package:software/store_app/common/safe_image.dart';
-import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/app_banner.dart';
-
-import 'package:software/store_app/common/snap_model.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:software/store_app/common/safe_image.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class SnapBanner extends StatelessWidget {
   const SnapBanner({
     Key? key,
-    required this.snap,
     this.onTap,
     this.surfaceTintColor,
     this.watermark = false,
+    required this.name,
+    required this.summary,
+    this.url,
   }) : super(key: key);
 
-  final Snap snap;
+  final String name;
+  final String summary;
+  final String? url;
   final Function()? onTap;
   final Color? surfaceTintColor;
   final bool watermark;
-
-  static Widget create(BuildContext context, Snap snap) {
-    final snapModel = SnapModel(
-      getService<SnapdClient>(),
-      getService<AppChangeService>(),
-      huskSnapName: snap.name,
-    );
-    return ChangeNotifierProvider<SnapModel>(
-      create: (context) => snapModel,
-      child: SnapBanner(
-        snap: snap,
-        onTap: () => showDialog(
-          context: context,
-          builder: (context) => ChangeNotifierProvider.value(
-            value: snapModel,
-            child: const SnapDialog(),
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +36,11 @@ class SnapBanner extends StatelessWidget {
                 AppBanner(
                   borderRadius: borderRadius,
                   color: surfaceTintColor!,
-                  title: snap.title ?? '',
-                  summary: snap.summary,
+                  title: name,
+                  summary: summary,
                   elevation: light ? 4 : 6,
                   icon: SafeImage(
-                    url: snap.iconUrl,
+                    url: url,
                     fallBackIconData: YaruIcons.package_snap,
                   ),
                   textOverflow: TextOverflow.fade,
@@ -80,7 +55,7 @@ class SnapBanner extends StatelessWidget {
                         child: SizedBox(
                           height: 130,
                           child: SafeImage(
-                            url: snap.iconUrl,
+                            url: url,
                             fallBackIconData: YaruIcons.package_snap,
                           ),
                         ),
@@ -96,11 +71,11 @@ class SnapBanner extends StatelessWidget {
                   : Theme.of(context).colorScheme.onBackground,
               elevation: light ? 2 : 1,
               icon: SafeImage(
-                url: snap.iconUrl,
+                url: url,
                 fallBackIconData: YaruIcons.package_snap,
               ),
-              title: snap.title ?? '',
-              summary: snap.summary,
+              title: name,
+              summary: summary,
               textOverflow: TextOverflow.ellipsis,
             ),
     );

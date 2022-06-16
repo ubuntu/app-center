@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
+import 'package:software/snapx.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
@@ -77,6 +79,7 @@ class _AppBannerCarouselItem extends StatefulWidget {
         getService<AppChangeService>(),
         huskSnapName: snap.name,
         colorGenerator: getService<ColorGenerator>(),
+        doneString: context.l10n.done,
       ),
       child: _AppBannerCarouselItem(snap: snap),
     );
@@ -98,12 +101,16 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
     final model = context.watch<SnapModel>();
     return SnapBanner(
       watermark: true,
-      snap: widget.snap,
+      name: widget.snap.name,
+      summary: widget.snap.summary,
+      url: widget.snap.iconUrl,
       surfaceTintColor: model.surfaceTintColor,
       onTap: () => showDialog(
         context: context,
-        builder: (context) =>
-            SnapDialog.create(context: context, huskSnapName: widget.snap.name),
+        builder: (context) => ChangeNotifierProvider.value(
+          value: model,
+          child: const SnapDialog(),
+        ),
       ),
     );
   }
