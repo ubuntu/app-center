@@ -269,8 +269,12 @@ class SnapModel extends SafeChangeNotifier {
   Future<void> refreshSnapApp() async {
     if (name == null || channelToBeInstalled.isEmpty) return;
     await _client.loadAuthorization();
-    final changeId =
-        await _client.refresh(name!, channel: channelToBeInstalled);
+    final changeId = await _client.refresh(
+      name!,
+      channel: channelToBeInstalled,
+      classic: selectableChannels[channelToBeInstalled]?.confinement ==
+          SnapConfinement.classic,
+    );
     await _appChangeService.addChange(
       _localSnap!,
       changeId,
