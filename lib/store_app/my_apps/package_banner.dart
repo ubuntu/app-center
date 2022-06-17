@@ -11,25 +11,22 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageBanner extends StatelessWidget {
-  const PackageBanner({Key? key}) : super(key: key);
+  const PackageBanner({Key? key, required this.packageId}) : super(key: key);
 
-  static Widget create(BuildContext context, PackageKitPackageId packageId) =>
-      ChangeNotifierProvider(
-        create: (context) =>
-            PackageModel(getService<PackageKitClient>(), packageId: packageId),
-        child: const PackageBanner(),
-      );
+  final PackageKitPackageId packageId;
 
   @override
   Widget build(BuildContext context) {
     bool light = Theme.of(context).brightness == Brightness.light;
-    final model = context.watch<PackageModel>();
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: () => showDialog(
         context: context,
-        builder: (context) => ChangeNotifierProvider.value(
-          value: model,
+        builder: (_) => ChangeNotifierProvider(
+          create: (context) => PackageModel(
+            getService<PackageKitClient>(),
+            packageId: packageId,
+          ),
           child: const _PackageDialog(),
         ),
       ),
@@ -38,8 +35,8 @@ class PackageBanner extends StatelessWidget {
             ? YaruColors.warmGrey.shade900
             : Theme.of(context).colorScheme.onBackground,
         elevation: light ? 2 : 1,
-        title: model.name,
-        summary: model.version,
+        title: packageId.name,
+        summary: packageId.version,
         icon: const Icon(
           YaruIcons.package_deb,
           size: 50,
