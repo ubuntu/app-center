@@ -3,15 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/snapx.dart';
-import 'package:software/store_app/my_apps/local_snap_banner.dart';
+import 'package:software/store_app/common/snap_dialog.dart';
+import 'package:software/store_app/explore/snap_banner.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/my_apps/my_snaps_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class MySnapsPage extends StatefulWidget {
-  const MySnapsPage({Key? key, required this.online}) : super(key: key);
-
-  final bool online;
+  const MySnapsPage({Key? key}) : super(key: key);
 
   static Widget create(BuildContext context, bool online) =>
       ChangeNotifierProvider(
@@ -19,9 +18,7 @@ class MySnapsPage extends StatefulWidget {
           getService<SnapdClient>(),
           getService<AppChangeService>(),
         ),
-        child: MySnapsPage(
-          online: online,
-        ),
+        child: const MySnapsPage(),
       );
 
   @override
@@ -64,10 +61,15 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
       itemCount: widget.snaps.length,
       itemBuilder: (context, index) {
         final snap = widget.snaps.elementAt(index);
-        return LocalSnapBanner(
-          snapName: snap.name,
+        return SnapBanner(
+          name: snap.name,
           summary: snap.summary,
           url: snap.iconUrl,
+          onTap: () => showDialog(
+            context: context,
+            builder: (context) =>
+                SnapDialog.create(context: context, huskSnapName: snap.name),
+          ),
         );
       },
     );
