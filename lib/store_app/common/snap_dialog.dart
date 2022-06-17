@@ -56,21 +56,59 @@ class _SnapDialogState extends State<SnapDialog> {
           right: 25,
         ),
         titlePadding: EdgeInsets.zero,
-        title: const SizedBox(
+        title: SizedBox(
           width: dialogWidth,
           child: YaruDialogTitle(
             mainAxisAlignment: MainAxisAlignment.center,
             closeIconData: YaruIcons.window_close,
-            titleWidget: SnapPageHeader(),
+            titleWidget: SnapPageHeader(
+              confinementName:
+                  model.confinement != null ? model.confinement!.name : '',
+              connectionsExpanded: model.connectionsExpanded,
+              iconUrl: model.iconUrl ?? '',
+              installDate: model.installDate,
+              license: model.license ?? '',
+              onConnectionsExpanded: () =>
+                  model.connectionsExpanded = !model.connectionsExpanded,
+              open: () => model.open(),
+              connectionsNotEmpty: model.connections.isNotEmpty,
+              strict: model.confinement == SnapConfinement.strict,
+              snapIsInstalled: model.snapIsInstalled,
+              summary: model.summary ?? '',
+              title: model.title ?? '',
+              version: model.version,
+            ),
           ),
         ),
         content: model.connectionsExpanded && model.connections.isNotEmpty
             ? SnapConnectionsSettings(connections: model.connections)
-            : const SizedBox(width: dialogWidth, child: SnapContent()),
+            : SizedBox(
+                width: dialogWidth,
+                child: SnapContent(
+                  contact: model.contact ?? '',
+                  description: model.description ?? '',
+                  publisherName: model.publisher?.displayName ?? '',
+                  website: model.website ?? '',
+                  media: model.screenshotUrls ?? [],
+                ),
+              ),
         actions: [
-          const Padding(
-            padding: EdgeInsets.only(bottom: 20),
-            child: SizedBox(child: SnapChannelExpandable()),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: SizedBox(
+              child: SnapChannelExpandable(
+                onChanged: model.appChangeInProgress
+                    ? null
+                    : (v) => model.channelToBeInstalled = v!,
+                channelToBeInstalled: model.channelToBeInstalled,
+                onInit: () => model.init(),
+                releasedAt: model.releasedAt,
+                selectableChannelsIsEmpty: model.selectableChannels.isEmpty,
+                selectedChannelVersion: model.selectedChannelVersion ?? '',
+                selectableChannels:
+                    model.selectableChannels.entries.map((e) => e.key).toList(),
+              ),
+            ),
           ),
           if (model.appChangeInProgress)
             const SizedBox(
@@ -80,7 +118,13 @@ class _SnapDialogState extends State<SnapDialog> {
               ),
             )
           else
-            const SnapInstallationControls()
+            SnapInstallationControls(
+              appChangeInProgress: model.appChangeInProgress,
+              appIsInstalled: model.snapIsInstalled,
+              install: () => model.installSnap(),
+              refresh: () => model.refreshSnapApp(),
+              remove: () => model.removeSnap(),
+            )
         ],
       );
     } else {
