@@ -38,7 +38,7 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
             itemCount: model.packages.length,
             itemBuilder: (context, index) {
               final packageId = model.packages.elementAt(index);
-              return PackageBanner.create(context, packageId);
+              return PackageBanner(packageId: packageId);
             },
           )
         : const SizedBox();
