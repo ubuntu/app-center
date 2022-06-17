@@ -1,20 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/safe_image.dart';
-import 'package:software/store_app/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
 class SnapPageHeader extends StatelessWidget {
-  const SnapPageHeader({super.key});
+  final String iconUrl;
+  final String title;
+  final String summary;
+  final bool snapIsInstalled;
+  final bool connectionsExpanded;
+  final bool connectionsNotEmpty;
+  final bool strict;
+  final String confinementName;
+  final String version;
+  final String license;
+  final String installDate;
+
+  final Function() open;
+  final Function() onConnectionsExpanded;
+
+  const SnapPageHeader({
+    super.key,
+    required this.iconUrl,
+    required this.title,
+    required this.summary,
+    required this.snapIsInstalled,
+    required this.version,
+    required this.open,
+    required this.connectionsExpanded,
+    required this.strict,
+    required this.confinementName,
+    required this.license,
+    required this.installDate,
+    required this.connectionsNotEmpty,
+    required this.onConnectionsExpanded,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<SnapModel>();
-
     return Column(
       children: [
         Row(
@@ -22,7 +48,7 @@ class SnapPageHeader extends StatelessWidget {
             SizedBox(
               height: 65,
               child: SafeImage(
-                url: model.iconUrl,
+                url: iconUrl,
                 fallBackIconData: YaruIcons.package_snap,
               ),
             ),
@@ -43,7 +69,7 @@ class SnapPageHeader extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                model.title ?? '',
+                                title,
                                 overflow: TextOverflow.visible,
                               ),
                             ),
@@ -53,26 +79,26 @@ class SnapPageHeader extends StatelessWidget {
                       const SizedBox(
                         width: 10,
                       ),
-                      // if (model.snapIsInstalled)
+                      // if (snapIsInstalled)
                     ],
                   ),
                   const SizedBox(
                     height: 5,
                   ),
                   Text(
-                    model.summary ?? '',
+                    summary,
                     style: Theme.of(context).textTheme.caption,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 10,
                   ),
-                  if (model.snapIsInstalled)
+                  if (snapIsInstalled)
                     SizedBox(
                       height: 30,
                       child: Row(
                         children: [
                           YaruRoundIconButton(
                             size: 30,
-                            tooltip: model.version,
+                            tooltip: version,
                             child: const Icon(
                               YaruIcons.ok_filled,
                               size: 20,
@@ -84,7 +110,7 @@ class SnapPageHeader extends StatelessWidget {
                           YaruRoundIconButton(
                             size: 30,
                             tooltip: context.l10n.open,
-                            onTap: () => model.open(),
+                            onTap: open,
                             child: Icon(
                               YaruIcons.external_link,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -94,19 +120,17 @@ class SnapPageHeader extends StatelessWidget {
                           const SizedBox(
                             width: 5,
                           ),
-                          if (model.snapIsInstalled &&
-                              model.connections.isNotEmpty)
+                          if (snapIsInstalled && connectionsNotEmpty)
                             YaruRoundIconButton(
                               size: 30,
-                              backgroundColor: model.connectionsExpanded
+                              backgroundColor: connectionsExpanded
                                   ? Theme.of(context)
                                       .colorScheme
                                       .onSurface
                                       .withOpacity(0.05)
                                   : Colors.transparent,
                               tooltip: context.l10n.connections,
-                              onTap: () => model.connectionsExpanded =
-                                  !model.connectionsExpanded,
+                              onTap: onConnectionsExpanded,
                               child: Icon(
                                 YaruIcons.lock,
                                 color: Theme.of(context).colorScheme.onSurface,
@@ -135,40 +159,38 @@ class SnapPageHeader extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      model.strict ? YaruIcons.shield : YaruIcons.warning,
+                      strict ? YaruIcons.shield : YaruIcons.warning,
                       size: 18,
                     ),
                     const SizedBox(
                       width: 5,
                     ),
                     Text(
-                      model.confinement?.name ?? '',
+                      confinementName,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
                 ),
               ],
             ),
-            if (model.license != null)
-              const SizedBox(height: 50, width: 30, child: VerticalDivider()),
-            if (model.license != null)
-              Column(
-                children: [
-                  Text(context.l10n.license, style: headerStyle),
-                  Text(
-                    model.license!.split(' ').first,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  )
-                ],
-              ),
+            const SizedBox(height: 50, width: 30, child: VerticalDivider()),
+            Column(
+              children: [
+                Text(context.l10n.license, style: headerStyle),
+                Text(
+                  license.split(' ').first,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                )
+              ],
+            ),
             const SizedBox(height: 50, width: 30, child: VerticalDivider()),
             Column(
               children: [
                 Text(context.l10n.installDate, style: headerStyle),
                 Text(
-                  model.installDate.isNotEmpty
-                      ? model.installDate
+                  installDate.isNotEmpty
+                      ? installDate
                       : context.l10n.notInstalled,
                   style: headerStyle.copyWith(fontWeight: FontWeight.normal),
                 ),

@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/snap_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapInstallationControls extends StatelessWidget {
-  const SnapInstallationControls({super.key});
+  const SnapInstallationControls({
+    super.key,
+    required this.appChangeInProgress,
+    required this.appIsInstalled,
+    required this.remove,
+    required this.refresh,
+    required this.install,
+  });
+
+  final bool appChangeInProgress;
+  final bool appIsInstalled;
+  final Function() remove;
+  final Function() refresh;
+  final Function() install;
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<SnapModel>();
-
-    if (model.appChangeInProgress) {
+    if (appChangeInProgress) {
       return const SizedBox(
         height: 25,
         child: YaruCircularProgressIndicator(
@@ -23,12 +32,12 @@ class SnapInstallationControls extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (model.snapIsInstalled)
+          if (appIsInstalled)
             OutlinedButton(
-              onPressed: () => model.removeSnap(),
+              onPressed: remove,
               child: Text(
                 context.l10n.remove,
-                style: model.appChangeInProgress
+                style: appChangeInProgress
                     ? TextStyle(color: Theme.of(context).disabledColor)
                     : null,
               ),
@@ -36,15 +45,14 @@ class SnapInstallationControls extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          if (model.snapIsInstalled)
+          if (appIsInstalled)
             OutlinedButton(
-              onPressed: () => model.refreshSnapApp(),
+              onPressed: refresh,
               child: Text(context.l10n.refresh),
             )
           else
             ElevatedButton(
-              onPressed:
-                  model.appChangeInProgress ? null : () => model.installSnap(),
+              onPressed: appChangeInProgress ? null : install,
               child: Text(context.l10n.install),
             ),
         ],

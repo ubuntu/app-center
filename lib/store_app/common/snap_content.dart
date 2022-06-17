@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/link.dart';
 import 'package:software/store_app/common/safe_image.dart';
-import 'package:software/store_app/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapContent extends StatelessWidget {
   const SnapContent({
     Key? key,
+    required this.media,
+    required this.contact,
+    required this.publisherName,
+    required this.website,
+    required this.description,
   }) : super(key: key);
+
+  final List<String> media;
+  final String contact;
+  final String publisherName;
+  final String website;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<SnapModel>();
-    final List<SnapMedia> media = model.media != null
-        ? model.media!
-            .where((snapMedia) => snapMedia.type == 'screenshot')
-            .toList()
-        : [];
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -35,7 +37,7 @@ class SnapContent extends StatelessWidget {
               viewportFraction: 1,
               height: 250,
               children: [
-                for (final image in media)
+                for (final url in media)
                   InkWell(
                     borderRadius: BorderRadius.circular(10),
                     onTap: () => showDialog(
@@ -45,7 +47,7 @@ class SnapContent extends StatelessWidget {
                           InkWell(
                             onTap: () => Navigator.of(context).pop(),
                             child: SafeImage(
-                              url: image.url,
+                              url: url,
                               fit: BoxFit.contain,
                               filterQuality: FilterQuality.medium,
                             ),
@@ -54,7 +56,7 @@ class SnapContent extends StatelessWidget {
                       ),
                     ),
                     child: SafeImage(
-                      url: image.url,
+                      url: url,
                     ),
                   )
               ],
@@ -63,37 +65,33 @@ class SnapContent extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        if (model.contact != null && model.publisher != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (model.website != null)
-                  Link(url: model.website!, linkText: context.l10n.website),
-                Link(
-                  url: model.contact!,
-                  linkText:
-                      '${context.l10n.contact} ${model.publisher!.displayName}',
-                ),
-              ],
-            ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Link(url: website, linkText: context.l10n.website),
+              Link(
+                url: contact,
+                linkText: '${context.l10n.contact} $publisherName',
+              ),
+            ],
           ),
+        ),
         const SizedBox(
           height: 10,
         ),
-        if (model.description != null)
-          YaruExpandable(
-            header: Text(
-              context.l10n.description,
-              style: const TextStyle(fontWeight: FontWeight.w500),
-            ),
-            expandIcon: const Icon(YaruIcons.pan_end),
-            child: Text(
-              model.description!,
-              overflow: TextOverflow.fade,
-            ),
+        YaruExpandable(
+          header: Text(
+            context.l10n.description,
+            style: const TextStyle(fontWeight: FontWeight.w500),
           ),
+          expandIcon: const Icon(YaruIcons.pan_end),
+          child: Text(
+            description,
+            overflow: TextOverflow.fade,
+          ),
+        ),
         const SizedBox(
           height: 10,
         ),

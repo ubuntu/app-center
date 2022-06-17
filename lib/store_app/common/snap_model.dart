@@ -65,6 +65,9 @@ class SnapModel extends SafeChangeNotifier {
 
   String? get iconUrl => _storeSnap?.iconUrl ?? _localSnap?.iconUrl;
 
+  List<String>? get screenshotUrls =>
+      _storeSnap?.screenshotUrls ?? _localSnap?.screenshotUrls;
+
   /// Unique ID for this snap.
   String? get id => _storeSnap?.id ?? _localSnap?.id;
 
@@ -246,6 +249,7 @@ class SnapModel extends SafeChangeNotifier {
       doneString,
     );
     _localSnap = await _findLocalSnap(huskSnapName);
+    await loadConnections();
     notifyListeners();
   }
 
@@ -272,6 +276,7 @@ class SnapModel extends SafeChangeNotifier {
       changeId,
       doneString,
     );
+    await loadConnections();
     notifyListeners();
   }
 
