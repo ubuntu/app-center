@@ -64,8 +64,7 @@ class _StoreAppState extends State<StoreApp> {
                     ),
                     YaruPageItem(
                       titleBuilder: MyAppsPage.createTitle,
-                      builder: (context) =>
-                          MyAppsPage(online: model.appIsOnline),
+                      builder: (context) => const MyAppsPage(),
                       iconData: YaruIcons.ok,
                       itemWidget: model.snapChanges.isNotEmpty
                           ? _MyAppsIcon(count: model.snapChanges.length)

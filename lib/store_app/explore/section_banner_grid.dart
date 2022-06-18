@@ -4,7 +4,7 @@ import 'package:software/snapx.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:software/store_app/explore/snap_banner.dart';
+import 'package:software/store_app/common/app_banner.dart';
 
 class SectionBannerGrid extends StatefulWidget {
   const SectionBannerGrid({
@@ -45,7 +45,7 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
       ),
       children: sections != null && sections.isNotEmpty
           ? sections.take(widget.amount).map((snap) {
-              return SnapBanner(
+              return AppBanner(
                 name: snap.name,
                 summary: snap.summary,
                 url: snap.iconUrl,

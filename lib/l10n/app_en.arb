@@ -50,5 +50,6 @@
   "name": "Name",
   "sortBy": "Sort by",
   "media": "Media",
-  "done": "Done"
+  "done": "Done",
+  "systemUpdates": "System updates"
 } 
