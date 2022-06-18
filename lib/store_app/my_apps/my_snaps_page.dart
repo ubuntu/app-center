@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/snapx.dart';
-import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/app_banner.dart';
-import 'package:software/store_app/my_apps/my_apps_page.dart';
+import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/my_apps/my_snaps_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -55,7 +55,7 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
   Widget build(BuildContext context) {
     return GridView.builder(
       padding: const EdgeInsets.all(20.0),
-      gridDelegate: myAppsGridDelegate,
+      gridDelegate: kGridDelegate,
       shrinkWrap: true,
       itemCount: widget.snaps.length,
       itemBuilder: (context, index) {
