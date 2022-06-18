@@ -22,18 +22,10 @@ class SectionBannerGrid extends StatefulWidget {
 }
 
 class _SectionBannerGridState extends State<SectionBannerGrid> {
-  final _controller = ScrollController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   @override
   void initState() {
     super.initState();
-    context.read<ExploreModel>().loadSection(widget.snapSection.title);
+    context.read<ExploreModel>().init();
   }
 
   @override
@@ -42,7 +34,7 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
     final sections = model.sectionNameToSnapsMap[widget.snapSection.title];
 
     return GridView(
-      controller: _controller,
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
       children: sections != null && sections.isNotEmpty

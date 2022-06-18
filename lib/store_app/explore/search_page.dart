@@ -14,11 +14,12 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
+    if (model.searchQuery.isEmpty) return const SizedBox();
     return FutureBuilder<List<Snap>>(
       future: model.findSnapsByQuery(),
       builder: (context, snapshot) => snapshot.hasData
           ? GridView(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               gridDelegate: kGridDelegate,
               shrinkWrap: true,
               children: [
