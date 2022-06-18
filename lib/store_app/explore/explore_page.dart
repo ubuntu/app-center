@@ -29,32 +29,35 @@ class ExplorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
     if (model.errorMessage.isNotEmpty) return const _ErrorPage();
-    return Column(
-      children: [
-        const FilterAndSearchBar(),
-        Expanded(
-          child: !model.searchActive
-              ? YaruPage(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  children: [
-                    const SnapBannerCarousel(
-                      snapSection: SnapSection.featured,
-                      height: 220,
-                    ),
-                    for (int i = 0; i < model.filters.entries.length; i++)
-                      if (model.filters.entries.elementAt(i).value == true)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: SectionBannerGrid(
+    return !model.searchActive
+        ? Column(
+            children: [
+              const FilterAndSearchBar(),
+              if (model.filters[SnapSection.featured] == true &&
+                  model.sectionNameToSnapsMap.isNotEmpty)
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: SnapBannerCarousel(
+                    snapSection: SnapSection.featured,
+                    height: 220,
+                  ),
+                ),
+              if (model.sectionNameToSnapsMap.isNotEmpty)
+                Expanded(
+                  child: YaruPage(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    children: [
+                      for (int i = 0; i < model.filters.entries.length; i++)
+                        if (model.filters.entries.elementAt(i).value == true)
+                          SectionBannerGrid(
                             snapSection: model.filters.entries.elementAt(i).key,
                           ),
-                        ),
-                  ],
+                    ],
+                  ),
                 )
-              : const SearchPage(),
-        ),
-      ],
-    );
+            ],
+          )
+        : const SearchPage();
   }
 }
 
