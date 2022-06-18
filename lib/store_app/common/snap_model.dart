@@ -171,6 +171,15 @@ class SnapModel extends SafeChangeNotifier {
         },
       );
     }
+
+    if (snapIsInstalled) {
+      appChangeInProgress =
+          (await _client.getChanges(name: _localSnap!.name)).isNotEmpty;
+    } else if (_storeSnap != null) {
+      appChangeInProgress =
+          (await _client.getChanges(name: _storeSnap!.name)).isNotEmpty;
+    }
+
     if (_storeSnap != null && _storeSnap!.tracks.isNotEmpty) {
       for (var track in _storeSnap!.tracks) {
         for (var risk in ['stable', 'candidate', 'beta', 'edge']) {
@@ -196,18 +205,25 @@ class SnapModel extends SafeChangeNotifier {
       channelToBeInstalled = selectableChannels.entries.first.key;
     }
 
-    _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) {
-      if (_storeSnap != null && _localSnap == null) {
-        appChangeInProgress = _appChangeService.getChange(_storeSnap!) != null;
-      }
-      if (_localSnap != null) {
-        appChangeInProgress = _appChangeService.getChange(_localSnap!) != null;
+    _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) async {
+      _loadProgress();
+      if (!appChangeInProgress) {
+        _localSnap = await _findLocalSnap(huskSnapName);
       }
       notifyListeners();
     });
 
     await loadConnections();
     notifyListeners();
+  }
+
+  void _loadProgress() {
+    if (_storeSnap != null) {
+      appChangeInProgress = _appChangeService.getChange(_storeSnap!) != null;
+    }
+    if (_localSnap != null) {
+      appChangeInProgress = _appChangeService.getChange(_localSnap!) != null;
+    }
   }
 
   @override
