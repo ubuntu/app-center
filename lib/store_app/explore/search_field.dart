@@ -30,6 +30,7 @@ class _SearchFieldState extends State<SearchField> {
       onChanged: (value) => model.searchQuery = value,
       autofocus: true,
       decoration: InputDecoration(
+        hintText: context.l10n.searchHint,
         suffixIcon: DropdownButton<SnapSection>(
           underline: const SizedBox(),
           value: model.selectedSection,
@@ -57,15 +58,19 @@ class _SearchFieldState extends State<SearchField> {
             model.init();
           },
         ),
+        prefixIconConstraints: const BoxConstraints(minWidth: 20),
         prefixIcon: model.searchQuery == ''
-            ? const Icon(YaruIcons.search)
-            : YaruRoundIconButton(
-                size: 36,
-                onTap: () {
-                  model.searchQuery = '';
-                  _controller.text = '';
-                },
-                child: const Icon(YaruIcons.edit_clear),
+            ? const SizedBox()
+            : Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: YaruRoundIconButton(
+                  size: 36,
+                  onTap: () {
+                    model.searchQuery = '';
+                    _controller.text = '';
+                  },
+                  child: const Icon(YaruIcons.edit_clear),
+                ),
               ),
         isDense: false,
         border: const UnderlineInputBorder(),

@@ -51,5 +51,6 @@
   "sortBy": "Sort by",
   "media": "Media",
   "done": "Done",
-  "systemUpdates": "System updates"
+  "systemUpdates": "System updates",
+  "searchHint": "Search..."
 } 
