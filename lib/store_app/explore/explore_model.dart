@@ -9,9 +9,7 @@ class ExploreModel extends SafeChangeNotifier {
 
   ExploreModel(
     this.client,
-  )   : _searchActive = false,
-        _searchQuery = '',
-        _exploreMode = true,
+  )   : _searchQuery = '',
         sectionNameToSnapsMap = {},
         _errorMessage = '';
 
@@ -27,25 +25,6 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  bool _searchActive;
-  bool get searchActive => _searchActive;
-  set searchActive(bool value) {
-    if (value == _searchActive) return;
-    _searchActive = value;
-    if (_searchActive == false) {
-      searchQuery = '';
-    }
-    notifyListeners();
-  }
-
-  bool _exploreMode;
-  bool get exploreMode => _exploreMode;
-  set exploreMode(bool value) {
-    if (value == _exploreMode) return;
-    _exploreMode = value;
-    notifyListeners();
-  }
-
   String _searchQuery;
   String get searchQuery => _searchQuery;
   set searchQuery(String value) {
@@ -55,27 +34,11 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Map<SnapSection, bool> get filters => _filters;
-  final Map<SnapSection, bool> _filters = {
-    for (final snapSection in SnapSection.values)
-      snapSection: snapSection == SnapSection.featured ? true : false,
-  };
-
-  List<SnapSection> get sortedFilters =>
-      _filters.entries
-          .where((entry) => entry.value == true)
-          .map((e) => e.key)
-          .toList() +
-      _filters.entries
-          .where((entry) => entry.value == false)
-          .map((e) => e.key)
-          .toList();
-
-  void setFilter({required List<SnapSection> snapSections}) {
-    for (var snapSection in snapSections) {
-      _filters[snapSection] = !_filters[snapSection]!;
-      loadSection(snapSection.title);
-    }
+  SnapSection _selectedSection = SnapSection.all;
+  SnapSection get selectedSection => _selectedSection;
+  set selectedSection(SnapSection value) {
+    if (value == _selectedSection) return;
+    _selectedSection = value;
   }
 
   Future<List<Snap>> findSnapsByQuery() async {
@@ -83,7 +46,11 @@ class ExploreModel extends SafeChangeNotifier {
       return [];
     } else {
       try {
-        return await client.find(query: _searchQuery);
+        return await client.find(
+          query: _searchQuery,
+          section:
+              selectedSection == SnapSection.all ? null : selectedSection.title,
+        );
       } on SnapdException catch (e) {
         errorMessage = e.message.toString();
         return [];
@@ -91,10 +58,14 @@ class ExploreModel extends SafeChangeNotifier {
     }
   }
 
-  Future<List<Snap>> findSnapsBySection({String? section}) async {
+  Future<List<Snap>> findSnapsBySection({SnapSection? section}) async {
     if (section == null) return [];
     try {
-      return (await client.find(section: section));
+      return (await client.find(
+        section: section == SnapSection.all
+            ? SnapSection.featured.title
+            : section.title,
+      ));
     } on SnapdException catch (e) {
       errorMessage = e.toString();
       return [];
@@ -102,12 +73,14 @@ class ExploreModel extends SafeChangeNotifier {
   }
 
   Map<String, List<Snap>> sectionNameToSnapsMap;
-  Future<void> loadSection(String name) async {
+  Future<void> loadSection(SnapSection section) async {
     List<Snap> sectionList = [];
-    for (final snap in await findSnapsBySection(section: name)) {
+    for (final snap in await findSnapsBySection(
+      section: section,
+    )) {
       sectionList.add(snap);
     }
-    sectionNameToSnapsMap.putIfAbsent(name, () => sectionList);
+    sectionNameToSnapsMap.putIfAbsent(section.title, () => sectionList);
     notifyListeners();
   }
 }

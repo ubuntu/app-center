@@ -5,6 +5,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 enum SnapSection {
+  all,
   art_and_design,
   books_and_reference,
   development,
@@ -70,6 +71,8 @@ enum SnapSection {
         return l10n.social;
       case SnapSection.utilities:
         return l10n.utilities;
+      case SnapSection.all:
+        return l10n.all;
       default:
         return title;
     }
@@ -97,4 +100,5 @@ Map<SnapSection, IconData> snapSectionToIcon = {
   SnapSection.server_and_cloud: YaruIcons.weather_cloudy,
   SnapSection.social: YaruIcons.subtitles,
   SnapSection.utilities: YaruIcons.utilities,
+  SnapSection.all: YaruIcons.compass
 };

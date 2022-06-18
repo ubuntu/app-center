@@ -49,7 +49,7 @@ packages:
       name: clock
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "1.1.0"
   collection:
     dependency: "direct main"
     description:
@@ -126,7 +126,7 @@ packages:
       name: fake_async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.1"
+    version: "1.3.0"
   ffi:
     dependency: transitive
     description:
@@ -189,15 +189,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.5"
-  gtk_icon_theme:
-    dependency: transitive
-    description:
-      path: "packages/gtk_icon_theme"
-      ref: HEAD
-      resolved-ref: f5f6e695c9612f79aac9b30bab3ccc3224c75d4a
-      url: "https://github.com/ubuntu-flutter-community/xdg_icons"
-    source: git
-    version: "0.0.1"
   handy_window:
     dependency: "direct main"
     description:
@@ -463,7 +454,7 @@ packages:
       name: term_glyph
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.0"
   test_api:
     dependency: transitive
     description:
@@ -569,15 +560,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0+1"
-  xdg_icons:
-    dependency: "direct main"
-    description:
-      path: "packages/xdg_icons"
-      ref: HEAD
-      resolved-ref: f5f6e695c9612f79aac9b30bab3ccc3224c75d4a
-      url: "https://github.com/ubuntu-flutter-community/xdg_icons"
-    source: git
-    version: "0.0.1"
   xml:
     dependency: transitive
     description:

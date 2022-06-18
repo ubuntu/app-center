@@ -33,7 +33,7 @@ class _SnapBannerCarouselState extends State<SnapBannerCarousel> {
   @override
   void initState() {
     super.initState();
-    context.read<ExploreModel>().loadSection(widget.snapSection.title);
+    context.read<ExploreModel>().loadSection(widget.snapSection);
   }
 
   @override
