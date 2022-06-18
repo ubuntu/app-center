@@ -4,7 +4,7 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:software/store_app/explore/filter_and_search_bar.dart';
+import 'package:software/store_app/explore/search_field.dart';
 import 'package:software/store_app/explore/search_page.dart';
 import 'package:software/store_app/explore/section_banner_grid.dart';
 import 'package:software/store_app/explore/snap_banner_carousel.dart';
@@ -25,36 +25,39 @@ class ExplorePage extends StatelessWidget {
 
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.explorePageTitle);
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    if (model.errorMessage.isNotEmpty) return const _ErrorPage();
-    return Column(
-      children: [
-        const FilterAndSearchBar(),
-        if (model.filters[SnapSection.featured] == true && !model.searchActive)
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: SnapBannerCarousel(
-              snapSection: SnapSection.featured,
-              height: 220,
-            ),
-          ),
-        if (model.sectionNameToSnapsMap.isNotEmpty && !model.searchActive)
-          Expanded(
-            child: YaruPage(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-              children: [
-                for (int i = 0; i < model.filters.entries.length; i++)
-                  if (model.filters.entries.elementAt(i).value == true)
-                    SectionBannerGrid(
-                      snapSection: model.filters.entries.elementAt(i).key,
-                    ),
-              ],
-            ),
-          ),
-        if (model.searchActive) const Expanded(child: SearchPage())
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: const SearchField(),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: Column(
+          children: [
+            if ((model.selectedSection == SnapSection.featured ||
+                    model.selectedSection == SnapSection.all) &&
+                model.searchQuery.isEmpty)
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: SnapBannerCarousel(
+                  snapSection: SnapSection.featured,
+                  height: 220,
+                ),
+              ),
+            if (model.searchQuery.isEmpty &&
+                model.sectionNameToSnapsMap.isNotEmpty)
+              Expanded(
+                child: SectionBannerGrid(snapSection: model.selectedSection),
+              ),
+            if (model.errorMessage.isNotEmpty) const _ErrorPage(),
+            if (model.searchQuery.isNotEmpty)
+              const Expanded(child: SearchPage())
+          ],
+        ),
+      ),
     );
   }
 }

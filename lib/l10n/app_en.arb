@@ -24,6 +24,7 @@
   "serverAndCloud": "Server and Cloud",
   "social": "Social",
   "utilities": "Utilities",
+  "all": "All",
   "installDate": "Installation Date",
   "lastUpdated": "Last updated",
   "notInstalled": "Not installed",
@@ -51,5 +52,6 @@
   "sortBy": "Sort by",
   "media": "Media",
   "done": "Done",
-  "systemUpdates": "System updates"
+  "systemUpdates": "System updates",
+  "searchHint": "Search..."
 } 
