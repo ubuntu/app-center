@@ -72,7 +72,7 @@ class _SnapDialogState extends State<SnapDialog> {
                   model.connectionsExpanded = !model.connectionsExpanded,
               open: () => model.open(),
               connectionsNotEmpty: model.connections.isNotEmpty,
-              strict: model.confinement == SnapConfinement.strict,
+              strict: model.strict,
               snapIsInstalled: model.snapIsInstalled,
               summary: model.summary ?? '',
               title: model.title ?? '',

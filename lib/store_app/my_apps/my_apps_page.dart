@@ -6,9 +6,7 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MyAppsPage extends StatelessWidget {
-  const MyAppsPage({Key? key, this.online = true}) : super(key: key);
-
-  final bool online;
+  const MyAppsPage({Key? key}) : super(key: key);
 
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.myAppsPageTitle);
@@ -21,9 +19,13 @@ class MyAppsPage extends StatelessWidget {
         YaruIcons.package_deb,
         YaruIcons.computer
       ],
-      tabTitles: const ['Snaps', 'Debian packages', 'System upgrades'],
+      tabTitles: [
+        context.l10n.snapPackages,
+        context.l10n.debianPackages,
+        context.l10n.systemUpdates,
+      ],
       views: [
-        MySnapsPage.create(context, online),
+        MySnapsPage.create(context),
         MyPackagesPage.create(context),
         const Center(
           child: Icon(
