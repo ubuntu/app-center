@@ -13,6 +13,7 @@ class AppBanner extends StatelessWidget {
     this.summary,
     this.url,
     this.isSnap = true,
+    this.icon,
   }) : super(key: key);
 
   final String name;
@@ -22,6 +23,7 @@ class AppBanner extends StatelessWidget {
   final Color? surfaceTintColor;
   final bool watermark;
   final bool isSnap;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +42,13 @@ class AppBanner extends StatelessWidget {
                   title: name,
                   summary: summary,
                   elevation: light ? 4 : 6,
-                  icon: SafeImage(
-                    url: url,
-                    fallBackIconData:
-                        isSnap ? YaruIcons.package_snap : YaruIcons.package_deb,
-                  ),
+                  icon: icon ??
+                      SafeImage(
+                        url: url,
+                        fallBackIconData: isSnap
+                            ? YaruIcons.package_snap
+                            : YaruIcons.package_deb,
+                      ),
                   textOverflow: TextOverflow.fade,
                 ),
                 if (watermark == true)
@@ -74,12 +78,13 @@ class AppBanner extends StatelessWidget {
                   ? YaruColors.warmGrey.shade900
                   : Theme.of(context).colorScheme.onBackground,
               elevation: light ? 2 : 1,
-              icon: SafeImage(
-                url: url,
-                fallBackIconData:
-                    isSnap ? YaruIcons.package_snap : YaruIcons.package_deb,
-                iconSize: 50,
-              ),
+              icon: icon ??
+                  SafeImage(
+                    url: url,
+                    fallBackIconData:
+                        isSnap ? YaruIcons.package_snap : YaruIcons.package_deb,
+                    iconSize: 50,
+                  ),
               title: name,
               summary: summary,
               textOverflow: TextOverflow.ellipsis,
