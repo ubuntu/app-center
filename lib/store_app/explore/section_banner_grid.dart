@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
@@ -11,18 +12,24 @@ class SectionBannerGrid extends StatefulWidget {
     Key? key,
     required this.snapSection,
     this.amount = 20,
-    this.controller,
   }) : super(key: key);
 
   final SnapSection snapSection;
   final int amount;
-  final ScrollController? controller;
 
   @override
   State<SectionBannerGrid> createState() => _SectionBannerGridState();
 }
 
 class _SectionBannerGridState extends State<SectionBannerGrid> {
+  final _controller = ScrollController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -35,14 +42,9 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
     final sections = model.sectionNameToSnapsMap[widget.snapSection.title];
 
     return GridView(
-      controller: widget.controller,
+      controller: _controller,
       shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        mainAxisExtent: 110,
-        mainAxisSpacing: 20,
-        crossAxisSpacing: 20,
-        maxCrossAxisExtent: 450,
-      ),
+      gridDelegate: kGridDelegate,
       children: sections != null && sections.isNotEmpty
           ? sections.take(widget.amount).map((snap) {
               return AppBanner(

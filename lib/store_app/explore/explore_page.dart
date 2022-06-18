@@ -4,13 +4,11 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:software/store_app/explore/filter_bar.dart';
-import 'package:software/store_app/explore/search_field.dart';
-import 'package:software/store_app/explore/search_list.dart';
+import 'package:software/store_app/explore/filter_and_search_bar.dart';
+import 'package:software/store_app/explore/search_page.dart';
 import 'package:software/store_app/explore/section_banner_grid.dart';
 import 'package:software/store_app/explore/snap_banner_carousel.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatelessWidget {
@@ -30,75 +28,31 @@ class ExplorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
+    if (model.errorMessage.isNotEmpty) return const _ErrorPage();
     return Column(
       children: [
-        const _HeaderBar(),
+        const FilterAndSearchBar(),
         Expanded(
-          child: model.errorMessage.isNotEmpty
-              ? const _ErrorPage()
-              : !model.searchActive
-                  ? const _ExploreModePage()
-                  : const SearchList(),
+          child: !model.searchActive
+              ? YaruPage(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  children: [
+                    const SnapBannerCarousel(
+                      snapSection: SnapSection.featured,
+                      height: 220,
+                    ),
+                    for (int i = 0; i < model.filters.entries.length; i++)
+                      if (model.filters.entries.elementAt(i).value == true)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: SectionBannerGrid(
+                            snapSection: model.filters.entries.elementAt(i).key,
+                          ),
+                        ),
+                  ],
+                )
+              : const SearchPage(),
         ),
-      ],
-    );
-  }
-}
-
-class _HeaderBar extends StatelessWidget {
-  const _HeaderBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: SizedBox(
-        height: 60,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: YaruRoundToggleButton(
-                size: 36,
-                onPressed: () => model.searchActive = !model.searchActive,
-                selected: model.searchActive,
-                iconData: YaruIcons.search,
-              ),
-            ),
-            model.searchActive
-                ? const Expanded(child: SearchField())
-                : const Expanded(
-                    child: FilterBar(),
-                  ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ExploreModePage extends StatelessWidget {
-  const _ExploreModePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
-
-    return YaruPage(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      children: [
-        const SnapBannerCarousel(
-          snapSection: SnapSection.featured,
-          height: 220,
-        ),
-        for (int i = 0; i < model.filters.entries.length; i++)
-          if (model.filters.entries.elementAt(i).value == true)
-            SectionBannerGrid(
-              controller: ScrollController(),
-              snapSection: model.filters.entries.elementAt(i).key,
-            ),
       ],
     );
   }

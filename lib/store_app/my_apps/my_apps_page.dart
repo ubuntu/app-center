@@ -37,10 +37,3 @@ class MyAppsPage extends StatelessWidget {
     );
   }
 }
-
-const myAppsGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
-  mainAxisExtent: 110,
-  mainAxisSpacing: 15,
-  crossAxisSpacing: 15,
-  maxCrossAxisExtent: 600,
-);

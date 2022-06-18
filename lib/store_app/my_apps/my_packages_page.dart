@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/store_app/common/app_banner.dart';
-import 'package:software/store_app/my_apps/my_apps_page.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/my_apps/my_packages_model.dart';
 import 'package:software/store_app/my_apps/package_dialog.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -34,7 +34,7 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
     return model.packages.isNotEmpty
         ? GridView.builder(
             padding: const EdgeInsets.all(20.0),
-            gridDelegate: myAppsGridDelegate,
+            gridDelegate: kGridDelegate,
             shrinkWrap: true,
             itemCount: model.packages.length,
             itemBuilder: (context, index) {
