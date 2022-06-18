@@ -32,27 +32,28 @@ class ExplorePage extends StatelessWidget {
     return Column(
       children: [
         const FilterAndSearchBar(),
-        Expanded(
-          child: !model.searchActive
-              ? YaruPage(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  children: [
-                    const SnapBannerCarousel(
-                      snapSection: SnapSection.featured,
-                      height: 220,
+        if (model.filters[SnapSection.featured] == true && !model.searchActive)
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: SnapBannerCarousel(
+              snapSection: SnapSection.featured,
+              height: 220,
+            ),
+          ),
+        if (model.sectionNameToSnapsMap.isNotEmpty && !model.searchActive)
+          Expanded(
+            child: YaruPage(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              children: [
+                for (int i = 0; i < model.filters.entries.length; i++)
+                  if (model.filters.entries.elementAt(i).value == true)
+                    SectionBannerGrid(
+                      snapSection: model.filters.entries.elementAt(i).key,
                     ),
-                    for (int i = 0; i < model.filters.entries.length; i++)
-                      if (model.filters.entries.elementAt(i).value == true)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: SectionBannerGrid(
-                            snapSection: model.filters.entries.elementAt(i).key,
-                          ),
-                        ),
-                  ],
-                )
-              : const SearchPage(),
-        ),
+              ],
+            ),
+          ),
+        if (model.searchActive) const Expanded(child: SearchPage())
       ],
     );
   }
