@@ -53,5 +53,6 @@
   "media": "Media",
   "done": "Done",
   "systemUpdates": "System updates",
-  "searchHint": "Search..."
+  "searchHint": "Search...",
+  "updateAll": "Update all"
 } 
