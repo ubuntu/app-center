@@ -46,29 +46,37 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ElevatedButton(
-                onPressed: () => model.updateAll(),
-                child: Text(context.l10n.updateAll),
-              ),
+              if (model.updates.isNotEmpty)
+                ElevatedButton(
+                  onPressed: model.updating ? null : () => model.updateAll(),
+                  child: Text(context.l10n.updateAll),
+                ),
             ],
           ),
         ),
         Expanded(
-          child: GridView.builder(
-            padding: const EdgeInsets.all(20),
-            gridDelegate: kGridDelegate,
-            itemCount: model.updates.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return AppBanner(
-                name: model.updates[index].name,
-                icon: const Icon(
-                  YaruIcons.package_deb,
-                  size: 50,
+          child: model.updates.isEmpty
+              ? Center(
+                  child: Text(
+                    context.l10n.noUpdates,
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                )
+              : GridView.builder(
+                  padding: const EdgeInsets.all(20),
+                  gridDelegate: kGridDelegate,
+                  itemCount: model.updates.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return AppBanner(
+                      name: model.updates[index].name,
+                      icon: const Icon(
+                        YaruIcons.package_deb,
+                        size: 50,
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
         ),
       ],
     );

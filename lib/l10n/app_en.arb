@@ -54,5 +54,6 @@
   "done": "Done",
   "systemUpdates": "System updates",
   "searchHint": "Search...",
-  "updateAll": "Update all"
+  "updateAll": "Update all",
+  "noUpdates": "No updates available"
 } 
