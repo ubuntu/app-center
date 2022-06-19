@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/app_banner.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/my_apps/package_dialog.dart';
 import 'package:software/store_app/my_apps/system_updates_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -73,6 +74,11 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
                       icon: const Icon(
                         YaruIcons.package_deb,
                         size: 50,
+                      ),
+                      onTap: () => showDialog(
+                        context: context,
+                        builder: (_) =>
+                            PackageDialog.create(context, model.updates[index]),
                       ),
                     );
                   },

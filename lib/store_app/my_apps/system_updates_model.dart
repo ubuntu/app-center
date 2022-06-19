@@ -54,24 +54,4 @@ class SystemUpdatesModel extends SafeChangeNotifier {
     await updatePackagesCompleter.future;
     notifyListeners();
   }
-
-  // TODO: move to dialog
-  // Future<void> update(PackageKitPackageId id) async {
-  //   var updatePackagesTransaction = await _client.createTransaction();
-  //   var updatePackagesCompleter = Completer();
-  //   updatePackagesTransaction.events.listen((event) {
-  //     if (event is PackageKitPackageEvent) {
-  //       print('[${event.packageId.name}] ${event.info}');
-  //     } else if (event is PackageKitItemProgressEvent) {
-  //       print('[${event.packageId.name}] ${event.status} ${event.percentage}%');
-  //     } else if (event is PackageKitErrorCodeEvent) {
-  //       print('${event.code}: ${event.details}');
-  //     } else if (event is PackageKitFinishedEvent) {
-  //       updatePackagesCompleter.complete();
-  //     }
-  //   });
-  //   await updatePackagesTransaction.updatePackages([id]);
-  //   await updatePackagesCompleter.future;
-  //   notifyListeners();
-  // }
 }
