@@ -18,6 +18,7 @@ class PackageModel extends SafeChangeNotifier {
   Future<void> init() async {
     await _getDetails();
     await _getInstalledPackages();
+    await _checkForUpdate();
     processing = false;
     notifyListeners();
   }
@@ -197,5 +198,46 @@ class PackageModel extends SafeChangeNotifier {
       filter: {PackageKitFilter.installed, PackageKitFilter.application},
     );
     await completer.future;
+  }
+
+  Future<void> update() async {
+    final updatePackagesTransaction = await _client.createTransaction();
+    final updatePackagesCompleter = Completer();
+    processing = true;
+    updatePackagesTransaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        // print('[${event.packageId.name}] ${event.info}');
+      } else if (event is PackageKitItemProgressEvent) {
+        // print('[${event.packageId.name}] ${event.status} ${event.percentage}%');
+      } else if (event is PackageKitErrorCodeEvent) {
+        // print('${event.code}: ${event.details}');
+      } else if (event is PackageKitFinishedEvent) {
+        updatePackagesCompleter.complete();
+        processing = false;
+      }
+    });
+    await updatePackagesTransaction.updatePackages([packageId]);
+    await updatePackagesCompleter.future;
+    notifyListeners();
+  }
+
+  bool updateAvailable = false;
+  Future<void> _checkForUpdate() async {
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    transaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        if (event.packageId == packageId) {
+          updateAvailable = true;
+        }
+      } else if (event is PackageKitErrorCodeEvent) {
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+      notifyListeners();
+    });
+    await transaction.getUpdates();
+    await completer.future;
+    notifyListeners();
   }
 }

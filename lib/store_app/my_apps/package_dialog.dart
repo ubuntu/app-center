@@ -66,15 +66,21 @@ class _PackageDialogState extends State<PackageDialog> {
         ],
       ),
       actions: [
-        model.packageIsInstalled
-            ? OutlinedButton(
-                onPressed: model.processing ? null : model.remove,
-                child: Text(context.l10n.remove),
-              )
-            : ElevatedButton(
-                onPressed: model.processing ? null : model.install,
-                child: Text(context.l10n.install),
-              )
+        if (model.packageIsInstalled)
+          OutlinedButton(
+            onPressed: model.processing ? null : model.remove,
+            child: Text(context.l10n.remove),
+          )
+        else
+          ElevatedButton(
+            onPressed: model.processing ? null : model.install,
+            child: Text(context.l10n.install),
+          ),
+        if (model.updateAvailable)
+          ElevatedButton(
+            onPressed: model.processing ? null : model.update,
+            child: Text(context.l10n.refresh),
+          )
       ],
     );
   }
