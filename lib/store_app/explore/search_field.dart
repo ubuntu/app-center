@@ -30,19 +30,26 @@ class _SearchFieldState extends State<SearchField> {
       onChanged: (value) => model.searchQuery = value,
       autofocus: true,
       decoration: InputDecoration(
-        hintText: context.l10n.searchHint,
+        hintText:
+            '${context.l10n.searchHint} ${model.selectedSection.localize(context.l10n)} snaps',
         suffixIcon: _SectionDropdown(
           value: model.selectedSection,
-          onChanged: (v) {
-            model.selectedSection = v!;
-            model.loadSection(v);
-          },
+          onChanged: (v) => model.selectedSection = v!,
         ),
         prefixIconConstraints: const BoxConstraints(minWidth: 20),
         prefixIcon: model.searchQuery == ''
-            ? const SizedBox()
+            ? Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5),
+                child: YaruRoundIconButton(
+                  size: 36,
+                  onTap: () {
+                    model.searchActive = false;
+                  },
+                  child: const Icon(YaruIcons.go_previous),
+                ),
+              )
             : Padding(
-                padding: const EdgeInsets.only(left: 5),
+                padding: const EdgeInsets.only(left: 5, right: 5),
                 child: YaruRoundIconButton(
                   size: 36,
                   onTap: () {
@@ -75,14 +82,19 @@ class _SectionDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton<SnapSection>(
+    return PopupMenuButton<SnapSection>(
+      splashRadius: 20,
+      onSelected: onChanged,
+      icon: Icon(snapSectionToIcon[value]),
+      initialValue: SnapSection.all,
+      shape: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        elevation: 2,
-        value: value,
-        items: [
+        borderSide: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+      ),
+      itemBuilder: (context) {
+        return [
           for (final section in SnapSection.values)
-            DropdownMenuItem(
+            PopupMenuItem(
               value: section,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -113,10 +125,8 @@ class _SectionDropdown extends StatelessWidget {
                 ],
               ),
             )
-        ],
-        onChanged: onChanged,
-        // style: Theme.of(context).textTheme.title,
-      ),
+        ];
+      },
     );
   }
 }
