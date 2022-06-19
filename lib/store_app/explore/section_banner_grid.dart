@@ -31,28 +31,27 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    final sections = model.sectionNameToSnapsMap[widget.snapSection.title];
-
+    final sections =
+        model.sectionNameToSnapsMap[widget.snapSection.title] ?? [];
+    if (sections.isEmpty) return const SizedBox();
     return GridView(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
-      children: sections != null && sections.isNotEmpty
-          ? sections.take(widget.amount).map((snap) {
-              return AppBanner(
-                name: snap.name,
-                summary: snap.summary,
-                url: snap.iconUrl,
-                onTap: () => showDialog(
-                  context: context,
-                  builder: (context) => SnapDialog.create(
-                    context: context,
-                    huskSnapName: snap.name,
-                  ),
-                ),
-              );
-            }).toList()
-          : [],
+      children: sections.take(widget.amount).map((snap) {
+        return AppBanner(
+          name: snap.name,
+          summary: snap.summary,
+          url: snap.iconUrl,
+          onTap: () => showDialog(
+            context: context,
+            builder: (context) => SnapDialog.create(
+              context: context,
+              huskSnapName: snap.name,
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 }

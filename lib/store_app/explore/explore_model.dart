@@ -11,7 +11,8 @@ class ExploreModel extends SafeChangeNotifier {
     this.client,
   )   : _searchQuery = '',
         sectionNameToSnapsMap = {},
-        _errorMessage = '';
+        _errorMessage = '',
+        _searchActive = false;
 
   String _errorMessage;
   String get errorMessage => _errorMessage;
@@ -22,6 +23,17 @@ class ExploreModel extends SafeChangeNotifier {
   set errorMessage(String value) {
     if (value == _errorMessage) return;
     _errorMessage = value;
+    notifyListeners();
+  }
+
+  bool _searchActive;
+  bool get searchActive => _searchActive;
+  set searchActive(bool value) {
+    if (value == _searchActive) return;
+    _searchActive = value;
+    if (_searchActive == false) {
+      searchQuery = '';
+    }
     notifyListeners();
   }
 
@@ -39,6 +51,7 @@ class ExploreModel extends SafeChangeNotifier {
   set selectedSection(SnapSection value) {
     if (value == _selectedSection) return;
     _selectedSection = value;
+    loadSection(value);
   }
 
   Future<List<Snap>> findSnapsByQuery() async {
