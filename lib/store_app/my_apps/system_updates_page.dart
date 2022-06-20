@@ -8,6 +8,7 @@ import 'package:software/store_app/my_apps/package_dialog.dart';
 import 'package:software/store_app/my_apps/system_updates_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SystemUpdatesPage extends StatefulWidget {
   const SystemUpdatesPage({super.key});
@@ -28,7 +29,9 @@ class SystemUpdatesPage extends StatefulWidget {
 class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
   @override
   void initState() {
-    context.read<SystemUpdatesModel>().getUpdates();
+    final model = context.read<SystemUpdatesModel>();
+    model.getUpdates();
+    model.loadRepoList();
     super.initState();
   }
 
@@ -37,7 +40,11 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
     final model = context.watch<SystemUpdatesModel>();
     if (model.errorString.isNotEmpty) {
       return Center(
-        child: Text(model.errorString),
+        child: Row(
+          children: [
+            Text(model.errorString),
+          ],
+        ),
       );
     }
     return Column(
@@ -47,6 +54,20 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              YaruRoundIconButton(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return ChangeNotifierProvider.value(
+                        value: model,
+                        child: const _RepoDialog(),
+                      );
+                    },
+                  );
+                },
+                child: const Icon(YaruIcons.settings),
+              ),
               if (model.updates.isNotEmpty)
                 ElevatedButton(
                   onPressed: model.updating ? null : () => model.updateAll(),
@@ -58,9 +79,24 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
         Expanded(
           child: model.updates.isEmpty
               ? Center(
-                  child: Text(
-                    context.l10n.noUpdates,
-                    style: Theme.of(context).textTheme.headline4,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        context.l10n.noUpdates,
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      SizedBox(
+                        width: 40,
+                        child: YaruRoundIconButton(
+                          onTap: () => model.getUpdates(),
+                          child: const Icon(YaruIcons.refresh),
+                        ),
+                      ),
+                    ],
                   ),
                 )
               : GridView.builder(
@@ -85,6 +121,75 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
                 ),
         ),
       ],
+    );
+  }
+}
+
+class _RepoDialog extends StatefulWidget {
+  // ignore: unused_element
+  const _RepoDialog({super.key});
+
+  @override
+  State<_RepoDialog> createState() => _RepoDialogState();
+}
+
+class _RepoDialogState extends State<_RepoDialog> {
+  final controller = TextEditingController();
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<SystemUpdatesModel>();
+
+    return SimpleDialog(
+      title: YaruDialogTitle(
+        closeIconData: YaruIcons.window_close,
+        titleWidget: Row(
+          children: [
+            YaruRoundIconButton(
+              onTap: controller.text.isNotEmpty
+                  ? () => model.addRepo(controller.text)
+                  : null,
+              child: const Icon(YaruIcons.plus),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            SizedBox(
+              width: 300,
+              child: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  hintText: context.l10n.enterRepoName,
+                  border: const UnderlineInputBorder(),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+      titlePadding: EdgeInsets.zero,
+      children: model.repos
+          .map(
+            (e) => CheckboxListTile(
+              value: e.enabled,
+              onChanged: (v) {},
+              title: ListTile(
+                leading: YaruRoundIconButton(
+                  child: const Icon(YaruIcons.trash),
+                  onTap: () => model.removeRepo(e.repoId),
+                ),
+                title: Text(e.repoId),
+                subtitle: Text(e.description),
+                isThreeLine: true,
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }

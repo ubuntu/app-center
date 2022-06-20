@@ -54,4 +54,35 @@ class SystemUpdatesModel extends SafeChangeNotifier {
     await updatePackagesCompleter.future;
     notifyListeners();
   }
+
+  final List<PackageKitRepositoryDetailEvent> repos = [];
+  Future<void> loadRepoList() async {
+    repos.clear();
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    transaction.events.listen((event) {
+      if (event is PackageKitRepositoryDetailEvent) {
+        repos.add(event);
+        // print(
+        // '${event.enabled ? 'Enabled ' : 'Disabled'} ${event.repoId} ${event.description}');
+      } else if (event is PackageKitErrorCodeEvent) {
+        // print('${event.code}: ${event.details}');
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+      notifyListeners();
+    });
+    await transaction.getRepositoryList();
+    await completer.future;
+    notifyListeners();
+  }
+
+  // Not implemented in packagekit.dart
+  Future<void> enableRepo(String id) async {}
+
+  Future<void> disableRepo(String id) async {}
+
+  Future<void> addRepo(String id) async {}
+
+  Future<void> removeRepo(String id) async {}
 }
