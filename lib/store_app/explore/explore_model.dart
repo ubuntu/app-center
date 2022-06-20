@@ -1,14 +1,17 @@
 import 'dart:async';
 
+import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/store_app/common/snap_section.dart';
 
 class ExploreModel extends SafeChangeNotifier {
-  final SnapdClient client;
+  final SnapdClient _snapDClient;
+  final PackageKitClient _packageKitClient;
 
   ExploreModel(
-    this.client,
+    this._snapDClient,
+    this._packageKitClient,
   )   : _searchQuery = '',
         sectionNameToSnapsMap = {},
         _errorMessage = '',
@@ -59,7 +62,7 @@ class ExploreModel extends SafeChangeNotifier {
       return [];
     } else {
       try {
-        return await client.find(
+        return await _snapDClient.find(
           query: _searchQuery,
           section:
               selectedSection == SnapSection.all ? null : selectedSection.title,
@@ -74,7 +77,7 @@ class ExploreModel extends SafeChangeNotifier {
   Future<List<Snap>> findSnapsBySection({SnapSection? section}) async {
     if (section == null) return [];
     try {
-      return (await client.find(
+      return (await _snapDClient.find(
         section: section == SnapSection.all
             ? SnapSection.featured.title
             : section.title,
@@ -95,5 +98,28 @@ class ExploreModel extends SafeChangeNotifier {
     }
     sectionNameToSnapsMap.putIfAbsent(section.title, () => sectionList);
     notifyListeners();
+  }
+
+  Future<List<PackageKitPackageId>> findPackageKitPackageIds() async {
+    if (searchQuery.isEmpty) return [];
+    final List<PackageKitPackageId> ids = [];
+    final transaction = await _packageKitClient.createTransaction();
+    final completer = Completer();
+    transaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        final id = event.packageId;
+        ids.add(id);
+      } else if (event is PackageKitErrorCodeEvent) {
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+    await transaction.searchNames(
+      [searchQuery],
+      filter: {},
+    );
+    await completer.future;
+
+    return ids;
   }
 }
