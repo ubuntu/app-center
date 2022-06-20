@@ -27,11 +27,14 @@ class _SearchFieldState extends State<SearchField> {
     final model = context.watch<ExploreModel>();
     return TextField(
       controller: _controller,
-      onChanged: (value) => model.searchQuery = value,
+      onEditingComplete: () {
+        model.searchQuery = _controller.text;
+      },
+      textInputAction: TextInputAction.send,
       autofocus: true,
       decoration: InputDecoration(
-        hintText:
-            '${context.l10n.searchHint} ${model.selectedSection.localize(context.l10n)} snaps',
+        suffixText:
+            '${context.l10n.searchHint} ${model.selectedSection.localize(context.l10n)} ${context.l10n.apps}',
         suffixIcon: _SectionDropdown(
           value: model.selectedSection,
           onChanged: (v) => model.selectedSection = v!,
@@ -83,6 +86,7 @@ class _SectionDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<SnapSection>(
+      tooltip: context.l10n.filterSnaps,
       splashRadius: 20,
       onSelected: onChanged,
       icon: Icon(snapSectionToIcon[value]),

@@ -18,7 +18,7 @@ class MyAppsPage extends StatelessWidget {
       tabIcons: const [
         YaruIcons.package_snap,
         YaruIcons.package_deb,
-        YaruIcons.computer
+        YaruIcons.synchronizing
       ],
       tabTitles: [
         context.l10n.snapPackages,

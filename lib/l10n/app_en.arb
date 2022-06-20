@@ -53,7 +53,9 @@
   "media": "Media",
   "done": "Done",
   "systemUpdates": "System updates",
-  "searchHint": "Search",
+  "searchHint": "Press enter to search",
   "updateAll": "Update all",
-  "noUpdates": "No updates available"
+  "noUpdates": "No updates available",
+  "apps": "apps",
+  "filterSnaps": "Set the snap filter"
 } 
