@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:yaru_icons/yaru_icons.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SearchField extends StatefulWidget {
   const SearchField({Key? key}) : super(key: key);
@@ -25,47 +24,41 @@ class _SearchFieldState extends State<SearchField> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    return TextField(
-      controller: _controller,
-      onEditingComplete: () {
-        model.searchQuery = _controller.text;
+    return KeyboardListener(
+      onKeyEvent: (value) {
+        if (value.logicalKey == LogicalKeyboardKey.escape) {
+          model.searchQuery = '';
+          _controller.text = '';
+        }
       },
-      textInputAction: TextInputAction.send,
-      autofocus: true,
-      decoration: InputDecoration(
-        suffixText:
-            '${context.l10n.searchHint} ${model.selectedSection.localize(context.l10n)} ${context.l10n.apps}',
-        suffixIcon: _SectionDropdown(
-          value: model.selectedSection,
-          onChanged: (v) => model.selectedSection = v!,
-        ),
-        prefixIconConstraints: const BoxConstraints(minWidth: 20),
-        prefixIcon: model.searchQuery == ''
-            ? Padding(
-                padding: const EdgeInsets.only(left: 5, right: 5),
-                child: YaruRoundIconButton(
-                  size: 36,
-                  onTap: () {
-                    model.searchActive = false;
-                  },
-                  child: const Icon(YaruIcons.go_previous),
+      focusNode: FocusNode(),
+      child: TextField(
+        autofocus: true,
+        controller: _controller,
+        onChanged: (v) {
+          model.searchQuery = v;
+        },
+        textInputAction: TextInputAction.send,
+        decoration: InputDecoration(
+          hintText:
+              '${model.selectedSection.localize(context.l10n)} ${context.l10n.apps}',
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 10, right: 5),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _SectionDropdown(
+                  value: model.selectedSection,
+                  onChanged: (v) => model.selectedSection = v!,
                 ),
-              )
-            : Padding(
-                padding: const EdgeInsets.only(left: 5, right: 5),
-                child: YaruRoundIconButton(
-                  size: 36,
-                  onTap: () {
-                    model.searchQuery = '';
-                    _controller.text = '';
-                  },
-                  child: const Icon(YaruIcons.edit_clear),
-                ),
-              ),
-        isDense: false,
-        border: const UnderlineInputBorder(),
-        enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.transparent),
+              ],
+            ),
+          ),
+          isDense: false,
+          border: const UnderlineInputBorder(),
+          enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent),
+          ),
         ),
       ),
     );

@@ -14,8 +14,7 @@ class ExploreModel extends SafeChangeNotifier {
     this._packageKitClient,
   )   : _searchQuery = '',
         sectionNameToSnapsMap = {},
-        _errorMessage = '',
-        _searchActive = false;
+        _errorMessage = '';
 
   String _errorMessage;
   String get errorMessage => _errorMessage;
@@ -26,17 +25,6 @@ class ExploreModel extends SafeChangeNotifier {
   set errorMessage(String value) {
     if (value == _errorMessage) return;
     _errorMessage = value;
-    notifyListeners();
-  }
-
-  bool _searchActive;
-  bool get searchActive => _searchActive;
-  set searchActive(bool value) {
-    if (value == _searchActive) return;
-    _searchActive = value;
-    if (_searchActive == false) {
-      searchQuery = '';
-    }
     notifyListeners();
   }
 
