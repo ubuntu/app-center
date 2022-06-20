@@ -10,7 +10,6 @@ import 'package:software/store_app/explore/search_page.dart';
 import 'package:software/store_app/explore/section_banner_grid.dart';
 import 'package:software/store_app/explore/snap_banner_carousel.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatelessWidget {
@@ -34,14 +33,7 @@ class ExplorePage extends StatelessWidget {
     final model = context.watch<ExploreModel>();
     return Scaffold(
       appBar: AppBar(
-        title: !model.searchActive
-            ? YaruRoundToggleButton(
-                selected: model.searchActive,
-                iconData: YaruIcons.search,
-                onPressed: () => model.searchActive = !model.searchActive,
-              )
-            : null,
-        flexibleSpace: !model.searchActive ? null : const SearchField(),
+        flexibleSpace: const SearchField(),
       ),
       body: Column(
         children: [
