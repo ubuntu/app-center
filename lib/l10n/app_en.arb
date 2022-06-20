@@ -57,5 +57,6 @@
   "updateAll": "Update all",
   "noUpdates": "No updates available",
   "apps": "apps",
-  "filterSnaps": "Set the snap filter"
+  "filterSnaps": "Set the snap filter",
+  "enterRepoName": "Enter repository name"
 } 
