@@ -6,7 +6,9 @@ import 'package:safe_change_notifier/safe_change_notifier.dart';
 class MyPackagesModel extends SafeChangeNotifier {
   final PackageKitClient _client;
 
-  MyPackagesModel(this._client) : _packageIds = {};
+  MyPackagesModel(this._client) : _packageIds = {} {
+    _client.connect();
+  }
 
   final Set<PackageKitPackageId> _packageIds;
   List<PackageKitPackageId> get packages => _packageIds.toList();

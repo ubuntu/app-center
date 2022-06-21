@@ -12,7 +12,9 @@ class PackageInstallerModel extends SafeChangeNotifier {
         _size = 0,
         _summary = '',
         _url = '',
-        _installedPackageIds = {};
+        _installedPackageIds = {} {
+    _client.connect();
+  }
 
   final PackageKitClient _client;
   final String path;

@@ -71,6 +71,16 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
               const SizedBox(
                 width: 10,
               ),
+              SizedBox(
+                width: 40,
+                child: YaruRoundIconButton(
+                  onTap: () => model.getUpdates(),
+                  child: const Icon(YaruIcons.refresh),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
               if (model.updates.isNotEmpty)
                 ElevatedButton(
                   onPressed: model.updating ? null : () => model.updateAll(),
@@ -89,16 +99,6 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
                         context.l10n.noUpdates,
                         style: Theme.of(context).textTheme.headline4,
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      SizedBox(
-                        width: 40,
-                        child: YaruRoundIconButton(
-                          onTap: () => model.getUpdates(),
-                          child: const Icon(YaruIcons.refresh),
-                        ),
-                      ),
                     ],
                   ),
                 )
@@ -110,6 +110,7 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
                   itemBuilder: (context, index) {
                     return AppBanner(
                       name: model.updates[index].name,
+                      summary: model.updates[index].version,
                       icon: const Icon(
                         YaruIcons.package_deb,
                         size: 50,
@@ -137,7 +138,14 @@ class _RepoDialog extends StatefulWidget {
 }
 
 class _RepoDialogState extends State<_RepoDialog> {
-  final controller = TextEditingController();
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    controller = TextEditingController();
+    super.initState();
+  }
+
   @override
   void dispose() {
     controller.dispose();
@@ -154,9 +162,7 @@ class _RepoDialogState extends State<_RepoDialog> {
         titleWidget: Row(
           children: [
             YaruRoundIconButton(
-              onTap: controller.text.isNotEmpty
-                  ? () => model.addRepo(controller.text)
-                  : null,
+              onTap: controller.text.isEmpty ? null : () => model.addRepo(),
               child: const Icon(YaruIcons.plus),
             ),
             const SizedBox(
@@ -165,6 +171,7 @@ class _RepoDialogState extends State<_RepoDialog> {
             SizedBox(
               width: 300,
               child: TextField(
+                onChanged: (value) => model.manualRepoName = value,
                 controller: controller,
                 decoration: InputDecoration(
                   hintText: context.l10n.enterRepoName,
@@ -182,13 +189,8 @@ class _RepoDialogState extends State<_RepoDialog> {
               value: e.enabled,
               onChanged: (v) => model.toggleRepo(id: e.repoId, value: v!),
               title: ListTile(
-                leading: YaruRoundIconButton(
-                  child: const Icon(YaruIcons.trash),
-                  onTap: () => model.removeRepo(e.repoId),
-                ),
                 title: Text(e.repoId),
                 subtitle: Text(e.description),
-                isThreeLine: true,
               ),
             ),
           )

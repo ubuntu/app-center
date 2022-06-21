@@ -71,7 +71,7 @@ class _PackageDialogState extends State<PackageDialog> {
             onPressed: model.processing ? null : model.remove,
             child: Text(context.l10n.remove),
           ),
-        if (!model.updateAvailable)
+        if (!model.updateAvailable && !model.packageIsInstalled)
           ElevatedButton(
             onPressed: model.processing ? null : model.install,
             child: Text(context.l10n.install),

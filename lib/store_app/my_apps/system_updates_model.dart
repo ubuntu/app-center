@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
@@ -9,10 +10,19 @@ class SystemUpdatesModel extends SafeChangeNotifier {
   final List<PackageKitPackageId> updates = [];
   String errorString = '';
   bool updating = false;
+  String _manualRepoName = '';
+  set manualRepoName(String value) {
+    if (value == _manualRepoName) return;
+    _manualRepoName = value;
+    notifyListeners();
+  }
 
-  SystemUpdatesModel(this._client);
+  SystemUpdatesModel(this._client) {
+    _client.connect();
+  }
 
   Future<void> getUpdates() async {
+    updates.clear();
     errorString = '';
     final transaction = await _client.createTransaction();
     final completer = Completer();
@@ -92,7 +102,19 @@ class SystemUpdatesModel extends SafeChangeNotifier {
   }
 
   // Not implemented in packagekit.dart
-  Future<void> addRepo(String id) async {}
-  // Not implemented in packagekit.dart
+  Future<void> addRepo() async {
+    if (_manualRepoName.isEmpty) return;
+    Process.start(
+      'pkexec',
+      [
+        'apt-add-repository',
+        _manualRepoName,
+      ],
+      mode: ProcessStartMode.detached,
+    );
+    loadRepoList();
+  }
+
+  // Not implemented in packagekit.dart and too hard for apt-add-repository
   Future<void> removeRepo(String id) async {}
 }
