@@ -55,6 +55,7 @@
   "systemUpdates": "System updates",
   "searchHint": "Search",
   "updateAll": "Update all",
+  "update": "Update",
   "noUpdates": "No updates available",
   "apps": "apps",
   "filterSnaps": "Set the snap filter",

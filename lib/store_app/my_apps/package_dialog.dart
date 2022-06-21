@@ -70,8 +70,8 @@ class _PackageDialogState extends State<PackageDialog> {
           OutlinedButton(
             onPressed: model.processing ? null : model.remove,
             child: Text(context.l10n.remove),
-          )
-        else
+          ),
+        if (!model.updateAvailable)
           ElevatedButton(
             onPressed: model.processing ? null : model.install,
             child: Text(context.l10n.install),
@@ -79,7 +79,7 @@ class _PackageDialogState extends State<PackageDialog> {
         if (model.updateAvailable)
           ElevatedButton(
             onPressed: model.processing ? null : model.update,
-            child: Text(context.l10n.refresh),
+            child: Text(context.l10n.update),
           )
       ],
     );
