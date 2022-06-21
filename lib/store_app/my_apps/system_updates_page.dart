@@ -68,6 +68,9 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
                 },
                 child: const Icon(YaruIcons.settings),
               ),
+              const SizedBox(
+                width: 10,
+              ),
               if (model.updates.isNotEmpty)
                 ElevatedButton(
                   onPressed: model.updating ? null : () => model.updateAll(),
@@ -177,7 +180,7 @@ class _RepoDialogState extends State<_RepoDialog> {
           .map(
             (e) => CheckboxListTile(
               value: e.enabled,
-              onChanged: (v) {},
+              onChanged: (v) => model.toggleRepo(id: e.repoId, value: v!),
               title: ListTile(
                 leading: YaruRoundIconButton(
                   child: const Icon(YaruIcons.trash),

@@ -77,12 +77,22 @@ class SystemUpdatesModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> toggleRepo({required String id, required bool value}) async {
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    transaction.events.listen((event) {
+      // print(event);
+      if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+    await transaction.setRepositoryEnabled(id, value);
+    await completer.future;
+    loadRepoList();
+  }
+
   // Not implemented in packagekit.dart
-  Future<void> enableRepo(String id) async {}
-
-  Future<void> disableRepo(String id) async {}
-
   Future<void> addRepo(String id) async {}
-
+  // Not implemented in packagekit.dart
   Future<void> removeRepo(String id) async {}
 }
