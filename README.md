@@ -2,11 +2,12 @@
 
 An alternative software store for the Ubuntu Desktop made with Flutter.
 
-![1](.github/assets/1.png)
-![2](.github/assets/2.png)
-![3](.github/assets/3.png)
-![4](.github/assets/4.png)
-![5](.github/assets/5.png)
+![1](.github/assets/01.png)
+![2](.github/assets/02.png)
+![3](.github/assets/03.png)
+![4](.github/assets/04.png)
+![5](.github/assets/05.png)
+![6](.github/assets/06.png)
 
 ## Goals
 
@@ -46,6 +47,12 @@ cd ~/development
 git clone https://github.com/flutter/flutter.git -b stable
 echo 'export PATH="$PATH:$HOME/development/flutter/bin"' >> ~/.bashrc
 source ~/.bashrc
+```
+
+OR a one-liner top copy & paste - CAUTION: it won't stop after you entered your password :)
+
+```bash
+sudo apt -y install git curl cmake meson make clang libgtk-3-dev pkg-config && mkdir -p ~/development && cd ~/development && git clone https://github.com/flutter/flutter.git -b stable && echo 'export PATH="$PATH:$HOME/development/flutter/bin"' >> ~/.bashrc && source ~/.bashrc
 ```
 
 ### run
