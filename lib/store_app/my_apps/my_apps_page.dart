@@ -7,7 +7,25 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MyAppsPage extends StatelessWidget {
-  const MyAppsPage({Key? key}) : super(key: key);
+  const MyAppsPage({
+    Key? key,
+    this.onTabTapped,
+    this.initalTabIndex = 0,
+  }) : super(key: key);
+
+  final Function(int)? onTabTapped;
+  final int initalTabIndex;
+
+  static Widget create(
+    BuildContext context,
+    Function(int)? onTabTapped,
+    int tabIndex,
+  ) {
+    return MyAppsPage(
+      onTabTapped: onTabTapped,
+      initalTabIndex: tabIndex,
+    );
+  }
 
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.myAppsPageTitle);
@@ -15,6 +33,8 @@ class MyAppsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruTabbedPage(
+      onTap: onTabTapped,
+      initialIndex: initalTabIndex,
       tabIcons: const [
         YaruIcons.package_snap,
         YaruIcons.package_deb,

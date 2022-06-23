@@ -30,6 +30,8 @@ class StoreApp extends StatefulWidget {
 }
 
 class _StoreAppState extends State<StoreApp> {
+  int _myAppsIndex = 0;
+
   @override
   void initState() {
     context.read<StoreModel>().init();
@@ -64,7 +66,11 @@ class _StoreAppState extends State<StoreApp> {
                     ),
                     YaruPageItem(
                       titleBuilder: MyAppsPage.createTitle,
-                      builder: (context) => const MyAppsPage(),
+                      builder: (context) => MyAppsPage.create(
+                        context,
+                        (index) => _myAppsIndex = index,
+                        _myAppsIndex,
+                      ),
                       iconData: YaruIcons.ok,
                       itemWidget: model.snapChanges.isNotEmpty
                           ? _MyAppsIcon(count: model.snapChanges.length)
