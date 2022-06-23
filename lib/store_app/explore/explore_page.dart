@@ -3,6 +3,7 @@ import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/store_app/common/offline_page.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/search_field.dart';
@@ -15,7 +16,8 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class ExplorePage extends StatelessWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
-  static Widget create(BuildContext context) {
+  static Widget create(BuildContext context, bool online) {
+    if (!online) return const OfflinePage();
     return ChangeNotifierProvider(
       create: (_) => ExploreModel(
         getService<SnapdClient>(),
