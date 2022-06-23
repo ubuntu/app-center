@@ -7,7 +7,30 @@ import 'package:safe_change_notifier/safe_change_notifier.dart';
 class SystemUpdatesModel extends SafeChangeNotifier {
   final PackageKitClient _client;
 
-  final List<PackageKitPackageId> updates = [];
+  final Map<PackageKitPackageId, bool> updates = {};
+
+  void selectAll() {
+    for (final entry in updates.entries) {
+      updates[entry.key] = true;
+      notifyListeners();
+    }
+  }
+
+  void deselectAll() {
+    for (final entry in updates.entries) {
+      updates[entry.key] = false;
+      notifyListeners();
+    }
+  }
+
+  bool get allSelected =>
+      updates.entries.where((e) => e.value).length == updates.length;
+
+  void selectUpdate(PackageKitPackageId id, bool value) {
+    updates[id] = value;
+    notifyListeners();
+  }
+
   String errorString = '';
   bool updating = false;
   String _manualRepoName = '';
@@ -29,7 +52,7 @@ class SystemUpdatesModel extends SafeChangeNotifier {
     transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         final id = event.packageId;
-        updates.add(id);
+        updates.putIfAbsent(id, () => true);
       } else if (event is PackageKitErrorCodeEvent) {
         errorString = '${event.code}: ${event.details}';
       } else if (event is PackageKitFinishedEvent) {
@@ -43,7 +66,11 @@ class SystemUpdatesModel extends SafeChangeNotifier {
   }
 
   Future<void> updateAll() async {
-    if (updates.isEmpty) return;
+    final List<PackageKitPackageId> selectedUpdates = updates.entries
+        .where((e) => e.value == true)
+        .map((e) => e.key)
+        .toList();
+    if (selectedUpdates.isEmpty) return;
     final updatePackagesTransaction = await _client.createTransaction();
     final updatePackagesCompleter = Completer();
     updating = true;
@@ -60,8 +87,9 @@ class SystemUpdatesModel extends SafeChangeNotifier {
       }
       notifyListeners();
     });
-    await updatePackagesTransaction.updatePackages(updates);
+    await updatePackagesTransaction.updatePackages(selectedUpdates);
     await updatePackagesCompleter.future;
+    await getUpdates();
     notifyListeners();
   }
 
