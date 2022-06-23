@@ -47,6 +47,13 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
         ),
       );
     }
+
+    if (model.updating) {
+      return const Center(
+        child: YaruCircularProgressIndicator(),
+      );
+    }
+
     return Column(
       children: [
         Padding(
@@ -83,8 +90,24 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
               ),
               if (model.updates.isNotEmpty)
                 ElevatedButton(
+                  onPressed: model.updating
+                      ? null
+                      : model.allSelected
+                          ? () => model.deselectAll()
+                          : () => model.selectAll(),
+                  child: Text(
+                    model.allSelected
+                        ? context.l10n.deselectAll
+                        : context.l10n.selectAll,
+                  ),
+                ),
+              const SizedBox(
+                width: 10,
+              ),
+              if (model.updates.isNotEmpty)
+                ElevatedButton(
                   onPressed: model.updating ? null : () => model.updateAll(),
-                  child: Text(context.l10n.updateAll),
+                  child: Text(context.l10n.updateSelected),
                 ),
             ],
           ),
@@ -108,18 +131,30 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
                   itemCount: model.updates.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    return AppBanner(
-                      name: model.updates[index].name,
-                      summary: model.updates[index].version,
-                      icon: const Icon(
-                        YaruIcons.package_deb,
-                        size: 50,
-                      ),
-                      onTap: () => showDialog(
-                        context: context,
-                        builder: (_) =>
-                            PackageDialog.create(context, model.updates[index]),
-                      ),
+                    final update = model.updates.entries.elementAt(index).key;
+                    return Stack(
+                      children: [
+                        AppBanner(
+                          name: update.name,
+                          summary: update.version,
+                          icon: const Icon(
+                            YaruIcons.package_deb,
+                            size: 50,
+                          ),
+                          onTap: () => showDialog(
+                            context: context,
+                            builder: (_) =>
+                                PackageDialog.create(context, update),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Checkbox(
+                            value: model.updates[update],
+                            onChanged: (v) => model.selectUpdate(update, v!),
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
