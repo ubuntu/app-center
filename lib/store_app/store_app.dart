@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
-import 'package:software/store_app/common/offline_page.dart';
 import 'package:software/store_app/explore/explore_page.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
@@ -59,9 +58,8 @@ class _StoreAppState extends State<StoreApp> {
                   pageItems: [
                     YaruPageItem(
                       titleBuilder: ExplorePage.createTitle,
-                      builder: model.appIsOnline
-                          ? ExplorePage.create
-                          : (context) => const OfflinePage(),
+                      builder: (context) =>
+                          ExplorePage.create(context, model.appIsOnline),
                       iconData: YaruIcons.compass,
                     ),
                     YaruPageItem(
