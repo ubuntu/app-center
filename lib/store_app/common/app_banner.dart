@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:software/store_app/common/safe_image.dart';
-import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class AppBanner extends StatelessWidget {
@@ -33,6 +32,7 @@ class AppBanner extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       borderRadius: borderRadius,
+      hoverColor: Theme.of(context).primaryColor.withOpacity(0.3),
       child: surfaceTintColor != null
           ? Stack(
               children: [
@@ -74,9 +74,7 @@ class AppBanner extends StatelessWidget {
             )
           : _Banner(
               borderRadius: borderRadius,
-              color: light
-                  ? YaruColors.warmGrey.shade900
-                  : Theme.of(context).colorScheme.onBackground,
+              color: Theme.of(context).backgroundColor,
               elevation: light ? 2 : 1,
               icon: icon ??
                   SafeImage(
@@ -116,10 +114,12 @@ class _Banner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shadowColor: Colors.transparent,
       surfaceTintColor: color,
       elevation: elevation,
       shape: RoundedRectangleBorder(
         borderRadius: borderRadius,
+        side: BorderSide(color: Theme.of(context).dividerColor, width: 1),
       ),
       child: Align(
         alignment: Alignment.centerLeft,
