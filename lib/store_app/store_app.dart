@@ -8,6 +8,7 @@ import 'package:software/store_app/explore/explore_page.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
 import 'package:software/store_app/store_model.dart';
+import 'package:software/store_app/updates/updates_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -75,10 +76,15 @@ class _StoreAppState extends State<StoreApp> {
                           : null,
                     ),
                     const YaruPageItem(
+                      titleBuilder: UpdatesPage.createTitle,
+                      builder: UpdatesPage.create,
+                      iconData: YaruIcons.synchronizing,
+                    ),
+                    const YaruPageItem(
                       titleBuilder: SettingsPage.createTitle,
                       builder: SettingsPage.create,
                       iconData: YaruIcons.settings,
-                    )
+                    ),
                   ],
                 ),
               );
