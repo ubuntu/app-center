@@ -5,31 +5,35 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/app_banner.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/my_apps/package_dialog.dart';
-import 'package:software/store_app/my_apps/system_updates_model.dart';
+import 'package:software/store_app/updates/updates_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class SystemUpdatesPage extends StatefulWidget {
-  const SystemUpdatesPage({super.key});
+class UpdatesPage extends StatefulWidget {
+  const UpdatesPage({super.key});
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SystemUpdatesModel(
+      create: (_) => UpdatesModel(
         getService<PackageKitClient>(),
       ),
-      child: const SystemUpdatesPage(),
+      child: const UpdatesPage(),
     );
   }
 
+  static Widget createTitle(BuildContext context) {
+    return Text(context.l10n.updates);
+  }
+
   @override
-  State<SystemUpdatesPage> createState() => _SystemUpdatesPageState();
+  State<UpdatesPage> createState() => _UpdatesPageState();
 }
 
-class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
+class _UpdatesPageState extends State<UpdatesPage> {
   @override
   void initState() {
-    final model = context.read<SystemUpdatesModel>();
+    final model = context.read<UpdatesModel>();
     model.getUpdates();
     model.loadRepoList();
     super.initState();
@@ -37,7 +41,7 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<SystemUpdatesModel>();
+    final model = context.watch<UpdatesModel>();
     if (model.errorString.isNotEmpty) {
       return Center(
         child: Row(
@@ -89,7 +93,7 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
                 width: 10,
               ),
               if (model.updates.isNotEmpty)
-                ElevatedButton(
+                OutlinedButton(
                   onPressed: model.updating
                       ? null
                       : model.allSelected
@@ -149,9 +153,26 @@ class _SystemUpdatesPageState extends State<SystemUpdatesPage> {
                         ),
                         Align(
                           alignment: Alignment.topRight,
-                          child: Checkbox(
-                            value: model.updates[update],
-                            onChanged: (v) => model.selectUpdate(update, v!),
+                          child: SizedBox(
+                            width: 26,
+                            height: 26,
+                            child: CheckboxTheme(
+                              data: Theme.of(context).checkboxTheme.copyWith(
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(9),
+                                        bottomLeft: Radius.circular(2),
+                                        topLeft: Radius.circular(2),
+                                        bottomRight: Radius.circular(2),
+                                      ),
+                                    ),
+                                  ),
+                              child: Checkbox(
+                                value: model.updates[update],
+                                onChanged: (v) =>
+                                    model.selectUpdate(update, v!),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -189,7 +210,7 @@ class _RepoDialogState extends State<_RepoDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<SystemUpdatesModel>();
+    final model = context.watch<UpdatesModel>();
 
     return SimpleDialog(
       title: YaruDialogTitle(

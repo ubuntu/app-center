@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 
-class SystemUpdatesModel extends SafeChangeNotifier {
+class UpdatesModel extends SafeChangeNotifier {
   final PackageKitClient _client;
 
   final Map<PackageKitPackageId, bool> updates = {};
@@ -40,7 +40,7 @@ class SystemUpdatesModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  SystemUpdatesModel(this._client) {
+  UpdatesModel(this._client) {
     _client.connect();
   }
 
