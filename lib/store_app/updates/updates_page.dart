@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/app_banner.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/my_apps/package_dialog.dart';
 import 'package:software/store_app/updates/updates_model.dart';
@@ -138,9 +137,10 @@ class _UpdatesPageState extends State<UpdatesPage> {
                     final update = model.updates.entries.elementAt(index).key;
                     return Stack(
                       children: [
-                        AppBanner(
+                        YaruBanner(
                           name: update.name,
                           summary: update.version,
+                          fallbackIconData: YaruIcons.package_deb,
                           icon: const Icon(
                             YaruIcons.package_deb,
                             size: 50,

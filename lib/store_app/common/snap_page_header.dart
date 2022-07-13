@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/safe_image.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -47,7 +46,7 @@ class SnapPageHeader extends StatelessWidget {
           children: [
             SizedBox(
               height: 65,
-              child: SafeImage(
+              child: YaruSafeImage(
                 url: iconUrl,
                 fallBackIconData: YaruIcons.package_snap,
               ),

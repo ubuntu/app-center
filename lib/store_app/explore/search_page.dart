@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
-import 'package:software/store_app/common/app_banner.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/explore/explore_model.dart';
@@ -52,7 +51,7 @@ class _SnapSearchPage extends StatelessWidget {
                     shrinkWrap: true,
                     children: [
                       for (final snap in snapshot.data!)
-                        AppBanner(
+                        YaruBanner(
                           name: snap.name,
                           summary: snap.summary,
                           url: snap.iconUrl,
@@ -63,6 +62,7 @@ class _SnapSearchPage extends StatelessWidget {
                               huskSnapName: snap.name,
                             ),
                           ),
+                          fallbackIconData: YaruIcons.package_snap,
                         )
                     ],
                   )
@@ -93,7 +93,7 @@ class _PackageKitSearchPage extends StatelessWidget {
                     shrinkWrap: true,
                     children: [
                       for (final id in snapshot.data!)
-                        AppBanner(
+                        YaruBanner(
                           name: id.name,
                           summary: id.version,
                           icon: const Icon(
@@ -107,6 +107,7 @@ class _PackageKitSearchPage extends StatelessWidget {
                               id,
                             ),
                           ),
+                          fallbackIconData: YaruIcons.package_deb,
                         )
                     ],
                   )
