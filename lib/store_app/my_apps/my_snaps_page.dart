@@ -3,11 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/snapx.dart';
-import 'package:software/store_app/common/app_banner.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/my_apps/my_snaps_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MySnapsPage extends StatefulWidget {
   const MySnapsPage({Key? key}) : super(key: key);
@@ -60,10 +61,11 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
       itemCount: widget.snaps.length,
       itemBuilder: (context, index) {
         final snap = widget.snaps.elementAt(index);
-        return AppBanner(
+        return YaruBanner(
           name: snap.name,
           summary: snap.summary,
           url: snap.iconUrl,
+          fallbackIconData: YaruIcons.package_snap,
           onTap: () => showDialog(
             context: context,
             builder: (context) =>

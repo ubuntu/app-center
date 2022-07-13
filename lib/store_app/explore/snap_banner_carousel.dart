@@ -7,10 +7,10 @@ import 'package:software/snapx.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:software/store_app/common/app_banner.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapBannerCarousel extends StatefulWidget {
@@ -99,7 +99,7 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-    return AppBanner(
+    return YaruBanner(
       watermark: true,
       name: widget.snap.name,
       summary: widget.snap.summary,
@@ -112,6 +112,7 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
           child: const SnapDialog(),
         ),
       ),
+      fallbackIconData: YaruIcons.package_snap,
     );
   }
 }

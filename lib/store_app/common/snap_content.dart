@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/link.dart';
-import 'package:software/store_app/common/safe_image.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -46,17 +45,19 @@ class SnapContent extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () => Navigator.of(context).pop(),
-                            child: SafeImage(
+                            child: YaruSafeImage(
                               url: url,
                               fit: BoxFit.contain,
                               filterQuality: FilterQuality.medium,
+                              fallBackIconData: YaruIcons.image,
                             ),
                           )
                         ],
                       ),
                     ),
-                    child: SafeImage(
+                    child: YaruSafeImage(
                       url: url,
+                      fallBackIconData: YaruIcons.image,
                     ),
                   )
               ],

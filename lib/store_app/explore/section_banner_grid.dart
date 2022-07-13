@@ -5,7 +5,8 @@ import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:software/store_app/common/app_banner.dart';
+import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SectionBannerGrid extends StatefulWidget {
   const SectionBannerGrid({
@@ -39,10 +40,11 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
       children: sections.take(widget.amount).map((snap) {
-        return AppBanner(
+        return YaruBanner(
           name: snap.name,
           summary: snap.summary,
           url: snap.iconUrl,
+          fallbackIconData: YaruIcons.package_snap,
           onTap: () => showDialog(
             context: context,
             builder: (context) => SnapDialog.create(

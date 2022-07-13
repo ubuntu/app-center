@@ -164,7 +164,7 @@ packages:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -195,7 +195,7 @@ packages:
       name: handy_window
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.4+1"
+    version: "0.1.6"
   http:
     dependency: transitive
     description:
@@ -572,7 +572,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "97b74b4b905b4bf295280b931e31810a309be747"
+      resolved-ref: "0346af4083e4991fbd8d6010404c382cb03f7918"
       url: "https://github.com/ubuntu/yaru.dart"
     source: git
     version: "0.3.3"
@@ -595,7 +595,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: e473744793b7838c03d15e018c93e8a3f34c462b
+      resolved-ref: "2bd8058ae1791d1d64d434b9cf25bce790f763ba"
       url: "https://github.com/ubuntu/yaru_icons.dart"
     source: git
     version: "0.2.1"
@@ -604,7 +604,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "21a38aecb7b3b257b221eb08322ff87722e2b1b1"
+      resolved-ref: "44585efc06e3da2aec7063eaa5784669362bf8f7"
       url: "https://github.com/ubuntu/yaru_widgets.dart"
     source: git
     version: "1.1.0"
