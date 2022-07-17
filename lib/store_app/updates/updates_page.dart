@@ -151,27 +151,19 @@ class _UpdatesPageState extends State<UpdatesPage> {
                                 PackageDialog.create(context, update),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: SizedBox(
-                            width: 26,
-                            height: 26,
-                            child: CheckboxTheme(
-                              data: Theme.of(context).checkboxTheme.copyWith(
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(9),
-                                        bottomLeft: Radius.circular(2),
-                                        topLeft: Radius.circular(2),
-                                        bottomRight: Radius.circular(2),
-                                      ),
-                                    ),
+                        Positioned(
+                          right: -7,
+                          top: -7,
+                          child: CheckboxTheme(
+                            data: Theme.of(context).checkboxTheme.copyWith(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
                                   ),
-                              child: Checkbox(
-                                value: model.updates[update],
-                                onChanged: (v) =>
-                                    model.selectUpdate(update, v!),
-                              ),
+                                ),
+                            child: Checkbox(
+                              value: model.updates[update],
+                              onChanged: (v) => model.selectUpdate(update, v!),
                             ),
                           ),
                         ),
