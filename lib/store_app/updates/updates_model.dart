@@ -44,6 +44,11 @@ class UpdatesModel extends SafeChangeNotifier {
     _client.connect();
   }
 
+  void init() {
+    getUpdates();
+    loadRepoList();
+  }
+
   Future<void> getUpdates() async {
     updates.clear();
     errorString = '';

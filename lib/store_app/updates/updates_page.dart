@@ -32,9 +32,7 @@ class UpdatesPage extends StatefulWidget {
 class _UpdatesPageState extends State<UpdatesPage> {
   @override
   void initState() {
-    final model = context.read<UpdatesModel>();
-    model.getUpdates();
-    model.loadRepoList();
+    context.read<UpdatesModel>().init();
     super.initState();
   }
 
@@ -84,7 +82,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
               SizedBox(
                 width: 40,
                 child: YaruRoundIconButton(
-                  onTap: () => model.getUpdates(),
+                  onTap: () => model.init(),
                   child: const Icon(YaruIcons.refresh),
                 ),
               ),
@@ -152,19 +150,11 @@ class _UpdatesPageState extends State<UpdatesPage> {
                           ),
                         ),
                         Positioned(
-                          right: -7,
-                          top: -7,
-                          child: CheckboxTheme(
-                            data: Theme.of(context).checkboxTheme.copyWith(
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                  ),
-                                ),
-                            child: Checkbox(
-                              value: model.updates[update],
-                              onChanged: (v) => model.selectUpdate(update, v!),
-                            ),
+                          right: 10,
+                          top: 10,
+                          child: Checkbox(
+                            value: model.updates[update],
+                            onChanged: (v) => model.selectUpdate(update, v!),
                           ),
                         ),
                       ],
