@@ -75,10 +75,17 @@ class _UpdatesPageState extends State<UpdatesPage> {
               ),
               SizedBox(
                 width: 40,
-                child: YaruRoundIconButton(
-                  onTap: () => model.init(),
-                  child: const Icon(YaruIcons.refresh),
-                ),
+                child: !model.updating
+                    ? YaruRoundIconButton(
+                        onTap: () => model.refresh(),
+                        child: const Icon(YaruIcons.refresh),
+                      )
+                    : const SizedBox(
+                        height: 25,
+                        child: YaruCircularProgressIndicator(
+                          strokeWidth: 4,
+                        ),
+                      ),
               ),
               if (model.updates.isNotEmpty)
                 const SizedBox(
@@ -106,17 +113,6 @@ class _UpdatesPageState extends State<UpdatesPage> {
                   onPressed: model.updating ? null : () => model.updateAll(),
                   child: Text(context.l10n.updateSelected),
                 ),
-              if (model.updating)
-                const SizedBox(
-                  width: 10,
-                ),
-              if (model.updating)
-                const SizedBox(
-                  height: 25,
-                  child: YaruCircularProgressIndicator(
-                    strokeWidth: 4,
-                  ),
-                )
             ],
           ),
         ),

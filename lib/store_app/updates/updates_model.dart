@@ -52,6 +52,25 @@ class UpdatesModel extends SafeChangeNotifier {
     loadRepoList();
   }
 
+  Future<void> refresh() async {
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    updating = true;
+    transaction.events.listen((event) {
+      if (event is PackageKitRepositoryDetailEvent) {
+        // print(event.description);
+      } else if (event is PackageKitErrorCodeEvent) {
+        // print('${event.code}: ${event.details}');
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+    await transaction.refreshCache();
+    await completer.future;
+    updating = false;
+    notifyListeners();
+  }
+
   Future<void> getUpdates() async {
     updates.clear();
     errorString = '';
