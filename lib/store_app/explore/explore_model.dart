@@ -19,6 +19,17 @@ class ExploreModel extends SafeChangeNotifier {
   String _errorMessage;
   String get errorMessage => _errorMessage;
 
+  bool get showSectionBannerGrid =>
+      searchQuery.isEmpty && sectionNameToSnapsMap.isNotEmpty;
+
+  bool get showTopCarousel =>
+      selectedSection == SnapSection.featured ||
+      selectedSection == SnapSection.all && searchQuery.isEmpty;
+
+  bool get showErrorPage => errorMessage.isNotEmpty;
+
+  bool get showSearchPage => searchQuery.isNotEmpty;
+
   bool showTwoCarousels({required double width}) => width > 800;
   bool showThreeCarousels({required double width}) => width > 1500;
 

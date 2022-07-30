@@ -37,39 +37,25 @@ class ExplorePage extends StatelessWidget {
       appBar: AppBar(
         flexibleSpace: const SearchField(),
       ),
-      body: Column(
-        children: [
-          if ((model.selectedSection == SnapSection.featured ||
-                  model.selectedSection == SnapSection.all) &&
-              model.searchQuery.isEmpty)
-            const Padding(
-              padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-              child: SnapBannerCarousel(
-                snapSection: SnapSection.featured,
-                height: 220,
-              ),
-            ),
-          if (model.searchQuery.isEmpty &&
-              model.sectionNameToSnapsMap.isNotEmpty)
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: (model.selectedSection == SnapSection.featured ||
-                          model.selectedSection == SnapSection.all)
-                      ? 0
-                      : 20,
+      body: model.showErrorPage
+          ? _ErrorPage(errorMessage: model.errorMessage)
+          : model.showSearchPage
+              ? const SearchPage()
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      if (model.showTopCarousel)
+                        const SnapBannerCarousel(
+                          snapSection: SnapSection.featured,
+                          height: 220,
+                        ),
+                      if (model.showSectionBannerGrid)
+                        SectionBannerGrid(
+                          snapSection: model.selectedSection,
+                        ),
+                    ],
+                  ),
                 ),
-                child: SectionBannerGrid(snapSection: model.selectedSection),
-              ),
-            ),
-          if (model.errorMessage.isNotEmpty)
-            _ErrorPage(errorMessage: model.errorMessage),
-          if (model.searchQuery.isNotEmpty)
-            const Expanded(
-              child: SearchPage(),
-            )
-        ],
-      ),
     );
   }
 }
