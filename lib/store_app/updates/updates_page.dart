@@ -3,7 +3,7 @@ import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/my_apps/package_dialog.dart';
+import 'package:software/store_app/updates/update_banner.dart';
 import 'package:software/store_app/updates/updates_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -49,12 +49,6 @@ class _UpdatesPageState extends State<UpdatesPage> {
       );
     }
 
-    if (model.updating) {
-      return const Center(
-        child: YaruCircularProgressIndicator(),
-      );
-    }
-
     return Column(
       children: [
         Padding(
@@ -81,14 +75,22 @@ class _UpdatesPageState extends State<UpdatesPage> {
               ),
               SizedBox(
                 width: 40,
-                child: YaruRoundIconButton(
-                  onTap: () => model.init(),
-                  child: const Icon(YaruIcons.refresh),
+                child: !model.updating
+                    ? YaruRoundIconButton(
+                        onTap: () => model.refresh(),
+                        child: const Icon(YaruIcons.refresh),
+                      )
+                    : const SizedBox(
+                        height: 25,
+                        child: YaruCircularProgressIndicator(
+                          strokeWidth: 4,
+                        ),
+                      ),
+              ),
+              if (model.updates.isNotEmpty)
+                const SizedBox(
+                  width: 10,
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
               if (model.updates.isNotEmpty)
                 OutlinedButton(
                   onPressed: model.updating
@@ -102,9 +104,10 @@ class _UpdatesPageState extends State<UpdatesPage> {
                         : context.l10n.selectAll,
                   ),
                 ),
-              const SizedBox(
-                width: 10,
-              ),
+              if (model.updates.isNotEmpty)
+                const SizedBox(
+                  width: 10,
+                ),
               if (model.updates.isNotEmpty)
                 ElevatedButton(
                   onPressed: model.updating ? null : () => model.updateAll(),
@@ -133,31 +136,15 @@ class _UpdatesPageState extends State<UpdatesPage> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final update = model.updates.entries.elementAt(index).key;
-                    return Stack(
-                      children: [
-                        YaruBanner(
-                          name: update.name,
-                          summary: update.version,
-                          fallbackIconData: YaruIcons.package_deb,
-                          icon: const Icon(
-                            YaruIcons.package_deb,
-                            size: 50,
-                          ),
-                          onTap: () => showDialog(
-                            context: context,
-                            builder: (_) =>
-                                PackageDialog.create(context, update),
-                          ),
-                        ),
-                        Positioned(
-                          right: 10,
-                          top: 10,
-                          child: Checkbox(
-                            value: model.updates[update],
-                            onChanged: (v) => model.selectUpdate(update, v!),
-                          ),
-                        ),
-                      ],
+                    return UpdateBanner(
+                      selected: model.updates[update],
+                      processed: model.currentId == update,
+                      id: update,
+                      onChanged: model.updating
+                          ? null
+                          : (v) => model.selectUpdate(update, v!),
+                      percentage:
+                          model.currentId == update ? model.percentage : null,
                     );
                   },
                 ),

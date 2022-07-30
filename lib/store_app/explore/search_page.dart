@@ -7,7 +7,7 @@ import 'package:software/snapx.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:software/store_app/my_apps/package_dialog.dart';
+import 'package:software/store_app/common/package_dialog.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 

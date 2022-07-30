@@ -3,7 +3,7 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/my_apps/package_model.dart';
+import 'package:software/store_app/common/package_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';

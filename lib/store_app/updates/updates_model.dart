@@ -9,6 +9,9 @@ class UpdatesModel extends SafeChangeNotifier {
 
   final Map<PackageKitPackageId, bool> updates = {};
 
+  int? percentage;
+  PackageKitPackageId? currentId;
+
   void selectAll() {
     for (final entry in updates.entries) {
       updates[entry.key] = true;
@@ -49,6 +52,25 @@ class UpdatesModel extends SafeChangeNotifier {
     loadRepoList();
   }
 
+  Future<void> refresh() async {
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    updating = true;
+    transaction.events.listen((event) {
+      if (event is PackageKitRepositoryDetailEvent) {
+        // print(event.description);
+      } else if (event is PackageKitErrorCodeEvent) {
+        // print('${event.code}: ${event.details}');
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+    await transaction.refreshCache();
+    await completer.future;
+    updating = false;
+    notifyListeners();
+  }
+
   Future<void> getUpdates() async {
     updates.clear();
     errorString = '';
@@ -82,7 +104,9 @@ class UpdatesModel extends SafeChangeNotifier {
     updatePackagesTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         // print('[${event.packageId.name}] ${event.info}');
+        currentId = event.packageId;
       } else if (event is PackageKitItemProgressEvent) {
+        percentage = event.percentage;
         // print('[${event.packageId.name}] ${event.status} ${event.percentage}%');
       } else if (event is PackageKitErrorCodeEvent) {
         // print('${event.code}: ${event.details}');
