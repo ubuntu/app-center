@@ -45,7 +45,9 @@ class _SnapBannerCarouselState extends State<SnapBannerCarousel> {
     return sections.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.only(
-              bottom: 20,
+              top: 20,
+              right: 20,
+              left: 20,
             ),
             child: YaruCarousel(
               viewportFraction: 1,
