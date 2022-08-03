@@ -8,6 +8,7 @@ class UpdatesModel extends SafeChangeNotifier {
   final PackageKitClient _client;
 
   final Map<PackageKitPackageId, bool> updates = {};
+  bool requireRestart;
 
   int? percentage;
   PackageKitPackageId? currentId;
@@ -43,7 +44,7 @@ class UpdatesModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  UpdatesModel(this._client) {
+  UpdatesModel(this._client) : requireRestart = false {
     _client.connect();
   }
 
@@ -102,6 +103,7 @@ class UpdatesModel extends SafeChangeNotifier {
     final updatePackagesCompleter = Completer();
     updating = true;
     updatePackagesTransaction.events.listen((event) {
+      requireRestart = event is PackageKitRequireRestartEvent;
       if (event is PackageKitPackageEvent) {
         // print('[${event.packageId.name}] ${event.info}');
         currentId = event.packageId;
@@ -174,4 +176,12 @@ class UpdatesModel extends SafeChangeNotifier {
 
   // Not implemented in packagekit.dart and too hard for apt-add-repository
   Future<void> removeRepo(String id) async {}
+
+  void reboot() {
+    Process.start(
+      'reboot',
+      [],
+      mode: ProcessStartMode.detached,
+    );
+  }
 }

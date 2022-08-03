@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/updates/update_banner.dart';
 import 'package:software/store_app/updates/updates_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -70,48 +69,54 @@ class _UpdatesPageState extends State<UpdatesPage> {
                 },
                 child: const Icon(YaruIcons.settings),
               ),
-              const SizedBox(
-                width: 10,
-              ),
-              SizedBox(
-                width: 40,
-                child: !model.updating
-                    ? YaruRoundIconButton(
-                        onTap: () => model.refresh(),
-                        child: const Icon(YaruIcons.refresh),
-                      )
-                    : const SizedBox(
-                        height: 25,
-                        child: YaruCircularProgressIndicator(
-                          strokeWidth: 4,
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: SizedBox(
+                  width: 40,
+                  child: !model.updating
+                      ? YaruRoundIconButton(
+                          onTap: () => model.refresh(),
+                          child: const Icon(YaruIcons.refresh),
+                        )
+                      : const SizedBox(
+                          height: 25,
+                          child: YaruCircularProgressIndicator(
+                            strokeWidth: 4,
+                          ),
                         ),
-                      ),
+                ),
               ),
               if (model.updates.isNotEmpty)
-                const SizedBox(
-                  width: 10,
-                ),
-              if (model.updates.isNotEmpty)
-                OutlinedButton(
-                  onPressed: model.updating
-                      ? null
-                      : model.allSelected
-                          ? () => model.deselectAll()
-                          : () => model.selectAll(),
-                  child: Text(
-                    model.allSelected
-                        ? context.l10n.deselectAll
-                        : context.l10n.selectAll,
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: OutlinedButton(
+                    onPressed: model.updating
+                        ? null
+                        : model.allSelected
+                            ? () => model.deselectAll()
+                            : () => model.selectAll(),
+                    child: Text(
+                      model.allSelected
+                          ? context.l10n.deselectAll
+                          : context.l10n.selectAll,
+                    ),
                   ),
                 ),
               if (model.updates.isNotEmpty)
-                const SizedBox(
-                  width: 10,
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: ElevatedButton(
+                    onPressed: model.updating ? null : () => model.updateAll(),
+                    child: Text(context.l10n.updateSelected),
+                  ),
                 ),
-              if (model.updates.isNotEmpty)
-                ElevatedButton(
-                  onPressed: model.updating ? null : () => model.updateAll(),
-                  child: Text(context.l10n.updateSelected),
+              if (model.requireRestart && !model.updating)
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: ElevatedButton(
+                    onPressed: () => model.reboot(),
+                    child: Text(context.l10n.requireRestart),
+                  ),
                 ),
             ],
           ),
@@ -129,24 +134,31 @@ class _UpdatesPageState extends State<UpdatesPage> {
                     ],
                   ),
                 )
-              : GridView.builder(
-                  padding: const EdgeInsets.all(20),
-                  gridDelegate: kGridDelegate,
-                  itemCount: model.updates.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final update = model.updates.entries.elementAt(index).key;
-                    return UpdateBanner(
-                      selected: model.updates[update],
-                      processed: model.currentId == update,
-                      id: update,
-                      onChanged: model.updating
-                          ? null
-                          : (v) => model.selectUpdate(update, v!),
-                      percentage:
-                          model.currentId == update ? model.percentage : null,
-                    );
-                  },
+              : Container(
+                  width: 500,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Theme.of(context).dividerColor),
+                  ),
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(20),
+                    // gridDelegate: kGridDelegate,
+                    itemCount: model.updates.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      final update = model.updates.entries.elementAt(index).key;
+                      return UpdateBanner(
+                        selected: model.updates[update],
+                        processed: model.currentId == update,
+                        id: update,
+                        onChanged: model.updating
+                            ? null
+                            : (v) => model.selectUpdate(update, v!),
+                        percentage:
+                            model.currentId == update ? model.percentage : null,
+                      );
+                    },
+                  ),
                 ),
         ),
       ],
