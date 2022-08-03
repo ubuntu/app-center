@@ -134,30 +134,34 @@ class _UpdatesPageState extends State<UpdatesPage> {
                     ],
                   ),
                 )
-              : Container(
-                  width: 500,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Theme.of(context).dividerColor),
-                  ),
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(20),
-                    // gridDelegate: kGridDelegate,
-                    itemCount: model.updates.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      final update = model.updates.entries.elementAt(index).key;
-                      return UpdateBanner(
-                        selected: model.updates[update],
-                        processed: model.currentId == update,
-                        id: update,
-                        onChanged: model.updating
-                            ? null
-                            : (v) => model.selectUpdate(update, v!),
-                        percentage:
-                            model.currentId == update ? model.percentage : null,
-                      );
-                    },
+              : Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    width: 500,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Theme.of(context).dividerColor),
+                    ),
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(10),
+                      itemCount: model.updates.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final update =
+                            model.updates.entries.elementAt(index).key;
+                        return UpdateBanner(
+                          selected: model.updates[update],
+                          processed: model.currentId == update,
+                          id: update,
+                          onChanged: model.updating
+                              ? null
+                              : (v) => model.selectUpdate(update, v!),
+                          percentage: model.currentId == update
+                              ? model.percentage
+                              : null,
+                        );
+                      },
+                    ),
                   ),
                 ),
         ),
