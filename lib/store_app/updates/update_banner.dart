@@ -26,7 +26,7 @@ class UpdateBanner extends StatelessWidget {
       children: [
         if (processed)
           Opacity(
-            opacity: 0.5,
+            opacity: 0.3,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               child: YaruLinearProgressIndicator(
@@ -35,14 +35,17 @@ class UpdateBanner extends StatelessWidget {
               ),
             ),
           ),
-        CheckboxListTile(
-          value: selected,
-          onChanged: onChanged,
-          title: Text(id.name),
-          subtitle: Text(id.version),
-          secondary: const Icon(
-            YaruIcons.package_deb,
-            size: 50,
+        Opacity(
+          opacity: processed ? 0.7 : 1,
+          child: CheckboxListTile(
+            value: selected,
+            onChanged: onChanged,
+            title: Text(id.name),
+            subtitle: Text(id.version),
+            secondary: const Icon(
+              YaruIcons.package_deb,
+              size: 50,
+            ),
           ),
         )
       ],
