@@ -26,28 +26,35 @@ class UpdateBanner extends StatelessWidget {
       children: [
         if (processed)
           Opacity(
-            opacity: 0.3,
+            opacity: 0.2,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
-              child: YaruLinearProgressIndicator(
-                minHeight: 60,
+              child: LinearProgressIndicator(
+                minHeight: 110,
                 value: percentage != null ? percentage! / 100 : null,
               ),
             ),
           ),
         Opacity(
           opacity: processed ? 0.7 : 1,
-          child: CheckboxListTile(
-            value: selected,
-            onChanged: onChanged,
-            title: Text(id.name),
-            subtitle: Text(id.version),
-            secondary: const Icon(
+          child: YaruBanner(
+            name: id.name,
+            summary: id.version,
+            fallbackIconData: YaruIcons.package_deb,
+            icon: const Icon(
               YaruIcons.package_deb,
               size: 50,
             ),
           ),
-        )
+        ),
+        Positioned(
+          right: 10,
+          top: 10,
+          child: Checkbox(
+            value: selected,
+            onChanged: onChanged,
+          ),
+        ),
       ],
     );
   }
