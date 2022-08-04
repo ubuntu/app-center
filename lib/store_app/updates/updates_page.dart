@@ -135,7 +135,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
                   ),
                 )
               : Padding(
-                  padding: const EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.all(20),
                   child: Container(
                     width: 500,
                     decoration: BoxDecoration(
@@ -143,7 +143,6 @@ class _UpdatesPageState extends State<UpdatesPage> {
                       border: Border.all(color: Theme.of(context).dividerColor),
                     ),
                     child: ListView.builder(
-                      padding: const EdgeInsets.all(10),
                       itemCount: model.updates.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
