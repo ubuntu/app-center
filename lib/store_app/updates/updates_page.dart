@@ -70,48 +70,54 @@ class _UpdatesPageState extends State<UpdatesPage> {
                 },
                 child: const Icon(YaruIcons.settings),
               ),
-              const SizedBox(
-                width: 10,
-              ),
-              SizedBox(
-                width: 40,
-                child: !model.updating
-                    ? YaruRoundIconButton(
-                        onTap: () => model.refresh(),
-                        child: const Icon(YaruIcons.refresh),
-                      )
-                    : const SizedBox(
-                        height: 25,
-                        child: YaruCircularProgressIndicator(
-                          strokeWidth: 4,
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: SizedBox(
+                  width: 40,
+                  child: !model.updating
+                      ? YaruRoundIconButton(
+                          onTap: () => model.refresh(),
+                          child: const Icon(YaruIcons.refresh),
+                        )
+                      : const SizedBox(
+                          height: 25,
+                          child: YaruCircularProgressIndicator(
+                            strokeWidth: 4,
+                          ),
                         ),
-                      ),
+                ),
               ),
               if (model.updates.isNotEmpty)
-                const SizedBox(
-                  width: 10,
-                ),
-              if (model.updates.isNotEmpty)
-                OutlinedButton(
-                  onPressed: model.updating
-                      ? null
-                      : model.allSelected
-                          ? () => model.deselectAll()
-                          : () => model.selectAll(),
-                  child: Text(
-                    model.allSelected
-                        ? context.l10n.deselectAll
-                        : context.l10n.selectAll,
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: OutlinedButton(
+                    onPressed: model.updating
+                        ? null
+                        : model.allSelected
+                            ? () => model.deselectAll()
+                            : () => model.selectAll(),
+                    child: Text(
+                      model.allSelected
+                          ? context.l10n.deselectAll
+                          : context.l10n.selectAll,
+                    ),
                   ),
                 ),
               if (model.updates.isNotEmpty)
-                const SizedBox(
-                  width: 10,
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: ElevatedButton(
+                    onPressed: model.updating ? null : () => model.updateAll(),
+                    child: Text(context.l10n.updateSelected),
+                  ),
                 ),
-              if (model.updates.isNotEmpty)
-                ElevatedButton(
-                  onPressed: model.updating ? null : () => model.updateAll(),
-                  child: Text(context.l10n.updateSelected),
+              if (model.requireRestart && !model.updating)
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: ElevatedButton(
+                    onPressed: () => model.reboot(),
+                    child: Text(context.l10n.requireRestart),
+                  ),
                 ),
             ],
           ),

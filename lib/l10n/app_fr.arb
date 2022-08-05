@@ -61,5 +61,6 @@
   "noUpdates": "Aucune mise à jour disponible",
   "apps": "Applications",
   "filterSnaps": "Filter les Snaps",
-  "enterRepoName": "Entrer le nom du dépôt"
+  "enterRepoName": "Entrer le nom du dépôt",
+  "requireRestart": "Redémarrez pour finaliser l'installation des mises à jour"
 }

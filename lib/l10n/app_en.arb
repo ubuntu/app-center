@@ -61,5 +61,6 @@
   "noUpdates": "No updates available",
   "apps": "apps",
   "filterSnaps": "Set the snap filter",
-  "enterRepoName": "Enter repository name"
+  "enterRepoName": "Enter repository name",
+  "requireRestart": "Restart to finalize updates"
 } 
