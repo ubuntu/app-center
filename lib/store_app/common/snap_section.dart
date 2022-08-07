@@ -100,5 +100,5 @@ Map<SnapSection, IconData> snapSectionToIcon = {
   SnapSection.server_and_cloud: YaruIcons.weather_cloudy,
   SnapSection.social: YaruIcons.subtitles,
   SnapSection.utilities: YaruIcons.utilities,
-  SnapSection.all: YaruIcons.compass
+  SnapSection.all: YaruIcons.app_grid
 };
