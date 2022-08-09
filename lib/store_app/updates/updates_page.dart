@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/updates/update_banner.dart';
 import 'package:software/store_app/updates/updates_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -38,6 +37,8 @@ class _UpdatesPageState extends State<UpdatesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final hPadding = size.width > 1000 ? 200.0 : 50.0;
     final model = context.watch<UpdatesModel>();
     if (model.errorString.isNotEmpty) {
       return Center(
@@ -135,14 +136,21 @@ class _UpdatesPageState extends State<UpdatesPage> {
                     ],
                   ),
                 )
-              : GridView.builder(
-                  padding: const EdgeInsets.all(20),
-                  gridDelegate: kGridDelegate,
+              : ListView.builder(
+                  padding: EdgeInsets.only(
+                    top: 50,
+                    bottom: 50,
+                    left: hPadding,
+                    right: hPadding,
+                  ),
                   itemCount: model.updates.length,
+                  itemExtent: 100,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final update = model.updates.entries.elementAt(index).key;
-                    return UpdateBanner(
+
+                    return UpdateBanner.create(
+                      context: context,
                       selected: model.updates[update],
                       processed: model.currentId == update,
                       id: update,
