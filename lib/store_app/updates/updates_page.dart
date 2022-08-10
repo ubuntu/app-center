@@ -38,7 +38,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final hPadding = size.width > 1000 ? 200.0 : 50.0;
+    final hPadding = getHPadding(size.width);
     final model = context.watch<UpdatesModel>();
     if (model.errorString.isNotEmpty) {
       return Center(
@@ -165,6 +165,17 @@ class _UpdatesPageState extends State<UpdatesPage> {
         ),
       ],
     );
+  }
+
+  double getHPadding(double width) {
+    var padding = 550.0;
+    for (int i in [1800, 1700, 1600, 1500, 1400, 1300, 1200, 1100, 1000, 900]) {
+      if (width > i) {
+        return padding;
+      }
+      padding -= 50;
+    }
+    return padding;
   }
 }
 
