@@ -46,8 +46,11 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
                 fallbackIconData: YaruIcons.package_deb,
                 onTap: () => showDialog(
                   context: context,
-                  builder: (_) =>
-                      PackageDialog.create(context: context, id: package),
+                  builder: (_) => PackageDialog.create(
+                    context: context,
+                    id: package,
+                    installedId: package,
+                  ),
                 ),
               );
             },

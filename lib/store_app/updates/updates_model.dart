@@ -8,10 +8,11 @@ class UpdatesModel extends SafeChangeNotifier {
   final PackageKitClient _client;
 
   final Map<PackageKitPackageId, bool> updates = {};
+  final Map<String, PackageKitPackageId> installedPackages = {};
   bool requireRestart;
 
   int? percentage;
-  PackageKitPackageId? currentId;
+  PackageKitPackageId? processedId;
 
   void selectAll() {
     for (final entry in updates.entries) {
@@ -49,6 +50,7 @@ class UpdatesModel extends SafeChangeNotifier {
   }
 
   void init() {
+    getInstalledPackages();
     getUpdates();
     loadRepoList();
   }
@@ -106,7 +108,7 @@ class UpdatesModel extends SafeChangeNotifier {
       requireRestart = event is PackageKitRequireRestartEvent;
       if (event is PackageKitPackageEvent) {
         // print('[${event.packageId.name}] ${event.info}');
-        currentId = event.packageId;
+        processedId = event.packageId;
       } else if (event is PackageKitItemProgressEvent) {
         percentage = event.percentage;
         // print('[${event.packageId.name}] ${event.status} ${event.percentage}%');
@@ -183,5 +185,26 @@ class UpdatesModel extends SafeChangeNotifier {
       [],
       mode: ProcessStartMode.detached,
     );
+  }
+
+  Future<void> getInstalledPackages() async {
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    transaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        installedPackages.putIfAbsent(
+          event.packageId.name,
+          () => event.packageId,
+        );
+      } else if (event is PackageKitErrorCodeEvent) {
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+      notifyListeners();
+    });
+    await transaction.getPackages(
+      filter: {PackageKitFilter.installed},
+    );
+    await completer.future;
   }
 }

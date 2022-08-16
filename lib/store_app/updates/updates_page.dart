@@ -152,13 +152,15 @@ class _UpdatesPageState extends State<UpdatesPage> {
                     return UpdateBanner.create(
                       context: context,
                       selected: model.updates[update],
-                      processed: model.currentId == update,
-                      id: update,
+                      processed: model.processedId == update,
+                      updateId: update,
+                      installedId:
+                          model.installedPackages[update.name] ?? update,
                       onChanged: model.updating
                           ? null
                           : (v) => model.selectUpdate(update, v!),
                       percentage:
-                          model.currentId == update ? model.percentage : null,
+                          model.processedId == update ? model.percentage : null,
                     );
                   },
                 ),

@@ -14,24 +14,30 @@ class UpdateBanner extends StatefulWidget {
     this.onChanged,
     required this.processed,
     this.percentage,
-    required this.id,
+    required this.updateId,
+    required this.currentId,
   });
 
   static Widget create({
     required BuildContext context,
-    required PackageKitPackageId id,
+    required PackageKitPackageId updateId,
+    required PackageKitPackageId installedId,
     bool? selected,
     required bool processed,
     Function(bool?)? onChanged,
     int? percentage,
   }) {
     return ChangeNotifierProvider<PackageModel>(
-      create: (_) =>
-          PackageModel(getService<PackageKitClient>(), packageId: id),
+      create: (_) => PackageModel(
+        getService<PackageKitClient>(),
+        packageId: updateId,
+        installedId: installedId,
+      ),
       child: UpdateBanner(
         selected: selected,
         processed: processed,
-        id: id,
+        updateId: updateId,
+        currentId: installedId,
         onChanged: onChanged,
         percentage: percentage,
       ),
@@ -42,7 +48,8 @@ class UpdateBanner extends StatefulWidget {
   final Function(bool?)? onChanged;
   final bool processed;
   final int? percentage;
-  final PackageKitPackageId id;
+  final PackageKitPackageId updateId;
+  final PackageKitPackageId currentId;
 
   @override
   State<UpdateBanner> createState() => _UpdateBannerState();
@@ -87,8 +94,9 @@ class _UpdateBannerState extends State<UpdateBanner> {
             ),
             bannerWidth: 500,
             nameTextOverflow: TextOverflow.visible,
-            name: widget.id.name,
-            summary: widget.id.version,
+            name: widget.updateId.name,
+            summary:
+                '${widget.updateId.version} -> ${widget.currentId.version}',
             fallbackIconData: YaruIcons.package_deb,
             icon: const Icon(
               YaruIcons.package_deb,

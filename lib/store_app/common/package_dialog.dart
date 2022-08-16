@@ -16,12 +16,14 @@ class PackageDialog extends StatefulWidget {
   static Widget create({
     required BuildContext context,
     required PackageKitPackageId id,
+    required PackageKitPackageId installedId,
     bool showActions = true,
   }) {
     return ChangeNotifierProvider(
       create: (context) => PackageModel(
         getService<PackageKitClient>(),
         packageId: id,
+        installedId: installedId,
       ),
       child: PackageDialog(
         showActions: showActions,
@@ -78,42 +80,25 @@ class _PackageDialogState extends State<PackageDialog> {
           : SizedBox(
               width: 400,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   YaruSingleInfoRow(
                     infoLabel: 'Name',
                     infoValue: model.name,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   YaruSingleInfoRow(
                     infoLabel: 'Version',
                     infoValue: model.version,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   YaruSingleInfoRow(infoLabel: 'Arch', infoValue: model.arch),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   YaruSingleInfoRow(infoLabel: 'Data', infoValue: model.data),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   YaruSingleInfoRow(
                     infoLabel: 'License',
                     infoValue: model.license,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   YaruSingleInfoRow(
                     infoLabel: 'Size',
                     infoValue: model.size.toString(),
-                  ),
-                  const SizedBox(
-                    height: 10,
                   ),
                   YaruSingleInfoRow(
                     infoLabel: 'Description',
