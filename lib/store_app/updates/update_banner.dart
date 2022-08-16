@@ -95,8 +95,30 @@ class _UpdateBannerState extends State<UpdateBanner> {
             bannerWidth: 500,
             nameTextOverflow: TextOverflow.visible,
             name: widget.updateId.name,
-            summary:
-                '${widget.updateId.version} -> ${widget.currentId.version}',
+            subtitleWidget: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  widget.currentId.version,
+                  style: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const Icon(YaruIcons.pan_end),
+                Expanded(
+                  child: Text(
+                    widget.updateId.version,
+                    style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? const Color.fromARGB(255, 51, 121, 63)
+                          : const Color.fromARGB(255, 128, 211, 143),
+                    ),
+                  ),
+                )
+              ],
+            ),
             fallbackIconData: YaruIcons.package_deb,
             icon: const Icon(
               YaruIcons.package_deb,
