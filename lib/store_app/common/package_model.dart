@@ -4,14 +4,16 @@ import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 
 class PackageModel extends SafeChangeNotifier {
-  PackageModel(this._client, {required this.packageId})
-      : _progress = 0,
+  PackageModel(
+    this._client, {
+    required this.packageId,
+    required this.installedId,
+  })  : _progress = 0,
         _status = '',
         _license = '',
         _size = 0,
         _summary = '',
-        _url = '',
-        _installedPackageIds = [] {
+        _url = '' {
     _client.connect();
   }
 
@@ -19,7 +21,6 @@ class PackageModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     await _getDetails();
-    await _getInstalledPackages();
     await _checkForUpdate();
     processing = false;
     notifyListeners();
@@ -30,6 +31,14 @@ class PackageModel extends SafeChangeNotifier {
   set packageId(PackageKitPackageId? value) {
     if (value == packageId) return;
     packageId = value;
+    notifyListeners();
+  }
+
+  /// The ID of the package if it is installed, only relevant for updates.
+  final PackageKitPackageId installedId;
+  set installedId(PackageKitPackageId? value) {
+    if (value == installedId) return;
+    installedId = value;
     notifyListeners();
   }
 
@@ -127,12 +136,12 @@ class PackageModel extends SafeChangeNotifier {
       } else if (event is PackageKitErrorCodeEvent) {
       } else if (event is PackageKitFinishedEvent) {
         removeCompleter.complete();
+        packageIsInstalled = false;
       }
       notifyListeners();
     });
     await removeTransaction.removePackages([packageId]);
     await removeCompleter.future;
-    _installedPackageIds.remove(packageId);
     processing = false;
     notifyListeners();
   }
@@ -149,12 +158,12 @@ class PackageModel extends SafeChangeNotifier {
         progress = event.percentage;
       } else if (event is PackageKitFinishedEvent) {
         installCompleter.complete();
+        packageIsInstalled = true;
       }
       notifyListeners();
     });
     await installTransaction.installPackages([packageId]);
     await installCompleter.future;
-    _installedPackageIds.add(packageId);
     processing = false;
     notifyListeners();
   }
@@ -168,6 +177,9 @@ class PackageModel extends SafeChangeNotifier {
         url = event.url;
         license = event.license;
         size = event.size;
+        description = event.description;
+        group = event.group;
+        url = event.url;
       } else if (event is PackageKitFinishedEvent) {
         detailsCompleter.complete();
       }
@@ -177,30 +189,7 @@ class PackageModel extends SafeChangeNotifier {
     await detailsCompleter.future;
   }
 
-  /// Load all installed packageIds into this set to check
-  /// if the package is already installed
-  final List<PackageKitPackageId> _installedPackageIds;
-  bool get packageIsInstalled => _installedPackageIds.contains(packageId);
-
-  /// Fills [_installedPackageIds] with the ids of all installed applications.
-  Future<void> _getInstalledPackages() async {
-    _installedPackageIds.clear();
-    final transaction = await _client.createTransaction();
-    final completer = Completer();
-    transaction.events.listen((packageKitEvent) {
-      if (packageKitEvent is PackageKitPackageEvent) {
-        _installedPackageIds.add(packageKitEvent.packageId);
-      } else if (packageKitEvent is PackageKitErrorCodeEvent) {
-      } else if (packageKitEvent is PackageKitFinishedEvent) {
-        completer.complete();
-      }
-      notifyListeners();
-    });
-    await transaction.getPackages(
-      filter: {PackageKitFilter.installed, PackageKitFilter.application},
-    );
-    await completer.future;
-  }
+  bool packageIsInstalled = true;
 
   Future<void> update() async {
     final updatePackagesTransaction = await _client.createTransaction();

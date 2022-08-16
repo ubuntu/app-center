@@ -9,15 +9,25 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageDialog extends StatefulWidget {
-  const PackageDialog({Key? key}) : super(key: key);
+  const PackageDialog({Key? key, this.showActions = true}) : super(key: key);
 
-  static Widget create(BuildContext context, PackageKitPackageId package) {
+  final bool showActions;
+
+  static Widget create({
+    required BuildContext context,
+    required PackageKitPackageId id,
+    required PackageKitPackageId installedId,
+    bool showActions = true,
+  }) {
     return ChangeNotifierProvider(
       create: (context) => PackageModel(
         getService<PackageKitClient>(),
-        packageId: package,
+        packageId: id,
+        installedId: installedId,
       ),
-      child: const PackageDialog(),
+      child: PackageDialog(
+        showActions: showActions,
+      ),
     );
   }
 
@@ -42,46 +52,80 @@ class _PackageDialogState extends State<PackageDialog> {
       ),
       titlePadding: EdgeInsets.zero,
       scrollable: true,
-      content: Stack(
-        alignment: Alignment.center,
-        children: [
-          SizedBox(
-            width: 145,
-            height: 185,
-            child: LiquidLinearProgressIndicator(
-              value: model.packageIsInstalled ? 1 : 0,
-              backgroundColor: Colors.white.withOpacity(0.5),
-              valueColor: AlwaysStoppedAnimation(
-                Theme.of(context).primaryColor,
+      content: model.processing
+          ? Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: 145,
+                  height: 185,
+                  child: LiquidLinearProgressIndicator(
+                    value: model.packageIsInstalled ? 1 : 0,
+                    backgroundColor: Colors.white.withOpacity(0.5),
+                    valueColor: AlwaysStoppedAnimation(
+                      Theme.of(context).primaryColor,
+                    ),
+                    direction: Axis.vertical,
+                    borderRadius: 20,
+                  ),
+                ),
+                Icon(
+                  YaruIcons.debian,
+                  size: 120,
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
+                ),
+              ],
+            )
+          : SizedBox(
+              width: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  YaruSingleInfoRow(
+                    infoLabel: 'Name',
+                    infoValue: model.name,
+                  ),
+                  YaruSingleInfoRow(
+                    infoLabel: 'Version',
+                    infoValue: model.version,
+                  ),
+                  YaruSingleInfoRow(infoLabel: 'Arch', infoValue: model.arch),
+                  YaruSingleInfoRow(infoLabel: 'Data', infoValue: model.data),
+                  YaruSingleInfoRow(
+                    infoLabel: 'License',
+                    infoValue: model.license,
+                  ),
+                  YaruSingleInfoRow(
+                    infoLabel: 'Size',
+                    infoValue: model.size.toString(),
+                  ),
+                  YaruSingleInfoRow(
+                    infoLabel: 'Description',
+                    infoValue: model.description.toString(),
+                  ),
+                ],
               ),
-              direction: Axis.vertical,
-              borderRadius: 20,
             ),
-          ),
-          Icon(
-            YaruIcons.debian,
-            size: 120,
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
-          ),
-        ],
-      ),
-      actions: [
-        if (model.packageIsInstalled)
-          OutlinedButton(
-            onPressed: model.processing ? null : model.remove,
-            child: Text(context.l10n.remove),
-          ),
-        if (!model.updateAvailable && !model.packageIsInstalled)
-          ElevatedButton(
-            onPressed: model.processing ? null : model.install,
-            child: Text(context.l10n.install),
-          ),
-        if (model.updateAvailable)
-          ElevatedButton(
-            onPressed: model.processing ? null : model.update,
-            child: Text(context.l10n.update),
-          )
-      ],
+      actions: widget.showActions == false
+          ? null
+          : [
+              if (model.packageIsInstalled)
+                OutlinedButton(
+                  onPressed: model.processing ? null : model.remove,
+                  child: Text(context.l10n.remove),
+                ),
+              if (!model.updateAvailable && !model.packageIsInstalled)
+                ElevatedButton(
+                  onPressed: model.processing ? null : model.install,
+                  child: Text(context.l10n.install),
+                ),
+              if (model.updateAvailable)
+                ElevatedButton(
+                  onPressed: model.processing ? null : model.update,
+                  child: Text(context.l10n.update),
+                )
+            ],
     );
   }
 }

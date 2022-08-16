@@ -103,8 +103,9 @@ class _PackageKitSearchPage extends StatelessWidget {
                           onTap: () => showDialog(
                             context: context,
                             builder: (context) => PackageDialog.create(
-                              context,
-                              id,
+                              context: context,
+                              id: id,
+                              installedId: id,
                             ),
                           ),
                           fallbackIconData: YaruIcons.package_deb,

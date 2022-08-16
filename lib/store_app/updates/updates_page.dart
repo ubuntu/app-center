@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/updates/update_banner.dart';
 import 'package:software/store_app/updates/updates_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -38,6 +37,8 @@ class _UpdatesPageState extends State<UpdatesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final hPadding = getHPadding(size.width);
     final model = context.watch<UpdatesModel>();
     if (model.errorString.isNotEmpty) {
       return Center(
@@ -135,28 +136,48 @@ class _UpdatesPageState extends State<UpdatesPage> {
                     ],
                   ),
                 )
-              : GridView.builder(
-                  padding: const EdgeInsets.all(20),
-                  gridDelegate: kGridDelegate,
+              : ListView.builder(
+                  padding: EdgeInsets.only(
+                    top: 50,
+                    bottom: 50,
+                    left: hPadding,
+                    right: hPadding,
+                  ),
                   itemCount: model.updates.length,
+                  itemExtent: 100,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final update = model.updates.entries.elementAt(index).key;
-                    return UpdateBanner(
+
+                    return UpdateBanner.create(
+                      context: context,
                       selected: model.updates[update],
-                      processed: model.currentId == update,
-                      id: update,
+                      processed: model.processedId == update,
+                      updateId: update,
+                      installedId:
+                          model.installedPackages[update.name] ?? update,
                       onChanged: model.updating
                           ? null
                           : (v) => model.selectUpdate(update, v!),
                       percentage:
-                          model.currentId == update ? model.percentage : null,
+                          model.processedId == update ? model.percentage : null,
                     );
                   },
                 ),
         ),
       ],
     );
+  }
+
+  double getHPadding(double width) {
+    var padding = 550.0;
+    for (int i in [1800, 1700, 1600, 1500, 1400, 1300, 1200, 1100, 1000, 900]) {
+      if (width > i) {
+        return padding;
+      }
+      padding -= 50;
+    }
+    return padding;
   }
 }
 
