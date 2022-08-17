@@ -264,8 +264,7 @@ class PackageModel extends SafeChangeNotifier {
     final completer = Completer();
     transaction.events.listen((event) {
       if (event is PackageKitUpdateDetailEvent) {
-        changelog = '${event.updateText}\n\n';
-        changelog += event.changelog;
+        changelog = event.changelog;
         issued = DateFormat.yMMMMEEEEd(Platform.localeName)
             .format(event.issued ?? DateTime.now());
       } else if (event is PackageKitErrorCodeEvent) {
