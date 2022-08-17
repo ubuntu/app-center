@@ -45,6 +45,7 @@ class _PackageDialogState extends State<PackageDialog> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
+    final caption = Theme.of(context).textTheme.caption;
     return AlertDialog(
       title: YaruDialogTitle(
         title: model.name,
@@ -83,26 +84,59 @@ class _PackageDialogState extends State<PackageDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   YaruSingleInfoRow(
-                    infoLabel: 'Name',
-                    infoValue: model.name,
-                  ),
-                  YaruSingleInfoRow(
-                    infoLabel: 'Version',
+                    infoLabel: context.l10n.version,
                     infoValue: model.version,
                   ),
                   YaruSingleInfoRow(infoLabel: 'Arch', infoValue: model.arch),
                   YaruSingleInfoRow(infoLabel: 'Data', infoValue: model.data),
                   YaruSingleInfoRow(
-                    infoLabel: 'License',
+                    infoLabel: context.l10n.license,
                     infoValue: model.license,
                   ),
                   YaruSingleInfoRow(
-                    infoLabel: 'Size',
+                    infoLabel: context.l10n.size,
                     infoValue: model.size.toString(),
                   ),
-                  YaruSingleInfoRow(
-                    infoLabel: 'Description',
-                    infoValue: model.description.toString(),
+                  if (model.updateAvailable)
+                    YaruSingleInfoRow(
+                      infoLabel: context.l10n.issued,
+                      infoValue: model.issued,
+                    ),
+                  if (model.updateAvailable)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: YaruExpandable(
+                        header: Text(context.l10n.changelog),
+                        expandIcon: const Icon(YaruIcons.pan_end),
+                        isExpanded: true,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                model.changelog,
+                                style: caption,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: YaruExpandable(
+                      header: Text(context.l10n.description),
+                      expandIcon: const Icon(YaruIcons.pan_end),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              model.description,
+                              style: caption,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -25,7 +25,8 @@ dependencies:
   intl: ^0.17.0
   liquid_progress_indicator: ^0.4.0
   package_info_plus: ^1.4.2
-  packagekit: ^0.2.1
+  packagekit:
+    git: https://github.com/canonical/packagekit.dart
   palette_generator: ^0.3.3
   provider: ^6.0.2
   quiver: ^3.1.0

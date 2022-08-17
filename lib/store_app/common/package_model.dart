@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:math';
 
+import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 
@@ -11,7 +14,7 @@ class PackageModel extends SafeChangeNotifier {
   })  : _progress = 0,
         _status = '',
         _license = '',
-        _size = 0,
+        _size = '',
         _summary = '',
         _url = '' {
     _client.connect();
@@ -22,6 +25,9 @@ class PackageModel extends SafeChangeNotifier {
   Future<void> init() async {
     await _getDetails();
     await _checkForUpdate();
+    if (updateAvailable) {
+      await getUpdateDetail();
+    }
     processing = false;
     notifyListeners();
   }
@@ -94,12 +100,18 @@ class PackageModel extends SafeChangeNotifier {
   }
 
   /// The size of the package in bytes.
-  int _size;
-  int get size => _size;
-  set size(int value) {
-    if (value == _size) return;
-    _size = value;
+  String _size;
+  String get size => _size;
+  void setSize(int value) {
+    _size = _formatBytes(value, 2);
     notifyListeners();
+  }
+
+  String _formatBytes(int bytes, int decimals) {
+    if (bytes <= 0) return '0 B';
+    const suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    var i = (log(bytes) / log(1024)).floor();
+    return '${(bytes / pow(1024, i)).toStringAsFixed(decimals)} ${suffixes[i]}';
   }
 
   /// Progress of the installation/removal
@@ -176,7 +188,7 @@ class PackageModel extends SafeChangeNotifier {
         summary = event.summary;
         url = event.url;
         license = event.license;
-        size = event.size;
+        setSize(event.size);
         description = event.description;
         group = event.group;
         url = event.url;
@@ -230,5 +242,39 @@ class PackageModel extends SafeChangeNotifier {
     await transaction.getUpdates();
     await completer.future;
     notifyListeners();
+  }
+
+  String _changelog = '';
+  String get changelog => _changelog;
+  set changelog(String value) {
+    if (value == _changelog) return;
+    _changelog = value;
+  }
+
+  String _issued = '';
+  String get issued => _issued;
+  set issued(String value) {
+    if (value == _issued) return;
+    _issued = value;
+  }
+
+  Future<void> getUpdateDetail() async {
+    changelog = '';
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    transaction.events.listen((event) {
+      if (event is PackageKitUpdateDetailEvent) {
+        changelog = '${event.updateText}\n\n';
+        changelog += event.changelog;
+        issued = DateFormat.yMMMMEEEEd(Platform.localeName)
+            .format(event.issued ?? DateTime.now());
+      } else if (event is PackageKitErrorCodeEvent) {
+        // print('${event.code}: ${event.details}');
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+    await transaction.getUpdateDetail([packageId]);
+    await completer.future;
   }
 }
