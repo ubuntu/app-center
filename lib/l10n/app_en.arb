@@ -62,5 +62,7 @@
   "apps": "apps",
   "filterSnaps": "Set the snap filter",
   "enterRepoName": "Enter repository name",
-  "requireRestart": "Restart to finalize updates"
+  "requireRestart": "Restart to finalize updates",
+  "issued": "Issued",
+  "changelog": "Changelog"
 } 
