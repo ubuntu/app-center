@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
@@ -52,6 +53,7 @@ class _PackageDialogState extends State<PackageDialog> {
         closeIconData: YaruIcons.window_close,
       ),
       titlePadding: EdgeInsets.zero,
+      contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       scrollable: true,
       content: model.processing
           ? Stack(
@@ -103,39 +105,42 @@ class _PackageDialogState extends State<PackageDialog> {
                       infoValue: model.issued,
                     ),
                   if (model.updateAvailable)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: YaruExpandable(
-                        header: Text(context.l10n.changelog),
-                        expandIcon: const Icon(YaruIcons.pan_end),
-                        isExpanded: true,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                model.changelog,
-                                style: caption,
-                              ),
-                            ),
-                          ],
+                    YaruExpandable(
+                      header: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(context.l10n.changelog),
+                      ),
+                      expandIcon: const Icon(YaruIcons.pan_end),
+                      isExpanded: true,
+                      child: SizedBox(
+                        height: 250,
+                        child: Markdown(
+                          data: model.changelog,
+                          shrinkWrap: true,
+                          selectable: true,
+                          styleSheet: MarkdownStyleSheet(p: caption),
+                          padding: const EdgeInsets.only(left: 8, right: 8),
                         ),
                       ),
                     ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: YaruExpandable(
-                      header: Text(context.l10n.description),
-                      expandIcon: const Icon(YaruIcons.pan_end),
-                      child: Row(
-                        children: [
-                          Expanded(
+                  YaruExpandable(
+                    header: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(context.l10n.description),
+                    ),
+                    expandIcon: const Icon(YaruIcons.pan_end),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(
                               model.description,
                               style: caption,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
