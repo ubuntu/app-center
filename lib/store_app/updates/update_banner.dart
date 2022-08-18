@@ -58,7 +58,7 @@ class UpdateBanner extends StatefulWidget {
 class _UpdateBannerState extends State<UpdateBanner> {
   @override
   void initState() {
-    context.read<PackageModel>().init();
+    context.read<PackageModel>().getUpdateDetail();
     super.initState();
   }
 

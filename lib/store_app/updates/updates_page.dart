@@ -75,7 +75,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
                 padding: const EdgeInsets.only(left: 10),
                 child: SizedBox(
                   width: 40,
-                  child: !model.updating
+                  child: !model.processing
                       ? YaruRoundIconButton(
                           onTap: () => model.refresh(),
                           child: const Icon(YaruIcons.refresh),
@@ -92,7 +92,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: OutlinedButton(
-                    onPressed: model.updating
+                    onPressed: model.processing
                         ? null
                         : model.allSelected
                             ? () => model.deselectAll()
@@ -108,11 +108,12 @@ class _UpdatesPageState extends State<UpdatesPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: ElevatedButton(
-                    onPressed: model.updating ? null : () => model.updateAll(),
+                    onPressed:
+                        model.processing ? null : () => model.updateAll(),
                     child: Text(context.l10n.updateSelected),
                   ),
                 ),
-              if (model.requireRestart && !model.updating)
+              if (model.requireRestart && !model.processing)
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: ElevatedButton(
@@ -124,14 +125,26 @@ class _UpdatesPageState extends State<UpdatesPage> {
           ),
         ),
         Expanded(
-          child: model.updates.isEmpty
+          child: model.updates.isEmpty && !model.processing
               ? Center(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        context.l10n.noUpdates,
-                        style: Theme.of(context).textTheme.headline4,
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            YaruIcons.ok_filled,
+                            size: 90,
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Text(
+                            context.l10n.noUpdates,
+                            style: Theme.of(context).textTheme.headline4,
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -156,7 +169,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
                       updateId: update,
                       installedId:
                           model.installedPackages[update.name] ?? update,
-                      onChanged: model.updating
+                      onChanged: model.processing
                           ? null
                           : (v) => model.selectUpdate(update, v!),
                       percentage:

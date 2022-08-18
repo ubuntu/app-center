@@ -24,29 +24,13 @@ class PackageModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     await _getDetails();
-    await _checkForUpdate();
-    if (updateAvailable) {
-      await getUpdateDetail();
-    }
-    processing = false;
-    notifyListeners();
   }
 
   /// The ID of the package.
   final PackageKitPackageId packageId;
-  set packageId(PackageKitPackageId? value) {
-    if (value == packageId) return;
-    packageId = value;
-    notifyListeners();
-  }
 
   /// The ID of the package if it is installed, only relevant for updates.
   final PackageKitPackageId installedId;
-  set installedId(PackageKitPackageId? value) {
-    if (value == installedId) return;
-    installedId = value;
-    notifyListeners();
-  }
 
   // Convenience getters
   String get version => packageId.version;
@@ -133,7 +117,8 @@ class PackageModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  bool processing = true;
+  bool processing = false;
+  bool packageIsInstalled = true;
 
   /// Removes with package with [packageId]
   Future<void> remove() async {
@@ -180,6 +165,7 @@ class PackageModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  /// Get the details about the package or update with given [packageId]
   Future<void> _getDetails() async {
     var installTransaction = await _client.createTransaction();
     var detailsCompleter = Completer();
@@ -195,53 +181,9 @@ class PackageModel extends SafeChangeNotifier {
       } else if (event is PackageKitFinishedEvent) {
         detailsCompleter.complete();
       }
-      notifyListeners();
     });
     await installTransaction.getDetails([packageId]);
     await detailsCompleter.future;
-  }
-
-  bool packageIsInstalled = true;
-
-  Future<void> update() async {
-    final updatePackagesTransaction = await _client.createTransaction();
-    final updatePackagesCompleter = Completer();
-    processing = true;
-    updatePackagesTransaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        // print('[${event.packageId.name}] ${event.info}');
-      } else if (event is PackageKitItemProgressEvent) {
-        // print('[${event.packageId.name}] ${event.status} ${event.percentage}%');
-      } else if (event is PackageKitErrorCodeEvent) {
-        // print('${event.code}: ${event.details}');
-      } else if (event is PackageKitFinishedEvent) {
-        updatePackagesCompleter.complete();
-        processing = false;
-      }
-    });
-    await updatePackagesTransaction.updatePackages([packageId]);
-    await updatePackagesCompleter.future;
-    notifyListeners();
-  }
-
-  bool updateAvailable = false;
-  Future<void> _checkForUpdate() async {
-    final transaction = await _client.createTransaction();
-    final completer = Completer();
-    transaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        if (event.packageId == packageId) {
-          updateAvailable = true;
-        }
-      } else if (event is PackageKitErrorCodeEvent) {
-      } else if (event is PackageKitFinishedEvent) {
-        completer.complete();
-      }
-      notifyListeners();
-    });
-    await transaction.getUpdates();
-    await completer.future;
-    notifyListeners();
   }
 
   String _changelog = '';
@@ -249,6 +191,7 @@ class PackageModel extends SafeChangeNotifier {
   set changelog(String value) {
     if (value == _changelog) return;
     _changelog = value;
+    notifyListeners();
   }
 
   String _issued = '';
@@ -256,8 +199,10 @@ class PackageModel extends SafeChangeNotifier {
   set issued(String value) {
     if (value == _issued) return;
     _issued = value;
+    notifyListeners();
   }
 
+  /// Get more details about given [packageId]
   Future<void> getUpdateDetail() async {
     changelog = '';
     final transaction = await _client.createTransaction();

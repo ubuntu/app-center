@@ -11,8 +11,21 @@ class UpdatesModel extends SafeChangeNotifier {
   final Map<String, PackageKitPackageId> installedPackages = {};
   bool requireRestart;
 
-  int? percentage;
-  PackageKitPackageId? processedId;
+  int? _percentage;
+  int? get percentage => _percentage;
+  set percentage(int? value) {
+    if (value == _percentage) return;
+    _percentage = value;
+    notifyListeners();
+  }
+
+  PackageKitPackageId? _processedId;
+  PackageKitPackageId? get processedId => _processedId;
+  set processedId(PackageKitPackageId? value) {
+    if (value == _processedId) return;
+    _processedId = value;
+    notifyListeners();
+  }
 
   void selectAll() {
     for (final entry in updates.entries) {
@@ -36,8 +49,22 @@ class UpdatesModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  String errorString = '';
-  bool updating = false;
+  String _errorString = '';
+  String get errorString => _errorString;
+  set errorString(String value) {
+    if (value == _errorString) return;
+    _errorString = value;
+    notifyListeners();
+  }
+
+  bool _processing = true;
+  bool get processing => _processing;
+  set processing(bool value) {
+    if (value == _processing) return;
+    _processing = value;
+    notifyListeners();
+  }
+
   String _manualRepoName = '';
   set manualRepoName(String value) {
     if (value == _manualRepoName) return;
@@ -49,32 +76,35 @@ class UpdatesModel extends SafeChangeNotifier {
     _client.connect();
   }
 
-  void init() {
-    getInstalledPackages();
-    getUpdates();
-    loadRepoList();
+  void init() async {
+    await _getInstalledPackages();
+    await _getUpdates();
+    await _loadRepoList();
+    notifyListeners();
   }
 
   Future<void> refresh() async {
+    processing = true;
+    errorString = '';
     final transaction = await _client.createTransaction();
     final completer = Completer();
-    updating = true;
     transaction.events.listen((event) {
       if (event is PackageKitRepositoryDetailEvent) {
         // print(event.description);
       } else if (event is PackageKitErrorCodeEvent) {
-        // print('${event.code}: ${event.details}');
+        errorString = '${event.code}: ${event.details}';
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
     });
     await transaction.refreshCache();
     await completer.future;
-    updating = false;
+    await _getUpdates();
     notifyListeners();
   }
 
-  Future<void> getUpdates() async {
+  Future<void> _getUpdates() async {
+    processing = true;
     updates.clear();
     errorString = '';
     final transaction = await _client.createTransaction();
@@ -87,15 +117,15 @@ class UpdatesModel extends SafeChangeNotifier {
         errorString = '${event.code}: ${event.details}';
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
+        processing = false;
       }
-      notifyListeners();
     });
     await transaction.getUpdates();
     await completer.future;
-    notifyListeners();
   }
 
   Future<void> updateAll() async {
+    errorString = '';
     final List<PackageKitPackageId> selectedUpdates = updates.entries
         .where((e) => e.value == true)
         .map((e) => e.key)
@@ -103,45 +133,40 @@ class UpdatesModel extends SafeChangeNotifier {
     if (selectedUpdates.isEmpty) return;
     final updatePackagesTransaction = await _client.createTransaction();
     final updatePackagesCompleter = Completer();
-    updating = true;
+    processing = true;
     updatePackagesTransaction.events.listen((event) {
       requireRestart = event is PackageKitRequireRestartEvent;
       if (event is PackageKitPackageEvent) {
-        // print('[${event.packageId.name}] ${event.info}');
         processedId = event.packageId;
       } else if (event is PackageKitItemProgressEvent) {
         percentage = event.percentage;
-        // print('[${event.packageId.name}] ${event.status} ${event.percentage}%');
       } else if (event is PackageKitErrorCodeEvent) {
-        // print('${event.code}: ${event.details}');
+        errorString = '${event.code}: ${event.details}';
       } else if (event is PackageKitFinishedEvent) {
         updatePackagesCompleter.complete();
-        updating = false;
+        processing = false;
       }
-      notifyListeners();
     });
     await updatePackagesTransaction.updatePackages(selectedUpdates);
     await updatePackagesCompleter.future;
-    await getUpdates();
+    await _getUpdates();
     notifyListeners();
   }
 
   final List<PackageKitRepositoryDetailEvent> repos = [];
-  Future<void> loadRepoList() async {
+  Future<void> _loadRepoList() async {
+    errorString = '';
     repos.clear();
     final transaction = await _client.createTransaction();
     final completer = Completer();
     transaction.events.listen((event) {
       if (event is PackageKitRepositoryDetailEvent) {
         repos.add(event);
-        // print(
-        // '${event.enabled ? 'Enabled ' : 'Disabled'} ${event.repoId} ${event.description}');
       } else if (event is PackageKitErrorCodeEvent) {
-        // print('${event.code}: ${event.details}');
+        errorString = '${event.code}: ${event.details}';
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
-      notifyListeners();
     });
     await transaction.getRepositoryList();
     await completer.future;
@@ -152,14 +177,13 @@ class UpdatesModel extends SafeChangeNotifier {
     final transaction = await _client.createTransaction();
     final completer = Completer();
     transaction.events.listen((event) {
-      // print(event);
       if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
     });
     await transaction.setRepositoryEnabled(id, value);
     await completer.future;
-    loadRepoList();
+    _loadRepoList();
   }
 
   // Not implemented in packagekit.dart
@@ -173,7 +197,7 @@ class UpdatesModel extends SafeChangeNotifier {
       ],
       mode: ProcessStartMode.detached,
     );
-    loadRepoList();
+    _loadRepoList();
   }
 
   // Not implemented in packagekit.dart and too hard for apt-add-repository
@@ -187,7 +211,8 @@ class UpdatesModel extends SafeChangeNotifier {
     );
   }
 
-  Future<void> getInstalledPackages() async {
+  Future<void> _getInstalledPackages() async {
+    errorString = '';
     final transaction = await _client.createTransaction();
     final completer = Completer();
     transaction.events.listen((event) {
@@ -197,10 +222,10 @@ class UpdatesModel extends SafeChangeNotifier {
           () => event.packageId,
         );
       } else if (event is PackageKitErrorCodeEvent) {
+        errorString = '${event.code}: ${event.details}';
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
-      notifyListeners();
     });
     await transaction.getPackages(
       filter: {PackageKitFilter.installed},
