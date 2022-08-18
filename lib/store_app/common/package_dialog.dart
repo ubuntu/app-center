@@ -99,12 +99,12 @@ class _PackageDialogState extends State<PackageDialog> {
                     infoLabel: context.l10n.size,
                     infoValue: model.size.toString(),
                   ),
-                  if (model.updateAvailable)
+                  if (!widget.showActions)
                     YaruSingleInfoRow(
                       infoLabel: context.l10n.issued,
                       infoValue: model.issued,
                     ),
-                  if (model.updateAvailable)
+                  if (!widget.showActions)
                     YaruExpandable(
                       header: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -128,6 +128,7 @@ class _PackageDialogState extends State<PackageDialog> {
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Text(context.l10n.description),
                     ),
+                    isExpanded: widget.showActions,
                     expandIcon: const Icon(YaruIcons.pan_end),
                     child: Row(
                       children: [
@@ -154,16 +155,11 @@ class _PackageDialogState extends State<PackageDialog> {
                   onPressed: model.processing ? null : model.remove,
                   child: Text(context.l10n.remove),
                 ),
-              if (!model.updateAvailable && !model.packageIsInstalled)
+              if (!model.packageIsInstalled)
                 ElevatedButton(
                   onPressed: model.processing ? null : model.install,
                   child: Text(context.l10n.install),
                 ),
-              if (model.updateAvailable)
-                ElevatedButton(
-                  onPressed: model.processing ? null : model.update,
-                  child: Text(context.l10n.update),
-                )
             ],
     );
   }
