@@ -7,3 +7,5 @@ const kGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
   crossAxisSpacing: 15,
   maxCrossAxisExtent: 550,
 );
+const positiveGreenLightTheme = Color.fromARGB(255, 51, 121, 63);
+const positiveGreenDarkTheme = Color.fromARGB(255, 128, 211, 143);

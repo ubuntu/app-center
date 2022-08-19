@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/package_dialog.dart';
 import 'package:software/store_app/common/package_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -112,8 +113,8 @@ class _UpdateBannerState extends State<UpdateBanner> {
                     style: TextStyle(
                       overflow: TextOverflow.ellipsis,
                       color: Theme.of(context).brightness == Brightness.light
-                          ? const Color.fromARGB(255, 51, 121, 63)
-                          : const Color.fromARGB(255, 128, 211, 143),
+                          ? positiveGreenLightTheme
+                          : positiveGreenDarkTheme,
                     ),
                   ),
                 )

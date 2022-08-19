@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/updates/update_banner.dart';
 import 'package:software/store_app/updates/updates_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -133,16 +134,23 @@ class _UpdatesPageState extends State<UpdatesPage> {
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
+                          Icon(
                             YaruIcons.ok_filled,
                             size: 90,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? positiveGreenLightTheme
+                                    : positiveGreenDarkTheme,
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           Text(
                             context.l10n.noUpdates,
                             style: Theme.of(context).textTheme.headline4,
+                          ),
+                          const SizedBox(
+                            height: 100,
                           ),
                         ],
                       ),
