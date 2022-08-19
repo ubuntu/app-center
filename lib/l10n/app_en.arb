@@ -58,7 +58,7 @@
   "selectAll": "Select all",
   "deselectAll": "Deselect all",
   "update": "Update",
-  "noUpdates": "Everything is up-to-date",
+  "noUpdates": "Everything is up to date",
   "apps": "apps",
   "filterSnaps": "Set the snap filter",
   "enterRepoName": "Enter repository name",
