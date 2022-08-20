@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/my_apps/my_snaps_model.dart';
@@ -61,15 +62,17 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
       itemCount: widget.snaps.length,
       itemBuilder: (context, index) {
         final snap = widget.snaps.elementAt(index);
-        return YaruBanner(
-          name: snap.name,
-          summary: snap.summary,
-          url: snap.iconUrl,
-          fallbackIconData: YaruIcons.package_snap,
-          onTap: () => showDialog(
-            context: context,
-            builder: (context) =>
-                SnapDialog.create(context: context, huskSnapName: snap.name),
+        return AnimatedScrollViewItem(
+          child: YaruBanner(
+            name: snap.name,
+            summary: snap.summary,
+            url: snap.iconUrl,
+            fallbackIconData: YaruIcons.package_snap,
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) =>
+                  SnapDialog.create(context: context, huskSnapName: snap.name),
+            ),
           ),
         );
       },

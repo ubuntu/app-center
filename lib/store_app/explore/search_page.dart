@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/explore/explore_model.dart';
@@ -44,14 +45,16 @@ class _SnapSearchPage extends StatelessWidget {
         future: model.findSnapsByQuery(),
         builder: (context, snapshot) =>
             snapshot.hasData && snapshot.data!.isNotEmpty
-                ? GridView(
+                ? GridView.builder(
                     controller: ScrollController(),
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     gridDelegate: kGridDelegate,
                     shrinkWrap: true,
-                    children: [
-                      for (final snap in snapshot.data!)
-                        YaruBanner(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final snap = snapshot.data![index];
+                      return AnimatedScrollViewItem(
+                        child: YaruBanner(
                           name: snap.name,
                           summary: snap.summary,
                           url: snap.iconUrl,
@@ -63,8 +66,9 @@ class _SnapSearchPage extends StatelessWidget {
                             ),
                           ),
                           fallbackIconData: YaruIcons.package_snap,
-                        )
-                    ],
+                        ),
+                      );
+                    },
                   )
                 : const SizedBox(),
       ),
