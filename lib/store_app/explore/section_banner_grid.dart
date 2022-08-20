@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/snap_section.dart';
@@ -44,26 +45,30 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
     final sections =
         model.sectionNameToSnapsMap[widget.snapSection.title] ?? [];
     if (sections.isEmpty) return const SizedBox();
-    return GridView(
+    return GridView.builder(
       controller: _controller,
       padding: const EdgeInsets.all(20),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
-      children: sections.take(widget.amount).map((snap) {
-        return YaruBanner(
-          name: snap.name,
-          summary: snap.summary,
-          url: snap.iconUrl,
-          fallbackIconData: YaruIcons.package_snap,
-          onTap: () => showDialog(
-            context: context,
-            builder: (context) => SnapDialog.create(
+      itemCount: sections.take(widget.amount).length,
+      itemBuilder: (context, index) {
+        final snap = sections.take(widget.amount).elementAt(index);
+        return AnimatedScrollViewItem(
+          child: YaruBanner(
+            name: snap.name,
+            summary: snap.summary,
+            url: snap.iconUrl,
+            fallbackIconData: YaruIcons.package_snap,
+            onTap: () => showDialog(
               context: context,
-              huskSnapName: snap.name,
+              builder: (context) => SnapDialog.create(
+                context: context,
+                huskSnapName: snap.name,
+              ),
             ),
           ),
         );
-      }).toList(),
+      },
     );
   }
 }

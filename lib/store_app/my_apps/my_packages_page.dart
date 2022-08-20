@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
+import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/my_apps/my_packages_model.dart';
 import 'package:software/store_app/common/package_dialog.dart';
@@ -40,16 +41,18 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
             itemCount: model.packages.length,
             itemBuilder: (context, index) {
               final package = model.packages[index];
-              return YaruBanner(
-                name: package.name,
-                summary: package.version,
-                fallbackIconData: YaruIcons.package_deb,
-                onTap: () => showDialog(
-                  context: context,
-                  builder: (_) => PackageDialog.create(
+              return AnimatedScrollViewItem(
+                child: YaruBanner(
+                  name: package.name,
+                  summary: package.version,
+                  fallbackIconData: YaruIcons.package_deb,
+                  onTap: () => showDialog(
                     context: context,
-                    id: package,
-                    installedId: package,
+                    builder: (_) => PackageDialog.create(
+                      context: context,
+                      id: package,
+                      installedId: package,
+                    ),
                   ),
                 ),
               );
