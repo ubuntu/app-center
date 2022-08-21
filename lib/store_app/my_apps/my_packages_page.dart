@@ -24,10 +24,19 @@ class MyPackagesPage extends StatefulWidget {
 }
 
 class _MyPackagesPageState extends State<MyPackagesPage> {
+  late ScrollController _controller;
+
   @override
   void initState() {
+    _controller = ScrollController();
     context.read<MyPackagesModel>().init();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -35,6 +44,7 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
     final model = context.watch<MyPackagesModel>();
     return model.packages.isNotEmpty
         ? GridView.builder(
+            controller: _controller,
             padding: const EdgeInsets.all(20.0),
             gridDelegate: kGridDelegate,
             shrinkWrap: true,
