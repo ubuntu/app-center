@@ -53,9 +53,24 @@ class _MySnapsGrid extends StatefulWidget {
 }
 
 class __MySnapsGridState extends State<_MySnapsGrid> {
+  late ScrollController _controller;
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      controller: _controller,
       padding: const EdgeInsets.all(20.0),
       gridDelegate: kGridDelegate,
       shrinkWrap: true,
