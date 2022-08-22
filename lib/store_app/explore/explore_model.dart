@@ -99,7 +99,9 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<PackageKitPackageId>> findPackageKitPackageIds() async {
+  Future<List<PackageKitPackageId>> findPackageKitPackageIds({
+    Set<PackageKitFilter> filter = const {},
+  }) async {
     if (searchQuery.isEmpty) return [];
     final List<PackageKitPackageId> ids = [];
     final transaction = await _packageKitClient.createTransaction();
@@ -115,7 +117,7 @@ class ExploreModel extends SafeChangeNotifier {
     });
     await transaction.searchNames(
       [searchQuery],
-      filter: {},
+      filter: filter,
     );
     await completer.future;
 

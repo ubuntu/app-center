@@ -16,13 +16,15 @@ class PackageModel extends SafeChangeNotifier {
         _license = '',
         _size = '',
         _summary = '',
-        _url = '' {
+        _url = '',
+        _processing = false {
     _client.connect();
   }
 
   final PackageKitClient _client;
 
   Future<void> init() async {
+    await _isInstalled();
     await _getDetails();
   }
 
@@ -117,15 +119,28 @@ class PackageModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  bool processing = false;
-  bool packageIsInstalled = true;
+  bool _processing;
+  bool get processing => _processing;
+  set processing(bool value) {
+    if (value == _processing) return;
+    _processing = value;
+    notifyListeners();
+  }
+
+  bool _packageIsInstalled = false;
+  bool get packageIsInstalled => _packageIsInstalled;
+  set packageIsInstalled(bool value) {
+    if (value == _packageIsInstalled) return;
+    _packageIsInstalled = value;
+    notifyListeners();
+  }
 
   /// Removes with package with [packageId]
   Future<void> remove() async {
     final removeTransaction = await _client.createTransaction();
+    processing = true;
     final removeCompleter = Completer();
     removeTransaction.events.listen((event) {
-      processing = true;
       if (event is PackageKitPackageEvent) {
         // processing = event.info == PackageKitInfo.removing;
       } else if (event is PackageKitItemProgressEvent) {
@@ -133,36 +148,32 @@ class PackageModel extends SafeChangeNotifier {
       } else if (event is PackageKitErrorCodeEvent) {
       } else if (event is PackageKitFinishedEvent) {
         removeCompleter.complete();
-        packageIsInstalled = false;
       }
-      notifyListeners();
     });
     await removeTransaction.removePackages([packageId]);
     await removeCompleter.future;
+    await _isInstalled();
     processing = false;
-    notifyListeners();
   }
 
   /// Installs with package with [packageId]
   Future<void> install() async {
     final installTransaction = await _client.createTransaction();
+    processing = true;
     final installCompleter = Completer();
     installTransaction.events.listen((event) {
-      processing = true;
       if (event is PackageKitPackageEvent) {
         // processing = event.info == PackageKitInfo.installing;
       } else if (event is PackageKitItemProgressEvent) {
         progress = event.percentage;
       } else if (event is PackageKitFinishedEvent) {
         installCompleter.complete();
-        packageIsInstalled = true;
       }
-      notifyListeners();
     });
     await installTransaction.installPackages([packageId]);
     await installCompleter.future;
+    await _isInstalled();
     processing = false;
-    notifyListeners();
   }
 
   /// Get the details about the package or update with given [packageId]
@@ -219,6 +230,24 @@ class PackageModel extends SafeChangeNotifier {
       }
     });
     await transaction.getUpdateDetail([packageId]);
+    await completer.future;
+  }
+
+  Future<void> _isInstalled() async {
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    transaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        if (event.info == PackageKitInfo.installed) {
+          packageIsInstalled = true;
+        }
+      } else if (event is PackageKitErrorCodeEvent) {
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+
+    await transaction.searchNames([packageId.name]);
     await completer.future;
   }
 }
