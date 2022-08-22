@@ -64,5 +64,7 @@
   "enterRepoName": "Enter repository name",
   "requireRestart": "Restart to finalize updates",
   "issued": "Issued",
-  "changelog": "Changelog"
+  "changelog": "Changelog",
+  "architecture": "Architecture",
+  "source": "Source"
 } 

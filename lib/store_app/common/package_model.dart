@@ -188,7 +188,6 @@ class PackageModel extends SafeChangeNotifier {
         setSize(event.size);
         description = event.description;
         group = event.group;
-        url = event.url;
       } else if (event is PackageKitFinishedEvent) {
         detailsCompleter.complete();
       }

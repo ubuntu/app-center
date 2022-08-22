@@ -4,6 +4,7 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/store_app/common/link.dart';
 import 'package:software/store_app/common/package_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -89,8 +90,14 @@ class _PackageDialogState extends State<PackageDialog> {
                     infoLabel: context.l10n.version,
                     infoValue: model.version,
                   ),
-                  YaruSingleInfoRow(infoLabel: 'Arch', infoValue: model.arch),
-                  YaruSingleInfoRow(infoLabel: 'Data', infoValue: model.data),
+                  YaruSingleInfoRow(
+                    infoLabel: context.l10n.architecture,
+                    infoValue: model.arch,
+                  ),
+                  YaruSingleInfoRow(
+                    infoLabel: context.l10n.source,
+                    infoValue: model.data,
+                  ),
                   YaruSingleInfoRow(
                     infoLabel: context.l10n.license,
                     infoValue: model.license,
@@ -98,6 +105,18 @@ class _PackageDialogState extends State<PackageDialog> {
                   YaruSingleInfoRow(
                     infoLabel: context.l10n.size,
                     infoValue: model.size.toString(),
+                  ),
+                  YaruRow(
+                    trailingWidget: Text(context.l10n.website),
+                    actionWidget: Link(
+                      url: model.url,
+                      linkText: model.url,
+                      textStyle: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    enabled: true,
                   ),
                   if (!widget.showActions)
                     YaruSingleInfoRow(
