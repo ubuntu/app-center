@@ -90,31 +90,32 @@ class _PackageKitSearchPage extends StatelessWidget {
         future: model.findPackageKitPackageIds(),
         builder: (context, snapshot) =>
             snapshot.hasData && snapshot.data!.isNotEmpty
-                ? GridView(
+                ? GridView.builder(
                     controller: ScrollController(),
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     gridDelegate: kGridDelegate,
                     shrinkWrap: true,
-                    children: [
-                      for (final id in snapshot.data!)
-                        YaruBanner(
-                          name: id.name,
-                          summary: id.version,
-                          icon: const Icon(
-                            YaruIcons.package_deb,
-                            size: 50,
-                          ),
-                          onTap: () => showDialog(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final id = snapshot.data![index];
+                      return YaruBanner(
+                        name: id.name,
+                        summary: id.version,
+                        icon: const Icon(
+                          YaruIcons.package_deb,
+                          size: 50,
+                        ),
+                        onTap: () => showDialog(
+                          context: context,
+                          builder: (context) => PackageDialog.create(
                             context: context,
-                            builder: (context) => PackageDialog.create(
-                              context: context,
-                              id: id,
-                              installedId: id,
-                            ),
+                            id: id,
+                            installedId: id,
                           ),
-                          fallbackIconData: YaruIcons.package_deb,
-                        )
-                    ],
+                        ),
+                        fallbackIconData: YaruIcons.package_deb,
+                      );
+                    },
                   )
                 : const SizedBox(),
       ),

@@ -23,9 +23,12 @@ class PackageModel extends SafeChangeNotifier {
 
   final PackageKitClient _client;
 
-  Future<void> init() async {
+  Future<void> init({bool update = false}) async {
     await _isInstalled();
     await _getDetails();
+    if (update) {
+      await getUpdateDetail();
+    }
   }
 
   /// The ID of the package.

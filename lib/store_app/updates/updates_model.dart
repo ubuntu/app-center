@@ -8,8 +8,16 @@ class UpdatesModel extends SafeChangeNotifier {
   final PackageKitClient _client;
 
   final Map<PackageKitPackageId, bool> updates = {};
+
   final Map<String, PackageKitPackageId> installedPackages = {};
-  bool requireRestart;
+
+  bool _requireRestart;
+  bool get requireRestart => _requireRestart;
+  set requireRestart(bool value) {
+    if (value == _requireRestart) return;
+    _requireRestart = value;
+    notifyListeners();
+  }
 
   int? _percentage;
   int? get percentage => _percentage;
@@ -72,7 +80,7 @@ class UpdatesModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  UpdatesModel(this._client) : requireRestart = false {
+  UpdatesModel(this._client) : _requireRestart = false {
     _client.connect();
   }
 
@@ -103,7 +111,7 @@ class UpdatesModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _getUpdates() async {
+  Future<void> _getUpdates({Set<PackageKitFilter> filter = const {}}) async {
     processing = true;
     updates.clear();
     errorString = '';
@@ -120,7 +128,7 @@ class UpdatesModel extends SafeChangeNotifier {
         processing = false;
       }
     });
-    await transaction.getUpdates();
+    await transaction.getUpdates(filter: filter);
     await completer.future;
   }
 

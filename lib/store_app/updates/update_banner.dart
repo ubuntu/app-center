@@ -5,6 +5,7 @@ import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/package_dialog.dart';
 import 'package:software/store_app/common/package_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -59,7 +60,7 @@ class UpdateBanner extends StatefulWidget {
 class _UpdateBannerState extends State<UpdateBanner> {
   @override
   void initState() {
-    context.read<PackageModel>().getUpdateDetail();
+    context.read<PackageModel>().init(update: true);
     super.initState();
   }
 
@@ -71,7 +72,7 @@ class _UpdateBannerState extends State<UpdateBanner> {
       children: [
         if (widget.processed)
           Opacity(
-            opacity: 0.2,
+            opacity: 0.4,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               child: LinearProgressIndicator(
@@ -121,10 +122,13 @@ class _UpdateBannerState extends State<UpdateBanner> {
               ],
             ),
             fallbackIconData: YaruIcons.package_deb,
-            icon: const Icon(
-              YaruIcons.package_deb,
-              size: 50,
-            ),
+            icon: model.group == PackageKitGroup.system
+                ? const _SystemUpdateIcon()
+                : Icon(
+                    YaruIcons.package_deb_filled,
+                    size: 50,
+                    color: Colors.brown[300],
+                  ),
           ),
         ),
         Positioned(
@@ -135,6 +139,56 @@ class _UpdateBannerState extends State<UpdateBanner> {
             onChanged: widget.onChanged,
           ),
         ),
+      ],
+    );
+  }
+}
+
+class _SystemUpdateIcon extends StatelessWidget {
+  const _SystemUpdateIcon({
+    // ignore: unused_element
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned(
+          bottom: 2,
+          left: 13,
+          child: Container(
+            height: 25,
+            width: 25,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        const Icon(
+          YaruIcons.ubuntu_logo_large,
+          size: 50,
+          color: YaruColors.orange,
+        ),
+        Positioned(
+          top: -1,
+          right: 2,
+          child: Icon(
+            YaruIcons.shield,
+            size: 26,
+            color: Colors.white.withOpacity(0.8),
+          ),
+        ),
+        Positioned(
+          top: 0,
+          right: 2,
+          child: Icon(
+            YaruIcons.shield,
+            size: 25,
+            color: Colors.amber[800],
+          ),
+        )
       ],
     );
   }
