@@ -135,9 +135,9 @@ class _UpdatesPageState extends State<UpdatesPage> {
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
-                            YaruIcons.ok_filled,
+                          YaruAnimatedOkIcon(
                             size: 90,
+                            filled: true,
                             color:
                                 Theme.of(context).brightness == Brightness.light
                                     ? positiveGreenLightTheme
