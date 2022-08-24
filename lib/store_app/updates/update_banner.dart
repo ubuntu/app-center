@@ -77,52 +77,55 @@ class _UpdateBannerState extends State<UpdateBanner> {
             ),
           ),
         ),
-        YaruBanner(
-          onTap: () => showDialog(
-            context: context,
-            builder: (_) => ChangeNotifierProvider.value(
-              value: model,
-              child: const PackageDialog(
-                noUpdate: false,
+        Opacity(
+          opacity: widget.percentage != null ? 0.7 : 0.9,
+          child: YaruBanner(
+            onTap: () => showDialog(
+              context: context,
+              builder: (_) => ChangeNotifierProvider.value(
+                value: model,
+                child: const PackageDialog(
+                  noUpdate: false,
+                ),
               ),
             ),
-          ),
-          bannerWidth: 500,
-          nameTextOverflow: TextOverflow.visible,
-          name: model.packageId.name,
-          subtitleWidget: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                model.installedId.version,
-                style: const TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const Icon(YaruIcons.pan_end),
-              Expanded(
-                child: Text(
-                  model.packageId.version,
-                  style: TextStyle(
+            bannerWidth: 500,
+            nameTextOverflow: TextOverflow.visible,
+            name: model.packageId.name,
+            subtitleWidget: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  model.installedId.version,
+                  style: const TextStyle(
                     overflow: TextOverflow.ellipsis,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? positiveGreenLightTheme
-                        : positiveGreenDarkTheme,
                   ),
                 ),
-              )
-            ],
+                const Icon(YaruIcons.pan_end),
+                Expanded(
+                  child: Text(
+                    model.packageId.version,
+                    style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? positiveGreenLightTheme
+                          : positiveGreenDarkTheme,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            fallbackIconData: YaruIcons.package_deb,
+            icon: model.group == PackageKitGroup.system ||
+                    model.group == PackageKitGroup.security
+                ? const _SystemUpdateIcon()
+                : Icon(
+                    YaruIcons.package_deb_filled,
+                    size: 50,
+                    color: Colors.brown[300],
+                  ),
           ),
-          fallbackIconData: YaruIcons.package_deb,
-          icon: model.group == PackageKitGroup.system ||
-                  model.group == PackageKitGroup.security
-              ? const _SystemUpdateIcon()
-              : Icon(
-                  YaruIcons.package_deb_filled,
-                  size: 50,
-                  color: Colors.brown[300],
-                ),
         ),
         Positioned(
           right: 10,
