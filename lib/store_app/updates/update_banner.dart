@@ -58,32 +58,39 @@ class UpdateBanner extends StatefulWidget {
 }
 
 class _UpdateBannerState extends State<UpdateBanner> {
+  int _percentage = 0;
+
   @override
   void initState() {
-    context.read<PackageModel>().init(update: true);
+    final model = context.read<PackageModel>();
+    model.init(update: true);
+    _percentage =
+        widget.processed ? widget.percentage ?? _percentage : _percentage;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
+    setState(() {
+      _percentage = widget.percentage ?? _percentage;
+    });
+
     return Stack(
       alignment: Alignment.center,
       children: [
-        if (widget.processed)
-          Opacity(
-            opacity: 0.4,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              child: LinearProgressIndicator(
-                minHeight: 110,
-                value:
-                    widget.percentage != null ? widget.percentage! / 100 : null,
-              ),
+        Opacity(
+          opacity: 0.4,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            child: LinearProgressIndicator(
+              minHeight: 110,
+              value: _percentage / 100,
             ),
           ),
+        ),
         Opacity(
-          opacity: widget.processed ? 0.7 : 1,
+          opacity: widget.processed ? 0.7 : 0.9,
           child: YaruBanner(
             onTap: () => showDialog(
               context: context,
@@ -122,7 +129,8 @@ class _UpdateBannerState extends State<UpdateBanner> {
               ],
             ),
             fallbackIconData: YaruIcons.package_deb,
-            icon: model.group == PackageKitGroup.system
+            icon: model.group == PackageKitGroup.system ||
+                    model.group == PackageKitGroup.security
                 ? const _SystemUpdateIcon()
                 : Icon(
                     YaruIcons.package_deb_filled,
