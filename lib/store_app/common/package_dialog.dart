@@ -11,15 +11,15 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageDialog extends StatefulWidget {
-  const PackageDialog({Key? key, this.showActions = true}) : super(key: key);
+  const PackageDialog({Key? key, this.noUpdate = true}) : super(key: key);
 
-  final bool showActions;
+  final bool noUpdate;
 
   static Widget create({
     required BuildContext context,
     required PackageKitPackageId id,
     required PackageKitPackageId installedId,
-    bool showActions = true,
+    bool noUpdate = true,
   }) {
     return ChangeNotifierProvider(
       create: (context) => PackageModel(
@@ -28,7 +28,7 @@ class PackageDialog extends StatefulWidget {
         installedId: installedId,
       ),
       child: PackageDialog(
-        showActions: showActions,
+        noUpdate: noUpdate,
       ),
     );
   }
@@ -40,7 +40,9 @@ class PackageDialog extends StatefulWidget {
 class _PackageDialogState extends State<PackageDialog> {
   @override
   void initState() {
-    context.read<PackageModel>().init();
+    if (widget.noUpdate) {
+      context.read<PackageModel>().init();
+    }
     super.initState();
   }
 
@@ -118,12 +120,12 @@ class _PackageDialogState extends State<PackageDialog> {
                     ),
                     enabled: true,
                   ),
-                  if (!widget.showActions)
+                  if (!widget.noUpdate)
                     YaruSingleInfoRow(
                       infoLabel: context.l10n.issued,
                       infoValue: model.issued,
                     ),
-                  if (!widget.showActions)
+                  if (!widget.noUpdate)
                     YaruExpandable(
                       header: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -147,7 +149,7 @@ class _PackageDialogState extends State<PackageDialog> {
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Text(context.l10n.description),
                     ),
-                    isExpanded: widget.showActions,
+                    isExpanded: widget.noUpdate,
                     expandIcon: const Icon(YaruIcons.pan_end),
                     child: Row(
                       children: [
@@ -166,7 +168,7 @@ class _PackageDialogState extends State<PackageDialog> {
                 ],
               ),
             ),
-      actions: widget.showActions == false
+      actions: widget.noUpdate == false
           ? null
           : [
               if (model.packageIsInstalled)

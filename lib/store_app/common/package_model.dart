@@ -27,7 +27,7 @@ class PackageModel extends SafeChangeNotifier {
     await _isInstalled();
     await _getDetails();
     if (update) {
-      await getUpdateDetail();
+      await _getUpdateDetail();
     }
   }
 
@@ -216,7 +216,7 @@ class PackageModel extends SafeChangeNotifier {
   }
 
   /// Get more details about given [packageId]
-  Future<void> getUpdateDetail() async {
+  Future<void> _getUpdateDetail() async {
     changelog = '';
     final transaction = await _client.createTransaction();
     final completer = Completer();
@@ -235,6 +235,7 @@ class PackageModel extends SafeChangeNotifier {
     await completer.future;
   }
 
+  /// Check if an app with given [packageId] is installed.
   Future<void> _isInstalled() async {
     final transaction = await _client.createTransaction();
     final completer = Completer();

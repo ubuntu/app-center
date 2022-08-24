@@ -14,10 +14,7 @@ class UpdateBanner extends StatefulWidget {
     super.key,
     required this.selected,
     this.onChanged,
-    required this.processed,
     this.percentage,
-    required this.updateId,
-    required this.currentId,
   });
 
   static Widget create({
@@ -25,7 +22,6 @@ class UpdateBanner extends StatefulWidget {
     required PackageKitPackageId updateId,
     required PackageKitPackageId installedId,
     bool? selected,
-    required bool processed,
     Function(bool?)? onChanged,
     int? percentage,
   }) {
@@ -37,9 +33,6 @@ class UpdateBanner extends StatefulWidget {
       ),
       child: UpdateBanner(
         selected: selected,
-        processed: processed,
-        updateId: updateId,
-        currentId: installedId,
         onChanged: onChanged,
         percentage: percentage,
       ),
@@ -48,10 +41,7 @@ class UpdateBanner extends StatefulWidget {
 
   final bool? selected;
   final Function(bool?)? onChanged;
-  final bool processed;
   final int? percentage;
-  final PackageKitPackageId updateId;
-  final PackageKitPackageId currentId;
 
   @override
   State<UpdateBanner> createState() => _UpdateBannerState();
@@ -62,10 +52,8 @@ class _UpdateBannerState extends State<UpdateBanner> {
 
   @override
   void initState() {
-    final model = context.read<PackageModel>();
-    model.init(update: true);
-    _percentage =
-        widget.processed ? widget.percentage ?? _percentage : _percentage;
+    context.read<PackageModel>().init(update: true);
+    _percentage = widget.percentage ?? _percentage;
     super.initState();
   }
 
@@ -89,55 +77,52 @@ class _UpdateBannerState extends State<UpdateBanner> {
             ),
           ),
         ),
-        Opacity(
-          opacity: widget.processed ? 0.7 : 0.9,
-          child: YaruBanner(
-            onTap: () => showDialog(
-              context: context,
-              builder: (context) => ChangeNotifierProvider.value(
-                value: model,
-                child: const PackageDialog(
-                  showActions: false,
-                ),
+        YaruBanner(
+          onTap: () => showDialog(
+            context: context,
+            builder: (_) => ChangeNotifierProvider.value(
+              value: model,
+              child: const PackageDialog(
+                noUpdate: false,
               ),
             ),
-            bannerWidth: 500,
-            nameTextOverflow: TextOverflow.visible,
-            name: widget.updateId.name,
-            subtitleWidget: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  widget.currentId.version,
-                  style: const TextStyle(
+          ),
+          bannerWidth: 500,
+          nameTextOverflow: TextOverflow.visible,
+          name: model.packageId.name,
+          subtitleWidget: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                model.installedId.version,
+                style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              const Icon(YaruIcons.pan_end),
+              Expanded(
+                child: Text(
+                  model.packageId.version,
+                  style: TextStyle(
                     overflow: TextOverflow.ellipsis,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? positiveGreenLightTheme
+                        : positiveGreenDarkTheme,
                   ),
                 ),
-                const Icon(YaruIcons.pan_end),
-                Expanded(
-                  child: Text(
-                    widget.updateId.version,
-                    style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? positiveGreenLightTheme
-                          : positiveGreenDarkTheme,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            fallbackIconData: YaruIcons.package_deb,
-            icon: model.group == PackageKitGroup.system ||
-                    model.group == PackageKitGroup.security
-                ? const _SystemUpdateIcon()
-                : Icon(
-                    YaruIcons.package_deb_filled,
-                    size: 50,
-                    color: Colors.brown[300],
-                  ),
+              )
+            ],
           ),
+          fallbackIconData: YaruIcons.package_deb,
+          icon: model.group == PackageKitGroup.system ||
+                  model.group == PackageKitGroup.security
+              ? const _SystemUpdateIcon()
+              : Icon(
+                  YaruIcons.package_deb_filled,
+                  size: 50,
+                  color: Colors.brown[300],
+                ),
         ),
         Positioned(
           right: 10,

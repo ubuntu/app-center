@@ -8,6 +8,8 @@ class UpdatesModel extends SafeChangeNotifier {
   final PackageKitClient _client;
 
   final Map<PackageKitPackageId, bool> updates = {};
+  PackageKitPackageId getUpdate(int index) =>
+      updates.entries.elementAt(index).key;
 
   final Map<String, PackageKitPackageId> installedPackages = {};
 

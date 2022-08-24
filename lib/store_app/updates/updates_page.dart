@@ -169,13 +169,12 @@ class _UpdatesPageState extends State<UpdatesPage> {
                   itemExtent: 100,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    final update = model.updates.entries.elementAt(index).key;
+                    final update = model.getUpdate(index);
 
                     return AnimatedScrollViewItem(
                       child: UpdateBanner.create(
                         context: context,
                         selected: model.updates[update],
-                        processed: model.processedId == update,
                         updateId: update,
                         installedId:
                             model.installedPackages[update.name] ?? update,
