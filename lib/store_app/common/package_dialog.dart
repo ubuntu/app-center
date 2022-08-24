@@ -109,12 +109,14 @@ class _PackageDialogState extends State<PackageDialog> {
                   ),
                   YaruRow(
                     trailingWidget: Text(context.l10n.website),
-                    actionWidget: Link(
-                      url: model.url,
-                      linkText: model.url,
-                      textStyle: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        color: Theme.of(context).primaryColor,
+                    actionWidget: Expanded(
+                      child: Link(
+                        url: model.url,
+                        linkText: model.url,
+                        textStyle: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                     ),
                     enabled: true,
