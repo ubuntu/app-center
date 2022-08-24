@@ -170,8 +170,9 @@ class _UpdatesPageState extends State<UpdatesPage> {
                   itemBuilder: (context, index) {
                     final update = model.getUpdate(index);
 
-                    return UpdateBanner.create(
-                      context: context,
+                    return UpdateBanner(
+                      group:
+                          model.idsToGroups[update] ?? PackageKitGroup.unknown,
                       selected: model.updates[update],
                       updateId: update,
                       installedId:

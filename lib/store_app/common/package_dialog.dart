@@ -40,9 +40,8 @@ class PackageDialog extends StatefulWidget {
 class _PackageDialogState extends State<PackageDialog> {
   @override
   void initState() {
-    if (widget.noUpdate) {
-      context.read<PackageModel>().init();
-    }
+    context.read<PackageModel>().init(update: !widget.noUpdate);
+
     super.initState();
   }
 

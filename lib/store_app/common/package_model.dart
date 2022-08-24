@@ -17,7 +17,8 @@ class PackageModel extends SafeChangeNotifier {
         _size = '',
         _summary = '',
         _url = '',
-        _processing = false {
+        _processing = false,
+        _errorMessage = '' {
     _client.connect();
   }
 
@@ -181,24 +182,37 @@ class PackageModel extends SafeChangeNotifier {
     processing = false;
   }
 
+  String _errorMessage;
+  String get errorMessage => _errorMessage;
+  set errorMessage(String value) {
+    if (value == _errorMessage) return;
+    _errorMessage = value;
+    notifyListeners();
+  }
+
   /// Get the details about the package or update with given [packageId]
   Future<void> _getDetails() async {
-    var installTransaction = await _client.createTransaction();
-    var detailsCompleter = Completer();
-    installTransaction.events.listen((event) {
-      if (event is PackageKitDetailsEvent) {
-        summary = event.summary;
-        url = event.url;
-        license = event.license;
-        setSize(event.size);
-        description = event.description;
-        group = event.group;
-      } else if (event is PackageKitFinishedEvent) {
-        detailsCompleter.complete();
-      }
-    });
-    await installTransaction.getDetails([packageId]);
-    await detailsCompleter.future;
+    errorMessage = '';
+    try {
+      var installTransaction = await _client.createTransaction();
+      var detailsCompleter = Completer();
+      installTransaction.events.listen((event) {
+        if (event is PackageKitDetailsEvent) {
+          summary = event.summary;
+          url = event.url;
+          license = event.license;
+          setSize(event.size);
+          description = event.description;
+          group = event.group;
+        } else if (event is PackageKitFinishedEvent) {
+          detailsCompleter.complete();
+        }
+      });
+      await installTransaction.getDetails([packageId]);
+      await detailsCompleter.future;
+    } on Exception catch (e) {
+      errorMessage = e.toString();
+    }
   }
 
   String _changelog = '';
@@ -219,22 +233,26 @@ class PackageModel extends SafeChangeNotifier {
 
   /// Get more details about given [packageId]
   Future<void> _getUpdateDetail() async {
-    changelog = '';
-    final transaction = await _client.createTransaction();
-    final completer = Completer();
-    transaction.events.listen((event) {
-      if (event is PackageKitUpdateDetailEvent) {
-        changelog = event.changelog;
-        issued = DateFormat.yMMMMEEEEd(Platform.localeName)
-            .format(event.issued ?? DateTime.now());
-      } else if (event is PackageKitErrorCodeEvent) {
-        // print('${event.code}: ${event.details}');
-      } else if (event is PackageKitFinishedEvent) {
-        completer.complete();
-      }
-    });
-    await transaction.getUpdateDetail([packageId]);
-    await completer.future;
+    try {
+      changelog = '';
+      final transaction = await _client.createTransaction();
+      final completer = Completer();
+      transaction.events.listen((event) {
+        if (event is PackageKitUpdateDetailEvent) {
+          changelog = event.changelog;
+          issued = DateFormat.yMMMMEEEEd(Platform.localeName)
+              .format(event.issued ?? DateTime.now());
+        } else if (event is PackageKitErrorCodeEvent) {
+          // print('${event.code}: ${event.details}');
+        } else if (event is PackageKitFinishedEvent) {
+          completer.complete();
+        }
+      });
+      await transaction.getUpdateDetail([packageId]);
+      await completer.future;
+    } on Exception catch (e) {
+      errorMessage = e.toString();
+    }
   }
 
   /// Check if an app with given [packageId] is installed.

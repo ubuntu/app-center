@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/package_dialog.dart';
 import 'package:software/store_app/common/package_model.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -15,33 +14,17 @@ class UpdateBanner extends StatefulWidget {
     required this.selected,
     this.onChanged,
     this.percentage,
+    required this.updateId,
+    required this.installedId,
+    required this.group,
   });
-
-  static Widget create({
-    required BuildContext context,
-    required PackageKitPackageId updateId,
-    required PackageKitPackageId installedId,
-    bool? selected,
-    Function(bool?)? onChanged,
-    int? percentage,
-  }) {
-    return ChangeNotifierProvider<PackageModel>(
-      create: (_) => PackageModel(
-        getService<PackageKitClient>(),
-        packageId: updateId,
-        installedId: installedId,
-      ),
-      child: UpdateBanner(
-        selected: selected,
-        onChanged: onChanged,
-        percentage: percentage,
-      ),
-    );
-  }
 
   final bool? selected;
   final Function(bool?)? onChanged;
   final int? percentage;
+  final PackageKitPackageId updateId;
+  final PackageKitPackageId installedId;
+  final PackageKitGroup group;
 
   @override
   State<UpdateBanner> createState() => _UpdateBannerState();
@@ -59,7 +42,6 @@ class _UpdateBannerState extends State<UpdateBanner> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<PackageModel>();
     setState(() {
       _percentage = widget.percentage ?? _percentage;
     });
@@ -82,22 +64,22 @@ class _UpdateBannerState extends State<UpdateBanner> {
           child: YaruBanner(
             onTap: () => showDialog(
               context: context,
-              builder: (_) => ChangeNotifierProvider.value(
-                value: model,
-                child: const PackageDialog(
-                  noUpdate: false,
-                ),
+              builder: (_) => PackageDialog.create(
+                context: context,
+                id: widget.updateId,
+                installedId: widget.installedId,
+                noUpdate: false,
               ),
             ),
             bannerWidth: 500,
             nameTextOverflow: TextOverflow.visible,
-            name: model.packageId.name,
+            name: widget.updateId.name,
             subtitleWidget: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  model.installedId.version,
+                  widget.installedId.version,
                   style: const TextStyle(
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -105,7 +87,7 @@ class _UpdateBannerState extends State<UpdateBanner> {
                 const Icon(YaruIcons.pan_end),
                 Expanded(
                   child: Text(
-                    model.packageId.version,
+                    widget.updateId.version,
                     style: TextStyle(
                       overflow: TextOverflow.ellipsis,
                       color: Theme.of(context).brightness == Brightness.light
@@ -117,8 +99,8 @@ class _UpdateBannerState extends State<UpdateBanner> {
               ],
             ),
             fallbackIconData: YaruIcons.package_deb,
-            icon: model.group == PackageKitGroup.system ||
-                    model.group == PackageKitGroup.security
+            icon: widget.group == PackageKitGroup.system ||
+                    widget.group == PackageKitGroup.security
                 ? const _SystemUpdateIcon()
                 : Icon(
                     YaruIcons.package_deb_filled,
