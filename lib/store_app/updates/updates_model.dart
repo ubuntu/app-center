@@ -93,7 +93,7 @@ class UpdatesModel extends SafeChangeNotifier {
     await _getUpdates();
     await _loadRepoList();
     for (var entry in updates.entries) {
-      if (!updates.containsKey(entry.key)) {
+      if (!idsToGroups.containsKey(entry.key)) {
         final PackageKitGroup group = await _getGroup(entry.key);
         idsToGroups.putIfAbsent(entry.key, () => group);
       }
