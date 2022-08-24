@@ -11,15 +11,15 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageDialog extends StatefulWidget {
-  const PackageDialog({Key? key, this.showActions = true}) : super(key: key);
+  const PackageDialog({Key? key, this.noUpdate = true}) : super(key: key);
 
-  final bool showActions;
+  final bool noUpdate;
 
   static Widget create({
     required BuildContext context,
     required PackageKitPackageId id,
     required PackageKitPackageId installedId,
-    bool showActions = true,
+    bool noUpdate = true,
   }) {
     return ChangeNotifierProvider(
       create: (context) => PackageModel(
@@ -28,7 +28,7 @@ class PackageDialog extends StatefulWidget {
         installedId: installedId,
       ),
       child: PackageDialog(
-        showActions: showActions,
+        noUpdate: noUpdate,
       ),
     );
   }
@@ -40,7 +40,8 @@ class PackageDialog extends StatefulWidget {
 class _PackageDialogState extends State<PackageDialog> {
   @override
   void initState() {
-    context.read<PackageModel>().init();
+    context.read<PackageModel>().init(update: !widget.noUpdate);
+
     super.initState();
   }
 
@@ -108,46 +109,51 @@ class _PackageDialogState extends State<PackageDialog> {
                   ),
                   YaruRow(
                     trailingWidget: Text(context.l10n.website),
-                    actionWidget: Link(
-                      url: model.url,
-                      linkText: model.url,
-                      textStyle: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        color: Theme.of(context).primaryColor,
+                    actionWidget: Expanded(
+                      child: Link(
+                        url: model.url,
+                        linkText: model.url,
+                        textStyle: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                     ),
                     enabled: true,
                   ),
-                  if (!widget.showActions)
+                  if (!widget.noUpdate)
                     YaruSingleInfoRow(
                       infoLabel: context.l10n.issued,
                       infoValue: model.issued,
                     ),
-                  if (!widget.showActions)
-                    YaruExpandable(
-                      header: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(context.l10n.changelog),
-                      ),
-                      expandIcon: const Icon(YaruIcons.pan_end),
-                      isExpanded: true,
-                      child: SizedBox(
-                        height: 250,
-                        child: Markdown(
-                          data: model.changelog,
-                          shrinkWrap: true,
-                          selectable: true,
-                          styleSheet: MarkdownStyleSheet(p: caption),
-                          padding: const EdgeInsets.only(left: 8, right: 8),
+                  if (!widget.noUpdate)
+                    if (model.changelog.isEmpty)
+                      const YaruCircularProgressIndicator()
+                    else
+                      YaruExpandable(
+                        header: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(context.l10n.changelog),
+                        ),
+                        expandIcon: const Icon(YaruIcons.pan_end),
+                        isExpanded: true,
+                        child: SizedBox(
+                          height: 250,
+                          child: Markdown(
+                            data: model.changelog,
+                            shrinkWrap: true,
+                            selectable: true,
+                            styleSheet: MarkdownStyleSheet(p: caption),
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                          ),
                         ),
                       ),
-                    ),
                   YaruExpandable(
                     header: Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Text(context.l10n.description),
                     ),
-                    isExpanded: widget.showActions,
+                    isExpanded: widget.noUpdate,
                     expandIcon: const Icon(YaruIcons.pan_end),
                     child: Row(
                       children: [
@@ -166,7 +172,7 @@ class _PackageDialogState extends State<PackageDialog> {
                 ],
               ),
             ),
-      actions: widget.showActions == false
+      actions: widget.noUpdate == false
           ? null
           : [
               if (model.packageIsInstalled)

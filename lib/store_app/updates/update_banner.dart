@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:provider/provider.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/package_dialog.dart';
-import 'package:software/store_app/common/package_model.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -14,84 +11,61 @@ class UpdateBanner extends StatefulWidget {
     super.key,
     required this.selected,
     this.onChanged,
-    required this.processed,
     this.percentage,
     required this.updateId,
-    required this.currentId,
+    required this.installedId,
+    required this.group,
   });
-
-  static Widget create({
-    required BuildContext context,
-    required PackageKitPackageId updateId,
-    required PackageKitPackageId installedId,
-    bool? selected,
-    required bool processed,
-    Function(bool?)? onChanged,
-    int? percentage,
-  }) {
-    return ChangeNotifierProvider<PackageModel>(
-      create: (_) => PackageModel(
-        getService<PackageKitClient>(),
-        packageId: updateId,
-        installedId: installedId,
-      ),
-      child: UpdateBanner(
-        selected: selected,
-        processed: processed,
-        updateId: updateId,
-        currentId: installedId,
-        onChanged: onChanged,
-        percentage: percentage,
-      ),
-    );
-  }
 
   final bool? selected;
   final Function(bool?)? onChanged;
-  final bool processed;
   final int? percentage;
   final PackageKitPackageId updateId;
-  final PackageKitPackageId currentId;
+  final PackageKitPackageId installedId;
+  final PackageKitGroup group;
 
   @override
   State<UpdateBanner> createState() => _UpdateBannerState();
 }
 
 class _UpdateBannerState extends State<UpdateBanner> {
+  int _percentage = 0;
+
   @override
   void initState() {
-    context.read<PackageModel>().init(update: true);
+    _percentage = widget.percentage ?? _percentage;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<PackageModel>();
+    setState(() {
+      _percentage = widget.percentage ?? _percentage;
+    });
+
     return Stack(
       alignment: Alignment.center,
       children: [
-        if (widget.processed)
-          Opacity(
-            opacity: 0.4,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              child: LinearProgressIndicator(
-                minHeight: 110,
-                value:
-                    widget.percentage != null ? widget.percentage! / 100 : null,
-              ),
+        Opacity(
+          opacity: 0.4,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            child: LinearProgressIndicator(
+              minHeight: 110,
+              value: _percentage / 100,
             ),
           ),
+        ),
         Opacity(
-          opacity: widget.processed ? 0.7 : 1,
+          opacity: widget.percentage != null ? 0.7 : 0.9,
           child: YaruBanner(
             onTap: () => showDialog(
               context: context,
-              builder: (context) => ChangeNotifierProvider.value(
-                value: model,
-                child: const PackageDialog(
-                  showActions: false,
-                ),
+              builder: (_) => PackageDialog.create(
+                context: context,
+                id: widget.updateId,
+                installedId: widget.installedId,
+                noUpdate: false,
               ),
             ),
             bannerWidth: 500,
@@ -102,7 +76,7 @@ class _UpdateBannerState extends State<UpdateBanner> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  widget.currentId.version,
+                  widget.installedId.version,
                   style: const TextStyle(
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -122,7 +96,8 @@ class _UpdateBannerState extends State<UpdateBanner> {
               ],
             ),
             fallbackIconData: YaruIcons.package_deb,
-            icon: model.group == PackageKitGroup.system
+            icon: widget.group == PackageKitGroup.system ||
+                    widget.group == PackageKitGroup.security
                 ? const _SystemUpdateIcon()
                 : Icon(
                     YaruIcons.package_deb_filled,

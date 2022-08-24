@@ -8,8 +8,12 @@ class UpdatesModel extends SafeChangeNotifier {
   final PackageKitClient _client;
 
   final Map<PackageKitPackageId, bool> updates = {};
+  PackageKitPackageId getUpdate(int index) =>
+      updates.entries.elementAt(index).key;
 
   final Map<String, PackageKitPackageId> installedPackages = {};
+
+  final Map<PackageKitPackageId, PackageKitGroup> idsToGroups = {};
 
   bool _requireRestart;
   bool get requireRestart => _requireRestart;
@@ -88,6 +92,12 @@ class UpdatesModel extends SafeChangeNotifier {
     await _getInstalledPackages();
     await _getUpdates();
     await _loadRepoList();
+    for (var entry in updates.entries) {
+      if (!idsToGroups.containsKey(entry.key)) {
+        final PackageKitGroup group = await _getGroup(entry.key);
+        idsToGroups.putIfAbsent(entry.key, () => group);
+      }
+    }
     notifyListeners();
   }
 
@@ -239,5 +249,21 @@ class UpdatesModel extends SafeChangeNotifier {
       filter: {PackageKitFilter.installed},
     );
     await completer.future;
+  }
+
+  Future<PackageKitGroup> _getGroup(PackageKitPackageId id) async {
+    final installTransaction = await _client.createTransaction();
+    final detailsCompleter = Completer();
+    PackageKitGroup? group;
+    installTransaction.events.listen((event) {
+      if (event is PackageKitDetailsEvent) {
+        group = event.group;
+      } else if (event is PackageKitFinishedEvent) {
+        detailsCompleter.complete();
+      }
+    });
+    await installTransaction.getDetails([id]);
+    await detailsCompleter.future;
+    return group ?? PackageKitGroup.unknown;
   }
 }
