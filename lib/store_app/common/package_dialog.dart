@@ -125,24 +125,27 @@ class _PackageDialogState extends State<PackageDialog> {
                       infoValue: model.issued,
                     ),
                   if (!widget.noUpdate)
-                    YaruExpandable(
-                      header: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(context.l10n.changelog),
-                      ),
-                      expandIcon: const Icon(YaruIcons.pan_end),
-                      isExpanded: true,
-                      child: SizedBox(
-                        height: 250,
-                        child: Markdown(
-                          data: model.changelog,
-                          shrinkWrap: true,
-                          selectable: true,
-                          styleSheet: MarkdownStyleSheet(p: caption),
-                          padding: const EdgeInsets.only(left: 8, right: 8),
+                    if (model.changelog.isEmpty)
+                      const YaruCircularProgressIndicator()
+                    else
+                      YaruExpandable(
+                        header: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(context.l10n.changelog),
+                        ),
+                        expandIcon: const Icon(YaruIcons.pan_end),
+                        isExpanded: true,
+                        child: SizedBox(
+                          height: 250,
+                          child: Markdown(
+                            data: model.changelog,
+                            shrinkWrap: true,
+                            selectable: true,
+                            styleSheet: MarkdownStyleSheet(p: caption),
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                          ),
                         ),
                       ),
-                    ),
                   YaruExpandable(
                     header: Padding(
                       padding: const EdgeInsets.only(left: 8.0),
