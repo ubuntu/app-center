@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/updates/update_banner.dart';
 import 'package:software/store_app/updates/updates_model.dart';
@@ -171,20 +170,17 @@ class _UpdatesPageState extends State<UpdatesPage> {
                   itemBuilder: (context, index) {
                     final update = model.getUpdate(index);
 
-                    return AnimatedScrollViewItem(
-                      child: UpdateBanner.create(
-                        context: context,
-                        selected: model.updates[update],
-                        updateId: update,
-                        installedId:
-                            model.installedPackages[update.name] ?? update,
-                        onChanged: model.processing
-                            ? null
-                            : (v) => model.selectUpdate(update, v!),
-                        percentage: model.processedId == update
-                            ? model.percentage
-                            : null,
-                      ),
+                    return UpdateBanner.create(
+                      context: context,
+                      selected: model.updates[update],
+                      updateId: update,
+                      installedId:
+                          model.installedPackages[update.name] ?? update,
+                      onChanged: model.processing
+                          ? null
+                          : (v) => model.selectUpdate(update, v!),
+                      percentage:
+                          model.processedId == update ? model.percentage : null,
                     );
                   },
                 ),
