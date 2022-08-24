@@ -93,8 +93,10 @@ class UpdatesModel extends SafeChangeNotifier {
     await _getUpdates();
     await _loadRepoList();
     for (var entry in updates.entries) {
-      PackageKitGroup group = await getGroup(entry.key);
-      idsToGroups.putIfAbsent(entry.key, () => group);
+      if (!updates.containsKey(entry.key)) {
+        final PackageKitGroup group = await _getGroup(entry.key);
+        idsToGroups.putIfAbsent(entry.key, () => group);
+      }
     }
     notifyListeners();
   }
@@ -249,7 +251,7 @@ class UpdatesModel extends SafeChangeNotifier {
     await completer.future;
   }
 
-  Future<PackageKitGroup> getGroup(PackageKitPackageId id) async {
+  Future<PackageKitGroup> _getGroup(PackageKitPackageId id) async {
     final installTransaction = await _client.createTransaction();
     final detailsCompleter = Completer();
     PackageKitGroup? group;

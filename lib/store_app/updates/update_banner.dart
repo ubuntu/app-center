@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:provider/provider.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/package_dialog.dart';
-import 'package:software/store_app/common/package_model.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -35,7 +33,6 @@ class _UpdateBannerState extends State<UpdateBanner> {
 
   @override
   void initState() {
-    context.read<PackageModel>().init(update: true);
     _percentage = widget.percentage ?? _percentage;
     super.initState();
   }
