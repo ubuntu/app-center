@@ -31,7 +31,11 @@ class MyPackagesModel extends SafeChangeNotifier {
       }
     });
     await transaction.getPackages(
-      filter: {PackageKitFilter.installed, PackageKitFilter.application},
+      filter: {
+        PackageKitFilter.installed,
+        PackageKitFilter.application,
+        PackageKitFilter.gui
+      },
     );
     await completer.future;
   }
