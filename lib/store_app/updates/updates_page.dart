@@ -198,23 +198,24 @@ class _UpdatesPageState extends State<UpdatesPage> {
                     height: 20,
                   ),
                   Text(
-                    model.info != null ? model.info!.toString() : '',
+                    model.info != null ? model.info!.name : '',
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  if (model.percentage != null)
-                    SizedBox(
-                      width: 400,
-                      child: YaruLinearProgressIndicator(
-                        value: model.percentage! / 100,
-                      ),
+                  SizedBox(
+                    width: 400,
+                    child: YaruLinearProgressIndicator(
+                      value: model.percentage != null
+                          ? model.percentage! / 100
+                          : 0,
                     ),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
-                  Text(model.status != null ? model.status!.toString() : ''),
+                  Text(model.status != null ? model.status!.name : ''),
                   const SizedBox(
                     height: 200,
                   ),
