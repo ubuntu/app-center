@@ -189,6 +189,10 @@ class UpdatesModel extends SafeChangeNotifier {
     await updatePackagesTransaction.updatePackages(selectedUpdates);
     await updatePackagesCompleter.future;
     updates.clear();
+    info = null;
+    status = null;
+    processedId = null;
+    percentage = null;
     notifyListeners();
   }
 
