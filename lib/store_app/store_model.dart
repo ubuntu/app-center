@@ -14,7 +14,7 @@ class StoreModel extends SafeChangeNotifier {
 
   final Connectivity _connectivity;
   StreamSubscription? _connectivitySub;
-  ConnectivityResult? _connectivityResult;
+  ConnectivityResult? _connectivityResult = ConnectivityResult.wifi;
   ConnectivityResult? get state => _connectivityResult;
 
   Future<void> init() async {
