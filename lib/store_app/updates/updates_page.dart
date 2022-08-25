@@ -125,67 +125,103 @@ class _UpdatesPageState extends State<UpdatesPage> {
             ],
           ),
         ),
-        Expanded(
-          child: model.updates.isEmpty && !model.processing
-              ? Center(
-                  child: Row(
+        if (model.updates.isEmpty && !model.processing)
+          Expanded(
+            child: Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          YaruAnimatedOkIcon(
-                            size: 90,
-                            filled: true,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? positiveGreenLightTheme
-                                    : positiveGreenDarkTheme,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            context.l10n.noUpdates,
-                            style: Theme.of(context).textTheme.headline4,
-                          ),
-                          const SizedBox(
-                            height: 100,
-                          ),
-                        ],
+                      YaruAnimatedOkIcon(
+                        size: 90,
+                        filled: true,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? positiveGreenLightTheme
+                            : positiveGreenDarkTheme,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        context.l10n.noUpdates,
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                      const SizedBox(
+                        height: 100,
                       ),
                     ],
                   ),
-                )
-              : ListView.builder(
-                  padding: EdgeInsets.only(
-                    top: 50,
-                    bottom: 50,
-                    left: hPadding,
-                    right: hPadding,
-                  ),
-                  itemCount: model.updates.length,
-                  itemExtent: 100,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final update = model.getUpdate(index);
+                ],
+              ),
+            ),
+          )
+        else if (!model.processing)
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.only(
+                top: 50,
+                bottom: 50,
+                left: hPadding,
+                right: hPadding,
+              ),
+              itemCount: model.updates.length,
+              itemExtent: 100,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final update = model.getUpdate(index);
 
-                    return UpdateBanner(
-                      group:
-                          model.idsToGroups[update] ?? PackageKitGroup.unknown,
-                      selected: model.updates[update],
-                      updateId: update,
-                      installedId:
-                          model.installedPackages[update.name] ?? update,
-                      onChanged: model.processing
-                          ? null
-                          : (v) => model.selectUpdate(update, v!),
-                      percentage:
-                          model.processedId == update ? model.percentage : null,
-                    );
-                  },
-                ),
-        ),
+                return UpdateBanner(
+                  group: model.idsToGroups[update] ?? PackageKitGroup.unknown,
+                  selected: model.updates[update],
+                  updateId: update,
+                  installedId: model.installedPackages[update.name] ?? update,
+                  onChanged: model.processing
+                      ? null
+                      : (v) => model.selectUpdate(update, v!),
+                );
+              },
+            ),
+          )
+        else
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    model.processedId != null ? model.processedId!.name : '',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    model.info != null ? model.info!.toString() : '',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  if (model.percentage != null)
+                    SizedBox(
+                      width: 400,
+                      child: YaruLinearProgressIndicator(
+                        value: model.percentage! / 100,
+                      ),
+                    ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(model.status != null ? model.status!.toString() : ''),
+                  const SizedBox(
+                    height: 200,
+                  ),
+                ],
+              ),
+            ),
+          )
       ],
     );
   }
