@@ -40,8 +40,7 @@ class _SearchFieldState extends State<SearchField> {
         },
         textInputAction: TextInputAction.send,
         decoration: InputDecoration(
-          hintText:
-              '${model.selectedSection.localize(context.l10n)} ${context.l10n.apps}',
+          hintText: model.selectedSection.localize(context.l10n),
           prefixIcon: Padding(
             padding: const EdgeInsets.only(left: 10, right: 5),
             child: Row(
