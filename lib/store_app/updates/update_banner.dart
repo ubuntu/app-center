@@ -11,7 +11,6 @@ class UpdateBanner extends StatefulWidget {
     super.key,
     required this.selected,
     this.onChanged,
-    this.percentage,
     required this.updateId,
     required this.installedId,
     required this.group,
@@ -19,7 +18,6 @@ class UpdateBanner extends StatefulWidget {
 
   final bool? selected;
   final Function(bool?)? onChanged;
-  final int? percentage;
   final PackageKitPackageId updateId;
   final PackageKitPackageId installedId;
   final PackageKitGroup group;
@@ -29,82 +27,57 @@ class UpdateBanner extends StatefulWidget {
 }
 
 class _UpdateBannerState extends State<UpdateBanner> {
-  int _percentage = 0;
-
-  @override
-  void initState() {
-    _percentage = widget.percentage ?? _percentage;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      _percentage = widget.percentage ?? _percentage;
-    });
-
     return Stack(
       alignment: Alignment.center,
       children: [
-        Opacity(
-          opacity: 0.4,
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            child: LinearProgressIndicator(
-              minHeight: 110,
-              value: _percentage / 100,
+        YaruBanner(
+          onTap: () => showDialog(
+            context: context,
+            builder: (_) => PackageDialog.create(
+              context: context,
+              id: widget.updateId,
+              installedId: widget.installedId,
+              noUpdate: false,
             ),
           ),
-        ),
-        Opacity(
-          opacity: widget.percentage != null ? 0.7 : 0.9,
-          child: YaruBanner(
-            onTap: () => showDialog(
-              context: context,
-              builder: (_) => PackageDialog.create(
-                context: context,
-                id: widget.updateId,
-                installedId: widget.installedId,
-                noUpdate: false,
+          bannerWidth: 500,
+          nameTextOverflow: TextOverflow.visible,
+          name: widget.updateId.name,
+          subtitleWidget: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                widget.installedId.version,
+                style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            bannerWidth: 500,
-            nameTextOverflow: TextOverflow.visible,
-            name: widget.updateId.name,
-            subtitleWidget: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  widget.installedId.version,
-                  style: const TextStyle(
+              const Icon(YaruIcons.pan_end),
+              Expanded(
+                child: Text(
+                  widget.updateId.version,
+                  style: TextStyle(
                     overflow: TextOverflow.ellipsis,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? positiveGreenLightTheme
+                        : positiveGreenDarkTheme,
                   ),
                 ),
-                const Icon(YaruIcons.pan_end),
-                Expanded(
-                  child: Text(
-                    widget.updateId.version,
-                    style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? positiveGreenLightTheme
-                          : positiveGreenDarkTheme,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            fallbackIconData: YaruIcons.package_deb,
-            icon: widget.group == PackageKitGroup.system ||
-                    widget.group == PackageKitGroup.security
-                ? const _SystemUpdateIcon()
-                : Icon(
-                    YaruIcons.package_deb_filled,
-                    size: 50,
-                    color: Colors.brown[300],
-                  ),
+              )
+            ],
           ),
+          fallbackIconData: YaruIcons.package_deb,
+          icon: widget.group == PackageKitGroup.system ||
+                  widget.group == PackageKitGroup.security
+              ? const _SystemUpdateIcon()
+              : Icon(
+                  YaruIcons.package_deb_filled,
+                  size: 50,
+                  color: Colors.brown[300],
+                ),
         ),
         Positioned(
           right: 10,

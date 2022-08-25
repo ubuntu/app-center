@@ -142,6 +142,22 @@ class UpdatesModel extends SafeChangeNotifier {
     await completer.future;
   }
 
+  PackageKitInfo? _info;
+  PackageKitInfo? get info => _info;
+  set info(PackageKitInfo? value) {
+    if (value == _info) return;
+    _info = value;
+    notifyListeners();
+  }
+
+  PackageKitStatus? _status;
+  PackageKitStatus? get status => _status;
+  set status(PackageKitStatus? value) {
+    if (value == _status) return;
+    _status = value;
+    notifyListeners();
+  }
+
   Future<void> updateAll() async {
     errorString = '';
     final List<PackageKitPackageId> selectedUpdates = updates.entries
@@ -153,11 +169,16 @@ class UpdatesModel extends SafeChangeNotifier {
     final updatePackagesCompleter = Completer();
     processing = true;
     updatePackagesTransaction.events.listen((event) {
-      requireRestart = event is PackageKitRequireRestartEvent;
+      if (event is PackageKitRequireRestartEvent) {
+        requireRestart = event.type == PackageKitRestart.system;
+      }
       if (event is PackageKitPackageEvent) {
         processedId = event.packageId;
+        info = event.info;
       } else if (event is PackageKitItemProgressEvent) {
         percentage = event.percentage;
+        processedId = event.packageId;
+        status = event.status;
       } else if (event is PackageKitErrorCodeEvent) {
         errorString = '${event.code}: ${event.details}';
       } else if (event is PackageKitFinishedEvent) {
@@ -167,7 +188,11 @@ class UpdatesModel extends SafeChangeNotifier {
     });
     await updatePackagesTransaction.updatePackages(selectedUpdates);
     await updatePackagesCompleter.future;
-    await _getUpdates();
+    updates.clear();
+    info = null;
+    status = null;
+    processedId = null;
+    percentage = null;
     notifyListeners();
   }
 
