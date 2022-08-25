@@ -153,11 +153,15 @@ class UpdatesModel extends SafeChangeNotifier {
     final updatePackagesCompleter = Completer();
     processing = true;
     updatePackagesTransaction.events.listen((event) {
-      requireRestart = event is PackageKitRequireRestartEvent;
+      if (event is PackageKitRequireRestartEvent) {
+        requireRestart = event.type == PackageKitRestart.system;
+      }
       if (event is PackageKitPackageEvent) {
         processedId = event.packageId;
       } else if (event is PackageKitItemProgressEvent) {
-        percentage = event.percentage;
+        if (event.packageId == processedId) {
+          percentage = event.percentage;
+        }
       } else if (event is PackageKitErrorCodeEvent) {
         errorString = '${event.code}: ${event.details}';
       } else if (event is PackageKitFinishedEvent) {
