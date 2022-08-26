@@ -134,6 +134,8 @@ class UpdatesModel extends SafeChangeNotifier {
       if (event is PackageKitPackageEvent) {
         final id = event.packageId;
         updates.putIfAbsent(id, () => true);
+      } else if (event is PackageKitItemProgressEvent) {
+        percentage = event.percentage;
       } else if (event is PackageKitErrorCodeEvent) {
         errorString = '${event.code}: ${event.details}';
       } else if (event is PackageKitFinishedEvent) {
