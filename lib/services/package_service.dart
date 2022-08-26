@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:window_manager/window_manager.dart';
 
 class PackageService {
   final PackageKitClient _client;
@@ -134,6 +135,8 @@ class PackageService {
   }
 
   Future<void> refresh() async {
+    windowManager.setClosable(false);
+
     setErrorMessage('');
     setUpdatesState(UpdatesState.checkingForUpdates);
     await _refreshCache();
@@ -141,6 +144,7 @@ class PackageService {
     setUpdatesState(
       _updates.isEmpty ? UpdatesState.noUpdates : UpdatesState.readyToUpdate,
     );
+    windowManager.setClosable(true);
   }
 
   Future<void> _refreshCache() async {
@@ -191,6 +195,8 @@ class PackageService {
   }
 
   Future<void> updateAll() async {
+    windowManager.setClosable(false);
+
     setErrorMessage('');
     final List<PackageKitPackageId> selectedUpdates = _updates.entries
         .where((e) => e.value == true)
@@ -225,6 +231,7 @@ class PackageService {
     setProcessedId(null);
     setPercentage(null);
     setUpdatesState(UpdatesState.noUpdates);
+    windowManager.setClosable(true);
   }
 
   Future<void> _getInstalledPackages() async {

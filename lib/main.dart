@@ -9,8 +9,11 @@ import 'package:software/services/app_change_service.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/store_app.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:window_manager/window_manager.dart';
 
 void main(List<String> args) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
   registerService<PackageKitClient>(
     PackageKitClient.new,
     dispose: (service) => service.close(),
