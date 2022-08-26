@@ -84,7 +84,11 @@ class _StoreAppState extends State<StoreApp> {
                       iconData: YaruIcons.synchronizing,
                       itemWidget: model.updatesState == UpdatesState.noUpdates
                           ? null
-                          : _UpdatesIcon(count: model.updateAmount),
+                          : _UpdatesIcon(
+                              count: model.updateAmount,
+                              updatesState:
+                                  model.updatesState ?? UpdatesState.noUpdates,
+                            ),
                     ),
                     const YaruPageItem(
                       titleBuilder: SettingsPage.createTitle,
@@ -124,29 +128,48 @@ class _MyAppsIcon extends StatelessWidget {
 }
 
 class _UpdatesIcon extends StatelessWidget {
-  // ignore: unused_element
-  const _UpdatesIcon({super.key, required this.count});
+  const _UpdatesIcon({
+    // ignore: unused_element
+    super.key,
+    required this.count,
+    required this.updatesState,
+  });
 
   final int count;
+  final UpdatesState updatesState;
 
   @override
   Widget build(BuildContext context) {
-    return count > 0
-        ? Badge(
-            badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
-            badgeContent: Text(count.toString()),
-            child: const SizedBox(
-              height: 20,
-              child: YaruCircularProgressIndicator(
-                strokeWidth: 2,
-              ),
-            ),
-          )
-        : const SizedBox(
+    if (updatesState == UpdatesState.checkingForUpdates) {
+      if (count > 0) {
+        return Badge(
+          badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
+          badgeContent: Text(count.toString()),
+          child: const SizedBox(
             height: 20,
             child: YaruCircularProgressIndicator(
               strokeWidth: 2,
             ),
-          );
+          ),
+        );
+      } else if (count == 0) {
+        return Badge(
+          badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
+          badgeContent: Text(count.toString()),
+          child: const SizedBox(
+            height: 20,
+            child: Icon(YaruIcons.synchronizing),
+          ),
+        );
+      }
+    } else if (updatesState == UpdatesState.updating) {
+      return const SizedBox(
+        height: 20,
+        child: YaruCircularProgressIndicator(
+          strokeWidth: 2,
+        ),
+      );
+    }
+    return const Icon(YaruIcons.synchronizing);
   }
 }
