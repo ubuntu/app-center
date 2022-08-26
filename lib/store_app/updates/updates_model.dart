@@ -200,7 +200,7 @@ class UpdatesModel extends SafeChangeNotifier {
     status = null;
     processedId = null;
     percentage = null;
-    UpdatesState.noUpdates;
+    updatesState = UpdatesState.noUpdates;
   }
 
   final List<PackageKitRepositoryDetailEvent> repos = [];
