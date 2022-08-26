@@ -82,13 +82,11 @@ class _StoreAppState extends State<StoreApp> {
                       titleBuilder: UpdatesPage.createTitle,
                       builder: UpdatesPage.create,
                       iconData: YaruIcons.synchronizing,
-                      itemWidget: model.updatesState == UpdatesState.noUpdates
-                          ? null
-                          : _UpdatesIcon(
-                              count: model.updateAmount,
-                              updatesState:
-                                  model.updatesState ?? UpdatesState.noUpdates,
-                            ),
+                      itemWidget: _UpdatesIcon(
+                        count: model.updateAmount,
+                        updatesState:
+                            model.updatesState ?? UpdatesState.noUpdates,
+                      ),
                     ),
                     const YaruPageItem(
                       titleBuilder: SettingsPage.createTitle,
@@ -157,6 +155,12 @@ class _UpdatesIcon extends StatelessWidget {
         child: YaruCircularProgressIndicator(
           strokeWidth: 2,
         ),
+      );
+    } else if (updatesState == UpdatesState.readyToUpdate) {
+      return Badge(
+        badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
+        badgeContent: Text(count.toString()),
+        child: const Icon(YaruIcons.synchronizing),
       );
     }
     return const Icon(YaruIcons.synchronizing);
