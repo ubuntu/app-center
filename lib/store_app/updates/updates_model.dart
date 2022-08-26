@@ -69,14 +69,6 @@ class UpdatesModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  bool _processing = true;
-  bool get processing => _processing;
-  set processing(bool value) {
-    if (value == _processing) return;
-    _processing = value;
-    notifyListeners();
-  }
-
   String _manualRepoName = '';
   set manualRepoName(String value) {
     if (value == _manualRepoName) return;
@@ -84,25 +76,38 @@ class UpdatesModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  UpdatesModel(this._client) : _requireRestart = false {
+  UpdatesState _updatesState;
+  UpdatesState get updatesState => _updatesState;
+  set updatesState(UpdatesState value) {
+    if (value == _updatesState) return;
+    _updatesState = value;
+    notifyListeners();
+  }
+
+  UpdatesModel(this._client)
+      : _requireRestart = false,
+        _updatesState = UpdatesState.checkingForUpdates {
     _client.connect();
   }
 
   void init() async {
     await _getInstalledPackages();
-    await _getUpdates();
+    await refresh();
     await _loadRepoList();
-    for (var entry in updates.entries) {
-      if (!idsToGroups.containsKey(entry.key)) {
-        final PackageKitGroup group = await _getGroup(entry.key);
-        idsToGroups.putIfAbsent(entry.key, () => group);
-      }
-    }
+
     notifyListeners();
   }
 
   Future<void> refresh() async {
-    processing = true;
+    updatesState = UpdatesState.checkingForUpdates;
+    await _refreshCache();
+    await _getUpdates();
+    updatesState =
+        updates.isEmpty ? UpdatesState.noUpdates : UpdatesState.readyToUpdate;
+  }
+
+  Future<void> _refreshCache() async {
+    updatesState = UpdatesState.checkingForUpdates;
     errorString = '';
     final transaction = await _client.createTransaction();
     final completer = Completer();
@@ -117,13 +122,11 @@ class UpdatesModel extends SafeChangeNotifier {
     });
     await transaction.refreshCache();
     await completer.future;
-    await _getUpdates();
-    notifyListeners();
   }
 
   Future<void> _getUpdates({Set<PackageKitFilter> filter = const {}}) async {
-    processing = true;
     updates.clear();
+    idsToGroups.clear();
     errorString = '';
     final transaction = await _client.createTransaction();
     final completer = Completer();
@@ -135,11 +138,16 @@ class UpdatesModel extends SafeChangeNotifier {
         errorString = '${event.code}: ${event.details}';
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
-        processing = false;
       }
     });
     await transaction.getUpdates(filter: filter);
     await completer.future;
+    for (var entry in updates.entries) {
+      if (!idsToGroups.containsKey(entry.key)) {
+        final PackageKitGroup group = await _getGroup(entry.key);
+        idsToGroups.putIfAbsent(entry.key, () => group);
+      }
+    }
   }
 
   PackageKitInfo? _info;
@@ -167,7 +175,7 @@ class UpdatesModel extends SafeChangeNotifier {
     if (selectedUpdates.isEmpty) return;
     final updatePackagesTransaction = await _client.createTransaction();
     final updatePackagesCompleter = Completer();
-    processing = true;
+    updatesState = UpdatesState.updating;
     updatePackagesTransaction.events.listen((event) {
       if (event is PackageKitRequireRestartEvent) {
         requireRestart = event.type == PackageKitRestart.system;
@@ -183,7 +191,6 @@ class UpdatesModel extends SafeChangeNotifier {
         errorString = '${event.code}: ${event.details}';
       } else if (event is PackageKitFinishedEvent) {
         updatePackagesCompleter.complete();
-        processing = false;
       }
     });
     await updatePackagesTransaction.updatePackages(selectedUpdates);
@@ -193,7 +200,7 @@ class UpdatesModel extends SafeChangeNotifier {
     status = null;
     processedId = null;
     percentage = null;
-    notifyListeners();
+    updatesState = UpdatesState.noUpdates;
   }
 
   final List<PackageKitRepositoryDetailEvent> repos = [];
@@ -291,4 +298,11 @@ class UpdatesModel extends SafeChangeNotifier {
     await detailsCompleter.future;
     return group ?? PackageKitGroup.unknown;
   }
+}
+
+enum UpdatesState {
+  noUpdates,
+  updating,
+  checkingForUpdates,
+  readyToUpdate,
 }
