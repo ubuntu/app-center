@@ -38,8 +38,6 @@ class _UpdatesPageState extends State<UpdatesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final hPadding = getHPadding(size.width);
     final model = context.watch<UpdatesModel>();
     if (model.errorString.isNotEmpty) {
       return Center(
@@ -53,177 +51,184 @@ class _UpdatesPageState extends State<UpdatesPage> {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 20, top: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              YaruRoundIconButton(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return ChangeNotifierProvider.value(
-                        value: model,
-                        child: const _RepoDialog(),
-                      );
-                    },
+        const _UpdatesHeader(),
+        if (model.updatesState == UpdatesState.noUpdates)
+          const _NoUpdatesPage(),
+        if (model.updatesState == UpdatesState.readyToUpdate)
+          const _UpdatesListView(),
+        if (model.updatesState == UpdatesState.updating) const _UpdatingPage()
+      ],
+    );
+  }
+}
+
+class _UpdatingPage extends StatelessWidget {
+  const _UpdatingPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<UpdatesModel>();
+    return Expanded(
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              model.processedId != null ? model.processedId!.name : '',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              model.info != null ? model.info!.name : '',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: 400,
+              child: YaruLinearProgressIndicator(
+                value: model.percentage != null ? model.percentage! / 100 : 0,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(model.status != null ? model.status!.name : ''),
+            const SizedBox(
+              height: 200,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _UpdatesHeader extends StatelessWidget {
+  const _UpdatesHeader({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<UpdatesModel>();
+    return Padding(
+      padding: const EdgeInsets.only(right: 20, top: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          YaruRoundIconButton(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ChangeNotifierProvider.value(
+                    value: model,
+                    child: const _RepoDialog(),
                   );
                 },
-                child: const Icon(YaruIcons.settings),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: SizedBox(
-                  width: 40,
-                  child: !model.processing
-                      ? YaruRoundIconButton(
-                          onTap: () => model.refresh(),
-                          child: const Icon(YaruIcons.refresh),
-                        )
-                      : const SizedBox(
-                          height: 25,
-                          child: YaruCircularProgressIndicator(
-                            strokeWidth: 4,
-                          ),
-                        ),
-                ),
-              ),
-              if (model.updates.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: OutlinedButton(
-                    onPressed: model.processing
-                        ? null
-                        : model.allSelected
-                            ? () => model.deselectAll()
-                            : () => model.selectAll(),
-                    child: Text(
-                      model.allSelected
-                          ? context.l10n.deselectAll
-                          : context.l10n.selectAll,
-                    ),
-                  ),
-                ),
-              if (model.updates.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: ElevatedButton(
-                    onPressed:
-                        model.processing ? null : () => model.updateAll(),
-                    child: Text(context.l10n.updateSelected),
-                  ),
-                ),
-              if (model.requireRestart && !model.processing)
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: ElevatedButton(
-                    onPressed: () => model.reboot(),
-                    child: Text(context.l10n.requireRestart),
-                  ),
-                ),
-            ],
+              );
+            },
+            child: const Icon(YaruIcons.settings),
           ),
-        ),
-        if (model.updates.isEmpty && !model.processing)
-          Expanded(
-            child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      YaruAnimatedOkIcon(
-                        size: 90,
-                        filled: true,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? positiveGreenLightTheme
-                            : positiveGreenDarkTheme,
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: SizedBox(
+              width: 40,
+              child: model.updatesState == UpdatesState.noUpdates ||
+                      model.updatesState == UpdatesState.readyToUpdate
+                  ? YaruRoundIconButton(
+                      onTap: () => model.refresh(),
+                      child: const Icon(YaruIcons.refresh),
+                    )
+                  : const SizedBox(
+                      height: 25,
+                      child: YaruCircularProgressIndicator(
+                        strokeWidth: 4,
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        context.l10n.noUpdates,
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                      const SizedBox(
-                        height: 100,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          )
-        else if (!model.processing)
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.only(
-                top: 50,
-                bottom: 50,
-                left: hPadding,
-                right: hPadding,
-              ),
-              itemCount: model.updates.length,
-              itemExtent: 100,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final update = model.getUpdate(index);
-
-                return UpdateBanner(
-                  group: model.idsToGroups[update] ?? PackageKitGroup.unknown,
-                  selected: model.updates[update],
-                  updateId: update,
-                  installedId: model.installedPackages[update.name] ?? update,
-                  onChanged: model.processing
-                      ? null
-                      : (v) => model.selectUpdate(update, v!),
-                );
-              },
-            ),
-          )
-        else
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    model.processedId != null ? model.processedId!.name : '',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    model.info != null ? model.info!.name : '',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: 400,
-                    child: YaruLinearProgressIndicator(
-                      value: model.percentage != null
-                          ? model.percentage! / 100
-                          : 0,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(model.status != null ? model.status!.name : ''),
-                  const SizedBox(
-                    height: 200,
-                  ),
-                ],
+            ),
+          ),
+          if (model.updates.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: OutlinedButton(
+                onPressed: model.updatesState == UpdatesState.updating
+                    ? null
+                    : model.allSelected
+                        ? () => model.deselectAll()
+                        : () => model.selectAll(),
+                child: Text(
+                  model.allSelected
+                      ? context.l10n.deselectAll
+                      : context.l10n.selectAll,
+                ),
               ),
             ),
-          )
-      ],
+          if (model.updates.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: ElevatedButton(
+                onPressed: model.updatesState == UpdatesState.readyToUpdate
+                    ? () => model.updateAll()
+                    : null,
+                child: Text(context.l10n.updateSelected),
+              ),
+            ),
+          if (model.requireRestart &&
+              model.updatesState == UpdatesState.noUpdates)
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: ElevatedButton(
+                onPressed: () => model.reboot(),
+                child: Text(context.l10n.requireRestart),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _UpdatesListView extends StatelessWidget {
+  // ignore: unused_element
+  const _UpdatesListView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final hPadding = getHPadding(MediaQuery.of(context).size.width);
+    final model = context.watch<UpdatesModel>();
+
+    return Expanded(
+      child: ListView.builder(
+        padding: EdgeInsets.only(
+          top: 50,
+          bottom: 50,
+          left: hPadding,
+          right: hPadding,
+        ),
+        itemCount: model.updates.length,
+        itemExtent: 100,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          final update = model.getUpdate(index);
+
+          return UpdateBanner(
+            group: model.idsToGroups[update] ?? PackageKitGroup.unknown,
+            selected: model.updates[update],
+            updateId: update,
+            installedId: model.installedPackages[update.name] ?? update,
+            onChanged: model.updatesState == UpdatesState.checkingForUpdates
+                ? null
+                : (v) => model.selectUpdate(update, v!),
+          );
+        },
+      ),
     );
   }
 
@@ -236,6 +241,47 @@ class _UpdatesPageState extends State<UpdatesPage> {
       padding -= 50;
     }
     return padding;
+  }
+}
+
+class _NoUpdatesPage extends StatelessWidget {
+  const _NoUpdatesPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                YaruAnimatedOkIcon(
+                  size: 90,
+                  filled: true,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? positiveGreenLightTheme
+                      : positiveGreenDarkTheme,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  context.l10n.noUpdates,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
