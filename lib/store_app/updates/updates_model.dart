@@ -30,7 +30,6 @@ class UpdatesModel extends SafeChangeNotifier {
   Future<void> init() {
     return _service.init().then((value) async {
       _updatesStateSub = _service.updatesState.listen((event) {
-        print(event);
         updatesState = event;
       });
       _errorMessageSub = _service.errorMessage.listen((event) {

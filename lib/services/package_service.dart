@@ -126,7 +126,6 @@ class PackageService {
   }
 
   Future<void> init() async {
-    print('pizza');
     setUpdatesState(UpdatesState.checkingForUpdates);
     await _getInstalledPackages();
     await _loadRepoList();
