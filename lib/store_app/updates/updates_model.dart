@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
+import 'package:software/updates_state.dart';
 
 class UpdatesModel extends SafeChangeNotifier {
   final PackageKitClient _client;
@@ -300,11 +301,4 @@ class UpdatesModel extends SafeChangeNotifier {
     await detailsCompleter.future;
     return group ?? PackageKitGroup.unknown;
   }
-}
-
-enum UpdatesState {
-  noUpdates,
-  updating,
-  checkingForUpdates,
-  readyToUpdate,
 }
