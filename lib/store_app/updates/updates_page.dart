@@ -41,10 +41,13 @@ class _UpdatesPageState extends State<UpdatesPage> {
     final model = context.watch<UpdatesModel>();
     if (model.errorString.isNotEmpty) {
       return Center(
-        child: Row(
-          children: [
-            Text(model.errorString),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            children: [
+              Expanded(child: Text(model.errorString)),
+            ],
+          ),
         ),
       );
     }
