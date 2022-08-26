@@ -141,27 +141,16 @@ class _UpdatesIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (updatesState == UpdatesState.checkingForUpdates) {
-      if (count > 0) {
-        return Badge(
-          badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
-          badgeContent: Text(count.toString()),
-          child: const SizedBox(
-            height: 20,
-            child: YaruCircularProgressIndicator(
-              strokeWidth: 2,
-            ),
+      return Badge(
+        badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
+        badgeContent: Text(count.toString()),
+        child: const SizedBox(
+          height: 20,
+          child: YaruCircularProgressIndicator(
+            strokeWidth: 2,
           ),
-        );
-      } else if (count == 0) {
-        return Badge(
-          badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
-          badgeContent: Text(count.toString()),
-          child: const SizedBox(
-            height: 20,
-            child: Icon(YaruIcons.synchronizing),
-          ),
-        );
-      }
+        ),
+      );
     } else if (updatesState == UpdatesState.updating) {
       return const SizedBox(
         height: 20,
