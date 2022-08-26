@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/updates/update_banner.dart';
 import 'package:software/store_app/updates/updates_model.dart';
 import 'package:software/updates_state.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -16,9 +14,7 @@ class UpdatesPage extends StatefulWidget {
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => UpdatesModel(
-        getService<PackageKitClient>(),
-      ),
+      create: (_) => UpdatesModel(),
       child: const UpdatesPage(),
     );
   }
@@ -41,13 +37,13 @@ class _UpdatesPageState extends State<UpdatesPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<UpdatesModel>();
-    if (model.errorString.isNotEmpty) {
+    if (model.errorMessage.isNotEmpty) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Row(
             children: [
-              Expanded(child: Text(model.errorString)),
+              Expanded(child: Text(model.errorMessage)),
             ],
           ),
         ),
@@ -272,10 +268,10 @@ class _UpdatesListView extends StatelessWidget {
           final update = model.getUpdate(index);
 
           return UpdateBanner(
-            group: model.idsToGroups[update] ?? PackageKitGroup.unknown,
-            selected: model.updates[update],
+            group: model.getGroup(update),
+            selected: model.isUpdateSelected(update),
             updateId: update,
-            installedId: model.installedPackages[update.name] ?? update,
+            installedId: model.getInstalledId(update.name) ?? update,
             onChanged: model.updatesState == UpdatesState.checkingForUpdates
                 ? null
                 : (v) => model.selectUpdate(update, v!),

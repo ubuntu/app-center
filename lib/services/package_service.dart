@@ -12,6 +12,8 @@ class PackageService {
   }
 
   final Map<PackageKitPackageId, bool> _updates = {};
+  List<PackageKitPackageId> get updates =>
+      _updates.entries.map((e) => e.key).toList();
   PackageKitPackageId getUpdate(int index) =>
       _updates.entries.elementAt(index).key;
   final _updatesChangedController = StreamController<bool>.broadcast();
@@ -21,6 +23,7 @@ class PackageService {
   }
 
   final Map<String, PackageKitPackageId> _installedPackages = {};
+  PackageKitPackageId? getInstalledId(String name) => _installedPackages[name];
   final _installedPackagesController = StreamController<bool>.broadcast();
   Stream<bool> get installedPackagesChanged =>
       _installedPackagesController.stream;
@@ -33,6 +36,14 @@ class PackageService {
   Stream<bool> get groupsChanged => _groupsController.stream;
   void setGroupsChanged(bool value) {
     _groupsController.add(value);
+  }
+
+  final List<PackageKitRepositoryDetailEvent> _repos = [];
+  List<PackageKitRepositoryDetailEvent> get repos => _repos;
+  final _reposChangedController = StreamController<bool>.broadcast();
+  Stream<bool> get reposChanged => _reposChangedController.stream;
+  void setReposChanged(bool value) {
+    _reposChangedController.add(value);
   }
 
   PackageKitGroup? getGroup(PackageKitPackageId id) {
@@ -115,9 +126,11 @@ class PackageService {
   }
 
   Future<void> init() async {
+    print('pizza');
+    setUpdatesState(UpdatesState.checkingForUpdates);
     await _getInstalledPackages();
-    await refresh();
     await _loadRepoList();
+    refresh();
   }
 
   Future<void> refresh() async {
@@ -224,6 +237,7 @@ class PackageService {
           event.packageId.name,
           () => event.packageId,
         );
+        setInstalledPackagesChanged(true);
       } else if (event is PackageKitErrorCodeEvent) {
         setErrorMessage('${event.code}: ${event.details}');
       } else if (event is PackageKitFinishedEvent) {
@@ -252,7 +266,6 @@ class PackageService {
     return group ?? PackageKitGroup.unknown;
   }
 
-  final List<PackageKitRepositoryDetailEvent> _repos = [];
   Future<void> _loadRepoList() async {
     setErrorMessage('');
     _repos.clear();
@@ -261,6 +274,7 @@ class PackageService {
     transaction.events.listen((event) {
       if (event is PackageKitRepositoryDetailEvent) {
         _repos.add(event);
+        setReposChanged(true);
       } else if (event is PackageKitErrorCodeEvent) {
         setErrorMessage('${event.code}: ${event.details}');
       } else if (event is PackageKitFinishedEvent) {
@@ -269,7 +283,6 @@ class PackageService {
     });
     await transaction.getRepositoryList();
     await completer.future;
-    // TODO: Streamcontroller
   }
 
   Future<void> toggleRepo({required String id, required bool value}) async {
@@ -282,7 +295,7 @@ class PackageService {
     });
     await transaction.setRepositoryEnabled(id, value);
     await completer.future;
-    _loadRepoList();
+    setReposChanged(true);
   }
 
   // Not implemented in packagekit.dart
@@ -296,11 +309,8 @@ class PackageService {
       ],
       mode: ProcessStartMode.detached,
     );
-    _loadRepoList();
+    setReposChanged(true);
   }
-
-  // Not implemented in packagekit.dart and too hard for apt-add-repository
-  Future<void> removeRepo(String id) async {}
 
   void reboot() {
     Process.start(
