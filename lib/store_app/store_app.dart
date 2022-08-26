@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
+import 'package:software/services/package_service.dart';
 import 'package:software/store_app/explore/explore_page.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
 import 'package:software/store_app/store_model.dart';
 import 'package:software/store_app/updates/updates_page.dart';
+import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -21,6 +23,7 @@ class StoreApp extends StatefulWidget {
         create: (context) => StoreModel(
           getService<Connectivity>(),
           getService<AppChangeService>(),
+          getService<PackageService>(),
         ),
         child: const StoreApp(),
       );
@@ -75,10 +78,15 @@ class _StoreAppState extends State<StoreApp> {
                           ? _MyAppsIcon(count: model.snapChanges.length)
                           : null,
                     ),
-                    const YaruPageItem(
+                    YaruPageItem(
                       titleBuilder: UpdatesPage.createTitle,
                       builder: UpdatesPage.create,
                       iconData: YaruIcons.synchronizing,
+                      itemWidget: _UpdatesIcon(
+                        count: model.updateAmount,
+                        updatesState: model.updatesState ??
+                            UpdatesState.checkingForUpdates,
+                      ),
                     ),
                     const YaruPageItem(
                       titleBuilder: SettingsPage.createTitle,
@@ -114,5 +122,49 @@ class _MyAppsIcon extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _UpdatesIcon extends StatelessWidget {
+  const _UpdatesIcon({
+    // ignore: unused_element
+    super.key,
+    required this.count,
+    required this.updatesState,
+  });
+
+  final int count;
+  final UpdatesState updatesState;
+
+  @override
+  Widget build(BuildContext context) {
+    if (updatesState == UpdatesState.checkingForUpdates) {
+      return Badge(
+        badgeColor: count > 0
+            ? Theme.of(context).primaryColor.withOpacity(0.2)
+            : Colors.transparent,
+        badgeContent: count > 0 ? Text(count.toString()) : null,
+        child: const SizedBox(
+          height: 20,
+          child: YaruCircularProgressIndicator(
+            strokeWidth: 2,
+          ),
+        ),
+      );
+    } else if (updatesState == UpdatesState.updating) {
+      return const SizedBox(
+        height: 20,
+        child: YaruCircularProgressIndicator(
+          strokeWidth: 2,
+        ),
+      );
+    } else if (updatesState == UpdatesState.readyToUpdate) {
+      return Badge(
+        badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
+        badgeContent: Text(count.toString()),
+        child: const Icon(YaruIcons.synchronizing),
+      );
+    }
+    return const Icon(YaruIcons.synchronizing);
   }
 }
