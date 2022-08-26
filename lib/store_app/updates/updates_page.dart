@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
@@ -59,8 +60,56 @@ class _UpdatesPageState extends State<UpdatesPage> {
           const _NoUpdatesPage(),
         if (model.updatesState == UpdatesState.readyToUpdate)
           const _UpdatesListView(),
-        if (model.updatesState == UpdatesState.updating) const _UpdatingPage()
+        if (model.updatesState == UpdatesState.updating) const _UpdatingPage(),
+        if (model.updatesState == UpdatesState.checkingForUpdates)
+          _CheckForUpdatesSplashScreen(
+            percentage: model.percentage,
+          )
       ],
+    );
+  }
+}
+
+class _CheckForUpdatesSplashScreen extends StatelessWidget {
+  const _CheckForUpdatesSplashScreen({
+    // ignore: unused_element
+    super.key,
+    this.percentage,
+  });
+
+  final int? percentage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 100),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(
+                width: 145,
+                height: 185,
+                child: LiquidLinearProgressIndicator(
+                  value: percentage == null ? 0 : percentage! / 100,
+                  backgroundColor: Colors.white.withOpacity(0.5),
+                  valueColor: AlwaysStoppedAnimation(
+                    Theme.of(context).primaryColor,
+                  ),
+                  direction: Axis.vertical,
+                  borderRadius: 20,
+                ),
+              ),
+              Icon(
+                YaruIcons.debian,
+                size: 120,
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
