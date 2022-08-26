@@ -84,8 +84,8 @@ class _StoreAppState extends State<StoreApp> {
                       iconData: YaruIcons.synchronizing,
                       itemWidget: _UpdatesIcon(
                         count: model.updateAmount,
-                        updatesState:
-                            model.updatesState ?? UpdatesState.noUpdates,
+                        updatesState: model.updatesState ??
+                            UpdatesState.checkingForUpdates,
                       ),
                     ),
                     const YaruPageItem(
@@ -140,8 +140,10 @@ class _UpdatesIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     if (updatesState == UpdatesState.checkingForUpdates) {
       return Badge(
-        badgeColor: Theme.of(context).primaryColor.withOpacity(0.2),
-        badgeContent: Text(count.toString()),
+        badgeColor: count > 0
+            ? Theme.of(context).primaryColor.withOpacity(0.2)
+            : Colors.transparent,
+        badgeContent: count > 0 ? Text(count.toString()) : null,
         child: const SizedBox(
           height: 20,
           child: YaruCircularProgressIndicator(
