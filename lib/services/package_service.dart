@@ -207,15 +207,17 @@ class PackageService {
 
   Future<void> refresh() async {
     windowManager.setClosable(false);
-
-    setErrorMessage('');
-    setUpdatesState(UpdatesState.checkingForUpdates);
-    await _refreshCache();
-    await _getUpdates();
-    setUpdatesState(
-      _updates.isEmpty ? UpdatesState.noUpdates : UpdatesState.readyToUpdate,
-    );
-    windowManager.setClosable(true);
+    try {
+      setErrorMessage('');
+      setUpdatesState(UpdatesState.checkingForUpdates);
+      await _refreshCache();
+      await _getUpdates();
+      setUpdatesState(
+        _updates.isEmpty ? UpdatesState.noUpdates : UpdatesState.readyToUpdate,
+      );
+    } finally {
+      windowManager.setClosable(true);
+    }
   }
 
   Future<void> _refreshCache() async {
@@ -267,42 +269,44 @@ class PackageService {
 
   Future<void> updateAll() async {
     windowManager.setClosable(false);
-
-    setErrorMessage('');
-    final List<PackageKitPackageId> selectedUpdates = _updates.entries
-        .where((e) => e.value == true)
-        .map((e) => e.key)
-        .toList();
-    if (selectedUpdates.isEmpty) return;
-    final updatePackagesTransaction = await _client.createTransaction();
-    final updatePackagesCompleter = Completer();
-    setUpdatesState(UpdatesState.updating);
-    updatePackagesTransaction.events.listen((event) {
-      if (event is PackageKitRequireRestartEvent) {
-        setRequireRestart(event.type == PackageKitRestart.system);
-      }
-      if (event is PackageKitPackageEvent) {
-        setProcessedId(event.packageId);
-        setInfo(event.info);
-      } else if (event is PackageKitItemProgressEvent) {
-        setUpdatePercentage(event.percentage);
-        setProcessedId(event.packageId);
-        setStatus(event.status);
-      } else if (event is PackageKitErrorCodeEvent) {
-        setErrorMessage('${event.code}: ${event.details}');
-      } else if (event is PackageKitFinishedEvent) {
-        updatePackagesCompleter.complete();
-      }
-    });
-    await updatePackagesTransaction.updatePackages(selectedUpdates);
-    await updatePackagesCompleter.future;
-    _updates.clear();
-    setInfo(null);
-    setStatus(null);
-    setProcessedId(null);
-    setUpdatePercentage(null);
-    setUpdatesState(UpdatesState.noUpdates);
-    windowManager.setClosable(true);
+    try {
+      setErrorMessage('');
+      final List<PackageKitPackageId> selectedUpdates = _updates.entries
+          .where((e) => e.value == true)
+          .map((e) => e.key)
+          .toList();
+      if (selectedUpdates.isEmpty) return;
+      final updatePackagesTransaction = await _client.createTransaction();
+      final updatePackagesCompleter = Completer();
+      setUpdatesState(UpdatesState.updating);
+      updatePackagesTransaction.events.listen((event) {
+        if (event is PackageKitRequireRestartEvent) {
+          setRequireRestart(event.type == PackageKitRestart.system);
+        }
+        if (event is PackageKitPackageEvent) {
+          setProcessedId(event.packageId);
+          setInfo(event.info);
+        } else if (event is PackageKitItemProgressEvent) {
+          setUpdatePercentage(event.percentage);
+          setProcessedId(event.packageId);
+          setStatus(event.status);
+        } else if (event is PackageKitErrorCodeEvent) {
+          setErrorMessage('${event.code}: ${event.details}');
+        } else if (event is PackageKitFinishedEvent) {
+          updatePackagesCompleter.complete();
+        }
+      });
+      await updatePackagesTransaction.updatePackages(selectedUpdates);
+      await updatePackagesCompleter.future;
+      _updates.clear();
+      setInfo(null);
+      setStatus(null);
+      setProcessedId(null);
+      setUpdatePercentage(null);
+      setUpdatesState(UpdatesState.noUpdates);
+    } finally {
+      windowManager.setClosable(true);
+    }
   }
 
   Future<void> _getInstalledPackages() async {
