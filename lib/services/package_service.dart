@@ -165,6 +165,12 @@ class PackageService {
     _groupController.add(value);
   }
 
+  final _isInstalledController = StreamController<bool>.broadcast();
+  Stream<bool> get isInstalled => _isInstalledController.stream;
+  void setIsInstalled(bool value) {
+    _isInstalledController.add(value);
+  }
+
   final _selectionChangedController = StreamController<bool>.broadcast();
   Stream<bool> get selectionChanged => _selectionChangedController.stream;
   void selectAll() {
@@ -354,7 +360,7 @@ class PackageService {
     });
     await removeTransaction.removePackages([packageId]);
     await removeCompleter.future;
-    _installedPackages.remove(packageId.name);
+    await isIdInstalled(id: packageId);
     setPackageState(PackageState.ready);
   }
 
@@ -373,8 +379,30 @@ class PackageService {
     });
     await installTransaction.installPackages([packageId]);
     await installCompleter.future;
-    _installedPackages.putIfAbsent(packageId.name, () => packageId);
+    await isIdInstalled(id: packageId);
+
     setPackageState(PackageState.ready);
+  }
+
+  /// Check if an app with given [packageId] is installed.
+  Future<void> isIdInstalled({required PackageKitPackageId id}) async {
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    transaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        if (event.info == PackageKitInfo.installed) {
+          setIsInstalled(true);
+        } else {
+          setIsInstalled(false);
+        }
+      } else if (event is PackageKitErrorCodeEvent) {
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+
+    await transaction.searchNames([id.name]);
+    await completer.future;
   }
 
   /// Get the details about the package or update with given [packageId]
@@ -420,10 +448,6 @@ class PackageService {
     await transaction.getUpdateDetail([packageId]);
     await completer.future;
   }
-
-  /// Check if an app with given [packageId] is installed.
-  bool isInstalled({required PackageKitPackageId packageId}) =>
-      _installedPackages.containsValue(packageId);
 
   Future<void> _loadRepoList() async {
     setErrorMessage('');

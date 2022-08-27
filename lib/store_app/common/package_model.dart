@@ -17,6 +17,7 @@ class PackageModel extends SafeChangeNotifier {
   StreamSubscription<String>? _changeLogSub;
   StreamSubscription<String>? _issuedSub;
   StreamSubscription<PackageKitGroup>? _groupController;
+  StreamSubscription<bool>? _isInstallaedSub;
 
   PackageModel()
       : _percentage = 0,
@@ -64,6 +65,10 @@ class PackageModel extends SafeChangeNotifier {
     _groupController = _service.group.listen((event) {
       group = event;
     });
+    _isInstallaedSub = _service.isInstalled.listen((event) {
+      isInstalled = event;
+    });
+    _service.isIdInstalled(id: packageId);
   }
 
   @override
@@ -77,6 +82,7 @@ class PackageModel extends SafeChangeNotifier {
     _changeLogSub?.cancel();
     _issuedSub?.cancel();
     _groupController?.cancel();
+    _isInstallaedSub?.cancel();
     super.dispose();
   }
 
@@ -160,9 +166,6 @@ class PackageModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  bool isInstalled({required PackageKitPackageId packageId}) =>
-      _service.isInstalled(packageId: packageId);
-
   String _errorMessage;
   String get errorMessage => _errorMessage;
   set errorMessage(String value) {
@@ -184,6 +187,14 @@ class PackageModel extends SafeChangeNotifier {
   set issued(String value) {
     if (value == _issued) return;
     _issued = value;
+    notifyListeners();
+  }
+
+  bool _isInstalled = false;
+  bool get isInstalled => _isInstalled;
+  set isInstalled(bool value) {
+    if (value == _isInstalled) return;
+    _isInstalled = value;
     notifyListeners();
   }
 

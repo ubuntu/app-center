@@ -160,14 +160,14 @@ class _PackageDialogState extends State<PackageDialog> {
       actions: widget.noUpdate == false
           ? null
           : [
-              if (model.isInstalled(packageId: widget.id))
+              if (model.isInstalled)
                 OutlinedButton(
                   onPressed: model.packageState != PackageState.ready
                       ? null
                       : () => model.remove(packageId: widget.id),
                   child: Text(context.l10n.remove),
                 ),
-              if (!model.isInstalled(packageId: widget.id))
+              if (!model.isInstalled)
                 ElevatedButton(
                   onPressed: model.packageState != PackageState.ready
                       ? null
