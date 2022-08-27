@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
+import 'package:software/package_state.dart';
+import 'package:software/store_app/common/utils.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:window_manager/window_manager.dart';
@@ -24,6 +27,8 @@ class PackageService {
   }
 
   final Map<String, PackageKitPackageId> _installedPackages = {};
+  List<PackageKitPackageId> get installedPackages =>
+      _installedPackages.entries.map((e) => e.value).toList();
   PackageKitPackageId? getInstalledId(String name) => _installedPackages[name];
   final _installedPackagesController = StreamController<bool>.broadcast();
   Stream<bool> get installedPackagesChanged =>
@@ -57,10 +62,16 @@ class PackageService {
     _requireRestartController.add(value);
   }
 
-  final _percentageController = StreamController<int?>.broadcast();
-  Stream<int?> get percentage => _percentageController.stream;
-  void setPercentage(int? value) {
-    _percentageController.add(value);
+  final _updatesPercentageController = StreamController<int?>.broadcast();
+  Stream<int?> get updatesPercentage => _updatesPercentageController.stream;
+  void setUpdatePercentage(int? value) {
+    _updatesPercentageController.add(value);
+  }
+
+  final _packagePercentageController = StreamController<int?>.broadcast();
+  Stream<int?> get packagePercentage => _packagePercentageController.stream;
+  void setPackagePercentage(int? value) {
+    _updatesPercentageController.add(value);
   }
 
   final _processedIdController =
@@ -98,6 +109,66 @@ class PackageService {
   Stream<PackageKitStatus?> get status => _statusController.stream;
   void setStatus(PackageKitStatus? value) {
     _statusController.add(value);
+  }
+
+  final _packageStateController = StreamController<PackageState>.broadcast();
+  Stream<PackageState> get packageState => _packageStateController.stream;
+  void setPackageState(PackageState value) {
+    _packageStateController.add(value);
+  }
+
+  final _summaryController = StreamController<String>.broadcast();
+  Stream<String> get summary => _summaryController.stream;
+  void setSummary(String value) {
+    _summaryController.add(value);
+  }
+
+  final _urlController = StreamController<String>.broadcast();
+  Stream<String> get url => _urlController.stream;
+  void setUrl(String value) {
+    _urlController.add(value);
+  }
+
+  final _licenseController = StreamController<String>.broadcast();
+  Stream<String> get license => _licenseController.stream;
+  void setLicense(String value) {
+    _licenseController.add(value);
+  }
+
+  final _sizeController = StreamController<String>.broadcast();
+  Stream<String> get size => _sizeController.stream;
+  void setSize(int value) {
+    _sizeController.add(formatBytes(value, 2));
+  }
+
+  final _descriptionController = StreamController<String>.broadcast();
+  Stream<String> get description => _descriptionController.stream;
+  void setDescription(String value) {
+    _descriptionController.add(value);
+  }
+
+  final _changelogController = StreamController<String>.broadcast();
+  Stream<String> get changelog => _changelogController.stream;
+  void setChangelog(String value) {
+    _changelogController.add(value);
+  }
+
+  final _issuedController = StreamController<String>.broadcast();
+  Stream<String> get issued => _issuedController.stream;
+  void setIssued(String value) {
+    _issuedController.add(value);
+  }
+
+  final _groupController = StreamController<PackageKitGroup>.broadcast();
+  Stream<PackageKitGroup> get group => _groupController.stream;
+  void setGroup(PackageKitGroup value) {
+    _groupController.add(value);
+  }
+
+  final _isInstalledController = StreamController<bool>.broadcast();
+  Stream<bool> get isInstalled => _isInstalledController.stream;
+  void setIsInstalled(bool value) {
+    _isInstalledController.add(value);
   }
 
   final _selectionChangedController = StreamController<bool>.broadcast();
@@ -176,7 +247,7 @@ class PackageService {
         _updates.putIfAbsent(id, () => true);
         setUpdatesChanged(true);
       } else if (event is PackageKitItemProgressEvent) {
-        setPercentage(event.percentage);
+        setUpdatePercentage(event.percentage);
       } else if (event is PackageKitErrorCodeEvent) {
         setErrorMessage('${event.code}: ${event.details}');
       } else if (event is PackageKitFinishedEvent) {
@@ -214,7 +285,7 @@ class PackageService {
         setProcessedId(event.packageId);
         setInfo(event.info);
       } else if (event is PackageKitItemProgressEvent) {
-        setPercentage(event.percentage);
+        setUpdatePercentage(event.percentage);
         setProcessedId(event.packageId);
         setStatus(event.status);
       } else if (event is PackageKitErrorCodeEvent) {
@@ -229,7 +300,7 @@ class PackageService {
     setInfo(null);
     setStatus(null);
     setProcessedId(null);
-    setPercentage(null);
+    setUpdatePercentage(null);
     setUpdatesState(UpdatesState.noUpdates);
     windowManager.setClosable(true);
   }
@@ -271,6 +342,112 @@ class PackageService {
     await installTransaction.getDetails([id]);
     await detailsCompleter.future;
     return group ?? PackageKitGroup.unknown;
+  }
+
+  /// Removes with package with [packageId]
+  Future<void> remove({required PackageKitPackageId packageId}) async {
+    final removeTransaction = await _client.createTransaction();
+    setPackageState(PackageState.removing);
+    final removeCompleter = Completer();
+    removeTransaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+      } else if (event is PackageKitItemProgressEvent) {
+        setPackagePercentage(event.percentage);
+      } else if (event is PackageKitErrorCodeEvent) {
+      } else if (event is PackageKitFinishedEvent) {
+        removeCompleter.complete();
+      }
+    });
+    await removeTransaction.removePackages([packageId]);
+    await removeCompleter.future;
+    await isIdInstalled(id: packageId);
+    setPackageState(PackageState.ready);
+  }
+
+  /// Installs with package with [packageId]
+  Future<void> install({required PackageKitPackageId packageId}) async {
+    final installTransaction = await _client.createTransaction();
+    setPackageState(PackageState.installing);
+    final installCompleter = Completer();
+    installTransaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+      } else if (event is PackageKitItemProgressEvent) {
+        setPackagePercentage(event.percentage);
+      } else if (event is PackageKitFinishedEvent) {
+        installCompleter.complete();
+      }
+    });
+    await installTransaction.installPackages([packageId]);
+    await installCompleter.future;
+    await isIdInstalled(id: packageId);
+
+    setPackageState(PackageState.ready);
+  }
+
+  /// Check if an app with given [packageId] is installed.
+  Future<void> isIdInstalled({required PackageKitPackageId id}) async {
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    transaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        if (event.info == PackageKitInfo.installed) {
+          setIsInstalled(true);
+        } else {
+          setIsInstalled(false);
+        }
+      } else if (event is PackageKitErrorCodeEvent) {
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+
+    await transaction
+        .searchNames([id.name], filter: {PackageKitFilter.installed});
+    await completer.future;
+  }
+
+  /// Get the details about the package or update with given [packageId]
+  Future<void> getDetails({required PackageKitPackageId packageId}) async {
+    var installTransaction = await _client.createTransaction();
+    var detailsCompleter = Completer();
+    installTransaction.events.listen((event) {
+      if (event is PackageKitDetailsEvent) {
+        setSummary(event.summary);
+        setUrl(event.url);
+        setLicense(event.license);
+        setSize(event.size);
+        setDescription(event.description);
+        setGroup(event.group);
+      } else if (event is PackageKitFinishedEvent) {
+        detailsCompleter.complete();
+      }
+    });
+    await installTransaction.getDetails([packageId]);
+    await detailsCompleter.future;
+  }
+
+  /// Get more details about given [packageId]
+  Future<void> getUpdateDetail({
+    required PackageKitPackageId packageId,
+  }) async {
+    setChangelog('');
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    transaction.events.listen((event) {
+      if (event is PackageKitUpdateDetailEvent) {
+        setChangelog(event.changelog);
+        setIssued(
+          DateFormat.yMMMMEEEEd(Platform.localeName)
+              .format(event.issued ?? DateTime.now()),
+        );
+      } else if (event is PackageKitErrorCodeEvent) {
+        setErrorMessage('${event.code}: ${event.details}');
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+    await transaction.getUpdateDetail([packageId]);
+    await completer.future;
   }
 
   Future<void> _loadRepoList() async {

@@ -2,41 +2,26 @@ import 'dart:async';
 
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
+import 'package:software/services/package_service.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 class MyPackagesModel extends SafeChangeNotifier {
-  final PackageKitClient _client;
+  final PackageService _service;
+  MyPackagesModel() : _service = getService<PackageService>();
 
-  MyPackagesModel(this._client) : _packageIds = {} {
-    _client.connect();
-  }
+  StreamSubscription<bool>? _installedSub;
 
-  final Set<PackageKitPackageId> _packageIds;
-  List<PackageKitPackageId> get packages => _packageIds.toList();
+  List<PackageKitPackageId> get packages => _service.installedPackages;
 
-  Future<void> init() async {
-    await getPackages();
-    notifyListeners();
-  }
-
-  Future<void> getPackages() async {
-    final transaction = await _client.createTransaction();
-    final completer = Completer();
-    transaction.events.listen((packageKitEvent) {
-      if (packageKitEvent is PackageKitPackageEvent) {
-        final id = packageKitEvent.packageId;
-        _packageIds.add(id);
-      } else if (packageKitEvent is PackageKitErrorCodeEvent) {
-      } else if (packageKitEvent is PackageKitFinishedEvent) {
-        completer.complete();
-      }
+  void init() async {
+    _installedSub = _service.installedPackagesChanged.listen((event) {
+      notifyListeners();
     });
-    await transaction.getPackages(
-      filter: {
-        PackageKitFilter.installed,
-        PackageKitFilter.application,
-        PackageKitFilter.gui
-      },
-    );
-    await completer.future;
+  }
+
+  @override
+  void dispose() {
+    _installedSub?.cancel();
+    super.dispose();
   }
 }
