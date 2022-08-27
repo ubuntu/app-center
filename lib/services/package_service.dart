@@ -401,7 +401,8 @@ class PackageService {
       }
     });
 
-    await transaction.searchNames([id.name]);
+    await transaction
+        .searchNames([id.name], filter: {PackageKitFilter.installed});
     await completer.future;
   }
 
