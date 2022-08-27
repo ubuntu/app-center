@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/package_state.dart';
 import 'package:software/store_app/common/link.dart';
 import 'package:software/store_app/common/package_model.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageDialog extends StatefulWidget {
-  const PackageDialog({Key? key, this.noUpdate = true}) : super(key: key);
+  const PackageDialog({
+    Key? key,
+    this.noUpdate = true,
+    required this.id,
+    required this.installedId,
+  }) : super(key: key);
 
   final bool noUpdate;
+  final PackageKitPackageId id;
+  final PackageKitPackageId installedId;
 
   static Widget create({
     required BuildContext context,
@@ -22,13 +28,11 @@ class PackageDialog extends StatefulWidget {
     bool noUpdate = true,
   }) {
     return ChangeNotifierProvider(
-      create: (context) => PackageModel(
-        getService<PackageKitClient>(),
-        packageId: id,
-        installedId: installedId,
-      ),
+      create: (context) => PackageModel(),
       child: PackageDialog(
         noUpdate: noUpdate,
+        id: id,
+        installedId: installedId,
       ),
     );
   }
@@ -40,7 +44,9 @@ class PackageDialog extends StatefulWidget {
 class _PackageDialogState extends State<PackageDialog> {
   @override
   void initState() {
-    context.read<PackageModel>().init(update: !widget.noUpdate);
+    context
+        .read<PackageModel>()
+        .init(update: !widget.noUpdate, packageId: widget.id);
 
     super.initState();
   }
@@ -51,36 +57,15 @@ class _PackageDialogState extends State<PackageDialog> {
     final caption = Theme.of(context).textTheme.caption;
     return AlertDialog(
       title: YaruDialogTitle(
-        title: model.name,
+        title: widget.id.name,
         closeIconData: YaruIcons.window_close,
       ),
       titlePadding: EdgeInsets.zero,
       contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       scrollable: true,
-      content: model.processing
-          ? Stack(
-              alignment: Alignment.center,
-              children: [
-                SizedBox(
-                  width: 145,
-                  height: 185,
-                  child: LiquidLinearProgressIndicator(
-                    value: model.packageIsInstalled ? 1 : 0,
-                    backgroundColor: Colors.white.withOpacity(0.5),
-                    valueColor: AlwaysStoppedAnimation(
-                      Theme.of(context).primaryColor,
-                    ),
-                    direction: Axis.vertical,
-                    borderRadius: 20,
-                  ),
-                ),
-                Icon(
-                  YaruIcons.debian,
-                  size: 120,
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
-                ),
-              ],
+      content: model.packageState != PackageState.ready
+          ? const Center(
+              child: YaruCircularProgressIndicator(),
             )
           : SizedBox(
               width: 400,
@@ -89,15 +74,15 @@ class _PackageDialogState extends State<PackageDialog> {
                 children: [
                   YaruSingleInfoRow(
                     infoLabel: context.l10n.version,
-                    infoValue: model.version,
+                    infoValue: widget.id.version,
                   ),
                   YaruSingleInfoRow(
                     infoLabel: context.l10n.architecture,
-                    infoValue: model.arch,
+                    infoValue: widget.id.arch,
                   ),
                   YaruSingleInfoRow(
                     infoLabel: context.l10n.source,
-                    infoValue: model.data,
+                    infoValue: widget.id.data,
                   ),
                   YaruSingleInfoRow(
                     infoLabel: context.l10n.license,
@@ -175,14 +160,18 @@ class _PackageDialogState extends State<PackageDialog> {
       actions: widget.noUpdate == false
           ? null
           : [
-              if (model.packageIsInstalled)
+              if (model.isInstalled(packageId: widget.id))
                 OutlinedButton(
-                  onPressed: model.processing ? null : model.remove,
+                  onPressed: model.packageState != PackageState.ready
+                      ? null
+                      : () => model.remove(packageId: widget.id),
                   child: Text(context.l10n.remove),
                 ),
-              if (!model.packageIsInstalled)
+              if (!model.isInstalled(packageId: widget.id))
                 ElevatedButton(
-                  onPressed: model.processing ? null : model.install,
+                  onPressed: model.packageState != PackageState.ready
+                      ? null
+                      : () => model.install(packageId: widget.id),
                   child: Text(context.l10n.install),
                 ),
             ],

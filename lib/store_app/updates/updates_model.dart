@@ -36,7 +36,7 @@ class UpdatesModel extends SafeChangeNotifier {
     _requireRestartSub = _service.requireRestart.listen((event) {
       requireRestart = event;
     });
-    _percentageSub = _service.percentage.listen((event) {
+    _percentageSub = _service.updatesPercentage.listen((event) {
       percentage = event;
     });
     _infoSub = _service.info.listen((event) {
