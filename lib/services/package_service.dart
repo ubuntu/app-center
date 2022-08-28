@@ -93,10 +93,12 @@ class PackageService {
     _manualRepoNameController.add(value);
   }
 
+  UpdatesState? lastUpdatesState;
   final _updatesStateController = StreamController<UpdatesState>.broadcast();
   Stream<UpdatesState> get updatesState => _updatesStateController.stream;
   void setUpdatesState(UpdatesState value) {
     _updatesStateController.add(value);
+    lastUpdatesState = value;
   }
 
   final _infoController = StreamController<PackageKitInfo?>.broadcast();
@@ -198,19 +200,16 @@ class PackageService {
   }
 
   Future<void> init() async {
-    setPackageState(PackageState.processing);
-    setUpdatesState(UpdatesState.checkingForUpdates);
     await _getInstalledPackages();
-    await _loadRepoList();
-    refresh();
-    setPackageState(PackageState.ready);
+    refreshUpdates();
   }
 
-  Future<void> refresh() async {
+  Future<void> refreshUpdates() async {
     windowManager.setClosable(false);
     try {
       setErrorMessage('');
       setUpdatesState(UpdatesState.checkingForUpdates);
+      await _loadRepoList();
       await _refreshCache();
       await _getUpdates();
       setUpdatesState(
@@ -314,6 +313,7 @@ class PackageService {
     setErrorMessage('');
     final transaction = await _client.createTransaction();
     final completer = Completer();
+    setPackageState(PackageState.processing);
     transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         _installedPackages.putIfAbsent(
@@ -331,6 +331,7 @@ class PackageService {
       filter: {PackageKitFilter.installed},
     );
     await completer.future;
+    setPackageState(PackageState.ready);
   }
 
   Future<PackageKitGroup> _getGroup(PackageKitPackageId id) async {
