@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/offline_page.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
@@ -21,7 +21,7 @@ class ExplorePage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => ExploreModel(
         getService<SnapdClient>(),
-        getService<PackageKitClient>(),
+        getService<PackageService>(),
       ),
       child: const ExplorePage(),
     );

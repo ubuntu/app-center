@@ -87,7 +87,9 @@ class _PackageKitSearchPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: FutureBuilder<List<PackageKitPackageId>>(
-        future: model.findPackageKitPackageIds(),
+        future: model.findPackageKitPackageIds(
+          filter: {PackageKitFilter.newest, PackageKitFilter.notDevelopment},
+        ),
         builder: (context, snapshot) =>
             snapshot.hasData && snapshot.data!.isNotEmpty
                 ? GridView.builder(
