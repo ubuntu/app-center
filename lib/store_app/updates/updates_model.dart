@@ -27,6 +27,7 @@ class UpdatesModel extends SafeChangeNotifier {
         _manualRepoName = '';
 
   void init() async {
+    _updatesState = _service.lastUpdatesState;
     _updatesStateSub = _service.updatesState.listen((event) {
       updatesState = event;
     });
@@ -48,7 +49,6 @@ class UpdatesModel extends SafeChangeNotifier {
     _processedIdSub = _service.processedId.listen((event) {
       processedId = event;
     });
-
     _manualRepoNameSub = _service.manualRepoName.listen((event) {
       manualRepoName = event;
     });
@@ -165,7 +165,7 @@ class UpdatesModel extends SafeChangeNotifier {
   bool get allSelected => _service.allSelected;
 
   Future<void> refresh() async {
-    await _service.refresh();
+    await _service.refreshUpdates();
     notifyListeners();
   }
 

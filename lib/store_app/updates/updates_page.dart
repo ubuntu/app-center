@@ -53,8 +53,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
     return Column(
       children: [
         const _UpdatesHeader(),
-        if (model.updatesState == UpdatesState.noUpdates ||
-            model.updatesState == null)
+        if (model.updatesState == UpdatesState.noUpdates)
           const _NoUpdatesPage(),
         if (model.updatesState == UpdatesState.readyToUpdate)
           const _UpdatesListView(),

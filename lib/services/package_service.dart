@@ -71,7 +71,7 @@ class PackageService {
   final _packagePercentageController = StreamController<int?>.broadcast();
   Stream<int?> get packagePercentage => _packagePercentageController.stream;
   void setPackagePercentage(int? value) {
-    _updatesPercentageController.add(value);
+    _packagePercentageController.add(value);
   }
 
   final _processedIdController =
@@ -93,10 +93,12 @@ class PackageService {
     _manualRepoNameController.add(value);
   }
 
+  UpdatesState? lastUpdatesState;
   final _updatesStateController = StreamController<UpdatesState>.broadcast();
   Stream<UpdatesState> get updatesState => _updatesStateController.stream;
   void setUpdatesState(UpdatesState value) {
     _updatesStateController.add(value);
+    lastUpdatesState = value;
   }
 
   final _infoController = StreamController<PackageKitInfo?>.broadcast();
@@ -197,19 +199,17 @@ class PackageService {
     _selectionChangedController.add(true);
   }
 
-  bool? initialized;
   Future<void> init() async {
-    setUpdatesState(UpdatesState.checkingForUpdates);
     await _getInstalledPackages();
-    await _loadRepoList();
-    refresh().then((value) => initialized = true);
+    refreshUpdates();
   }
 
-  Future<void> refresh() async {
+  Future<void> refreshUpdates() async {
     windowManager.setClosable(false);
     try {
       setErrorMessage('');
       setUpdatesState(UpdatesState.checkingForUpdates);
+      await _loadRepoList();
       await _refreshCache();
       await _getUpdates();
       setUpdatesState(
@@ -313,6 +313,7 @@ class PackageService {
     setErrorMessage('');
     final transaction = await _client.createTransaction();
     final completer = Completer();
+    setPackageState(PackageState.processing);
     transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         _installedPackages.putIfAbsent(
@@ -330,6 +331,7 @@ class PackageService {
       filter: {PackageKitFilter.installed},
     );
     await completer.future;
+    setPackageState(PackageState.ready);
   }
 
   Future<PackageKitGroup> _getGroup(PackageKitPackageId id) async {
@@ -351,12 +353,14 @@ class PackageService {
   /// Removes with package with [packageId]
   Future<void> remove({required PackageKitPackageId packageId}) async {
     final removeTransaction = await _client.createTransaction();
-    setPackageState(PackageState.removing);
     final removeCompleter = Completer();
+    setPackageState(PackageState.processing);
     removeTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
       } else if (event is PackageKitItemProgressEvent) {
-        setPackagePercentage(event.percentage);
+        if (event.status == PackageKitStatus.remove) {
+          setPackagePercentage(100 - event.percentage);
+        }
       } else if (event is PackageKitErrorCodeEvent) {
       } else if (event is PackageKitFinishedEvent) {
         removeCompleter.complete();
@@ -364,14 +368,18 @@ class PackageService {
     });
     await removeTransaction.removePackages([packageId]);
     await removeCompleter.future;
-    await isIdInstalled(id: packageId);
+    if (_localId != null) {
+      setIsInstalled(false);
+    } else {
+      await isIdInstalled(id: packageId);
+    }
     setPackageState(PackageState.ready);
   }
 
   /// Installs with package with [packageId]
   Future<void> install({required PackageKitPackageId packageId}) async {
     final installTransaction = await _client.createTransaction();
-    setPackageState(PackageState.installing);
+    setPackageState(PackageState.processing);
     final installCompleter = Completer();
     installTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
@@ -394,12 +402,11 @@ class PackageService {
     final completer = Completer();
     transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
-        if (event.info == PackageKitInfo.installed) {
-          setIsInstalled(true);
-        } else {
-          setIsInstalled(false);
-        }
+        final installed = event.info == PackageKitInfo.installed;
+        setIsInstalled(installed);
+        setPackagePercentage(installed ? 100 : 0);
       } else if (event is PackageKitErrorCodeEvent) {
+        setErrorMessage('${event.code}: ${event.details}');
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
@@ -532,5 +539,54 @@ class PackageService {
     await completer.future;
 
     return ids;
+  }
+
+  PackageKitPackageId? _localId;
+
+  /// Finds the [packageId] from [path] and sets info fields
+  Future<void> getDetailsAboutLocalPackage({required String path}) async {
+    if (path.isEmpty || !(await File(path).exists())) return;
+    final transaction = await _client.createTransaction();
+    final detailsCompleter = Completer();
+    transaction.events.listen((event) {
+      if (event is PackageKitDetailsEvent) {
+        _localId = event.packageId;
+        setProcessedId(event.packageId);
+        setSummary(event.summary);
+        setUrl(event.url);
+        setLicense(event.license);
+        setSize(event.size);
+        setGroup(event.group);
+        setDescription(event.description);
+      } else if (event is PackageKitFinishedEvent) {
+        detailsCompleter.complete();
+      }
+    });
+    await transaction.getDetailsLocal([path]);
+    await detailsCompleter.future;
+    if (_localId != null) {
+      await isIdInstalled(id: _localId!);
+    }
+  }
+
+  Future<void> installLocalFile({required String? path}) async {
+    if (path != null && path.isEmpty || !(await File(path!).exists())) return;
+    final installTransaction = await _client.createTransaction();
+    final installCompleter = Completer();
+    setPackageState(PackageState.processing);
+    installTransaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+      } else if (event is PackageKitItemProgressEvent) {
+        setPackagePercentage(event.percentage);
+      } else if (event is PackageKitFinishedEvent) {
+        installCompleter.complete();
+      }
+    });
+    await installTransaction.installFiles([path]);
+    await installCompleter.future;
+    if (_localId != null) {
+      await isIdInstalled(id: _localId!);
+    }
+    setPackageState(PackageState.ready);
   }
 }
