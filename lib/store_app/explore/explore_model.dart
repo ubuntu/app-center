@@ -3,15 +3,16 @@ import 'dart:async';
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/snap_section.dart';
 
 class ExploreModel extends SafeChangeNotifier {
   final SnapdClient _snapDClient;
-  final PackageKitClient _packageKitClient;
+  final PackageService _packageService;
 
   ExploreModel(
     this._snapDClient,
-    this._packageKitClient,
+    this._packageService,
   )   : _searchQuery = '',
         sectionNameToSnapsMap = {},
         _errorMessage = '';
@@ -101,26 +102,9 @@ class ExploreModel extends SafeChangeNotifier {
 
   Future<List<PackageKitPackageId>> findPackageKitPackageIds({
     Set<PackageKitFilter> filter = const {},
-  }) async {
-    if (searchQuery.isEmpty) return [];
-    final List<PackageKitPackageId> ids = [];
-    final transaction = await _packageKitClient.createTransaction();
-    final completer = Completer();
-    transaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        final id = event.packageId;
-        ids.add(id);
-      } else if (event is PackageKitErrorCodeEvent) {
-      } else if (event is PackageKitFinishedEvent) {
-        completer.complete();
-      }
-    });
-    await transaction.searchNames(
-      [searchQuery],
-      filter: filter,
-    );
-    await completer.future;
-
-    return ids;
-  }
+  }) async =>
+      _packageService.findPackageKitPackageIds(
+        searchQuery: searchQuery,
+        filter: filter,
+      );
 }

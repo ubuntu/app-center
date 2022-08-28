@@ -507,4 +507,30 @@ class PackageService {
       mode: ProcessStartMode.detached,
     );
   }
+
+  Future<List<PackageKitPackageId>> findPackageKitPackageIds({
+    required String searchQuery,
+    Set<PackageKitFilter> filter = const {},
+  }) async {
+    if (searchQuery.isEmpty) return [];
+    final List<PackageKitPackageId> ids = [];
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    transaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        final id = event.packageId;
+        ids.add(id);
+      } else if (event is PackageKitErrorCodeEvent) {
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+    await transaction.searchNames(
+      [searchQuery],
+      filter: filter,
+    );
+    await completer.future;
+
+    return ids;
+  }
 }
