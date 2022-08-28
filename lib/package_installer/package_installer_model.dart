@@ -1,45 +1,109 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
+import 'package:software/package_state.dart';
+import 'package:software/services/package_service.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 class PackageInstallerModel extends SafeChangeNotifier {
-  PackageInstallerModel(this._client, {required this.path})
-      : _progress = 0,
+  final PackageService _service;
+  StreamSubscription<PackageState>? _packageStateSub;
+  StreamSubscription<String>? _summarySub;
+  StreamSubscription<String>? _urlSub;
+  StreamSubscription<String>? _licenseSub;
+  StreamSubscription<String>? _sizeSub;
+  StreamSubscription<String>? _descriptionSub;
+  StreamSubscription<String>? _changeLogSub;
+  StreamSubscription<String>? _issuedSub;
+  StreamSubscription<PackageKitGroup>? _groupController;
+  StreamSubscription<bool>? _isInstalledSub;
+  StreamSubscription<int?>? _percentageSub;
+  StreamSubscription<PackageKitPackageId?>? _idSub;
+
+  PackageInstallerModel({required this.path})
+      : _percentage = 0,
         _status = '',
         _license = '',
-        _size = 0,
+        _size = '',
         _summary = '',
         _url = '',
-        _installedPackageIds = {} {
-    _client.connect();
-  }
+        _errorMessage = '',
+        _packageState = PackageState.ready,
+        _service = getService<PackageService>();
 
-  final PackageKitClient _client;
   final String path;
 
-  Future<void> init() async {
-    await _getInstalledPackages();
-    await _getDetailsAboutLocalPackage();
-    progress = packageIsInstalled ? 1 : 0;
+  void init() async {
+    _service.getDetailsAboutLocalPackage(path: path);
+
+    _idSub = _service.processedId.listen((event) {
+      id = event;
+    });
+    _summarySub = _service.summary.listen((event) {
+      summary = event;
+    });
+    _urlSub = _service.url.listen((event) {
+      url = event;
+    });
+    _licenseSub = _service.license.listen((event) {
+      license = event;
+    });
+    _sizeSub = _service.size.listen((event) {
+      size = event;
+    });
+    _descriptionSub = _service.description.listen((event) {
+      description = event;
+    });
+    _changeLogSub = _service.changelog.listen((event) {
+      changelog = event;
+    });
+    _issuedSub = _service.issued.listen((event) {
+      issued = event;
+    });
+    _groupController = _service.group.listen((event) {
+      group = event;
+    });
+    _isInstalledSub = _service.isInstalled.listen((event) {
+      isInstalled = event;
+    });
+    _percentageSub = _service.packagePercentage.listen((event) {
+      percentage = event;
+    });
+  }
+
+  @override
+  void dispose() {
+    _idSub?.cancel();
+    _packageStateSub?.cancel();
+    _summarySub?.cancel();
+    _urlSub?.cancel();
+    _licenseSub?.cancel();
+    _sizeSub?.cancel();
+    _descriptionSub?.cancel();
+    _changeLogSub?.cancel();
+    _issuedSub?.cancel();
+    _groupController?.cancel();
+    _isInstalledSub?.cancel();
+    _percentageSub?.cancel();
+    super.dispose();
+  }
+
+  PackageKitPackageId? _id;
+  PackageKitPackageId? get id => _id;
+  set id(PackageKitPackageId? value) {
+    if (value == _id) return;
+    _id = value;
     notifyListeners();
   }
 
-  /// The ID of the local package.
-  PackageKitPackageId? _packageId;
-  PackageKitPackageId? get packageId => _packageId;
-  set packageId(PackageKitPackageId? value) {
-    if (value == _packageId) return;
-    _packageId = value;
+  PackageState? _packageState;
+  PackageState? get packageState => _packageState;
+  set packageState(PackageState? value) {
+    if (value == _packageState) return;
+    _packageState = value;
     notifyListeners();
   }
-
-  // Convenience getters
-  String get version => _packageId != null ? _packageId!.version : '';
-  String get name => _packageId != null ? _packageId!.name : '';
-  String get arch => _packageId != null ? _packageId!.arch : '';
-  String get data => _packageId != null ? _packageId!.data : '';
 
   // The group this package belongs to.
   PackageKitGroup? _group;
@@ -87,23 +151,20 @@ class PackageInstallerModel extends SafeChangeNotifier {
   }
 
   /// The size of the package in bytes.
-  int _size;
-  int get size => _size;
-  set size(int value) {
+  String _size;
+  String get size => _size;
+  set size(String value) {
     if (value == _size) return;
     _size = value;
     notifyListeners();
   }
 
   /// Progress of the installation/removal
-  num _progress;
-  num get progress {
-    return packageIsInstalled ? (1 - (_progress / 100)) : (_progress / 100);
-  }
-
-  set progress(num value) {
-    if (value == _progress) return;
-    _progress = value;
+  int? _percentage;
+  int? get percentage => _percentage;
+  set percentage(int? value) {
+    if (value == _percentage) return;
+    _percentage = value;
     notifyListeners();
   }
 
@@ -116,89 +177,46 @@ class PackageInstallerModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  /// Load all installed packageIds into this set to check
-  /// if the package is already installed
-  final Set<PackageKitPackageId> _installedPackageIds;
-  List<PackageKitPackageId> get installedPackages =>
-      _installedPackageIds.toList();
-  bool get packageIsInstalled => _installedPackageIds.contains(packageId);
+  String _errorMessage;
+  String get errorMessage => _errorMessage;
+  set errorMessage(String value) {
+    if (value == _errorMessage) return;
+    _errorMessage = value;
+    notifyListeners();
+  }
 
-  /// Install the local package from [path]
-  Future<void> installLocalFile() async {
-    if (path.isEmpty || !(await File(path).exists())) return;
-    final installTransaction = await _client.createTransaction();
-    final installCompleter = Completer();
-    installTransaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        status = '[${event.packageId.name}] ${event.info}';
-      } else if (event is PackageKitItemProgressEvent) {
-        progress = event.percentage;
-      } else if (event is PackageKitFinishedEvent) {
-        installCompleter.complete();
-      }
-    });
-    await installTransaction.installFiles([path]);
-    await installCompleter.future;
-    await init();
+  String _changelog = '';
+  String get changelog => _changelog;
+  set changelog(String value) {
+    if (value == _changelog) return;
+    _changelog = value;
+    notifyListeners();
+  }
+
+  String _issued = '';
+  String get issued => _issued;
+  set issued(String value) {
+    if (value == _issued) return;
+    _issued = value;
+    notifyListeners();
+  }
+
+  bool _isInstalled = false;
+  bool get isInstalled => _isInstalled;
+  set isInstalled(bool value) {
+    if (value == _isInstalled) return;
+    _isInstalled = value;
+    notifyListeners();
   }
 
   /// Removes with package with [packageId]
-  Future<void> remove() async {
-    if (packageId == null) return;
-    final removeTransaction = await _client.createTransaction();
-    final removeCompleter = Completer();
-    removeTransaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        status = '[${event.packageId.name}] ${event.info}';
-      } else if (event is PackageKitItemProgressEvent) {
-        progress = event.percentage;
-      } else if (event is PackageKitErrorCodeEvent) {
-      } else if (event is PackageKitFinishedEvent) {
-        removeCompleter.complete();
-      }
-    });
-    await removeTransaction.removePackages([packageId!]);
-    await removeCompleter.future;
-    await init();
-  }
+  void remove({required PackageKitPackageId packageId}) =>
+      _service.remove(packageId: packageId);
 
-  /// Finds the [packageId] from [path] and sets info fields
-  Future<void> _getDetailsAboutLocalPackage() async {
-    if (path.isEmpty || !(await File(path).exists())) return;
-    final transaction = await _client.createTransaction();
-    final detailsCompleter = Completer();
-    transaction.events.listen((event) {
-      if (event is PackageKitDetailsEvent) {
-        packageId = event.packageId;
-        summary = event.summary;
-        url = event.url;
-        license = event.license;
-        size = event.size;
-        group = event.group;
-        description = event.description;
-      } else if (event is PackageKitFinishedEvent) {
-        detailsCompleter.complete();
-      }
-    });
-    await transaction.getDetailsLocal([path]);
-    await detailsCompleter.future;
-  }
+  /// Installs with package with [packageId]
+  void install({required PackageKitPackageId packageId}) =>
+      _service.install(packageId: packageId);
 
-  /// Fills [_installedPackageIds] with the ids of all installed applications.
-  Future<void> _getInstalledPackages() async {
-    final transaction = await _client.createTransaction();
-    final completer = Completer();
-    transaction.events.listen((packageKitEvent) {
-      if (packageKitEvent is PackageKitPackageEvent) {
-        _installedPackageIds.add(packageKitEvent.packageId);
-      } else if (packageKitEvent is PackageKitErrorCodeEvent) {
-      } else if (packageKitEvent is PackageKitFinishedEvent) {
-        completer.complete();
-      }
-    });
-    await transaction.getPackages(
-      filter: {PackageKitFilter.installed, PackageKitFilter.application},
-    );
-    await completer.future;
-  }
+  /// Install the local package from [path]
+  void installLocalFile() => _service.installLocalFile(path: path);
 }

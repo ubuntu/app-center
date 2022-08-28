@@ -1,1 +1,1 @@
-enum PackageState { installing, removing, ready }
+enum PackageState { processing, ready }

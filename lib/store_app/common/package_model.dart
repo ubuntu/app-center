@@ -17,7 +17,8 @@ class PackageModel extends SafeChangeNotifier {
   StreamSubscription<String>? _changeLogSub;
   StreamSubscription<String>? _issuedSub;
   StreamSubscription<PackageKitGroup>? _groupController;
-  StreamSubscription<bool>? _isInstallaedSub;
+  StreamSubscription<bool>? _isInstalledSub;
+  StreamSubscription<int?>? _percentageSub;
 
   PackageModel()
       : _percentage = 0,
@@ -65,8 +66,11 @@ class PackageModel extends SafeChangeNotifier {
     _groupController = _service.group.listen((event) {
       group = event;
     });
-    _isInstallaedSub = _service.isInstalled.listen((event) {
+    _isInstalledSub = _service.isInstalled.listen((event) {
       isInstalled = event;
+    });
+    _percentageSub = _service.packagePercentage.listen((event) {
+      percentage = event;
     });
     _service.isIdInstalled(id: packageId);
   }
@@ -82,7 +86,8 @@ class PackageModel extends SafeChangeNotifier {
     _changeLogSub?.cancel();
     _issuedSub?.cancel();
     _groupController?.cancel();
-    _isInstallaedSub?.cancel();
+    _isInstalledSub?.cancel();
+    _percentageSub?.cancel();
     super.dispose();
   }
 
@@ -149,9 +154,9 @@ class PackageModel extends SafeChangeNotifier {
   }
 
   /// Progress of the installation/removal
-  num _percentage;
-  num get percentage => _percentage;
-  set percentage(num value) {
+  int? _percentage;
+  int? get percentage => _percentage;
+  set percentage(int? value) {
     if (value == _percentage) return;
     _percentage = value;
     notifyListeners();
