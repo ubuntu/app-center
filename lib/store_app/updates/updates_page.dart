@@ -195,48 +195,71 @@ class _UpdatesHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<UpdatesModel>();
     return Padding(
-      padding: const EdgeInsets.only(right: 20, top: 20),
+      padding: const EdgeInsets.only(right: 20, top: 20, bottom: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          YaruRoundIconButton(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return ChangeNotifierProvider.value(
-                    value: model,
-                    child: const _RepoDialog(),
-                  );
-                },
-              );
-            },
-            child: const Icon(YaruIcons.settings),
+          OutlinedButton(
+            onPressed: model.updatesState != UpdatesState.readyToUpdate
+                ? null
+                : () => showDialog(
+                      context: context,
+                      builder: (context) {
+                        return ChangeNotifierProvider.value(
+                          value: model,
+                          child: const _RepoDialog(),
+                        );
+                      },
+                    ),
+            child: Row(
+              children: [
+                const Icon(
+                  YaruIcons.external_link,
+                  size: 18,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(context.l10n.sources)
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: SizedBox(
-              width: 40,
-              child: model.updatesState == UpdatesState.noUpdates ||
-                      model.updatesState == UpdatesState.readyToUpdate ||
-                      model.updatesState == null
-                  ? YaruRoundIconButton(
-                      onTap: () => model.refresh(),
-                      child: const Icon(YaruIcons.refresh),
-                    )
-                  : const SizedBox(
-                      height: 25,
-                      child: YaruCircularProgressIndicator(
-                        strokeWidth: 4,
-                      ),
-                    ),
+            child: OutlinedButton(
+              onPressed: model.updatesState == UpdatesState.updating ||
+                      model.updatesState == UpdatesState.checkingForUpdates
+                  ? null
+                  : () => model.refresh(),
+              child: Row(
+                children: [
+                  model.updatesState == UpdatesState.noUpdates ||
+                          model.updatesState == UpdatesState.readyToUpdate ||
+                          model.updatesState == null
+                      ? const Icon(
+                          YaruIcons.refresh,
+                          size: 18,
+                        )
+                      : const SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: YaruCircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(context.l10n.refresh)
+                ],
+              ),
             ),
           ),
           if (model.updates.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: OutlinedButton(
-                onPressed: model.updatesState == UpdatesState.updating
+                onPressed: model.updatesState != UpdatesState.readyToUpdate
                     ? null
                     : model.allSelected
                         ? () => model.deselectAll()
@@ -285,7 +308,7 @@ class _UpdatesListView extends StatelessWidget {
     return Expanded(
       child: ListView.builder(
         padding: EdgeInsets.only(
-          top: 50,
+          top: 20,
           bottom: 50,
           left: hPadding,
           right: hPadding,
