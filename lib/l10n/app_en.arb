@@ -66,5 +66,6 @@
   "issued": "Issued",
   "changelog": "Changelog",
   "architecture": "Architecture",
-  "source": "Source"
+  "source": "Source",
+  "sources": "Sources"
 } 
