@@ -19,6 +19,7 @@ class UpdatesModel extends SafeChangeNotifier {
   StreamSubscription<String>? _manualRepoNameSub;
   StreamSubscription<bool>? _reposChangedSub;
   StreamSubscription<bool>? _updatesChangedSub;
+  StreamSubscription<bool>? _selectionChanged;
 
   UpdatesModel()
       : _service = getService<PackageService>(),
@@ -61,6 +62,9 @@ class UpdatesModel extends SafeChangeNotifier {
     _reposChangedSub = _service.reposChanged.listen((event) {
       notifyListeners();
     });
+    _selectionChanged = _service.selectionChanged.listen((event) {
+      notifyListeners();
+    });
   }
 
   @override
@@ -76,6 +80,7 @@ class UpdatesModel extends SafeChangeNotifier {
     _updatesChangedSub?.cancel();
     _installedSub?.cancel();
     _reposChangedSub?.cancel();
+    _selectionChanged?.cancel();
     super.dispose();
   }
 
