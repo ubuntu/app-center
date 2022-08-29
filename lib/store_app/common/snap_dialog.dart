@@ -49,7 +49,7 @@ class _SnapDialogState extends State<SnapDialog> {
     final model = context.watch<SnapModel>();
     if (model.name != null) {
       return AlertDialog(
-        scrollable: true,
+        scrollable: false,
         actionsAlignment: MainAxisAlignment.spaceBetween,
         contentPadding: const EdgeInsets.only(
           left: 25,
@@ -80,21 +80,25 @@ class _SnapDialogState extends State<SnapDialog> {
             ),
           ),
         ),
-        content: model.connectionsExpanded && model.connections.isNotEmpty
-            ? SnapConnectionsSettings(connections: model.connections)
-            : SizedBox(
-                width: dialogWidth,
-                child: SnapContent(
-                  contact: model.contact ?? '',
-                  description: model.description ?? '',
-                  publisherName: model.publisher?.displayName ?? '',
-                  website: model.website ?? '',
-                  media: model.screenshotUrls ?? [],
+        content: SingleChildScrollView(
+          child: model.connectionsExpanded && model.connections.isNotEmpty
+              ? SnapConnectionsSettings(connections: model.connections)
+              : SizedBox(
+                  width: dialogWidth,
+                  child: SnapContent(
+                    contact: model.contact ?? '',
+                    description: model.description ?? '',
+                    publisherName: model.publisher?.displayName ?? '',
+                    website: model.website ?? '',
+                    media: model.screenshotUrls ?? [],
+                  ),
                 ),
-              ),
+        ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 20, left: 20),
+            padding: const EdgeInsets.only(
+              bottom: 20,
+            ),
             child: SizedBox(
               child: SnapChannelExpandable(
                 onChanged: model.appChangeInProgress
