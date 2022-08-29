@@ -173,15 +173,28 @@ class SnapPageHeader extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 50, width: 30, child: VerticalDivider()),
-            Column(
-              children: [
-                Text(context.l10n.license, style: headerStyle),
-                Text(
-                  license.split(' ').first,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                )
-              ],
+            SizedBox(
+              width: 100,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Text(context.l10n.license, style: headerStyle),
+                  ),
+                  Flexible(
+                    child: Tooltip(
+                      message: license,
+                      child: Text(
+                        license.split(' ').first,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
             const SizedBox(height: 50, width: 30, child: VerticalDivider()),
             Column(
