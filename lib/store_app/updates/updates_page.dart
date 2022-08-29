@@ -67,7 +67,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
   }
 }
 
-class _CheckForUpdatesSplashScreen extends StatelessWidget {
+class _CheckForUpdatesSplashScreen extends StatefulWidget {
   const _CheckForUpdatesSplashScreen({
     // ignore: unused_element
     super.key,
@@ -75,6 +75,34 @@ class _CheckForUpdatesSplashScreen extends StatelessWidget {
   });
 
   final int? percentage;
+
+  @override
+  State<_CheckForUpdatesSplashScreen> createState() =>
+      _CheckForUpdatesSplashScreenState();
+}
+
+class _CheckForUpdatesSplashScreenState
+    extends State<_CheckForUpdatesSplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 10),
+    );
+
+    _animationController.addListener(() => setState(() {}));
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +117,7 @@ class _CheckForUpdatesSplashScreen extends StatelessWidget {
                 width: 145,
                 height: 185,
                 child: LiquidLinearProgressIndicator(
-                  value: percentage == null ? 0 : percentage! / 100,
+                  value: _animationController.value,
                   backgroundColor: Colors.white.withOpacity(0.5),
                   valueColor: AlwaysStoppedAnimation(
                     Theme.of(context).primaryColor,
