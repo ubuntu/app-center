@@ -94,7 +94,7 @@ class _SnapDialogState extends State<SnapDialog> {
               ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: 20, left: 20),
             child: SizedBox(
               child: SnapChannelExpandable(
                 onChanged: model.appChangeInProgress
