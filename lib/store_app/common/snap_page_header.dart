@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -16,7 +19,7 @@ class SnapPageHeader extends StatelessWidget {
   final String confinementName;
   final String version;
   final String license;
-  final String installDate;
+  final DateTime? installDate;
 
   final Function() open;
   final Function() onConnectionsExpanded;
@@ -200,11 +203,17 @@ class SnapPageHeader extends StatelessWidget {
             Column(
               children: [
                 Text(context.l10n.installDate, style: headerStyle),
-                Text(
-                  installDate.isNotEmpty
-                      ? installDate
-                      : context.l10n.notInstalled,
-                  style: headerStyle.copyWith(fontWeight: FontWeight.normal),
+                Tooltip(
+                  message: installDate != null
+                      ? DateFormat('yyyy-MM-dd HH:mm:ss').format(installDate!)
+                      : null,
+                  child: Text(
+                    installDate != null
+                        ? DateFormat.yMMMEd(Platform.localeName)
+                            .format(installDate!)
+                        : context.l10n.notInstalled,
+                    style: headerStyle.copyWith(fontWeight: FontWeight.normal),
+                  ),
                 ),
               ],
             ),

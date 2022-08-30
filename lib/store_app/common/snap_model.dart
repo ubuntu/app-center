@@ -72,11 +72,10 @@ class SnapModel extends SafeChangeNotifier {
   String? get id => _storeSnap?.id ?? _localSnap?.id;
 
   /// The date this snap was installed.
-  String get installDate {
-    if (_localSnap == null || _localSnap!.installDate == null) return '';
+  DateTime? get installDate {
+    if (_localSnap == null || _localSnap!.installDate == null) return null;
 
-    return DateFormat.yMMMEd(Platform.localeName)
-        .format(_localSnap!.installDate!);
+    return _localSnap!.installDate!.toLocal();
   }
 
   /// Installed size in bytes.
@@ -86,11 +85,10 @@ class SnapModel extends SafeChangeNotifier {
   String? get license => _storeSnap?.license ?? _localSnap?.license;
 
   /// The date this snap was installed.
-  String get releasedAt {
-    if (selectableChannels[channelToBeInstalled] == null) return '';
+  DateTime? get releasedAt {
+    if (selectableChannels[channelToBeInstalled] == null) return null;
 
-    return DateFormat.yMMMEd(Platform.localeName)
-        .format(selectableChannels[channelToBeInstalled]!.releasedAt);
+    return selectableChannels[channelToBeInstalled]!.releasedAt.toLocal();
   }
 
   /// Media associated with this snap.
