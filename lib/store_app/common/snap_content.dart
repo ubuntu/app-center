@@ -38,6 +38,7 @@ class SnapContent extends StatelessWidget {
               children: [
                 for (final url in media)
                   InkWell(
+                    hoverColor: Colors.transparent,
                     borderRadius: BorderRadius.circular(10),
                     onTap: () => showDialog(
                       context: context,
