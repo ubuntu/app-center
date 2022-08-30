@@ -37,28 +37,31 @@ class SnapContent extends StatelessWidget {
               height: 250,
               children: [
                 for (final url in media)
-                  InkWell(
-                    hoverColor: Colors.transparent,
-                    borderRadius: BorderRadius.circular(10),
-                    onTap: () => showDialog(
-                      context: context,
-                      builder: (context) => SimpleDialog(
-                        children: [
-                          InkWell(
-                            onTap: () => Navigator.of(context).pop(),
-                            child: YaruSafeImage(
-                              url: url,
-                              fit: BoxFit.contain,
-                              filterQuality: FilterQuality.medium,
-                              fallBackIconData: YaruIcons.image,
-                            ),
-                          )
-                        ],
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      excludeFromSemantics: true,
+                      onTap: () => showDialog(
+                        context: context,
+                        builder: (context) => SimpleDialog(
+                          children: [
+                            InkWell(
+                              onTap: () => Navigator.of(context).pop(),
+                              child: YaruSafeImage(
+                                url: url,
+                                fit: BoxFit.contain,
+                                filterQuality: FilterQuality.medium,
+                                fallBackIconData: YaruIcons.image,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    child: YaruSafeImage(
-                      url: url,
-                      fallBackIconData: YaruIcons.image,
+                      child: YaruSafeImage(
+                        url: url,
+                        fallBackIconData: YaruIcons.image,
+                      ),
                     ),
                   )
               ],
