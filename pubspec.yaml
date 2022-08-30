@@ -53,3 +53,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/contributors.md
+    - assets/software.png
