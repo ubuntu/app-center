@@ -75,7 +75,8 @@ class SnapModel extends SafeChangeNotifier {
   String get installDate {
     if (_localSnap == null || _localSnap!.installDate == null) return '';
 
-    return DateFormat.yMMMEd().format(_localSnap!.installDate!);
+    return DateFormat.yMMMEd(Platform.localeName)
+        .format(_localSnap!.installDate!);
   }
 
   /// Installed size in bytes.
@@ -88,7 +89,7 @@ class SnapModel extends SafeChangeNotifier {
   String get releasedAt {
     if (selectableChannels[channelToBeInstalled] == null) return '';
 
-    return DateFormat.yMMMEd()
+    return DateFormat.yMMMEd(Platform.localeName)
         .format(selectableChannels[channelToBeInstalled]!.releasedAt);
   }
 
