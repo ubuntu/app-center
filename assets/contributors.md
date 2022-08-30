@@ -1,0 +1,6 @@
+- [Frederik Feichtmeier](https://github.com/Feichtmeier)
+- [Paul Kepinski](https://github.com/Jupi007)
+- [Mads Rosendahl](https://github.com/madsrh)
+- [JP Nurmi](https://github.com/jpnurmi)
+- [Olivier Tilloy](https://github.com/oSoMoN)
+- [Elio Qoshi](https://github.com/elioqoshi)

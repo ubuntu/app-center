@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/settings/settings_model.dart';
@@ -28,6 +29,11 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
   }
 
+  Future<String> loadAsset(BuildContext context) async {
+    return await DefaultAssetBundle.of(context)
+        .loadString('assets/contributors.md');
+  }
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SettingsModel>();
@@ -44,6 +50,31 @@ class _SettingsPageState extends State<SettingsPage> {
                   actionWidget: TextButton(
                     onPressed: () {
                       showAboutDialog(
+                        applicationVersion: model.version,
+                        applicationIcon: Image.asset(
+                          'assets/software.png',
+                          width: 60,
+                          filterQuality: FilterQuality.medium,
+                        ),
+                        children: [
+                          SizedBox(
+                            height: 300,
+                            width: 300,
+                            child: FutureBuilder<String>(
+                              future: loadAsset(context),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Markdown(
+                                    shrinkWrap: true,
+                                    data: 'is made by:\n ${snapshot.data!}',
+                                  );
+                                } else {
+                                  return const SizedBox();
+                                }
+                              },
+                            ),
+                          )
+                        ],
                         context: context,
                         useRootNavigator: false,
                       );
