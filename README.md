@@ -25,8 +25,8 @@ An alternative software store for the Ubuntu Desktop made with Flutter.
   - [X] install from file-explorer
   - [X] list installed debs/rpms
   - [X] remove
-  - [X] update
-  - [X] search for debs/rpms (TBD if wanted)
+  - [X] update all debs/rpms on the system via the updates tab
+  - [X] search and install for debs/rpms
 
 ## Firmware updater
 
