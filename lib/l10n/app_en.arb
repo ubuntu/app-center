@@ -69,5 +69,6 @@
   "changelog": "Changelog",
   "architecture": "Architecture",
   "source": "Source",
-  "sources": "Sources"
+  "sources": "Sources",
+  "packageInstaller": "Package Installer"
 } 
