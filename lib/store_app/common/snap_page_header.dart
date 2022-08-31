@@ -17,6 +17,7 @@ class SnapPageHeader extends StatelessWidget {
   final String version;
   final String license;
   final String installDate;
+  final String installDateIsoNorm;
 
   final Function() open;
   final Function() onConnectionsExpanded;
@@ -34,6 +35,7 @@ class SnapPageHeader extends StatelessWidget {
     required this.confinementName,
     required this.license,
     required this.installDate,
+    required this.installDateIsoNorm,
     required this.connectionsNotEmpty,
     required this.onConnectionsExpanded,
   });
@@ -201,7 +203,7 @@ class SnapPageHeader extends StatelessWidget {
               children: [
                 Text(context.l10n.installDate, style: headerStyle),
                 Tooltip(
-                  message: installDate,
+                  message: installDateIsoNorm,
                   child: Text(
                     installDate.isNotEmpty
                         ? installDate

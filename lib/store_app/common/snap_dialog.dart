@@ -67,6 +67,7 @@ class _SnapDialogState extends State<SnapDialog> {
               connectionsExpanded: model.connectionsExpanded,
               iconUrl: model.iconUrl ?? '',
               installDate: model.installDate,
+              installDateIsoNorm: model.installDateIsoNorm,
               license: model.license ?? '',
               onConnectionsExpanded: () =>
                   model.connectionsExpanded = !model.connectionsExpanded,
