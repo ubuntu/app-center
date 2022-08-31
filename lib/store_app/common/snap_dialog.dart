@@ -108,6 +108,7 @@ class _SnapDialogState extends State<SnapDialog> {
                 channelToBeInstalled: model.channelToBeInstalled,
                 onInit: () => model.init(),
                 releasedAt: model.releasedAt,
+                releaseAtIsoNorm: model.releaseAtIsoNorm,
                 selectableChannelsIsEmpty: model.selectableChannels.isEmpty,
                 selectedChannelVersion: model.selectedChannelVersion ?? '',
                 selectableChannels:
