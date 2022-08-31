@@ -173,11 +173,7 @@ class _UpdatingPage extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 20,
-            ),
-            Text(model.status != null ? model.status!.name : ''),
-            const SizedBox(
-              height: 200,
+              height: 250,
             ),
           ],
         ),
