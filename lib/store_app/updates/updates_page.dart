@@ -190,6 +190,7 @@ class _UpdatesHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<UpdatesModel>();
+
     return Padding(
       padding: const EdgeInsets.only(right: 20, top: 20, bottom: 20),
       child: Row(
@@ -277,15 +278,31 @@ class _UpdatesHeader extends StatelessWidget {
                 child: Text(context.l10n.updateSelected),
               ),
             ),
-          if (model.requireRestart &&
-              model.updatesState == UpdatesState.noUpdates)
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: ElevatedButton(
-                onPressed: () => model.reboot(),
-                child: Text(context.l10n.requireRestart),
-              ),
-            ),
+          if (model.updatesState == UpdatesState.noUpdates)
+            if (model.requireRestartApp)
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: ElevatedButton(
+                  onPressed: () => model.exitApp(),
+                  child: Text(context.l10n.requireRestartApp),
+                ),
+              )
+            else if (model.requireRestartSession)
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: ElevatedButton(
+                  onPressed: () => model.logout(),
+                  child: Text(context.l10n.requireRestartSession),
+                ),
+              )
+            else if (model.requireRestartSystem)
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: ElevatedButton(
+                  onPressed: () => model.reboot(),
+                  child: Text(context.l10n.requireRestartSystem),
+                ),
+              )
         ],
       ),
     );
