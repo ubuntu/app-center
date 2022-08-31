@@ -1,4 +1,4 @@
-# Unofficial Ubuntu Store Flutter - WIP
+# Unofficial Ubuntu Store Flutter
 
 An alternative software store for the Ubuntu Desktop made with Flutter.
 
