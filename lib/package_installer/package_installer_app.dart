@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/package_installer/package_installer_model.dart';
 import 'package:software/package_installer/wizard_page.dart';
 import 'package:software/package_state.dart';
@@ -23,8 +24,10 @@ class PackageInstallerApp extends StatelessWidget {
           theme: yaru.variant?.theme ?? yaruLight,
           darkTheme: yaru.variant?.darkTheme ?? yaruDark,
           debugShowCheckedModeBanner: false,
-          // supportedLocales: AppLocalizations.supportedLocales,
-          // onGenerateTitle: (context) => context.l10n.appTitle,
+          title: 'Package Installer',
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          onGenerateTitle: (context) => context.l10n.appTitle,
           routes: {
             Navigator.defaultRouteName: (context) =>
                 _PackageInstallerPage.create(path)
@@ -63,7 +66,7 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
     final model = context.watch<PackageInstallerModel>();
 
     return WizardPage(
-      title: const Text('Package installer'),
+      title: Text(context.l10n.packageInstaller),
       actions: [
         model.isInstalled
             ? ElevatedButton(
@@ -72,7 +75,7 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
                         model.packageState == PackageState.processing
                     ? null
                     : () => model.remove(packageId: model.id!),
-                child: const Text('Remove'),
+                child: Text(context.l10n.remove),
               )
             : ElevatedButton(
                 onPressed: model.id == null ||
@@ -80,7 +83,7 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
                         model.packageState != PackageState.ready
                     ? null
                     : () => model.installLocalFile(),
-                child: const Text('Install'),
+                child: Text(context.l10n.install),
               ),
       ],
       content: Center(
@@ -94,49 +97,49 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
                 width: MediaQuery.of(context).size.width / 2,
                 children: [
                   YaruSingleInfoRow(
-                    infoLabel: 'Name',
+                    infoLabel: context.l10n.name,
                     infoValue: model.id == null ? '' : model.id!.name,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   YaruSingleInfoRow(
-                    infoLabel: 'Version',
+                    infoLabel: context.l10n.version,
                     infoValue: model.id == null ? '' : model.id!.version,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   YaruSingleInfoRow(
-                    infoLabel: 'Arch',
+                    infoLabel: context.l10n.architecture,
                     infoValue: model.id == null ? '' : model.id!.arch,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   YaruSingleInfoRow(
-                    infoLabel: 'Data',
+                    infoLabel: context.l10n.source,
                     infoValue: model.id == null ? '' : model.id!.data,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   YaruSingleInfoRow(
-                    infoLabel: 'License',
+                    infoLabel: context.l10n.license,
                     infoValue: model.license,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   YaruSingleInfoRow(
-                    infoLabel: 'Size',
+                    infoLabel: context.l10n.size,
                     infoValue: model.size.toString(),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   YaruSingleInfoRow(
-                    infoLabel: 'Description',
+                    infoLabel: context.l10n.description,
                     infoValue: model.description.toString(),
                   ),
                 ],
