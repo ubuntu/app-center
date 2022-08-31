@@ -82,7 +82,9 @@ class SnapModel extends SafeChangeNotifier {
   String get installDateIsoNorm {
     if (_localSnap == null || _localSnap!.installDate == null) return '';
 
-    return DateFormat('yyyy-MM-dd HH:mm:ss').format(_localSnap!.installDate!);
+    return DateFormat.yMd(Platform.localeName)
+        .add_jms()
+        .format(_localSnap!.installDate!.toLocal());
   }
 
   /// Installed size in bytes.
@@ -97,6 +99,14 @@ class SnapModel extends SafeChangeNotifier {
 
     return DateFormat.yMMMEd(Platform.localeName)
         .format(selectableChannels[channelToBeInstalled]!.releasedAt);
+  }
+
+  String get releaseAtIsoNorm {
+    if (selectableChannels[channelToBeInstalled] == null) return '';
+
+    return DateFormat.yMd(Platform.localeName)
+        .add_jms()
+        .format(selectableChannels[channelToBeInstalled]!.releasedAt.toLocal());
   }
 
   /// Media associated with this snap.

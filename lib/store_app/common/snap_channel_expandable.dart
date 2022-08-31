@@ -11,6 +11,7 @@ class SnapChannelExpandable extends StatelessWidget {
     required this.channelToBeInstalled,
     required this.selectableChannels,
     required this.releasedAt,
+    required this.releaseAtIsoNorm,
     required this.selectedChannelVersion,
     this.onChanged,
   });
@@ -20,6 +21,7 @@ class SnapChannelExpandable extends StatelessWidget {
   final String channelToBeInstalled;
   final List<String> selectableChannels;
   final String releasedAt;
+  final String releaseAtIsoNorm;
   final String selectedChannelVersion;
   final Function(String?)? onChanged;
 
@@ -76,7 +78,10 @@ class SnapChannelExpandable extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(context.l10n.lastUpdated),
-                      SelectableText(releasedAt),
+                      Tooltip(
+                        message: releaseAtIsoNorm,
+                        child: SelectableText(releasedAt),
+                      ),
                     ],
                   ),
                 ),
