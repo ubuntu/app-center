@@ -200,11 +200,14 @@ class SnapPageHeader extends StatelessWidget {
             Column(
               children: [
                 Text(context.l10n.installDate, style: headerStyle),
-                Text(
-                  installDate.isNotEmpty
-                      ? installDate
-                      : context.l10n.notInstalled,
-                  style: headerStyle.copyWith(fontWeight: FontWeight.normal),
+                Tooltip(
+                  message: installDate,
+                  child: Text(
+                    installDate.isNotEmpty
+                        ? installDate
+                        : context.l10n.notInstalled,
+                    style: headerStyle.copyWith(fontWeight: FontWeight.normal),
+                  ),
                 ),
               ],
             ),
