@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:software/package_installer/package_installer_model.dart';
 import 'package:software/package_installer/wizard_page.dart';
 import 'package:software/package_state.dart';
+import 'package:software/services/package_service.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -39,7 +41,8 @@ class _PackageInstallerPage extends StatefulWidget {
 
   static Widget create(String path) {
     return ChangeNotifierProvider(
-      create: (context) => PackageInstallerModel(path: path),
+      create: (context) =>
+          PackageInstallerModel(getService<PackageService>(), path: path),
       child: const _PackageInstallerPage(),
     );
   }

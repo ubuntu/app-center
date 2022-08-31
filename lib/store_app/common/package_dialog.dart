@@ -4,8 +4,10 @@ import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/package_state.dart';
+import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/link.dart';
 import 'package:software/store_app/common/package_model.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -28,7 +30,7 @@ class PackageDialog extends StatefulWidget {
     bool noUpdate = true,
   }) {
     return ChangeNotifierProvider(
-      create: (context) => PackageModel(),
+      create: (context) => PackageModel(getService<PackageService>()),
       child: PackageDialog(
         noUpdate: noUpdate,
         id: id,
