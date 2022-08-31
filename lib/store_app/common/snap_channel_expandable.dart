@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -22,7 +19,7 @@ class SnapChannelExpandable extends StatelessWidget {
   final bool selectableChannelsIsEmpty;
   final String channelToBeInstalled;
   final List<String> selectableChannels;
-  final DateTime? releasedAt;
+  final String releasedAt;
   final String selectedChannelVersion;
   final Function(String?)? onChanged;
 
@@ -79,18 +76,7 @@ class SnapChannelExpandable extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(context.l10n.lastUpdated),
-                      Tooltip(
-                        message: releasedAt != null
-                            ? DateFormat('yyyy-MM-dd HH:mm:ss')
-                                .format(releasedAt!)
-                            : null,
-                        child: SelectableText(
-                          releasedAt != null
-                              ? DateFormat.yMMMEd(Platform.localeName)
-                                  .format(releasedAt!)
-                              : '',
-                        ),
-                      ),
+                      SelectableText(releasedAt),
                     ],
                   ),
                 ),
