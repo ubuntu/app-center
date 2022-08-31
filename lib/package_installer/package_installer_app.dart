@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/package_installer/package_installer_model.dart';
 import 'package:software/package_installer/wizard_page.dart';
 import 'package:software/package_state.dart';
@@ -23,8 +24,10 @@ class PackageInstallerApp extends StatelessWidget {
           theme: yaru.variant?.theme ?? yaruLight,
           darkTheme: yaru.variant?.darkTheme ?? yaruDark,
           debugShowCheckedModeBanner: false,
-          // supportedLocales: AppLocalizations.supportedLocales,
-          // onGenerateTitle: (context) => context.l10n.appTitle,
+          title: 'Package Installer',
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          onGenerateTitle: (context) => context.l10n.appTitle,
           routes: {
             Navigator.defaultRouteName: (context) =>
                 _PackageInstallerPage.create(path)
