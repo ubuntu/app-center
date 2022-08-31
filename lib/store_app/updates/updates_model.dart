@@ -9,7 +9,7 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 class UpdatesModel extends SafeChangeNotifier {
   final PackageService _service;
   StreamSubscription<String>? _errorMessageSub;
-  StreamSubscription<bool>? _requireRestartSub;
+  StreamSubscription<PackageKitRestart>? _requireRestartSub;
   StreamSubscription<int?>? _percentageSub;
   StreamSubscription<PackageKitInfo?>? _infoSub;
   StreamSubscription<PackageKitStatus?>? _statusSub;
@@ -23,12 +23,13 @@ class UpdatesModel extends SafeChangeNotifier {
 
   UpdatesModel()
       : _service = getService<PackageService>(),
-        _requireRestart = false,
+        _requireRestart = PackageKitRestart.none,
         _errorMessage = '',
         _manualRepoName = '';
 
   void init() async {
     _updatesState = _service.lastUpdatesState;
+    _requireRestart = _service.lastRequireRestart ?? PackageKitRestart.none;
     _updatesStateSub = _service.updatesState.listen((event) {
       updatesState = event;
     });
@@ -103,9 +104,13 @@ class UpdatesModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  bool _requireRestart;
-  bool get requireRestart => _requireRestart;
-  set requireRestart(bool value) {
+  PackageKitRestart _requireRestart;
+  bool get requireRestartApp =>
+      _requireRestart == PackageKitRestart.application;
+  bool get requireRestartSession =>
+      _requireRestart == PackageKitRestart.session;
+  bool get requireRestartSystem => _requireRestart == PackageKitRestart.system;
+  set requireRestart(PackageKitRestart value) {
     if (value == _requireRestart) return;
     _requireRestart = value;
     notifyListeners();
@@ -189,7 +194,9 @@ class UpdatesModel extends SafeChangeNotifier {
     await _service.toggleRepo(id: id, value: value);
   }
 
-  void reboot() {
-    _service.reboot();
-  }
+  void reboot() => _service.reboot();
+
+  void logout() => _service.logout();
+
+  void exitApp() => _service.exitApp();
 }

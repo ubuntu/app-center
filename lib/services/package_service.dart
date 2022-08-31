@@ -56,10 +56,14 @@ class PackageService {
     return _idsToGroups[id];
   }
 
-  final _requireRestartController = StreamController<bool>.broadcast();
-  Stream<bool> get requireRestart => _requireRestartController.stream;
-  void setRequireRestart(bool value) {
+  PackageKitRestart? lastRequireRestart;
+  final _requireRestartController =
+      StreamController<PackageKitRestart>.broadcast();
+  Stream<PackageKitRestart> get requireRestart =>
+      _requireRestartController.stream;
+  void setRequireRestart(PackageKitRestart value) {
     _requireRestartController.add(value);
+    lastRequireRestart = value;
   }
 
   final _updatesPercentageController = StreamController<int?>.broadcast();
@@ -281,7 +285,7 @@ class PackageService {
       setUpdatesState(UpdatesState.updating);
       updatePackagesTransaction.events.listen((event) {
         if (event is PackageKitRequireRestartEvent) {
-          setRequireRestart(event.type == PackageKitRestart.system);
+          setRequireRestart(event.type);
         }
         if (event is PackageKitPackageEvent) {
           setProcessedId(event.packageId);
@@ -507,14 +511,6 @@ class PackageService {
     setReposChanged(true);
   }
 
-  void reboot() {
-    Process.start(
-      'reboot',
-      [],
-      mode: ProcessStartMode.detached,
-    );
-  }
-
   Future<List<PackageKitPackageId>> findPackageKitPackageIds({
     required String searchQuery,
     Set<PackageKitFilter> filter = const {},
@@ -589,4 +585,23 @@ class PackageService {
     }
     setPackageState(PackageState.ready);
   }
+
+  void reboot() {
+    Process.start(
+      'reboot',
+      [],
+      mode: ProcessStartMode.detached,
+    );
+  }
+
+  // gnome-session-quit
+  logout() {
+    Process.start(
+      'gnome-session-quit',
+      [],
+      mode: ProcessStartMode.detached,
+    );
+  }
+
+  exitApp() => exit(0);
 }
