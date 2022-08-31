@@ -79,6 +79,12 @@ class SnapModel extends SafeChangeNotifier {
         .format(_localSnap!.installDate!);
   }
 
+  String get installDateIsoNorm {
+    if (_localSnap == null || _localSnap!.installDate == null) return '';
+
+    return DateFormat('yyyy-MM-dd HH:mm:ss').format(_localSnap!.installDate!);
+  }
+
   /// Installed size in bytes.
   int? get installedSize => _localSnap?.installedSize;
 
