@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:software/services/package_service.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 
 class MyPackagesModel extends SafeChangeNotifier {
   final PackageService _service;
-  MyPackagesModel() : _service = getService<PackageService>();
+  MyPackagesModel(this._service);
 
   StreamSubscription<bool>? _installedSub;
 

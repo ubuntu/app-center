@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/package_dialog.dart';
 import 'package:software/store_app/my_apps/my_packages_model.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -12,7 +14,7 @@ class MyPackagesPage extends StatefulWidget {
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => MyPackagesModel(),
+      create: (context) => MyPackagesModel(getService<PackageService>()),
       child: const MyPackagesPage(),
     );
   }

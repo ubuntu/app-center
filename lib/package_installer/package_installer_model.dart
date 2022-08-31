@@ -4,7 +4,6 @@ import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 
 class PackageInstallerModel extends SafeChangeNotifier {
   final PackageService _service;
@@ -21,7 +20,7 @@ class PackageInstallerModel extends SafeChangeNotifier {
   StreamSubscription<int?>? _percentageSub;
   StreamSubscription<PackageKitPackageId?>? _idSub;
 
-  PackageInstallerModel({required this.path})
+  PackageInstallerModel(this._service, {required this.path})
       : _percentage = 0,
         _status = '',
         _license = '',
@@ -29,8 +28,7 @@ class PackageInstallerModel extends SafeChangeNotifier {
         _summary = '',
         _url = '',
         _errorMessage = '',
-        _packageState = PackageState.ready,
-        _service = getService<PackageService>();
+        _packageState = PackageState.ready;
 
   final String path;
 

@@ -4,7 +4,6 @@ import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/updates_state.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 
 class UpdatesModel extends SafeChangeNotifier {
   final PackageService _service;
@@ -21,9 +20,8 @@ class UpdatesModel extends SafeChangeNotifier {
   StreamSubscription<bool>? _updatesChangedSub;
   StreamSubscription<bool>? _selectionChanged;
 
-  UpdatesModel()
-      : _service = getService<PackageService>(),
-        _requireRestart = PackageKitRestart.none,
+  UpdatesModel(this._service)
+      : _requireRestart = PackageKitRestart.none,
         _errorMessage = '',
         _manualRepoName = '';
 
