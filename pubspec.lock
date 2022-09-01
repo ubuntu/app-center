@@ -325,11 +325,9 @@ packages:
   packagekit:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "3957ad0107f9ee7d7ba8045dc9a5c52a822539ed"
-      url: "https://github.com/canonical/packagekit.dart"
-    source: git
+      name: packagekit
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.2.4"
   palette_generator:
     dependency: "direct main"
@@ -423,11 +421,9 @@ packages:
   snapd:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: b2c54d903e06f4bada382a29ef9f4efa9485e4c0
-      url: "https://github.com/canonical/snapd.dart"
-    source: git
+      name: snapd
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.4.5"
   source_span:
     dependency: transitive
@@ -586,11 +582,9 @@ packages:
   yaru:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: ad457584c6cc8efb4a06c26459ba289cb6995ed9
-      url: "https://github.com/ubuntu/yaru.dart"
-    source: git
+      name: yaru
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.3.3"
   yaru_color_generator:
     dependency: transitive
