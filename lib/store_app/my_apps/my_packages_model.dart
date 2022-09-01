@@ -10,10 +10,10 @@ class MyPackagesModel extends SafeChangeNotifier {
 
   StreamSubscription<bool>? _installedSub;
 
-  List<PackageKitPackageId> get packages => _service.installedPackages;
+  List<PackageKitPackageId> get installedApps => _service.installedApps;
 
   void init() async {
-    _installedSub = _service.installedPackagesChanged.listen((event) {
+    _installedSub = _service.installedAppsChanged.listen((event) {
       notifyListeners();
     });
   }
