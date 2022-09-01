@@ -194,9 +194,11 @@ class _UpdatesHeader extends StatelessWidget {
     final model = context.watch<UpdatesModel>();
 
     return Padding(
-      padding: const EdgeInsets.only(right: 20, top: 20, bottom: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      padding: const EdgeInsets.all(20),
+      child: Wrap(
+        alignment: WrapAlignment.end,
+        spacing: 10,
+        runSpacing: 10,
         children: [
           OutlinedButton(
             onPressed: model.updatesState != UpdatesState.readyToUpdate
@@ -211,6 +213,7 @@ class _UpdatesHeader extends StatelessWidget {
                       },
                     ),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(
                   YaruIcons.external_link,
@@ -223,87 +226,70 @@ class _UpdatesHeader extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: OutlinedButton(
-              onPressed: model.updatesState == UpdatesState.updating ||
-                      model.updatesState == UpdatesState.checkingForUpdates
-                  ? null
-                  : () => model.refresh(),
-              child: Row(
-                children: [
-                  model.updatesState == UpdatesState.noUpdates ||
-                          model.updatesState == UpdatesState.readyToUpdate ||
-                          model.updatesState == null
-                      ? const Icon(
-                          YaruIcons.refresh,
-                          size: 18,
-                        )
-                      : const SizedBox(
-                          height: 16,
-                          width: 16,
-                          child: YaruCircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
+          OutlinedButton(
+            onPressed: model.updatesState == UpdatesState.updating ||
+                    model.updatesState == UpdatesState.checkingForUpdates
+                ? null
+                : () => model.refresh(),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                model.updatesState == UpdatesState.noUpdates ||
+                        model.updatesState == UpdatesState.readyToUpdate ||
+                        model.updatesState == null
+                    ? const Icon(
+                        YaruIcons.refresh,
+                        size: 18,
+                      )
+                    : const SizedBox(
+                        height: 16,
+                        width: 16,
+                        child: YaruCircularProgressIndicator(
+                          strokeWidth: 2,
                         ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(context.l10n.refresh)
-                ],
-              ),
+                      ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(context.l10n.refresh)
+              ],
             ),
           ),
           if (model.updates.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: OutlinedButton(
-                onPressed: model.updatesState != UpdatesState.readyToUpdate
-                    ? null
-                    : model.allSelected
-                        ? () => model.deselectAll()
-                        : () => model.selectAll(),
-                child: Text(
-                  model.allSelected
-                      ? context.l10n.deselectAll
-                      : context.l10n.selectAll,
-                ),
+            OutlinedButton(
+              onPressed: model.updatesState != UpdatesState.readyToUpdate
+                  ? null
+                  : model.allSelected
+                      ? () => model.deselectAll()
+                      : () => model.selectAll(),
+              child: Text(
+                model.allSelected
+                    ? context.l10n.deselectAll
+                    : context.l10n.selectAll,
               ),
             ),
           if (model.updates.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: ElevatedButton(
-                onPressed: model.updatesState == UpdatesState.readyToUpdate
-                    ? () => model.updateAll()
-                    : null,
-                child: Text(context.l10n.updateSelected),
-              ),
+            ElevatedButton(
+              onPressed: model.updatesState == UpdatesState.readyToUpdate
+                  ? () => model.updateAll()
+                  : null,
+              child: Text(context.l10n.updateSelected),
             ),
           if (model.updatesState == UpdatesState.noUpdates)
             if (model.requireRestartApp)
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: ElevatedButton(
-                  onPressed: () => model.exitApp(),
-                  child: Text(context.l10n.requireRestartApp),
-                ),
+              ElevatedButton(
+                onPressed: () => model.exitApp(),
+                child: Text(context.l10n.requireRestartApp),
               )
             else if (model.requireRestartSession)
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: ElevatedButton(
-                  onPressed: () => model.logout(),
-                  child: Text(context.l10n.requireRestartSession),
-                ),
+              ElevatedButton(
+                onPressed: () => model.logout(),
+                child: Text(context.l10n.requireRestartSession),
               )
             else if (model.requireRestartSystem)
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: ElevatedButton(
-                  onPressed: () => model.reboot(),
-                  child: Text(context.l10n.requireRestartSystem),
-                ),
+              ElevatedButton(
+                onPressed: () => model.reboot(),
+                child: Text(context.l10n.requireRestartSystem),
               )
         ],
       ),
