@@ -42,15 +42,15 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<MyPackagesModel>();
-    return model.packages.isNotEmpty
+    return model.installedApps.isNotEmpty
         ? GridView.builder(
             controller: _controller,
             padding: const EdgeInsets.all(20.0),
             gridDelegate: kGridDelegate,
             shrinkWrap: true,
-            itemCount: model.packages.length,
+            itemCount: model.installedApps.length,
             itemBuilder: (context, index) {
-              final package = model.packages[index];
+              final package = model.installedApps[index];
               return AnimatedScrollViewItem(
                 child: YaruBanner(
                   name: package.name,
