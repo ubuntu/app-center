@@ -400,6 +400,7 @@ class PackageService {
     setPackageState(PackageState.processing);
     removeTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
+        setInfo(event.info);
       } else if (event is PackageKitItemProgressEvent) {
         if (event.status == PackageKitStatus.remove) {
           setPackagePercentage(100 - event.percentage);
@@ -414,7 +415,7 @@ class PackageService {
     if (_localId != null) {
       setIsInstalled(false);
     } else {
-      await isIdInstalled(id: packageId);
+      isIdInstalled(id: packageId);
     }
     setPackageState(PackageState.ready);
   }
@@ -426,6 +427,7 @@ class PackageService {
     final installCompleter = Completer();
     installTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
+        setInfo(event.info);
       } else if (event is PackageKitItemProgressEvent) {
         setPackagePercentage(event.percentage);
       } else if (event is PackageKitFinishedEvent) {
@@ -434,8 +436,7 @@ class PackageService {
     });
     await installTransaction.installPackages([packageId]);
     await installCompleter.future;
-    await isIdInstalled(id: packageId);
-
+    isIdInstalled(id: packageId);
     setPackageState(PackageState.ready);
   }
 
