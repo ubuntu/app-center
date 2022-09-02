@@ -18,6 +18,7 @@ class PackageModel extends SafeChangeNotifier {
   StreamSubscription<PackageKitGroup>? _groupController;
   StreamSubscription<bool>? _isInstalledSub;
   StreamSubscription<int?>? _percentageSub;
+  StreamSubscription<PackageKitInfo?>? _infoSub;
 
   PackageModel(this._service)
       : _percentage = 0,
@@ -39,6 +40,7 @@ class PackageModel extends SafeChangeNotifier {
     _packageStateSub = _service.packageState.listen((event) {
       packageState = event;
     });
+    _info = null;
 
     _summarySub = _service.summary.listen((event) {
       summary = event;
@@ -70,6 +72,9 @@ class PackageModel extends SafeChangeNotifier {
     _percentageSub = _service.packagePercentage.listen((event) {
       percentage = event;
     });
+    _infoSub = _service.info.listen((event) {
+      info = event;
+    });
     _service.isIdInstalled(id: packageId);
   }
 
@@ -86,7 +91,16 @@ class PackageModel extends SafeChangeNotifier {
     _groupController?.cancel();
     _isInstalledSub?.cancel();
     _percentageSub?.cancel();
+    _infoSub?.cancel();
     super.dispose();
+  }
+
+  PackageKitInfo? _info;
+  PackageKitInfo? get info => _info;
+  set info(PackageKitInfo? value) {
+    if (value == _info) return;
+    _info = value;
+    notifyListeners();
   }
 
   PackageState? _packageState = PackageState.ready;

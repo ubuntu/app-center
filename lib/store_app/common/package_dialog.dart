@@ -66,8 +66,17 @@ class _PackageDialogState extends State<PackageDialog> {
       contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       scrollable: true,
       content: model.packageState != PackageState.ready
-          ? const Center(
-              child: YaruCircularProgressIndicator(),
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(model.info != null ? model.info!.name : ''),
+                  YaruLinearProgressIndicator(
+                    value:
+                        model.percentage != null ? model.percentage! / 100 : 0,
+                  ),
+                ],
+              ),
             )
           : SizedBox(
               width: 400,
