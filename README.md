@@ -59,3 +59,7 @@ flutter run
 ```
 
 or press the run icon in vscode.
+
+## License
+
+This application is licensed under the [GNU General Public License version 3](LICENSE).
