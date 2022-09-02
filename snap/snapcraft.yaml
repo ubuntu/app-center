@@ -1,7 +1,14 @@
-name: software
+name: snap-store
 adopt-info: software
-summary: Ubuntu Software
-description: An Ubuntu software app made with Flutter.
+summary: Snap Store
+description: |
+  Snap Store is a graphical desktop application for discovering, installing and managing snaps and traditional packages on Linux.
+
+  Snap Store showcases featured and popular applications with useful descriptions and screenshots.
+
+  Applications can be found either through browsing categories or by searching.
+
+  Snap Store can also be used to switch channels, manage snap permissions, install traditional packages (deb/rpm), check for and install updates.
 confinement: strict
 base: core22
 grade: stable
@@ -49,7 +56,7 @@ parts:
           $CRAFT_PART_INSTALL/bin/data/flutter_assets/assets/software.desktop
 
 apps:
-  software:
+  snap-store:
     command: bin/software
     desktop: bin/data/flutter_assets/assets/software.desktop
     extensions: [gnome]
