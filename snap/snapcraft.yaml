@@ -57,18 +57,11 @@ apps:
       - appstream-metadata
       - desktop
       - desktop-legacy
-      - dot-snap-auth-json
       - network
       - network-manager-observe
       - opengl
       - packagekit-control
       - snapd-control
-
-plugs:
-  dot-snap-auth-json:
-    interface: personal-files
-    read:
-    - $HOME/.snap/auth.json
 
 slots:
   packagekit-svc:
