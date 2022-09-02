@@ -55,4 +55,5 @@ flutter:
   generate: true
   assets:
     - assets/contributors.md
+    - assets/software.desktop
     - assets/software.png
