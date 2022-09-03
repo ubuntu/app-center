@@ -35,7 +35,7 @@ class OfflinePage extends StatelessWidget {
           ),
           Text(
             context.l10n.offline,
-            style: Theme.of(context).textTheme.headline3,
+            style: Theme.of(context).textTheme.displaySmall,
           )
         ],
       ),

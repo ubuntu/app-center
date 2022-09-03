@@ -73,7 +73,7 @@ class _PackageDialogState extends State<PackageDialog> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
-    final caption = Theme.of(context).textTheme.caption;
+    final caption = Theme.of(context).textTheme.bodySmall;
     return AlertDialog(
       title: YaruDialogTitle(
         title: widget.id.name,
