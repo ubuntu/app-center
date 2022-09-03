@@ -173,14 +173,14 @@ class _UpdatingPage extends StatelessWidget {
           children: [
             Text(
               model.processedId != null ? model.processedId!.name : '',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(
               height: 20,
             ),
             Text(
               model.info != null ? model.info!.name : '',
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(
               height: 20,
@@ -394,7 +394,7 @@ class _NoUpdatesPage extends StatelessWidget {
                 ),
                 Text(
                   context.l10n.noUpdates,
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 const SizedBox(
                   height: 100,

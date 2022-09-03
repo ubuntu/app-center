@@ -105,7 +105,7 @@ class SnapPageHeader extends StatelessWidget {
                   ),
                   Text(
                     summary,
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 10,
                   ),
