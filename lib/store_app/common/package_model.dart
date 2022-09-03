@@ -16,6 +16,7 @@
  */
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
@@ -239,4 +240,12 @@ class PackageModel extends SafeChangeNotifier {
   /// Installs with package with [packageId]
   Future<void> install({required PackageKitPackageId packageId}) async =>
       _service.install(packageId: packageId);
+
+  void open(String name) {
+    Process.start(
+      name,
+      [],
+      mode: ProcessStartMode.detached,
+    );
+  }
 }

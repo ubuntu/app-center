@@ -16,13 +16,14 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
-import 'package:software/store_app/common/link.dart';
+import 'package:software/store_app/common/app_content.dart';
+import 'package:software/store_app/common/app_header.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/package_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -73,136 +74,87 @@ class _PackageDialogState extends State<PackageDialog> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
-    final caption = Theme.of(context).textTheme.bodySmall;
-    return AlertDialog(
-      title: YaruDialogTitle(
-        title: widget.id.name,
-        closeIconData: YaruIcons.window_close,
-      ),
-      titlePadding: EdgeInsets.zero,
-      contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-      scrollable: true,
-      content: model.packageState != PackageState.ready
-          ? Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(model.info != null ? model.info!.name : ''),
-                  YaruLinearProgressIndicator(
-                    value:
-                        model.percentage != null ? model.percentage! / 100 : 0,
-                  ),
-                ],
-              ),
-            )
-          : SizedBox(
-              width: 400,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.version,
-                    infoValue: widget.id.version,
-                  ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.architecture,
-                    infoValue: widget.id.arch,
-                  ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.source,
-                    infoValue: widget.id.data,
-                  ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.license,
-                    infoValue: model.license,
-                  ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.size,
-                    infoValue: model.size.toString(),
-                  ),
-                  YaruRow(
-                    trailingWidget: Text(context.l10n.website),
-                    actionWidget: Expanded(
-                      child: Link(
-                        url: model.url,
-                        linkText: model.url,
-                        textStyle: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                    ),
-                    enabled: true,
-                  ),
-                  if (!widget.noUpdate)
-                    YaruSingleInfoRow(
-                      infoLabel: context.l10n.issued,
-                      infoValue: model.issued,
-                    ),
-                  if (!widget.noUpdate)
-                    if (model.changelog.isEmpty)
-                      const YaruCircularProgressIndicator()
-                    else
-                      YaruExpandable(
-                        header: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(context.l10n.changelog),
-                        ),
-                        expandIcon: const Icon(YaruIcons.pan_end),
-                        isExpanded: true,
-                        child: SizedBox(
-                          height: 250,
-                          child: Markdown(
-                            data: model.changelog,
-                            shrinkWrap: true,
-                            selectable: true,
-                            styleSheet: MarkdownStyleSheet(p: caption),
-                            padding: const EdgeInsets.only(left: 8, right: 8),
-                          ),
-                        ),
-                      ),
-                  YaruExpandable(
-                    header: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(context.l10n.description),
-                    ),
-                    isExpanded: widget.noUpdate,
-                    expandIcon: const Icon(YaruIcons.pan_end),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              model.description,
-                              style: caption,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+    return SizedBox(
+      width: dialogWidth,
+      child: AlertDialog(
+        title: YaruDialogTitle(
+          mainAxisAlignment: MainAxisAlignment.center,
+          closeIconData: YaruIcons.window_close,
+          titleWidget: AppHeader(
+            icon: const YaruSafeImage(
+              url: '',
+              fallBackIconData: YaruIcons.package_deb,
             ),
-      actions: widget.noUpdate == false
-          ? null
-          : [
-              if (model.isInstalled)
-                OutlinedButton(
-                  onPressed: model.packageState != PackageState.ready
-                      ? null
-                      : () => model.remove(packageId: widget.id),
-                  child: Text(context.l10n.remove),
+            title: widget.id.name,
+            summary: model.summary,
+            appIsInstalled: model.isInstalled,
+            version: widget.id.version,
+            open: () => model.open(widget.id.name),
+            strict: false,
+            confinementName: context.l10n.classic,
+            license: model.license,
+            installDate: model.issued,
+            installDateIsoNorm: model.issued,
+          ),
+        ),
+        titlePadding: EdgeInsets.zero,
+        contentPadding: const EdgeInsets.only(
+          left: 25,
+          right: 25,
+          bottom: 25,
+        ),
+        scrollable: false,
+        content: model.packageState != PackageState.ready
+            ? SizedBox(
+                width: dialogWidth,
+                height: 200,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(model.info != null ? model.info!.name : ''),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: YaruLinearProgressIndicator(
+                        value: model.percentage != null
+                            ? model.percentage! / 100
+                            : 0,
+                      ),
+                    ),
+                  ],
                 ),
-              if (!model.isInstalled)
-                ElevatedButton(
-                  onPressed: model.packageState != PackageState.ready
-                      ? null
-                      : () => model.install(packageId: widget.id),
-                  child: Text(context.l10n.install),
+              )
+            : SingleChildScrollView(
+                child: SizedBox(
+                  width: dialogWidth,
+                  child: AppContent(
+                    media: const [],
+                    contact: '',
+                    publisherName: '',
+                    website: model.url,
+                    description: model.description,
+                    changelog: model.changelog,
+                  ),
                 ),
-            ],
+              ),
+        actions: widget.noUpdate == false
+            ? null
+            : [
+                if (model.isInstalled)
+                  OutlinedButton(
+                    onPressed: model.packageState != PackageState.ready
+                        ? null
+                        : () => model.remove(packageId: widget.id),
+                    child: Text(context.l10n.remove),
+                  ),
+                if (!model.isInstalled)
+                  ElevatedButton(
+                    onPressed: model.packageState != PackageState.ready
+                        ? null
+                        : () => model.install(packageId: widget.id),
+                    child: Text(context.l10n.install),
+                  ),
+              ],
+      ),
     );
   }
 }

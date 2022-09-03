@@ -28,34 +28,31 @@ class SnapConnectionsSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: YaruExpandable(
-        isExpanded: true,
-        header: Text(
-          context.l10n.connections,
-          style: const TextStyle(fontWeight: FontWeight.w500),
-        ),
-        expandIcon: const Icon(YaruIcons.pan_end),
-        child: Column(
-          children: [
-            if (connections.isNotEmpty)
-              for (final connection in connections.entries)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(connection.key),
-                      Switch(
-                        value: true,
-                        onChanged: (v) {},
-                      )
-                    ],
-                  ),
+    return YaruExpandable(
+      isExpanded: false,
+      header: Text(
+        context.l10n.connections,
+        style: const TextStyle(fontWeight: FontWeight.w500),
+      ),
+      expandIcon: const Icon(YaruIcons.pan_end),
+      child: Column(
+        children: [
+          if (connections.isNotEmpty)
+            for (final connection in connections.entries)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(connection.key),
+                    Switch(
+                      value: true,
+                      onChanged: (v) {},
+                    )
+                  ],
                 ),
-          ],
-        ),
+              ),
+        ],
       ),
     );
   }

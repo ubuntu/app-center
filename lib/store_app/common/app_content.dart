@@ -16,19 +16,22 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/link.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class SnapContent extends StatelessWidget {
-  const SnapContent({
+class AppContent extends StatelessWidget {
+  const AppContent({
     Key? key,
     required this.media,
     required this.contact,
     required this.publisherName,
     required this.website,
     required this.description,
+    this.changelog,
+    this.lastChild,
   }) : super(key: key);
 
   final List<String> media;
@@ -36,6 +39,8 @@ class SnapContent extends StatelessWidget {
   final String publisherName;
   final String website;
   final String description;
+  final String? changelog;
+  final Widget? lastChild;
 
   @override
   Widget build(BuildContext context) {
@@ -103,17 +108,37 @@ class SnapContent extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
+        if (changelog != null && changelog!.isNotEmpty)
+          YaruExpandable(
+            header: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(context.l10n.changelog),
+            ),
+            expandIcon: const Icon(YaruIcons.pan_end),
+            isExpanded: true,
+            child: SizedBox(
+              height: 250,
+              child: Markdown(
+                data: changelog!,
+                shrinkWrap: true,
+                selectable: true,
+                padding: const EdgeInsets.only(left: 8, right: 8),
+              ),
+            ),
+          ),
         YaruExpandable(
           header: Text(
             context.l10n.description,
             style: const TextStyle(fontWeight: FontWeight.w500),
           ),
           expandIcon: const Icon(YaruIcons.pan_end),
+          isExpanded: media.isEmpty,
           child: Text(
             description,
             overflow: TextOverflow.fade,
           ),
         ),
+        if (lastChild != null) lastChild!,
         const SizedBox(
           height: 10,
         ),

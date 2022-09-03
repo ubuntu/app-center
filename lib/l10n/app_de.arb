@@ -38,7 +38,7 @@
   "website": "Internetpräsenz",
   "description": "Beschreibung",
   "open": "Öffnen",
-  "contact": "Kontact",
+  "contact": "Kontakt",
   "about": "Über",
   "showMore": "Mehr anzeigen",
   "showLess": "Weniger anzeigen",
@@ -70,6 +70,8 @@
   "architecture": "Architektur",
   "source": "Quelle",
   "sources": "Quellen",
-  "packageInstaller": "Paketinstallationsprogramm"
+  "packageInstaller": "Paketinstallationsprogramm",
+  "classic": "klassisch"
+
 
 } 

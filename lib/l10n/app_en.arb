@@ -70,5 +70,6 @@
   "architecture": "Architecture",
   "source": "Source",
   "sources": "Sources",
-  "packageInstaller": "Package Installer"
+  "packageInstaller": "Package Installer",
+  "classic": "classic"
 } 
