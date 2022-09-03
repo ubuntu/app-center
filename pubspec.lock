@@ -611,7 +611,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "2bd8058ae1791d1d64d434b9cf25bce790f763ba"
+      resolved-ref: f99ad6700c8d445f88326294946e5c3be28deb99
       url: "https://github.com/ubuntu/yaru_icons.dart"
     source: git
     version: "0.2.1"
@@ -620,7 +620,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4c9df542af015ceb7ce2425557ffb242c396ba94"
+      resolved-ref: bbf435a48cb2e24a8e67865a56832ffd92c859fa
       url: "https://github.com/ubuntu/yaru_widgets.dart"
     source: git
     version: "1.1.1"
