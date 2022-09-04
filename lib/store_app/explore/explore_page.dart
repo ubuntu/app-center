@@ -45,7 +45,7 @@ class ExplorePage extends StatelessWidget {
   }
 
   static Widget createTitle(BuildContext context) =>
-      Text(context.l10n.explorePageTitle);
+      Text(context.l10n.explorePageTitle, textAlign: TextAlign.center);
 
   @override
   Widget build(BuildContext context) {
