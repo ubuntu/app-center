@@ -39,7 +39,7 @@ class UpdatesPage extends StatefulWidget {
   }
 
   static Widget createTitle(BuildContext context) {
-    return Text(context.l10n.updates);
+    return Text(context.l10n.updates, textAlign: TextAlign.center);
   }
 
   @override
