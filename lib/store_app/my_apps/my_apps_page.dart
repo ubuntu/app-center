@@ -44,7 +44,7 @@ class MyAppsPage extends StatelessWidget {
   }
 
   static Widget createTitle(BuildContext context) =>
-      Text(context.l10n.myAppsPageTitle);
+      Text(context.l10n.myAppsPageTitle, textAlign: TextAlign.center);
 
   @override
   Widget build(BuildContext context) {
