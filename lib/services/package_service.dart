@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2022 Canonical Ltd
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 import 'dart:async';
 import 'dart:io';
 
@@ -35,6 +52,16 @@ class PackageService {
       _installedPackagesController.stream;
   void setInstalledPackagesChanged(bool value) {
     _installedPackagesController.add(value);
+  }
+
+  final Map<String, PackageKitPackageId> _installedApps = {};
+  List<PackageKitPackageId> get installedApps =>
+      _installedApps.entries.map((e) => e.value).toList();
+  PackageKitPackageId? getInstalledAppIds(String name) => _installedApps[name];
+  final _installedAppsController = StreamController<bool>.broadcast();
+  Stream<bool> get installedAppsChanged => _installedAppsController.stream;
+  void setInstalledAppsChanged(bool value) {
+    _installedAppsController.add(value);
   }
 
   final Map<PackageKitPackageId, PackageKitGroup> _idsToGroups = {};
@@ -204,7 +231,11 @@ class PackageService {
   }
 
   Future<void> init() async {
+    setErrorMessage('');
+    setPackageState(PackageState.processing);
     await _getInstalledPackages();
+    await _getInstalledApps();
+    setPackageState(PackageState.ready);
     refreshUpdates();
   }
 
@@ -314,17 +345,43 @@ class PackageService {
   }
 
   Future<void> _getInstalledPackages() async {
-    setErrorMessage('');
+    await _getPackages(
+      ids: _installedPackages,
+      onChanged: (v) => setInstalledPackagesChanged(v),
+      filters: {PackageKitFilter.installed},
+    );
+  }
+
+  Future<void> _getInstalledApps() async {
+    await _getPackages(
+      ids: _installedApps,
+      onChanged: (v) => setInstalledAppsChanged(v),
+      filters: {
+        PackageKitFilter.installed,
+        PackageKitFilter.gui,
+        PackageKitFilter.newest,
+        PackageKitFilter.application,
+        PackageKitFilter.notDevelopment,
+        PackageKitFilter.notSource,
+        PackageKitFilter.visible,
+      },
+    );
+  }
+
+  Future<void> _getPackages({
+    Set<PackageKitFilter> filters = const {},
+    required Map<String, PackageKitPackageId> ids,
+    required void Function(bool) onChanged,
+  }) async {
     final transaction = await _client.createTransaction();
     final completer = Completer();
-    setPackageState(PackageState.processing);
     transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
-        _installedPackages.putIfAbsent(
+        ids.putIfAbsent(
           event.packageId.name,
           () => event.packageId,
         );
-        setInstalledPackagesChanged(true);
+        onChanged(true);
       } else if (event is PackageKitErrorCodeEvent) {
         setErrorMessage('${event.code}: ${event.details}');
       } else if (event is PackageKitFinishedEvent) {
@@ -332,10 +389,9 @@ class PackageService {
       }
     });
     await transaction.getPackages(
-      filter: {PackageKitFilter.installed},
+      filter: filters,
     );
     await completer.future;
-    setPackageState(PackageState.ready);
   }
 
   Future<PackageKitGroup> _getGroup(PackageKitPackageId id) async {
@@ -361,6 +417,7 @@ class PackageService {
     setPackageState(PackageState.processing);
     removeTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
+        setInfo(event.info);
       } else if (event is PackageKitItemProgressEvent) {
         if (event.status == PackageKitStatus.remove) {
           setPackagePercentage(100 - event.percentage);
@@ -375,7 +432,7 @@ class PackageService {
     if (_localId != null) {
       setIsInstalled(false);
     } else {
-      await isIdInstalled(id: packageId);
+      isIdInstalled(id: packageId);
     }
     setPackageState(PackageState.ready);
   }
@@ -387,6 +444,7 @@ class PackageService {
     final installCompleter = Completer();
     installTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
+        setInfo(event.info);
       } else if (event is PackageKitItemProgressEvent) {
         setPackagePercentage(event.percentage);
       } else if (event is PackageKitFinishedEvent) {
@@ -395,13 +453,13 @@ class PackageService {
     });
     await installTransaction.installPackages([packageId]);
     await installCompleter.future;
-    await isIdInstalled(id: packageId);
-
+    isIdInstalled(id: packageId);
     setPackageState(PackageState.ready);
   }
 
   /// Check if an app with given [packageId] is installed.
   Future<void> isIdInstalled({required PackageKitPackageId id}) async {
+    setPackageState(PackageState.processing);
     final transaction = await _client.createTransaction();
     final completer = Completer();
     transaction.events.listen((event) {
@@ -419,6 +477,7 @@ class PackageService {
     await transaction
         .searchNames([id.name], filter: {PackageKitFilter.installed});
     await completer.future;
+    setPackageState(PackageState.ready);
   }
 
   /// Get the details about the package or update with given [packageId]

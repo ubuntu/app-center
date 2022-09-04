@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2022 Canonical Ltd
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:packagekit/packagekit.dart';
@@ -56,7 +73,7 @@ class _PackageDialogState extends State<PackageDialog> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
-    final caption = Theme.of(context).textTheme.caption;
+    final caption = Theme.of(context).textTheme.bodySmall;
     return AlertDialog(
       title: YaruDialogTitle(
         title: widget.id.name,
@@ -66,8 +83,17 @@ class _PackageDialogState extends State<PackageDialog> {
       contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       scrollable: true,
       content: model.packageState != PackageState.ready
-          ? const Center(
-              child: YaruCircularProgressIndicator(),
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(model.info != null ? model.info!.name : ''),
+                  YaruLinearProgressIndicator(
+                    value:
+                        model.percentage != null ? model.percentage! / 100 : 0,
+                  ),
+                ],
+              ),
             )
           : SizedBox(
               width: 400,

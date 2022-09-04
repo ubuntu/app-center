@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2022 Canonical Ltd
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
@@ -156,14 +173,14 @@ class _UpdatingPage extends StatelessWidget {
           children: [
             Text(
               model.processedId != null ? model.processedId!.name : '',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(
               height: 20,
             ),
             Text(
               model.info != null ? model.info!.name : '',
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(
               height: 20,
@@ -196,7 +213,11 @@ class _UpdatesHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Wrap(
+        direction: Axis.horizontal,
         alignment: WrapAlignment.end,
+        crossAxisAlignment: WrapCrossAlignment.end,
+        runAlignment: WrapAlignment.end,
+        textDirection: TextDirection.ltr,
         spacing: 10,
         runSpacing: 10,
         children: [
@@ -373,7 +394,7 @@ class _NoUpdatesPage extends StatelessWidget {
                 ),
                 Text(
                   context.l10n.noUpdates,
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 const SizedBox(
                   height: 100,

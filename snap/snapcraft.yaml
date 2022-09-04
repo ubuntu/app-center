@@ -1,0 +1,82 @@
+name: snap-store
+adopt-info: software
+summary: Snap Store
+description: |
+  Snap Store is a graphical desktop application for discovering, installing and managing snaps and traditional packages on Linux.
+
+  Snap Store showcases featured and popular applications with useful descriptions and screenshots.
+
+  Applications can be found either through browsing categories or by searching.
+
+  Snap Store can also be used to switch channels, manage snap permissions, install traditional packages (deb/rpm), check for and install updates.
+confinement: strict
+base: core22
+grade: stable
+license: GPL-3.0+
+assumes:
+  - snapd2.41 # for appstream-metada and packagekit-control
+
+parts:
+  flutter-git:
+    source: https://github.com/flutter/flutter.git
+    source-branch: stable
+    plugin: nil
+    override-build: |
+      set -eux
+      mkdir -p $CRAFT_PART_INSTALL/usr/bin
+      mkdir -p $CRAFT_PART_INSTALL/usr/libexec
+      cp -r $CRAFT_PART_SRC $CRAFT_PART_INSTALL/usr/libexec/flutter
+      ln -sf $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/flutter $CRAFT_PART_INSTALL/usr/bin/flutter
+      export PATH="$CRAFT_PART_INSTALL/usr/bin:$PATH"
+      flutter channel stable
+      flutter upgrade
+      flutter doctor
+    build-packages:
+      - clang
+      - cmake
+      - curl
+      - ninja-build
+      - unzip
+    override-prime: ''
+
+  software:
+    after: [ flutter-git ]
+    plugin: nil
+    source: .
+    build-packages:
+      - jq
+    override-build: |
+      set -eux
+      flutter pub get
+      flutter build linux --release -v
+      craftctl set version="$(jq -r '.version' build/flutter_assets/version.json)"
+      mkdir -p $CRAFT_PART_INSTALL/bin
+      cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/bin/
+      sed -i -e 's|\(Icon=\).*|\1/bin/data/flutter_assets/assets/software.png|' \
+          $CRAFT_PART_INSTALL/bin/data/flutter_assets/assets/software.desktop
+
+apps:
+  snap-store:
+    command: bin/software
+    desktop: bin/data/flutter_assets/assets/software.desktop
+    extensions: [gnome]
+    plugs:
+      - appstream-metadata
+      - desktop
+      - desktop-legacy
+      - network
+      - network-manager-observe
+      - opengl
+      - packagekit-control
+      - snapd-control
+
+slots:
+  packagekit-svc:
+    interface: dbus
+    bus: session
+    name: org.freedesktop.PackageKit
+  dbus-name:
+    interface: dbus
+    bus: session
+    name: org.ubuntu.software
+
