@@ -38,10 +38,8 @@ dependencies:
   window_manager: ^0.2.6
   yaru: ^0.3.3
   yaru_colors: ^0.1.0
-  yaru_icons:
-    git: https://github.com/ubuntu/yaru_icons.dart
-  yaru_widgets:
-    git: https://github.com/ubuntu/yaru_widgets.dart
+  yaru_icons: ^0.2.2
+  yaru_widgets: ^1.1.2
 
 dev_dependencies:
   flutter_test:

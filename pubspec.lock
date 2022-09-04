@@ -603,21 +603,17 @@ packages:
   yaru_icons:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "2bd8058ae1791d1d64d434b9cf25bce790f763ba"
-      url: "https://github.com/ubuntu/yaru_icons.dart"
-    source: git
-    version: "0.2.1"
+      name: yaru_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.2"
   yaru_widgets:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "4c9df542af015ceb7ce2425557ffb242c396ba94"
-      url: "https://github.com/ubuntu/yaru_widgets.dart"
-    source: git
-    version: "1.1.1"
+      name: yaru_widgets
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.2"
 sdks:
   dart: ">=2.17.0 <3.0.0"
   flutter: ">=3.0.0"
