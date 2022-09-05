@@ -25,25 +25,20 @@ dependencies:
   intl: ^0.17.0
   liquid_progress_indicator: ^0.4.0
   package_info_plus: ^1.4.2
-  packagekit:
-    git: https://github.com/canonical/packagekit.dart
+  packagekit: ^0.2.4
   palette_generator: ^0.3.3
   provider: ^6.0.2
   quiver: ^3.1.0
   safe_change_notifier: ^0.1.0+1
-  snapd:
-    git: https://github.com/canonical/snapd.dart
+  snapd: ^0.4.5
   ubuntu_service: ^0.1.0
   url_launcher: ^6.1.2
   version: ^2.0.0
   window_manager: ^0.2.6
-  yaru:
-    git: https://github.com/ubuntu/yaru.dart
+  yaru: ^0.3.3
   yaru_colors: ^0.1.0
-  yaru_icons:
-    git: https://github.com/ubuntu/yaru_icons.dart
-  yaru_widgets:
-    git: https://github.com/ubuntu/yaru_widgets.dart
+  yaru_icons: ^0.2.2
+  yaru_widgets: ^1.1.2
 
 dev_dependencies:
   flutter_test:
