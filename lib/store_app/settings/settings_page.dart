@@ -20,6 +20,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/settings/settings_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -84,6 +85,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                   return Markdown(
                                     shrinkWrap: true,
                                     data: 'is made by:\n ${snapshot.data!}',
+                                    onTapLink: (text, href, title) =>
+                                        href != null
+                                            ? launchUrl(Uri.parse(href))
+                                            : null,
                                   );
                                 } else {
                                   return const SizedBox();
