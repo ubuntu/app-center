@@ -110,19 +110,22 @@ class AppContent extends StatelessWidget {
           height: 10,
         ),
         if (changelog != null && changelog!.isNotEmpty)
-          YaruExpandable(
-            header: Text(context.l10n.changelog),
-            expandIcon: const Icon(YaruIcons.pan_end),
-            isExpanded: true,
-            child: SizedBox(
-              height: 250,
-              child: Markdown(
-                data: changelog!,
-                shrinkWrap: true,
-                selectable: true,
-                onTapLink: (text, href, title) =>
-                    href != null ? launchUrl(Uri.parse(href)) : null,
-                padding: const EdgeInsets.only(left: 8, right: 8),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: YaruExpandable(
+              header: Text(context.l10n.changelog),
+              expandIcon: const Icon(YaruIcons.pan_end),
+              isExpanded: true,
+              child: SizedBox(
+                height: 250,
+                child: Markdown(
+                  data: changelog!,
+                  shrinkWrap: true,
+                  selectable: true,
+                  onTapLink: (text, href, title) =>
+                      href != null ? launchUrl(Uri.parse(href)) : null,
+                  padding: EdgeInsets.zero,
+                ),
               ),
             ),
           ),
@@ -132,7 +135,8 @@ class AppContent extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.w500),
           ),
           expandIcon: const Icon(YaruIcons.pan_end),
-          isExpanded: media.isEmpty && changelog == null,
+          isExpanded:
+              media.isEmpty && (changelog == null || changelog!.isEmpty),
           child: Text(
             description,
             overflow: TextOverflow.fade,
@@ -142,9 +146,10 @@ class AppContent extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        const Divider(
-          height: 10,
-        ),
+        if (changelog == null || changelog!.isEmpty)
+          const Divider(
+            height: 10,
+          ),
       ],
     );
   }

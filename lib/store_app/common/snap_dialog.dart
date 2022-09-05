@@ -82,7 +82,7 @@ class _SnapDialogState extends State<SnapDialog> {
               confinementName:
                   model.confinement != null ? model.confinement!.name : '',
               icon: YaruSafeImage(
-                url: model.iconUrl ?? '',
+                url: model.iconUrl,
                 fallBackIconData: YaruIcons.package_snap,
               ),
               installDate: model.installDate,
