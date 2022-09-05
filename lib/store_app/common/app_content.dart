@@ -21,14 +21,15 @@ import 'package:software/store_app/common/link.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class SnapContent extends StatelessWidget {
-  const SnapContent({
+class AppContent extends StatelessWidget {
+  const AppContent({
     Key? key,
     required this.media,
     required this.contact,
     required this.publisherName,
     required this.website,
     required this.description,
+    this.lastChild,
   }) : super(key: key);
 
   final List<String> media;
@@ -36,6 +37,7 @@ class SnapContent extends StatelessWidget {
   final String publisherName;
   final String website;
   final String description;
+  final Widget? lastChild;
 
   @override
   Widget build(BuildContext context) {
@@ -109,11 +111,13 @@ class SnapContent extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.w500),
           ),
           expandIcon: const Icon(YaruIcons.pan_end),
+          isExpanded: media.isEmpty,
           child: Text(
             description,
             overflow: TextOverflow.fade,
           ),
         ),
+        if (lastChild != null) lastChild!,
         const SizedBox(
           height: 10,
         ),

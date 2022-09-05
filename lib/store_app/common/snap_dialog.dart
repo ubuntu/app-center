@@ -20,13 +20,13 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
+import 'package:software/store_app/common/app_content.dart';
+import 'package:software/store_app/common/app_header.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap_channel_expandable.dart';
 import 'package:software/store_app/common/snap_connections_settings.dart';
-import 'package:software/store_app/common/snap_content.dart';
 import 'package:software/store_app/common/snap_installation_controls.dart';
 import 'package:software/store_app/common/snap_model.dart';
-import 'package:software/store_app/common/snap_page_header.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -78,20 +78,19 @@ class _SnapDialogState extends State<SnapDialog> {
           child: YaruDialogTitle(
             mainAxisAlignment: MainAxisAlignment.center,
             closeIconData: YaruIcons.window_close,
-            titleWidget: SnapPageHeader(
+            titleWidget: AppHeader(
               confinementName:
                   model.confinement != null ? model.confinement!.name : '',
-              connectionsExpanded: model.connectionsExpanded,
-              iconUrl: model.iconUrl ?? '',
+              icon: YaruSafeImage(
+                url: model.iconUrl,
+                fallBackIconData: YaruIcons.package_snap,
+              ),
               installDate: model.installDate,
               installDateIsoNorm: model.installDateIsoNorm,
               license: model.license ?? '',
-              onConnectionsExpanded: () =>
-                  model.connectionsExpanded = !model.connectionsExpanded,
               open: () => model.open(),
-              connectionsNotEmpty: model.connections.isNotEmpty,
               strict: model.strict,
-              snapIsInstalled: model.snapIsInstalled,
+              appIsInstalled: model.snapIsInstalled,
               summary: model.summary ?? '',
               title: model.title ?? '',
               version: model.version,
@@ -99,18 +98,19 @@ class _SnapDialogState extends State<SnapDialog> {
           ),
         ),
         content: SingleChildScrollView(
-          child: model.connectionsExpanded && model.connections.isNotEmpty
-              ? SnapConnectionsSettings(connections: model.connections)
-              : SizedBox(
-                  width: dialogWidth,
-                  child: SnapContent(
-                    contact: model.contact ?? '',
-                    description: model.description ?? '',
-                    publisherName: model.publisher?.displayName ?? '',
-                    website: model.website ?? '',
-                    media: model.screenshotUrls ?? [],
-                  ),
-                ),
+          child: SizedBox(
+            width: dialogWidth,
+            child: AppContent(
+              contact: model.contact ?? '',
+              description: model.description ?? '',
+              publisherName: model.publisher?.displayName ?? '',
+              website: model.website ?? '',
+              media: model.screenshotUrls ?? [],
+              lastChild: model.strict && model.connections.isNotEmpty
+                  ? SnapConnectionsSettings(connections: model.connections)
+                  : null,
+            ),
+          ),
         ),
         actions: [
           Padding(

@@ -198,7 +198,7 @@ class SnapModel extends SafeChangeNotifier {
     _localSnap = await _findLocalSnap(huskSnapName);
     if (online) {
       _storeSnap = await _findSnapByName(huskSnapName).timeout(
-        const Duration(seconds: 5),
+        const Duration(seconds: 15),
         onTimeout: () {
           notifyListeners();
           return null;
