@@ -134,7 +134,6 @@ class _PackageDialogState extends State<PackageDialog> {
                     publisherName: '',
                     website: model.url,
                     description: model.description,
-                    changelog: model.changelog,
                   ),
                 ),
               ),

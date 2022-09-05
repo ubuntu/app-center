@@ -16,10 +16,8 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/link.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -31,7 +29,6 @@ class AppContent extends StatelessWidget {
     required this.publisherName,
     required this.website,
     required this.description,
-    this.changelog,
     this.lastChild,
   }) : super(key: key);
 
@@ -40,7 +37,6 @@ class AppContent extends StatelessWidget {
   final String publisherName;
   final String website;
   final String description;
-  final String? changelog;
   final Widget? lastChild;
 
   @override
@@ -109,34 +105,13 @@ class AppContent extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        if (changelog != null && changelog!.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: YaruExpandable(
-              header: Text(context.l10n.changelog),
-              expandIcon: const Icon(YaruIcons.pan_end),
-              isExpanded: true,
-              child: SizedBox(
-                height: 250,
-                child: Markdown(
-                  data: changelog!,
-                  shrinkWrap: true,
-                  selectable: true,
-                  onTapLink: (text, href, title) =>
-                      href != null ? launchUrl(Uri.parse(href)) : null,
-                  padding: EdgeInsets.zero,
-                ),
-              ),
-            ),
-          ),
         YaruExpandable(
           header: Text(
             context.l10n.description,
             style: const TextStyle(fontWeight: FontWeight.w500),
           ),
           expandIcon: const Icon(YaruIcons.pan_end),
-          isExpanded:
-              media.isEmpty && (changelog == null || changelog!.isEmpty),
+          isExpanded: media.isEmpty,
           child: Text(
             description,
             overflow: TextOverflow.fade,
@@ -146,10 +121,9 @@ class AppContent extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        if (changelog == null || changelog!.isEmpty)
-          const Divider(
-            height: 10,
-          ),
+        const Divider(
+          height: 10,
+        ),
       ],
     );
   }
