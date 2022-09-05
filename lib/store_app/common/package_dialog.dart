@@ -80,22 +80,24 @@ class _PackageDialogState extends State<PackageDialog> {
         title: YaruDialogTitle(
           mainAxisAlignment: MainAxisAlignment.center,
           closeIconData: YaruIcons.window_close,
-          titleWidget: AppHeader(
-            icon: const YaruSafeImage(
-              url: '',
-              fallBackIconData: YaruIcons.package_deb,
-            ),
-            title: widget.id.name,
-            summary: model.summary,
-            appIsInstalled: model.isInstalled,
-            version: widget.id.version,
-            open: () => model.open(widget.id.name),
-            strict: false,
-            confinementName: context.l10n.classic,
-            license: model.license,
-            installDate: model.issued,
-            installDateIsoNorm: model.issued,
-          ),
+          titleWidget: model.packageState != PackageState.ready
+              ? Text(widget.id.name)
+              : AppHeader(
+                  icon: const YaruSafeImage(
+                    url: '',
+                    fallBackIconData: YaruIcons.package_deb,
+                  ),
+                  title: widget.id.name,
+                  summary: model.summary,
+                  appIsInstalled: model.isInstalled,
+                  version: widget.id.version,
+                  open: () => model.open(widget.id.name),
+                  strict: false,
+                  confinementName: context.l10n.classic,
+                  license: model.license,
+                  installDate: model.issued,
+                  installDateIsoNorm: model.issued,
+                ),
         ),
         titlePadding: EdgeInsets.zero,
         contentPadding: const EdgeInsets.only(

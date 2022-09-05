@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -110,10 +111,7 @@ class AppContent extends StatelessWidget {
         ),
         if (changelog != null && changelog!.isNotEmpty)
           YaruExpandable(
-            header: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(context.l10n.changelog),
-            ),
+            header: Text(context.l10n.changelog),
             expandIcon: const Icon(YaruIcons.pan_end),
             isExpanded: true,
             child: SizedBox(
@@ -122,6 +120,8 @@ class AppContent extends StatelessWidget {
                 data: changelog!,
                 shrinkWrap: true,
                 selectable: true,
+                onTapLink: (text, href, title) =>
+                    href != null ? launchUrl(Uri.parse(href)) : null,
                 padding: const EdgeInsets.only(left: 8, right: 8),
               ),
             ),
@@ -132,7 +132,7 @@ class AppContent extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.w500),
           ),
           expandIcon: const Icon(YaruIcons.pan_end),
-          isExpanded: media.isEmpty,
+          isExpanded: media.isEmpty && changelog == null,
           child: Text(
             description,
             overflow: TextOverflow.fade,
