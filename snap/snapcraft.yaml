@@ -19,7 +19,7 @@ assumes:
 parts:
   flutter-git:
     source: https://github.com/flutter/flutter.git
-    source-branch: stable
+    source-tag: 3.0.5 # pinned because of https://github.com/jpnurmi/flutter_raster_cache_bug
     plugin: nil
     override-build: |
       set -eux
@@ -28,7 +28,6 @@ parts:
       cp -r $CRAFT_PART_SRC $CRAFT_PART_INSTALL/usr/libexec/flutter
       ln -sf $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/flutter $CRAFT_PART_INSTALL/usr/bin/flutter
       export PATH="$CRAFT_PART_INSTALL/usr/bin:$PATH"
-      flutter channel stable
       flutter upgrade
       flutter doctor
     build-packages:
