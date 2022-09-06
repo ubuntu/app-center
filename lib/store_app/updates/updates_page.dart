@@ -222,7 +222,7 @@ class _UpdatesHeader extends StatelessWidget {
         runSpacing: 10,
         children: [
           OutlinedButton(
-            onPressed: model.updatesState != UpdatesState.readyToUpdate
+            onPressed: model.updatesState == UpdatesState.updating
                 ? null
                 : () => showDialog(
                       context: context,
