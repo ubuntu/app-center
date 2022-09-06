@@ -210,109 +210,112 @@ class _UpdatesHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<UpdatesModel>();
 
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Wrap(
-        direction: Axis.horizontal,
-        alignment: WrapAlignment.end,
-        crossAxisAlignment: WrapCrossAlignment.end,
-        runAlignment: WrapAlignment.end,
-        textDirection: TextDirection.ltr,
-        spacing: 10,
-        runSpacing: 10,
-        children: [
-          OutlinedButton(
-            onPressed: model.updatesState == UpdatesState.updating
-                ? null
-                : () => showDialog(
-                      context: context,
-                      builder: (context) {
-                        return ChangeNotifierProvider.value(
-                          value: model,
-                          child: const _RepoDialog(),
-                        );
-                      },
-                    ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  YaruIcons.external_link,
-                  size: 18,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(context.l10n.sources)
-              ],
-            ),
-          ),
-          OutlinedButton(
-            onPressed: model.updatesState == UpdatesState.updating ||
-                    model.updatesState == UpdatesState.checkingForUpdates
-                ? null
-                : () => model.refresh(),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                model.updatesState == UpdatesState.noUpdates ||
-                        model.updatesState == UpdatesState.readyToUpdate ||
-                        model.updatesState == null
-                    ? const Icon(
-                        YaruIcons.refresh,
-                        size: 18,
-                      )
-                    : const SizedBox(
-                        height: 16,
-                        width: 16,
-                        child: YaruCircularProgressIndicator(
-                          strokeWidth: 2,
-                        ),
-                      ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(context.l10n.refresh)
-              ],
-            ),
-          ),
-          if (model.updates.isNotEmpty)
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.start,
+          crossAxisAlignment: WrapCrossAlignment.start,
+          runAlignment: WrapAlignment.start,
+          textDirection: TextDirection.rtl,
+          spacing: 10,
+          runSpacing: 10,
+          children: [
             OutlinedButton(
-              onPressed: model.updatesState != UpdatesState.readyToUpdate
+              onPressed: model.updatesState == UpdatesState.updating
                   ? null
-                  : model.allSelected
-                      ? () => model.deselectAll()
-                      : () => model.selectAll(),
-              child: Text(
-                model.allSelected
-                    ? context.l10n.deselectAll
-                    : context.l10n.selectAll,
+                  : () => showDialog(
+                        context: context,
+                        builder: (context) {
+                          return ChangeNotifierProvider.value(
+                            value: model,
+                            child: const _RepoDialog(),
+                          );
+                        },
+                      ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    YaruIcons.external_link,
+                    size: 18,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(context.l10n.sources)
+                ],
               ),
             ),
-          if (model.updates.isNotEmpty)
-            ElevatedButton(
-              onPressed: model.updatesState == UpdatesState.readyToUpdate
-                  ? () => model.updateAll()
-                  : null,
-              child: Text(context.l10n.updateSelected),
+            OutlinedButton(
+              onPressed: model.updatesState == UpdatesState.updating ||
+                      model.updatesState == UpdatesState.checkingForUpdates
+                  ? null
+                  : () => model.refresh(),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  model.updatesState == UpdatesState.noUpdates ||
+                          model.updatesState == UpdatesState.readyToUpdate ||
+                          model.updatesState == null
+                      ? const Icon(
+                          YaruIcons.refresh,
+                          size: 18,
+                        )
+                      : const SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: YaruCircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(context.l10n.refresh)
+                ],
+              ),
             ),
-          if (model.updatesState == UpdatesState.noUpdates)
-            if (model.requireRestartApp)
+            if (model.updates.isNotEmpty)
+              OutlinedButton(
+                onPressed: model.updatesState != UpdatesState.readyToUpdate
+                    ? null
+                    : model.allSelected
+                        ? () => model.deselectAll()
+                        : () => model.selectAll(),
+                child: Text(
+                  model.allSelected
+                      ? context.l10n.deselectAll
+                      : context.l10n.selectAll,
+                ),
+              ),
+            if (model.updates.isNotEmpty)
               ElevatedButton(
-                onPressed: () => model.exitApp(),
-                child: Text(context.l10n.requireRestartApp),
-              )
-            else if (model.requireRestartSession)
-              ElevatedButton(
-                onPressed: () => model.logout(),
-                child: Text(context.l10n.requireRestartSession),
-              )
-            else if (model.requireRestartSystem)
-              ElevatedButton(
-                onPressed: () => model.reboot(),
-                child: Text(context.l10n.requireRestartSystem),
-              )
-        ],
+                onPressed: model.updatesState == UpdatesState.readyToUpdate
+                    ? () => model.updateAll()
+                    : null,
+                child: Text(context.l10n.updateSelected),
+              ),
+            if (model.updatesState == UpdatesState.noUpdates)
+              if (model.requireRestartApp)
+                ElevatedButton(
+                  onPressed: () => model.exitApp(),
+                  child: Text(context.l10n.requireRestartApp),
+                )
+              else if (model.requireRestartSession)
+                ElevatedButton(
+                  onPressed: () => model.logout(),
+                  child: Text(context.l10n.requireRestartSession),
+                )
+              else if (model.requireRestartSystem)
+                ElevatedButton(
+                  onPressed: () => model.reboot(),
+                  child: Text(context.l10n.requireRestartSystem),
+                )
+          ],
+        ),
       ),
     );
   }
