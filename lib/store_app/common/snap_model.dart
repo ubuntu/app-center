@@ -46,7 +46,6 @@ class SnapModel extends SafeChangeNotifier {
   })  : _appChangeInProgress = false,
         _channelToBeInstalled = '',
         selectableChannels = {},
-        connections = {},
         _connectionsExpanded = false;
 
   StreamSubscription<bool>? _snapChangesSub;
@@ -335,16 +334,19 @@ class SnapModel extends SafeChangeNotifier {
   }
 
   Future<void> connect({
-    required SnapConnection con,
+    required String snap,
+    required String plug,
+    required String slotSnap,
+    required String slot,
   }) async {
     await _client.loadAuthorization();
     await _client.connect(
-      con.plug.snap,
-      con.plug.plug,
-      con.slot.snap,
-      con.slot.slot,
+      snap,
+      plug,
+      slotSnap,
+      slot,
     );
-    notifyListeners();
+    loadConnections();
   }
 
   Future<void> disconnect({
@@ -357,23 +359,38 @@ class SnapModel extends SafeChangeNotifier {
       con.slot.snap,
       con.slot.slot,
     );
-    notifyListeners();
+    loadConnections();
   }
 
-  Map<String, SnapConnection> connections;
-  Future<void> loadConnections() async {
-    await _client.loadAuthorization();
-    final response = await _client.getConnections();
+  Set<SnapPlug> nicePlugs = {};
+  Set<SnapPlug> badPlugs = {};
+  List<SnapConnection> cons = [];
 
-    for (final connection in response.established) {
-      final interface = connection.interface;
-      if (connection.plug.snap.contains(huskSnapName) &&
-          interface != 'content') {
-        connections.putIfAbsent(
-          interface,
-          () => connection,
-        );
+  Future<void> loadConnections() async {
+    if (!strict || _localSnap == null) return;
+    nicePlugs.clear();
+    badPlugs.clear();
+    await _client.loadAuthorization();
+
+    try {
+      final response = await _client.getConnections(
+        snap: _localSnap!.name,
+        filter: SnapdConnectionFilter.all,
+      );
+      for (final plug in response.plugs) {
+        if (plug.snap != 'snapd' &&
+            plug.interface != null &&
+            !plug.interface!.contains('content')) {
+          if (plug.connections.isNotEmpty) {
+            nicePlugs.add(plug);
+          } else {
+            badPlugs.add(plug);
+          }
+        }
       }
+      notifyListeners();
+    } on SnapdException {
+      return;
     }
   }
 

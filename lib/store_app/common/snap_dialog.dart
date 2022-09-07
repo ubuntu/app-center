@@ -106,9 +106,7 @@ class _SnapDialogState extends State<SnapDialog> {
               publisherName: model.publisher?.displayName ?? '',
               website: model.website ?? '',
               media: model.screenshotUrls ?? [],
-              lastChild: model.strict && model.connections.isNotEmpty
-                  ? SnapConnectionsSettings(connections: model.connections)
-                  : null,
+              lastChild: model.strict ? const SnapConnectionsSettings() : null,
             ),
           ),
         ),

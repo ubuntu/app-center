@@ -16,18 +16,21 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/store_app/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapConnectionsSettings extends StatelessWidget {
-  const SnapConnectionsSettings({super.key, required this.connections});
-
-  final Map<String, SnapConnection> connections;
+  const SnapConnectionsSettings({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<SnapModel>();
     return YaruExpandable(
       isExpanded: false,
       header: Text(
@@ -37,21 +40,45 @@ class SnapConnectionsSettings extends StatelessWidget {
       expandIcon: const Icon(YaruIcons.pan_end),
       child: Column(
         children: [
-          if (connections.isNotEmpty)
-            for (final connection in connections.entries)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(connection.key),
-                    Switch(
-                      value: true,
-                      onChanged: (v) {},
-                    )
-                  ],
-                ),
+          for (final plug in model.nicePlugs)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(plug.interface ?? ''),
+                  Switch(
+                    value: true,
+                    onChanged: (v) => model.disconnect(
+                      con: SnapConnection(
+                        slot: plug.connections.first,
+                        plug: plug,
+                        interface: plug.interface!,
+                      ),
+                    ),
+                  )
+                ],
               ),
+            ),
+          for (final plug in model.badPlugs)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(plug.interface ?? ''),
+                  Switch(
+                    value: false,
+                    onChanged: (v) => model.connect(
+                      plug: plug.plug,
+                      snap: model.huskSnapName,
+                      slot: '',
+                      slotSnap: model.huskSnapName,
+                    ),
+                  )
+                ],
+              ),
+            ),
         ],
       ),
     );

@@ -54,7 +54,6 @@ class SnapChannelExpandable extends StatelessWidget {
             ],
           )
         : YaruExpandable(
-            isExpanded: true,
             expandIcon: const Icon(YaruIcons.pan_end),
             header: DropdownButton<String>(
               icon: const Icon(YaruIcons.pan_down),
