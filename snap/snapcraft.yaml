@@ -28,7 +28,6 @@ parts:
       cp -r $CRAFT_PART_SRC $CRAFT_PART_INSTALL/usr/libexec/flutter
       ln -sf $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/flutter $CRAFT_PART_INSTALL/usr/bin/flutter
       export PATH="$CRAFT_PART_INSTALL/usr/bin:$PATH"
-      flutter upgrade
       flutter doctor
     build-packages:
       - clang
