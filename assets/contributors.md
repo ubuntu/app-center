@@ -4,3 +4,6 @@
 - [JP Nurmi](https://github.com/jpnurmi)
 - [Olivier Tilloy](https://github.com/oSoMoN)
 - [Elio Qoshi](https://github.com/elioqoshi)
+- [小山田 純 - Oyamada Jun](https://github.com/oyajun)
+- [DefaultX-od](https://github.com/DefaultX-od)
+- [Mohamad Wildan Garviandi](https://github.com/WildanGarviandi)
