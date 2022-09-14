@@ -89,22 +89,6 @@ class AppContent extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Link(url: website, linkText: context.l10n.website),
-              Link(
-                url: contact,
-                linkText: '${context.l10n.contact} $publisherName',
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
         YaruExpandable(
           header: Text(
             context.l10n.description,
@@ -112,9 +96,29 @@ class AppContent extends StatelessWidget {
           ),
           expandIcon: const Icon(YaruIcons.pan_end),
           isExpanded: media.isEmpty,
-          child: Text(
-            description,
-            overflow: TextOverflow.fade,
+          child: Column(
+            children: [
+              Text(
+                description,
+                overflow: TextOverflow.fade,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Link(url: website, linkText: context.l10n.website),
+                    Link(
+                      url: contact,
+                      linkText: '${context.l10n.contact} $publisherName',
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
         if (lastChild != null) lastChild!,

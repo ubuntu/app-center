@@ -71,7 +71,6 @@
   "source": "Quelle",
   "sources": "Quellen",
   "packageInstaller": "Paketinstallationsprogramm",
-  "classic": "klassisch"
-
-
+  "classic": "klassisch",
+  "verified": "Verifizierter Herausgeber"
 } 

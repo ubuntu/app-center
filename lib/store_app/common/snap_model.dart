@@ -167,6 +167,8 @@ class SnapModel extends SafeChangeNotifier {
       ? 0
       : installedSize! / downloadSize!;
 
+  bool get verified => publisher != null && publisher!.validation == 'verified';
+
   bool _appChangeInProgress;
   bool get appChangeInProgress => _appChangeInProgress;
   set appChangeInProgress(bool value) {
