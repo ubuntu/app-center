@@ -17,8 +17,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
@@ -26,13 +27,15 @@ class AppHeader extends StatelessWidget {
   final Widget? icon;
   final String title;
   final String summary;
-  final bool appIsInstalled;
   final bool strict;
   final String confinementName;
   final String version;
   final String license;
   final String installDate;
   final String installDateIsoNorm;
+  final bool verified;
+  final String publisherName;
+  final String website;
 
   final Function() open;
 
@@ -41,7 +44,6 @@ class AppHeader extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.summary,
-    required this.appIsInstalled,
     required this.version,
     required this.open,
     required this.strict,
@@ -49,6 +51,9 @@ class AppHeader extends StatelessWidget {
     required this.license,
     required this.installDate,
     required this.installDateIsoNorm,
+    required this.verified,
+    required this.publisherName,
+    required this.website,
   });
 
   @override
@@ -101,35 +106,52 @@ class AppHeader extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 10,
                   ),
-                  if (appIsInstalled)
-                    SizedBox(
-                      height: 30,
-                      child: Row(
-                        children: [
-                          YaruRoundIconButton(
-                            size: 30,
-                            tooltip: version,
+                  SizedBox(
+                    height: 30,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (verified)
+                          Tooltip(
+                            message: context.l10n.verified,
                             child: const Icon(
-                              YaruIcons.ok_filled,
+                              Icons.verified,
                               size: 20,
+                              color: YaruColors.success,
                             ),
                           ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          YaruRoundIconButton(
-                            size: 30,
-                            tooltip: context.l10n.open,
-                            onTap: open,
-                            child: Icon(
-                              YaruIcons.external_link,
-                              color: Theme.of(context).colorScheme.onSurface,
-                              size: 20,
+                        if (website.isNotEmpty)
+                          InkWell(
+                            borderRadius: BorderRadius.circular(8),
+                            onTap: () => launchUrl(Uri.parse(website)),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: verified ? 5 : 0,
+                                    right: 5,
+                                  ),
+                                  child: Text(
+                                    publisherName,
+                                    style: const TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(right: verified ? 5 : 0),
+                                  child: Icon(
+                                    YaruIcons.external_link,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                    size: 18,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    )
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
