@@ -27,6 +27,7 @@ class SnapInstallationControls extends StatelessWidget {
     required this.remove,
     required this.refresh,
     required this.install,
+    this.open,
   });
 
   final bool appChangeInProgress;
@@ -34,6 +35,7 @@ class SnapInstallationControls extends StatelessWidget {
   final Function() remove;
   final Function() refresh;
   final Function() install;
+  final Function()? open;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,14 @@ class SnapInstallationControls extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          if (open != null && appIsInstalled)
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: ElevatedButton(
+                onPressed: open,
+                child: Text(context.l10n.open),
+              ),
+            ),
           if (appIsInstalled)
             OutlinedButton(
               onPressed: remove,

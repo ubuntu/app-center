@@ -83,9 +83,15 @@ class _PackageDialogState extends State<PackageDialog> {
           titleWidget: model.packageState != PackageState.ready
               ? Text(widget.id.name)
               : AppHeader(
-                  icon: const YaruSafeImage(
-                    url: '',
-                    fallBackIconData: YaruIcons.package_deb,
+                  icon: InkWell(
+                    borderRadius: BorderRadius.circular(100),
+                    onTap: model.isInstalled
+                        ? () => model.open(widget.id.name)
+                        : null,
+                    child: const YaruSafeImage(
+                      url: '',
+                      fallBackIconData: YaruIcons.package_deb,
+                    ),
                   ),
                   title: widget.id.name,
                   summary: model.summary,
@@ -93,7 +99,6 @@ class _PackageDialogState extends State<PackageDialog> {
                   publisherName: '',
                   website: model.url,
                   version: widget.id.version,
-                  open: () => model.open(widget.id.name),
                   strict: false,
                   confinementName: context.l10n.classic,
                   license: model.license,

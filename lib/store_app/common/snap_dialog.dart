@@ -81,14 +81,17 @@ class _SnapDialogState extends State<SnapDialog> {
             titleWidget: AppHeader(
               confinementName:
                   model.confinement != null ? model.confinement!.name : '',
-              icon: YaruSafeImage(
-                url: model.iconUrl,
-                fallBackIconData: YaruIcons.package_snap,
+              icon: InkWell(
+                borderRadius: BorderRadius.circular(100),
+                onTap: model.installDate.isNotEmpty ? model.open : null,
+                child: YaruSafeImage(
+                  url: model.iconUrl,
+                  fallBackIconData: YaruIcons.package_snap,
+                ),
               ),
               installDate: model.installDate,
               installDateIsoNorm: model.installDateIsoNorm,
               license: model.license ?? '',
-              open: () => model.open(),
               strict: model.strict,
               verified: model.verified,
               publisherName: model.publisher?.displayName ?? '',
@@ -146,9 +149,10 @@ class _SnapDialogState extends State<SnapDialog> {
             SnapInstallationControls(
               appChangeInProgress: model.appChangeInProgress,
               appIsInstalled: model.snapIsInstalled,
-              install: () => model.installSnap(),
-              refresh: () => model.refreshSnapApp(),
-              remove: () => model.removeSnap(),
+              install: model.installSnap,
+              refresh: model.refreshSnapApp,
+              remove: model.removeSnap,
+              open: model.open,
             )
         ],
       );

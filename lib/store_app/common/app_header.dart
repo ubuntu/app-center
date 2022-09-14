@@ -37,15 +37,12 @@ class AppHeader extends StatelessWidget {
   final String publisherName;
   final String website;
 
-  final Function() open;
-
   const AppHeader({
     super.key,
     required this.icon,
     required this.title,
     required this.summary,
     required this.version,
-    required this.open,
     required this.strict,
     required this.confinementName,
     required this.license,
