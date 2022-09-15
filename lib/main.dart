@@ -36,19 +36,27 @@ void main(List<String> args) async {
     dispose: (service) => service.close(),
   );
   registerService<PackageService>(PackageService.new);
-  if (args.isEmpty) {
+
+  final loadPackageInstaller = args.any((arg) => arg.endsWith('.deb'));
+  final snapEnv = args.any((arg) => arg.contains('\$SNAP'));
+
+  if (args.isEmpty || (args.isNotEmpty && !loadPackageInstaller)) {
     registerService<ColorGenerator>(DominantColorGenerator.new);
     registerService<SnapdClient>(SnapdClient.new, dispose: (s) => s.close());
     registerService<Connectivity>(Connectivity.new);
-    registerService<AppChangeService>(AppChangeService.new);
+    registerService<AppChangeService>(
+      () => AppChangeService(snapEnv: snapEnv),
+    );
     registerService<NotificationsClient>(
       NotificationsClient.new,
       dispose: (s) => s.close(),
     );
+
     runApp(StoreApp.create());
-  } else if (args.first.endsWith('.deb')) {
+  } else if (args.isNotEmpty && loadPackageInstaller) {
+    final path = args.where((arg) => arg.endsWith('.deb')).first;
     runApp(
-      PackageInstallerApp(path: args.first),
+      PackageInstallerApp(path: path),
     );
   }
 }

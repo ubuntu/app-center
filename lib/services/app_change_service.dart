@@ -26,6 +26,7 @@ class AppChangeService {
   Map<Snap, SnapdChange> get snapChanges => _snapChanges;
   final SnapdClient _snapDClient;
   final NotificationsClient _notificationsClient;
+  final bool snapEnv;
 
   Future<void> addChange(Snap snap, String id, String doneString) async {
     final newChange = await _snapDClient.getChange(id);
@@ -70,7 +71,7 @@ class AppChangeService {
 
   Stream<bool> get snapChangesInserted => _snapChangesController.stream;
 
-  AppChangeService()
+  AppChangeService({required this.snapEnv})
       : _snapChanges = {},
         _snapDClient = getService<SnapdClient>(),
         _notificationsClient = getService<NotificationsClient>();
