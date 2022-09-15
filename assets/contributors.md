@@ -7,3 +7,6 @@
 - [小山田 純 - Oyamada Jun](https://github.com/oyajun)
 - [DefaultX-od](https://github.com/DefaultX-od)
 - [Mohamad Wildan Garviandi](https://github.com/WildanGarviandi)
+- [Hugo Carvalho](https://github.com/hugok79)
+- [LINUX-SAUNA](https://github.com/LINUX-SAUNA)
+- [Paco Cubel](https://github.com/Cubel89)
