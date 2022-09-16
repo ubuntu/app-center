@@ -152,7 +152,7 @@ class _SnapDialogState extends State<SnapDialog> {
               install: model.installSnap,
               refresh: model.refreshSnapApp,
               remove: model.removeSnap,
-              open: model.snapEnv ? null : model.open,
+              open: model.isSnapEnv ? null : model.open,
             )
         ],
       );
