@@ -21,8 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/package_installer/package_installer_app.dart';
-import 'package:software/services/color_generator.dart';
 import 'package:software/services/app_change_service.dart';
+import 'package:software/services/color_generator.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/store_app.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -39,7 +39,11 @@ void main(List<String> args) async {
     PackageService.new,
     dispose: (s) => s.dispose(),
   );
-  if (args.isEmpty) {
+
+  final loadPackageInstaller =
+      args.isNotEmpty && args.any((arg) => arg.endsWith('.deb'));
+
+  if (!loadPackageInstaller) {
     registerService<ColorGenerator>(DominantColorGenerator.new);
     registerService<SnapdClient>(SnapdClient.new, dispose: (s) => s.close());
     registerService<Connectivity>(Connectivity.new);
@@ -48,10 +52,12 @@ void main(List<String> args) async {
       NotificationsClient.new,
       dispose: (s) => s.close(),
     );
+
     runApp(StoreApp.create());
-  } else if (args.first.endsWith('.deb')) {
+  } else {
+    final path = args.where((arg) => arg.endsWith('.deb')).first;
     runApp(
-      PackageInstallerApp(path: args.first),
+      PackageInstallerApp(path: path),
     );
   }
 }
