@@ -70,5 +70,7 @@
   "architecture": "Архитектура",
   "source": "Источник",
   "sources": "Источники",
-  "packageInstaller": "Установщик пакетов"
+  "packageInstaller": "Установщик пакетов",
+  "classic": "классическая",
+  "verified": "Подтвержденный Издатель"
 }
