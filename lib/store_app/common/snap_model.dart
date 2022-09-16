@@ -163,7 +163,7 @@ class SnapModel extends SafeChangeNotifier {
   /// Website URL.
   String? get website => _storeSnap?.website ?? _localSnap?.website;
 
-  bool get isSnapEnv => Platform.environment.containsKey('SNAP');
+  bool get isSnapEnv => Platform.environment['SNAP']?.isNotEmpty == true;
 
   num? get installPercent => downloadSize == null || installedSize == null
       ? 0
