@@ -35,7 +35,10 @@ void main(List<String> args) async {
     PackageKitClient.new,
     dispose: (service) => service.close(),
   );
-  registerService<PackageService>(PackageService.new);
+  registerService<PackageService>(
+    PackageService.new,
+    dispose: (s) => s.dispose(),
+  );
   if (args.isEmpty) {
     registerService<ColorGenerator>(DominantColorGenerator.new);
     registerService<SnapdClient>(SnapdClient.new, dispose: (s) => s.close());

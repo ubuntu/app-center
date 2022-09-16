@@ -230,6 +230,8 @@ class PackageService {
     _selectionChangedController.add(true);
   }
 
+  Timer? _refreshUpdatesTimer;
+
   Future<void> init() async {
     setErrorMessage('');
     setPackageState(PackageState.processing);
@@ -253,6 +255,15 @@ class PackageService {
     } finally {
       windowManager.setClosable(true);
     }
+    _refreshUpdatesTimer = Timer.periodic(const Duration(minutes: 30), (timer) {
+      if (lastUpdatesState == UpdatesState.noUpdates) {
+        refreshUpdates();
+      }
+    });
+  }
+
+  void dispose() {
+    _refreshUpdatesTimer?.cancel();
   }
 
   Future<void> _refreshCache() async {
