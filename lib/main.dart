@@ -15,6 +15,8 @@
  *
  */
 
+import 'dart:io';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +43,7 @@ void main(List<String> args) async {
   );
 
   final loadPackageInstaller = args.any((arg) => arg.endsWith('.deb'));
-  final snapEnv = args.any((arg) => arg.contains('\$SNAP'));
+  final snapEnv = Platform.environment.containsKey('SNAP');
 
   if (args.isEmpty || (args.isNotEmpty && !loadPackageInstaller)) {
     registerService<ColorGenerator>(DominantColorGenerator.new);
