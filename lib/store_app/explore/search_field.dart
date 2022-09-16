@@ -100,10 +100,6 @@ class _SectionDropdown extends StatelessWidget {
       onSelected: onChanged,
       icon: Icon(snapSectionToIcon[value]),
       initialValue: SnapSection.all,
-      shape: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(color: Theme.of(context).dividerColor, width: 1),
-      ),
       itemBuilder: (context) {
         return [
           for (final section in SnapSection.values)
