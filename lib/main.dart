@@ -35,7 +35,10 @@ void main(List<String> args) async {
     PackageKitClient.new,
     dispose: (service) => service.close(),
   );
-  registerService<PackageService>(PackageService.new);
+  registerService<PackageService>(
+    PackageService.new,
+    dispose: (s) => s.dispose(),
+  );
 
   final loadPackageInstaller = args.any((arg) => arg.endsWith('.deb'));
   final snapEnv = args.any((arg) => arg.contains('\$SNAP'));
