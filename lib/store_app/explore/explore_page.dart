@@ -63,6 +63,7 @@ class ExplorePage extends StatelessWidget {
                     children: [
                       if (model.showTopCarousel)
                         const SnapBannerCarousel(
+                          duration: Duration(seconds: 15),
                           snapSection: SnapSection.featured,
                           height: 220,
                         ),
