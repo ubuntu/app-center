@@ -38,8 +38,8 @@ class PackageInstallerApp extends StatelessWidget {
     return YaruTheme(
       builder: (context, yaru, child) {
         return MaterialApp(
-          theme: yaru.variant?.theme ?? yaruLight,
-          darkTheme: yaru.variant?.darkTheme ?? yaruDark,
+          theme: yaru.theme,
+          darkTheme: yaru.darkTheme,
           debugShowCheckedModeBanner: false,
           title: 'Package Installer',
           localizationsDelegates: AppLocalizations.localizationsDelegates,
