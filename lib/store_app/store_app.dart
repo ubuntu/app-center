@@ -33,7 +33,7 @@ import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class StoreApp extends StatefulWidget {
+class StoreApp extends StatelessWidget {
   const StoreApp({super.key});
 
   static Widget create() => ChangeNotifierProvider(
@@ -45,11 +45,6 @@ class StoreApp extends StatefulWidget {
         child: const StoreApp(),
       );
 
-  @override
-  State<StoreApp> createState() => _StoreAppState();
-}
-
-class _StoreAppState extends State<StoreApp> {
   @override
   Widget build(BuildContext context) {
     return YaruTheme(
