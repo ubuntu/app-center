@@ -45,7 +45,7 @@
   "offline": "オフライン",
   "snapPackages": "Snap パッケージ",
   "debianPackages": "Debian パッケージ",
-  "connections": "接続",
+  "connections": "権限",
   "updateAvailable": "アップデートがあります",
   "size": "大きさ",
   "name": "名前",
