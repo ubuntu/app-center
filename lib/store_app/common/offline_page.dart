@@ -28,8 +28,7 @@ class OfflinePage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            YaruIcons.network_wireless_disabled,
+          YaruAnimatedNoNetworkIcon(
             size: 200,
             color: Theme.of(context).disabledColor,
           ),
