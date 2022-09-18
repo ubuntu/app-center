@@ -64,7 +64,8 @@ class SnapControls extends StatelessWidget {
                   PopupMenuItem(
                     value: entry.key,
                     child: Text(
-                        '${entry.key}, ${entry.value.releasedAt}, ${entry.value.version}'),
+                      '${entry.key}, ${entry.value.releasedAt}, ${entry.value.version}',
+                    ),
                   )
               ];
             },
