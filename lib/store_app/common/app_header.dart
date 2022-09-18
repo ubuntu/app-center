@@ -36,6 +36,7 @@ class AppHeader extends StatelessWidget {
   final bool verified;
   final String publisherName;
   final String website;
+  final Widget? controls;
 
   const AppHeader({
     super.key,
@@ -51,6 +52,7 @@ class AppHeader extends StatelessWidget {
     required this.verified,
     required this.publisherName,
     required this.website,
+    this.controls,
   });
 
   @override
@@ -59,14 +61,14 @@ class AppHeader extends StatelessWidget {
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
             SizedBox(
-              height: 100,
+              height: 120,
               child: icon,
             ),
             const SizedBox(
-              width: 15,
+              width: 30,
             ),
             SizedBox(
               width: 300,
@@ -74,27 +76,13 @@ class AppHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                title,
-                                style: Theme.of(context).textTheme.headline4,
-                                overflow: TextOverflow.visible,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      // if (snapIsInstalled)
-                    ],
+                  Text(
+                    title,
+                    overflow: TextOverflow.fade,
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                  const SizedBox(
+                    height: 1,
                   ),
                   const SizedBox(
                     height: 5,
@@ -102,8 +90,7 @@ class AppHeader extends StatelessWidget {
                   Text(
                     summary,
                     style: Theme.of(context).textTheme.bodySmall,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 10,
+                    overflow: TextOverflow.visible,
                   ),
                   SizedBox(
                     height: 30,
@@ -150,7 +137,12 @@ class AppHeader extends StatelessWidget {
                           ),
                       ],
                     ),
-                  )
+                  ),
+                  if (controls != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: controls!,
+                    ),
                 ],
               ),
             ),
@@ -159,74 +151,105 @@ class AppHeader extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        AppInfos(
+            strict: strict,
+            confinementName: confinementName,
+            license: license,
+            installDate: installDate,
+            installDateIsoNorm: installDateIsoNorm,
+            version: version),
+        const SizedBox(
+          height: 40,
+        ),
+      ],
+    );
+  }
+}
+
+class AppInfos extends StatelessWidget {
+  const AppInfos({
+    Key? key,
+    required this.strict,
+    required this.confinementName,
+    required this.license,
+    required this.installDate,
+    required this.installDateIsoNorm,
+    required this.version,
+  }) : super(key: key);
+
+  final bool strict;
+  final String confinementName;
+  final String license;
+  final String installDate;
+  final String installDateIsoNorm;
+  final String version;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Column(
           children: [
-            Column(
-              children: [
-                Text(
-                  context.l10n.confinement,
-                  style: headerStyle,
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      strict ? YaruIcons.shield : YaruIcons.warning,
-                      size: 18,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      confinementName,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ],
-                ),
-              ],
+            Text(
+              context.l10n.confinement,
+              style: headerStyle,
             ),
-            const SizedBox(height: 50, width: 30, child: VerticalDivider()),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
+            Row(
               children: [
-                Flexible(
-                  child: Text(context.l10n.license, style: headerStyle),
+                Icon(
+                  strict ? YaruIcons.shield : YaruIcons.warning,
+                  size: 18,
                 ),
-                Flexible(
-                  child: Tooltip(
-                    message: license,
-                    child: Text(
-                      license.split(' ').first,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 50, width: 30, child: VerticalDivider()),
-            Column(
-              children: [
+                const SizedBox(
+                  width: 5,
+                ),
                 Text(
-                  installDate.isEmpty
-                      ? context.l10n.version
-                      : context.l10n.installDate,
-                  style: headerStyle,
-                ),
-                Tooltip(
-                  message: installDateIsoNorm,
-                  child: Text(
-                    installDate.isEmpty ? version : installDate,
-                    style: headerStyle.copyWith(fontWeight: FontWeight.normal),
-                  ),
+                  confinementName,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),
           ],
         ),
-        const SizedBox(
-          height: 40,
+        const SizedBox(height: 50, width: 30, child: VerticalDivider()),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(
+              child: Text(context.l10n.license, style: headerStyle),
+            ),
+            Flexible(
+              child: Tooltip(
+                message: license,
+                child: Text(
+                  license.split(' ').first,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+            )
+          ],
+        ),
+        const SizedBox(height: 50, width: 30, child: VerticalDivider()),
+        Column(
+          children: [
+            Text(
+              installDate.isEmpty
+                  ? context.l10n.version
+                  : context.l10n.installDate,
+              style: headerStyle,
+            ),
+            Tooltip(
+              message: installDateIsoNorm,
+              child: Text(
+                installDate.isEmpty ? version : installDate,
+                style: headerStyle.copyWith(fontWeight: FontWeight.normal),
+              ),
+            ),
+          ],
         ),
       ],
     );

@@ -16,18 +16,32 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
-import 'package:software/store_app/common/app_content.dart';
 import 'package:software/store_app/common/app_header.dart';
-import 'package:software/store_app/common/snap_connections_settings.dart';
+import 'package:software/store_app/common/app_media.dart';
+import 'package:software/store_app/common/snap_channel_expandable.dart';
+import 'package:software/store_app/common/snap_controls.dart';
 import 'package:software/store_app/common/snap_installation_controls.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+double getHPadding(double width) {
+  var padding = 550.0;
+  for (int i in [1800, 1700, 1600, 1500, 1400, 1300, 1200, 1100, 1000, 900]) {
+    if (width > i) {
+      return padding;
+    }
+    padding -= 50;
+  }
+  return padding;
+}
 
 class SnapPage extends StatefulWidget {
   const SnapPage({super.key, required this.onPop});
@@ -63,63 +77,23 @@ class _SnapPageState extends State<SnapPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
+    final media = model.screenshotUrls ?? [];
+    final hPadding = getHPadding(MediaQuery.of(context).size.width);
+
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              icon: const Icon(YaruIcons.pan_down),
-              borderRadius: BorderRadius.circular(10),
-              elevation: 1,
-              value: model.channelToBeInstalled,
-              items: [
-                for (final entry in model.selectableChannels.entries
-                    .map((e) => e.key)
-                    .toList())
-                  DropdownMenuItem<String>(
-                    value: entry,
-                    child: Text(
-                      '${context.l10n.channel}: $entry',
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-              ],
-              onChanged: model.appChangeInProgress
-                  ? null
-                  : (v) => model.channelToBeInstalled = v!,
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          if (model.appChangeInProgress)
-            const SizedBox(
-              height: 25,
-              child: YaruCircularProgressIndicator(
-                strokeWidth: 3,
-              ),
-            )
-          else
-            SnapInstallationControls(
-              appChangeInProgress: model.appChangeInProgress,
-              appIsInstalled: model.snapIsInstalled,
-              install: model.installSnap,
-              refresh: model.refreshSnapApp,
-              remove: model.removeSnap,
-              open: model.isSnapEnv ? null : model.open,
-            ),
-          const SizedBox(
-            width: 10,
-          ),
-        ],
         leading: InkWell(
           onTap: widget.onPop,
           child: const Icon(YaruIcons.go_previous),
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(40),
+        padding: EdgeInsets.only(
+          top: 50,
+          bottom: 50,
+          left: hPadding,
+          right: hPadding,
+        ),
         children: [
           AppHeader(
             confinementName:
@@ -143,15 +117,43 @@ class _SnapPageState extends State<SnapPage> {
             title: model.title ?? '',
             version: model.version,
           ),
-          AppContent(
-            contact: model.contact ?? '',
-            description: model.description ?? '',
-            publisherName: model.publisher?.displayName ?? '',
-            website: model.website ?? '',
-            media: model.screenshotUrls ?? [],
-            lastChild: model.strict && model.connections.isNotEmpty
-                ? SnapConnectionsSettings(connections: model.connections)
-                : null,
+          SnapChannelExpandable(
+            onChanged: model.appChangeInProgress
+                ? null
+                : (v) => model.channelToBeInstalled = v!,
+            channelToBeInstalled: model.channelToBeInstalled,
+            onInit: () => model.init(),
+            releasedAt: model.releasedAt,
+            releaseAtIsoNorm: model.releaseAtIsoNorm,
+            selectableChannelsIsEmpty: model.selectableChannels.isEmpty,
+            selectedChannelVersion: model.selectedChannelVersion ?? '',
+            selectableChannels:
+                model.selectableChannels.entries.map((e) => e.key).toList(),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          if (media.isNotEmpty) AppMedia(media: media),
+          const SizedBox(
+            height: 50,
+          ),
+          Text(
+            context.l10n.description,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Markdown(
+            data: model.description ?? '',
+            shrinkWrap: true,
+            selectable: true,
+            onTapLink: (text, href, title) =>
+                href != null ? launchUrl(Uri.parse(href)) : null,
+            padding: EdgeInsets.zero,
+            styleSheet: MarkdownStyleSheet(
+              p: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
         ],
       ),

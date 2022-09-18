@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/store_app/common/snap_controls.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -54,26 +55,8 @@ class SnapChannelExpandable extends StatelessWidget {
             ],
           )
         : YaruExpandable(
-            isExpanded: true,
             expandIcon: const Icon(YaruIcons.pan_end),
-            header: DropdownButton<String>(
-              icon: const Icon(YaruIcons.pan_down),
-              borderRadius: BorderRadius.circular(10),
-              elevation: 1,
-              value: channelToBeInstalled,
-              items: [
-                for (final entry in selectableChannels)
-                  DropdownMenuItem<String>(
-                    value: entry,
-                    child: Text(
-                      '${context.l10n.channel}: $entry',
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-              ],
-              onChanged: onChanged,
-            ),
+            header: const SnapControls(),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
