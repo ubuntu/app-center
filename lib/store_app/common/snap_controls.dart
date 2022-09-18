@@ -40,7 +40,7 @@ class SnapControls extends StatelessWidget {
           ElevatedButton(
             onPressed: model.installSnap,
             child: Text(
-              '${context.l10n.install}: ${model.channelToBeInstalled}',
+              context.l10n.install,
             ),
           ),
         if (model.selectableChannels.isNotEmpty &&
