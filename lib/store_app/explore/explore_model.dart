@@ -27,6 +27,14 @@ class ExploreModel extends SafeChangeNotifier {
   final SnapdClient _snapDClient;
   final PackageService _packageService;
 
+  Snap? _selectedSnap;
+  Snap? get selectedSnap => _selectedSnap;
+  set selectedSnap(Snap? snap) {
+    if (snap == _selectedSnap) return;
+    _selectedSnap = snap;
+    notifyListeners();
+  }
+
   ExploreModel(
     this._snapDClient,
     this._packageService,

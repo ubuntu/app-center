@@ -21,6 +21,7 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/offline_page.dart';
+import 'package:software/store_app/common/snap_page.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/search_field.dart';
@@ -50,30 +51,46 @@ class ExplorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: const SearchField(),
-      ),
-      body: model.showErrorPage
-          ? _ErrorPage(errorMessage: model.errorMessage)
-          : model.showSearchPage
-              ? const SearchPage()
-              : SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      if (model.showTopCarousel)
-                        const SnapBannerCarousel(
-                          duration: Duration(seconds: 15),
-                          snapSection: SnapSection.featured,
-                          height: 220,
+    return Navigator(
+      pages: [
+        MaterialPage(
+          child: Scaffold(
+            appBar: AppBar(
+              flexibleSpace: const SearchField(),
+            ),
+            body: model.showErrorPage
+                ? _ErrorPage(errorMessage: model.errorMessage)
+                : model.showSearchPage
+                    ? const SearchPage()
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            if (model.showTopCarousel)
+                              const SnapBannerCarousel(
+                                duration: Duration(seconds: 15),
+                                snapSection: SnapSection.featured,
+                                height: 220,
+                              ),
+                            if (model.showSectionBannerGrid)
+                              SectionBannerGrid(
+                                snapSection: model.selectedSection,
+                              ),
+                          ],
                         ),
-                      if (model.showSectionBannerGrid)
-                        SectionBannerGrid(
-                          snapSection: model.selectedSection,
-                        ),
-                    ],
-                  ),
-                ),
+                      ),
+          ),
+        ),
+        if (model.selectedSnap != null)
+          MaterialPage(
+            key: ObjectKey(model.selectedSnap),
+            child: SnapPage.create(
+              context: context,
+              huskSnapName: model.selectedSnap!.name,
+              onPop: () => model.selectedSnap = null,
+            ),
+          ),
+      ],
+      onPopPage: (route, result) => route.didPop(result),
     );
   }
 }

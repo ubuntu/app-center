@@ -58,10 +58,11 @@ class AppHeader extends StatelessWidget {
     return Column(
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: 65,
+              height: 100,
               child: icon,
             ),
             const SizedBox(
@@ -82,6 +83,7 @@ class AppHeader extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 title,
+                                style: Theme.of(context).textTheme.headline4,
                                 overflow: TextOverflow.visible,
                               ),
                             ),
@@ -158,6 +160,7 @@ class AppHeader extends StatelessWidget {
           height: 20,
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
               children: [
@@ -221,6 +224,9 @@ class AppHeader extends StatelessWidget {
               ],
             ),
           ],
+        ),
+        const SizedBox(
+          height: 40,
         ),
       ],
     );

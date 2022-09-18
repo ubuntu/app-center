@@ -20,12 +20,11 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
+import 'package:software/services/color_generator.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:software/store_app/common/snap_dialog.dart';
-import 'package:software/services/color_generator.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -75,7 +74,11 @@ class _SnapBannerCarouselState extends State<SnapBannerCarousel> {
               autoScroll: true,
               children: [
                 for (final snap in sections)
-                  _AppBannerCarouselItem.create(context, snap)
+                  _AppBannerCarouselItem.create(
+                    context: context,
+                    snap: snap,
+                    onTap: () => model.selectedSnap = snap,
+                  )
               ],
             ),
           )
@@ -87,11 +90,17 @@ class _AppBannerCarouselItem extends StatefulWidget {
   const _AppBannerCarouselItem({
     Key? key,
     required this.snap,
+    required this.onTap,
   }) : super(key: key);
 
   final Snap snap;
+  final VoidCallback onTap;
 
-  static Widget create(BuildContext context, Snap snap) {
+  static Widget create({
+    required BuildContext context,
+    required Snap snap,
+    required VoidCallback onTap,
+  }) {
     return ChangeNotifierProvider<SnapModel>(
       create: (_) => SnapModel(
         getService<SnapdClient>(),
@@ -100,7 +109,7 @@ class _AppBannerCarouselItem extends StatefulWidget {
         colorGenerator: getService<ColorGenerator>(),
         doneString: context.l10n.done,
       ),
-      child: _AppBannerCarouselItem(snap: snap),
+      child: _AppBannerCarouselItem(snap: snap, onTap: onTap),
     );
   }
 
@@ -124,13 +133,7 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
       summary: widget.snap.summary,
       url: widget.snap.iconUrl,
       surfaceTintColor: model.surfaceTintColor,
-      onTap: () => showDialog(
-        context: context,
-        builder: (context) => ChangeNotifierProvider.value(
-          value: model,
-          child: const SnapDialog(),
-        ),
-      ),
+      onTap: widget.onTap,
       fallbackIconData: YaruIcons.package_snap,
     );
   }

@@ -16,9 +16,17 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/services/app_change_service.dart';
+import 'package:software/services/package_service.dart';
+import 'package:software/store_app/common/package_dialog.dart';
+import 'package:software/store_app/common/snap_page.dart';
+import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:software/store_app/my_apps/my_packages_page.dart';
 import 'package:software/store_app/my_apps/my_snaps_page.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -37,9 +45,16 @@ class MyAppsPage extends StatelessWidget {
     Function(int)? onTabTapped,
     int tabIndex,
   ) {
-    return MyAppsPage(
-      onTabTapped: onTabTapped,
-      initalTabIndex: tabIndex,
+    return ChangeNotifierProvider(
+      create: (context) => MyAppsModel(
+        getService<PackageService>(),
+        getService<SnapdClient>(),
+        getService<AppChangeService>(),
+      ),
+      child: MyAppsPage(
+        onTabTapped: onTabTapped,
+        initalTabIndex: tabIndex,
+      ),
     );
   }
 
@@ -48,21 +63,61 @@ class MyAppsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruTabbedPage(
-      onTap: onTabTapped,
-      initialIndex: initalTabIndex,
-      tabIcons: const [
-        YaruIcons.package_snap,
-        YaruIcons.package_deb,
+    final model = context.watch<MyAppsModel>();
+    return Navigator(
+      pages: [
+        MaterialPage(
+          child: Scaffold(
+            appBar: AppBar(
+              // TODO: Implement MyAppsSearchPage
+              flexibleSpace: const TextField(
+                decoration: InputDecoration(
+                  isDense: false,
+                  border: UnderlineInputBorder(),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
+                ),
+              ),
+            ),
+            body: YaruTabbedPage(
+              onTap: onTabTapped,
+              initialIndex: initalTabIndex,
+              tabIcons: const [
+                YaruIcons.package_snap,
+                YaruIcons.package_deb,
+              ],
+              tabTitles: [
+                context.l10n.snapPackages,
+                context.l10n.debianPackages,
+              ],
+              views: const [
+                MySnapsPage(),
+                MyPackagesPage(),
+              ],
+            ),
+          ),
+        ),
+        if (model.selectedSnap != null)
+          MaterialPage(
+            key: ObjectKey(model.selectedSnap),
+            child: SnapPage.create(
+              context: context,
+              huskSnapName: model.selectedSnap!.name,
+              onPop: model.clearSelection,
+            ),
+          ),
+        if (model.selectedPackage != null)
+          MaterialPage(
+            key: ObjectKey(model.selectedSnap),
+            child: PackageDialog.create(
+              context: context,
+              id: model.selectedPackage!,
+              installedId: model.selectedPackage!,
+            ),
+          ),
       ],
-      tabTitles: [
-        context.l10n.snapPackages,
-        context.l10n.debianPackages,
-      ],
-      views: [
-        MySnapsPage.create(context),
-        MyPackagesPage.create(context),
-      ],
+      onPopPage: (route, result) => route.didPop(result),
     );
   }
 }
