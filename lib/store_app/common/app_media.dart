@@ -17,7 +17,7 @@ class AppMedia extends StatelessWidget {
       previousIcon: const Icon(YaruIcons.go_previous),
       navigationControls: media.length > 1,
       viewportFraction: 1,
-      width: 280,
+      height: 350,
       children: [
         for (final url in media)
           Material(
