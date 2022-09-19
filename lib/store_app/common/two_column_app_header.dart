@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:software/store_app/common/app_infos.dart';
 import 'package:software/store_app/common/app_website.dart';
-import 'package:software/store_app/common/snap_controls.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 

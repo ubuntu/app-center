@@ -101,27 +101,28 @@ class _SnapPageState extends State<SnapPage> {
       padding: const EdgeInsets.all(pagePadding),
       // width: 500,
       child: OneColumnAppHeader(
-          confinementName:
-              model.confinement != null ? model.confinement!.name : '',
-          icon: InkWell(
-            borderRadius: BorderRadius.circular(100),
-            onTap: model.installDate.isNotEmpty ? model.open : null,
-            child: YaruSafeImage(
-              url: model.iconUrl,
-              fallBackIconData: YaruIcons.package_snap,
-            ),
+        confinementName:
+            model.confinement != null ? model.confinement!.name : '',
+        icon: InkWell(
+          borderRadius: BorderRadius.circular(100),
+          onTap: model.installDate.isNotEmpty ? model.open : null,
+          child: YaruSafeImage(
+            url: model.iconUrl,
+            fallBackIconData: YaruIcons.package_snap,
           ),
-          installDate: model.installDate,
-          installDateIsoNorm: model.installDateIsoNorm,
-          license: model.license ?? '',
-          strict: model.strict,
-          verified: model.verified,
-          publisherName: model.publisher?.displayName ?? '',
-          website: model.storeUrl ?? '',
-          summary: model.summary ?? '',
-          title: model.title ?? '',
-          version: model.version,
-          controls: const SnapControls()),
+        ),
+        installDate: model.installDate,
+        installDateIsoNorm: model.installDateIsoNorm,
+        license: model.license ?? '',
+        strict: model.strict,
+        verified: model.verified,
+        publisherName: model.publisher?.displayName ?? '',
+        website: model.storeUrl ?? '',
+        summary: model.summary ?? '',
+        title: model.title ?? '',
+        version: model.version,
+        controls: const SnapControls(),
+      ),
     );
 
     final twoColumnAppHeader = BorderContainer(
