@@ -21,7 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
-import 'package:software/store_app/common/app_content.dart';
+import 'package:software/store_app/common/dialogs/app_content.dart';
 import 'package:software/store_app/common/app_header.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/package_model.dart';

@@ -60,7 +60,7 @@ class SnapInstallationControls extends StatelessWidget {
               ),
             ),
           if (appIsInstalled)
-            OutlinedButton(
+            TextButton(
               onPressed: remove,
               child: Text(
                 context.l10n.remove,
@@ -73,7 +73,7 @@ class SnapInstallationControls extends StatelessWidget {
             width: 10,
           ),
           if (appIsInstalled)
-            OutlinedButton(
+            TextButton(
               onPressed: refresh,
               child: Text(context.l10n.refresh),
             )
