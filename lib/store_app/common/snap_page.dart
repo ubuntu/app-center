@@ -28,6 +28,7 @@ import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/one_column_app_header.dart';
 import 'package:software/store_app/common/page_layouts.dart';
 import 'package:software/store_app/common/snap_connections_settings.dart';
+import 'package:software/store_app/common/snap_controls.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/two_column_app_header.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -100,27 +101,27 @@ class _SnapPageState extends State<SnapPage> {
       padding: const EdgeInsets.all(pagePadding),
       // width: 500,
       child: OneColumnAppHeader(
-        confinementName:
-            model.confinement != null ? model.confinement!.name : '',
-        icon: InkWell(
-          borderRadius: BorderRadius.circular(100),
-          onTap: model.installDate.isNotEmpty ? model.open : null,
-          child: YaruSafeImage(
-            url: model.iconUrl,
-            fallBackIconData: YaruIcons.package_snap,
+          confinementName:
+              model.confinement != null ? model.confinement!.name : '',
+          icon: InkWell(
+            borderRadius: BorderRadius.circular(100),
+            onTap: model.installDate.isNotEmpty ? model.open : null,
+            child: YaruSafeImage(
+              url: model.iconUrl,
+              fallBackIconData: YaruIcons.package_snap,
+            ),
           ),
-        ),
-        installDate: model.installDate,
-        installDateIsoNorm: model.installDateIsoNorm,
-        license: model.license ?? '',
-        strict: model.strict,
-        verified: model.verified,
-        publisherName: model.publisher?.displayName ?? '',
-        website: model.storeUrl ?? '',
-        summary: model.summary ?? '',
-        title: model.title ?? '',
-        version: model.version,
-      ),
+          installDate: model.installDate,
+          installDateIsoNorm: model.installDateIsoNorm,
+          license: model.license ?? '',
+          strict: model.strict,
+          verified: model.verified,
+          publisherName: model.publisher?.displayName ?? '',
+          website: model.storeUrl ?? '',
+          summary: model.summary ?? '',
+          title: model.title ?? '',
+          version: model.version,
+          controls: const SnapControls()),
     );
 
     final twoColumnAppHeader = BorderContainer(
@@ -147,6 +148,9 @@ class _SnapPageState extends State<SnapPage> {
         summary: model.summary ?? '',
         title: model.title ?? '',
         version: model.version,
+        controls: const SnapControls(
+          direction: Axis.vertical,
+        ),
       ),
     );
 

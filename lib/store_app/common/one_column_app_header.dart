@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:software/store_app/common/app_website.dart';
-import 'package:software/store_app/common/snap_controls.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
@@ -17,6 +16,7 @@ class OneColumnAppHeader extends StatelessWidget {
   final bool verified;
   final String publisherName;
   final String website;
+  final Widget controls;
 
   const OneColumnAppHeader({
     super.key,
@@ -32,6 +32,7 @@ class OneColumnAppHeader extends StatelessWidget {
     required this.verified,
     required this.publisherName,
     required this.website,
+    required this.controls,
   });
 
   @override
@@ -73,7 +74,7 @@ class OneColumnAppHeader extends StatelessWidget {
                       ),
                   ],
                 ),
-                const SnapControls(),
+                controls,
               ],
             ),
           ),

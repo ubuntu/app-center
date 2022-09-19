@@ -22,6 +22,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/package_dialog.dart';
+import 'package:software/store_app/common/package_page.dart';
 import 'package:software/store_app/common/snap_page.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:software/store_app/my_apps/my_packages_page.dart';
@@ -98,7 +99,7 @@ class MyAppsPage extends StatelessWidget {
             ),
           ),
         ),
-        if (model.selectedSnap != null)
+        if (model.selectedSnap != null && model.selectedPackage == null)
           MaterialPage(
             key: ObjectKey(model.selectedSnap),
             child: SnapPage.create(
@@ -107,13 +108,14 @@ class MyAppsPage extends StatelessWidget {
               onPop: model.clearSelection,
             ),
           ),
-        if (model.selectedPackage != null)
+        if (model.selectedPackage != null && model.selectedSnap == null)
           MaterialPage(
             key: ObjectKey(model.selectedSnap),
-            child: PackageDialog.create(
+            child: PackagePage.create(
               context: context,
               id: model.selectedPackage!,
               installedId: model.selectedPackage!,
+              onPop: model.clearSelection,
             ),
           ),
       ],

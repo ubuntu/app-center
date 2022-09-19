@@ -18,6 +18,7 @@ class TwoColumnAppHeader extends StatelessWidget {
   final bool verified;
   final String publisherName;
   final String website;
+  final Widget controls;
 
   const TwoColumnAppHeader({
     super.key,
@@ -33,6 +34,7 @@ class TwoColumnAppHeader extends StatelessWidget {
     required this.verified,
     required this.publisherName,
     required this.website,
+    required this.controls,
   });
 
   @override
@@ -61,9 +63,7 @@ class TwoColumnAppHeader extends StatelessWidget {
             ),
           ],
         ),
-        const SnapControls(
-          direction: Axis.vertical,
-        ),
+        controls,
         AppInfos(
           strict: strict,
           confinementName: confinementName,
