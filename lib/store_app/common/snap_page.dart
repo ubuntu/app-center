@@ -21,11 +21,14 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/app_description.dart';
-import 'package:software/store_app/common/app_header.dart';
 import 'package:software/store_app/common/app_media.dart';
+import 'package:software/store_app/common/border_container.dart';
+import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/one_column_app_header.dart';
+import 'package:software/store_app/common/page_layouts.dart';
 import 'package:software/store_app/common/snap_connections_settings.dart';
-import 'package:software/store_app/common/snap_controls.dart';
 import 'package:software/store_app/common/snap_model.dart';
+import 'package:software/store_app/common/two_column_app_header.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -65,60 +68,110 @@ class _SnapPageState extends State<SnapPage> {
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
     final media = model.screenshotUrls ?? [];
+    final screenSize = MediaQuery.of(context).size;
+    final screenWidth = screenSize.width;
+
+    final rightChildren = [
+      BorderContainer(
+        padding: const EdgeInsets.only(
+          bottom: pagePadding,
+          right: pagePadding,
+        ),
+        child: AppMedia(media: media),
+      ),
+      BorderContainer(
+        padding: const EdgeInsets.only(
+          bottom: pagePadding,
+          right: pagePadding,
+        ),
+        child: AppDescription(description: model.description ?? ''),
+      ),
+      BorderContainer(
+        padding: const EdgeInsets.only(
+          bottom: pagePadding,
+          right: pagePadding,
+        ),
+        child: SnapConnectionsSettings(connections: model.connections),
+      )
+    ];
+
+    final oneColumnAppHeader = BorderContainer(
+      padding: const EdgeInsets.all(pagePadding),
+      // width: 500,
+      child: OneColumnAppHeader(
+        confinementName:
+            model.confinement != null ? model.confinement!.name : '',
+        icon: InkWell(
+          borderRadius: BorderRadius.circular(100),
+          onTap: model.installDate.isNotEmpty ? model.open : null,
+          child: YaruSafeImage(
+            url: model.iconUrl,
+            fallBackIconData: YaruIcons.package_snap,
+          ),
+        ),
+        installDate: model.installDate,
+        installDateIsoNorm: model.installDateIsoNorm,
+        license: model.license ?? '',
+        strict: model.strict,
+        verified: model.verified,
+        publisherName: model.publisher?.displayName ?? '',
+        website: model.storeUrl ?? '',
+        summary: model.summary ?? '',
+        title: model.title ?? '',
+        version: model.version,
+      ),
+    );
+
+    final twoColumnAppHeader = BorderContainer(
+      padding: const EdgeInsets.all(pagePadding),
+      width: 500,
+      child: TwoColumnAppHeader(
+        confinementName:
+            model.confinement != null ? model.confinement!.name : '',
+        icon: InkWell(
+          borderRadius: BorderRadius.circular(100),
+          onTap: model.installDate.isNotEmpty ? model.open : null,
+          child: YaruSafeImage(
+            url: model.iconUrl,
+            fallBackIconData: YaruIcons.package_snap,
+          ),
+        ),
+        installDate: model.installDate,
+        installDateIsoNorm: model.installDateIsoNorm,
+        license: model.license ?? '',
+        strict: model.strict,
+        verified: model.verified,
+        publisherName: model.publisher?.displayName ?? '',
+        website: model.storeUrl ?? '',
+        summary: model.summary ?? '',
+        title: model.title ?? '',
+        version: model.version,
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
-        actions: const [SnapControls()],
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              height: 30,
-              child: YaruSafeImage(
-                url: model.iconUrl,
-                fallBackIconData: YaruIcons.package_snap,
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: Text(model.title ?? ''),
-            ),
-          ],
-        ),
+        title: Text(model.title ?? ''),
         leading: InkWell(
           onTap: widget.onPop,
           child: const Icon(YaruIcons.go_previous),
         ),
       ),
-      body: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(20),
-        children: [
-          if (media.isNotEmpty) AppMedia(media: media),
-          const SizedBox(
-            height: 40,
-          ),
-          AppInfos(
-            strict: model.strict,
-            confinementName:
-                model.confinement != null ? model.confinement!.name : '',
-            license: model.license ?? '',
-            installDate: model.installDate,
-            installDateIsoNorm: model.installDateIsoNorm,
-            version: model.version,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          AppDescription(description: model.description ?? ''),
-          const SizedBox(
-            height: 40,
-          ),
-          SnapConnectionsSettings(connections: model.connections)
-        ],
-      ),
+      body: screenWidth < 1001
+          ? NarrowPageLayout(
+              children: [
+                oneColumnAppHeader,
+                for (final rightChild in rightChildren)
+                  Padding(
+                    padding: const EdgeInsets.only(left: pagePadding),
+                    child: rightChild,
+                  )
+              ],
+            )
+          : WidePageLayout(
+              leftChild: twoColumnAppHeader,
+              rightChildren: rightChildren,
+            ),
     );
   }
 }

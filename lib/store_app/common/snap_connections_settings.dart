@@ -29,7 +29,7 @@ class SnapConnectionsSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruExpandable(
-      isExpanded: false,
+      isExpanded: true,
       header: Text(
         context.l10n.connections,
         style: Theme.of(context).textTheme.headline6,

@@ -45,66 +45,143 @@ class AppInfos extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       children: [
-        Column(
-          children: [
-            Text(
-              context.l10n.confinement,
-              style: headerStyle,
-            ),
-            Row(
-              children: [
-                Icon(
-                  strict ? YaruIcons.shield : YaruIcons.warning,
-                  size: 18,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  confinementName,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
-            ),
-          ],
+        _Confinement(
+          headerStyle: headerStyle,
+          strict: strict,
+          confinementName: confinementName,
         ),
-        const SizedBox(height: 50, width: 30, child: VerticalDivider()),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Flexible(
-              child: Text(context.l10n.license, style: headerStyle),
-            ),
-            Flexible(
-              child: Tooltip(
-                message: license,
-                child: Text(
-                  license.split(' ').first,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ),
-            )
-          ],
+        const SizedBox(height: 40, width: 30, child: VerticalDivider()),
+        _License(headerStyle: headerStyle, license: license),
+        const SizedBox(height: 40, width: 30, child: VerticalDivider()),
+        _InstallDate(
+          installDate: installDate,
+          headerStyle: headerStyle,
+          installDateIsoNorm: installDateIsoNorm,
+          version: version,
         ),
-        const SizedBox(height: 50, width: 30, child: VerticalDivider()),
-        Column(
-          children: [
-            Text(
-              installDate.isEmpty
-                  ? context.l10n.version
-                  : context.l10n.installDate,
-              style: headerStyle,
+      ],
+    );
+  }
+}
+
+class _InstallDate extends StatelessWidget {
+  const _InstallDate({
+    Key? key,
+    required this.installDate,
+    required this.headerStyle,
+    required this.installDateIsoNorm,
+    required this.version,
+  }) : super(key: key);
+
+  final String installDate;
+  final TextStyle headerStyle;
+  final String installDateIsoNorm;
+  final String version;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Flexible(
+          child: Text(
+            installDate.isEmpty
+                ? context.l10n.version
+                : context.l10n.installDate,
+            overflow: TextOverflow.ellipsis,
+            style: headerStyle,
+          ),
+        ),
+        Flexible(
+          child: Tooltip(
+            message: installDateIsoNorm,
+            child: Text(
+              installDate.isEmpty ? version : installDate,
+              overflow: TextOverflow.ellipsis,
+              style: headerStyle.copyWith(fontWeight: FontWeight.normal),
             ),
-            Tooltip(
-              message: installDateIsoNorm,
-              child: Text(
-                installDate.isEmpty ? version : installDate,
-                style: headerStyle.copyWith(fontWeight: FontWeight.normal),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _License extends StatelessWidget {
+  const _License({
+    Key? key,
+    required this.headerStyle,
+    required this.license,
+  }) : super(key: key);
+
+  final TextStyle headerStyle;
+  final String license;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Flexible(
+          child: Text(context.l10n.license, style: headerStyle),
+        ),
+        Flexible(
+          child: Tooltip(
+            message: license,
+            child: Text(
+              license.split(' ').first,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _Confinement extends StatelessWidget {
+  const _Confinement({
+    Key? key,
+    required this.headerStyle,
+    required this.strict,
+    required this.confinementName,
+  }) : super(key: key);
+
+  final TextStyle headerStyle;
+  final bool strict;
+  final String confinementName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Flexible(
+          child: Text(
+            context.l10n.confinement,
+            style: headerStyle,
+          ),
+        ),
+        Flexible(
+          child: Row(
+            children: [
+              Icon(
+                strict ? YaruIcons.shield : YaruIcons.warning,
+                size: 18,
               ),
-            ),
-          ],
+              const SizedBox(
+                width: 5,
+              ),
+              Text(
+                confinementName,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ],
+          ),
         ),
       ],
     );

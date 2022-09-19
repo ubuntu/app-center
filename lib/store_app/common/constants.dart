@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 
+const pagePadding = 20.0;
 const dialogWidth = 450.0;
 const kGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
   mainAxisExtent: 110,

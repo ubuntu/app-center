@@ -34,57 +34,48 @@ class AppWebsite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 350,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          InkWell(
-            borderRadius: BorderRadius.circular(8),
-            onTap: () => launchUrl(Uri.parse(website)),
-            child: Tooltip(
-              message: website,
-              child: SizedBox(
-                height: 30,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (verified)
-                      const Icon(
-                        Icons.verified,
-                        size: 20,
-                        color: YaruColors.success,
-                      ),
-                    if (website.isNotEmpty)
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: verified ? 5 : 0,
-                          right: 5,
-                        ),
-                        child: Text(
-                          publisherName,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            overflow: TextOverflow.visible,
-                          ),
-                        ),
-                      ),
-                    if (website.isNotEmpty)
-                      Padding(
-                        padding: EdgeInsets.only(right: verified ? 5 : 0),
-                        child: Icon(
-                          YaruIcons.external_link,
-                          color: Theme.of(context).colorScheme.onSurface,
-                          size: 18,
-                        ),
-                      ),
-                  ],
+    return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      onTap: () => launchUrl(Uri.parse(website)),
+      child: Tooltip(
+        message: website,
+        child: SizedBox(
+          height: 30,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (verified)
+                const Icon(
+                  Icons.verified,
+                  size: 20,
+                  color: YaruColors.success,
                 ),
-              ),
-            ),
+              if (website.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: verified ? 5 : 0,
+                    right: 5,
+                  ),
+                  child: Text(
+                    publisherName,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      overflow: TextOverflow.visible,
+                    ),
+                  ),
+                ),
+              if (website.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.only(right: verified ? 5 : 0),
+                  child: Icon(
+                    YaruIcons.external_link,
+                    color: Theme.of(context).colorScheme.onSurface,
+                    size: 18,
+                  ),
+                ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
