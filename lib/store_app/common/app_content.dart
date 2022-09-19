@@ -47,7 +47,7 @@ class AppContent extends StatelessWidget {
       children: [
         if (media.isNotEmpty)
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 40.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: YaruCarousel(
               nextIcon: const Icon(YaruIcons.go_next),
               previousIcon: const Icon(YaruIcons.go_previous),
@@ -123,6 +123,9 @@ class AppContent extends StatelessWidget {
         ),
         if (lastChild != null) lastChild!,
         const SizedBox(
+          height: 10,
+        ),
+        const Divider(
           height: 10,
         ),
       ],
