@@ -8,7 +8,10 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class SnapControls extends StatelessWidget {
   const SnapControls({
     Key? key,
+    this.direction = Axis.horizontal,
   }) : super(key: key);
+
+  final Axis direction;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +27,10 @@ class SnapControls extends StatelessWidget {
     }
 
     return Wrap(
+      direction: direction,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      alignment: WrapAlignment.center,
+      runAlignment: WrapAlignment.center,
       spacing: 10,
       runSpacing: 10,
       children: [

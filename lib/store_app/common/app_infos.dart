@@ -28,6 +28,7 @@ class AppInfos extends StatelessWidget {
     required this.installDate,
     required this.installDateIsoNorm,
     required this.version,
+    this.mainAxisAlignment = MainAxisAlignment.center,
   }) : super(key: key);
 
   final bool strict;
@@ -36,13 +37,14 @@ class AppInfos extends StatelessWidget {
   final String installDate;
   final String installDateIsoNorm;
   final String version;
+  final MainAxisAlignment mainAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
     const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: mainAxisAlignment,
       mainAxisSize: MainAxisSize.max,
       children: [
         _Confinement(

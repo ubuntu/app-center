@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:software/store_app/common/app_infos.dart';
 import 'package:software/store_app/common/app_website.dart';
 import 'package:software/store_app/common/snap_controls.dart';
 
@@ -37,52 +36,47 @@ class OneColumnAppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    final screenWidth = MediaQuery.of(context).size.width;
+    final wideEnough = screenWidth > 700;
+    final height = wideEnough ? 150.0 : 40.0;
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                  Text(
-                    summary,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  AppWebsite(
-                    website: website,
-                    verified: verified,
-                    publisherName: publisherName,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const SnapControls(),
-                ],
-              ),
+        SizedBox(
+          height: height,
+          child: icon,
+        ),
+        SizedBox(width: wideEnough ? 30 : 10),
+        Expanded(
+          child: SizedBox(
+            height: height,
+            child: Column(
+              crossAxisAlignment: wideEnough
+                  ? CrossAxisAlignment.start
+                  : CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (wideEnough)
+                      Text(
+                        title,
+                        style: Theme.of(context).textTheme.headline3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    if (wideEnough)
+                      AppWebsite(
+                        website: website,
+                        verified: verified,
+                        publisherName: publisherName,
+                      ),
+                  ],
+                ),
+                const SnapControls(),
+              ],
             ),
-            SizedBox(
-              height: 150,
-              child: icon,
-            )
-          ],
-        ),
-        const SizedBox(
-          height: 50,
-        ),
-        AppInfos(
-          strict: strict,
-          confinementName: confinementName,
-          license: license,
-          installDate: installDate,
-          installDateIsoNorm: installDateIsoNorm,
-          version: version,
+          ),
         ),
       ],
     );

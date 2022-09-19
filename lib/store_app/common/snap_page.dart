@@ -21,6 +21,7 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/app_description.dart';
+import 'package:software/store_app/common/app_infos.dart';
 import 'package:software/store_app/common/app_media.dart';
 import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/constants.dart';
@@ -161,6 +162,23 @@ class _SnapPageState extends State<SnapPage> {
           ? NarrowPageLayout(
               children: [
                 oneColumnAppHeader,
+                BorderContainer(
+                  padding: const EdgeInsets.only(
+                    bottom: pagePadding,
+                    right: pagePadding,
+                    left: pagePadding,
+                  ),
+                  child: AppInfos(
+                    strict: model.strict,
+                    confinementName: model.confinement != null
+                        ? model.confinement!.name
+                        : '',
+                    license: model.license ?? '',
+                    installDate: model.installDate,
+                    installDateIsoNorm: model.installDateIsoNorm,
+                    version: model.version,
+                  ),
+                ),
                 for (final rightChild in rightChildren)
                   Padding(
                     padding: const EdgeInsets.only(left: pagePadding),

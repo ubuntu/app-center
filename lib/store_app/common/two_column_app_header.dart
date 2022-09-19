@@ -39,44 +39,30 @@ class TwoColumnAppHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      // mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(
-          height: 50,
+        Column(
+          children: [
+            SizedBox(
+              height: 180,
+              child: icon,
+            ),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.headline3,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+            AppWebsite(
+              website: website,
+              verified: verified,
+              publisherName: publisherName,
+            ),
+          ],
         ),
-        SizedBox(
-          height: 150,
-          child: icon,
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Text(
-          title,
-          style: Theme.of(context).textTheme.headline3,
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Text(
-          summary,
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        AppWebsite(
-          website: website,
-          verified: verified,
-          publisherName: publisherName,
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        const SnapControls(),
-        const SizedBox(
-          height: 50,
+        const SnapControls(
+          direction: Axis.vertical,
         ),
         AppInfos(
           strict: strict,
@@ -85,6 +71,10 @@ class TwoColumnAppHeader extends StatelessWidget {
           installDate: installDate,
           installDateIsoNorm: installDateIsoNorm,
           version: version,
+        ),
+        Text(
+          summary,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
       ],
     );
