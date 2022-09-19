@@ -21,6 +21,7 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/offline_page.dart';
+import 'package:software/store_app/common/package_page.dart';
 import 'package:software/store_app/common/snap_page.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
@@ -80,13 +81,23 @@ class ExplorePage extends StatelessWidget {
                       ),
           ),
         ),
-        if (model.selectedSnap != null)
+        if (model.selectedSnap != null && model.selectedPackage == null)
           MaterialPage(
             key: ObjectKey(model.selectedSnap),
             child: SnapPage.create(
               context: context,
               huskSnapName: model.selectedSnap!.name,
               onPop: () => model.selectedSnap = null,
+            ),
+          ),
+        if (model.selectedPackage != null && model.selectedSnap == null)
+          MaterialPage(
+            key: ObjectKey(model.selectedSnap),
+            child: PackagePage.create(
+              context: context,
+              id: model.selectedPackage!,
+              installedId: model.selectedPackage!,
+              onPop: model.clearSelection,
             ),
           ),
       ],

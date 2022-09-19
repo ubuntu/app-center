@@ -23,7 +23,6 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/package_dialog.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -117,14 +116,7 @@ class _PackageKitSearchPage extends StatelessWidget {
                           YaruIcons.package_deb,
                           size: 50,
                         ),
-                        onTap: () => showDialog(
-                          context: context,
-                          builder: (context) => PackageDialog.create(
-                            context: context,
-                            id: id,
-                            installedId: id,
-                          ),
-                        ),
+                        onTap: () => model.selectedPackage = id,
                         fallbackIconData: YaruIcons.package_deb,
                       );
                     },

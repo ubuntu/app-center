@@ -108,7 +108,7 @@ class _SnapPageState extends State<SnapPage> {
           onTap: model.installDate.isNotEmpty ? model.open : null,
           child: YaruSafeImage(
             url: model.iconUrl,
-            fallBackIconData: YaruIcons.package_snap,
+            fallBackIconData: YaruIcons.snapcraft,
           ),
         ),
         installDate: model.installDate,
@@ -131,13 +131,9 @@ class _SnapPageState extends State<SnapPage> {
       child: TwoColumnAppHeader(
         confinementName:
             model.confinement != null ? model.confinement!.name : '',
-        icon: InkWell(
-          borderRadius: BorderRadius.circular(100),
-          onTap: model.installDate.isNotEmpty ? model.open : null,
-          child: YaruSafeImage(
-            url: model.iconUrl,
-            fallBackIconData: YaruIcons.package_snap,
-          ),
+        icon: YaruSafeImage(
+          url: model.iconUrl,
+          fallBackIconData: YaruIcons.snapcraft,
         ),
         installDate: model.installDate,
         installDateIsoNorm: model.installDateIsoNorm,

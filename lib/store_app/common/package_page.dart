@@ -23,7 +23,6 @@ import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/app_description.dart';
 import 'package:software/store_app/common/app_infos.dart';
-import 'package:software/store_app/common/app_media.dart';
 import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/one_column_app_header.dart';
@@ -85,17 +84,42 @@ class _PackagePageState extends State<PackagePage> {
     final model = context.watch<PackageModel>();
     final screenSize = MediaQuery.of(context).size;
     final screenWidth = screenSize.width;
+    final tooSmall = screenWidth < 1001;
+
+    final controls = Wrap(
+      direction: tooSmall ? Axis.vertical : Axis.horizontal,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      alignment: WrapAlignment.center,
+      runAlignment: WrapAlignment.center,
+      spacing: 10,
+      runSpacing: 10,
+      children: [
+        if (model.isInstalled)
+          OutlinedButton(
+            onPressed: model.packageState != PackageState.ready
+                ? null
+                : () => model.remove(packageId: widget.id),
+            child: Text(context.l10n.remove),
+          )
+        else
+          ElevatedButton(
+            onPressed: model.packageState != PackageState.ready
+                ? null
+                : () => model.install(packageId: widget.id),
+            child: Text(context.l10n.install),
+          ),
+      ],
+    );
 
     final rightChildren = [
-      const BorderContainer(
-        padding: EdgeInsets.only(
-          bottom: pagePadding,
-          right: pagePadding,
-        ),
-        // TODO: empty media, see: https://github.com/ubuntu-flutter-community/software/issues/128
-
-        child: AppMedia(media: []),
-      ),
+      // TODO: empty media, see: https://github.com/ubuntu-flutter-community/software/issues/128
+      // const BorderContainer(
+      //   padding: EdgeInsets.only(
+      //     bottom: pagePadding,
+      //     right: pagePadding,
+      //   ),
+      //   child: AppMedia(media: []),
+      // ),
       BorderContainer(
         padding: const EdgeInsets.only(
           bottom: pagePadding,
@@ -109,42 +133,21 @@ class _PackagePageState extends State<PackagePage> {
       padding: const EdgeInsets.all(pagePadding),
       child: OneColumnAppHeader(
         confinementName: context.l10n.classic,
-        icon: InkWell(
-          borderRadius: BorderRadius.circular(100),
-          onTap: model.isInstalled ? () => model.open(widget.id.name) : null,
-          child: const YaruSafeImage(
-            url: '',
-            fallBackIconData: YaruIcons.package_deb,
-          ),
+        icon: const YaruSafeImage(
+          url: '',
+          fallBackIconData: YaruIcons.debian,
         ),
         installDate: '',
         installDateIsoNorm: '',
         license: model.license,
         strict: false,
         verified: false,
-        publisherName: '',
+        publisherName: model.url,
         website: model.url,
         summary: model.summary,
         title: widget.id.name,
         version: widget.id.version,
-        controls: Row(
-          children: [
-            if (model.isInstalled)
-              OutlinedButton(
-                onPressed: model.packageState != PackageState.ready
-                    ? null
-                    : () => model.remove(packageId: widget.id),
-                child: Text(context.l10n.remove),
-              ),
-            if (!model.isInstalled)
-              ElevatedButton(
-                onPressed: model.packageState != PackageState.ready
-                    ? null
-                    : () => model.install(packageId: widget.id),
-                child: Text(context.l10n.install),
-              ),
-          ],
-        ),
+        controls: controls,
       ),
     );
 
@@ -153,42 +156,21 @@ class _PackagePageState extends State<PackagePage> {
       width: 500,
       child: TwoColumnAppHeader(
         confinementName: context.l10n.classic,
-        icon: InkWell(
-          borderRadius: BorderRadius.circular(100),
-          onTap: model.isInstalled ? () => model.open(widget.id.name) : null,
-          child: const YaruSafeImage(
-            url: '',
-            fallBackIconData: YaruIcons.package_deb,
-          ),
+        icon: const YaruSafeImage(
+          url: '',
+          fallBackIconData: YaruIcons.debian,
         ),
         installDate: '',
         installDateIsoNorm: '',
         license: model.license,
         strict: false,
         verified: false,
-        publisherName: '',
+        publisherName: model.url,
         website: model.url,
         summary: model.summary,
         title: widget.id.name,
         version: widget.id.version,
-        controls: Row(
-          children: [
-            if (model.isInstalled)
-              OutlinedButton(
-                onPressed: model.packageState != PackageState.ready
-                    ? null
-                    : () => model.remove(packageId: widget.id),
-                child: Text(context.l10n.remove),
-              ),
-            if (!model.isInstalled)
-              ElevatedButton(
-                onPressed: model.packageState != PackageState.ready
-                    ? null
-                    : () => model.install(packageId: widget.id),
-                child: Text(context.l10n.install),
-              ),
-          ],
-        ),
+        controls: controls,
       ),
     );
 
@@ -200,7 +182,7 @@ class _PackagePageState extends State<PackagePage> {
           child: const Icon(YaruIcons.go_previous),
         ),
       ),
-      body: screenWidth < 1001
+      body: tooSmall
           ? NarrowPageLayout(
               children: [
                 oneColumnAppHeader,
