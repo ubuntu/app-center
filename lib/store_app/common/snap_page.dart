@@ -131,7 +131,7 @@ class _SnapPageState extends State<SnapPage> {
       padding: const EdgeInsets.all(pagePadding),
       width: 500,
       child: TwoColumnAppHeader(
-        properties: headerData,
+        headerData: headerData,
       ),
     );
 

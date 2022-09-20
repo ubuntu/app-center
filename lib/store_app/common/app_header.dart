@@ -81,10 +81,10 @@ class OneColumnAppHeader extends StatelessWidget {
 class TwoColumnAppHeader extends StatelessWidget {
   const TwoColumnAppHeader({
     super.key,
-    required this.properties,
+    required this.headerData,
   });
 
-  final AppHeaderData properties;
+  final AppHeaderData headerData;
 
   @override
   Widget build(BuildContext context) {
@@ -97,32 +97,32 @@ class TwoColumnAppHeader extends StatelessWidget {
           children: [
             SizedBox(
               height: 180,
-              child: properties.icon,
+              child: headerData.icon,
             ),
             Text(
-              properties.title,
+              headerData.title,
               style: Theme.of(context).textTheme.headline3,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
             ),
             AppWebsite(
-              website: properties.website,
-              verified: properties.verified,
-              publisherName: properties.publisherName,
+              website: headerData.website,
+              verified: headerData.verified,
+              publisherName: headerData.publisherName,
             ),
           ],
         ),
-        properties.controls,
+        headerData.controls,
         AppInfos(
-          strict: properties.strict,
-          confinementName: properties.confinementName,
-          license: properties.license,
-          installDate: properties.installDate,
-          installDateIsoNorm: properties.installDateIsoNorm,
-          version: properties.version,
+          strict: headerData.strict,
+          confinementName: headerData.confinementName,
+          license: headerData.license,
+          installDate: headerData.installDate,
+          installDateIsoNorm: headerData.installDateIsoNorm,
+          version: headerData.version,
         ),
         Text(
-          properties.summary,
+          headerData.summary,
           style: Theme.of(context).textTheme.bodySmall,
         ),
       ],

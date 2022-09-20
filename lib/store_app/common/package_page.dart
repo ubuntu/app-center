@@ -158,7 +158,7 @@ class _PackagePageState extends State<PackagePage> {
       padding: const EdgeInsets.all(pagePadding),
       width: 500,
       child: TwoColumnAppHeader(
-        properties: appPageHeaderProperties,
+        headerData: appPageHeaderProperties,
       ),
     );
 
