@@ -18,6 +18,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/package_state.dart';
@@ -28,7 +29,10 @@ import 'package:window_manager/window_manager.dart';
 
 class PackageService {
   final PackageKitClient _client;
-  PackageService() : _client = getService<PackageKitClient>() {
+  final NotificationsClient _notificationsClient;
+  PackageService()
+      : _client = getService<PackageKitClient>(),
+        _notificationsClient = getService<NotificationsClient>() {
     _client.connect();
   }
 
@@ -313,7 +317,7 @@ class PackageService {
     }
   }
 
-  Future<void> updateAll() async {
+  Future<void> updateAll({required String updatesComplete}) async {
     windowManager.setClosable(false);
     try {
       setErrorMessage('');
@@ -354,6 +358,7 @@ class PackageService {
       } else {
         refreshUpdates();
       }
+      _notificationsClient.notify(updatesComplete);
     } finally {
       windowManager.setClosable(true);
     }

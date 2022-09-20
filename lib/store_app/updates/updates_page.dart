@@ -294,7 +294,9 @@ class _UpdatesHeader extends StatelessWidget {
             if (model.updates.isNotEmpty)
               ElevatedButton(
                 onPressed: model.updatesState == UpdatesState.readyToUpdate
-                    ? () => model.updateAll()
+                    ? () => model.updateAll(
+                          updatesComplete: context.l10n.updatesComplete,
+                        )
                     : null,
                 child: Text(context.l10n.updateSelected),
               ),

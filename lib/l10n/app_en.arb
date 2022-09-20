@@ -72,5 +72,6 @@
   "sources": "Sources",
   "packageInstaller": "Package Installer",
   "classic": "classic",
-  "verified": "Verified Publisher"
+  "verified": "Verified Publisher",
+  "updatesComplete": "Updates complete"
 } 
