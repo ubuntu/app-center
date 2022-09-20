@@ -349,7 +349,11 @@ class PackageService {
       setStatus(null);
       setProcessedId(null);
       setUpdatePercentage(null);
-      setUpdatesState(UpdatesState.noUpdates);
+      if (selectedUpdates.length == updates.length) {
+        setUpdatesState(UpdatesState.noUpdates);
+      } else {
+        refreshUpdates();
+      }
     } finally {
       windowManager.setClosable(true);
     }
