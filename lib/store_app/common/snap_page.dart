@@ -22,7 +22,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/app_description.dart';
 import 'package:software/store_app/common/app_infos.dart';
-import 'package:software/store_app/common/app_media.dart';
+import 'package:software/store_app/common/media_tile.dart';
 import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/app_header.dart';
@@ -71,6 +71,9 @@ class _SnapPageState extends State<SnapPage> {
     final media = model.screenshotUrls ?? [];
     final screenSize = MediaQuery.of(context).size;
     final screenWidth = screenSize.width;
+    final screenHeight = screenSize.height;
+    final isWindowNarrow = screenWidth < 1001;
+    final isWindowUltraWide = screenWidth > 1700;
 
     final rightChildren = [
       BorderContainer(
@@ -78,7 +81,14 @@ class _SnapPageState extends State<SnapPage> {
           bottom: pagePadding,
           right: pagePadding,
         ),
-        child: AppMedia(media: media),
+        child: YaruCarousel(
+          nextIcon: const Icon(YaruIcons.go_next),
+          previousIcon: const Icon(YaruIcons.go_previous),
+          navigationControls: media.length > 1,
+          viewportFraction: isWindowUltraWide ? 0.5 : 1,
+          height: screenHeight / 3,
+          children: [for (final url in media) MediaTile(url: url)],
+        ),
       ),
       BorderContainer(
         padding: const EdgeInsets.only(
@@ -143,7 +153,7 @@ class _SnapPageState extends State<SnapPage> {
           child: const Icon(YaruIcons.go_previous),
         ),
       ),
-      body: screenWidth < 1001
+      body: isWindowNarrow
           ? NarrowPageLayout(
               children: [
                 oneColumnAppHeader,
