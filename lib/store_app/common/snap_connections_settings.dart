@@ -22,14 +22,21 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapConnectionsSettings extends StatelessWidget {
-  const SnapConnectionsSettings({super.key, required this.connections});
+  const SnapConnectionsSettings({
+    super.key,
+    required this.connections,
+    this.headerTextStyle,
+    this.isExpanded = true,
+  });
 
   final Map<String, SnapConnection> connections;
+  final TextStyle? headerTextStyle;
+  final bool isExpanded;
 
   @override
   Widget build(BuildContext context) {
     return YaruExpandable(
-      isExpanded: true,
+      isExpanded: isExpanded,
       header: Text(
         context.l10n.connections,
         style: Theme.of(context).textTheme.headline6,

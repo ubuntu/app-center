@@ -25,10 +25,9 @@ import 'package:software/store_app/common/app_description.dart';
 import 'package:software/store_app/common/app_infos.dart';
 import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/one_column_app_header.dart';
+import 'package:software/store_app/common/app_header.dart';
 import 'package:software/store_app/common/package_model.dart';
 import 'package:software/store_app/common/page_layouts.dart';
-import 'package:software/store_app/common/two_column_app_header.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -129,25 +128,29 @@ class _PackagePageState extends State<PackagePage> {
       ),
     ];
 
+    final appPageHeaderProperties = AppHeaderData(
+      confinementName: context.l10n.classic,
+      icon: const YaruSafeImage(
+        url: '',
+        fallBackIconData: YaruIcons.debian,
+      ),
+      installDate: '',
+      installDateIsoNorm: '',
+      license: model.license,
+      strict: false,
+      verified: false,
+      publisherName: model.url,
+      website: model.url,
+      summary: model.summary,
+      title: widget.id.name,
+      version: widget.id.version,
+      controls: controls,
+    );
+
     final oneColumnAppHeader = BorderContainer(
       padding: const EdgeInsets.all(pagePadding),
       child: OneColumnAppHeader(
-        confinementName: context.l10n.classic,
-        icon: const YaruSafeImage(
-          url: '',
-          fallBackIconData: YaruIcons.debian,
-        ),
-        installDate: '',
-        installDateIsoNorm: '',
-        license: model.license,
-        strict: false,
-        verified: false,
-        publisherName: model.url,
-        website: model.url,
-        summary: model.summary,
-        title: widget.id.name,
-        version: widget.id.version,
-        controls: controls,
+        headerData: appPageHeaderProperties,
       ),
     );
 
@@ -155,22 +158,7 @@ class _PackagePageState extends State<PackagePage> {
       padding: const EdgeInsets.all(pagePadding),
       width: 500,
       child: TwoColumnAppHeader(
-        confinementName: context.l10n.classic,
-        icon: const YaruSafeImage(
-          url: '',
-          fallBackIconData: YaruIcons.debian,
-        ),
-        installDate: '',
-        installDateIsoNorm: '',
-        license: model.license,
-        strict: false,
-        verified: false,
-        publisherName: model.url,
-        website: model.url,
-        summary: model.summary,
-        title: widget.id.name,
-        version: widget.id.version,
-        controls: controls,
+        properties: appPageHeaderProperties,
       ),
     );
 

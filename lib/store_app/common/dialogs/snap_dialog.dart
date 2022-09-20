@@ -20,8 +20,8 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
-import 'package:software/store_app/common/dialogs/app_content.dart';
-import 'package:software/store_app/common/app_header.dart';
+import 'package:software/store_app/common/dialogs/app_dialog_content.dart';
+import 'package:software/store_app/common/dialogs/app_dialog_header.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/dialogs/snap_channel_expandable.dart';
 import 'package:software/store_app/common/snap_connections_settings.dart';
@@ -112,7 +112,12 @@ class _SnapDialogState extends State<SnapDialog> {
               website: model.website ?? '',
               media: model.screenshotUrls ?? [],
               lastChild: model.strict && model.connections.isNotEmpty
-                  ? SnapConnectionsSettings(connections: model.connections)
+                  ? SnapConnectionsSettings(
+                      connections: model.connections,
+                      isExpanded: false,
+                      headerTextStyle:
+                          const TextStyle(fontWeight: FontWeight.w500),
+                    )
                   : null,
             ),
           ),
