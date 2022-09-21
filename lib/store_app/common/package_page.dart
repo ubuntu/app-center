@@ -24,7 +24,6 @@ import 'package:software/store_app/common/app_description.dart';
 import 'package:software/store_app/common/app_header.dart';
 import 'package:software/store_app/common/app_infos.dart';
 import 'package:software/store_app/common/border_container.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/media_tile.dart';
 import 'package:software/store_app/common/package_controls.dart';
 import 'package:software/store_app/common/package_model.dart';
@@ -108,14 +107,21 @@ class _PackagePageState extends State<PackagePage> {
 
     final headerData = AppHeaderData(
       confinementName: context.l10n.classic,
-      icon: InkWell(
-        borderRadius: BorderRadius.circular(100),
-        onTap: model.isInstalled ? () => model.open(widget.id.name) : null,
-        child: YaruSafeImage(
-          url: model.iconUrl,
-          fallBackIconData: YaruIcons.snapcraft,
-        ),
-      ),
+      icon: model.iconUrl.isEmpty
+          ? BorderContainer(
+              borderRadius: 200,
+              width: isWindowNormalSized ? 150 : 180,
+              height: isWindowNormalSized ? 150 : 180,
+              child: const Icon(
+                YaruIcons.debian,
+                size: 80,
+              ),
+            )
+          : YaruSafeImage(
+              url: model.iconUrl,
+              fallBackIconData: YaruIcons.debian,
+              iconSize: 80,
+            ),
       installDate: '',
       installDateIsoNorm: '',
       license: model.license,
@@ -150,7 +156,7 @@ class _PackagePageState extends State<PackagePage> {
     );
 
     final narrowWindowAppHeader = BorderContainer(
-      height: 650,
+      height: 700,
       child: PageAppHeader(
         headerData: headerData,
       ),

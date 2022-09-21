@@ -97,14 +97,20 @@ class _SnapPageState extends State<SnapPage> {
 
     final headerData = AppHeaderData(
       confinementName: model.confinement != null ? model.confinement!.name : '',
-      icon: InkWell(
-        borderRadius: BorderRadius.circular(100),
-        onTap: model.installDate.isNotEmpty ? model.open : null,
-        child: YaruSafeImage(
-          url: model.iconUrl,
-          fallBackIconData: YaruIcons.snapcraft,
-        ),
-      ),
+      icon: model.iconUrl == null || model.iconUrl!.isEmpty
+          ? BorderContainer(
+              borderRadius: 200,
+              width: isWindowNormalSized ? 150 : 180,
+              child: const Icon(
+                YaruIcons.snapcraft,
+                size: 80,
+              ),
+            )
+          : YaruSafeImage(
+              url: model.iconUrl,
+              fallBackIconData: YaruIcons.snapcraft,
+              iconSize: 80,
+            ),
       installDate: model.installDate,
       installDateIsoNorm: model.installDateIsoNorm,
       license: model.license ?? '',
@@ -132,7 +138,7 @@ class _SnapPageState extends State<SnapPage> {
     );
 
     final narrowWindowAppHeader = BorderContainer(
-      height: 650,
+      height: 700,
       child: PageAppHeader(
         headerData: headerData,
       ),

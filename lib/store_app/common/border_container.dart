@@ -25,12 +25,14 @@ class BorderContainer extends StatelessWidget {
     this.width,
     this.padding,
     this.child,
+    this.borderRadius = 10,
   });
 
   final double? height;
   final double? width;
   final EdgeInsets? padding;
   final Widget? child;
+  final double borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class BorderContainer extends StatelessWidget {
         color: Theme.of(context).brightness == Brightness.light
             ? Colors.white
             : Theme.of(context).colorScheme.onSurface.withOpacity(0.03),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
           color: Theme.of(context).dividerColor,
         ),
