@@ -16,33 +16,38 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_infos.dart';
 import 'package:software/store_app/common/app_website.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
+const iconSize = 150.0;
 
 class BannerAppHeader extends StatelessWidget {
   const BannerAppHeader({
     super.key,
     required this.headerData,
+    required this.controls,
+    required this.icon,
   });
 
-  final AppHeaderData headerData;
+  final AppData headerData;
+  final Widget controls;
+  final Widget icon;
 
   @override
   Widget build(BuildContext context) {
-    const height = 150.0;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: height,
-          child: headerData.icon,
+          height: iconSize,
+          child: icon,
         ),
         const SizedBox(width: 30),
         Expanded(
           child: SizedBox(
-            height: height,
+            height: iconSize,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,7 +67,7 @@ class BannerAppHeader extends StatelessWidget {
                     ),
                   ],
                 ),
-                headerData.controls,
+                controls,
               ],
             ),
           ),
@@ -76,9 +81,13 @@ class PageAppHeader extends StatelessWidget {
   const PageAppHeader({
     super.key,
     required this.headerData,
+    required this.controls,
+    required this.icon,
   });
 
-  final AppHeaderData headerData;
+  final AppData headerData;
+  final Widget controls;
+  final Widget icon;
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +99,8 @@ class PageAppHeader extends StatelessWidget {
         Column(
           children: [
             SizedBox(
-              height: 180,
-              child: headerData.icon,
+              height: iconSize,
+              child: icon,
             ),
             Text(
               headerData.title,
@@ -106,7 +115,7 @@ class PageAppHeader extends StatelessWidget {
             ),
           ],
         ),
-        headerData.controls,
+        controls,
         AppInfos(
           strict: headerData.strict,
           confinementName: headerData.confinementName,
@@ -122,36 +131,4 @@ class PageAppHeader extends StatelessWidget {
       ],
     );
   }
-}
-
-class AppHeaderData {
-  final Widget? icon;
-  final String title;
-  final String summary;
-  final bool strict;
-  final String confinementName;
-  final String version;
-  final String license;
-  final String installDate;
-  final String installDateIsoNorm;
-  final bool verified;
-  final String publisherName;
-  final String website;
-  final Widget controls;
-
-  AppHeaderData({
-    this.icon,
-    required this.title,
-    required this.summary,
-    required this.strict,
-    required this.confinementName,
-    required this.version,
-    required this.license,
-    required this.installDate,
-    required this.installDateIsoNorm,
-    required this.verified,
-    required this.publisherName,
-    required this.website,
-    required this.controls,
-  });
 }
