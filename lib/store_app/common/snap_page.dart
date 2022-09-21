@@ -75,16 +75,17 @@ class _SnapPageState extends State<SnapPage> {
     final isWindowWide = windowWidth > 1400;
 
     final mediaDescriptionAndConnections = [
-      BorderContainer(
-        child: YaruCarousel(
-          nextIcon: const Icon(YaruIcons.go_next),
-          previousIcon: const Icon(YaruIcons.go_previous),
-          navigationControls: media.length > 1,
-          viewportFraction: isWindowWide ? 0.5 : 1,
-          height: windowHeight / 3,
-          children: [for (final url in media) MediaTile(url: url)],
+      if (media.isNotEmpty)
+        BorderContainer(
+          child: YaruCarousel(
+            nextIcon: const Icon(YaruIcons.go_next),
+            previousIcon: const Icon(YaruIcons.go_previous),
+            navigationControls: media.length > 1,
+            viewportFraction: isWindowWide ? 0.5 : 1,
+            height: windowHeight / 3,
+            children: [for (final url in media) MediaTile(url: url)],
+          ),
         ),
-      ),
       BorderContainer(
         child: AppDescription(description: model.description ?? ''),
       ),

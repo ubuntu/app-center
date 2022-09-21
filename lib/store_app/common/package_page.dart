@@ -19,13 +19,14 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/app_description.dart';
+import 'package:software/store_app/common/app_header.dart';
 import 'package:software/store_app/common/app_infos.dart';
 import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/app_header.dart';
+import 'package:software/store_app/common/media_tile.dart';
+import 'package:software/store_app/common/package_controls.dart';
 import 'package:software/store_app/common/package_model.dart';
 import 'package:software/store_app/common/page_layouts.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -81,85 +82,110 @@ class _PackagePageState extends State<PackagePage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
-    final screenSize = MediaQuery.of(context).size;
-    final screenWidth = screenSize.width;
-    final tooSmall = screenWidth < 1001;
+    final media = model.screenshotUrls;
+    final windowSize = MediaQuery.of(context).size;
+    final windowWidth = windowSize.width;
+    final windowHeight = windowSize.height;
+    final isWindowNormalSized = windowWidth > 800 && windowWidth < 1400;
+    final isWindowWide = windowWidth > 1400;
 
-    final controls = Wrap(
-      direction: tooSmall ? Axis.vertical : Axis.horizontal,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      alignment: WrapAlignment.center,
-      runAlignment: WrapAlignment.center,
-      spacing: 10,
-      runSpacing: 10,
-      children: [
-        if (model.isInstalled)
-          OutlinedButton(
-            onPressed: model.packageState != PackageState.ready
-                ? null
-                : () => model.remove(packageId: widget.id),
-            child: Text(context.l10n.remove),
-          )
-        else
-          ElevatedButton(
-            onPressed: model.packageState != PackageState.ready
-                ? null
-                : () => model.install(packageId: widget.id),
-            child: Text(context.l10n.install),
+    final mediaDescriptionAndConnections = [
+      if (media.isNotEmpty)
+        BorderContainer(
+          child: YaruCarousel(
+            nextIcon: const Icon(YaruIcons.go_next),
+            previousIcon: const Icon(YaruIcons.go_previous),
+            navigationControls: media.length > 1,
+            viewportFraction: isWindowWide ? 0.5 : 1,
+            height: windowHeight / 3,
+            children: [for (final url in media) MediaTile(url: url)],
           ),
-      ],
-    );
-
-    final rightChildren = [
-      // TODO: empty media, see: https://github.com/ubuntu-flutter-community/software/issues/128
-      // const BorderContainer(
-      //   padding: EdgeInsets.only(
-      //     bottom: pagePadding,
-      //     right: pagePadding,
-      //   ),
-      //   child: AppMedia(media: []),
-      // ),
-      BorderContainer(
-        padding: const EdgeInsets.only(
-          bottom: pagePadding,
-          right: pagePadding,
         ),
+      BorderContainer(
         child: AppDescription(description: model.description),
       ),
     ];
 
-    final appPageHeaderProperties = AppHeaderData(
+    final headerData = AppHeaderData(
       confinementName: context.l10n.classic,
-      icon: const YaruSafeImage(
-        url: '',
-        fallBackIconData: YaruIcons.debian,
+      icon: InkWell(
+        borderRadius: BorderRadius.circular(100),
+        onTap: model.isInstalled ? () => model.open(widget.id.name) : null,
+        child: YaruSafeImage(
+          url: model.iconUrl,
+          fallBackIconData: YaruIcons.snapcraft,
+        ),
       ),
       installDate: '',
       installDateIsoNorm: '',
       license: model.license,
       strict: false,
       verified: false,
-      publisherName: model.url,
+      publisherName: context.l10n.website,
       website: model.url,
       summary: model.summary,
       title: widget.id.name,
       version: widget.id.version,
-      controls: controls,
+      controls: PackageControls(
+        isInstalled: model.isInstalled,
+        packageState: model.packageState!,
+        remove: () => model.remove(packageId: widget.id),
+        install: () => model.install(
+          packageId: widget.id,
+        ),
+      ),
     );
 
-    final oneColumnAppHeader = BorderContainer(
-      padding: const EdgeInsets.all(pagePadding),
+    final normalWindowAppHeader = BorderContainer(
       child: BannerAppHeader(
-        headerData: appPageHeaderProperties,
+        headerData: headerData,
       ),
     );
 
-    final twoColumnAppHeader = BorderContainer(
-      padding: const EdgeInsets.all(pagePadding),
-      width: 500,
+    final wideWindowAppHeader = BorderContainer(
+      width: 480,
       child: PageAppHeader(
-        headerData: appPageHeaderProperties,
+        headerData: headerData,
       ),
+    );
+
+    final narrowWindowAppHeader = BorderContainer(
+      height: 650,
+      child: PageAppHeader(
+        headerData: headerData,
+      ),
+    );
+
+    final normalWindowLayout = OnePageLayout(
+      windowSize: windowSize,
+      children: [
+        normalWindowAppHeader,
+        BorderContainer(
+          child: AppInfos(
+            strict: false,
+            confinementName: context.l10n.classic,
+            license: model.license,
+            installDate: '',
+            installDateIsoNorm: '',
+            version: widget.id.version,
+          ),
+        ),
+        for (final part in mediaDescriptionAndConnections) part
+      ],
+    );
+
+    final wideWindowLayout = PanedPageLayout(
+      leftChild: wideWindowAppHeader,
+      rightChildren: mediaDescriptionAndConnections,
+      windowSize: windowSize,
+    );
+
+    final narrowWindowLayout = OnePageLayout(
+      windowSize: windowSize,
+      children: [
+        narrowWindowAppHeader,
+        for (final part in mediaDescriptionAndConnections) part
+      ],
     );
 
     return Scaffold(
@@ -170,38 +196,11 @@ class _PackagePageState extends State<PackagePage> {
           child: const Icon(YaruIcons.go_previous),
         ),
       ),
-      body: tooSmall
-          ? OnePageLayout(
-              windowSize: screenSize,
-              children: [
-                oneColumnAppHeader,
-                BorderContainer(
-                  padding: const EdgeInsets.only(
-                    bottom: pagePadding,
-                    right: pagePadding,
-                    left: pagePadding,
-                  ),
-                  child: AppInfos(
-                    strict: false,
-                    confinementName: context.l10n.classic,
-                    license: model.license,
-                    installDate: '',
-                    installDateIsoNorm: '',
-                    version: widget.id.version,
-                  ),
-                ),
-                for (final rightChild in rightChildren)
-                  Padding(
-                    padding: const EdgeInsets.only(left: pagePadding),
-                    child: rightChild,
-                  )
-              ],
-            )
-          : PanedPageLayout(
-              leftChild: twoColumnAppHeader,
-              rightChildren: rightChildren,
-              windowSize: screenSize,
-            ),
+      body: isWindowWide
+          ? wideWindowLayout
+          : isWindowNormalSized
+              ? normalWindowLayout
+              : narrowWindowLayout,
     );
   }
 }

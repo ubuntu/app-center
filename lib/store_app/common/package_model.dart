@@ -47,6 +47,10 @@ class PackageModel extends SafeChangeNotifier {
         _url = '',
         _errorMessage = '';
 
+  List<String> get screenshotUrls => <String>[];
+
+  String get iconUrl => '';
+
   Future<void> init({
     bool update = false,
     required PackageKitPackageId packageId,
