@@ -21,6 +21,7 @@ import 'package:software/store_app/common/app_infos.dart';
 import 'package:software/store_app/common/app_website.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
+const iconSize = 150.0;
 
 class BannerAppHeader extends StatelessWidget {
   const BannerAppHeader({
@@ -36,18 +37,17 @@ class BannerAppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const height = 150.0;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: height,
+          height: iconSize,
           child: icon,
         ),
         const SizedBox(width: 30),
         Expanded(
           child: SizedBox(
-            height: height,
+            height: iconSize,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,7 +99,7 @@ class PageAppHeader extends StatelessWidget {
         Column(
           children: [
             SizedBox(
-              height: 180,
+              height: iconSize,
               child: icon,
             ),
             Text(
