@@ -331,7 +331,7 @@ class _UpdatesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hPadding = 0.00013 * pow(MediaQuery.of(context).size.width, 2);
+    final hPadding = (0.00013 * pow(MediaQuery.of(context).size.width, 2)) - 20;
     final model = context.watch<UpdatesModel>();
 
     return Expanded(
