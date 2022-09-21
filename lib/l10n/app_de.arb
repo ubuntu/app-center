@@ -72,5 +72,6 @@
   "sources": "Quellen",
   "packageInstaller": "Paketinstallationsprogramm",
   "classic": "klassisch",
-  "verified": "Verifizierter Herausgeber"
+  "verified": "Verifizierter Herausgeber",
+  "updatesComplete": "Aktualisierungen abgeschlossen"
 } 

@@ -20,7 +20,6 @@ import 'package:provider/provider.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -76,13 +75,7 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
             summary: snap.summary,
             url: snap.iconUrl,
             fallbackIconData: YaruIcons.package_snap,
-            onTap: () => showDialog(
-              context: context,
-              builder: (context) => SnapDialog.create(
-                context: context,
-                huskSnapName: snap.name,
-              ),
-            ),
+            onTap: () => model.selectedSnap = snap,
           ),
         );
       },

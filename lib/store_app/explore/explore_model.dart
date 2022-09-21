@@ -27,6 +27,22 @@ class ExploreModel extends SafeChangeNotifier {
   final SnapdClient _snapDClient;
   final PackageService _packageService;
 
+  Snap? _selectedSnap;
+  Snap? get selectedSnap => _selectedSnap;
+  set selectedSnap(Snap? snap) {
+    if (snap == _selectedSnap) return;
+    _selectedSnap = snap;
+    notifyListeners();
+  }
+
+  PackageKitPackageId? _selectedPackage;
+  PackageKitPackageId? get selectedPackage => _selectedPackage;
+  set selectedPackage(PackageKitPackageId? id) {
+    if (id == _selectedPackage) return;
+    _selectedPackage = id;
+    notifyListeners();
+  }
+
   ExploreModel(
     this._snapDClient,
     this._packageService,
@@ -124,4 +140,9 @@ class ExploreModel extends SafeChangeNotifier {
         searchQuery: searchQuery,
         filter: filter,
       );
+
+  void clearSelection() {
+    selectedSnap = null;
+    selectedPackage = null;
+  }
 }

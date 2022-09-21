@@ -72,5 +72,6 @@
   "sources": "Fontes",
   "packageInstaller": "Instalador de pacotes",
   "classic": "clássico",
-  "verified": "Editor verificado"
+  "verified": "Editor verificado",
+  "updatesComplete": "Atualizações concluídas"
 } 
