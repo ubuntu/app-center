@@ -21,8 +21,8 @@ import 'package:software/store_app/common/app_website.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
-class OneColumnAppHeader extends StatelessWidget {
-  const OneColumnAppHeader({
+class BannerAppHeader extends StatelessWidget {
+  const BannerAppHeader({
     super.key,
     required this.headerData,
   });
@@ -31,9 +31,7 @@ class OneColumnAppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final wideEnough = screenWidth > 750;
-    final height = wideEnough ? 150.0 : 40.0;
+    const height = 150.0;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -41,31 +39,27 @@ class OneColumnAppHeader extends StatelessWidget {
           height: height,
           child: headerData.icon,
         ),
-        SizedBox(width: wideEnough ? 30 : 10),
+        const SizedBox(width: 30),
         Expanded(
           child: SizedBox(
             height: height,
             child: Column(
-              crossAxisAlignment: wideEnough
-                  ? CrossAxisAlignment.start
-                  : CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (wideEnough)
-                      Text(
-                        headerData.title,
-                        style: Theme.of(context).textTheme.headline3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    if (wideEnough)
-                      AppWebsite(
-                        website: headerData.website,
-                        verified: headerData.verified,
-                        publisherName: headerData.publisherName,
-                      ),
+                    Text(
+                      headerData.title,
+                      style: Theme.of(context).textTheme.headline3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    AppWebsite(
+                      website: headerData.website,
+                      verified: headerData.verified,
+                      publisherName: headerData.publisherName,
+                    ),
                   ],
                 ),
                 headerData.controls,
@@ -78,8 +72,8 @@ class OneColumnAppHeader extends StatelessWidget {
   }
 }
 
-class TwoColumnAppHeader extends StatelessWidget {
-  const TwoColumnAppHeader({
+class PageAppHeader extends StatelessWidget {
+  const PageAppHeader({
     super.key,
     required this.headerData,
   });

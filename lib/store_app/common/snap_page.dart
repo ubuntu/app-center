@@ -21,11 +21,10 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/app_change_service.dart';
 import 'package:software/store_app/common/app_description.dart';
-import 'package:software/store_app/common/app_infos.dart';
-import 'package:software/store_app/common/media_tile.dart';
-import 'package:software/store_app/common/border_container.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/app_header.dart';
+import 'package:software/store_app/common/app_infos.dart';
+import 'package:software/store_app/common/border_container.dart';
+import 'package:software/store_app/common/media_tile.dart';
 import 'package:software/store_app/common/page_layouts.dart';
 import 'package:software/store_app/common/snap_connections_settings.dart';
 import 'package:software/store_app/common/snap_controls.dart';
@@ -69,40 +68,28 @@ class _SnapPageState extends State<SnapPage> {
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
     final media = model.screenshotUrls ?? [];
-    final screenSize = MediaQuery.of(context).size;
-    final screenWidth = screenSize.width;
-    final screenHeight = screenSize.height;
-    final isWindowNarrow = screenWidth < 1001;
-    final isWindowUltraWide = screenWidth > 1700;
+    final windowSize = MediaQuery.of(context).size;
+    final windowWidth = windowSize.width;
+    final windowHeight = windowSize.height;
+    final isWindowNormalSized = windowWidth > 800 && windowWidth < 1400;
+    final isWindowWide = windowWidth > 1400;
 
-    final rightChildren = [
+    final mediaDescriptionAndConnections = [
       BorderContainer(
-        padding: const EdgeInsets.only(
-          bottom: pagePadding,
-          right: pagePadding,
-        ),
         child: YaruCarousel(
           nextIcon: const Icon(YaruIcons.go_next),
           previousIcon: const Icon(YaruIcons.go_previous),
           navigationControls: media.length > 1,
-          viewportFraction: isWindowUltraWide ? 0.5 : 1,
-          height: screenHeight / 3,
+          viewportFraction: isWindowWide ? 0.5 : 1,
+          height: windowHeight / 3,
           children: [for (final url in media) MediaTile(url: url)],
         ),
       ),
       BorderContainer(
-        padding: const EdgeInsets.only(
-          bottom: pagePadding,
-          right: pagePadding,
-        ),
         child: AppDescription(description: model.description ?? ''),
       ),
-      if (model.snapIsInstalled)
+      if (model.snapIsInstalled && model.strict)
         BorderContainer(
-          padding: const EdgeInsets.only(
-            bottom: pagePadding,
-            right: pagePadding,
-          ),
           child: SnapConnectionsSettings(connections: model.connections),
         )
     ];
@@ -130,19 +117,57 @@ class _SnapPageState extends State<SnapPage> {
       controls: const SnapControls(),
     );
 
-    final oneColumnAppHeader = BorderContainer(
-      padding: const EdgeInsets.all(pagePadding),
-      child: OneColumnAppHeader(
+    final normalWindowAppHeader = BorderContainer(
+      child: BannerAppHeader(
         headerData: headerData,
       ),
     );
 
-    final twoColumnAppHeader = BorderContainer(
-      padding: const EdgeInsets.all(pagePadding),
-      width: 500,
-      child: TwoColumnAppHeader(
+    final wideWindowAppHeader = BorderContainer(
+      width: 480,
+      child: PageAppHeader(
         headerData: headerData,
       ),
+    );
+
+    final narrowWindowAppHeader = BorderContainer(
+      height: 650,
+      child: PageAppHeader(
+        headerData: headerData,
+      ),
+    );
+
+    final normalWindowLayout = OnePageLayout(
+      windowSize: windowSize,
+      children: [
+        normalWindowAppHeader,
+        BorderContainer(
+          child: AppInfos(
+            strict: model.strict,
+            confinementName:
+                model.confinement != null ? model.confinement!.name : '',
+            license: model.license ?? '',
+            installDate: model.installDate,
+            installDateIsoNorm: model.installDateIsoNorm,
+            version: model.version,
+          ),
+        ),
+        for (final part in mediaDescriptionAndConnections) part
+      ],
+    );
+
+    final wideWindowLayout = PanedPageLayout(
+      leftChild: wideWindowAppHeader,
+      rightChildren: mediaDescriptionAndConnections,
+      windowSize: windowSize,
+    );
+
+    final narrowWindowLayout = OnePageLayout(
+      windowSize: windowSize,
+      children: [
+        narrowWindowAppHeader,
+        for (final part in mediaDescriptionAndConnections) part
+      ],
     );
 
     return Scaffold(
@@ -153,38 +178,11 @@ class _SnapPageState extends State<SnapPage> {
           child: const Icon(YaruIcons.go_previous),
         ),
       ),
-      body: isWindowNarrow
-          ? NarrowPageLayout(
-              children: [
-                oneColumnAppHeader,
-                BorderContainer(
-                  padding: const EdgeInsets.only(
-                    bottom: pagePadding,
-                    right: pagePadding,
-                    left: pagePadding,
-                  ),
-                  child: AppInfos(
-                    strict: model.strict,
-                    confinementName: model.confinement != null
-                        ? model.confinement!.name
-                        : '',
-                    license: model.license ?? '',
-                    installDate: model.installDate,
-                    installDateIsoNorm: model.installDateIsoNorm,
-                    version: model.version,
-                  ),
-                ),
-                for (final rightChild in rightChildren)
-                  Padding(
-                    padding: const EdgeInsets.only(left: pagePadding),
-                    child: rightChild,
-                  )
-              ],
-            )
-          : WidePageLayout(
-              leftChild: twoColumnAppHeader,
-              rightChildren: rightChildren,
-            ),
+      body: isWindowWide
+          ? wideWindowLayout
+          : isWindowNormalSized
+              ? normalWindowLayout
+              : narrowWindowLayout,
     );
   }
 }

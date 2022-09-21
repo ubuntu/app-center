@@ -149,7 +149,7 @@ class _PackagePageState extends State<PackagePage> {
 
     final oneColumnAppHeader = BorderContainer(
       padding: const EdgeInsets.all(pagePadding),
-      child: OneColumnAppHeader(
+      child: BannerAppHeader(
         headerData: appPageHeaderProperties,
       ),
     );
@@ -157,7 +157,7 @@ class _PackagePageState extends State<PackagePage> {
     final twoColumnAppHeader = BorderContainer(
       padding: const EdgeInsets.all(pagePadding),
       width: 500,
-      child: TwoColumnAppHeader(
+      child: PageAppHeader(
         headerData: appPageHeaderProperties,
       ),
     );
@@ -171,7 +171,8 @@ class _PackagePageState extends State<PackagePage> {
         ),
       ),
       body: tooSmall
-          ? NarrowPageLayout(
+          ? OnePageLayout(
+              windowSize: screenSize,
               children: [
                 oneColumnAppHeader,
                 BorderContainer(
@@ -196,9 +197,10 @@ class _PackagePageState extends State<PackagePage> {
                   )
               ],
             )
-          : WidePageLayout(
+          : PanedPageLayout(
               leftChild: twoColumnAppHeader,
               rightChildren: rightChildren,
+              windowSize: screenSize,
             ),
     );
   }
