@@ -31,30 +31,41 @@ class MediaTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(10),
-        excludeFromSemantics: true,
-        onTap: () => showDialog(
-          context: context,
-          builder: (context) => SimpleDialog(
-            children: [
-              InkWell(
-                onTap: () => Navigator.of(context).pop(),
-                child: YaruSafeImage(
-                  url: url,
-                  fit: fit,
-                  filterQuality: FilterQuality.medium,
-                  fallBackIconData: YaruIcons.image,
-                ),
-              )
-            ],
+    const borderRadius = BorderRadius.all(Radius.circular(10));
+    const padding = EdgeInsets.all(5);
+
+    return Center(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: borderRadius.outer(padding),
+          excludeFromSemantics: true,
+          onTap: () => showDialog(
+            context: context,
+            builder: (context) => SimpleDialog(
+              children: [
+                InkWell(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: YaruSafeImage(
+                    url: url,
+                    fit: fit,
+                    filterQuality: FilterQuality.medium,
+                    fallBackIconData: YaruIcons.image,
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-        child: YaruSafeImage(
-          url: url,
-          fallBackIconData: YaruIcons.image,
+          child: Padding(
+            padding: padding,
+            child: ClipRRect(
+              borderRadius: borderRadius,
+              child: YaruSafeImage(
+                url: url,
+                fallBackIconData: YaruIcons.image,
+              ),
+            ),
+          ),
         ),
       ),
     );
