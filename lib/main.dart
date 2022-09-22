@@ -31,6 +31,11 @@ import 'package:window_manager/window_manager.dart';
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
+
+  registerService<NotificationsClient>(
+    NotificationsClient.new,
+    dispose: (s) => s.close(),
+  );
   registerService<PackageKitClient>(
     PackageKitClient.new,
     dispose: (service) => service.close(),
@@ -48,10 +53,6 @@ void main(List<String> args) async {
     registerService<SnapdClient>(SnapdClient.new, dispose: (s) => s.close());
     registerService<Connectivity>(Connectivity.new);
     registerService<AppChangeService>(AppChangeService.new);
-    registerService<NotificationsClient>(
-      NotificationsClient.new,
-      dispose: (s) => s.close(),
-    );
 
     runApp(StoreApp.create());
   } else {
