@@ -49,6 +49,10 @@ class ExplorePage extends StatelessWidget {
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.explorePageTitle);
 
+  static void onTap(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();

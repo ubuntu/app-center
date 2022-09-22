@@ -102,6 +102,7 @@ class __AppState extends State<_App> {
           titleBuilder: ExplorePage.createTitle,
           builder: (context) => ExplorePage.create(context, model.appIsOnline),
           iconData: YaruIcons.compass,
+          onTap: (context) => ExplorePage.onTap(context),
         ),
         YaruPageItem(
           titleBuilder: MyAppsPage.createTitle,
