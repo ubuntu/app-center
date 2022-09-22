@@ -24,6 +24,7 @@ import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/app_page.dart';
 import 'package:software/store_app/common/border_container.dart';
+import 'package:software/store_app/common/snap_channel_infos.dart';
 import 'package:software/store_app/common/snap_connections_settings.dart';
 import 'package:software/store_app/common/snap_controls.dart';
 import 'package:software/store_app/common/snap_model.dart';
@@ -64,6 +65,7 @@ class _SnapPageState extends State<SnapPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
+    final sm0ltext = Theme.of(context).textTheme.bodySmall;
 
     final appData = AppData(
       confinementName: model.confinement != null ? model.confinement!.name : '',
@@ -90,6 +92,37 @@ class _SnapPageState extends State<SnapPage> {
             )
           : const SizedBox(),
       controls: const SnapControls(),
+      subControlPageHeader: Column(
+        children: [
+          Text(
+            context.l10n.channel,
+            style: sm0ltext!.copyWith(fontWeight: FontWeight.w500),
+          ),
+          SelectableText(
+            model.channelToBeInstalled,
+            style: sm0ltext,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            context.l10n.lastUpdated,
+            style: sm0ltext.copyWith(fontWeight: FontWeight.w500),
+          ),
+          Tooltip(
+            message: model.releaseAtIsoNorm,
+            child: SelectableText(
+              model.releasedAt,
+              style: sm0ltext,
+            ),
+          ),
+        ],
+      ),
+      subBannerHeader: SnapChannelInfos(
+        channelToBeInstalled: model.channelToBeInstalled,
+        releaseAtIsoNorm: model.releaseAtIsoNorm,
+        releasedAt: model.releasedAt,
+      ),
       icon: AppIcon(
         iconUrl: model.iconUrl,
         fallBackIconData: YaruIcons.snapcraft,

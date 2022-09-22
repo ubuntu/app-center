@@ -34,6 +34,8 @@ class AppPage extends StatelessWidget {
     required this.icon,
     required this.permissionContainer,
     required this.controls,
+    this.subControlPageHeader,
+    this.subBannerHeader,
   });
 
   final AppData appData;
@@ -41,6 +43,8 @@ class AppPage extends StatelessWidget {
   final Widget icon;
   final Widget permissionContainer;
   final Widget controls;
+  final Widget? subControlPageHeader;
+  final Widget? subBannerHeader;
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +88,7 @@ class AppPage extends StatelessWidget {
         headerData: appData,
         icon: icon,
         controls: controls,
+        subControls: subControlPageHeader,
       ),
     );
 
@@ -93,6 +98,7 @@ class AppPage extends StatelessWidget {
         headerData: appData,
         icon: icon,
         controls: controls,
+        subControls: subControlPageHeader,
       ),
     );
 
@@ -100,6 +106,10 @@ class AppPage extends StatelessWidget {
       windowSize: windowSize,
       children: [
         normalWindowAppHeader,
+        if (subBannerHeader != null)
+          BorderContainer(
+            child: subBannerHeader,
+          ),
         BorderContainer(
           child: AppInfos(
             strict: appData.strict,

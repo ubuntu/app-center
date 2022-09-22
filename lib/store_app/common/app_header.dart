@@ -83,11 +83,13 @@ class PageAppHeader extends StatelessWidget {
     required this.headerData,
     required this.controls,
     required this.icon,
+    this.subControls,
   });
 
   final AppData headerData;
   final Widget controls;
   final Widget icon;
+  final Widget? subControls;
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +118,7 @@ class PageAppHeader extends StatelessWidget {
           ],
         ),
         controls,
+        if (subControls != null) subControls!,
         AppInfos(
           strict: headerData.strict,
           confinementName: headerData.confinementName,
