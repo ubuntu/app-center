@@ -356,9 +356,18 @@ class PackageService {
       if (selectedUpdates.length == updates.length) {
         setUpdatesState(UpdatesState.noUpdates);
       } else {
-        refreshUpdates();
+        await refreshUpdates();
       }
-      _notificationsClient.notify(updatesComplete);
+      _notificationsClient.notify(
+        'Ubuntu Software',
+        body: updatesComplete,
+        appName: 'snap-store',
+        appIcon: 'snap-store',
+        hints: [
+          NotificationHint.desktopEntry('software'),
+          NotificationHint.urgency(NotificationUrgency.normal)
+        ],
+      );
     } finally {
       windowManager.setClosable(true);
     }
