@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: analyze
     runs-on: ubuntu-latest
 
     steps:
