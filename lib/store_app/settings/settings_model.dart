@@ -18,6 +18,8 @@
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 
+const repoUrl = 'https://github.com/ubuntu-flutter-community/software';
+
 class SettingsModel extends SafeChangeNotifier {
   String appName;
 

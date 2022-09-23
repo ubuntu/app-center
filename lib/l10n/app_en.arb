@@ -73,5 +73,6 @@
   "packageInstaller": "Package Installer",
   "classic": "classic",
   "verified": "Verified Publisher",
-  "updatesComplete": "Updates complete"
+  "updatesComplete": "Updates complete",
+  "findOurRepository": "Find us on GitHub"
 } 
