@@ -73,5 +73,6 @@
   "packageInstaller": "Paketinstallationsprogramm",
   "classic": "klassisch",
   "verified": "Verifizierter Herausgeber",
-  "updatesComplete": "Aktualisierungen abgeschlossen"
+  "updatesComplete": "Aktualisierungen abgeschlossen",
+  "findOurRepository": "Finde uns auf GitHub"
 } 

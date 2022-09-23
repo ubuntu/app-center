@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/settings/settings_model.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -75,6 +76,35 @@ class _SettingsPageState extends State<SettingsPage> {
                           filterQuality: FilterQuality.medium,
                         ),
                         children: [
+                          InkWell(
+                            borderRadius: BorderRadius.circular(5),
+                            onTap: () async =>
+                                await launchUrl(Uri.parse(repoUrl)),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  context.l10n.findOurRepository,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                ),
+                                Icon(
+                                  YaruIcons.external_link,
+                                  color: Theme.of(context).primaryColor,
+                                  size: 15,
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           SizedBox(
                             height: 300,
                             width: 300,
@@ -83,8 +113,10 @@ class _SettingsPageState extends State<SettingsPage> {
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return Markdown(
+                                    padding: EdgeInsets.zero,
                                     shrinkWrap: true,
-                                    data: 'is made by:\n ${snapshot.data!}',
+                                    data:
+                                        'Ubuntu Software is made by:\n ${snapshot.data!}',
                                     onTapLink: (text, href, title) =>
                                         href != null
                                             ? launchUrl(Uri.parse(href))
