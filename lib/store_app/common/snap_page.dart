@@ -24,7 +24,6 @@ import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/app_page.dart';
 import 'package:software/store_app/common/border_container.dart';
-import 'package:software/store_app/common/snap_channel_infos.dart';
 import 'package:software/store_app/common/snap_connections_settings.dart';
 import 'package:software/store_app/common/snap_controls.dart';
 import 'package:software/store_app/common/snap_model.dart';
