@@ -80,13 +80,13 @@ class BannerAppHeader extends StatelessWidget {
 class PageAppHeader extends StatelessWidget {
   const PageAppHeader({
     super.key,
-    required this.headerData,
+    required this.appData,
     required this.controls,
     required this.icon,
     this.subControls,
   });
 
-  final AppData headerData;
+  final AppData appData;
   final Widget controls;
   final Widget icon;
   final Widget? subControls;
@@ -105,30 +105,31 @@ class PageAppHeader extends StatelessWidget {
               child: icon,
             ),
             Text(
-              headerData.title,
+              appData.title,
               style: Theme.of(context).textTheme.headline3,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
             ),
             AppWebsite(
-              website: headerData.website,
-              verified: headerData.verified,
-              publisherName: headerData.publisherName,
+              website: appData.website,
+              verified: appData.verified,
+              publisherName: appData.publisherName,
             ),
           ],
         ),
         controls,
         if (subControls != null) subControls!,
         AppInfos(
-          strict: headerData.strict,
-          confinementName: headerData.confinementName,
-          license: headerData.license,
-          installDate: headerData.installDate,
-          installDateIsoNorm: headerData.installDateIsoNorm,
-          version: headerData.version,
+          strict: appData.strict,
+          confinementName: appData.confinementName,
+          license: appData.license,
+          installDate: appData.installDate,
+          installDateIsoNorm: appData.installDateIsoNorm,
+          version: appData.version,
+          versionChanged: appData.versionChanged,
         ),
         Text(
-          headerData.summary,
+          appData.summary,
           style: Theme.of(context).textTheme.bodySmall,
         ),
       ],

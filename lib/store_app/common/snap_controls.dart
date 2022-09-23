@@ -56,12 +56,21 @@ class SnapControls extends StatelessWidget {
             child: Text(context.l10n.remove),
           ),
         if (model.snapIsInstalled)
-          OutlinedButton(
-            onPressed: model.refreshSnapApp,
-            child: Text(
-              context.l10n.refresh,
-            ),
-          )
+          if (model.selectableChannels[model.channelToBeInstalled]?.version !=
+              model.version)
+            ElevatedButton(
+              onPressed: model.refreshSnapApp,
+              child: Text(
+                context.l10n.refresh,
+              ),
+            )
+          else
+            OutlinedButton(
+              onPressed: model.refreshSnapApp,
+              child: Text(
+                context.l10n.refresh,
+              ),
+            )
         else
           ElevatedButton(
             onPressed: model.installSnap,

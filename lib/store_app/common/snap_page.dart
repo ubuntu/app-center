@@ -65,7 +65,6 @@ class _SnapPageState extends State<SnapPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-    final sm0ltext = Theme.of(context).textTheme.bodySmall;
 
     final appData = AppData(
       confinementName: model.confinement != null ? model.confinement!.name : '',
@@ -78,9 +77,13 @@ class _SnapPageState extends State<SnapPage> {
       website: model.storeUrl ?? '',
       summary: model.summary ?? '',
       title: model.title ?? '',
-      version: model.version,
+      version: model.selectableChannels[model.channelToBeInstalled]?.version ??
+          model.version,
       screenShotUrls: model.screenshotUrls ?? [],
       description: model.description ?? '',
+      versionChanged:
+          model.selectableChannels[model.channelToBeInstalled]?.version !=
+              model.version,
     );
 
     return AppPage(
@@ -92,37 +95,6 @@ class _SnapPageState extends State<SnapPage> {
             )
           : const SizedBox(),
       controls: const SnapControls(),
-      subControlPageHeader: Column(
-        children: [
-          Text(
-            context.l10n.channel,
-            style: sm0ltext!.copyWith(fontWeight: FontWeight.w500),
-          ),
-          SelectableText(
-            model.channelToBeInstalled,
-            style: sm0ltext,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            context.l10n.lastUpdated,
-            style: sm0ltext.copyWith(fontWeight: FontWeight.w500),
-          ),
-          Tooltip(
-            message: model.releaseAtIsoNorm,
-            child: SelectableText(
-              model.releasedAt,
-              style: sm0ltext,
-            ),
-          ),
-        ],
-      ),
-      subBannerHeader: SnapChannelInfos(
-        channelToBeInstalled: model.channelToBeInstalled,
-        releaseAtIsoNorm: model.releaseAtIsoNorm,
-        releasedAt: model.releasedAt,
-      ),
       icon: AppIcon(
         iconUrl: model.iconUrl,
         fallBackIconData: YaruIcons.snapcraft,

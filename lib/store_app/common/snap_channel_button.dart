@@ -23,7 +23,6 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapChannelPopupButton extends StatelessWidget {
   const SnapChannelPopupButton({
@@ -49,14 +48,7 @@ class SnapChannelPopupButton extends StatelessWidget {
                   value: entry.key,
                   padding: EdgeInsets.zero,
                   child: ListTile(
-                    leading: SizedBox(
-                      height: 30,
-                      child: YaruSafeImage(
-                        url: model.iconUrl,
-                        fallBackIconData: YaruIcons.snapcraft,
-                        iconSize: 30,
-                      ),
-                    ),
+                    dense: true,
                     isThreeLine: true,
                     onTap: () {
                       model.channelToBeInstalled = entry.key;
@@ -70,7 +62,10 @@ class SnapChannelPopupButton extends StatelessWidget {
                           .format(entry.value.releasedAt),
                     ),
                     trailing: Text(
-                      '${context.l10n.version}: ${entry.value.version}',
+                      entry.value.version,
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 )
