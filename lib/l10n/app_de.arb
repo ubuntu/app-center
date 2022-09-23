@@ -74,5 +74,7 @@
   "classic": "klassisch",
   "verified": "Verifizierter Herausgeber",
   "updatesComplete": "Aktualisierungen abgeschlossen",
-  "findOurRepository": "Finde uns auf GitHub"
+  "findOurRepository": "Finde uns auf GitHub",
+  "changelogTooLong": "Bitte besuchen Sie für das gesammte Änderungprotokoll:"
+
 } 
