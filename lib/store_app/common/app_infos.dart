@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class AppInfos extends StatelessWidget {
@@ -29,6 +30,7 @@ class AppInfos extends StatelessWidget {
     required this.installDateIsoNorm,
     required this.version,
     this.mainAxisAlignment = MainAxisAlignment.center,
+    this.versionChanged,
   }) : super(key: key);
 
   final bool strict;
@@ -38,6 +40,7 @@ class AppInfos extends StatelessWidget {
   final String installDateIsoNorm;
   final String version;
   final MainAxisAlignment mainAxisAlignment;
+  final bool? versionChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -55,30 +58,33 @@ class AppInfos extends StatelessWidget {
         const SizedBox(height: 40, width: 30, child: VerticalDivider()),
         _License(headerStyle: headerStyle, license: license),
         const SizedBox(height: 40, width: 30, child: VerticalDivider()),
-        _InstallDate(
+        _Version(
           installDate: installDate,
           headerStyle: headerStyle,
           installDateIsoNorm: installDateIsoNorm,
           version: version,
+          versionChanged: versionChanged,
         ),
       ],
     );
   }
 }
 
-class _InstallDate extends StatelessWidget {
-  const _InstallDate({
+class _Version extends StatelessWidget {
+  const _Version({
     Key? key,
     required this.installDate,
     required this.headerStyle,
     required this.installDateIsoNorm,
     required this.version,
+    this.versionChanged,
   }) : super(key: key);
 
   final String installDate;
   final TextStyle headerStyle;
   final String installDateIsoNorm;
   final String version;
+  final bool? versionChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -88,20 +94,25 @@ class _InstallDate extends StatelessWidget {
       children: [
         Flexible(
           child: Text(
-            installDate.isEmpty
-                ? context.l10n.version
-                : context.l10n.installDate,
+            context.l10n.version,
             overflow: TextOverflow.ellipsis,
             style: headerStyle,
           ),
         ),
         Flexible(
           child: Tooltip(
-            message: installDateIsoNorm,
+            message: version,
             child: Text(
-              installDate.isEmpty ? version : installDate,
+              version,
               overflow: TextOverflow.ellipsis,
-              style: headerStyle.copyWith(fontWeight: FontWeight.normal),
+              style: headerStyle.copyWith(
+                fontWeight: FontWeight.normal,
+                color: versionChanged == true
+                    ? Theme.of(context).brightness == Brightness.light
+                        ? positiveGreenLightTheme
+                        : positiveGreenDarkTheme
+                    : null,
+              ),
             ),
           ),
         ),

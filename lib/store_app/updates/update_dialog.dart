@@ -71,23 +71,17 @@ class _UpdateDialogState extends State<UpdateDialog> {
     final caption = Theme.of(context).textTheme.bodySmall;
     return AlertDialog(
       title: YaruDialogTitle(
-        title: widget.id.name,
+        title: model.packageState != PackageState.ready ? null : widget.id.name,
         closeIconData: YaruIcons.window_close,
       ),
       titlePadding: EdgeInsets.zero,
       contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       scrollable: true,
       content: model.packageState != PackageState.ready
-          ? Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(model.info != null ? model.info!.name : ''),
-                  YaruLinearProgressIndicator(
-                    value:
-                        model.percentage != null ? model.percentage! / 100 : 0,
-                  ),
-                ],
+          ? const Center(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 40),
+                child: YaruCircularProgressIndicator(),
               ),
             )
           : SizedBox(
@@ -143,10 +137,16 @@ class _UpdateDialogState extends State<UpdateDialog> {
                       ),
                       expandIcon: const Icon(YaruIcons.pan_end),
                       isExpanded: true,
-                      child: SizedBox(
-                        height: 250,
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          maxHeight: 150,
+                          minHeight: 150,
+                        ),
+                        // height: 250,
                         child: Markdown(
-                          data: model.changelog,
+                          data: model.changelog.length > 4000
+                              ? '${model.changelog.substring(0, 4000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
+                              : model.changelog,
                           shrinkWrap: true,
                           selectable: true,
                           onTapLink: (text, href, title) =>

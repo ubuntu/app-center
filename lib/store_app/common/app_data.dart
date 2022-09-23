@@ -29,6 +29,7 @@ class AppData {
   final String website;
   final List<String> screenShotUrls;
   final String description;
+  final bool? versionChanged;
 
   AppData({
     required this.title,
@@ -44,5 +45,6 @@ class AppData {
     required this.website,
     required this.screenShotUrls,
     required this.description,
+    this.versionChanged,
   });
 }
