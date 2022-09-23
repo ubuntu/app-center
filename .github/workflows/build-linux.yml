@@ -1,4 +1,4 @@
-name: flutter analyze
+name: flutter build linux
 
 on:
   push:
@@ -16,7 +16,6 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: "stable"
-
-      # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Analyze project source
-        run: flutter analyze
+      
+      - name: build flutter Linux
+        run: flutter build linux -v
