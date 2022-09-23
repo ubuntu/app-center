@@ -20,4 +20,4 @@ jobs:
 
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: format
-        run: flutter format
+        run: flutter format --set-exit-if-changed .
