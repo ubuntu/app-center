@@ -24,6 +24,7 @@ import 'package:software/store_app/common/dialogs/app_dialog_content.dart';
 import 'package:software/store_app/common/dialogs/app_dialog_header.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/dialogs/snap_channel_expandable.dart';
+import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_connections_settings.dart';
 import 'package:software/store_app/common/dialogs/snap_installation_controls.dart';
 import 'package:software/store_app/common/snap_model.dart';
@@ -84,7 +85,7 @@ class _SnapDialogState extends State<SnapDialog> {
               icon: InkWell(
                 borderRadius: BorderRadius.circular(100),
                 onTap: model.installDate.isNotEmpty ? model.open : null,
-                child: YaruSafeImage(
+                child: SafeNetworkImage(
                   url: model.iconUrl,
                   fallBackIconData: YaruIcons.package_snap,
                 ),

@@ -17,7 +17,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:software/store_app/common/border_container.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
+import 'package:software/store_app/common/safe_network_image.dart';
 
 class AppIcon extends StatelessWidget {
   const AppIcon({
@@ -42,7 +42,7 @@ class AppIcon extends StatelessWidget {
               size: 80,
             ),
           )
-        : YaruSafeImage(
+        : SafeNetworkImage(
             url: iconUrl,
             fallBackIconData: fallBackIconData,
             iconSize: 80,
