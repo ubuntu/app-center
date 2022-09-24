@@ -16,6 +16,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -46,7 +47,7 @@ class MediaTile extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () => Navigator.of(context).pop(),
-                  child: YaruSafeImage(
+                  child: SafeNetworkImage(
                     url: url,
                     fit: fit,
                     filterQuality: FilterQuality.medium,
@@ -60,7 +61,7 @@ class MediaTile extends StatelessWidget {
             padding: padding,
             child: ClipRRect(
               borderRadius: borderRadius,
-              child: YaruSafeImage(
+              child: SafeNetworkImage(
                 url: url,
                 fallBackIconData: YaruIcons.image,
               ),

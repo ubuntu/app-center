@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/link.dart';
+import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -67,7 +68,7 @@ class AppContent extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: () => Navigator.of(context).pop(),
-                              child: YaruSafeImage(
+                              child: SafeNetworkImage(
                                 url: url,
                                 fit: BoxFit.contain,
                                 filterQuality: FilterQuality.medium,
@@ -77,7 +78,7 @@ class AppContent extends StatelessWidget {
                           ],
                         ),
                       ),
-                      child: YaruSafeImage(
+                      child: SafeNetworkImage(
                         url: url,
                         fallBackIconData: YaruIcons.image,
                       ),

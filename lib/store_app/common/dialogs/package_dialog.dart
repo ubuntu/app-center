@@ -25,6 +25,7 @@ import 'package:software/store_app/common/dialogs/app_dialog_content.dart';
 import 'package:software/store_app/common/dialogs/app_dialog_header.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/package_model.dart';
+import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -88,7 +89,7 @@ class _PackageDialogState extends State<PackageDialog> {
                     onTap: model.isInstalled
                         ? () => model.open(widget.id.name)
                         : null,
-                    child: const YaruSafeImage(
+                    child: const SafeNetworkImage(
                       url: '',
                       fallBackIconData: YaruIcons.package_deb,
                     ),
