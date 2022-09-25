@@ -16,7 +16,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_description.dart';
 import 'package:software/store_app/common/app_header.dart';
@@ -185,39 +184,28 @@ class _CarouselDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardListener(
-      onKeyEvent: (value) {
-        if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
-          // TODO: _animateToNextPage
-        } else if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
-          // TODO: _animateToPreviousPage
-        }
-      },
-      focusNode: FocusNode(),
-      child: SimpleDialog(
-        title: const YaruDialogTitle(
-          closeIconData: YaruIcons.window_close,
-        ),
-        contentPadding: const EdgeInsets.only(bottom: 20),
-        titlePadding: EdgeInsets.zero,
-        children: [
-          SizedBox(
-            height: windowHeight - 150,
-            child: YaruCarousel(
-              initialIndex: initialIndex,
-              nextIcon: const Icon(YaruIcons.go_next),
-              previousIcon: const Icon(YaruIcons.go_previous),
-              navigationControls: appData.screenShotUrls.length > 1,
-              viewportFraction: 0.8,
-              width: windowWidth,
-              children: [
-                for (final url in appData.screenShotUrls)
-                  YaruSafeImage(url: url)
-              ],
-            ),
-          )
-        ],
+    return SimpleDialog(
+      title: const YaruDialogTitle(
+        closeIconData: YaruIcons.window_close,
       ),
+      contentPadding: const EdgeInsets.only(bottom: 20),
+      titlePadding: EdgeInsets.zero,
+      children: [
+        SizedBox(
+          height: windowHeight - 150,
+          child: YaruCarousel(
+            initialIndex: initialIndex,
+            nextIcon: const Icon(YaruIcons.go_next),
+            previousIcon: const Icon(YaruIcons.go_previous),
+            navigationControls: appData.screenShotUrls.length > 1,
+            viewportFraction: 0.8,
+            width: windowWidth,
+            children: [
+              for (final url in appData.screenShotUrls) YaruSafeImage(url: url)
+            ],
+          ),
+        )
+      ],
     );
   }
 }
