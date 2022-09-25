@@ -20,6 +20,8 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
+const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
+
 class AppInfos extends StatelessWidget {
   const AppInfos({
     Key? key,
@@ -31,6 +33,7 @@ class AppInfos extends StatelessWidget {
     required this.version,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.versionChanged,
+    this.mainAxisSize = MainAxisSize.max,
   }) : super(key: key);
 
   final bool strict;
@@ -41,17 +44,15 @@ class AppInfos extends StatelessWidget {
   final String version;
   final MainAxisAlignment mainAxisAlignment;
   final bool? versionChanged;
+  final MainAxisSize mainAxisSize;
 
   @override
   Widget build(BuildContext context) {
-    const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
-
     return Row(
       mainAxisAlignment: mainAxisAlignment,
-      mainAxisSize: MainAxisSize.max,
+      mainAxisSize: mainAxisSize,
       children: [
         _Confinement(
-          headerStyle: headerStyle,
           strict: strict,
           confinementName: confinementName,
         ),
@@ -59,9 +60,6 @@ class AppInfos extends StatelessWidget {
         _License(headerStyle: headerStyle, license: license),
         const SizedBox(height: 40, width: 30, child: VerticalDivider()),
         _Version(
-          installDate: installDate,
-          headerStyle: headerStyle,
-          installDateIsoNorm: installDateIsoNorm,
           version: version,
           versionChanged: versionChanged,
         ),
@@ -70,53 +68,69 @@ class AppInfos extends StatelessWidget {
   }
 }
 
+class _InfoColumn extends StatelessWidget {
+  const _InfoColumn({
+    Key? key,
+    required this.header,
+    required this.child,
+    required this.tooltipMessage,
+  }) : super(key: key);
+
+  final String header;
+  final String tooltipMessage;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltipMessage,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            header,
+            overflow: TextOverflow.ellipsis,
+            style: headerStyle,
+          ),
+          SizedBox(
+            width: 100,
+            child: child,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _Version extends StatelessWidget {
   const _Version({
     Key? key,
-    required this.installDate,
-    required this.headerStyle,
-    required this.installDateIsoNorm,
     required this.version,
     this.versionChanged,
   }) : super(key: key);
 
-  final String installDate;
-  final TextStyle headerStyle;
-  final String installDateIsoNorm;
   final String version;
   final bool? versionChanged;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Flexible(
-          child: Text(
-            context.l10n.version,
-            overflow: TextOverflow.ellipsis,
-            style: headerStyle,
-          ),
+    return _InfoColumn(
+      header: context.l10n.version,
+      tooltipMessage: version,
+      child: Text(
+        version,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
+        style: headerStyle.copyWith(
+          fontWeight: FontWeight.normal,
+          color: versionChanged == true
+              ? Theme.of(context).brightness == Brightness.light
+                  ? positiveGreenLightTheme
+                  : positiveGreenDarkTheme
+              : null,
         ),
-        Flexible(
-          child: Tooltip(
-            message: version,
-            child: Text(
-              version,
-              overflow: TextOverflow.ellipsis,
-              style: headerStyle.copyWith(
-                fontWeight: FontWeight.normal,
-                color: versionChanged == true
-                    ? Theme.of(context).brightness == Brightness.light
-                        ? positiveGreenLightTheme
-                        : positiveGreenDarkTheme
-                    : null,
-              ),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -133,24 +147,15 @@ class _License extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Flexible(
-          child: Text(context.l10n.license, style: headerStyle),
-        ),
-        Flexible(
-          child: Tooltip(
-            message: license,
-            child: Text(
-              license.split(' ').first,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-        )
-      ],
+    return _InfoColumn(
+      header: context.l10n.license,
+      tooltipMessage: license,
+      child: Text(
+        license,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
     );
   }
 }
@@ -158,45 +163,35 @@ class _License extends StatelessWidget {
 class _Confinement extends StatelessWidget {
   const _Confinement({
     Key? key,
-    required this.headerStyle,
     required this.strict,
     required this.confinementName,
   }) : super(key: key);
 
-  final TextStyle headerStyle;
   final bool strict;
   final String confinementName;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Flexible(
-          child: Text(
-            context.l10n.confinement,
-            style: headerStyle,
+    return _InfoColumn(
+      header: context.l10n.confinement,
+      tooltipMessage: confinementName,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            strict ? YaruIcons.shield : YaruIcons.warning,
+            size: 18,
           ),
-        ),
-        Flexible(
-          child: Row(
-            children: [
-              Icon(
-                strict ? YaruIcons.shield : YaruIcons.warning,
-                size: 18,
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Text(
-                confinementName,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ],
+          const SizedBox(
+            width: 5,
           ),
-        ),
-      ],
+          Text(
+            confinementName,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ],
+      ),
     );
   }
 }

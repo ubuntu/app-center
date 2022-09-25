@@ -67,9 +67,14 @@ class SnapChannelPopupButton extends StatelessWidget {
                           .format(entry.value.releasedAt),
                       style: const TextStyle(fontWeight: FontWeight.w300),
                     ),
-                    trailing: Text(
-                      entry.value.version,
-                      style: channelTextTheme,
+                    trailing: ConstrainedBox(
+                      constraints:
+                          const BoxConstraints(maxWidth: 180, minWidth: 80),
+                      child: Text(
+                        entry.value.version,
+                        style: channelTextTheme,
+                        textAlign: TextAlign.end,
+                      ),
                     ),
                   ),
                 )
