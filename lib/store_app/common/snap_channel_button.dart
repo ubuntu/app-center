@@ -42,6 +42,10 @@ class SnapChannelPopupButton extends StatelessWidget {
           constraints: const BoxConstraints(minWidth: 200, maxWidth: 400),
           initialValue: model.channelToBeInstalled,
           itemBuilder: (context) {
+            final channelTextTheme = Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(fontWeight: FontWeight.w500);
             return [
               for (final entry in model.selectableChannels.entries)
                 PopupMenuItem(
@@ -54,18 +58,18 @@ class SnapChannelPopupButton extends StatelessWidget {
                       model.channelToBeInstalled = entry.key;
                       Navigator.of(context).pop();
                     },
-                    title: Text(
-                      entry.key,
-                    ),
                     subtitle: Text(
-                      DateFormat.yMMMMEEEEd(Platform.localeName)
+                      entry.key,
+                      style: channelTextTheme,
+                    ),
+                    title: Text(
+                      DateFormat.yMMMMd(Platform.localeName)
                           .format(entry.value.releasedAt),
+                      style: const TextStyle(fontWeight: FontWeight.w300),
                     ),
                     trailing: Text(
                       entry.value.version,
-                      style: const TextStyle(
-                        fontSize: 12,
-                      ),
+                      style: channelTextTheme,
                     ),
                   ),
                 )
