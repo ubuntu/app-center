@@ -25,10 +25,12 @@ class MediaTile extends StatelessWidget {
     Key? key,
     required this.url,
     this.fit = BoxFit.contain,
+    required this.onTap,
   }) : super(key: key);
 
   final String url;
   final BoxFit fit;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -41,22 +43,7 @@ class MediaTile extends StatelessWidget {
         child: InkWell(
           borderRadius: borderRadius.outer(padding),
           excludeFromSemantics: true,
-          onTap: () => showDialog(
-            context: context,
-            builder: (context) => SimpleDialog(
-              children: [
-                InkWell(
-                  onTap: () => Navigator.of(context).pop(),
-                  child: SafeNetworkImage(
-                    url: url,
-                    fit: fit,
-                    filterQuality: FilterQuality.medium,
-                    fallBackIconData: YaruIcons.image,
-                  ),
-                )
-              ],
-            ),
-          ),
+          onTap: onTap,
           child: Padding(
             padding: padding,
             child: ClipRRect(
