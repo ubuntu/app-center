@@ -64,7 +64,18 @@ class AppPage extends StatelessWidget {
             viewportFraction: isWindowWide ? 0.5 : 1,
             height: windowHeight / 3,
             children: [
-              for (final url in appData.screenShotUrls) MediaTile(url: url)
+              for (final url in appData.screenShotUrls)
+                MediaTile(
+                  url: url,
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (c) => _CarouselDialog(
+                      windowHeight: windowHeight,
+                      appData: appData,
+                      windowWidth: windowWidth,
+                    ),
+                  ),
+                )
             ],
           ),
         ),
@@ -152,6 +163,45 @@ class AppPage extends StatelessWidget {
           : isWindowNormalSized
               ? normalWindowLayout
               : narrowWindowLayout,
+    );
+  }
+}
+
+class _CarouselDialog extends StatelessWidget {
+  const _CarouselDialog({
+    Key? key,
+    required this.windowHeight,
+    required this.appData,
+    required this.windowWidth,
+  }) : super(key: key);
+
+  final double windowHeight;
+  final AppData appData;
+  final double windowWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      title: const YaruDialogTitle(
+        closeIconData: YaruIcons.window_close,
+      ),
+      contentPadding: const EdgeInsets.only(bottom: 20),
+      titlePadding: EdgeInsets.zero,
+      children: [
+        SizedBox(
+          height: windowHeight - 150,
+          child: YaruCarousel(
+            nextIcon: const Icon(YaruIcons.go_next),
+            previousIcon: const Icon(YaruIcons.go_previous),
+            navigationControls: appData.screenShotUrls.length > 1,
+            viewportFraction: 0.8,
+            width: windowWidth,
+            children: [
+              for (final url in appData.screenShotUrls) YaruSafeImage(url: url)
+            ],
+          ),
+        )
+      ],
     );
   }
 }
