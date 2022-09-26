@@ -633,7 +633,7 @@ class PackageService {
       await completer.future;
       _searchTransaction = null;
 
-      return ids;
+      return ids.take(20).toList();
     });
   }
 
