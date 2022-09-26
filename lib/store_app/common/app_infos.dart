@@ -31,9 +31,8 @@ class AppInfos extends StatelessWidget {
     required this.installDate,
     required this.installDateIsoNorm,
     required this.version,
-    this.mainAxisAlignment = MainAxisAlignment.center,
     this.versionChanged,
-    this.mainAxisSize = MainAxisSize.max,
+    this.alignment = Alignment.center,
   }) : super(key: key);
 
   final bool strict;
@@ -42,28 +41,28 @@ class AppInfos extends StatelessWidget {
   final String installDate;
   final String installDateIsoNorm;
   final String version;
-  final MainAxisAlignment mainAxisAlignment;
   final bool? versionChanged;
-  final MainAxisSize mainAxisSize;
+  final AlignmentGeometry alignment;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: mainAxisAlignment,
-      mainAxisSize: mainAxisSize,
-      children: [
-        _Confinement(
-          strict: strict,
-          confinementName: confinementName,
-        ),
-        const SizedBox(height: 40, width: 30, child: VerticalDivider()),
-        _License(headerStyle: headerStyle, license: license),
-        const SizedBox(height: 40, width: 30, child: VerticalDivider()),
-        _Version(
-          version: version,
-          versionChanged: versionChanged,
-        ),
-      ],
+    return Align(
+      alignment: alignment,
+      child: Wrap(
+        children: [
+          _Confinement(
+            strict: strict,
+            confinementName: confinementName,
+          ),
+          const SizedBox(height: 40, width: 30, child: VerticalDivider()),
+          _License(headerStyle: headerStyle, license: license),
+          const SizedBox(height: 40, width: 30, child: VerticalDivider()),
+          _Version(
+            version: version,
+            versionChanged: versionChanged,
+          ),
+        ],
+      ),
     );
   }
 }
