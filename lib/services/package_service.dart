@@ -24,6 +24,7 @@ import 'package:packagekit/packagekit.dart';
 import 'package:software/package_state.dart';
 import 'package:software/store_app/common/utils.dart';
 import 'package:software/updates_state.dart';
+import 'package:synchronized/extension.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -599,30 +600,41 @@ class PackageService {
     setReposChanged(true);
   }
 
+  String? _searchQuery;
+  PackageKitTransaction? _searchTransaction;
+
   Future<List<PackageKitPackageId>> findPackageKitPackageIds({
     required String searchQuery,
     Set<PackageKitFilter> filter = const {},
   }) async {
+    _searchQuery = searchQuery;
     if (searchQuery.isEmpty) return [];
-    final List<PackageKitPackageId> ids = [];
-    final transaction = await _client.createTransaction();
-    final completer = Completer();
-    transaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        final id = event.packageId;
-        ids.add(id);
-      } else if (event is PackageKitErrorCodeEvent) {
-      } else if (event is PackageKitFinishedEvent) {
-        completer.complete();
-      }
-    });
-    await transaction.searchNames(
-      [searchQuery],
-      filter: filter,
-    );
-    await completer.future;
+    await _searchTransaction?.cancel();
+    // ensure max one search transaction at a time
+    return synchronized(() async {
+      if (searchQuery != _searchQuery) return [];
+      final List<PackageKitPackageId> ids = [];
+      final transaction = await _client.createTransaction();
+      final completer = Completer();
+      transaction.events.listen((event) {
+        if (event is PackageKitPackageEvent) {
+          final id = event.packageId;
+          ids.add(id);
+        } else if (event is PackageKitErrorCodeEvent) {
+        } else if (event is PackageKitFinishedEvent) {
+          completer.complete();
+        }
+      });
+      _searchTransaction = transaction;
+      await transaction.searchNames(
+        [searchQuery],
+        filter: filter,
+      );
+      await completer.future;
+      _searchTransaction = null;
 
-    return ids;
+      return ids;
+    });
   }
 
   PackageKitPackageId? _localId;
