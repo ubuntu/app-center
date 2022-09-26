@@ -28,12 +28,33 @@ import 'package:software/snapx.dart';
 
 class SnapModel extends SafeChangeNotifier {
   final AppChangeService _appChangeService;
+
+  /// The [SnapDClient]
   final SnapdClient _client;
+
+  /// Used for some banners to have a generated color tint.
   final ColorGenerator? colorGenerator;
+
+  /// [SnapDClient] does not return information about channels of a [Snap] unless
+  /// they are found by name. Thus we instantiate [SnapModel] only with the [huskSnapName]
+  /// and load the rest of the information about the snap inside [init].
   final String huskSnapName;
+
+  /// The snap loaded by find inside [init] with given [huskSnapName]
+  /// from the snap store. This [Snap] includes all information, but not the installed channel
+  /// and not the list of [SnapConnection]s.
   Snap? _storeSnap;
+
+  /// Mainly used for the information about the install [SnapChannel] and
+  /// the [SnapConnection]s. It is used as a fallback for some information
+  /// if the snap is offline.
   Snap? _localSnap;
+
+  /// Boolean flag to decide if snapd is used offline or online.
   bool online;
+
+  /// Localized string used to after install/refresh/remove to display inside the
+  /// desktop notification.
   final String doneString;
 
   SnapModel(
