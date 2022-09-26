@@ -1,7 +1,7 @@
 {
   "appTitle": "Ubuntu Software",
   "explorePageTitle": "Обзор",
-  "myAppsPageTitle": "Мои\nПриложения",
+  "myAppsPageTitle": "Мои Приложения",
   "updatesPageTitle": "Обновления",
   "settingsPageTitle": "Параметры",
   "artAndDesign": "Искусство и Дизайн",
@@ -72,5 +72,8 @@
   "sources": "Источники",
   "packageInstaller": "Установщик Пакетов",
   "classic": "классическая",
-  "verified": "Подтвержденный Издатель"
+  "verified": "Подтвержденный Издатель",
+  "updatesComplete": "Обновление завершено",
+  "findOurRepository": "Проект на GitHub",
+  "changelogTooLong": "Для полного списка изменений, пожалуйста посетите:"
 }
