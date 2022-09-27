@@ -138,7 +138,7 @@ class _SnapDialogState extends State<SnapDialog> {
                 releasedAt: model.releasedAt,
                 releaseAtIsoNorm: model.releaseAtIsoNorm,
                 selectableChannelsIsEmpty: model.selectableChannels.isEmpty,
-                selectedChannelVersion: model.selectedChannelVersion ?? '',
+                selectedChannelVersion: model.selectedChannelVersion,
                 selectableChannels:
                     model.selectableChannels.entries.map((e) => e.key).toList(),
               ),
@@ -155,9 +155,9 @@ class _SnapDialogState extends State<SnapDialog> {
             SnapInstallationControls(
               appChangeInProgress: model.appChangeInProgress,
               appIsInstalled: model.snapIsInstalled,
-              install: model.installSnap,
-              refresh: model.refreshSnapApp,
-              remove: model.removeSnap,
+              install: model.install,
+              refresh: model.refresh,
+              remove: model.remove,
               open: model.isSnapEnv ? null : model.open,
             )
         ],
