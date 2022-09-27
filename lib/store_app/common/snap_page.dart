@@ -17,7 +17,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_data.dart';
@@ -42,8 +41,7 @@ class SnapPage extends StatefulWidget {
   }) =>
       ChangeNotifierProvider<SnapModel>(
         create: (_) => SnapModel(
-          doneString: context.l10n.done,
-          getService<SnapdClient>(),
+          doneMessage: context.l10n.done,
           getService<SnapService>(),
           huskSnapName: huskSnapName,
         ),
