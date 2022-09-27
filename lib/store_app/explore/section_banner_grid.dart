@@ -38,19 +38,13 @@ class SectionBannerGrid extends StatefulWidget {
 }
 
 class _SectionBannerGridState extends State<SectionBannerGrid> {
-  late ScrollController _controller;
+  int amount = 10;
 
   @override
   void initState() {
-    _controller = ScrollController();
+    amount = 10;
     context.read<ExploreModel>().loadSection(widget.snapSection);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -60,13 +54,12 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
         model.sectionNameToSnapsMap[widget.snapSection.title] ?? [];
     if (sections.isEmpty) return const SizedBox();
     return GridView.builder(
-      controller: _controller,
       padding: const EdgeInsets.all(20),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
-      itemCount: sections.take(model.snapAmount).length,
+      itemCount: sections.take(model.appResultAmount).length,
       itemBuilder: (context, index) {
-        final snap = sections.take(model.snapAmount).elementAt(index);
+        final snap = sections.take(model.appResultAmount).elementAt(index);
         return AnimatedScrollViewItem(
           child: YaruBanner(
             name: snap.name,

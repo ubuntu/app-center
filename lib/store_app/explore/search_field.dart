@@ -21,7 +21,6 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 
 class SearchField extends StatefulWidget {
   const SearchField({Key? key}) : super(key: key);
@@ -69,28 +68,6 @@ class _SearchFieldState extends State<SearchField> {
                   onChanged: (v) => model.selectedSection = v!,
                 ),
               ],
-            ),
-          ),
-          suffixIcon: Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextButton(
-                    onPressed: () => model.snapAmount += 10,
-                    child: const Text('Show more'),
-                  ),
-                  if (model.snapAmount >= 20)
-                    TextButton(
-                      onPressed: () {
-                        if (model.snapAmount >= 20) model.snapAmount -= 10;
-                      },
-                      child: const Text('Show less'),
-                    ),
-                ],
-              ),
             ),
           ),
           isDense: false,
