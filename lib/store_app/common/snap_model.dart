@@ -22,15 +22,15 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/services/app_change_service.dart';
 import 'package:software/services/color_generator.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/utils.dart';
 
 class SnapModel extends SafeChangeNotifier {
   SnapModel(
     this._client,
-    this._appChangeService, {
+    this._snapService, {
     required this.doneString,
     this.colorGenerator,
     required this.huskSnapName,
@@ -68,7 +68,7 @@ class SnapModel extends SafeChangeNotifier {
       trackingChannel: trackingChannel,
     );
 
-    _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) async {
+    _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
       _loadProgress();
       if (!appChangeInProgress) {
         _localSnap = await _findLocalSnap(huskSnapName);
@@ -86,7 +86,7 @@ class SnapModel extends SafeChangeNotifier {
     super.dispose();
   }
 
-  final AppChangeService _appChangeService;
+  final SnapService _snapService;
 
   /// The [SnapDClient]
   final SnapdClient _client;
@@ -276,10 +276,10 @@ class SnapModel extends SafeChangeNotifier {
 
   void _loadProgress() {
     if (_storeSnap != null) {
-      appChangeInProgress = _appChangeService.getChange(_storeSnap!) != null;
+      appChangeInProgress = _snapService.getChange(_storeSnap!) != null;
     }
     if (_localSnap != null) {
-      appChangeInProgress = _appChangeService.getChange(_localSnap!) != null;
+      appChangeInProgress = _snapService.getChange(_localSnap!) != null;
     }
   }
 
@@ -310,7 +310,7 @@ class SnapModel extends SafeChangeNotifier {
       channel: channelToBeInstalled,
       classic: confinement == SnapConfinement.classic,
     );
-    await _appChangeService.addChange(
+    await _snapService.addChange(
       _storeSnap!,
       changeId,
       doneString,
@@ -324,7 +324,7 @@ class SnapModel extends SafeChangeNotifier {
     if (name == null) return;
     await _client.loadAuthorization();
     final changeId = await _client.remove(name!);
-    await _appChangeService.addChange(
+    await _snapService.addChange(
       _localSnap!,
       changeId,
       doneString,
@@ -342,7 +342,7 @@ class SnapModel extends SafeChangeNotifier {
       classic: selectableChannels[channelToBeInstalled]?.confinement ==
           SnapConfinement.classic,
     );
-    await _appChangeService.addChange(
+    await _snapService.addChange(
       _localSnap!,
       changeId,
       doneString,

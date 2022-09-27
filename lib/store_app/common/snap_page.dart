@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/app_change_service.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/app_page.dart';
@@ -44,7 +44,7 @@ class SnapPage extends StatefulWidget {
         create: (_) => SnapModel(
           doneString: context.l10n.done,
           getService<SnapdClient>(),
-          getService<AppChangeService>(),
+          getService<SnapService>(),
           huskSnapName: huskSnapName,
         ),
         child: SnapPage(onPop: onPop),

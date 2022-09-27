@@ -19,8 +19,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/app_change_service.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/package_page.dart';
 import 'package:software/store_app/common/snap_page.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
@@ -49,7 +49,7 @@ class MyAppsPage extends StatelessWidget {
       create: (context) => MyAppsModel(
         getService<PackageService>(),
         getService<SnapdClient>(),
-        getService<AppChangeService>(),
+        getService<SnapService>(),
       ),
       child: MyAppsPage(
         onTabTapped: onTabTapped,
