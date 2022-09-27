@@ -278,7 +278,10 @@ class SnapModel extends SafeChangeNotifier {
 
   Future<void> install() async {
     _localSnap = await _snapService.install(
-        _storeSnap!, channelToBeInstalled, doneMessage);
+      _storeSnap!,
+      channelToBeInstalled,
+      doneMessage,
+    );
     await loadConnections();
     notifyListeners();
   }
