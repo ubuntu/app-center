@@ -29,11 +29,9 @@ class SectionBannerGrid extends StatefulWidget {
   const SectionBannerGrid({
     Key? key,
     required this.snapSection,
-    this.amount = 20,
   }) : super(key: key);
 
   final SnapSection snapSection;
-  final int amount;
 
   @override
   State<SectionBannerGrid> createState() => _SectionBannerGridState();
@@ -66,9 +64,9 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
       padding: const EdgeInsets.all(20),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
-      itemCount: sections.take(widget.amount).length,
+      itemCount: sections.take(model.snapAmount).length,
       itemBuilder: (context, index) {
-        final snap = sections.take(widget.amount).elementAt(index);
+        final snap = sections.take(model.snapAmount).elementAt(index);
         return AnimatedScrollViewItem(
           child: YaruBanner(
             name: snap.name,

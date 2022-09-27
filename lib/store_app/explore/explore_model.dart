@@ -26,6 +26,13 @@ import 'package:software/store_app/common/snap_section.dart';
 class ExploreModel extends SafeChangeNotifier {
   final SnapdClient _snapDClient;
   final PackageService _packageService;
+  int _snapAmount = 40;
+  int get snapAmount => _snapAmount;
+  set snapAmount(int value) {
+    if (value == _snapAmount) return;
+    _snapAmount = value;
+    notifyListeners();
+  }
 
   Snap? _selectedSnap;
   Snap? get selectedSnap => _selectedSnap;
