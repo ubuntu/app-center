@@ -151,7 +151,7 @@ class _SnapDialogState extends State<SnapDialog> {
             )
           else
             SnapInstallationControls(
-              appChangeInProgress: model.snapChangeInProgress,
+              snapChangeInProgress: model.snapChangeInProgress,
               appIsInstalled: model.snapIsInstalled,
               install: model.install,
               refresh: model.refresh,

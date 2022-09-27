@@ -34,12 +34,12 @@ class SnapModel extends SafeChangeNotifier {
     this.colorGenerator,
     required this.huskSnapName,
     this.online = true,
-  })  : _snapChangeInProgress = false,
+  })  : _snapChangeInProgress = true,
         _channelToBeInstalled = '',
         connections = {};
 
   Future<void> init() async {
-    _loadSnapChangeInProgress();
+    await _loadSnapChangeInProgress();
 
     _localSnap = await _findLocalSnap(huskSnapName);
     if (online) {
