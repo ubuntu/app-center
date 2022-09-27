@@ -34,8 +34,8 @@ class SnapControls extends StatelessWidget {
     final model = context.watch<SnapModel>();
 
     if (model.snapChangeInProgress) {
-      return const Padding(
-        padding: EdgeInsets.all(12.0),
+      return const SizedBox(
+        height: 30,
         child: YaruCircularProgressIndicator(
           strokeWidth: 3,
         ),
