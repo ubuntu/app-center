@@ -128,7 +128,7 @@ class _SnapDialogState extends State<SnapDialog> {
             ),
             child: SizedBox(
               child: SnapChannelExpandable(
-                onChanged: model.appChangeInProgress
+                onChanged: model.snapChangeInProgress
                     ? null
                     : (v) => model.channelToBeInstalled = v!,
                 channelToBeInstalled: model.channelToBeInstalled,
@@ -142,7 +142,7 @@ class _SnapDialogState extends State<SnapDialog> {
               ),
             ),
           ),
-          if (model.appChangeInProgress)
+          if (model.snapChangeInProgress)
             const SizedBox(
               height: 25,
               child: YaruCircularProgressIndicator(
@@ -151,7 +151,7 @@ class _SnapDialogState extends State<SnapDialog> {
             )
           else
             SnapInstallationControls(
-              appChangeInProgress: model.appChangeInProgress,
+              appChangeInProgress: model.snapChangeInProgress,
               appIsInstalled: model.snapIsInstalled,
               install: model.install,
               refresh: model.refresh,

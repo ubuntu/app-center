@@ -34,11 +34,13 @@ class SnapModel extends SafeChangeNotifier {
     this.colorGenerator,
     required this.huskSnapName,
     this.online = true,
-  })  : _appChangeInProgress = false,
+  })  : _snapChangeInProgress = false,
         _channelToBeInstalled = '',
         connections = {};
 
   Future<void> init() async {
+    _loadSnapChangeInProgress();
+
     _localSnap = await _findLocalSnap(huskSnapName);
     if (online) {
       _storeSnap = await _findSnapByName(huskSnapName).timeout(
@@ -48,14 +50,6 @@ class SnapModel extends SafeChangeNotifier {
           return null;
         },
       );
-    }
-
-    if (snapIsInstalled) {
-      appChangeInProgress =
-          await _snapService.getSnapChangeInProgress(name: _localSnap!.name);
-    } else if (_storeSnap != null) {
-      appChangeInProgress =
-          await _snapService.getSnapChangeInProgress(name: _storeSnap!.name);
     }
 
     _selectableChannels = _fillSelectableChannels(storeSnap: _storeSnap);
@@ -68,8 +62,8 @@ class SnapModel extends SafeChangeNotifier {
     );
 
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
-      _loadProgress();
-      if (!appChangeInProgress) {
+      _loadSnapChangeInProgress();
+      if (!snapChangeInProgress) {
         _localSnap = await _findLocalSnap(huskSnapName);
       }
       notifyListeners();
@@ -85,6 +79,7 @@ class SnapModel extends SafeChangeNotifier {
     super.dispose();
   }
 
+  /// The service to handle all snap related actions.
   final SnapService _snapService;
 
   /// Used for some banners to have a generated color tint.
@@ -262,22 +257,18 @@ class SnapModel extends SafeChangeNotifier {
   /// Helper getter to check if the publisher is verified.
   bool get verified => publisher != null && publisher!.validation == 'verified';
 
-  bool _appChangeInProgress;
-  bool get appChangeInProgress => _appChangeInProgress;
-  set appChangeInProgress(bool value) {
-    if (value == _appChangeInProgress) return;
-    _appChangeInProgress = value;
+  /// Helper getter/setters for the change of this snap
+  bool _snapChangeInProgress;
+  bool get snapChangeInProgress => _snapChangeInProgress;
+  set snapChangeInProgress(bool value) {
+    if (value == _snapChangeInProgress) return;
+    _snapChangeInProgress = value;
     notifyListeners();
   }
 
-  void _loadProgress() {
-    if (_storeSnap != null) {
-      appChangeInProgress = _snapService.getChange(_storeSnap!) != null;
-    }
-    if (_localSnap != null) {
-      appChangeInProgress = _snapService.getChange(_localSnap!) != null;
-    }
-  }
+  /// Asks the [SnapService] if a [SnapDChange] for this snap is in progress
+  Future<void> _loadSnapChangeInProgress() async => snapChangeInProgress =
+      await _snapService.getSnapChangeInProgress(name: huskSnapName);
 
   Future<Snap?> _findLocalSnap(String huskSnapName) async =>
       _snapService.findLocalSnap(huskSnapName);
@@ -286,8 +277,8 @@ class SnapModel extends SafeChangeNotifier {
       _snapService.findSnapByName(name);
 
   Future<void> install() async {
-    _snapService.install(_storeSnap!, channelToBeInstalled, doneMessage);
-    _localSnap = await _findLocalSnap(huskSnapName);
+    _localSnap = await _snapService.install(
+        _storeSnap!, channelToBeInstalled, doneMessage);
     await loadConnections();
     notifyListeners();
   }
