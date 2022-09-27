@@ -16,6 +16,10 @@ license: GPL-3.0+
 assumes:
   - snapd2.41 # for appstream-metada and packagekit-control
 
+layout:
+    /usr/share/libdrm/amdgpu.ids:
+        symlink: $SNAP/gnome-platform/usr/share/libdrm/amdgpu.ids
+
 parts:
   flutter-git:
     source: https://github.com/flutter/flutter.git
