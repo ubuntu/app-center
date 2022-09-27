@@ -33,9 +33,9 @@ class SnapControls extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
 
-    if (model.appChangeInProgress) {
-      return const Padding(
-        padding: EdgeInsets.all(12.0),
+    if (model.snapChangeInProgress) {
+      return const SizedBox(
+        height: 30,
         child: YaruCircularProgressIndicator(
           strokeWidth: 3,
         ),
@@ -52,28 +52,21 @@ class SnapControls extends StatelessWidget {
       children: [
         if (model.snapIsInstalled)
           OutlinedButton(
-            onPressed: model.removeSnap,
+            onPressed: model.remove,
             child: Text(context.l10n.remove),
           ),
         if (model.snapIsInstalled)
-          if (model.selectableChannels[model.channelToBeInstalled]?.version !=
-              model.version)
-            ElevatedButton(
-              onPressed: model.refreshSnapApp,
-              child: Text(
-                context.l10n.refresh,
-              ),
-            )
-          else
-            OutlinedButton(
-              onPressed: model.refreshSnapApp,
-              child: Text(
-                context.l10n.refresh,
-              ),
-            )
+          ElevatedButton(
+            onPressed: model.selectedChannelVersion != model.version
+                ? model.refresh
+                : null,
+            child: Text(
+              context.l10n.refresh,
+            ),
+          )
         else
           ElevatedButton(
-            onPressed: model.installSnap,
+            onPressed: model.install,
             child: Text(
               context.l10n.install,
             ),

@@ -21,9 +21,9 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/package_installer/package_installer_app.dart';
-import 'package:software/services/app_change_service.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/store_app.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:window_manager/window_manager.dart';
@@ -52,7 +52,7 @@ void main(List<String> args) async {
     registerService<ColorGenerator>(DominantColorGenerator.new);
     registerService<SnapdClient>(SnapdClient.new, dispose: (s) => s.close());
     registerService<Connectivity>(Connectivity.new);
-    registerService<AppChangeService>(AppChangeService.new);
+    registerService<SnapService>(SnapService.new);
 
     runApp(StoreApp.create());
   } else {

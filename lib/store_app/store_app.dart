@@ -20,8 +20,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/app_change_service.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/explore/explore_page.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
@@ -39,7 +39,7 @@ class StoreApp extends StatelessWidget {
   static Widget create() => ChangeNotifierProvider(
         create: (context) => StoreModel(
           getService<Connectivity>(),
-          getService<AppChangeService>(),
+          getService<SnapService>(),
           getService<PackageService>(),
         ),
         child: const StoreApp(),

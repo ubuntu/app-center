@@ -20,15 +20,15 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/services/app_change_service.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:software/updates_state.dart';
 
 class StoreModel extends SafeChangeNotifier {
-  StoreModel(this._connectivity, this._appChangeService, this._packageService);
+  StoreModel(this._connectivity, this._snapService, this._packageService);
 
-  final AppChangeService _appChangeService;
-  Map<Snap, SnapdChange> get snapChanges => _appChangeService.snapChanges;
+  final SnapService _snapService;
+  Map<Snap, SnapdChange> get snapChanges => _snapService.snapChanges;
   StreamSubscription<bool>? _snapChangesSub;
 
   final Connectivity _connectivity;
@@ -50,7 +50,7 @@ class StoreModel extends SafeChangeNotifier {
   int get updateAmount => _packageService.updates.length;
 
   Future<void> init() async {
-    _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) {
+    _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       notifyListeners();
     });
     initConnectivity();

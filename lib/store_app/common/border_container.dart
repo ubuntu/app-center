@@ -16,28 +16,86 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/store_app/common/constants.dart';
 
+/// A [Container] with predefined [Decoration].
+/// The [Decoration] has a [Border] with [Divider]'s color.
+/// The [BorderContainer] wraps its [child] in a [Padding]
+/// which defaults to 20 on all sides
 class BorderContainer extends StatelessWidget {
   const BorderContainer({
     super.key,
     this.height,
     this.width,
-    this.padding,
+    this.childPadding,
     this.child,
     this.borderRadius = 10,
+    this.alignment,
+    this.color,
+    this.foregroundDecoration,
+    this.constraints,
+    this.margin,
+    this.transform,
+    this.transformAlignment,
+    this.clipBehavior = Clip.none,
+    this.containerPadding,
   });
 
+  /// Forwarded to [Container]
   final double? height;
+
+  /// Forwarded to [Container]
   final double? width;
-  final EdgeInsets? padding;
+
+  /// The [Padding] which the [child] is surrounded by. Defaults to 20
+  /// on all sides.
+  final EdgeInsets? childPadding;
+
+  /// Forwarded to [Container]
+  final EdgeInsets? containerPadding;
+
+  /// Forwarded to [Container]
   final Widget? child;
+
+  /// The radius added to the BoxDecoration of the [Container],
+  /// default value is 10 on all edges.
   final double borderRadius;
+
+  /// Forwarded to [Container]
+  final AlignmentGeometry? alignment;
+
+  /// Forwarded to [Container]
+  final Color? color;
+
+  /// The decoration to paint in front of the [child], Forwarded to [Container]
+  final Decoration? foregroundDecoration;
+
+  /// Forwarded to [Container]
+  final BoxConstraints? constraints;
+
+  /// Empty space to surround the [decoration] and [child].
+  final EdgeInsetsGeometry? margin;
+
+  /// The transformation matrix to apply before painting the container.
+  final Matrix4? transform;
+
+  /// Forwarded to [Container]
+  final AlignmentGeometry? transformAlignment;
+
+  /// Forwarded to [Container]
+  final Clip clipBehavior;
 
   @override
   Widget build(BuildContext context) {
     final container = Container(
-      padding: const EdgeInsets.all(pagePadding),
+      alignment: alignment,
+      color: color,
+      foregroundDecoration: foregroundDecoration,
+      constraints: constraints,
+      margin: margin,
+      transform: transform,
+      transformAlignment: transformAlignment,
+      clipBehavior: clipBehavior,
+      padding: containerPadding ?? const EdgeInsets.all(20),
       height: height,
       width: width,
       decoration: BoxDecoration(
@@ -52,9 +110,9 @@ class BorderContainer extends StatelessWidget {
       child: child,
     );
 
-    return padding != null
+    return childPadding != null
         ? Padding(
-            padding: padding!,
+            padding: childPadding!,
             child: container,
           )
         : container;

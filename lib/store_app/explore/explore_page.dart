@@ -32,7 +32,7 @@ import 'package:software/store_app/explore/snap_banner_carousel.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class ExplorePage extends StatelessWidget {
+class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
   static Widget create(BuildContext context, bool online) {
@@ -54,12 +54,56 @@ class ExplorePage extends StatelessWidget {
   }
 
   @override
+  State<ExplorePage> createState() => _ExplorePageState();
+}
+
+class _ExplorePageState extends State<ExplorePage> {
+  late ScrollController _controller;
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
     return Navigator(
       pages: [
         MaterialPage(
           child: Scaffold(
+            floatingActionButton: model.selectedSection != SnapSection.all &&
+                    model.searchQuery.isEmpty
+                ? FloatingActionButton.extended(
+                    backgroundColor:
+                        Theme.of(context).brightness == Brightness.light
+                            ? Colors.white
+                            : const Color.fromARGB(255, 75, 75, 75),
+                    foregroundColor: Theme.of(context).colorScheme.onSurface,
+                    elevation: 0,
+                    heroTag: 'more',
+                    onPressed: () {
+                      model.appResultAmount += 5;
+                      _controller.animateTo(
+                        _controller.position.maxScrollExtent + 5 * 120,
+                        duration: const Duration(seconds: 1),
+                        curve: Curves.fastOutSlowIn,
+                      );
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(color: Theme.of(context).dividerColor),
+                    ),
+                    label: const Text('Show more'),
+                  )
+                : null,
             appBar: AppBar(
               flexibleSpace: const SearchField(),
             ),
@@ -68,6 +112,7 @@ class ExplorePage extends StatelessWidget {
                 : model.showSearchPage
                     ? const SearchPage()
                     : SingleChildScrollView(
+                        controller: _controller,
                         child: Column(
                           children: [
                             if (model.showTopCarousel)

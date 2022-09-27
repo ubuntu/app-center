@@ -20,15 +20,15 @@ import 'dart:async';
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/services/app_change_service.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/services/snap_service.dart';
 
 class MyAppsModel extends SafeChangeNotifier {
   final PackageService _packageService;
   MyAppsModel(
     this._packageService,
     this._snapDClient,
-    this._appChangeService,
+    this._snapService,
   ) : _localSnaps = [];
 
   StreamSubscription<bool>? _installedSub;
@@ -36,7 +36,7 @@ class MyAppsModel extends SafeChangeNotifier {
   List<PackageKitPackageId> get installedApps => _packageService.installedApps;
 
   final SnapdClient _snapDClient;
-  final AppChangeService _appChangeService;
+  final SnapService _snapService;
   StreamSubscription<bool>? _snapChangesSub;
   final List<Snap> _localSnaps;
   List<Snap> get localSnaps => _localSnaps;
@@ -59,8 +59,8 @@ class MyAppsModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     await _loadLocalSnaps();
-    _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) {
-      if (_appChangeService.snapChanges.isEmpty) {
+    _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
+      if (_snapService.snapChanges.isEmpty) {
         _loadLocalSnaps().then((value) => notifyListeners());
       }
     });
@@ -82,7 +82,7 @@ class MyAppsModel extends SafeChangeNotifier {
     await _snapDClient.loadAuthorization();
     final snaps = (await _snapDClient.getSnaps())
         .where(
-          (snap) => _appChangeService.getChange(snap) == null,
+          (snap) => _snapService.getChange(snap) == null,
         )
         .toList();
     snaps.sort((a, b) => a.name.compareTo(b.name));
