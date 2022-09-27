@@ -117,7 +117,7 @@ class SnapModel extends SafeChangeNotifier {
   String? get base => _storeSnap?.base ?? _localSnap?.base;
 
   /// The channel this snap is from, e.g. "stable".
-  String? get channel => _storeSnap?.channel ?? _localSnap?.channel;
+  String? get channel => _localSnap?.channel ?? _storeSnap?.channel;
 
   /// Map to select a [SnapChannel]
   Map<String, SnapChannel> get selectableChannels => _selectableChannels ?? {};
@@ -296,7 +296,7 @@ class SnapModel extends SafeChangeNotifier {
     if (_localSnap == null ||
         channelToBeInstalled.isEmpty ||
         selectableChannels[channelToBeInstalled] == null) return;
-    await _snapService.refresh(
+    _localSnap = await _snapService.refresh(
       snap: _localSnap!,
       message: doneMessage,
       channel: channelToBeInstalled,

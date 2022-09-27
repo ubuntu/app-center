@@ -125,24 +125,26 @@ class SnapService {
     return await findLocalSnap(snap.name);
   }
 
-  Future<void> refresh({
+  Future<Snap?> refresh({
     required Snap snap,
     required String message,
     required String channel,
     required SnapConfinement confinement,
   }) async {
-    if (channel.isEmpty) return;
-    await _snapDClient.loadAuthorization();
-    final changeId = await _snapDClient.refresh(
-      snap.name,
-      channel: channel,
-      classic: confinement == SnapConfinement.classic,
-    );
-    await addChange(
-      snap,
-      changeId,
-      message,
-    );
+    if (channel.isNotEmpty) {
+      await _snapDClient.loadAuthorization();
+      final changeId = await _snapDClient.refresh(
+        snap.name,
+        channel: channel,
+        classic: confinement == SnapConfinement.classic,
+      );
+      await addChange(
+        snap,
+        changeId,
+        message,
+      );
+    }
+    return await findLocalSnap(snap.name);
   }
 
   Future<void> connect({
