@@ -19,8 +19,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/app_change_service.dart';
 import 'package:software/services/color_generator.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
@@ -103,11 +103,10 @@ class _AppBannerCarouselItem extends StatefulWidget {
   }) {
     return ChangeNotifierProvider<SnapModel>(
       create: (_) => SnapModel(
-        getService<SnapdClient>(),
-        getService<AppChangeService>(),
+        getService<SnapService>(),
         huskSnapName: snap.name,
         colorGenerator: getService<ColorGenerator>(),
-        doneString: context.l10n.done,
+        doneMessage: context.l10n.done,
       ),
       child: _AppBannerCarouselItem(snap: snap, onTap: onTap),
     );

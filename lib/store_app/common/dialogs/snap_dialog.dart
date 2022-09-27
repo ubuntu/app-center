@@ -17,16 +17,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/app_change_service.dart';
+import 'package:software/services/snap_service.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/dialogs/app_dialog_content.dart';
 import 'package:software/store_app/common/dialogs/app_dialog_header.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/dialogs/snap_channel_expandable.dart';
+import 'package:software/store_app/common/dialogs/snap_installation_controls.dart';
 import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_connections_settings.dart';
-import 'package:software/store_app/common/dialogs/snap_installation_controls.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -43,9 +42,8 @@ class SnapDialog extends StatefulWidget {
   }) =>
       ChangeNotifierProvider<SnapModel>(
         create: (_) => SnapModel(
-          doneString: context.l10n.done,
-          getService<SnapdClient>(),
-          getService<AppChangeService>(),
+          doneMessage: context.l10n.done,
+          getService<SnapService>(),
           huskSnapName: huskSnapName,
         ),
         child: const SnapDialog(),
@@ -130,7 +128,7 @@ class _SnapDialogState extends State<SnapDialog> {
             ),
             child: SizedBox(
               child: SnapChannelExpandable(
-                onChanged: model.appChangeInProgress
+                onChanged: model.snapChangeInProgress
                     ? null
                     : (v) => model.channelToBeInstalled = v!,
                 channelToBeInstalled: model.channelToBeInstalled,
@@ -144,7 +142,7 @@ class _SnapDialogState extends State<SnapDialog> {
               ),
             ),
           ),
-          if (model.appChangeInProgress)
+          if (model.snapChangeInProgress)
             const SizedBox(
               height: 25,
               child: YaruCircularProgressIndicator(
@@ -153,7 +151,7 @@ class _SnapDialogState extends State<SnapDialog> {
             )
           else
             SnapInstallationControls(
-              appChangeInProgress: model.appChangeInProgress,
+              snapChangeInProgress: model.snapChangeInProgress,
               appIsInstalled: model.snapIsInstalled,
               install: model.install,
               refresh: model.refresh,

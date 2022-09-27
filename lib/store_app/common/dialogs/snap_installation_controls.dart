@@ -22,7 +22,7 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class SnapInstallationControls extends StatelessWidget {
   const SnapInstallationControls({
     super.key,
-    required this.appChangeInProgress,
+    required this.snapChangeInProgress,
     required this.appIsInstalled,
     required this.remove,
     required this.refresh,
@@ -30,7 +30,7 @@ class SnapInstallationControls extends StatelessWidget {
     this.open,
   });
 
-  final bool appChangeInProgress;
+  final bool snapChangeInProgress;
   final bool appIsInstalled;
   final Function() remove;
   final Function() refresh;
@@ -39,7 +39,7 @@ class SnapInstallationControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (appChangeInProgress) {
+    if (snapChangeInProgress) {
       return const SizedBox(
         height: 25,
         child: YaruCircularProgressIndicator(
@@ -64,7 +64,7 @@ class SnapInstallationControls extends StatelessWidget {
               onPressed: remove,
               child: Text(
                 context.l10n.remove,
-                style: appChangeInProgress
+                style: snapChangeInProgress
                     ? TextStyle(color: Theme.of(context).disabledColor)
                     : null,
               ),
@@ -79,7 +79,7 @@ class SnapInstallationControls extends StatelessWidget {
             )
           else
             ElevatedButton(
-              onPressed: appChangeInProgress ? null : install,
+              onPressed: snapChangeInProgress ? null : install,
               child: Text(context.l10n.install),
             ),
         ],

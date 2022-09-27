@@ -22,24 +22,25 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/services/app_change_service.dart';
 import 'package:software/services/color_generator.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/utils.dart';
 
 class SnapModel extends SafeChangeNotifier {
   SnapModel(
-    this._client,
-    this._appChangeService, {
-    required this.doneString,
+    this._snapService, {
+    required this.doneMessage,
     this.colorGenerator,
     required this.huskSnapName,
     this.online = true,
-  })  : _appChangeInProgress = false,
+  })  : _snapChangeInProgress = true,
         _channelToBeInstalled = '',
         connections = {};
 
   Future<void> init() async {
+    await _loadSnapChangeInProgress();
+
     _localSnap = await _findLocalSnap(huskSnapName);
     if (online) {
       _storeSnap = await _findSnapByName(huskSnapName).timeout(
@@ -51,14 +52,6 @@ class SnapModel extends SafeChangeNotifier {
       );
     }
 
-    if (snapIsInstalled) {
-      appChangeInProgress =
-          (await _client.getChanges(name: _localSnap!.name)).isNotEmpty;
-    } else if (_storeSnap != null) {
-      appChangeInProgress =
-          (await _client.getChanges(name: _storeSnap!.name)).isNotEmpty;
-    }
-
     _selectableChannels = _fillSelectableChannels(storeSnap: _storeSnap);
 
     channelToBeInstalled = _determineChannelToBeInstalled(
@@ -68,9 +61,9 @@ class SnapModel extends SafeChangeNotifier {
       trackingChannel: trackingChannel,
     );
 
-    _snapChangesSub = _appChangeService.snapChangesInserted.listen((_) async {
-      _loadProgress();
-      if (!appChangeInProgress) {
+    _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
+      _loadSnapChangeInProgress();
+      if (!snapChangeInProgress) {
         _localSnap = await _findLocalSnap(huskSnapName);
       }
       notifyListeners();
@@ -86,10 +79,8 @@ class SnapModel extends SafeChangeNotifier {
     super.dispose();
   }
 
-  final AppChangeService _appChangeService;
-
-  /// The [SnapDClient]
-  final SnapdClient _client;
+  /// The service to handle all snap related actions.
+  final SnapService _snapService;
 
   /// Used for some banners to have a generated color tint.
   final ColorGenerator? colorGenerator;
@@ -114,7 +105,7 @@ class SnapModel extends SafeChangeNotifier {
 
   /// Localized string used to after install/refresh/remove to display inside the
   /// desktop notification.
-  final String doneString;
+  final String doneMessage;
 
   /// [StreamSubscription] to listen to snap changes.
   StreamSubscription<bool>? _snapChangesSub;
@@ -126,7 +117,7 @@ class SnapModel extends SafeChangeNotifier {
   String? get base => _storeSnap?.base ?? _localSnap?.base;
 
   /// The channel this snap is from, e.g. "stable".
-  String? get channel => _storeSnap?.channel ?? _localSnap?.channel;
+  String? get channel => _localSnap?.channel ?? _storeSnap?.channel;
 
   /// Map to select a [SnapChannel]
   Map<String, SnapChannel> get selectableChannels => _selectableChannels ?? {};
@@ -266,86 +257,50 @@ class SnapModel extends SafeChangeNotifier {
   /// Helper getter to check if the publisher is verified.
   bool get verified => publisher != null && publisher!.validation == 'verified';
 
-  bool _appChangeInProgress;
-  bool get appChangeInProgress => _appChangeInProgress;
-  set appChangeInProgress(bool value) {
-    if (value == _appChangeInProgress) return;
-    _appChangeInProgress = value;
+  /// Helper getter/setters for the change of this snap
+  bool _snapChangeInProgress;
+  bool get snapChangeInProgress => _snapChangeInProgress;
+  set snapChangeInProgress(bool value) {
+    if (value == _snapChangeInProgress) return;
+    _snapChangeInProgress = value;
     notifyListeners();
   }
 
-  void _loadProgress() {
-    if (_storeSnap != null) {
-      appChangeInProgress = _appChangeService.getChange(_storeSnap!) != null;
-    }
-    if (_localSnap != null) {
-      appChangeInProgress = _appChangeService.getChange(_localSnap!) != null;
-    }
-  }
+  /// Asks the [SnapService] if a [SnapDChange] for this snap is in progress
+  Future<void> _loadSnapChangeInProgress() async => snapChangeInProgress =
+      await _snapService.getSnapChangeInProgress(name: huskSnapName);
 
-  Future<Snap?> _findLocalSnap(String huskSnapName) async {
-    await _client.loadAuthorization();
-    try {
-      return await _client.getSnap(huskSnapName);
-    } on SnapdException {
-      return null;
-    }
-  }
+  Future<Snap?> _findLocalSnap(String huskSnapName) async =>
+      _snapService.findLocalSnap(huskSnapName);
 
-  Future<Snap?> _findSnapByName(String name) async {
-    await _client.loadAuthorization();
-    try {
-      final snaps = (await _client.find(name: name));
-      return snaps.first;
-    } on SnapdException {
-      return null;
-    }
-  }
+  Future<Snap?> _findSnapByName(String name) async =>
+      _snapService.findSnapByName(name);
 
   Future<void> install() async {
-    if (name == null) return;
-    await _client.loadAuthorization();
-    final changeId = await _client.install(
-      name!,
-      channel: channelToBeInstalled,
-      classic: confinement == SnapConfinement.classic,
-    );
-    await _appChangeService.addChange(
+    _localSnap = await _snapService.install(
       _storeSnap!,
-      changeId,
-      doneString,
+      channelToBeInstalled,
+      doneMessage,
     );
-    _localSnap = await _findLocalSnap(huskSnapName);
     await loadConnections();
     notifyListeners();
   }
 
   Future<void> remove() async {
-    if (name == null) return;
-    await _client.loadAuthorization();
-    final changeId = await _client.remove(name!);
-    await _appChangeService.addChange(
-      _localSnap!,
-      changeId,
-      doneString,
-    );
-    _localSnap = await _findLocalSnap(huskSnapName);
+    if (_localSnap == null) return;
+    _localSnap = await _snapService.remove(_localSnap!, doneMessage);
     notifyListeners();
   }
 
   Future<void> refresh() async {
-    if (name == null || channelToBeInstalled.isEmpty) return;
-    await _client.loadAuthorization();
-    final changeId = await _client.refresh(
-      name!,
+    if (_localSnap == null ||
+        channelToBeInstalled.isEmpty ||
+        selectableChannels[channelToBeInstalled] == null) return;
+    _localSnap = await _snapService.refresh(
+      snap: _localSnap!,
+      message: doneMessage,
       channel: channelToBeInstalled,
-      classic: selectableChannels[channelToBeInstalled]?.confinement ==
-          SnapConfinement.classic,
-    );
-    await _appChangeService.addChange(
-      _localSnap!,
-      changeId,
-      doneString,
+      confinement: selectableChannels[channelToBeInstalled]!.confinement,
     );
     await loadConnections();
     notifyListeners();
@@ -354,43 +309,21 @@ class SnapModel extends SafeChangeNotifier {
   Future<void> connect({
     required SnapConnection con,
   }) async {
-    await _client.loadAuthorization();
-    await _client.connect(
-      con.plug.snap,
-      con.plug.plug,
-      con.slot.snap,
-      con.slot.slot,
-    );
+    await _snapService.connect(con: con);
     notifyListeners();
   }
 
   Future<void> disconnect({
     required SnapConnection con,
   }) async {
-    await _client.loadAuthorization();
-    await _client.disconnect(
-      con.plug.snap,
-      con.plug.plug,
-      con.slot.snap,
-      con.slot.slot,
-    );
+    await _snapService.connect(con: con);
     notifyListeners();
   }
 
   Map<String, SnapConnection> connections;
   Future<void> loadConnections() async {
-    await _client.loadAuthorization();
-    final response = await _client.getConnections();
-
-    for (final connection in response.established) {
-      final interface = connection.interface;
-      if (connection.plug.snap.contains(huskSnapName) &&
-          interface != 'content') {
-        connections.putIfAbsent(
-          interface,
-          () => connection,
-        );
-      }
+    if (_localSnap != null) {
+      connections = await _snapService.loadConnections(_localSnap!);
     }
   }
 
