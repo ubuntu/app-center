@@ -36,7 +36,7 @@ class SnapModel extends SafeChangeNotifier {
     this.online = true,
   })  : _snapChangeInProgress = true,
         _channelToBeInstalled = '',
-        connections = {};
+        plugs = {};
 
   Future<void> init() async {
     await _loadSnapChangeInProgress();
@@ -320,10 +320,10 @@ class SnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Map<String, SnapConnection> connections;
+  Map<SnapPlug, bool> plugs;
   Future<void> loadConnections() async {
     if (_localSnap != null) {
-      connections = await _snapService.loadConnections(_localSnap!);
+      plugs = await _snapService.loadPlugs(_localSnap!);
     }
   }
 

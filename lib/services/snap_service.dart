@@ -171,22 +171,30 @@ class SnapService {
     );
   }
 
-  Map<String, SnapConnection> connections = {};
-  Future<Map<String, SnapConnection>> loadConnections(Snap snap) async {
-    Map<String, SnapConnection> cons = {};
+  Future<Map<SnapPlug, bool>> loadPlugs(Snap localSnap) async {
+    Map<SnapPlug, bool> plugs = {};
     await _snapDClient.loadAuthorization();
-    final response = await _snapDClient.getConnections();
 
-    for (final connection in response.established) {
-      final interface = connection.interface;
-      if (connection.plug.snap.contains(snap.name) && interface != 'content') {
-        cons.putIfAbsent(
-          interface,
-          () => connection,
-        );
+    try {
+      final response = await _snapDClient.getConnections(
+        snap: localSnap.name,
+        filter: SnapdConnectionFilter.all,
+      );
+      for (final plug in response.plugs) {
+        if (plug.snap != 'snapd' &&
+            plug.interface != null &&
+            !plug.interface!.contains('content')) {
+          if (plug.connections.isNotEmpty) {
+            plugs.putIfAbsent(plug, () => true);
+          } else {
+            plugs.putIfAbsent(plug, () => false);
+          }
+        }
       }
+    } on SnapdException {
+      return {};
     }
-    return cons;
+    return plugs;
   }
 
   Future<List<SnapdChange>> getChanges({required String name}) async =>

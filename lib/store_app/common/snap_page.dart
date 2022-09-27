@@ -88,7 +88,7 @@ class _SnapPageState extends State<SnapPage> {
       onPop: widget.onPop,
       permissionContainer: model.snapIsInstalled && model.strict
           ? BorderContainer(
-              child: SnapConnectionsSettings(connections: model.connections),
+              child: SnapConnectionsSettings(connections: model.plugs),
             )
           : const SizedBox(),
       controls: const SnapControls(),

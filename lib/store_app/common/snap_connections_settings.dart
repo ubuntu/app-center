@@ -29,7 +29,7 @@ class SnapConnectionsSettings extends StatelessWidget {
     this.isExpanded = true,
   });
 
-  final Map<String, SnapConnection> connections;
+  final Map<SnapPlug, bool> connections;
   final TextStyle? headerTextStyle;
   final bool isExpanded;
 
@@ -51,9 +51,9 @@ class SnapConnectionsSettings extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(connection.key),
+                    Text(connection.key.snap),
                     Switch(
-                      value: true,
+                      value: connection.value,
                       onChanged: (v) {},
                     )
                   ],
