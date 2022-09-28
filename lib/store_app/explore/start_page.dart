@@ -15,6 +15,8 @@
  *
  */
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
@@ -59,89 +61,62 @@ class _StartPageState extends State<StartPage> {
     if (model.sectionNameToSnapsMap.length < SnapSection.values.length) {
       return const Center(child: YaruCircularProgressIndicator());
     }
+    final carouselAmount = screenWidth > 1400
+        ? 3
+        : screenWidth > 1000
+            ? 2
+            : 1;
+    const spacing = 8.0;
+
     return SingleChildScrollView(
       primary: true,
       child: Column(
         children: [
-          screenWidth > 1400
-              ? Row(
-                  children: const [
-                    Expanded(
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              children: [
+                for (int i = 0;
+                    i <
+                        SnapSection.values
+                            .take(
+                              carouselAmount,
+                            )
+                            .length;
+                    i++)
+                  Expanded(
+                    child: Padding(
+                      padding: carouselAmount == 1
+                          ? EdgeInsets.zero
+                          : EdgeInsets.only(
+                              left: i != 0 ? spacing : 0,
+                              right:
+                                  carouselAmount > 2 && i != carouselAmount - 1
+                                      ? spacing
+                                      : 0,
+                            ),
                       child: SnapBannerCarousel(
-                        duration: Duration(seconds: 10),
-                        snapSection: SnapSection.featured,
+                        initialIndex: Random.secure().nextInt(10),
+                        duration: const Duration(seconds: 30),
+                        snapSection: SnapSection.values
+                            .take(
+                              carouselAmount,
+                            )
+                            .elementAt(i),
                         height: 220,
                       ),
                     ),
-                    Expanded(
-                      child: SnapBannerCarousel(
-                        duration: Duration(seconds: 8),
-                        snapSection: SnapSection.development,
-                        height: 220,
-                      ),
-                    ),
-                    Expanded(
-                      child: SnapBannerCarousel(
-                        duration: Duration(seconds: 12),
-                        snapSection: SnapSection.games,
-                        height: 220,
-                      ),
-                    ),
-                  ],
-                )
-              : screenWidth > 1000
-                  ? Row(
-                      children: const [
-                        Expanded(
-                          child: SnapBannerCarousel(
-                            duration: Duration(seconds: 10),
-                            snapSection: SnapSection.featured,
-                            height: 220,
-                          ),
-                        ),
-                        Expanded(
-                          child: SnapBannerCarousel(
-                            duration: Duration(seconds: 8),
-                            snapSection: SnapSection.development,
-                            height: 220,
-                          ),
-                        ),
-                      ],
-                    )
-                  : const SnapBannerCarousel(
-                      duration: Duration(seconds: 15),
-                      snapSection: SnapSection.featured,
-                      height: 220,
-                    ),
-          const SizedBox(
-            height: 20,
+                  ),
+              ],
+            ),
           ),
           for (final section in SnapSection.values)
             if (section != SnapSection.all && section != SnapSection.featured)
               Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25, right: 25),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          section.localize(context.l10n),
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        TextButton(
-                          onPressed: () => model.selectedSection = section,
-                          child: Text(
-                            context.l10n.showMore,
-                            style:
-                                Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      color: Theme.of(context).hintColor,
-                                      fontWeight: FontWeight.w200,
-                                    ),
-                          ),
-                        )
-                      ],
-                    ),
+                  _SeciontHeader(
+                    section: section,
+                    onViewMore: () => model.selectedSection = section,
                   ),
                   SectionBannerGrid(
                     snapSection: section,
@@ -151,13 +126,49 @@ class _StartPageState extends State<StartPage> {
                     animateBanners: false,
                     padding: const EdgeInsets.only(
                       left: 20,
-                      bottom: 20,
+                      bottom: 15,
                       right: 20,
-                      top: 5,
                     ),
                   ),
                 ],
               )
+        ],
+      ),
+    );
+  }
+}
+
+class _SeciontHeader extends StatelessWidget {
+  const _SeciontHeader({
+    Key? key,
+    required this.section,
+    required this.onViewMore,
+  }) : super(key: key);
+
+  final SnapSection section;
+  final VoidCallback onViewMore;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 25, right: 25),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            section.localize(context.l10n),
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          TextButton(
+            onPressed: onViewMore,
+            child: Text(
+              context.l10n.showMore,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Theme.of(context).hintColor,
+                    fontWeight: FontWeight.w200,
+                  ),
+            ),
+          )
         ],
       ),
     );

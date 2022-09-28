@@ -35,11 +35,13 @@ class SnapBannerCarousel extends StatefulWidget {
     required this.snapSection,
     this.duration = const Duration(seconds: 3),
     this.height = 178,
+    this.initialIndex = 0,
   }) : super(key: key);
 
   final SnapSection snapSection;
   final Duration duration;
   final double height;
+  final int initialIndex;
 
   @override
   State<SnapBannerCarousel> createState() => _SnapBannerCarouselState();
@@ -59,28 +61,25 @@ class _SnapBannerCarouselState extends State<SnapBannerCarousel> {
     final sections =
         model.sectionNameToSnapsMap[widget.snapSection.title] ?? [];
     return sections.isNotEmpty
-        ? Padding(
-            padding: const EdgeInsets.only(
-              top: 20,
-              right: 20,
-              left: 20,
-            ),
-            child: YaruCarousel(
-              viewportFraction: 1,
-              placeIndicator: false,
-              autoScrollDuration: widget.duration,
-              width: size.width,
-              height: widget.height,
-              autoScroll: true,
-              children: [
-                for (final snap in sections)
-                  _AppBannerCarouselItem.create(
-                    context: context,
-                    snap: snap,
-                    onTap: () => model.selectedSnap = snap,
-                  )
-              ],
-            ),
+        ? YaruCarousel(
+            initialIndex: widget.initialIndex,
+            viewportFraction: 1,
+            placeIndicator: false,
+            autoScrollDuration: widget.duration,
+            width: size.width,
+            height: widget.height,
+            autoScroll: true,
+            children: [
+              for (final snap in sections)
+                _AppBannerCarouselItem.create(
+                  context: context,
+                  snap: snap,
+                  sectionName: widget.snapSection == SnapSection.all
+                      ? SnapSection.featured.localize(context.l10n)
+                      : widget.snapSection.localize(context.l10n),
+                  onTap: () => model.selectedSnap = snap,
+                )
+            ],
           )
         : const SizedBox();
   }
@@ -90,16 +89,19 @@ class _AppBannerCarouselItem extends StatefulWidget {
   const _AppBannerCarouselItem({
     Key? key,
     required this.snap,
+    required this.sectionName,
     required this.onTap,
   }) : super(key: key);
 
   final Snap snap;
+  final String sectionName;
   final VoidCallback onTap;
 
   static Widget create({
     required BuildContext context,
     required Snap snap,
     required VoidCallback onTap,
+    required String sectionName,
   }) {
     return ChangeNotifierProvider<SnapModel>(
       create: (_) => SnapModel(
@@ -108,7 +110,11 @@ class _AppBannerCarouselItem extends StatefulWidget {
         colorGenerator: getService<ColorGenerator>(),
         doneMessage: context.l10n.done,
       ),
-      child: _AppBannerCarouselItem(snap: snap, onTap: onTap),
+      child: _AppBannerCarouselItem(
+        snap: snap,
+        onTap: onTap,
+        sectionName: sectionName,
+      ),
     );
   }
 
@@ -129,7 +135,7 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
     return YaruBanner(
       watermark: true,
       name: widget.snap.name,
-      summary: widget.snap.summary,
+      summary: widget.sectionName,
       url: widget.snap.iconUrl,
       surfaceTintColor: model.surfaceTintColor,
       onTap: widget.onTap,
