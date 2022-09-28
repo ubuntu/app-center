@@ -28,7 +28,7 @@ import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/search_field.dart';
 import 'package:software/store_app/explore/search_page.dart';
 import 'package:software/store_app/explore/section_banner_grid.dart';
-import 'package:software/store_app/explore/snap_banner_carousel.dart';
+import 'package:software/store_app/explore/start_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -107,23 +107,12 @@ class _ExplorePageState extends State<ExplorePage> {
                 ? _ErrorPage(errorMessage: model.errorMessage)
                 : model.showSearchPage
                     ? const SearchPage()
-                    : SingleChildScrollView(
-                        controller: _controller,
-                        child: Column(
-                          children: [
-                            if (model.showTopCarousel)
-                              const SnapBannerCarousel(
-                                duration: Duration(seconds: 15),
-                                snapSection: SnapSection.featured,
-                                height: 220,
-                              ),
-                            if (model.showSectionBannerGrid)
-                              SectionBannerGrid(
-                                snapSection: model.selectedSection,
-                              ),
-                          ],
-                        ),
-                      ),
+                    : model.showStartPage
+                        ? const StartPage()
+                        : SectionBannerGrid(
+                            snapSection: model.selectedSection,
+                            controller: _controller,
+                          ),
           ),
         ),
         if (model.selectedSnap != null && model.selectedPackage == null)
