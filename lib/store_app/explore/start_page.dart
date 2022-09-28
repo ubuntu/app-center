@@ -53,20 +53,66 @@ class _StartPageState extends State<StartPage> {
 
     if (screenWidth > 1000) amount = 4;
 
-    if (screenWidth > 1400) amount = 8;
+    if (screenWidth > 1400) amount = 10;
 
     final model = context.watch<ExploreModel>();
     if (model.sectionNameToSnapsMap.length < SnapSection.values.length) {
       return const Center(child: YaruCircularProgressIndicator());
     }
     return SingleChildScrollView(
+      primary: true,
       child: Column(
         children: [
-          const SnapBannerCarousel(
-            duration: Duration(seconds: 15),
-            snapSection: SnapSection.featured,
-            height: 220,
-          ),
+          screenWidth > 1400
+              ? Row(
+                  children: const [
+                    Expanded(
+                      child: SnapBannerCarousel(
+                        duration: Duration(seconds: 10),
+                        snapSection: SnapSection.featured,
+                        height: 220,
+                      ),
+                    ),
+                    Expanded(
+                      child: SnapBannerCarousel(
+                        duration: Duration(seconds: 8),
+                        snapSection: SnapSection.development,
+                        height: 220,
+                      ),
+                    ),
+                    Expanded(
+                      child: SnapBannerCarousel(
+                        duration: Duration(seconds: 12),
+                        snapSection: SnapSection.games,
+                        height: 220,
+                      ),
+                    ),
+                  ],
+                )
+              : screenWidth > 1000
+                  ? Row(
+                      children: const [
+                        Expanded(
+                          child: SnapBannerCarousel(
+                            duration: Duration(seconds: 10),
+                            snapSection: SnapSection.featured,
+                            height: 220,
+                          ),
+                        ),
+                        Expanded(
+                          child: SnapBannerCarousel(
+                            duration: Duration(seconds: 8),
+                            snapSection: SnapSection.development,
+                            height: 220,
+                          ),
+                        ),
+                      ],
+                    )
+                  : const SnapBannerCarousel(
+                      duration: Duration(seconds: 15),
+                      snapSection: SnapSection.featured,
+                      height: 220,
+                    ),
           const SizedBox(
             height: 20,
           ),
@@ -99,6 +145,7 @@ class _StartPageState extends State<StartPage> {
                   ),
                   SectionBannerGrid(
                     snapSection: section,
+                    initSection: false,
                     controller: ScrollController(),
                     amount: amount,
                     animateBanners: false,

@@ -33,6 +33,7 @@ class SectionBannerGrid extends StatefulWidget {
     this.amount,
     this.animateBanners = false,
     this.padding,
+    this.initSection = true,
   }) : super(key: key);
 
   final SnapSection snapSection;
@@ -40,6 +41,7 @@ class SectionBannerGrid extends StatefulWidget {
   final int? amount;
   final bool animateBanners;
   final EdgeInsets? padding;
+  final bool initSection;
 
   @override
   State<SectionBannerGrid> createState() => _SectionBannerGridState();
@@ -48,7 +50,9 @@ class SectionBannerGrid extends StatefulWidget {
 class _SectionBannerGridState extends State<SectionBannerGrid> {
   @override
   void initState() {
-    context.read<ExploreModel>().loadSection(widget.snapSection);
+    if (widget.initSection) {
+      context.read<ExploreModel>().loadSection(widget.snapSection);
+    }
     super.initState();
   }
 
