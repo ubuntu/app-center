@@ -305,43 +305,37 @@ class SnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> connect({
-    required SnapConnection con,
-  }) async {
-    await _snapService.connect(con: con);
-    plugs = await _snapService.loadPlugs(_localSnap!);
-  }
-
-  Future<void> disconnect({
-    required SnapConnection con,
-  }) async {
-    await _snapService.disconnect(con: con);
-    plugs = await _snapService.loadPlugs(_localSnap!);
-  }
-
-  Future<void> toggleConnection({
-    required SnapConnection con,
-    required bool value,
-  }) async {
-    if (value) {
-      await connect(con: con);
-    } else {
-      await disconnect(con: con);
-    }
-    await loadPlugsAndConnections();
-
-    notifyListeners();
-  }
-
   Map<SnapPlug, bool>? plugs;
   Map<String, SnapConnection>? connections;
 
   Future<void> loadPlugsAndConnections() async {
+    if (_localSnap == null) return;
     plugs?.clear();
     connections?.clear();
-    if (_localSnap != null) {
-      connections = await _snapService.loadConnections(_localSnap!);
-      plugs = await _snapService.loadPlugs(_localSnap!);
+    connections = await _snapService.loadConnections(_localSnap!);
+    plugs = await _snapService.loadPlugs(_localSnap!);
+    notifyListeners();
+  }
+
+  Future<void> toggleConnection({
+    required String interface,
+    required SnapPlug snap,
+    required bool value,
+  }) async {
+    if (connections == null) return;
+
+    final con = connections![interface];
+    if (con == null) return;
+
+    String? changeId;
+    if (value) {
+      changeId = await _snapService.connect(con: con);
+    } else {
+      changeId = await _snapService.disconnect(con: con);
+    }
+    if (changeId != null) {
+      _snapService.addChange(_localSnap!, changeId, doneMessage);
+      await loadPlugsAndConnections();
     }
   }
 

@@ -183,7 +183,7 @@ class SnapService {
       snap: snap.name,
     );
 
-    for (final connection in response.established) {
+    for (final connection in [...response.undesired, ...response.established]) {
       final interface = connection.interface;
       if (interface != 'content') {
         cons.putIfAbsent(
@@ -195,11 +195,16 @@ class SnapService {
     return cons;
   }
 
-  Future<void> connect({
+  Future<String?> connect({
     required SnapConnection con,
   }) async {
     await _snapDClient.loadAuthorization();
-    await _snapDClient.connect(
+    if ((await _snapDClient.getChanges(
+      filter: SnapdChangeFilter.inProgress,
+      name: con.plug.snap,
+    ))
+        .isNotEmpty) return null;
+    return await _snapDClient.connect(
       con.plug.snap,
       con.plug.plug,
       con.slot.snap,
@@ -207,11 +212,16 @@ class SnapService {
     );
   }
 
-  Future<void> disconnect({
+  Future<String?> disconnect({
     required SnapConnection con,
   }) async {
     await _snapDClient.loadAuthorization();
-    await _snapDClient.disconnect(
+    if ((await _snapDClient.getChanges(
+      filter: SnapdChangeFilter.inProgress,
+      name: con.plug.snap,
+    ))
+        .isNotEmpty) return null;
+    return await _snapDClient.disconnect(
       con.plug.snap,
       con.plug.plug,
       con.slot.snap,
