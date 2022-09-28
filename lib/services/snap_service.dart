@@ -147,32 +147,8 @@ class SnapService {
     return await findLocalSnap(snap.name);
   }
 
-  Future<void> connect({
-    required SnapConnection con,
-  }) async {
-    await _snapDClient.loadAuthorization();
-    await _snapDClient.connect(
-      con.plug.snap,
-      con.plug.plug,
-      con.slot.snap,
-      con.slot.slot,
-    );
-  }
-
-  Future<void> disconnect({
-    required SnapConnection con,
-  }) async {
-    await _snapDClient.loadAuthorization();
-    await _snapDClient.disconnect(
-      con.plug.snap,
-      con.plug.plug,
-      con.slot.snap,
-      con.slot.slot,
-    );
-  }
-
   Future<Map<SnapPlug, bool>> loadPlugs(Snap localSnap) async {
-    Map<SnapPlug, bool> plugs = {};
+    final Map<SnapPlug, bool> plugs = {};
     await _snapDClient.loadAuthorization();
 
     try {
@@ -195,6 +171,52 @@ class SnapService {
       return {};
     }
     return plugs;
+  }
+
+  Future<Map<String, SnapConnection>> loadConnections(
+    Snap snap,
+  ) async {
+    Map<String, SnapConnection> cons = {};
+    await _snapDClient.loadAuthorization();
+    final response = await _snapDClient.getConnections(
+      filter: SnapdConnectionFilter.all,
+      snap: snap.name,
+    );
+
+    for (final connection in response.established) {
+      final interface = connection.interface;
+      if (interface != 'content') {
+        cons.putIfAbsent(
+          interface,
+          () => connection,
+        );
+      }
+    }
+    return cons;
+  }
+
+  Future<void> connect({
+    required SnapConnection con,
+  }) async {
+    await _snapDClient.loadAuthorization();
+    await _snapDClient.connect(
+      con.plug.snap,
+      con.plug.plug,
+      con.slot.snap,
+      con.slot.slot,
+    );
+  }
+
+  Future<void> disconnect({
+    required SnapConnection con,
+  }) async {
+    await _snapDClient.loadAuthorization();
+    await _snapDClient.disconnect(
+      con.plug.snap,
+      con.plug.plug,
+      con.slot.snap,
+      con.slot.slot,
+    );
   }
 
   Future<List<SnapdChange>> getChanges({required String name}) async =>

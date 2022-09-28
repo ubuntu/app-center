@@ -403,7 +403,7 @@ packages:
       name: snapd
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.5"
+    version: "0.4.6"
   source_span:
     dependency: transitive
     description:

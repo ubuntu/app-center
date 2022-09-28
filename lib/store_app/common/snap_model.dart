@@ -35,8 +35,7 @@ class SnapModel extends SafeChangeNotifier {
     required this.huskSnapName,
     this.online = true,
   })  : _snapChangeInProgress = true,
-        _channelToBeInstalled = '',
-        plugs = {};
+        _channelToBeInstalled = '';
 
   Future<void> init() async {
     await _loadSnapChangeInProgress();
@@ -69,7 +68,7 @@ class SnapModel extends SafeChangeNotifier {
       notifyListeners();
     });
 
-    await loadConnections();
+    await loadPlugsAndConnections();
     notifyListeners();
   }
 
@@ -282,7 +281,7 @@ class SnapModel extends SafeChangeNotifier {
       channelToBeInstalled,
       doneMessage,
     );
-    await loadConnections();
+    await loadPlugsAndConnections();
     notifyListeners();
   }
 
@@ -302,7 +301,7 @@ class SnapModel extends SafeChangeNotifier {
       channel: channelToBeInstalled,
       confinement: selectableChannels[channelToBeInstalled]!.confinement,
     );
-    await loadConnections();
+    await loadPlugsAndConnections();
     notifyListeners();
   }
 
@@ -310,19 +309,38 @@ class SnapModel extends SafeChangeNotifier {
     required SnapConnection con,
   }) async {
     await _snapService.connect(con: con);
-    notifyListeners();
+    plugs = await _snapService.loadPlugs(_localSnap!);
   }
 
   Future<void> disconnect({
     required SnapConnection con,
   }) async {
-    await _snapService.connect(con: con);
+    await _snapService.disconnect(con: con);
+    plugs = await _snapService.loadPlugs(_localSnap!);
+  }
+
+  Future<void> toggleConnection({
+    required SnapConnection con,
+    required bool value,
+  }) async {
+    if (value) {
+      await connect(con: con);
+    } else {
+      await disconnect(con: con);
+    }
+    await loadPlugsAndConnections();
+
     notifyListeners();
   }
 
-  Map<SnapPlug, bool> plugs;
-  Future<void> loadConnections() async {
+  Map<SnapPlug, bool>? plugs;
+  Map<String, SnapConnection>? connections;
+
+  Future<void> loadPlugsAndConnections() async {
+    plugs?.clear();
+    connections?.clear();
     if (_localSnap != null) {
+      connections = await _snapService.loadConnections(_localSnap!);
       plugs = await _snapService.loadPlugs(_localSnap!);
     }
   }
