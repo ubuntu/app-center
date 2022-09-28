@@ -29,20 +29,25 @@ class SectionBannerGrid extends StatefulWidget {
   const SectionBannerGrid({
     Key? key,
     required this.snapSection,
+    required this.controller,
+    this.amount,
+    this.animateBanners = false,
+    this.padding,
   }) : super(key: key);
 
   final SnapSection snapSection;
+  final ScrollController controller;
+  final int? amount;
+  final bool animateBanners;
+  final EdgeInsets? padding;
 
   @override
   State<SectionBannerGrid> createState() => _SectionBannerGridState();
 }
 
 class _SectionBannerGridState extends State<SectionBannerGrid> {
-  int amount = 10;
-
   @override
   void initState() {
-    amount = 10;
     context.read<ExploreModel>().loadSection(widget.snapSection);
     super.initState();
   }
@@ -54,21 +59,37 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
         model.sectionNameToSnapsMap[widget.snapSection.title] ?? [];
     if (sections.isEmpty) return const SizedBox();
     return GridView.builder(
-      padding: const EdgeInsets.all(20),
+      controller: widget.controller,
+      padding: widget.padding ?? const EdgeInsets.all(20),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
-      itemCount: sections.take(model.appResultAmount).length,
+      itemCount: sections.take(widget.amount ?? model.appResultAmount).length,
       itemBuilder: (context, index) {
-        final snap = sections.take(model.appResultAmount).elementAt(index);
-        return AnimatedScrollViewItem(
-          child: YaruBanner(
-            name: snap.name,
-            summary: snap.summary,
-            url: snap.iconUrl,
-            fallbackIconData: YaruIcons.package_snap,
-            onTap: () => model.selectedSnap = snap,
-          ),
+        final snap = sections
+            .take(widget.amount ?? model.appResultAmount)
+            .elementAt(index);
+
+        final banner = YaruBanner(
+          name: snap.name,
+          summary: snap.summary,
+          url: snap.iconUrl,
+          fallbackIconData: YaruIcons.package_snap,
+          onTap: () => model.selectedSnap = snap,
         );
+
+        if (widget.animateBanners) {
+          return AnimatedScrollViewItem(
+            child: YaruBanner(
+              name: snap.name,
+              summary: snap.summary,
+              url: snap.iconUrl,
+              fallbackIconData: YaruIcons.package_snap,
+              onTap: () => model.selectedSnap = snap,
+            ),
+          );
+        } else {
+          return banner;
+        }
       },
     );
   }
