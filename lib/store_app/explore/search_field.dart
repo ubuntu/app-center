@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 
 class SearchField extends StatefulWidget {
   const SearchField({Key? key}) : super(key: key);
@@ -44,8 +45,12 @@ class _SearchFieldState extends State<SearchField> {
     return KeyboardListener(
       onKeyEvent: (value) {
         if (value.logicalKey == LogicalKeyboardKey.escape) {
-          model.searchQuery = '';
-          _controller.text = '';
+          if (model.searchQuery.isNotEmpty) {
+            model.searchQuery = '';
+            _controller.text = '';
+          } else {
+            model.selectedSection = SnapSection.all;
+          }
         }
       },
       focusNode: FocusNode(),
@@ -75,6 +80,21 @@ class _SearchFieldState extends State<SearchField> {
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.transparent),
           ),
+          suffixIcon: model.searchQuery.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 5.0),
+                  child: IconButton(
+                    onPressed: () {
+                      model.searchQuery = '';
+                      _controller.text = '';
+                    },
+                    icon: Icon(
+                      YaruIcons.edit_clear,
+                      color: Theme.of(context).hintColor,
+                    ),
+                  ),
+                )
+              : null,
         ),
       ),
     );
