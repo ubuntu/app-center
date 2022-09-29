@@ -27,7 +27,7 @@ class SnapService {
   final SnapdClient _snapDClient;
   final NotificationsClient _notificationsClient;
 
-  Future<void> addChange(Snap snap, String id, String doneString) async {
+  Future<void> _addChange(Snap snap, String id, String doneString) async {
     final newChange = await _snapDClient.getChange(id);
     _snapChanges.putIfAbsent(snap, () => newChange);
     if (!_snapChangesController.isClosed) {
@@ -106,7 +106,7 @@ class SnapService {
       channel: channelToBeInstalled,
       classic: snap.confinement == SnapConfinement.classic,
     );
-    await addChange(
+    await _addChange(
       snap,
       changeId,
       doneString,
@@ -117,7 +117,7 @@ class SnapService {
   Future<Snap?> remove(Snap snap, String doneString) async {
     await _snapDClient.loadAuthorization();
     final changeId = await _snapDClient.remove(snap.name);
-    await addChange(
+    await _addChange(
       snap,
       changeId,
       doneString,
@@ -138,7 +138,7 @@ class SnapService {
         channel: channel,
         classic: confinement == SnapConfinement.classic,
       );
-      await addChange(
+      await _addChange(
         snap,
         changeId,
         message,
@@ -147,51 +147,66 @@ class SnapService {
     return await findLocalSnap(snap.name);
   }
 
-  Future<void> connect({
-    required SnapConnection con,
-  }) async {
+  Future<Map<SnapPlug, bool>> loadPlugs(Snap localSnap) async {
+    final Map<SnapPlug, bool> plugs = {};
     await _snapDClient.loadAuthorization();
-    await _snapDClient.connect(
-      con.plug.snap,
-      con.plug.plug,
-      con.slot.snap,
-      con.slot.slot,
-    );
-  }
 
-  Future<void> disconnect({
-    required SnapConnection con,
-  }) async {
-    await _snapDClient.loadAuthorization();
-    await _snapDClient.disconnect(
-      con.plug.snap,
-      con.plug.plug,
-      con.slot.snap,
-      con.slot.slot,
-    );
-  }
-
-  Map<String, SnapConnection> connections = {};
-  Future<Map<String, SnapConnection>> loadConnections(Snap snap) async {
-    Map<String, SnapConnection> cons = {};
-    await _snapDClient.loadAuthorization();
-    final response = await _snapDClient.getConnections();
-
-    for (final connection in response.established) {
-      final interface = connection.interface;
-      if (connection.plug.snap.contains(snap.name) && interface != 'content') {
-        cons.putIfAbsent(
-          interface,
-          () => connection,
-        );
+    try {
+      final response = await _snapDClient.getConnections(
+        snap: localSnap.name,
+        filter: SnapdConnectionFilter.all,
+      );
+      for (final plug in response.plugs) {
+        if (plug.snap != 'snapd' &&
+            plug.interface != null &&
+            !plug.interface!.contains('content')) {
+          if (plug.connections.isNotEmpty) {
+            plugs.putIfAbsent(plug, () => true);
+          } else {
+            plugs.putIfAbsent(plug, () => false);
+          }
+        }
       }
+    } on SnapdException {
+      return {};
     }
-    return cons;
+    return plugs;
   }
 
-  Future<List<SnapdChange>> getChanges({required String name}) async =>
-      await _snapDClient.getChanges(name: name);
+  Future<void> toggleConnection({
+    required Snap snapThatWantsAConnection,
+    required String interface,
+    required String doneMessage,
+    required bool value,
+  }) async {
+    if (getChange(snapThatWantsAConnection) != null) {
+      return;
+    }
+
+    await _snapDClient.loadAuthorization();
+
+    final plugSnap = snapThatWantsAConnection.name;
+    final plug = interface;
+    String? slotSnap;
+    String? slot;
+
+    final changeId = value
+        ? await _snapDClient.connect(
+            plugSnap,
+            plug,
+            slotSnap ?? 'snapd',
+            slot ?? plug,
+          )
+        : await _snapDClient.disconnect(
+            plugSnap,
+            plug,
+            slotSnap ?? 'snapd',
+            slot ?? plug,
+          );
+
+    _addChange(snapThatWantsAConnection, changeId, doneMessage);
+  }
 
   Future<bool> getSnapChangeInProgress({required String name}) async =>
-      (await getChanges(name: name)).isNotEmpty;
+      (await _snapDClient.getChanges(name: name)).isNotEmpty;
 }

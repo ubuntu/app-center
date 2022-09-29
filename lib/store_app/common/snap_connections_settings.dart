@@ -16,25 +16,25 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:snapd/snapd.dart';
+import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/store_app/common/snap_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapConnectionsSettings extends StatelessWidget {
   const SnapConnectionsSettings({
     super.key,
-    required this.connections,
     this.headerTextStyle,
     this.isExpanded = true,
   });
 
-  final Map<String, SnapConnection> connections;
   final TextStyle? headerTextStyle;
   final bool isExpanded;
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<SnapModel>();
     return YaruExpandable(
       isExpanded: isExpanded,
       header: Text(
@@ -44,17 +44,26 @@ class SnapConnectionsSettings extends StatelessWidget {
       expandIcon: const Icon(YaruIcons.pan_end),
       child: Column(
         children: [
-          if (connections.isNotEmpty)
-            for (final connection in connections.entries)
+          if (model.plugs != null && model.plugs!.isNotEmpty)
+            for (final plugEntry in model.plugs!.entries)
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(connection.key),
+                    Text(plugEntry.key.interface ?? ''),
                     Switch(
-                      value: true,
-                      onChanged: (v) {},
+                      value: plugEntry.value,
+                      onChanged: model.snapChangeInProgress
+                          ? null
+                          : (value) {
+                              if (plugEntry.key.interface == null) return;
+                              model.toggleConnection(
+                                interface: plugEntry.key.interface!,
+                                snap: plugEntry.key,
+                                value: value,
+                              );
+                            },
                     )
                   ],
                 ),
