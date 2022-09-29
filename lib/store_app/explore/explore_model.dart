@@ -21,10 +21,11 @@ import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/snap_section.dart';
 
 class ExploreModel extends SafeChangeNotifier {
-  final SnapdClient _snapDClient;
+  final SnapService _snapService;
   final PackageService _packageService;
   int _appResulAmount = 10;
   int get appResultAmount => _appResulAmount;
@@ -51,7 +52,7 @@ class ExploreModel extends SafeChangeNotifier {
   }
 
   ExploreModel(
-    this._snapDClient,
+    this._snapService,
     this._packageService,
   )   : _searchQuery = '',
         sectionNameToSnapsMap = {},
@@ -101,9 +102,9 @@ class ExploreModel extends SafeChangeNotifier {
       return [];
     } else {
       try {
-        return await _snapDClient.find(
-          query: _searchQuery,
-          section:
+        return await _snapService.findSnapsByQuery(
+          searchQuery: searchQuery,
+          sectionName:
               selectedSection == SnapSection.all ? null : selectedSection.title,
         );
       } on SnapdException catch (e) {
@@ -116,8 +117,8 @@ class ExploreModel extends SafeChangeNotifier {
   Future<List<Snap>> findSnapsBySection({SnapSection? section}) async {
     if (section == null) return [];
     try {
-      return (await _snapDClient.find(
-        section: section == SnapSection.all
+      return (await _snapService.findSnapsBySection(
+        sectionName: section == SnapSection.all
             ? SnapSection.featured.title
             : section.title,
       ));

@@ -94,6 +94,42 @@ class SnapService {
     }
   }
 
+  Future<List<Snap>> getLocalSnaps() async {
+    final List<Snap> localSnaps = [];
+    await _snapDClient.loadAuthorization();
+    localSnaps.addAll((await _snapDClient.getSnaps()));
+    return localSnaps;
+  }
+
+  Future<List<Snap>> findSnapsByQuery({
+    required String searchQuery,
+    required String? sectionName,
+  }) async {
+    if (searchQuery.isEmpty) {
+      return [];
+    } else {
+      try {
+        return await _snapDClient.find(
+          query: searchQuery,
+          section: sectionName,
+        );
+      } on SnapdException catch (e) {
+        throw SnapdException(message: e.message);
+      }
+    }
+  }
+
+  Future<List<Snap>> findSnapsBySection({String? sectionName}) async {
+    if (sectionName == null) return [];
+    try {
+      return (await _snapDClient.find(
+        section: sectionName,
+      ));
+    } on SnapdException catch (e) {
+      throw SnapdException(message: e.message);
+    }
+  }
+
   Future<Snap?> install(
     Snap snap,
     String channelToBeInstalled,
