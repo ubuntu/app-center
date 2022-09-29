@@ -173,28 +173,6 @@ class SnapService {
     return plugs;
   }
 
-  Future<Map<String, SnapConnection>> loadConnections(
-    Snap snap,
-  ) async {
-    Map<String, SnapConnection> cons = {};
-    await _snapDClient.loadAuthorization();
-    final response = await _snapDClient.getConnections(
-      filter: SnapdConnectionFilter.all,
-      snap: snap.name,
-    );
-
-    for (final connection in [...response.undesired, ...response.established]) {
-      final interface = connection.interface;
-      if (interface != 'content') {
-        cons.putIfAbsent(
-          interface,
-          () => connection,
-        );
-      }
-    }
-    return cons;
-  }
-
   Future<void> toggleConnection({
     required Snap snapThatWantsAConnection,
     required String interface,
