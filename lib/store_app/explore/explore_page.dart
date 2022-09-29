@@ -17,9 +17,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/offline_page.dart';
 import 'package:software/store_app/common/package_page.dart';
 import 'package:software/store_app/common/snap_page.dart';
@@ -39,7 +39,7 @@ class ExplorePage extends StatefulWidget {
     if (!online) return const OfflinePage();
     return ChangeNotifierProvider(
       create: (_) => ExploreModel(
-        getService<SnapdClient>(),
+        getService<SnapService>(),
         getService<PackageService>(),
       ),
       child: const ExplorePage(),

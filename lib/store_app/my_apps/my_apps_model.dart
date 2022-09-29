@@ -27,7 +27,6 @@ class MyAppsModel extends SafeChangeNotifier {
   final PackageService _packageService;
   MyAppsModel(
     this._packageService,
-    this._snapDClient,
     this._snapService,
   ) : _localSnaps = [];
 
@@ -35,7 +34,6 @@ class MyAppsModel extends SafeChangeNotifier {
 
   List<PackageKitPackageId> get installedApps => _packageService.installedApps;
 
-  final SnapdClient _snapDClient;
   final SnapService _snapService;
   StreamSubscription<bool>? _snapChangesSub;
   final List<Snap> _localSnaps;
@@ -79,8 +77,7 @@ class MyAppsModel extends SafeChangeNotifier {
   }
 
   Future<void> _loadLocalSnaps() async {
-    await _snapDClient.loadAuthorization();
-    final snaps = (await _snapDClient.getSnaps())
+    final snaps = (await _snapService.getLocalSnaps())
         .where(
           (snap) => _snapService.getChange(snap) == null,
         )

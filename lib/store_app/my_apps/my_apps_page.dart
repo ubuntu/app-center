@@ -17,7 +17,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
@@ -48,7 +47,6 @@ class MyAppsPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppsModel(
         getService<PackageService>(),
-        getService<SnapdClient>(),
         getService<SnapService>(),
       ),
       child: MyAppsPage(
