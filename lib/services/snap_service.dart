@@ -207,9 +207,6 @@ class SnapService {
     _addChange(snapThatWantsAConnection, changeId, doneMessage);
   }
 
-  Future<List<SnapdChange>> getChanges({required String name}) async =>
-      await _snapDClient.getChanges(name: name);
-
   Future<bool> getSnapChangeInProgress({required String name}) async =>
-      (await getChanges(name: name)).isNotEmpty;
+      (await _snapDClient.getChanges(name: name)).isNotEmpty;
 }
