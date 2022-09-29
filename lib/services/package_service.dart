@@ -18,17 +18,22 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/package_state.dart';
 import 'package:software/store_app/common/utils.dart';
 import 'package:software/updates_state.dart';
+import 'package:synchronized/extension.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:window_manager/window_manager.dart';
 
 class PackageService {
   final PackageKitClient _client;
-  PackageService() : _client = getService<PackageKitClient>() {
+  final NotificationsClient _notificationsClient;
+  PackageService()
+      : _client = getService<PackageKitClient>(),
+        _notificationsClient = getService<NotificationsClient>() {
     _client.connect();
   }
 
@@ -230,6 +235,8 @@ class PackageService {
     _selectionChangedController.add(true);
   }
 
+  Timer? _refreshUpdatesTimer;
+
   Future<void> init() async {
     setErrorMessage('');
     setPackageState(PackageState.processing);
@@ -253,6 +260,15 @@ class PackageService {
     } finally {
       windowManager.setClosable(true);
     }
+    _refreshUpdatesTimer = Timer.periodic(const Duration(minutes: 30), (timer) {
+      if (lastUpdatesState == UpdatesState.noUpdates) {
+        refreshUpdates();
+      }
+    });
+  }
+
+  void dispose() {
+    _refreshUpdatesTimer?.cancel();
   }
 
   Future<void> _refreshCache() async {
@@ -302,7 +318,7 @@ class PackageService {
     }
   }
 
-  Future<void> updateAll() async {
+  Future<void> updateAll({required String updatesComplete}) async {
     windowManager.setClosable(false);
     try {
       setErrorMessage('');
@@ -338,7 +354,21 @@ class PackageService {
       setStatus(null);
       setProcessedId(null);
       setUpdatePercentage(null);
-      setUpdatesState(UpdatesState.noUpdates);
+      if (selectedUpdates.length == updates.length) {
+        setUpdatesState(UpdatesState.noUpdates);
+      } else {
+        await refreshUpdates();
+      }
+      _notificationsClient.notify(
+        'Ubuntu Software',
+        body: updatesComplete,
+        appName: 'snap-store',
+        appIcon: 'snap-store',
+        hints: [
+          NotificationHint.desktopEntry('software'),
+          NotificationHint.urgency(NotificationUrgency.normal)
+        ],
+      );
     } finally {
       windowManager.setClosable(true);
     }
@@ -570,30 +600,41 @@ class PackageService {
     setReposChanged(true);
   }
 
+  String? _searchQuery;
+  PackageKitTransaction? _searchTransaction;
+
   Future<List<PackageKitPackageId>> findPackageKitPackageIds({
     required String searchQuery,
     Set<PackageKitFilter> filter = const {},
   }) async {
+    _searchQuery = searchQuery;
     if (searchQuery.isEmpty) return [];
-    final List<PackageKitPackageId> ids = [];
-    final transaction = await _client.createTransaction();
-    final completer = Completer();
-    transaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        final id = event.packageId;
-        ids.add(id);
-      } else if (event is PackageKitErrorCodeEvent) {
-      } else if (event is PackageKitFinishedEvent) {
-        completer.complete();
-      }
-    });
-    await transaction.searchNames(
-      [searchQuery],
-      filter: filter,
-    );
-    await completer.future;
+    await _searchTransaction?.cancel();
+    // ensure max one search transaction at a time
+    return synchronized(() async {
+      if (searchQuery != _searchQuery) return [];
+      final List<PackageKitPackageId> ids = [];
+      final transaction = await _client.createTransaction();
+      final completer = Completer();
+      transaction.events.listen((event) {
+        if (event is PackageKitPackageEvent) {
+          final id = event.packageId;
+          ids.add(id);
+        } else if (event is PackageKitErrorCodeEvent) {
+        } else if (event is PackageKitFinishedEvent) {
+          completer.complete();
+        }
+      });
+      _searchTransaction = transaction;
+      await transaction.searchNames(
+        [searchQuery],
+        filter: filter,
+      );
+      await completer.future;
+      _searchTransaction = null;
 
-    return ids;
+      return ids.take(20).toList();
+    });
   }
 
   PackageKitPackageId? _localId;

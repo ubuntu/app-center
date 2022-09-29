@@ -26,6 +26,29 @@ import 'package:software/store_app/common/snap_section.dart';
 class ExploreModel extends SafeChangeNotifier {
   final SnapdClient _snapDClient;
   final PackageService _packageService;
+  int _appResulAmount = 10;
+  int get appResultAmount => _appResulAmount;
+  set appResultAmount(int value) {
+    if (value == _appResulAmount) return;
+    _appResulAmount = value;
+    notifyListeners();
+  }
+
+  Snap? _selectedSnap;
+  Snap? get selectedSnap => _selectedSnap;
+  set selectedSnap(Snap? snap) {
+    if (snap == _selectedSnap) return;
+    _selectedSnap = snap;
+    notifyListeners();
+  }
+
+  PackageKitPackageId? _selectedPackage;
+  PackageKitPackageId? get selectedPackage => _selectedPackage;
+  set selectedPackage(PackageKitPackageId? id) {
+    if (id == _selectedPackage) return;
+    _selectedPackage = id;
+    notifyListeners();
+  }
 
   ExploreModel(
     this._snapDClient,
@@ -40,9 +63,7 @@ class ExploreModel extends SafeChangeNotifier {
   bool get showSectionBannerGrid =>
       searchQuery.isEmpty && sectionNameToSnapsMap.isNotEmpty;
 
-  bool get showTopCarousel =>
-      selectedSection == SnapSection.featured ||
-      selectedSection == SnapSection.all && searchQuery.isEmpty;
+  bool get showStartPage => selectedSection == SnapSection.all;
 
   bool get showErrorPage => errorMessage.isNotEmpty;
 
@@ -70,6 +91,7 @@ class ExploreModel extends SafeChangeNotifier {
   SnapSection get selectedSection => _selectedSection;
   set selectedSection(SnapSection value) {
     if (value == _selectedSection) return;
+    _appResulAmount = 10;
     _selectedSection = value;
     loadSection(value);
   }
@@ -124,4 +146,9 @@ class ExploreModel extends SafeChangeNotifier {
         searchQuery: searchQuery,
         filter: filter,
       );
+
+  void clearSelection() {
+    selectedSnap = null;
+    selectedPackage = null;
+  }
 }

@@ -1,7 +1,7 @@
 {
   "appTitle": "Ubuntu Software",
   "explorePageTitle": "Обзор",
-  "myAppsPageTitle": "Мои\nПриложения",
+  "myAppsPageTitle": "Мои Приложения",
   "updatesPageTitle": "Обновления",
   "settingsPageTitle": "Параметры",
   "artAndDesign": "Искусство и Дизайн",
@@ -35,7 +35,7 @@
   "install": "Установить",
   "refresh": "Обновить",
   "remove": "Удалить",
-  "website": "Веб-сайт",
+  "website": "Веб-Сайт",
   "description": "Описание",
   "open": "Открыть",
   "contact": "Связаться с",
@@ -65,10 +65,15 @@
   "requireRestartSystem": "Выполните перезапуск системы для завершения обновления",
   "requireRestartSession": "Завершите сеанс для завершения обновления",
   "requireRestartApp": "Перезапустите приложение для завершения обновления",
-  "issued": "Дата доставки",
-  "changelog": "Список изменений",
+  "issued": "Дата Доставки",
+  "changelog": "Список Изменений",
   "architecture": "Архитектура",
   "source": "Источник",
   "sources": "Источники",
-  "packageInstaller": "Установщик пакетов"
+  "packageInstaller": "Установщик Пакетов",
+  "classic": "классическая",
+  "verified": "Подтвержденный Издатель",
+  "updatesComplete": "Обновление завершено",
+  "findOurRepository": "Проект на GitHub",
+  "changelogTooLong": "Для полного списка изменений, пожалуйста посетите:"
 }

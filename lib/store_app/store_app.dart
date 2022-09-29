@@ -20,8 +20,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/app_change_service.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/explore/explore_page.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
@@ -33,23 +33,52 @@ import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class StoreApp extends StatefulWidget {
+class StoreApp extends StatelessWidget {
   const StoreApp({super.key});
 
   static Widget create() => ChangeNotifierProvider(
         create: (context) => StoreModel(
           getService<Connectivity>(),
-          getService<AppChangeService>(),
+          getService<SnapService>(),
           getService<PackageService>(),
         ),
         child: const StoreApp(),
       );
 
   @override
-  State<StoreApp> createState() => _StoreAppState();
+  Widget build(BuildContext context) {
+    return YaruTheme(
+      builder: (context, yaru, child) {
+        return MaterialApp(
+          theme: yaru.theme,
+          darkTheme: yaru.darkTheme,
+          debugShowCheckedModeBanner: false,
+          title: 'Ubuntu Software App',
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          onGenerateTitle: (context) => context.l10n.appTitle,
+          routes: {
+            Navigator.defaultRouteName: (context) {
+              return const Scaffold(
+                body: _App(),
+              );
+            },
+          },
+        );
+      },
+    );
+  }
 }
 
-class _StoreAppState extends State<StoreApp> {
+class _App extends StatefulWidget {
+  // ignore: unused_element
+  const _App({super.key});
+
+  @override
+  State<_App> createState() => __AppState();
+}
+
+class __AppState extends State<_App> {
   int _myAppsIndex = 0;
 
   @override
@@ -61,62 +90,46 @@ class _StoreAppState extends State<StoreApp> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<StoreModel>();
-    return YaruTheme(
-      builder: (context, yaru, child) {
-        return MaterialApp(
-          theme: yaru.variant?.theme ?? yaruLight,
-          darkTheme: yaru.variant?.darkTheme ?? yaruDark,
-          debugShowCheckedModeBanner: false,
-          title: 'Ubuntu Software App',
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          onGenerateTitle: (context) => context.l10n.appTitle,
-          routes: {
-            Navigator.defaultRouteName: (context) {
-              return Scaffold(
-                body: YaruCompactLayout(
-                  labelType: NavigationRailLabelType.all,
-                  pageItems: [
-                    YaruPageItem(
-                      titleBuilder: ExplorePage.createTitle,
-                      builder: (context) =>
-                          ExplorePage.create(context, model.appIsOnline),
-                      iconData: YaruIcons.compass,
-                    ),
-                    YaruPageItem(
-                      titleBuilder: MyAppsPage.createTitle,
-                      builder: (context) => MyAppsPage.create(
-                        context,
-                        (index) => _myAppsIndex = index,
-                        _myAppsIndex,
-                      ),
-                      iconData: YaruIcons.ok,
-                      itemWidget: model.snapChanges.isNotEmpty
-                          ? _MyAppsIcon(count: model.snapChanges.length)
-                          : null,
-                    ),
-                    YaruPageItem(
-                      titleBuilder: UpdatesPage.createTitle,
-                      builder: UpdatesPage.create,
-                      iconData: YaruIcons.synchronizing,
-                      itemWidget: _UpdatesIcon(
-                        count: model.updateAmount,
-                        updatesState: model.updatesState ??
-                            UpdatesState.checkingForUpdates,
-                      ),
-                    ),
-                    const YaruPageItem(
-                      titleBuilder: SettingsPage.createTitle,
-                      builder: SettingsPage.create,
-                      iconData: YaruIcons.settings,
-                    ),
-                  ],
-                ),
-              );
-            },
-          },
-        );
-      },
+    final width = MediaQuery.of(context).size.width;
+
+    return YaruCompactLayout(
+      extendNavigationRail: width > 1200,
+      labelType: width < 800 || width > 1200
+          ? NavigationRailLabelType.none
+          : NavigationRailLabelType.all,
+      pageItems: [
+        YaruPageItem(
+          titleBuilder: ExplorePage.createTitle,
+          builder: (context) => ExplorePage.create(context, model.appIsOnline),
+          iconData: YaruIcons.compass,
+        ),
+        YaruPageItem(
+          titleBuilder: MyAppsPage.createTitle,
+          builder: (context) => MyAppsPage.create(
+            context,
+            (index) => _myAppsIndex = index,
+            _myAppsIndex,
+          ),
+          iconData: YaruIcons.ok,
+          itemWidget: model.snapChanges.isNotEmpty
+              ? _MyAppsIcon(count: model.snapChanges.length)
+              : null,
+        ),
+        YaruPageItem(
+          titleBuilder: UpdatesPage.createTitle,
+          builder: UpdatesPage.create,
+          iconData: YaruIcons.synchronizing,
+          itemWidget: _UpdatesIcon(
+            count: model.updateAmount,
+            updatesState: model.updatesState ?? UpdatesState.checkingForUpdates,
+          ),
+        ),
+        const YaruPageItem(
+          titleBuilder: SettingsPage.createTitle,
+          builder: SettingsPage.create,
+          iconData: YaruIcons.settings,
+        ),
+      ],
     );
   }
 }

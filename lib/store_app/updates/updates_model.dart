@@ -194,8 +194,8 @@ class UpdatesModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateAll() async {
-    await _service.updateAll();
+  Future<void> updateAll({required String updatesComplete}) async {
+    await _service.updateAll(updatesComplete: updatesComplete);
   }
 
   List<PackageKitRepositoryDetailEvent> get repos => _service.repos;

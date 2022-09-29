@@ -24,7 +24,7 @@
   "serverAndCloud": "Server und Cloud",
   "social": "Kontakte",
   "utilities": "Nützliches",
-  "all": "All",
+  "all": "Alles durchsuchen",
   "installDate": "Installationsdatum",
   "lastUpdated": "Zuletzt aktualisiert",
   "notInstalled": "Nicht installiert",
@@ -72,5 +72,9 @@
   "sources": "Quellen",
   "packageInstaller": "Paketinstallationsprogramm",
   "classic": "klassisch",
-  "verified": "Verifizierter Herausgeber"
+  "verified": "Verifizierter Herausgeber",
+  "updatesComplete": "Aktualisierungen abgeschlossen",
+  "findOurRepository": "Finde uns auf GitHub",
+  "changelogTooLong": "Bitte besuchen Sie für das gesammte Änderungprotokoll:"
+
 } 

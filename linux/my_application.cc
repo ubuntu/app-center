@@ -17,6 +17,18 @@ G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
 // Implements GApplication::activate.
 static void my_application_activate(GApplication* application) {
   MyApplication* self = MY_APPLICATION(application);
+
+#ifdef NDEBUG
+  // Activate an existing app instance if already running but only in
+  // production/release mode. Allow multiple instances in debug mode for
+  // easier debugging and testing.
+  GList* windows = gtk_application_get_windows(GTK_APPLICATION(application));
+  if (windows) {
+    gtk_window_present(GTK_WINDOW(windows->data));
+    return;
+  }
+#endif
+
   GtkWindow* window =
       GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
 
@@ -49,7 +61,7 @@ static void my_application_activate(GApplication* application) {
   }
 
   GdkGeometry geometry_min;
-  geometry_min.min_width = 600;
+  geometry_min.min_width = 660;
   geometry_min.min_height = 720;
   gtk_window_set_geometry_hints(window, nullptr, &geometry_min, GDK_HINT_MIN_SIZE);
 

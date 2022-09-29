@@ -16,211 +16,121 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:yaru_colors/yaru_colors.dart';
-import 'package:yaru_icons/yaru_icons.dart';
+import 'package:software/store_app/common/app_data.dart';
+import 'package:software/store_app/common/app_infos.dart';
+import 'package:software/store_app/common/app_website.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
+const iconSize = 150.0;
 
-class AppHeader extends StatelessWidget {
-  final Widget? icon;
-  final String title;
-  final String summary;
-  final bool strict;
-  final String confinementName;
-  final String version;
-  final String license;
-  final String installDate;
-  final String installDateIsoNorm;
-  final bool verified;
-  final String publisherName;
-  final String website;
-
-  const AppHeader({
+class BannerAppHeader extends StatelessWidget {
+  const BannerAppHeader({
     super.key,
+    required this.headerData,
+    required this.controls,
     required this.icon,
-    required this.title,
-    required this.summary,
-    required this.version,
-    required this.strict,
-    required this.confinementName,
-    required this.license,
-    required this.installDate,
-    required this.installDateIsoNorm,
-    required this.verified,
-    required this.publisherName,
-    required this.website,
   });
+
+  final AppData headerData;
+  final Widget controls;
+  final Widget icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: iconSize,
+          child: icon,
+        ),
+        const SizedBox(width: 30),
+        Expanded(
+          child: SizedBox(
+            height: iconSize,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      headerData.title,
+                      style: Theme.of(context).textTheme.headline3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    AppWebsite(
+                      website: headerData.website,
+                      verified: headerData.verified,
+                      publisherName: headerData.publisherName,
+                    ),
+                  ],
+                ),
+                controls,
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PageAppHeader extends StatelessWidget {
+  const PageAppHeader({
+    super.key,
+    required this.appData,
+    required this.controls,
+    required this.icon,
+    this.subControls,
+  });
+
+  final AppData appData;
+  final Widget controls;
+  final Widget icon;
+  final Widget? subControls;
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Column(
           children: [
             SizedBox(
-              height: 65,
+              height: iconSize,
               child: icon,
             ),
-            const SizedBox(
-              width: 15,
+            Text(
+              appData.title,
+              style: Theme.of(context).textTheme.headline3,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
             ),
-            SizedBox(
-              width: 300,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                title,
-                                overflow: TextOverflow.visible,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      // if (snapIsInstalled)
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    summary,
-                    style: Theme.of(context).textTheme.bodySmall,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 10,
-                  ),
-                  SizedBox(
-                    height: 30,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (verified)
-                          Tooltip(
-                            message: context.l10n.verified,
-                            child: const Icon(
-                              Icons.verified,
-                              size: 20,
-                              color: YaruColors.success,
-                            ),
-                          ),
-                        if (website.isNotEmpty)
-                          InkWell(
-                            borderRadius: BorderRadius.circular(8),
-                            onTap: () => launchUrl(Uri.parse(website)),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: verified ? 5 : 0,
-                                    right: 5,
-                                  ),
-                                  child: Text(
-                                    publisherName,
-                                    style: const TextStyle(fontSize: 15),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(right: verified ? 5 : 0),
-                                  child: Icon(
-                                    YaruIcons.external_link,
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
-                                    size: 18,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+            AppWebsite(
+              website: appData.website,
+              verified: appData.verified,
+              publisherName: appData.publisherName,
             ),
           ],
         ),
-        const SizedBox(
-          height: 20,
+        controls,
+        if (subControls != null) subControls!,
+        AppInfos(
+          strict: appData.strict,
+          confinementName: appData.confinementName,
+          license: appData.license,
+          installDate: appData.installDate,
+          installDateIsoNorm: appData.installDateIsoNorm,
+          version: appData.version,
+          versionChanged: appData.versionChanged,
         ),
-        Row(
-          children: [
-            Column(
-              children: [
-                Text(
-                  context.l10n.confinement,
-                  style: headerStyle,
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      strict ? YaruIcons.shield : YaruIcons.warning,
-                      size: 18,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      confinementName,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 50, width: 30, child: VerticalDivider()),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Flexible(
-                  child: Text(context.l10n.license, style: headerStyle),
-                ),
-                Flexible(
-                  child: Tooltip(
-                    message: license,
-                    child: Text(
-                      license.split(' ').first,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 50, width: 30, child: VerticalDivider()),
-            Column(
-              children: [
-                Text(
-                  installDate.isEmpty
-                      ? context.l10n.version
-                      : context.l10n.installDate,
-                  style: headerStyle,
-                ),
-                Tooltip(
-                  message: installDateIsoNorm,
-                  child: Text(
-                    installDate.isEmpty ? version : installDate,
-                    style: headerStyle.copyWith(fontWeight: FontWeight.normal),
-                  ),
-                ),
-              ],
-            ),
-          ],
+        Text(
+          appData.summary,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
       ],
     );

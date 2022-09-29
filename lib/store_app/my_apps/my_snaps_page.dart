@@ -18,27 +18,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/services/app_change_service.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/snap_dialog.dart';
-import 'package:software/store_app/my_apps/my_snaps_model.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:software/store_app/common/snap_page.dart';
+import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MySnapsPage extends StatefulWidget {
   const MySnapsPage({Key? key}) : super(key: key);
-
-  static Widget create(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => MySnapsModel(
-          getService<SnapdClient>(),
-          getService<AppChangeService>(),
-        ),
-        child: const MySnapsPage(),
-      );
-
   @override
   State<MySnapsPage> createState() => _MySnapsPageState();
 }
@@ -46,16 +35,32 @@ class MySnapsPage extends StatefulWidget {
 class _MySnapsPageState extends State<MySnapsPage> {
   @override
   void initState() {
-    context.read<MySnapsModel>().init();
+    context.read<MyAppsModel>().init();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final mySnapsModel = context.watch<MySnapsModel>();
-    return mySnapsModel.localSnaps.isNotEmpty
-        ? _MySnapsGrid(snaps: mySnapsModel.localSnaps)
-        : const SizedBox();
+    final model = context.watch<MyAppsModel>();
+    return Navigator(
+      pages: [
+        MaterialPage(
+          child: model.localSnaps.isNotEmpty
+              ? _MySnapsGrid(snaps: model.localSnaps)
+              : const SizedBox(),
+        ),
+        if (model.selectedSnap != null)
+          MaterialPage(
+            key: ObjectKey(model.selectedSnap),
+            child: SnapPage.create(
+              context: context,
+              huskSnapName: model.selectedSnap!.name,
+              onPop: () => model.selectedSnap = null,
+            ),
+          )
+      ],
+      onPopPage: (route, result) => route.didPop(result),
+    );
   }
 }
 
@@ -86,6 +91,7 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<MyAppsModel>();
     return GridView.builder(
       controller: _controller,
       padding: const EdgeInsets.all(20.0),
@@ -100,11 +106,7 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
             summary: snap.summary,
             url: snap.iconUrl,
             fallbackIconData: YaruIcons.package_snap,
-            onTap: () => showDialog(
-              context: context,
-              builder: (context) =>
-                  SnapDialog.create(context: context, huskSnapName: snap.name),
-            ),
+            onTap: () => model.selectedSnap = snap,
           ),
         );
       },

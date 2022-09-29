@@ -20,7 +20,6 @@ import 'package:provider/provider.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/snap_dialog.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -30,30 +29,31 @@ class SectionBannerGrid extends StatefulWidget {
   const SectionBannerGrid({
     Key? key,
     required this.snapSection,
-    this.amount = 20,
+    required this.controller,
+    this.amount,
+    this.animateBanners = false,
+    this.padding,
+    this.initSection = true,
   }) : super(key: key);
 
   final SnapSection snapSection;
-  final int amount;
+  final ScrollController controller;
+  final int? amount;
+  final bool animateBanners;
+  final EdgeInsets? padding;
+  final bool initSection;
 
   @override
   State<SectionBannerGrid> createState() => _SectionBannerGridState();
 }
 
 class _SectionBannerGridState extends State<SectionBannerGrid> {
-  late ScrollController _controller;
-
   @override
   void initState() {
-    _controller = ScrollController();
-    context.read<ExploreModel>().loadSection(widget.snapSection);
+    if (widget.initSection) {
+      context.read<ExploreModel>().loadSection(widget.snapSection);
+    }
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -63,28 +63,37 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
         model.sectionNameToSnapsMap[widget.snapSection.title] ?? [];
     if (sections.isEmpty) return const SizedBox();
     return GridView.builder(
-      controller: _controller,
-      padding: const EdgeInsets.all(20),
+      controller: widget.controller,
+      padding: widget.padding ?? const EdgeInsets.all(20),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
-      itemCount: sections.take(widget.amount).length,
+      itemCount: sections.take(widget.amount ?? model.appResultAmount).length,
       itemBuilder: (context, index) {
-        final snap = sections.take(widget.amount).elementAt(index);
-        return AnimatedScrollViewItem(
-          child: YaruBanner(
-            name: snap.name,
-            summary: snap.summary,
-            url: snap.iconUrl,
-            fallbackIconData: YaruIcons.package_snap,
-            onTap: () => showDialog(
-              context: context,
-              builder: (context) => SnapDialog.create(
-                context: context,
-                huskSnapName: snap.name,
-              ),
-            ),
-          ),
+        final snap = sections
+            .take(widget.amount ?? model.appResultAmount)
+            .elementAt(index);
+
+        final banner = YaruBanner(
+          name: snap.name,
+          summary: snap.summary,
+          url: snap.iconUrl,
+          fallbackIconData: YaruIcons.package_snap,
+          onTap: () => model.selectedSnap = snap,
         );
+
+        if (widget.animateBanners) {
+          return AnimatedScrollViewItem(
+            child: YaruBanner(
+              name: snap.name,
+              summary: snap.summary,
+              url: snap.iconUrl,
+              fallbackIconData: YaruIcons.package_snap,
+              onTap: () => model.selectedSnap = snap,
+            ),
+          );
+        } else {
+          return banner;
+        }
       },
     );
   }

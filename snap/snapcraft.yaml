@@ -16,10 +16,14 @@ license: GPL-3.0+
 assumes:
   - snapd2.41 # for appstream-metada and packagekit-control
 
+layout:
+    /usr/share/libdrm/amdgpu.ids:
+        symlink: $SNAP/gnome-platform/usr/share/libdrm/amdgpu.ids
+
 parts:
   flutter-git:
     source: https://github.com/flutter/flutter.git
-    source-tag: 3.0.5 # pinned because of https://github.com/jpnurmi/flutter_raster_cache_bug
+    source-branch: stable
     plugin: nil
     override-build: |
       set -eux
@@ -29,6 +33,8 @@ parts:
       ln -sf $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/flutter $CRAFT_PART_INSTALL/usr/bin/flutter
       export PATH="$CRAFT_PART_INSTALL/usr/bin:$PATH"
       flutter doctor
+      flutter channel stable
+      flutter upgrade
     build-packages:
       - clang
       - cmake

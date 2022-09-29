@@ -1,9 +1,19 @@
-# Unofficial Ubuntu Store Flutter - WIP
+# Ubuntu Software
 
-An alternative software store for the Ubuntu Desktop made with Flutter.
+### An alternative software store for the Ubuntu Desktop made with Flutter.
 
-![1](.github/assets/screenshot.png)
-![2](.github/assets/dialog.png)
+<a href="https://snapcraft.io/snap-store">
+<img border="0" align="middle" alt="Snap Store Badge" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg" width=200>
+</a>
+
+Test Ubuntu Software in the **preview/edge** channel of the snap-store snap
+
+
+![1](.github/assets/01.png)
+![2](.github/assets/02.png)
+![3](.github/assets/03.png)
+![4](.github/assets/04.png)
+![5](.github/assets/05.png)
 
 
 ## Goals

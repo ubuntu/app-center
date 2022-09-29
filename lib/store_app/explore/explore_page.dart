@@ -21,16 +21,18 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/offline_page.dart';
+import 'package:software/store_app/common/package_page.dart';
+import 'package:software/store_app/common/snap_page.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/search_field.dart';
 import 'package:software/store_app/explore/search_page.dart';
 import 'package:software/store_app/explore/section_banner_grid.dart';
-import 'package:software/store_app/explore/snap_banner_carousel.dart';
+import 'package:software/store_app/explore/start_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class ExplorePage extends StatelessWidget {
+class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
   static Widget create(BuildContext context, bool online) {
@@ -48,31 +50,92 @@ class ExplorePage extends StatelessWidget {
       Text(context.l10n.explorePageTitle);
 
   @override
+  State<ExplorePage> createState() => _ExplorePageState();
+}
+
+class _ExplorePageState extends State<ExplorePage> {
+  late ScrollController _controller;
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: const SearchField(),
-      ),
-      body: model.showErrorPage
-          ? _ErrorPage(errorMessage: model.errorMessage)
-          : model.showSearchPage
-              ? const SearchPage()
-              : SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      if (model.showTopCarousel)
-                        const SnapBannerCarousel(
-                          snapSection: SnapSection.featured,
-                          height: 220,
-                        ),
-                      if (model.showSectionBannerGrid)
-                        SectionBannerGrid(
-                          snapSection: model.selectedSection,
-                        ),
-                    ],
-                  ),
-                ),
+    return Navigator(
+      pages: [
+        MaterialPage(
+          child: Scaffold(
+            floatingActionButton: model.selectedSection != SnapSection.all &&
+                    model.searchQuery.isEmpty
+                ? FloatingActionButton.extended(
+                    backgroundColor:
+                        Theme.of(context).brightness == Brightness.light
+                            ? Colors.white
+                            : const Color.fromARGB(255, 75, 75, 75),
+                    foregroundColor: Theme.of(context).colorScheme.onSurface,
+                    elevation: 0,
+                    heroTag: 'more',
+                    onPressed: () {
+                      model.appResultAmount += 5;
+                      _controller.animateTo(
+                        _controller.position.maxScrollExtent + 5 * 120,
+                        duration: const Duration(seconds: 1),
+                        curve: Curves.fastOutSlowIn,
+                      );
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(color: Theme.of(context).dividerColor),
+                    ),
+                    label: const Text('Show more'),
+                  )
+                : null,
+            appBar: AppBar(
+              flexibleSpace: const SearchField(),
+            ),
+            body: model.showErrorPage
+                ? _ErrorPage(errorMessage: model.errorMessage)
+                : model.showSearchPage
+                    ? const SearchPage()
+                    : model.showStartPage
+                        ? const StartPage()
+                        : SectionBannerGrid(
+                            snapSection: model.selectedSection,
+                            controller: _controller,
+                          ),
+          ),
+        ),
+        if (model.selectedSnap != null && model.selectedPackage == null)
+          MaterialPage(
+            key: ObjectKey(model.selectedSnap),
+            child: SnapPage.create(
+              context: context,
+              huskSnapName: model.selectedSnap!.name,
+              onPop: () => model.selectedSnap = null,
+            ),
+          ),
+        if (model.selectedPackage != null && model.selectedSnap == null)
+          MaterialPage(
+            key: ObjectKey(model.selectedSnap),
+            child: PackagePage.create(
+              context: context,
+              id: model.selectedPackage!,
+              installedId: model.selectedPackage!,
+              onPop: model.clearSelection,
+            ),
+          ),
+      ],
+      onPopPage: (route, result) => route.didPop(result),
     );
   }
 }

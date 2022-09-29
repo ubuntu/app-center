@@ -15,6 +15,8 @@
  *
  */
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
@@ -294,7 +296,9 @@ class _UpdatesHeader extends StatelessWidget {
             if (model.updates.isNotEmpty)
               ElevatedButton(
                 onPressed: model.updatesState == UpdatesState.readyToUpdate
-                    ? () => model.updateAll()
+                    ? () => model.updateAll(
+                          updatesComplete: context.l10n.updatesComplete,
+                        )
                     : null,
                 child: Text(context.l10n.updateSelected),
               ),
@@ -327,7 +331,7 @@ class _UpdatesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hPadding = getHPadding(MediaQuery.of(context).size.width);
+    final hPadding = (0.00013 * pow(MediaQuery.of(context).size.width, 2)) - 20;
     final model = context.watch<UpdatesModel>();
 
     return Expanded(
@@ -356,17 +360,6 @@ class _UpdatesListView extends StatelessWidget {
         },
       ),
     );
-  }
-
-  double getHPadding(double width) {
-    var padding = 550.0;
-    for (int i in [1800, 1700, 1600, 1500, 1400, 1300, 1200, 1100, 1000, 900]) {
-      if (width > i) {
-        return padding;
-      }
-      padding -= 50;
-    }
-    return padding;
   }
 }
 
