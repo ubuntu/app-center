@@ -28,9 +28,7 @@ Test Ubuntu Software in the **preview/edge** channel of the snap-store snap
   - [X] filter for sections
   - [X] refresh
   - [X] switch channels
-  - [ ] manage permissions
     - [X] list permissions
-    - [ ] activate/deactive permissions
 - [X] deb/rpm (packagekit) support (https://github.com/canonical/packagekit.dart)
   - [X] install from file-explorer
   - [X] list installed debs/rpms
