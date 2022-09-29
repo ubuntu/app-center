@@ -97,7 +97,7 @@ class _ExplorePageState extends State<ExplorePage> {
                       borderRadius: BorderRadius.circular(10),
                       side: BorderSide(color: Theme.of(context).dividerColor),
                     ),
-                    label: const Text('Show more'),
+                    label: Text(context.l10n.showMore),
                   )
                 : null,
             appBar: AppBar(

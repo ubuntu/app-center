@@ -54,7 +54,7 @@
   "done": "Completado",
   "updates": "Actualizaciones",
   "searchHint": "Buscar",
-  "updateSelected": "Actualización seleccionada",
+  "updateSelected": "Actualizar seleccionados",
   "selectAll": "Seleccionar todo",
   "deselectAll": "Anular todo",
   "update": "Actualización",
@@ -72,5 +72,8 @@
   "sources": "Fuentes",
   "packageInstaller": "Paquete de instalación",
   "classic": "clásico",
-  "verified": "Editor verificado"
+  "verified": "Editor verificado",
+  "updatesComplete": "Actualizaciones completadas",
+  "findOurRepository": "Encuéntranos en GitHub",
+  "changelogTooLong": "Para ver el registro completo de cambios, visite:"
 }
