@@ -63,9 +63,7 @@ class ExploreModel extends SafeChangeNotifier {
   bool get showSectionBannerGrid =>
       searchQuery.isEmpty && sectionNameToSnapsMap.isNotEmpty;
 
-  bool get showTopCarousel =>
-      selectedSection == SnapSection.featured ||
-      selectedSection == SnapSection.all && searchQuery.isEmpty;
+  bool get showStartPage => selectedSection == SnapSection.all;
 
   bool get showErrorPage => errorMessage.isNotEmpty;
 
