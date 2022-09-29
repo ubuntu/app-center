@@ -23,6 +23,7 @@ import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/package_page.dart';
 import 'package:software/store_app/common/snap_page.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
+import 'package:software/store_app/my_apps/my_apps_search_field.dart';
 import 'package:software/store_app/my_apps/my_packages_page.dart';
 import 'package:software/store_app/my_apps/my_snaps_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -67,15 +68,12 @@ class MyAppsPage extends StatelessWidget {
         MaterialPage(
           child: Scaffold(
             appBar: AppBar(
-              // TODO: Implement MyAppsSearchPage
-              flexibleSpace: const TextField(
-                decoration: InputDecoration(
-                  isDense: false,
-                  border: UnderlineInputBorder(),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
-                ),
+              flexibleSpace: MyAppSearchField(
+                searchQuery: model.searchQuery ?? '',
+                onChanged: (v) => model.searchQuery = v,
+                clear: () {
+                  model.searchQuery = '';
+                },
               ),
             ),
             body: YaruTabbedPage(
@@ -89,9 +87,15 @@ class MyAppsPage extends StatelessWidget {
                 context.l10n.snapPackages,
                 context.l10n.debianPackages,
               ],
-              views: const [
-                MySnapsPage(),
-                MyPackagesPage(),
+              // ignore: prefer_const_literals_to_create_immutables
+              views: [
+                // ignore: prefer_const_constructors
+                MySnapsPage(key: ValueKey('snaps')),
+                // ignore: prefer_const_constructors
+                MyPackagesPage(
+                  // ignore: prefer_const_constructors
+                  key: ValueKey('packages'),
+                ),
               ],
             ),
           ),

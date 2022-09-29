@@ -91,4 +91,12 @@ class MyAppsModel extends SafeChangeNotifier {
     selectedSnap = null;
     selectedPackage = null;
   }
+
+  String? _searchQuery;
+  String? get searchQuery => _searchQuery;
+  set searchQuery(String? value) {
+    if (value == _searchQuery) return;
+    _searchQuery = value;
+    notifyListeners();
+  }
 }

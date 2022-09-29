@@ -42,12 +42,17 @@ class _MySnapsPageState extends State<MySnapsPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<MyAppsModel>();
+    final snaps = model.searchQuery == null
+        ? model.localSnaps
+        : model.localSnaps
+            .where(
+              (s) => s.name.startsWith(model.searchQuery!),
+            )
+            .toList();
     return Navigator(
       pages: [
         MaterialPage(
-          child: model.localSnaps.isNotEmpty
-              ? _MySnapsGrid(snaps: model.localSnaps)
-              : const SizedBox(),
+          child: _MySnapsGrid(snaps: snaps),
         ),
         if (model.selectedSnap != null)
           MaterialPage(
