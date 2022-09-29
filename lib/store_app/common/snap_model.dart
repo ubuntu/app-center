@@ -61,10 +61,12 @@ class SnapModel extends SafeChangeNotifier {
     );
 
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
-      _loadSnapChangeInProgress();
+      await _loadSnapChangeInProgress();
+      await loadPlugsAndConnections();
       if (!snapChangeInProgress) {
         _localSnap = await _findLocalSnap(huskSnapName);
       }
+
       notifyListeners();
     });
 
@@ -306,37 +308,25 @@ class SnapModel extends SafeChangeNotifier {
   }
 
   Map<SnapPlug, bool>? plugs;
-  Map<String, SnapConnection>? connections;
 
   Future<void> loadPlugsAndConnections() async {
     if (_localSnap == null) return;
     plugs?.clear();
-    connections?.clear();
-    connections = await _snapService.loadConnections(_localSnap!);
     plugs = await _snapService.loadPlugs(_localSnap!);
     notifyListeners();
   }
 
-  Future<void> toggleConnection({
+  void toggleConnection({
     required String interface,
     required SnapPlug snap,
     required bool value,
-  }) async {
-    if (connections == null) return;
-
-    final con = connections![interface];
-    if (con == null) return;
-
-    String? changeId;
-    if (value) {
-      changeId = await _snapService.connect(con: con);
-    } else {
-      changeId = await _snapService.disconnect(con: con);
-    }
-    if (changeId != null) {
-      _snapService.addChange(_localSnap!, changeId, doneMessage);
-      await loadPlugsAndConnections();
-    }
+  }) {
+    _snapService.toggleConnection(
+      snapThatWantsAConnection: _localSnap!,
+      interface: interface,
+      doneMessage: doneMessage,
+      value: value,
+    );
   }
 
   Color? _surfaceTintColor;

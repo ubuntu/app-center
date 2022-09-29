@@ -56,9 +56,9 @@ class SnapConnectionsSettings extends StatelessWidget {
                       value: plugEntry.value,
                       onChanged: model.snapChangeInProgress
                           ? null
-                          : (value) async {
+                          : (value) {
                               if (plugEntry.key.interface == null) return;
-                              await model.toggleConnection(
+                              model.toggleConnection(
                                 interface: plugEntry.key.interface!,
                                 snap: plugEntry.key,
                                 value: value,
