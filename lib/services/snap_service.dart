@@ -207,12 +207,12 @@ class SnapService {
 
     await _snapDClient.loadAuthorization();
 
-    var plugSnap = snapThatWantsAConnection.name;
-    var plug = interface;
+    final plugSnap = snapThatWantsAConnection.name;
+    final plug = interface;
     String? slotSnap;
     String? slot;
 
-    var changeId = value
+    final changeId = value
         ? await _snapDClient.connect(
             plugSnap,
             plug,
