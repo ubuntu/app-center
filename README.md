@@ -45,6 +45,14 @@ For the firmware updates the flutter linux desktop, yaru-designed application [f
 
 ### Install flutter
 
+Either with
+
+```bash
+sudo snap install flutter --classic
+```
+
+Or with
+
 ```bash
 sudo apt install git curl cmake meson make clang libgtk-3-dev pkg-config
 mkdir -p ~/development
