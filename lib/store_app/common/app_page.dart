@@ -92,7 +92,7 @@ class AppPage extends StatelessWidget {
     );
 
     final wideWindowAppHeader = BorderContainer(
-      width: 530,
+      width: 500,
       child: PageAppHeader(
         appData: appData,
         icon: icon,
