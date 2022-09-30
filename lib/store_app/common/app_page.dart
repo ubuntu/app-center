@@ -59,8 +59,8 @@ class AppPage extends StatelessWidget {
         nextIcon: const Icon(YaruIcons.go_next),
         previousIcon: const Icon(YaruIcons.go_previous),
         navigationControls: appData.screenShotUrls.length > 1,
-        viewportFraction: isWindowWide ? 0.5 : 1,
-        height: windowHeight / 3,
+        viewportFraction: 1,
+        height: 400,
         children: [
           for (int i = 0; i < appData.screenShotUrls.length; i++)
             MediaTile(
