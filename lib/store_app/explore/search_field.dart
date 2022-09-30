@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
+import 'package:software/updates_state.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class SearchField extends StatefulWidget {
@@ -55,6 +56,9 @@ class _SearchFieldState extends State<SearchField> {
       },
       focusNode: FocusNode(),
       child: TextField(
+        enabled: model.updatesState != null &&
+            model.updatesState != UpdatesState.updating &&
+            model.updatesState != UpdatesState.checkingForUpdates,
         autofocus: true,
         controller: _controller,
         onChanged: (v) {

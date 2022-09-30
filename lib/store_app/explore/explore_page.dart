@@ -58,6 +58,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
   @override
   void initState() {
+    context.read<ExploreModel>().init();
     _controller = ScrollController();
     super.initState();
   }
