@@ -77,7 +77,7 @@ class OnePageLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = windowSize.width;
-    final hPadding = 0.0001 * pow(width * 0.9, 2) - 20;
+    final hPadding = 0.0001 * pow(width * 0.9, 2) - 10;
     kToolbarHeight;
     return ListView(
       padding: EdgeInsets.only(
