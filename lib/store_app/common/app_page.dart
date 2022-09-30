@@ -51,8 +51,8 @@ class AppPage extends StatelessWidget {
     final windowSize = MediaQuery.of(context).size;
     final windowWidth = windowSize.width;
     final windowHeight = windowSize.height;
-    final isWindowNormalSized = windowWidth > 800 && windowWidth < 1520;
-    final isWindowWide = windowWidth > 1520;
+    final isWindowNormalSized = windowWidth > 800 && windowWidth < 1800;
+    final isWindowWide = windowWidth > 1800;
 
     var media = BorderContainer(
       child: YaruCarousel(
