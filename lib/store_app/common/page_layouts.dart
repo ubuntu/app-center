@@ -19,7 +19,7 @@ class PanedPageLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = windowSize.height;
     final width = windowSize.width;
-    final hPadding = 0.00006 * pow(width * 0.8, 2);
+    final hPadding = 0.0005 * pow(width * 0.4, 2);
     final vPadding = 0.00001 * pow(width, 2);
     final appBarHeight =
         Theme.of(context).appBarTheme.toolbarHeight?.toDouble() ??
@@ -44,7 +44,6 @@ class PanedPageLayout extends StatelessWidget {
               const SizedBox(
                 width: pagePadding,
               ),
-
               Expanded(
                 child: ListView(
                   shrinkWrap: false,
@@ -57,8 +56,6 @@ class PanedPageLayout extends StatelessWidget {
                   ],
                 ),
               ),
-
-              // BorderContainer(),
             ],
           ),
         ),
@@ -79,8 +76,16 @@ class OnePageLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = windowSize.width;
+    final hPadding = 0.000015 * pow(width, 2) + 30;
+    kToolbarHeight;
     return ListView(
-      padding: EdgeInsets.all(windowSize.width / 30),
+      padding: EdgeInsets.only(
+        top: pagePadding,
+        bottom: pagePadding,
+        left: hPadding,
+        right: hPadding,
+      ),
       shrinkWrap: true,
       children: [
         for (final child in children)

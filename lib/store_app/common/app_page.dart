@@ -41,7 +41,7 @@ class AppPage extends StatelessWidget {
   final AppData appData;
   final VoidCallback onPop;
   final Widget icon;
-  final Widget permissionContainer;
+  final Widget? permissionContainer;
   final Widget controls;
   final Widget? subControlPageHeader;
   final Widget? subBannerHeader;
@@ -51,40 +51,37 @@ class AppPage extends StatelessWidget {
     final windowSize = MediaQuery.of(context).size;
     final windowWidth = windowSize.width;
     final windowHeight = windowSize.height;
-    final isWindowNormalSized = windowWidth > 800 && windowWidth < 1400;
-    final isWindowWide = windowWidth > 1400;
+    final isWindowNormalSized = windowWidth > 800 && windowWidth < 1520;
+    final isWindowWide = windowWidth > 1520;
 
-    final mediaDescriptionAndConnections = [
-      if (appData.screenShotUrls.isNotEmpty)
-        BorderContainer(
-          child: YaruCarousel(
-            nextIcon: const Icon(YaruIcons.go_next),
-            previousIcon: const Icon(YaruIcons.go_previous),
-            navigationControls: appData.screenShotUrls.length > 1,
-            viewportFraction: isWindowWide ? 0.5 : 1,
-            height: windowHeight / 3,
-            children: [
-              for (int i = 0; i < appData.screenShotUrls.length; i++)
-                MediaTile(
-                  url: appData.screenShotUrls[i],
-                  onTap: () => showDialog(
-                    context: context,
-                    builder: (c) => _CarouselDialog(
-                      windowHeight: windowHeight,
-                      appData: appData,
-                      windowWidth: windowWidth,
-                      initialIndex: i,
-                    ),
-                  ),
-                )
-            ],
-          ),
-        ),
-      BorderContainer(
-        child: AppDescription(description: appData.description),
+    var media = BorderContainer(
+      child: YaruCarousel(
+        nextIcon: const Icon(YaruIcons.go_next),
+        previousIcon: const Icon(YaruIcons.go_previous),
+        navigationControls: appData.screenShotUrls.length > 1,
+        viewportFraction: isWindowWide ? 0.5 : 1,
+        height: windowHeight / 3,
+        children: [
+          for (int i = 0; i < appData.screenShotUrls.length; i++)
+            MediaTile(
+              url: appData.screenShotUrls[i],
+              onTap: () => showDialog(
+                context: context,
+                builder: (c) => _CarouselDialog(
+                  windowHeight: windowHeight,
+                  appData: appData,
+                  windowWidth: windowWidth,
+                  initialIndex: i,
+                ),
+              ),
+            )
+        ],
       ),
-      permissionContainer,
-    ];
+    );
+
+    final description = BorderContainer(
+      child: AppDescription(description: appData.description),
+    );
 
     final normalWindowAppHeader = BorderContainer(
       child: BannerAppHeader(
@@ -133,13 +130,19 @@ class AppPage extends StatelessWidget {
             versionChanged: appData.versionChanged,
           ),
         ),
-        for (final part in mediaDescriptionAndConnections) part
+        media,
+        description,
+        if (permissionContainer != null) permissionContainer!
       ],
     );
 
     final wideWindowLayout = PanedPageLayout(
       leftChild: wideWindowAppHeader,
-      rightChildren: mediaDescriptionAndConnections,
+      rightChildren: [
+        if (appData.screenShotUrls.isNotEmpty) media,
+        description,
+        if (permissionContainer != null) permissionContainer!
+      ],
       windowSize: windowSize,
     );
 
@@ -147,7 +150,9 @@ class AppPage extends StatelessWidget {
       windowSize: windowSize,
       children: [
         narrowWindowAppHeader,
-        for (final part in mediaDescriptionAndConnections) part
+        media,
+        description,
+        if (permissionContainer != null) permissionContainer!
       ],
     );
 
