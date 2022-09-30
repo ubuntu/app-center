@@ -90,7 +90,7 @@ class _SnapPageState extends State<SnapPage> {
           ? const BorderContainer(
               child: SnapConnectionsSettings(),
             )
-          : const SizedBox(),
+          : null,
       controls: const SnapControls(),
       icon: AppIcon(
         iconUrl: model.iconUrl,
