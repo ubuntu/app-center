@@ -19,7 +19,8 @@ class PanedPageLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = windowSize.height;
     final width = windowSize.width;
-    final hPadding = 0.00004 * pow(width, 2);
+    final hPadding = 0.00006 * pow(width * 0.8, 2);
+    final vPadding = 0.00001 * pow(width, 2);
     final appBarHeight =
         Theme.of(context).appBarTheme.toolbarHeight?.toDouble() ??
             kToolbarHeight;
@@ -27,8 +28,8 @@ class PanedPageLayout extends StatelessWidget {
     return Center(
       child: Padding(
         padding: EdgeInsets.only(
-          top: pagePadding,
-          bottom: pagePadding,
+          top: vPadding,
+          bottom: vPadding,
           left: hPadding,
           right: hPadding,
         ),
@@ -43,6 +44,7 @@ class PanedPageLayout extends StatelessWidget {
               const SizedBox(
                 width: pagePadding,
               ),
+
               Expanded(
                 child: ListView(
                   shrinkWrap: false,
