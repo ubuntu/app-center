@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:software/store_app/common/constants.dart';
 
@@ -15,14 +17,21 @@ class PanedPageLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final height = size.height;
+    final height = windowSize.height;
+    final width = windowSize.width;
+    final hPadding = 0.00004 * pow(width, 2);
     final appBarHeight =
         Theme.of(context).appBarTheme.toolbarHeight?.toDouble() ??
             kToolbarHeight;
+
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(windowSize.width / 30),
+        padding: EdgeInsets.only(
+          top: pagePadding,
+          bottom: pagePadding,
+          left: hPadding,
+          right: hPadding,
+        ),
         child: SizedBox(
           height: height - appBarHeight,
           child: Row(
