@@ -15,9 +15,26 @@
  *
  */
 
+import 'package:software/l10n/l10n.dart';
+
 enum UpdatesState {
   noUpdates,
   updating,
   checkingForUpdates,
-  readyToUpdate,
+  readyToUpdate;
+
+  String localize(AppLocalizations l10n) {
+    switch (this) {
+      case noUpdates:
+        return l10n.noUpdates;
+      case updating:
+        return l10n.updating;
+      case checkingForUpdates:
+        return l10n.checkingForUpdates;
+      case readyToUpdate:
+        return l10n.readyToUpdate;
+      default:
+        return '';
+    }
+  }
 }

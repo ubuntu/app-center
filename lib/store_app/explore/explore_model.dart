@@ -43,6 +43,11 @@ class ExploreModel extends SafeChangeNotifier {
     super.dispose();
   }
 
+  bool get ready =>
+      updatesState != null &&
+      updatesState != UpdatesState.updating &&
+      updatesState != UpdatesState.checkingForUpdates;
+
   UpdatesState? _updatesState;
   UpdatesState? get updatesState => _updatesState;
   set updatesState(UpdatesState? value) {

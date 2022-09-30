@@ -85,9 +85,21 @@ class _SnapSearchPage extends StatelessWidget {
   }
 }
 
-class _PackageKitSearchPage extends StatelessWidget {
+class _PackageKitSearchPage extends StatefulWidget {
   // ignore: unused_element
   const _PackageKitSearchPage({super.key});
+
+  @override
+  State<_PackageKitSearchPage> createState() => _PackageKitSearchPageState();
+}
+
+class _PackageKitSearchPageState extends State<_PackageKitSearchPage> {
+  @override
+  void initState() {
+    context.read<ExploreModel>().init();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +112,7 @@ class _PackageKitSearchPage extends StatelessWidget {
           filter: {PackageKitFilter.newest, PackageKitFilter.notDevelopment},
         ),
         builder: (context, snapshot) =>
-            snapshot.hasData && snapshot.data!.isNotEmpty
+            snapshot.hasData && snapshot.data!.isNotEmpty && model.ready
                 ? GridView.builder(
                     controller: ScrollController(),
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -121,7 +133,24 @@ class _PackageKitSearchPage extends StatelessWidget {
                       );
                     },
                   )
-                : const SizedBox(),
+                : Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const YaruCircularProgressIndicator(),
+                        SizedBox(
+                          width: 400,
+                          child: Text(
+                            model.updatesState != null
+                                ? model.updatesState!.localize(context.l10n)
+                                : '',
+                            style: Theme.of(context).textTheme.headline6,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
       ),
     );
   }
