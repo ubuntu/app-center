@@ -48,7 +48,10 @@ class StoreApp extends StatelessWidget {
   /// Returns a preferred [Locale] if present in [supportedLocales].
   ///
   /// If [deviceLocales] contains no supported locales, defaults to English.
-  Locale _resolveLocale(deviceLocales, supportedLocales) {
+  Locale _resolveLocale(
+    List<Locale>? deviceLocales,
+    Iterable<Locale> supportedLocales,
+  ) {
     var locale = basicLocaleListResolution(deviceLocales, supportedLocales);
     if (locale == supportedLocales.first && deviceLocales != null) {
       if (!deviceLocales.contains(locale)) {
