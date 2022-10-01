@@ -59,6 +59,9 @@
   "deselectAll": "Auswahl entfernen",
   "update": "Aktualisierung",
   "noUpdates": "Alles auf dem neusten Stand!",
+  "updating": "Bitte habe etwas Geduld - wir aktualisieren dein System",
+  "checkingForUpdates": "Einen kleinen Moment bitte - wir suchen nach neuen Aktualisierungen",
+  "readyToUpdate": "Bereit zur Aktualisierung",
   "apps": "apps",
   "filterSnaps": "Den Snap Filter setzen",
   "enterRepoName": "Quell-Adresse eingeben",
@@ -75,6 +78,7 @@
   "verified": "Verifizierter Herausgeber",
   "updatesComplete": "Aktualisierungen abgeschlossen",
   "findOurRepository": "Finde uns auf GitHub",
-  "changelogTooLong": "Bitte besuchen Sie für das gesammte Änderungprotokoll:"
-
+  "changelogTooLong": "Bitte besuchen Sie für das gesammte Änderungprotokoll:",
+  "noPackageFound": "Es tut uns leid, aber wir konnten mit diesem Suchbegriff kein Paket finden",
+  "noSnapFound": "Es tut uns leid, aber wir konnten mit diesem Suchbegriff keine Snap finden"
 } 

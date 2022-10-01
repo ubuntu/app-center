@@ -145,11 +145,14 @@ class _SectionDropdown extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  Text(
-                    section.localize(
-                      context.l10n,
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      section.localize(
+                        context.l10n,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    overflow: TextOverflow.ellipsis,
                   )
                 ],
               ),

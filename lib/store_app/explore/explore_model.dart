@@ -23,10 +23,39 @@ import 'package:snapd/snapd.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/snap_section.dart';
+import 'package:software/updates_state.dart';
 
 class ExploreModel extends SafeChangeNotifier {
   final SnapService _snapService;
   final PackageService _packageService;
+  StreamSubscription<UpdatesState>? _updatesStateSub;
+
+  Future<void> init() async {
+    _updatesState = _packageService.lastUpdatesState;
+    _updatesStateSub = _packageService.updatesState.listen((event) {
+      updatesState = event;
+    });
+  }
+
+  @override
+  void dispose() {
+    _updatesStateSub?.cancel();
+    super.dispose();
+  }
+
+  bool get packageKitReady =>
+      updatesState != null &&
+      updatesState != UpdatesState.updating &&
+      updatesState != UpdatesState.checkingForUpdates;
+
+  UpdatesState? _updatesState;
+  UpdatesState? get updatesState => _updatesState;
+  set updatesState(UpdatesState? value) {
+    if (value == _updatesState) return;
+    _updatesState = value;
+    notifyListeners();
+  }
+
   int _appResulAmount = 10;
   int get appResultAmount => _appResulAmount;
   set appResultAmount(int value) {

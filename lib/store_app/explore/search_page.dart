@@ -58,40 +58,65 @@ class _SnapSearchPage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 20),
       child: FutureBuilder<List<Snap>>(
         future: model.findSnapsByQuery(),
-        builder: (context, snapshot) =>
-            snapshot.hasData && snapshot.data!.isNotEmpty
-                ? GridView.builder(
-                    controller: ScrollController(),
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    gridDelegate: kGridDelegate,
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      final snap = snapshot.data![index];
-                      return AnimatedScrollViewItem(
-                        child: YaruBanner(
-                          name: snap.name,
-                          summary: snap.summary,
-                          url: snap.iconUrl,
-                          onTap: () => model.selectedSnap = snap,
-                          fallbackIconData: YaruIcons.package_snap,
-                        ),
-                      );
-                    },
-                  )
-                : const SizedBox(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const _WaitPage(message: '');
+          }
+
+          return snapshot.hasData && snapshot.data!.isNotEmpty
+              ? GridView.builder(
+                  controller: ScrollController(),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  gridDelegate: kGridDelegate,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final snap = snapshot.data![index];
+                    return AnimatedScrollViewItem(
+                      child: YaruBanner(
+                        name: snap.name,
+                        summary: snap.summary,
+                        url: snap.iconUrl,
+                        onTap: () => model.selectedSnap = snap,
+                        fallbackIconData: YaruIcons.package_snap,
+                      ),
+                    );
+                  },
+                )
+              : _NoSearchResultPage(message: context.l10n.noSnapFound);
+        },
       ),
     );
   }
 }
 
-class _PackageKitSearchPage extends StatelessWidget {
+class _PackageKitSearchPage extends StatefulWidget {
   // ignore: unused_element
   const _PackageKitSearchPage({super.key});
 
   @override
+  State<_PackageKitSearchPage> createState() => _PackageKitSearchPageState();
+}
+
+class _PackageKitSearchPageState extends State<_PackageKitSearchPage> {
+  @override
+  void initState() {
+    context.read<ExploreModel>().init();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
+
+    if (!model.packageKitReady) {
+      return _WaitPage(
+        message: model.updatesState != null
+            ? model.updatesState!.localize(context.l10n)
+            : '',
+      );
+    }
 
     return Padding(
       padding: const EdgeInsets.only(top: 20),
@@ -99,29 +124,108 @@ class _PackageKitSearchPage extends StatelessWidget {
         future: model.findPackageKitPackageIds(
           filter: {PackageKitFilter.newest, PackageKitFilter.notDevelopment},
         ),
-        builder: (context, snapshot) =>
-            snapshot.hasData && snapshot.data!.isNotEmpty
-                ? GridView.builder(
-                    controller: ScrollController(),
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    gridDelegate: kGridDelegate,
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      final id = snapshot.data![index];
-                      return YaruBanner(
-                        name: id.name,
-                        summary: id.version,
-                        icon: const Icon(
-                          YaruIcons.package_deb,
-                          size: 50,
-                        ),
-                        onTap: () => model.selectedPackage = id,
-                        fallbackIconData: YaruIcons.package_deb,
-                      );
-                    },
-                  )
-                : const SizedBox(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const _WaitPage(message: '');
+          }
+          return snapshot.hasData && snapshot.data!.isNotEmpty
+              ? GridView.builder(
+                  controller: ScrollController(),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  gridDelegate: kGridDelegate,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final id = snapshot.data![index];
+                    return YaruBanner(
+                      name: id.name,
+                      summary: id.version,
+                      icon: const Icon(
+                        YaruIcons.package_deb,
+                        size: 50,
+                      ),
+                      onTap: () => model.selectedPackage = id,
+                      fallbackIconData: YaruIcons.package_deb,
+                    );
+                  },
+                )
+              : _NoSearchResultPage(message: context.l10n.noPackageFound);
+        },
+      ),
+    );
+  }
+}
+
+class _WaitPage extends StatelessWidget {
+  const _WaitPage({
+    Key? key,
+    required this.message,
+  }) : super(key: key);
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const YaruCircularProgressIndicator(),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: 400,
+            child: Text(
+              message,
+              style:
+                  Theme.of(context).textTheme.headline4?.copyWith(fontSize: 25),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(
+            height: 200,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NoSearchResultPage extends StatelessWidget {
+  const _NoSearchResultPage({
+    Key? key,
+    required this.message,
+  }) : super(key: key);
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            '🐣❓',
+            style: TextStyle(fontSize: 40),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: 400,
+            child: Text(
+              message,
+              style:
+                  Theme.of(context).textTheme.headline4?.copyWith(fontSize: 25),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(
+            height: 200,
+          ),
+        ],
       ),
     );
   }
