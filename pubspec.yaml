@@ -39,7 +39,7 @@ dependencies:
   window_manager: ^0.2.6
   yaru: ^0.4.1
   yaru_colors: ^0.1.0
-  yaru_icons: ^0.2.3
+  yaru_icons: ^0.2.4
   yaru_widgets: ^1.1.4
 
 dev_dependencies:
