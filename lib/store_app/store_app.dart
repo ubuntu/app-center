@@ -53,12 +53,11 @@ class StoreApp extends StatelessWidget {
     Iterable<Locale> supportedLocales,
   ) {
     var locale = basicLocaleListResolution(deviceLocales, supportedLocales);
-    if (locale == supportedLocales.first && deviceLocales != null) {
-      if (!deviceLocales.contains(locale)) {
-        return const Locale('en');
-      }
+    if (deviceLocales != null && deviceLocales.contains(locale)) {
+      return locale;
+    } else {
+      return const Locale('en');
     }
-    return locale;
   }
 
   @override
