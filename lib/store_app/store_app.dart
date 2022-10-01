@@ -45,6 +45,21 @@ class StoreApp extends StatelessWidget {
         child: const StoreApp(),
       );
 
+  /// Returns a preferred [Locale] if present in [supportedLocales].
+  ///
+  /// If [deviceLocales] contains no supported locales, defaults to English.
+  Locale _resolveLocale(
+    List<Locale>? deviceLocales,
+    Iterable<Locale> supportedLocales,
+  ) {
+    var locale = basicLocaleListResolution(deviceLocales, supportedLocales);
+    if (deviceLocales != null && deviceLocales.contains(locale)) {
+      return locale;
+    } else {
+      return const Locale('en');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return YaruTheme(
@@ -57,6 +72,7 @@ class StoreApp extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           onGenerateTitle: (context) => context.l10n.appTitle,
+          localeListResolutionCallback: _resolveLocale,
           routes: {
             Navigator.defaultRouteName: (context) {
               return const Scaffold(
