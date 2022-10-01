@@ -78,5 +78,7 @@
   "verified": "Verified Publisher",
   "updatesComplete": "Updates complete",
   "findOurRepository": "Find us on GitHub",
-  "changelogTooLong": "For the full changelog, please visit:"
+  "changelogTooLong": "For the full changelog, please visit:",
+  "noPackageFound": "Sorry, we couldn't find any package with this search query",
+  "noSnapFound": "Sorry, we couldn't find any snap with this search query"
 } 

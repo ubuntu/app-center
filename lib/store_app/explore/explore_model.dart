@@ -43,7 +43,7 @@ class ExploreModel extends SafeChangeNotifier {
     super.dispose();
   }
 
-  bool get ready =>
+  bool get packageKitReady =>
       updatesState != null &&
       updatesState != UpdatesState.updating &&
       updatesState != UpdatesState.checkingForUpdates;
