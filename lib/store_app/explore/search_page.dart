@@ -178,7 +178,8 @@ class _WaitPage extends StatelessWidget {
             width: 400,
             child: Text(
               message,
-              style: Theme.of(context).textTheme.headline6,
+              style:
+                  Theme.of(context).textTheme.headline4?.copyWith(fontSize: 25),
               textAlign: TextAlign.center,
             ),
           ),
@@ -205,7 +206,10 @@ class _NoSearchResultPage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(YaruIcons.emote_sad),
+          const Text(
+            '🐣❓',
+            style: TextStyle(fontSize: 40),
+          ),
           const SizedBox(
             height: 10,
           ),
@@ -213,7 +217,8 @@ class _NoSearchResultPage extends StatelessWidget {
             width: 400,
             child: Text(
               message,
-              style: Theme.of(context).textTheme.headline6,
+              style:
+                  Theme.of(context).textTheme.headline4?.copyWith(fontSize: 25),
               textAlign: TextAlign.center,
             ),
           ),
