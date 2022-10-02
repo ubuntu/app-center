@@ -26,6 +26,7 @@ import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/store_app.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main(List<String> args) async {
@@ -43,6 +44,10 @@ void main(List<String> args) async {
   registerService<PackageService>(
     PackageService.new,
     dispose: (s) => s.dispose(),
+  );
+  registerService<SessionManager>(
+    SessionManager.new,
+    dispose: (s) => s.close(),
   );
 
   final loadPackageInstaller =

@@ -27,6 +27,7 @@ import 'package:software/store_app/updates/update_banner.dart';
 import 'package:software/store_app/updates/updates_model.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -35,7 +36,10 @@ class UpdatesPage extends StatefulWidget {
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => UpdatesModel(getService<PackageService>()),
+      create: (_) => UpdatesModel(
+        getService<PackageService>(),
+        getService<SessionManager>(),
+      ),
       child: const UpdatesPage(),
     );
   }
