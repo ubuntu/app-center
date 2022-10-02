@@ -54,7 +54,7 @@ class AppPage extends StatelessWidget {
     final isWindowNormalSized = windowWidth > 800 && windowWidth < 1800;
     final isWindowWide = windowWidth > 1800;
 
-    var media = BorderContainer(
+    final media = BorderContainer(
       child: YaruCarousel(
         nextIcon: const Icon(YaruIcons.go_next),
         previousIcon: const Icon(YaruIcons.go_previous),
@@ -130,7 +130,7 @@ class AppPage extends StatelessWidget {
             versionChanged: appData.versionChanged,
           ),
         ),
-        media,
+        if (appData.screenShotUrls.isNotEmpty) media,
         description,
         if (permissionContainer != null) permissionContainer!
       ],
@@ -150,7 +150,7 @@ class AppPage extends StatelessWidget {
       windowSize: windowSize,
       children: [
         narrowWindowAppHeader,
-        media,
+        if (appData.screenShotUrls.isNotEmpty) media,
         description,
         if (permissionContainer != null) permissionContainer!
       ],
