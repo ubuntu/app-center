@@ -267,6 +267,10 @@ class SnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  /// Helper getter for showing permissions
+  bool get showPermissions =>
+      snapIsInstalled && strict && plugs != null && plugs!.isNotEmpty;
+
   /// Asks the [SnapService] if a [SnapDChange] for this snap is in progress
   Future<void> _loadSnapChangeInProgress() async => snapChangeInProgress =
       await _snapService.getSnapChangeInProgress(name: huskSnapName);

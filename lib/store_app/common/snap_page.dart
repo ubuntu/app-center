@@ -86,7 +86,7 @@ class _SnapPageState extends State<SnapPage> {
     return AppPage(
       appData: appData,
       onPop: widget.onPop,
-      permissionContainer: model.snapIsInstalled && model.strict
+      permissionContainer: model.showPermissions
           ? const BorderContainer(
               child: SnapConnectionsSettings(),
             )
