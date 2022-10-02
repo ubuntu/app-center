@@ -62,7 +62,7 @@ class SnapModel extends SafeChangeNotifier {
 
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
       await _loadSnapChangeInProgress();
-      await loadPlugsAndConnections();
+      await _loadPlugs();
       if (!snapChangeInProgress) {
         _localSnap = await _findLocalSnap(huskSnapName);
       }
@@ -70,7 +70,7 @@ class SnapModel extends SafeChangeNotifier {
       notifyListeners();
     });
 
-    await loadPlugsAndConnections();
+    await _loadPlugs();
     notifyListeners();
   }
 
@@ -269,7 +269,7 @@ class SnapModel extends SafeChangeNotifier {
 
   /// Helper getter for showing permissions
   bool get showPermissions =>
-      snapIsInstalled && strict && plugs != null && plugs!.isNotEmpty;
+      snapIsInstalled && strict && _plugs != null && _plugs!.isNotEmpty;
 
   /// Asks the [SnapService] if a [SnapDChange] for this snap is in progress
   Future<void> _loadSnapChangeInProgress() async => snapChangeInProgress =
@@ -287,7 +287,7 @@ class SnapModel extends SafeChangeNotifier {
       channelToBeInstalled,
       doneMessage,
     );
-    await loadPlugsAndConnections();
+    await _loadPlugs();
     notifyListeners();
   }
 
@@ -307,16 +307,16 @@ class SnapModel extends SafeChangeNotifier {
       channel: channelToBeInstalled,
       confinement: selectableChannels[channelToBeInstalled]!.confinement,
     );
-    await loadPlugsAndConnections();
+    await _loadPlugs();
     notifyListeners();
   }
 
-  Map<SnapPlug, bool>? plugs;
-
-  Future<void> loadPlugsAndConnections() async {
+  Map<SnapPlug, bool>? _plugs;
+  Map<SnapPlug, bool>? get plugs => _plugs;
+  Future<void> _loadPlugs() async {
     if (_localSnap == null) return;
-    plugs?.clear();
-    plugs = await _snapService.loadPlugs(_localSnap!);
+    _plugs?.clear();
+    _plugs = await _snapService.loadPlugs(_localSnap!);
     notifyListeners();
   }
 
