@@ -263,20 +263,10 @@ class _UpdatesHeader extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  model.updatesState == UpdatesState.noUpdates ||
-                          model.updatesState == UpdatesState.readyToUpdate ||
-                          model.updatesState == null
-                      ? const Icon(
-                          YaruIcons.refresh,
-                          size: 18,
-                        )
-                      : const SizedBox(
-                          height: 16,
-                          width: 16,
-                          child: YaruCircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
-                        ),
+                  const Icon(
+                    YaruIcons.refresh,
+                    size: 18,
+                  ),
                   const SizedBox(
                     width: 5,
                   ),

@@ -78,7 +78,12 @@
   "verified": "Verifizierter Herausgeber",
   "updatesComplete": "Aktualisierungen abgeschlossen",
   "findOurRepository": "Finde uns auf GitHub",
-  "changelogTooLong": "Bitte besuchen Sie für das gesammte Änderungprotokoll:",
+  "changelogTooLong": "Bitte besuchen Sie für das gesamte Änderungsprotokoll:",
   "noPackageFound": "Es tut uns leid, aber wir konnten mit diesem Suchbegriff kein Paket finden",
-  "noSnapFound": "Es tut uns leid, aber wir konnten mit diesem Suchbegriff keine Snap finden"
+  "noSnapFound": "Es tut uns leid, aber wir konnten mit diesem Suchbegriff keine Snap finden",
+  "cancel": "Abbrechen",
+  "confirm": "Bestätigen",
+  "runsInBackground": "Ubuntu Software läuft im Hintergrund weiter, um das System auf Aktualisierungen zu prüfen.",
+  "quit": "Beenden",
+  "quitDanger": "Achtung! Momentan werden Systemaktualisierungen durchgeführt. Wenn das Programm jetzt geschlossen wird, könnte Ihr System beschädigt werden!"
 } 

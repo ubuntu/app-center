@@ -19,7 +19,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/services/package_service.dart';
+import 'package:software/store_app/common/confirmation_dialog.dart';
 import 'package:software/store_app/settings/settings_model.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -29,7 +32,7 @@ class SettingsPage extends StatefulWidget {
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SettingsModel(),
+      create: (_) => SettingsModel(getService<PackageService>()),
       child: const SettingsPage(),
     );
   }
@@ -62,81 +65,111 @@ class _SettingsPageState extends State<SettingsPage> {
           builder: (context) {
             return YaruPage(
               children: [
-                YaruRow(
-                  trailingWidget: Text(
-                    '${model.appName} ${model.version} ${model.buildNumber}',
-                  ),
-                  actionWidget: TextButton(
-                    onPressed: () {
-                      showAboutDialog(
-                        applicationVersion: model.version,
-                        applicationIcon: Image.asset(
-                          'assets/software.png',
-                          width: 60,
-                          filterQuality: FilterQuality.medium,
-                        ),
-                        children: [
-                          InkWell(
-                            borderRadius: BorderRadius.circular(5),
-                            onTap: () async =>
-                                await launchUrl(Uri.parse(repoUrl)),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  context.l10n.findOurRepository,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                      ),
+                YaruSection(
+                  width: 800,
+                  children: [
+                    YaruRow(
+                      trailingWidget: Text(context.l10n.runsInBackground),
+                      actionWidget: TextButton(
+                        onPressed: () {
+                          if (model.isUpdateRunning) {
+                            showDialog(
+                              context: context,
+                              builder: (c) => ConfirmationDialog(
+                                message: context.l10n.quitDanger,
+                                title:
+                                    '${context.l10n.quit}: ${model.appName}?',
+                                iconData: YaruIcons.warning_filled,
+                                positiveConfirm: false,
+                                onConfirm: () {
+                                  model.quit();
+                                },
+                              ),
+                            );
+                          } else {
+                            model.quit();
+                          }
+                        },
+                        child: SizedBox(child: Text(context.l10n.quit)),
+                      ),
+                      enabled: true,
+                    ),
+                    YaruRow(
+                      trailingWidget: Text(
+                        '${model.appName} ${model.version} ${model.buildNumber}',
+                      ),
+                      actionWidget: TextButton(
+                        onPressed: () {
+                          showAboutDialog(
+                            applicationVersion: model.version,
+                            applicationIcon: Image.asset(
+                              'assets/software.png',
+                              width: 60,
+                              filterQuality: FilterQuality.medium,
+                            ),
+                            children: [
+                              InkWell(
+                                borderRadius: BorderRadius.circular(5),
+                                onTap: () async =>
+                                    await launchUrl(Uri.parse(repoUrl)),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      context.l10n.findOurRepository,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                    ),
+                                    Icon(
+                                      YaruIcons.external_link,
+                                      color: Theme.of(context).primaryColor,
+                                      size: 15,
+                                    )
+                                  ],
                                 ),
-                                Icon(
-                                  YaruIcons.external_link,
-                                  color: Theme.of(context).primaryColor,
-                                  size: 15,
-                                )
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            height: 300,
-                            width: 300,
-                            child: FutureBuilder<String>(
-                              future: loadAsset(context),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return Markdown(
-                                    padding: EdgeInsets.zero,
-                                    shrinkWrap: true,
-                                    data:
-                                        'Ubuntu Software is made by:\n ${snapshot.data!}',
-                                    onTapLink: (text, href, title) =>
-                                        href != null
-                                            ? launchUrl(Uri.parse(href))
-                                            : null,
-                                  );
-                                } else {
-                                  return const SizedBox();
-                                }
-                              },
-                            ),
-                          )
-                        ],
-                        context: context,
-                        useRootNavigator: false,
-                      );
-                    },
-                    child: Text(context.l10n.about),
-                  ),
-                  enabled: true,
-                  width: 500,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              SizedBox(
+                                height: 300,
+                                width: 300,
+                                child: FutureBuilder<String>(
+                                  future: loadAsset(context),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Markdown(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        data:
+                                            'Ubuntu Software is made by:\n ${snapshot.data!}',
+                                        onTapLink: (text, href, title) =>
+                                            href != null
+                                                ? launchUrl(Uri.parse(href))
+                                                : null,
+                                      );
+                                    } else {
+                                      return const SizedBox();
+                                    }
+                                  },
+                                ),
+                              )
+                            ],
+                            context: context,
+                            useRootNavigator: false,
+                          );
+                        },
+                        child: Text(context.l10n.about),
+                      ),
+                      enabled: true,
+                    ),
+                  ],
                 )
               ],
             );
