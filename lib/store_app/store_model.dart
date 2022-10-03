@@ -49,12 +49,12 @@ class StoreModel extends SafeChangeNotifier {
 
   int get updateAmount => _packageService.updates.length;
 
-  Future<void> init() async {
+  Future<void> init({required String updatesAvailable}) async {
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       notifyListeners();
     });
     initConnectivity();
-    await _packageService.init();
+    await _packageService.init(updatesAvailable: updatesAvailable);
     _updatesChangedSub = _packageService.updatesChanged.listen((event) {
       notifyListeners();
     });

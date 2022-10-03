@@ -237,16 +237,16 @@ class PackageService {
 
   Timer? _refreshUpdatesTimer;
 
-  Future<void> init() async {
+  Future<void> init({required String updatesAvailable}) async {
     setErrorMessage('');
     setPackageState(PackageState.processing);
     await _getInstalledPackages();
     await _getInstalledApps();
     setPackageState(PackageState.ready);
-    refreshUpdates();
+    refreshUpdates(updatesAvailable: updatesAvailable);
   }
 
-  Future<void> refreshUpdates() async {
+  Future<void> refreshUpdates({required String updatesAvailable}) async {
     setErrorMessage('');
     setUpdatesState(UpdatesState.checkingForUpdates);
     await _loadRepoList();
@@ -256,12 +256,26 @@ class PackageService {
       _updates.isEmpty ? UpdatesState.noUpdates : UpdatesState.readyToUpdate,
     );
 
+    _refreshUpdatesTimer?.cancel();
     _refreshUpdatesTimer = Timer.periodic(
         const Duration(minutes: kCheckForUpdateTimeOutInMinutes), (timer) {
       if (lastUpdatesState == UpdatesState.noUpdates) {
-        refreshUpdates();
+        refreshUpdates(updatesAvailable: updatesAvailable);
       }
     });
+
+    if (lastUpdatesState == UpdatesState.readyToUpdate) {
+      _notificationsClient.notify(
+        'Ubuntu Software',
+        body: updatesAvailable,
+        appName: 'snap-store',
+        appIcon: 'snap-store',
+        hints: [
+          NotificationHint.desktopEntry('snap-store'),
+          NotificationHint.urgency(NotificationUrgency.normal),
+        ],
+      );
+    }
   }
 
   void dispose() {
@@ -315,7 +329,10 @@ class PackageService {
     }
   }
 
-  Future<void> updateAll({required String updatesComplete}) async {
+  Future<void> updateAll({
+    required String updatesComplete,
+    required String updatesAvailable,
+  }) async {
     setErrorMessage('');
     final List<PackageKitPackageId> selectedUpdates = _updates.entries
         .where((e) => e.value == true)
@@ -352,7 +369,7 @@ class PackageService {
     if (selectedUpdates.length == updates.length) {
       setUpdatesState(UpdatesState.noUpdates);
     } else {
-      await refreshUpdates();
+      await refreshUpdates(updatesAvailable: updatesAvailable);
     }
     _notificationsClient.notify(
       'Ubuntu Software',
@@ -360,7 +377,7 @@ class PackageService {
       appName: 'snap-store',
       appIcon: 'snap-store',
       hints: [
-        NotificationHint.desktopEntry('software'),
+        NotificationHint.desktopEntry('snap-store'),
         NotificationHint.urgency(NotificationUrgency.normal)
       ],
     );
