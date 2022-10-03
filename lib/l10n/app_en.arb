@@ -80,5 +80,10 @@
   "findOurRepository": "Find us on GitHub",
   "changelogTooLong": "For the full changelog, please visit:",
   "noPackageFound": "Sorry, we couldn't find any package with this search query",
-  "noSnapFound": "Sorry, we couldn't find any snap with this search query"
+  "noSnapFound": "Sorry, we couldn't find any snap with this search query",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "runsInBackground": "Ubuntu Software keeps running in the background to check for system updates.",
+  "quit": "Quit",
+  "quitDanger": "Attention! System updates are currently running. Quitting the App now could leave your system in a damaged state!"
 } 

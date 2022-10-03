@@ -32,6 +32,8 @@ import 'package:window_manager/window_manager.dart';
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
+  windowManager.setPreventClose(true);
+  windowManager.addListener(MyWindowListener());
 
   registerService<NotificationsClient>(
     NotificationsClient.new,
@@ -66,4 +68,52 @@ void main(List<String> args) async {
       PackageInstallerApp(path: path),
     );
   }
+}
+
+class MyWindowListener implements WindowListener {
+  @override
+  void onWindowBlur() {}
+
+  @override
+  void onWindowClose() {
+    /// To check for updates even in the background, we hide the window on app close.
+    /// The App is still closeable from the settings page.
+    windowManager.hide();
+  }
+
+  @override
+  void onWindowEnterFullScreen() {}
+
+  @override
+  void onWindowEvent(String eventName) {}
+
+  @override
+  void onWindowFocus() {}
+
+  @override
+  void onWindowLeaveFullScreen() {}
+
+  @override
+  void onWindowMaximize() {}
+
+  @override
+  void onWindowMinimize() {}
+
+  @override
+  void onWindowMove() {}
+
+  @override
+  void onWindowMoved() {}
+
+  @override
+  void onWindowResize() {}
+
+  @override
+  void onWindowResized() {}
+
+  @override
+  void onWindowRestore() {}
+
+  @override
+  void onWindowUnmaximize() {}
 }

@@ -27,3 +27,4 @@ const kGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
 );
 const positiveGreenLightTheme = Color.fromARGB(255, 51, 121, 63);
 const positiveGreenDarkTheme = Color.fromARGB(255, 128, 211, 143);
+const kCheckForUpdateTimeOutInMinutes = 30;
