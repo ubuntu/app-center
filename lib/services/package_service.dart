@@ -237,16 +237,16 @@ class PackageService {
 
   Timer? _refreshUpdatesTimer;
 
-  Future<void> init({required String updatesAvailable}) async {
+  Future<void> init() async {
     setErrorMessage('');
     setPackageState(PackageState.processing);
     await _getInstalledPackages();
     await _getInstalledApps();
     setPackageState(PackageState.ready);
-    refreshUpdates(updatesAvailable: updatesAvailable);
+    refreshUpdates();
   }
 
-  Future<void> refreshUpdates({required String updatesAvailable}) async {
+  Future<void> refreshUpdates() async {
     setErrorMessage('');
     setUpdatesState(UpdatesState.checkingForUpdates);
     await _loadRepoList();
@@ -260,10 +260,12 @@ class PackageService {
     _refreshUpdatesTimer = Timer.periodic(
         const Duration(minutes: kCheckForUpdateTimeOutInMinutes), (timer) {
       if (lastUpdatesState == UpdatesState.noUpdates) {
-        refreshUpdates(updatesAvailable: updatesAvailable);
+        refreshUpdates();
       }
     });
+  }
 
+  void sendUpdateNotification({required String updatesAvailable}) {
     if (lastUpdatesState == UpdatesState.readyToUpdate) {
       _notificationsClient.notify(
         'Ubuntu Software',
@@ -369,7 +371,7 @@ class PackageService {
     if (selectedUpdates.length == updates.length) {
       setUpdatesState(UpdatesState.noUpdates);
     } else {
-      await refreshUpdates(updatesAvailable: updatesAvailable);
+      await refreshUpdates();
     }
     _notificationsClient.notify(
       'Ubuntu Software',

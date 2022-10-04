@@ -99,15 +99,14 @@ class __AppState extends State<_App> {
 
   @override
   void initState() {
-    context
-        .read<StoreModel>()
-        .init(updatesAvailable: context.l10n.updateAvailable);
+    context.read<StoreModel>().init();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<StoreModel>();
+    model.setupNotifications(updatesAvailable: context.l10n.updateAvailable);
     final width = MediaQuery.of(context).size.width;
 
     return YaruCompactLayout(
