@@ -32,7 +32,6 @@ class SectionBannerGrid extends StatefulWidget {
     this.animateBanners = false,
     this.padding,
     this.initSection = true,
-    required this.scrollOffset,
     required this.initialAmount,
   }) : super(key: key);
 
@@ -40,7 +39,6 @@ class SectionBannerGrid extends StatefulWidget {
   final bool animateBanners;
   final EdgeInsets? padding;
   final bool initSection;
-  final double scrollOffset;
   final int initialAmount;
 
   @override
@@ -53,9 +51,7 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
   @override
   void initState() {
     _amount = widget.initialAmount;
-    _controller = ScrollController(
-      initialScrollOffset: widget.scrollOffset,
-    );
+    _controller = ScrollController();
 
     if (widget.initSection) {
       context.read<ExploreModel>().loadSection(widget.snapSection);

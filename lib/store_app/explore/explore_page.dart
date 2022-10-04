@@ -92,8 +92,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     : model.showStartPage
                         ? StartPage(screenSize: screenSize)
                         : SectionBannerGrid(
-                            initialAmount: screenArea ~/ bannerArea,
-                            scrollOffset: 0,
+                            initialAmount: (screenArea ~/ bannerArea) + 5,
                             snapSection: model.selectedSection,
                           ),
           ),
