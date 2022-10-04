@@ -259,9 +259,7 @@ class _UpdatesHeader extends StatelessWidget {
               onPressed: model.updatesState == UpdatesState.updating ||
                       model.updatesState == UpdatesState.checkingForUpdates
                   ? null
-                  : () => model.refresh(
-                        updatesAvailable: context.l10n.updateAvailable,
-                      ),
+                  : () => model.refresh(),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

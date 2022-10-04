@@ -25,7 +25,11 @@ import 'package:software/services/snap_service.dart';
 import 'package:software/updates_state.dart';
 
 class StoreModel extends SafeChangeNotifier {
-  StoreModel(this._connectivity, this._snapService, this._packageService);
+  StoreModel(
+    this._connectivity,
+    this._snapService,
+    this._packageService,
+  );
 
   final SnapService _snapService;
   Map<Snap, SnapdChange> get snapChanges => _snapService.snapChanges;
@@ -49,18 +53,29 @@ class StoreModel extends SafeChangeNotifier {
 
   int get updateAmount => _packageService.updates.length;
 
-  Future<void> init({required String updatesAvailable}) async {
+  Future<void> init() async {
+    await _packageService.init();
+
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       notifyListeners();
     });
     initConnectivity();
-    await _packageService.init(updatesAvailable: updatesAvailable);
     _updatesChangedSub = _packageService.updatesChanged.listen((event) {
       notifyListeners();
     });
     _updatesStateSub = _packageService.updatesState.listen((event) {
       updatesState = event;
+      if (_updatesAvailable != null) {
+        _packageService.sendUpdateNotification(
+          updatesAvailable: _updatesAvailable!,
+        );
+      }
     });
+  }
+
+  String? _updatesAvailable;
+  void setupNotifications({required String updatesAvailable}) {
+    _updatesAvailable = updatesAvailable;
   }
 
   @override
