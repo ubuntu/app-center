@@ -431,9 +431,9 @@ class _RepoDialogState extends State<_RepoDialog> {
         closeIconData: YaruIcons.window_close,
         titleWidget: Row(
           children: [
-            YaruRoundIconButton(
-              onTap: controller.text.isEmpty ? null : () => model.addRepo(),
-              child: const Icon(YaruIcons.plus),
+            IconButton(
+              onPressed: controller.text.isEmpty ? null : () => model.addRepo(),
+              icon: const Icon(YaruIcons.plus),
             ),
             const SizedBox(
               width: 10,

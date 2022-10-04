@@ -68,8 +68,8 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
                 child: YaruBanner(
                   name: package.name,
                   summary: package.version,
-                  fallbackIconData: YaruIcons.package_deb,
                   onTap: () => model.selectedPackage = package,
+                  icon: const Icon(YaruIcons.package_deb),
                 ),
               );
             },

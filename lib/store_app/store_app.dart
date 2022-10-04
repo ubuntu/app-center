@@ -110,10 +110,8 @@ class __AppState extends State<_App> {
     final width = MediaQuery.of(context).size.width;
 
     return YaruCompactLayout(
-      extendNavigationRail: width > 1200,
-      labelType: width < 800 || width > 1200
-          ? NavigationRailLabelType.none
-          : NavigationRailLabelType.all,
+      extended: width > 1200,
+      showLabels: width > 800,
       pageItems: [
         YaruPageItem(
           titleBuilder: ExplorePage.createTitle,

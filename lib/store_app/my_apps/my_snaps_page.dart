@@ -21,6 +21,7 @@ import 'package:snapd/snapd.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_page.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -114,8 +115,10 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
           child: YaruBanner(
             name: snap.name,
             summary: snap.summary,
-            url: snap.iconUrl,
-            fallbackIconData: YaruIcons.package_snap,
+            icon: SafeNetworkImage(
+              url: snap.iconUrl,
+              fallBackIconData: YaruIcons.package_snap,
+            ),
             onTap: () => model.selectedSnap = snap,
           ),
         );

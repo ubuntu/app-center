@@ -57,10 +57,13 @@ class AppPage extends StatelessWidget {
 
     final media = BorderContainer(
       child: YaruCarousel(
+        controller: YaruCarouselController(
+          pagesLength: appData.screenShotUrls.length,
+          viewportFraction: 1,
+        ),
         nextIcon: const Icon(YaruIcons.go_next),
         previousIcon: const Icon(YaruIcons.go_previous),
         navigationControls: appData.screenShotUrls.length > 1,
-        viewportFraction: 1,
         height: 400,
         children: [
           for (int i = 0; i < appData.screenShotUrls.length; i++)
@@ -199,11 +202,14 @@ class _CarouselDialog extends StatelessWidget {
         SizedBox(
           height: windowHeight - 150,
           child: YaruCarousel(
-            initialIndex: initialIndex,
+            controller: YaruCarouselController(
+              pagesLength: appData.screenShotUrls.length,
+              initialPage: initialIndex,
+              viewportFraction: 0.8,
+            ),
             nextIcon: const Icon(YaruIcons.go_next),
             previousIcon: const Icon(YaruIcons.go_previous),
             navigationControls: appData.screenShotUrls.length > 1,
-            viewportFraction: 0.8,
             width: windowWidth,
             children: [
               for (final url in appData.screenShotUrls)

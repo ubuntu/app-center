@@ -111,11 +111,11 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   ),
                   YaruRow(
                     trailingWidget: Text(context.l10n.website),
-                    actionWidget: YaruRoundIconButton(
-                      size: 20,
+                    actionWidget: IconButton(
+                      splashRadius: 20,
                       tooltip: model.url,
-                      onTap: () => launchUrl(Uri.parse(model.url)),
-                      child: Icon(
+                      onPressed: () => launchUrl(Uri.parse(model.url)),
+                      icon: Icon(
                         YaruIcons.external_link,
                         color: Theme.of(context).colorScheme.onSurface,
                         size: 20,

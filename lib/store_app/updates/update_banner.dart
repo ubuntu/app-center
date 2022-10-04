@@ -85,7 +85,6 @@ class _UpdateBannerState extends State<UpdateBanner> {
               )
             ],
           ),
-          fallbackIconData: YaruIcons.package_deb,
           icon: widget.group == PackageKitGroup.system ||
                   widget.group == PackageKitGroup.security
               ? const _SystemUpdateIcon()

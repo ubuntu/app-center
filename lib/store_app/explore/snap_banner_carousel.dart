@@ -22,6 +22,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
@@ -62,13 +63,16 @@ class _SnapBannerCarouselState extends State<SnapBannerCarousel> {
         model.sectionNameToSnapsMap[widget.snapSection.title] ?? [];
     return sections.isNotEmpty
         ? YaruCarousel(
-            initialIndex: widget.initialIndex,
-            viewportFraction: 1,
+            controller: YaruCarouselController(
+              pagesLength: sections.length,
+              initialPage: widget.initialIndex,
+              viewportFraction: 1,
+              autoScrollDuration: widget.duration,
+              autoScroll: true,
+            ),
             placeIndicator: false,
-            autoScrollDuration: widget.duration,
             width: size.width,
             height: widget.height,
-            autoScroll: true,
             children: [
               for (final snap in sections)
                 _AppBannerCarouselItem.create(
@@ -136,10 +140,12 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
       watermark: true,
       name: widget.snap.name,
       summary: widget.sectionName,
-      url: widget.snap.iconUrl,
       surfaceTintColor: model.surfaceTintColor,
       onTap: widget.onTap,
-      fallbackIconData: YaruIcons.package_snap,
+      icon: SafeNetworkImage(
+        url: widget.snap.iconUrl,
+        fallBackIconData: YaruIcons.package_snap,
+      ),
     );
   }
 }
