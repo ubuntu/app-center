@@ -20,16 +20,21 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/snapx.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:software/store_app/explore/section_banner_grid.dart';
 import 'package:software/store_app/explore/snap_banner_carousel.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({
     Key? key,
+    required this.screenSize,
   }) : super(key: key);
+
+  final Size screenSize;
 
   @override
   State<StartPage> createState() => _StartPageState();
@@ -49,7 +54,7 @@ class _StartPageState extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = widget.screenSize.width;
 
     int amount = 2;
 
@@ -118,17 +123,9 @@ class _StartPageState extends State<StartPage> {
                     section: section,
                     onViewMore: () => model.selectedSection = section,
                   ),
-                  SectionBannerGrid(
+                  _StartPageGrid(
                     snapSection: section,
-                    initSection: false,
-                    controller: ScrollController(),
                     amount: amount,
-                    animateBanners: false,
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      bottom: 15,
-                      right: 20,
-                    ),
                   ),
                 ],
               )
@@ -171,6 +168,52 @@ class _SeciontHeader extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class _StartPageGrid extends StatefulWidget {
+  const _StartPageGrid({
+    // ignore: unused_element
+    super.key,
+    required this.snapSection,
+    required this.amount,
+  });
+
+  final SnapSection snapSection;
+  final int amount;
+
+  @override
+  State<_StartPageGrid> createState() => __StartPageGridState();
+}
+
+class __StartPageGridState extends State<_StartPageGrid> {
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<ExploreModel>();
+    final sections =
+        model.sectionNameToSnapsMap[widget.snapSection.title] ?? [];
+    if (sections.isEmpty) return const SizedBox();
+    return GridView.builder(
+      padding: const EdgeInsets.only(
+        left: 20,
+        bottom: 15,
+        right: 20,
+      ),
+      shrinkWrap: true,
+      gridDelegate: kGridDelegate,
+      itemCount: sections.take(widget.amount).length,
+      itemBuilder: (context, index) {
+        final snap = sections.take(widget.amount).elementAt(index);
+
+        return YaruBanner(
+          name: snap.name,
+          summary: snap.summary,
+          url: snap.iconUrl,
+          fallbackIconData: YaruIcons.package_snap,
+          onTap: () => model.selectedSnap = snap,
+        );
+      },
     );
   }
 }
