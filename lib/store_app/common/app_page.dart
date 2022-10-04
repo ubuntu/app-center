@@ -23,6 +23,7 @@ import 'package:software/store_app/common/app_infos.dart';
 import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/media_tile.dart';
 import 'package:software/store_app/common/page_layouts.dart';
+import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -159,9 +160,8 @@ class AppPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(appData.title),
-        leading: InkWell(
-          onTap: onPop,
-          child: const Icon(YaruIcons.go_previous),
+        leading: _CustomBackButton(
+          onPressed: onPop,
         ),
       ),
       body: isWindowWide
@@ -206,11 +206,35 @@ class _CarouselDialog extends StatelessWidget {
             viewportFraction: 0.8,
             width: windowWidth,
             children: [
-              for (final url in appData.screenShotUrls) YaruSafeImage(url: url)
+              for (final url in appData.screenShotUrls)
+                SafeNetworkImage(url: url)
             ],
           ),
         )
       ],
+    );
+  }
+}
+
+class _CustomBackButton extends StatelessWidget {
+  const _CustomBackButton({
+    Key? key,
+    this.onPressed,
+  }) : super(key: key);
+
+  final Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: IconButton(
+        style: IconButton.styleFrom(fixedSize: const Size(40, 40)),
+        onPressed: () {
+          Navigator.maybePop(context);
+          if (onPressed != null) onPressed!();
+        },
+        icon: const Icon(YaruIcons.go_previous),
+      ),
     );
   }
 }
