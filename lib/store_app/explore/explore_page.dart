@@ -108,7 +108,7 @@ class _ExplorePageState extends State<ExplorePage> {
           ),
         if (model.selectedPackage != null && model.selectedSnap == null)
           MaterialPage(
-            key: ObjectKey(model.selectedSnap),
+            key: ObjectKey(model.selectedPackage),
             child: PackagePage.create(
               context: context,
               id: model.selectedPackage!,
