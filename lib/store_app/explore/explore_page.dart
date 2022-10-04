@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/offline_page.dart';
 import 'package:software/store_app/common/package_page.dart';
 import 'package:software/store_app/common/snap_page.dart';
@@ -71,6 +72,12 @@ class _ExplorePageState extends State<ExplorePage> {
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
     final screenSize = MediaQuery.of(context).size;
+
+    final screenArea = screenSize.width * screenSize.height;
+    final bannerArea =
+        (kGridDelegate.mainAxisExtent! + kGridDelegate.mainAxisSpacing) *
+            (kGridDelegate.crossAxisSpacing + kGridDelegate.maxCrossAxisExtent);
+
     return Navigator(
       pages: [
         MaterialPage(
@@ -85,7 +92,8 @@ class _ExplorePageState extends State<ExplorePage> {
                     : model.showStartPage
                         ? StartPage(screenSize: screenSize)
                         : SectionBannerGrid(
-                            scrollOffset: screenSize.width > 1000 ? 200 : 0,
+                            initialAmount: screenArea ~/ bannerArea,
+                            scrollOffset: 0,
                             snapSection: model.selectedSection,
                           ),
           ),

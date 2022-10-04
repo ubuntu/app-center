@@ -33,6 +33,7 @@ class SectionBannerGrid extends StatefulWidget {
     this.padding,
     this.initSection = true,
     required this.scrollOffset,
+    required this.initialAmount,
   }) : super(key: key);
 
   final SnapSection snapSection;
@@ -40,6 +41,7 @@ class SectionBannerGrid extends StatefulWidget {
   final EdgeInsets? padding;
   final bool initSection;
   final double scrollOffset;
+  final int initialAmount;
 
   @override
   State<SectionBannerGrid> createState() => _SectionBannerGridState();
@@ -47,9 +49,10 @@ class SectionBannerGrid extends StatefulWidget {
 
 class _SectionBannerGridState extends State<SectionBannerGrid> {
   late ScrollController _controller;
-  int _amount = 60;
+  late int _amount;
   @override
   void initState() {
+    _amount = widget.initialAmount;
     _controller = ScrollController(
       initialScrollOffset: widget.scrollOffset,
     );
