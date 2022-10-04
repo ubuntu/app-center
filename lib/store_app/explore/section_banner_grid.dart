@@ -29,29 +29,39 @@ class SectionBannerGrid extends StatefulWidget {
   const SectionBannerGrid({
     Key? key,
     required this.snapSection,
-    required this.controller,
-    this.amount,
     this.animateBanners = false,
     this.padding,
     this.initSection = true,
+    required this.initialAmount,
   }) : super(key: key);
 
   final SnapSection snapSection;
-  final ScrollController controller;
-  final int? amount;
   final bool animateBanners;
   final EdgeInsets? padding;
   final bool initSection;
+  final int initialAmount;
 
   @override
   State<SectionBannerGrid> createState() => _SectionBannerGridState();
 }
 
 class _SectionBannerGridState extends State<SectionBannerGrid> {
+  late ScrollController _controller;
+  late int _amount;
   @override
   void initState() {
+    _amount = widget.initialAmount;
+    _controller = ScrollController();
+
     if (widget.initSection) {
       context.read<ExploreModel>().loadSection(widget.snapSection);
+      _controller.addListener(() {
+        if (_controller.position.maxScrollExtent == _controller.offset) {
+          setState(() {
+            _amount = _amount + 5;
+          });
+        }
+      });
     }
     super.initState();
   }
@@ -62,16 +72,15 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
     final sections =
         model.sectionNameToSnapsMap[widget.snapSection.title] ?? [];
     if (sections.isEmpty) return const SizedBox();
+
     return GridView.builder(
-      controller: widget.controller,
+      controller: _controller,
       padding: widget.padding ?? const EdgeInsets.all(20),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
-      itemCount: sections.take(widget.amount ?? model.appResultAmount).length,
+      itemCount: sections.take(_amount).length,
       itemBuilder: (context, index) {
-        final snap = sections
-            .take(widget.amount ?? model.appResultAmount)
-            .elementAt(index);
+        final snap = sections.take(_amount).elementAt(index);
 
         final banner = YaruBanner(
           name: snap.name,

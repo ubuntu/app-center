@@ -97,6 +97,11 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<MyAppsModel>();
+    if (model.localSnaps.isEmpty) {
+      return const Center(
+        child: YaruCircularProgressIndicator(),
+      );
+    }
     return GridView.builder(
       controller: _controller,
       padding: const EdgeInsets.all(20.0),
