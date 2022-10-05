@@ -38,7 +38,7 @@ class SettingsPage extends StatefulWidget {
   }
 
   static Widget createTitle(BuildContext context) =>
-      Text(context.l10n.settingsPageTitle);
+      YaruPageItemTitle.text(context.l10n.settingsPageTitle);
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();

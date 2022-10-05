@@ -44,9 +44,8 @@ class UpdatesPage extends StatefulWidget {
     );
   }
 
-  static Widget createTitle(BuildContext context) {
-    return Text(context.l10n.updates);
-  }
+  static Widget createTitle(BuildContext context) =>
+      YaruPageItemTitle.text(context.l10n.updates);
 
   @override
   State<UpdatesPage> createState() => _UpdatesPageState();
