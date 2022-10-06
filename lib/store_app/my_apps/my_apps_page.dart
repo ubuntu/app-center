@@ -58,7 +58,7 @@ class MyAppsPage extends StatelessWidget {
   }
 
   static Widget createTitle(BuildContext context) =>
-      Text(context.l10n.myAppsPageTitle);
+      YaruPageItemTitle.text(context.l10n.myAppsPageTitle);
 
   @override
   Widget build(BuildContext context) {

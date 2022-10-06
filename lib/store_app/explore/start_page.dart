@@ -22,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/snap_banner_carousel.dart';
@@ -209,8 +210,10 @@ class __StartPageGridState extends State<_StartPageGrid> {
         return YaruBanner(
           name: snap.name,
           summary: snap.summary,
-          url: snap.iconUrl,
-          fallbackIconData: YaruIcons.package_snap,
+          icon: SafeNetworkImage(
+            url: snap.iconUrl,
+            fallBackIconData: YaruIcons.package_snap,
+          ),
           onTap: () => model.selectedSnap = snap,
         );
       },

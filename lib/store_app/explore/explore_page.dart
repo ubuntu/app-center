@@ -47,7 +47,7 @@ class ExplorePage extends StatefulWidget {
   }
 
   static Widget createTitle(BuildContext context) =>
-      Text(context.l10n.explorePageTitle);
+      YaruPageItemTitle.text(context.l10n.explorePageTitle);
 
   @override
   State<ExplorePage> createState() => _ExplorePageState();

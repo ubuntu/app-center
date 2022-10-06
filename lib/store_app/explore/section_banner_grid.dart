@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -85,20 +86,16 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
         final banner = YaruBanner(
           name: snap.name,
           summary: snap.summary,
-          url: snap.iconUrl,
-          fallbackIconData: YaruIcons.package_snap,
+          icon: SafeNetworkImage(
+            url: snap.iconUrl,
+            fallBackIconData: YaruIcons.package_snap,
+          ),
           onTap: () => model.selectedSnap = snap,
         );
 
         if (widget.animateBanners) {
           return AnimatedScrollViewItem(
-            child: YaruBanner(
-              name: snap.name,
-              summary: snap.summary,
-              url: snap.iconUrl,
-              fallbackIconData: YaruIcons.package_snap,
-              onTap: () => model.selectedSnap = snap,
-            ),
+            child: banner,
           );
         } else {
           return banner;
