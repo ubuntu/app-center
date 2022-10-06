@@ -18,3 +18,12 @@ Make sure that the pull request is [linked to an issue](https://docs.github.com/
 
 This project is subject to the [Canonical contributor license agreement](https://ubuntu.com/legal/contributors), please make sure you have [signed it](https://ubuntu.com/legal/contributors/agreement) before (or shortly after) submitting your first pull request.
 
+## Translations
+
+Translations are managed using [Weblate](https://hosted.weblate.org/projects/ubuntu-software/).
+This project currently has one translation component:
+
+- [ubuntu-software](https://hosted.weblate.org/projects/ubuntu-software/ubuntu-software/)
+
+**NOTE**: The Weblate project is integrated with the GitHub project. Weblate pushes changes daily and
+opens a [pull request](https://github.com/ubuntu-flutter-community/software/pulls) on GitHub.
