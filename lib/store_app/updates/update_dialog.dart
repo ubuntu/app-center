@@ -89,29 +89,29 @@ class _UpdateDialogState extends State<UpdateDialog> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.version,
-                    infoValue: widget.id.version,
+                  YaruTile(
+                    title: Text(context.l10n.version),
+                    trailing: Text(widget.id.version),
                   ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.architecture,
-                    infoValue: widget.id.arch,
+                  YaruTile(
+                    title: Text(context.l10n.architecture),
+                    trailing: Text(widget.id.arch),
                   ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.source,
-                    infoValue: widget.id.data,
+                  YaruTile(
+                    title: Text(context.l10n.source),
+                    trailing: Text(widget.id.data),
                   ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.license,
-                    infoValue: model.license,
+                  YaruTile(
+                    title: Text(context.l10n.license),
+                    trailing: Text(model.license),
                   ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.size,
-                    infoValue: model.size.toString(),
+                  YaruTile(
+                    title: Text(context.l10n.size),
+                    trailing: Text(model.size),
                   ),
-                  YaruRow(
-                    trailingWidget: Text(context.l10n.website),
-                    actionWidget: IconButton(
+                  YaruTile(
+                    title: Text(context.l10n.website),
+                    trailing: IconButton(
                       splashRadius: 20,
                       tooltip: model.url,
                       onPressed: () => launchUrl(Uri.parse(model.url)),
@@ -123,9 +123,9 @@ class _UpdateDialogState extends State<UpdateDialog> {
                     ),
                     enabled: true,
                   ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.issued,
-                    infoValue: model.issued,
+                  YaruTile(
+                    title: Text(context.l10n.issued),
+                    trailing: Text(model.issued),
                   ),
                   if (model.changelog.isEmpty)
                     const YaruCircularProgressIndicator()

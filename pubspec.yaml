@@ -43,7 +43,7 @@ dependencies:
   yaru_widgets:
     git:
       url: https://github.com/ubuntu/yaru_widgets.dart
-      ref: yaru_navigation_rail
+      ref: main
 
 dev_dependencies:
   flutter_lints: ^2.0.1

@@ -68,9 +68,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 YaruSection(
                   width: 800,
                   children: [
-                    YaruRow(
-                      trailingWidget: Text(context.l10n.runsInBackground),
-                      actionWidget: TextButton(
+                    YaruTile(
+                      title: Text(context.l10n.runsInBackground),
+                      trailing: TextButton(
                         onPressed: () {
                           if (model.isUpdateRunning) {
                             showDialog(
@@ -94,11 +94,11 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       enabled: true,
                     ),
-                    YaruRow(
-                      trailingWidget: Text(
+                    YaruTile(
+                      title: Text(
                         '${model.appName} ${model.version} ${model.buildNumber}',
                       ),
-                      actionWidget: TextButton(
+                      trailing: TextButton(
                         onPressed: () {
                           showAboutDialog(
                             applicationVersion: model.version,

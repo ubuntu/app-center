@@ -590,11 +590,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: yaru_navigation_rail
-      resolved-ref: ad868466d9cad2681226749e4e5e9b7c3d8be439
+      ref: main
+      resolved-ref: "0c694fce85d52b20dd184fb44823c4e0e584d089"
       url: "https://github.com/ubuntu/yaru_widgets.dart"
     source: git
     version: "1.1.5"
 sdks:
   dart: ">=2.17.0 <3.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.3.2"

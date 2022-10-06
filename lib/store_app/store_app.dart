@@ -110,13 +110,18 @@ class __AppState extends State<_App> {
     final width = MediaQuery.of(context).size.width;
 
     return YaruCompactLayout(
-      extended: width > 1200,
-      showLabels: width > 800,
+      style: width > 800 && width < 1200
+          ? YaruNavigationRailStyle.labelled
+          : width > 1200
+              ? YaruNavigationRailStyle.labelledExtended
+              : YaruNavigationRailStyle.compact,
       pageItems: [
         YaruPageItem(
           titleBuilder: ExplorePage.createTitle,
           builder: (context) => ExplorePage.create(context, model.appIsOnline),
-          iconData: YaruIcons.compass,
+          iconBuilder: (context, selected) => selected
+              ? const Icon(YaruIcons.compass_filled)
+              : const Icon(YaruIcons.compass),
         ),
         YaruPageItem(
           titleBuilder: MyAppsPage.createTitle,
@@ -125,24 +130,32 @@ class __AppState extends State<_App> {
             (index) => _myAppsIndex = index,
             _myAppsIndex,
           ),
-          iconData: YaruIcons.ok,
-          itemWidget: model.snapChanges.isNotEmpty
-              ? _MyAppsIcon(count: model.snapChanges.length)
-              : null,
+          iconBuilder: (context, selected) {
+            if (model.snapChanges.isNotEmpty) {
+              return _MyAppsIcon(count: model.snapChanges.length);
+            }
+            return selected
+                ? const Icon(YaruIcons.ok_filled)
+                : const Icon(YaruIcons.ok);
+          },
         ),
         YaruPageItem(
           titleBuilder: UpdatesPage.createTitle,
           builder: UpdatesPage.create,
-          iconData: YaruIcons.synchronizing,
-          itemWidget: _UpdatesIcon(
-            count: model.updateAmount,
-            updatesState: model.updatesState ?? UpdatesState.checkingForUpdates,
-          ),
+          iconBuilder: (context, selected) {
+            return _UpdatesIcon(
+              count: model.updateAmount,
+              updatesState:
+                  model.updatesState ?? UpdatesState.checkingForUpdates,
+            );
+          },
         ),
-        const YaruPageItem(
+        YaruPageItem(
           titleBuilder: SettingsPage.createTitle,
           builder: SettingsPage.create,
-          iconData: YaruIcons.settings,
+          iconBuilder: (context, selected) => selected
+              ? const Icon(YaruIcons.settings_filled)
+              : const Icon(YaruIcons.settings),
         ),
       ],
     );
@@ -198,7 +211,8 @@ class _UpdatesIcon extends StatelessWidget {
               )
             : null,
         child: const SizedBox(
-          height: 20,
+          height: 24,
+          width: 23,
           child: YaruCircularProgressIndicator(
             strokeWidth: 2,
           ),
