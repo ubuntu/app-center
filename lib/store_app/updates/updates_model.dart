@@ -25,7 +25,7 @@ import 'package:ubuntu_session/ubuntu_session.dart';
 
 class UpdatesModel extends SafeChangeNotifier {
   final PackageService _service;
-  final SessionManager _sessionManager;
+  final UbuntuSession _session;
   StreamSubscription<String>? _errorMessageSub;
   StreamSubscription<PackageKitRestart>? _requireRestartSub;
   StreamSubscription<int?>? _percentageSub;
@@ -41,7 +41,7 @@ class UpdatesModel extends SafeChangeNotifier {
 
   UpdatesModel(
     this._service,
-    this._sessionManager,
+    this._session,
   )   : _requireRestart = PackageKitRestart.none,
         _errorMessage = '',
         _manualRepoName = '';
@@ -219,7 +219,7 @@ class UpdatesModel extends SafeChangeNotifier {
     await _service.toggleRepo(id: id, value: value);
   }
 
-  void reboot() => _sessionManager.reboot();
+  void reboot() => _session.reboot();
 
   void logout() => _service.logout();
 
