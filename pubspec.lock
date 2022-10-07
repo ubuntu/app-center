@@ -56,7 +56,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.8"
+    version: "2.3.9"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -84,7 +84,7 @@ packages:
       name: connectivity_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.5"
   connectivity_plus_windows:
     dependency: transitive
     description:
@@ -590,8 +590,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: main
-      resolved-ref: "0c694fce85d52b20dd184fb44823c4e0e584d089"
+      ref: "7bb4f992da1fd57983b0bf57d0a7cb9f3ae99e33"
+      resolved-ref: "7bb4f992da1fd57983b0bf57d0a7cb9f3ae99e33"
       url: "https://github.com/ubuntu/yaru_widgets.dart"
     source: git
     version: "1.1.5"
