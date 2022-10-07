@@ -63,7 +63,8 @@ class _SettingsPageState extends State<SettingsPage> {
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
           builder: (context) {
-            return YaruPage(
+            return ListView(
+              padding: const EdgeInsets.all(kYaruPagePadding),
               children: [
                 YaruSection(
                   width: 800,

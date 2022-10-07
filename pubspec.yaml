@@ -43,7 +43,7 @@ dependencies:
   yaru_widgets:
     git:
       url: https://github.com/ubuntu/yaru_widgets.dart
-      ref: 7bb4f992da1fd57983b0bf57d0a7cb9f3ae99e33
+      ref: main
 
 dev_dependencies:
   flutter_lints: ^2.0.1
