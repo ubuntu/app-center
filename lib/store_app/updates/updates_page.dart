@@ -38,7 +38,7 @@ class UpdatesPage extends StatefulWidget {
     return ChangeNotifierProvider(
       create: (_) => UpdatesModel(
         getService<PackageService>(),
-        getService<SessionManager>(),
+        getService<UbuntuSession>(),
       ),
       child: const UpdatesPage(),
     );

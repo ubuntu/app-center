@@ -47,10 +47,7 @@ void main(List<String> args) async {
     PackageService.new,
     dispose: (s) => s.dispose(),
   );
-  registerService<SessionManager>(
-    SessionManager.new,
-    dispose: (s) => s.close(),
-  );
+  registerService<UbuntuSession>(UbuntuSession.new);
 
   final loadPackageInstaller =
       args.isNotEmpty && args.any((arg) => arg.endsWith('.deb'));
