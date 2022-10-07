@@ -40,7 +40,10 @@ dependencies:
   yaru: ^0.4.1
   yaru_colors: ^0.1.0
   yaru_icons: ^0.2.4
-  yaru_widgets: ^1.1.4
+  yaru_widgets:
+    git:
+      url: https://github.com/ubuntu/yaru_widgets.dart
+      ref: main
 
 dev_dependencies:
   flutter_lints: ^2.0.1

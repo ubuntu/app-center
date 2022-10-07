@@ -44,9 +44,8 @@ class UpdatesPage extends StatefulWidget {
     );
   }
 
-  static Widget createTitle(BuildContext context) {
-    return Text(context.l10n.updates);
-  }
+  static Widget createTitle(BuildContext context) =>
+      YaruPageItemTitle.text(context.l10n.updates);
 
   @override
   State<UpdatesPage> createState() => _UpdatesPageState();
@@ -431,9 +430,9 @@ class _RepoDialogState extends State<_RepoDialog> {
         closeIconData: YaruIcons.window_close,
         titleWidget: Row(
           children: [
-            YaruRoundIconButton(
-              onTap: controller.text.isEmpty ? null : () => model.addRepo(),
-              child: const Icon(YaruIcons.plus),
+            IconButton(
+              onPressed: controller.text.isEmpty ? null : () => model.addRepo(),
+              icon: const Icon(YaruIcons.plus),
             ),
             const SizedBox(
               width: 10,

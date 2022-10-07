@@ -56,7 +56,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.7"
+    version: "2.3.8"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -70,7 +70,7 @@ packages:
       name: connectivity_plus_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.6"
   connectivity_plus_platform_interface:
     dependency: transitive
     description:
@@ -293,7 +293,7 @@ packages:
       name: package_info_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.5"
+    version: "1.0.6"
   package_info_plus_windows:
     dependency: transitive
     description:
@@ -589,10 +589,12 @@ packages:
   yaru_widgets:
     dependency: "direct main"
     description:
-      name: yaru_widgets
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: main
+      resolved-ref: "0c694fce85d52b20dd184fb44823c4e0e584d089"
+      url: "https://github.com/ubuntu/yaru_widgets.dart"
+    source: git
     version: "1.1.5"
 sdks:
   dart: ">=2.17.0 <3.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.3.2"
