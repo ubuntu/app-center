@@ -129,8 +129,8 @@ class _ErrorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruPage(
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+    return ListView(
+      padding: const EdgeInsets.all(kYaruPagePadding),
       children: [
         Center(
           child: Padding(
