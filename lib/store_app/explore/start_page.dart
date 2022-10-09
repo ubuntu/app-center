@@ -153,9 +153,12 @@ class _SeciontHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            section.localize(context.l10n),
-            style: Theme.of(context).textTheme.bodyLarge,
+          TextButton(
+            onPressed: onViewMore,
+            child: Text(
+              section.localize(context.l10n),
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ),
           TextButton(
             onPressed: onViewMore,
