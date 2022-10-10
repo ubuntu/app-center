@@ -75,5 +75,12 @@
   "verified": "Editor verificado",
   "updatesComplete": "Actualizaciones completadas",
   "findOurRepository": "Encuéntranos en GitHub",
-  "changelogTooLong": "Para ver el registro completo de cambios, visite:"
+  "changelogTooLong": "Para ver el registro completo de cambios, visite:",
+  "noPackageFound": "Lo sentimos, no pudimos encontrar ningún paquete con esta consulta de búsqueda",
+  "noSnapFound": "Lo sentimos, no pudimos encontrar ningún snap con esta consulta de búsqueda.",
+  "cancel": "Cancelar",
+  "confirm": "Confirmar",
+  "runsInBackground": "Ubuntu Software sigue ejecutándose en segundo plano para buscar actualizaciones del sistema.",
+  "quit": "Salir",
+  "quitDanger": "¡Atención! Las actualizaciones del sistema se están ejecutando actualmente. ¡Salir de la aplicación ahora podría dejar su sistema en un estado dañado!"
 }
