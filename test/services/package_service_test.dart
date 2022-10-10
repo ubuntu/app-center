@@ -78,13 +78,14 @@ void main() {
     when(transaction.getDetails([firefoxPackageId])).thenAnswer((_) {
       transaction.controller.add(
         PackageKitDetailsEvent(
-            packageId: firefoxPackageId,
-            summary: 'a summary',
-            url: 'https://example.org/',
-            license: 'a license',
-            size: 43008,
-            description: 'a description',
-            group: PackageKitGroup.internet),
+          packageId: firefoxPackageId,
+          summary: 'a summary',
+          url: 'https://example.org/',
+          license: 'a license',
+          size: 43008,
+          description: 'a description',
+          group: PackageKitGroup.internet,
+        ),
       );
       return emitFinishedEvent(transaction.controller);
     });
@@ -125,8 +126,10 @@ void main() {
       return emitFinishedEvent(transaction.controller);
     });
 
-    when(transaction.searchNames(['firefox'],
-        filter: {PackageKitFilter.installed})).thenAnswer((_) {
+    when(
+      transaction
+          .searchNames(['firefox'], filter: {PackageKitFilter.installed}),
+    ).thenAnswer((_) {
       transaction.controller.add(
         const PackageKitPackageEvent(
           info: PackageKitInfo.installed,
@@ -212,12 +215,15 @@ void main() {
 
     mockNotificationsClient = MockNotificationsClient();
     registerMockService<NotificationsClient>(mockNotificationsClient);
-    when(mockNotificationsClient.notify(any,
-            body: anyNamed('body'),
-            appName: anyNamed('appName'),
-            appIcon: anyNamed('appIcon'),
-            hints: anyNamed('hints')))
-        .thenAnswer((_) => Future.value(MockNotification()));
+    when(
+      mockNotificationsClient.notify(
+        any,
+        body: anyNamed('body'),
+        appName: anyNamed('appName'),
+        appIcon: anyNamed('appIcon'),
+        hints: anyNamed('hints'),
+      ),
+    ).thenAnswer((_) => Future.value(MockNotification()));
   });
 
   tearDown(() {
