@@ -1,5 +1,9 @@
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude:
+    - "**/*.mocks.dart"
+
 linter:
   rules:
     avoid_print: true
