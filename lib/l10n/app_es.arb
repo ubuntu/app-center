@@ -59,6 +59,9 @@
   "deselectAll": "Anular todo",
   "update": "Actualización",
   "noUpdates": "Todo está actualizado",
+  "updating": "Espere, estamos actualizando su sistema. No cierre esta aplicación ni apague su computadora.",
+  "checkingForUpdates": "Un momento: estamos buscando actualizaciones",
+  "readyToUpdate": "Listo para actualizar",
   "apps": "aplicaciones",
   "filterSnaps": "Establecer filtros de snap",
   "enterRepoName": "Inserte el nombre del repositorio",
@@ -81,6 +84,6 @@
   "cancel": "Cancelar",
   "confirm": "Confirmar",
   "runsInBackground": "Ubuntu Software sigue ejecutándose en segundo plano para buscar actualizaciones del sistema.",
-  "quit": "Salir",
+  "quit": "Cerrar",
   "quitDanger": "¡Atención! Las actualizaciones del sistema se están ejecutando actualmente. ¡Salir de la aplicación ahora podría dejar su sistema en un estado dañado!"
 }
