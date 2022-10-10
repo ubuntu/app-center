@@ -28,9 +28,7 @@ Test Ubuntu Software in the **preview/edge** channel of the snap-store snap
   - [X] filter for sections
   - [X] refresh
   - [X] switch channels
-  - [ ] manage permissions
     - [X] list permissions
-    - [ ] activate/deactive permissions
 - [X] deb/rpm (packagekit) support (https://github.com/canonical/packagekit.dart)
   - [X] install from file-explorer
   - [X] list installed debs/rpms
@@ -46,6 +44,14 @@ For the firmware updates the flutter linux desktop, yaru-designed application [f
 ## Build
 
 ### Install flutter
+
+Either with
+
+```bash
+sudo snap install flutter --classic
+```
+
+Or with
 
 ```bash
 sudo apt install git curl cmake meson make clang libgtk-3-dev pkg-config

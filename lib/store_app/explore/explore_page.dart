@@ -17,13 +17,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/services/snap_service.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/offline_page.dart';
 import 'package:software/store_app/common/package_page.dart';
 import 'package:software/store_app/common/snap_page.dart';
-import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/search_field.dart';
 import 'package:software/store_app/explore/search_page.dart';
@@ -39,7 +39,7 @@ class ExplorePage extends StatefulWidget {
     if (!online) return const OfflinePage();
     return ChangeNotifierProvider(
       create: (_) => ExploreModel(
-        getService<SnapdClient>(),
+        getService<SnapService>(),
         getService<PackageService>(),
       ),
       child: const ExplorePage(),
@@ -47,7 +47,7 @@ class ExplorePage extends StatefulWidget {
   }
 
   static Widget createTitle(BuildContext context) =>
-      Text(context.l10n.explorePageTitle);
+      YaruPageItemTitle.text(context.l10n.explorePageTitle);
 
   @override
   State<ExplorePage> createState() => _ExplorePageState();
@@ -71,35 +71,17 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
+    final screenSize = MediaQuery.of(context).size;
+
+    final screenArea = screenSize.width * screenSize.height;
+    final bannerArea =
+        (kGridDelegate.mainAxisExtent! + kGridDelegate.mainAxisSpacing) *
+            (kGridDelegate.crossAxisSpacing + kGridDelegate.maxCrossAxisExtent);
+
     return Navigator(
       pages: [
         MaterialPage(
           child: Scaffold(
-            floatingActionButton: model.selectedSection != SnapSection.all &&
-                    model.searchQuery.isEmpty
-                ? FloatingActionButton.extended(
-                    backgroundColor:
-                        Theme.of(context).brightness == Brightness.light
-                            ? Colors.white
-                            : const Color.fromARGB(255, 75, 75, 75),
-                    foregroundColor: Theme.of(context).colorScheme.onSurface,
-                    elevation: 0,
-                    heroTag: 'more',
-                    onPressed: () {
-                      model.appResultAmount += 5;
-                      _controller.animateTo(
-                        _controller.position.maxScrollExtent + 5 * 120,
-                        duration: const Duration(seconds: 1),
-                        curve: Curves.fastOutSlowIn,
-                      );
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(color: Theme.of(context).dividerColor),
-                    ),
-                    label: Text(context.l10n.showMore),
-                  )
-                : null,
             appBar: AppBar(
               flexibleSpace: const SearchField(),
             ),
@@ -108,10 +90,10 @@ class _ExplorePageState extends State<ExplorePage> {
                 : model.showSearchPage
                     ? const SearchPage()
                     : model.showStartPage
-                        ? const StartPage()
+                        ? StartPage(screenSize: screenSize)
                         : SectionBannerGrid(
+                            initialAmount: (screenArea ~/ bannerArea) + 5,
                             snapSection: model.selectedSection,
-                            controller: _controller,
                           ),
           ),
         ),
@@ -126,7 +108,7 @@ class _ExplorePageState extends State<ExplorePage> {
           ),
         if (model.selectedPackage != null && model.selectedSnap == null)
           MaterialPage(
-            key: ObjectKey(model.selectedSnap),
+            key: ObjectKey(model.selectedPackage),
             child: PackagePage.create(
               context: context,
               id: model.selectedPackage!,
@@ -147,8 +129,8 @@ class _ErrorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruPage(
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+    return ListView(
+      padding: const EdgeInsets.all(kYaruPagePadding),
       children: [
         Center(
           child: Padding(

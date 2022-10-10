@@ -27,6 +27,7 @@ import 'package:software/store_app/updates/update_banner.dart';
 import 'package:software/store_app/updates/updates_model.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -35,14 +36,16 @@ class UpdatesPage extends StatefulWidget {
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => UpdatesModel(getService<PackageService>()),
+      create: (_) => UpdatesModel(
+        getService<PackageService>(),
+        getService<UbuntuSession>(),
+      ),
       child: const UpdatesPage(),
     );
   }
 
-  static Widget createTitle(BuildContext context) {
-    return Text(context.l10n.updates);
-  }
+  static Widget createTitle(BuildContext context) =>
+      YaruPageItemTitle.text(context.l10n.updates);
 
   @override
   State<UpdatesPage> createState() => _UpdatesPageState();
@@ -259,20 +262,10 @@ class _UpdatesHeader extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  model.updatesState == UpdatesState.noUpdates ||
-                          model.updatesState == UpdatesState.readyToUpdate ||
-                          model.updatesState == null
-                      ? const Icon(
-                          YaruIcons.refresh,
-                          size: 18,
-                        )
-                      : const SizedBox(
-                          height: 16,
-                          width: 16,
-                          child: YaruCircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
-                        ),
+                  const Icon(
+                    YaruIcons.refresh,
+                    size: 18,
+                  ),
                   const SizedBox(
                     width: 5,
                   ),
@@ -298,6 +291,7 @@ class _UpdatesHeader extends StatelessWidget {
                 onPressed: model.updatesState == UpdatesState.readyToUpdate
                     ? () => model.updateAll(
                           updatesComplete: context.l10n.updatesComplete,
+                          updatesAvailable: context.l10n.updateAvailable,
                         )
                     : null,
                 child: Text(context.l10n.updateSelected),
@@ -436,9 +430,9 @@ class _RepoDialogState extends State<_RepoDialog> {
         closeIconData: YaruIcons.window_close,
         titleWidget: Row(
           children: [
-            YaruRoundIconButton(
-              onTap: controller.text.isEmpty ? null : () => model.addRepo(),
-              child: const Icon(YaruIcons.plus),
+            IconButton(
+              onPressed: controller.text.isEmpty ? null : () => model.addRepo(),
+              icon: const Icon(YaruIcons.plus),
             ),
             const SizedBox(
               width: 10,

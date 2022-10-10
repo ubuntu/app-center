@@ -35,8 +35,7 @@ class SnapModel extends SafeChangeNotifier {
     required this.huskSnapName,
     this.online = true,
   })  : _snapChangeInProgress = true,
-        _channelToBeInstalled = '',
-        connections = {};
+        _channelToBeInstalled = '';
 
   Future<void> init() async {
     await _loadSnapChangeInProgress();
@@ -62,14 +61,16 @@ class SnapModel extends SafeChangeNotifier {
     );
 
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
-      _loadSnapChangeInProgress();
+      await _loadSnapChangeInProgress();
+      await _loadPlugs();
       if (!snapChangeInProgress) {
         _localSnap = await _findLocalSnap(huskSnapName);
       }
+
       notifyListeners();
     });
 
-    await loadConnections();
+    await _loadPlugs();
     notifyListeners();
   }
 
@@ -266,6 +267,10 @@ class SnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  /// Helper getter for showing permissions
+  bool get showPermissions =>
+      snapIsInstalled && strict && _plugs != null && _plugs!.isNotEmpty;
+
   /// Asks the [SnapService] if a [SnapDChange] for this snap is in progress
   Future<void> _loadSnapChangeInProgress() async => snapChangeInProgress =
       await _snapService.getSnapChangeInProgress(name: huskSnapName);
@@ -282,7 +287,7 @@ class SnapModel extends SafeChangeNotifier {
       channelToBeInstalled,
       doneMessage,
     );
-    await loadConnections();
+    await _loadPlugs();
     notifyListeners();
   }
 
@@ -302,29 +307,30 @@ class SnapModel extends SafeChangeNotifier {
       channel: channelToBeInstalled,
       confinement: selectableChannels[channelToBeInstalled]!.confinement,
     );
-    await loadConnections();
+    await _loadPlugs();
     notifyListeners();
   }
 
-  Future<void> connect({
-    required SnapConnection con,
-  }) async {
-    await _snapService.connect(con: con);
+  Map<SnapPlug, bool>? _plugs;
+  Map<SnapPlug, bool>? get plugs => _plugs;
+  Future<void> _loadPlugs() async {
+    if (_localSnap == null) return;
+    _plugs?.clear();
+    _plugs = await _snapService.loadPlugs(_localSnap!);
     notifyListeners();
   }
 
-  Future<void> disconnect({
-    required SnapConnection con,
-  }) async {
-    await _snapService.connect(con: con);
-    notifyListeners();
-  }
-
-  Map<String, SnapConnection> connections;
-  Future<void> loadConnections() async {
-    if (_localSnap != null) {
-      connections = await _snapService.loadConnections(_localSnap!);
-    }
+  void toggleConnection({
+    required String interface,
+    required SnapPlug snap,
+    required bool value,
+  }) {
+    _snapService.toggleConnection(
+      snapThatWantsAConnection: _localSnap!,
+      interface: interface,
+      doneMessage: doneMessage,
+      value: value,
+    );
   }
 
   Color? _surfaceTintColor;

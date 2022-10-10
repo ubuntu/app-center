@@ -17,10 +17,15 @@
 
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
+import 'package:software/services/package_service.dart';
+import 'package:software/updates_state.dart';
+import 'package:window_manager/window_manager.dart';
 
 const repoUrl = 'https://github.com/ubuntu-flutter-community/software';
 
 class SettingsModel extends SafeChangeNotifier {
+  final PackageService _packageService;
+
   String appName;
 
   String packageName;
@@ -28,7 +33,7 @@ class SettingsModel extends SafeChangeNotifier {
   String version;
 
   String buildNumber;
-  SettingsModel()
+  SettingsModel(this._packageService)
       : appName = '',
         packageName = '',
         version = '',
@@ -42,4 +47,13 @@ class SettingsModel extends SafeChangeNotifier {
     buildNumber = packageInfo.buildNumber;
     notifyListeners();
   }
+
+  void quit() {
+    windowManager.setPreventClose(false);
+    windowManager.close();
+  }
+
+  bool get isUpdateRunning =>
+      _packageService.lastUpdatesState == UpdatesState.updating ||
+      _packageService.lastUpdatesState == UpdatesState.checkingForUpdates;
 }

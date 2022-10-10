@@ -23,6 +23,7 @@ import 'package:software/store_app/common/app_infos.dart';
 import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/media_tile.dart';
 import 'package:software/store_app/common/page_layouts.dart';
+import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -41,7 +42,7 @@ class AppPage extends StatelessWidget {
   final AppData appData;
   final VoidCallback onPop;
   final Widget icon;
-  final Widget permissionContainer;
+  final Widget? permissionContainer;
   final Widget controls;
   final Widget? subControlPageHeader;
   final Widget? subBannerHeader;
@@ -51,40 +52,40 @@ class AppPage extends StatelessWidget {
     final windowSize = MediaQuery.of(context).size;
     final windowWidth = windowSize.width;
     final windowHeight = windowSize.height;
-    final isWindowNormalSized = windowWidth > 800 && windowWidth < 1400;
-    final isWindowWide = windowWidth > 1400;
+    final isWindowNormalSized = windowWidth > 800 && windowWidth < 1800;
+    final isWindowWide = windowWidth > 1800;
 
-    final mediaDescriptionAndConnections = [
-      if (appData.screenShotUrls.isNotEmpty)
-        BorderContainer(
-          child: YaruCarousel(
-            nextIcon: const Icon(YaruIcons.go_next),
-            previousIcon: const Icon(YaruIcons.go_previous),
-            navigationControls: appData.screenShotUrls.length > 1,
-            viewportFraction: isWindowWide ? 0.5 : 1,
-            height: windowHeight / 3,
-            children: [
-              for (int i = 0; i < appData.screenShotUrls.length; i++)
-                MediaTile(
-                  url: appData.screenShotUrls[i],
-                  onTap: () => showDialog(
-                    context: context,
-                    builder: (c) => _CarouselDialog(
-                      windowHeight: windowHeight,
-                      appData: appData,
-                      windowWidth: windowWidth,
-                      initialIndex: i,
-                    ),
-                  ),
-                )
-            ],
-          ),
+    final media = BorderContainer(
+      child: YaruCarousel(
+        controller: YaruCarouselController(
+          pagesLength: appData.screenShotUrls.length,
+          viewportFraction: 1,
         ),
-      BorderContainer(
-        child: AppDescription(description: appData.description),
+        nextIcon: const Icon(YaruIcons.go_next),
+        previousIcon: const Icon(YaruIcons.go_previous),
+        navigationControls: appData.screenShotUrls.length > 1,
+        height: 400,
+        children: [
+          for (int i = 0; i < appData.screenShotUrls.length; i++)
+            MediaTile(
+              url: appData.screenShotUrls[i],
+              onTap: () => showDialog(
+                context: context,
+                builder: (c) => _CarouselDialog(
+                  windowHeight: windowHeight,
+                  appData: appData,
+                  windowWidth: windowWidth,
+                  initialIndex: i,
+                ),
+              ),
+            )
+        ],
       ),
-      permissionContainer,
-    ];
+    );
+
+    final description = BorderContainer(
+      child: AppDescription(description: appData.description),
+    );
 
     final normalWindowAppHeader = BorderContainer(
       child: BannerAppHeader(
@@ -95,7 +96,7 @@ class AppPage extends StatelessWidget {
     );
 
     final wideWindowAppHeader = BorderContainer(
-      width: 480,
+      width: 500,
       child: PageAppHeader(
         appData: appData,
         icon: icon,
@@ -133,13 +134,19 @@ class AppPage extends StatelessWidget {
             versionChanged: appData.versionChanged,
           ),
         ),
-        for (final part in mediaDescriptionAndConnections) part
+        if (appData.screenShotUrls.isNotEmpty) media,
+        description,
+        if (permissionContainer != null) permissionContainer!
       ],
     );
 
     final wideWindowLayout = PanedPageLayout(
       leftChild: wideWindowAppHeader,
-      rightChildren: mediaDescriptionAndConnections,
+      rightChildren: [
+        if (appData.screenShotUrls.isNotEmpty) media,
+        description,
+        if (permissionContainer != null) permissionContainer!
+      ],
       windowSize: windowSize,
     );
 
@@ -147,16 +154,17 @@ class AppPage extends StatelessWidget {
       windowSize: windowSize,
       children: [
         narrowWindowAppHeader,
-        for (final part in mediaDescriptionAndConnections) part
+        if (appData.screenShotUrls.isNotEmpty) media,
+        description,
+        if (permissionContainer != null) permissionContainer!
       ],
     );
 
     return Scaffold(
       appBar: AppBar(
         title: Text(appData.title),
-        leading: InkWell(
-          onTap: onPop,
-          child: const Icon(YaruIcons.go_previous),
+        leading: _CustomBackButton(
+          onPressed: onPop,
         ),
       ),
       body: isWindowWide
@@ -194,18 +202,45 @@ class _CarouselDialog extends StatelessWidget {
         SizedBox(
           height: windowHeight - 150,
           child: YaruCarousel(
-            initialIndex: initialIndex,
+            controller: YaruCarouselController(
+              pagesLength: appData.screenShotUrls.length,
+              initialPage: initialIndex,
+              viewportFraction: 0.8,
+            ),
             nextIcon: const Icon(YaruIcons.go_next),
             previousIcon: const Icon(YaruIcons.go_previous),
             navigationControls: appData.screenShotUrls.length > 1,
-            viewportFraction: 0.8,
             width: windowWidth,
             children: [
-              for (final url in appData.screenShotUrls) YaruSafeImage(url: url)
+              for (final url in appData.screenShotUrls)
+                SafeNetworkImage(url: url)
             ],
           ),
         )
       ],
+    );
+  }
+}
+
+class _CustomBackButton extends StatelessWidget {
+  const _CustomBackButton({
+    Key? key,
+    this.onPressed,
+  }) : super(key: key);
+
+  final Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: IconButton(
+        style: IconButton.styleFrom(fixedSize: const Size(40, 40)),
+        onPressed: () {
+          Navigator.maybePop(context);
+          if (onPressed != null) onPressed!();
+        },
+        icon: const Icon(YaruIcons.go_previous),
+      ),
     );
   }
 }

@@ -22,11 +22,11 @@ import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/package_state.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/utils.dart';
 import 'package:software/updates_state.dart';
 import 'package:synchronized/extension.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:window_manager/window_manager.dart';
 
 class PackageService {
   final PackageKitClient _client;
@@ -247,24 +247,37 @@ class PackageService {
   }
 
   Future<void> refreshUpdates() async {
-    windowManager.setClosable(false);
-    try {
-      setErrorMessage('');
-      setUpdatesState(UpdatesState.checkingForUpdates);
-      await _loadRepoList();
-      await _refreshCache();
-      await _getUpdates();
-      setUpdatesState(
-        _updates.isEmpty ? UpdatesState.noUpdates : UpdatesState.readyToUpdate,
-      );
-    } finally {
-      windowManager.setClosable(true);
-    }
-    _refreshUpdatesTimer = Timer.periodic(const Duration(minutes: 30), (timer) {
+    setErrorMessage('');
+    setUpdatesState(UpdatesState.checkingForUpdates);
+    await _loadRepoList();
+    await _refreshCache();
+    await _getUpdates();
+    setUpdatesState(
+      _updates.isEmpty ? UpdatesState.noUpdates : UpdatesState.readyToUpdate,
+    );
+
+    _refreshUpdatesTimer?.cancel();
+    _refreshUpdatesTimer = Timer.periodic(
+        const Duration(minutes: kCheckForUpdateTimeOutInMinutes), (timer) {
       if (lastUpdatesState == UpdatesState.noUpdates) {
         refreshUpdates();
       }
     });
+  }
+
+  void sendUpdateNotification({required String updatesAvailable}) {
+    if (lastUpdatesState == UpdatesState.readyToUpdate) {
+      _notificationsClient.notify(
+        'Ubuntu Software',
+        body: updatesAvailable,
+        appName: 'snap-store',
+        appIcon: 'snap-store',
+        hints: [
+          NotificationHint.desktopEntry('snap-store'),
+          NotificationHint.urgency(NotificationUrgency.normal),
+        ],
+      );
+    }
   }
 
   void dispose() {
@@ -318,60 +331,58 @@ class PackageService {
     }
   }
 
-  Future<void> updateAll({required String updatesComplete}) async {
-    windowManager.setClosable(false);
-    try {
-      setErrorMessage('');
-      final List<PackageKitPackageId> selectedUpdates = _updates.entries
-          .where((e) => e.value == true)
-          .map((e) => e.key)
-          .toList();
-      if (selectedUpdates.isEmpty) return;
-      final updatePackagesTransaction = await _client.createTransaction();
-      final updatePackagesCompleter = Completer();
-      setUpdatesState(UpdatesState.updating);
-      updatePackagesTransaction.events.listen((event) {
-        if (event is PackageKitRequireRestartEvent) {
-          setRequireRestart(event.type);
-        }
-        if (event is PackageKitPackageEvent) {
-          setProcessedId(event.packageId);
-          setInfo(event.info);
-        } else if (event is PackageKitItemProgressEvent) {
-          setUpdatePercentage(event.percentage);
-          setProcessedId(event.packageId);
-          setStatus(event.status);
-        } else if (event is PackageKitErrorCodeEvent) {
-          setErrorMessage('${event.code}: ${event.details}');
-        } else if (event is PackageKitFinishedEvent) {
-          updatePackagesCompleter.complete();
-        }
-      });
-      await updatePackagesTransaction.updatePackages(selectedUpdates);
-      await updatePackagesCompleter.future;
-      _updates.clear();
-      setInfo(null);
-      setStatus(null);
-      setProcessedId(null);
-      setUpdatePercentage(null);
-      if (selectedUpdates.length == updates.length) {
-        setUpdatesState(UpdatesState.noUpdates);
-      } else {
-        await refreshUpdates();
+  Future<void> updateAll({
+    required String updatesComplete,
+    required String updatesAvailable,
+  }) async {
+    setErrorMessage('');
+    final List<PackageKitPackageId> selectedUpdates = _updates.entries
+        .where((e) => e.value == true)
+        .map((e) => e.key)
+        .toList();
+    if (selectedUpdates.isEmpty) return;
+    final updatePackagesTransaction = await _client.createTransaction();
+    final updatePackagesCompleter = Completer();
+    setUpdatesState(UpdatesState.updating);
+    updatePackagesTransaction.events.listen((event) {
+      if (event is PackageKitRequireRestartEvent) {
+        setRequireRestart(event.type);
       }
-      _notificationsClient.notify(
-        'Ubuntu Software',
-        body: updatesComplete,
-        appName: 'snap-store',
-        appIcon: 'snap-store',
-        hints: [
-          NotificationHint.desktopEntry('software'),
-          NotificationHint.urgency(NotificationUrgency.normal)
-        ],
-      );
-    } finally {
-      windowManager.setClosable(true);
+      if (event is PackageKitPackageEvent) {
+        setProcessedId(event.packageId);
+        setInfo(event.info);
+      } else if (event is PackageKitItemProgressEvent) {
+        setUpdatePercentage(event.percentage);
+        setProcessedId(event.packageId);
+        setStatus(event.status);
+      } else if (event is PackageKitErrorCodeEvent) {
+        setErrorMessage('${event.code}: ${event.details}');
+      } else if (event is PackageKitFinishedEvent) {
+        updatePackagesCompleter.complete();
+      }
+    });
+    await updatePackagesTransaction.updatePackages(selectedUpdates);
+    await updatePackagesCompleter.future;
+    _updates.clear();
+    setInfo(null);
+    setStatus(null);
+    setProcessedId(null);
+    setUpdatePercentage(null);
+    if (selectedUpdates.length == updates.length) {
+      setUpdatesState(UpdatesState.noUpdates);
+    } else {
+      await refreshUpdates();
     }
+    _notificationsClient.notify(
+      'Ubuntu Software',
+      body: updatesComplete,
+      appName: 'snap-store',
+      appIcon: 'snap-store',
+      hints: [
+        NotificationHint.desktopEntry('snap-store'),
+        NotificationHint.urgency(NotificationUrgency.normal)
+      ],
+    );
   }
 
   Future<void> _getInstalledPackages() async {

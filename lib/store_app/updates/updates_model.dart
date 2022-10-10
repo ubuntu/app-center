@@ -21,9 +21,11 @@ import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/updates_state.dart';
+import 'package:ubuntu_session/ubuntu_session.dart';
 
 class UpdatesModel extends SafeChangeNotifier {
   final PackageService _service;
+  final UbuntuSession _session;
   StreamSubscription<String>? _errorMessageSub;
   StreamSubscription<PackageKitRestart>? _requireRestartSub;
   StreamSubscription<int?>? _percentageSub;
@@ -37,8 +39,10 @@ class UpdatesModel extends SafeChangeNotifier {
   StreamSubscription<bool>? _updatesChangedSub;
   StreamSubscription<bool>? _selectionChanged;
 
-  UpdatesModel(this._service)
-      : _requireRestart = PackageKitRestart.none,
+  UpdatesModel(
+    this._service,
+    this._session,
+  )   : _requireRestart = PackageKitRestart.none,
         _errorMessage = '',
         _manualRepoName = '';
 
@@ -194,8 +198,14 @@ class UpdatesModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateAll({required String updatesComplete}) async {
-    await _service.updateAll(updatesComplete: updatesComplete);
+  Future<void> updateAll({
+    required String updatesComplete,
+    required String updatesAvailable,
+  }) async {
+    await _service.updateAll(
+      updatesComplete: updatesComplete,
+      updatesAvailable: updatesAvailable,
+    );
   }
 
   List<PackageKitRepositoryDetailEvent> get repos => _service.repos;
@@ -209,7 +219,7 @@ class UpdatesModel extends SafeChangeNotifier {
     await _service.toggleRepo(id: id, value: value);
   }
 
-  void reboot() => _service.reboot();
+  void reboot() => _session.reboot();
 
   void logout() => _service.logout();
 

@@ -28,11 +28,9 @@ class OfflinePage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const YaruAnimatedNoNetworkIcon(
+          YaruAnimatedNoNetworkIcon(
             size: 200,
-            // TODO: use disabledColor once yaru_icons.dart#62 is fixed
-            // color: Theme.of(context).disabledColor,
-            color: Colors.grey,
+            color: Theme.of(context).disabledColor,
           ),
           Text(
             context.l10n.offline,

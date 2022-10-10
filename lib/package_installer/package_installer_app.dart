@@ -113,51 +113,51 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
               YaruSection(
                 width: MediaQuery.of(context).size.width / 2,
                 children: [
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.name,
-                    infoValue: model.id == null ? '' : model.id!.name,
+                  YaruTile(
+                    title: Text(context.l10n.name),
+                    trailing: Text(model.id == null ? '' : model.id!.name),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.version,
-                    infoValue: model.id == null ? '' : model.id!.version,
+                  YaruTile(
+                    title: Text(context.l10n.version),
+                    trailing: Text(model.id == null ? '' : model.id!.version),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.architecture,
-                    infoValue: model.id == null ? '' : model.id!.arch,
+                  YaruTile(
+                    title: Text(context.l10n.architecture),
+                    trailing: Text(model.id == null ? '' : model.id!.arch),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.source,
-                    infoValue: model.id == null ? '' : model.id!.data,
+                  YaruTile(
+                    title: Text(context.l10n.source),
+                    trailing: Text(model.id == null ? '' : model.id!.data),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.license,
-                    infoValue: model.license,
+                  YaruTile(
+                    title: Text(context.l10n.license),
+                    trailing: Text(model.license),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.size,
-                    infoValue: model.size.toString(),
+                  YaruTile(
+                    title: Text(context.l10n.size),
+                    trailing: Text(model.size),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  YaruSingleInfoRow(
-                    infoLabel: context.l10n.description,
-                    infoValue: model.description.toString(),
+                  YaruTile(
+                    title: Text(context.l10n.description),
+                    trailing: Text(model.description),
                   ),
                 ],
               ),

@@ -45,6 +45,21 @@ class StoreApp extends StatelessWidget {
         child: const StoreApp(),
       );
 
+  /// Returns a preferred [Locale] if present in [supportedLocales].
+  ///
+  /// If [deviceLocales] contains no supported locales, defaults to English.
+  Locale _resolveLocale(
+    List<Locale>? deviceLocales,
+    Iterable<Locale> supportedLocales,
+  ) {
+    var locale = basicLocaleListResolution(deviceLocales, supportedLocales);
+    if (deviceLocales != null && deviceLocales.contains(locale)) {
+      return locale;
+    } else {
+      return const Locale('en');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return YaruTheme(
@@ -57,6 +72,7 @@ class StoreApp extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           onGenerateTitle: (context) => context.l10n.appTitle,
+          localeListResolutionCallback: _resolveLocale,
           routes: {
             Navigator.defaultRouteName: (context) {
               return const Scaffold(
@@ -68,6 +84,18 @@ class StoreApp extends StatelessWidget {
       },
     );
   }
+}
+
+class PageItem {
+  const PageItem({
+    required this.titleBuilder,
+    required this.builder,
+    required this.iconBuilder,
+  });
+
+  final WidgetBuilder titleBuilder;
+  final WidgetBuilder builder;
+  final Widget Function(BuildContext context, bool selected) iconBuilder;
 }
 
 class _App extends StatefulWidget {
@@ -90,46 +118,64 @@ class __AppState extends State<_App> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<StoreModel>();
+    model.setupNotifications(updatesAvailable: context.l10n.updateAvailable);
     final width = MediaQuery.of(context).size.width;
 
-    return YaruCompactLayout(
-      extendNavigationRail: width > 1200,
-      labelType: width < 800 || width > 1200
-          ? NavigationRailLabelType.none
-          : NavigationRailLabelType.all,
-      pageItems: [
-        YaruPageItem(
-          titleBuilder: ExplorePage.createTitle,
-          builder: (context) => ExplorePage.create(context, model.appIsOnline),
-          iconData: YaruIcons.compass,
+    final pageItems = [
+      PageItem(
+        titleBuilder: ExplorePage.createTitle,
+        builder: (context) => ExplorePage.create(context, model.appIsOnline),
+        iconBuilder: (context, selected) => selected
+            ? const Icon(YaruIcons.compass_filled)
+            : const Icon(YaruIcons.compass),
+      ),
+      PageItem(
+        titleBuilder: MyAppsPage.createTitle,
+        builder: (context) => MyAppsPage.create(
+          context,
+          (index) => _myAppsIndex = index,
+          _myAppsIndex,
         ),
-        YaruPageItem(
-          titleBuilder: MyAppsPage.createTitle,
-          builder: (context) => MyAppsPage.create(
-            context,
-            (index) => _myAppsIndex = index,
-            _myAppsIndex,
-          ),
-          iconData: YaruIcons.ok,
-          itemWidget: model.snapChanges.isNotEmpty
-              ? _MyAppsIcon(count: model.snapChanges.length)
-              : null,
-        ),
-        YaruPageItem(
-          titleBuilder: UpdatesPage.createTitle,
-          builder: UpdatesPage.create,
-          iconData: YaruIcons.synchronizing,
-          itemWidget: _UpdatesIcon(
+        iconBuilder: (context, selected) {
+          if (model.snapChanges.isNotEmpty) {
+            return _MyAppsIcon(count: model.snapChanges.length);
+          }
+          return selected
+              ? const Icon(YaruIcons.ok_filled)
+              : const Icon(YaruIcons.ok);
+        },
+      ),
+      PageItem(
+        titleBuilder: UpdatesPage.createTitle,
+        builder: UpdatesPage.create,
+        iconBuilder: (context, selected) {
+          return _UpdatesIcon(
             count: model.updateAmount,
             updatesState: model.updatesState ?? UpdatesState.checkingForUpdates,
-          ),
-        ),
-        const YaruPageItem(
-          titleBuilder: SettingsPage.createTitle,
-          builder: SettingsPage.create,
-          iconData: YaruIcons.settings,
-        ),
-      ],
+          );
+        },
+      ),
+      PageItem(
+        titleBuilder: SettingsPage.createTitle,
+        builder: SettingsPage.create,
+        iconBuilder: (context, selected) => selected
+            ? const Icon(YaruIcons.settings_filled)
+            : const Icon(YaruIcons.settings),
+      ),
+    ];
+
+    return YaruCompactLayout(
+      style: width > 800 && width < 1200
+          ? YaruNavigationRailStyle.labelled
+          : width > 1200
+              ? YaruNavigationRailStyle.labelledExtended
+              : YaruNavigationRailStyle.compact,
+      length: pageItems.length,
+      iconBuilder: (context, index, selected) =>
+          pageItems[index].iconBuilder(context, selected),
+      titleBuilder: (context, index, selected) =>
+          pageItems[index].titleBuilder(context),
+      pageBuilder: (context, index) => pageItems[index].builder(context),
     );
   }
 }
@@ -183,7 +229,8 @@ class _UpdatesIcon extends StatelessWidget {
               )
             : null,
         child: const SizedBox(
-          height: 20,
+          height: 24,
+          width: 23,
           child: YaruCircularProgressIndicator(
             strokeWidth: 2,
           ),

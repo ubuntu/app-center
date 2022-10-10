@@ -21,6 +21,7 @@ import 'package:snapd/snapd.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_page.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -42,12 +43,17 @@ class _MySnapsPageState extends State<MySnapsPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<MyAppsModel>();
+    final snaps = model.searchQuery == null
+        ? model.localSnaps
+        : model.localSnaps
+            .where(
+              (s) => s.name.startsWith(model.searchQuery!),
+            )
+            .toList();
     return Navigator(
       pages: [
         MaterialPage(
-          child: model.localSnaps.isNotEmpty
-              ? _MySnapsGrid(snaps: model.localSnaps)
-              : const SizedBox(),
+          child: _MySnapsGrid(snaps: snaps),
         ),
         if (model.selectedSnap != null)
           MaterialPage(
@@ -92,6 +98,11 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<MyAppsModel>();
+    if (model.localSnaps.isEmpty) {
+      return const Center(
+        child: YaruCircularProgressIndicator(),
+      );
+    }
     return GridView.builder(
       controller: _controller,
       padding: const EdgeInsets.all(20.0),
@@ -104,8 +115,10 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
           child: YaruBanner(
             name: snap.name,
             summary: snap.summary,
-            url: snap.iconUrl,
-            fallbackIconData: YaruIcons.package_snap,
+            icon: SafeNetworkImage(
+              url: snap.iconUrl,
+              fallBackIconData: YaruIcons.package_snap,
+            ),
             onTap: () => model.selectedSnap = snap,
           ),
         );
