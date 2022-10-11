@@ -95,9 +95,7 @@ class StoreModel extends SafeChangeNotifier {
     });
   }
 
-  bool get appIsOnline =>
-      _connectivityResult == ConnectivityResult.ethernet ||
-      _connectivityResult == ConnectivityResult.wifi;
+  bool get appIsOnline => _connectivityResult != ConnectivityResult.none;
 
   Future<void> initConnectivity() async {
     _connectivitySub = _connectivity.onConnectivityChanged.listen((result) {
