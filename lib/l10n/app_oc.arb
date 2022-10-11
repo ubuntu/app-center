@@ -1,1 +1,10 @@
-{}
+{
+  "explorePageTitle": "Explorar",
+  "@explorePageTitle": {},
+  "myAppsPageTitle": "Mas aplicacions",
+  "@myAppsPageTitle": {},
+  "updatesPageTitle": "Mesas a jorn",
+  "@updatesPageTitle": {},
+  "appTitle": "Logicials Ubuntu",
+  "@appTitle": {}
+}
