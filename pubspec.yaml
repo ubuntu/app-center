@@ -43,12 +43,15 @@ dependencies:
   yaru_widgets:
     git:
       url: https://github.com/ubuntu/yaru_widgets.dart
-      ref: main
+      ref: 12f3391763e0dd849f39cfd22326d0f91c41b2b3
 
 dev_dependencies:
+  build_runner: ^2.2.0
   flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
+  mockito: ^5.3.2
+  path: ^1.8.0
 
 flutter:
   uses-material-design: true
