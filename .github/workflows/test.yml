@@ -18,5 +18,10 @@ jobs:
         with:
           channel: "stable"
 
-      - name: test
-        run: flutter test
+      - name: Run tests
+        run: flutter test --coverage
+
+      - name: Upload coverage results
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
