@@ -68,7 +68,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
-    const headerStyle = TextStyle(fontWeight: FontWeight.w500);
+    const headerStyle = TextStyle(fontWeight: FontWeight.bold);
     if (model.packageState != PackageState.ready || model.changelog.isEmpty) {
       return const AlertDialog(
         content: Padding(
