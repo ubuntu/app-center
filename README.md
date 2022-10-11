@@ -1,5 +1,7 @@
 # Ubuntu Software
 
+[![codecov](https://codecov.io/gh/ubuntu-flutter-community/software/branch/main/graph/badge.svg)](https://codecov.io/gh/ubuntu-flutter-community/software)
+
 ### An alternative software store for the Ubuntu Desktop made with Flutter.
 
 <a href="https://snapcraft.io/snap-store">
