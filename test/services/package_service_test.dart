@@ -14,15 +14,6 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'package_service_test.mocks.dart';
 
-class MockTransaction extends MockPackageKitTransaction {
-  final StreamController<PackageKitEvent> controller =
-      StreamController<PackageKitEvent>.broadcast();
-
-  MockTransaction() {
-    when(events).thenAnswer((_) => controller.stream);
-  }
-}
-
 @GenerateMocks([
   Notification,
   NotificationsClient,
@@ -46,20 +37,22 @@ void main() {
     return Future.value();
   }
 
-  MockTransaction createMockTransaction() {
-    final transaction = MockTransaction();
+  MockPackageKitTransaction createMockTransaction() {
+    final transaction = MockPackageKitTransaction();
+    final controller = StreamController<PackageKitEvent>.broadcast();
+    when(transaction.events).thenAnswer((_) => controller.stream);
 
     when(transaction.getRepositoryList())
-        .thenAnswer((_) => emitFinishedEvent(transaction.controller));
+        .thenAnswer((_) => emitFinishedEvent(controller));
 
     when(transaction.refreshCache())
-        .thenAnswer((_) => emitFinishedEvent(transaction.controller));
+        .thenAnswer((_) => emitFinishedEvent(controller));
 
     when(transaction.getUpdates(filter: {}))
-        .thenAnswer((_) => emitFinishedEvent(transaction.controller));
+        .thenAnswer((_) => emitFinishedEvent(controller));
 
     when(transaction.getPackages(filter: {PackageKitFilter.installed}))
-        .thenAnswer((_) => emitFinishedEvent(transaction.controller));
+        .thenAnswer((_) => emitFinishedEvent(controller));
 
     when(
       transaction.getPackages(
@@ -73,10 +66,10 @@ void main() {
           PackageKitFilter.visible,
         },
       ),
-    ).thenAnswer((_) => emitFinishedEvent(transaction.controller));
+    ).thenAnswer((_) => emitFinishedEvent(controller));
 
     when(transaction.getDetails([firefoxPackageId])).thenAnswer((_) {
-      transaction.controller.add(
+      controller.add(
         PackageKitDetailsEvent(
           packageId: firefoxPackageId,
           summary: 'a summary',
@@ -87,32 +80,32 @@ void main() {
           group: PackageKitGroup.internet,
         ),
       );
-      return emitFinishedEvent(transaction.controller);
+      return emitFinishedEvent(controller);
     });
 
     when(transaction.searchNames(['fire'], filter: {})).thenAnswer((_) {
-      transaction.controller.add(
+      controller.add(
         const PackageKitPackageEvent(
           info: PackageKitInfo.installed,
           packageId: firefoxPackageId,
           summary: 'a fox',
         ),
       );
-      transaction.controller.add(
+      controller.add(
         const PackageKitPackageEvent(
           info: PackageKitInfo.installed,
           packageId: PackageKitPackageId(name: 'firejail', version: '0.9.66-2'),
           summary: 'a jail',
         ),
       );
-      return emitFinishedEvent(transaction.controller);
+      return emitFinishedEvent(controller);
     });
 
     when(transaction.setRepositoryEnabled(any, any))
-        .thenAnswer((_) => emitFinishedEvent(transaction.controller));
+        .thenAnswer((_) => emitFinishedEvent(controller));
 
     when(transaction.getDetailsLocal(any)).thenAnswer((_) {
-      transaction.controller.add(
+      controller.add(
         PackageKitDetailsEvent(
           packageId: firefoxPackageId,
           group: PackageKitGroup.internet,
@@ -123,85 +116,85 @@ void main() {
           size: 43008,
         ),
       );
-      return emitFinishedEvent(transaction.controller);
+      return emitFinishedEvent(controller);
     });
 
     when(
       transaction
           .searchNames(['firefox'], filter: {PackageKitFilter.installed}),
     ).thenAnswer((_) {
-      transaction.controller.add(
+      controller.add(
         const PackageKitPackageEvent(
           info: PackageKitInfo.installed,
           packageId: firefoxPackageId,
           summary: 'a fox',
         ),
       );
-      return emitFinishedEvent(transaction.controller);
+      return emitFinishedEvent(controller);
     });
 
     when(transaction.installPackages([firefoxPackageId])).thenAnswer((_) {
-      transaction.controller.add(
+      controller.add(
         const PackageKitPackageEvent(
           info: PackageKitInfo.installing,
           packageId: firefoxPackageId,
           summary: 'a fox',
         ),
       );
-      transaction.controller.add(
+      controller.add(
         const PackageKitItemProgressEvent(
           packageId: firefoxPackageId,
           status: PackageKitStatus.install,
           percentage: 33,
         ),
       );
-      transaction.controller.add(
+      controller.add(
         const PackageKitItemProgressEvent(
           packageId: firefoxPackageId,
           status: PackageKitStatus.install,
           percentage: 67,
         ),
       );
-      transaction.controller.add(
+      controller.add(
         const PackageKitItemProgressEvent(
           packageId: firefoxPackageId,
           status: PackageKitStatus.install,
           percentage: 100,
         ),
       );
-      return emitFinishedEvent(transaction.controller);
+      return emitFinishedEvent(controller);
     });
 
     when(transaction.removePackages([firefoxPackageId])).thenAnswer((_) {
-      transaction.controller.add(
+      controller.add(
         const PackageKitPackageEvent(
           info: PackageKitInfo.removing,
           packageId: firefoxPackageId,
           summary: 'a fox',
         ),
       );
-      transaction.controller.add(
+      controller.add(
         const PackageKitItemProgressEvent(
           packageId: firefoxPackageId,
           status: PackageKitStatus.remove,
           percentage: 27,
         ),
       );
-      transaction.controller.add(
+      controller.add(
         const PackageKitItemProgressEvent(
           packageId: firefoxPackageId,
           status: PackageKitStatus.remove,
           percentage: 72,
         ),
       );
-      transaction.controller.add(
+      controller.add(
         const PackageKitItemProgressEvent(
           packageId: firefoxPackageId,
           status: PackageKitStatus.remove,
           percentage: 100,
         ),
       );
-      return emitFinishedEvent(transaction.controller);
+      return emitFinishedEvent(controller);
     });
 
     return transaction;
