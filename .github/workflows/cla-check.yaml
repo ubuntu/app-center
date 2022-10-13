@@ -3,7 +3,12 @@ on: [pull_request_target]
 
 jobs:
   cla-check:
+    #if: github.head_ref != 'weblate-ubuntu-software-ubuntu-software'
     runs-on: ubuntu-20.04
     steps:
+      - name: Print info
+        run: |
+          echo "head_ref: ${{ github.head_ref }}"
+          echo "repository_owner: ${{ github.repository_owner }}"
       - name: Check if CLA signed
         uses: canonical/has-signed-canonical-cla@v1
