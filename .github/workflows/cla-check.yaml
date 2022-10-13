@@ -3,6 +3,7 @@ on: [pull_request_target]
 
 jobs:
   cla-check:
+    if: github.event.pusher.name != 'weblate'
     runs-on: ubuntu-20.04
     steps:
       - name: Check if CLA signed
