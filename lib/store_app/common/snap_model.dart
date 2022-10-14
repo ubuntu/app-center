@@ -38,6 +38,7 @@ class SnapModel extends SafeChangeNotifier {
         _channelToBeInstalled = '';
 
   Future<void> init() async {
+    await _snapService.init();
     await _loadSnapChangeInProgress();
 
     _localSnap = await _findLocalSnap(huskSnapName);

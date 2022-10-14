@@ -49,7 +49,12 @@ void main() {
 
   test('instantiate service', () {
     expect(service.snapChanges, isEmpty);
+  });
+
+  test('init service', () async {
     verifyNever(mockSnapdClient.loadAuthorization());
+    await service.init();
+    verify(mockSnapdClient.loadAuthorization()).called(1);
   });
 
   test('find local snap', () async {
@@ -58,14 +63,12 @@ void main() {
 
     final snap = await service.findLocalSnap(snap1.name);
     expect(snap, equals(snap1));
-    verify(mockSnapdClient.loadAuthorization()).called(1);
     verify(mockSnapdClient.getSnap(snap1.name)).called(1);
 
     when(mockSnapdClient.getSnap(snap1.name))
         .thenThrow(SnapdException(message: 'error'));
 
     expect(await service.findLocalSnap(snap1.name), isNull);
-    verify(mockSnapdClient.loadAuthorization()).called(1);
     verify(mockSnapdClient.getSnap(snap1.name)).called(1);
   });
 
@@ -77,7 +80,6 @@ void main() {
 
     final snap = await service.findSnapByName(snapName);
     expect(snap, isNotNull);
-    verify(mockSnapdClient.loadAuthorization()).called(1);
     verify(mockSnapdClient.find(name: snapName)).called(1);
     expect(snap!.name, equals('foobar1'));
 
@@ -85,7 +87,6 @@ void main() {
         .thenThrow(SnapdException(message: 'error'));
 
     expect(await service.findSnapByName(snapName), isNull);
-    verify(mockSnapdClient.loadAuthorization()).called(1);
     verify(mockSnapdClient.find(name: snapName)).called(1);
   });
 
@@ -95,7 +96,6 @@ void main() {
 
     final snaps = await service.getLocalSnaps();
     expect(snaps, equals([snap1, snap2]));
-    verify(mockSnapdClient.loadAuthorization()).called(1);
     verify(mockSnapdClient.getSnaps()).called(1);
   });
 
@@ -103,7 +103,6 @@ void main() {
     var snaps =
         await service.findSnapsByQuery(searchQuery: '', sectionName: null);
     expect(snaps, isEmpty);
-    verifyNever(mockSnapdClient.loadAuthorization());
     verifyNever(
       mockSnapdClient.find(
         query: anyNamed('query'),
@@ -123,7 +122,6 @@ void main() {
       sectionName: 'a section',
     );
     expect(snaps, equals([snap1, snap2]));
-    //verify(mockSnapdClient.loadAuthorization()).called(1);
     verify(mockSnapdClient.find(query: 'a query', section: 'a section'))
         .called(1);
 
@@ -141,7 +139,6 @@ void main() {
       ),
       throwsA(isA<SnapdException>()),
     );
-    //verify(mockSnapdClient.loadAuthorization()).called(1);
     verify(mockSnapdClient.find(query: 'a query', section: 'a section'))
         .called(1);
   });
@@ -156,7 +153,6 @@ void main() {
 
     snaps = await service.findSnapsBySection(sectionName: 'a section');
     expect(snaps, equals([snap1, snap2]));
-    //verify(mockSnapdClient.loadAuthorization()).called(1);
     verify(mockSnapdClient.find(section: 'a section')).called(1);
 
     when(mockSnapdClient.find(section: anyNamed('section')))
@@ -166,14 +162,12 @@ void main() {
       service.findSnapsBySection(sectionName: 'a section'),
       throwsA(isA<SnapdException>()),
     );
-    //verify(mockSnapdClient.loadAuthorization()).called(1);
     verify(mockSnapdClient.find(section: 'a section')).called(1);
   });
 
   test('install snap', () async {
     var snap = await service.install(snap1, '', '');
     expect(snap, isNull);
-    verifyNever(mockSnapdClient.loadAuthorization());
     verifyNever(
       mockSnapdClient.install(
         snap1.name,
@@ -202,7 +196,6 @@ void main() {
     const channel = 'latest/stable';
     snap = await service.install(snap1, channel, '');
     expect(snap, equals(snap1));
-    verify(mockSnapdClient.loadAuthorization()).called(2);
     verify(
       mockSnapdClient.install(
         snap1.name,
@@ -238,7 +231,6 @@ void main() {
     expectLater(service.snapChangesInserted, emitsInOrder([true, true]));
     final snap = await service.remove(snap1, '');
     expect(snap, equals(snap1));
-    verify(mockSnapdClient.loadAuthorization()).called(2);
     verify(mockSnapdClient.remove(snap1.name)).called(1);
     verify(mockSnapdClient.getChange(changeId)).called(2);
     expect(service.snapChanges, isEmpty);
@@ -264,7 +256,6 @@ void main() {
       confinement: SnapConfinement.strict,
     );
     expect(snap, equals(snap1));
-    verify(mockSnapdClient.loadAuthorization()).called(1);
     verifyNever(
       mockSnapdClient.refresh(
         any,
@@ -298,7 +289,6 @@ void main() {
       confinement: SnapConfinement.strict,
     );
     expect(snap, equals(snap1));
-    verify(mockSnapdClient.loadAuthorization()).called(2);
     verify(
       mockSnapdClient.refresh(snap1.name, channel: channel, classic: false),
     ).called(1);
@@ -325,7 +315,6 @@ void main() {
 
     var plugs = await service.loadPlugs(snap1);
     expect(plugs, isEmpty);
-    verify(mockSnapdClient.loadAuthorization()).called(1);
     verify(
       mockSnapdClient.getConnections(
         snap: snap1.name,
@@ -360,7 +349,6 @@ void main() {
     expect(plugs[plug1], isFalse);
     expect(plugs.containsKey(plug2), isTrue);
     expect(plugs[plug2], isTrue);
-    verify(mockSnapdClient.loadAuthorization()).called(1);
     verify(
       mockSnapdClient.getConnections(
         snap: snap1.name,
@@ -388,7 +376,6 @@ void main() {
       doneMessage: '',
       value: true,
     );
-    verify(mockSnapdClient.loadAuthorization()).called(1);
     verify(mockSnapdClient.connect(snap1.name, plugName, 'snapd', plugName))
         .called(1);
     verifyNever(mockSnapdClient.disconnect(any, any, any, any));
@@ -399,7 +386,6 @@ void main() {
       doneMessage: '',
       value: false,
     );
-    verify(mockSnapdClient.loadAuthorization()).called(1);
     verifyNever(mockSnapdClient.connect(any, any, any, any));
     verify(mockSnapdClient.disconnect(snap1.name, plugName, 'snapd', plugName))
         .called(1);
