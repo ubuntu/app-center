@@ -75,8 +75,11 @@ class SnapService {
         _snapDClient = getService<SnapdClient>(),
         _notificationsClient = getService<NotificationsClient>();
 
+  Future<void> init() async {
+    return _snapDClient.loadAuthorization();
+  }
+
   Future<Snap?> findLocalSnap(String huskSnapName) async {
-    await _snapDClient.loadAuthorization();
     try {
       return await _snapDClient.getSnap(huskSnapName);
     } on SnapdException {
@@ -85,7 +88,6 @@ class SnapService {
   }
 
   Future<Snap?> findSnapByName(String name) async {
-    await _snapDClient.loadAuthorization();
     try {
       final snaps = (await _snapDClient.find(name: name));
       return snaps.first;
@@ -96,7 +98,6 @@ class SnapService {
 
   Future<List<Snap>> getLocalSnaps() async {
     final List<Snap> localSnaps = [];
-    await _snapDClient.loadAuthorization();
     localSnaps.addAll((await _snapDClient.getSnaps()));
     return localSnaps;
   }
@@ -136,7 +137,6 @@ class SnapService {
     String doneString,
   ) async {
     if (channelToBeInstalled.isEmpty) return null;
-    await _snapDClient.loadAuthorization();
     final changeId = await _snapDClient.install(
       snap.name,
       channel: channelToBeInstalled,
@@ -151,7 +151,6 @@ class SnapService {
   }
 
   Future<Snap?> remove(Snap snap, String doneString) async {
-    await _snapDClient.loadAuthorization();
     final changeId = await _snapDClient.remove(snap.name);
     await _addChange(
       snap,
@@ -168,7 +167,6 @@ class SnapService {
     required SnapConfinement confinement,
   }) async {
     if (channel.isNotEmpty) {
-      await _snapDClient.loadAuthorization();
       final changeId = await _snapDClient.refresh(
         snap.name,
         channel: channel,
@@ -185,7 +183,6 @@ class SnapService {
 
   Future<Map<SnapPlug, bool>> loadPlugs(Snap localSnap) async {
     final Map<SnapPlug, bool> plugs = {};
-    await _snapDClient.loadAuthorization();
 
     try {
       final response = await _snapDClient.getConnections(
@@ -218,8 +215,6 @@ class SnapService {
     if (getChange(snapThatWantsAConnection) != null) {
       return;
     }
-
-    await _snapDClient.loadAuthorization();
 
     final plugSnap = snapThatWantsAConnection.name;
     final plug = interface;
