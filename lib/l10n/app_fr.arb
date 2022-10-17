@@ -125,8 +125,6 @@
   "@filterSnaps": {},
   "enterRepoName": "Entrer le nom du dépôt",
   "@enterRepoName": {},
-  "requireRestart": "Redémarrez pour finaliser l’installation des mises à jour",
-  "@requireRestart": {},
   "quitDanger": "Attention ! Des mises à jour du système sont en cours d’application. Quitter l’application maintenant pourrait endommager votre système !",
   "@quitDanger": {},
   "requireRestartSystem": "Veuillez redémarrer votre système pour finaliser les mises à jour",
