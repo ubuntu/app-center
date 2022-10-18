@@ -7,21 +7,21 @@ on:
     branches: [main]
 
 jobs:
-  build:
-    name: test
+  coverage:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
-
-      - name: Run tests
-        run: flutter test --coverage
-
-      - name: Upload coverage results
-        uses: codecov/codecov-action@v3
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+      - run: flutter test --coverage
+      - uses: codecov/codecov-action@v3
         with:
           token: ${{secrets.CODECOV_TOKEN}}
+
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+      - run: sudo apt update
+      - run: sudo apt install -y xvfb
+      - run: xvfb-run -a -s '-screen 0 1024x768x24 +extension GLX' flutter test integration_test
