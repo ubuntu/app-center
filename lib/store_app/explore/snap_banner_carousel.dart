@@ -156,7 +156,7 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
         publisherName: widget.snap.publisher?.displayName ?? widget.snap.name,
       ),
       onTap: widget.onTap,
-      iconPadding: EdgeInsets.only(left: 20, right: 10),
+      iconPadding: const EdgeInsets.only(left: 20, right: 10),
       icon: AppIcon(
         iconUrl: widget.snap.iconUrl,
         fallBackIconData: YaruIcons.snapcraft,
