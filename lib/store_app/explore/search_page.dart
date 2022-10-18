@@ -89,6 +89,7 @@ class _SnapSearchPage extends StatelessWidget {
                           size: 50,
                           iconSize: 30,
                         ),
+                        iconPadding: const EdgeInsets.only(left: 10, right: 5),
                         onTap: () => model.selectedSnap = snap,
                       ),
                     );
@@ -154,9 +155,8 @@ class _PackageKitSearchPageState extends State<_PackageKitSearchPage> {
                       icon: const AppIcon(
                         iconUrl: null,
                         fallBackIconData: YaruIcons.debian,
-                        size: 50,
-                        iconSize: 30,
                       ),
+                      iconPadding: const EdgeInsets.only(left: 10, right: 5),
                       onTap: () => model.selectedPackage = id,
                     );
                   },

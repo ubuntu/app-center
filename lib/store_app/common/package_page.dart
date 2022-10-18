@@ -101,6 +101,7 @@ class _PackagePageState extends State<PackagePage> {
         iconUrl: model.iconUrl,
         fallBackIconData: YaruIcons.debian,
         size: 150,
+        iconSize: 50,
       ),
       controls: PackageControls(
         isInstalled: model.isInstalled,

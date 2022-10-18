@@ -23,7 +23,6 @@ import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SectionBannerGrid extends StatefulWidget {
@@ -91,9 +90,6 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
           ),
           icon: AppIcon(
             iconUrl: snap.iconUrl,
-            fallBackIconData: YaruIcons.snapcraft,
-            size: 50,
-            iconSize: 30,
           ),
           onTap: () => model.selectedSnap = snap,
         );

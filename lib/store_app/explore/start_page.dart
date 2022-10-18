@@ -21,12 +21,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/snap_banner_carousel.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class StartPage extends StatefulWidget {
@@ -216,17 +215,8 @@ class __StartPageGridState extends State<_StartPageGrid> {
             snap.summary,
             overflow: TextOverflow.ellipsis,
           ),
-          icon: Padding(
-            padding:
-                const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 5),
-            child: SizedBox(
-              height: 50,
-              child: SafeNetworkImage(
-                url: snap.iconUrl,
-                fallBackIconData: YaruIcons.snapcraft,
-              ),
-            ),
-          ),
+          icon: AppIcon(iconUrl: snap.iconUrl),
+          iconPadding: const EdgeInsets.only(left: 10, right: 5),
           onTap: () => model.selectedSnap = snap,
         );
       },

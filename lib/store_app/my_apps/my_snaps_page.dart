@@ -24,7 +24,6 @@ import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap_page.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MySnapsPage extends StatefulWidget {
@@ -126,9 +125,6 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
                   const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 5),
               child: AppIcon(
                 iconUrl: snap.iconUrl,
-                fallBackIconData: YaruIcons.snapcraft,
-                size: 50,
-                iconSize: 30,
               ),
             ),
             onTap: () => model.selectedSnap = snap,

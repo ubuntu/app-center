@@ -74,8 +74,6 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
                   icon: const AppIcon(
                     iconUrl: null,
                     fallBackIconData: YaruIcons.debian,
-                    size: 50,
-                    iconSize: 30,
                   ),
                 ),
               );

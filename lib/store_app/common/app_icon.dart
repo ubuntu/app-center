@@ -17,15 +17,15 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:software/store_app/common/border_container.dart';
-import 'package:software/store_app/common/safe_network_image.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 
 class AppIcon extends StatelessWidget {
   const AppIcon({
     super.key,
     required this.iconUrl,
-    required this.fallBackIconData,
-    required this.size,
-    this.iconSize = 80,
+    this.fallBackIconData = YaruIcons.snapcraft,
+    this.size = 45,
+    this.iconSize = 20,
   });
 
   final String? iconUrl;
@@ -35,24 +35,30 @@ class AppIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fallBackIcon = BorderContainer(
+      containerPadding: EdgeInsets.zero,
+      borderRadius: 200,
+      width: size,
+      height: size,
+      child: Icon(
+        fallBackIconData,
+        size: iconSize,
+      ),
+    );
+
     return iconUrl == null || iconUrl!.isEmpty
-        ? BorderContainer(
-            containerPadding: EdgeInsets.zero,
-            borderRadius: 200,
-            width: size,
-            height: size,
-            child: Icon(
-              fallBackIconData,
-              size: iconSize,
-            ),
-          )
+        ? fallBackIcon
         : SizedBox(
             height: size,
             width: size,
-            child: SafeNetworkImage(
-              url: iconUrl,
-              fallBackIconData: fallBackIconData,
-              iconSize: iconSize,
+            child: Image.network(
+              iconUrl!,
+              filterQuality: FilterQuality.medium,
+              fit: BoxFit.fitHeight,
+              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                return frame == null ? fallBackIcon : child;
+              },
+              errorBuilder: (context, error, stackTrace) => fallBackIcon,
             ),
           );
   }

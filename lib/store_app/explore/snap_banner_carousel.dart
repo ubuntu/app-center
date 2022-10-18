@@ -159,9 +159,8 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
       iconPadding: const EdgeInsets.only(left: 20, right: 10),
       icon: AppIcon(
         iconUrl: widget.snap.iconUrl,
-        fallBackIconData: YaruIcons.snapcraft,
-        size: 85,
-        iconSize: 40,
+        size: 80,
+        iconSize: 35,
       ),
       watermarkIcon: SizedBox(
         height: 130,
