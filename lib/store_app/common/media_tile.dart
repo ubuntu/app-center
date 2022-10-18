@@ -17,7 +17,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:software/store_app/common/safe_network_image.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MediaTile extends StatelessWidget {
@@ -50,7 +49,6 @@ class MediaTile extends StatelessWidget {
               borderRadius: borderRadius,
               child: SafeNetworkImage(
                 url: url,
-                fallBackIconData: YaruIcons.image,
               ),
             ),
           ),

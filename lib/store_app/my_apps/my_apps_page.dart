@@ -58,7 +58,7 @@ class MyAppsPage extends StatelessWidget {
   }
 
   static Widget createTitle(BuildContext context) =>
-      YaruPageItemTitle.text(context.l10n.myAppsPageTitle);
+      Text(context.l10n.myAppsPageTitle);
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +80,8 @@ class MyAppsPage extends StatelessWidget {
               onTap: onTabTapped,
               initialIndex: initalTabIndex,
               tabIcons: const [
-                YaruIcons.package_snap,
-                YaruIcons.package_deb,
+                Icon(YaruIcons.package_snap),
+                Icon(YaruIcons.package_deb),
               ],
               tabTitles: [
                 context.l10n.snapPackages,

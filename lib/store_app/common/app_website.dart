@@ -26,11 +26,15 @@ class AppWebsite extends StatelessWidget {
     required this.website,
     required this.verified,
     required this.publisherName,
+    this.height = 15.0,
+    this.tapAble = true,
   }) : super(key: key);
 
   final String website;
   final bool verified;
   final String publisherName;
+  final double height;
+  final bool? tapAble;
 
   @override
   Widget build(BuildContext context) {
@@ -40,37 +44,37 @@ class AppWebsite extends StatelessWidget {
       child: Tooltip(
         message: website,
         child: SizedBox(
-          height: 30,
+          height: height * 2,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               if (verified)
-                const Icon(
+                Icon(
                   Icons.verified,
-                  size: 20,
+                  size: height,
                   color: YaruColors.success,
                 ),
               if (website.isNotEmpty)
                 Padding(
                   padding: EdgeInsets.only(
-                    left: verified ? 5 : 0,
-                    right: 5,
+                    left: verified ? height / 3 : 0,
+                    right: height / 3,
                   ),
                   child: Text(
                     publisherName,
-                    style: const TextStyle(
-                      fontSize: 15,
+                    style: TextStyle(
+                      fontSize: height,
                       overflow: TextOverflow.visible,
                     ),
                   ),
                 ),
               if (website.isNotEmpty)
                 Padding(
-                  padding: EdgeInsets.only(right: verified ? 5 : 0),
+                  padding: EdgeInsets.only(right: verified ? height / 3 : 0),
                   child: Icon(
                     YaruIcons.external_link,
                     color: Theme.of(context).colorScheme.onSurface,
-                    size: 18,
+                    size: height,
                   ),
                 ),
             ],

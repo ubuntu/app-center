@@ -43,7 +43,7 @@ dependencies:
   yaru_widgets:
     git:
       url: https://github.com/ubuntu/yaru_widgets.dart
-      ref: 12f3391763e0dd849f39cfd22326d0f91c41b2b3
+      ref: e26f0e9ec493f4908a9af14365d82b177fff0ea9
 
 dev_dependencies:
   build_runner: ^2.2.0

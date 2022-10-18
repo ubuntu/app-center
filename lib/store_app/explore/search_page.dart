@@ -22,8 +22,8 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
+import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -34,7 +34,10 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruTabbedPage(
-      tabIcons: const [YaruIcons.package_snap, YaruIcons.package_deb],
+      tabIcons: const [
+        Icon(YaruIcons.package_snap),
+        Icon(YaruIcons.package_deb)
+      ],
       tabTitles: [
         context.l10n.snapPackages,
         context.l10n.debianPackages,
@@ -75,12 +78,18 @@ class _SnapSearchPage extends StatelessWidget {
                     final snap = snapshot.data![index];
                     return AnimatedScrollViewItem(
                       child: YaruBanner(
-                        name: snap.name,
-                        summary: snap.summary,
-                        icon: SafeNetworkImage(
-                          url: snap.iconUrl,
-                          fallBackIconData: YaruIcons.snapcraft,
+                        title: Text(snap.name),
+                        subtitle: Text(
+                          snap.summary,
+                          overflow: TextOverflow.ellipsis,
                         ),
+                        icon: AppIcon(
+                          iconUrl: snap.iconUrl,
+                          fallBackIconData: YaruIcons.snapcraft,
+                          size: 50,
+                          fallBackIconSize: 30,
+                        ),
+                        iconPadding: const EdgeInsets.only(left: 10, right: 5),
                         onTap: () => model.selectedSnap = snap,
                       ),
                     );
@@ -141,12 +150,13 @@ class _PackageKitSearchPageState extends State<_PackageKitSearchPage> {
                   itemBuilder: (context, index) {
                     final id = snapshot.data![index];
                     return YaruBanner(
-                      name: id.name,
-                      summary: id.version,
-                      icon: const Icon(
-                        YaruIcons.package_deb,
-                        size: 50,
+                      title: Text(id.name),
+                      subtitle: Text(id.version),
+                      icon: const AppIcon(
+                        iconUrl: null,
+                        fallBackIconData: YaruIcons.debian,
                       ),
+                      iconPadding: const EdgeInsets.only(left: 10, right: 5),
                       onTap: () => model.selectedPackage = id,
                     );
                   },

@@ -27,7 +27,6 @@ import 'package:software/store_app/common/snap_connections_settings.dart';
 import 'package:software/store_app/common/snap_controls.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 
 class SnapPage extends StatefulWidget {
   const SnapPage({super.key, required this.onPop});
@@ -94,8 +93,8 @@ class _SnapPageState extends State<SnapPage> {
       controls: const SnapControls(),
       icon: AppIcon(
         iconUrl: model.iconUrl,
-        fallBackIconData: YaruIcons.snapcraft,
-        width: 150,
+        size: 150,
+        fallBackIconSize: 50,
       ),
     );
   }

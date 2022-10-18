@@ -17,7 +17,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ConfirmationDialog extends StatefulWidget {
@@ -71,10 +70,8 @@ class _ConfirmationDialogState extends State<ConfirmationDialog>
   Widget build(BuildContext context) {
     return SimpleDialog(
       titlePadding: EdgeInsets.zero,
-      title: YaruDialogTitle(
-        mainAxisAlignment: MainAxisAlignment.center,
-        closeIconData: YaruIcons.window_close,
-        title: widget.title,
+      title: YaruTitleBar(
+        title: Text(widget.title ?? ''),
       ),
       contentPadding: EdgeInsets.zero,
       children: [

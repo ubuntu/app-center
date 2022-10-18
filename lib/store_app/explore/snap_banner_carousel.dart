@@ -22,12 +22,12 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
-import 'package:software/store_app/common/safe_network_image.dart';
+import 'package:software/store_app/common/app_icon.dart';
+import 'package:software/store_app/common/app_website.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapBannerCarousel extends StatefulWidget {
@@ -137,14 +137,33 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
     return YaruBanner(
-      watermark: true,
-      name: widget.snap.name,
-      summary: widget.sectionName,
+      copyIconAsWatermark: true,
+      title: Text(
+        widget.snap.name,
+        style: Theme.of(context).textTheme.headline4,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: Text(widget.sectionName),
       surfaceTintColor: model.surfaceTintColor,
+      thirdTitle: AppWebsite(
+        tapAble: false,
+        height: 14,
+        website:
+            widget.snap.website ?? widget.snap.publisher?.displayName ?? '',
+        verified: widget.snap.publisher?.validation == 'verified',
+        publisherName: widget.snap.publisher?.displayName ?? widget.snap.name,
+      ),
       onTap: widget.onTap,
-      icon: SafeNetworkImage(
-        url: widget.snap.iconUrl,
-        fallBackIconData: YaruIcons.package_snap,
+      iconPadding: const EdgeInsets.only(left: 20, right: 10),
+      icon: AppIcon(
+        iconUrl: widget.snap.iconUrl,
+        size: 80,
+        fallBackIconSize: 35,
+      ),
+      watermarkIcon: AppIcon(
+        iconUrl: widget.snap.iconUrl,
+        size: 130,
+        fallBackIconSize: 50,
       ),
     );
   }

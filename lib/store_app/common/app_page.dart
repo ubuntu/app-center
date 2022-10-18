@@ -193,9 +193,7 @@ class _CarouselDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: const YaruDialogTitle(
-        closeIconData: YaruIcons.window_close,
-      ),
+      title: const YaruTitleBar(),
       contentPadding: const EdgeInsets.only(bottom: 20),
       titlePadding: EdgeInsets.zero,
       children: [

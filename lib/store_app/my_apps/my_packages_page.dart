@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
+import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -66,10 +67,14 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
               final package = installedApps[index];
               return AnimatedScrollViewItem(
                 child: YaruBanner(
-                  name: package.name,
-                  summary: package.version,
+                  title: Text(package.name),
+                  subtitle: Text(package.version),
                   onTap: () => model.selectedPackage = package,
-                  icon: const Icon(YaruIcons.package_deb),
+                  iconPadding: const EdgeInsets.only(left: 10, right: 5),
+                  icon: const AppIcon(
+                    iconUrl: null,
+                    fallBackIconData: YaruIcons.debian,
+                  ),
                 ),
               );
             },

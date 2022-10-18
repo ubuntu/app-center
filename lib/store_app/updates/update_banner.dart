@@ -59,9 +59,8 @@ class _UpdateBannerState extends State<UpdateBanner> {
             ),
           ),
           bannerWidth: 500,
-          nameTextOverflow: TextOverflow.visible,
-          name: widget.updateId.name,
-          subtitleWidget: Row(
+          title: Text(widget.updateId.name),
+          subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -88,10 +87,13 @@ class _UpdateBannerState extends State<UpdateBanner> {
           icon: widget.group == PackageKitGroup.system ||
                   widget.group == PackageKitGroup.security
               ? const _SystemUpdateIcon()
-              : Icon(
-                  YaruIcons.package_deb_filled,
-                  size: 50,
-                  color: Colors.brown[300],
+              : Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Icon(
+                    YaruIcons.package_deb_filled,
+                    size: 50,
+                    color: Colors.brown[300],
+                  ),
                 ),
         ),
         Positioned(
