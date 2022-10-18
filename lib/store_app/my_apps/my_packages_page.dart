@@ -70,6 +70,7 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
                   title: Text(package.name),
                   subtitle: Text(package.version),
                   onTap: () => model.selectedPackage = package,
+                  iconPadding: const EdgeInsets.only(left: 10, right: 5),
                   icon: const AppIcon(
                     iconUrl: null,
                     fallBackIconData: YaruIcons.debian,
