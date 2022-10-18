@@ -94,7 +94,7 @@ class _SnapPageState extends State<SnapPage> {
       icon: AppIcon(
         iconUrl: model.iconUrl,
         size: 150,
-        iconSize: 50,
+        fallBackIconSize: 50,
       ),
     );
   }

@@ -25,13 +25,13 @@ class AppIcon extends StatelessWidget {
     required this.iconUrl,
     this.fallBackIconData = YaruIcons.snapcraft,
     this.size = 45,
-    this.iconSize = 20,
+    this.fallBackIconSize = 20,
   });
 
   final String? iconUrl;
   final IconData fallBackIconData;
   final double size;
-  final double iconSize;
+  final double fallBackIconSize;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class AppIcon extends StatelessWidget {
       height: size,
       child: Icon(
         fallBackIconData,
-        size: iconSize,
+        size: fallBackIconSize,
       ),
     );
 

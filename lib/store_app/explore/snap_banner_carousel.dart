@@ -24,12 +24,10 @@ import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/app_website.dart';
-import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapBannerCarousel extends StatefulWidget {
@@ -160,14 +158,12 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
       icon: AppIcon(
         iconUrl: widget.snap.iconUrl,
         size: 80,
-        iconSize: 35,
+        fallBackIconSize: 35,
       ),
-      watermarkIcon: SizedBox(
-        height: 130,
-        child: SafeNetworkImage(
-          url: widget.snap.iconUrl,
-          fallBackIconData: YaruIcons.package_snap,
-        ),
+      watermarkIcon: AppIcon(
+        iconUrl: widget.snap.iconUrl,
+        size: 130,
+        fallBackIconSize: 50,
       ),
     );
   }

@@ -50,7 +50,6 @@ class MediaTile extends StatelessWidget {
               borderRadius: borderRadius,
               child: SafeNetworkImage(
                 url: url,
-                fallBackIconData: YaruIcons.image,
               ),
             ),
           ),

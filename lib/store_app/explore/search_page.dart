@@ -87,7 +87,7 @@ class _SnapSearchPage extends StatelessWidget {
                           iconUrl: snap.iconUrl,
                           fallBackIconData: YaruIcons.snapcraft,
                           size: 50,
-                          iconSize: 30,
+                          fallBackIconSize: 30,
                         ),
                         iconPadding: const EdgeInsets.only(left: 10, right: 5),
                         onTap: () => model.selectedSnap = snap,
