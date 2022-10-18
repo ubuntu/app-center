@@ -147,6 +147,8 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
       subtitle: Text(widget.sectionName),
       surfaceTintColor: model.surfaceTintColor,
       thirdTitle: AppWebsite(
+        tapAble: false,
+        height: 14,
         website:
             widget.snap.website ?? widget.snap.publisher?.displayName ?? '',
         verified: widget.snap.publisher?.validation == 'verified',
