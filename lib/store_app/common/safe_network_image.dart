@@ -7,7 +7,7 @@ class SafeNetworkImage extends StatelessWidget {
     this.filterQuality = FilterQuality.medium,
     this.fit = BoxFit.fitHeight,
     this.fallBackIconData = Icons.image,
-    this.iconSize = 65,
+    this.iconSize = 60,
   });
 
   final String? url;
@@ -18,7 +18,11 @@ class SafeNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fallbackIcon = Icon(fallBackIconData, size: iconSize);
+    final fallbackIcon = Icon(
+      fallBackIconData,
+      size: iconSize,
+      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+    );
     if (url == null) return fallbackIcon;
     return Image.network(
       url!,

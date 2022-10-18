@@ -69,7 +69,14 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
                   title: Text(package.name),
                   subtitle: Text(package.version),
                   onTap: () => model.selectedPackage = package,
-                  icon: const Icon(YaruIcons.package_deb),
+                  icon: Icon(
+                    YaruIcons.debian,
+                    size: 65,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.5),
+                  ),
                 ),
               );
             },

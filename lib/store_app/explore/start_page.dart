@@ -216,12 +216,15 @@ class __StartPageGridState extends State<_StartPageGrid> {
             snap.summary,
             overflow: TextOverflow.ellipsis,
           ),
-          icon: SizedBox(
-            height: 65,
-            child: SafeNetworkImage(
-              iconSize: 65,
-              url: snap.iconUrl,
-              fallBackIconData: YaruIcons.package_snap,
+          icon: Padding(
+            padding:
+                const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 5),
+            child: SizedBox(
+              height: 50,
+              child: SafeNetworkImage(
+                url: snap.iconUrl,
+                fallBackIconData: YaruIcons.snapcraft,
+              ),
             ),
           ),
           onTap: () => model.selectedSnap = snap,

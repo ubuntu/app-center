@@ -114,10 +114,20 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
         return AnimatedScrollViewItem(
           child: YaruBanner(
             title: Text(snap.name),
-            subtitle: Text(snap.summary),
-            icon: SafeNetworkImage(
-              url: snap.iconUrl,
-              fallBackIconData: YaruIcons.package_snap,
+            subtitle: Text(
+              snap.summary,
+              overflow: TextOverflow.ellipsis,
+            ),
+            icon: Padding(
+              padding:
+                  const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 5),
+              child: SizedBox(
+                height: 50,
+                child: SafeNetworkImage(
+                  url: snap.iconUrl,
+                  fallBackIconData: YaruIcons.snapcraft,
+                ),
+              ),
             ),
             onTap: () => model.selectedSnap = snap,
           ),

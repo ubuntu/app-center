@@ -79,10 +79,20 @@ class _SnapSearchPage extends StatelessWidget {
                     return AnimatedScrollViewItem(
                       child: YaruBanner(
                         title: Text(snap.name),
-                        subtitle: Text(snap.summary),
-                        icon: SafeNetworkImage(
-                          url: snap.iconUrl,
-                          fallBackIconData: YaruIcons.snapcraft,
+                        subtitle: Text(
+                          snap.summary,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        icon: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8, top: 8, bottom: 8, right: 5),
+                          child: SizedBox(
+                            height: 50,
+                            child: SafeNetworkImage(
+                              url: snap.iconUrl,
+                              fallBackIconData: YaruIcons.snapcraft,
+                            ),
+                          ),
                         ),
                         onTap: () => model.selectedSnap = snap,
                       ),
@@ -146,9 +156,13 @@ class _PackageKitSearchPageState extends State<_PackageKitSearchPage> {
                     return YaruBanner(
                       title: Text(id.name),
                       subtitle: Text(id.version),
-                      icon: const Icon(
-                        YaruIcons.package_deb,
-                        size: 50,
+                      icon: Icon(
+                        YaruIcons.debian,
+                        size: 65,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.5),
                       ),
                       onTap: () => model.selectedPackage = id,
                     );
