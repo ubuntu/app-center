@@ -95,7 +95,7 @@ class _SnapPageState extends State<SnapPage> {
       icon: AppIcon(
         iconUrl: model.iconUrl,
         fallBackIconData: YaruIcons.snapcraft,
-        width: 150,
+        size: 150,
       ),
     );
   }

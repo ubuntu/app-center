@@ -24,28 +24,36 @@ class AppIcon extends StatelessWidget {
     super.key,
     required this.iconUrl,
     required this.fallBackIconData,
-    required this.width,
+    required this.size,
+    this.iconSize = 80,
   });
 
   final String? iconUrl;
   final IconData fallBackIconData;
-  final double width;
+  final double size;
+  final double iconSize;
 
   @override
   Widget build(BuildContext context) {
     return iconUrl == null || iconUrl!.isEmpty
         ? BorderContainer(
+            containerPadding: EdgeInsets.zero,
             borderRadius: 200,
-            width: width,
+            width: size,
+            height: size,
             child: Icon(
               fallBackIconData,
-              size: 80,
+              size: iconSize,
             ),
           )
-        : SafeNetworkImage(
-            url: iconUrl,
-            fallBackIconData: fallBackIconData,
-            iconSize: 80,
+        : SizedBox(
+            height: size,
+            width: size,
+            child: SafeNetworkImage(
+              url: iconUrl,
+              fallBackIconData: fallBackIconData,
+              iconSize: iconSize,
+            ),
           );
   }
 }

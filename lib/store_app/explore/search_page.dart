@@ -22,8 +22,8 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
+import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -83,20 +83,11 @@ class _SnapSearchPage extends StatelessWidget {
                           snap.summary,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        icon: Padding(
-                          padding: const EdgeInsets.only(
-                            left: 8,
-                            top: 8,
-                            bottom: 8,
-                            right: 5,
-                          ),
-                          child: SizedBox(
-                            height: 50,
-                            child: SafeNetworkImage(
-                              url: snap.iconUrl,
-                              fallBackIconData: YaruIcons.snapcraft,
-                            ),
-                          ),
+                        icon: AppIcon(
+                          iconUrl: snap.iconUrl,
+                          fallBackIconData: YaruIcons.snapcraft,
+                          size: 50,
+                          iconSize: 30,
                         ),
                         onTap: () => model.selectedSnap = snap,
                       ),
@@ -160,13 +151,11 @@ class _PackageKitSearchPageState extends State<_PackageKitSearchPage> {
                     return YaruBanner(
                       title: Text(id.name),
                       subtitle: Text(id.version),
-                      icon: Icon(
-                        YaruIcons.debian,
-                        size: 65,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.5),
+                      icon: const AppIcon(
+                        iconUrl: null,
+                        fallBackIconData: YaruIcons.debian,
+                        size: 50,
+                        iconSize: 30,
                       ),
                       onTap: () => model.selectedPackage = id,
                     );

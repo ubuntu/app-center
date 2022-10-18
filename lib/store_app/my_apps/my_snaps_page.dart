@@ -20,8 +20,8 @@ import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
+import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_page.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -113,7 +113,10 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
         final snap = widget.snaps.elementAt(index);
         return AnimatedScrollViewItem(
           child: YaruBanner(
-            title: Text(snap.name),
+            title: Text(
+              snap.name,
+              overflow: TextOverflow.ellipsis,
+            ),
             subtitle: Text(
               snap.summary,
               overflow: TextOverflow.ellipsis,
@@ -121,12 +124,11 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
             icon: Padding(
               padding:
                   const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 5),
-              child: SizedBox(
-                height: 50,
-                child: SafeNetworkImage(
-                  url: snap.iconUrl,
-                  fallBackIconData: YaruIcons.snapcraft,
-                ),
+              child: AppIcon(
+                iconUrl: snap.iconUrl,
+                fallBackIconData: YaruIcons.snapcraft,
+                size: 50,
+                iconSize: 30,
               ),
             ),
             onTap: () => model.selectedSnap = snap,

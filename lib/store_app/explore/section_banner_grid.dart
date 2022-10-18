@@ -19,8 +19,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
+import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -89,16 +89,11 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
             snap.summary,
             overflow: TextOverflow.ellipsis,
           ),
-          icon: Padding(
-            padding:
-                const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 5),
-            child: SizedBox(
-              height: 50,
-              child: SafeNetworkImage(
-                url: snap.iconUrl,
-                fallBackIconData: YaruIcons.snapcraft,
-              ),
-            ),
+          icon: AppIcon(
+            iconUrl: snap.iconUrl,
+            fallBackIconData: YaruIcons.snapcraft,
+            size: 50,
+            iconSize: 30,
           ),
           onTap: () => model.selectedSnap = snap,
         );

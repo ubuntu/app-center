@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
+import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -69,13 +70,11 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
                   title: Text(package.name),
                   subtitle: Text(package.version),
                   onTap: () => model.selectedPackage = package,
-                  icon: Icon(
-                    YaruIcons.debian,
-                    size: 65,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.5),
+                  icon: const AppIcon(
+                    iconUrl: null,
+                    fallBackIconData: YaruIcons.debian,
+                    size: 50,
+                    iconSize: 30,
                   ),
                 ),
               );

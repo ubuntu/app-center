@@ -22,6 +22,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/app_website.dart';
 import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_model.dart';
@@ -155,15 +156,11 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
         publisherName: widget.snap.publisher?.displayName ?? widget.snap.name,
       ),
       onTap: widget.onTap,
-      icon: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 5),
-        child: SizedBox(
-          height: 85,
-          child: SafeNetworkImage(
-            url: widget.snap.iconUrl,
-            fallBackIconData: YaruIcons.package_snap,
-          ),
-        ),
+      icon: AppIcon(
+        iconUrl: widget.snap.iconUrl,
+        fallBackIconData: YaruIcons.snapcraft,
+        size: 85,
+        iconSize: 40,
       ),
       watermarkIcon: SizedBox(
         height: 130,
