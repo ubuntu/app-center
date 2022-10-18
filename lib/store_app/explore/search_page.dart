@@ -85,7 +85,11 @@ class _SnapSearchPage extends StatelessWidget {
                         ),
                         icon: Padding(
                           padding: const EdgeInsets.only(
-                              left: 8, top: 8, bottom: 8, right: 5),
+                            left: 8,
+                            top: 8,
+                            bottom: 8,
+                            right: 5,
+                          ),
                           child: SizedBox(
                             height: 50,
                             child: SafeNetworkImage(
