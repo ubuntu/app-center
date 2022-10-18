@@ -84,8 +84,8 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
         final snap = sections.take(_amount).elementAt(index);
 
         final banner = YaruBanner(
-          name: snap.name,
-          summary: snap.summary,
+          title: Text(snap.name),
+          subtitle: Text(snap.summary),
           icon: SafeNetworkImage(
             url: snap.iconUrl,
             fallBackIconData: YaruIcons.package_snap,

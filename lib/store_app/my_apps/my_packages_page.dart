@@ -66,8 +66,8 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
               final package = installedApps[index];
               return AnimatedScrollViewItem(
                 child: YaruBanner(
-                  name: package.name,
-                  summary: package.version,
+                  title: Text(package.name),
+                  subtitle: Text(package.version),
                   onTap: () => model.selectedPackage = package,
                   icon: const Icon(YaruIcons.package_deb),
                 ),

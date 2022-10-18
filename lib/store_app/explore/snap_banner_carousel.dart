@@ -22,6 +22,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/app_website.dart';
 import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:software/store_app/common/snap_model.dart';
 import 'package:software/store_app/common/snap_section.dart';
@@ -137,14 +138,37 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
     return YaruBanner(
-      watermark: true,
-      name: widget.snap.name,
-      summary: widget.sectionName,
+      copyIconAsWatermark: true,
+      title: Text(
+        widget.snap.name,
+        style: Theme.of(context).textTheme.headline4,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: Text(widget.sectionName),
       surfaceTintColor: model.surfaceTintColor,
+      thirdTitle: AppWebsite(
+        website:
+            widget.snap.website ?? widget.snap.publisher?.displayName ?? '',
+        verified: widget.snap.publisher?.validation == 'verified',
+        publisherName: widget.snap.publisher?.displayName ?? widget.snap.name,
+      ),
       onTap: widget.onTap,
-      icon: SafeNetworkImage(
-        url: widget.snap.iconUrl,
-        fallBackIconData: YaruIcons.package_snap,
+      icon: Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 5),
+        child: SizedBox(
+          height: 85,
+          child: SafeNetworkImage(
+            url: widget.snap.iconUrl,
+            fallBackIconData: YaruIcons.package_snap,
+          ),
+        ),
+      ),
+      watermarkIcon: SizedBox(
+        height: 130,
+        child: SafeNetworkImage(
+          url: widget.snap.iconUrl,
+          fallBackIconData: YaruIcons.package_snap,
+        ),
       ),
     );
   }

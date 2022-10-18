@@ -59,9 +59,8 @@ class _UpdateBannerState extends State<UpdateBanner> {
             ),
           ),
           bannerWidth: 500,
-          nameTextOverflow: TextOverflow.visible,
-          name: widget.updateId.name,
-          subtitleWidget: Row(
+          title: Text(widget.updateId.name),
+          subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [

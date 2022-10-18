@@ -113,8 +113,8 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
         final snap = widget.snaps.elementAt(index);
         return AnimatedScrollViewItem(
           child: YaruBanner(
-            name: snap.name,
-            summary: snap.summary,
+            title: Text(snap.name),
+            subtitle: Text(snap.summary),
             icon: SafeNetworkImage(
               url: snap.iconUrl,
               fallBackIconData: YaruIcons.package_snap,

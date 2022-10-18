@@ -44,8 +44,7 @@ class UpdatesPage extends StatefulWidget {
     );
   }
 
-  static Widget createTitle(BuildContext context) =>
-      YaruPageItemTitle.text(context.l10n.updates);
+  static Widget createTitle(BuildContext context) => Text(context.l10n.updates);
 
   @override
   State<UpdatesPage> createState() => _UpdatesPageState();
@@ -426,9 +425,8 @@ class _RepoDialogState extends State<_RepoDialog> {
     final model = context.watch<UpdatesModel>();
 
     return SimpleDialog(
-      title: YaruDialogTitle(
-        closeIconData: YaruIcons.window_close,
-        titleWidget: Row(
+      title: YaruTitleBar(
+        title: Row(
           children: [
             IconButton(
               onPressed: controller.text.isEmpty ? null : () => model.addRepo(),

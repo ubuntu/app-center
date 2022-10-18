@@ -165,16 +165,17 @@ class __AppState extends State<_App> {
     ];
 
     return YaruCompactLayout(
-      style: width > 800 && width < 1200
-          ? YaruNavigationRailStyle.labelled
-          : width > 1200
-              ? YaruNavigationRailStyle.labelledExtended
-              : YaruNavigationRailStyle.compact,
       length: pageItems.length,
-      iconBuilder: (context, index, selected) =>
-          pageItems[index].iconBuilder(context, selected),
-      titleBuilder: (context, index, selected) =>
-          pageItems[index].titleBuilder(context),
+      itemBuilder: (context, index, selected) => YaruNavigationRailItem(
+        icon: pageItems[index].iconBuilder(context, selected),
+        label: pageItems[index].titleBuilder(context),
+        // tooltip: pageItems[index].tooltipMessage,
+        style: width > 800 && width < 1200
+            ? YaruNavigationRailStyle.labelled
+            : width > 1200
+                ? YaruNavigationRailStyle.labelledExtended
+                : YaruNavigationRailStyle.compact,
+      ),
       pageBuilder: (context, index) => pageItems[index].builder(context),
     );
   }

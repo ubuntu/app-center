@@ -34,7 +34,10 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruTabbedPage(
-      tabIcons: const [YaruIcons.package_snap, YaruIcons.package_deb],
+      tabIcons: const [
+        Icon(YaruIcons.package_snap),
+        Icon(YaruIcons.package_deb)
+      ],
       tabTitles: [
         context.l10n.snapPackages,
         context.l10n.debianPackages,
@@ -75,8 +78,8 @@ class _SnapSearchPage extends StatelessWidget {
                     final snap = snapshot.data![index];
                     return AnimatedScrollViewItem(
                       child: YaruBanner(
-                        name: snap.name,
-                        summary: snap.summary,
+                        title: Text(snap.name),
+                        subtitle: Text(snap.summary),
                         icon: SafeNetworkImage(
                           url: snap.iconUrl,
                           fallBackIconData: YaruIcons.snapcraft,
@@ -141,8 +144,8 @@ class _PackageKitSearchPageState extends State<_PackageKitSearchPage> {
                   itemBuilder: (context, index) {
                     final id = snapshot.data![index];
                     return YaruBanner(
-                      name: id.name,
-                      summary: id.version,
+                      title: Text(id.name),
+                      subtitle: Text(id.version),
                       icon: const Icon(
                         YaruIcons.package_deb,
                         size: 50,

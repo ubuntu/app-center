@@ -78,10 +78,15 @@ class _UpdateDialogState extends State<UpdateDialog> {
       );
     }
     return AlertDialog(
-      title: YaruDialogTitle(
-        titleWidget: const Icon(YaruIcons.debian),
-        title: model.packageState != PackageState.ready ? null : widget.id.name,
-        closeIconData: YaruIcons.window_close,
+      title: YaruTitleBar(
+        title: model.packageState != PackageState.ready
+            ? null
+            : Row(
+                children: [
+                  const Icon(YaruIcons.debian),
+                  Text(widget.id.name),
+                ],
+              ),
       ),
       titlePadding: EdgeInsets.zero,
       contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),

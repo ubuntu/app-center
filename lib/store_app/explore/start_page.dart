@@ -211,11 +211,18 @@ class __StartPageGridState extends State<_StartPageGrid> {
         final snap = sections.take(widget.amount).elementAt(index);
 
         return YaruBanner(
-          name: snap.name,
-          summary: snap.summary,
-          icon: SafeNetworkImage(
-            url: snap.iconUrl,
-            fallBackIconData: YaruIcons.package_snap,
+          title: Text(snap.name),
+          subtitle: Text(
+            snap.summary,
+            overflow: TextOverflow.ellipsis,
+          ),
+          icon: SizedBox(
+            height: 65,
+            child: SafeNetworkImage(
+              iconSize: 65,
+              url: snap.iconUrl,
+              fallBackIconData: YaruIcons.package_snap,
+            ),
           ),
           onTap: () => model.selectedSnap = snap,
         );
