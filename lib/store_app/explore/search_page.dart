@@ -26,8 +26,8 @@ import 'package:software/store_app/common/app_format.dart';
 import 'package:software/store_app/common/app_format_button.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/snap_section_dropdown.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:software/store_app/explore/search_field.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
