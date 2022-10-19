@@ -36,7 +36,8 @@ extension WidgetTesterX on WidgetTester {
     }).timeout(
       timeout,
       onTimeout: () => debugPrint(
-          '\nWARNING: A call to pumpUntil() with finder "$finder" did not complete within the specified timeout $timeout.\n${StackTrace.current}'),
+        '\nWARNING: A call to pumpUntil() with finder "$finder" did not complete within the specified timeout $timeout.\n${StackTrace.current}',
+      ),
     );
   }
 }
