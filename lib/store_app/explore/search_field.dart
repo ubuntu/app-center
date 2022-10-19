@@ -118,7 +118,10 @@ class _SectionDropdown extends StatelessWidget {
       tooltip: context.l10n.filterSnaps,
       splashRadius: 20,
       onSelected: onChanged,
-      icon: Icon(snapSectionToIcon[value]),
+      icon: Icon(
+        snapSectionToIcon[value],
+        color: Theme.of(context).primaryColor,
+      ),
       initialValue: SnapSection.all,
       itemBuilder: (context) {
         return [
