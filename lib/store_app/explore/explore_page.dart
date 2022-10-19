@@ -24,6 +24,7 @@ import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/offline_page.dart';
 import 'package:software/store_app/common/package_page.dart';
 import 'package:software/store_app/common/snap_page.dart';
+import 'package:software/store_app/common/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/search_field.dart';
 import 'package:software/store_app/explore/search_page.dart';
@@ -54,23 +55,23 @@ class ExplorePage extends StatefulWidget {
 }
 
 class _ExplorePageState extends State<ExplorePage> {
-  late ScrollController _controller;
-
   @override
   void initState() {
-    _controller = ScrollController();
-    super.initState();
-  }
+    final model = context.read<ExploreModel>();
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+    for (var section in SnapSection.values) {
+      model.loadSection(section);
+    }
+
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
+    if (model.sectionNameToSnapsMap.length < SnapSection.values.length) {
+      return const Center(child: YaruCircularProgressIndicator());
+    }
     final screenSize = MediaQuery.of(context).size;
 
     final screenArea = screenSize.width * screenSize.height;

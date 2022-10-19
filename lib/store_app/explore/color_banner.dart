@@ -25,72 +25,11 @@ import 'package:software/snapx.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/app_website.dart';
 import 'package:software/store_app/common/snap_model.dart';
-import 'package:software/store_app/common/snap_section.dart';
-import 'package:software/store_app/explore/explore_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class SnapBannerCarousel extends StatefulWidget {
-  const SnapBannerCarousel({
-    Key? key,
-    required this.snapSection,
-    this.duration = const Duration(seconds: 3),
-    this.height = 178,
-    this.initialIndex = 0,
-  }) : super(key: key);
-
-  final SnapSection snapSection;
-  final Duration duration;
-  final double height;
-  final int initialIndex;
-
-  @override
-  State<SnapBannerCarousel> createState() => _SnapBannerCarouselState();
-}
-
-class _SnapBannerCarouselState extends State<SnapBannerCarousel> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<ExploreModel>().loadSection(widget.snapSection);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
-    final size = MediaQuery.of(context).size;
-    final sections =
-        model.sectionNameToSnapsMap[widget.snapSection.title] ?? [];
-    return sections.isNotEmpty
-        ? YaruCarousel(
-            controller: YaruCarouselController(
-              pagesLength: sections.length,
-              initialPage: widget.initialIndex,
-              viewportFraction: 1,
-              autoScrollDuration: widget.duration,
-              autoScroll: true,
-            ),
-            placeIndicator: false,
-            width: size.width,
-            height: widget.height,
-            children: [
-              for (final snap in sections)
-                _AppBannerCarouselItem.create(
-                  context: context,
-                  snap: snap,
-                  sectionName: widget.snapSection == SnapSection.all
-                      ? SnapSection.featured.localize(context.l10n)
-                      : widget.snapSection.localize(context.l10n),
-                  onTap: () => model.selectedSnap = snap,
-                )
-            ],
-          )
-        : const SizedBox();
-  }
-}
-
-class _AppBannerCarouselItem extends StatefulWidget {
-  const _AppBannerCarouselItem({
+class ColorBanner extends StatefulWidget {
+  const ColorBanner({
     Key? key,
     required this.snap,
     required this.sectionName,
@@ -114,7 +53,7 @@ class _AppBannerCarouselItem extends StatefulWidget {
         colorGenerator: getService<ColorGenerator>(),
         doneMessage: context.l10n.done,
       ),
-      child: _AppBannerCarouselItem(
+      child: ColorBanner(
         snap: snap,
         onTap: onTap,
         sectionName: sectionName,
@@ -123,10 +62,10 @@ class _AppBannerCarouselItem extends StatefulWidget {
   }
 
   @override
-  State<_AppBannerCarouselItem> createState() => _AppBannerCarouselItemState();
+  State<ColorBanner> createState() => _ColorBannerState();
 }
 
-class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
+class _ColorBannerState extends State<ColorBanner> {
   @override
   void initState() {
     super.initState();
@@ -140,13 +79,15 @@ class _AppBannerCarouselItemState extends State<_AppBannerCarouselItem> {
       copyIconAsWatermark: true,
       title: Text(
         widget.snap.name,
-        style: Theme.of(context).textTheme.headline4,
+        style: Theme.of(context)
+            .textTheme
+            .headline4!
+            .copyWith(fontWeight: FontWeight.w300),
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(widget.sectionName),
       surfaceTintColor: model.surfaceTintColor,
       thirdTitle: AppWebsite(
-        tapAble: false,
         height: 14,
         website:
             widget.snap.website ?? widget.snap.publisher?.displayName ?? '',

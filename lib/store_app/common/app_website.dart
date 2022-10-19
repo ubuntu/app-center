@@ -16,7 +16,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
@@ -27,59 +26,64 @@ class AppWebsite extends StatelessWidget {
     required this.verified,
     required this.publisherName,
     this.height = 15.0,
-    this.tapAble = true,
+    this.onTap,
   }) : super(key: key);
 
   final String website;
   final bool verified;
   final String publisherName;
   final double height;
-  final bool? tapAble;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
+    var sizedBox = SizedBox(
+      height: height * 2,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (verified)
+            Icon(
+              Icons.verified,
+              size: height,
+              color: YaruColors.success,
+            ),
+          if (website.isNotEmpty)
+            Padding(
+              padding: EdgeInsets.only(
+                left: verified ? height / 3 : 0,
+                right: height / 3,
+              ),
+              child: Text(
+                publisherName,
+                style: TextStyle(
+                  fontSize: height,
+                  overflow: TextOverflow.visible,
+                ),
+              ),
+            ),
+          if (website.isNotEmpty && onTap != null)
+            Padding(
+              padding: EdgeInsets.only(right: verified ? height / 3 : 0),
+              child: Icon(
+                YaruIcons.external_link,
+                color: Theme.of(context).colorScheme.onSurface,
+                size: height,
+              ),
+            ),
+        ],
+      ),
+    );
+
+    if (onTap == null) {
+      return sizedBox;
+    }
     return InkWell(
       borderRadius: BorderRadius.circular(8),
-      onTap: () => launchUrl(Uri.parse(website)),
+      onTap: onTap,
       child: Tooltip(
         message: website,
-        child: SizedBox(
-          height: height * 2,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (verified)
-                Icon(
-                  Icons.verified,
-                  size: height,
-                  color: YaruColors.success,
-                ),
-              if (website.isNotEmpty)
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: verified ? height / 3 : 0,
-                    right: height / 3,
-                  ),
-                  child: Text(
-                    publisherName,
-                    style: TextStyle(
-                      fontSize: height,
-                      overflow: TextOverflow.visible,
-                    ),
-                  ),
-                ),
-              if (website.isNotEmpty)
-                Padding(
-                  padding: EdgeInsets.only(right: verified ? height / 3 : 0),
-                  child: Icon(
-                    YaruIcons.external_link,
-                    color: Theme.of(context).colorScheme.onSurface,
-                    size: height,
-                  ),
-                ),
-            ],
-          ),
-        ),
+        child: sizedBox,
       ),
     );
   }
