@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:software/main.dart' as app;
 import 'package:software/store_app/settings/settings_page.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '../test/test_utils.dart';
@@ -12,10 +13,12 @@ import '../test/test_utils.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
+  tearDown(resetAllServices);
+
   group('Store App', () {
     group('Settings page', () {
       testWidgets('About dialog', (tester) async {
-        app.main([]);
+        await app.main([]);
         await tester.pump();
 
         await tester
@@ -61,7 +64,7 @@ void main() {
       const packageUninstalledSize = '25.98 KB';
       const packageInstalledSize = '108.00 KB';
 
-      app.main([localDeb.absolute.path]);
+      await app.main([localDeb.absolute.path]);
       await tester.pump();
 
       Future<void> matchField(
