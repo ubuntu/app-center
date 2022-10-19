@@ -18,44 +18,43 @@
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/app_format.dart';
+import 'package:software/store_app/common/drop_down_decoration.dart';
 
 class AppFormatButton extends StatelessWidget {
   const AppFormatButton({
     super.key,
-    this.onPressed,
+    required this.onPressed,
     required this.appFormat,
-    required this.selected,
   });
 
-  final void Function()? onPressed;
+  final void Function(AppFormat appFormat) onPressed;
   final AppFormat appFormat;
-  final bool selected;
 
   @override
   Widget build(BuildContext context) {
-    final color = selected
-        ? Theme.of(context).primaryColor
-        : Theme.of(context).colorScheme.onSurface.withOpacity(0.7);
-    return OutlinedButton(
-      onPressed: onPressed,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            appFormatToIconData[appFormat],
-            size: 15,
-            color: color,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(6),
+      child: Material(
+        color: Colors.transparent,
+        child: PopupMenuButton(
+          initialValue: appFormat,
+          itemBuilder: (context) {
+            return [
+              for (var appFormat in AppFormat.values)
+                PopupMenuItem(
+                  value: appFormat,
+                  onTap: () => onPressed(appFormat),
+                  child: Text(
+                    appFormat.localize(context.l10n),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                )
+            ];
+          },
+          child: DropDownDecoration(
+            child: Text(appFormat.localize(context.l10n)),
           ),
-          const SizedBox(
-            width: 5,
-          ),
-          Text(
-            appFormat.localize(context.l10n),
-            style: TextStyle(
-              color: color,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -103,7 +103,7 @@ class MyAppsModel extends SafeChangeNotifier {
 
   AppFormat _appFormat = AppFormat.snap;
   AppFormat get appFormat => _appFormat;
-  set appFormat(AppFormat value) {
+  void setAppFormat(AppFormat value) {
     if (value == _appFormat) return;
     _appFormat = value;
     notifyListeners();

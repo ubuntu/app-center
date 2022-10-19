@@ -62,18 +62,14 @@ class _SearchFieldState extends State<SearchField> {
         },
         textInputAction: TextInputAction.send,
         decoration: InputDecoration(
-          hintText: model.selectedSection.localize(context.l10n),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 5),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _SectionDropdown(
-                  value: model.selectedSection,
-                  onChanged: (v) => model.selectedSection = v!,
-                ),
-              ],
-            ),
+          hintText: context.l10n.searchHint,
+          prefixIcon: const Icon(
+            YaruIcons.search,
+            size: 20,
+          ),
+          prefixIconConstraints: const BoxConstraints(
+            minHeight: 45,
+            minWidth: 40,
           ),
           isDense: false,
           border: const UnderlineInputBorder(),
@@ -97,71 +93,6 @@ class _SearchFieldState extends State<SearchField> {
               : null,
         ),
       ),
-    );
-  }
-}
-
-class _SectionDropdown extends StatelessWidget {
-  const _SectionDropdown({
-    // ignore: unused_element
-    super.key,
-    required this.value,
-    this.onChanged,
-  });
-
-  final SnapSection value;
-  final Function(SnapSection?)? onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton<SnapSection>(
-      tooltip: context.l10n.filterSnaps,
-      splashRadius: 20,
-      onSelected: onChanged,
-      icon: Icon(
-        snapSectionToIcon[value],
-        color: Theme.of(context).primaryColor,
-      ),
-      initialValue: SnapSection.all,
-      itemBuilder: (context) {
-        return [
-          for (final section in SnapSection.values)
-            PopupMenuItem(
-              value: section,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  SizedBox(
-                    width: 20,
-                    child: Icon(
-                      snapSectionToIcon[section],
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.8),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      section.localize(
-                        context.l10n,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  )
-                ],
-              ),
-            )
-        ];
-      },
     );
   }
 }

@@ -102,35 +102,38 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
         child: YaruCircularProgressIndicator(),
       );
     }
-    return GridView.builder(
-      controller: _controller,
-      padding: const EdgeInsets.all(20.0),
-      gridDelegate: kGridDelegate,
-      shrinkWrap: true,
-      itemCount: widget.snaps.length,
-      itemBuilder: (context, index) {
-        final snap = widget.snaps.elementAt(index);
-        return AnimatedScrollViewItem(
-          child: YaruBanner(
-            title: Text(
-              snap.name,
-              overflow: TextOverflow.ellipsis,
-            ),
-            subtitle: Text(
-              snap.summary,
-              overflow: TextOverflow.ellipsis,
-            ),
-            icon: Padding(
-              padding:
-                  const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 5),
-              child: AppIcon(
-                iconUrl: snap.iconUrl,
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: GridView.builder(
+        controller: _controller,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        gridDelegate: kGridDelegate,
+        shrinkWrap: true,
+        itemCount: widget.snaps.length,
+        itemBuilder: (context, index) {
+          final snap = widget.snaps.elementAt(index);
+          return AnimatedScrollViewItem(
+            child: YaruBanner(
+              title: Text(
+                snap.name,
+                overflow: TextOverflow.ellipsis,
               ),
+              subtitle: Text(
+                snap.summary,
+                overflow: TextOverflow.ellipsis,
+              ),
+              icon: Padding(
+                padding:
+                    const EdgeInsets.only(left: 8, top: 8, bottom: 8, right: 5),
+                child: AppIcon(
+                  iconUrl: snap.iconUrl,
+                ),
+              ),
+              onTap: () => model.selectedSnap = snap,
             ),
-            onTap: () => model.selectedSnap = snap,
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
