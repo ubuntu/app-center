@@ -22,6 +22,8 @@ import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
+import 'package:software/store_app/common/app_format.dart';
+import 'package:software/store_app/common/app_format_button.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/explore/explore_model.dart';
@@ -33,18 +35,34 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruTabbedPage(
-      tabIcons: const [
-        Icon(YaruIcons.package_snap),
-        Icon(YaruIcons.package_deb)
-      ],
-      tabTitles: [
-        context.l10n.snapPackages,
-        context.l10n.debianPackages,
-      ],
-      views: const [
-        _SnapSearchPage(),
-        _PackageKitSearchPage(),
+    final model = context.watch<ExploreModel>();
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 25, left: 25),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Wrap(
+              alignment: WrapAlignment.start,
+              crossAxisAlignment: WrapCrossAlignment.start,
+              runAlignment: WrapAlignment.start,
+              spacing: 10,
+              children: [
+                for (final appFormat in AppFormat.values)
+                  AppFormatButton(
+                    appFormat: appFormat,
+                    selected: model.appFormat == appFormat,
+                    onPressed: () => model.appFormat = appFormat,
+                  ),
+              ],
+            ),
+          ),
+        ),
+        if (model.appFormat == AppFormat.snap)
+          const Expanded(child: _SnapSearchPage())
+        else if (model.appFormat == AppFormat.packageKit)
+          const Expanded(child: _PackageKitSearchPage())
       ],
     );
   }

@@ -22,6 +22,7 @@ import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
+import 'package:software/store_app/common/app_format.dart';
 
 class MyAppsModel extends SafeChangeNotifier {
   final PackageService _packageService;
@@ -97,6 +98,14 @@ class MyAppsModel extends SafeChangeNotifier {
   set searchQuery(String? value) {
     if (value == _searchQuery) return;
     _searchQuery = value;
+    notifyListeners();
+  }
+
+  AppFormat _appFormat = AppFormat.snap;
+  AppFormat get appFormat => _appFormat;
+  set appFormat(AppFormat value) {
+    if (value == _appFormat) return;
+    _appFormat = value;
     notifyListeners();
   }
 }
