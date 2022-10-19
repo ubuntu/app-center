@@ -51,7 +51,7 @@ parts:
       - jq
     override-build: |
       set -eux
-      flutter pub get
+      flutter pub get || true
       flutter build linux --release -v
       craftctl set version="$(jq -r '.version' build/flutter_assets/version.json)"
       mkdir -p $CRAFT_PART_INSTALL/bin
