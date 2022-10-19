@@ -67,7 +67,7 @@ class MyAppsPage extends StatelessWidget {
     final page = Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 25, left: 25),
+          padding: const EdgeInsets.only(top: 20, left: 25),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Wrap(
