@@ -21,8 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/store_app/common/drop_down_decoration.dart';
 import 'package:software/store_app/common/snap_model.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 
 class SnapChannelPopupButton extends StatelessWidget {
   const SnapChannelPopupButton({
@@ -80,24 +80,8 @@ class SnapChannelPopupButton extends StatelessWidget {
                 )
             ];
           },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: Theme.of(context).dividerColor),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(model.channelToBeInstalled),
-                  const SizedBox(
-                    height: 40,
-                    child: Icon(YaruIcons.pan_down),
-                  ),
-                ],
-              ),
-            ),
+          child: DropDownDecoration(
+            child: Text(model.channelToBeInstalled),
           ),
         ),
       ),

@@ -27,6 +27,7 @@ import 'package:software/store_app/common/app_format_button.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/explore/explore_model.dart';
+import 'package:software/store_app/explore/search_field.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -49,12 +50,16 @@ class SearchPage extends StatelessWidget {
               runAlignment: WrapAlignment.start,
               spacing: 10,
               children: [
-                for (final appFormat in AppFormat.values)
-                  AppFormatButton(
-                    appFormat: appFormat,
-                    selected: model.appFormat == appFormat,
-                    onPressed: () => model.appFormat = appFormat,
-                  ),
+                AppFormatButton(
+                  appFormat: model.appFormat,
+                  onPressed: model.setAppFormat,
+                ),
+                if (model.appFormat == AppFormat.snap)
+                  SectionDropdown(
+                    value: model.selectedSection,
+                    onChanged: (v) => model.selectedSection = v!,
+                    useText: true,
+                  )
               ],
             ),
           ),

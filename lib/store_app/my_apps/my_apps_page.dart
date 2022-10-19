@@ -76,12 +76,10 @@ class MyAppsPage extends StatelessWidget {
               runAlignment: WrapAlignment.start,
               spacing: 10,
               children: [
-                for (final appFormat in AppFormat.values)
-                  AppFormatButton(
-                    appFormat: appFormat,
-                    selected: model.appFormat == appFormat,
-                    onPressed: () => model.appFormat = appFormat,
-                  ),
+                AppFormatButton(
+                  appFormat: model.appFormat,
+                  onPressed: model.setAppFormat,
+                ),
               ],
             ),
           ),
