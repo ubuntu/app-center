@@ -123,7 +123,8 @@ class ExploreModel extends SafeChangeNotifier {
     if (value == _selectedSection) return;
     _appResulAmount = 10;
     _selectedSection = value;
-    loadSection(value);
+    // loadSection(value);
+    notifyListeners();
   }
 
   Future<List<Snap>> findSnapsByQuery() async {
@@ -157,7 +158,7 @@ class ExploreModel extends SafeChangeNotifier {
     }
   }
 
-  Map<String, List<Snap>> sectionNameToSnapsMap;
+  Map<SnapSection, List<Snap>> sectionNameToSnapsMap;
   Future<void> loadSection(SnapSection section) async {
     List<Snap> sectionList = [];
     for (final snap in await findSnapsBySection(
@@ -165,7 +166,7 @@ class ExploreModel extends SafeChangeNotifier {
     )) {
       sectionList.add(snap);
     }
-    sectionNameToSnapsMap.putIfAbsent(section.title, () => sectionList);
+    sectionNameToSnapsMap.putIfAbsent(section, () => sectionList);
     notifyListeners();
   }
 

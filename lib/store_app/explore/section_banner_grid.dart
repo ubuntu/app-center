@@ -54,7 +54,6 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
     _controller = ScrollController();
 
     if (widget.initSection) {
-      context.read<ExploreModel>().loadSection(widget.snapSection);
       _controller.addListener(() {
         if (_controller.position.maxScrollExtent == _controller.offset) {
           setState(() {
@@ -69,8 +68,7 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    final sections =
-        model.sectionNameToSnapsMap[widget.snapSection.title] ?? [];
+    final sections = model.sectionNameToSnapsMap[widget.snapSection] ?? [];
     if (sections.isEmpty) return const SizedBox();
 
     return GridView.builder(
