@@ -23,6 +23,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/app_format.dart';
+import 'package:software/store_app/common/app_format_button.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/explore/explore_model.dart';
@@ -49,38 +50,11 @@ class SearchPage extends StatelessWidget {
               spacing: 10,
               children: [
                 for (final appFormat in AppFormat.values)
-                  OutlinedButton(
+                  AppFormatButton(
+                    appFormat: appFormat,
+                    selected: model.appFormat == appFormat,
                     onPressed: () => model.appFormat = appFormat,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          appFormatToIconData[appFormat],
-                          size: 15,
-                          color: model.appFormat == appFormat
-                              ? Theme.of(context).primaryColor
-                              : Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withOpacity(0.7),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          appFormat.localize(context.l10n),
-                          style: TextStyle(
-                            color: model.appFormat == appFormat
-                                ? Theme.of(context).primaryColor
-                                : Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withOpacity(0.7),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
+                  ),
               ],
             ),
           ),
