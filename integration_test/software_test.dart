@@ -16,31 +16,29 @@ void main() {
     group('Settings page', () {
       testWidgets('About dialog', (tester) async {
         app.main([]);
-        await tester.pumpAndSettle();
+        await tester.pump();
 
         await tester
             .pumpAndTapNavigationRailButton(tester.lang.settingsPageTitle);
-        await tester.pumpAndSettle();
 
         final settingsPage = find.byType(SettingsPage);
-        expect(settingsPage, findsOneWidget);
         await tester.pumpUntil(settingsPage);
+        expect(settingsPage, findsOneWidget);
 
         final aboutButton = find.text(tester.lang.about);
-        expect(aboutButton, findsOneWidget);
         await tester.pumpUntil(aboutButton);
+        expect(aboutButton, findsOneWidget);
         await tester.tap(aboutButton);
-        await tester.pumpAndSettle();
 
         final aboutDialog = find.byType(AboutDialog);
-        expect(aboutDialog, findsOneWidget);
         await tester.pumpUntil(aboutDialog);
+        expect(aboutDialog, findsOneWidget);
 
         final closeButton = find.text(tester.materialLang.closeButtonLabel);
-        expect(closeButton, findsOneWidget);
         await tester.pumpUntil(closeButton);
+        expect(closeButton, findsOneWidget);
         await tester.tap(closeButton);
-        await tester.pumpAndSettle();
+        await tester.pumpUntil(aboutDialog, reverse: true);
 
         expect(aboutDialog, findsNothing);
       });
@@ -120,8 +118,8 @@ extension IntegrationTester on WidgetTester {
 
     final button =
         find.descendant(of: navigationRail, matching: find.text(text));
-    expect(button, findsOneWidget);
     await pumpUntil(button);
+    expect(button, findsOneWidget);
 
     return tap(button);
   }
