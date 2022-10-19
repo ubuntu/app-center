@@ -56,6 +56,13 @@ void main() {
       final helloExe = File('/usr/bin/hello');
       expect(helloExe.existsSync(), isFalse);
 
+      const packageName = 'hello';
+      const packageVersion = '2.10-2ubuntu4';
+      const packageArchitecture = 'amd64';
+      const packageLicense = 'unknown';
+      const packageUninstalledSize = '25.98 KB';
+      const packageInstalledSize = '108.00 KB';
+
       app.main([localDeb.absolute.path]);
       await tester.pump();
 
@@ -75,11 +82,11 @@ void main() {
         expect(valueText, findsOneWidget);
       }
 
-      await matchField(tester.lang.name, 'hello');
-      await matchField(tester.lang.version, '2.10-2ubuntu4');
-      await matchField(tester.lang.architecture, 'amd64');
-      await matchField(tester.lang.license, 'unknown');
-      await matchField(tester.lang.size, '25.98 KB');
+      await matchField(tester.lang.name, packageName);
+      await matchField(tester.lang.version, packageVersion);
+      await matchField(tester.lang.architecture, packageArchitecture);
+      await matchField(tester.lang.license, packageLicense);
+      await matchField(tester.lang.size, packageUninstalledSize);
 
       final installButton = find.text(tester.lang.install);
       await tester.pumpUntil(installButton);
@@ -92,7 +99,7 @@ void main() {
       expect(installButton, findsNothing);
 
       expect(helloExe.existsSync(), isTrue);
-      //await matchField(tester.lang.size, '108.00 KB');
+      await matchField(tester.lang.size, packageInstalledSize);
 
       await tester.tap(uninstallButton);
 
@@ -101,7 +108,7 @@ void main() {
       expect(uninstallButton, findsNothing);
 
       expect(helloExe.existsSync(), isFalse);
-      //await matchField(tester.lang.size, '25.98 KB');
+      await matchField(tester.lang.size, packageUninstalledSize);
     });
   });
 }
