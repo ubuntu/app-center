@@ -104,68 +104,64 @@ class SectionDropdown extends StatelessWidget {
     super.key,
     required this.value,
     this.onChanged,
-    this.useText = false,
   });
 
   final SnapSection value;
   final Function(SnapSection?)? onChanged;
-  final bool useText;
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<SnapSection>(
-      tooltip: context.l10n.filterSnaps,
-      splashRadius: 20,
-      onSelected: onChanged,
-      icon: useText
-          ? null
-          : Icon(
-              snapSectionToIcon[value],
-              color: Theme.of(context).primaryColor,
-            ),
-      initialValue: SnapSection.all,
-      itemBuilder: (context) {
-        return [
-          for (final section in SnapSection.values)
-            PopupMenuItem(
-              value: section,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  SizedBox(
-                    width: 20,
-                    child: Icon(
-                      snapSectionToIcon[section],
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.8),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      section.localize(
-                        context.l10n,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(6),
+      child: Material(
+        color: Colors.transparent,
+        child: PopupMenuButton<SnapSection>(
+          tooltip: context.l10n.filterSnaps,
+          splashRadius: 20,
+          onSelected: onChanged,
+          initialValue: SnapSection.all,
+          itemBuilder: (context) {
+            return [
+              for (final section in SnapSection.values)
+                PopupMenuItem(
+                  value: section,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        width: 5,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  )
-                ],
-              ),
-            )
-        ];
-      },
-      child: useText
-          ? DropDownDecoration(child: Text(value.localize(context.l10n)))
-          : null,
+                      SizedBox(
+                        width: 20,
+                        child: Icon(
+                          snapSectionToIcon[section],
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.8),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          section.localize(
+                            context.l10n,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      )
+                    ],
+                  ),
+                )
+            ];
+          },
+          child: DropDownDecoration(child: Text(value.localize(context.l10n))),
+        ),
+      ),
     );
   }
 }

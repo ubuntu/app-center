@@ -58,7 +58,6 @@ class SearchPage extends StatelessWidget {
                   SectionDropdown(
                     value: model.selectedSection,
                     onChanged: (v) => model.selectedSection = v!,
-                    useText: true,
                   )
               ],
             ),
