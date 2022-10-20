@@ -157,7 +157,13 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
                   ),
                   YaruTile(
                     title: Text(context.l10n.description),
-                    trailing: Text(model.description),
+                    trailing: Flexible(
+                      child: Text(
+                        model.description,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 12,
+                      ),
+                    ),
                   ),
                 ],
               ),
