@@ -43,7 +43,7 @@ class PackageInstallerApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Package Installer',
           localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
+          supportedLocales: supportedLocales,
           onGenerateTitle: (context) => context.l10n.appTitle,
           routes: {
             Navigator.defaultRouteName: (context) =>
