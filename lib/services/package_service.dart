@@ -19,6 +19,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:desktop_notifications/desktop_notifications.dart';
+import 'package:file/file.dart';
+import 'package:file/local.dart';
 import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/package_state.dart';
@@ -472,6 +474,7 @@ class PackageService {
     await removeCompleter.future;
     if (_localId != null) {
       setIsInstalled(false);
+      await getDetails(packageId: _localId!);
     } else {
       isIdInstalled(id: packageId);
     }
@@ -651,8 +654,11 @@ class PackageService {
   PackageKitPackageId? _localId;
 
   /// Finds the [packageId] from [path] and sets info fields
-  Future<void> getDetailsAboutLocalPackage({required String path}) async {
-    if (path.isEmpty || !(await File(path).exists())) return;
+  Future<void> getDetailsAboutLocalPackage({
+    required String path,
+    FileSystem fileSystem = const LocalFileSystem(),
+  }) async {
+    if (path.isEmpty || !(await fileSystem.file(path).exists())) return;
     final transaction = await _client.createTransaction();
     final detailsCompleter = Completer();
     transaction.events.listen((event) {
@@ -676,13 +682,18 @@ class PackageService {
     }
   }
 
-  Future<void> installLocalFile({required String? path}) async {
-    if (path != null && path.isEmpty || !(await File(path!).exists())) return;
+  Future<void> installLocalFile({
+    required String? path,
+    FileSystem fileSystem = const LocalFileSystem(),
+  }) async {
+    if (path != null && path.isEmpty ||
+        !(await fileSystem.file(path!).exists())) return;
     final installTransaction = await _client.createTransaction();
     final installCompleter = Completer();
     setPackageState(PackageState.processing);
     installTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
+        _localId = event.packageId;
       } else if (event is PackageKitItemProgressEvent) {
         setPackagePercentage(event.percentage);
       } else if (event is PackageKitFinishedEvent) {
@@ -693,6 +704,7 @@ class PackageService {
     await installCompleter.future;
     if (_localId != null) {
       await isIdInstalled(id: _localId!);
+      await getDetails(packageId: _localId!);
     }
     setPackageState(PackageState.ready);
   }
