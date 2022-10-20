@@ -172,5 +172,7 @@
   "offline": "Senrete",
   "@offline": {},
   "media": "Aŭdvidaĵoj",
-  "@media": {}
+  "@media": {},
+  "appFormat": "La pakformo de programoj",
+  "@appFormat": {}
 }
