@@ -8,12 +8,14 @@ import 'dart:async' as _i4;
 import 'package:connectivity_plus/connectivity_plus.dart' as _i3;
 import 'package:connectivity_plus_platform_interface/connectivity_plus_platform_interface.dart'
     as _i5;
+import 'package:file/file.dart' as _i9;
+import 'package:file/local.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:packagekit/packagekit.dart' as _i2;
-import 'package:snapd/snapd.dart' as _i10;
+import 'package:snapd/snapd.dart' as _i12;
 import 'package:software/package_state.dart' as _i8;
 import 'package:software/services/package_service.dart' as _i6;
-import 'package:software/services/snap_service.dart' as _i9;
+import 'package:software/services/snap_service.dart' as _i11;
 import 'package:software/updates_state.dart' as _i7;
 
 // ignore_for_file: type=lint
@@ -655,23 +657,35 @@ class MockPackageService extends _i1.Mock implements _i6.PackageService {
             <_i2.PackageKitPackageId>[]),
       ) as _i4.Future<List<_i2.PackageKitPackageId>>);
   @override
-  _i4.Future<void> getDetailsAboutLocalPackage({required String? path}) =>
+  _i4.Future<void> getDetailsAboutLocalPackage({
+    required String? path,
+    _i9.FileSystem? fileSystem = const _i10.LocalFileSystem(),
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #getDetailsAboutLocalPackage,
           [],
-          {#path: path},
+          {
+            #path: path,
+            #fileSystem: fileSystem,
+          },
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
   @override
-  _i4.Future<void> installLocalFile({required String? path}) =>
+  _i4.Future<void> installLocalFile({
+    required String? path,
+    _i9.FileSystem? fileSystem = const _i10.LocalFileSystem(),
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #installLocalFile,
           [],
-          {#path: path},
+          {
+            #path: path,
+            #fileSystem: fileSystem,
+          },
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
@@ -689,23 +703,23 @@ class MockPackageService extends _i1.Mock implements _i6.PackageService {
 /// A class which mocks [SnapService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSnapService extends _i1.Mock implements _i9.SnapService {
+class MockSnapService extends _i1.Mock implements _i11.SnapService {
   MockSnapService() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  Map<_i10.Snap, _i10.SnapdChange> get snapChanges => (super.noSuchMethod(
+  Map<_i12.Snap, _i12.SnapdChange> get snapChanges => (super.noSuchMethod(
         Invocation.getter(#snapChanges),
-        returnValue: <_i10.Snap, _i10.SnapdChange>{},
-      ) as Map<_i10.Snap, _i10.SnapdChange>);
+        returnValue: <_i12.Snap, _i12.SnapdChange>{},
+      ) as Map<_i12.Snap, _i12.SnapdChange>);
   @override
   _i4.Stream<bool> get snapChangesInserted => (super.noSuchMethod(
         Invocation.getter(#snapChangesInserted),
         returnValue: _i4.Stream<bool>.empty(),
       ) as _i4.Stream<bool>);
   @override
-  void removeChange(_i10.Snap? snap) => super.noSuchMethod(
+  void removeChange(_i12.Snap? snap) => super.noSuchMethod(
         Invocation.method(
           #removeChange,
           [snap],
@@ -713,38 +727,47 @@ class MockSnapService extends _i1.Mock implements _i9.SnapService {
         returnValueForMissingStub: null,
       );
   @override
-  _i10.SnapdChange? getChange(_i10.Snap? snap) =>
+  _i12.SnapdChange? getChange(_i12.Snap? snap) =>
       (super.noSuchMethod(Invocation.method(
         #getChange,
         [snap],
-      )) as _i10.SnapdChange?);
+      )) as _i12.SnapdChange?);
   @override
-  _i4.Future<_i10.Snap?> findLocalSnap(String? huskSnapName) =>
+  _i4.Future<void> init() => (super.noSuchMethod(
+        Invocation.method(
+          #init,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  _i4.Future<_i12.Snap?> findLocalSnap(String? huskSnapName) =>
       (super.noSuchMethod(
         Invocation.method(
           #findLocalSnap,
           [huskSnapName],
         ),
-        returnValue: _i4.Future<_i10.Snap?>.value(),
-      ) as _i4.Future<_i10.Snap?>);
+        returnValue: _i4.Future<_i12.Snap?>.value(),
+      ) as _i4.Future<_i12.Snap?>);
   @override
-  _i4.Future<_i10.Snap?> findSnapByName(String? name) => (super.noSuchMethod(
+  _i4.Future<_i12.Snap?> findSnapByName(String? name) => (super.noSuchMethod(
         Invocation.method(
           #findSnapByName,
           [name],
         ),
-        returnValue: _i4.Future<_i10.Snap?>.value(),
-      ) as _i4.Future<_i10.Snap?>);
+        returnValue: _i4.Future<_i12.Snap?>.value(),
+      ) as _i4.Future<_i12.Snap?>);
   @override
-  _i4.Future<List<_i10.Snap>> getLocalSnaps() => (super.noSuchMethod(
+  _i4.Future<List<_i12.Snap>> getLocalSnaps() => (super.noSuchMethod(
         Invocation.method(
           #getLocalSnaps,
           [],
         ),
-        returnValue: _i4.Future<List<_i10.Snap>>.value(<_i10.Snap>[]),
-      ) as _i4.Future<List<_i10.Snap>>);
+        returnValue: _i4.Future<List<_i12.Snap>>.value(<_i12.Snap>[]),
+      ) as _i4.Future<List<_i12.Snap>>);
   @override
-  _i4.Future<List<_i10.Snap>> findSnapsByQuery({
+  _i4.Future<List<_i12.Snap>> findSnapsByQuery({
     required String? searchQuery,
     required String? sectionName,
   }) =>
@@ -757,21 +780,21 @@ class MockSnapService extends _i1.Mock implements _i9.SnapService {
             #sectionName: sectionName,
           },
         ),
-        returnValue: _i4.Future<List<_i10.Snap>>.value(<_i10.Snap>[]),
-      ) as _i4.Future<List<_i10.Snap>>);
+        returnValue: _i4.Future<List<_i12.Snap>>.value(<_i12.Snap>[]),
+      ) as _i4.Future<List<_i12.Snap>>);
   @override
-  _i4.Future<List<_i10.Snap>> findSnapsBySection({String? sectionName}) =>
+  _i4.Future<List<_i12.Snap>> findSnapsBySection({String? sectionName}) =>
       (super.noSuchMethod(
         Invocation.method(
           #findSnapsBySection,
           [],
           {#sectionName: sectionName},
         ),
-        returnValue: _i4.Future<List<_i10.Snap>>.value(<_i10.Snap>[]),
-      ) as _i4.Future<List<_i10.Snap>>);
+        returnValue: _i4.Future<List<_i12.Snap>>.value(<_i12.Snap>[]),
+      ) as _i4.Future<List<_i12.Snap>>);
   @override
-  _i4.Future<_i10.Snap?> install(
-    _i10.Snap? snap,
+  _i4.Future<_i12.Snap?> install(
+    _i12.Snap? snap,
     String? channelToBeInstalled,
     String? doneString,
   ) =>
@@ -784,11 +807,11 @@ class MockSnapService extends _i1.Mock implements _i9.SnapService {
             doneString,
           ],
         ),
-        returnValue: _i4.Future<_i10.Snap?>.value(),
-      ) as _i4.Future<_i10.Snap?>);
+        returnValue: _i4.Future<_i12.Snap?>.value(),
+      ) as _i4.Future<_i12.Snap?>);
   @override
-  _i4.Future<_i10.Snap?> remove(
-    _i10.Snap? snap,
+  _i4.Future<_i12.Snap?> remove(
+    _i12.Snap? snap,
     String? doneString,
   ) =>
       (super.noSuchMethod(
@@ -799,14 +822,14 @@ class MockSnapService extends _i1.Mock implements _i9.SnapService {
             doneString,
           ],
         ),
-        returnValue: _i4.Future<_i10.Snap?>.value(),
-      ) as _i4.Future<_i10.Snap?>);
+        returnValue: _i4.Future<_i12.Snap?>.value(),
+      ) as _i4.Future<_i12.Snap?>);
   @override
-  _i4.Future<_i10.Snap?> refresh({
-    required _i10.Snap? snap,
+  _i4.Future<_i12.Snap?> refresh({
+    required _i12.Snap? snap,
     required String? message,
     required String? channel,
-    required _i10.SnapConfinement? confinement,
+    required _i12.SnapConfinement? confinement,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -819,21 +842,21 @@ class MockSnapService extends _i1.Mock implements _i9.SnapService {
             #confinement: confinement,
           },
         ),
-        returnValue: _i4.Future<_i10.Snap?>.value(),
-      ) as _i4.Future<_i10.Snap?>);
+        returnValue: _i4.Future<_i12.Snap?>.value(),
+      ) as _i4.Future<_i12.Snap?>);
   @override
-  _i4.Future<Map<_i10.SnapPlug, bool>> loadPlugs(_i10.Snap? localSnap) =>
+  _i4.Future<Map<_i12.SnapPlug, bool>> loadPlugs(_i12.Snap? localSnap) =>
       (super.noSuchMethod(
         Invocation.method(
           #loadPlugs,
           [localSnap],
         ),
         returnValue:
-            _i4.Future<Map<_i10.SnapPlug, bool>>.value(<_i10.SnapPlug, bool>{}),
-      ) as _i4.Future<Map<_i10.SnapPlug, bool>>);
+            _i4.Future<Map<_i12.SnapPlug, bool>>.value(<_i12.SnapPlug, bool>{}),
+      ) as _i4.Future<Map<_i12.SnapPlug, bool>>);
   @override
   _i4.Future<void> toggleConnection({
-    required _i10.Snap? snapThatWantsAConnection,
+    required _i12.Snap? snapThatWantsAConnection,
     required String? interface,
     required String? doneMessage,
     required bool? value,
