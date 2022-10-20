@@ -23,17 +23,17 @@ extension WidgetTesterX on WidgetTester {
   Future<void> pumpUntil(
     Finder finder, {
     Duration timeout = const Duration(seconds: 30),
-    bool reverse = false,
+    bool present = true,
   }) async {
     assert(timeout.inMilliseconds >= 250);
     const delay = Duration(milliseconds: 250);
 
-    if (!reverse && any(finder)) return;
-    if (reverse && !any(finder)) return;
+    if (present && any(finder)) return;
+    if (!present && !any(finder)) return;
 
     return Future.doWhile(() async {
-      if (!reverse && any(finder)) return false;
-      if (reverse && !any(finder)) return false;
+      if (present && any(finder)) return false;
+      if (!present && !any(finder)) return false;
       await pump(delay);
       return true;
     }).timeout(

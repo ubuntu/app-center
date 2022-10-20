@@ -41,7 +41,7 @@ void main() {
         await tester.pumpUntil(closeButton);
         expect(closeButton, findsOneWidget);
         await tester.tap(closeButton);
-        await tester.pumpUntil(aboutDialog, reverse: true);
+        await tester.pumpUntil(aboutDialog, present: false);
 
         expect(aboutDialog, findsNothing);
       });
