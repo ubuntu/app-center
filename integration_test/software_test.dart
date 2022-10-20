@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:software/main.dart' as app;
-import 'package:software/store_app/settings/settings_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -14,39 +12,6 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   tearDown(resetAllServices);
-
-  group('Store App', () {
-    group('Settings page', () {
-      testWidgets('About dialog', (tester) async {
-        await app.main([]);
-        await tester.pump();
-
-        await tester
-            .pumpAndTapNavigationRailButton(tester.lang.settingsPageTitle);
-
-        final settingsPage = find.byType(SettingsPage);
-        await tester.pumpUntil(settingsPage);
-        expect(settingsPage, findsOneWidget);
-
-        final aboutButton = find.text(tester.lang.about);
-        await tester.pumpUntil(aboutButton);
-        expect(aboutButton, findsOneWidget);
-        await tester.tap(aboutButton);
-
-        final aboutDialog = find.byType(AboutDialog);
-        await tester.pumpUntil(aboutDialog);
-        expect(aboutDialog, findsOneWidget);
-
-        final closeButton = find.text(tester.materialLang.closeButtonLabel);
-        await tester.pumpUntil(closeButton);
-        expect(closeButton, findsOneWidget);
-        await tester.tap(closeButton);
-        await tester.pumpUntil(aboutDialog, present: false);
-
-        expect(aboutDialog, findsNothing);
-      });
-    });
-  });
 
   group('Package Installer App', () {
     testWidgets('Install local deb', (tester) async {
@@ -112,18 +77,4 @@ void main() {
       await matchField(tester.lang.size, packageUninstalledSize);
     });
   });
-}
-
-extension IntegrationTester on WidgetTester {
-  Future<void> pumpAndTapNavigationRailButton(String text) async {
-    final navigationRail = find.byType(YaruNavigationRail);
-    await pumpUntil(navigationRail);
-
-    final button =
-        find.descendant(of: navigationRail, matching: find.text(text));
-    await pumpUntil(button);
-    expect(button, findsOneWidget);
-
-    return tap(button);
-  }
 }

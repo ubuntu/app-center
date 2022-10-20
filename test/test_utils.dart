@@ -10,16 +10,6 @@ extension WidgetTesterX on WidgetTester {
     return AppLocalizations.of(widget);
   }
 
-  MaterialLocalizations get materialLang {
-    final widget = element(find.byType(context).first);
-    return MaterialLocalizations.of(widget);
-  }
-
-  ThemeData get theme {
-    final widget = element(find.byType(context).first);
-    return Theme.of(widget);
-  }
-
   Future<void> pumpUntil(
     Finder finder, {
     Duration timeout = const Duration(seconds: 30),
