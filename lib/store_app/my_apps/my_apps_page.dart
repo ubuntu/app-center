@@ -21,7 +21,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
-import 'package:software/store_app/common/app_format_button.dart';
+import 'package:software/store_app/common/app_format_popup.dart';
 import 'package:software/store_app/common/package_page.dart';
 import 'package:software/store_app/common/snap_page.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
@@ -76,7 +76,7 @@ class MyAppsPage extends StatelessWidget {
               runAlignment: WrapAlignment.start,
               spacing: 10,
               children: [
-                AppFormatButton(
+                AppFormatPopup(
                   appFormat: model.appFormat,
                   onPressed: model.setAppFormat,
                 ),

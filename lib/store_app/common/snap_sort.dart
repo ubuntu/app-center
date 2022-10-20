@@ -17,7 +17,7 @@
 
 import 'package:software/l10n/l10n.dart';
 
-enum SortBy {
+enum SnapSort {
   name,
   installDate,
   size,
@@ -26,15 +26,15 @@ enum SortBy {
 
   String localize(AppLocalizations l10n) {
     switch (this) {
-      case SortBy.name:
+      case SnapSort.name:
         return l10n.name;
-      case SortBy.confinement:
+      case SnapSort.confinement:
         return l10n.confinement;
-      case SortBy.installDate:
+      case SnapSort.installDate:
         return l10n.installDate;
-      case SortBy.size:
+      case SnapSort.size:
         return l10n.size;
-      case SortBy.updateAvailable:
+      case SnapSort.updateAvailable:
         return l10n.updateAvailable;
     }
   }

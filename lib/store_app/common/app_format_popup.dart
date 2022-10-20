@@ -18,10 +18,10 @@
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/app_format.dart';
-import 'package:software/store_app/common/drop_down_decoration.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
-class AppFormatButton extends StatelessWidget {
-  const AppFormatButton({
+class AppFormatPopup extends StatelessWidget {
+  const AppFormatPopup({
     super.key,
     required this.onPressed,
     required this.appFormat,
@@ -32,30 +32,22 @@ class AppFormatButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(6),
-      child: Material(
-        color: Colors.transparent,
-        child: PopupMenuButton(
-          initialValue: appFormat,
-          itemBuilder: (context) {
-            return [
-              for (var appFormat in AppFormat.values)
-                PopupMenuItem(
-                  value: appFormat,
-                  onTap: () => onPressed(appFormat),
-                  child: Text(
-                    appFormat.localize(context.l10n),
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                )
-            ];
-          },
-          child: DropDownDecoration(
-            child: Text(appFormat.localize(context.l10n)),
-          ),
-        ),
-      ),
+    return YaruPopupMenuButton(
+      initialValue: appFormat,
+      tooltip: context.l10n.appFormat,
+      items: [
+        for (var appFormat in AppFormat.values)
+          PopupMenuItem(
+            value: appFormat,
+            onTap: () => onPressed(appFormat),
+            child: Text(
+              appFormat.localize(context.l10n),
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          )
+      ],
+      onSelected: onPressed,
+      child: Text(appFormat.localize(context.l10n)),
     );
   }
 }

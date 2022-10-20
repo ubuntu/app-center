@@ -20,9 +20,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/drop_down_decoration.dart';
 import 'package:software/store_app/common/snap_model.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapChannelPopupButton extends StatelessWidget {
   const SnapChannelPopupButton({
@@ -32,59 +31,46 @@ class SnapChannelPopupButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(6),
-      child: Material(
-        color: Colors.transparent,
-        child: PopupMenuButton<String>(
-          tooltip: context.l10n.channel,
-          position: PopupMenuPosition.under,
-          constraints: const BoxConstraints(minWidth: 200, maxWidth: 400),
-          initialValue: model.channelToBeInstalled,
-          itemBuilder: (context) {
-            final channelTextTheme = Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(fontWeight: FontWeight.w500);
-            return [
-              for (final entry in model.selectableChannels.entries)
-                PopupMenuItem(
-                  value: entry.key,
-                  padding: EdgeInsets.zero,
-                  child: ListTile(
-                    dense: true,
-                    isThreeLine: true,
-                    onTap: () {
-                      model.channelToBeInstalled = entry.key;
-                      Navigator.of(context).pop();
-                    },
-                    subtitle: Text(
-                      entry.key,
-                      style: channelTextTheme,
-                    ),
-                    title: Text(
-                      DateFormat.yMMMMd(Platform.localeName)
-                          .format(entry.value.releasedAt),
-                      style: const TextStyle(fontWeight: FontWeight.w300),
-                    ),
-                    trailing: ConstrainedBox(
-                      constraints:
-                          const BoxConstraints(maxWidth: 180, minWidth: 80),
-                      child: Text(
-                        entry.value.version,
-                        style: channelTextTheme,
-                        textAlign: TextAlign.end,
-                      ),
-                    ),
-                  ),
-                )
-            ];
-          },
-          child: DropDownDecoration(
-            child: Text(model.channelToBeInstalled),
-          ),
-        ),
-      ),
+    final channelTextTheme = Theme.of(context)
+        .textTheme
+        .bodyMedium
+        ?.copyWith(fontWeight: FontWeight.w500);
+
+    return YaruPopupMenuButton(
+      initialValue: model.channelToBeInstalled,
+      items: [
+        for (final entry in model.selectableChannels.entries)
+          PopupMenuItem(
+            value: entry.key,
+            padding: EdgeInsets.zero,
+            child: ListTile(
+              dense: true,
+              isThreeLine: true,
+              onTap: () {
+                model.channelToBeInstalled = entry.key;
+                Navigator.of(context).pop();
+              },
+              subtitle: Text(
+                entry.key,
+                style: channelTextTheme,
+              ),
+              title: Text(
+                DateFormat.yMMMMd(Platform.localeName)
+                    .format(entry.value.releasedAt),
+                style: const TextStyle(fontWeight: FontWeight.w300),
+              ),
+              trailing: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 180, minWidth: 80),
+                child: Text(
+                  entry.value.version,
+                  style: channelTextTheme,
+                  textAlign: TextAlign.end,
+                ),
+              ),
+            ),
+          )
+      ],
+      child: Text(model.channelToBeInstalled),
     );
   }
 }
