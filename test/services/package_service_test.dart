@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:desktop_notifications/desktop_notifications.dart';
+import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:path/path.dart' as p;
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/updates_state.dart';
@@ -23,6 +23,8 @@ import 'package_service_test.mocks.dart';
 void main() {
   late MockPackageKitClient mockPKClient;
   late MockNotificationsClient mockNotificationsClient;
+
+  late MemoryFileSystem testFS;
 
   const firefoxPackageId =
       PackageKitPackageId(name: 'firefox', version: '105.0.2');
@@ -197,7 +199,26 @@ void main() {
       return emitFinishedEvent(controller);
     });
 
+    when(transaction.installFiles(any)).thenAnswer((_) {
+      controller.add(
+        const PackageKitPackageEvent(
+          info: PackageKitInfo.installing,
+          packageId: firefoxPackageId,
+          summary: 'a fox',
+        ),
+      );
+      return emitFinishedEvent(controller);
+    });
+
     return transaction;
+  }
+
+  Future<File> createTempFile() async {
+    testFS = MemoryFileSystem();
+    final tempFile = testFS
+        .directory(Directory.systemTemp.absolute.path)
+        .childFile('tempfile.deb');
+    return tempFile.create(recursive: true);
   }
 
   setUp(() {
@@ -325,8 +346,7 @@ void main() {
   test('get details about local package', () async {
     final service = PackageService();
 
-    final tempFile = File(p.join(Directory.systemTemp.path, 'tempfile.deb'));
-    await tempFile.openSync(mode: FileMode.write).close();
+    final tempFile = await createTempFile();
 
     expectLater(service.processedId, emits(firefoxPackageId));
     expectLater(service.summary, emits('a fox'));
@@ -336,9 +356,10 @@ void main() {
     expectLater(service.group, emits(PackageKitGroup.internet));
     expectLater(service.description, emits('a fire fox'));
 
-    await service.getDetailsAboutLocalPackage(path: tempFile.path);
-
-    await tempFile.delete();
+    await service.getDetailsAboutLocalPackage(
+      path: tempFile.path,
+      fileSystem: testFS,
+    );
   });
 
   test('install package', () async {
@@ -377,6 +398,63 @@ void main() {
     );
     expectLater(service.info, emitsInOrder([PackageKitInfo.removing]));
     expectLater(service.packagePercentage, emitsInOrder([73, 28, 0]));
+
+    await service.remove(packageId: firefoxPackageId);
+  });
+
+  test('install local file', () async {
+    final service = PackageService();
+
+    final tempFile = await createTempFile();
+
+    expectLater(
+      service.packageState,
+      emitsInOrder(
+        [
+          PackageState.processing,
+          PackageState.processing,
+          PackageState.ready,
+          PackageState.ready,
+        ],
+      ),
+    );
+
+    expectLater(service.summary, emits('a summary'));
+    expectLater(service.url, emits('https://example.org/'));
+    expectLater(service.license, emits('a license'));
+    expectLater(service.size, emits('42.00 KB'));
+    expectLater(service.description, emits('a description'));
+
+    await service.installLocalFile(path: tempFile.path, fileSystem: testFS);
+  });
+
+  test('remove local package', () async {
+    final service = PackageService();
+
+    final tempFile = await createTempFile();
+
+    await service.getDetailsAboutLocalPackage(
+      path: tempFile.path,
+      fileSystem: testFS,
+    );
+
+    expectLater(
+      service.packageState,
+      emitsInOrder(
+        [
+          PackageState.processing,
+          PackageState.ready,
+        ],
+      ),
+    );
+    expectLater(service.info, emitsInOrder([PackageKitInfo.removing]));
+    expectLater(service.packagePercentage, emitsInOrder([73, 28, 0]));
+
+    expectLater(service.summary, emits('a summary'));
+    expectLater(service.url, emits('https://example.org/'));
+    expectLater(service.license, emits('a license'));
+    expectLater(service.size, emits('42.00 KB'));
+    expectLater(service.description, emits('a description'));
 
     await service.remove(packageId: firefoxPackageId);
   });
