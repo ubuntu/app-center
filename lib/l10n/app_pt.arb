@@ -172,5 +172,7 @@
   "quit": "Sair",
   "@quit": {},
   "quitDanger": "Atenção! As atualizações do sistema estão atualmente em curso. Sair agora da aplicação pode deixar o sistema num estado danificado!",
-  "@quitDanger": {}
+  "@quitDanger": {},
+  "appFormat": "O formato do pacote das aplicações",
+  "@appFormat": {}
 }
