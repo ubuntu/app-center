@@ -24,6 +24,7 @@ import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
 import 'package:software/store_app/common/snap_section.dart';
+import 'package:software/store_app/common/snap_sort.dart';
 import 'package:software/updates_state.dart';
 
 class ExploreModel extends SafeChangeNotifier {
@@ -189,6 +190,14 @@ class ExploreModel extends SafeChangeNotifier {
   void setAppFormat(AppFormat value) {
     if (value == _appFormat) return;
     _appFormat = value;
+    notifyListeners();
+  }
+
+  SnapSort _snapSort = SnapSort.updateAvailable;
+  SnapSort get snapSort => _snapSort;
+  void setSnapSort(SnapSort value) {
+    if (value == _snapSort) return;
+    _snapSort = value;
     notifyListeners();
   }
 }

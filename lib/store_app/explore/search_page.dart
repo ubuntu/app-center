@@ -23,10 +23,10 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/app_format.dart';
-import 'package:software/store_app/common/app_format_button.dart';
+import 'package:software/store_app/common/app_format_popup.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/snap_section_dropdown.dart';
+import 'package:software/store_app/common/snap_section_popup.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -50,15 +50,15 @@ class SearchPage extends StatelessWidget {
               runAlignment: WrapAlignment.start,
               spacing: 10,
               children: [
-                AppFormatButton(
+                AppFormatPopup(
                   appFormat: model.appFormat,
                   onPressed: model.setAppFormat,
                 ),
                 if (model.appFormat == AppFormat.snap)
-                  SectionDropdown(
+                  SnapSectionPopup(
                     value: model.selectedSection,
-                    onChanged: (v) => model.selectedSection = v!,
-                  )
+                    onChanged: (v) => model.selectedSection = v,
+                  ),
               ],
             ),
           ),
