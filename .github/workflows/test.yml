@@ -26,6 +26,10 @@ jobs:
       - run: sudo apt update
       - run: sudo apt install -y clang cmake libblkid-dev libglib2.0-dev libgtk-3-dev liblzma-dev network-manager ninja-build packagekit pkg-config xmlstarlet xvfb
       - run: |
+          # See https://github.com/cockpit-project/cockpit/issues/8477
+          sudo touch /etc/NetworkManager/conf.d/10-globally-managed-devices.conf
+          sudo systemctl restart NetworkManager.service
+      - run: |
           actionFile="/usr/share/polkit-1/actions/org.freedesktop.packagekit.policy"
           installAction="org.freedesktop.packagekit.package-install-untrusted"
           sudo xmlstarlet ed -L -u "//action[@id='$installAction']/defaults/allow_active" -v yes $actionFile
