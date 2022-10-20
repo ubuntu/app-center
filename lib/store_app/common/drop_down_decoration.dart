@@ -22,9 +22,11 @@ class DropDownDecoration extends StatelessWidget {
   const DropDownDecoration({
     Key? key,
     required this.child,
+    this.childPadding = const EdgeInsets.symmetric(horizontal: 5),
   }) : super(key: key);
 
   final Widget child;
+  final EdgeInsets childPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,10 @@ class DropDownDecoration extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Padding(
+              padding: childPadding,
+              child: child,
+            ),
             const SizedBox(
               height: 40,
               child: Icon(
@@ -45,10 +51,6 @@ class DropDownDecoration extends StatelessWidget {
                 size: 20,
               ),
             ),
-            const SizedBox(
-              width: 5,
-            ),
-            child,
           ],
         ),
       ),
