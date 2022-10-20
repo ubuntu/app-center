@@ -24,15 +24,10 @@ jobs:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
       - run: sudo apt update
-      - run: sudo apt install -y clang cmake libblkid-dev libglib2.0-dev libgtk-3-dev liblzma-dev network-manager ninja-build packagekit pkg-config xmlstarlet xvfb
+      - run: sudo apt install -y clang cmake libblkid-dev libglib2.0-dev libgtk-3-dev liblzma-dev network-manager ninja-build packagekit pkg-config polkitd xvfb
       - run: |
           # See https://github.com/cockpit-project/cockpit/issues/8477
           sudo touch /etc/NetworkManager/conf.d/10-globally-managed-devices.conf
           sudo systemctl restart NetworkManager.service
-      - run: |
-          actionFile="/usr/share/polkit-1/actions/org.freedesktop.packagekit.policy"
-          installAction="org.freedesktop.packagekit.package-install-untrusted"
-          sudo xmlstarlet ed -L -u "//action[@id='$installAction']/defaults/allow_active" -v yes $actionFile
-          removeAction="org.freedesktop.packagekit.package-remove"
-          sudo xmlstarlet ed -L -u "//action[@id='$installAction']/defaults/allow_active" -v yes $actionFile
+      - run: sudo cp integration_test/assets/packagekit-ci.pkla /var/lib/polkit-1/localauthority/50-local.d/
       - run: xvfb-run -a -s '-screen 0 1024x768x24 +extension GLX' flutter test integration_test
