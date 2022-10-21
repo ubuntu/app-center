@@ -78,7 +78,7 @@ class MyAppsPage extends StatelessWidget {
               children: [
                 AppFormatPopup(
                   appFormat: model.appFormat,
-                  onPressed: model.setAppFormat,
+                  onSelected: model.setAppFormat,
                 ),
               ],
             ),

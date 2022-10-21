@@ -23,11 +23,11 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class AppFormatPopup extends StatelessWidget {
   const AppFormatPopup({
     super.key,
-    required this.onPressed,
+    required this.onSelected,
     required this.appFormat,
   });
 
-  final void Function(AppFormat appFormat) onPressed;
+  final void Function(AppFormat appFormat) onSelected;
   final AppFormat appFormat;
 
   @override
@@ -39,14 +39,14 @@ class AppFormatPopup extends StatelessWidget {
         for (var appFormat in AppFormat.values)
           PopupMenuItem(
             value: appFormat,
-            onTap: () => onPressed(appFormat),
+            onTap: () => onSelected(appFormat),
             child: Text(
               appFormat.localize(context.l10n),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           )
       ],
-      onSelected: onPressed,
+      onSelected: onSelected,
       child: Text(appFormat.localize(context.l10n)),
     );
   }

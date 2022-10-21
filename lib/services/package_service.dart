@@ -614,11 +614,11 @@ class PackageService {
     setReposChanged(true);
   }
 
-  String? _searchQuery;
+  Iterable<String>? _searchQuery;
   PackageKitTransaction? _searchTransaction;
 
   Future<List<PackageKitPackageId>> findPackageKitPackageIds({
-    required String searchQuery,
+    required Iterable<String> searchQuery,
     Set<PackageKitFilter> filter = const {},
   }) async {
     _searchQuery = searchQuery;
@@ -641,7 +641,7 @@ class PackageService {
       });
       _searchTransaction = transaction;
       await transaction.searchNames(
-        [searchQuery],
+        searchQuery,
         filter: filter,
       );
       await completer.future;

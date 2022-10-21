@@ -26,6 +26,8 @@ import 'package:software/store_app/common/app_format.dart';
 import 'package:software/store_app/common/app_format_popup.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/packagekit_filter_button.dart';
+import 'package:software/store_app/common/packagekit_group_button.dart';
 import 'package:software/store_app/common/snap_section_popup.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -52,13 +54,23 @@ class SearchPage extends StatelessWidget {
               children: [
                 AppFormatPopup(
                   appFormat: model.appFormat,
-                  onPressed: model.setAppFormat,
+                  onSelected: model.setAppFormat,
                 ),
                 if (model.appFormat == AppFormat.snap)
                   SnapSectionPopup(
                     value: model.selectedSection,
-                    onChanged: (v) => model.selectedSection = v,
+                    onSelected: (v) => model.selectedSection = v,
                   ),
+                if (model.appFormat == AppFormat.packageKit)
+                  PackageKitFilterButton(
+                    onSelected: (v) => model.setPackageKitFilter(v),
+                    value: model.packageKitFilter,
+                  ),
+                if (model.appFormat == AppFormat.packageKit)
+                  PackageKitGroupButton(
+                    onSelected: (v) => model.setPackageKitGroup(v),
+                    value: model.packageKitGroup,
+                  )
               ],
             ),
           ),
@@ -155,9 +167,7 @@ class _PackageKitSearchPageState extends State<_PackageKitSearchPage> {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: FutureBuilder<List<PackageKitPackageId>>(
-        future: model.findPackageKitPackageIds(
-          filter: {PackageKitFilter.newest, PackageKitFilter.notDevelopment},
-        ),
+        future: model.findPackageKitPackageIds(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const _WaitPage(message: '');

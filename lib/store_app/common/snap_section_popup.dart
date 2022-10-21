@@ -25,17 +25,17 @@ class SnapSectionPopup extends StatelessWidget {
     // ignore: unused_element
     super.key,
     required this.value,
-    required this.onChanged,
+    required this.onSelected,
   });
 
   final SnapSection value;
-  final Function(SnapSection) onChanged;
+  final Function(SnapSection) onSelected;
 
   @override
   Widget build(BuildContext context) {
     return YaruPopupMenuButton(
       initialValue: value,
-      onSelected: onChanged,
+      onSelected: onSelected,
       tooltip: context.l10n.filterSnaps,
       items: [
         for (final section in SnapSection.values)
