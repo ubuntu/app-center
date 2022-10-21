@@ -199,7 +199,7 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  PackageKitGroup _packageKitGroup = PackageKitGroup.desktopGnome;
+  PackageKitGroup _packageKitGroup = PackageKitGroup.unknown;
   PackageKitGroup get packageKitGroup => _packageKitGroup;
   void setPackageKitGroup(PackageKitGroup value) {
     if (value == _packageKitGroup) return;
@@ -207,7 +207,7 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  PackageKitFilter _packageKitFilter = PackageKitFilter.gui;
+  PackageKitFilter _packageKitFilter = PackageKitFilter.none;
   PackageKitFilter get packageKitFilter => _packageKitFilter;
   void setPackageKitFilter(PackageKitFilter value) {
     if (value == _packageKitFilter) return;

@@ -19,6 +19,7 @@ class PackageKitGroupButton extends StatelessWidget {
     return YaruPopupMenuButton<PackageKitGroup>(
       onSelected: onSelected,
       initialValue: value,
+      tooltip: context.l10n.packageKitGroup,
       items: [
         for (final group in PackageKitGroup.values)
           PopupMenuItem(value: group, child: Text(group.localize(context.l10n)))

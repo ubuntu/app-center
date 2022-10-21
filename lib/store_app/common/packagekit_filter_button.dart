@@ -19,6 +19,7 @@ class PackageKitFilterButton extends StatelessWidget {
     return YaruPopupMenuButton<PackageKitFilter>(
       onSelected: onSelected,
       initialValue: value,
+      tooltip: context.l10n.packageKitFilter,
       items: [
         for (final v in PackageKitFilter.values)
           PopupMenuItem(value: v, child: Text(v.localize(context.l10n)))
