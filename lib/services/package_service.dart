@@ -344,7 +344,7 @@ class PackageService {
         .toList();
     if (selectedUpdates.isEmpty) return;
     final updatePackagesTransaction = await _client.createTransaction();
-    final updatePackagesCompleter = Completer();
+    final completer = Completer();
     setUpdatesState(UpdatesState.updating);
     final subscription = updatePackagesTransaction.events.listen((event) {
       if (event is PackageKitRequireRestartEvent) {
@@ -360,11 +360,11 @@ class PackageService {
       } else if (event is PackageKitErrorCodeEvent) {
         setErrorMessage('${event.code}: ${event.details}');
       } else if (event is PackageKitFinishedEvent) {
-        updatePackagesCompleter.complete();
+        completer.complete();
       }
     });
     await updatePackagesTransaction.updatePackages(selectedUpdates);
-    await updatePackagesCompleter.future.whenComplete(subscription.cancel);
+    await completer.future.whenComplete(subscription.cancel);
     _updates.clear();
     setInfo(null);
     setStatus(null);
@@ -439,24 +439,24 @@ class PackageService {
 
   Future<PackageKitGroup> _getGroup(PackageKitPackageId id) async {
     final installTransaction = await _client.createTransaction();
-    final detailsCompleter = Completer();
+    final completer = Completer();
     PackageKitGroup? group;
     final subscription = installTransaction.events.listen((event) {
       if (event is PackageKitDetailsEvent) {
         group = event.group;
       } else if (event is PackageKitFinishedEvent) {
-        detailsCompleter.complete();
+        completer.complete();
       }
     });
     await installTransaction.getDetails([id]);
-    await detailsCompleter.future.whenComplete(subscription.cancel);
+    await completer.future.whenComplete(subscription.cancel);
     return group ?? PackageKitGroup.unknown;
   }
 
   /// Removes with package with [packageId]
   Future<void> remove({required PackageKitPackageId packageId}) async {
     final removeTransaction = await _client.createTransaction();
-    final removeCompleter = Completer();
+    final completer = Completer();
     setPackageState(PackageState.processing);
     final subscription = removeTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
@@ -466,11 +466,11 @@ class PackageService {
           setPackagePercentage(100 - event.percentage);
         }
       } else if (event is PackageKitFinishedEvent) {
-        removeCompleter.complete();
+        completer.complete();
       }
     });
     await removeTransaction.removePackages([packageId]);
-    await removeCompleter.future.whenComplete(subscription.cancel);
+    await completer.future.whenComplete(subscription.cancel);
     if (_localId != null) {
       setIsInstalled(false);
       await getDetails(packageId: _localId!);
@@ -484,18 +484,18 @@ class PackageService {
   Future<void> install({required PackageKitPackageId packageId}) async {
     final installTransaction = await _client.createTransaction();
     setPackageState(PackageState.processing);
-    final installCompleter = Completer();
+    final completer = Completer();
     final subscription = installTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         setInfo(event.info);
       } else if (event is PackageKitItemProgressEvent) {
         setPackagePercentage(event.percentage);
       } else if (event is PackageKitFinishedEvent) {
-        installCompleter.complete();
+        completer.complete();
       }
     });
     await installTransaction.installPackages([packageId]);
-    await installCompleter.future.whenComplete(subscription.cancel);
+    await completer.future.whenComplete(subscription.cancel);
     isIdInstalled(id: packageId);
     setPackageState(PackageState.ready);
   }
@@ -525,7 +525,7 @@ class PackageService {
   /// Get the details about the package or update with given [packageId]
   Future<void> getDetails({required PackageKitPackageId packageId}) async {
     var installTransaction = await _client.createTransaction();
-    var detailsCompleter = Completer();
+    var completer = Completer();
     final subscription = installTransaction.events.listen((event) {
       if (event is PackageKitDetailsEvent) {
         setSummary(event.summary);
@@ -535,11 +535,11 @@ class PackageService {
         setDescription(event.description);
         setGroup(event.group);
       } else if (event is PackageKitFinishedEvent) {
-        detailsCompleter.complete();
+        completer.complete();
       }
     });
     await installTransaction.getDetails([packageId]);
-    return detailsCompleter.future.whenComplete(subscription.cancel);
+    return completer.future.whenComplete(subscription.cancel);
   }
 
   /// Get more details about given [packageId]
@@ -658,7 +658,7 @@ class PackageService {
   }) async {
     if (path.isEmpty || !(await fileSystem.file(path).exists())) return;
     final transaction = await _client.createTransaction();
-    final detailsCompleter = Completer();
+    final completer = Completer();
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitDetailsEvent) {
         _localId = event.packageId;
@@ -670,11 +670,11 @@ class PackageService {
         setGroup(event.group);
         setDescription(event.description);
       } else if (event is PackageKitFinishedEvent) {
-        detailsCompleter.complete();
+        completer.complete();
       }
     });
     await transaction.getDetailsLocal([path]);
-    await detailsCompleter.future.whenComplete(subscription.cancel);
+    await completer.future.whenComplete(subscription.cancel);
     if (_localId != null) {
       await isIdInstalled(id: _localId!);
     }
@@ -687,7 +687,7 @@ class PackageService {
     if (path != null && path.isEmpty ||
         !(await fileSystem.file(path!).exists())) return;
     final installTransaction = await _client.createTransaction();
-    final installCompleter = Completer();
+    final completer = Completer();
     setPackageState(PackageState.processing);
     final subscription = installTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
@@ -695,11 +695,11 @@ class PackageService {
       } else if (event is PackageKitItemProgressEvent) {
         setPackagePercentage(event.percentage);
       } else if (event is PackageKitFinishedEvent) {
-        installCompleter.complete();
+        completer.complete();
       }
     });
     await installTransaction.installFiles([path]);
-    await installCompleter.future.whenComplete(subscription.cancel);
+    await completer.future.whenComplete(subscription.cancel);
     if (_localId != null) {
       await isIdInstalled(id: _localId!);
       await getDetails(packageId: _localId!);
