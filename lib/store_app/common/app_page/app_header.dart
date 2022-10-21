@@ -17,7 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:software/store_app/common/app_data.dart';
-import 'package:software/store_app/common/app_infos.dart';
+import 'package:software/store_app/common/app_page/app_infos.dart';
 import 'package:software/store_app/common/app_website.dart';
 import 'package:url_launcher/url_launcher.dart';
 

@@ -17,12 +17,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:software/store_app/common/app_data.dart';
-import 'package:software/store_app/common/app_description.dart';
-import 'package:software/store_app/common/app_header.dart';
-import 'package:software/store_app/common/app_infos.dart';
+import 'package:software/store_app/common/app_page/app_description.dart';
+import 'package:software/store_app/common/app_page/app_header.dart';
+import 'package:software/store_app/common/app_page/app_infos.dart';
 import 'package:software/store_app/common/border_container.dart';
-import 'package:software/store_app/common/media_tile.dart';
-import 'package:software/store_app/common/page_layouts.dart';
+import 'package:software/store_app/common/app_page/media_tile.dart';
+import 'package:software/store_app/common/app_page/page_layouts.dart';
 import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';

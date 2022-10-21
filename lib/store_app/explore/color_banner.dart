@@ -24,7 +24,7 @@ import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/app_website.dart';
-import 'package:software/store_app/common/snap_model.dart';
+import 'package:software/store_app/common/snap/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 

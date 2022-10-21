@@ -17,7 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/snap_sort.dart';
+import 'package:software/store_app/common/snap/snap_sort.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapSortPopup extends StatelessWidget {

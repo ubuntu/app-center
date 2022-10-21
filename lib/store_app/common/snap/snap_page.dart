@@ -21,11 +21,11 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_icon.dart';
-import 'package:software/store_app/common/app_page.dart';
+import 'package:software/store_app/common/app_page/app_page.dart';
 import 'package:software/store_app/common/border_container.dart';
-import 'package:software/store_app/common/snap_connections_settings.dart';
-import 'package:software/store_app/common/snap_controls.dart';
-import 'package:software/store_app/common/snap_model.dart';
+import 'package:software/store_app/common/snap/snap_connections_settings.dart';
+import 'package:software/store_app/common/snap/snap_controls.dart';
+import 'package:software/store_app/common/snap/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class SnapPage extends StatefulWidget {

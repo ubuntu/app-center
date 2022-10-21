@@ -22,7 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
-import 'package:software/store_app/common/package_model.dart';
+import 'package:software/store_app/common/packagekit/package_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';

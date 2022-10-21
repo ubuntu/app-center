@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/packagekit_group_x.dart';
-import 'package:software/store_app/common/packagekit_group_utils.dart';
+import 'package:software/store_app/common/packagekit/packagekit_group_utils.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageKitGroupButton extends StatelessWidget {
