@@ -35,7 +35,7 @@ class PackageKitGroupButton extends StatelessWidget {
                 SizedBox(
                   width: 20,
                   child: Icon(
-                    packagekitGroupToIcon[group],
+                    packageKitGroupToIcon[group],
                     color: Theme.of(context)
                         .colorScheme
                         .onSurface
