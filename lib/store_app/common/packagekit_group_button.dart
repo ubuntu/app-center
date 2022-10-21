@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/packagekit_group_x.dart';
+import 'package:software/store_app/common/packagekit_group_utils.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageKitGroupButton extends StatelessWidget {
@@ -22,7 +23,37 @@ class PackageKitGroupButton extends StatelessWidget {
       tooltip: context.l10n.packageKitGroup,
       items: [
         for (final group in PackageKitGroup.values)
-          PopupMenuItem(value: group, child: Text(group.localize(context.l10n)))
+          PopupMenuItem(
+            value: group,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  width: 5,
+                ),
+                SizedBox(
+                  width: 20,
+                  child: Icon(
+                    packageKitGroupToIcon[group],
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.8),
+                    size: 18,
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  group.localize(context.l10n),
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+            ),
+          )
       ],
       child: Text(value.name),
     );

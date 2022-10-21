@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
-final packagekitGroupToIcon = <PackageKitGroup, IconData>{
+final packageKitGroupToIcon = <PackageKitGroup, IconData>{
   PackageKitGroup.unknown: YaruIcons.question,
   PackageKitGroup.accessibility: YaruIcons.accessibility,
   PackageKitGroup.accessories: YaruIcons.utilities,
@@ -20,7 +20,7 @@ final packagekitGroupToIcon = <PackageKitGroup, IconData>{
   PackageKitGroup.legacy: YaruIcons.hourglass,
   PackageKitGroup.localization: YaruIcons.localization,
   PackageKitGroup.maps: YaruIcons.location,
-  PackageKitGroup.multimedia: YaruIcons.multimedia_player,
+  PackageKitGroup.multimedia: YaruIcons.media_playback_start,
   PackageKitGroup.network: YaruIcons.network,
   PackageKitGroup.office: YaruIcons.document,
   PackageKitGroup.other: YaruIcons.question,
