@@ -290,7 +290,7 @@ class PackageService {
     setErrorMessage('');
     final transaction = await _client.createTransaction();
     final completer = Completer();
-    transaction.events.listen((event) {
+    final subscription = transaction.events.listen((event) {
       if (event is PackageKitRepositoryDetailEvent) {
         // print(event.description);
       } else if (event is PackageKitErrorCodeEvent) {
@@ -309,7 +309,7 @@ class PackageService {
     _idsToGroups.clear();
     final transaction = await _client.createTransaction();
     final completer = Completer();
-    transaction.events.listen((event) {
+    final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         final id = event.packageId;
         _updates.putIfAbsent(id, () => true);
@@ -346,7 +346,7 @@ class PackageService {
     final updatePackagesTransaction = await _client.createTransaction();
     final updatePackagesCompleter = Completer();
     setUpdatesState(UpdatesState.updating);
-    updatePackagesTransaction.events.listen((event) {
+    final subscription = updatePackagesTransaction.events.listen((event) {
       if (event is PackageKitRequireRestartEvent) {
         setRequireRestart(event.type);
       }
@@ -418,7 +418,7 @@ class PackageService {
   }) async {
     final transaction = await _client.createTransaction();
     final completer = Completer();
-    transaction.events.listen((event) {
+    final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         ids.putIfAbsent(
           event.packageId.name,
@@ -441,7 +441,7 @@ class PackageService {
     final installTransaction = await _client.createTransaction();
     final detailsCompleter = Completer();
     PackageKitGroup? group;
-    installTransaction.events.listen((event) {
+    final subscription = installTransaction.events.listen((event) {
       if (event is PackageKitDetailsEvent) {
         group = event.group;
       } else if (event is PackageKitFinishedEvent) {
@@ -458,7 +458,7 @@ class PackageService {
     final removeTransaction = await _client.createTransaction();
     final removeCompleter = Completer();
     setPackageState(PackageState.processing);
-    removeTransaction.events.listen((event) {
+    final subscription = removeTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         setInfo(event.info);
       } else if (event is PackageKitItemProgressEvent) {
@@ -486,7 +486,7 @@ class PackageService {
     final installTransaction = await _client.createTransaction();
     setPackageState(PackageState.processing);
     final installCompleter = Completer();
-    installTransaction.events.listen((event) {
+    final subscription = installTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         setInfo(event.info);
       } else if (event is PackageKitItemProgressEvent) {
@@ -506,7 +506,7 @@ class PackageService {
     setPackageState(PackageState.processing);
     final transaction = await _client.createTransaction();
     final completer = Completer();
-    transaction.events.listen((event) {
+    final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         final installed = event.info == PackageKitInfo.installed;
         setIsInstalled(installed);
@@ -528,7 +528,7 @@ class PackageService {
   Future<void> getDetails({required PackageKitPackageId packageId}) async {
     var installTransaction = await _client.createTransaction();
     var detailsCompleter = Completer();
-    installTransaction.events.listen((event) {
+    final subscription = installTransaction.events.listen((event) {
       if (event is PackageKitDetailsEvent) {
         setSummary(event.summary);
         setUrl(event.url);
@@ -551,7 +551,7 @@ class PackageService {
     setChangelog('');
     final transaction = await _client.createTransaction();
     final completer = Completer();
-    transaction.events.listen((event) {
+    final subscription = transaction.events.listen((event) {
       if (event is PackageKitUpdateDetailEvent) {
         setChangelog(event.changelog);
         setIssued(
@@ -573,7 +573,7 @@ class PackageService {
     _repos.clear();
     final transaction = await _client.createTransaction();
     final completer = Completer();
-    transaction.events.listen((event) {
+    final subscription = transaction.events.listen((event) {
       if (event is PackageKitRepositoryDetailEvent) {
         _repos.add(event);
         setReposChanged(true);
@@ -590,7 +590,7 @@ class PackageService {
   Future<void> toggleRepo({required String id, required bool value}) async {
     final transaction = await _client.createTransaction();
     final completer = Completer();
-    transaction.events.listen((event) {
+    final subscription = transaction.events.listen((event) {
       if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
@@ -630,7 +630,7 @@ class PackageService {
       final List<PackageKitPackageId> ids = [];
       final transaction = await _client.createTransaction();
       final completer = Completer();
-      transaction.events.listen((event) {
+      final subscription = transaction.events.listen((event) {
         if (event is PackageKitPackageEvent) {
           final id = event.packageId;
           ids.add(id);
@@ -661,7 +661,7 @@ class PackageService {
     if (path.isEmpty || !(await fileSystem.file(path).exists())) return;
     final transaction = await _client.createTransaction();
     final detailsCompleter = Completer();
-    transaction.events.listen((event) {
+    final subscription = transaction.events.listen((event) {
       if (event is PackageKitDetailsEvent) {
         _localId = event.packageId;
         setProcessedId(event.packageId);
@@ -691,7 +691,7 @@ class PackageService {
     final installTransaction = await _client.createTransaction();
     final installCompleter = Completer();
     setPackageState(PackageState.processing);
-    installTransaction.events.listen((event) {
+    final subscription = installTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         _localId = event.packageId;
       } else if (event is PackageKitItemProgressEvent) {
