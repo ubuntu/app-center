@@ -18,8 +18,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/snap_channel_button.dart';
-import 'package:software/store_app/common/snap_model.dart';
+import 'package:software/store_app/common/snap/snap_channel_button.dart';
+import 'package:software/store_app/common/snap/snap_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapControls extends StatelessWidget {

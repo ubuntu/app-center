@@ -21,7 +21,7 @@ import 'package:software/snapx.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/snap_section.dart';
+import 'package:software/store_app/common/snap/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 

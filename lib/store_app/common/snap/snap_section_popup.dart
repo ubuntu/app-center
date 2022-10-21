@@ -17,7 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/snap_section.dart';
+import 'package:software/store_app/common/snap/snap_section.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapSectionPopup extends StatelessWidget {

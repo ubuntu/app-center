@@ -23,8 +23,8 @@ import 'package:snapd/snapd.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
-import 'package:software/store_app/common/snap_section.dart';
-import 'package:software/store_app/common/snap_sort.dart';
+import 'package:software/store_app/common/snap/snap_section.dart';
+import 'package:software/store_app/common/snap/snap_sort.dart';
 import 'package:software/updates_state.dart';
 
 class ExploreModel extends SafeChangeNotifier {

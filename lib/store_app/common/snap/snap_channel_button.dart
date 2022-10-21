@@ -20,7 +20,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:software/store_app/common/snap_model.dart';
+import 'package:software/store_app/common/snap/snap_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapChannelPopupButton extends StatelessWidget {
