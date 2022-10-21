@@ -21,7 +21,7 @@ class PackageKitGroupButton extends StatelessWidget {
       onSelected: onSelected,
       initialValue: value,
       tooltip: context.l10n.packageKitGroup,
-      items: [
+      itemBuilder: (v) => [
         for (final group in PackageKitGroup.values)
           PopupMenuItem(
             value: group,

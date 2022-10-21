@@ -38,7 +38,7 @@ class SnapChannelPopupButton extends StatelessWidget {
 
     return YaruPopupMenuButton(
       initialValue: model.channelToBeInstalled,
-      items: [
+      itemBuilder: (v) => [
         for (final entry in model.selectableChannels.entries)
           PopupMenuItem(
             value: entry.key,

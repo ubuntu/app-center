@@ -35,7 +35,7 @@ class AppFormatPopup extends StatelessWidget {
     return YaruPopupMenuButton(
       initialValue: appFormat,
       tooltip: context.l10n.appFormat,
-      items: [
+      itemBuilder: (v) => [
         for (var appFormat in AppFormat.values)
           PopupMenuItem(
             value: appFormat,

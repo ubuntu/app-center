@@ -63,8 +63,8 @@ class SearchPage extends StatelessWidget {
                   ),
                 if (model.appFormat == AppFormat.packageKit)
                   PackageKitFilterButton(
-                    onSelected: (v) => model.setPackageKitFilter(v),
-                    value: model.packageKitFilter,
+                    onTap: model.handleFilter,
+                    filters: model.packageKitFilters,
                   ),
                 if (model.appFormat == AppFormat.packageKit)
                   PackageKitGroupButton(
