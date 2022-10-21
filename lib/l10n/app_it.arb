@@ -172,5 +172,7 @@
   "artAndDesign": "Arte e Disegno",
   "@artAndDesign": {},
   "myAppsPageTitle": "Le mie App",
-  "@myAppsPageTitle": {}
+  "@myAppsPageTitle": {},
+  "appFormat": "Il formato del pacchetto delle applicazioni",
+  "@appFormat": {}
 }

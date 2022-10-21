@@ -169,8 +169,10 @@
   "@runsInBackground": {},
   "quit": "Salir",
   "@quit": {},
-  "quitDanger": "¡Atención! Las actualizaciones del sistema se están ejecutando actualmente. ¡Salir de la aplicación ahora podría dejar su sistema en un estado dañado!",
+  "quitDanger": "¡Atención! Las actualizaciones del sistema se están ejecutando actualmente. Salir de la aplicación ahora podría dejar su sistema en un estado inutilizable.",
   "@quitDanger": {},
   "cancel": "Cancelar",
-  "@cancel": {}
+  "@cancel": {},
+  "appFormat": "El formato de empaquetamiento de las aplicaciones",
+  "@appFormat": {}
 }
