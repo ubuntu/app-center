@@ -301,6 +301,7 @@ class PackageService {
     });
     await transaction.refreshCache();
     await completer.future;
+    await subscription.cancel();
   }
 
   Future<void> _getUpdates({Set<PackageKitFilter> filter = const {}}) async {
@@ -324,6 +325,7 @@ class PackageService {
     });
     await transaction.getUpdates(filter: filter);
     await completer.future;
+    await subscription.cancel();
     for (var entry in _updates.entries) {
       if (!_idsToGroups.containsKey(entry.key)) {
         final PackageKitGroup group = await _getGroup(entry.key);
@@ -365,6 +367,7 @@ class PackageService {
     });
     await updatePackagesTransaction.updatePackages(selectedUpdates);
     await updatePackagesCompleter.future;
+    await subscription.cancel();
     _updates.clear();
     setInfo(null);
     setStatus(null);
@@ -435,6 +438,7 @@ class PackageService {
       filter: filters,
     );
     await completer.future;
+    await subscription.cancel();
   }
 
   Future<PackageKitGroup> _getGroup(PackageKitPackageId id) async {
@@ -450,6 +454,7 @@ class PackageService {
     });
     await installTransaction.getDetails([id]);
     await detailsCompleter.future;
+    await subscription.cancel();
     return group ?? PackageKitGroup.unknown;
   }
 
@@ -472,6 +477,7 @@ class PackageService {
     });
     await removeTransaction.removePackages([packageId]);
     await removeCompleter.future;
+    await subscription.cancel();
     if (_localId != null) {
       setIsInstalled(false);
       await getDetails(packageId: _localId!);
@@ -497,6 +503,7 @@ class PackageService {
     });
     await installTransaction.installPackages([packageId]);
     await installCompleter.future;
+    await subscription.cancel();
     isIdInstalled(id: packageId);
     setPackageState(PackageState.ready);
   }
@@ -517,10 +524,10 @@ class PackageService {
         completer.complete();
       }
     });
-
     await transaction
         .searchNames([id.name], filter: {PackageKitFilter.installed});
     await completer.future;
+    await subscription.cancel();
     setPackageState(PackageState.ready);
   }
 
@@ -542,6 +549,7 @@ class PackageService {
     });
     await installTransaction.getDetails([packageId]);
     await detailsCompleter.future;
+    await subscription.cancel();
   }
 
   /// Get more details about given [packageId]
@@ -566,6 +574,7 @@ class PackageService {
     });
     await transaction.getUpdateDetail([packageId]);
     await completer.future;
+    await subscription.cancel();
   }
 
   Future<void> _loadRepoList() async {
@@ -585,6 +594,7 @@ class PackageService {
     });
     await transaction.getRepositoryList();
     await completer.future;
+    await subscription.cancel();
   }
 
   Future<void> toggleRepo({required String id, required bool value}) async {
@@ -597,6 +607,7 @@ class PackageService {
     });
     await transaction.setRepositoryEnabled(id, value);
     await completer.future;
+    await subscription.cancel();
     setReposChanged(true);
   }
 
@@ -645,6 +656,7 @@ class PackageService {
         filter: filter,
       );
       await completer.future;
+      await subscription.cancel();
       _searchTransaction = null;
 
       return ids.take(20).toList();
@@ -677,6 +689,7 @@ class PackageService {
     });
     await transaction.getDetailsLocal([path]);
     await detailsCompleter.future;
+    await subscription.cancel();
     if (_localId != null) {
       await isIdInstalled(id: _localId!);
     }
@@ -702,6 +715,7 @@ class PackageService {
     });
     await installTransaction.installFiles([path]);
     await installCompleter.future;
+    await subscription.cancel();
     if (_localId != null) {
       await isIdInstalled(id: _localId!);
       await getDetails(packageId: _localId!);
