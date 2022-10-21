@@ -300,8 +300,7 @@ class PackageService {
       }
     });
     await transaction.refreshCache();
-    await completer.future;
-    await subscription.cancel();
+    return completer.future.whenComplete(subscription.cancel);
   }
 
   Future<void> _getUpdates({Set<PackageKitFilter> filter = const {}}) async {
@@ -324,8 +323,7 @@ class PackageService {
       }
     });
     await transaction.getUpdates(filter: filter);
-    await completer.future;
-    await subscription.cancel();
+    await completer.future.whenComplete(subscription.cancel);
     for (var entry in _updates.entries) {
       if (!_idsToGroups.containsKey(entry.key)) {
         final PackageKitGroup group = await _getGroup(entry.key);
@@ -366,8 +364,7 @@ class PackageService {
       }
     });
     await updatePackagesTransaction.updatePackages(selectedUpdates);
-    await updatePackagesCompleter.future;
-    await subscription.cancel();
+    await updatePackagesCompleter.future.whenComplete(subscription.cancel);
     _updates.clear();
     setInfo(null);
     setStatus(null);
@@ -437,8 +434,7 @@ class PackageService {
     await transaction.getPackages(
       filter: filters,
     );
-    await completer.future;
-    await subscription.cancel();
+    return completer.future.whenComplete(subscription.cancel);
   }
 
   Future<PackageKitGroup> _getGroup(PackageKitPackageId id) async {
@@ -453,8 +449,7 @@ class PackageService {
       }
     });
     await installTransaction.getDetails([id]);
-    await detailsCompleter.future;
-    await subscription.cancel();
+    await detailsCompleter.future.whenComplete(subscription.cancel);
     return group ?? PackageKitGroup.unknown;
   }
 
@@ -470,14 +465,12 @@ class PackageService {
         if (event.status == PackageKitStatus.remove) {
           setPackagePercentage(100 - event.percentage);
         }
-      } else if (event is PackageKitErrorCodeEvent) {
       } else if (event is PackageKitFinishedEvent) {
         removeCompleter.complete();
       }
     });
     await removeTransaction.removePackages([packageId]);
-    await removeCompleter.future;
-    await subscription.cancel();
+    await removeCompleter.future.whenComplete(subscription.cancel);
     if (_localId != null) {
       setIsInstalled(false);
       await getDetails(packageId: _localId!);
@@ -502,8 +495,7 @@ class PackageService {
       }
     });
     await installTransaction.installPackages([packageId]);
-    await installCompleter.future;
-    await subscription.cancel();
+    await installCompleter.future.whenComplete(subscription.cancel);
     isIdInstalled(id: packageId);
     setPackageState(PackageState.ready);
   }
@@ -526,8 +518,7 @@ class PackageService {
     });
     await transaction
         .searchNames([id.name], filter: {PackageKitFilter.installed});
-    await completer.future;
-    await subscription.cancel();
+    await completer.future.whenComplete(subscription.cancel);
     setPackageState(PackageState.ready);
   }
 
@@ -548,8 +539,7 @@ class PackageService {
       }
     });
     await installTransaction.getDetails([packageId]);
-    await detailsCompleter.future;
-    await subscription.cancel();
+    return detailsCompleter.future.whenComplete(subscription.cancel);
   }
 
   /// Get more details about given [packageId]
@@ -573,8 +563,7 @@ class PackageService {
       }
     });
     await transaction.getUpdateDetail([packageId]);
-    await completer.future;
-    await subscription.cancel();
+    return completer.future.whenComplete(subscription.cancel);
   }
 
   Future<void> _loadRepoList() async {
@@ -593,8 +582,7 @@ class PackageService {
       }
     });
     await transaction.getRepositoryList();
-    await completer.future;
-    await subscription.cancel();
+    return completer.future.whenComplete(subscription.cancel);
   }
 
   Future<void> toggleRepo({required String id, required bool value}) async {
@@ -606,8 +594,7 @@ class PackageService {
       }
     });
     await transaction.setRepositoryEnabled(id, value);
-    await completer.future;
-    await subscription.cancel();
+    await completer.future.whenComplete(subscription.cancel);
     setReposChanged(true);
   }
 
@@ -655,8 +642,7 @@ class PackageService {
         searchQuery,
         filter: filter,
       );
-      await completer.future;
-      await subscription.cancel();
+      await completer.future.whenComplete(subscription.cancel);
       _searchTransaction = null;
 
       return ids.take(20).toList();
@@ -688,8 +674,7 @@ class PackageService {
       }
     });
     await transaction.getDetailsLocal([path]);
-    await detailsCompleter.future;
-    await subscription.cancel();
+    await detailsCompleter.future.whenComplete(subscription.cancel);
     if (_localId != null) {
       await isIdInstalled(id: _localId!);
     }
@@ -714,8 +699,7 @@ class PackageService {
       }
     });
     await installTransaction.installFiles([path]);
-    await installCompleter.future;
-    await subscription.cancel();
+    await installCompleter.future.whenComplete(subscription.cancel);
     if (_localId != null) {
       await isIdInstalled(id: _localId!);
       await getDetails(packageId: _localId!);
