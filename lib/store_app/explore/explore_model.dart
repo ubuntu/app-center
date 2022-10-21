@@ -172,12 +172,10 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<PackageKitPackageId>> findPackageKitPackageIds({
-    Set<PackageKitFilter> filter = const {},
-  }) async =>
+  Future<List<PackageKitPackageId>> findPackageKitPackageIds() async =>
       _packageService.findPackageKitPackageIds(
-        searchQuery: searchQuery,
-        filter: filter,
+        searchQuery: [searchQuery, packageKitGroup.name],
+        filter: {packageKitFilter},
       );
 
   void clearSelection() {
@@ -198,6 +196,22 @@ class ExploreModel extends SafeChangeNotifier {
   void setSnapSort(SnapSort value) {
     if (value == _snapSort) return;
     _snapSort = value;
+    notifyListeners();
+  }
+
+  PackageKitGroup _packageKitGroup = PackageKitGroup.unknown;
+  PackageKitGroup get packageKitGroup => _packageKitGroup;
+  void setPackageKitGroup(PackageKitGroup value) {
+    if (value == _packageKitGroup) return;
+    _packageKitGroup = value;
+    notifyListeners();
+  }
+
+  PackageKitFilter _packageKitFilter = PackageKitFilter.none;
+  PackageKitFilter get packageKitFilter => _packageKitFilter;
+  void setPackageKitFilter(PackageKitFilter value) {
+    if (value == _packageKitFilter) return;
+    _packageKitFilter = value;
     notifyListeners();
   }
 }

@@ -641,7 +641,7 @@ class MockPackageService extends _i1.Mock implements _i6.PackageService {
       ) as _i4.Future<void>);
   @override
   _i4.Future<List<_i2.PackageKitPackageId>> findPackageKitPackageIds({
-    required String? searchQuery,
+    required Iterable<String> searchQuery,
     Set<_i2.PackageKitFilter>? filter = const {},
   }) =>
       (super.noSuchMethod(

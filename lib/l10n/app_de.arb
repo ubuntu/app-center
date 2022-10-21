@@ -86,5 +86,7 @@
   "runsInBackground": "Ubuntu Software läuft im Hintergrund weiter, um das System auf Aktualisierungen zu prüfen.",
   "quit": "Beenden",
   "quitDanger": "Achtung! Momentan werden Systemaktualisierungen durchgeführt. Wenn das Programm jetzt geschlossen wird, könnte Ihr System beschädigt werden!",
-  "appFormat": "Das Paketformat der Programme"
+  "appFormat": "Das Paketformat der Programme",
+  "packageKitGroup": "Die Kategorie",
+  "packageKitFilter": "Die Art des Pakets"
 } 

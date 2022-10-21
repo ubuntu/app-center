@@ -296,7 +296,8 @@ void main() {
   test('find package ids', () async {
     final service = PackageService();
 
-    final results = await service.findPackageKitPackageIds(searchQuery: 'fire');
+    final results =
+        await service.findPackageKitPackageIds(searchQuery: ['fire']);
     expect(results.length, 2);
     expect(results[0], firefoxPackageId);
     expect(
