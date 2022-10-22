@@ -371,8 +371,6 @@ void main() {
       emitsInOrder(
         [
           PackageState.processing,
-          PackageState.processing,
-          PackageState.ready,
           PackageState.ready,
         ],
       ),
@@ -391,8 +389,6 @@ void main() {
       emitsInOrder(
         [
           PackageState.processing,
-          PackageState.processing,
-          PackageState.ready,
           PackageState.ready,
         ],
       ),
@@ -413,8 +409,6 @@ void main() {
       emitsInOrder(
         [
           PackageState.processing,
-          PackageState.processing,
-          PackageState.ready,
           PackageState.ready,
         ],
       ),
