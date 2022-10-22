@@ -25,7 +25,7 @@
   "@sortBy": {},
   "done": "Fatto",
   "@done": {},
-  "updateSelected": "Aggiornamento selezionato",
+  "updateSelected": "Aggiorna selezione",
   "@updateSelected": {},
   "cancel": "Cancella",
   "@cancel": {},
@@ -174,5 +174,9 @@
   "myAppsPageTitle": "Le mie App",
   "@myAppsPageTitle": {},
   "appFormat": "Il formato del pacchetto delle applicazioni",
-  "@appFormat": {}
+  "@appFormat": {},
+  "packageKitGroup": "La categoria",
+  "@packageKitGroup": {},
+  "packageKitFilter": "Il tipo di pacchetto",
+  "@packageKitFilter": {}
 }
