@@ -466,16 +466,16 @@ class PackageService {
           setPackagePercentage(100 - event.percentage);
         }
       } else if (event is PackageKitFinishedEvent) {
+        if (event.exit == PackageKitExit.success) {
+          setIsInstalled(false);
+        }
         completer.complete();
       }
     });
     await removeTransaction.removePackages([packageId]);
     await completer.future.whenComplete(subscription.cancel);
     if (_localId != null) {
-      setIsInstalled(false);
       await getDetails(packageId: _localId!);
-    } else {
-      isIdInstalled(id: packageId);
     }
     setPackageState(PackageState.ready);
   }
@@ -491,25 +491,26 @@ class PackageService {
       } else if (event is PackageKitItemProgressEvent) {
         setPackagePercentage(event.percentage);
       } else if (event is PackageKitFinishedEvent) {
+        if (event.exit == PackageKitExit.success) {
+          setIsInstalled(true);
+        }
         completer.complete();
       }
     });
     await installTransaction.installPackages([packageId]);
     await completer.future.whenComplete(subscription.cancel);
-    isIdInstalled(id: packageId);
     setPackageState(PackageState.ready);
   }
 
   /// Check if an app with given [packageId] is installed.
   Future<void> isIdInstalled({required PackageKitPackageId id}) async {
     setPackageState(PackageState.processing);
+    var installed = false;
     final transaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
-        final installed = event.info == PackageKitInfo.installed;
-        setIsInstalled(installed);
-        setPackagePercentage(installed ? 100 : 0);
+        installed = event.info == PackageKitInfo.installed;
       } else if (event is PackageKitErrorCodeEvent) {
         setErrorMessage('${event.code}: ${event.details}');
       } else if (event is PackageKitFinishedEvent) {
@@ -519,6 +520,8 @@ class PackageService {
     await transaction
         .searchNames([id.name], filter: {PackageKitFilter.installed});
     await completer.future.whenComplete(subscription.cancel);
+    setIsInstalled(installed);
+    setPackagePercentage(installed ? 100 : 0);
     setPackageState(PackageState.ready);
   }
 
@@ -695,13 +698,15 @@ class PackageService {
       } else if (event is PackageKitItemProgressEvent) {
         setPackagePercentage(event.percentage);
       } else if (event is PackageKitFinishedEvent) {
+        if (event.exit == PackageKitExit.success) {
+          setIsInstalled(true);
+        }
         completer.complete();
       }
     });
     await installTransaction.installFiles([path]);
     await completer.future.whenComplete(subscription.cancel);
     if (_localId != null) {
-      await isIdInstalled(id: _localId!);
       await getDetails(packageId: _localId!);
     }
     setPackageState(PackageState.ready);

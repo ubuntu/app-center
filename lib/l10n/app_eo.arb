@@ -133,7 +133,7 @@
   "@changelogTooLong": {},
   "requireRestartSystem": "Restartigu la sistemon por fini ĝisdatigadon",
   "@requireRestartSystem": {},
-  "updateSelected": "Ĝisdatigo elektiĝis",
+  "updateSelected": "Ĝisdatigi elektitaĵo(j)n",
   "@updateSelected": {},
   "updateAvailable": "Ĝisdatigo estas havebla",
   "@updateAvailable": {},
@@ -174,5 +174,9 @@
   "media": "Aŭdvidaĵoj",
   "@media": {},
   "appFormat": "La pakformo de programoj",
-  "@appFormat": {}
+  "@appFormat": {},
+  "packageKitGroup": "La kategorio",
+  "@packageKitGroup": {},
+  "packageKitFilter": "La speco de pako",
+  "@packageKitFilter": {}
 }
