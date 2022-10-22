@@ -161,7 +161,7 @@
   "@deselectAll": {},
   "searchHint": "검색",
   "@searchHint": {},
-  "updateSelected": "선택한 업데이트",
+  "updateSelected": "선택한 패키지를 업데이트",
   "@updateSelected": {},
   "selectAll": "모두 선택하기",
   "@selectAll": {},
