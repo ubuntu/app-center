@@ -175,7 +175,7 @@ class ExploreModel extends SafeChangeNotifier {
   Future<List<PackageKitPackageId>> findPackageKitPackageIds() async =>
       _packageService.findPackageKitPackageIds(
         searchQuery: [searchQuery, packageKitGroup.name],
-        filter: {packageKitFilter},
+        filter: packageKitFilters,
       );
 
   void clearSelection() {
@@ -207,11 +207,23 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  PackageKitFilter _packageKitFilter = PackageKitFilter.none;
-  PackageKitFilter get packageKitFilter => _packageKitFilter;
-  void setPackageKitFilter(PackageKitFilter value) {
-    if (value == _packageKitFilter) return;
-    _packageKitFilter = value;
+  Set<PackageKitFilter> _packageKitFilters = {
+    PackageKitFilter.none,
+  };
+  Set<PackageKitFilter> get packageKitFilters => _packageKitFilters;
+  set packageKitFilters(Set<PackageKitFilter> value) {
+    if (value == _packageKitFilters) return;
+    _packageKitFilters = value;
+    notifyListeners();
+  }
+
+  void handleFilter(PackageKitFilter filter) {
+    if (_packageKitFilters.contains(filter) && _packageKitFilters.length > 1) {
+      _packageKitFilters.remove(filter);
+    } else {
+      _packageKitFilters.add(filter);
+    }
+
     notifyListeners();
   }
 }

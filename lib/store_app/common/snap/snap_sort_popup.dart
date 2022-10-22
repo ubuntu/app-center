@@ -35,7 +35,7 @@ class SnapSortPopup extends StatelessWidget {
       initialValue: value,
       onSelected: onSelected,
       tooltip: context.l10n.sortBy,
-      items: [
+      itemBuilder: (v) => [
         for (var appFormat in SnapSort.values)
           PopupMenuItem(
             value: appFormat,

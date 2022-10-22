@@ -37,7 +37,7 @@ class SnapSectionPopup extends StatelessWidget {
       initialValue: value,
       onSelected: onSelected,
       tooltip: context.l10n.filterSnaps,
-      items: [
+      itemBuilder: (v) => [
         for (final section in SnapSection.values)
           PopupMenuItem(
             value: section,

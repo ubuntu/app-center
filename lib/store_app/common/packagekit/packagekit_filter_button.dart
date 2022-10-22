@@ -7,24 +7,33 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class PackageKitFilterButton extends StatelessWidget {
   const PackageKitFilterButton({
     super.key,
-    required this.onSelected,
-    required this.value,
+    required this.onTap,
+    required this.filters,
   });
 
-  final PackageKitFilter value;
-  final Function(PackageKitFilter)? onSelected;
+  final Set<PackageKitFilter> filters;
+  final Function(PackageKitFilter filter) onTap;
 
   @override
   Widget build(BuildContext context) {
-    return YaruPopupMenuButton<PackageKitFilter>(
-      onSelected: onSelected,
-      initialValue: value,
-      tooltip: context.l10n.packageKitFilter,
-      items: [
-        for (final v in PackageKitFilter.values)
-          PopupMenuItem(value: v, child: Text(v.localize(context.l10n)))
-      ],
-      child: Text(value.name),
+    return YaruPopupMenuButton<Set<PackageKitFilter>>(
+      itemBuilder: (context) {
+        return [
+          for (final filter in PackageKitFilter.values)
+            PopupMenuItem(
+              padding: EdgeInsets.zero,
+              child: YaruMultiSelectItem<PackageKitFilter>(
+                values: filters,
+                value: filter,
+                onTap: () => onTap(filter),
+                child: Text(
+                  filter.localize(context.l10n),
+                ),
+              ),
+            ),
+        ];
+      },
+      child: Text(context.l10n.packageKitFilter),
     );
   }
 }
