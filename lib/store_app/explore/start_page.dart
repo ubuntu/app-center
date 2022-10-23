@@ -51,7 +51,7 @@ class _StartPageState extends State<StartPage> {
     }
 
     return GridView.builder(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         mainAxisExtent: 200,

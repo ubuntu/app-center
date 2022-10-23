@@ -73,7 +73,8 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
 
     return GridView.builder(
       controller: _controller,
-      padding: widget.padding ?? const EdgeInsets.all(20),
+      padding: widget.padding ??
+          const EdgeInsets.only(bottom: 20, left: 20, right: 20),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
       itemCount: sections.take(_amount).length,
