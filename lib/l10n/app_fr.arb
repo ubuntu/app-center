@@ -172,5 +172,11 @@
   "readyToUpdate": "Prêt à appliquer les mises à jour",
   "@readyToUpdate": {},
   "architecture": "Architecture",
-  "@architecture": {}
+  "@architecture": {},
+  "appFormat": "Le format de paquet des applications",
+  "@appFormat": {},
+  "packageKitGroup": "La catégorie",
+  "@packageKitGroup": {},
+  "packageKitFilter": "Le type de paquet",
+  "@packageKitFilter": {}
 }
