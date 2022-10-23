@@ -88,5 +88,6 @@
   "quitDanger": "Attention! System updates are currently running. Quitting the App now could leave your system in a damaged state!",
   "appFormat": "The package format of applications",
   "packageKitGroup": "The category",
-  "packageKitFilter": "The type of package"
+  "packageKitFilter": "The type of package",
+  "packageDetails": "Package details"
 } 

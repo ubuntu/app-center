@@ -22,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/packagekit/package_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -69,6 +70,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
     const headerStyle = TextStyle(fontWeight: FontWeight.bold);
+    const detailStyle = TextStyle(fontWeight: FontWeight.w400);
+    const detailPadding = EdgeInsets.only(top: 8, bottom: 8, right: 16);
     if (model.packageState != PackageState.ready || model.changelog.isEmpty) {
       return const AlertDialog(
         content: Padding(
@@ -77,92 +80,81 @@ class _UpdateDialogState extends State<UpdateDialog> {
         ),
       );
     }
-    return AlertDialog(
-      title: YaruTitleBar(
-        title: model.packageState != PackageState.ready
-            ? null
-            : Row(
-                children: [
-                  const Icon(YaruIcons.debian),
-                  Text(widget.id.name),
-                ],
-              ),
+    final children = [
+      YaruExpandable(
+        isExpanded: true,
+        header: Text(
+          context.l10n.changelog,
+          style: headerStyle,
+        ),
+        child: SizedBox(
+          height: 500,
+          child: Markdown(
+            data: model.changelog.length > 4000
+                ? '${model.changelog.substring(0, 4000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
+                : model.changelog,
+            shrinkWrap: true,
+            selectable: true,
+            onTapLink: (text, href, title) =>
+                href != null ? launchUrl(Uri.parse(href)) : null,
+            padding: const EdgeInsets.only(right: 16),
+          ),
+        ),
       ),
-      titlePadding: EdgeInsets.zero,
-      contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-      scrollable: true,
-      content: SizedBox(
-        width: 400,
+      YaruExpandable(
+        header: Text(
+          context.l10n.packageDetails,
+          style: headerStyle,
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            YaruExpandable(
-              header: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  context.l10n.changelog,
-                  style: headerStyle,
-                ),
-              ),
-              expandIcon: const Icon(YaruIcons.pan_end),
-              isExpanded: true,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxHeight: 150,
-                  minHeight: 150,
-                ),
-                // height: 250,
-                child: Markdown(
-                  data: model.changelog.length > 4000
-                      ? '${model.changelog.substring(0, 4000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
-                      : model.changelog,
-                  shrinkWrap: true,
-                  selectable: true,
-                  onTapLink: (text, href, title) =>
-                      href != null ? launchUrl(Uri.parse(href)) : null,
-                  padding: const EdgeInsets.only(left: 8, right: 8),
-                ),
-              ),
-            ),
             YaruTile(
+              padding: detailPadding,
               title: Text(
                 context.l10n.version,
-                style: headerStyle,
+                style: detailStyle,
               ),
               trailing: Text(widget.id.version),
             ),
             YaruTile(
+              padding: detailPadding,
               title: Text(
                 context.l10n.size,
-                style: headerStyle,
+                style: detailStyle,
               ),
               trailing: Text(model.size),
             ),
             YaruTile(
+              padding: detailPadding,
               title: Text(
                 context.l10n.architecture,
-                style: headerStyle,
+                style: detailStyle,
               ),
               trailing: Text(widget.id.arch),
             ),
             YaruTile(
+              padding: detailPadding,
               title: Text(
                 context.l10n.source,
-                style: headerStyle,
+                style: detailStyle,
               ),
               trailing: Text(widget.id.data),
             ),
             YaruTile(
+              padding: detailPadding,
               title: Text(
                 context.l10n.license,
-                style: headerStyle,
+                style: detailStyle,
               ),
               trailing: Text(model.license),
             ),
             YaruTile(
+              padding: detailPadding,
               title: Text(
                 context.l10n.website,
-                style: headerStyle,
+                style: detailStyle,
               ),
               trailing: IconButton(
                 splashRadius: 20,
@@ -177,38 +169,64 @@ class _UpdateDialogState extends State<UpdateDialog> {
               enabled: true,
             ),
             YaruTile(
+              padding: detailPadding,
               title: Text(
                 context.l10n.issued,
-                style: headerStyle,
+                style: detailStyle,
               ),
               trailing: Text(model.issued),
-            ),
-            YaruExpandable(
-              header: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  context.l10n.description,
-                  style: headerStyle,
-                ),
-              ),
-              isExpanded: false,
-              expandIcon: const Icon(YaruIcons.pan_end),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        model.description,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ),
           ],
         ),
       ),
+      YaruExpandable(
+        header: Text(
+          context.l10n.description,
+          style: headerStyle,
+        ),
+        isExpanded: false,
+        expandIcon: const Icon(YaruIcons.pan_end),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16.0),
+          child: Text(
+            model.description,
+          ),
+        ),
+      )
+    ];
+    return SimpleDialog(
+      title: YaruTitleBar(
+        centerTitle: false,
+        title: model.packageState != PackageState.ready
+            ? null
+            : Row(
+                children: [
+                  const AppIcon(
+                    iconUrl: null,
+                    fallBackIconData: YaruIcons.debian,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Text(
+                      widget.id.name,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+      ),
+      titlePadding: EdgeInsets.zero,
+      contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      children: children
+          .map(
+            (e) => SizedBox(
+              width: 500,
+              child: e,
+            ),
+          )
+          .toList(),
     );
   }
 }

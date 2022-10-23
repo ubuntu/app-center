@@ -88,5 +88,6 @@
   "quitDanger": "Achtung! Momentan werden Systemaktualisierungen durchgeführt. Wenn das Programm jetzt geschlossen wird, könnte Ihr System beschädigt werden!",
   "appFormat": "Das Paketformat der Programme",
   "packageKitGroup": "Die Kategorie",
-  "packageKitFilter": "Die Art des Pakets"
+  "packageKitFilter": "Die Art des Pakets",
+  "packageDetails": "Paketdetails"
 } 

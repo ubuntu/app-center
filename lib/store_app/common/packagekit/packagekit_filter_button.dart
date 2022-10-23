@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/packagekit_filter_x.dart';
+import 'package:software/store_app/common/multi_select_item.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageKitFilterButton extends StatelessWidget {
@@ -22,7 +23,7 @@ class PackageKitFilterButton extends StatelessWidget {
           for (final filter in PackageKitFilter.values)
             PopupMenuItem(
               padding: EdgeInsets.zero,
-              child: YaruMultiSelectItem<PackageKitFilter>(
+              child: MultiSelectItem<PackageKitFilter>(
                 values: filters,
                 value: filter,
                 onTap: () => onTap(filter),
