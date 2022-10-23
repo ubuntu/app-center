@@ -178,5 +178,7 @@
   "packageKitGroup": "La kategorio",
   "@packageKitGroup": {},
   "packageKitFilter": "La speco de pako",
-  "@packageKitFilter": {}
+  "@packageKitFilter": {},
+  "packageDetails": "Detaloj pri pako",
+  "@packageDetails": {}
 }
