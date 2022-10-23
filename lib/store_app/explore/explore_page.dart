@@ -21,6 +21,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/explore/explore_header.dart';
 import 'package:software/store_app/explore/offline_page.dart';
 import 'package:software/store_app/common/packagekit/package_page.dart';
 import 'package:software/store_app/common/snap/snap_page.dart';
@@ -86,16 +87,23 @@ class _ExplorePageState extends State<ExplorePage> {
             appBar: AppBar(
               flexibleSpace: const SearchField(),
             ),
-            body: model.showErrorPage
-                ? _ErrorPage(errorMessage: model.errorMessage)
-                : model.showSearchPage
-                    ? const SearchPage()
-                    : model.showStartPage
-                        ? StartPage(screenSize: screenSize)
-                        : SectionBannerGrid(
-                            initialAmount: (screenArea ~/ bannerArea) + 5,
-                            snapSection: model.selectedSection,
-                          ),
+            body: Column(
+              children: [
+                const ExploreHeader(),
+                Expanded(
+                  child: model.showErrorPage
+                      ? _ErrorPage(errorMessage: model.errorMessage)
+                      : model.showSearchPage
+                          ? const SearchPage()
+                          : model.showStartPage
+                              ? StartPage(screenSize: screenSize)
+                              : SectionBannerGrid(
+                                  initialAmount: (screenArea ~/ bannerArea) + 5,
+                                  snapSection: model.selectedSection,
+                                ),
+                )
+              ],
+            ),
           ),
         ),
         if (model.selectedSnap != null && model.selectedPackage == null)
