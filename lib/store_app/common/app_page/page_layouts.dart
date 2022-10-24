@@ -27,8 +27,8 @@ class PanedPageLayout extends StatelessWidget {
     return Center(
       child: Padding(
         padding: EdgeInsets.only(
-          top: pagePadding,
-          bottom: pagePadding,
+          top: kPagePadding,
+          bottom: kPagePadding,
           left: hPadding,
           right: hPadding,
         ),
@@ -41,7 +41,7 @@ class PanedPageLayout extends StatelessWidget {
                 child: leftChild,
               ),
               const SizedBox(
-                width: pagePadding,
+                width: kPagePadding,
               ),
               Expanded(
                 child: ListView(
@@ -49,7 +49,7 @@ class PanedPageLayout extends StatelessWidget {
                   children: [
                     for (final child in rightChildren)
                       Padding(
-                        padding: const EdgeInsets.only(bottom: pagePadding),
+                        padding: const EdgeInsets.only(bottom: kPagePadding),
                         child: child,
                       ),
                   ],
@@ -80,8 +80,8 @@ class OnePageLayout extends StatelessWidget {
     kToolbarHeight;
     return ListView(
       padding: EdgeInsets.only(
-        top: pagePadding,
-        bottom: pagePadding,
+        top: kPagePadding,
+        bottom: kPagePadding,
         left: hPadding,
         right: hPadding,
       ),
@@ -89,7 +89,7 @@ class OnePageLayout extends StatelessWidget {
       children: [
         for (final child in children)
           Padding(
-            padding: const EdgeInsets.only(bottom: pagePadding),
+            padding: const EdgeInsets.only(bottom: kPagePadding),
             child: child,
           ),
       ],

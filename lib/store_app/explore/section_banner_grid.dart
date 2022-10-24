@@ -87,8 +87,11 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
             snap.summary,
             overflow: TextOverflow.ellipsis,
           ),
-          icon: AppIcon(
-            iconUrl: snap.iconUrl,
+          icon: Padding(
+            padding: kIconPadding,
+            child: AppIcon(
+              iconUrl: snap.iconUrl,
+            ),
           ),
           onTap: () => model.selectedSnap = snap,
         );

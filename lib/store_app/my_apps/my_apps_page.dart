@@ -21,9 +21,9 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
-import 'package:software/store_app/common/app_format_popup.dart';
 import 'package:software/store_app/common/packagekit/package_page.dart';
 import 'package:software/store_app/common/snap/snap_page.dart';
+import 'package:software/store_app/my_apps/my_apps_header.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:software/store_app/my_apps/my_apps_search_field.dart';
 import 'package:software/store_app/my_apps/my_packages_page.dart';
@@ -66,24 +66,7 @@ class MyAppsPage extends StatelessWidget {
 
     final page = Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 20, left: 25),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Wrap(
-              alignment: WrapAlignment.start,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              runAlignment: WrapAlignment.start,
-              spacing: 10,
-              children: [
-                AppFormatPopup(
-                  appFormat: model.appFormat,
-                  onSelected: model.setAppFormat,
-                ),
-              ],
-            ),
-          ),
-        ),
+        const MyAppsHeader(),
         if (model.appFormat == AppFormat.snap)
           const Expanded(child: MySnapsPage())
         else if (model.appFormat == AppFormat.packageKit)

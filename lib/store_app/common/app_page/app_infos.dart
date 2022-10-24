@@ -125,8 +125,8 @@ class _Version extends StatelessWidget {
           fontWeight: FontWeight.normal,
           color: versionChanged == true
               ? Theme.of(context).brightness == Brightness.light
-                  ? positiveGreenLightTheme
-                  : positiveGreenDarkTheme
+                  ? kGreenLight
+                  : kGreenDark
               : null,
         ),
       ),
