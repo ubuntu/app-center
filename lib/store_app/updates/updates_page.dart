@@ -375,8 +375,8 @@ class _NoUpdatesPage extends StatelessWidget {
                   size: 90,
                   filled: true,
                   color: Theme.of(context).brightness == Brightness.light
-                      ? positiveGreenLightTheme
-                      : positiveGreenDarkTheme,
+                      ? kGreenLight
+                      : kGreenDark,
                 ),
                 const SizedBox(
                   height: 20,

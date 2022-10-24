@@ -59,7 +59,7 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
     return model.installedApps.isNotEmpty
         ? GridView.builder(
             controller: _controller,
-            padding: const EdgeInsets.all(20.0),
+            padding: kGridPadding,
             gridDelegate: kGridDelegate,
             shrinkWrap: true,
             itemCount: installedApps.length,

@@ -77,8 +77,8 @@ class _UpdateBannerState extends State<UpdateBanner> {
                   style: TextStyle(
                     overflow: TextOverflow.ellipsis,
                     color: Theme.of(context).brightness == Brightness.light
-                        ? positiveGreenLightTheme
-                        : positiveGreenDarkTheme,
+                        ? kGreenLight
+                        : kGreenDark,
                   ),
                 ),
               )
