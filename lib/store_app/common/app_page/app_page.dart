@@ -74,8 +74,8 @@ class _AppPageState extends State<AppPage> {
     final windowSize = MediaQuery.of(context).size;
     final windowWidth = windowSize.width;
     final windowHeight = windowSize.height;
-    final isWindowNormalSized = windowWidth > 800 && windowWidth < 1800;
-    final isWindowWide = windowWidth > 1800;
+    final isWindowNormalSized = windowWidth > 800 && windowWidth < 1200;
+    final isWindowWide = windowWidth > 1200;
 
     final media = BorderContainer(
       child: YaruCarousel(
