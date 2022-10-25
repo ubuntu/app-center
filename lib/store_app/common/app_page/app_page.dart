@@ -27,7 +27,7 @@ import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class AppPage extends StatelessWidget {
+class AppPage extends StatefulWidget {
   const AppPage({
     super.key,
     required this.appData,
@@ -48,6 +48,28 @@ class AppPage extends StatelessWidget {
   final Widget? subBannerHeader;
 
   @override
+  State<AppPage> createState() => _AppPageState();
+}
+
+class _AppPageState extends State<AppPage> {
+  late YaruCarouselController controller;
+
+  @override
+  void initState() {
+    controller = YaruCarouselController(
+      pagesLength: widget.appData.screenShotUrls.length,
+      viewportFraction: 1,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final windowSize = MediaQuery.of(context).size;
     final windowWidth = windowSize.width;
@@ -57,23 +79,20 @@ class AppPage extends StatelessWidget {
 
     final media = BorderContainer(
       child: YaruCarousel(
-        controller: YaruCarouselController(
-          pagesLength: appData.screenShotUrls.length,
-          viewportFraction: 1,
-        ),
+        controller: controller,
         nextIcon: const Icon(YaruIcons.go_next),
         previousIcon: const Icon(YaruIcons.go_previous),
-        navigationControls: appData.screenShotUrls.length > 1,
+        navigationControls: widget.appData.screenShotUrls.length > 1,
         height: 400,
         children: [
-          for (int i = 0; i < appData.screenShotUrls.length; i++)
+          for (int i = 0; i < widget.appData.screenShotUrls.length; i++)
             MediaTile(
-              url: appData.screenShotUrls[i],
+              url: widget.appData.screenShotUrls[i],
               onTap: () => showDialog(
                 context: context,
                 builder: (c) => _CarouselDialog(
                   windowHeight: windowHeight,
-                  appData: appData,
+                  appData: widget.appData,
                   windowWidth: windowWidth,
                   initialIndex: i,
                 ),
@@ -84,34 +103,34 @@ class AppPage extends StatelessWidget {
     );
 
     final description = BorderContainer(
-      child: AppDescription(description: appData.description),
+      child: AppDescription(description: widget.appData.description),
     );
 
     final normalWindowAppHeader = BorderContainer(
       child: BannerAppHeader(
-        headerData: appData,
-        controls: controls,
-        icon: icon,
+        headerData: widget.appData,
+        controls: widget.controls,
+        icon: widget.icon,
       ),
     );
 
     final wideWindowAppHeader = BorderContainer(
       width: 500,
       child: PageAppHeader(
-        appData: appData,
-        icon: icon,
-        controls: controls,
-        subControls: subControlPageHeader,
+        appData: widget.appData,
+        icon: widget.icon,
+        controls: widget.controls,
+        subControls: widget.subControlPageHeader,
       ),
     );
 
     final narrowWindowAppHeader = BorderContainer(
       height: 700,
       child: PageAppHeader(
-        appData: appData,
-        icon: icon,
-        controls: controls,
-        subControls: subControlPageHeader,
+        appData: widget.appData,
+        icon: widget.icon,
+        controls: widget.controls,
+        subControls: widget.subControlPageHeader,
       ),
     );
 
@@ -119,33 +138,33 @@ class AppPage extends StatelessWidget {
       windowSize: windowSize,
       children: [
         normalWindowAppHeader,
-        if (subBannerHeader != null)
+        if (widget.subBannerHeader != null)
           BorderContainer(
-            child: subBannerHeader,
+            child: widget.subBannerHeader,
           ),
         BorderContainer(
           child: AppInfos(
-            strict: appData.strict,
-            confinementName: appData.confinementName,
-            license: appData.license,
-            installDate: appData.installDate,
-            installDateIsoNorm: appData.installDateIsoNorm,
-            version: appData.version,
-            versionChanged: appData.versionChanged,
+            strict: widget.appData.strict,
+            confinementName: widget.appData.confinementName,
+            license: widget.appData.license,
+            installDate: widget.appData.installDate,
+            installDateIsoNorm: widget.appData.installDateIsoNorm,
+            version: widget.appData.version,
+            versionChanged: widget.appData.versionChanged,
           ),
         ),
-        if (appData.screenShotUrls.isNotEmpty) media,
+        if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
-        if (permissionContainer != null) permissionContainer!
+        if (widget.permissionContainer != null) widget.permissionContainer!
       ],
     );
 
     final wideWindowLayout = PanedPageLayout(
       leftChild: wideWindowAppHeader,
       rightChildren: [
-        if (appData.screenShotUrls.isNotEmpty) media,
+        if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
-        if (permissionContainer != null) permissionContainer!
+        if (widget.permissionContainer != null) widget.permissionContainer!
       ],
       windowSize: windowSize,
     );
@@ -154,17 +173,17 @@ class AppPage extends StatelessWidget {
       windowSize: windowSize,
       children: [
         narrowWindowAppHeader,
-        if (appData.screenShotUrls.isNotEmpty) media,
+        if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
-        if (permissionContainer != null) permissionContainer!
+        if (widget.permissionContainer != null) widget.permissionContainer!
       ],
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appData.title),
+        title: Text(widget.appData.title),
         leading: _CustomBackButton(
-          onPressed: onPop,
+          onPressed: widget.onPop,
         ),
       ),
       body: isWindowWide
@@ -176,7 +195,7 @@ class AppPage extends StatelessWidget {
   }
 }
 
-class _CarouselDialog extends StatelessWidget {
+class _CarouselDialog extends StatefulWidget {
   const _CarouselDialog({
     Key? key,
     required this.windowHeight,
@@ -191,6 +210,29 @@ class _CarouselDialog extends StatelessWidget {
   final int initialIndex;
 
   @override
+  State<_CarouselDialog> createState() => _CarouselDialogState();
+}
+
+class _CarouselDialogState extends State<_CarouselDialog> {
+  late YaruCarouselController controller;
+
+  @override
+  void initState() {
+    controller = YaruCarouselController(
+      pagesLength: widget.appData.screenShotUrls.length,
+      initialPage: widget.initialIndex,
+      viewportFraction: 0.8,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SimpleDialog(
       title: const YaruTitleBar(),
@@ -198,19 +240,15 @@ class _CarouselDialog extends StatelessWidget {
       titlePadding: EdgeInsets.zero,
       children: [
         SizedBox(
-          height: windowHeight - 150,
+          height: widget.windowHeight - 150,
           child: YaruCarousel(
-            controller: YaruCarouselController(
-              pagesLength: appData.screenShotUrls.length,
-              initialPage: initialIndex,
-              viewportFraction: 0.8,
-            ),
+            controller: controller,
             nextIcon: const Icon(YaruIcons.go_next),
             previousIcon: const Icon(YaruIcons.go_previous),
-            navigationControls: appData.screenShotUrls.length > 1,
-            width: windowWidth,
+            navigationControls: widget.appData.screenShotUrls.length > 1,
+            width: widget.windowWidth,
             children: [
-              for (final url in appData.screenShotUrls)
+              for (final url in widget.appData.screenShotUrls)
                 SafeNetworkImage(url: url)
             ],
           ),

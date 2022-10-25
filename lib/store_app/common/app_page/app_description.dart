@@ -38,13 +38,12 @@ class AppDescription extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.only(top: 20),
-        child: Markdown(
+        child: MarkdownBody(
           data: description,
           shrinkWrap: true,
           selectable: true,
           onTapLink: (text, href, title) =>
               href != null ? launchUrl(Uri.parse(href)) : null,
-          padding: EdgeInsets.zero,
           styleSheet: MarkdownStyleSheet(
             p: Theme.of(context).textTheme.bodyMedium,
           ),
