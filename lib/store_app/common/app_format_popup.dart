@@ -51,3 +51,35 @@ class AppFormatPopup extends StatelessWidget {
     );
   }
 }
+
+class MultiAppFormatPopup extends StatelessWidget {
+  const MultiAppFormatPopup({
+    super.key,
+    required this.appFormats,
+    required this.onTap,
+  });
+
+  final Set<AppFormat> appFormats;
+  final Function(bool value, AppFormat appFormat) onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return YaruPopupMenuButton<AppFormat>(
+      itemBuilder: (context) {
+        return [
+          for (final appFormat in AppFormat.values)
+            YaruMultiSelectPopupMenuItem<AppFormat>(
+              padding: EdgeInsets.zero,
+              value: appFormat,
+              checked: appFormats.contains(appFormat),
+              onChanged: (v) => onTap(v, appFormat),
+              child: Text(
+                appFormat.localize(context.l10n),
+              ),
+            ),
+        ];
+      },
+      child: Text(context.l10n.appFormat),
+    );
+  }
+}

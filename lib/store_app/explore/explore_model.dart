@@ -164,7 +164,10 @@ class ExploreModel extends SafeChangeNotifier {
 
   Future<List<PackageKitPackageId>> findPackageKitPackageIds() async =>
       _packageService.findPackageKitPackageIds(
-        searchQuery: [searchQuery, packageKitGroup.name],
+        searchQuery: [
+          searchQuery,
+          if (packageKitGroup != null) packageKitGroup!.name
+        ],
         filter: packageKitFilters,
       );
 
@@ -189,31 +192,35 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  PackageKitGroup _packageKitGroup = PackageKitGroup.unknown;
-  PackageKitGroup get packageKitGroup => _packageKitGroup;
-  void setPackageKitGroup(PackageKitGroup value) {
+  PackageKitGroup? _packageKitGroup;
+  PackageKitGroup? get packageKitGroup => _packageKitGroup;
+  void setPackageKitGroup(PackageKitGroup? value) {
     if (value == _packageKitGroup) return;
     _packageKitGroup = value;
     notifyListeners();
   }
 
-  Set<PackageKitFilter> _packageKitFilters = {
-    PackageKitFilter.none,
-  };
+  final Set<PackageKitFilter> _packageKitFilters = {};
   Set<PackageKitFilter> get packageKitFilters => _packageKitFilters;
-  set packageKitFilters(Set<PackageKitFilter> value) {
-    if (value == _packageKitFilters) return;
-    _packageKitFilters = value;
+  void handleFilter(bool value, PackageKitFilter filter) {
+    if (value) {
+      _packageKitFilters.add(filter);
+    } else {
+      _packageKitFilters.remove(filter);
+    }
     notifyListeners();
   }
 
-  void handleFilter(PackageKitFilter filter) {
-    if (_packageKitFilters.contains(filter) && _packageKitFilters.length > 1) {
-      _packageKitFilters.remove(filter);
+  final Set<AppFormat> _appFormats = {AppFormat.snap};
+  Set<AppFormat> get appFormats => _appFormats;
+  void handleAppFormat(bool value, AppFormat appFormat) {
+    if (value) {
+      _appFormats.add(appFormat);
     } else {
-      _packageKitFilters.add(filter);
+      if (_appFormats.length > 1) {
+        _appFormats.remove(appFormat);
+      }
     }
-
     notifyListeners();
   }
 }

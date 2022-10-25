@@ -12,7 +12,7 @@ class PackageKitGroupButton extends StatelessWidget {
     required this.value,
   });
 
-  final PackageKitGroup value;
+  final PackageKitGroup? value;
   final Function(PackageKitGroup)? onSelected;
 
   @override
@@ -55,7 +55,7 @@ class PackageKitGroupButton extends StatelessWidget {
             ),
           )
       ],
-      child: Text(value.name),
+      child: Text(value?.name ?? context.l10n.packageKitGroup),
     );
   }
 }

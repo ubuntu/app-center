@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:software/store_app/common/app_format.dart';
 import 'package:software/store_app/common/app_format_popup.dart';
 import 'package:software/store_app/common/packagekit/packagekit_filter_button.dart';
-import 'package:software/store_app/common/packagekit/packagekit_group_button.dart';
 import 'package:software/store_app/common/snap/snap_section_popup.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 
@@ -23,6 +22,7 @@ class ExploreHeader extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.start,
           runAlignment: WrapAlignment.start,
           spacing: 10,
+          runSpacing: 10,
           children: [
             AppFormatPopup(
               appFormat: model.appFormat,
@@ -38,11 +38,13 @@ class ExploreHeader extends StatelessWidget {
                 onTap: model.handleFilter,
                 filters: model.packageKitFilters,
               ),
-            if (model.appFormat == AppFormat.packageKit)
-              PackageKitGroupButton(
-                onSelected: (v) => model.setPackageKitGroup(v),
-                value: model.packageKitGroup,
-              )
+            // TODO: wait for packagekit.dart to implement PackageKitGroup
+            // in searchNames https://github.com/canonical/packagekit.dart/issues/24
+            // if (model.appFormat == AppFormat.packageKit)
+            //   PackageKitGroupButton(
+            //     onSelected: (v) => model.setPackageKitGroup(v),
+            //     value: model.packageKitGroup,
+            //   )
           ],
         ),
       ),
