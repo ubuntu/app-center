@@ -16,6 +16,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_page/app_description.dart';
 import 'package:software/store_app/common/app_page/app_header.dart';
@@ -234,26 +235,36 @@ class _CarouselDialogState extends State<_CarouselDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      title: const YaruTitleBar(),
-      contentPadding: const EdgeInsets.only(bottom: 20),
-      titlePadding: EdgeInsets.zero,
-      children: [
-        SizedBox(
-          height: widget.windowHeight - 150,
-          child: YaruCarousel(
-            controller: controller,
-            nextIcon: const Icon(YaruIcons.go_next),
-            previousIcon: const Icon(YaruIcons.go_previous),
-            navigationControls: widget.appData.screenShotUrls.length > 1,
-            width: widget.windowWidth,
-            children: [
-              for (final url in widget.appData.screenShotUrls)
-                SafeNetworkImage(url: url)
-            ],
-          ),
-        )
-      ],
+    return KeyboardListener(
+      focusNode: FocusNode(),
+      onKeyEvent: (value) {
+        if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
+          controller.nextPage();
+        } else if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
+          controller.previousPage();
+        }
+      },
+      child: SimpleDialog(
+        title: const YaruTitleBar(),
+        contentPadding: const EdgeInsets.only(bottom: 20),
+        titlePadding: EdgeInsets.zero,
+        children: [
+          SizedBox(
+            height: widget.windowHeight - 150,
+            child: YaruCarousel(
+              controller: controller,
+              nextIcon: const Icon(YaruIcons.go_next),
+              previousIcon: const Icon(YaruIcons.go_previous),
+              navigationControls: widget.appData.screenShotUrls.length > 1,
+              width: widget.windowWidth,
+              children: [
+                for (final url in widget.appData.screenShotUrls)
+                  SafeNetworkImage(url: url)
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
