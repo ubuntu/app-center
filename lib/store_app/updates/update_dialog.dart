@@ -87,18 +87,14 @@ class _UpdateDialogState extends State<UpdateDialog> {
           context.l10n.changelog,
           style: headerStyle,
         ),
-        child: SizedBox(
-          height: 500,
-          child: Markdown(
-            data: model.changelog.length > 4000
-                ? '${model.changelog.substring(0, 4000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
-                : model.changelog,
-            shrinkWrap: true,
-            selectable: true,
-            onTapLink: (text, href, title) =>
-                href != null ? launchUrl(Uri.parse(href)) : null,
-            padding: const EdgeInsets.only(right: 16),
-          ),
+        child: MarkdownBody(
+          data: model.changelog.length > 4000
+              ? '${model.changelog.substring(0, 4000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
+              : model.changelog,
+          shrinkWrap: true,
+          selectable: true,
+          onTapLink: (text, href, title) =>
+              href != null ? launchUrl(Uri.parse(href)) : null,
         ),
       ),
       YaruExpandable(
@@ -218,7 +214,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
               ),
       ),
       titlePadding: EdgeInsets.zero,
-      contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      contentPadding:
+          const EdgeInsets.only(left: 20, top: 10, bottom: 20, right: 10),
       children: children
           .map(
             (e) => SizedBox(
