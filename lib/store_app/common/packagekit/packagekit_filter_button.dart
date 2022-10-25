@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/packagekit_filter_x.dart';
-import 'package:software/store_app/common/multi_select_item.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageKitFilterButton extends StatelessWidget {
@@ -13,23 +12,21 @@ class PackageKitFilterButton extends StatelessWidget {
   });
 
   final Set<PackageKitFilter> filters;
-  final Function(PackageKitFilter filter) onTap;
+  final Function(bool value, PackageKitFilter filter) onTap;
 
   @override
   Widget build(BuildContext context) {
-    return YaruPopupMenuButton<Set<PackageKitFilter>>(
+    return YaruPopupMenuButton<PackageKitFilter>(
       itemBuilder: (context) {
         return [
           for (final filter in PackageKitFilter.values)
-            PopupMenuItem(
+            YaruMultiSelectPopupMenuItem<PackageKitFilter>(
               padding: EdgeInsets.zero,
-              child: MultiSelectItem<PackageKitFilter>(
-                values: filters,
-                value: filter,
-                onTap: () => onTap(filter),
-                child: Text(
-                  filter.localize(context.l10n),
-                ),
+              checked: filters.contains(filter),
+              value: filter,
+              onChanged: (v) => onTap(v, filter),
+              child: Text(
+                filter.localize(context.l10n),
               ),
             ),
         ];
