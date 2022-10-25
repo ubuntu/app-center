@@ -29,7 +29,7 @@ class PanedPageLayout extends StatelessWidget {
         padding: EdgeInsets.only(
           top: kPagePadding,
           bottom: kPagePadding,
-          left: hPadding,
+          left: kPagePadding,
           right: hPadding,
         ),
         child: SizedBox(
@@ -75,16 +75,8 @@ class OnePageLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = windowSize.width;
-    final hPadding = 0.0001 * pow(width * 0.9, 2) - 10;
-    kToolbarHeight;
     return ListView(
-      padding: EdgeInsets.only(
-        top: kPagePadding,
-        bottom: kPagePadding,
-        left: hPadding,
-        right: hPadding,
-      ),
+      padding: const EdgeInsets.all(kPagePadding),
       shrinkWrap: true,
       children: [
         for (final child in children)
