@@ -36,11 +36,18 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
 
-    if (model.appFormat == AppFormat.snap) {
+    if (model.appFormats.contains(AppFormat.snap) &&
+        model.appFormats.contains(AppFormat.packageKit)) {
+      return const _CombinedSearchPage();
+    } else if (model.appFormats.contains(AppFormat.snap) &&
+        !model.appFormats.contains(AppFormat.packageKit)) {
       return const _SnapSearchPage();
-    } else {
+    } else if (model.appFormats.contains(AppFormat.packageKit) &&
+        !model.appFormats.contains(AppFormat.snap)) {
       return const _PackageKitSearchPage();
     }
+
+    return const SizedBox();
   }
 }
 
@@ -223,6 +230,60 @@ class _NoSearchResultPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _CombinedSearchPage extends StatelessWidget {
+  // ignore: unused_element
+  const _CombinedSearchPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<ExploreModel>();
+    return FutureBuilder<Map<String, AppFinding>>(
+      future: model.search(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const _WaitPage(message: '');
+        }
+
+        return snapshot.hasData && snapshot.data!.isNotEmpty
+            ? GridView.builder(
+                padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+                gridDelegate: kGridDelegate,
+                shrinkWrap: true,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final e = snapshot.data!.entries.elementAt(index);
+
+                  return YaruBanner(
+                    title: Text(
+                      e.key,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      e.value.snap?.version ?? e.value.packageId?.version ?? '',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    icon: AppIcon(
+                      iconUrl: e.value.snap?.iconUrl,
+                      fallBackIconData: e.value.snap != null
+                          ? YaruIcons.snapcraft
+                          : e.value.packageId != null
+                              ? YaruIcons.debian
+                              : YaruIcons.question,
+                    ),
+                    iconPadding: const EdgeInsets.only(left: 10, right: 5),
+                    onTap: () {
+                      model.selectedSnap = e.value.snap;
+                      model.selectedPackage = e.value.packageId;
+                    },
+                  );
+                },
+              )
+            : _NoSearchResultPage(message: context.l10n.noPackageFound);
+      },
     );
   }
 }
