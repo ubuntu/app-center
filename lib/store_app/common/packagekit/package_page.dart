@@ -24,7 +24,7 @@ import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/app_page/app_page.dart';
 import 'package:software/store_app/common/packagekit/package_controls.dart';
-import 'package:software/store_app/common/packagekit/package_model.dart';
+import 'package:software/services/package_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
@@ -50,7 +50,8 @@ class PackagePage extends StatefulWidget {
     required final VoidCallback onPop,
   }) {
     return ChangeNotifierProvider(
-      create: (context) => PackageModel(getService<PackageService>()),
+      create: (context) =>
+          PackageModel(service: getService<PackageService>(), packageId: id),
       child: PackagePage(
         onPop: onPop,
         noUpdate: noUpdate,
@@ -67,11 +68,11 @@ class PackagePage extends StatefulWidget {
 class _PackagePageState extends State<PackagePage> {
   @override
   void initState() {
-    context
-        .read<PackageModel>()
-        .init(update: !widget.noUpdate, packageId: widget.id);
-
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<PackageModel>().init(update: !widget.noUpdate);
+    });
   }
 
   @override
@@ -105,11 +106,9 @@ class _PackagePageState extends State<PackagePage> {
       ),
       controls: PackageControls(
         isInstalled: model.isInstalled,
-        packageState: model.packageState!,
-        remove: () => model.remove(packageId: widget.id),
-        install: () => model.install(
-          packageId: widget.id,
-        ),
+        packageState: model.packageState,
+        remove: () => model.remove(),
+        install: () => model.install(),
       ),
     );
   }

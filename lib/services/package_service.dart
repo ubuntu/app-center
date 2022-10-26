@@ -25,10 +25,17 @@ import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/package_state.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/utils.dart';
+import 'package:software/services/package_model.dart';
 import 'package:software/updates_state.dart';
 import 'package:synchronized/extension.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+
+class MissingPackageIDException implements Exception {
+  const MissingPackageIDException();
+
+  @override
+  String toString() => 'Missing package ID';
+}
 
 class PackageService {
   final PackageKitClient _client;
@@ -106,12 +113,6 @@ class PackageService {
     _updatesPercentageController.add(value);
   }
 
-  final _packagePercentageController = StreamController<int?>.broadcast();
-  Stream<int?> get packagePercentage => _packagePercentageController.stream;
-  void setPackagePercentage(int? value) {
-    _packagePercentageController.add(value);
-  }
-
   final _processedIdController =
       StreamController<PackageKitPackageId?>.broadcast();
   Stream<PackageKitPackageId?> get processedId => _processedIdController.stream;
@@ -157,60 +158,6 @@ class PackageService {
     _packageStateController.add(value);
   }
 
-  final _summaryController = StreamController<String>.broadcast();
-  Stream<String> get summary => _summaryController.stream;
-  void setSummary(String value) {
-    _summaryController.add(value);
-  }
-
-  final _urlController = StreamController<String>.broadcast();
-  Stream<String> get url => _urlController.stream;
-  void setUrl(String value) {
-    _urlController.add(value);
-  }
-
-  final _licenseController = StreamController<String>.broadcast();
-  Stream<String> get license => _licenseController.stream;
-  void setLicense(String value) {
-    _licenseController.add(value);
-  }
-
-  final _sizeController = StreamController<String>.broadcast();
-  Stream<String> get size => _sizeController.stream;
-  void setSize(int value) {
-    _sizeController.add(formatBytes(value, 2));
-  }
-
-  final _descriptionController = StreamController<String>.broadcast();
-  Stream<String> get description => _descriptionController.stream;
-  void setDescription(String value) {
-    _descriptionController.add(value);
-  }
-
-  final _changelogController = StreamController<String>.broadcast();
-  Stream<String> get changelog => _changelogController.stream;
-  void setChangelog(String value) {
-    _changelogController.add(value);
-  }
-
-  final _issuedController = StreamController<String>.broadcast();
-  Stream<String> get issued => _issuedController.stream;
-  void setIssued(String value) {
-    _issuedController.add(value);
-  }
-
-  final _groupController = StreamController<PackageKitGroup>.broadcast();
-  Stream<PackageKitGroup> get group => _groupController.stream;
-  void setGroup(PackageKitGroup value) {
-    _groupController.add(value);
-  }
-
-  final _isInstalledController = StreamController<bool>.broadcast();
-  Stream<bool> get isInstalled => _isInstalledController.stream;
-  void setIsInstalled(bool value) {
-    _isInstalledController.add(value);
-  }
-
   final _selectionChangedController = StreamController<bool>.broadcast();
   Stream<bool> get selectionChanged => _selectionChangedController.stream;
   void selectAll() {
@@ -241,10 +188,8 @@ class PackageService {
 
   Future<void> init() async {
     setErrorMessage('');
-    setPackageState(PackageState.processing);
     await _getInstalledPackages();
     await _getInstalledApps();
-    setPackageState(PackageState.ready);
     refreshUpdates();
   }
 
@@ -453,119 +398,105 @@ class PackageService {
     return group ?? PackageKitGroup.unknown;
   }
 
-  /// Removes with package with [packageId]
-  Future<void> remove({required PackageKitPackageId packageId}) async {
-    final removeTransaction = await _client.createTransaction();
-    final completer = Completer();
-    setPackageState(PackageState.processing);
-    final subscription = removeTransaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        setInfo(event.info);
-      } else if (event is PackageKitItemProgressEvent) {
-        if (event.status == PackageKitStatus.remove) {
-          setPackagePercentage(100 - event.percentage);
-        }
-      } else if (event is PackageKitFinishedEvent) {
-        if (event.exit == PackageKitExit.success) {
-          setIsInstalled(false);
-        }
-        completer.complete();
-      }
-    });
-    await removeTransaction.removePackages([packageId]);
-    await completer.future.whenComplete(subscription.cancel);
-    if (_localId != null) {
-      await getDetails(packageId: _localId!);
-    }
-    setPackageState(PackageState.ready);
-  }
-
-  /// Installs with package with [packageId]
-  Future<void> install({required PackageKitPackageId packageId}) async {
-    final installTransaction = await _client.createTransaction();
-    setPackageState(PackageState.processing);
-    final completer = Completer();
-    final subscription = installTransaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        setInfo(event.info);
-      } else if (event is PackageKitItemProgressEvent) {
-        setPackagePercentage(event.percentage);
-      } else if (event is PackageKitFinishedEvent) {
-        if (event.exit == PackageKitExit.success) {
-          setIsInstalled(true);
-        }
-        completer.complete();
-      }
-    });
-    await installTransaction.installPackages([packageId]);
-    await completer.future.whenComplete(subscription.cancel);
-    setPackageState(PackageState.ready);
-  }
-
-  /// Check if an app with given [packageId] is installed.
-  Future<void> isIdInstalled({required PackageKitPackageId id}) async {
-    setPackageState(PackageState.processing);
-    var installed = false;
+  Future<void> remove({required PackageModel model}) async {
+    if (model.packageId == null) throw const MissingPackageIDException();
+    model.packageState = PackageState.processing;
     final transaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
-        installed = event.info == PackageKitInfo.installed;
-      } else if (event is PackageKitErrorCodeEvent) {
-        setErrorMessage('${event.code}: ${event.details}');
+        model.info = event.info;
+      } else if (event is PackageKitItemProgressEvent) {
+        model.percentage = 100 - event.percentage;
       } else if (event is PackageKitFinishedEvent) {
+        model.isInstalled = (event.exit != PackageKitExit.success);
+        model.packageState = PackageState.ready;
         completer.complete();
       }
     });
-    await transaction
-        .searchNames([id.name], filter: {PackageKitFilter.installed});
-    await completer.future.whenComplete(subscription.cancel);
-    setIsInstalled(installed);
-    setPackagePercentage(installed ? 100 : 0);
-    setPackageState(PackageState.ready);
-  }
-
-  /// Get the details about the package or update with given [packageId]
-  Future<void> getDetails({required PackageKitPackageId packageId}) async {
-    var installTransaction = await _client.createTransaction();
-    var completer = Completer();
-    final subscription = installTransaction.events.listen((event) {
-      if (event is PackageKitDetailsEvent) {
-        setSummary(event.summary);
-        setUrl(event.url);
-        setLicense(event.license);
-        setSize(event.size);
-        setDescription(event.description);
-        setGroup(event.group);
-      } else if (event is PackageKitFinishedEvent) {
-        completer.complete();
-      }
-    });
-    await installTransaction.getDetails([packageId]);
+    transaction.removePackages([model.packageId!]);
     return completer.future.whenComplete(subscription.cancel);
   }
 
-  /// Get more details about given [packageId]
+  Future<void> install({required PackageModel model}) async {
+    if (model.packageId == null) throw const MissingPackageIDException();
+    model.packageState = PackageState.processing;
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    final subscription = transaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        model.info = event.info;
+      } else if (event is PackageKitItemProgressEvent) {
+        model.percentage = event.percentage;
+      } else if (event is PackageKitFinishedEvent) {
+        model.packageState = PackageState.ready;
+        model.isInstalled = (event.exit == PackageKitExit.success);
+        completer.complete();
+      }
+    });
+    transaction.installPackages([model.packageId!]);
+    return completer.future.whenComplete(subscription.cancel);
+  }
+
+  Future<void> isInstalled({required PackageModel model}) async {
+    if (model.packageId == null) throw const MissingPackageIDException();
+    model.packageState = PackageState.processing;
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    final subscription = transaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        model.isInstalled = event.info == PackageKitInfo.installed;
+      } else if (event is PackageKitFinishedEvent) {
+        model.isInstalled ??= false;
+        model.packageState = PackageState.ready;
+        completer.complete();
+      }
+    });
+    transaction.searchNames(
+      [model.packageId!.name],
+      filter: {PackageKitFilter.installed},
+    );
+    return completer.future.whenComplete(subscription.cancel);
+  }
+
+  Future<void> getDetails({required PackageModel model}) async {
+    if (model.packageId == null) throw const MissingPackageIDException();
+    model.packageState = PackageState.processing;
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    final subscription = transaction.events.listen((event) {
+      if (event is PackageKitDetailsEvent) {
+        model.summary = event.summary;
+        model.url = event.url;
+        model.license = event.license;
+        model.size = event.size;
+        model.group = event.group;
+        model.description = event.description;
+      } else if (event is PackageKitFinishedEvent) {
+        model.packageState = PackageState.ready;
+        completer.complete();
+      }
+    });
+    transaction.getDetails([model.packageId!]);
+    return completer.future.whenComplete(subscription.cancel);
+  }
+
   Future<void> getUpdateDetail({
-    required PackageKitPackageId packageId,
+    required PackageModel model,
   }) async {
-    setChangelog('');
+    if (model.packageId == null) throw const MissingPackageIDException();
     final transaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitUpdateDetailEvent) {
-        setChangelog(event.changelog);
-        setIssued(
-          DateFormat.yMMMMEEEEd(Platform.localeName)
-              .format(event.issued ?? DateTime.now()),
-        );
-      } else if (event is PackageKitErrorCodeEvent) {
-        setErrorMessage('${event.code}: ${event.details}');
+        model.changelog = event.changelog;
+        model.issued = DateFormat.yMMMMEEEEd(Platform.localeName)
+            .format(event.issued ?? DateTime.now());
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
     });
-    await transaction.getUpdateDetail([packageId]);
+    await transaction.getUpdateDetail([model.packageId!]);
     return completer.future.whenComplete(subscription.cancel);
   }
 
@@ -652,64 +583,62 @@ class PackageService {
     });
   }
 
-  PackageKitPackageId? _localId;
-
-  /// Finds the [packageId] from [path] and sets info fields
   Future<void> getDetailsAboutLocalPackage({
-    required String path,
+    required PackageModel model,
     FileSystem fileSystem = const LocalFileSystem(),
   }) async {
-    if (path.isEmpty || !(await fileSystem.file(path).exists())) return;
+    if (model.path == null ||
+        model.path!.isEmpty ||
+        !fileSystem.file(model.path!).existsSync()) {
+      throw FileSystemException('', model.path);
+    }
+    model.packageState = PackageState.processing;
     final transaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitDetailsEvent) {
-        _localId = event.packageId;
-        setProcessedId(event.packageId);
-        setSummary(event.summary);
-        setUrl(event.url);
-        setLicense(event.license);
-        setSize(event.size);
-        setGroup(event.group);
-        setDescription(event.description);
+        model.packageId = event.packageId;
+        model.summary = event.summary;
+        model.url = event.url;
+        model.license = event.license;
+        model.size = event.size;
+        model.group = event.group;
+        model.description = event.description;
       } else if (event is PackageKitFinishedEvent) {
+        model.packageState = PackageState.ready;
         completer.complete();
       }
     });
-    await transaction.getDetailsLocal([path]);
-    await completer.future.whenComplete(subscription.cancel);
-    if (_localId != null) {
-      await isIdInstalled(id: _localId!);
-    }
+    transaction.getDetailsLocal([model.path!]);
+    return completer.future.whenComplete(subscription.cancel);
   }
 
   Future<void> installLocalFile({
-    required String? path,
+    required PackageModel model,
     FileSystem fileSystem = const LocalFileSystem(),
   }) async {
-    if (path != null && path.isEmpty ||
-        !(await fileSystem.file(path!).exists())) return;
-    final installTransaction = await _client.createTransaction();
+    if (model.path == null ||
+        model.path!.isEmpty ||
+        !fileSystem.file(model.path!).existsSync()) {
+      throw FileSystemException('', model.path);
+    }
+    model.packageState = PackageState.processing;
+    final transaction = await _client.createTransaction();
     final completer = Completer();
-    setPackageState(PackageState.processing);
-    final subscription = installTransaction.events.listen((event) {
+    final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
-        _localId = event.packageId;
+        model.info = event.info;
+        model.packageId = event.packageId;
       } else if (event is PackageKitItemProgressEvent) {
-        setPackagePercentage(event.percentage);
+        model.percentage = event.percentage;
       } else if (event is PackageKitFinishedEvent) {
-        if (event.exit == PackageKitExit.success) {
-          setIsInstalled(true);
-        }
+        model.isInstalled = (event.exit == PackageKitExit.success);
+        model.packageState = PackageState.ready;
         completer.complete();
       }
     });
-    await installTransaction.installFiles([path]);
-    await completer.future.whenComplete(subscription.cancel);
-    if (_localId != null) {
-      await getDetails(packageId: _localId!);
-    }
-    setPackageState(PackageState.ready);
+    transaction.installFiles([model.path!]);
+    return completer.future.whenComplete(subscription.cancel);
   }
 
   void reboot() {
