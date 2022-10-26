@@ -168,5 +168,11 @@
   "debianPackages": "Debian paket",
   "@debianPackages": {},
   "connections": "Anslutningar",
-  "@connections": {}
+  "@connections": {},
+  "packageKitGroup": "Kategorin",
+  "@packageKitGroup": {},
+  "packageDetails": "Paketdetaljer",
+  "@packageDetails": {},
+  "packageKitFilter": "Typ av paket",
+  "@packageKitFilter": {}
 }

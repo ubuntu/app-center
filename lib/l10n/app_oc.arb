@@ -172,5 +172,13 @@
   "runsInBackground": "Logicial Ubuntu ten de s’executar en rèireplan per verificar la disponibilitat de las mesas a jorn sistèma.",
   "@runsInBackground": {},
   "readyToUpdate": "Lèst per actualizar",
-  "@readyToUpdate": {}
+  "@readyToUpdate": {},
+  "appFormat": "Lo format de paquet de las aplicacions",
+  "@appFormat": {},
+  "packageKitGroup": "La categoria",
+  "@packageKitGroup": {},
+  "packageKitFilter": "Lo tipe de paquet",
+  "@packageKitFilter": {},
+  "packageDetails": "Detalhs del paquet",
+  "@packageDetails": {}
 }
