@@ -178,5 +178,7 @@
   "packageKitGroup": "La catégorie",
   "@packageKitGroup": {},
   "packageKitFilter": "Le type de paquet",
-  "@packageKitFilter": {}
+  "@packageKitFilter": {},
+  "packageDetails": "Détails de paquet",
+  "@packageDetails": {}
 }
