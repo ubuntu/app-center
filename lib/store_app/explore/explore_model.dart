@@ -211,16 +211,40 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  final Set<AppFormat> _appFormats = {AppFormat.snap};
+  final Set<AppFormat> _appFormats = {AppFormat.snap, AppFormat.packageKit};
   Set<AppFormat> get appFormats => _appFormats;
   void handleAppFormat(bool value, AppFormat appFormat) {
     if (value) {
       _appFormats.add(appFormat);
     } else {
-      if (_appFormats.length > 1) {
-        _appFormats.remove(appFormat);
-      }
+      _appFormats.remove(appFormat);
     }
     notifyListeners();
   }
+
+  Future<Map<String, AppFinding>> search() async {
+    final Map<String, AppFinding> appFindings = {};
+
+    final snaps = await findSnapsByQuery();
+    for (final snap in snaps) {
+      appFindings.putIfAbsent(snap.name, () => AppFinding(snap: snap));
+    }
+
+    final packages = await findPackageKitPackageIds();
+    for (final package in packages) {
+      appFindings.putIfAbsent(
+        package.name,
+        () => AppFinding(packageId: package),
+      );
+    }
+
+    return appFindings;
+  }
+}
+
+class AppFinding {
+  final Snap? snap;
+  final PackageKitPackageId? packageId;
+
+  AppFinding({this.snap, this.packageId});
 }
