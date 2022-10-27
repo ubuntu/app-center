@@ -25,7 +25,7 @@ import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/package_state.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/services/package_model.dart';
+import 'package:software/store_app/common/packagekit/package_model.dart';
 import 'package:software/updates_state.dart';
 import 'package:synchronized/extension.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';

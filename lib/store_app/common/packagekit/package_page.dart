@@ -24,7 +24,7 @@ import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/app_page/app_page.dart';
 import 'package:software/store_app/common/packagekit/package_controls.dart';
-import 'package:software/services/package_model.dart';
+import 'package:software/store_app/common/packagekit/package_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 

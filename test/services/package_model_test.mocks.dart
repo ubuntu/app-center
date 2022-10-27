@@ -3,17 +3,16 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
+import 'dart:async' as _i5;
 
-import 'package:file/file.dart' as _i9;
-import 'package:file/local.dart' as _i10;
-import 'package:flutter/foundation.dart' as _i2;
+import 'package:file/file.dart' as _i8;
+import 'package:file/local.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:packagekit/packagekit.dart' as _i3;
-import 'package:software/package_state.dart' as _i7;
-import 'package:software/services/package_model.dart' as _i8;
-import 'package:software/services/package_service.dart' as _i4;
-import 'package:software/updates_state.dart' as _i5;
+import 'package:packagekit/packagekit.dart' as _i2;
+import 'package:software/package_state.dart' as _i6;
+import 'package:software/services/package_service.dart' as _i3;
+import 'package:software/store_app/common/packagekit/package_model.dart' as _i7;
+import 'package:software/updates_state.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -26,20 +25,9 @@ import 'package:software/updates_state.dart' as _i5;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeValueNotifier_0<T> extends _i1.SmartFake
-    implements _i2.ValueNotifier<T> {
-  _FakeValueNotifier_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakePackageKitPackageId_1 extends _i1.SmartFake
-    implements _i3.PackageKitPackageId {
-  _FakePackageKitPackageId_1(
+class _FakePackageKitPackageId_0 extends _i1.SmartFake
+    implements _i2.PackageKitPackageId {
+  _FakePackageKitPackageId_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -51,29 +39,13 @@ class _FakePackageKitPackageId_1 extends _i1.SmartFake
 /// A class which mocks [PackageService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPackageService extends _i1.Mock implements _i4.PackageService {
+class MockPackageService extends _i1.Mock implements _i3.PackageService {
   MockPackageService() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i2.ValueNotifier<bool> get ready => (super.noSuchMethod(
-        Invocation.getter(#ready),
-        returnValue: _FakeValueNotifier_0<bool>(
-          this,
-          Invocation.getter(#ready),
-        ),
-      ) as _i2.ValueNotifier<bool>);
-  @override
-  set ready(_i2.ValueNotifier<bool>? _ready) => super.noSuchMethod(
-        Invocation.setter(
-          #ready,
-          _ready,
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  set lastRequireRestart(_i3.PackageKitRestart? _lastRequireRestart) =>
+  set lastRequireRestart(_i2.PackageKitRestart? _lastRequireRestart) =>
       super.noSuchMethod(
         Invocation.setter(
           #lastRequireRestart,
@@ -82,7 +54,7 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  set lastUpdatesState(_i5.UpdatesState? _lastUpdatesState) =>
+  set lastUpdatesState(_i4.UpdatesState? _lastUpdatesState) =>
       super.noSuchMethod(
         Invocation.setter(
           #lastUpdatesState,
@@ -91,119 +63,119 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  List<_i3.PackageKitPackageId> get updates => (super.noSuchMethod(
+  List<_i2.PackageKitPackageId> get updates => (super.noSuchMethod(
         Invocation.getter(#updates),
-        returnValue: <_i3.PackageKitPackageId>[],
-      ) as List<_i3.PackageKitPackageId>);
+        returnValue: <_i2.PackageKitPackageId>[],
+      ) as List<_i2.PackageKitPackageId>);
   @override
-  _i6.Stream<bool> get updatesChanged => (super.noSuchMethod(
+  _i5.Stream<bool> get updatesChanged => (super.noSuchMethod(
         Invocation.getter(#updatesChanged),
-        returnValue: _i6.Stream<bool>.empty(),
-      ) as _i6.Stream<bool>);
+        returnValue: _i5.Stream<bool>.empty(),
+      ) as _i5.Stream<bool>);
   @override
-  List<_i3.PackageKitPackageId> get installedPackages => (super.noSuchMethod(
+  List<_i2.PackageKitPackageId> get installedPackages => (super.noSuchMethod(
         Invocation.getter(#installedPackages),
-        returnValue: <_i3.PackageKitPackageId>[],
-      ) as List<_i3.PackageKitPackageId>);
+        returnValue: <_i2.PackageKitPackageId>[],
+      ) as List<_i2.PackageKitPackageId>);
   @override
-  _i6.Stream<bool> get installedPackagesChanged => (super.noSuchMethod(
+  _i5.Stream<bool> get installedPackagesChanged => (super.noSuchMethod(
         Invocation.getter(#installedPackagesChanged),
-        returnValue: _i6.Stream<bool>.empty(),
-      ) as _i6.Stream<bool>);
+        returnValue: _i5.Stream<bool>.empty(),
+      ) as _i5.Stream<bool>);
   @override
-  List<_i3.PackageKitPackageId> get installedApps => (super.noSuchMethod(
+  List<_i2.PackageKitPackageId> get installedApps => (super.noSuchMethod(
         Invocation.getter(#installedApps),
-        returnValue: <_i3.PackageKitPackageId>[],
-      ) as List<_i3.PackageKitPackageId>);
+        returnValue: <_i2.PackageKitPackageId>[],
+      ) as List<_i2.PackageKitPackageId>);
   @override
-  _i6.Stream<bool> get installedAppsChanged => (super.noSuchMethod(
+  _i5.Stream<bool> get installedAppsChanged => (super.noSuchMethod(
         Invocation.getter(#installedAppsChanged),
-        returnValue: _i6.Stream<bool>.empty(),
-      ) as _i6.Stream<bool>);
+        returnValue: _i5.Stream<bool>.empty(),
+      ) as _i5.Stream<bool>);
   @override
-  _i6.Stream<bool> get groupsChanged => (super.noSuchMethod(
+  _i5.Stream<bool> get groupsChanged => (super.noSuchMethod(
         Invocation.getter(#groupsChanged),
-        returnValue: _i6.Stream<bool>.empty(),
-      ) as _i6.Stream<bool>);
+        returnValue: _i5.Stream<bool>.empty(),
+      ) as _i5.Stream<bool>);
   @override
-  List<_i3.PackageKitRepositoryDetailEvent> get repos => (super.noSuchMethod(
+  List<_i2.PackageKitRepositoryDetailEvent> get repos => (super.noSuchMethod(
         Invocation.getter(#repos),
-        returnValue: <_i3.PackageKitRepositoryDetailEvent>[],
-      ) as List<_i3.PackageKitRepositoryDetailEvent>);
+        returnValue: <_i2.PackageKitRepositoryDetailEvent>[],
+      ) as List<_i2.PackageKitRepositoryDetailEvent>);
   @override
-  _i6.Stream<bool> get reposChanged => (super.noSuchMethod(
+  _i5.Stream<bool> get reposChanged => (super.noSuchMethod(
         Invocation.getter(#reposChanged),
-        returnValue: _i6.Stream<bool>.empty(),
-      ) as _i6.Stream<bool>);
+        returnValue: _i5.Stream<bool>.empty(),
+      ) as _i5.Stream<bool>);
   @override
-  _i6.Stream<_i3.PackageKitRestart> get requireRestart => (super.noSuchMethod(
+  _i5.Stream<_i2.PackageKitRestart> get requireRestart => (super.noSuchMethod(
         Invocation.getter(#requireRestart),
-        returnValue: _i6.Stream<_i3.PackageKitRestart>.empty(),
-      ) as _i6.Stream<_i3.PackageKitRestart>);
+        returnValue: _i5.Stream<_i2.PackageKitRestart>.empty(),
+      ) as _i5.Stream<_i2.PackageKitRestart>);
   @override
-  _i6.Stream<int?> get updatesPercentage => (super.noSuchMethod(
+  _i5.Stream<int?> get updatesPercentage => (super.noSuchMethod(
         Invocation.getter(#updatesPercentage),
-        returnValue: _i6.Stream<int?>.empty(),
-      ) as _i6.Stream<int?>);
+        returnValue: _i5.Stream<int?>.empty(),
+      ) as _i5.Stream<int?>);
   @override
-  _i6.Stream<_i3.PackageKitPackageId?> get processedId => (super.noSuchMethod(
+  _i5.Stream<_i2.PackageKitPackageId?> get processedId => (super.noSuchMethod(
         Invocation.getter(#processedId),
-        returnValue: _i6.Stream<_i3.PackageKitPackageId?>.empty(),
-      ) as _i6.Stream<_i3.PackageKitPackageId?>);
+        returnValue: _i5.Stream<_i2.PackageKitPackageId?>.empty(),
+      ) as _i5.Stream<_i2.PackageKitPackageId?>);
   @override
-  _i6.Stream<String> get errorMessage => (super.noSuchMethod(
+  _i5.Stream<String> get errorMessage => (super.noSuchMethod(
         Invocation.getter(#errorMessage),
-        returnValue: _i6.Stream<String>.empty(),
-      ) as _i6.Stream<String>);
+        returnValue: _i5.Stream<String>.empty(),
+      ) as _i5.Stream<String>);
   @override
-  _i6.Stream<String> get manualRepoName => (super.noSuchMethod(
+  _i5.Stream<String> get manualRepoName => (super.noSuchMethod(
         Invocation.getter(#manualRepoName),
-        returnValue: _i6.Stream<String>.empty(),
-      ) as _i6.Stream<String>);
+        returnValue: _i5.Stream<String>.empty(),
+      ) as _i5.Stream<String>);
   @override
-  _i6.Stream<_i5.UpdatesState> get updatesState => (super.noSuchMethod(
+  _i5.Stream<_i4.UpdatesState> get updatesState => (super.noSuchMethod(
         Invocation.getter(#updatesState),
-        returnValue: _i6.Stream<_i5.UpdatesState>.empty(),
-      ) as _i6.Stream<_i5.UpdatesState>);
+        returnValue: _i5.Stream<_i4.UpdatesState>.empty(),
+      ) as _i5.Stream<_i4.UpdatesState>);
   @override
-  _i6.Stream<_i3.PackageKitInfo?> get info => (super.noSuchMethod(
+  _i5.Stream<_i2.PackageKitInfo?> get info => (super.noSuchMethod(
         Invocation.getter(#info),
-        returnValue: _i6.Stream<_i3.PackageKitInfo?>.empty(),
-      ) as _i6.Stream<_i3.PackageKitInfo?>);
+        returnValue: _i5.Stream<_i2.PackageKitInfo?>.empty(),
+      ) as _i5.Stream<_i2.PackageKitInfo?>);
   @override
-  _i6.Stream<_i3.PackageKitStatus?> get status => (super.noSuchMethod(
+  _i5.Stream<_i2.PackageKitStatus?> get status => (super.noSuchMethod(
         Invocation.getter(#status),
-        returnValue: _i6.Stream<_i3.PackageKitStatus?>.empty(),
-      ) as _i6.Stream<_i3.PackageKitStatus?>);
+        returnValue: _i5.Stream<_i2.PackageKitStatus?>.empty(),
+      ) as _i5.Stream<_i2.PackageKitStatus?>);
   @override
-  _i6.Stream<_i7.PackageState> get packageState => (super.noSuchMethod(
+  _i5.Stream<_i6.PackageState> get packageState => (super.noSuchMethod(
         Invocation.getter(#packageState),
-        returnValue: _i6.Stream<_i7.PackageState>.empty(),
-      ) as _i6.Stream<_i7.PackageState>);
+        returnValue: _i5.Stream<_i6.PackageState>.empty(),
+      ) as _i5.Stream<_i6.PackageState>);
   @override
-  _i6.Stream<bool> get selectionChanged => (super.noSuchMethod(
+  _i5.Stream<bool> get selectionChanged => (super.noSuchMethod(
         Invocation.getter(#selectionChanged),
-        returnValue: _i6.Stream<bool>.empty(),
-      ) as _i6.Stream<bool>);
+        returnValue: _i5.Stream<bool>.empty(),
+      ) as _i5.Stream<bool>);
   @override
   bool get allSelected => (super.noSuchMethod(
         Invocation.getter(#allSelected),
         returnValue: false,
       ) as bool);
   @override
-  _i3.PackageKitPackageId getUpdate(int? index) => (super.noSuchMethod(
+  _i2.PackageKitPackageId getUpdate(int? index) => (super.noSuchMethod(
         Invocation.method(
           #getUpdate,
           [index],
         ),
-        returnValue: _FakePackageKitPackageId_1(
+        returnValue: _FakePackageKitPackageId_0(
           this,
           Invocation.method(
             #getUpdate,
             [index],
           ),
         ),
-      ) as _i3.PackageKitPackageId);
+      ) as _i2.PackageKitPackageId);
   @override
   void setUpdatesChanged(bool? value) => super.noSuchMethod(
         Invocation.method(
@@ -213,11 +185,11 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  _i3.PackageKitPackageId? getInstalledId(String? name) =>
+  _i2.PackageKitPackageId? getInstalledId(String? name) =>
       (super.noSuchMethod(Invocation.method(
         #getInstalledId,
         [name],
-      )) as _i3.PackageKitPackageId?);
+      )) as _i2.PackageKitPackageId?);
   @override
   void setInstalledPackagesChanged(bool? value) => super.noSuchMethod(
         Invocation.method(
@@ -227,11 +199,11 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  _i3.PackageKitPackageId? getInstalledAppIds(String? name) =>
+  _i2.PackageKitPackageId? getInstalledAppIds(String? name) =>
       (super.noSuchMethod(Invocation.method(
         #getInstalledAppIds,
         [name],
-      )) as _i3.PackageKitPackageId?);
+      )) as _i2.PackageKitPackageId?);
   @override
   void setInstalledAppsChanged(bool? value) => super.noSuchMethod(
         Invocation.method(
@@ -257,13 +229,13 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  _i3.PackageKitGroup? getGroup(_i3.PackageKitPackageId? id) =>
+  _i2.PackageKitGroup? getGroup(_i2.PackageKitPackageId? id) =>
       (super.noSuchMethod(Invocation.method(
         #getGroup,
         [id],
-      )) as _i3.PackageKitGroup?);
+      )) as _i2.PackageKitGroup?);
   @override
-  void setRequireRestart(_i3.PackageKitRestart? value) => super.noSuchMethod(
+  void setRequireRestart(_i2.PackageKitRestart? value) => super.noSuchMethod(
         Invocation.method(
           #setRequireRestart,
           [value],
@@ -279,7 +251,7 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  void setProcessedId(_i3.PackageKitPackageId? value) => super.noSuchMethod(
+  void setProcessedId(_i2.PackageKitPackageId? value) => super.noSuchMethod(
         Invocation.method(
           #setProcessedId,
           [value],
@@ -303,7 +275,7 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  void setUpdatesState(_i5.UpdatesState? value) => super.noSuchMethod(
+  void setUpdatesState(_i4.UpdatesState? value) => super.noSuchMethod(
         Invocation.method(
           #setUpdatesState,
           [value],
@@ -311,7 +283,7 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  void setInfo(_i3.PackageKitInfo? value) => super.noSuchMethod(
+  void setInfo(_i2.PackageKitInfo? value) => super.noSuchMethod(
         Invocation.method(
           #setInfo,
           [value],
@@ -319,7 +291,7 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  void setStatus(_i3.PackageKitStatus? value) => super.noSuchMethod(
+  void setStatus(_i2.PackageKitStatus? value) => super.noSuchMethod(
         Invocation.method(
           #setStatus,
           [value],
@@ -327,7 +299,7 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  void setPackageState(_i7.PackageState? value) => super.noSuchMethod(
+  void setPackageState(_i6.PackageState? value) => super.noSuchMethod(
         Invocation.method(
           #setPackageState,
           [value],
@@ -351,7 +323,7 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  bool isUpdateSelected(_i3.PackageKitPackageId? update) => (super.noSuchMethod(
+  bool isUpdateSelected(_i2.PackageKitPackageId? update) => (super.noSuchMethod(
         Invocation.method(
           #isUpdateSelected,
           [update],
@@ -360,7 +332,7 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
       ) as bool);
   @override
   void selectUpdate(
-    _i3.PackageKitPackageId? id,
+    _i2.PackageKitPackageId? id,
     bool? value,
   ) =>
       super.noSuchMethod(
@@ -374,23 +346,23 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<void> init() => (super.noSuchMethod(
+  _i5.Future<void> init() => (super.noSuchMethod(
         Invocation.method(
           #init,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i6.Future<void> refreshUpdates() => (super.noSuchMethod(
+  _i5.Future<void> refreshUpdates() => (super.noSuchMethod(
         Invocation.method(
           #refreshUpdates,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
   void sendUpdateNotification({required String? updatesAvailable}) =>
       super.noSuchMethod(
@@ -410,7 +382,7 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<void> updateAll({
+  _i5.Future<void> updateAll({
     required String? updatesComplete,
     required String? updatesAvailable,
   }) =>
@@ -423,66 +395,66 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
             #updatesAvailable: updatesAvailable,
           },
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i6.Future<void> remove({required _i8.PackageModel? model}) =>
+  _i5.Future<void> remove({required _i7.PackageModel? model}) =>
       (super.noSuchMethod(
         Invocation.method(
           #remove,
           [],
           {#model: model},
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i6.Future<void> install({required _i8.PackageModel? model}) =>
+  _i5.Future<void> install({required _i7.PackageModel? model}) =>
       (super.noSuchMethod(
         Invocation.method(
           #install,
           [],
           {#model: model},
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i6.Future<void> isInstalled({required _i8.PackageModel? model}) =>
+  _i5.Future<void> isInstalled({required _i7.PackageModel? model}) =>
       (super.noSuchMethod(
         Invocation.method(
           #isInstalled,
           [],
           {#model: model},
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i6.Future<void> getDetails({required _i8.PackageModel? model}) =>
+  _i5.Future<void> getDetails({required _i7.PackageModel? model}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getDetails,
           [],
           {#model: model},
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i6.Future<void> getUpdateDetail({required _i8.PackageModel? model}) =>
+  _i5.Future<void> getUpdateDetail({required _i7.PackageModel? model}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getUpdateDetail,
           [],
           {#model: model},
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i6.Future<void> toggleRepo({
+  _i5.Future<void> toggleRepo({
     required String? id,
     required bool? value,
   }) =>
@@ -495,22 +467,22 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
             #value: value,
           },
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i6.Future<void> addRepo(String? manualRepoName) => (super.noSuchMethod(
+  _i5.Future<void> addRepo(String? manualRepoName) => (super.noSuchMethod(
         Invocation.method(
           #addRepo,
           [manualRepoName],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i6.Future<List<_i3.PackageKitPackageId>> findPackageKitPackageIds({
+  _i5.Future<List<_i2.PackageKitPackageId>> findPackageKitPackageIds({
     required Iterable<String>? searchQuery,
-    Set<_i3.PackageKitFilter>? filter = const {},
+    Set<_i2.PackageKitFilter>? filter = const {},
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -521,13 +493,13 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
             #filter: filter,
           },
         ),
-        returnValue: _i6.Future<List<_i3.PackageKitPackageId>>.value(
-            <_i3.PackageKitPackageId>[]),
-      ) as _i6.Future<List<_i3.PackageKitPackageId>>);
+        returnValue: _i5.Future<List<_i2.PackageKitPackageId>>.value(
+            <_i2.PackageKitPackageId>[]),
+      ) as _i5.Future<List<_i2.PackageKitPackageId>>);
   @override
-  _i6.Future<void> getDetailsAboutLocalPackage({
-    required _i8.PackageModel? model,
-    _i9.FileSystem? fileSystem = const _i10.LocalFileSystem(),
+  _i5.Future<void> getDetailsAboutLocalPackage({
+    required _i7.PackageModel? model,
+    _i8.FileSystem? fileSystem = const _i9.LocalFileSystem(),
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -538,13 +510,13 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
             #fileSystem: fileSystem,
           },
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i6.Future<void> installLocalFile({
-    required _i8.PackageModel? model,
-    _i9.FileSystem? fileSystem = const _i10.LocalFileSystem(),
+  _i5.Future<void> installLocalFile({
+    required _i7.PackageModel? model,
+    _i8.FileSystem? fileSystem = const _i9.LocalFileSystem(),
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -555,9 +527,9 @@ class MockPackageService extends _i1.Mock implements _i4.PackageService {
             #fileSystem: fileSystem,
           },
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
   void reboot() => super.noSuchMethod(
         Invocation.method(

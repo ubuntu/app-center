@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:software/services/package_model.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/store_app/common/packagekit/package_model.dart';
 
 import 'package_model_test.mocks.dart';
 
