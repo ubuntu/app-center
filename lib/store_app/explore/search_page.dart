@@ -265,7 +265,7 @@ class _CombinedSearchPage extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     subtitle: Text(
-                      e.value.snap?.version ?? e.value.packageId?.version ?? '',
+                      e.value.snap?.summary ?? e.value.packageId?.version ?? '',
                       overflow: TextOverflow.ellipsis,
                     ),
                     thirdTitle: Row(
