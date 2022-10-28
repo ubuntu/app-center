@@ -58,22 +58,6 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Snap? _selectedSnap;
-  Snap? get selectedSnap => _selectedSnap;
-  set selectedSnap(Snap? snap) {
-    if (snap == _selectedSnap) return;
-    _selectedSnap = snap;
-    notifyListeners();
-  }
-
-  PackageKitPackageId? _selectedPackage;
-  PackageKitPackageId? get selectedPackage => _selectedPackage;
-  set selectedPackage(PackageKitPackageId? id) {
-    if (id == _selectedPackage) return;
-    _selectedPackage = id;
-    notifyListeners();
-  }
-
   ExploreModel(
     this._snapService,
     this._packageService,
@@ -170,11 +154,6 @@ class ExploreModel extends SafeChangeNotifier {
         ],
         filter: packageKitFilters,
       );
-
-  void clearSelection() {
-    selectedSnap = null;
-    selectedPackage = null;
-  }
 
   AppFormat _appFormat = AppFormat.snap;
   AppFormat get appFormat => _appFormat;

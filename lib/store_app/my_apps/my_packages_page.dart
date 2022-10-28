@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/packagekit/package_page.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -69,7 +70,7 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
                 child: YaruBanner(
                   title: Text(package.name),
                   subtitle: Text(package.version),
-                  onTap: () => model.selectedPackage = package,
+                  onTap: () => PackagePage.push(context, package),
                   iconPadding: const EdgeInsets.only(left: 10, right: 5),
                   icon: const AppIcon(
                     iconUrl: null,

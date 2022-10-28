@@ -34,29 +34,40 @@ class PackagePage extends StatefulWidget {
     required this.noUpdate,
     required this.id,
     required this.installedId,
-    required this.onPop,
   });
 
   final bool noUpdate;
   final PackageKitPackageId id;
   final PackageKitPackageId installedId;
-  final VoidCallback onPop;
 
   static Widget create({
     required BuildContext context,
     required PackageKitPackageId id,
     required PackageKitPackageId installedId,
     bool noUpdate = true,
-    required final VoidCallback onPop,
   }) {
     return ChangeNotifierProvider(
       create: (context) =>
           PackageModel(service: getService<PackageService>(), packageId: id),
       child: PackagePage(
-        onPop: onPop,
         noUpdate: noUpdate,
         id: id,
         installedId: installedId,
+      ),
+    );
+  }
+
+  static Future<void> push(BuildContext context, PackageKitPackageId id) {
+    return Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return PackagePage.create(
+            context: context,
+            id: id,
+            installedId: id,
+          );
+        },
       ),
     );
   }
@@ -96,7 +107,6 @@ class _PackagePageState extends State<PackagePage> {
     );
     return AppPage(
       appData: appData,
-      onPop: widget.onPop,
       permissionContainer: const SizedBox(),
       icon: AppIcon(
         iconUrl: model.iconUrl,
