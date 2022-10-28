@@ -47,8 +47,14 @@ class UpdatesModel extends SafeChangeNotifier {
         _manualRepoName = '';
 
   void init() async {
+    // Init the model with the last values
     _updatesState = _service.lastUpdatesState;
+    _processedId = _service.lastProcessedId;
+    _info = _service.lastInfo;
+    _percentage = _service.lastUpdatesPercentage;
     _requireRestart = _service.lastRequireRestart ?? PackageKitRestart.none;
+
+    // Setup all stream subscriptions
     _updatesStateSub = _service.updatesState.listen((event) {
       updatesState = event;
     });

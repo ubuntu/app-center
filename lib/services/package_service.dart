@@ -107,17 +107,21 @@ class PackageService {
     lastRequireRestart = value;
   }
 
+  int? lastUpdatesPercentage;
   final _updatesPercentageController = StreamController<int?>.broadcast();
   Stream<int?> get updatesPercentage => _updatesPercentageController.stream;
   void setUpdatePercentage(int? value) {
     _updatesPercentageController.add(value);
+    lastUpdatesPercentage = value;
   }
 
+  PackageKitPackageId? lastProcessedId;
   final _processedIdController =
       StreamController<PackageKitPackageId?>.broadcast();
   Stream<PackageKitPackageId?> get processedId => _processedIdController.stream;
   void setProcessedId(PackageKitPackageId? value) {
     _processedIdController.add(value);
+    lastProcessedId = value;
   }
 
   final _errorMessageController = StreamController<String>.broadcast();
@@ -140,10 +144,12 @@ class PackageService {
     lastUpdatesState = value;
   }
 
+  PackageKitInfo? lastInfo;
   final _infoController = StreamController<PackageKitInfo?>.broadcast();
   Stream<PackageKitInfo?> get info => _infoController.stream;
   void setInfo(PackageKitInfo? value) {
     _infoController.add(value);
+    lastInfo = value;
   }
 
   final _statusController = StreamController<PackageKitStatus?>.broadcast();
