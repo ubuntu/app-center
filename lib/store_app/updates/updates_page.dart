@@ -60,13 +60,17 @@ class _UpdatesPageState extends State<UpdatesPage> {
   }
 
   void showSnackBar() {
+    if (!mounted) return;
     final model = context.read<UpdatesModel>();
     if (model.errorMessage.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           duration: const Duration(minutes: 1),
           padding: EdgeInsets.zero,
-          content: MessageBar(messsage: model.errorMessage),
+          content: MessageBar(
+            message: model.errorMessage,
+            copyMessage: context.l10n.copyErrorMessage,
+          ),
         ),
       );
     }

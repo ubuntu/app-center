@@ -18,8 +18,8 @@ class _RepoDialogState extends State<RepoDialog> {
 
   @override
   void initState() {
-    controller = TextEditingController();
     super.initState();
+    controller = TextEditingController();
   }
 
   @override

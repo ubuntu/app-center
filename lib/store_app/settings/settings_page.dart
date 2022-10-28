@@ -20,6 +20,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/confirmation_dialog.dart';
 import 'package:software/store_app/common/message_bar.dart';
 import 'package:software/store_app/settings/repo_dialog.dart';
@@ -68,11 +69,11 @@ class _SettingsPageState extends State<SettingsPage> {
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
           builder: (context) {
-            return ListView(
-              padding: const EdgeInsets.all(kYaruPagePadding),
-              children: [
-                YaruSection(
-                  width: 800,
+            return Center(
+              child: BorderContainer(
+                width: 700,
+                childPadding: const EdgeInsets.all(kYaruPagePadding),
+                child: Column(
                   children: [
                     YaruTile(
                       title: Text(context.l10n.runsInBackground),
@@ -114,47 +115,50 @@ class _SettingsPageState extends State<SettingsPage> {
                               filterQuality: FilterQuality.medium,
                             ),
                             children: [
-                              InkWell(
-                                borderRadius: BorderRadius.circular(5),
-                                onTap: () async =>
-                                    await launchUrl(Uri.parse(repoUrl)),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      context.l10n.findOurRepository,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                          ),
-                                    ),
-                                    Icon(
-                                      YaruIcons.external_link,
-                                      color: Theme.of(context).primaryColor,
-                                      size: 15,
-                                    )
-                                  ],
+                              Center(
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(5),
+                                  onTap: () async =>
+                                      await launchUrl(Uri.parse(repoUrl)),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        context.l10n.findOurRepository,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Icon(
+                                        YaruIcons.external_link,
+                                        color: Theme.of(context).primaryColor,
+                                        size: 18,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                               const SizedBox(
                                 height: 20,
                               ),
                               SizedBox(
-                                height: 300,
-                                width: 300,
+                                width: 400,
+                                height: 600,
                                 child: FutureBuilder<String>(
                                   future: loadAsset(context),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
-                                      return Markdown(
-                                        padding: EdgeInsets.zero,
-                                        shrinkWrap: true,
+                                      return MarkdownBody(
                                         data:
-                                            'Ubuntu Software is made by:\n ${snapshot.data!}',
+                                            '${context.l10n.madeBy}:\n ${snapshot.data!}',
                                         onTapLink: (text, href, title) =>
                                             href != null
                                                 ? launchUrl(Uri.parse(href))
@@ -177,8 +181,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     RepoTile.create(context)
                   ],
-                )
-              ],
+                ),
+              ),
             );
           },
         );
@@ -207,18 +211,22 @@ class RepoTile extends StatefulWidget {
 class _RepoTileState extends State<RepoTile> {
   @override
   void initState() {
-    context.read<UpdatesModel>().init(handleError: () => showSnackBar());
     super.initState();
+    context.read<UpdatesModel>().init(handleError: () => showSnackBar());
   }
 
   void showSnackBar() {
+    if (!mounted) return;
     final model = context.read<UpdatesModel>();
     if (model.errorMessage.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           duration: const Duration(minutes: 1),
           padding: EdgeInsets.zero,
-          content: MessageBar(messsage: model.errorMessage),
+          content: MessageBar(
+            message: model.errorMessage,
+            copyMessage: context.l10n.copyErrorMessage,
+          ),
         ),
       );
     }

@@ -90,5 +90,6 @@
   "packageKitGroup": "The category",
   "packageKitFilter": "The type of package",
   "packageDetails": "Package details",
-  "copyErrorMessage": "Copy error message"
+  "copyErrorMessage": "Copy error message",
+  "madeBy": "Ubuntu Software is developed and designed by"
 } 
