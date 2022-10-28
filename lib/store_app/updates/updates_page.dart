@@ -23,6 +23,7 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/message_bar.dart';
 import 'package:software/store_app/updates/update_banner.dart';
 import 'package:software/store_app/updates/updates_model.dart';
 import 'package:software/updates_state.dart';
@@ -53,8 +54,22 @@ class UpdatesPage extends StatefulWidget {
 class _UpdatesPageState extends State<UpdatesPage> {
   @override
   void initState() {
-    context.read<UpdatesModel>().init();
+    final model = context.read<UpdatesModel>();
+    model.init(handleError: () => showSnackBar());
     super.initState();
+  }
+
+  void showSnackBar() {
+    final model = context.read<UpdatesModel>();
+    if (model.errorMessage.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(minutes: 1),
+          padding: EdgeInsets.zero,
+          content: MessageBar(messsage: model.errorMessage),
+        ),
+      );
+    }
   }
 
   @override
@@ -228,32 +243,6 @@ class _UpdatesHeader extends StatelessWidget {
           runSpacing: 10,
           children: [
             OutlinedButton(
-              onPressed: model.updatesState == UpdatesState.updating
-                  ? null
-                  : () => showDialog(
-                        context: context,
-                        builder: (context) {
-                          return ChangeNotifierProvider.value(
-                            value: model,
-                            child: const _RepoDialog(),
-                          );
-                        },
-                      ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    YaruIcons.external_link,
-                    size: 18,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(context.l10n.sources)
-                ],
-              ),
-            ),
-            OutlinedButton(
               onPressed: model.updatesState == UpdatesState.updating ||
                       model.updatesState == UpdatesState.checkingForUpdates
                   ? null
@@ -393,75 +382,6 @@ class _NoUpdatesPage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _RepoDialog extends StatefulWidget {
-  // ignore: unused_element
-  const _RepoDialog({super.key});
-
-  @override
-  State<_RepoDialog> createState() => _RepoDialogState();
-}
-
-class _RepoDialogState extends State<_RepoDialog> {
-  late TextEditingController controller;
-
-  @override
-  void initState() {
-    controller = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<UpdatesModel>();
-
-    return SimpleDialog(
-      title: YaruTitleBar(
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: controller.text.isEmpty ? null : () => model.addRepo(),
-              icon: const Icon(YaruIcons.plus),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            SizedBox(
-              width: 300,
-              child: TextField(
-                onChanged: (value) => model.manualRepoName = value,
-                controller: controller,
-                decoration: InputDecoration(
-                  hintText: context.l10n.enterRepoName,
-                  border: const UnderlineInputBorder(),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-      titlePadding: EdgeInsets.zero,
-      children: model.repos
-          .map(
-            (e) => CheckboxListTile(
-              value: e.enabled,
-              onChanged: (v) => model.toggleRepo(id: e.repoId, value: v!),
-              title: ListTile(
-                title: Text(e.repoId),
-                subtitle: Text(e.description),
-              ),
-            ),
-          )
-          .toList(),
     );
   }
 }

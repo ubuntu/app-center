@@ -21,8 +21,13 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/confirmation_dialog.dart';
+import 'package:software/store_app/common/message_bar.dart';
+import 'package:software/store_app/settings/repo_dialog.dart';
 import 'package:software/store_app/settings/settings_model.dart';
+import 'package:software/store_app/updates/updates_model.dart';
+import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -170,6 +175,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       enabled: true,
                     ),
+                    RepoTile.create(context)
                   ],
                 )
               ],
@@ -177,6 +183,69 @@ class _SettingsPageState extends State<SettingsPage> {
           },
         );
       },
+    );
+  }
+}
+
+class RepoTile extends StatefulWidget {
+  const RepoTile({super.key});
+
+  @override
+  State<RepoTile> createState() => _RepoTileState();
+
+  static Widget create(BuildContext context) {
+    return ChangeNotifierProvider<UpdatesModel>(
+      create: (context) => UpdatesModel(
+        getService<PackageService>(),
+        getService<UbuntuSession>(),
+      ),
+      child: const RepoTile(),
+    );
+  }
+}
+
+class _RepoTileState extends State<RepoTile> {
+  @override
+  void initState() {
+    context.read<UpdatesModel>().init(handleError: () => showSnackBar());
+    super.initState();
+  }
+
+  void showSnackBar() {
+    final model = context.read<UpdatesModel>();
+    if (model.errorMessage.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(minutes: 1),
+          padding: EdgeInsets.zero,
+          content: MessageBar(messsage: model.errorMessage),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<UpdatesModel>();
+    return YaruTile(
+      title: Text(context.l10n.sources),
+      trailing: YaruOptionButton(
+        onPressed: model.updatesState == UpdatesState.updating
+            ? null
+            : () => showDialog(
+                  context: context,
+                  builder: (context) {
+                    return ChangeNotifierProvider.value(
+                      value: model,
+                      child: const RepoDialog(),
+                    );
+                  },
+                ),
+        child: const Icon(
+          YaruIcons.external_link,
+          size: 18,
+        ),
+      ),
     );
   }
 }

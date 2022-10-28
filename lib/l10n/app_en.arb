@@ -89,5 +89,6 @@
   "appFormat": "The package format of applications",
   "packageKitGroup": "The category",
   "packageKitFilter": "The type of package",
-  "packageDetails": "Package details"
+  "packageDetails": "Package details",
+  "copyErrorMessage": "Copy error message"
 } 
