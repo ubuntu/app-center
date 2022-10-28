@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/updates/updates_model.dart';
+import 'package:software/updates_state.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -34,33 +35,39 @@ class _RepoDialogState extends State<RepoDialog> {
 
     return SimpleDialog(
       title: YaruTitleBar(
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: controller.text.isEmpty ? null : () => model.addRepo(),
-              icon: const Icon(YaruIcons.plus),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            SizedBox(
-              width: 300,
-              child: TextField(
-                onChanged: (value) => model.manualRepoName = value,
-                controller: controller,
-                decoration: InputDecoration(
-                  hintText: context.l10n.enterRepoName,
-                  border: const UnderlineInputBorder(),
-                ),
-              ),
-            )
-          ],
-        ),
+        title: model.updatesState != UpdatesState.updating &&
+                model.updatesState != UpdatesState.checkingForUpdates
+            ? Row(
+                children: [
+                  IconButton(
+                    onPressed:
+                        controller.text.isEmpty ? null : () => model.addRepo(),
+                    icon: const Icon(YaruIcons.plus),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: 300,
+                    child: TextField(
+                      onChanged: (value) => model.manualRepoName = value,
+                      controller: controller,
+                      decoration: InputDecoration(
+                        hintText: context.l10n.enterRepoName,
+                        border: const UnderlineInputBorder(),
+                      ),
+                    ),
+                  )
+                ],
+              )
+            : const SizedBox(),
       ),
       titlePadding: EdgeInsets.zero,
       children: model.repos
           .map(
             (e) => CheckboxListTile(
+              enabled: model.updatesState != UpdatesState.updating &&
+                  model.updatesState != UpdatesState.checkingForUpdates,
               value: e.enabled,
               onChanged: (v) => model.toggleRepo(id: e.repoId, value: v!),
               title: ListTile(

@@ -79,18 +79,6 @@ class _UpdatesPageState extends State<UpdatesPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<UpdatesModel>();
-    if (model.errorMessage.isNotEmpty) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              Expanded(child: Text(model.errorMessage)),
-            ],
-          ),
-        ),
-      );
-    }
 
     return Column(
       children: [
