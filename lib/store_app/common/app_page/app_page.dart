@@ -32,7 +32,6 @@ class AppPage extends StatefulWidget {
   const AppPage({
     super.key,
     required this.appData,
-    required this.onPop,
     required this.icon,
     required this.permissionContainer,
     required this.controls,
@@ -41,7 +40,6 @@ class AppPage extends StatefulWidget {
   });
 
   final AppData appData;
-  final VoidCallback onPop;
   final Widget icon;
   final Widget? permissionContainer;
   final Widget controls;
@@ -184,7 +182,7 @@ class _AppPageState extends State<AppPage> {
       appBar: AppBar(
         title: Text(widget.appData.title),
         leading: _CustomBackButton(
-          onPressed: widget.onPop,
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: isWindowWide

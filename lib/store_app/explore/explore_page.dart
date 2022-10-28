@@ -23,8 +23,6 @@ import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/explore/explore_header.dart';
 import 'package:software/store_app/explore/offline_page.dart';
-import 'package:software/store_app/common/packagekit/package_page.dart';
-import 'package:software/store_app/common/snap/snap_page.dart';
 import 'package:software/store_app/common/snap/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/search_field.dart';
@@ -106,25 +104,6 @@ class _ExplorePageState extends State<ExplorePage> {
             ),
           ),
         ),
-        if (model.selectedSnap != null && model.selectedPackage == null)
-          MaterialPage(
-            key: ObjectKey(model.selectedSnap),
-            child: SnapPage.create(
-              context: context,
-              huskSnapName: model.selectedSnap!.name,
-              onPop: () => model.selectedSnap = null,
-            ),
-          ),
-        if (model.selectedPackage != null && model.selectedSnap == null)
-          MaterialPage(
-            key: ObjectKey(model.selectedPackage),
-            child: PackagePage.create(
-              context: context,
-              id: model.selectedPackage!,
-              installedId: model.selectedPackage!,
-              onPop: model.clearSelection,
-            ),
-          ),
       ],
       onPopPage: (route, result) => route.didPop(result),
     );

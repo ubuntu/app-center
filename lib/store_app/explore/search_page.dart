@@ -25,6 +25,8 @@ import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/app_format.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/packagekit/package_page.dart';
+import 'package:software/store_app/common/snap/snap_page.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -88,7 +90,7 @@ class _SnapSearchPage extends StatelessWidget {
                         fallBackIconSize: 30,
                       ),
                       iconPadding: const EdgeInsets.only(left: 10, right: 5),
-                      onTap: () => model.selectedSnap = snap,
+                      onTap: () => SnapPage.push(context, snap),
                     ),
                   );
                 },
@@ -149,7 +151,7 @@ class _PackageKitSearchPageState extends State<_PackageKitSearchPage> {
                       fallBackIconData: YaruIcons.debian,
                     ),
                     iconPadding: const EdgeInsets.only(left: 10, right: 5),
-                    onTap: () => model.selectedPackage = id,
+                    onTap: () => PackagePage.push(context, id),
                   );
                 },
               )
@@ -281,10 +283,7 @@ class _CombinedSearchPage extends StatelessWidget {
                             ),
                             onPressed: e.value.packageId == null
                                 ? null
-                                : () {
-                                    model.selectedPackage == null;
-                                    model.selectedSnap = e.value.snap;
-                                  },
+                                : () => SnapPage.push(context, e.value.snap!),
                           ),
                         if (e.value.packageId != null)
                           Padding(
@@ -292,10 +291,10 @@ class _CombinedSearchPage extends StatelessWidget {
                             child: IconButton(
                               onPressed: e.value.snap == null
                                   ? null
-                                  : () {
-                                      model.selectedSnap = null;
-                                      model.selectedPackage = e.value.packageId;
-                                    },
+                                  : () => PackagePage.push(
+                                        context,
+                                        e.value.packageId!,
+                                      ),
                               icon: Icon(
                                 YaruIcons.debian,
                                 color: e.value.snap == null
@@ -317,12 +316,12 @@ class _CombinedSearchPage extends StatelessWidget {
                         : () {
                             if (e.value.snap == null &&
                                 e.value.packageId != null) {
-                              model.selectedPackage = e.value.packageId;
+                              PackagePage.push(context, e.value.packageId!);
                             }
 
                             if (e.value.snap != null &&
                                 e.value.packageId == null) {
-                              model.selectedSnap = e.value.snap;
+                              SnapPage.push(context, e.value.snap!);
                             }
                           },
                   );
