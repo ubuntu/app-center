@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/store_app/common/snap/snap_page.dart';
 import 'package:software/store_app/common/snap/snap_section.dart';
 import 'package:software/store_app/explore/color_banner.dart';
 import 'package:software/store_app/explore/explore_model.dart';
@@ -71,7 +72,7 @@ class _StartPageState extends State<StartPage> {
           sectionName: section == SnapSection.all
               ? SnapSection.featured.localize(context.l10n)
               : section.localize(context.l10n),
-          onTap: () => model.selectedSnap = snap,
+          onTap: () => SnapPage.push(context, snap),
         );
       },
     );

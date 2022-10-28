@@ -21,8 +21,6 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
-import 'package:software/store_app/common/packagekit/package_page.dart';
-import 'package:software/store_app/common/snap/snap_page.dart';
 import 'package:software/store_app/my_apps/my_apps_header.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:software/store_app/my_apps/my_apps_search_field.dart';
@@ -90,25 +88,6 @@ class MyAppsPage extends StatelessWidget {
             body: page,
           ),
         ),
-        if (model.selectedSnap != null && model.selectedPackage == null)
-          MaterialPage(
-            key: ObjectKey(model.selectedSnap),
-            child: SnapPage.create(
-              context: context,
-              huskSnapName: model.selectedSnap!.name,
-              onPop: model.clearSelection,
-            ),
-          ),
-        if (model.selectedPackage != null && model.selectedSnap == null)
-          MaterialPage(
-            key: ObjectKey(model.selectedSnap),
-            child: PackagePage.create(
-              context: context,
-              id: model.selectedPackage!,
-              installedId: model.selectedPackage!,
-              onPop: model.clearSelection,
-            ),
-          ),
       ],
       onPopPage: (route, result) => route.didPop(result),
     );

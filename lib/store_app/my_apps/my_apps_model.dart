@@ -40,22 +40,6 @@ class MyAppsModel extends SafeChangeNotifier {
   final List<Snap> _localSnaps;
   List<Snap> get localSnaps => _localSnaps;
 
-  Snap? _selectedSnap;
-  Snap? get selectedSnap => _selectedSnap;
-  set selectedSnap(Snap? snap) {
-    if (snap == _selectedSnap) return;
-    _selectedSnap = snap;
-    notifyListeners();
-  }
-
-  PackageKitPackageId? _selectedPackage;
-  PackageKitPackageId? get selectedPackage => _selectedPackage;
-  set selectedPackage(PackageKitPackageId? id) {
-    if (id == _selectedPackage) return;
-    _selectedPackage = id;
-    notifyListeners();
-  }
-
   Future<void> init() async {
     await _loadLocalSnaps();
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
@@ -86,11 +70,6 @@ class MyAppsModel extends SafeChangeNotifier {
     snaps.sort((a, b) => a.name.compareTo(b.name));
     _localSnaps.clear();
     _localSnaps.addAll(snaps);
-  }
-
-  void clearSelection() {
-    selectedSnap = null;
-    selectedPackage = null;
   }
 
   String? _searchQuery;

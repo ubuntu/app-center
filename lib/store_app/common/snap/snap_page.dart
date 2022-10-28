@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_data.dart';
@@ -29,14 +30,11 @@ import 'package:software/store_app/common/snap/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class SnapPage extends StatefulWidget {
-  const SnapPage({super.key, required this.onPop});
-
-  final VoidCallback onPop;
+  const SnapPage({super.key});
 
   static Widget create({
     required BuildContext context,
     required String huskSnapName,
-    required final VoidCallback onPop,
   }) =>
       ChangeNotifierProvider<SnapModel>(
         create: (_) => SnapModel(
@@ -44,8 +42,22 @@ class SnapPage extends StatefulWidget {
           getService<SnapService>(),
           huskSnapName: huskSnapName,
         ),
-        child: SnapPage(onPop: onPop),
+        child: const SnapPage(),
       );
+
+  static Future<void> push(BuildContext context, Snap snap) {
+    return Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return SnapPage.create(
+            context: context,
+            huskSnapName: snap.name,
+          );
+        },
+      ),
+    );
+  }
 
   @override
   State<SnapPage> createState() => _SnapPageState();
@@ -84,7 +96,6 @@ class _SnapPageState extends State<SnapPage> {
 
     return AppPage(
       appData: appData,
-      onPop: widget.onPop,
       permissionContainer: model.showPermissions
           ? const BorderContainer(
               child: SnapConnectionsSettings(),

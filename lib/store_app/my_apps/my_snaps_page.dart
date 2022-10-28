@@ -49,23 +49,7 @@ class _MySnapsPageState extends State<MySnapsPage> {
               (s) => s.name.startsWith(model.searchQuery!),
             )
             .toList();
-    return Navigator(
-      pages: [
-        MaterialPage(
-          child: _MySnapsGrid(snaps: snaps),
-        ),
-        if (model.selectedSnap != null)
-          MaterialPage(
-            key: ObjectKey(model.selectedSnap),
-            child: SnapPage.create(
-              context: context,
-              huskSnapName: model.selectedSnap!.name,
-              onPop: () => model.selectedSnap = null,
-            ),
-          )
-      ],
-      onPopPage: (route, result) => route.didPop(result),
-    );
+    return _MySnapsGrid(snaps: snaps);
   }
 }
 
@@ -126,7 +110,7 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
                 iconUrl: snap.iconUrl,
               ),
             ),
-            onTap: () => model.selectedSnap = snap,
+            onTap: () => SnapPage.push(context, snap),
           ),
         );
       },
