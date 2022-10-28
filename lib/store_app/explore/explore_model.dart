@@ -232,10 +232,27 @@ class ExploreModel extends SafeChangeNotifier {
 
     final packages = await findPackageKitPackageIds();
     for (final package in packages) {
-      appFindings.putIfAbsent(
-        package.name,
-        () => AppFinding(packageId: package),
-      );
+      Snap? foundSnap;
+      for (var snap in snaps) {
+        if (snap.name == package.name) {
+          foundSnap = snap;
+        }
+      }
+      if (foundSnap != null) {
+        appFindings.remove(foundSnap.name);
+        appFindings.putIfAbsent(
+          foundSnap.name,
+          () => AppFinding(
+            snap: foundSnap,
+            packageId: package,
+          ),
+        );
+      } else {
+        appFindings.putIfAbsent(
+          package.name,
+          () => AppFinding(packageId: package),
+        );
+      }
     }
 
     return appFindings;

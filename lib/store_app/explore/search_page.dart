@@ -241,6 +241,9 @@ class _CombinedSearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
+    final appFormatEmblemColor = Theme.of(context).disabledColor;
+    final primaryColor = Theme.of(context).primaryColor;
+
     return FutureBuilder<Map<String, AppFinding>>(
       future: model.search(),
       builder: (context, snapshot) {
@@ -256,29 +259,72 @@ class _CombinedSearchPage extends StatelessWidget {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final e = snapshot.data!.entries.elementAt(index);
-
                   return YaruBanner(
                     title: Text(
                       e.key,
                       overflow: TextOverflow.ellipsis,
                     ),
                     subtitle: Text(
-                      e.value.snap?.version ?? e.value.packageId?.version ?? '',
+                      e.value.snap?.summary ?? e.value.packageId?.version ?? '',
                       overflow: TextOverflow.ellipsis,
+                    ),
+                    thirdTitle: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        if (e.value.snap != null)
+                          IconButton(
+                            icon: Icon(
+                              YaruIcons.snapcraft,
+                              color: e.value.packageId == null
+                                  ? appFormatEmblemColor
+                                  : primaryColor,
+                            ),
+                            onPressed: e.value.packageId == null
+                                ? null
+                                : () {
+                                    model.selectedPackage == null;
+                                    model.selectedSnap = e.value.snap;
+                                  },
+                          ),
+                        if (e.value.packageId != null)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: IconButton(
+                              onPressed: e.value.snap == null
+                                  ? null
+                                  : () {
+                                      model.selectedSnap = null;
+                                      model.selectedPackage = e.value.packageId;
+                                    },
+                              icon: Icon(
+                                YaruIcons.debian,
+                                color: e.value.snap == null
+                                    ? appFormatEmblemColor
+                                    : primaryColor,
+                              ),
+                            ),
+                          )
+                      ],
                     ),
                     icon: AppIcon(
                       iconUrl: e.value.snap?.iconUrl,
-                      fallBackIconData: e.value.snap != null
-                          ? YaruIcons.snapcraft
-                          : e.value.packageId != null
-                              ? YaruIcons.debian
-                              : YaruIcons.question,
+                      fallBackIconData: YaruIcons.view_more,
                     ),
-                    iconPadding: const EdgeInsets.only(left: 10, right: 5),
-                    onTap: () {
-                      model.selectedSnap = e.value.snap;
-                      model.selectedPackage = e.value.packageId;
-                    },
+                    iconPadding:
+                        const EdgeInsets.only(left: 10, right: 5, bottom: 30),
+                    onTap: e.value.snap != null && e.value.packageId != null
+                        ? null
+                        : () {
+                            if (e.value.snap == null &&
+                                e.value.packageId != null) {
+                              model.selectedPackage = e.value.packageId;
+                            }
+
+                            if (e.value.snap != null &&
+                                e.value.packageId == null) {
+                              model.selectedSnap = e.value.snap;
+                            }
+                          },
                   );
                 },
               )
