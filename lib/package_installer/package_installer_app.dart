@@ -19,10 +19,11 @@ import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/package_installer/package_installer_model.dart';
 import 'package:software/package_installer/wizard_page.dart';
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/store_app/common/packagekit/package_model.dart';
+import 'package:software/store_app/common/utils.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -62,7 +63,7 @@ class _PackageInstallerPage extends StatefulWidget {
   static Widget create(String path) {
     return ChangeNotifierProvider(
       create: (context) =>
-          PackageInstallerModel(getService<PackageService>(), path: path),
+          PackageModel(service: getService<PackageService>(), path: path),
       child: const _PackageInstallerPage(),
     );
   }
@@ -75,33 +76,39 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
   @override
   void initState() {
     super.initState();
-    context.read<PackageInstallerModel>().init();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<PackageModel>().init();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<PackageInstallerModel>();
+    final model = context.watch<PackageModel>();
 
     return WizardPage(
       title: Text(context.l10n.packageInstaller),
       actions: [
-        model.isInstalled
-            ? ElevatedButton(
-                onPressed: model.id == null ||
-                        model.id!.name.isEmpty ||
-                        model.packageState == PackageState.processing
-                    ? null
-                    : () => model.remove(packageId: model.id!),
-                child: Text(context.l10n.remove),
-              )
-            : ElevatedButton(
-                onPressed: model.id == null ||
-                        model.id!.name.isEmpty ||
-                        model.packageState != PackageState.ready
-                    ? null
-                    : () => model.installLocalFile(),
-                child: Text(context.l10n.install),
-              ),
+        if (model.isInstalled == null)
+          const SizedBox.shrink()
+        else if (model.isInstalled!)
+          ElevatedButton(
+            onPressed: model.packageId == null ||
+                    model.packageId!.name.isEmpty ||
+                    model.packageState == PackageState.processing
+                ? null
+                : () => model.remove(),
+            child: Text(context.l10n.remove),
+          )
+        else
+          ElevatedButton(
+            onPressed: model.packageId == null ||
+                    model.packageId!.name.isEmpty ||
+                    model.packageState != PackageState.ready
+                ? null
+                : () => model.install(),
+            child: Text(context.l10n.install),
+          ),
       ],
       content: Center(
         child: SingleChildScrollView(
@@ -115,28 +122,28 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
                 children: [
                   YaruTile(
                     title: Text(context.l10n.name),
-                    trailing: Text(model.id == null ? '' : model.id!.name),
+                    trailing: Text(model.packageId?.name ?? ''),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   YaruTile(
                     title: Text(context.l10n.version),
-                    trailing: Text(model.id == null ? '' : model.id!.version),
+                    trailing: Text(model.packageId?.version ?? ''),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   YaruTile(
                     title: Text(context.l10n.architecture),
-                    trailing: Text(model.id == null ? '' : model.id!.arch),
+                    trailing: Text(model.packageId?.arch ?? ''),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   YaruTile(
                     title: Text(context.l10n.source),
-                    trailing: Text(model.id == null ? '' : model.id!.data),
+                    trailing: Text(model.packageId?.data ?? ''),
                   ),
                   const SizedBox(
                     height: 10,
@@ -150,7 +157,7 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
                   ),
                   YaruTile(
                     title: Text(context.l10n.size),
-                    trailing: Text(model.size),
+                    trailing: Text(formatBytes(model.size, 2)),
                   ),
                   const SizedBox(
                     height: 10,
@@ -178,9 +185,7 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
                       width: 145,
                       height: 185,
                       child: LiquidLinearProgressIndicator(
-                        value: model.percentage == null
-                            ? 0
-                            : model.percentage! / 100,
+                        value: model.percentage / 100,
                         backgroundColor: Colors.white.withOpacity(0.5),
                         valueColor: AlwaysStoppedAnimation(
                           Theme.of(context).primaryColor,

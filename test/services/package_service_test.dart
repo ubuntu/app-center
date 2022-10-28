@@ -9,6 +9,7 @@ import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/store_app/common/packagekit/package_model.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -210,6 +211,22 @@ void main() {
       return emitFinishedEvent(controller);
     });
 
+    when(
+      transaction.searchNames(
+        [firefoxPackageId.name],
+        filter: {PackageKitFilter.installed},
+      ),
+    ).thenAnswer((_) {
+      controller.add(
+        const PackageKitPackageEvent(
+          info: PackageKitInfo.installed,
+          packageId: firefoxPackageId,
+          summary: 'a fox',
+        ),
+      );
+      return emitFinishedEvent(controller);
+    });
+
     return transaction;
   }
 
@@ -219,6 +236,25 @@ void main() {
         .directory(Directory.systemTemp.absolute.path)
         .childFile('tempfile.deb');
     return tempFile.create(recursive: true);
+  }
+
+  PackageModel createPackageModel({
+    required PackageService service,
+    PackageKitPackageId? packageId,
+    String? path,
+  }) {
+    final model = PackageModel(
+      service: service,
+      packageId: packageId,
+      path: path,
+    );
+    expect(model.summary, '');
+    expect(model.url, '');
+    expect(model.license, '');
+    expect(model.size, 0);
+    expect(model.description, '');
+    expect(model.isInstalled, isNull);
+    return model;
   }
 
   setUp(() {
@@ -255,14 +291,10 @@ void main() {
   test('init', () async {
     final service = PackageService();
 
-    expectLater(
-      service.packageState,
-      emitsInOrder(
-        [PackageState.processing, PackageState.ready],
-      ),
-    );
-
     await service.init();
+
+    expect(service.installedApps, isEmpty);
+    expect(service.installedPackages, isEmpty);
   });
 
   test('no updates', () async {
@@ -283,14 +315,42 @@ void main() {
 
   test('get details', () async {
     final service = PackageService();
+    final model = createPackageModel(
+      service: service,
+      packageId: firefoxPackageId,
+    );
 
-    expectLater(service.summary, emits('a summary'));
-    expectLater(service.url, emits('https://example.org/'));
-    expectLater(service.license, emits('a license'));
-    expectLater(service.size, emits('42.00 KB'));
-    expectLater(service.description, emits('a description'));
+    await service.getDetails(model: model);
 
-    await service.getDetails(packageId: firefoxPackageId);
+    expect(model.summary, 'a summary');
+    expect(model.url, 'https://example.org/');
+    expect(model.license, 'a license');
+    expect(model.size, 43008);
+    expect(model.description, 'a description');
+  });
+
+  test('is installed', () async {
+    final service = PackageService();
+    final model = createPackageModel(
+      service: service,
+      packageId: firefoxPackageId,
+    );
+
+    final packageStates = [model.packageState];
+    model.addListener(() {
+      if (packageStates.last != model.packageState) {
+        packageStates.add(model.packageState);
+      }
+    });
+
+    await service.isInstalled(model: model);
+
+    expect(model.isInstalled, isTrue);
+    expect(packageStates, [
+      PackageState.ready,
+      PackageState.processing,
+      PackageState.ready,
+    ]);
   });
 
   test('find package ids', () async {
@@ -346,111 +406,104 @@ void main() {
 
   test('get details about local package', () async {
     final service = PackageService();
-
     final tempFile = await createTempFile();
-
-    expectLater(service.processedId, emits(firefoxPackageId));
-    expectLater(service.summary, emits('a fox'));
-    expectLater(service.url, emits('https://example.org/'));
-    expectLater(service.license, emits('a license'));
-    expectLater(service.size, emits('42.00 KB'));
-    expectLater(service.group, emits(PackageKitGroup.internet));
-    expectLater(service.description, emits('a fire fox'));
+    final model = createPackageModel(service: service, path: tempFile.path);
 
     await service.getDetailsAboutLocalPackage(
-      path: tempFile.path,
+      model: model,
       fileSystem: testFS,
     );
+
+    expect(model.packageId, firefoxPackageId);
+    expect(model.summary, 'a fox');
+    expect(model.url, 'https://example.org/');
+    expect(model.license, 'a license');
+    expect(model.size, 43008);
+    expect(model.group, PackageKitGroup.internet);
+    expect(model.description, 'a fire fox');
   });
 
   test('install package', () async {
     final service = PackageService();
-
-    expectLater(
-      service.packageState,
-      emitsInOrder(
-        [
-          PackageState.processing,
-          PackageState.ready,
-        ],
-      ),
+    final model = createPackageModel(
+      service: service,
+      packageId: firefoxPackageId,
     );
-    expectLater(service.info, emitsInOrder([PackageKitInfo.installing]));
-    expectLater(service.packagePercentage, emitsInOrder([33, 67, 100]));
 
-    await service.install(packageId: firefoxPackageId);
+    final packageStates = [model.packageState];
+    final percentages = [model.percentage];
+    model.addListener(() {
+      if (packageStates.last != model.packageState) {
+        packageStates.add(model.packageState);
+      } else if (percentages.last != model.percentage) {
+        percentages.add(model.percentage);
+      }
+    });
+
+    await service.install(model: model);
+
+    expect(model.info, PackageKitInfo.installing);
+    expect(model.isInstalled, isTrue);
+    expect(packageStates, [
+      PackageState.ready,
+      PackageState.processing,
+      PackageState.ready,
+    ]);
+    expect(percentages, [0, 33, 67, 100]);
   });
 
   test('remove package', () async {
     final service = PackageService();
-
-    expectLater(
-      service.packageState,
-      emitsInOrder(
-        [
-          PackageState.processing,
-          PackageState.ready,
-        ],
-      ),
+    final model = createPackageModel(
+      service: service,
+      packageId: firefoxPackageId,
     );
-    expectLater(service.info, emitsInOrder([PackageKitInfo.removing]));
-    expectLater(service.packagePercentage, emitsInOrder([73, 28, 0]));
+    model.isInstalled = true;
+    model.percentage = 100;
 
-    await service.remove(packageId: firefoxPackageId);
+    final packageStates = [model.packageState];
+    final percentages = [model.percentage];
+    model.addListener(() {
+      if (packageStates.last != model.packageState) {
+        packageStates.add(model.packageState);
+      } else if (percentages.last != model.percentage) {
+        percentages.add(model.percentage);
+      }
+    });
+
+    await service.remove(model: model);
+
+    expect(model.info, PackageKitInfo.removing);
+    expect(model.isInstalled, isFalse);
+    expect(packageStates, [
+      PackageState.ready,
+      PackageState.processing,
+      PackageState.ready,
+    ]);
+    expect(percentages, [100, 73, 28, 0]);
   });
 
   test('install local file', () async {
     final service = PackageService();
-
     final tempFile = await createTempFile();
+    final model = createPackageModel(service: service, path: tempFile.path);
 
-    expectLater(
-      service.packageState,
-      emitsInOrder(
-        [
-          PackageState.processing,
-          PackageState.ready,
-        ],
-      ),
-    );
+    final packageStates = [model.packageState];
+    model.addListener(() {
+      if (packageStates.last != model.packageState) {
+        packageStates.add(model.packageState);
+      }
+    });
 
-    expectLater(service.summary, emits('a summary'));
-    expectLater(service.url, emits('https://example.org/'));
-    expectLater(service.license, emits('a license'));
-    expectLater(service.size, emits('42.00 KB'));
-    expectLater(service.description, emits('a description'));
+    await service.installLocalFile(model: model, fileSystem: testFS);
 
-    await service.installLocalFile(path: tempFile.path, fileSystem: testFS);
-  });
-
-  test('remove local package', () async {
-    final service = PackageService();
-
-    final tempFile = await createTempFile();
-
-    await service.getDetailsAboutLocalPackage(
-      path: tempFile.path,
-      fileSystem: testFS,
-    );
-
-    expectLater(
-      service.packageState,
-      emitsInOrder(
-        [
-          PackageState.processing,
-          PackageState.ready,
-        ],
-      ),
-    );
-    expectLater(service.info, emitsInOrder([PackageKitInfo.removing]));
-    expectLater(service.packagePercentage, emitsInOrder([73, 28, 0]));
-
-    expectLater(service.summary, emits('a summary'));
-    expectLater(service.url, emits('https://example.org/'));
-    expectLater(service.license, emits('a license'));
-    expectLater(service.size, emits('42.00 KB'));
-    expectLater(service.description, emits('a description'));
-
-    await service.remove(packageId: firefoxPackageId);
+    expect(model.packageId, firefoxPackageId);
+    expect(model.info, PackageKitInfo.installing);
+    expect(model.isInstalled, isTrue);
+    expect(packageStates, [
+      PackageState.ready,
+      PackageState.processing,
+      PackageState.ready,
+    ]);
   });
 }

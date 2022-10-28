@@ -24,6 +24,7 @@ import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/packagekit/package_model.dart';
+import 'package:software/store_app/common/utils.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -46,7 +47,8 @@ class UpdateDialog extends StatefulWidget {
     bool noUpdate = true,
   }) {
     return ChangeNotifierProvider(
-      create: (context) => PackageModel(getService<PackageService>()),
+      create: (context) =>
+          PackageModel(service: getService<PackageService>(), packageId: id),
       child: UpdateDialog(
         id: id,
         installedId: installedId,
@@ -61,9 +63,11 @@ class UpdateDialog extends StatefulWidget {
 class _UpdateDialogState extends State<UpdateDialog> {
   @override
   void initState() {
-    context.read<PackageModel>().init(update: true, packageId: widget.id);
-
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<PackageModel>().init(update: true);
+    });
   }
 
   @override
@@ -120,7 +124,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 context.l10n.size,
                 style: detailStyle,
               ),
-              trailing: Text(model.size),
+              trailing: Text(formatBytes(model.size, 2)),
             ),
             YaruTile(
               padding: detailPadding,

@@ -8,14 +8,15 @@ import 'dart:async' as _i4;
 import 'package:connectivity_plus/connectivity_plus.dart' as _i3;
 import 'package:connectivity_plus_platform_interface/connectivity_plus_platform_interface.dart'
     as _i5;
-import 'package:file/file.dart' as _i9;
-import 'package:file/local.dart' as _i10;
+import 'package:file/file.dart' as _i10;
+import 'package:file/local.dart' as _i11;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:packagekit/packagekit.dart' as _i2;
-import 'package:snapd/snapd.dart' as _i12;
+import 'package:snapd/snapd.dart' as _i13;
 import 'package:software/package_state.dart' as _i8;
 import 'package:software/services/package_service.dart' as _i6;
-import 'package:software/services/snap_service.dart' as _i11;
+import 'package:software/services/snap_service.dart' as _i12;
+import 'package:software/store_app/common/packagekit/package_model.dart' as _i9;
 import 'package:software/updates_state.dart' as _i7;
 
 // ignore_for_file: type=lint
@@ -147,11 +148,6 @@ class MockPackageService extends _i1.Mock implements _i6.PackageService {
         returnValue: _i4.Stream<int?>.empty(),
       ) as _i4.Stream<int?>);
   @override
-  _i4.Stream<int?> get packagePercentage => (super.noSuchMethod(
-        Invocation.getter(#packagePercentage),
-        returnValue: _i4.Stream<int?>.empty(),
-      ) as _i4.Stream<int?>);
-  @override
   _i4.Stream<_i2.PackageKitPackageId?> get processedId => (super.noSuchMethod(
         Invocation.getter(#processedId),
         returnValue: _i4.Stream<_i2.PackageKitPackageId?>.empty(),
@@ -186,51 +182,6 @@ class MockPackageService extends _i1.Mock implements _i6.PackageService {
         Invocation.getter(#packageState),
         returnValue: _i4.Stream<_i8.PackageState>.empty(),
       ) as _i4.Stream<_i8.PackageState>);
-  @override
-  _i4.Stream<String> get summary => (super.noSuchMethod(
-        Invocation.getter(#summary),
-        returnValue: _i4.Stream<String>.empty(),
-      ) as _i4.Stream<String>);
-  @override
-  _i4.Stream<String> get url => (super.noSuchMethod(
-        Invocation.getter(#url),
-        returnValue: _i4.Stream<String>.empty(),
-      ) as _i4.Stream<String>);
-  @override
-  _i4.Stream<String> get license => (super.noSuchMethod(
-        Invocation.getter(#license),
-        returnValue: _i4.Stream<String>.empty(),
-      ) as _i4.Stream<String>);
-  @override
-  _i4.Stream<String> get size => (super.noSuchMethod(
-        Invocation.getter(#size),
-        returnValue: _i4.Stream<String>.empty(),
-      ) as _i4.Stream<String>);
-  @override
-  _i4.Stream<String> get description => (super.noSuchMethod(
-        Invocation.getter(#description),
-        returnValue: _i4.Stream<String>.empty(),
-      ) as _i4.Stream<String>);
-  @override
-  _i4.Stream<String> get changelog => (super.noSuchMethod(
-        Invocation.getter(#changelog),
-        returnValue: _i4.Stream<String>.empty(),
-      ) as _i4.Stream<String>);
-  @override
-  _i4.Stream<String> get issued => (super.noSuchMethod(
-        Invocation.getter(#issued),
-        returnValue: _i4.Stream<String>.empty(),
-      ) as _i4.Stream<String>);
-  @override
-  _i4.Stream<_i2.PackageKitGroup> get group => (super.noSuchMethod(
-        Invocation.getter(#group),
-        returnValue: _i4.Stream<_i2.PackageKitGroup>.empty(),
-      ) as _i4.Stream<_i2.PackageKitGroup>);
-  @override
-  _i4.Stream<bool> get isInstalled => (super.noSuchMethod(
-        Invocation.getter(#isInstalled),
-        returnValue: _i4.Stream<bool>.empty(),
-      ) as _i4.Stream<bool>);
   @override
   _i4.Stream<bool> get selectionChanged => (super.noSuchMethod(
         Invocation.getter(#selectionChanged),
@@ -330,14 +281,6 @@ class MockPackageService extends _i1.Mock implements _i6.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  void setPackagePercentage(int? value) => super.noSuchMethod(
-        Invocation.method(
-          #setPackagePercentage,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
   void setProcessedId(_i2.PackageKitPackageId? value) => super.noSuchMethod(
         Invocation.method(
           #setProcessedId,
@@ -389,78 +332,6 @@ class MockPackageService extends _i1.Mock implements _i6.PackageService {
   void setPackageState(_i8.PackageState? value) => super.noSuchMethod(
         Invocation.method(
           #setPackageState,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void setSummary(String? value) => super.noSuchMethod(
-        Invocation.method(
-          #setSummary,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void setUrl(String? value) => super.noSuchMethod(
-        Invocation.method(
-          #setUrl,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void setLicense(String? value) => super.noSuchMethod(
-        Invocation.method(
-          #setLicense,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void setSize(int? value) => super.noSuchMethod(
-        Invocation.method(
-          #setSize,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void setDescription(String? value) => super.noSuchMethod(
-        Invocation.method(
-          #setDescription,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void setChangelog(String? value) => super.noSuchMethod(
-        Invocation.method(
-          #setChangelog,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void setIssued(String? value) => super.noSuchMethod(
-        Invocation.method(
-          #setIssued,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void setGroup(_i2.PackageKitGroup? value) => super.noSuchMethod(
-        Invocation.method(
-          #setGroup,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void setIsInstalled(bool? value) => super.noSuchMethod(
-        Invocation.method(
-          #setIsInstalled,
           [value],
         ),
         returnValueForMissingStub: null,
@@ -558,57 +429,56 @@ class MockPackageService extends _i1.Mock implements _i6.PackageService {
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
   @override
-  _i4.Future<void> remove({required _i2.PackageKitPackageId? packageId}) =>
+  _i4.Future<void> remove({required _i9.PackageModel? model}) =>
       (super.noSuchMethod(
         Invocation.method(
           #remove,
           [],
-          {#packageId: packageId},
+          {#model: model},
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
   @override
-  _i4.Future<void> install({required _i2.PackageKitPackageId? packageId}) =>
+  _i4.Future<void> install({required _i9.PackageModel? model}) =>
       (super.noSuchMethod(
         Invocation.method(
           #install,
           [],
-          {#packageId: packageId},
+          {#model: model},
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
   @override
-  _i4.Future<void> isIdInstalled({required _i2.PackageKitPackageId? id}) =>
+  _i4.Future<void> isInstalled({required _i9.PackageModel? model}) =>
       (super.noSuchMethod(
         Invocation.method(
-          #isIdInstalled,
+          #isInstalled,
           [],
-          {#id: id},
+          {#model: model},
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
   @override
-  _i4.Future<void> getDetails({required _i2.PackageKitPackageId? packageId}) =>
+  _i4.Future<void> getDetails({required _i9.PackageModel? model}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getDetails,
           [],
-          {#packageId: packageId},
+          {#model: model},
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
   @override
-  _i4.Future<void> getUpdateDetail(
-          {required _i2.PackageKitPackageId? packageId}) =>
+  _i4.Future<void> getUpdateDetail({required _i9.PackageModel? model}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getUpdateDetail,
           [],
-          {#packageId: packageId},
+          {#model: model},
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
@@ -641,7 +511,7 @@ class MockPackageService extends _i1.Mock implements _i6.PackageService {
       ) as _i4.Future<void>);
   @override
   _i4.Future<List<_i2.PackageKitPackageId>> findPackageKitPackageIds({
-    required Iterable<String> searchQuery,
+    required Iterable<String>? searchQuery,
     Set<_i2.PackageKitFilter>? filter = const {},
   }) =>
       (super.noSuchMethod(
@@ -658,15 +528,15 @@ class MockPackageService extends _i1.Mock implements _i6.PackageService {
       ) as _i4.Future<List<_i2.PackageKitPackageId>>);
   @override
   _i4.Future<void> getDetailsAboutLocalPackage({
-    required String? path,
-    _i9.FileSystem? fileSystem = const _i10.LocalFileSystem(),
+    required _i9.PackageModel? model,
+    _i10.FileSystem? fileSystem = const _i11.LocalFileSystem(),
   }) =>
       (super.noSuchMethod(
         Invocation.method(
           #getDetailsAboutLocalPackage,
           [],
           {
-            #path: path,
+            #model: model,
             #fileSystem: fileSystem,
           },
         ),
@@ -675,15 +545,15 @@ class MockPackageService extends _i1.Mock implements _i6.PackageService {
       ) as _i4.Future<void>);
   @override
   _i4.Future<void> installLocalFile({
-    required String? path,
-    _i9.FileSystem? fileSystem = const _i10.LocalFileSystem(),
+    required _i9.PackageModel? model,
+    _i10.FileSystem? fileSystem = const _i11.LocalFileSystem(),
   }) =>
       (super.noSuchMethod(
         Invocation.method(
           #installLocalFile,
           [],
           {
-            #path: path,
+            #model: model,
             #fileSystem: fileSystem,
           },
         ),
@@ -703,23 +573,23 @@ class MockPackageService extends _i1.Mock implements _i6.PackageService {
 /// A class which mocks [SnapService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSnapService extends _i1.Mock implements _i11.SnapService {
+class MockSnapService extends _i1.Mock implements _i12.SnapService {
   MockSnapService() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  Map<_i12.Snap, _i12.SnapdChange> get snapChanges => (super.noSuchMethod(
+  Map<_i13.Snap, _i13.SnapdChange> get snapChanges => (super.noSuchMethod(
         Invocation.getter(#snapChanges),
-        returnValue: <_i12.Snap, _i12.SnapdChange>{},
-      ) as Map<_i12.Snap, _i12.SnapdChange>);
+        returnValue: <_i13.Snap, _i13.SnapdChange>{},
+      ) as Map<_i13.Snap, _i13.SnapdChange>);
   @override
   _i4.Stream<bool> get snapChangesInserted => (super.noSuchMethod(
         Invocation.getter(#snapChangesInserted),
         returnValue: _i4.Stream<bool>.empty(),
       ) as _i4.Stream<bool>);
   @override
-  void removeChange(_i12.Snap? snap) => super.noSuchMethod(
+  void removeChange(_i13.Snap? snap) => super.noSuchMethod(
         Invocation.method(
           #removeChange,
           [snap],
@@ -727,11 +597,11 @@ class MockSnapService extends _i1.Mock implements _i11.SnapService {
         returnValueForMissingStub: null,
       );
   @override
-  _i12.SnapdChange? getChange(_i12.Snap? snap) =>
+  _i13.SnapdChange? getChange(_i13.Snap? snap) =>
       (super.noSuchMethod(Invocation.method(
         #getChange,
         [snap],
-      )) as _i12.SnapdChange?);
+      )) as _i13.SnapdChange?);
   @override
   _i4.Future<void> init() => (super.noSuchMethod(
         Invocation.method(
@@ -742,32 +612,32 @@ class MockSnapService extends _i1.Mock implements _i11.SnapService {
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
   @override
-  _i4.Future<_i12.Snap?> findLocalSnap(String? huskSnapName) =>
+  _i4.Future<_i13.Snap?> findLocalSnap(String? huskSnapName) =>
       (super.noSuchMethod(
         Invocation.method(
           #findLocalSnap,
           [huskSnapName],
         ),
-        returnValue: _i4.Future<_i12.Snap?>.value(),
-      ) as _i4.Future<_i12.Snap?>);
+        returnValue: _i4.Future<_i13.Snap?>.value(),
+      ) as _i4.Future<_i13.Snap?>);
   @override
-  _i4.Future<_i12.Snap?> findSnapByName(String? name) => (super.noSuchMethod(
+  _i4.Future<_i13.Snap?> findSnapByName(String? name) => (super.noSuchMethod(
         Invocation.method(
           #findSnapByName,
           [name],
         ),
-        returnValue: _i4.Future<_i12.Snap?>.value(),
-      ) as _i4.Future<_i12.Snap?>);
+        returnValue: _i4.Future<_i13.Snap?>.value(),
+      ) as _i4.Future<_i13.Snap?>);
   @override
-  _i4.Future<List<_i12.Snap>> getLocalSnaps() => (super.noSuchMethod(
+  _i4.Future<List<_i13.Snap>> getLocalSnaps() => (super.noSuchMethod(
         Invocation.method(
           #getLocalSnaps,
           [],
         ),
-        returnValue: _i4.Future<List<_i12.Snap>>.value(<_i12.Snap>[]),
-      ) as _i4.Future<List<_i12.Snap>>);
+        returnValue: _i4.Future<List<_i13.Snap>>.value(<_i13.Snap>[]),
+      ) as _i4.Future<List<_i13.Snap>>);
   @override
-  _i4.Future<List<_i12.Snap>> findSnapsByQuery({
+  _i4.Future<List<_i13.Snap>> findSnapsByQuery({
     required String? searchQuery,
     required String? sectionName,
   }) =>
@@ -780,21 +650,21 @@ class MockSnapService extends _i1.Mock implements _i11.SnapService {
             #sectionName: sectionName,
           },
         ),
-        returnValue: _i4.Future<List<_i12.Snap>>.value(<_i12.Snap>[]),
-      ) as _i4.Future<List<_i12.Snap>>);
+        returnValue: _i4.Future<List<_i13.Snap>>.value(<_i13.Snap>[]),
+      ) as _i4.Future<List<_i13.Snap>>);
   @override
-  _i4.Future<List<_i12.Snap>> findSnapsBySection({String? sectionName}) =>
+  _i4.Future<List<_i13.Snap>> findSnapsBySection({String? sectionName}) =>
       (super.noSuchMethod(
         Invocation.method(
           #findSnapsBySection,
           [],
           {#sectionName: sectionName},
         ),
-        returnValue: _i4.Future<List<_i12.Snap>>.value(<_i12.Snap>[]),
-      ) as _i4.Future<List<_i12.Snap>>);
+        returnValue: _i4.Future<List<_i13.Snap>>.value(<_i13.Snap>[]),
+      ) as _i4.Future<List<_i13.Snap>>);
   @override
-  _i4.Future<_i12.Snap?> install(
-    _i12.Snap? snap,
+  _i4.Future<_i13.Snap?> install(
+    _i13.Snap? snap,
     String? channelToBeInstalled,
     String? doneString,
   ) =>
@@ -807,11 +677,11 @@ class MockSnapService extends _i1.Mock implements _i11.SnapService {
             doneString,
           ],
         ),
-        returnValue: _i4.Future<_i12.Snap?>.value(),
-      ) as _i4.Future<_i12.Snap?>);
+        returnValue: _i4.Future<_i13.Snap?>.value(),
+      ) as _i4.Future<_i13.Snap?>);
   @override
-  _i4.Future<_i12.Snap?> remove(
-    _i12.Snap? snap,
+  _i4.Future<_i13.Snap?> remove(
+    _i13.Snap? snap,
     String? doneString,
   ) =>
       (super.noSuchMethod(
@@ -822,14 +692,14 @@ class MockSnapService extends _i1.Mock implements _i11.SnapService {
             doneString,
           ],
         ),
-        returnValue: _i4.Future<_i12.Snap?>.value(),
-      ) as _i4.Future<_i12.Snap?>);
+        returnValue: _i4.Future<_i13.Snap?>.value(),
+      ) as _i4.Future<_i13.Snap?>);
   @override
-  _i4.Future<_i12.Snap?> refresh({
-    required _i12.Snap? snap,
+  _i4.Future<_i13.Snap?> refresh({
+    required _i13.Snap? snap,
     required String? message,
     required String? channel,
-    required _i12.SnapConfinement? confinement,
+    required _i13.SnapConfinement? confinement,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -842,21 +712,21 @@ class MockSnapService extends _i1.Mock implements _i11.SnapService {
             #confinement: confinement,
           },
         ),
-        returnValue: _i4.Future<_i12.Snap?>.value(),
-      ) as _i4.Future<_i12.Snap?>);
+        returnValue: _i4.Future<_i13.Snap?>.value(),
+      ) as _i4.Future<_i13.Snap?>);
   @override
-  _i4.Future<Map<_i12.SnapPlug, bool>> loadPlugs(_i12.Snap? localSnap) =>
+  _i4.Future<Map<_i13.SnapPlug, bool>> loadPlugs(_i13.Snap? localSnap) =>
       (super.noSuchMethod(
         Invocation.method(
           #loadPlugs,
           [localSnap],
         ),
         returnValue:
-            _i4.Future<Map<_i12.SnapPlug, bool>>.value(<_i12.SnapPlug, bool>{}),
-      ) as _i4.Future<Map<_i12.SnapPlug, bool>>);
+            _i4.Future<Map<_i13.SnapPlug, bool>>.value(<_i13.SnapPlug, bool>{}),
+      ) as _i4.Future<Map<_i13.SnapPlug, bool>>);
   @override
   _i4.Future<void> toggleConnection({
-    required _i12.Snap? snapThatWantsAConnection,
+    required _i13.Snap? snapThatWantsAConnection,
     required String? interface,
     required String? doneMessage,
     required bool? value,
