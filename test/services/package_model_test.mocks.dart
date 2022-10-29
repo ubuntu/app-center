@@ -54,11 +54,36 @@ class MockPackageService extends _i1.Mock implements _i3.PackageService {
         returnValueForMissingStub: null,
       );
   @override
+  set lastUpdatesPercentage(int? _lastUpdatesPercentage) => super.noSuchMethod(
+        Invocation.setter(
+          #lastUpdatesPercentage,
+          _lastUpdatesPercentage,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  set lastProcessedId(_i2.PackageKitPackageId? _lastProcessedId) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #lastProcessedId,
+          _lastProcessedId,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   set lastUpdatesState(_i4.UpdatesState? _lastUpdatesState) =>
       super.noSuchMethod(
         Invocation.setter(
           #lastUpdatesState,
           _lastUpdatesState,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  set lastInfo(_i2.PackageKitInfo? _lastInfo) => super.noSuchMethod(
+        Invocation.setter(
+          #lastInfo,
+          _lastInfo,
         ),
         returnValueForMissingStub: null,
       );
@@ -80,16 +105,6 @@ class MockPackageService extends _i1.Mock implements _i3.PackageService {
   @override
   _i5.Stream<bool> get installedPackagesChanged => (super.noSuchMethod(
         Invocation.getter(#installedPackagesChanged),
-        returnValue: _i5.Stream<bool>.empty(),
-      ) as _i5.Stream<bool>);
-  @override
-  List<_i2.PackageKitPackageId> get installedApps => (super.noSuchMethod(
-        Invocation.getter(#installedApps),
-        returnValue: <_i2.PackageKitPackageId>[],
-      ) as List<_i2.PackageKitPackageId>);
-  @override
-  _i5.Stream<bool> get installedAppsChanged => (super.noSuchMethod(
-        Invocation.getter(#installedAppsChanged),
         returnValue: _i5.Stream<bool>.empty(),
       ) as _i5.Stream<bool>);
   @override
@@ -194,20 +209,6 @@ class MockPackageService extends _i1.Mock implements _i3.PackageService {
   void setInstalledPackagesChanged(bool? value) => super.noSuchMethod(
         Invocation.method(
           #setInstalledPackagesChanged,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  _i2.PackageKitPackageId? getInstalledAppIds(String? name) =>
-      (super.noSuchMethod(Invocation.method(
-        #getInstalledAppIds,
-        [name],
-      )) as _i2.PackageKitPackageId?);
-  @override
-  void setInstalledAppsChanged(bool? value) => super.noSuchMethod(
-        Invocation.method(
-          #setInstalledAppsChanged,
           [value],
         ),
         returnValueForMissingStub: null,
@@ -346,10 +347,12 @@ class MockPackageService extends _i1.Mock implements _i3.PackageService {
         returnValueForMissingStub: null,
       );
   @override
-  _i5.Future<void> init() => (super.noSuchMethod(
+  _i5.Future<void> init({Set<_i2.PackageKitFilter>? filters = const {}}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #init,
           [],
+          {#filters: filters},
         ),
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
@@ -394,6 +397,20 @@ class MockPackageService extends _i1.Mock implements _i3.PackageService {
             #updatesComplete: updatesComplete,
             #updatesAvailable: updatesAvailable,
           },
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+  @override
+  _i5.Future<void> getInstalledPackages(
+          {Set<_i2.PackageKitFilter>? filters = const {
+            _i2.PackageKitFilter.installed
+          }}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getInstalledPackages,
+          [],
+          {#filters: filters},
         ),
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),

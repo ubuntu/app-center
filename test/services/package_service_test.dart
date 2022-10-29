@@ -291,9 +291,8 @@ void main() {
   test('init', () async {
     final service = PackageService();
 
-    await service.init();
+    await service.init(filters: {PackageKitFilter.installed});
 
-    expect(service.installedApps, isEmpty);
     expect(service.installedPackages, isEmpty);
   });
 

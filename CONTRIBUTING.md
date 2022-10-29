@@ -27,3 +27,13 @@ This project currently has one translation component:
 
 **NOTE**: The Weblate project is integrated with the GitHub project. Weblate pushes changes daily and
 opens a [pull request](https://github.com/ubuntu-flutter-community/software/pulls) on GitHub.
+
+
+## Tests
+
+Mock tests need to be re-generated when the signature of used methods changes.
+Re-generate with
+
+```
+flutter pub run build_runner build --delete-conflicting-outputs
+```
