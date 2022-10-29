@@ -53,8 +53,8 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
-    context.read<SettingsModel>().init();
     super.initState();
+    context.read<SettingsModel>().init();
   }
 
   Future<String> loadAsset(BuildContext context) async {

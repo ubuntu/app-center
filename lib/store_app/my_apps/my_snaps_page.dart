@@ -68,8 +68,8 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
 
   @override
   void initState() {
-    _controller = ScrollController();
     super.initState();
+    _controller = ScrollController();
   }
 
   @override

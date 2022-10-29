@@ -56,13 +56,12 @@ class ExplorePage extends StatefulWidget {
 class _ExplorePageState extends State<ExplorePage> {
   @override
   void initState() {
+    super.initState();
     final model = context.read<ExploreModel>();
 
     for (var section in SnapSection.values) {
       model.loadSection(section);
     }
-
-    super.initState();
   }
 
   @override

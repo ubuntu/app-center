@@ -37,9 +37,9 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
 
   @override
   void initState() {
+    super.initState();
     _controller = ScrollController();
     context.read<MyAppsModel>().init();
-    super.initState();
   }
 
   @override
