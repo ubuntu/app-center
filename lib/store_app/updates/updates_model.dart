@@ -46,7 +46,7 @@ class UpdatesModel extends SafeChangeNotifier {
         _errorMessage = '',
         _manualRepoName = '';
 
-  void init() async {
+  Future<void> init({required void Function() handleError}) async {
     // Init the model with the last values
     _updatesState = _service.lastUpdatesState;
     _processedId = _service.lastProcessedId;
@@ -60,6 +60,7 @@ class UpdatesModel extends SafeChangeNotifier {
     });
     _errorMessageSub = _service.errorMessage.listen((event) {
       errorMessage = event;
+      handleError();
     });
     _requireRestartSub = _service.requireRestart.listen((event) {
       requireRestart = event;

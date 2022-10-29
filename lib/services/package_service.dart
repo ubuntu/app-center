@@ -528,6 +528,7 @@ class PackageService {
   Future<void> toggleRepo({required String id, required bool value}) async {
     final transaction = await _client.createTransaction();
     final completer = Completer();
+    setUpdatesState(UpdatesState.checkingForUpdates);
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitFinishedEvent) {
         completer.complete();
@@ -535,7 +536,12 @@ class PackageService {
     });
     await transaction.setRepositoryEnabled(id, value);
     await completer.future.whenComplete(subscription.cancel);
+    await _refreshCache();
+    await _loadRepoList();
     setReposChanged(true);
+    setUpdatesState(
+      _updates.isEmpty ? UpdatesState.noUpdates : UpdatesState.readyToUpdate,
+    );
   }
 
   // Not implemented in packagekit.dart
