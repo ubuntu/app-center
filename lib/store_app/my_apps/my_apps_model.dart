@@ -33,7 +33,8 @@ class MyAppsModel extends SafeChangeNotifier {
 
   StreamSubscription<bool>? _installedSub;
 
-  List<PackageKitPackageId> get installedApps => _packageService.installedApps;
+  List<PackageKitPackageId> get installedPackages =>
+      _packageService.installedPackages;
 
   final SnapService _snapService;
   StreamSubscription<bool>? _snapChangesSub;
@@ -47,9 +48,11 @@ class MyAppsModel extends SafeChangeNotifier {
         _loadLocalSnaps().then((value) => notifyListeners());
       }
     });
-    _installedSub = _packageService.installedAppsChanged.listen((event) {
+    _installedSub = _packageService.installedPackagesChanged.listen((event) {
       notifyListeners();
     });
+    await _packageService.getInstalledPackages(filters: packageKitFilters);
+
     notifyListeners();
   }
 
@@ -85,6 +88,24 @@ class MyAppsModel extends SafeChangeNotifier {
   void setAppFormat(AppFormat value) {
     if (value == _appFormat) return;
     _appFormat = value;
+    notifyListeners();
+  }
+
+  final Set<PackageKitFilter> _packageKitFilters = {
+    PackageKitFilter.installed,
+    PackageKitFilter.gui,
+    PackageKitFilter.newest,
+    PackageKitFilter.application,
+    PackageKitFilter.notSource,
+  };
+  Set<PackageKitFilter> get packageKitFilters => _packageKitFilters;
+  Future<void> handleFilter(bool value, PackageKitFilter filter) async {
+    if (value) {
+      _packageKitFilters.add(filter);
+    } else {
+      _packageKitFilters.remove(filter);
+    }
+    await _packageService.getInstalledPackages(filters: packageKitFilters);
     notifyListeners();
   }
 }

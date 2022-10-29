@@ -52,12 +52,12 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
   Widget build(BuildContext context) {
     final model = context.watch<MyAppsModel>();
     final installedApps = model.searchQuery == null
-        ? model.installedApps
-        : model.installedApps
+        ? model.installedPackages
+        : model.installedPackages
             .where((element) => element.name.startsWith(model.searchQuery!))
             .toList();
 
-    return model.installedApps.isNotEmpty
+    return model.installedPackages.isNotEmpty
         ? GridView.builder(
             controller: _controller,
             padding: kGridPadding,

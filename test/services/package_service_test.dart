@@ -293,7 +293,6 @@ void main() {
 
     await service.init();
 
-    expect(service.installedApps, isEmpty);
     expect(service.installedPackages, isEmpty);
   });
 

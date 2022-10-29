@@ -17,8 +17,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:software/store_app/common/app_format.dart';
 import 'package:software/store_app/common/app_format_popup.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/packagekit/packagekit_filter_button.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 
 class MyAppsHeader extends StatelessWidget {
@@ -41,6 +43,12 @@ class MyAppsHeader extends StatelessWidget {
               appFormat: model.appFormat,
               onSelected: model.setAppFormat,
             ),
+            if (model.appFormat == AppFormat.packageKit)
+              PackageKitFilterButton(
+                onTap: (value, filter) => model.handleFilter(value, filter),
+                filters: model.packageKitFilters,
+                lockInstalled: true,
+              ),
           ],
         ),
       ),

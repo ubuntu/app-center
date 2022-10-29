@@ -68,16 +68,6 @@ class PackageService {
     _installedPackagesController.add(value);
   }
 
-  final Map<String, PackageKitPackageId> _installedApps = {};
-  List<PackageKitPackageId> get installedApps =>
-      _installedApps.entries.map((e) => e.value).toList();
-  PackageKitPackageId? getInstalledAppIds(String name) => _installedApps[name];
-  final _installedAppsController = StreamController<bool>.broadcast();
-  Stream<bool> get installedAppsChanged => _installedAppsController.stream;
-  void setInstalledAppsChanged(bool value) {
-    _installedAppsController.add(value);
-  }
-
   final Map<PackageKitPackageId, PackageKitGroup> _idsToGroups = {};
   final _groupsController = StreamController<bool>.broadcast();
   Stream<bool> get groupsChanged => _groupsController.stream;
@@ -192,10 +182,9 @@ class PackageService {
 
   Timer? _refreshUpdatesTimer;
 
-  Future<void> init() async {
+  Future<void> init({Set<PackageKitFilter> filters = const {}}) async {
     setErrorMessage('');
-    await _getInstalledPackages();
-    await _getInstalledApps();
+    await getInstalledPackages(filters: filters);
     refreshUpdates();
   }
 
@@ -338,44 +327,21 @@ class PackageService {
     );
   }
 
-  Future<void> _getInstalledPackages() async {
-    await _getPackages(
-      ids: _installedPackages,
-      onChanged: (v) => setInstalledPackagesChanged(v),
-      filters: {PackageKitFilter.installed},
-    );
-  }
-
-  Future<void> _getInstalledApps() async {
-    await _getPackages(
-      ids: _installedApps,
-      onChanged: (v) => setInstalledAppsChanged(v),
-      filters: {
-        PackageKitFilter.installed,
-        PackageKitFilter.gui,
-        PackageKitFilter.newest,
-        PackageKitFilter.application,
-        PackageKitFilter.notDevelopment,
-        PackageKitFilter.notSource,
-        PackageKitFilter.visible,
-      },
-    );
-  }
-
-  Future<void> _getPackages({
-    Set<PackageKitFilter> filters = const {},
-    required Map<String, PackageKitPackageId> ids,
-    required void Function(bool) onChanged,
+  Future<void> getInstalledPackages({
+    Set<PackageKitFilter> filters = const {
+      PackageKitFilter.installed,
+    },
   }) async {
+    _installedPackages.clear();
     final transaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
-        ids.putIfAbsent(
+        _installedPackages.putIfAbsent(
           event.packageId.name,
           () => event.packageId,
         );
-        onChanged(true);
+        setInstalledPackagesChanged(true);
       } else if (event is PackageKitErrorCodeEvent) {
         setErrorMessage('${event.code}: ${event.details}');
       } else if (event is PackageKitFinishedEvent) {

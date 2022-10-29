@@ -9,10 +9,12 @@ class PackageKitFilterButton extends StatelessWidget {
     super.key,
     required this.onTap,
     required this.filters,
+    this.lockInstalled = false,
   });
 
   final Set<PackageKitFilter> filters;
   final Function(bool value, PackageKitFilter filter) onTap;
+  final bool lockInstalled;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,9 @@ class PackageKitFilterButton extends StatelessWidget {
         return [
           for (final filter in PackageKitFilter.values)
             YaruMultiSelectPopupMenuItem<PackageKitFilter>(
+              enabled: !(lockInstalled &&
+                  (filter == PackageKitFilter.installed ||
+                      filter == PackageKitFilter.notInstalled)),
               padding: EdgeInsets.zero,
               checked: filters.contains(filter),
               value: filter,
