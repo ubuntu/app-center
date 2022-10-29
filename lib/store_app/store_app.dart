@@ -95,8 +95,8 @@ class __AppState extends State<_App> {
 
   @override
   void initState() {
-    context.read<StoreModel>().init();
     super.initState();
+    context.read<StoreModel>().init();
   }
 
   @override

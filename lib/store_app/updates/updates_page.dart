@@ -54,9 +54,9 @@ class UpdatesPage extends StatefulWidget {
 class _UpdatesPageState extends State<UpdatesPage> {
   @override
   void initState() {
+    super.initState();
     final model = context.read<UpdatesModel>();
     model.init(handleError: () => showSnackBar());
-    super.initState();
   }
 
   void showSnackBar() {

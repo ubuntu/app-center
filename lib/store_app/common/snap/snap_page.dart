@@ -66,8 +66,8 @@ class SnapPage extends StatefulWidget {
 class _SnapPageState extends State<SnapPage> {
   @override
   void initState() {
-    context.read<SnapModel>().init();
     super.initState();
+    context.read<SnapModel>().init();
   }
 
   @override

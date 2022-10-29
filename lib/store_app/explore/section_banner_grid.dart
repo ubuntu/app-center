@@ -51,6 +51,7 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
   late int _amount;
   @override
   void initState() {
+    super.initState();
     _amount = widget.initialAmount;
     _controller = ScrollController();
 
@@ -63,7 +64,6 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
         }
       });
     }
-    super.initState();
   }
 
   @override
