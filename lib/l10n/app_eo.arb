@@ -180,5 +180,9 @@
   "packageKitFilter": "La speco de pako",
   "@packageKitFilter": {},
   "packageDetails": "Detaloj pri pako",
-  "@packageDetails": {}
+  "@packageDetails": {},
+  "madeBy": "Ubuntu-Programvendejo estas verkita kaj dezajnita de",
+  "@madeBy": {},
+  "copyErrorMessage": "Kopii erarmesaĝon",
+  "@copyErrorMessage": {}
 }
