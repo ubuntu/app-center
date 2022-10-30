@@ -180,5 +180,9 @@
   "packageKitFilter": "Il tipo di pacchetto",
   "@packageKitFilter": {},
   "packageDetails": "Dettagli del pacchetto",
-  "@packageDetails": {}
+  "@packageDetails": {},
+  "copyErrorMessage": "Copia messaggio di errore",
+  "@copyErrorMessage": {},
+  "madeBy": "Ubuntu Software è sviluppato e progettato da",
+  "@madeBy": {}
 }
