@@ -21,7 +21,6 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/border_container.dart';
-import 'package:software/store_app/common/confirmation_dialog.dart';
 import 'package:software/store_app/common/message_bar.dart';
 import 'package:software/store_app/settings/repo_dialog.dart';
 import 'package:software/store_app/settings/settings_model.dart';
@@ -38,7 +37,7 @@ class SettingsPage extends StatefulWidget {
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SettingsModel(getService<PackageService>()),
+      create: (_) => SettingsModel(),
       child: const SettingsPage(),
     );
   }
@@ -75,32 +74,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 childPadding: const EdgeInsets.all(kYaruPagePadding),
                 child: Column(
                   children: [
-                    YaruTile(
-                      title: Text(context.l10n.runsInBackground),
-                      trailing: TextButton(
-                        onPressed: () {
-                          if (model.isUpdateRunning) {
-                            showDialog(
-                              context: context,
-                              builder: (c) => ConfirmationDialog(
-                                message: context.l10n.quitDanger,
-                                title:
-                                    '${context.l10n.quit}: ${model.appName}?',
-                                iconData: YaruIcons.warning_filled,
-                                positiveConfirm: false,
-                                onConfirm: () {
-                                  model.quit();
-                                },
-                              ),
-                            );
-                          } else {
-                            model.quit();
-                          }
-                        },
-                        child: SizedBox(child: Text(context.l10n.quit)),
-                      ),
-                      enabled: true,
-                    ),
                     YaruTile(
                       title: Text(
                         '${model.appName} ${model.version} ${model.buildNumber}',
