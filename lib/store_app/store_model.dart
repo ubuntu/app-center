@@ -58,6 +58,7 @@ class StoreModel extends SafeChangeNotifier implements WindowListener {
 
   Future<void> init({required void Function() onAskForQuit}) async {
     _onAskForQuit = onAskForQuit;
+    windowManager.setPreventClose(true);
     windowManager.addListener(this);
 
     await _packageService.init();

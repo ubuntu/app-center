@@ -32,7 +32,7 @@ import 'package:window_manager/window_manager.dart';
 Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-  windowManager.setPreventClose(true);
+  windowManager.setPreventClose(false);
 
   registerService<NotificationsClient>(
     NotificationsClient.new,
