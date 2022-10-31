@@ -33,6 +33,8 @@ import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import 'common/confirmation_dialog.dart';
+
 class StoreApp extends StatelessWidget {
   const StoreApp({super.key});
 
@@ -96,7 +98,21 @@ class __AppState extends State<_App> {
   @override
   void initState() {
     super.initState();
-    context.read<StoreModel>().init();
+    final model = context.read<StoreModel>();
+    model.init(
+      onAskForQuit: () => showDialog(
+        context: context,
+        builder: (c) => ConfirmationDialog(
+          message: context.l10n.quitDanger,
+          title: '${context.l10n.quit}?',
+          iconData: YaruIcons.warning_filled,
+          positiveConfirm: false,
+          onConfirm: () {
+            model.quit();
+          },
+        ),
+      ),
+    );
   }
 
   @override

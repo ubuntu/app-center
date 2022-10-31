@@ -23,8 +23,9 @@ import 'package:snapd/snapd.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/updates_state.dart';
+import 'package:window_manager/window_manager.dart';
 
-class StoreModel extends SafeChangeNotifier {
+class StoreModel extends SafeChangeNotifier implements WindowListener {
   StoreModel(
     this._connectivity,
     this._snapService,
@@ -53,7 +54,12 @@ class StoreModel extends SafeChangeNotifier {
 
   int get updateAmount => _packageService.updates.length;
 
-  Future<void> init() async {
+  void Function()? _onAskForQuit;
+
+  Future<void> init({required void Function() onAskForQuit}) async {
+    _onAskForQuit = onAskForQuit;
+    windowManager.addListener(this);
+
     await _packageService.init();
 
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
@@ -105,4 +111,63 @@ class StoreModel extends SafeChangeNotifier {
     });
     return refreshConnectivity();
   }
+
+  void quit() {
+    windowManager.setPreventClose(false);
+    windowManager.close();
+  }
+
+  bool get readyToQuit =>
+      updatesState == UpdatesState.readyToUpdate ||
+      updatesState == UpdatesState.noUpdates;
+
+  @override
+  void onWindowBlur() {}
+
+  @override
+  void onWindowClose() {
+    if (readyToQuit) {
+      quit();
+    } else {
+      if (_onAskForQuit != null) {
+        _onAskForQuit!();
+      }
+    }
+  }
+
+  @override
+  void onWindowEnterFullScreen() {}
+
+  @override
+  void onWindowEvent(String eventName) {}
+
+  @override
+  void onWindowFocus() {}
+
+  @override
+  void onWindowLeaveFullScreen() {}
+
+  @override
+  void onWindowMaximize() {}
+
+  @override
+  void onWindowMinimize() {}
+
+  @override
+  void onWindowMove() {}
+
+  @override
+  void onWindowMoved() {}
+
+  @override
+  void onWindowResize() {}
+
+  @override
+  void onWindowResized() {}
+
+  @override
+  void onWindowRestore() {}
+
+  @override
+  void onWindowUnmaximize() {}
 }
