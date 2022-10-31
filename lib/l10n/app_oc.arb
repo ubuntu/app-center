@@ -180,5 +180,9 @@
   "packageKitFilter": "Lo tipe de paquet",
   "@packageKitFilter": {},
   "packageDetails": "Detalhs del paquet",
-  "@packageDetails": {}
+  "@packageDetails": {},
+  "copyErrorMessage": "Copiar lo messatge d’error",
+  "@copyErrorMessage": {},
+  "madeBy": "Ubuntu Software es desvelopat e concebut per",
+  "@madeBy": {}
 }

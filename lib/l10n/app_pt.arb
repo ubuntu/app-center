@@ -174,5 +174,15 @@
   "quitDanger": "Atenção! As atualizações do sistema estão atualmente em curso. Sair agora da aplicação pode deixar o sistema num estado danificado!",
   "@quitDanger": {},
   "appFormat": "O formato do pacote das aplicações",
-  "@appFormat": {}
+  "@appFormat": {},
+  "packageKitGroup": "A categoria",
+  "@packageKitGroup": {},
+  "packageKitFilter": "O tipo de pacote",
+  "@packageKitFilter": {},
+  "packageDetails": "Detalhes do pacote",
+  "@packageDetails": {},
+  "copyErrorMessage": "Copiar mensagem de erro",
+  "@copyErrorMessage": {},
+  "madeBy": "O Ubuntu Software é desenvolvido e concebido por",
+  "@madeBy": {}
 }

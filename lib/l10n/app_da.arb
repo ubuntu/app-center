@@ -172,5 +172,15 @@
   "cancel": "Annullere",
   "@cancel": {},
   "confirm": "Bekræft",
-  "@confirm": {}
+  "@confirm": {},
+  "packageKitGroup": "Kategorien",
+  "@packageKitGroup": {},
+  "packageKitFilter": "Pakketypen",
+  "@packageKitFilter": {},
+  "packageDetails": "Pakkedetaljer",
+  "@packageDetails": {},
+  "copyErrorMessage": "Kopiér fejlmeddelelse",
+  "@copyErrorMessage": {},
+  "madeBy": "Ubuntu Software er udviklet og designet af",
+  "@madeBy": {}
 }
