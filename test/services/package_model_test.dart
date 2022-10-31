@@ -1,20 +1,39 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/packagekit/package_model.dart';
 
-import 'package_model_test.mocks.dart';
+class MockPackageService extends Mock implements PackageService {}
 
-@GenerateMocks([PackageService])
+class FakePackageModel extends Fake implements PackageModel {}
+
 void main() {
   const firefoxPackageId =
       PackageKitPackageId(name: 'firefox', version: '106.0.2');
 
   final service = MockPackageService();
 
-  setUp(() => reset(service));
+  setUpAll(() => registerFallbackValue(FakePackageModel()));
+
+  void resetService() {
+    reset(service);
+    when(service.init).thenAnswer((_) async {});
+    when(() => service.getDetails(model: any(named: 'model')))
+        .thenAnswer((_) async {});
+    when(() => service.getUpdateDetail(model: any(named: 'model')))
+        .thenAnswer((_) async {});
+    when(() => service.getDetailsAboutLocalPackage(model: any(named: 'model')))
+        .thenAnswer((_) async {});
+    when(() => service.isInstalled(model: any(named: 'model')))
+        .thenAnswer((_) async {});
+    when(() => service.install(model: any(named: 'model')))
+        .thenAnswer((_) async {});
+    when(() => service.remove(model: any(named: 'model')))
+        .thenAnswer((_) async {});
+  }
+
+  setUp(resetService);
 
   test('instantiate model', () {
     expect(
@@ -36,25 +55,25 @@ void main() {
   test('init model', () async {
     var model = PackageModel(service: service, packageId: firefoxPackageId);
     await model.init();
-    verify(service.getDetails(model: model)).called(1);
-    verify(service.isInstalled(model: model)).called(1);
-    verifyNever(service.getUpdateDetail(model: model));
-    verifyNever(service.getDetailsAboutLocalPackage(model: model));
+    verify(() => service.getDetails(model: model)).called(1);
+    verify(() => service.isInstalled(model: model)).called(1);
+    verifyNever(() => service.getUpdateDetail(model: model));
+    verifyNever(() => service.getDetailsAboutLocalPackage(model: model));
 
-    reset(service);
+    resetService();
     await model.init(update: true);
-    verify(service.getDetails(model: model)).called(1);
-    verify(service.isInstalled(model: model)).called(1);
-    verify(service.getUpdateDetail(model: model)).called(1);
-    verifyNever(service.getDetailsAboutLocalPackage(model: model));
+    verify(() => service.getDetails(model: model)).called(1);
+    verify(() => service.isInstalled(model: model)).called(1);
+    verify(() => service.getUpdateDetail(model: model)).called(1);
+    verifyNever(() => service.getDetailsAboutLocalPackage(model: model));
 
-    reset(service);
+    resetService();
     model = PackageModel(service: service, path: '/some/path/to/file.deb');
     await model.init();
-    verify(service.getDetailsAboutLocalPackage(model: model)).called(1);
-    verify(service.isInstalled(model: model)).called(1);
-    verifyNever(service.getDetails(model: model));
-    verifyNever(service.getUpdateDetail(model: model));
+    verify(() => service.getDetailsAboutLocalPackage(model: model)).called(1);
+    verify(() => service.isInstalled(model: model)).called(1);
+    verifyNever(() => service.getDetails(model: model));
+    verifyNever(() => service.getUpdateDetail(model: model));
   });
 
   test('update percentage', () async {
@@ -72,23 +91,23 @@ void main() {
   test('install', () async {
     var model = PackageModel(service: service, packageId: firefoxPackageId);
     await model.install();
-    verify(service.install(model: model)).called(1);
-    verifyNever(service.installLocalFile(model: model));
+    verify(() => service.install(model: model)).called(1);
+    verifyNever(() => service.installLocalFile(model: model));
 
-    reset(service);
+    resetService();
     model = PackageModel(service: service, path: '/some/path/to/file.deb');
-    when(service.installLocalFile(model: model)).thenAnswer((_) {
+    when(() => service.installLocalFile(model: model)).thenAnswer((_) {
       model.packageId = firefoxPackageId;
       return Future.value();
     });
     await model.install();
-    verify(service.installLocalFile(model: model)).called(1);
-    verifyNever(service.install(model: model));
+    verify(() => service.installLocalFile(model: model)).called(1);
+    verifyNever(() => service.install(model: model));
   });
 
   test('remove', () async {
     final model = PackageModel(service: service, packageId: firefoxPackageId);
     await model.remove();
-    verify(service.remove(model: model)).called(1);
+    verify(() => service.remove(model: model)).called(1);
   });
 }

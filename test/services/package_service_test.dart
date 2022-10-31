@@ -4,8 +4,7 @@ import 'dart:io';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
@@ -13,14 +12,14 @@ import 'package:software/store_app/common/packagekit/package_model.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-import 'package_service_test.mocks.dart';
+class MockNotification extends Mock implements Notification {}
 
-@GenerateMocks([
-  Notification,
-  NotificationsClient,
-  PackageKitClient,
-  PackageKitTransaction,
-])
+class MockNotificationsClient extends Mock implements NotificationsClient {}
+
+class MockPackageKitClient extends Mock implements PackageKitClient {}
+
+class MockPackageKitTransaction extends Mock implements PackageKitTransaction {}
+
 void main() {
   late MockPackageKitClient mockPKClient;
   late MockNotificationsClient mockNotificationsClient;
@@ -43,22 +42,22 @@ void main() {
   MockPackageKitTransaction createMockTransaction() {
     final transaction = MockPackageKitTransaction();
     final controller = StreamController<PackageKitEvent>.broadcast();
-    when(transaction.events).thenAnswer((_) => controller.stream);
+    when(() => transaction.events).thenAnswer((_) => controller.stream);
 
-    when(transaction.getRepositoryList())
+    when(() => transaction.getRepositoryList())
         .thenAnswer((_) => emitFinishedEvent(controller));
 
-    when(transaction.refreshCache())
+    when(() => transaction.refreshCache())
         .thenAnswer((_) => emitFinishedEvent(controller));
 
-    when(transaction.getUpdates(filter: {}))
+    when(() => transaction.getUpdates(filter: {}))
         .thenAnswer((_) => emitFinishedEvent(controller));
 
-    when(transaction.getPackages(filter: {PackageKitFilter.installed}))
+    when(() => transaction.getPackages(filter: {PackageKitFilter.installed}))
         .thenAnswer((_) => emitFinishedEvent(controller));
 
     when(
-      transaction.getPackages(
+      () => transaction.getPackages(
         filter: {
           PackageKitFilter.installed,
           PackageKitFilter.gui,
@@ -71,7 +70,7 @@ void main() {
       ),
     ).thenAnswer((_) => emitFinishedEvent(controller));
 
-    when(transaction.getDetails([firefoxPackageId])).thenAnswer((_) {
+    when(() => transaction.getDetails([firefoxPackageId])).thenAnswer((_) {
       controller.add(
         PackageKitDetailsEvent(
           packageId: firefoxPackageId,
@@ -86,7 +85,7 @@ void main() {
       return emitFinishedEvent(controller);
     });
 
-    when(transaction.searchNames(['fire'], filter: {})).thenAnswer((_) {
+    when(() => transaction.searchNames(['fire'], filter: {})).thenAnswer((_) {
       controller.add(
         const PackageKitPackageEvent(
           info: PackageKitInfo.installed,
@@ -104,10 +103,10 @@ void main() {
       return emitFinishedEvent(controller);
     });
 
-    when(transaction.setRepositoryEnabled(any, any))
+    when(() => transaction.setRepositoryEnabled(any(), any()))
         .thenAnswer((_) => emitFinishedEvent(controller));
 
-    when(transaction.getDetailsLocal(any)).thenAnswer((_) {
+    when(() => transaction.getDetailsLocal(any())).thenAnswer((_) {
       controller.add(
         PackageKitDetailsEvent(
           packageId: firefoxPackageId,
@@ -123,7 +122,7 @@ void main() {
     });
 
     when(
-      transaction
+      () => transaction
           .searchNames(['firefox'], filter: {PackageKitFilter.installed}),
     ).thenAnswer((_) {
       controller.add(
@@ -136,7 +135,7 @@ void main() {
       return emitFinishedEvent(controller);
     });
 
-    when(transaction.installPackages([firefoxPackageId])).thenAnswer((_) {
+    when(() => transaction.installPackages([firefoxPackageId])).thenAnswer((_) {
       controller.add(
         const PackageKitPackageEvent(
           info: PackageKitInfo.installing,
@@ -168,7 +167,7 @@ void main() {
       return emitFinishedEvent(controller);
     });
 
-    when(transaction.removePackages([firefoxPackageId])).thenAnswer((_) {
+    when(() => transaction.removePackages([firefoxPackageId])).thenAnswer((_) {
       controller.add(
         const PackageKitPackageEvent(
           info: PackageKitInfo.removing,
@@ -200,7 +199,7 @@ void main() {
       return emitFinishedEvent(controller);
     });
 
-    when(transaction.installFiles(any)).thenAnswer((_) {
+    when(() => transaction.installFiles(any())).thenAnswer((_) {
       controller.add(
         const PackageKitPackageEvent(
           info: PackageKitInfo.installing,
@@ -212,7 +211,7 @@ void main() {
     });
 
     when(
-      transaction.searchNames(
+      () => transaction.searchNames(
         [firefoxPackageId.name],
         filter: {PackageKitFilter.installed},
       ),
@@ -260,20 +259,21 @@ void main() {
   setUp(() {
     mockPKClient = MockPackageKitClient();
     registerMockService<PackageKitClient>(mockPKClient);
-    when(mockPKClient.createTransaction())
-        .thenAnswer((_) => Future.value(createMockTransaction()));
+    when(mockPKClient.connect).thenAnswer((_) async {});
+    when(() => mockPKClient.createTransaction())
+        .thenAnswer((_) async => createMockTransaction());
 
     mockNotificationsClient = MockNotificationsClient();
     registerMockService<NotificationsClient>(mockNotificationsClient);
     when(
-      mockNotificationsClient.notify(
-        any,
-        body: anyNamed('body'),
-        appName: anyNamed('appName'),
-        appIcon: anyNamed('appIcon'),
-        hints: anyNamed('hints'),
+      () => mockNotificationsClient.notify(
+        any(),
+        body: any(named: 'body'),
+        appName: any(named: 'appName'),
+        appIcon: any(named: 'appIcon'),
+        hints: any(named: 'hints'),
       ),
-    ).thenAnswer((_) => Future.value(MockNotification()));
+    ).thenAnswer((_) async => MockNotification());
   });
 
   tearDown(() {
@@ -285,7 +285,7 @@ void main() {
     // ignore: unused_local_variable
     final service = PackageService();
 
-    verify(mockPKClient.connect()).called(1);
+    verify(mockPKClient.connect).called(1);
   });
 
   test('init', () async {
@@ -381,24 +381,24 @@ void main() {
     expect(service.lastUpdatesState, isNull);
     service.sendUpdateNotification(updatesAvailable: body);
     verifyNever(
-      mockNotificationsClient.notify(
-        any,
+      () => mockNotificationsClient.notify(
+        any(),
         body: body,
-        appName: anyNamed('appName'),
-        appIcon: anyNamed('appIcon'),
-        hints: anyNamed('hints'),
+        appName: any(named: 'appName'),
+        appIcon: any(named: 'appIcon'),
+        hints: any(named: 'hints'),
       ),
     );
 
     service.lastUpdatesState = UpdatesState.readyToUpdate;
     service.sendUpdateNotification(updatesAvailable: body);
     verify(
-      mockNotificationsClient.notify(
-        any,
+      () => mockNotificationsClient.notify(
+        any(),
         body: body,
-        appName: anyNamed('appName'),
-        appIcon: anyNamed('appIcon'),
-        hints: anyNamed('hints'),
+        appName: any(named: 'appName'),
+        appIcon: any(named: 'appIcon'),
+        hints: any(named: 'hints'),
       ),
     ).called(1);
   });
