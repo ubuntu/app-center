@@ -81,6 +81,7 @@ class _SnapPageState extends State<SnapPage> {
       license: model.license ?? '',
       strict: model.strict,
       verified: model.verified,
+      starredDeveloper: model.starredDeveloper,
       publisherName: model.publisher?.displayName ?? '',
       website: model.storeUrl ?? '',
       summary: model.summary ?? '',

@@ -24,6 +24,7 @@ class AppWebsite extends StatelessWidget {
     Key? key,
     required this.website,
     required this.verified,
+    this.starredDeveloper = false,
     required this.publisherName,
     this.height = 15.0,
     this.onTap,
@@ -31,6 +32,7 @@ class AppWebsite extends StatelessWidget {
 
   final String website;
   final bool verified;
+  final bool starredDeveloper;
   final String publisherName;
   final double height;
   final Function()? onTap;
@@ -47,6 +49,25 @@ class AppWebsite extends StatelessWidget {
               Icons.verified,
               size: height,
               color: YaruColors.success,
+            ),
+          if (starredDeveloper)
+            Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(
+                height: height,
+                width: height,
+                decoration: BoxDecoration(
+                  color: YaruColors.orange.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.star,
+                    size: height * 0.65,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
           if (website.isNotEmpty)
             Padding(

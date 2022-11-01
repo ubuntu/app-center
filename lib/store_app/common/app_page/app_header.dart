@@ -64,6 +64,7 @@ class BannerAppHeader extends StatelessWidget {
                     AppWebsite(
                       website: headerData.website,
                       verified: headerData.verified,
+                      starredDeveloper: headerData.starredDeveloper,
                       publisherName: headerData.publisherName,
                       onTap: () => launchUrl(Uri.parse(headerData.website)),
                     ),
@@ -115,6 +116,7 @@ class PageAppHeader extends StatelessWidget {
             AppWebsite(
               website: appData.website,
               verified: appData.verified,
+              starredDeveloper: appData.starredDeveloper,
               publisherName: appData.publisherName,
             ),
           ],

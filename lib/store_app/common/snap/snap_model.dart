@@ -259,6 +259,10 @@ class SnapModel extends SafeChangeNotifier {
   /// Helper getter to check if the publisher is verified.
   bool get verified => publisher != null && publisher!.validation == 'verified';
 
+  /// Helper getter to check if the publisher is a starred developer.
+  bool get starredDeveloper =>
+      publisher != null && publisher!.validation == 'starred';
+
   /// Helper getter/setters for the change of this snap
   bool _snapChangeInProgress;
   bool get snapChangeInProgress => _snapChangeInProgress;
