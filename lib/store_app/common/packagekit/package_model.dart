@@ -184,14 +184,14 @@ class PackageModel extends SafeChangeNotifier {
   }
 
   Future<void> install() async {
-    if (_packageId != null) {
-      return _service
-          .install(model: this)
-          .then(_updateDetails)
-          .then(_updatePercentage);
-    } else if (_path != null) {
+    if (_path != null) {
       return _service
           .installLocalFile(model: this)
+          .then(_updateDetails)
+          .then(_updatePercentage);
+    } else if (_packageId != null) {
+      return _service
+          .install(model: this)
           .then(_updateDetails)
           .then(_updatePercentage);
     }
