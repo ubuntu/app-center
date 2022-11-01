@@ -184,5 +184,9 @@
   "madeBy": "Ubuntu-Programvendejo estas verkita kaj dezajnita de",
   "@madeBy": {},
   "copyErrorMessage": "Kopii erarmesaĝon",
-  "@copyErrorMessage": {}
+  "@copyErrorMessage": {},
+  "send": "Sendi",
+  "@send": {},
+  "unknown": "Nekonata",
+  "@unknown": {}
 }
