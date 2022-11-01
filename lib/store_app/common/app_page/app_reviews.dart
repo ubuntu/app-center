@@ -10,10 +10,18 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppReviews extends StatelessWidget {
-  const AppReviews({super.key, this.rating, this.userReviews});
+  const AppReviews({
+    super.key,
+    this.rating,
+    this.userReviews,
+    this.onRatingUpdate,
+    this.onReviewSend,
+  });
 
   final double? rating;
   final List<AppReview>? userReviews;
+  final void Function(double)? onRatingUpdate;
+  final void Function()? onReviewSend;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +33,7 @@ class AppReviews extends StatelessWidget {
           style: Theme.of(context).textTheme.headline6,
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: kYaruPagePadding,
@@ -42,7 +51,7 @@ class AppReviews extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                 size: 2,
               ),
-              onRatingUpdate: (rating) {},
+              onRatingUpdate: onRatingUpdate ?? (rating) {},
             ),
             const SizedBox(
               height: kYaruPagePadding,
@@ -60,7 +69,16 @@ class AppReviews extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (onReviewSend != null) {
+                      onReviewSend!();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(context.l10n.reviewSent),
+                        ),
+                      );
+                    }
+                  },
                   child: Text(context.l10n.send),
                 ),
               ],
