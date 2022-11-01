@@ -92,6 +92,17 @@ class _SnapPageState extends State<SnapPage> {
       versionChanged:
           model.selectableChannels[model.channelToBeInstalled]?.version !=
               model.version,
+      // TODO: get real reviews from backend
+      userReviews: [
+        for (var i = 0; i < 20; i++)
+          AppReview(
+            rating: 3.4,
+            review:
+                'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+            dateTime: DateTime.now(),
+            username: null,
+          ),
+      ],
     );
 
     return AppPage(

@@ -21,9 +21,10 @@ import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_page/app_description.dart';
 import 'package:software/store_app/common/app_page/app_header.dart';
 import 'package:software/store_app/common/app_page/app_infos.dart';
-import 'package:software/store_app/common/border_container.dart';
+import 'package:software/store_app/common/app_page/app_reviews.dart';
 import 'package:software/store_app/common/app_page/media_tile.dart';
 import 'package:software/store_app/common/app_page/page_layouts.dart';
+import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -105,6 +106,11 @@ class _AppPageState extends State<AppPage> {
       child: AppDescription(description: widget.appData.description),
     );
 
+    final ratingsAndReviews = AppReviews(
+      rating: widget.appData.rating,
+      userReviews: widget.appData.userReviews,
+    );
+
     final normalWindowAppHeader = BorderContainer(
       child: BannerAppHeader(
         headerData: widget.appData,
@@ -154,7 +160,8 @@ class _AppPageState extends State<AppPage> {
         ),
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
-        if (widget.permissionContainer != null) widget.permissionContainer!
+        if (widget.permissionContainer != null) widget.permissionContainer!,
+        ratingsAndReviews
       ],
     );
 
@@ -163,7 +170,8 @@ class _AppPageState extends State<AppPage> {
       rightChildren: [
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
-        if (widget.permissionContainer != null) widget.permissionContainer!
+        if (widget.permissionContainer != null) widget.permissionContainer!,
+        ratingsAndReviews
       ],
       windowSize: windowSize,
     );
@@ -174,7 +182,8 @@ class _AppPageState extends State<AppPage> {
         narrowWindowAppHeader,
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
-        if (widget.permissionContainer != null) widget.permissionContainer!
+        if (widget.permissionContainer != null) widget.permissionContainer!,
+        ratingsAndReviews
       ],
     );
 
