@@ -97,6 +97,7 @@ class _PackagePageState extends State<PackagePage> {
       license: model.license,
       strict: false,
       verified: false,
+      starredDeveloper: false,
       publisherName: context.l10n.website,
       website: model.url,
       summary: model.summary,

@@ -91,7 +91,8 @@ class _ColorBannerState extends State<ColorBanner> {
         height: 14,
         website:
             widget.snap.website ?? widget.snap.publisher?.displayName ?? '',
-        verified: widget.snap.publisher?.validation == 'verified',
+        verified: model.verified,
+        starredDeveloper: model.starredDeveloper,
         publisherName: widget.snap.publisher?.displayName ?? widget.snap.name,
       ),
       onTap: widget.onTap,
