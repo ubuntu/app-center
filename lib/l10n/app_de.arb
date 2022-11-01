@@ -91,5 +91,9 @@
   "packageKitFilter": "Die Art des Pakets",
   "packageDetails": "Paketdetails",
   "copyErrorMessage": "Copy error message",
-  "madeBy": "Ubuntu Software wird entwickelt und designed von"
+  "madeBy": "Ubuntu Software wird entwickelt und designed von",
+  "reviewsAndRatings": "Bewertungen und Rezensionen",
+  "yourReview": "Ihre Rezension",
+  "send": "Send",
+  "unknown": "Unbekannt"
 } 

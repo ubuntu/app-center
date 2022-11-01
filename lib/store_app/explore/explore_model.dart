@@ -241,6 +241,11 @@ class ExploreModel extends SafeChangeNotifier {
 class AppFinding {
   final Snap? snap;
   final PackageKitPackageId? packageId;
+  final double? rating;
 
-  AppFinding({this.snap, this.packageId});
+  AppFinding({
+    this.snap,
+    this.packageId,
+    this.rating,
+  });
 }

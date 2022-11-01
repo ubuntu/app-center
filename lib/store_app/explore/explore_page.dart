@@ -86,7 +86,13 @@ class _ExplorePageState extends State<ExplorePage> {
             ),
             body: Column(
               children: [
-                const ExploreHeader(),
+                if (model.searchQuery.isNotEmpty ||
+                    model.selectedSection != SnapSection.all)
+                  const ExploreHeader()
+                else
+                  const SizedBox(
+                    height: kPagePadding,
+                  ),
                 Expanded(
                   child: model.showErrorPage
                       ? _ErrorPage(errorMessage: model.errorMessage)

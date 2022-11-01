@@ -30,6 +30,8 @@ class AppData {
   final List<String> screenShotUrls;
   final String description;
   final bool? versionChanged;
+  final double? rating;
+  final List<AppReview>? userReviews;
 
   AppData({
     required this.title,
@@ -46,5 +48,21 @@ class AppData {
     required this.screenShotUrls,
     required this.description,
     this.versionChanged,
+    this.rating,
+    this.userReviews,
+  });
+}
+
+class AppReview {
+  final double? rating;
+  final String? review;
+  final DateTime? dateTime;
+  final String? username;
+
+  AppReview({
+    this.rating,
+    this.review,
+    this.dateTime,
+    this.username,
   });
 }

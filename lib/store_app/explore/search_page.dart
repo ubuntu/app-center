@@ -16,6 +16,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
@@ -243,8 +244,6 @@ class _CombinedSearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    final appFormatEmblemColor = Theme.of(context).disabledColor;
-    final primaryColor = Theme.of(context).primaryColor;
 
     return FutureBuilder<Map<String, AppFinding>>(
       future: model.search(),
@@ -271,38 +270,28 @@ class _CombinedSearchPage extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     thirdTitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (e.value.snap != null)
-                          IconButton(
-                            icon: Icon(
-                              YaruIcons.snapcraft,
-                              color: e.value.packageId == null
-                                  ? appFormatEmblemColor
-                                  : primaryColor,
-                            ),
-                            onPressed: e.value.packageId == null
-                                ? null
-                                : () => SnapPage.push(context, e.value.snap!),
+                        RatingBar.builder(
+                          initialRating: e.value.rating ?? 0,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemPadding: EdgeInsets.zero,
+                          itemSize: 20,
+                          itemBuilder: (context, _) => Icon(
+                            YaruIcons.star_filled,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.7),
+                            size: 2,
                           ),
-                        if (e.value.packageId != null)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: IconButton(
-                              onPressed: e.value.snap == null
-                                  ? null
-                                  : () => PackagePage.push(
-                                        context,
-                                        e.value.packageId!,
-                                      ),
-                              icon: Icon(
-                                YaruIcons.debian,
-                                color: e.value.snap == null
-                                    ? appFormatEmblemColor
-                                    : primaryColor,
-                              ),
-                            ),
-                          )
+                          onRatingUpdate: (rating) {},
+                          ignoreGestures: true,
+                        ),
+                        PackageIndicator(appFinding: e.value),
                       ],
                     ),
                     icon: AppIcon(
@@ -329,6 +318,52 @@ class _CombinedSearchPage extends StatelessWidget {
               )
             : _NoSearchResultPage(message: context.l10n.noPackageFound);
       },
+    );
+  }
+}
+
+class PackageIndicator extends StatelessWidget {
+  const PackageIndicator({super.key, required this.appFinding});
+
+  final AppFinding appFinding;
+
+  @override
+  Widget build(BuildContext context) {
+    final appFormatEmblemColor = Theme.of(context).disabledColor;
+    final primaryColor = Theme.of(context).primaryColor;
+    return Row(
+      children: [
+        if (appFinding.snap != null)
+          IconButton(
+            icon: Icon(
+              YaruIcons.snapcraft,
+              color: appFinding.packageId == null
+                  ? appFormatEmblemColor
+                  : primaryColor,
+            ),
+            onPressed: appFinding.packageId == null
+                ? null
+                : () => SnapPage.push(context, appFinding.snap!),
+          ),
+        if (appFinding.packageId != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: IconButton(
+              onPressed: appFinding.snap == null
+                  ? null
+                  : () => PackagePage.push(
+                        context,
+                        appFinding.packageId!,
+                      ),
+              icon: Icon(
+                YaruIcons.debian,
+                color: appFinding.snap == null
+                    ? appFormatEmblemColor
+                    : primaryColor,
+              ),
+            ),
+          )
+      ],
     );
   }
 }
