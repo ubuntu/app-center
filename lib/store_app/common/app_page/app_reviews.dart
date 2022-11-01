@@ -24,8 +24,7 @@ class AppReviews extends StatelessWidget {
           context.l10n.reviewsAndRatings,
           style: Theme.of(context).textTheme.headline6,
         ),
-        child: ListView(
-          shrinkWrap: true,
+        child: Column(
           children: [
             const SizedBox(
               height: kYaruPagePadding,
