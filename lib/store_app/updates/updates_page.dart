@@ -22,6 +22,7 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/message_bar.dart';
 import 'package:software/store_app/updates/update_banner.dart';
@@ -254,21 +255,9 @@ class _UpdatesHeader extends StatelessWidget {
               ),
             ),
             if (model.updates.isNotEmpty)
-              OutlinedButton(
-                onPressed: model.updatesState != UpdatesState.readyToUpdate
-                    ? null
-                    : model.allSelected
-                        ? () => model.deselectAll()
-                        : () => model.selectAll(),
-                child: Text(
-                  model.allSelected
-                      ? context.l10n.deselectAll
-                      : context.l10n.selectAll,
-                ),
-              ),
-            if (model.updates.isNotEmpty)
               ElevatedButton(
-                onPressed: model.updatesState == UpdatesState.readyToUpdate
+                onPressed: model.updatesState == UpdatesState.readyToUpdate &&
+                        !model.nothingSelected
                     ? () => model.updateAll(
                           updatesComplete: context.l10n.updatesComplete,
                           updatesAvailable: context.l10n.updateAvailable,
@@ -299,9 +288,16 @@ class _UpdatesHeader extends StatelessWidget {
   }
 }
 
-class _UpdatesListView extends StatelessWidget {
+class _UpdatesListView extends StatefulWidget {
   // ignore: unused_element
   const _UpdatesListView({super.key});
+
+  @override
+  State<_UpdatesListView> createState() => _UpdatesListViewState();
+}
+
+class _UpdatesListViewState extends State<_UpdatesListView> {
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -309,29 +305,73 @@ class _UpdatesListView extends StatelessWidget {
     final model = context.watch<UpdatesModel>();
 
     return Expanded(
-      child: ListView.builder(
-        padding: EdgeInsets.only(
-          top: 20,
-          bottom: 50,
-          left: hPadding,
-          right: hPadding,
-        ),
-        itemCount: model.updates.length,
-        itemExtent: 100,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          final update = model.getUpdate(index);
-
-          return UpdateBanner(
-            group: model.getGroup(update),
-            selected: model.isUpdateSelected(update),
-            updateId: update,
-            installedId: model.getInstalledId(update.name) ?? update,
-            onChanged: model.updatesState == UpdatesState.checkingForUpdates
-                ? null
-                : (v) => model.selectUpdate(update, v!),
-          );
-        },
+      child: ListView(
+        children: [
+          BorderContainer(
+            childPadding: EdgeInsets.only(
+              top: 20,
+              bottom: 50,
+              left: hPadding,
+              right: hPadding,
+            ),
+            child: YaruExpandable(
+              isExpanded: _isExpanded,
+              onChange: (isExpanded) =>
+                  setState(() => _isExpanded = isExpanded),
+              header: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: _isExpanded
+                    ? SizedBox(
+                        width: 400,
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              value: model.allSelected,
+                              onChanged: (v) =>
+                                  v! ? model.selectAll() : model.deselectAll(),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              model.allSelected
+                                  ? context.l10n.deselectAll
+                                  : context.l10n.selectAll,
+                              style: Theme.of(context).textTheme.headline6,
+                            )
+                          ],
+                        ),
+                      )
+                    : Text(
+                        'Updates found: ${model.updates.length}',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: kYaruPagePadding),
+                child: Column(
+                  children: List.generate(model.updates.length, (index) {
+                    final update = model.getUpdate(index);
+                    return SizedBox(
+                      height: 70,
+                      child: UpdateBanner(
+                        group: model.getGroup(update),
+                        selected: model.isUpdateSelected(update),
+                        updateId: update,
+                        installedId:
+                            model.getInstalledId(update.name) ?? update,
+                        onChanged: model.updatesState ==
+                                UpdatesState.checkingForUpdates
+                            ? null
+                            : (v) => model.selectUpdate(update, v!),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

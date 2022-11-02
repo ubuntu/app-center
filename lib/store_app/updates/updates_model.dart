@@ -199,6 +199,7 @@ class UpdatesModel extends SafeChangeNotifier {
   }
 
   bool get allSelected => _service.allSelected;
+  bool get nothingSelected => _service.nothingSelected;
 
   Future<void> refresh() async {
     await _service.refreshUpdates();

@@ -172,6 +172,11 @@ class PackageService {
 
   bool get allSelected =>
       _updates.entries.where((e) => e.value).length == _updates.length;
+  bool get nothingSelected => _updates.entries
+      .where((e) => e.value == true)
+      .map((e) => e.key)
+      .toList()
+      .isEmpty;
 
   bool isUpdateSelected(PackageKitPackageId update) => _updates[update] == true;
 
