@@ -57,6 +57,8 @@
   "searchHint": "Suchen",
   "updateSelected": "Ausgewählte aktualisieren",
   "selectAll": "Alles auswählen",
+  "allSelected": "Alle Aktualisierungen ausgewählt",
+  "xSelected": "Aktualisierungen ausgewählt",
   "deselectAll": "Auswahl entfernen",
   "update": "Aktualisierung",
   "updateButton": "Aktualisieren",

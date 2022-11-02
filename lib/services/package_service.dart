@@ -177,6 +177,11 @@ class PackageService {
       .map((e) => e.key)
       .toList()
       .isEmpty;
+  int get selectedUpdatesLength => _updates.entries
+      .where((e) => e.value == true)
+      .map((e) => e.key)
+      .toList()
+      .length;
 
   bool isUpdateSelected(PackageKitPackageId update) => _updates[update] == true;
 

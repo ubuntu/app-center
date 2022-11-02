@@ -335,15 +335,15 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                             ),
                             Text(
                               model.allSelected
-                                  ? context.l10n.deselectAll
-                                  : context.l10n.selectAll,
+                                  ? context.l10n.allSelected
+                                  : '${model.selectedUpdatesLength} ${context.l10n.xSelected}',
                               style: Theme.of(context).textTheme.headline6,
                             )
                           ],
                         ),
                       )
                     : Text(
-                        '${model.updates.length} ${context.l10n.updatesAvailable}',
+                        '${model.selectedUpdatesLength} ${context.l10n.xSelected}',
                         style: Theme.of(context).textTheme.headline6,
                       ),
               ),

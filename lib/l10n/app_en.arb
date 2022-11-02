@@ -57,6 +57,8 @@
   "searchHint": "Search",
   "updateSelected": "Update selected",
   "selectAll": "Select all",
+  "allSelected": "All updates selected",
+  "xSelected": "updates selected",
   "deselectAll": "Deselect all",
   "update": "Update",
   "updateButton": "Update",
