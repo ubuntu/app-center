@@ -188,5 +188,11 @@
   "send": "Sendi",
   "@send": {},
   "unknown": "Nekonata",
-  "@unknown": {}
+  "@unknown": {},
+  "yourReview": "Via recenzo",
+  "@yourReview": {},
+  "reviewsAndRatings": "Recenzoj kaj taksoj",
+  "@reviewsAndRatings": {},
+  "reviewSent": "Recenzo sendiĝis",
+  "@reviewSent": {}
 }
