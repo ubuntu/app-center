@@ -263,7 +263,7 @@ class _UpdatesHeader extends StatelessWidget {
                           updatesAvailable: context.l10n.updateAvailable,
                         )
                     : null,
-                child: Text(context.l10n.updateSelected),
+                child: Text(context.l10n.updateButton),
               ),
             if (model.updatesState == UpdatesState.noUpdates)
               if (model.requireRestartApp)
@@ -343,7 +343,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                         ),
                       )
                     : Text(
-                        'Updates found: ${model.updates.length}',
+                        '${model.updates.length} ${context.l10n.updatesAvailable}',
                         style: Theme.of(context).textTheme.headline6,
                       ),
               ),
