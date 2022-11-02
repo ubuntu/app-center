@@ -304,9 +304,10 @@ class _CombinedSearchPage extends StatelessWidget {
                         const EdgeInsets.only(left: 10, right: 5, bottom: 30),
                     onTap: e.value.snap != null && e.value.packageId != null
                         ? () => showDialog(
+                              useRootNavigator: false,
                               context: context,
                               builder: (context) => _AppFormatSelectDialog(
-                                title: e.value.snap!.title!,
+                                title: e.value.snap!.name,
                                 onPackageSelect: () => PackagePage.push(
                                   context,
                                   e.value.packageId!,
@@ -385,24 +386,48 @@ class _AppFormatSelectDialog extends StatelessWidget {
     return AlertDialog(
       title: YaruTitleBar(title: Text(title)),
       titlePadding: EdgeInsets.zero,
-      actionsPadding: EdgeInsets.zero,
+      actionsPadding: const EdgeInsets.all(10),
       actionsAlignment: MainAxisAlignment.spaceEvenly,
+      content: Text(context.l10n.multiAppFormatsFound),
       actions: [
         Row(
           children: [
             Expanded(
               child: TextButton(
                 onPressed: onPackageSelect,
-                child: Text(
-                  AppFormat.packageKit.localize(context.l10n),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(YaruIcons.debian, size: 16),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      AppFormat.packageKit.localize(context.l10n),
+                    ),
+                  ],
                 ),
               ),
             ),
             Expanded(
               child: TextButton(
                 onPressed: onSnapSelect,
-                child: Text(
-                  AppFormat.snap.localize(context.l10n),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      YaruIcons.snapcraft,
+                      size: 16,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      AppFormat.snap.localize(context.l10n),
+                    ),
+                  ],
                 ),
               ),
             )

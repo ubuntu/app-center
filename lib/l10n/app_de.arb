@@ -96,5 +96,6 @@
   "yourReview": "Ihre Rezension",
   "send": "Send",
   "unknown": "Unbekannt",
-  "reviewSent": "Rezension versendet"
+  "reviewSent": "Rezension versendet",
+  "multiAppFormatsFound": "Wir konnten verschiedene Formate für diese Anwendung finden."
 } 
