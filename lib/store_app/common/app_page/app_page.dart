@@ -190,6 +190,7 @@ class _AppPageState extends State<AppPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.appData.title),
+        titleSpacing: 0,
         leading: _CustomBackButton(
           onPressed: () => Navigator.pop(context),
         ),
