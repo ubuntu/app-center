@@ -113,7 +113,7 @@ class _AppPageState extends State<AppPage> {
 
     final normalWindowAppHeader = BorderContainer(
       child: BannerAppHeader(
-        headerData: widget.appData,
+        appData: widget.appData,
         controls: widget.controls,
         icon: widget.icon,
       ),
