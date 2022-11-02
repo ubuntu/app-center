@@ -269,30 +269,32 @@ class _CombinedSearchPage extends StatelessWidget {
                       e.value.snap?.summary ?? e.value.packageId?.version ?? '',
                       overflow: TextOverflow.ellipsis,
                     ),
-                    thirdTitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RatingBar.builder(
-                          initialRating: e.value.rating ?? 0,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemPadding: EdgeInsets.zero,
-                          itemSize: 20,
-                          itemBuilder: (context, _) => Icon(
-                            YaruIcons.star_filled,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withOpacity(0.7),
-                            size: 2,
+                    thirdTitle: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RatingBar.builder(
+                            initialRating: e.value.rating ?? 0,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemPadding: EdgeInsets.zero,
+                            itemSize: 20,
+                            itemBuilder: (context, _) => Icon(
+                              YaruIcons.star_filled,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.7),
+                            ),
+                            onRatingUpdate: (rating) {},
+                            ignoreGestures: true,
                           ),
-                          onRatingUpdate: (rating) {},
-                          ignoreGestures: true,
-                        ),
-                        PackageIndicator(appFinding: e.value),
-                      ],
+                          _PackageIndicator(appFinding: e.value),
+                        ],
+                      ),
                     ),
                     icon: AppIcon(
                       iconUrl: e.value.snap?.iconUrl,
@@ -301,7 +303,18 @@ class _CombinedSearchPage extends StatelessWidget {
                     iconPadding:
                         const EdgeInsets.only(left: 10, right: 5, bottom: 30),
                     onTap: e.value.snap != null && e.value.packageId != null
-                        ? null
+                        ? () => showDialog(
+                              context: context,
+                              builder: (context) => _AppFormatSelectDialog(
+                                title: e.value.snap!.title!,
+                                onPackageSelect: () => PackagePage.push(
+                                  context,
+                                  e.value.packageId!,
+                                ),
+                                onSnapSelect: () =>
+                                    SnapPage.push(context, e.value.snap!),
+                              ),
+                            )
                         : () {
                             if (e.value.snap == null &&
                                 e.value.packageId != null) {
@@ -322,47 +335,79 @@ class _CombinedSearchPage extends StatelessWidget {
   }
 }
 
-class PackageIndicator extends StatelessWidget {
-  const PackageIndicator({super.key, required this.appFinding});
+class _PackageIndicator extends StatelessWidget {
+  // ignore: unused_element
+  const _PackageIndicator({super.key, required this.appFinding});
 
   final AppFinding appFinding;
 
   @override
   Widget build(BuildContext context) {
     final appFormatEmblemColor = Theme.of(context).disabledColor;
-    final primaryColor = Theme.of(context).primaryColor;
     return Row(
       children: [
         if (appFinding.snap != null)
-          IconButton(
-            icon: Icon(
-              YaruIcons.snapcraft,
-              color: appFinding.packageId == null
-                  ? appFormatEmblemColor
-                  : primaryColor,
-            ),
-            onPressed: appFinding.packageId == null
-                ? null
-                : () => SnapPage.push(context, appFinding.snap!),
+          Icon(
+            YaruIcons.snapcraft,
+            color: appFormatEmblemColor,
+            size: 20,
           ),
         if (appFinding.packageId != null)
           Padding(
             padding: const EdgeInsets.only(left: 5),
-            child: IconButton(
-              onPressed: appFinding.snap == null
-                  ? null
-                  : () => PackagePage.push(
-                        context,
-                        appFinding.packageId!,
-                      ),
-              icon: Icon(
-                YaruIcons.debian,
-                color: appFinding.snap == null
-                    ? appFormatEmblemColor
-                    : primaryColor,
-              ),
+            child: Icon(
+              YaruIcons.debian,
+              color: appFormatEmblemColor,
+              size: 20,
             ),
           )
+      ],
+    );
+  }
+}
+
+class _AppFormatSelectDialog extends StatelessWidget {
+  // ignore: unused_element
+  const _AppFormatSelectDialog({
+    // ignore: unused_element
+    super.key,
+    required this.title,
+    required this.onSnapSelect,
+    required this.onPackageSelect,
+  });
+
+  final String title;
+  final Function() onSnapSelect;
+  final Function() onPackageSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: YaruTitleBar(title: Text(title)),
+      titlePadding: EdgeInsets.zero,
+      actionsPadding: EdgeInsets.zero,
+      actionsAlignment: MainAxisAlignment.spaceEvenly,
+      actions: [
+        Row(
+          children: [
+            Expanded(
+              child: TextButton(
+                onPressed: onPackageSelect,
+                child: Text(
+                  AppFormat.packageKit.localize(context.l10n),
+                ),
+              ),
+            ),
+            Expanded(
+              child: TextButton(
+                onPressed: onSnapSelect,
+                child: Text(
+                  AppFormat.snap.localize(context.l10n),
+                ),
+              ),
+            )
+          ],
+        )
       ],
     );
   }
