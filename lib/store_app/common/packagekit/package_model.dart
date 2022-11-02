@@ -48,6 +48,7 @@ class PackageModel extends SafeChangeNotifier {
   String get iconUrl => '';
 
   Future<void> init({bool update = false}) async {
+    await _service.cancelCurrentUpdatesRefresh();
     if (_packageId != null) {
       await _updateDetails();
       if (update) {

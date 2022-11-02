@@ -46,6 +46,8 @@ class PackageService {
     _client.connect();
   }
 
+  PackageKitTransaction? _pendingUpdatesCheckTransaction;
+
   final Map<PackageKitPackageId, bool> _updates = {};
   List<PackageKitPackageId> get updates =>
       _updates.entries.map((e) => e.key).toList();
@@ -191,9 +193,10 @@ class PackageService {
   Future<void> refreshUpdates() async {
     setErrorMessage('');
     setUpdatesState(UpdatesState.checkingForUpdates);
-    await _loadRepoList();
-    await _refreshCache();
-    await _getUpdates();
+    await _loadRepoList()
+        .then((_) => _refreshCache())
+        .then((_) => _getUpdates())
+        .catchError((_) {});
     setUpdatesState(
       _updates.isEmpty ? UpdatesState.noUpdates : UpdatesState.readyToUpdate,
     );
@@ -205,6 +208,13 @@ class PackageService {
         refreshUpdates();
       }
     });
+  }
+
+  Future<void> cancelCurrentUpdatesRefresh() async {
+    return _pendingUpdatesCheckTransaction
+        ?.cancel()
+        .catchError((_) => null)
+        .whenComplete(() => _pendingUpdatesCheckTransaction = null);
   }
 
   void sendUpdateNotification({required String updatesAvailable}) {
@@ -228,28 +238,38 @@ class PackageService {
 
   Future<void> _refreshCache() async {
     setErrorMessage('');
-    final transaction = await _client.createTransaction();
+    await cancelCurrentUpdatesRefresh();
+    _pendingUpdatesCheckTransaction = await _client.createTransaction();
     final completer = Completer();
-    final subscription = transaction.events.listen((event) {
+    final subscription =
+        _pendingUpdatesCheckTransaction!.events.listen((event) {
       if (event is PackageKitRepositoryDetailEvent) {
         // print(event.description);
       } else if (event is PackageKitErrorCodeEvent) {
         setErrorMessage('${event.code}: ${event.details}');
       } else if (event is PackageKitFinishedEvent) {
-        completer.complete();
+        if (event.exit == PackageKitExit.cancelled) {
+          completer.completeError(event.exit);
+        } else {
+          completer.complete();
+        }
       }
     });
-    await transaction.refreshCache();
-    return completer.future.whenComplete(subscription.cancel);
+    await _pendingUpdatesCheckTransaction!.refreshCache();
+    return completer.future
+        .whenComplete(subscription.cancel)
+        .whenComplete(() => _pendingUpdatesCheckTransaction = null);
   }
 
   Future<void> _getUpdates({Set<PackageKitFilter> filter = const {}}) async {
+    await cancelCurrentUpdatesRefresh();
     setErrorMessage('');
     _updates.clear();
     _idsToGroups.clear();
-    final transaction = await _client.createTransaction();
+    _pendingUpdatesCheckTransaction = await _client.createTransaction();
     final completer = Completer();
-    final subscription = transaction.events.listen((event) {
+    final subscription =
+        _pendingUpdatesCheckTransaction!.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         final id = event.packageId;
         _updates.putIfAbsent(id, () => true);
@@ -259,11 +279,17 @@ class PackageService {
       } else if (event is PackageKitErrorCodeEvent) {
         setErrorMessage('${event.code}: ${event.details}');
       } else if (event is PackageKitFinishedEvent) {
-        completer.complete();
+        if (event.exit == PackageKitExit.cancelled) {
+          completer.completeError(event.exit);
+        } else {
+          completer.complete();
+        }
       }
     });
-    await transaction.getUpdates(filter: filter);
-    await completer.future.whenComplete(subscription.cancel);
+    await _pendingUpdatesCheckTransaction!.getUpdates(filter: filter);
+    await completer.future
+        .whenComplete(subscription.cancel)
+        .whenComplete(() => _pendingUpdatesCheckTransaction = null);
     for (var entry in _updates.entries) {
       if (!_idsToGroups.containsKey(entry.key)) {
         final PackageKitGroup group = await _getGroup(entry.key);
@@ -475,20 +501,28 @@ class PackageService {
   Future<void> _loadRepoList() async {
     setErrorMessage('');
     _repos.clear();
-    final transaction = await _client.createTransaction();
+    await cancelCurrentUpdatesRefresh();
+    _pendingUpdatesCheckTransaction = await _client.createTransaction();
     final completer = Completer();
-    final subscription = transaction.events.listen((event) {
+    final subscription =
+        _pendingUpdatesCheckTransaction!.events.listen((event) {
       if (event is PackageKitRepositoryDetailEvent) {
         _repos.add(event);
         setReposChanged(true);
       } else if (event is PackageKitErrorCodeEvent) {
         setErrorMessage('${event.code}: ${event.details}');
       } else if (event is PackageKitFinishedEvent) {
-        completer.complete();
+        if (event.exit == PackageKitExit.cancelled) {
+          completer.completeError(event.exit);
+        } else {
+          completer.complete();
+        }
       }
     });
-    await transaction.getRepositoryList();
-    return completer.future.whenComplete(subscription.cancel);
+    await _pendingUpdatesCheckTransaction!.getRepositoryList();
+    return completer.future
+        .whenComplete(subscription.cancel)
+        .whenComplete(() => _pendingUpdatesCheckTransaction = null);
   }
 
   Future<void> toggleRepo({required String id, required bool value}) async {
