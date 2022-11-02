@@ -23,16 +23,17 @@ import 'package:url_launcher/url_launcher.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 const iconSize = 150.0;
+const _maxTitleLength = 20;
 
 class BannerAppHeader extends StatelessWidget {
   const BannerAppHeader({
     super.key,
-    required this.headerData,
+    required this.appData,
     required this.controls,
     required this.icon,
   });
 
-  final AppData headerData;
+  final AppData appData;
   final Widget controls;
   final Widget icon;
 
@@ -57,16 +58,18 @@ class BannerAppHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      headerData.title,
+                      appData.title.length > _maxTitleLength
+                          ? appData.name
+                          : appData.title,
                       style: Theme.of(context).textTheme.headline3,
                       overflow: TextOverflow.ellipsis,
                     ),
                     AppWebsite(
-                      website: headerData.website,
-                      verified: headerData.verified,
-                      starredDeveloper: headerData.starredDeveloper,
-                      publisherName: headerData.publisherName,
-                      onTap: () => launchUrl(Uri.parse(headerData.website)),
+                      website: appData.website,
+                      verified: appData.verified,
+                      starredDeveloper: appData.starredDeveloper,
+                      publisherName: appData.publisherName,
+                      onTap: () => launchUrl(Uri.parse(appData.website)),
                     ),
                   ],
                 ),
@@ -108,7 +111,9 @@ class PageAppHeader extends StatelessWidget {
               child: icon,
             ),
             Text(
-              appData.title,
+              appData.title.length > _maxTitleLength
+                  ? appData.name
+                  : appData.title,
               style: Theme.of(context).textTheme.headline3,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,

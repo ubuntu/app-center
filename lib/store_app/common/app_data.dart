@@ -17,6 +17,7 @@
 
 class AppData {
   final String title;
+  final String name;
   final String summary;
   final bool strict;
   final String confinementName;
@@ -36,6 +37,7 @@ class AppData {
 
   AppData({
     required this.title,
+    required this.name,
     required this.summary,
     required this.strict,
     required this.confinementName,

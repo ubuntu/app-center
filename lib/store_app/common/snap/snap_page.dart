@@ -86,6 +86,7 @@ class _SnapPageState extends State<SnapPage> {
       website: model.storeUrl ?? '',
       summary: model.summary ?? '',
       title: model.title ?? '',
+      name: model.name ?? '',
       version: model.selectableChannels[model.channelToBeInstalled]?.version ??
           model.version,
       screenShotUrls: model.screenshotUrls ?? [],
