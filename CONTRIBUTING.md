@@ -25,6 +25,8 @@ This project currently has one translation component:
 
 - [ubuntu-software](https://hosted.weblate.org/projects/ubuntu-software/ubuntu-software/)
 
+[![Translation status](https://hosted.weblate.org/widgets/ubuntu-software/-/287x66-white.png)](https://hosted.weblate.org/engage/ubuntu-software/)
+
 **NOTE**: The Weblate project is integrated with the GitHub project. Weblate pushes changes daily and
 opens a [pull request](https://github.com/ubuntu-flutter-community/software/pulls) on GitHub.
 
