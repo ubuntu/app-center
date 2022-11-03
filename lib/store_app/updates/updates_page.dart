@@ -175,8 +175,19 @@ class _CheckForUpdatesSplashScreenState
               child: SizedBox(
                 width: 400,
                 child: Text(
-                  context.l10n.checkingForUpdates,
+                  context.l10n.justAMoment,
                   style: Theme.of(context).textTheme.headline4,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.visible,
+                ),
+              ),
+            ),
+            Center(
+              child: SizedBox(
+                width: 400,
+                child: Text(
+                  context.l10n.checkingForUpdates,
+                  style: Theme.of(context).textTheme.bodyLarge,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.visible,
                 ),
