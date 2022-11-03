@@ -1,6 +1,7 @@
 # Ubuntu Software
 
 [![codecov](https://codecov.io/gh/ubuntu-flutter-community/software/branch/main/graph/badge.svg)](https://codecov.io/gh/ubuntu-flutter-community/software)
+[![Translation status](https://hosted.weblate.org/widgets/ubuntu-software/-/svg-badge.svg)](https://hosted.weblate.org/engage/ubuntu-software/)
 
 ### An alternative software store for the Ubuntu Desktop made with Flutter.
 
