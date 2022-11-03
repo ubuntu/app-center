@@ -38,6 +38,7 @@ class UpdatesModel extends SafeChangeNotifier {
   StreamSubscription<bool>? _reposChangedSub;
   StreamSubscription<bool>? _updatesChangedSub;
   StreamSubscription<bool>? _selectionChanged;
+  StreamSubscription<String>? _terminalOutputSub;
 
   UpdatesModel(
     this._service,
@@ -92,6 +93,9 @@ class UpdatesModel extends SafeChangeNotifier {
     _selectionChanged = _service.selectionChanged.listen((event) {
       notifyListeners();
     });
+    _terminalOutputSub = _service.terminalOutput.listen((event) {
+      terminalOutput = event;
+    });
 
     _service.getInstalledPackages();
   }
@@ -110,6 +114,7 @@ class UpdatesModel extends SafeChangeNotifier {
     _installedSub?.cancel();
     _reposChangedSub?.cancel();
     _selectionChanged?.cancel();
+    _terminalOutputSub?.cancel();
     super.dispose();
   }
 
@@ -189,6 +194,14 @@ class UpdatesModel extends SafeChangeNotifier {
   set manualRepoName(String value) {
     if (value == _manualRepoName) return;
     _manualRepoName = value;
+    notifyListeners();
+  }
+
+  String _terminalOutput = '';
+  String get terminalOutput => _terminalOutput;
+  set terminalOutput(String value) {
+    if (value == _terminalOutput) return;
+    _terminalOutput = value;
     notifyListeners();
   }
 

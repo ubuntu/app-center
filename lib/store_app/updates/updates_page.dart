@@ -31,6 +31,8 @@ import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:xdg_icons/xdg_icons.dart';
+import 'package:xterm/core.dart';
+import 'package:xterm/ui.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -90,7 +92,8 @@ class _UpdatesPageState extends State<UpdatesPage> {
           const _NoUpdatesPage(),
         if (model.updatesState == UpdatesState.readyToUpdate)
           _UpdatesListView(hPadding: hPadding),
-        if (model.updatesState == UpdatesState.updating) const _UpdatingPage(),
+        if (model.updatesState == UpdatesState.updating)
+          _UpdatingPage(hPadding: hPadding),
         if (model.updatesState == UpdatesState.checkingForUpdates)
           _CheckForUpdatesSplashScreen(
             percentage: model.percentage,
@@ -206,42 +209,90 @@ class _CheckForUpdatesSplashScreenState
   }
 }
 
-class _UpdatingPage extends StatelessWidget {
+class _UpdatingPage extends StatefulWidget {
   const _UpdatingPage({
     Key? key,
+    required this.hPadding,
   }) : super(key: key);
+
+  final double hPadding;
+
+  @override
+  State<_UpdatingPage> createState() => _UpdatingPageState();
+}
+
+class _UpdatingPageState extends State<_UpdatingPage> {
+  var terminal = Terminal(maxLines: 50);
+
+  final terminalController = TerminalController();
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<UpdatesModel>();
-    return Expanded(
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              model.processedId != null ? model.processedId!.name : '',
-              style: Theme.of(context).textTheme.headlineMedium,
+
+    terminal.write(model.terminalOutput);
+
+    final children = [
+      Text(
+        model.processedId != null ? model.processedId!.name : '',
+        style: Theme.of(context).textTheme.headlineMedium,
+      ),
+      const SizedBox(
+        height: 20,
+      ),
+      Text(
+        model.info != null ? model.info!.name : '',
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
+      const SizedBox(
+        height: 20,
+      ),
+      Padding(
+        padding: EdgeInsets.only(
+          left: widget.hPadding * 1.5,
+          right: widget.hPadding * 1.5,
+        ),
+        child: YaruLinearProgressIndicator(
+          value: model.percentage != null ? model.percentage! / 100 : 0,
+        ),
+      ),
+      const SizedBox(
+        height: 100,
+      ),
+      Padding(
+        padding: EdgeInsets.only(left: widget.hPadding, right: widget.hPadding),
+        child: BorderContainer(
+          child: YaruExpandable(
+            header: Text(
+              'Details',
+              style: Theme.of(context).textTheme.headline6,
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              model.info != null ? model.info!.name : '',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              width: 400,
-              child: YaruLinearProgressIndicator(
-                value: model.percentage != null ? model.percentage! / 100 : 0,
+            child: SizedBox(
+              height: 300,
+              width: 600,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: kYaruPagePadding,
+                ),
+                child: TerminalView(
+                  terminal,
+                  controller: terminalController,
+                ),
               ),
             ),
-            const SizedBox(
-              height: 250,
-            ),
+          ),
+        ),
+      ),
+    ];
+
+    return Expanded(
+      child: Center(
+        child: ListView(
+          children: [
+            for (final child in children)
+              Center(
+                child: child,
+              )
           ],
         ),
       ),
