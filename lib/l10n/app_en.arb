@@ -59,6 +59,7 @@
   "selectAll": "Select all",
   "allSelected": "All updates selected",
   "xSelected": "updates selected",
+  "weHaveUpdates": "We've got updates for you!",
   "deselectAll": "Deselect all",
   "update": "Update",
   "updateButton": "Update",

@@ -30,6 +30,7 @@ import 'package:software/store_app/updates/updates_model.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
+import 'package:xdg_icons/xdg_icons.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -307,6 +308,24 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
     return Expanded(
       child: ListView(
         children: [
+          const XdgIcon(
+            name: 'aptdaemon-upgrade',
+            theme: 'Yaru',
+            size: 100,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Center(
+            child: Text(
+              context.l10n.weHaveUpdates,
+              style: Theme.of(context).textTheme.headline4,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           BorderContainer(
             childPadding: EdgeInsets.only(
               top: 20,
@@ -321,29 +340,31 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
               header: MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: _isExpanded
-                    ? SizedBox(
-                        width: 400,
-                        child: Row(
-                          children: [
-                            Checkbox(
-                              value: model.allSelected,
-                              onChanged: (v) =>
-                                  v! ? model.selectAll() : model.deselectAll(),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              model.allSelected
-                                  ? context.l10n.allSelected
-                                  : '${model.selectedUpdatesLength} ${context.l10n.xSelected}',
-                              style: Theme.of(context).textTheme.headline6,
-                            )
-                          ],
-                        ),
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Checkbox(
+                            value: model.allSelected
+                                ? true
+                                : model.nothingSelected
+                                    ? false
+                                    : null,
+                            tristate: true,
+                            onChanged: (v) => v != null
+                                ? model.selectAll()
+                                : model.deselectAll(),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
+                            style: Theme.of(context).textTheme.headline6,
+                          )
+                        ],
                       )
                     : Text(
-                        '${model.selectedUpdatesLength} ${context.l10n.xSelected}',
+                        '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
                         style: Theme.of(context).textTheme.headline6,
                       ),
               ),

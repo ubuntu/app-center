@@ -39,6 +39,7 @@ dependencies:
   url_launcher: ^6.1.2
   version: ^3.0.2
   window_manager: ^0.2.6
+  xdg_icons: ^0.0.1
   yaru: ^0.4.1
   yaru_colors: ^0.1.0
   yaru_icons: ^0.2.4

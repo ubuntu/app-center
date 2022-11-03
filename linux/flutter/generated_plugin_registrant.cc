@@ -10,6 +10,7 @@
 #include <screen_retriever/screen_retriever_plugin.h>
 #include <url_launcher_linux/url_launcher_plugin.h>
 #include <window_manager/window_manager_plugin.h>
+#include <xdg_icons/xdg_icons_plugin.h>
 #include <yaru/yaru_plugin.h>
 
 void fl_register_plugins(FlPluginRegistry* registry) {
@@ -25,6 +26,9 @@ void fl_register_plugins(FlPluginRegistry* registry) {
   g_autoptr(FlPluginRegistrar) window_manager_registrar =
       fl_plugin_registry_get_registrar_for_plugin(registry, "WindowManagerPlugin");
   window_manager_plugin_register_with_registrar(window_manager_registrar);
+  g_autoptr(FlPluginRegistrar) xdg_icons_registrar =
+      fl_plugin_registry_get_registrar_for_plugin(registry, "XdgIconsPlugin");
+  xdg_icons_plugin_register_with_registrar(xdg_icons_registrar);
   g_autoptr(FlPluginRegistrar) yaru_registrar =
       fl_plugin_registry_get_registrar_for_plugin(registry, "YaruPlugin");
   yaru_plugin_register_with_registrar(yaru_registrar);
