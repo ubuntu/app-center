@@ -22,6 +22,7 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/message_bar.dart';
 import 'package:software/store_app/updates/update_banner.dart';
@@ -29,6 +30,7 @@ import 'package:software/store_app/updates/updates_model.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
+import 'package:xdg_icons/xdg_icons.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -79,14 +81,15 @@ class _UpdatesPageState extends State<UpdatesPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<UpdatesModel>();
+    final hPadding = (0.00013 * pow(MediaQuery.of(context).size.width, 2)) - 20;
 
     return Column(
       children: [
-        const _UpdatesHeader(),
+        _UpdatesHeader(hPadding: hPadding),
         if (model.updatesState == UpdatesState.noUpdates)
           const _NoUpdatesPage(),
         if (model.updatesState == UpdatesState.readyToUpdate)
-          const _UpdatesListView(),
+          _UpdatesListView(hPadding: hPadding),
         if (model.updatesState == UpdatesState.updating) const _UpdatingPage(),
         if (model.updatesState == UpdatesState.checkingForUpdates)
           _CheckForUpdatesSplashScreen(
@@ -138,31 +141,71 @@ class _CheckForUpdatesSplashScreenState
   Widget build(BuildContext context) {
     return Expanded(
       child: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 100),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                width: 145,
-                height: 185,
-                child: LiquidLinearProgressIndicator(
-                  value: _animationController.value,
-                  backgroundColor: Colors.white.withOpacity(0.5),
-                  valueColor: AlwaysStoppedAnimation(
-                    Theme.of(context).primaryColor,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: 145,
+                  height: 185,
+                  child: LiquidLinearProgressIndicator(
+                    value: _animationController.value,
+                    backgroundColor: Colors.white.withOpacity(0.5),
+                    valueColor: AlwaysStoppedAnimation(
+                      Theme.of(context).primaryColor,
+                    ),
+                    direction: Axis.vertical,
+                    borderRadius: 20,
                   ),
-                  direction: Axis.vertical,
-                  borderRadius: 20,
+                ),
+                Icon(
+                  YaruIcons.debian,
+                  size: 120,
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: kYaruPagePadding,
+            ),
+            Center(
+              child: SizedBox(
+                width: 400,
+                child: Text(
+                  context.l10n.justAMoment,
+                  style: Theme.of(context).textTheme.headline4,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.visible,
                 ),
               ),
-              Icon(
-                YaruIcons.debian,
-                size: 120,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
+            ),
+            const SizedBox(
+              height: kYaruPagePadding / 4,
+            ),
+            Center(
+              child: SizedBox(
+                width: 400,
+                child: Text(
+                  context.l10n.checkingForUpdates,
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.7),
+                      ),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.visible,
+                ),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 120,
+            ),
+          ],
         ),
       ),
     );
@@ -215,7 +258,10 @@ class _UpdatingPage extends StatelessWidget {
 class _UpdatesHeader extends StatelessWidget {
   const _UpdatesHeader({
     Key? key,
+    required this.hPadding,
   }) : super(key: key);
+
+  final double hPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +270,7 @@ class _UpdatesHeader extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.only(top: 20, bottom: 20, right: hPadding),
         child: Wrap(
           direction: Axis.horizontal,
           alignment: WrapAlignment.start,
@@ -254,27 +300,15 @@ class _UpdatesHeader extends StatelessWidget {
               ),
             ),
             if (model.updates.isNotEmpty)
-              OutlinedButton(
-                onPressed: model.updatesState != UpdatesState.readyToUpdate
-                    ? null
-                    : model.allSelected
-                        ? () => model.deselectAll()
-                        : () => model.selectAll(),
-                child: Text(
-                  model.allSelected
-                      ? context.l10n.deselectAll
-                      : context.l10n.selectAll,
-                ),
-              ),
-            if (model.updates.isNotEmpty)
               ElevatedButton(
-                onPressed: model.updatesState == UpdatesState.readyToUpdate
+                onPressed: model.updatesState == UpdatesState.readyToUpdate &&
+                        !model.nothingSelected
                     ? () => model.updateAll(
                           updatesComplete: context.l10n.updatesComplete,
                           updatesAvailable: context.l10n.updateAvailable,
                         )
                     : null,
-                child: Text(context.l10n.updateSelected),
+                child: Text(context.l10n.updateButton),
               ),
             if (model.updatesState == UpdatesState.noUpdates)
               if (model.requireRestartApp)
@@ -299,39 +333,111 @@ class _UpdatesHeader extends StatelessWidget {
   }
 }
 
-class _UpdatesListView extends StatelessWidget {
+class _UpdatesListView extends StatefulWidget {
   // ignore: unused_element
-  const _UpdatesListView({super.key});
+  const _UpdatesListView({super.key, required this.hPadding});
+
+  final double hPadding;
+
+  @override
+  State<_UpdatesListView> createState() => _UpdatesListViewState();
+}
+
+class _UpdatesListViewState extends State<_UpdatesListView> {
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
-    final hPadding = (0.00013 * pow(MediaQuery.of(context).size.width, 2)) - 20;
     final model = context.watch<UpdatesModel>();
 
     return Expanded(
-      child: ListView.builder(
-        padding: EdgeInsets.only(
-          top: 20,
-          bottom: 50,
-          left: hPadding,
-          right: hPadding,
-        ),
-        itemCount: model.updates.length,
-        itemExtent: 100,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          final update = model.getUpdate(index);
-
-          return UpdateBanner(
-            group: model.getGroup(update),
-            selected: model.isUpdateSelected(update),
-            updateId: update,
-            installedId: model.getInstalledId(update.name) ?? update,
-            onChanged: model.updatesState == UpdatesState.checkingForUpdates
-                ? null
-                : (v) => model.selectUpdate(update, v!),
-          );
-        },
+      child: ListView(
+        children: [
+          const XdgIcon(
+            name: 'aptdaemon-upgrade',
+            theme: 'Yaru',
+            size: 100,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Center(
+            child: Text(
+              context.l10n.weHaveUpdates,
+              style: Theme.of(context).textTheme.headline4,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          BorderContainer(
+            childPadding: EdgeInsets.only(
+              top: 20,
+              bottom: 50,
+              left: widget.hPadding,
+              right: widget.hPadding,
+            ),
+            child: YaruExpandable(
+              isExpanded: _isExpanded,
+              onChange: (isExpanded) =>
+                  setState(() => _isExpanded = isExpanded),
+              header: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: _isExpanded
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Checkbox(
+                            value: model.allSelected
+                                ? true
+                                : model.nothingSelected
+                                    ? false
+                                    : null,
+                            tristate: true,
+                            onChanged: (v) => v != null
+                                ? model.selectAll()
+                                : model.deselectAll(),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
+                            style: Theme.of(context).textTheme.headline6,
+                          )
+                        ],
+                      )
+                    : Text(
+                        '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: kYaruPagePadding),
+                child: Column(
+                  children: List.generate(model.updates.length, (index) {
+                    final update = model.getUpdate(index);
+                    return SizedBox(
+                      height: 70,
+                      child: UpdateBanner(
+                        group: model.getGroup(update),
+                        selected: model.isUpdateSelected(update),
+                        updateId: update,
+                        installedId:
+                            model.getInstalledId(update.name) ?? update,
+                        onChanged: model.updatesState ==
+                                UpdatesState.checkingForUpdates
+                            ? null
+                            : (v) => model.selectUpdate(update, v!),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -92,6 +92,8 @@ class UpdatesModel extends SafeChangeNotifier {
     _selectionChanged = _service.selectionChanged.listen((event) {
       notifyListeners();
     });
+
+    _service.getInstalledPackages();
   }
 
   @override
@@ -199,6 +201,8 @@ class UpdatesModel extends SafeChangeNotifier {
   }
 
   bool get allSelected => _service.allSelected;
+  bool get nothingSelected => _service.nothingSelected;
+  int get selectedUpdatesLength => _service.selectedUpdatesLength;
 
   Future<void> refresh() async {
     await _service.refreshUpdates();

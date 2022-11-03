@@ -21,9 +21,8 @@ import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/updates/update_dialog.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
-class UpdateBanner extends StatefulWidget {
+class UpdateBanner extends StatelessWidget {
   const UpdateBanner({
     super.key,
     required this.selected,
@@ -38,54 +37,47 @@ class UpdateBanner extends StatefulWidget {
   final PackageKitPackageId updateId;
   final PackageKitPackageId installedId;
   final PackageKitGroup group;
-
-  @override
-  State<UpdateBanner> createState() => _UpdateBannerState();
-}
-
-class _UpdateBannerState extends State<UpdateBanner> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        YaruBanner(
-          onTap: () => showDialog(
-            context: context,
-            builder: (_) => UpdateDialog.create(
-              context: context,
-              id: widget.updateId,
-              installedId: widget.installedId,
+    return ListTile(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      onTap: () => showDialog(
+        context: context,
+        builder: (_) => UpdateDialog.create(
+          context: context,
+          id: updateId,
+          installedId: installedId,
+        ),
+      ),
+      title: Text(updateId.name),
+      subtitle: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            installedId.version,
+            style: const TextStyle(
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-          bannerWidth: 500,
-          title: Text(widget.updateId.name),
-          subtitle: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                widget.installedId.version,
-                style: const TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                ),
+          const Icon(YaruIcons.pan_end),
+          Expanded(
+            child: Text(
+              updateId.version,
+              style: TextStyle(
+                overflow: TextOverflow.ellipsis,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? kGreenLight
+                    : kGreenDark,
               ),
-              const Icon(YaruIcons.pan_end),
-              Expanded(
-                child: Text(
-                  widget.updateId.version,
-                  style: TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? kGreenLight
-                        : kGreenDark,
-                  ),
-                ),
-              )
-            ],
-          ),
-          icon: widget.group == PackageKitGroup.system ||
-                  widget.group == PackageKitGroup.security
+            ),
+          )
+        ],
+      ),
+      leading:
+          group == PackageKitGroup.system || group == PackageKitGroup.security
               ? const _SystemUpdateIcon()
               : Padding(
                   padding: const EdgeInsets.only(bottom: 5),
@@ -95,16 +87,10 @@ class _UpdateBannerState extends State<UpdateBanner> {
                     color: Colors.brown[300],
                   ),
                 ),
-        ),
-        Positioned(
-          right: 10,
-          top: 10,
-          child: Checkbox(
-            value: widget.selected,
-            onChanged: widget.onChanged,
-          ),
-        ),
-      ],
+      trailing: Checkbox(
+        value: selected,
+        onChanged: onChanged,
+      ),
     );
   }
 }
