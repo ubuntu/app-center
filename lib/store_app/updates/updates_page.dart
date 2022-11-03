@@ -172,34 +172,28 @@ class _CheckForUpdatesSplashScreenState
               height: kYaruPagePadding,
             ),
             Center(
-              child: SizedBox(
-                width: 400,
-                child: Text(
-                  context.l10n.justAMoment,
-                  style: Theme.of(context).textTheme.headline4,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.visible,
-                ),
+              child: Text(
+                context.l10n.justAMoment,
+                style: Theme.of(context).textTheme.headline4,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.visible,
               ),
             ),
             const SizedBox(
               height: kYaruPagePadding / 4,
             ),
             Center(
-              child: SizedBox(
-                width: 400,
-                child: Text(
-                  context.l10n.checkingForUpdates,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.7),
-                      ),
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.visible,
-                ),
+              child: Text(
+                context.l10n.checkingForUpdates,
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.7),
+                    ),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.visible,
               ),
             ),
             const SizedBox(
@@ -364,7 +358,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
           Center(
             child: Text(
               context.l10n.weHaveUpdates,
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headline5,
               textAlign: TextAlign.center,
             ),
           ),
