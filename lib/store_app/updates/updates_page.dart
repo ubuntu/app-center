@@ -81,14 +81,15 @@ class _UpdatesPageState extends State<UpdatesPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<UpdatesModel>();
+    final hPadding = (0.00013 * pow(MediaQuery.of(context).size.width, 2)) - 20;
 
     return Column(
       children: [
-        const _UpdatesHeader(),
+        _UpdatesHeader(hPadding: hPadding),
         if (model.updatesState == UpdatesState.noUpdates)
           const _NoUpdatesPage(),
         if (model.updatesState == UpdatesState.readyToUpdate)
-          const _UpdatesListView(),
+          _UpdatesListView(hPadding: hPadding),
         if (model.updatesState == UpdatesState.updating) const _UpdatingPage(),
         if (model.updatesState == UpdatesState.checkingForUpdates)
           _CheckForUpdatesSplashScreen(
@@ -140,31 +141,51 @@ class _CheckForUpdatesSplashScreenState
   Widget build(BuildContext context) {
     return Expanded(
       child: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 100),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                width: 145,
-                height: 185,
-                child: LiquidLinearProgressIndicator(
-                  value: _animationController.value,
-                  backgroundColor: Colors.white.withOpacity(0.5),
-                  valueColor: AlwaysStoppedAnimation(
-                    Theme.of(context).primaryColor,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: 145,
+                  height: 185,
+                  child: LiquidLinearProgressIndicator(
+                    value: _animationController.value,
+                    backgroundColor: Colors.white.withOpacity(0.5),
+                    valueColor: AlwaysStoppedAnimation(
+                      Theme.of(context).primaryColor,
+                    ),
+                    direction: Axis.vertical,
+                    borderRadius: 20,
                   ),
-                  direction: Axis.vertical,
-                  borderRadius: 20,
+                ),
+                Icon(
+                  YaruIcons.debian,
+                  size: 120,
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: kYaruPagePadding,
+            ),
+            Center(
+              child: SizedBox(
+                width: 400,
+                child: Text(
+                  context.l10n.checkingForUpdates,
+                  style: Theme.of(context).textTheme.headline4,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.visible,
                 ),
               ),
-              Icon(
-                YaruIcons.debian,
-                size: 120,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 120,
+            ),
+          ],
         ),
       ),
     );
@@ -217,7 +238,10 @@ class _UpdatingPage extends StatelessWidget {
 class _UpdatesHeader extends StatelessWidget {
   const _UpdatesHeader({
     Key? key,
+    required this.hPadding,
   }) : super(key: key);
+
+  final double hPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +250,7 @@ class _UpdatesHeader extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.only(top: 20, bottom: 20, right: hPadding),
         child: Wrap(
           direction: Axis.horizontal,
           alignment: WrapAlignment.start,
@@ -291,7 +315,9 @@ class _UpdatesHeader extends StatelessWidget {
 
 class _UpdatesListView extends StatefulWidget {
   // ignore: unused_element
-  const _UpdatesListView({super.key});
+  const _UpdatesListView({super.key, required this.hPadding});
+
+  final double hPadding;
 
   @override
   State<_UpdatesListView> createState() => _UpdatesListViewState();
@@ -302,7 +328,6 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
 
   @override
   Widget build(BuildContext context) {
-    final hPadding = (0.00013 * pow(MediaQuery.of(context).size.width, 2)) - 20;
     final model = context.watch<UpdatesModel>();
 
     return Expanded(
@@ -330,8 +355,8 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
             childPadding: EdgeInsets.only(
               top: 20,
               bottom: 50,
-              left: hPadding,
-              right: hPadding,
+              left: widget.hPadding,
+              right: widget.hPadding,
             ),
             child: YaruExpandable(
               isExpanded: _isExpanded,
