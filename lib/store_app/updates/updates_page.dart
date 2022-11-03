@@ -182,12 +182,21 @@ class _CheckForUpdatesSplashScreenState
                 ),
               ),
             ),
+            const SizedBox(
+              height: kYaruPagePadding / 4,
+            ),
             Center(
               child: SizedBox(
                 width: 400,
                 child: Text(
                   context.l10n.checkingForUpdates,
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.7),
+                      ),
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.visible,
                 ),
