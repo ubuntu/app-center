@@ -180,5 +180,21 @@
   "runsInBackground": "Ohjelmakauppa Ubuntu Software säilyy ajossa taustalla tarkistaakseen järjestelmäpäivityksiä.",
   "@runsInBackground": {},
   "quitDanger": "Huomio! Järjestelmäpäivityksiä ajetaan juuri tällä hetkellä. Sovelluksen lopettaminen nyt voi jättää järjestelmäsi vaurioituneeseen tilaan!",
-  "@quitDanger": {}
+  "@quitDanger": {},
+  "copyErrorMessage": "Kopioi virheilmoitus",
+  "@copyErrorMessage": {},
+  "madeBy": "Ubuntu Software -kauppaa kehittää- ja sen on suunnitellut",
+  "@madeBy": {},
+  "reviewsAndRatings": "Arvostelut ja luokitukset",
+  "@reviewsAndRatings": {},
+  "yourReview": "Oma arvostelusi",
+  "@yourReview": {},
+  "send": "Lähetä",
+  "@send": {},
+  "unknown": "Tuntematon",
+  "@unknown": {},
+  "reviewSent": "Arvostelusi on lähetetty",
+  "@reviewSent": {},
+  "multiAppFormatsFound": "Löysimme tälle sovellukselle useita eri tiedostomuotoja.",
+  "@multiAppFormatsFound": {}
 }
