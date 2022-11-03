@@ -184,5 +184,17 @@
   "copyErrorMessage": "Copiar mensagem de erro",
   "@copyErrorMessage": {},
   "madeBy": "O Ubuntu Software é desenvolvido e concebido por",
-  "@madeBy": {}
+  "@madeBy": {},
+  "reviewsAndRatings": "Análises e avaliações",
+  "@reviewsAndRatings": {},
+  "yourReview": "A sua análise",
+  "@yourReview": {},
+  "send": "Enviar",
+  "@send": {},
+  "unknown": "Desconhecido",
+  "@unknown": {},
+  "reviewSent": "Análise enviada",
+  "@reviewSent": {},
+  "multiAppFormatsFound": "Encontrámos vários formatos para esta aplicação.",
+  "@multiAppFormatsFound": {}
 }
