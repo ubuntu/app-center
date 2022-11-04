@@ -22,6 +22,7 @@ import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
+import 'package:xterm/xterm.dart';
 
 class UpdatesModel extends SafeChangeNotifier {
   final PackageService _service;
@@ -94,7 +95,7 @@ class UpdatesModel extends SafeChangeNotifier {
       notifyListeners();
     });
     _terminalOutputSub = _service.terminalOutput.listen((event) {
-      terminalOutput = event;
+      terminal.write('$event\n');
     });
 
     _service.getInstalledPackages();
@@ -197,14 +198,6 @@ class UpdatesModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  String _terminalOutput = '';
-  String get terminalOutput => _terminalOutput;
-  set terminalOutput(String value) {
-    if (value == _terminalOutput) return;
-    _terminalOutput = value;
-    notifyListeners();
-  }
-
   void selectAll() {
     _service.selectAll();
   }
@@ -248,4 +241,6 @@ class UpdatesModel extends SafeChangeNotifier {
   void logout() => _service.logout();
 
   void exitApp() => _service.exitApp();
+
+  final terminal = Terminal(maxLines: 50);
 }

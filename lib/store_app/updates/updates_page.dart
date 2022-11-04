@@ -222,15 +222,11 @@ class _UpdatingPage extends StatefulWidget {
 }
 
 class _UpdatingPageState extends State<_UpdatingPage> {
-  var terminal = Terminal(maxLines: 50);
-
   final terminalController = TerminalController();
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<UpdatesModel>();
-
-    terminal.write(model.terminalOutput);
 
     final children = [
       Text(
@@ -275,7 +271,7 @@ class _UpdatingPageState extends State<_UpdatingPage> {
                   top: kYaruPagePadding,
                 ),
                 child: TerminalView(
-                  terminal,
+                  model.terminal,
                   controller: terminalController,
                 ),
               ),
