@@ -46,6 +46,12 @@ class PackageService {
     _client.connect();
   }
 
+  final _terminalOutputController = StreamController<String>.broadcast();
+  Stream<String> get terminalOutput => _terminalOutputController.stream;
+  void setTerminalOutput(String value) {
+    _terminalOutputController.add(value);
+  }
+
   final Map<PackageKitPackageId, bool> _updates = {};
   List<PackageKitPackageId> get updates =>
       _updates.entries.map((e) => e.key).toList();
@@ -303,12 +309,20 @@ class PackageService {
       if (event is PackageKitPackageEvent) {
         setProcessedId(event.packageId);
         setInfo(event.info);
+        setTerminalOutput(event.packageId.toString());
+        setTerminalOutput(event.info.toString());
       } else if (event is PackageKitItemProgressEvent) {
         setUpdatePercentage(event.percentage);
         setProcessedId(event.packageId);
         setStatus(event.status);
+
+        setTerminalOutput(event.percentage.toString());
+        setTerminalOutput(event.packageId.toString());
+        setTerminalOutput(event.status.toString());
       } else if (event is PackageKitErrorCodeEvent) {
-        setErrorMessage('${event.code}: ${event.details}');
+        final error = '${event.code}: ${event.details}';
+        setErrorMessage(error);
+        setTerminalOutput(error);
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
       }

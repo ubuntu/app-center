@@ -22,6 +22,7 @@ import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
+import 'package:xterm/xterm.dart';
 
 class UpdatesModel extends SafeChangeNotifier {
   final PackageService _service;
@@ -38,6 +39,7 @@ class UpdatesModel extends SafeChangeNotifier {
   StreamSubscription<bool>? _reposChangedSub;
   StreamSubscription<bool>? _updatesChangedSub;
   StreamSubscription<bool>? _selectionChanged;
+  StreamSubscription<String>? _terminalOutputSub;
 
   UpdatesModel(
     this._service,
@@ -92,6 +94,10 @@ class UpdatesModel extends SafeChangeNotifier {
     _selectionChanged = _service.selectionChanged.listen((event) {
       notifyListeners();
     });
+    _terminalOutputSub = _service.terminalOutput.listen((event) {
+      terminal.write(event);
+      terminal.nextLine();
+    });
 
     _service.getInstalledPackages();
   }
@@ -110,6 +116,7 @@ class UpdatesModel extends SafeChangeNotifier {
     _installedSub?.cancel();
     _reposChangedSub?.cancel();
     _selectionChanged?.cancel();
+    _terminalOutputSub?.cancel();
     super.dispose();
   }
 
@@ -235,4 +242,6 @@ class UpdatesModel extends SafeChangeNotifier {
   void logout() => _service.logout();
 
   void exitApp() => _service.exitApp();
+
+  final terminal = Terminal(maxLines: 50);
 }
