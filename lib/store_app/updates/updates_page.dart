@@ -31,8 +31,8 @@ import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:xdg_icons/xdg_icons.dart';
-import 'package:xterm/core.dart';
 import 'package:xterm/ui.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -273,6 +273,7 @@ class _UpdatingPageState extends State<_UpdatingPage> {
                 child: TerminalView(
                   model.terminal,
                   controller: terminalController,
+                  theme: generateTerminalTheme(Theme.of(context)),
                 ),
               ),
             ),
@@ -523,4 +524,33 @@ class _NoUpdatesPage extends StatelessWidget {
       ),
     );
   }
+}
+
+TerminalTheme generateTerminalTheme(ThemeData themeData) {
+  final light = themeData.brightness == Brightness.light;
+  return TerminalTheme(
+    cursor: light ? YaruColors.inkstone : YaruColors.porcelain,
+    selection: themeData.primaryColor,
+    foreground: themeData.colorScheme.onSurface,
+    background: themeData.colorScheme.surface,
+    black: YaruColors.jet,
+    white: YaruColors.porcelain,
+    red: YaruColors.error,
+    green: light ? kGreenLight : kGreenDark,
+    yellow: YaruColors.warning,
+    blue: YaruColors.blue,
+    magenta: YaruColors.magenta,
+    cyan: Colors.cyan,
+    brightBlack: YaruColors.inkstone,
+    brightRed: YaruColors.red,
+    brightGreen: kGreenLight,
+    brightYellow: Colors.yellow,
+    brightBlue: Colors.lightBlue,
+    brightMagenta: const Color.fromARGB(255, 208, 79, 236),
+    brightCyan: const Color.fromARGB(255, 44, 215, 238),
+    brightWhite: Colors.white,
+    searchHitBackground: themeData.colorScheme.background,
+    searchHitBackgroundCurrent: themeData.colorScheme.surface,
+    searchHitForeground: themeData.colorScheme.onSurface,
+  );
 }
