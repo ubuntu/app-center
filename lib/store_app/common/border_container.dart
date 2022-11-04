@@ -31,7 +31,6 @@ class BorderContainer extends StatelessWidget {
     this.borderRadius = 10,
     this.alignment,
     this.color,
-    this.foregroundDecoration,
     this.constraints,
     this.margin,
     this.transform,
@@ -66,9 +65,6 @@ class BorderContainer extends StatelessWidget {
   /// Forwarded to [Container]
   final Color? color;
 
-  /// The decoration to paint in front of the [child], Forwarded to [Container]
-  final Decoration? foregroundDecoration;
-
   /// Forwarded to [Container]
   final BoxConstraints? constraints;
 
@@ -88,8 +84,6 @@ class BorderContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final container = Container(
       alignment: alignment,
-      color: color,
-      foregroundDecoration: foregroundDecoration,
       constraints: constraints,
       margin: margin,
       transform: transform,
@@ -99,9 +93,11 @@ class BorderContainer extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.light
-            ? Colors.white
-            : Theme.of(context).colorScheme.onSurface.withOpacity(0.03),
+        color: color != null
+            ? (Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : Theme.of(context).colorScheme.onSurface.withOpacity(0.03))
+            : color,
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
           color: Theme.of(context).dividerColor,
