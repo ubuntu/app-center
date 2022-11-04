@@ -95,7 +95,8 @@ class UpdatesModel extends SafeChangeNotifier {
       notifyListeners();
     });
     _terminalOutputSub = _service.terminalOutput.listen((event) {
-      terminal.write('$event\n');
+      terminal.write(event);
+      terminal.nextLine();
     });
 
     _service.getInstalledPackages();
