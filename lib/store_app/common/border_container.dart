@@ -93,11 +93,10 @@ class BorderContainer extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        color: color != null
-            ? (Theme.of(context).brightness == Brightness.light
+        color: color ??
+            (Theme.of(context).brightness == Brightness.light
                 ? Colors.white
-                : Theme.of(context).colorScheme.onSurface.withOpacity(0.03))
-            : color,
+                : Theme.of(context).colorScheme.onSurface.withOpacity(0.03)),
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
           color: Theme.of(context).dividerColor,

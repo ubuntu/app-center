@@ -258,6 +258,7 @@ class _UpdatingPageState extends State<_UpdatingPage> {
       Padding(
         padding: EdgeInsets.only(left: widget.hPadding, right: widget.hPadding),
         child: BorderContainer(
+          color: Colors.transparent,
           child: YaruExpandable(
             header: Text(
               'Details',
