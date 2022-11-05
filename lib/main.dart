@@ -44,7 +44,6 @@ Future<void> main(List<String> args) async {
   );
   registerService<PackageService>(
     PackageService.new,
-    dispose: (s) => s.dispose(),
   );
   registerService<UbuntuSession>(UbuntuSession.new);
 

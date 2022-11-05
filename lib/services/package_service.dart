@@ -24,7 +24,6 @@ import 'package:file/local.dart';
 import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/package_state.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/packagekit/package_model.dart';
 import 'package:software/updates_state.dart';
 import 'package:synchronized/extension.dart';
@@ -196,8 +195,6 @@ class PackageService {
     _selectionChangedController.add(true);
   }
 
-  Timer? _refreshUpdatesTimer;
-
   Future<void> init({Set<PackageKitFilter> filters = const {}}) async {
     setErrorMessage('');
     await getInstalledPackages(filters: filters);
@@ -213,14 +210,6 @@ class PackageService {
     setUpdatesState(
       _updates.isEmpty ? UpdatesState.noUpdates : UpdatesState.readyToUpdate,
     );
-
-    _refreshUpdatesTimer?.cancel();
-    _refreshUpdatesTimer = Timer.periodic(
-        const Duration(minutes: kCheckForUpdateTimeOutInMinutes), (timer) {
-      if (lastUpdatesState == UpdatesState.noUpdates) {
-        refreshUpdates();
-      }
-    });
   }
 
   void sendUpdateNotification({required String updatesAvailable}) {
@@ -236,10 +225,6 @@ class PackageService {
         ],
       );
     }
-  }
-
-  void dispose() {
-    _refreshUpdatesTimer?.cancel();
   }
 
   Future<void> _refreshCache() async {
