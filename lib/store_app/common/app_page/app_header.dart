@@ -20,10 +20,10 @@ import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_page/app_infos.dart';
 import 'package:software/store_app/common/app_website.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 const iconSize = 150.0;
-const _maxTitleLength = 20;
 
 class BannerAppHeader extends StatelessWidget {
   const BannerAppHeader({
@@ -57,12 +57,12 @@ class BannerAppHeader extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      appData.title.length > _maxTitleLength
-                          ? appData.name
-                          : appData.title,
-                      style: Theme.of(context).textTheme.headline3,
-                      overflow: TextOverflow.ellipsis,
+                    FittedBox(
+                      child: Text(
+                        appData.title,
+                        style: Theme.of(context).textTheme.headline3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     AppWebsite(
                       website: appData.website,
@@ -110,13 +110,16 @@ class PageAppHeader extends StatelessWidget {
               height: iconSize,
               child: icon,
             ),
-            Text(
-              appData.title.length > _maxTitleLength
-                  ? appData.name
-                  : appData.title,
-              style: Theme.of(context).textTheme.headline3,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
+            FittedBox(
+              child: Padding(
+                padding: const EdgeInsets.all(kYaruPagePadding),
+                child: Text(
+                  appData.title,
+                  style: Theme.of(context).textTheme.headline3,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
             AppWebsite(
               website: appData.website,
