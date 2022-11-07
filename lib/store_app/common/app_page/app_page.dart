@@ -58,7 +58,6 @@ class _AppPageState extends State<AppPage> {
   void initState() {
     super.initState();
     controller = YaruCarouselController(
-      pagesLength: widget.appData.screenShotUrls.length,
       viewportFraction: 1,
     );
   }
@@ -229,7 +228,6 @@ class _CarouselDialogState extends State<_CarouselDialog> {
   void initState() {
     super.initState();
     controller = YaruCarouselController(
-      pagesLength: widget.appData.screenShotUrls.length,
       initialPage: widget.initialIndex,
       viewportFraction: 0.8,
     );
