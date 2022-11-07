@@ -52,7 +52,7 @@ class SnapConnectionsSettings extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(plugEntry.key.interface ?? ''),
-                    Switch(
+                    YaruSwitch(
                       value: plugEntry.value,
                       onChanged: model.snapChangeInProgress
                           ? null

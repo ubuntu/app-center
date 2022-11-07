@@ -57,12 +57,10 @@ class BannerAppHeader extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FittedBox(
-                      child: Text(
-                        appData.title,
-                        style: Theme.of(context).textTheme.headline3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    Text(
+                      appData.title,
+                      style: Theme.of(context).textTheme.headline3,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     AppWebsite(
                       website: appData.website,
@@ -110,15 +108,13 @@ class PageAppHeader extends StatelessWidget {
               height: iconSize,
               child: icon,
             ),
-            FittedBox(
-              child: Padding(
-                padding: const EdgeInsets.all(kYaruPagePadding),
-                child: Text(
-                  appData.title,
-                  style: Theme.of(context).textTheme.headline3,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                ),
+            Padding(
+              padding: const EdgeInsets.all(kYaruPagePadding),
+              child: Text(
+                appData.title,
+                style: Theme.of(context).textTheme.headline3,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
               ),
             ),
             AppWebsite(
