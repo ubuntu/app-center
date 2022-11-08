@@ -198,5 +198,13 @@
   "copyErrorMessage": "Kopiera felmeddelande",
   "@copyErrorMessage": {},
   "reviewSent": "Recension skickad",
-  "@reviewSent": {}
+  "@reviewSent": {},
+  "enterRepoName": "Ange förråd namn",
+  "@enterRepoName": {},
+  "madeBy": "Ubuntu Programvara är utvecklat och designat av",
+  "@madeBy": {},
+  "multiAppFormatsFound": "Vi hittade flera format för detta program.",
+  "@multiAppFormatsFound": {},
+  "appFormat": "Paketetformatet på program",
+  "@appFormat": {}
 }
