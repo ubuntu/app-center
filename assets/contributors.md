@@ -11,3 +11,4 @@
 - [LINUX-SAUNA](https://github.com/LINUX-SAUNA)
 - [Paco Cubel](https://github.com/Cubel89)
 - [Eshagh](https://github.com/eshagh79)
+- [Luna Jernberg](https://github.com/bittin)
