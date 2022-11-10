@@ -157,7 +157,7 @@
   "@cancel": {},
   "updating": "Aguarde - estamos a atualizar o sistema. Não feche esta aplicação, ou desligue o computador",
   "@updating": {},
-  "checkingForUpdates": "Só um momento - estamos a verificar se há atualizações",
+  "checkingForUpdates": "Estamos a verificar se há atualizações",
   "@checkingForUpdates": {},
   "runsInBackground": "O Ubuntu Software continua a funcionar em segundo plano para verificar as atualizações do sistema.",
   "@runsInBackground": {},
@@ -196,5 +196,17 @@
   "reviewSent": "Análise enviada",
   "@reviewSent": {},
   "multiAppFormatsFound": "Encontrámos vários formatos para esta aplicação.",
-  "@multiAppFormatsFound": {}
+  "@multiAppFormatsFound": {},
+  "updatesAvailable": "atualizações disponíveis",
+  "@updatesAvailable": {},
+  "allSelected": "Todas as atualizações selecionadas",
+  "@allSelected": {},
+  "xSelected": "atualizações selecionadas",
+  "@xSelected": {},
+  "weHaveUpdates": "Temos atualizações para si!",
+  "@weHaveUpdates": {},
+  "justAMoment": "Um momento!",
+  "@justAMoment": {},
+  "updateButton": "Atualizar",
+  "@updateButton": {}
 }
