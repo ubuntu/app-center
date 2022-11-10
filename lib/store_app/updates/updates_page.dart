@@ -431,7 +431,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                     ? Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Checkbox(
+                          YaruCheckbox(
                             value: model.allSelected
                                 ? true
                                 : model.nothingSelected

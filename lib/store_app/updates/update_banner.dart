@@ -21,6 +21,7 @@ import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/updates/update_dialog.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class UpdateBanner extends StatelessWidget {
   const UpdateBanner({
@@ -87,7 +88,7 @@ class UpdateBanner extends StatelessWidget {
                     color: Colors.brown[300],
                   ),
                 ),
-      trailing: Checkbox(
+      trailing: YaruCheckbox(
         value: selected,
         onChanged: onChanged,
       ),

@@ -65,11 +65,13 @@ class _RepoDialogState extends State<RepoDialog> {
       titlePadding: EdgeInsets.zero,
       children: model.repos
           .map(
-            (e) => CheckboxListTile(
+            (e) => ListTile(
               enabled: model.updatesState != UpdatesState.updating &&
                   model.updatesState != UpdatesState.checkingForUpdates,
-              value: e.enabled,
-              onChanged: (v) => model.toggleRepo(id: e.repoId, value: v!),
+              trailing: YaruCheckbox(
+                value: e.enabled,
+                onChanged: (v) => model.toggleRepo(id: e.repoId, value: v!),
+              ),
               title: ListTile(
                 title: Text(e.repoId),
                 subtitle: Text(e.description),
