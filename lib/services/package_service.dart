@@ -235,7 +235,7 @@ class PackageService {
       if (event is PackageKitRepositoryDetailEvent) {
         // print(event.description);
       } else if (event is PackageKitErrorCodeEvent) {
-        if (isValidRefreshError(event.code)) {
+        if (isRefreshErrorToReport(event.code)) {
           final error = '${event.code}: ${event.details}';
           setErrorMessage(error);
         }
@@ -261,7 +261,7 @@ class PackageService {
       } else if (event is PackageKitItemProgressEvent) {
         setUpdatePercentage(event.percentage);
       } else if (event is PackageKitErrorCodeEvent) {
-        if (isValidRefreshError(event.code)) {
+        if (isRefreshErrorToReport(event.code)) {
           final error = '${event.code}: ${event.details}';
           setErrorMessage(error);
         }
@@ -284,6 +284,7 @@ class PackageService {
     required String updatesComplete,
     required String updatesAvailable,
   }) async {
+    var canceled = false;
     setErrorMessage('');
     final List<PackageKitPackageId> selectedUpdates = _updates.entries
         .where((e) => e.value == true)
@@ -311,7 +312,10 @@ class PackageService {
         setTerminalOutput(event.packageId.toString());
         setTerminalOutput(event.status.toString());
       } else if (event is PackageKitErrorCodeEvent) {
-        if (isValidUpdateError(event.code)) {
+        if (event.code == PackageKitError.notAuthorized) {
+          canceled = true;
+        }
+        if (isUpdateErrorToReport(event.code)) {
           final error = '${event.code}: ${event.details}';
           setErrorMessage(error);
           setTerminalOutput(error);
@@ -322,26 +326,28 @@ class PackageService {
     });
     await updatePackagesTransaction.updatePackages(selectedUpdates);
     await completer.future.whenComplete(subscription.cancel);
-    _updates.clear();
-    setInfo(null);
-    setStatus(null);
-    setProcessedId(null);
-    setUpdatePercentage(null);
-    if (selectedUpdates.length == updates.length) {
-      setUpdatesState(UpdatesState.noUpdates);
-    } else {
-      await refreshUpdates();
+    if (!canceled) {
+      _updates.clear();
+      setInfo(null);
+      setStatus(null);
+      setProcessedId(null);
+      setUpdatePercentage(null);
+      if (selectedUpdates.length == updates.length) {
+        setUpdatesState(UpdatesState.noUpdates);
+      } else {
+        await refreshUpdates();
+      }
+      _notificationsClient.notify(
+        'Ubuntu Software',
+        body: updatesComplete,
+        appName: 'snap-store',
+        appIcon: 'snap-store',
+        hints: [
+          NotificationHint.desktopEntry('snap-store'),
+          NotificationHint.urgency(NotificationUrgency.normal)
+        ],
+      );
     }
-    _notificationsClient.notify(
-      'Ubuntu Software',
-      body: updatesComplete,
-      appName: 'snap-store',
-      appIcon: 'snap-store',
-      hints: [
-        NotificationHint.desktopEntry('snap-store'),
-        NotificationHint.urgency(NotificationUrgency.normal)
-      ],
-    );
   }
 
   Future<void> getInstalledPackages({
@@ -636,13 +642,13 @@ class PackageService {
     return completer.future.whenComplete(subscription.cancel);
   }
 
-  bool isValidRefreshError(PackageKitError code) {
+  bool isRefreshErrorToReport(PackageKitError code) {
     return !{
       PackageKitError.failedConfigParsing,
     }.contains(code);
   }
 
-  bool isValidUpdateError(PackageKitError code) {
+  bool isUpdateErrorToReport(PackageKitError code) {
     return !{
       PackageKitError.notAuthorized,
     }.contains(code);
