@@ -347,6 +347,8 @@ class PackageService {
           NotificationHint.urgency(NotificationUrgency.normal)
         ],
       );
+    } else {
+      setUpdatesState(UpdatesState.readyToUpdate);
     }
   }
 
