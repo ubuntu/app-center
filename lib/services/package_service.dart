@@ -324,7 +324,9 @@ class PackageService {
       }
     });
     await updatePackagesTransaction.updatePackages(selectedUpdates);
-    setUpdatesState(UpdatesState.updating);
+    if (!canceled) {
+      setUpdatesState(UpdatesState.updating);
+    }
     await completer.future.whenComplete(subscription.cancel);
     if (!canceled) {
       _updates.clear();
