@@ -326,6 +326,8 @@ class PackageService {
     await updatePackagesTransaction.updatePackages(selectedUpdates);
     if (!canceled) {
       setUpdatesState(UpdatesState.updating);
+    } else {
+      setUpdatesState(UpdatesState.readyToUpdate);
     }
     await completer.future.whenComplete(subscription.cancel);
     if (!canceled) {
