@@ -235,7 +235,10 @@ class PackageService {
       if (event is PackageKitRepositoryDetailEvent) {
         // print(event.description);
       } else if (event is PackageKitErrorCodeEvent) {
-        setErrorMessage('${event.code}: ${event.details}');
+        if (isValidRefreshError(event.code)) {
+          final error = '${event.code}: ${event.details}';
+          setErrorMessage(error);
+        }
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
@@ -258,7 +261,10 @@ class PackageService {
       } else if (event is PackageKitItemProgressEvent) {
         setUpdatePercentage(event.percentage);
       } else if (event is PackageKitErrorCodeEvent) {
-        setErrorMessage('${event.code}: ${event.details}');
+        if (isValidRefreshError(event.code)) {
+          final error = '${event.code}: ${event.details}';
+          setErrorMessage(error);
+        }
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
@@ -305,9 +311,11 @@ class PackageService {
         setTerminalOutput(event.packageId.toString());
         setTerminalOutput(event.status.toString());
       } else if (event is PackageKitErrorCodeEvent) {
-        final error = '${event.code}: ${event.details}';
-        setErrorMessage(error);
-        setTerminalOutput(error);
+        if (isValidUpdateError(event.code)) {
+          final error = '${event.code}: ${event.details}';
+          setErrorMessage(error);
+          setTerminalOutput(error);
+        }
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
@@ -628,21 +636,16 @@ class PackageService {
     return completer.future.whenComplete(subscription.cancel);
   }
 
-  void reboot() {
-    Process.start(
-      'reboot',
-      [],
-      mode: ProcessStartMode.detached,
-    );
+  bool isValidRefreshError(PackageKitError code) {
+    return !{
+      PackageKitError.failedConfigParsing,
+    }.contains(code);
   }
 
-  // gnome-session-quit
-  logout() {
-    Process.start(
-      'gnome-session-quit',
-      [],
-      mode: ProcessStartMode.detached,
-    );
+  bool isValidUpdateError(PackageKitError code) {
+    return !{
+      PackageKitError.notAuthorized,
+    }.contains(code);
   }
 
   exitApp() => exit(0);

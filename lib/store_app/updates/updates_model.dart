@@ -239,7 +239,7 @@ class UpdatesModel extends SafeChangeNotifier {
 
   void reboot() => _session.reboot();
 
-  void logout() => _service.logout();
+  void logout() => _session.logout();
 
   void exitApp() => _service.exitApp();
 
