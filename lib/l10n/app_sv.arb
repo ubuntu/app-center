@@ -206,5 +206,7 @@
   "multiAppFormatsFound": "Vi hittade flera format för detta program.",
   "@multiAppFormatsFound": {},
   "appFormat": "Paketformat för program",
-  "@appFormat": {}
+  "@appFormat": {},
+  "confinement": "Sandlåda",
+  "@confinement": {}
 }
