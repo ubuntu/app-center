@@ -293,7 +293,6 @@ class PackageService {
     if (selectedUpdates.isEmpty) return;
     final updatePackagesTransaction = await _client.createTransaction();
     final completer = Completer();
-    setUpdatesState(UpdatesState.updating);
     final subscription = updatePackagesTransaction.events.listen((event) {
       if (event is PackageKitRequireRestartEvent) {
         setRequireRestart(event.type);
@@ -325,6 +324,7 @@ class PackageService {
       }
     });
     await updatePackagesTransaction.updatePackages(selectedUpdates);
+    setUpdatesState(UpdatesState.updating);
     await completer.future.whenComplete(subscription.cancel);
     if (!canceled) {
       _updates.clear();
@@ -347,8 +347,6 @@ class PackageService {
           NotificationHint.urgency(NotificationUrgency.normal)
         ],
       );
-    } else {
-      setUpdatesState(UpdatesState.readyToUpdate);
     }
   }
 
