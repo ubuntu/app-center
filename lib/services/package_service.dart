@@ -290,12 +290,10 @@ class PackageService {
         .map((e) => e.key)
         .toList();
     if (selectedUpdates.isEmpty) return;
+    var canceled = false;
     final updatePackagesTransaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = updatePackagesTransaction.events.listen((event) {
-      if (event is! PackageKitErrorCodeEvent) {
-        setUpdatesState(UpdatesState.updating);
-      }
       if (event is PackageKitRequireRestartEvent) {
         setRequireRestart(event.type);
       }
@@ -312,28 +310,37 @@ class PackageService {
         setTerminalOutput(event.percentage.toString());
         setTerminalOutput(event.packageId.toString());
         setTerminalOutput(event.status.toString());
-      } else if (event is PackageKitErrorCodeEvent) {
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+      if (event is! PackageKitErrorCodeEvent) {
+        setUpdatesState(UpdatesState.updating);
+      } else {
+        if (event.code == PackageKitError.notAuthorized) {
+          canceled = true;
+        }
         if (isUpdateErrorToReport(event.code)) {
           final error = '${event.code}: ${event.details}';
           setErrorMessage(error);
           setTerminalOutput(error);
         }
-      } else if (event is PackageKitFinishedEvent) {
-        completer.complete();
       }
     });
     await updatePackagesTransaction.updatePackages(selectedUpdates);
     await completer.future.whenComplete(subscription.cancel);
-    _updates.clear();
-    setInfo(null);
-    setStatus(null);
-    setProcessedId(null);
-    setUpdatePercentage(null);
 
-    await refreshUpdates();
+    if (!canceled) {
+      _updates.clear();
+      setInfo(null);
+      setStatus(null);
+      setProcessedId(null);
+      setUpdatePercentage(null);
 
-    if (updates.isEmpty) {
-      _notifyUpdatesComplete(updatesComplete);
+      await refreshUpdates();
+
+      if (updates.isEmpty) {
+        _notifyUpdatesComplete(updatesComplete);
+      }
     }
   }
 
