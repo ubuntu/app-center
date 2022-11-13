@@ -218,10 +218,9 @@ class ExploreModel extends SafeChangeNotifier {
         }
       }
       if (foundSnap != null) {
-        appFindings.remove(foundSnap.name);
-        appFindings.putIfAbsent(
+        appFindings.update(
           foundSnap.name,
-          () => AppFinding(
+          (value) => AppFinding(
             snap: foundSnap,
             packageId: package,
           ),
