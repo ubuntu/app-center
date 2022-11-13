@@ -318,6 +318,7 @@ class PackageService {
       } else {
         if (event.code == PackageKitError.notAuthorized) {
           canceled = true;
+          setUpdatesState(UpdatesState.readyToUpdate);
         }
         if (isUpdateErrorToReport(event.code)) {
           final error = '${event.code}: ${event.details}';
