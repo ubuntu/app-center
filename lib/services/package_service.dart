@@ -294,15 +294,13 @@ class PackageService {
     final updatePackagesTransaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = updatePackagesTransaction.events.listen((event) {
-      if (event is PackageKitRequireRestartEvent) {
-        setRequireRestart(event.type);
-      }
       if (event is PackageKitPackageEvent) {
         setProcessedId(event.packageId);
         setInfo(event.info);
         setTerminalOutput(event.packageId.toString());
         setTerminalOutput(event.info.toString());
       } else if (event is PackageKitItemProgressEvent) {
+        setUpdatesState(UpdatesState.updating);
         setUpdatePercentage(event.percentage);
         setProcessedId(event.packageId);
         setStatus(event.status);
@@ -312,13 +310,11 @@ class PackageService {
         setTerminalOutput(event.status.toString());
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
-      }
-      if (event is! PackageKitErrorCodeEvent) {
-        setUpdatesState(UpdatesState.updating);
-      } else {
+      } else if (event is PackageKitRequireRestartEvent) {
+        setRequireRestart(event.type);
+      } else if (event is PackageKitErrorCodeEvent) {
         if (event.code == PackageKitError.notAuthorized) {
           canceled = true;
-          setUpdatesState(UpdatesState.readyToUpdate);
         }
         if (isUpdateErrorToReport(event.code)) {
           final error = '${event.code}: ${event.details}';
@@ -340,6 +336,7 @@ class PackageService {
       await refreshUpdates();
 
       if (updates.isEmpty) {
+        setUpdatesState(UpdatesState.noUpdates);
         _notifyUpdatesComplete(updatesComplete);
       }
     }
