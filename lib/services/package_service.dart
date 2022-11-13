@@ -235,7 +235,10 @@ class PackageService {
       if (event is PackageKitRepositoryDetailEvent) {
         // print(event.description);
       } else if (event is PackageKitErrorCodeEvent) {
-        setErrorMessage('${event.code}: ${event.details}');
+        if (isRefreshErrorToReport(event.code)) {
+          final error = '${event.code}: ${event.details}';
+          setErrorMessage(error);
+        }
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
@@ -258,7 +261,10 @@ class PackageService {
       } else if (event is PackageKitItemProgressEvent) {
         setUpdatePercentage(event.percentage);
       } else if (event is PackageKitErrorCodeEvent) {
-        setErrorMessage('${event.code}: ${event.details}');
+        if (isRefreshErrorToReport(event.code)) {
+          final error = '${event.code}: ${event.details}';
+          setErrorMessage(error);
+        }
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
@@ -284,19 +290,17 @@ class PackageService {
         .map((e) => e.key)
         .toList();
     if (selectedUpdates.isEmpty) return;
+    var canceled = false;
     final updatePackagesTransaction = await _client.createTransaction();
     final completer = Completer();
-    setUpdatesState(UpdatesState.updating);
     final subscription = updatePackagesTransaction.events.listen((event) {
-      if (event is PackageKitRequireRestartEvent) {
-        setRequireRestart(event.type);
-      }
       if (event is PackageKitPackageEvent) {
         setProcessedId(event.packageId);
         setInfo(event.info);
         setTerminalOutput(event.packageId.toString());
         setTerminalOutput(event.info.toString());
       } else if (event is PackageKitItemProgressEvent) {
+        setUpdatesState(UpdatesState.updating);
         setUpdatePercentage(event.percentage);
         setProcessedId(event.packageId);
         setStatus(event.status);
@@ -304,26 +308,41 @@ class PackageService {
         setTerminalOutput(event.percentage.toString());
         setTerminalOutput(event.packageId.toString());
         setTerminalOutput(event.status.toString());
-      } else if (event is PackageKitErrorCodeEvent) {
-        final error = '${event.code}: ${event.details}';
-        setErrorMessage(error);
-        setTerminalOutput(error);
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
+      } else if (event is PackageKitRequireRestartEvent) {
+        setRequireRestart(event.type);
+      } else if (event is PackageKitErrorCodeEvent) {
+        if (event.code == PackageKitError.notAuthorized) {
+          canceled = true;
+        }
+        if (isUpdateErrorToReport(event.code)) {
+          final error = '${event.code}: ${event.details}';
+          setErrorMessage(error);
+          setTerminalOutput(error);
+        }
       }
     });
     await updatePackagesTransaction.updatePackages(selectedUpdates);
     await completer.future.whenComplete(subscription.cancel);
-    _updates.clear();
-    setInfo(null);
-    setStatus(null);
-    setProcessedId(null);
-    setUpdatePercentage(null);
-    if (selectedUpdates.length == updates.length) {
-      setUpdatesState(UpdatesState.noUpdates);
-    } else {
+
+    if (!canceled) {
+      _updates.clear();
+      setInfo(null);
+      setStatus(null);
+      setProcessedId(null);
+      setUpdatePercentage(null);
+
       await refreshUpdates();
+
+      if (updates.isEmpty) {
+        setUpdatesState(UpdatesState.noUpdates);
+        _notifyUpdatesComplete(updatesComplete);
+      }
     }
+  }
+
+  void _notifyUpdatesComplete(String updatesComplete) {
     _notificationsClient.notify(
       'Ubuntu Software',
       body: updatesComplete,
@@ -628,21 +647,16 @@ class PackageService {
     return completer.future.whenComplete(subscription.cancel);
   }
 
-  void reboot() {
-    Process.start(
-      'reboot',
-      [],
-      mode: ProcessStartMode.detached,
-    );
+  bool isRefreshErrorToReport(PackageKitError code) {
+    return !{
+      PackageKitError.failedConfigParsing,
+    }.contains(code);
   }
 
-  // gnome-session-quit
-  logout() {
-    Process.start(
-      'gnome-session-quit',
-      [],
-      mode: ProcessStartMode.detached,
-    );
+  bool isUpdateErrorToReport(PackageKitError code) {
+    return !{
+      PackageKitError.notAuthorized,
+    }.contains(code);
   }
 
   exitApp() => exit(0);
