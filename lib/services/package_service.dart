@@ -284,7 +284,6 @@ class PackageService {
     required String updatesComplete,
     required String updatesAvailable,
   }) async {
-    var canceled = false;
     setErrorMessage('');
     final List<PackageKitPackageId> selectedUpdates = _updates.entries
         .where((e) => e.value == true)
@@ -294,6 +293,9 @@ class PackageService {
     final updatePackagesTransaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = updatePackagesTransaction.events.listen((event) {
+      if (event is! PackageKitErrorCodeEvent) {
+        setUpdatesState(UpdatesState.updating);
+      }
       if (event is PackageKitRequireRestartEvent) {
         setRequireRestart(event.type);
       }
@@ -311,9 +313,6 @@ class PackageService {
         setTerminalOutput(event.packageId.toString());
         setTerminalOutput(event.status.toString());
       } else if (event is PackageKitErrorCodeEvent) {
-        if (event.code == PackageKitError.notAuthorized) {
-          canceled = true;
-        }
         if (isUpdateErrorToReport(event.code)) {
           final error = '${event.code}: ${event.details}';
           setErrorMessage(error);
@@ -324,34 +323,31 @@ class PackageService {
       }
     });
     await updatePackagesTransaction.updatePackages(selectedUpdates);
-    if (!canceled) {
-      setUpdatesState(UpdatesState.updating);
-    } else {
-      setUpdatesState(UpdatesState.readyToUpdate);
-    }
     await completer.future.whenComplete(subscription.cancel);
-    if (!canceled) {
-      _updates.clear();
-      setInfo(null);
-      setStatus(null);
-      setProcessedId(null);
-      setUpdatePercentage(null);
-      if (selectedUpdates.length == updates.length) {
-        setUpdatesState(UpdatesState.noUpdates);
-      } else {
-        await refreshUpdates();
-      }
-      _notificationsClient.notify(
-        'Ubuntu Software',
-        body: updatesComplete,
-        appName: 'snap-store',
-        appIcon: 'snap-store',
-        hints: [
-          NotificationHint.desktopEntry('snap-store'),
-          NotificationHint.urgency(NotificationUrgency.normal)
-        ],
-      );
+    _updates.clear();
+    setInfo(null);
+    setStatus(null);
+    setProcessedId(null);
+    setUpdatePercentage(null);
+
+    await refreshUpdates();
+
+    if (updates.isEmpty) {
+      _notifyUpdatesComplete(updatesComplete);
     }
+  }
+
+  void _notifyUpdatesComplete(String updatesComplete) {
+    _notificationsClient.notify(
+      'Ubuntu Software',
+      body: updatesComplete,
+      appName: 'snap-store',
+      appIcon: 'snap-store',
+      hints: [
+        NotificationHint.desktopEntry('snap-store'),
+        NotificationHint.urgency(NotificationUrgency.normal)
+      ],
+    );
   }
 
   Future<void> getInstalledPackages({
