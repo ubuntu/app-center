@@ -292,7 +292,7 @@ class _CustomBackButton extends StatelessWidget {
           Navigator.maybePop(context);
           if (onPressed != null) onPressed!();
         },
-        icon: const Icon(YaruIcons.pan_start),
+        icon: const Icon(YaruIcons.go_previous),
       ),
     );
   }

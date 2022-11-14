@@ -63,9 +63,12 @@ class _SearchFieldState extends State<SearchField> {
         textInputAction: TextInputAction.send,
         decoration: InputDecoration(
           hintText: context.l10n.searchHint,
-          prefixIcon: const Icon(
-            YaruIcons.search,
-            size: 20,
+          prefixIcon: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: Icon(
+              YaruIcons.search,
+              size: 20,
+            ),
           ),
           prefixIconConstraints: const BoxConstraints(
             minHeight: 45,
@@ -78,7 +81,7 @@ class _SearchFieldState extends State<SearchField> {
           ),
           suffixIcon: model.searchQuery.isNotEmpty
               ? Padding(
-                  padding: const EdgeInsets.only(right: 5.0),
+                  padding: const EdgeInsets.only(right: 12.0),
                   child: IconButton(
                     onPressed: () {
                       model.searchQuery = '';
