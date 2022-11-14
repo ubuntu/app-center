@@ -69,9 +69,13 @@ class _MyAppSearchFieldState extends State<MyAppSearchField> {
         onChanged: widget.onChanged,
         decoration: InputDecoration(
           hintText: context.l10n.searchHint,
-          prefixIcon: const Icon(
-            YaruIcons.search,
-            size: 20,
+          prefixIcon: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: Icon(
+              YaruIcons.search,
+              color: Colors.black,
+              size: 20,
+            ),
           ),
           prefixIconConstraints: const BoxConstraints(
             minHeight: 45,
