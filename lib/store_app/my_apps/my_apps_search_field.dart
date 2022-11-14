@@ -73,7 +73,6 @@ class _MyAppSearchFieldState extends State<MyAppSearchField> {
             padding: EdgeInsets.symmetric(horizontal: 20.0),
             child: Icon(
               YaruIcons.search,
-              color: Colors.black,
               size: 20,
             ),
           ),
@@ -88,7 +87,7 @@ class _MyAppSearchFieldState extends State<MyAppSearchField> {
           ),
           suffixIcon: widget.searchQuery.isNotEmpty
               ? Padding(
-                  padding: const EdgeInsets.only(right: 5.0),
+                  padding: const EdgeInsets.only(right: 12.0),
                   child: IconButton(
                     onPressed: () {
                       widget.clear();
