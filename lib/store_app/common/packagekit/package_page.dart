@@ -120,7 +120,7 @@ class _PackagePageState extends State<PackagePage> {
     );
     return AppPage(
       appData: appData,
-      permissionContainer: const SizedBox(),
+      permissionContainer: null,
       icon: AppIcon(
         iconUrl: model.iconUrl,
         fallBackIconData: YaruIcons.debian,
