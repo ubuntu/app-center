@@ -22,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
@@ -270,6 +271,37 @@ class SnapModel extends SafeChangeNotifier {
     if (value == _snapChangeInProgress) return;
     _snapChangeInProgress = value;
     notifyListeners();
+  }
+
+  SnapdChange? getChange() {
+    if (_localSnap != null) {
+      return _snapService.getChange(_localSnap!);
+    } else if (_localSnap == null && _storeSnap != null) {
+      return _snapService.getChange(_storeSnap!);
+    }
+    return null;
+  }
+
+  String getChangeMessage(AppLocalizations l10n) {
+    final changeKind = getChange()?.kind;
+    switch (changeKind) {
+      case 'install-snap':
+        return l10n.install;
+      case 'remove-snap':
+        return l10n.remove;
+      case 'refresh-snap':
+        return l10n.refresh;
+      case 'connect-snap':
+        return l10n.changePermissions;
+      case 'disconnect-snap':
+        return l10n.changePermissions;
+      default:
+        return '';
+    }
+  }
+
+  String getChangeSummary() {
+    return getChange()?.summary ?? '';
   }
 
   /// Helper getter for showing permissions
