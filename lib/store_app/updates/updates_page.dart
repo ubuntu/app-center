@@ -338,7 +338,7 @@ class _UpdatesHeader extends StatelessWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  Text(context.l10n.refresh)
+                  Text(context.l10n.refreshButton)
                 ],
               ),
             ),
