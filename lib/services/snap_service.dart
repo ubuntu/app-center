@@ -17,6 +17,7 @@
 
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -240,4 +241,7 @@ class SnapService {
 
   Future<bool> getSnapChangeInProgress({required String name}) async =>
       (await _snapDClient.getChanges(name: name)).isNotEmpty;
+
+  Future<SnapdChange?> getSnapChanges({required String name}) async =>
+      (await _snapDClient.getChanges(name: name)).firstOrNull;
 }

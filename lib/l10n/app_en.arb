@@ -64,6 +64,7 @@
   "deselectAll": "Deselect all",
   "update": "Update",
   "updateButton": "Update",
+  "refreshButton": "Check for updates",
   "noUpdates": "Everything is up to date",
   "updating": "Hang on - we are updating your system. Please do not close this app, or shutdown your computer",
   "checkingForUpdates": "We are checking for updates",
@@ -103,5 +104,9 @@
   "send": "Send",
   "unknown": "Unknown",
   "reviewSent": "Review sent",
-  "multiAppFormatsFound": "We've found multiple formats for this application."
+  "multiAppFormatsFound": "We've found multiple formats for this application.",
+  "changingPermissions": "Changing permissions",
+  "installing": "Installing",
+  "removing": "Removing",
+  "refreshing": "Refreshing"
 } 
