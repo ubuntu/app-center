@@ -49,10 +49,12 @@ class SnapControls extends StatelessWidget {
                   strokeWidth: 3,
                 ),
               ),
-              if (model.getChange() != null)
+              if (model.change != null)
                 Text(
-                  // model.getChangeSummary()
-                  model.getChangeMessage(context.l10n),
+                  getChangeMessage(
+                    context: context,
+                    changeKind: model.change?.kind,
+                  ),
                 ),
             ]
           : [
@@ -83,5 +85,25 @@ class SnapControls extends StatelessWidget {
                 const SnapChannelPopupButton(),
             ],
     );
+  }
+
+  String getChangeMessage({
+    required BuildContext context,
+    required String? changeKind,
+  }) {
+    switch (changeKind) {
+      case 'install-snap':
+        return context.l10n.installing;
+      case 'remove-snap':
+        return context.l10n.removing;
+      case 'refresh-snap':
+        return context.l10n.refreshing;
+      case 'connect-snap':
+        return context.l10n.changingPermissions;
+      case 'disconnect-snap':
+        return context.l10n.changingPermissions;
+      default:
+        return '';
+    }
   }
 }

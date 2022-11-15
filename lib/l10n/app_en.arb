@@ -104,5 +104,8 @@
   "unknown": "Unknown",
   "reviewSent": "Review sent",
   "multiAppFormatsFound": "We've found multiple formats for this application.",
-  "changePermissions": "Changing permissions"
+  "changingPermissions": "Changing permissions",
+  "installing": "Installing",
+  "removing": "Removing",
+  "refreshing": "Refreshing"
 } 

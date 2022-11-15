@@ -22,7 +22,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
@@ -41,6 +40,7 @@ class SnapModel extends SafeChangeNotifier {
   Future<void> init() async {
     await _snapService.init();
     await _loadSnapChangeInProgress();
+    await _loadChange();
 
     _localSnap = await _findLocalSnap(huskSnapName);
     if (online) {
@@ -64,6 +64,7 @@ class SnapModel extends SafeChangeNotifier {
 
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
       await _loadSnapChangeInProgress();
+      await _loadChange();
       await _loadPlugs();
       if (!snapChangeInProgress) {
         _localSnap = await _findLocalSnap(huskSnapName);
@@ -273,37 +274,6 @@ class SnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  SnapdChange? getChange() {
-    if (_localSnap != null) {
-      return _snapService.getChange(_localSnap!);
-    } else if (_localSnap == null && _storeSnap != null) {
-      return _snapService.getChange(_storeSnap!);
-    }
-    return null;
-  }
-
-  String getChangeMessage(AppLocalizations l10n) {
-    final changeKind = getChange()?.kind;
-    switch (changeKind) {
-      case 'install-snap':
-        return l10n.install;
-      case 'remove-snap':
-        return l10n.remove;
-      case 'refresh-snap':
-        return l10n.refresh;
-      case 'connect-snap':
-        return l10n.changePermissions;
-      case 'disconnect-snap':
-        return l10n.changePermissions;
-      default:
-        return '';
-    }
-  }
-
-  String getChangeSummary() {
-    return getChange()?.summary ?? '';
-  }
-
   /// Helper getter for showing permissions
   bool get showPermissions =>
       snapIsInstalled && strict && _plugs != null && _plugs!.isNotEmpty;
@@ -311,6 +281,19 @@ class SnapModel extends SafeChangeNotifier {
   /// Asks the [SnapService] if a [SnapDChange] for this snap is in progress
   Future<void> _loadSnapChangeInProgress() async => snapChangeInProgress =
       await _snapService.getSnapChangeInProgress(name: huskSnapName);
+
+  /// The first change in progress for [huskSnapName]
+  SnapdChange? _change;
+  SnapdChange? get change => _change;
+  set change(SnapdChange? value) {
+    if (value == _change) return;
+    _change = value;
+    notifyListeners();
+  }
+
+  /// Loads the first change in progress for [huskSnapName] from [SnapService]
+  Future<void> _loadChange() async =>
+      change = (await _snapService.getSnapChanges(name: huskSnapName));
 
   Future<Snap?> _findLocalSnap(String huskSnapName) async =>
       _snapService.findLocalSnap(huskSnapName);
