@@ -40,6 +40,7 @@ class SnapModel extends SafeChangeNotifier {
   Future<void> init() async {
     await _snapService.init();
     await _loadSnapChangeInProgress();
+    await _loadChange();
 
     _localSnap = await _findLocalSnap(huskSnapName);
     if (online) {
@@ -63,6 +64,7 @@ class SnapModel extends SafeChangeNotifier {
 
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
       await _loadSnapChangeInProgress();
+      await _loadChange();
       await _loadPlugs();
       if (!snapChangeInProgress) {
         _localSnap = await _findLocalSnap(huskSnapName);
@@ -279,6 +281,19 @@ class SnapModel extends SafeChangeNotifier {
   /// Asks the [SnapService] if a [SnapDChange] for this snap is in progress
   Future<void> _loadSnapChangeInProgress() async => snapChangeInProgress =
       await _snapService.getSnapChangeInProgress(name: huskSnapName);
+
+  /// The first change in progress for [huskSnapName]
+  SnapdChange? _change;
+  SnapdChange? get change => _change;
+  set change(SnapdChange? value) {
+    if (value == _change) return;
+    _change = value;
+    notifyListeners();
+  }
+
+  /// Loads the first change in progress for [huskSnapName] from [SnapService]
+  Future<void> _loadChange() async =>
+      change = (await _snapService.getSnapChanges(name: huskSnapName));
 
   Future<Snap?> _findLocalSnap(String huskSnapName) async =>
       _snapService.findLocalSnap(huskSnapName);

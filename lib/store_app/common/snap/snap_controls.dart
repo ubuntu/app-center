@@ -29,18 +29,10 @@ class SnapControls extends StatelessWidget {
   }) : super(key: key);
 
   final Axis direction;
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-
-    if (model.snapChangeInProgress) {
-      return const SizedBox(
-        height: 30,
-        child: YaruCircularProgressIndicator(
-          strokeWidth: 3,
-        ),
-      );
-    }
 
     return Wrap(
       direction: direction,
@@ -49,32 +41,69 @@ class SnapControls extends StatelessWidget {
       runAlignment: WrapAlignment.center,
       spacing: 10,
       runSpacing: 10,
-      children: [
-        if (model.snapIsInstalled)
-          OutlinedButton(
-            onPressed: model.remove,
-            child: Text(context.l10n.remove),
-          ),
-        if (model.snapIsInstalled)
-          ElevatedButton(
-            onPressed: model.selectedChannelVersion != model.version
-                ? model.refresh
-                : null,
-            child: Text(
-              context.l10n.refresh,
-            ),
-          )
-        else
-          ElevatedButton(
-            onPressed: model.install,
-            child: Text(
-              context.l10n.install,
-            ),
-          ),
-        if (model.selectableChannels.isNotEmpty &&
-            model.selectableChannels.length > 1)
-          const SnapChannelPopupButton(),
-      ],
+      children: model.snapChangeInProgress
+          ? [
+              const SizedBox(
+                height: 20,
+                child: YaruCircularProgressIndicator(
+                  strokeWidth: 3,
+                ),
+              ),
+              if (model.change != null)
+                Text(
+                  getChangeMessage(
+                    context: context,
+                    changeKind: model.change?.kind,
+                  ),
+                ),
+            ]
+          : [
+              if (model.snapIsInstalled)
+                OutlinedButton(
+                  onPressed: model.remove,
+                  child: Text(context.l10n.remove),
+                ),
+              if (model.snapIsInstalled)
+                ElevatedButton(
+                  onPressed: (model.selectedChannelVersion != model.version) &&
+                          !model.snapChangeInProgress
+                      ? model.refresh
+                      : null,
+                  child: Text(
+                    context.l10n.refresh,
+                  ),
+                )
+              else
+                ElevatedButton(
+                  onPressed: model.install,
+                  child: Text(
+                    context.l10n.install,
+                  ),
+                ),
+              if (model.selectableChannels.isNotEmpty &&
+                  model.selectableChannels.length > 1)
+                const SnapChannelPopupButton(),
+            ],
     );
+  }
+
+  String getChangeMessage({
+    required BuildContext context,
+    required String? changeKind,
+  }) {
+    switch (changeKind) {
+      case 'install-snap':
+        return context.l10n.installing;
+      case 'remove-snap':
+        return context.l10n.removing;
+      case 'refresh-snap':
+        return context.l10n.refreshing;
+      case 'connect-snap':
+        return context.l10n.changingPermissions;
+      case 'disconnect-snap':
+        return context.l10n.changingPermissions;
+      default:
+        return '';
+    }
   }
 }
