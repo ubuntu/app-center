@@ -33,6 +33,10 @@ class AppInfos extends StatelessWidget {
     required this.version,
     this.versionChanged,
     this.alignment = Alignment.center,
+    this.wrapAlignment = WrapAlignment.center,
+    this.runAlignment = WrapAlignment.center,
+    this.direction = Axis.horizontal,
+    this.twoLines = false,
   }) : super(key: key);
 
   final bool strict;
@@ -43,25 +47,72 @@ class AppInfos extends StatelessWidget {
   final String version;
   final bool? versionChanged;
   final AlignmentGeometry alignment;
+  final WrapAlignment wrapAlignment;
+  final WrapAlignment runAlignment;
+  final Axis direction;
+  final bool twoLines;
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: alignment,
       child: Wrap(
+        alignment: wrapAlignment,
+        runAlignment: runAlignment,
+        runSpacing: 40,
+        direction: direction,
         children: [
           _Confinement(
             strict: strict,
             confinementName: confinementName,
           ),
-          const SizedBox(height: 40, width: 30, child: VerticalDivider()),
+          _divider(direction),
           _License(headerStyle: headerStyle, license: license),
-          const SizedBox(height: 40, width: 30, child: VerticalDivider()),
+          _divider(direction),
           _Version(
             version: version,
             versionChanged: versionChanged,
           ),
+          if (!twoLines) _divider(direction),
+          _InstallDate(
+            installDateIsoNorm: installDateIsoNorm,
+            installDate: installDate,
+          )
         ],
+      ),
+    );
+  }
+
+  Widget _divider(Axis direction) => direction == Axis.horizontal
+      ? const SizedBox(height: 40, width: 30, child: VerticalDivider())
+      : const SizedBox(
+          width: 100,
+          height: 30,
+          child: Divider(),
+        );
+}
+
+class _InstallDate extends StatelessWidget {
+  const _InstallDate({
+    Key? key,
+    required this.installDateIsoNorm,
+    required this.installDate,
+  }) : super(key: key);
+
+  final String installDateIsoNorm;
+  final String installDate;
+
+  @override
+  Widget build(BuildContext context) {
+    return _InfoColumn(
+      header: context.l10n.installDate,
+      tooltipMessage: installDateIsoNorm,
+      childWidth: 120,
+      child: Text(
+        installDate.isNotEmpty ? installDate : context.l10n.notInstalled,
+        maxLines: 1,
+        overflow: TextOverflow.visible,
+        textAlign: TextAlign.center,
       ),
     );
   }
@@ -73,11 +124,13 @@ class _InfoColumn extends StatelessWidget {
     required this.header,
     required this.child,
     required this.tooltipMessage,
+    this.childWidth,
   }) : super(key: key);
 
   final String header;
   final String tooltipMessage;
   final Widget child;
+  final double? childWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +139,7 @@ class _InfoColumn extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             header,
@@ -93,7 +147,7 @@ class _InfoColumn extends StatelessWidget {
             style: headerStyle,
           ),
           SizedBox(
-            width: 100,
+            width: childWidth ?? 100,
             child: child,
           ),
         ],

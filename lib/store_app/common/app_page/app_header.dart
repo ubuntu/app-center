@@ -16,10 +16,12 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_page/app_infos.dart';
 import 'package:software/store_app/common/app_website.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
@@ -39,42 +41,75 @@ class BannerAppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    final scaledFontSize = (800 / appData.title.length.toDouble());
+    return Column(
       children: [
-        SizedBox(
-          height: iconSize,
-          child: icon,
-        ),
-        const SizedBox(width: 30),
-        Expanded(
-          child: SizedBox(
-            height: iconSize,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      appData.title,
-                      style: Theme.of(context).textTheme.headline3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    AppWebsite(
-                      website: appData.website,
-                      verified: appData.verified,
-                      starredDeveloper: appData.starredDeveloper,
-                      publisherName: appData.publisherName,
-                      onTap: () => launchUrl(Uri.parse(appData.website)),
-                    ),
-                  ],
-                ),
-                controls,
-              ],
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: iconSize,
+              child: icon,
             ),
-          ),
+            const SizedBox(width: 30),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    appData.title,
+                    style: Theme.of(context).textTheme.headline3!.copyWith(
+                          fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
+                        ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AppWebsite(
+                        height: 15,
+                        website: appData.website,
+                        verified: appData.verified,
+                        starredDeveloper: appData.starredDeveloper,
+                        publisherName: appData.publisherName,
+                        onTap: () => launchUrl(Uri.parse(appData.website)),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                        child: VerticalDivider(
+                          width: 20,
+                        ),
+                      ),
+                      RatingBar.builder(
+                        initialRating: appData.rating ?? 5,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.zero,
+                        itemSize: 15,
+                        itemBuilder: (context, _) => Icon(
+                          YaruIcons.star_filled,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.7),
+                          size: 2,
+                        ),
+                        onRatingUpdate: (rating) {},
+                        ignoreGestures: true,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: kYaruPagePadding,
+                  ),
+                  controls,
+                ],
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -97,6 +132,7 @@ class PageAppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaledFontSize = (800 / appData.title.length.toDouble());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,7 +148,9 @@ class PageAppHeader extends StatelessWidget {
               padding: const EdgeInsets.all(kYaruPagePadding),
               child: Text(
                 appData.title,
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.headline3!.copyWith(
+                      fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
+                    ),
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
               ),
@@ -135,6 +173,7 @@ class PageAppHeader extends StatelessWidget {
           installDateIsoNorm: appData.installDateIsoNorm,
           version: appData.version,
           versionChanged: appData.versionChanged,
+          twoLines: true,
         ),
         Text(
           appData.summary,
