@@ -92,8 +92,6 @@ class _PackagePageState extends State<PackagePage> {
 
     final appData = AppData(
       confinementName: context.l10n.classic,
-      installDate: '',
-      installDateIsoNorm: '',
       license: model.license,
       strict: false,
       verified: false,

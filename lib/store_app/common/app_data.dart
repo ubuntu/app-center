@@ -23,8 +23,8 @@ class AppData {
   final String confinementName;
   final String version;
   final String license;
-  final String installDate;
-  final String installDateIsoNorm;
+  final String? installDate;
+  final String? installDateIsoNorm;
   final bool verified;
   final bool starredDeveloper;
   final String publisherName;
@@ -43,8 +43,8 @@ class AppData {
     required this.confinementName,
     required this.version,
     required this.license,
-    required this.installDate,
-    required this.installDateIsoNorm,
+    this.installDate,
+    this.installDateIsoNorm,
     required this.verified,
     required this.starredDeveloper,
     required this.publisherName,

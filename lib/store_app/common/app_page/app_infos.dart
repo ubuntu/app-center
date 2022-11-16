@@ -28,8 +28,8 @@ class AppInfos extends StatelessWidget {
     required this.strict,
     required this.confinementName,
     required this.license,
-    required this.installDate,
-    required this.installDateIsoNorm,
+    this.installDate,
+    this.installDateIsoNorm,
     required this.version,
     this.versionChanged,
     this.alignment = Alignment.center,
@@ -41,8 +41,8 @@ class AppInfos extends StatelessWidget {
   final bool strict;
   final String confinementName;
   final String license;
-  final String installDate;
-  final String installDateIsoNorm;
+  final String? installDate;
+  final String? installDateIsoNorm;
   final String version;
   final bool? versionChanged;
   final AlignmentGeometry alignment;
@@ -71,11 +71,13 @@ class AppInfos extends StatelessWidget {
             version: version,
             versionChanged: versionChanged,
           ),
-          _divider(direction),
-          _InstallDate(
-            installDateIsoNorm: installDateIsoNorm,
-            installDate: installDate,
-          )
+          if (installDate != null && installDateIsoNorm != null)
+            _divider(direction),
+          if (installDate != null && installDateIsoNorm != null)
+            _InstallDate(
+              installDateIsoNorm: installDateIsoNorm!,
+              installDate: installDate!,
+            )
         ],
       ),
     );
