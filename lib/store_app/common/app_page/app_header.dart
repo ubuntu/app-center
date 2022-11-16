@@ -162,6 +162,22 @@ class PageAppHeader extends StatelessWidget {
               publisherName: appData.publisherName,
               onTap: () => launchUrl(Uri.parse(appData.website)),
             ),
+            RatingBar.builder(
+              initialRating: appData.rating ?? 5,
+              minRating: 1,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemPadding: EdgeInsets.zero,
+              itemSize: 15,
+              itemBuilder: (context, _) => Icon(
+                YaruIcons.star_filled,
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                size: 2,
+              ),
+              onRatingUpdate: (rating) {},
+              ignoreGestures: true,
+            )
           ],
         ),
         controls,
