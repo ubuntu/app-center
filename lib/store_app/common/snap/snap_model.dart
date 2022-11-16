@@ -174,7 +174,7 @@ class SnapModel extends SafeChangeNotifier {
   String get installDate {
     if (_localSnap == null || _localSnap!.installDate == null) return '';
 
-    return DateFormat.yMMMEd(Platform.localeName)
+    return DateFormat.yMMMd(Platform.localeName)
         .format(_localSnap!.installDate!);
   }
 
