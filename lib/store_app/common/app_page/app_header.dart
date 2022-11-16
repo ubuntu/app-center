@@ -160,6 +160,7 @@ class PageAppHeader extends StatelessWidget {
               verified: appData.verified,
               starredDeveloper: appData.starredDeveloper,
               publisherName: appData.publisherName,
+              onTap: () => launchUrl(Uri.parse(appData.website)),
             ),
           ],
         ),
