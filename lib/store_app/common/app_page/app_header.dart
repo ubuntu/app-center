@@ -174,7 +174,6 @@ class PageAppHeader extends StatelessWidget {
           installDateIsoNorm: appData.installDateIsoNorm,
           version: appData.version,
           versionChanged: appData.versionChanged,
-          twoLines: true,
         ),
         Text(
           appData.summary,

@@ -36,7 +36,6 @@ class AppInfos extends StatelessWidget {
     this.wrapAlignment = WrapAlignment.center,
     this.runAlignment = WrapAlignment.center,
     this.direction = Axis.horizontal,
-    this.twoLines = false,
   }) : super(key: key);
 
   final bool strict;
@@ -50,7 +49,6 @@ class AppInfos extends StatelessWidget {
   final WrapAlignment wrapAlignment;
   final WrapAlignment runAlignment;
   final Axis direction;
-  final bool twoLines;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +71,7 @@ class AppInfos extends StatelessWidget {
             version: version,
             versionChanged: versionChanged,
           ),
-          if (!twoLines) _divider(direction),
+          _divider(direction),
           _InstallDate(
             installDateIsoNorm: installDateIsoNorm,
             installDate: installDate,
