@@ -31,6 +31,7 @@ class AppReviews extends StatelessWidget {
         header: Text(
           context.l10n.reviewsAndRatings,
           style: Theme.of(context).textTheme.headline6,
+          overflow: TextOverflow.ellipsis,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,6 +94,7 @@ class AppReviews extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         RatingBar.builder(
                           initialRating: userReview.rating ?? 0,
