@@ -20,6 +20,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap/snap_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -40,6 +41,7 @@ class SnapChannelPopupButton extends StatelessWidget {
 
     return YaruPopupMenuButton(
       initialValue: model.channelToBeInstalled,
+      tooltip: context.l10n.channel,
       itemBuilder: (v) => [
         for (final entry in model.selectableChannels.entries)
           PopupMenuItem(
