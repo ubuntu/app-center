@@ -79,7 +79,7 @@ class SectionBanner extends StatelessWidget {
                           child: _IconShadow(
                             child: AppIcon(
                               iconUrl: e.iconUrl,
-                              size: 70,
+                              size: 65,
                             ),
                           ),
                         ),
@@ -120,7 +120,7 @@ class _IconShadow extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.0),
         child: child,
       ),
     );
