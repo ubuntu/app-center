@@ -15,14 +15,18 @@
  *
  */
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap/snap_page.dart';
 import 'package:software/store_app/common/snap/snap_section.dart';
 import 'package:software/store_app/explore/color_banner.dart';
 import 'package:software/store_app/explore/explore_model.dart';
+import 'package:software/store_app/explore/section_grid.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({
@@ -37,44 +41,76 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+  late int _randomSnapIndex;
+
+  late ScrollController _controller;
+  late int _amount;
+  @override
+  void initState() {
+    super.initState();
+
+    final screenArea = widget.screenSize.width * widget.screenSize.height;
+    final bannerArea =
+        (kGridDelegate.mainAxisExtent! + kGridDelegate.mainAxisSpacing) *
+            (kGridDelegate.crossAxisSpacing + kGridDelegate.maxCrossAxisExtent);
+    final initialAmount = ((screenArea - 240) ~/ bannerArea) + 5;
+
+    _amount = initialAmount;
+    _controller = ScrollController();
+
+    _controller.addListener(() {
+      if (_controller.position.maxScrollExtent == _controller.offset) {
+        setState(() {
+          _amount = _amount + 5;
+        });
+      }
+    });
+
+    super.initState();
+    _randomSnapIndex = Random().nextInt(10);
+  }
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
 
-    final snaps = <SnapSection, Snap>{};
+    final bannerSection = model.selectedSection;
 
-    for (var snapEntry in model.sectionNameToSnapsMap.entries) {
-      for (int i = 0; i < snapEntry.value.length; i++) {
-        if (i < 30 && snapEntry.key != SnapSection.featured) {
-          snaps.putIfAbsent(snapEntry.key, () => snapEntry.value[i]);
-        }
-      }
+    final bannerSnap = model.sectionNameToSnapsMap[model.selectedSection]
+        ?.elementAt(_randomSnapIndex);
+
+    if (bannerSnap == null) {
+      return const Center(
+        child: YaruCircularProgressIndicator(),
+      );
     }
 
-    return GridView.builder(
-      padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        mainAxisExtent: 200,
-        mainAxisSpacing: 15,
-        crossAxisSpacing: 15,
-        maxCrossAxisExtent: 700,
+    return SingleChildScrollView(
+      controller: _controller,
+      child: Column(
+        children: [
+          Container(
+            height: 200,
+            padding: const EdgeInsets.only(
+              left: kYaruPagePadding,
+              right: kYaruPagePadding,
+              bottom: kYaruPagePadding,
+            ),
+            child: ColorBanner.create(
+              context: context,
+              snap: bannerSnap,
+              sectionName: bannerSection == SnapSection.all
+                  ? SnapSection.featured.localize(context.l10n)
+                  : bannerSection.localize(context.l10n),
+              onTap: () => SnapPage.push(context, bannerSnap),
+            ),
+          ),
+          SectionGrid(
+            snapSection: model.selectedSection,
+            initialAmount: _amount,
+          ),
+        ],
       ),
-      itemCount: snaps.length,
-      itemBuilder: (context, index) {
-        final snapEntry = snaps.entries.elementAt(index);
-        final snap = snapEntry.value;
-        final section = snapEntry.key;
-
-        return ColorBanner.create(
-          context: context,
-          snap: snap,
-          sectionName: section == SnapSection.all
-              ? SnapSection.featured.localize(context.l10n)
-              : section.localize(context.l10n),
-          onTap: () => SnapPage.push(context, snap),
-        );
-      },
     );
   }
 }
