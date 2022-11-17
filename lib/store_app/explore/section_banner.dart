@@ -76,7 +76,7 @@ class SectionBanner extends StatelessWidget {
                       .map(
                         (e) => InkWell(
                           onTap: () => SnapPage.push(context, e),
-                          child: _IconShadow(
+                          child: _IconContainer(
                             child: AppIcon(
                               iconUrl: e.iconUrl,
                               size: 65,
@@ -98,9 +98,9 @@ class SectionBanner extends StatelessWidget {
   }
 }
 
-class _IconShadow extends StatelessWidget {
+class _IconContainer extends StatelessWidget {
   // ignore: unused_element
-  const _IconShadow({super.key, required this.child});
+  const _IconContainer({super.key, required this.child});
 
   final Widget child;
 
