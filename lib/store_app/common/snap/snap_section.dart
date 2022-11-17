@@ -151,45 +151,105 @@ enum SnapSection {
       case SnapSection.art_and_design:
         return [0xFF12c2e9, 0xFFf64f59];
       case SnapSection.books_and_reference:
-        return [YaruColors.coolGrey.value, YaruColors.blue.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.blue.value
+        ];
       case SnapSection.development:
-        return [YaruColors.coolGrey.value, YaruColors.bark.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.bark.value
+        ];
       case SnapSection.devices_and_iot:
-        return [YaruColors.coolGrey.value, YaruColors.red.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.red.value
+        ];
       case SnapSection.education:
-        return [YaruColors.coolGrey.value, YaruColors.magenta.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.magenta.value
+        ];
       case SnapSection.entertainment:
-        return [YaruColors.coolGrey.value, YaruColors.prussianGreen.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.prussianGreen.value
+        ];
       case SnapSection.featured:
-        return [YaruColors.coolGrey.value, YaruColors.olive.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.olive.value
+        ];
       case SnapSection.finance:
-        return [YaruColors.coolGrey.value, YaruColors.purple.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.purple.value
+        ];
       case SnapSection.games:
-        return [YaruColors.coolGrey.value, YaruColors.viridian.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.viridian.value
+        ];
       case SnapSection.health_and_fitness:
-        return [YaruColors.coolGrey.value, YaruColors.warning.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.warning.value
+        ];
       case SnapSection.music_and_audio:
-        return [YaruColors.coolGrey.value, YaruColors.sage.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.sage.value
+        ];
       case SnapSection.news_and_weather:
-        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.orange.value
+        ];
       case SnapSection.personalisation:
-        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.orange.value
+        ];
       case SnapSection.photo_and_video:
-        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.orange.value
+        ];
       case SnapSection.productivity:
-        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.orange.value
+        ];
       case SnapSection.science:
-        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.orange.value
+        ];
       case SnapSection.security:
-        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.orange.value
+        ];
       case SnapSection.server_and_cloud:
-        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.orange.value
+        ];
       case SnapSection.social:
-        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.orange.value
+        ];
       case SnapSection.utilities:
-        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.orange.value
+        ];
       case SnapSection.all:
-        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+        return [
+          const Color.fromARGB(255, 71, 71, 71).value,
+          YaruColors.orange.value
+        ];
     }
   }
 }
