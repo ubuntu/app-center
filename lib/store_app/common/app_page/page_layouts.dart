@@ -26,12 +26,7 @@ class PanedPageLayout extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.only(
-          top: kPagePadding,
-          bottom: kPagePadding,
-          left: kPagePadding,
-          right: hPadding,
-        ),
+        padding: const EdgeInsets.all(kPagePadding),
         child: SizedBox(
           height: height - appBarHeight,
           child: Row(
@@ -46,6 +41,7 @@ class PanedPageLayout extends StatelessWidget {
               Expanded(
                 child: ListView(
                   shrinkWrap: false,
+                  clipBehavior: Clip.none,
                   children: [
                     for (final child in rightChildren)
                       Padding(
