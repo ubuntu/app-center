@@ -23,61 +23,63 @@ class SectionBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: kYaruPagePadding + 5,
-        right: kYaruPagePadding + 5,
-        bottom: kYaruPagePadding + 5,
-      ),
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(kYaruPagePadding),
-          height: 200,
-          width: 20000,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: LinearGradient(
-              colors: gradientColors,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 200),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: kYaruPagePadding + 5,
+          right: kYaruPagePadding + 5,
+          bottom: kYaruPagePadding + 5,
+        ),
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.all(kYaruPagePadding),
+            width: 20000,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              gradient: LinearGradient(
+                colors: gradientColors,
+              ),
             ),
-          ),
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.spaceBetween,
-            runSpacing: 10,
-            children: [
-              Text(
-                section.slogan(context.l10n),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3!
-                    .copyWith(color: Colors.white),
-              ),
-              const SizedBox(
-                width: 100,
-              ),
-              Wrap(
-                alignment: WrapAlignment.spaceBetween,
-                spacing: kYaruPagePadding,
-                children: snaps
-                    .map(
-                      (e) => InkWell(
-                        onTap: () => SnapPage.push(context, e),
-                        child: Shadow(
-                          child: AppIcon(
-                            iconUrl: e.iconUrl,
-                            size: 70,
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              alignment: WrapAlignment.spaceBetween,
+              runSpacing: 10,
+              children: [
+                Text(
+                  section.slogan(context.l10n),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline3!
+                      .copyWith(color: Colors.white),
+                ),
+                const SizedBox(
+                  width: 100,
+                ),
+                Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  spacing: kYaruPagePadding,
+                  children: snaps
+                      .map(
+                        (e) => InkWell(
+                          onTap: () => SnapPage.push(context, e),
+                          child: Shadow(
+                            child: AppIcon(
+                              iconUrl: e.iconUrl,
+                              size: 70,
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                    .toList(),
-              ),
-              const SizedBox(
-                height: kYaruPagePadding,
-              ),
-            ],
+                      )
+                      .toList(),
+                ),
+                const SizedBox(
+                  height: kYaruPagePadding,
+                ),
+              ],
+            ),
           ),
         ),
       ),
