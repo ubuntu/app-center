@@ -50,7 +50,7 @@ class SectionBanner extends StatelessWidget {
               runSpacing: 20,
               children: [
                 ConstrainedBox(
-                  constraints: BoxConstraints.loose(const Size(200, 1000)),
+                  constraints: BoxConstraints.loose(const Size(250, 1000)),
                   child: Text(
                     section.slogan(context.l10n),
                     style: Theme.of(context).textTheme.headline5!.copyWith(
@@ -67,7 +67,7 @@ class SectionBanner extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  width: 100,
+                  width: 80,
                 ),
                 Wrap(
                   alignment: WrapAlignment.spaceBetween,
