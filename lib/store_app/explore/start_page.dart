@@ -19,7 +19,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/section_banner.dart';
 import 'package:software/store_app/explore/section_grid.dart';
@@ -46,13 +45,7 @@ class _StartPageState extends State<StartPage> {
   void initState() {
     super.initState();
 
-    final screenArea = widget.screenSize.width * widget.screenSize.height;
-    final bannerArea =
-        (kGridDelegate.mainAxisExtent! + kGridDelegate.mainAxisSpacing) *
-            (kGridDelegate.crossAxisSpacing + kGridDelegate.maxCrossAxisExtent);
-    final initialAmount = ((screenArea - 240) ~/ bannerArea) + 5;
-
-    _amount = initialAmount;
+    _amount = 60;
     _controller = ScrollController();
 
     _controller.addListener(() {
