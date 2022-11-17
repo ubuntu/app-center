@@ -202,8 +202,8 @@ enum SnapSection {
         ];
       case SnapSection.news_and_weather:
         return [
-          const Color.fromARGB(255, 102, 94, 83).value,
-          const Color.fromARGB(255, 158, 122, 43).value
+          const Color.fromARGB(255, 165, 115, 44).value,
+          const Color.fromARGB(255, 255, 219, 101).value
         ];
       case SnapSection.personalisation:
         return [
