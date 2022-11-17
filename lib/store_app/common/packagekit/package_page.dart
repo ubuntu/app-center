@@ -22,6 +22,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_icon.dart';
+import 'package:software/store_app/common/app_page/app_loading_page.dart';
 import 'package:software/store_app/common/app_page/app_page.dart';
 import 'package:software/store_app/common/packagekit/package_controls.dart';
 import 'package:software/store_app/common/packagekit/package_model.dart';
@@ -77,12 +78,17 @@ class PackagePage extends StatefulWidget {
 }
 
 class _PackagePageState extends State<PackagePage> {
+  bool initialized = false;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      context.read<PackageModel>().init(update: !widget.noUpdate);
+      context
+          .read<PackageModel>()
+          .init(update: !widget.noUpdate)
+          .then((value) => initialized = true);
     });
   }
 
@@ -116,21 +122,23 @@ class _PackagePageState extends State<PackagePage> {
           ),
       ],
     );
-    return AppPage(
-      appData: appData,
-      permissionContainer: null,
-      icon: AppIcon(
-        iconUrl: model.iconUrl,
-        fallBackIconData: YaruIcons.debian,
-        size: 150,
-        fallBackIconSize: 50,
-      ),
-      controls: PackageControls(
-        isInstalled: model.isInstalled,
-        packageState: model.packageState,
-        remove: () => model.remove(),
-        install: () => model.install(),
-      ),
-    );
+    return !initialized
+        ? const AppLoadingPage()
+        : AppPage(
+            appData: appData,
+            permissionContainer: null,
+            icon: AppIcon(
+              iconUrl: model.iconUrl,
+              fallBackIconData: YaruIcons.debian,
+              size: 150,
+              fallBackIconSize: 50,
+            ),
+            controls: PackageControls(
+              isInstalled: model.isInstalled,
+              packageState: model.packageState,
+              remove: () => model.remove(),
+              install: () => model.install(),
+            ),
+          );
   }
 }
