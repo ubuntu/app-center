@@ -33,6 +33,7 @@ class SectionGrid extends StatelessWidget {
     this.animateBanners = false,
     this.padding,
     this.initSection = true,
+    this.ignoreScrolling = true,
     required this.initialAmount,
   }) : super(key: key);
 
@@ -41,6 +42,7 @@ class SectionGrid extends StatelessWidget {
   final EdgeInsets? padding;
   final bool initSection;
   final int initialAmount;
+  final bool ignoreScrolling;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class SectionGrid extends StatelessWidget {
     if (sections.isEmpty) return const SizedBox();
 
     return GridView.builder(
+      physics: ignoreScrolling ? const NeverScrollableScrollPhysics() : null,
       padding:
           padding ?? const EdgeInsets.only(bottom: 20, left: 20, right: 20),
       shrinkWrap: true,
