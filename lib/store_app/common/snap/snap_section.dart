@@ -227,8 +227,8 @@ enum SnapSection {
         ];
       case SnapSection.security:
         return [
-          const Color.fromARGB(255, 71, 71, 71).value,
-          YaruColors.orange.value
+          const Color.fromARGB(255, 16, 40, 49).value,
+          const Color.fromARGB(255, 19, 131, 112).value
         ];
       case SnapSection.server_and_cloud:
         return [
