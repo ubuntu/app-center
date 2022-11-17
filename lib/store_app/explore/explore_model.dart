@@ -16,9 +16,7 @@
  */
 
 import 'dart:async';
-import 'dart:math';
 
-import 'package:flutter/rendering.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
@@ -97,19 +95,11 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  List<Color> gradients = [
-    Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-    Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0)
-  ];
   SnapSection _selectedSection = SnapSection.all;
   SnapSection get selectedSection => _selectedSection;
   set selectedSection(SnapSection value) {
     if (value == _selectedSection) return;
     _selectedSection = value;
-    gradients = [
-      Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-      Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0)
-    ];
     notifyListeners();
   }
 

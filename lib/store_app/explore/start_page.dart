@@ -83,7 +83,7 @@ class _StartPageState extends State<StartPage> {
       child: Column(
         children: [
           SectionBanner(
-            gradientColors: model.gradients,
+            gradientColors: bannerSection.colors.map((e) => Color(e)).toList(),
             snaps: [bannerSnap, bannerSnap2, bannerSnap3],
             section: bannerSection,
           ),

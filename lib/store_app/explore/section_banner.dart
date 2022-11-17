@@ -50,10 +50,17 @@ class SectionBanner extends StatelessWidget {
               children: [
                 Text(
                   section.slogan(context.l10n),
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3!
-                      .copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.headline3!.copyWith(
+                    color: Colors.white,
+                    shadows: [
+                      Shadow(
+                        offset: const Offset(0, 1), //position of shadow
+                        blurRadius: 1.0, //blur intensity of shadow
+                        color: Colors.black
+                            .withOpacity(0.4), //color of shadow with opacity
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   width: 100,
@@ -65,7 +72,7 @@ class SectionBanner extends StatelessWidget {
                       .map(
                         (e) => InkWell(
                           onTap: () => SnapPage.push(context, e),
-                          child: Shadow(
+                          child: _IconShadow(
                             child: AppIcon(
                               iconUrl: e.iconUrl,
                               size: 70,
@@ -87,8 +94,9 @@ class SectionBanner extends StatelessWidget {
   }
 }
 
-class Shadow extends StatelessWidget {
-  const Shadow({super.key, required this.child});
+class _IconShadow extends StatelessWidget {
+  // ignore: unused_element
+  const _IconShadow({super.key, required this.child});
 
   final Widget child;
 

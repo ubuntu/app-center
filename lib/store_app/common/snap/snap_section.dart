@@ -19,6 +19,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 enum SnapSection {
@@ -139,8 +140,56 @@ enum SnapSection {
         return l10n.utilities;
       case SnapSection.all:
         return l10n.all;
-      default:
-        return 'Super nice bla bla!';
+    }
+  }
+
+  // TODO: @madsrh please add colors
+  // Those are normal hex plus the leading FF for alpha, just leave FF
+  // or take colors from YaruColors
+  List<int> get colors {
+    switch (this) {
+      case SnapSection.art_and_design:
+        return [0xFF12c2e9, 0xFFf64f59];
+      case SnapSection.books_and_reference:
+        return [YaruColors.coolGrey.value, YaruColors.blue.value];
+      case SnapSection.development:
+        return [YaruColors.coolGrey.value, YaruColors.bark.value];
+      case SnapSection.devices_and_iot:
+        return [YaruColors.coolGrey.value, YaruColors.red.value];
+      case SnapSection.education:
+        return [YaruColors.coolGrey.value, YaruColors.magenta.value];
+      case SnapSection.entertainment:
+        return [YaruColors.coolGrey.value, YaruColors.prussianGreen.value];
+      case SnapSection.featured:
+        return [YaruColors.coolGrey.value, YaruColors.olive.value];
+      case SnapSection.finance:
+        return [YaruColors.coolGrey.value, YaruColors.purple.value];
+      case SnapSection.games:
+        return [YaruColors.coolGrey.value, YaruColors.viridian.value];
+      case SnapSection.health_and_fitness:
+        return [YaruColors.coolGrey.value, YaruColors.warning.value];
+      case SnapSection.music_and_audio:
+        return [YaruColors.coolGrey.value, YaruColors.sage.value];
+      case SnapSection.news_and_weather:
+        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+      case SnapSection.personalisation:
+        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+      case SnapSection.photo_and_video:
+        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+      case SnapSection.productivity:
+        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+      case SnapSection.science:
+        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+      case SnapSection.security:
+        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+      case SnapSection.server_and_cloud:
+        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+      case SnapSection.social:
+        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+      case SnapSection.utilities:
+        return [YaruColors.coolGrey.value, YaruColors.orange.value];
+      case SnapSection.all:
+        return [YaruColors.coolGrey.value, YaruColors.orange.value];
     }
   }
 }
