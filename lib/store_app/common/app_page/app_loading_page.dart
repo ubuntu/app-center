@@ -35,10 +35,10 @@ class AppLoadingPage extends StatelessWidget {
 
     var light = Theme.of(context).brightness == Brightness.light;
     final shimmerBase = light
-        ? const Color.fromARGB(255, 228, 228, 228)
+        ? const Color.fromARGB(120, 228, 228, 228)
         : Theme.of(context).colorScheme.onSurface.withOpacity(0.03);
     final shimmerHighLight = light
-        ? const Color.fromARGB(255, 247, 247, 247)
+        ? const Color.fromARGB(200, 247, 247, 247)
         : Theme.of(context).colorScheme.onSurface;
 
     final media = Shimmer.fromColors(
@@ -93,7 +93,8 @@ class AppLoadingPage extends StatelessWidget {
       baseColor: shimmerBase,
       highlightColor: shimmerHighLight,
       child: const BorderContainer(
-        child: SizedBox(height: 700),
+        height: 700,
+        child: SizedBox.shrink(),
       ),
     );
 
