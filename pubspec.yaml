@@ -44,7 +44,7 @@ dependencies:
   xterm: ^3.3.0
   yaru: ^0.4.1
   yaru_colors: ^0.1.0
-  yaru_icons: ^0.2.4
+  yaru_icons: ^0.2.7
   yaru_widgets: ^2.0.0-beta-1
 
 dev_dependencies:
