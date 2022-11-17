@@ -22,6 +22,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_icon.dart';
+import 'package:software/store_app/common/app_page/app_loading_page.dart';
 import 'package:software/store_app/common/app_page/app_page.dart';
 import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/snap/snap_connections_settings.dart';
@@ -64,10 +65,12 @@ class SnapPage extends StatefulWidget {
 }
 
 class _SnapPageState extends State<SnapPage> {
+  bool initialized = false;
+
   @override
   void initState() {
     super.initState();
-    context.read<SnapModel>().init();
+    context.read<SnapModel>().init().then((value) => initialized = true);
   }
 
   @override
@@ -107,19 +110,21 @@ class _SnapPageState extends State<SnapPage> {
       ],
     );
 
-    return AppPage(
-      appData: appData,
-      permissionContainer: model.showPermissions
-          ? const BorderContainer(
-              child: SnapConnectionsSettings(),
-            )
-          : null,
-      controls: const SnapControls(),
-      icon: AppIcon(
-        iconUrl: model.iconUrl,
-        size: 150,
-        fallBackIconSize: 50,
-      ),
-    );
+    return !initialized
+        ? const AppLoadingPage()
+        : AppPage(
+            appData: appData,
+            permissionContainer: model.showPermissions
+                ? const BorderContainer(
+                    child: SnapConnectionsSettings(),
+                  )
+                : null,
+            controls: const SnapControls(),
+            icon: AppIcon(
+              iconUrl: model.iconUrl,
+              size: 150,
+              fallBackIconSize: 50,
+            ),
+          );
   }
 }
