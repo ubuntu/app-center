@@ -80,6 +80,9 @@ class SectionBanner extends StatelessWidget {
                             child: AppIcon(
                               iconUrl: e.iconUrl,
                               size: 65,
+                              fallBackIconColor:
+                                  const Color.fromARGB(255, 109, 109, 109),
+                              fallBackIconSize: 40,
                             ),
                           ),
                         ),
