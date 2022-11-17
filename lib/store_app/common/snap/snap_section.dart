@@ -94,6 +94,55 @@ enum SnapSection {
         return title;
     }
   }
+
+  String slogan(AppLocalizations l10n) {
+    switch (this) {
+      case SnapSection.art_and_design:
+        return l10n.artAndDesign;
+      case SnapSection.books_and_reference:
+        return l10n.booksAndReference;
+      case SnapSection.development:
+        return l10n.development;
+      case SnapSection.devices_and_iot:
+        return l10n.devicesAndIot;
+      case SnapSection.education:
+        return l10n.education;
+      case SnapSection.entertainment:
+        return l10n.entertainment;
+      case SnapSection.featured:
+        return l10n.featured;
+      case SnapSection.finance:
+        return l10n.finance;
+      case SnapSection.games:
+        return l10n.games;
+      case SnapSection.health_and_fitness:
+        return l10n.healthAndFitness;
+      case SnapSection.music_and_audio:
+        return l10n.musicAndAudio;
+      case SnapSection.news_and_weather:
+        return l10n.newsAndWeather;
+      case SnapSection.personalisation:
+        return l10n.personalisation;
+      case SnapSection.photo_and_video:
+        return l10n.photoAndVideo;
+      case SnapSection.productivity:
+        return l10n.productivity;
+      case SnapSection.science:
+        return l10n.science;
+      case SnapSection.security:
+        return l10n.security;
+      case SnapSection.server_and_cloud:
+        return l10n.serverAndCloud;
+      case SnapSection.social:
+        return l10n.social;
+      case SnapSection.utilities:
+        return l10n.utilities;
+      case SnapSection.all:
+        return l10n.all;
+      default:
+        return 'Super nice bla bla!';
+    }
+  }
 }
 
 Map<SnapSection, IconData> snapSectionToIcon = {

@@ -19,12 +19,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/snap/snap_page.dart';
-import 'package:software/store_app/common/snap/snap_section.dart';
-import 'package:software/store_app/explore/color_banner.dart';
 import 'package:software/store_app/explore/explore_model.dart';
+import 'package:software/store_app/explore/section_banner.dart';
 import 'package:software/store_app/explore/section_grid.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -42,9 +39,9 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   late int _randomSnapIndex;
-
   late ScrollController _controller;
   late int _amount;
+
   @override
   void initState() {
     super.initState();
@@ -66,7 +63,6 @@ class _StartPageState extends State<StartPage> {
       }
     });
 
-    super.initState();
     _randomSnapIndex = Random().nextInt(10);
   }
 
@@ -78,8 +74,12 @@ class _StartPageState extends State<StartPage> {
 
     final bannerSnap = model.sectionNameToSnapsMap[model.selectedSection]
         ?.elementAt(_randomSnapIndex);
+    final bannerSnap2 = model.sectionNameToSnapsMap[model.selectedSection]
+        ?.elementAt(_randomSnapIndex + 1);
+    final bannerSnap3 = model.sectionNameToSnapsMap[model.selectedSection]
+        ?.elementAt(_randomSnapIndex + 2);
 
-    if (bannerSnap == null) {
+    if (bannerSnap == null || bannerSnap2 == null || bannerSnap3 == null) {
       return const Center(
         child: YaruCircularProgressIndicator(),
       );
@@ -89,21 +89,10 @@ class _StartPageState extends State<StartPage> {
       controller: _controller,
       child: Column(
         children: [
-          Container(
-            height: 200,
-            padding: const EdgeInsets.only(
-              left: kYaruPagePadding,
-              right: kYaruPagePadding,
-              bottom: kYaruPagePadding,
-            ),
-            child: ColorBanner.create(
-              context: context,
-              snap: bannerSnap,
-              sectionName: bannerSection == SnapSection.all
-                  ? SnapSection.featured.localize(context.l10n)
-                  : bannerSection.localize(context.l10n),
-              onTap: () => SnapPage.push(context, bannerSnap),
-            ),
+          SectionBanner(
+            gradientColors: model.gradients,
+            snaps: [bannerSnap, bannerSnap2, bannerSnap3],
+            section: bannerSection,
           ),
           SectionGrid(
             snapSection: model.selectedSection,
