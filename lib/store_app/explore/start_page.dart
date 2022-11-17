@@ -15,14 +15,15 @@
  *
  */
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/snap/snap_page.dart';
-import 'package:software/store_app/common/snap/snap_section.dart';
-import 'package:software/store_app/explore/color_banner.dart';
+import 'package:software/snapx.dart';
 import 'package:software/store_app/explore/explore_model.dart';
+import 'package:software/store_app/explore/section_banner.dart';
+import 'package:software/store_app/explore/section_grid.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({
@@ -37,44 +38,62 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+  late int _randomSnapIndex;
+  late ScrollController _controller;
+  late int _amount;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _amount = 60;
+    _controller = ScrollController();
+
+    _controller.addListener(() {
+      if (_controller.position.maxScrollExtent == _controller.offset) {
+        setState(() {
+          _amount = _amount + 5;
+        });
+      }
+    });
+
+    _randomSnapIndex = Random().nextInt(10);
+  }
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
 
-    final snaps = <SnapSection, Snap>{};
+    final bannerSection = model.selectedSection;
 
-    for (var snapEntry in model.sectionNameToSnapsMap.entries) {
-      for (int i = 0; i < snapEntry.value.length; i++) {
-        if (i < 30 && snapEntry.key != SnapSection.featured) {
-          snaps.putIfAbsent(snapEntry.key, () => snapEntry.value[i]);
-        }
-      }
+    final snapsWithIcons = model.sectionNameToSnapsMap[model.selectedSection]
+        ?.where((snap) => snap.iconUrl != null);
+
+    final bannerSnap = snapsWithIcons?.elementAt(_randomSnapIndex);
+    final bannerSnap2 = snapsWithIcons?.elementAt(_randomSnapIndex + 1);
+    final bannerSnap3 = snapsWithIcons?.elementAt(_randomSnapIndex + 2);
+
+    if (bannerSnap == null || bannerSnap2 == null || bannerSnap3 == null) {
+      return const Center(
+        child: YaruCircularProgressIndicator(),
+      );
     }
 
-    return GridView.builder(
-      padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        mainAxisExtent: 200,
-        mainAxisSpacing: 15,
-        crossAxisSpacing: 15,
-        maxCrossAxisExtent: 700,
+    return SingleChildScrollView(
+      controller: _controller,
+      child: Column(
+        children: [
+          SectionBanner(
+            gradientColors: bannerSection.colors.map((e) => Color(e)).toList(),
+            snaps: [bannerSnap, bannerSnap2, bannerSnap3],
+            section: bannerSection,
+          ),
+          SectionGrid(
+            snapSection: model.selectedSection,
+            initialAmount: _amount,
+          ),
+        ],
       ),
-      itemCount: snaps.length,
-      itemBuilder: (context, index) {
-        final snapEntry = snaps.entries.elementAt(index);
-        final snap = snapEntry.value;
-        final section = snapEntry.key;
-
-        return ColorBanner.create(
-          context: context,
-          snap: snap,
-          sectionName: section == SnapSection.all
-              ? SnapSection.featured.localize(context.l10n)
-              : section.localize(context.l10n),
-          onTap: () => SnapPage.push(context, snap),
-        );
-      },
     );
   }
 }

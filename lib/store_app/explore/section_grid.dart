@@ -26,13 +26,14 @@ import 'package:software/store_app/common/snap/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class SectionBannerGrid extends StatefulWidget {
-  const SectionBannerGrid({
+class SectionGrid extends StatelessWidget {
+  const SectionGrid({
     Key? key,
     required this.snapSection,
     this.animateBanners = false,
     this.padding,
     this.initSection = true,
+    this.ignoreScrolling = true,
     required this.initialAmount,
   }) : super(key: key);
 
@@ -41,46 +42,23 @@ class SectionBannerGrid extends StatefulWidget {
   final EdgeInsets? padding;
   final bool initSection;
   final int initialAmount;
-
-  @override
-  State<SectionBannerGrid> createState() => _SectionBannerGridState();
-}
-
-class _SectionBannerGridState extends State<SectionBannerGrid> {
-  late ScrollController _controller;
-  late int _amount;
-  @override
-  void initState() {
-    super.initState();
-    _amount = widget.initialAmount;
-    _controller = ScrollController();
-
-    if (widget.initSection) {
-      _controller.addListener(() {
-        if (_controller.position.maxScrollExtent == _controller.offset) {
-          setState(() {
-            _amount = _amount + 5;
-          });
-        }
-      });
-    }
-  }
+  final bool ignoreScrolling;
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    final sections = model.sectionNameToSnapsMap[widget.snapSection] ?? [];
+    final sections = model.sectionNameToSnapsMap[snapSection] ?? [];
     if (sections.isEmpty) return const SizedBox();
 
     return GridView.builder(
-      controller: _controller,
-      padding: widget.padding ??
-          const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+      physics: ignoreScrolling ? const NeverScrollableScrollPhysics() : null,
+      padding:
+          padding ?? const EdgeInsets.only(bottom: 20, left: 20, right: 20),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
-      itemCount: sections.take(_amount).length,
+      itemCount: sections.take(initialAmount).length,
       itemBuilder: (context, index) {
-        final snap = sections.take(_amount).elementAt(index);
+        final snap = sections.take(initialAmount).elementAt(index);
 
         final banner = YaruBanner(
           title: Text(snap.name),
@@ -97,7 +75,7 @@ class _SectionBannerGridState extends State<SectionBannerGrid> {
           onTap: () => SnapPage.push(context, snap),
         );
 
-        if (widget.animateBanners) {
+        if (animateBanners) {
           return AnimatedScrollViewItem(
             child: banner,
           );

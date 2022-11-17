@@ -20,14 +20,12 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
-import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/explore/explore_header.dart';
-import 'package:software/store_app/explore/offline_page.dart';
 import 'package:software/store_app/common/snap/snap_section.dart';
+import 'package:software/store_app/explore/explore_header.dart';
 import 'package:software/store_app/explore/explore_model.dart';
+import 'package:software/store_app/explore/offline_page.dart';
 import 'package:software/store_app/explore/search_field.dart';
 import 'package:software/store_app/explore/search_page.dart';
-import 'package:software/store_app/explore/section_banner_grid.dart';
 import 'package:software/store_app/explore/start_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -67,15 +65,8 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
-    if (model.sectionNameToSnapsMap.length < SnapSection.values.length) {
-      return const Center(child: YaruCircularProgressIndicator());
-    }
-    final screenSize = MediaQuery.of(context).size;
 
-    final screenArea = screenSize.width * screenSize.height;
-    final bannerArea =
-        (kGridDelegate.mainAxisExtent! + kGridDelegate.mainAxisSpacing) *
-            (kGridDelegate.crossAxisSpacing + kGridDelegate.maxCrossAxisExtent);
+    final screenSize = MediaQuery.of(context).size;
 
     return Navigator(
       pages: [
@@ -86,24 +77,13 @@ class _ExplorePageState extends State<ExplorePage> {
             ),
             body: Column(
               children: [
-                if (model.searchQuery.isNotEmpty ||
-                    model.selectedSection != SnapSection.all)
-                  const ExploreHeader()
-                else
-                  const SizedBox(
-                    height: kPagePadding,
-                  ),
+                const ExploreHeader(),
                 Expanded(
                   child: model.showErrorPage
                       ? _ErrorPage(errorMessage: model.errorMessage)
                       : model.showSearchPage
                           ? const SearchPage()
-                          : model.showStartPage
-                              ? StartPage(screenSize: screenSize)
-                              : SectionBannerGrid(
-                                  initialAmount: (screenArea ~/ bannerArea) + 5,
-                                  snapSection: model.selectedSection,
-                                ),
+                          : StartPage(screenSize: screenSize),
                 )
               ],
             ),

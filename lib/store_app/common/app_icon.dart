@@ -26,12 +26,14 @@ class AppIcon extends StatelessWidget {
     this.fallBackIconData = YaruIcons.snapcraft,
     this.size = 45,
     this.fallBackIconSize = 20,
+    this.fallBackIconColor,
   });
 
   final String? iconUrl;
   final IconData fallBackIconData;
   final double size;
   final double fallBackIconSize;
+  final Color? fallBackIconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class AppIcon extends StatelessWidget {
       child: Icon(
         fallBackIconData,
         size: fallBackIconSize,
+        color: fallBackIconColor,
       ),
     );
 
