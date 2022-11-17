@@ -106,7 +106,7 @@ class AppLoadingPage extends StatelessWidget {
           baseColor: shimmerBase,
           highlightColor: shimmerHighLight,
           child: const BorderContainer(
-            child: SizedBox(height: 80),
+            child: SizedBox(height: 40),
           ),
         ),
         media,
