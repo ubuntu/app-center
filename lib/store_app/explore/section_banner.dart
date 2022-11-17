@@ -24,7 +24,7 @@ class SectionBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 200),
+      constraints: const BoxConstraints(minHeight: 230),
       child: Padding(
         padding: const EdgeInsets.only(
           left: kYaruPagePadding + 5,
@@ -46,20 +46,24 @@ class SectionBanner extends StatelessWidget {
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               alignment: WrapAlignment.spaceBetween,
-              runSpacing: 10,
+              runAlignment: WrapAlignment.start,
+              runSpacing: 20,
               children: [
-                Text(
-                  section.slogan(context.l10n),
-                  style: Theme.of(context).textTheme.headline3!.copyWith(
-                    color: Colors.white,
-                    shadows: [
-                      Shadow(
-                        offset: const Offset(0, 1), //position of shadow
-                        blurRadius: 1.0, //blur intensity of shadow
-                        color: Colors.black
-                            .withOpacity(0.4), //color of shadow with opacity
-                      ),
-                    ],
+                ConstrainedBox(
+                  constraints: BoxConstraints.loose(const Size(200, 1000)),
+                  child: Text(
+                    section.slogan(context.l10n),
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                      color: Colors.white,
+                      shadows: [
+                        Shadow(
+                          offset: const Offset(0, 1), //position of shadow
+                          blurRadius: 1.0, //blur intensity of shadow
+                          color: Colors.black
+                              .withOpacity(0.4), //color of shadow with opacity
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(

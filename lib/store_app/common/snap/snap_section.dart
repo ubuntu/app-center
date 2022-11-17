@@ -99,47 +99,47 @@ enum SnapSection {
   String slogan(AppLocalizations l10n) {
     switch (this) {
       case SnapSection.art_and_design:
-        return l10n.artAndDesign;
+        return l10n.artAndDesignSlogan;
       case SnapSection.books_and_reference:
-        return l10n.booksAndReference;
+        return l10n.booksAndReferenceSlogan;
       case SnapSection.development:
-        return l10n.development;
+        return l10n.developmentSlogan;
       case SnapSection.devices_and_iot:
-        return l10n.devicesAndIot;
+        return l10n.devicesAndIotSlogan;
       case SnapSection.education:
-        return l10n.education;
+        return l10n.educationSlogan;
       case SnapSection.entertainment:
-        return l10n.entertainment;
+        return l10n.entertainmentSlogan;
       case SnapSection.featured:
-        return l10n.featured;
+        return l10n.featuredSlogan;
       case SnapSection.finance:
-        return l10n.finance;
+        return l10n.financeSlogan;
       case SnapSection.games:
-        return l10n.games;
+        return l10n.gamesSlogan;
       case SnapSection.health_and_fitness:
-        return l10n.healthAndFitness;
+        return l10n.healthAndFitnessSlogan;
       case SnapSection.music_and_audio:
-        return l10n.musicAndAudio;
+        return l10n.musicAndAudioSlogan;
       case SnapSection.news_and_weather:
-        return l10n.newsAndWeather;
+        return l10n.newsAndWeatherSlogan;
       case SnapSection.personalisation:
-        return l10n.personalisation;
+        return l10n.personalisationSlogan;
       case SnapSection.photo_and_video:
-        return l10n.photoAndVideo;
+        return l10n.photoAndVideoSlogan;
       case SnapSection.productivity:
-        return l10n.productivity;
+        return l10n.productivitySlogan;
       case SnapSection.science:
-        return l10n.science;
+        return l10n.scienceSlogan;
       case SnapSection.security:
-        return l10n.security;
+        return l10n.securitySlogan;
       case SnapSection.server_and_cloud:
-        return l10n.serverAndCloud;
+        return l10n.serverAndCloudSlogan;
       case SnapSection.social:
-        return l10n.social;
+        return l10n.socialSlogan;
       case SnapSection.utilities:
-        return l10n.utilities;
+        return l10n.utilitiesSlogan;
       case SnapSection.all:
-        return l10n.all;
+        return l10n.featuredSlogan;
     }
   }
 
@@ -177,8 +177,8 @@ enum SnapSection {
         ];
       case SnapSection.featured:
         return [
-          const Color.fromARGB(255, 71, 71, 71).value,
-          YaruColors.olive.value
+          const Color.fromARGB(255, 167, 92, 22).value,
+          const Color.fromARGB(255, 133, 1, 122).value
         ];
       case SnapSection.finance:
         return [
@@ -187,7 +187,7 @@ enum SnapSection {
         ];
       case SnapSection.games:
         return [
-          const Color.fromARGB(255, 71, 71, 71).value,
+          const Color.fromARGB(255, 25, 119, 119).value,
           YaruColors.viridian.value
         ];
       case SnapSection.health_and_fitness:
@@ -247,8 +247,8 @@ enum SnapSection {
         ];
       case SnapSection.all:
         return [
-          const Color.fromARGB(255, 71, 71, 71).value,
-          YaruColors.orange.value
+          const Color.fromARGB(255, 167, 92, 22).value,
+          const Color.fromARGB(255, 133, 1, 122).value
         ];
     }
   }
