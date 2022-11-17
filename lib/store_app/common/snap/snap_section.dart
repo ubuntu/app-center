@@ -216,10 +216,7 @@ enum SnapSection {
           const Color.fromARGB(255, 133, 133, 133).value
         ];
       case SnapSection.productivity:
-        return [
-          const Color.fromARGB(255, 70, 49, 49).value,
-          const Color.fromARGB(255, 51, 120, 165).value
-        ];
+        return [const Color(0xFF712290).value, const Color(0xFFff5733).value];
       case SnapSection.science:
         return [
           const Color.fromARGB(255, 71, 71, 71).value,
