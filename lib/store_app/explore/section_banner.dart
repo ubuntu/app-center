@@ -29,6 +29,7 @@ class SectionBanner extends StatelessWidget {
         padding: const EdgeInsets.only(
           left: kYaruPagePadding + 5,
           right: kYaruPagePadding + 5,
+          top: 5,
           bottom: kYaruPagePadding + 5,
         ),
         child: InkWell(
