@@ -186,6 +186,12 @@ class _AppPageState extends State<AppPage> {
       ],
     );
 
+    final body = isWindowWide
+        ? wideWindowLayout
+        : isWindowNormalSized
+            ? normalWindowLayout
+            : narrowWindowLayout;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.appData.title),
@@ -194,11 +200,12 @@ class _AppPageState extends State<AppPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: isWindowWide
-          ? wideWindowLayout
-          : isWindowNormalSized
-              ? normalWindowLayout
-              : narrowWindowLayout,
+      body: GestureDetector(
+        onHorizontalDragEnd: (details) {
+          Navigator.of(context).pop();
+        },
+        child: body,
+      ),
     );
   }
 }
