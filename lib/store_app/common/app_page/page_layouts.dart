@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:software/store_app/common/constants.dart';
 
@@ -18,7 +16,6 @@ class PanedPageLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = windowSize.height;
-    final width = windowSize.width;
     final appBarHeight =
         Theme.of(context).appBarTheme.toolbarHeight?.toDouble() ??
             kToolbarHeight;
