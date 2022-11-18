@@ -41,7 +41,6 @@ class PanedPageLayout extends StatelessWidget {
               Expanded(
                 child: ListView(
                   shrinkWrap: false,
-                  clipBehavior: Clip.none,
                   children: [
                     for (final child in rightChildren)
                       Padding(
