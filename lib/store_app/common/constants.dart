@@ -24,7 +24,7 @@ const kGridPadding = EdgeInsets.only(
   right: kPagePadding,
 );
 const kHeaderPadding =
-    EdgeInsets.only(top: kPagePadding, left: 25, bottom: kPagePadding);
+    EdgeInsets.only(top: 25, left: 25, bottom: kPagePadding);
 const kIconPadding = EdgeInsets.only(top: 8, bottom: 8, right: 5);
 const kDialogWidth = 450.0;
 const kGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
