@@ -25,20 +25,28 @@ class AppIcon extends StatelessWidget {
     super.key,
     required this.iconUrl,
     this.size = 45,
+    this.borderColor,
+    this.color,
   });
 
   final String? iconUrl;
   final double size;
+  final Color? borderColor;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     final fallBackIcon = BorderContainer(
-      clipBehavior: Clip.hardEdge,
+      borderColor: color,
       containerPadding: EdgeInsets.zero,
       borderRadius: 200,
       width: size,
       height: size,
-      child: _FallBackIcon(size: size),
+      child: _FallBackIcon(
+        size: size,
+        borderColor: borderColor,
+        color: color,
+      ),
     );
 
     return iconUrl == null || iconUrl!.isEmpty
@@ -63,27 +71,37 @@ class _FallBackIcon extends StatelessWidget {
   const _FallBackIcon({
     Key? key,
     required this.size,
+    this.borderColor,
+    this.color,
   }) : super(key: key);
 
   final double size;
+  final Color? borderColor;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final light = theme.brightness == Brightness.light;
     final border = BorderSide(
-      color: light ? Colors.white : theme.dividerColor,
+      color: borderColor ?? (light ? Colors.white : theme.dividerColor),
       width: light ? 0.5 : 0.3,
     );
-    final shadeMax = light
-        ? theme.dividerColor.withOpacity(0.1)
-        : theme.colorScheme.onSurface.withOpacity(0.03);
-    final shadeMid = light
-        ? theme.dividerColor.withOpacity(0.05)
-        : theme.colorScheme.onSurface.withOpacity(0.015);
-    final shadeMin = light
-        ? theme.dividerColor.withOpacity(0.005)
-        : theme.colorScheme.onSurface.withOpacity(0.005);
+    final shadeMax = color != null
+        ? color!.withOpacity(0.1)
+        : light
+            ? theme.dividerColor.withOpacity(0.1)
+            : theme.colorScheme.onSurface.withOpacity(0.03);
+    final shadeMid = color != null
+        ? color!.withOpacity(0.05)
+        : light
+            ? theme.dividerColor.withOpacity(0.05)
+            : theme.colorScheme.onSurface.withOpacity(0.015);
+    final shadeMin = color != null
+        ? color!.withOpacity(0.005)
+        : light
+            ? theme.dividerColor.withOpacity(0.005)
+            : theme.colorScheme.onSurface.withOpacity(0.005);
     return ClipOval(
       child: FittedBox(
         fit: BoxFit.none,

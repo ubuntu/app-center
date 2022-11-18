@@ -37,6 +37,7 @@ class BorderContainer extends StatelessWidget {
     this.transformAlignment,
     this.clipBehavior = Clip.none,
     this.containerPadding,
+    this.borderColor,
   });
 
   /// Forwarded to [Container]
@@ -80,6 +81,9 @@ class BorderContainer extends StatelessWidget {
   /// Forwarded to [Container]
   final Clip clipBehavior;
 
+  /// Optional color for the border
+  final Color? borderColor;
+
   @override
   Widget build(BuildContext context) {
     final container = Container(
@@ -99,7 +103,7 @@ class BorderContainer extends StatelessWidget {
                 : Theme.of(context).colorScheme.onSurface.withOpacity(0.03)),
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
-          color: Theme.of(context).dividerColor,
+          color: borderColor ?? Theme.of(context).dividerColor,
         ),
       ),
       child: child,

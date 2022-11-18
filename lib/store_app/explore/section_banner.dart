@@ -110,6 +110,7 @@ class _PlatedIconState extends State<_PlatedIcon> {
   final dur = const Duration(milliseconds: 100);
   @override
   Widget build(BuildContext context) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: () => SnapPage.push(context, widget.snap),
       onHover: (value) => setState(() => hovered = value),
@@ -117,6 +118,8 @@ class _PlatedIconState extends State<_PlatedIcon> {
         hovered: hovered,
         child: AppIcon(
           iconUrl: widget.snap.iconUrl,
+          color: dark ? Colors.black.withOpacity(0.1) : null,
+          borderColor: dark ? Colors.white : null,
           size: 65,
         ),
       ),
@@ -137,7 +140,8 @@ class _BasePlate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
