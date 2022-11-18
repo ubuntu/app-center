@@ -100,12 +100,10 @@ class _ColorBannerState extends State<ColorBanner> {
       icon: AppIcon(
         iconUrl: widget.snap.iconUrl,
         size: 80,
-        fallBackIconSize: 35,
       ),
       watermarkIcon: AppIcon(
         iconUrl: widget.snap.iconUrl,
         size: 130,
-        fallBackIconSize: 50,
       ),
     );
   }

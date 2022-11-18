@@ -86,9 +86,7 @@ class _SnapSearchPage extends StatelessWidget {
                       ),
                       icon: AppIcon(
                         iconUrl: snap.iconUrl,
-                        fallBackIconData: YaruIcons.snapcraft,
                         size: 50,
-                        fallBackIconSize: 30,
                       ),
                       iconPadding: const EdgeInsets.only(left: 10, right: 5),
                       onTap: () => SnapPage.push(context, snap),
@@ -149,7 +147,6 @@ class _PackageKitSearchPageState extends State<_PackageKitSearchPage> {
                     subtitle: Text(id.version),
                     icon: const AppIcon(
                       iconUrl: null,
-                      fallBackIconData: YaruIcons.debian,
                     ),
                     iconPadding: const EdgeInsets.only(left: 10, right: 5),
                     onTap: () => PackagePage.push(context, id),
@@ -298,7 +295,6 @@ class _CombinedSearchPage extends StatelessWidget {
                     ),
                     icon: AppIcon(
                       iconUrl: e.value.snap?.iconUrl,
-                      fallBackIconData: YaruIcons.view_more,
                     ),
                     iconPadding:
                         const EdgeInsets.only(left: 10, right: 5, bottom: 30),
