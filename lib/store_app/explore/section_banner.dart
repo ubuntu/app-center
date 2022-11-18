@@ -74,14 +74,8 @@ class SectionBanner extends StatelessWidget {
                   spacing: kYaruPagePadding,
                   children: snaps
                       .map(
-                        (e) => InkWell(
-                          onTap: () => SnapPage.push(context, e),
-                          child: _IconContainer(
-                            child: AppIcon(
-                              iconUrl: e.iconUrl,
-                              size: 65,
-                            ),
-                          ),
+                        (e) => _PlatedIcon(
+                          snap: e,
                         ),
                       )
                       .toList(),
@@ -98,11 +92,48 @@ class SectionBanner extends StatelessWidget {
   }
 }
 
-class _IconContainer extends StatelessWidget {
-  // ignore: unused_element
-  const _IconContainer({super.key, required this.child});
+class _PlatedIcon extends StatefulWidget {
+  const _PlatedIcon({
+    // ignore: unused_element
+    super.key,
+    required this.snap,
+  });
+
+  final Snap snap;
+
+  @override
+  State<_PlatedIcon> createState() => _PlatedIconState();
+}
+
+class _PlatedIconState extends State<_PlatedIcon> {
+  bool hovered = false;
+  final dur = const Duration(milliseconds: 100);
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => SnapPage.push(context, widget.snap),
+      onHover: (value) => setState(() => hovered = value),
+      child: _BasePlate(
+        hovered: hovered,
+        child: AppIcon(
+          iconUrl: widget.snap.iconUrl,
+          size: 65,
+        ),
+      ),
+    );
+  }
+}
+
+class _BasePlate extends StatelessWidget {
+  const _BasePlate({
+    // ignore: unused_element
+    super.key,
+    required this.child,
+    required this.hovered,
+  });
 
   final Widget child;
+  final bool hovered;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +143,7 @@ class _IconContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withOpacity(hovered ? 0.4 : 0.15),
             spreadRadius: 3,
             blurRadius: 5,
             offset: const Offset(0, 1), // changes position of shadow
