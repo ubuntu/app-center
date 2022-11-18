@@ -15,38 +15,30 @@
  *
  */
 
-import 'package:flutter/widgets.dart';
+import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:software/store_app/common/border_container.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 
 class AppIcon extends StatelessWidget {
   const AppIcon({
     super.key,
     required this.iconUrl,
-    this.fallBackIconData = YaruIcons.snapcraft,
     this.size = 45,
-    this.fallBackIconSize = 20,
-    this.fallBackIconColor,
   });
 
   final String? iconUrl;
-  final IconData fallBackIconData;
   final double size;
-  final double fallBackIconSize;
-  final Color? fallBackIconColor;
 
   @override
   Widget build(BuildContext context) {
     final fallBackIcon = BorderContainer(
+      clipBehavior: Clip.hardEdge,
       containerPadding: EdgeInsets.zero,
       borderRadius: 200,
       width: size,
       height: size,
-      child: Icon(
-        fallBackIconData,
-        size: fallBackIconSize,
-        color: fallBackIconColor,
-      ),
+      child: _FallBackIcon(size: size),
     );
 
     return iconUrl == null || iconUrl!.isEmpty
@@ -64,5 +56,85 @@ class AppIcon extends StatelessWidget {
               errorBuilder: (context, error, stackTrace) => fallBackIcon,
             ),
           );
+  }
+}
+
+class _FallBackIcon extends StatelessWidget {
+  const _FallBackIcon({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final light = theme.brightness == Brightness.light;
+    final border = BorderSide(
+      color: light ? Colors.white : theme.dividerColor,
+      width: light ? 0.5 : 0.3,
+    );
+    final shadeMax = light
+        ? theme.dividerColor.withOpacity(0.1)
+        : theme.colorScheme.onSurface.withOpacity(0.03);
+    final shadeMid = light
+        ? theme.dividerColor.withOpacity(0.05)
+        : theme.colorScheme.onSurface.withOpacity(0.015);
+    final shadeMin = light
+        ? theme.dividerColor.withOpacity(0.005)
+        : theme.colorScheme.onSurface.withOpacity(0.005);
+    return ClipOval(
+      child: FittedBox(
+        fit: BoxFit.none,
+        child: Transform.rotate(
+          angle: -pi / 4,
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(size),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        right: border,
+                      ),
+                      color: shadeMid,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(size),
+                    decoration: BoxDecoration(
+                      color: shadeMax,
+                      border: Border(
+                        top: border,
+                        right: border,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(size * 1.2),
+                    decoration: BoxDecoration(
+                      color: shadeMin,
+                      border: Border(
+                        bottom: border,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(size * 1.2),
+                    decoration: BoxDecoration(color: shadeMid),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

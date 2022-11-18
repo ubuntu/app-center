@@ -203,7 +203,6 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 children: [
                   const AppIcon(
                     iconUrl: null,
-                    fallBackIconData: YaruIcons.debian,
                   ),
                   const SizedBox(
                     width: 10,
