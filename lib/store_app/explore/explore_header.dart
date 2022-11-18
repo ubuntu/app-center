@@ -4,6 +4,7 @@ import 'package:software/store_app/common/app_format.dart';
 import 'package:software/store_app/common/app_format_popup.dart';
 import 'package:software/store_app/common/snap/snap_section_popup.dart';
 import 'package:software/store_app/explore/explore_model.dart';
+import 'package:software/store_app/common/constants.dart';
 
 class ExploreHeader extends StatelessWidget {
   const ExploreHeader({super.key});
@@ -13,7 +14,7 @@ class ExploreHeader extends StatelessWidget {
     final model = context.watch<ExploreModel>();
 
     return Padding(
-      padding: const EdgeInsets.only(top: 20, left: 25, bottom: 20),
+      padding: kHeaderPadding,
       child: Align(
         alignment: Alignment.centerLeft,
         child: Wrap(
