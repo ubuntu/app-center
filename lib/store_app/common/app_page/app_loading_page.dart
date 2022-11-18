@@ -138,6 +138,12 @@ class AppLoadingPage extends StatelessWidget {
       ],
     );
 
+    final body = isWindowWide
+        ? wideWindowLayout
+        : isWindowNormalSized
+            ? normalWindowLayout
+            : narrowWindowLayout;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(''),
@@ -146,11 +152,12 @@ class AppLoadingPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: isWindowWide
-          ? wideWindowLayout
-          : isWindowNormalSized
-              ? normalWindowLayout
-              : narrowWindowLayout,
+      body: GestureDetector(
+        onHorizontalDragEnd: (details) {
+          Navigator.of(context).pop();
+        },
+        child: body,
+      ),
     );
   }
 }
