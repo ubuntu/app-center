@@ -258,9 +258,18 @@ class _CarouselDialogState extends State<_CarouselDialog> {
         }
       },
       child: SimpleDialog(
-        title: const YaruTitleBar(),
+        title: Align(
+          alignment: Alignment.centerRight,
+          // TODO: fix YaruCloseButton alignement and reuse it
+          child: YaruIconButton(
+            padding: EdgeInsets.zero,
+            onPressed: Navigator.of(context).maybePop,
+            icon: const Icon(YaruIcons.window_close),
+            iconSize: 32.0,
+          ),
+        ),
         contentPadding: const EdgeInsets.only(bottom: 20),
-        titlePadding: EdgeInsets.zero,
+        titlePadding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 6.0),
         children: [
           SizedBox(
             height: widget.windowHeight - 150,
@@ -270,6 +279,7 @@ class _CarouselDialogState extends State<_CarouselDialog> {
               previousIcon: const Icon(YaruIcons.go_previous),
               navigationControls: widget.appData.screenShotUrls.length > 1,
               width: widget.windowWidth,
+              placeIndicatorMarginTop: 20.0,
               children: [
                 for (final url in widget.appData.screenShotUrls)
                   SafeNetworkImage(url: url)
