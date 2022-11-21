@@ -38,6 +38,7 @@ class AppPage extends StatefulWidget {
     required this.controls,
     this.subControlPageHeader,
     this.subBannerHeader,
+    this.appIsInstalled = false,
   });
 
   final AppData appData;
@@ -46,6 +47,7 @@ class AppPage extends StatefulWidget {
   final Widget controls;
   final Widget? subControlPageHeader;
   final Widget? subBannerHeader;
+  final bool appIsInstalled;
 
   @override
   State<AppPage> createState() => _AppPageState();
@@ -108,6 +110,7 @@ class _AppPageState extends State<AppPage> {
     final ratingsAndReviews = AppReviews(
       rating: widget.appData.rating,
       userReviews: widget.appData.userReviews,
+      appIsInstalled: widget.appIsInstalled,
     );
 
     final normalWindowAppHeader = BorderContainer(

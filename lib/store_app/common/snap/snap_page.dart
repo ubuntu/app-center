@@ -114,6 +114,7 @@ class _SnapPageState extends State<SnapPage> {
         ? const AppLoadingPage()
         : AppPage(
             appData: appData,
+            appIsInstalled: model.snapIsInstalled,
             permissionContainer: model.showPermissions
                 ? const BorderContainer(
                     child: SnapConnectionsSettings(),
