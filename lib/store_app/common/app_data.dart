@@ -32,8 +32,7 @@ class AppData {
   final List<String> screenShotUrls;
   final String description;
   final bool? versionChanged;
-  final double? rating;
-  final AppReview? review;
+  final double? averageRating;
   final List<AppReview>? userReviews;
 
   AppData({
@@ -53,8 +52,7 @@ class AppData {
     required this.screenShotUrls,
     required this.description,
     this.versionChanged,
-    this.rating,
-    this.review,
+    this.averageRating,
     this.userReviews,
   });
 }

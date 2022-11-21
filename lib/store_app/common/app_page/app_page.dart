@@ -44,6 +44,10 @@ class AppPage extends StatefulWidget {
     this.onReviewChanged,
     this.onReviewTitleChanged,
     this.onReviewUserChanged,
+    this.review,
+    this.reviewTitle,
+    this.reviewUser,
+    this.reviewRating,
   });
 
   final AppData appData;
@@ -53,6 +57,11 @@ class AppPage extends StatefulWidget {
   final Widget? subControlPageHeader;
   final Widget? subBannerHeader;
   final bool appIsInstalled;
+
+  final double? reviewRating;
+  final String? review;
+  final String? reviewTitle;
+  final String? reviewUser;
   final void Function(double)? onRatingUpdate;
   final void Function()? onReviewSend;
   final void Function(String)? onReviewChanged;
@@ -118,7 +127,11 @@ class _AppPageState extends State<AppPage> {
     );
 
     final ratingsAndReviews = AppReviews(
-      review: widget.appData.review,
+      reviewRating: widget.reviewRating,
+      review: widget.review,
+      reviewTitle: widget.reviewTitle,
+      reviewUser: widget.reviewUser,
+      averageRating: widget.appData.averageRating,
       userReviews: widget.appData.userReviews,
       appIsInstalled: widget.appIsInstalled,
       onRatingUpdate: widget.onRatingUpdate,
@@ -218,12 +231,7 @@ class _AppPageState extends State<AppPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: GestureDetector(
-        onHorizontalDragEnd: (details) {
-          Navigator.of(context).pop();
-        },
-        child: body,
-      ),
+      body: body,
     );
   }
 }

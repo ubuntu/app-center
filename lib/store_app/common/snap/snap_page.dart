@@ -98,7 +98,7 @@ class _SnapPageState extends State<SnapPage> {
           model.selectableChannels[model.channelToBeInstalled]?.version !=
               model.version,
       userReviews: model.userReviews,
-      // review: model.review,
+      averageRating: model.averageRating,
     );
 
     return !initialized
@@ -117,6 +117,14 @@ class _SnapPageState extends State<SnapPage> {
               size: 150,
             ),
             onReviewSend: model.sendReview,
+            onRatingUpdate: (v) => model.reviewRating = v,
+            onReviewTitleChanged: (v) => model.reviewTitle = v,
+            onReviewUserChanged: (v) => model.reviewUser = v,
+            onReviewChanged: (v) => model.review = v,
+            reviewRating: model.reviewRating,
+            review: model.review,
+            reviewTitle: model.reviewTitle,
+            reviewUser: model.reviewUser,
           );
   }
 }
