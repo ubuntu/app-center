@@ -17,7 +17,7 @@
 
 import 'package:flutter/material.dart';
 
-const kPagePadding = 25.0;
+const kPagePadding = 20.0;
 const kGridPadding = EdgeInsets.only(
   bottom: kPagePadding,
   left: kPagePadding,
