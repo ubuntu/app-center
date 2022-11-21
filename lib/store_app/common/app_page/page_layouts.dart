@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'dart:math';
 
 class PanedPageLayout extends StatelessWidget {
   const PanedPageLayout({
