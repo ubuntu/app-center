@@ -53,7 +53,7 @@ class AppReviews extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _ReviewPanel(
-              showReviewButton: appIsInstalled,
+              appIsInstalled: appIsInstalled,
               averageRating: averageRating,
               reviewRating: reviewRating,
               review: review,
@@ -87,7 +87,7 @@ class _ReviewPanel extends StatelessWidget {
     this.reviewTitle,
     this.reviewUser,
     this.reviewRating,
-    this.showReviewButton = false,
+    this.appIsInstalled = false,
   });
 
   final double? averageRating;
@@ -95,7 +95,7 @@ class _ReviewPanel extends StatelessWidget {
   final String? review;
   final String? reviewTitle;
   final String? reviewUser;
-  final bool showReviewButton;
+  final bool appIsInstalled;
 
   final void Function(double)? onRatingUpdate;
   final void Function()? onReviewSend;
@@ -137,6 +137,7 @@ class _ReviewPanel extends StatelessWidget {
                       onRatingUpdate!(rating);
                     }
                   },
+                  ignoreGestures: !appIsInstalled,
                 ),
                 const SizedBox(
                   width: 10,
@@ -144,7 +145,9 @@ class _ReviewPanel extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
-                    context.l10n.clickToRate,
+                    appIsInstalled
+                        ? context.l10n.clickToRate
+                        : context.l10n.notInstalled,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
@@ -153,7 +156,7 @@ class _ReviewPanel extends StatelessWidget {
             const SizedBox(
               width: kYaruPagePadding,
             ),
-            if (showReviewButton)
+            if (appIsInstalled)
               ElevatedButton(
                 onPressed: () => showDialog(
                   context: context,
