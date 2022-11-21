@@ -98,7 +98,8 @@ class _AppReviewsState extends State<AppReviews> {
                               ),
                               Text(
                                 DateFormat.yMd(Platform.localeName).format(
-                                    userReview.dateTime ?? DateTime.now()),
+                                  userReview.dateTime ?? DateTime.now(),
+                                ),
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                               const SizedBox(
@@ -131,8 +132,13 @@ class _AppReviewsState extends State<AppReviews> {
 }
 
 class _MyReview extends StatelessWidget {
-  const _MyReview(
-      {super.key, this.rating, this.onRatingUpdate, this.onReviewSend});
+  const _MyReview({
+    // ignore: unused_element
+    super.key,
+    this.rating,
+    this.onRatingUpdate,
+    this.onReviewSend,
+  });
 
   final double? rating;
 
@@ -178,8 +184,13 @@ class _MyReview extends StatelessWidget {
 }
 
 class _MyReviewDialog extends StatelessWidget {
-  const _MyReviewDialog(
-      {super.key, this.rating, this.onRatingUpdate, this.onReviewSend});
+  const _MyReviewDialog({
+    // ignore: unused_element
+    super.key,
+    this.rating,
+    this.onRatingUpdate,
+    this.onReviewSend,
+  });
 
   final double? rating;
 
@@ -219,6 +230,12 @@ class _MyReviewDialog extends StatelessWidget {
                 onReviewSend: onReviewSend,
               ),
             ),
+          ),
+          const SizedBox(
+            height: kYaruPagePadding,
+          ),
+          TextField(
+            decoration: InputDecoration(hintText: context.l10n.yourReviewName),
           ),
           const SizedBox(
             height: kYaruPagePadding,
