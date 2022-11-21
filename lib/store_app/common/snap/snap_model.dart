@@ -25,6 +25,8 @@ import 'package:snapd/snapd.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/app_data.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/utils.dart';
 
 class SnapModel extends SafeChangeNotifier {
@@ -264,6 +266,60 @@ class SnapModel extends SafeChangeNotifier {
   /// Helper getter to check if the publisher is a starred developer.
   bool get starredDeveloper =>
       publisher != null && publisher!.validation == 'starred';
+
+  double? _rating;
+  double? get rating => _rating;
+  set rating(double? value) {
+    if (value == _rating) return;
+    _rating = value;
+    notifyListeners();
+  }
+
+  String? _review;
+  String? get review => _review;
+  set review(String? value) {
+    if (value == _review) return;
+    _review = value;
+    notifyListeners();
+  }
+
+  String? _reviewTitle;
+  String? get reviewTitle => _reviewTitle;
+  set reviewTitle(String? value) {
+    if (value == _reviewTitle) return;
+    _reviewTitle = value;
+    notifyListeners();
+  }
+
+  String? _reviewUser;
+  String? get reviewUser => _reviewUser;
+  set reviewUser(String? value) {
+    if (value == _reviewUser) return;
+    _reviewUser = value;
+    notifyListeners();
+  }
+
+  void sendReview() {
+    // TODO: get and set real ratings and reviews from and to backend
+
+    // ignore: unused_local_variable
+    final newReview = AppReview(
+      rating: rating,
+      title: reviewTitle,
+      dateTime: DateTime.now(),
+      username: reviewUser,
+    );
+  }
+
+  final List<AppReview>? userReviews = [
+    for (var i = 0; i < 20; i++)
+      AppReview(
+        rating: 3.4,
+        review: kFakeReviewText,
+        dateTime: DateTime.now(),
+        username: null,
+      ),
+  ];
 
   /// Helper getter/setters for the change of this snap
   bool _snapChangeInProgress;

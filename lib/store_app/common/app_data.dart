@@ -33,6 +33,7 @@ class AppData {
   final String description;
   final bool? versionChanged;
   final double? rating;
+  final AppReview? review;
   final List<AppReview>? userReviews;
 
   AppData({
@@ -53,6 +54,7 @@ class AppData {
     required this.description,
     this.versionChanged,
     this.rating,
+    this.review,
     this.userReviews,
   });
 }
@@ -60,12 +62,14 @@ class AppData {
 class AppReview {
   final double? rating;
   final String? review;
+  final String? title;
   final DateTime? dateTime;
   final String? username;
 
   AppReview({
     this.rating,
     this.review,
+    this.title,
     this.dateTime,
     this.username,
   });

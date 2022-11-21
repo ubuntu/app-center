@@ -12,17 +12,23 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class AppReviews extends StatefulWidget {
   const AppReviews({
     super.key,
-    this.rating,
     this.userReviews,
     this.onRatingUpdate,
     this.onReviewSend,
     this.appIsInstalled = false,
+    this.review,
+    this.onReviewChanged,
+    this.onReviewTitleChanged,
+    this.onReviewUserChanged,
   });
 
-  final double? rating;
+  final AppReview? review;
   final List<AppReview>? userReviews;
   final void Function(double)? onRatingUpdate;
   final void Function()? onReviewSend;
+  final void Function(String)? onReviewChanged;
+  final void Function(String)? onReviewTitleChanged;
+  final void Function(String)? onReviewUserChanged;
   final bool appIsInstalled;
 
   @override
@@ -53,9 +59,12 @@ class _AppReviewsState extends State<AppReviews> {
           children: [
             if (widget.appIsInstalled)
               _MyReview(
-                rating: widget.rating,
+                review: widget.review,
                 onRatingUpdate: widget.onRatingUpdate,
                 onReviewSend: widget.onReviewSend,
+                onReviewChanged: widget.onReviewChanged,
+                onReviewTitleChanged: widget.onReviewTitleChanged,
+                onReviewUserChanged: widget.onReviewUserChanged,
               ),
             YaruCarousel(
               height: 200,
@@ -135,15 +144,21 @@ class _MyReview extends StatelessWidget {
   const _MyReview({
     // ignore: unused_element
     super.key,
-    this.rating,
     this.onRatingUpdate,
     this.onReviewSend,
+    this.onReviewChanged,
+    this.onReviewTitleChanged,
+    this.onReviewUserChanged,
+    this.review,
   });
 
-  final double? rating;
+  final AppReview? review;
 
   final void Function(double)? onRatingUpdate;
   final void Function()? onReviewSend;
+  final void Function(String)? onReviewChanged;
+  final void Function(String)? onReviewTitleChanged;
+  final void Function(String)? onReviewUserChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -153,27 +168,47 @@ class _MyReview extends StatelessWidget {
         const SizedBox(
           height: kYaruPagePadding,
         ),
-        RatingBar.builder(
-          initialRating: rating ?? 0,
-          minRating: 1,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemPadding: const EdgeInsets.only(right: 10),
-          itemSize: 50,
-          itemBuilder: (context, _) => const Icon(
-            YaruIcons.star,
-            color: Color.fromARGB(255, 247, 160, 31),
-            size: 2,
-          ),
-          onRatingUpdate: (rating) => showDialog(
-            context: context,
-            builder: (context) => _MyReviewDialog(
-              rating: rating,
-              onRatingUpdate: onRatingUpdate,
-              onReviewSend: onReviewSend,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RatingBar.builder(
+              initialRating: review?.rating ?? 0,
+              minRating: 1,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemPadding: const EdgeInsets.only(right: 10),
+              itemSize: 50,
+              itemBuilder: (context, _) => const Icon(
+                YaruIcons.star,
+                color: Color.fromARGB(255, 247, 160, 31),
+                size: 2,
+              ),
+              onRatingUpdate: (rating) {
+                if (onRatingUpdate != null) {
+                  onRatingUpdate!(rating);
+                }
+              },
             ),
-          ),
+            ElevatedButton(
+              onPressed: () => showDialog(
+                context: context,
+                builder: (context) => _MyReviewDialog(
+                  review: review,
+                  onRatingUpdate: (rating) {
+                    if (onRatingUpdate != null) {
+                      onRatingUpdate!(rating);
+                    }
+                  },
+                  onReviewSend: onReviewSend,
+                  onReviewChanged: onReviewChanged,
+                  onReviewTitleChanged: onReviewTitleChanged,
+                  onReviewUserChanged: onReviewUserChanged,
+                ),
+              ),
+              child: Text(context.l10n.yourReview),
+            )
+          ],
         ),
         const SizedBox(
           height: kYaruPagePadding,
@@ -183,19 +218,43 @@ class _MyReview extends StatelessWidget {
   }
 }
 
-class _MyReviewDialog extends StatelessWidget {
+class _MyReviewDialog extends StatefulWidget {
   const _MyReviewDialog({
     // ignore: unused_element
     super.key,
-    this.rating,
     this.onRatingUpdate,
     this.onReviewSend,
+    this.onReviewChanged,
+    this.onReviewTitleChanged,
+    this.onReviewUserChanged,
+    this.review,
   });
 
-  final double? rating;
+  final AppReview? review;
 
   final void Function(double)? onRatingUpdate;
+  final void Function(String)? onReviewChanged;
+  final void Function(String)? onReviewTitleChanged;
+  final void Function(String)? onReviewUserChanged;
   final void Function()? onReviewSend;
+
+  @override
+  State<_MyReviewDialog> createState() => _MyReviewDialogState();
+}
+
+class _MyReviewDialogState extends State<_MyReviewDialog> {
+  late TextEditingController _reviewController,
+      _reviewTitleController,
+      _reviewUserController;
+
+  @override
+  void initState() {
+    super.initState();
+    _reviewController = TextEditingController(text: widget.review?.review);
+    _reviewTitleController = TextEditingController(text: widget.review?.title);
+    _reviewUserController =
+        TextEditingController(text: widget.review?.username);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +269,7 @@ class _MyReviewDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RatingBar.builder(
-            initialRating: rating ?? 0,
+            initialRating: widget.review?.rating ?? 0,
             minRating: 1,
             direction: Axis.horizontal,
             allowHalfRating: true,
@@ -222,25 +281,22 @@ class _MyReviewDialog extends StatelessWidget {
               color: Color.fromARGB(255, 247, 160, 31),
               size: 2,
             ),
-            onRatingUpdate: (rating) => showDialog(
-              context: context,
-              builder: (context) => _MyReviewDialog(
-                rating: rating,
-                onRatingUpdate: onRatingUpdate,
-                onReviewSend: onReviewSend,
-              ),
-            ),
+            onRatingUpdate: (rating) => widget.onRatingUpdate,
           ),
           const SizedBox(
             height: kYaruPagePadding,
           ),
           TextField(
+            controller: _reviewUserController,
+            onChanged: widget.onReviewUserChanged,
             decoration: InputDecoration(hintText: context.l10n.yourReviewName),
           ),
           const SizedBox(
             height: kYaruPagePadding,
           ),
           TextField(
+            controller: _reviewTitleController,
+            onChanged: widget.onReviewTitleChanged,
             decoration: InputDecoration(hintText: context.l10n.yourReviewTitle),
           ),
           const SizedBox(
@@ -249,6 +305,8 @@ class _MyReviewDialog extends StatelessWidget {
           SizedBox(
             width: 500,
             child: TextField(
+              controller: _reviewController,
+              onChanged: widget.onReviewChanged,
               keyboardType: TextInputType.multiline,
               minLines: 10,
               maxLines: 10,
@@ -260,8 +318,8 @@ class _MyReviewDialog extends StatelessWidget {
       actions: [
         ElevatedButton(
           onPressed: () {
-            if (onReviewSend != null) {
-              onReviewSend!();
+            if (widget.onReviewSend != null) {
+              widget.onReviewSend!();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(context.l10n.reviewSent),

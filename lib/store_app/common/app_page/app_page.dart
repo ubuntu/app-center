@@ -39,6 +39,11 @@ class AppPage extends StatefulWidget {
     this.subControlPageHeader,
     this.subBannerHeader,
     this.appIsInstalled = false,
+    this.onRatingUpdate,
+    this.onReviewSend,
+    this.onReviewChanged,
+    this.onReviewTitleChanged,
+    this.onReviewUserChanged,
   });
 
   final AppData appData;
@@ -48,6 +53,11 @@ class AppPage extends StatefulWidget {
   final Widget? subControlPageHeader;
   final Widget? subBannerHeader;
   final bool appIsInstalled;
+  final void Function(double)? onRatingUpdate;
+  final void Function()? onReviewSend;
+  final void Function(String)? onReviewChanged;
+  final void Function(String)? onReviewTitleChanged;
+  final void Function(String)? onReviewUserChanged;
 
   @override
   State<AppPage> createState() => _AppPageState();
@@ -108,9 +118,14 @@ class _AppPageState extends State<AppPage> {
     );
 
     final ratingsAndReviews = AppReviews(
-      rating: widget.appData.rating,
+      review: widget.appData.review,
       userReviews: widget.appData.userReviews,
       appIsInstalled: widget.appIsInstalled,
+      onRatingUpdate: widget.onRatingUpdate,
+      onReviewSend: widget.onReviewSend,
+      onReviewChanged: widget.onReviewChanged,
+      onReviewTitleChanged: widget.onReviewTitleChanged,
+      onReviewUserChanged: widget.onReviewUserChanged,
     );
 
     final normalWindowAppHeader = BorderContainer(
