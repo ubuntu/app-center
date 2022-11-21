@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PanedPageLayout extends StatelessWidget {
   const PanedPageLayout({
@@ -68,15 +69,26 @@ class OnePageLayout extends StatelessWidget {
     super.key,
     required this.children,
     required this.windowSize,
+    this.adaptivePadding = false,
   });
 
   final List<Widget> children;
   final Size windowSize;
+  final bool adaptivePadding;
 
   @override
   Widget build(BuildContext context) {
+    final width = windowSize.width;
+    final hPadding = 10 + 0.0007 * pow((width - 700) * 0.9, 2);
     return ListView(
-      padding: const EdgeInsets.all(kPagePadding),
+      padding: adaptivePadding
+          ? EdgeInsets.only(
+              top: kYaruPagePadding,
+              bottom: kYaruPagePadding,
+              left: hPadding,
+              right: hPadding,
+            )
+          : const EdgeInsets.all(kYaruPagePadding),
       shrinkWrap: true,
       children: [
         for (final child in children)

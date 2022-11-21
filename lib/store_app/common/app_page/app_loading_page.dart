@@ -99,6 +99,7 @@ class AppLoadingPage extends StatelessWidget {
     );
 
     final normalWindowLayout = OnePageLayout(
+      adaptivePadding: true,
       windowSize: windowSize,
       children: [
         normalWindowAppHeader,

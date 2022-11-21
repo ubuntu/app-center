@@ -171,6 +171,7 @@ class _AppPageState extends State<AppPage> {
 
     final normalWindowLayout = OnePageLayout(
       windowSize: windowSize,
+      adaptivePadding: true,
       children: [
         normalWindowAppHeader,
         if (widget.subBannerHeader != null)

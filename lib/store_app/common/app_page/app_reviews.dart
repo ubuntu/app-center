@@ -113,22 +113,45 @@ class _ReviewPanel extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RatingBar.builder(
-              initialRating: averageRating ?? 0,
-              minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: const EdgeInsets.only(right: 10),
-              itemSize: 50,
-              itemBuilder: (context, _) => const Icon(
-                YaruIcons.star,
-                color: kRatingOrange,
-                size: 2,
-              ),
-              onRatingUpdate: (rating) {},
-              ignoreGestures: true,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RatingBar.builder(
+                  initialRating: reviewRating ?? 0,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: const EdgeInsets.only(right: 5),
+                  itemSize: 35,
+                  itemBuilder: (context, _) => const Icon(
+                    YaruIcons.star,
+                    color: kRatingOrange,
+                    size: 2,
+                  ),
+                  onRatingUpdate: (rating) {
+                    if (onRatingUpdate != null) {
+                      onRatingUpdate!(rating);
+                    }
+                  },
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    context.l10n.clickToRate,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              width: kYaruPagePadding,
             ),
             if (showReviewButton)
               ElevatedButton(
@@ -314,68 +337,110 @@ class __ReviewsCarouselState extends State<_ReviewsCarousel> {
     return YaruCarousel(
       height: 200,
       width: 1000,
+      placeIndicator: false,
       navigationControls: true,
       controller: _controller,
       children: [
         if (widget.userReviews != null)
           for (final userReview in widget.userReviews!)
-            Padding(
-              padding: const EdgeInsets.only(left: 0, right: 0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(
-                    height: kYaruPagePadding,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  height: kYaruPagePadding,
+                ),
+                _RatingHeader(userReview: userReview),
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: Text(
+                    userReview.review ?? '',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 5,
                   ),
-                  Row(
-                    children: [
-                      RatingBar.builder(
-                        initialRating: userReview.rating ?? 0,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.zero,
-                        itemSize: 15,
-                        itemBuilder: (context, _) => const Icon(
-                          YaruIcons.star,
-                          color: kRatingOrange,
-                          size: 2,
-                        ),
-                        onRatingUpdate: (rating) {},
-                        ignoreGestures: true,
+                ),
+                const SizedBox(
+                  height: kYaruPagePadding,
+                ),
+                OutlinedButton(
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) => SimpleDialog(
+                      title: YaruTitleBar(
+                        title: _RatingHeader(userReview: userReview),
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        DateFormat.yMd(Platform.localeName).format(
-                          userReview.dateTime ?? DateTime.now(),
-                        ),
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        userReview.username ?? context.l10n.unknown,
-                        style: Theme.of(context).textTheme.bodySmall,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                      titlePadding: EdgeInsets.zero,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(kYaruPagePadding),
+                          child: SizedBox(
+                            width: 400,
+                            child: Text(
+                              userReview.review ?? '',
+                              overflow: TextOverflow.visible,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(child: Text(userReview.review ?? '')),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
+                  child: Text(context.l10n.showMore),
+                )
+              ],
             )
+      ],
+    );
+  }
+}
+
+class _RatingHeader extends StatelessWidget {
+  const _RatingHeader({
+    Key? key,
+    required this.userReview,
+  }) : super(key: key);
+
+  final AppReview userReview;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        RatingBar.builder(
+          initialRating: userReview.rating ?? 0,
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemPadding: EdgeInsets.zero,
+          itemSize: 15,
+          itemBuilder: (context, _) => const Icon(
+            YaruIcons.star,
+            color: kRatingOrange,
+            size: 2,
+          ),
+          onRatingUpdate: (rating) {},
+          ignoreGestures: true,
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Text(
+          DateFormat.yMd(Platform.localeName).format(
+            userReview.dateTime ?? DateTime.now(),
+          ),
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Text(
+          userReview.username ?? context.l10n.unknown,
+          style: Theme.of(context).textTheme.bodySmall,
+          overflow: TextOverflow.ellipsis,
+        ),
       ],
     );
   }
