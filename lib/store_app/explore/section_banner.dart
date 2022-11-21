@@ -27,9 +27,10 @@ class SectionBanner extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 230),
       child: Padding(
         padding: const EdgeInsets.only(
+          top: 5,
           left: kYaruPagePadding + 5,
           right: kYaruPagePadding + 5,
-          bottom: kYaruPagePadding + 5,
+          bottom: kYaruPagePadding,
         ),
         child: InkWell(
           onTap: onTap,
