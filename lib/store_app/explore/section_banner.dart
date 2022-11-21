@@ -30,7 +30,7 @@ class SectionBanner extends StatelessWidget {
           top: 5,
           left: kYaruPagePadding + 5,
           right: kYaruPagePadding + 5,
-          bottom: kYaruPagePadding + 5,
+          bottom: kYaruPagePadding,
         ),
         child: InkWell(
           onTap: onTap,
