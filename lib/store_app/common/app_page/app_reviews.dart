@@ -90,7 +90,7 @@ class _AppReviewsState extends State<AppReviews> {
               onReviewTitleChanged: widget.onReviewTitleChanged,
               onReviewUserChanged: widget.onReviewUserChanged,
             ),
-            Divider(),
+            const Divider(),
             _ReviewsCarousel(
               userReviews: widget.userReviews,
               controller: _controller,
@@ -115,11 +115,11 @@ class _AppReviewsState extends State<AppReviews> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     YaruIconButton(
-                      icon: const Icon(YaruIcons.pan_start),
+                      icon: const Icon(YaruIcons.go_previous),
                       onPressed: () => _controller.previousPage(),
                     ),
                     YaruIconButton(
-                      icon: const Icon(YaruIcons.pan_end),
+                      icon: const Icon(YaruIcons.go_next),
                       onPressed: () => _controller.nextPage(),
                     )
                   ],
