@@ -42,22 +42,23 @@ class ConfirmationDialog extends StatefulWidget {
 class _ConfirmationDialogState extends State<ConfirmationDialog>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
-  late Animation sizeAnimation;
   late Animation colorAnimation;
 
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
-    sizeAnimation = Tween<double>(begin: 100.0, end: 400.0).animate(controller);
+
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+
     colorAnimation =
-        ColorTween(begin: Colors.red, end: Colors.red.withOpacity(0.2))
+        ColorTween(begin: Colors.red, end: Colors.red.withOpacity(0.5))
+            .chain(CurveTween(curve: Curves.easeInCubic))
             .animate(controller);
-    controller.addListener(() {
-      setState(() {});
-    });
-    controller.repeat();
+
+    controller.repeat(reverse: true);
   }
 
   @override
@@ -86,10 +87,13 @@ class _ConfirmationDialogState extends State<ConfirmationDialog>
               ),
             ),
           ),
-        Icon(
-          widget.iconData,
-          size: 100,
-          color: colorAnimation.value,
+        AnimatedBuilder(
+          animation: controller,
+          builder: (context, child) => Icon(
+            widget.iconData,
+            size: 100,
+            color: colorAnimation.value,
+          ),
         ),
         const SizedBox(
           height: 40,
