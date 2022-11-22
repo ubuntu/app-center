@@ -109,17 +109,8 @@ class _PackagePageState extends State<PackagePage> {
       version: widget.id.version,
       screenShotUrls: model.screenshotUrls,
       description: model.description,
-      // TODO: get real reviews from backend
-      userReviews: [
-        for (var i = 0; i < 20; i++)
-          AppReview(
-            rating: 3.4,
-            review:
-                'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-            dateTime: DateTime.now(),
-            username: null,
-          ),
-      ],
+      userReviews: model.userReviews,
+      averageRating: model.averageRating,
     );
     return !initialized
         ? const AppLoadingPage()
@@ -136,6 +127,15 @@ class _PackagePageState extends State<PackagePage> {
               remove: () => model.remove(),
               install: () => model.install(),
             ),
+            onReviewSend: model.sendReview,
+            onRatingUpdate: (v) => model.reviewRating = v,
+            onReviewTitleChanged: (v) => model.reviewTitle = v,
+            onReviewUserChanged: (v) => model.reviewUser = v,
+            onReviewChanged: (v) => model.review = v,
+            reviewRating: model.reviewRating,
+            review: model.review,
+            reviewTitle: model.reviewTitle,
+            reviewUser: model.reviewUser,
           );
   }
 }

@@ -20,14 +20,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/app_model.dart';
 import 'package:software/store_app/common/utils.dart';
 
-class SnapModel extends SafeChangeNotifier {
+class SnapModel extends AppModel {
   SnapModel(
     this._snapService, {
     required this.doneMessage,

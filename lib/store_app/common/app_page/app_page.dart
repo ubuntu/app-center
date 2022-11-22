@@ -38,6 +38,18 @@ class AppPage extends StatefulWidget {
     required this.controls,
     this.subControlPageHeader,
     this.subBannerHeader,
+    this.appIsInstalled = false,
+    this.onRatingUpdate,
+    this.onReviewSend,
+    this.onReviewChanged,
+    this.onReviewTitleChanged,
+    this.onReviewUserChanged,
+    this.review,
+    this.reviewTitle,
+    this.reviewUser,
+    this.reviewRating,
+    this.onVote,
+    this.onFlag,
   });
 
   final AppData appData;
@@ -46,6 +58,19 @@ class AppPage extends StatefulWidget {
   final Widget controls;
   final Widget? subControlPageHeader;
   final Widget? subBannerHeader;
+  final bool appIsInstalled;
+
+  final double? reviewRating;
+  final String? review;
+  final String? reviewTitle;
+  final String? reviewUser;
+  final void Function(double)? onRatingUpdate;
+  final void Function()? onReviewSend;
+  final void Function(String)? onReviewChanged;
+  final void Function(String)? onReviewTitleChanged;
+  final void Function(String)? onReviewUserChanged;
+  final Function(AppReview, bool)? onVote;
+  final Function(AppReview)? onFlag;
 
   @override
   State<AppPage> createState() => _AppPageState();
@@ -106,8 +131,20 @@ class _AppPageState extends State<AppPage> {
     );
 
     final ratingsAndReviews = AppReviews(
-      rating: widget.appData.rating,
+      reviewRating: widget.reviewRating,
+      review: widget.review,
+      reviewTitle: widget.reviewTitle,
+      reviewUser: widget.reviewUser,
+      averageRating: widget.appData.averageRating,
       userReviews: widget.appData.userReviews,
+      appIsInstalled: widget.appIsInstalled,
+      onRatingUpdate: widget.onRatingUpdate,
+      onReviewSend: widget.onReviewSend,
+      onReviewChanged: widget.onReviewChanged,
+      onReviewTitleChanged: widget.onReviewTitleChanged,
+      onReviewUserChanged: widget.onReviewUserChanged,
+      onVote: widget.onVote,
+      onFlag: widget.onFlag,
     );
 
     final normalWindowAppHeader = BorderContainer(
@@ -140,6 +177,7 @@ class _AppPageState extends State<AppPage> {
 
     final normalWindowLayout = OnePageLayout(
       windowSize: windowSize,
+      adaptivePadding: true,
       children: [
         normalWindowAppHeader,
         if (widget.subBannerHeader != null)
@@ -159,8 +197,8 @@ class _AppPageState extends State<AppPage> {
         ),
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
+        ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
-        ratingsAndReviews
       ],
     );
 
@@ -169,8 +207,8 @@ class _AppPageState extends State<AppPage> {
       rightChildren: [
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
+        ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
-        ratingsAndReviews
       ],
       windowSize: windowSize,
     );
@@ -181,8 +219,8 @@ class _AppPageState extends State<AppPage> {
         narrowWindowAppHeader,
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
+        ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
-        ratingsAndReviews
       ],
     );
 
@@ -200,12 +238,7 @@ class _AppPageState extends State<AppPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: GestureDetector(
-        onHorizontalDragEnd: (details) {
-          Navigator.of(context).pop();
-        },
-        child: body,
-      ),
+      body: body,
     );
   }
 }

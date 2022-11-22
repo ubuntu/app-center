@@ -19,11 +19,11 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
+import 'package:software/store_app/common/app_model.dart';
 
-class PackageModel extends SafeChangeNotifier {
+class PackageModel extends AppModel {
   final PackageService _service;
 
   String? _path;

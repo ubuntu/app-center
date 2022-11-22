@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PanedPageLayout extends StatelessWidget {
   const PanedPageLayout({
@@ -19,7 +20,7 @@ class PanedPageLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = windowSize.height;
     final width = windowSize.width;
-    final hPadding = 0.0004 * pow(width * 0.4, 2) - 20;
+    final hPadding = kPagePadding + 0.0004 * pow((width - 1200) * 0.8, 2);
     final appBarHeight =
         Theme.of(context).appBarTheme.toolbarHeight?.toDouble() ??
             kToolbarHeight;
@@ -29,7 +30,7 @@ class PanedPageLayout extends StatelessWidget {
         padding: EdgeInsets.only(
           top: kPagePadding,
           bottom: kPagePadding,
-          left: kPagePadding,
+          left: hPadding,
           right: hPadding,
         ),
         child: SizedBox(
@@ -68,15 +69,26 @@ class OnePageLayout extends StatelessWidget {
     super.key,
     required this.children,
     required this.windowSize,
+    this.adaptivePadding = false,
   });
 
   final List<Widget> children;
   final Size windowSize;
+  final bool adaptivePadding;
 
   @override
   Widget build(BuildContext context) {
+    final width = windowSize.width;
+    final hPadding = 10 + 0.0007 * pow((width - 700) * 0.9, 2);
     return ListView(
-      padding: const EdgeInsets.all(kPagePadding),
+      padding: adaptivePadding
+          ? EdgeInsets.only(
+              top: kYaruPagePadding,
+              bottom: kYaruPagePadding,
+              left: hPadding,
+              right: hPadding,
+            )
+          : const EdgeInsets.all(kYaruPagePadding),
       shrinkWrap: true,
       children: [
         for (final child in children)
