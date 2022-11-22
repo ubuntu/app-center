@@ -291,15 +291,8 @@ class _CarouselDialogState extends State<_CarouselDialog> {
         }
       },
       child: SimpleDialog(
-        title: Align(
-          alignment: Alignment.centerRight,
-          // TODO: fix YaruCloseButton alignement and reuse it
-          child: YaruIconButton(
-            padding: EdgeInsets.zero,
-            onPressed: Navigator.of(context).maybePop,
-            icon: const Icon(YaruIcons.window_close),
-            iconSize: 32.0,
-          ),
+        title: const YaruCloseButton(
+          alignement: Alignment.centerRight,
         ),
         contentPadding: const EdgeInsets.only(bottom: 20),
         titlePadding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 6.0),
