@@ -550,17 +550,37 @@ class _RatingHeader extends StatelessWidget {
               width: 10,
             ),
             IconButton(
-              icon: Text(
-                '${userReview.positiveVote ?? 1}↑',
-                style: Theme.of(context).textTheme.bodySmall,
+              icon: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '${userReview.positiveVote ?? 1}',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  Icon(
+                    Icons.arrow_upward,
+                    color: Theme.of(context).disabledColor,
+                    size: 16,
+                  )
+                ],
               ),
               onPressed:
                   onVote == null ? null : () => onVote!(userReview, false),
             ),
             IconButton(
-              icon: Text(
-                '${userReview.negativeVote ?? 1}↓',
-                style: Theme.of(context).textTheme.bodySmall,
+              icon: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '${userReview.negativeVote ?? 1}',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  Icon(
+                    Icons.arrow_downward,
+                    color: Theme.of(context).disabledColor,
+                    size: 16,
+                  )
+                ],
               ),
               onPressed:
                   onVote == null ? null : () => onVote!(userReview, true),
