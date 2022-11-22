@@ -487,6 +487,9 @@ class _ReviewsCarousel extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: kYaruPagePadding,
+                )
               ],
             )
       ],
