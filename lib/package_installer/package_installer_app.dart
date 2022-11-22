@@ -119,60 +119,62 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
               ),
               YaruSection(
                 width: MediaQuery.of(context).size.width / 2,
-                children: [
-                  YaruTile(
-                    title: Text(context.l10n.name),
-                    trailing: Text(model.packageId?.name ?? ''),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  YaruTile(
-                    title: Text(context.l10n.version),
-                    trailing: Text(model.packageId?.version ?? ''),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  YaruTile(
-                    title: Text(context.l10n.architecture),
-                    trailing: Text(model.packageId?.arch ?? ''),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  YaruTile(
-                    title: Text(context.l10n.source),
-                    trailing: Text(model.packageId?.data ?? ''),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  YaruTile(
-                    title: Text(context.l10n.license),
-                    trailing: Text(model.license),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  YaruTile(
-                    title: Text(context.l10n.size),
-                    trailing: Text(formatBytes(model.size, 2)),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  YaruTile(
-                    title: Text(context.l10n.description),
-                    trailing: Flexible(
-                      child: Text(
-                        model.description,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 12,
+                child: Column(
+                  children: [
+                    YaruTile(
+                      title: Text(context.l10n.name),
+                      trailing: Text(model.packageId?.name ?? ''),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    YaruTile(
+                      title: Text(context.l10n.version),
+                      trailing: Text(model.packageId?.version ?? ''),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    YaruTile(
+                      title: Text(context.l10n.architecture),
+                      trailing: Text(model.packageId?.arch ?? ''),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    YaruTile(
+                      title: Text(context.l10n.source),
+                      trailing: Text(model.packageId?.data ?? ''),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    YaruTile(
+                      title: Text(context.l10n.license),
+                      trailing: Text(model.license),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    YaruTile(
+                      title: Text(context.l10n.size),
+                      trailing: Text(formatBytes(model.size, 2)),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    YaruTile(
+                      title: Text(context.l10n.description),
+                      trailing: Flexible(
+                        child: Text(
+                          model.description,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 12,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(
                 width: 20,
