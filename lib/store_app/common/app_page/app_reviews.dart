@@ -10,7 +10,7 @@ import 'package:software/store_app/common/constants.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class AppReviews extends StatelessWidget {
+class AppReviews extends StatefulWidget {
   const AppReviews({
     super.key,
     this.averageRating,
@@ -39,6 +39,26 @@ class AppReviews extends StatelessWidget {
   final void Function(String)? onReviewTitleChanged;
   final void Function(String)? onReviewUserChanged;
   final bool appIsInstalled;
+
+  @override
+  State<AppReviews> createState() => _AppReviewsState();
+}
+
+class _AppReviewsState extends State<AppReviews> {
+  late YaruCarouselController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = YaruCarouselController(viewportFraction: 1);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BorderContainer(
@@ -53,22 +73,105 @@ class AppReviews extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _ReviewPanel(
-              appIsInstalled: appIsInstalled,
-              averageRating: averageRating,
-              reviewRating: reviewRating,
-              review: review,
-              reviewTitle: reviewTitle,
-              reviewUser: reviewUser,
-              onRatingUpdate: onRatingUpdate,
-              onReviewSend: onReviewSend,
-              onReviewChanged: onReviewChanged,
-              onReviewTitleChanged: onReviewTitleChanged,
-              onReviewUserChanged: onReviewUserChanged,
+              appIsInstalled: widget.appIsInstalled,
+              averageRating: widget.averageRating,
+              reviewRating: widget.reviewRating,
+              review: widget.review,
+              reviewTitle: widget.reviewTitle,
+              reviewUser: widget.reviewUser,
+              onRatingUpdate: widget.onRatingUpdate,
+              onReviewSend: widget.onReviewSend,
+              onReviewChanged: widget.onReviewChanged,
+              onReviewTitleChanged: widget.onReviewTitleChanged,
+              onReviewUserChanged: widget.onReviewUserChanged,
             ),
-            _ReviewsCarousel(userReviews: userReviews),
+            _ReviewsCarousel(
+              userReviews: widget.userReviews,
+              controller: _controller,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                OutlinedButton(
+                  onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) => _ReviewDetailsDialog(
+                      userReviews: widget.userReviews,
+                    ),
+                  ),
+                  child: Text(context.l10n.showAllReviews),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    YaruIconButton(
+                      icon: const Icon(YaruIcons.pan_start),
+                      onPressed: () => _controller.previousPage(),
+                    ),
+                    YaruIconButton(
+                      icon: const Icon(YaruIcons.pan_end),
+                      onPressed: () => _controller.nextPage(),
+                    )
+                  ],
+                )
+              ],
+            )
           ],
         ),
       ),
+    );
+  }
+}
+
+class _ReviewDetailsDialog extends StatelessWidget {
+  const _ReviewDetailsDialog({
+    Key? key,
+    required this.userReviews,
+  }) : super(key: key);
+
+  final List<AppReview>? userReviews;
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      title: YaruTitleBar(
+        title: Text(context.l10n.reviewsAndRatings),
+      ),
+      titlePadding: EdgeInsets.zero,
+      contentPadding: const EdgeInsets.only(
+        top: kYaruPagePadding,
+        bottom: kYaruPagePadding,
+      ),
+      children: userReviews == null
+          ? []
+          : userReviews!
+              .map(
+                (e) => BorderContainer(
+                  childPadding: const EdgeInsets.only(
+                    left: kYaruPagePadding,
+                    right: kYaruPagePadding,
+                    bottom: kYaruPagePadding,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _RatingHeader(userReview: e),
+                      const SizedBox(
+                        height: kYaruPagePadding,
+                      ),
+                      SizedBox(
+                        width: 400,
+                        child: Text(
+                          e.review ?? '',
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+              .toList(),
     );
   }
 }
@@ -128,7 +231,7 @@ class _ReviewPanel extends StatelessWidget {
                   itemPadding: const EdgeInsets.only(right: 5),
                   itemSize: 35,
                   itemBuilder: (context, _) => const Icon(
-                    YaruIcons.star,
+                    YaruIcons.star_filled,
                     color: kRatingOrange,
                     size: 2,
                   ),
@@ -237,7 +340,7 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
       titlePadding: EdgeInsets.zero,
       title: YaruTitleBar(
         title: Text(context.l10n.yourReview),
-        leading: const Icon(YaruIcons.star),
+        leading: const Icon(YaruIcons.star_filled),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -252,7 +355,7 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
             itemPadding: const EdgeInsets.only(right: 10),
             itemSize: 50,
             itemBuilder: (context, _) => const Icon(
-              YaruIcons.star,
+              YaruIcons.star_filled,
               color: kRatingOrange,
               size: 2,
             ),
@@ -313,27 +416,16 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
   }
 }
 
-class _ReviewsCarousel extends StatefulWidget {
+class _ReviewsCarousel extends StatelessWidget {
   const _ReviewsCarousel({
     // ignore: unused_element
     super.key,
     this.userReviews,
+    required this.controller,
   });
 
   final List<AppReview>? userReviews;
-
-  @override
-  State<_ReviewsCarousel> createState() => __ReviewsCarouselState();
-}
-
-class __ReviewsCarouselState extends State<_ReviewsCarousel> {
-  late YaruCarouselController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = YaruCarouselController(viewportFraction: 1);
-  }
+  final YaruCarouselController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -341,57 +433,34 @@ class __ReviewsCarouselState extends State<_ReviewsCarousel> {
       height: 200,
       width: 1000,
       placeIndicator: false,
-      navigationControls: true,
-      controller: _controller,
+      controller: controller,
       children: [
-        if (widget.userReviews != null)
-          for (final userReview in widget.userReviews!)
+        if (userReviews != null)
+          for (final userReview in userReviews!)
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const SizedBox(
-                  height: kYaruPagePadding,
-                ),
                 _RatingHeader(userReview: userReview),
                 const SizedBox(
                   height: 10,
                 ),
-                Expanded(
-                  child: Text(
-                    userReview.review ?? '',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 5,
-                  ),
-                ),
-                const SizedBox(
-                  height: kYaruPagePadding,
-                ),
-                OutlinedButton(
-                  onPressed: () => showDialog(
+                InkWell(
+                  borderRadius: BorderRadius.circular(kYaruButtonRadius),
+                  onTap: () => showDialog(
                     context: context,
-                    builder: (context) => SimpleDialog(
-                      title: YaruTitleBar(
-                        title: _RatingHeader(userReview: userReview),
-                      ),
-                      titlePadding: EdgeInsets.zero,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(kYaruPagePadding),
-                          child: SizedBox(
-                            width: 400,
-                            child: Text(
-                              userReview.review ?? '',
-                              overflow: TextOverflow.visible,
-                            ),
-                          ),
-                        )
-                      ],
+                    builder: (c) =>
+                        _ReviewDetailsDialog(userReviews: userReviews),
+                  ),
+                  child: Expanded(
+                    child: Text(
+                      userReview.review ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 8,
                     ),
                   ),
-                  child: Text(context.l10n.showMore),
-                )
+                ),
               ],
             )
       ],
@@ -420,7 +489,7 @@ class _RatingHeader extends StatelessWidget {
           itemPadding: EdgeInsets.zero,
           itemSize: 15,
           itemBuilder: (context, _) => const Icon(
-            YaruIcons.star,
+            YaruIcons.star_filled,
             color: kRatingOrange,
             size: 2,
           ),
