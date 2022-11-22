@@ -19,13 +19,11 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
-import 'package:software/store_app/common/app_data.dart';
-import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/app_model.dart';
 
-class PackageModel extends SafeChangeNotifier {
+class PackageModel extends AppModel {
   final PackageService _service;
 
   String? _path;
@@ -209,62 +207,4 @@ class PackageModel extends SafeChangeNotifier {
   @override
   String toString() =>
       'PackageModel($_packageId, $_path, ${describeEnum(_packageState)})';
-
-  // Static data from backend;
-  final double? averageRating = 5.0;
-
-  final List<AppReview>? userReviews = [
-    for (var i = 0; i < 20; i++)
-      AppReview(
-        rating: 3.4,
-        review: kFakeReviewText,
-        dateTime: DateTime.now(),
-        username: null,
-      ),
-  ];
-
-  // Setter getter to hold state before sending
-  double? _reviewRating;
-  double? get reviewRating => _reviewRating;
-  set reviewRating(double? value) {
-    if (value == null || value == _reviewRating) return;
-    _reviewRating = value;
-    notifyListeners();
-  }
-
-  String? _review;
-  String? get review => _review;
-  set review(String? value) {
-    if (value == null || value == _review) return;
-    _review = value;
-    notifyListeners();
-  }
-
-  String? _reviewTitle;
-  String? get reviewTitle => _reviewTitle;
-  set reviewTitle(String? value) {
-    if (value == null || value == _reviewTitle) return;
-    _reviewTitle = value;
-    notifyListeners();
-  }
-
-  String? _reviewUser;
-  String? get reviewUser => _reviewUser;
-  set reviewUser(String? value) {
-    if (value == null || value == _reviewUser) return;
-    _reviewUser = value;
-    notifyListeners();
-  }
-
-  void sendReview() {
-    // TODO: get and set real ratings and reviews from and to backend
-
-    // ignore: unused_local_variable
-    final newReview = AppReview(
-      rating: averageRating,
-      title: reviewTitle,
-      dateTime: DateTime.now(),
-      username: reviewUser,
-    );
-  }
 }

@@ -125,6 +125,8 @@ class _SnapPageState extends State<SnapPage> {
             review: model.review,
             reviewTitle: model.reviewTitle,
             reviewUser: model.reviewUser,
+            onVote: model.voteReview,
+            onFlag: model.flagReview,
           );
   }
 }

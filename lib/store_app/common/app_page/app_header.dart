@@ -91,7 +91,7 @@ class BannerAppHeader extends StatelessWidget {
                         itemPadding: EdgeInsets.zero,
                         itemSize: 15,
                         itemBuilder: (context, _) => const Icon(
-                          YaruIcons.star,
+                          YaruIcons.star_filled,
                           color: kRatingOrange,
                           size: 2,
                         ),
@@ -169,7 +169,7 @@ class PageAppHeader extends StatelessWidget {
               itemPadding: EdgeInsets.zero,
               itemSize: 15,
               itemBuilder: (context, _) => const Icon(
-                YaruIcons.star,
+                YaruIcons.star_filled,
                 color: kRatingOrange,
                 size: 2,
               ),
