@@ -20,6 +20,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:software/store_app/common/app_data.dart';
 import 'package:software/store_app/common/app_page/app_infos.dart';
 import 'package:software/store_app/common/app_website.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -82,19 +83,16 @@ class BannerAppHeader extends StatelessWidget {
                         ),
                       ),
                       RatingBar.builder(
-                        initialRating: appData.rating ?? 5,
+                        initialRating: appData.averageRating ?? 5,
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
                         itemCount: 5,
                         itemPadding: EdgeInsets.zero,
                         itemSize: 15,
-                        itemBuilder: (context, _) => Icon(
-                          YaruIcons.star_filled,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withOpacity(0.7),
+                        itemBuilder: (context, _) => const Icon(
+                          YaruIcons.star,
+                          color: kRatingOrange,
                           size: 2,
                         ),
                         onRatingUpdate: (rating) {},
@@ -163,16 +161,16 @@ class PageAppHeader extends StatelessWidget {
               onTap: () => launchUrl(Uri.parse(appData.website)),
             ),
             RatingBar.builder(
-              initialRating: appData.rating ?? 5,
+              initialRating: appData.averageRating ?? 5,
               minRating: 1,
               direction: Axis.horizontal,
               allowHalfRating: true,
               itemCount: 5,
               itemPadding: EdgeInsets.zero,
               itemSize: 15,
-              itemBuilder: (context, _) => Icon(
-                YaruIcons.star_filled,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+              itemBuilder: (context, _) => const Icon(
+                YaruIcons.star,
+                color: kRatingOrange,
                 size: 2,
               ),
               onRatingUpdate: (rating) {},
