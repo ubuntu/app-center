@@ -58,17 +58,23 @@ class AppData {
 }
 
 class AppReview {
+  final int? id;
   final double? rating;
   final String? review;
   final String? title;
   final DateTime? dateTime;
   final String? username;
+  final int? positiveVote;
+  final int? negativeVote;
 
   AppReview({
+    this.id,
     this.rating,
     this.review,
     this.title,
     this.dateTime,
     this.username,
+    this.positiveVote,
+    this.negativeVote,
   });
 }

@@ -48,6 +48,8 @@ class AppPage extends StatefulWidget {
     this.reviewTitle,
     this.reviewUser,
     this.reviewRating,
+    this.onVote,
+    this.onFlag,
   });
 
   final AppData appData;
@@ -67,6 +69,8 @@ class AppPage extends StatefulWidget {
   final void Function(String)? onReviewChanged;
   final void Function(String)? onReviewTitleChanged;
   final void Function(String)? onReviewUserChanged;
+  final Function(AppReview, bool)? onVote;
+  final Function(AppReview)? onFlag;
 
   @override
   State<AppPage> createState() => _AppPageState();
@@ -139,6 +143,8 @@ class _AppPageState extends State<AppPage> {
       onReviewChanged: widget.onReviewChanged,
       onReviewTitleChanged: widget.onReviewTitleChanged,
       onReviewUserChanged: widget.onReviewUserChanged,
+      onVote: widget.onVote,
+      onFlag: widget.onFlag,
     );
 
     final normalWindowAppHeader = BorderContainer(
@@ -191,8 +197,8 @@ class _AppPageState extends State<AppPage> {
         ),
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
+        ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
-        ratingsAndReviews
       ],
     );
 
@@ -201,8 +207,8 @@ class _AppPageState extends State<AppPage> {
       rightChildren: [
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
+        ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
-        ratingsAndReviews
       ],
       windowSize: windowSize,
     );
@@ -213,8 +219,8 @@ class _AppPageState extends State<AppPage> {
         narrowWindowAppHeader,
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
+        ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
-        ratingsAndReviews
       ],
     );
 

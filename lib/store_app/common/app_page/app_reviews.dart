@@ -25,6 +25,8 @@ class AppReviews extends StatefulWidget {
     this.reviewTitle,
     this.reviewUser,
     this.reviewRating,
+    this.onVote,
+    this.onFlag,
   });
 
   final double? averageRating;
@@ -38,6 +40,9 @@ class AppReviews extends StatefulWidget {
   final void Function(String)? onReviewChanged;
   final void Function(String)? onReviewTitleChanged;
   final void Function(String)? onReviewUserChanged;
+  final Function(AppReview, bool)? onVote;
+  final Function(AppReview)? onFlag;
+
   final bool appIsInstalled;
 
   @override
@@ -88,6 +93,8 @@ class _AppReviewsState extends State<AppReviews> {
             _ReviewsCarousel(
               userReviews: widget.userReviews,
               controller: _controller,
+              onVote: widget.onVote,
+              onFlag: widget.onFlag,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,6 +104,8 @@ class _AppReviewsState extends State<AppReviews> {
                     context: context,
                     builder: (context) => _ReviewDetailsDialog(
                       userReviews: widget.userReviews,
+                      onVote: widget.onVote,
+                      onFlag: widget.onFlag,
                     ),
                   ),
                   child: Text(context.l10n.showAllReviews),
@@ -127,9 +136,13 @@ class _ReviewDetailsDialog extends StatelessWidget {
   const _ReviewDetailsDialog({
     Key? key,
     required this.userReviews,
+    this.onVote,
+    this.onFlag,
   }) : super(key: key);
 
   final List<AppReview>? userReviews;
+  final Function(AppReview, bool)? onVote;
+  final Function(AppReview)? onFlag;
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +169,11 @@ class _ReviewDetailsDialog extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _RatingHeader(userReview: e),
+                      _RatingHeader(
+                        userReview: e,
+                        onVote: onVote,
+                        onFlag: onFlag,
+                      ),
                       const SizedBox(
                         height: kYaruPagePadding,
                       ),
@@ -422,10 +439,14 @@ class _ReviewsCarousel extends StatelessWidget {
     super.key,
     this.userReviews,
     required this.controller,
+    this.onVote,
+    this.onFlag,
   });
 
   final List<AppReview>? userReviews;
   final YaruCarouselController controller;
+  final Function(AppReview, bool)? onVote;
+  final Function(AppReview)? onFlag;
 
   @override
   Widget build(BuildContext context) {
@@ -442,7 +463,11 @@ class _ReviewsCarousel extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                _RatingHeader(userReview: userReview),
+                _RatingHeader(
+                  userReview: userReview,
+                  onFlag: onFlag,
+                  onVote: onVote,
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -472,47 +497,83 @@ class _RatingHeader extends StatelessWidget {
   const _RatingHeader({
     Key? key,
     required this.userReview,
+    this.onVote,
+    this.onFlag,
   }) : super(key: key);
 
   final AppReview userReview;
+  final Function(AppReview, bool)? onVote;
+  final Function(AppReview)? onFlag;
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        RatingBar.builder(
-          initialRating: userReview.rating ?? 0,
-          minRating: 1,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemPadding: EdgeInsets.zero,
-          itemSize: 15,
-          itemBuilder: (context, _) => const Icon(
-            YaruIcons.star_filled,
-            color: kRatingOrange,
-            size: 2,
+        Row(
+          children: [
+            RatingBar.builder(
+              initialRating: userReview.rating ?? 0,
+              minRating: 1,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemPadding: EdgeInsets.zero,
+              itemSize: 15,
+              itemBuilder: (context, _) => const Icon(
+                YaruIcons.star_filled,
+                color: kRatingOrange,
+                size: 2,
+              ),
+              onRatingUpdate: (rating) {},
+              ignoreGestures: true,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              DateFormat.yMd(Platform.localeName).format(
+                userReview.dateTime ?? DateTime.now(),
+              ),
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              userReview.username ?? context.l10n.unknown,
+              style: Theme.of(context).textTheme.bodySmall,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            IconButton(
+              icon: Text(
+                '${userReview.positiveVote ?? 1}↑',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              onPressed:
+                  onVote == null ? null : () => onVote!(userReview, false),
+            ),
+            IconButton(
+              icon: Text(
+                '${userReview.negativeVote ?? 1}↓',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              onPressed:
+                  onVote == null ? null : () => onVote!(userReview, true),
+            ),
+          ],
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.flag_rounded,
+            size: 16,
+            color: Theme.of(context).disabledColor,
           ),
-          onRatingUpdate: (rating) {},
-          ignoreGestures: true,
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Text(
-          DateFormat.yMd(Platform.localeName).format(
-            userReview.dateTime ?? DateTime.now(),
-          ),
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Text(
-          userReview.username ?? context.l10n.unknown,
-          style: Theme.of(context).textTheme.bodySmall,
-          overflow: TextOverflow.ellipsis,
-        ),
+          onPressed: onFlag == null ? null : () => onFlag!(userReview),
+        )
       ],
     );
   }
