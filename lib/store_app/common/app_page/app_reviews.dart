@@ -90,6 +90,7 @@ class _AppReviewsState extends State<AppReviews> {
               onReviewTitleChanged: widget.onReviewTitleChanged,
               onReviewUserChanged: widget.onReviewUserChanged,
             ),
+            Divider(),
             _ReviewsCarousel(
               userReviews: widget.userReviews,
               controller: _controller,
