@@ -472,14 +472,14 @@ class _ReviewsCarousel extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                InkWell(
-                  borderRadius: BorderRadius.circular(kYaruButtonRadius),
-                  onTap: () => showDialog(
-                    context: context,
-                    builder: (c) =>
-                        _ReviewDetailsDialog(userReviews: userReviews),
-                  ),
-                  child: Expanded(
+                Expanded(
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(kYaruButtonRadius),
+                    onTap: () => showDialog(
+                      context: context,
+                      builder: (c) =>
+                          _ReviewDetailsDialog(userReviews: userReviews),
+                    ),
                     child: Text(
                       userReview.review ?? '',
                       overflow: TextOverflow.ellipsis,

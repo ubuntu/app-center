@@ -19,12 +19,11 @@ jobs:
           channel: "stable"
       - run: sudo apt -y install git curl cmake ninja-build make clang libgtk-3-dev pkg-config
       - run: flutter build linux -v
-  
+
   with-flutter-snap:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - run: sudo snap install flutter --classic
-    - run: flutter build linux -v
-      
+      - uses: actions/checkout@v2
+      - run: sudo snap install flutter --classic
+      - run: flutter build linux -v
