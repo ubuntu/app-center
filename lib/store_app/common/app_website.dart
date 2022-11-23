@@ -16,6 +16,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
@@ -23,17 +24,17 @@ class AppWebsite extends StatelessWidget {
   const AppWebsite({
     Key? key,
     required this.website,
-    required this.verified,
+    this.verified,
     this.starredDeveloper = false,
-    required this.publisherName,
+    this.publisherName,
     this.height = 15.0,
     this.onTap,
   }) : super(key: key);
 
   final String website;
-  final bool verified;
-  final bool starredDeveloper;
-  final String publisherName;
+  final bool? verified;
+  final bool? starredDeveloper;
+  final String? publisherName;
   final double height;
   final Function()? onTap;
 
@@ -44,13 +45,13 @@ class AppWebsite extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (verified)
+          if (verified == true)
             Icon(
               Icons.verified,
               size: height,
               color: YaruColors.success,
             ),
-          if (starredDeveloper)
+          if (starredDeveloper == true)
             Padding(
               padding: const EdgeInsets.only(right: 5),
               child: Container(
@@ -69,14 +70,14 @@ class AppWebsite extends StatelessWidget {
                 ),
               ),
             ),
-          if (website.isNotEmpty)
+          if (publisherName != null || website.isNotEmpty)
             Padding(
               padding: EdgeInsets.only(
-                left: verified ? height / 3 : 0,
+                left: verified == true ? height / 3 : 0,
                 right: height / 3,
               ),
               child: Text(
-                publisherName,
+                publisherName ?? context.l10n.website,
                 style: TextStyle(
                   fontSize: height,
                   overflow: TextOverflow.visible,
@@ -85,7 +86,8 @@ class AppWebsite extends StatelessWidget {
             ),
           if (website.isNotEmpty && onTap != null)
             Padding(
-              padding: EdgeInsets.only(right: verified ? height / 3 : 0),
+              padding:
+                  EdgeInsets.only(right: verified == true ? height / 3 : 0),
               child: Icon(
                 YaruIcons.external_link,
                 color: Theme.of(context).colorScheme.onSurface,

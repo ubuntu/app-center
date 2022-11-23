@@ -101,7 +101,6 @@ class _PackagePageState extends State<PackagePage> {
       strict: false,
       verified: false,
       starredDeveloper: false,
-      publisherName: context.l10n.website,
       website: model.url,
       summary: model.summary,
       title: widget.id.name,

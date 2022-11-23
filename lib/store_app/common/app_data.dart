@@ -27,7 +27,7 @@ class AppData {
   final String? installDateIsoNorm;
   final bool verified;
   final bool starredDeveloper;
-  final String publisherName;
+  final String? publisherName;
   final String website;
   final List<String> screenShotUrls;
   final String description;
@@ -47,7 +47,7 @@ class AppData {
     this.installDateIsoNorm,
     required this.verified,
     required this.starredDeveloper,
-    required this.publisherName,
+    this.publisherName,
     required this.website,
     required this.screenShotUrls,
     required this.description,

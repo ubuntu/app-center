@@ -79,7 +79,11 @@ class MultiAppFormatPopup extends StatelessWidget {
             ),
         ];
       },
-      child: Text(context.l10n.appFormat),
+      child: Text(
+        appFormats.length == AppFormat.values.length
+            ? context.l10n.allPackageTypes
+            : appFormats.first.localize(context.l10n),
+      ),
     );
   }
 }
