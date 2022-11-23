@@ -5,8 +5,8 @@ import 'package:packagekit/packagekit.dart';
 import 'package:software/services/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-String? bestLanguageKey(Iterable<String> keys) {
-  final locale = PlatformDispatcher.instance.locale;
+String? bestLanguageKey(Iterable<String> keys, {Locale? locale}) {
+  locale = locale ?? PlatformDispatcher.instance.locale;
   if (locale.toLanguageTag() != 'und') {
     var key = '${locale.languageCode}_${locale.countryCode}';
     if (keys.contains(key)) return key;
@@ -19,10 +19,12 @@ String? bestLanguageKey(Iterable<String> keys) {
 }
 
 extension LocalizedComponent on AppstreamComponent {
-  String get localizedName => name[bestLanguageKey(name.keys)] ?? '';
-  String get localizedSummary => summary[bestLanguageKey(summary.keys)] ?? '';
-  String get localizedDescription =>
-      description[bestLanguageKey(description.keys)] ?? '';
+  String localizedName({Locale? locale}) =>
+      name[bestLanguageKey(name.keys, locale: locale)] ?? '';
+  String localizedSummary({Locale? locale}) =>
+      summary[bestLanguageKey(summary.keys, locale: locale)] ?? '';
+  String localizedDescription({Locale? locale}) =>
+      description[bestLanguageKey(description.keys, locale: locale)] ?? '';
 }
 
 extension PackageKitId on AppstreamComponent {

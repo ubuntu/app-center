@@ -135,8 +135,8 @@ class _AppstreamSearchPageState extends State<_AppstreamSearchPage> {
                 itemBuilder: (context, index) {
                   final component = snapshot.data![index];
                   return YaruBanner(
-                    title: Text(component.localizedName),
-                    subtitle: Text(component.localizedSummary),
+                    title: Text(component.localizedName()),
+                    subtitle: Text(component.localizedSummary()),
                     icon: AppIcon(
                       iconUrl: component.remoteIcon,
                     ),
@@ -261,7 +261,7 @@ class _CombinedSearchPage extends StatelessWidget {
                       children: [
                         Text(
                           e.value.snap?.summary ??
-                              e.value.component?.localizedSummary ??
+                              e.value.component?.localizedSummary() ??
                               '',
                           overflow: TextOverflow.ellipsis,
                         ),

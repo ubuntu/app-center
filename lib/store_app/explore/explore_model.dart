@@ -201,7 +201,7 @@ class ExploreModel extends SafeChangeNotifier {
           snaps.firstWhereOrNull((snap) => snap.name == component.package);
       if (snap == null) {
         appFindings.putIfAbsent(
-          component.localizedName,
+          component.localizedName(),
           () => AppFinding(component: component),
         );
       } else {
