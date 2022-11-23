@@ -65,6 +65,7 @@ class MultiAppFormatPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruPopupMenuButton<AppFormat>(
+      tooltip: context.l10n.appFormat,
       itemBuilder: (context) {
         return [
           for (final appFormat in AppFormat.values)
