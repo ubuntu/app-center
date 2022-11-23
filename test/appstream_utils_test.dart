@@ -82,4 +82,43 @@ void main() {
     );
     expect(await component.packageKitId, firefoxId);
   });
+
+  test('Icons extension on AppstreamComponent', () {
+    const component1 = AppstreamComponent(
+      id: '',
+      type: AppstreamComponentType.desktopApplication,
+      package: '',
+      name: {},
+      summary: {},
+    );
+    expect(component1.remoteIcon, isNull);
+
+    const component2 = AppstreamComponent(
+      id: '',
+      type: AppstreamComponentType.desktopApplication,
+      package: '',
+      name: {},
+      summary: {},
+      icons: [
+        AppstreamCachedIcon('icon.png'),
+        AppstreamStockIcon('icon'),
+      ],
+    );
+    expect(component2.remoteIcon, isNull);
+
+    const component3 = AppstreamComponent(
+      id: '',
+      type: AppstreamComponentType.desktopApplication,
+      package: '',
+      name: {},
+      summary: {},
+      icons: [
+        AppstreamCachedIcon('icon1.png'),
+        AppstreamCachedIcon('icon2.png'),
+        AppstreamRemoteIcon('https://example.org/icon.png'),
+        AppstreamStockIcon('icon'),
+      ],
+    );
+    expect(component3.remoteIcon, 'https://example.org/icon.png');
+  });
 }
