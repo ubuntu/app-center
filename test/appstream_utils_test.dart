@@ -2,7 +2,13 @@ import 'dart:ui';
 
 import 'package:appstream/appstream.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:software/appstream_utils.dart';
+import 'package:software/services/package_service.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
+
+class MockPackageService extends Mock implements PackageService {}
 
 void main() {
   test('best language key', () {
@@ -29,7 +35,7 @@ void main() {
     );
   });
 
-  test('localized component', () {
+  test('LocalizedComponent extension on AppstreamComponent', () {
     const component = AppstreamComponent(
       id: 'id',
       type: AppstreamComponentType.desktopApplication,
@@ -57,5 +63,23 @@ void main() {
       component.localizedDescription(locale: localeEs),
       'fallback description',
     );
+  });
+
+  test('PackageKitId extension on AppstreamComponent', () async {
+    final packageServiceMock = MockPackageService();
+    const firefoxId = PackageKitPackageId(name: 'firefox', version: '107.0');
+    when(() => packageServiceMock.resolve('firefox')).thenAnswer(
+      (_) => Future.value(firefoxId),
+    );
+    registerMockService<PackageService>(packageServiceMock);
+
+    const component = AppstreamComponent(
+      id: '',
+      type: AppstreamComponentType.desktopApplication,
+      package: 'firefox',
+      name: {'C': 'name'},
+      summary: {'C': 'summary'},
+    );
+    expect(await component.packageKitId, firefoxId);
   });
 }
