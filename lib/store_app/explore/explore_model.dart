@@ -128,15 +128,6 @@ class ExploreModel extends SafeChangeNotifier {
   Map<SnapSection, List<Snap>> get sectionNameToSnapsMap =>
       _snapService.sectionNameToSnapsMap;
 
-  Future<List<PackageKitPackageId>> findPackageKitPackageIds() async =>
-      _packageService.findPackageKitPackageIds(
-        searchQuery: [
-          searchQuery,
-          if (packageKitGroup != null) packageKitGroup!.name
-        ],
-        filter: packageKitFilters,
-      );
-
   Future<List<AppstreamComponent>> findAppstreamComponents() async =>
       _appstreamService.search(searchQuery);
 

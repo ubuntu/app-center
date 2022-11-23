@@ -363,19 +363,6 @@ void main() {
     ]);
   });
 
-  test('find package ids', () async {
-    final service = PackageService();
-
-    final results =
-        await service.findPackageKitPackageIds(searchQuery: ['fire']);
-    expect(results.length, 2);
-    expect(results[0], firefoxPackageId);
-    expect(
-      results[1],
-      const PackageKitPackageId(name: 'firejail', version: '0.9.66-2'),
-    );
-  });
-
   test('toggle repo', () async {
     final service = PackageService();
 
