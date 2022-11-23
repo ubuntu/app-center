@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/services/appstream_service.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/explore/explore_header.dart';
@@ -36,6 +37,7 @@ class ExplorePage extends StatelessWidget {
     if (!online) return const OfflinePage();
     return ChangeNotifierProvider(
       create: (_) => ExploreModel(
+        getService<AppstreamService>(),
         getService<SnapService>(),
         getService<PackageService>(),
       ),

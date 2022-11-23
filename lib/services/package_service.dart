@@ -459,6 +459,21 @@ class PackageService {
     return completer.future.whenComplete(subscription.cancel);
   }
 
+  Future<PackageKitPackageId> resolve(String name) async {
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    var id = PackageKitPackageId(name: name, version: '');
+    final subscription = transaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        id = event.packageId;
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+    transaction.resolve([name]);
+    return completer.future.then((_) => id).whenComplete(subscription.cancel);
+  }
+
   Future<void> getDetails({required PackageModel model}) async {
     if (model.packageId == null) throw const MissingPackageIDException();
     model.packageState = PackageState.processing;

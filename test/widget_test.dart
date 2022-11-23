@@ -4,11 +4,14 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:software/services/appstream_service.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/store_app.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+
+class MockAppstreamService extends Mock implements AppstreamService {}
 
 class MockConnectivity extends Mock implements Connectivity {}
 
@@ -26,6 +29,9 @@ void main() {
         .thenAnswer((_) => connectivityChangedController.stream);
     when(connectivityMock.checkConnectivity)
         .thenAnswer((_) async => ConnectivityResult.none);
+
+    final appstreamServiceMock = MockAppstreamService();
+    registerMockService<AppstreamService>(appstreamServiceMock);
 
     final packageServiceMock = MockPackageService();
     registerMockService<PackageService>(packageServiceMock);

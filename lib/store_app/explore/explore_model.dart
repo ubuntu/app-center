@@ -17,9 +17,13 @@
 
 import 'dart:async';
 
+import 'package:appstream/appstream.dart';
+import 'package:collection/collection.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/appstream_utils.dart';
+import 'package:software/services/appstream_service.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
@@ -28,6 +32,7 @@ import 'package:software/store_app/common/snap/snap_sort.dart';
 import 'package:software/updates_state.dart';
 
 class ExploreModel extends SafeChangeNotifier {
+  final AppstreamService _appstreamService;
   final SnapService _snapService;
   final PackageService _packageService;
   StreamSubscription<UpdatesState>? _updatesStateSub;
@@ -59,6 +64,7 @@ class ExploreModel extends SafeChangeNotifier {
   }
 
   ExploreModel(
+    this._appstreamService,
     this._snapService,
     this._packageService,
   )   : _searchQuery = '',
@@ -131,6 +137,9 @@ class ExploreModel extends SafeChangeNotifier {
         filter: packageKitFilters,
       );
 
+  Future<List<AppstreamComponent>> findAppstreamComponents() async =>
+      _appstreamService.search(searchQuery);
+
   AppFormat _appFormat = AppFormat.snap;
   AppFormat get appFormat => _appFormat;
   void setAppFormat(AppFormat value) {
@@ -186,26 +195,19 @@ class ExploreModel extends SafeChangeNotifier {
       appFindings.putIfAbsent(snap.name, () => AppFinding(snap: snap));
     }
 
-    final packages = await findPackageKitPackageIds();
-    for (final package in packages) {
-      Snap? foundSnap;
-      for (var snap in snaps) {
-        if (snap.name == package.name) {
-          foundSnap = snap;
-        }
-      }
-      if (foundSnap != null) {
-        appFindings.update(
-          foundSnap.name,
-          (value) => AppFinding(
-            snap: foundSnap,
-            packageId: package,
-          ),
+    final components = await findAppstreamComponents();
+    for (final component in components) {
+      final snap =
+          snaps.firstWhereOrNull((snap) => snap.name == component.package);
+      if (snap == null) {
+        appFindings.putIfAbsent(
+          component.localizedName,
+          () => AppFinding(component: component),
         );
       } else {
-        appFindings.putIfAbsent(
-          package.name,
-          () => AppFinding(packageId: package),
+        appFindings.update(
+          snap.name,
+          (value) => AppFinding(snap: snap, component: component),
         );
       }
     }
@@ -216,12 +218,12 @@ class ExploreModel extends SafeChangeNotifier {
 
 class AppFinding {
   final Snap? snap;
-  final PackageKitPackageId? packageId;
+  final AppstreamComponent? component;
   final double? rating;
 
   AppFinding({
     this.snap,
-    this.packageId,
+    this.component,
     this.rating,
   });
 }
