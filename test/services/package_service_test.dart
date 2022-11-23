@@ -70,6 +70,17 @@ void main() {
       ),
     ).thenAnswer((_) => emitFinishedEvent(controller));
 
+    when(() => transaction.resolve(['firefox'])).thenAnswer((_) {
+      controller.add(
+        const PackageKitPackageEvent(
+          info: PackageKitInfo.available,
+          packageId: firefoxPackageId,
+          summary: '',
+        ),
+      );
+      return emitFinishedEvent(controller);
+    });
+
     when(() => transaction.getDetails([firefoxPackageId])).thenAnswer((_) {
       controller.add(
         PackageKitDetailsEvent(
@@ -401,6 +412,11 @@ void main() {
         hints: any(named: 'hints'),
       ),
     ).called(1);
+  });
+
+  test('resolve package id', () async {
+    final service = PackageService();
+    expect(await service.resolve('firefox'), firefoxPackageId);
   });
 
   test('get details about local package', () async {
