@@ -230,14 +230,14 @@ class _UpdatingPageState extends State<_UpdatingPage> {
 
     final children = [
       Text(
-        model.processedId != null ? model.processedId!.name : '',
+        model.info != null ? model.info!.name : '',
         style: Theme.of(context).textTheme.headlineMedium,
       ),
       const SizedBox(
         height: 20,
       ),
       Text(
-        model.info != null ? model.info!.name : '',
+        model.processedId != null ? model.processedId!.name : '',
         style: Theme.of(context).textTheme.titleLarge,
       ),
       const SizedBox(
