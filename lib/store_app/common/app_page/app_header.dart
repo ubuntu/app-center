@@ -76,12 +76,14 @@ class BannerAppHeader extends StatelessWidget {
                         publisherName: appData.publisherName,
                         onTap: () => launchUrl(Uri.parse(appData.website)),
                       ),
-                      const SizedBox(
-                        height: 15,
-                        child: VerticalDivider(
-                          width: 20,
+                      if (appData.publisherName != null ||
+                          appData.website.isNotEmpty)
+                        const SizedBox(
+                          height: 15,
+                          child: VerticalDivider(
+                            width: 20,
+                          ),
                         ),
-                      ),
                       RatingBar.builder(
                         initialRating: appData.averageRating ?? 5,
                         minRating: 1,

@@ -65,6 +65,7 @@ class MultiAppFormatPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruPopupMenuButton<AppFormat>(
+      tooltip: context.l10n.appFormat,
       itemBuilder: (context) {
         return [
           for (final appFormat in AppFormat.values)
@@ -79,7 +80,11 @@ class MultiAppFormatPopup extends StatelessWidget {
             ),
         ];
       },
-      child: Text(context.l10n.appFormat),
+      child: Text(
+        appFormats.length == AppFormat.values.length
+            ? context.l10n.allPackageTypes
+            : appFormats.first.localize(context.l10n),
+      ),
     );
   }
 }
