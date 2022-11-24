@@ -116,9 +116,13 @@ class _ScoredComponent {
 class AppstreamService {
   final AppstreamPool _pool;
   late final Future<void> _loader = _pool.load().then((_) => _populateCache());
-  // TODO: re-populate the cache when the current locale changes
 
-  AppstreamService() : _pool = AppstreamPool();
+  AppstreamService() : _pool = AppstreamPool() {
+    PlatformDispatcher.instance.onLocaleChanged = () async {
+      await _loader;
+      _populateCache();
+    };
+  }
 
   final HashSet<_CachedComponent> _cache = HashSet<_CachedComponent>();
 
