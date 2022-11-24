@@ -15,9 +15,11 @@
  *
  */
 
+import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
+import 'package:software/appstream_utils.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/app_data.dart';
@@ -32,42 +34,52 @@ class PackagePage extends StatefulWidget {
   const PackagePage({
     super.key,
     required this.noUpdate,
-    required this.id,
-    required this.installedId,
+    required this.packageId,
+    this.appstream,
   });
 
   final bool noUpdate;
-  final PackageKitPackageId id;
-  final PackageKitPackageId installedId;
+  final PackageKitPackageId packageId;
+  final AppstreamComponent? appstream;
 
   static Widget create({
     required BuildContext context,
-    required PackageKitPackageId id,
-    required PackageKitPackageId installedId,
+    required PackageKitPackageId packageId,
+    AppstreamComponent? appstream,
     bool noUpdate = true,
   }) {
     return ChangeNotifierProvider(
-      create: (context) =>
-          PackageModel(service: getService<PackageService>(), packageId: id),
+      create: (context) => PackageModel(
+        service: getService<PackageService>(),
+        packageId: packageId,
+        appstream: appstream,
+      ),
       child: PackagePage(
         noUpdate: noUpdate,
-        id: id,
-        installedId: installedId,
+        packageId: packageId,
+        appstream: appstream,
       ),
     );
   }
 
-  static Future<void> push(BuildContext context, PackageKitPackageId id) {
-    return Navigator.push(
-      context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          return PackagePage.create(
-            context: context,
-            id: id,
-            installedId: id,
-          );
-        },
+  static Future<void> push(
+    BuildContext context, {
+    PackageKitPackageId? id,
+    AppstreamComponent? appstream,
+  }) {
+    assert(id != null || appstream != null);
+    return (id == null ? appstream!.packageKitId : Future.value(id)).then(
+      (id) => Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) {
+            return PackagePage.create(
+              context: context,
+              packageId: id,
+              appstream: appstream,
+            );
+          },
+        ),
       ),
     );
   }
@@ -103,9 +115,9 @@ class _PackagePageState extends State<PackagePage> {
       starredDeveloper: false,
       website: model.url,
       summary: model.summary,
-      title: widget.id.name,
-      name: widget.id.name,
-      version: widget.id.version,
+      title: widget.packageId.name,
+      name: widget.packageId.name,
+      version: widget.packageId.version,
       screenShotUrls: model.screenshotUrls,
       description: model.description,
       userReviews: model.userReviews,

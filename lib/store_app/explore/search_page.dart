@@ -133,22 +133,22 @@ class _AppstreamSearchPageState extends State<_AppstreamSearchPage> {
                 shrinkWrap: true,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  final component = snapshot.data![index];
+                  final appstream = snapshot.data![index];
                   return YaruBanner(
                     title: Text(
-                      component.localizedName(),
+                      appstream.localizedName(),
                       overflow: TextOverflow.ellipsis,
                     ),
                     subtitle: Text(
-                      component.localizedSummary(),
+                      appstream.localizedSummary(),
                       overflow: TextOverflow.ellipsis,
                     ),
                     icon: AppIcon(
-                      iconUrl: component.remoteIcon,
+                      iconUrl: appstream.remoteIcon,
                     ),
                     iconPadding: const EdgeInsets.only(left: 10, right: 5),
-                    onTap: () => component.packageKitId
-                        .then((id) => PackagePage.push(context, id)),
+                    onTap: () =>
+                        PackagePage.push(context, appstream: appstream),
                   );
                 },
               )
@@ -267,7 +267,7 @@ class _CombinedSearchPage extends StatelessWidget {
                       children: [
                         Text(
                           e.value.snap?.summary ??
-                              e.value.component?.localizedSummary() ??
+                              e.value.appstream?.localizedSummary() ??
                               '',
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -301,19 +301,21 @@ class _CombinedSearchPage extends StatelessWidget {
                       ],
                     ),
                     icon: AppIcon(
-                      iconUrl: e.value.snap?.iconUrl,
+                      iconUrl: e.value.snap?.iconUrl != null
+                          ? e.value.snap?.iconUrl!
+                          : e.value.appstream?.remoteIcon,
                     ),
                     iconPadding:
                         const EdgeInsets.only(left: 10, right: 5, bottom: 30),
-                    onTap: e.value.snap != null && e.value.component != null
+                    onTap: e.value.snap != null && e.value.appstream != null
                         ? () => showDialog(
                               useRootNavigator: false,
                               context: context,
                               builder: (context) => _AppFormatSelectDialog(
                                 title: e.value.snap!.name,
-                                onPackageSelect: () =>
-                                    e.value.component!.packageKitId.then(
-                                  (id) => PackagePage.push(context, id),
+                                onPackageSelect: () => PackagePage.push(
+                                  context,
+                                  appstream: e.value.appstream!,
                                 ),
                                 onSnapSelect: () =>
                                     SnapPage.push(context, e.value.snap!),
@@ -321,13 +323,15 @@ class _CombinedSearchPage extends StatelessWidget {
                             )
                         : () {
                             if (e.value.snap == null &&
-                                e.value.component != null) {
-                              e.value.component!.packageKitId
-                                  .then((id) => PackagePage.push(context, id));
+                                e.value.appstream != null) {
+                              PackagePage.push(
+                                context,
+                                appstream: e.value.appstream!,
+                              );
                             }
 
                             if (e.value.snap != null &&
-                                e.value.component == null) {
+                                e.value.appstream == null) {
                               SnapPage.push(context, e.value.snap!);
                             }
                           },
@@ -357,7 +361,7 @@ class _PackageIndicator extends StatelessWidget {
             color: appFormatEmblemColor,
             size: 20,
           ),
-        if (appFinding.component != null)
+        if (appFinding.appstream != null)
           Padding(
             padding: const EdgeInsets.only(left: 5),
             child: Icon(

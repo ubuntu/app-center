@@ -17,8 +17,10 @@
 
 import 'dart:async';
 
+import 'package:appstream/appstream.dart';
 import 'package:flutter/foundation.dart';
 import 'package:packagekit/packagekit.dart';
+import 'package:software/appstream_utils.dart';
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/app_model.dart';
@@ -29,11 +31,16 @@ class PackageModel extends AppModel {
   String? _path;
   String? get path => _path;
 
+  final AppstreamComponent? _appstream;
+  AppstreamComponent? get appstream => _appstream;
+
   PackageModel({
     required PackageService service,
     PackageKitPackageId? packageId,
+    AppstreamComponent? appstream,
     String? path,
-  }) : _service = service {
+  })  : _service = service,
+        _appstream = appstream {
     if (packageId != null) {
       _packageId = packageId;
     } else if (path != null) {
@@ -45,7 +52,7 @@ class PackageModel extends AppModel {
 
   List<String> get screenshotUrls => <String>[];
 
-  String get iconUrl => '';
+  String? get iconUrl => appstream?.remoteIcon;
 
   Future<void> init({bool update = false}) async {
     if (_packageId != null) {

@@ -193,12 +193,12 @@ class ExploreModel extends SafeChangeNotifier {
       if (snap == null) {
         appFindings.putIfAbsent(
           component.localizedName(),
-          () => AppFinding(component: component),
+          () => AppFinding(appstream: component),
         );
       } else {
         appFindings.update(
           snap.name,
-          (value) => AppFinding(snap: snap, component: component),
+          (value) => AppFinding(snap: snap, appstream: component),
         );
       }
     }
@@ -209,12 +209,12 @@ class ExploreModel extends SafeChangeNotifier {
 
 class AppFinding {
   final Snap? snap;
-  final AppstreamComponent? component;
+  final AppstreamComponent? appstream;
   final double? rating;
 
   AppFinding({
     this.snap,
-    this.component,
+    this.appstream,
     this.rating,
   });
 }
