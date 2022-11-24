@@ -48,6 +48,9 @@ class PackageModel extends AppModel {
     } else {
       throw Exception('Either packaged ID or local file path is required');
     }
+    if (appstream?.projectLicense != null) {
+      _license = appstream!.projectLicense!;
+    }
   }
 
   List<String> get screenshotUrls => <String>[];
@@ -132,7 +135,9 @@ class PackageModel extends AppModel {
   String _license = '';
   String get license => _license;
   set license(String value) {
-    if (value == _license) return;
+    if (value.isEmpty ||
+        value == _license ||
+        (_license.isNotEmpty && value == 'unknown')) return;
     _license = value;
     notifyListeners();
   }
