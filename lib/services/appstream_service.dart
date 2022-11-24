@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:appstream/appstream.dart';
 import 'package:snowball_stemmer/snowball_stemmer.dart';
 import 'package:software/appstream_utils.dart';
+import 'package:software/l10n/l10n.dart';
 
 enum _MatchScore {
   none(0),
@@ -30,10 +33,10 @@ class AppstreamService {
 
   AppstreamService() : _pool = AppstreamPool();
 
-  // AS_SEARCH_GREYLIST_STR (as-pool.c)
-  // TODO: localize
-  final _greylist =
-      'app;application;package;program;programme;suite;tool'.split(';');
+  List<String> get _greylist =>
+      lookupAppLocalizations(PlatformDispatcher.instance.locale)
+          .appstreamSearchGreylist
+          .split(';');
 
   Future<void> init() async => _loader;
   // TODO: we probably want to build a cache (see AsCache) of the data,
