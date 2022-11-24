@@ -18,6 +18,7 @@
 import 'dart:async';
 
 import 'package:appstream/appstream.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/appstream_utils.dart';
@@ -55,7 +56,12 @@ class PackageModel extends AppModel {
 
   String get title => appstream?.localizedName() ?? packageId?.name ?? '';
 
-  List<String> get screenshotUrls => <String>[];
+  List<String> get screenshotUrls =>
+      appstream?.screenshots
+          .map((e) => e.images.firstOrNull?.url)
+          .whereType<String>()
+          .toList() ??
+      [];
 
   String? get iconUrl => appstream?.remoteIcon;
 
