@@ -135,8 +135,14 @@ class _AppstreamSearchPageState extends State<_AppstreamSearchPage> {
                 itemBuilder: (context, index) {
                   final component = snapshot.data![index];
                   return YaruBanner(
-                    title: Text(component.localizedName()),
-                    subtitle: Text(component.localizedSummary()),
+                    title: Text(
+                      component.localizedName(),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      component.localizedSummary(),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     icon: AppIcon(
                       iconUrl: component.remoteIcon,
                     ),
