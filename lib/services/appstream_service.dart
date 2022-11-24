@@ -144,25 +144,30 @@ class AppstreamService {
   int _matchComponent(AppstreamComponent component, List<String> tokens) {
     int score = _MatchScore.none.value;
     for (final token in tokens) {
-      if (component.id.contains(token)) {
+      if (component.id.toLowerCase().contains(token)) {
         score |= _MatchScore.id.value;
       }
-      if (_getLocalizedComponentAttribute(component.name)?.contains(token) ==
+      if (_getLocalizedComponentAttribute(component.name)
+              ?.toLowerCase()
+              .contains(token) ==
           true) {
         score |= _MatchScore.name.value;
       }
       if (_getLocalizedComponentAttribute(component.keywords)
-              ?.contains(token) ==
+              ?.any((keyword) => keyword.toLowerCase() == token) ==
           true) {
         score |= _MatchScore.keyword.value;
       }
-      if (_tokenize(_getLocalizedComponentAttribute(component.summary))
-              .contains(token) ==
+      if (_tokenize(
+            _getLocalizedComponentAttribute(component.summary).toLowerCase(),
+          ).contains(token) ==
           true) {
         score |= _MatchScore.summary.value;
       }
-      if (_tokenize(_getLocalizedComponentAttribute(component.description))
-              .contains(token) ==
+      if (_tokenize(
+            _getLocalizedComponentAttribute(component.description)
+                ?.toLowerCase(),
+          ).contains(token) ==
           true) {
         score |= _MatchScore.description.value;
       }
@@ -171,12 +176,12 @@ class AppstreamService {
         // XXX: https://github.com/canonical/appstream.dart/issues/25
         score |= _MatchScore.origin.value;
       }
-      if (component.package?.contains(token) == true) {
+      if (component.package?.toLowerCase().contains(token) == true) {
         score |= _MatchScore.pkgName.value;
       }
       for (final provider in component.provides) {
         if (provider is AppstreamProvidesMediatype) {
-          if (provider.mediaType.contains(token)) {
+          if (provider.mediaType.toLowerCase().contains(token)) {
             score |= _MatchScore.mediaType.value;
             break;
           }
