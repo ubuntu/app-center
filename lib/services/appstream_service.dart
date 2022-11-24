@@ -135,11 +135,8 @@ class AppstreamService {
     return attribute[languageKey];
   }
 
-  List<String> _tokenize(String? value) {
-    // TODO: see as_component_value_tokenize()
-    if (value == null) return [];
-    return value.split(RegExp('\\W'));
-  }
+  List<String> _tokenize(String? value) =>
+      (value != null) ? value.split(RegExp('\\W')) : [];
 
   int _matchComponent(AppstreamComponent component, List<String> tokens) {
     int score = _MatchScore.none.value;
@@ -192,11 +189,11 @@ class AppstreamService {
     return score;
   }
 
+  // Re-implementation of as_pool_search()
+  // (https://www.freedesktop.org/software/appstream/docs/api/appstream-AsPool.html#as-pool-search)
   Future<List<AppstreamComponent>> search(String search) async {
-    // re-implement as_pool_search
-    // (https://www.freedesktop.org/software/appstream/docs/api/appstream-AsPool.html#as-pool-search)
-    await _loader;
     final tokens = _buildSearchTokens(search);
+    await _loader;
     if (tokens.isEmpty) {
       if (search.length <= 1) {
         // Search query too broad, matching everything
