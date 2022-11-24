@@ -1,7 +1,7 @@
 import 'dart:collection';
-import 'dart:ui';
 
 import 'package:appstream/appstream.dart';
+import 'package:flutter/foundation.dart';
 import 'package:snowball_stemmer/snowball_stemmer.dart';
 import 'package:software/appstream_utils.dart';
 import 'package:software/l10n/l10n.dart';
@@ -117,7 +117,8 @@ class AppstreamService {
   final AppstreamPool _pool;
   late final Future<void> _loader = _pool.load().then((_) => _populateCache());
 
-  AppstreamService() : _pool = AppstreamPool() {
+  AppstreamService({@visibleForTesting AppstreamPool? pool})
+      : _pool = pool ?? AppstreamPool() {
     PlatformDispatcher.instance.onLocaleChanged = () async {
       await _loader;
       _populateCache();
@@ -125,6 +126,8 @@ class AppstreamService {
   }
 
   final HashSet<_CachedComponent> _cache = HashSet<_CachedComponent>();
+  @visibleForTesting
+  int get cacheSize => _cache.length;
 
   void _populateCache() {
     _cache.clear();
@@ -140,69 +143,36 @@ class AppstreamService {
 
   Future<void> init() async => _loader;
 
-  Algorithm? _selectPreferredStemmer() {
-    final locale = PlatformDispatcher.instance.locale;
-    switch (locale.languageCode) {
-      case 'ar':
-        return Algorithm.arabic;
-      case 'hy':
-        return Algorithm.armenian;
-      case 'eu':
-        return Algorithm.basque;
-      case 'ca':
-        return Algorithm.catalan;
-      case 'da':
-        return Algorithm.danish;
-      case 'nl':
-        return Algorithm.dutch;
-      case 'en':
-        return Algorithm.english;
-      case 'fi':
-        return Algorithm.finnish;
-      case 'fr':
-        return Algorithm.french;
-      case 'de':
-        return Algorithm.german;
-      case 'el':
-        return Algorithm.greek;
-      case 'hi':
-        return Algorithm.hindi;
-      case 'hu':
-        return Algorithm.hungarian;
-      case 'id':
-        return Algorithm.indonesian;
-      case 'ga':
-        return Algorithm.irish;
-      case 'it':
-        return Algorithm.italian;
-      case 'lt':
-        return Algorithm.lithuanian;
-      case 'ne':
-        return Algorithm.nepali;
-      case 'nb':
-        return Algorithm.norwegian;
-      case 'pt':
-        return Algorithm.portuguese;
-      case 'ro':
-        return Algorithm.romanian;
-      case 'ru':
-        return Algorithm.russian;
-      case 'sr':
-        return Algorithm.serbian;
-      case 'es':
-        return Algorithm.spanish;
-      case 'sv':
-        return Algorithm.swedish;
-      case 'ta':
-        return Algorithm.tamil;
-      case 'tr':
-        return Algorithm.turkish;
-      case 'yi':
-        return Algorithm.yiddish;
-      default:
-        return null;
-    }
-  }
+  static final stemmersMap = <String, Algorithm>{
+    'ar': Algorithm.arabic,
+    'hy': Algorithm.armenian,
+    'eu': Algorithm.basque,
+    'ca': Algorithm.catalan,
+    'da': Algorithm.danish,
+    'nl': Algorithm.dutch,
+    'en': Algorithm.english,
+    'fi': Algorithm.finnish,
+    'fr': Algorithm.french,
+    'de': Algorithm.german,
+    'el': Algorithm.greek,
+    'hi': Algorithm.hindi,
+    'hu': Algorithm.hungarian,
+    'id': Algorithm.indonesian,
+    'ga': Algorithm.irish,
+    'it': Algorithm.italian,
+    'lt': Algorithm.lithuanian,
+    'ne': Algorithm.nepali,
+    'nb': Algorithm.norwegian,
+    'pt': Algorithm.portuguese,
+    'ro': Algorithm.romanian,
+    'ru': Algorithm.russian,
+    'sr': Algorithm.serbian,
+    'es': Algorithm.spanish,
+    'sv': Algorithm.swedish,
+    'ta': Algorithm.tamil,
+    'tr': Algorithm.turkish,
+    'yi': Algorithm.yiddish,
+  };
 
   // Re-implementation of as_pool_build_search_tokens()
   // (https://www.freedesktop.org/software/appstream/docs/api/appstream-AsPool.html#as-pool-build-search-tokens)
@@ -218,7 +188,8 @@ class AppstreamService {
       (element) => element.length <= 1 || element.contains(RegExp(r'[<>()]')),
     );
     // Extract only the common stems from the tokens
-    final algorithm = _selectPreferredStemmer();
+    final algorithm =
+        stemmersMap[PlatformDispatcher.instance.locale.languageCode];
     if (algorithm != null) {
       final stemmer = SnowballStemmer(algorithm);
       return words.map((element) => stemmer.stem(element)).toSet().toList();
