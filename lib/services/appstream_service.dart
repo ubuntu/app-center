@@ -95,8 +95,11 @@ class AppstreamService {
           true) {
         score |= _MatchScore.description.value;
       }
-      // TODO: to match on origin, need the parent collection's origin,
-      // which we don't have access to here.
+      // ignore: dead_code
+      if (false) {
+        // XXX: https://github.com/canonical/appstream.dart/issues/25
+        score |= _MatchScore.origin.value;
+      }
       if (component.package?.contains(token) == true) {
         score |= _MatchScore.pkgName.value;
       }
