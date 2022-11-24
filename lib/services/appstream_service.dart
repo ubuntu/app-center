@@ -42,10 +42,73 @@ class AppstreamService {
   // TODO: we probably want to build a cache (see AsCache) of the data,
   // filtered by language, and use that cache when searching.
 
+  Algorithm? _selectPreferredStemmer() {
+    final locale = PlatformDispatcher.instance.locale;
+    switch (locale.languageCode) {
+      case 'ar':
+        return Algorithm.arabic;
+      case 'hy':
+        return Algorithm.armenian;
+      case 'eu':
+        return Algorithm.basque;
+      case 'ca':
+        return Algorithm.catalan;
+      case 'da':
+        return Algorithm.danish;
+      case 'nl':
+        return Algorithm.dutch;
+      case 'en':
+        return Algorithm.english;
+      case 'fi':
+        return Algorithm.finnish;
+      case 'fr':
+        return Algorithm.french;
+      case 'de':
+        return Algorithm.german;
+      case 'el':
+        return Algorithm.greek;
+      case 'hi':
+        return Algorithm.hindi;
+      case 'hu':
+        return Algorithm.hungarian;
+      case 'id':
+        return Algorithm.indonesian;
+      case 'ga':
+        return Algorithm.irish;
+      case 'it':
+        return Algorithm.italian;
+      case 'lt':
+        return Algorithm.lithuanian;
+      case 'ne':
+        return Algorithm.nepali;
+      case 'nb':
+        return Algorithm.norwegian;
+      case 'pt':
+        return Algorithm.portuguese;
+      case 'ro':
+        return Algorithm.romanian;
+      case 'ru':
+        return Algorithm.russian;
+      case 'sr':
+        return Algorithm.serbian;
+      case 'es':
+        return Algorithm.spanish;
+      case 'sv':
+        return Algorithm.swedish;
+      case 'ta':
+        return Algorithm.tamil;
+      case 'tr':
+        return Algorithm.turkish;
+      case 'yi':
+        return Algorithm.yiddish;
+      default:
+        return null;
+    }
+  }
+
+  // Re-implementation of as_pool_build_search_tokens()
+  // (https://www.freedesktop.org/software/appstream/docs/api/appstream-AsPool.html#as-pool-build-search-tokens)
   List<String> _buildSearchTokens(String search) {
-    // re-implement as_pool_build_search_tokens
-    // (https://www.freedesktop.org/software/appstream/docs/api/appstream-AsPool.html#as-pool-build-search-tokens)
-    final tokens = <String>[];
     final words = search.toLowerCase().split(' ');
     words.removeWhere((element) => _greylist.contains(element));
     // TODO: use Characters for proper graphemes separation, create an extension
@@ -55,10 +118,13 @@ class AppstreamService {
       words.addAll(search.toLowerCase().split(' '));
     }
     // TODO: filter out markup (as_user_search_term_valid) ?
-    // FIXME: get the correct algorithm for the current locale, if any
-    final stemmer = SnowballStemmer(Algorithm.english);
-    tokens.addAll(words.map((element) => stemmer.stem(element)));
-    return tokens;
+    final algorithm = _selectPreferredStemmer();
+    if (algorithm != null) {
+      final stemmer = SnowballStemmer(algorithm);
+      return words.map((element) => stemmer.stem(element)).toSet().toList();
+    } else {
+      return words;
+    }
   }
 
   dynamic _getLocalizedComponentAttribute(Map<String, dynamic> attribute) {
