@@ -109,15 +109,17 @@ class AppstreamService {
   // Re-implementation of as_pool_build_search_tokens()
   // (https://www.freedesktop.org/software/appstream/docs/api/appstream-AsPool.html#as-pool-build-search-tokens)
   List<String> _buildSearchTokens(String search) {
-    final words = search.toLowerCase().split(' ');
+    final words = search.toLowerCase().split(RegExp(r'\s'));
+    // Filter out too generic search terms
     words.removeWhere((element) => _greylist.contains(element));
-    // TODO: use Characters for proper graphemes separation, create an extension
-    // on the Characters class to add useful methods such as the equivalents for
-    // g_str_tokenize_and_fold()
     if (words.isEmpty) {
-      words.addAll(search.toLowerCase().split(' '));
+      words.addAll(search.toLowerCase().split(RegExp(r'\s')));
     }
-    // TODO: filter out markup (as_user_search_term_valid) ?
+    // Filter out short tokens, and those containing markup
+    words.removeWhere(
+      (element) => element.length <= 1 || element.contains(RegExp(r'[<>()]')),
+    );
+    // Extract only the common stems from the tokens
     final algorithm = _selectPreferredStemmer();
     if (algorithm != null) {
       final stemmer = SnowballStemmer(algorithm);
