@@ -301,9 +301,8 @@ class _CombinedSearchPage extends StatelessWidget {
                       ],
                     ),
                     icon: AppIcon(
-                      iconUrl: e.value.snap?.iconUrl != null
-                          ? e.value.snap?.iconUrl!
-                          : e.value.appstream?.remoteIcon,
+                      iconUrl: e.value.snap?.iconUrl ??
+                          e.value.appstream?.remoteIcon,
                     ),
                     iconPadding:
                         const EdgeInsets.only(left: 10, right: 5, bottom: 30),
