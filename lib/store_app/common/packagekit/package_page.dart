@@ -115,7 +115,7 @@ class _PackagePageState extends State<PackagePage> {
       starredDeveloper: false,
       website: model.url,
       summary: model.summary,
-      title: widget.packageId.name,
+      title: model.title,
       name: widget.packageId.name,
       version: widget.packageId.version,
       screenShotUrls: model.screenshotUrls,

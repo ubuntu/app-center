@@ -53,6 +53,8 @@ class PackageModel extends AppModel {
     }
   }
 
+  String get title => appstream?.localizedName() ?? packageId?.name ?? '';
+
   List<String> get screenshotUrls => <String>[];
 
   String? get iconUrl => appstream?.remoteIcon;
