@@ -144,7 +144,7 @@ class _AppstreamSearchPageState extends State<_AppstreamSearchPage> {
                       overflow: TextOverflow.ellipsis,
                     ),
                     icon: AppIcon(
-                      iconUrl: appstream.remoteIcon,
+                      iconUrl: appstream.icon,
                     ),
                     iconPadding: const EdgeInsets.only(left: 10, right: 5),
                     onTap: () =>
@@ -301,8 +301,7 @@ class _CombinedSearchPage extends StatelessWidget {
                       ],
                     ),
                     icon: AppIcon(
-                      iconUrl: e.value.snap?.iconUrl ??
-                          e.value.appstream?.remoteIcon,
+                      iconUrl: e.value.snap?.iconUrl ?? e.value.appstream?.icon,
                     ),
                     iconPadding:
                         const EdgeInsets.only(left: 10, right: 5, bottom: 30),

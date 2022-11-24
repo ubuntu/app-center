@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:appstream/appstream.dart';
+import 'package:collection/collection.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/services/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -32,16 +34,31 @@ extension PackageKitId on AppstreamComponent {
       getService<PackageService>().resolve(package ?? id);
 }
 
+int _sizeComparison(int? a, int? b) => a?.compareTo(b ?? 0) ?? 0;
+
 extension Icons on AppstreamComponent {
-  // Naive implementation, we probably want to favour locally-cached icons first,
-  // which will require refactoring the AppIcon widget to accept local file paths.
-  // See https://www.freedesktop.org/software/appstream/docs/sect-AppStream-IconCache.html
-  String? get remoteIcon {
-    for (final icon in icons) {
-      if (icon is AppstreamRemoteIcon) {
-        return icon.url;
+  String? get icon {
+    final cached = icons.whereType<AppstreamCachedIcon>().toList();
+    cached.sort((a, b) => _sizeComparison(b.width, a.width));
+    //for (final icon in cached) {
+    //  XXX: we need the origin to determine if a cached icon exists on disk
+    //  (https://github.com/canonical/appstream.dart/issues/25)
+    //}
+
+    final local = icons.whereType<AppstreamLocalIcon>().toList();
+    local.sort((a, b) => _sizeComparison(b.width, a.width));
+    for (final icon in local) {
+      if (File(icon.filename).existsSync()) {
+        return icon.filename;
       }
     }
-    return null;
+
+    final stock = icons.whereType<AppstreamStockIcon>().firstOrNull;
+    if (stock != null) {
+      // TODO: check whether the stock icon exists on disk, and return it
+    }
+
+    final remote = icons.whereType<AppstreamRemoteIcon>().firstOrNull;
+    return remote?.url;
   }
 }

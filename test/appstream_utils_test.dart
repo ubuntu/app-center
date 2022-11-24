@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:appstream/appstream.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:packagekit/packagekit.dart';
+import 'package:path/path.dart' as p;
 import 'package:software/appstream_utils.dart';
 import 'package:software/services/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -91,7 +93,7 @@ void main() {
       name: {},
       summary: {},
     );
-    expect(component1.remoteIcon, isNull);
+    expect(component1.icon, isNull);
 
     const component2 = AppstreamComponent(
       id: '',
@@ -104,7 +106,7 @@ void main() {
         AppstreamStockIcon('icon'),
       ],
     );
-    expect(component2.remoteIcon, isNull);
+    expect(component2.icon, isNull);
 
     const component3 = AppstreamComponent(
       id: '',
@@ -119,6 +121,24 @@ void main() {
         AppstreamStockIcon('icon'),
       ],
     );
-    expect(component3.remoteIcon, 'https://example.org/icon.png');
+    expect(component3.icon, 'https://example.org/icon.png');
+
+    final tempDir = Directory.systemTemp.createTempSync();
+    final tempFile = File(p.join(tempDir.path, 'icon.png'));
+    final component4 = AppstreamComponent(
+      id: '',
+      type: AppstreamComponentType.desktopApplication,
+      package: '',
+      name: {},
+      summary: {},
+      icons: [
+        AppstreamLocalIcon(tempFile.path),
+        const AppstreamStockIcon('icon'),
+      ],
+    );
+    expect(component4.icon, isNull);
+    tempFile.createSync(recursive: true);
+    expect(component4.icon, tempFile.path);
+    tempFile.deleteSync(recursive: true);
   });
 }

@@ -63,7 +63,7 @@ class PackageModel extends AppModel {
           .toList() ??
       [];
 
-  String? get iconUrl => appstream?.remoteIcon;
+  String? get iconUrl => appstream?.icon;
 
   Future<void> init({bool update = false}) async {
     if (_packageId != null) {
