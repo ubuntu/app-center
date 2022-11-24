@@ -6,7 +6,7 @@ import 'package:software/services/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 String? bestLanguageKey(Iterable<String> keys, {Locale? locale}) {
-  locale = locale ?? PlatformDispatcher.instance.locale;
+  locale ??= PlatformDispatcher.instance.locale;
   if (locale.toLanguageTag() != 'und') {
     var key = '${locale.languageCode}_${locale.countryCode}';
     if (keys.contains(key)) return key;
