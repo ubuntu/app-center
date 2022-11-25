@@ -16,24 +16,6 @@
  */
 
 class AppData {
-  final String title;
-  final String name;
-  final String summary;
-  final bool strict;
-  final String confinementName;
-  final String version;
-  final String license;
-  final String? installDate;
-  final String? installDateIsoNorm;
-  final bool verified;
-  final bool starredDeveloper;
-  final String? publisherName;
-  final String website;
-  final List<String> screenShotUrls;
-  final String description;
-  final bool? versionChanged;
-  final double? averageRating;
-  final List<AppReview>? userReviews;
 
   AppData({
     required this.title,
@@ -55,17 +37,27 @@ class AppData {
     this.averageRating,
     this.userReviews,
   });
+  final String title;
+  final String name;
+  final String summary;
+  final bool strict;
+  final String confinementName;
+  final String version;
+  final String license;
+  final String? installDate;
+  final String? installDateIsoNorm;
+  final bool verified;
+  final bool starredDeveloper;
+  final String? publisherName;
+  final String website;
+  final List<String> screenShotUrls;
+  final String description;
+  final bool? versionChanged;
+  final double? averageRating;
+  final List<AppReview>? userReviews;
 }
 
 class AppReview {
-  final int? id;
-  final double? rating;
-  final String? review;
-  final String? title;
-  final DateTime? dateTime;
-  final String? username;
-  final int? positiveVote;
-  final int? negativeVote;
 
   AppReview({
     this.id,
@@ -77,4 +69,12 @@ class AppReview {
     this.positiveVote,
     this.negativeVote,
   });
+  final int? id;
+  final double? rating;
+  final String? review;
+  final String? title;
+  final DateTime? dateTime;
+  final String? username;
+  final int? positiveVote;
+  final int? negativeVote;
 }

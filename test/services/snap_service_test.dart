@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -188,7 +190,9 @@ void main() {
     when(() => mockSnapdClient.getSnap(snap1.name))
         .thenAnswer((_) async => snap1);
 
-    expectLater(service.snapChangesInserted, emitsInOrder([true, true]));
+    unawaited(
+      expectLater(service.snapChangesInserted, emitsInOrder([true, true])),
+    );
     const channel = 'latest/stable';
     snap = await service.install(snap1, channel, '');
     expect(snap, equals(snap1));
@@ -223,7 +227,9 @@ void main() {
     when(() => mockSnapdClient.getSnap(snap1.name))
         .thenAnswer((_) async => snap1);
 
-    expectLater(service.snapChangesInserted, emitsInOrder([true, true]));
+    unawaited(
+      expectLater(service.snapChangesInserted, emitsInOrder([true, true])),
+    );
     final snap = await service.remove(snap1, '');
     expect(snap, equals(snap1));
     verify(() => mockSnapdClient.remove(snap1.name)).called(1);
@@ -274,7 +280,9 @@ void main() {
     when(() => mockSnapdClient.getSnap(snap1.name))
         .thenAnswer((_) async => snap1);
 
-    expectLater(service.snapChangesInserted, emitsInOrder([true, true]));
+    unawaited(
+      expectLater(service.snapChangesInserted, emitsInOrder([true, true])),
+    );
     const channel = 'latest/stable';
     snap = await service.refresh(
       snap: snap1,

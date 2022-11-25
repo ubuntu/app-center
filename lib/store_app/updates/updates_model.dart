@@ -19,12 +19,19 @@ import 'dart:async';
 
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/updates_state.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:xterm/xterm.dart';
 
+import '../../services/package_service.dart';
+import '../../updates_state.dart';
+
 class UpdatesModel extends SafeChangeNotifier {
+  UpdatesModel(
+    this._service,
+    this._session,
+  )   : _requireRestart = PackageKitRestart.none,
+        _errorMessage = '',
+        _manualRepoName = '';
   final PackageService _service;
   final UbuntuSession _session;
   StreamSubscription<String>? _errorMessageSub;
@@ -40,13 +47,6 @@ class UpdatesModel extends SafeChangeNotifier {
   StreamSubscription<bool>? _updatesChangedSub;
   StreamSubscription<bool>? _selectionChanged;
   StreamSubscription<String>? _terminalOutputSub;
-
-  UpdatesModel(
-    this._service,
-    this._session,
-  )   : _requireRestart = PackageKitRestart.none,
-        _errorMessage = '',
-        _manualRepoName = '';
 
   Future<void> init({required void Function() handleError}) async {
     // Init the model with the last values
@@ -99,7 +99,7 @@ class UpdatesModel extends SafeChangeNotifier {
       terminal.nextLine();
     });
 
-    _service.getInstalledPackages();
+    unawaited(_service.getInstalledPackages());
   }
 
   @override

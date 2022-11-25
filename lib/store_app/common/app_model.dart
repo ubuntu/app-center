@@ -1,6 +1,6 @@
 import 'package:safe_change_notifier/safe_change_notifier.dart';
-import 'package:software/store_app/common/app_data.dart';
-import 'package:software/store_app/common/constants.dart';
+import 'app_data.dart';
+import 'constants.dart';
 
 // TODO: adapt to Rating backend when ready
 class AppModel extends SafeChangeNotifier {

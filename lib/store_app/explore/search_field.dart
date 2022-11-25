@@ -18,13 +18,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/snap/snap_section.dart';
-import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
+import '../../l10n/l10n.dart';
+import '../common/snap/snap_section.dart';
+import 'explore_model.dart';
+
 class SearchField extends StatefulWidget {
-  const SearchField({Key? key}) : super(key: key);
+  const SearchField({super.key});
 
   @override
   State<SearchField> createState() => _SearchFieldState();

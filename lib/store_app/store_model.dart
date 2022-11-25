@@ -20,10 +20,11 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/updates_state.dart';
 import 'package:window_manager/window_manager.dart';
+
+import '../services/package_service.dart';
+import '../services/snap_service.dart';
+import '../updates_state.dart';
 
 class StoreModel extends SafeChangeNotifier implements WindowListener {
   StoreModel(
@@ -58,7 +59,7 @@ class StoreModel extends SafeChangeNotifier implements WindowListener {
 
   Future<void> init({required void Function() onAskForQuit}) async {
     _onAskForQuit = onAskForQuit;
-    windowManager.setPreventClose(true);
+    unawaited(windowManager.setPreventClose(true));
     windowManager.addListener(this);
 
     await _packageService.init();
@@ -66,7 +67,7 @@ class StoreModel extends SafeChangeNotifier implements WindowListener {
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       notifyListeners();
     });
-    initConnectivity();
+    unawaited(initConnectivity());
     _updatesChangedSub = _packageService.updatesChanged.listen((event) {
       notifyListeners();
     });
@@ -88,9 +89,9 @@ class StoreModel extends SafeChangeNotifier implements WindowListener {
   @override
   Future<void> dispose() async {
     await _snapChangesSub?.cancel();
-    _connectivitySub?.cancel();
-    _updatesChangedSub?.cancel();
-    _updatesStateSub?.cancel();
+    unawaited(_connectivitySub?.cancel());
+    unawaited(_updatesChangedSub?.cancel());
+    unawaited(_updatesStateSub?.cancel());
 
     super.dispose();
   }
@@ -131,7 +132,7 @@ class StoreModel extends SafeChangeNotifier implements WindowListener {
       quit();
     } else {
       if (_onAskForQuit != null) {
-        _onAskForQuit!();
+        _onAskForQuit!.call();
       }
     }
   }

@@ -16,8 +16,9 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+
+import '../../l10n/l10n.dart';
 
 enum AppFormat {
   snap,

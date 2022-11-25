@@ -17,9 +17,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:software/store_app/common/app_page/page_layouts.dart';
-import 'package:software/store_app/common/border_container.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+
+import '../border_container.dart';
+import 'page_layouts.dart';
 
 class AppLoadingPage extends StatelessWidget {
   const AppLoadingPage({
@@ -33,7 +34,7 @@ class AppLoadingPage extends StatelessWidget {
     final isWindowNormalSized = windowWidth > 800 && windowWidth < 1200;
     final isWindowWide = windowWidth > 1200;
 
-    var light = Theme.of(context).brightness == Brightness.light;
+    final light = Theme.of(context).brightness == Brightness.light;
     final shimmerBase = light
         ? const Color.fromARGB(120, 228, 228, 228)
         : Theme.of(context).colorScheme.onSurface.withOpacity(0.03);
@@ -165,9 +166,8 @@ class AppLoadingPage extends StatelessWidget {
 
 class _CustomBackButton extends StatelessWidget {
   const _CustomBackButton({
-    Key? key,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   final Function()? onPressed;
 
@@ -178,7 +178,7 @@ class _CustomBackButton extends StatelessWidget {
         style: IconButton.styleFrom(fixedSize: const Size(40, 40)),
         onPressed: () {
           Navigator.maybePop(context);
-          if (onPressed != null) onPressed!();
+          if (onPressed != null) onPressed!.call();
         },
         icon: const Icon(YaruIcons.go_previous),
       ),

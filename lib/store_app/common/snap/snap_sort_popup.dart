@@ -16,16 +16,17 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/snap/snap_sort.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../../l10n/l10n.dart';
+import 'snap_sort.dart';
 
 class SnapSortPopup extends StatelessWidget {
   const SnapSortPopup({
-    Key? key,
+    super.key,
     required this.value,
     required this.onSelected,
-  }) : super(key: key);
+  });
   final SnapSort value;
   final void Function(SnapSort value) onSelected;
 

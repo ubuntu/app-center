@@ -18,16 +18,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/snapx.dart';
-import 'package:software/store_app/common/animated_scroll_view_item.dart';
-import 'package:software/store_app/common/app_icon.dart';
-import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/snap/snap_page.dart';
-import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '../../snapx.dart';
+import '../common/animated_scroll_view_item.dart';
+import '../common/app_icon.dart';
+import '../common/constants.dart';
+import '../common/snap/snap_page.dart';
+import 'my_apps_model.dart';
+
 class MySnapsPage extends StatefulWidget {
-  const MySnapsPage({Key? key}) : super(key: key);
+  const MySnapsPage({super.key});
   @override
   State<MySnapsPage> createState() => _MySnapsPageState();
 }

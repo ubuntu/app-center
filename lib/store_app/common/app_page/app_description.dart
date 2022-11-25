@@ -17,10 +17,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../../l10n/l10n.dart';
 
 class AppDescription extends StatelessWidget {
   const AppDescription({super.key, required this.description});

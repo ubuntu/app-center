@@ -17,23 +17,24 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/store_app/common/app_format.dart';
-import 'package:software/store_app/my_apps/my_apps_header.dart';
-import 'package:software/store_app/my_apps/my_apps_model.dart';
-import 'package:software/store_app/my_apps/my_apps_search_field.dart';
-import 'package:software/store_app/my_apps/my_packages_page.dart';
-import 'package:software/store_app/my_apps/my_snaps_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+
+import '../../l10n/l10n.dart';
+import '../../services/package_service.dart';
+import '../../services/snap_service.dart';
+import '../common/app_format.dart';
+import 'my_apps_header.dart';
+import 'my_apps_model.dart';
+import 'my_apps_search_field.dart';
+import 'my_packages_page.dart';
+import 'my_snaps_page.dart';
 
 class MyAppsPage extends StatelessWidget {
   const MyAppsPage({
-    Key? key,
+    super.key,
     this.onTabTapped,
     this.initalTabIndex = 0,
-  }) : super(key: key);
+  });
 
   final Function(int)? onTabTapped;
   final int initalTabIndex;

@@ -12,3 +12,27 @@ linter:
     prefer_const_constructors: true
     prefer_const_declarations: true
     require_trailing_commas: true
+    always_declare_return_types: true
+    avoid_catches_without_on_clauses: true
+    avoid_equals_and_hash_code_on_mutable_classes: true
+    avoid_types_on_closure_parameters: true
+    depend_on_referenced_packages: true
+    directives_ordering: true
+    eol_at_end_of_file: true
+    omit_local_variable_types: true
+    prefer_asserts_in_initializer_lists: true
+    prefer_final_in_for_each: true
+    prefer_final_locals: true
+    prefer_null_aware_method_calls: true
+    prefer_null_aware_operators: true
+    prefer_relative_imports: true
+    sort_constructors_first: true
+    sort_unnamed_constructors_first: true
+    sort_pub_dependencies: true
+    type_annotate_public_apis: true
+    unawaited_futures: true
+    unnecessary_lambdas: true
+    unnecessary_late: true
+    unnecessary_parenthesis: true
+    use_named_constants: true
+    use_super_parameters: true

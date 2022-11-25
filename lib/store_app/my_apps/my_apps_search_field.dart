@@ -17,8 +17,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+
+import '../../l10n/l10n.dart';
 
 class MyAppSearchField extends StatefulWidget {
   const MyAppSearchField({

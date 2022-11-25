@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/store_app/common/app_format.dart';
-import 'package:software/store_app/common/app_format_popup.dart';
-import 'package:software/store_app/common/snap/snap_section_popup.dart';
-import 'package:software/store_app/explore/explore_model.dart';
+import '../common/app_format.dart';
+import '../common/app_format_popup.dart';
+import '../common/snap/snap_section_popup.dart';
+import 'explore_model.dart';
 
 class ExploreHeader extends StatelessWidget {
   const ExploreHeader({super.key});
@@ -25,8 +25,7 @@ class ExploreHeader extends StatelessWidget {
           children: [
             MultiAppFormatPopup(
               appFormats: model.appFormats,
-              onTap: (value, appFormat) =>
-                  model.handleAppFormat(value, appFormat),
+              onTap: model.handleAppFormat,
             ),
             if (model.appFormats.contains(AppFormat.snap))
               SnapSectionPopup(

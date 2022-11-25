@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/app_data.dart';
-import 'package:software/store_app/common/border_container.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../../l10n/l10n.dart';
+import '../app_data.dart';
+import '../border_container.dart';
+import '../constants.dart';
 
 class AppReviews extends StatefulWidget {
   const AppReviews({
@@ -135,11 +136,10 @@ class _AppReviewsState extends State<AppReviews> {
 
 class _ReviewDetailsDialog extends StatelessWidget {
   const _ReviewDetailsDialog({
-    Key? key,
     required this.userReviews,
     this.onVote,
     this.onFlag,
-  }) : super(key: key);
+  });
 
   final List<AppReview>? userReviews;
   final Function(AppReview, bool)? onVote;
@@ -255,7 +255,7 @@ class _ReviewPanel extends StatelessWidget {
                   ),
                   onRatingUpdate: (rating) {
                     if (onRatingUpdate != null) {
-                      onRatingUpdate!(rating);
+                      onRatingUpdate!.call(rating);
                     }
                   },
                   ignoreGestures: !appIsInstalled,
@@ -288,7 +288,7 @@ class _ReviewPanel extends StatelessWidget {
                     reviewUser: reviewUser,
                     onRatingUpdate: (rating) {
                       if (onRatingUpdate != null) {
-                        onRatingUpdate!(rating);
+                        onRatingUpdate!.call(rating);
                       }
                     },
                     onReviewSend: onReviewSend,
@@ -499,11 +499,10 @@ class _ReviewsCarousel extends StatelessWidget {
 
 class _RatingHeader extends StatelessWidget {
   const _RatingHeader({
-    Key? key,
     required this.userReview,
     this.onVote,
     this.onFlag,
-  }) : super(key: key);
+  });
 
   final AppReview userReview;
   final Function(AppReview, bool)? onVote;

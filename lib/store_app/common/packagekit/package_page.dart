@@ -18,15 +18,16 @@
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/store_app/common/app_data.dart';
-import 'package:software/store_app/common/app_icon.dart';
-import 'package:software/store_app/common/app_page/app_loading_page.dart';
-import 'package:software/store_app/common/app_page/app_page.dart';
-import 'package:software/store_app/common/packagekit/package_controls.dart';
-import 'package:software/store_app/common/packagekit/package_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../../services/package_service.dart';
+import '../app_data.dart';
+import '../app_icon.dart';
+import '../app_page/app_loading_page.dart';
+import '../app_page/app_page.dart';
+import 'package_controls.dart';
+import 'package_model.dart';
 
 class PackagePage extends StatefulWidget {
   const PackagePage({
@@ -61,7 +62,7 @@ class PackagePage extends StatefulWidget {
     return Navigator.push(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) {
+        builder: (context) {
           return PackagePage.create(
             context: context,
             id: id,
@@ -123,8 +124,8 @@ class _PackagePageState extends State<PackagePage> {
             controls: PackageControls(
               isInstalled: model.isInstalled,
               packageState: model.packageState,
-              remove: () => model.remove(),
-              install: () => model.install(),
+              remove: model.remove,
+              install: model.install,
             ),
             onReviewSend: model.sendReview,
             onRatingUpdate: (v) => model.reviewRating = v,

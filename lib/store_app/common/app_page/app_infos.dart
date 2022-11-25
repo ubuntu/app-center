@@ -16,15 +16,16 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+
+import '../../../l10n/l10n.dart';
+import '../constants.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
 class AppInfos extends StatelessWidget {
   const AppInfos({
-    Key? key,
+    super.key,
     required this.strict,
     required this.confinementName,
     required this.license,
@@ -36,7 +37,7 @@ class AppInfos extends StatelessWidget {
     this.wrapAlignment = WrapAlignment.center,
     this.runAlignment = WrapAlignment.center,
     this.direction = Axis.horizontal,
-  }) : super(key: key);
+  });
 
   final bool strict;
   final String confinementName;
@@ -94,10 +95,9 @@ class AppInfos extends StatelessWidget {
 
 class _InstallDate extends StatelessWidget {
   const _InstallDate({
-    Key? key,
     required this.installDateIsoNorm,
     required this.installDate,
-  }) : super(key: key);
+  });
 
   final String installDateIsoNorm;
   final String installDate;
@@ -120,12 +120,11 @@ class _InstallDate extends StatelessWidget {
 
 class _InfoColumn extends StatelessWidget {
   const _InfoColumn({
-    Key? key,
     required this.header,
     required this.child,
     required this.tooltipMessage,
     this.childWidth,
-  }) : super(key: key);
+  });
 
   final String header;
   final String tooltipMessage;
@@ -158,10 +157,9 @@ class _InfoColumn extends StatelessWidget {
 
 class _Version extends StatelessWidget {
   const _Version({
-    Key? key,
     required this.version,
     this.versionChanged,
-  }) : super(key: key);
+  });
 
   final String version;
   final bool? versionChanged;
@@ -190,10 +188,9 @@ class _Version extends StatelessWidget {
 
 class _License extends StatelessWidget {
   const _License({
-    Key? key,
     required this.headerStyle,
     required this.license,
-  }) : super(key: key);
+  });
 
   final TextStyle headerStyle;
   final String license;
@@ -215,10 +212,9 @@ class _License extends StatelessWidget {
 
 class _Confinement extends StatelessWidget {
   const _Confinement({
-    Key? key,
     required this.strict,
     required this.confinementName,
-  }) : super(key: key);
+  });
 
   final bool strict;
   final String confinementName;

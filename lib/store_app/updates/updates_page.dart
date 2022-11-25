@@ -20,14 +20,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/store_app/common/border_container.dart';
-import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/message_bar.dart';
-import 'package:software/store_app/updates/update_banner.dart';
-import 'package:software/store_app/updates/updates_model.dart';
-import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:xdg_icons/xdg_icons.dart';
@@ -35,6 +27,15 @@ import 'package:xterm/ui.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../l10n/l10n.dart';
+import '../../services/package_service.dart';
+import '../../updates_state.dart';
+import '../common/border_container.dart';
+import '../common/constants.dart';
+import '../common/message_bar.dart';
+import 'update_banner.dart';
+import 'updates_model.dart';
 
 class UpdatesPage extends StatefulWidget {
   const UpdatesPage({super.key});
@@ -60,7 +61,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
   void initState() {
     super.initState();
     final model = context.read<UpdatesModel>();
-    model.init(handleError: () => showSnackBar());
+    model.init(handleError: showSnackBar);
   }
 
   void showSnackBar() {
@@ -211,9 +212,8 @@ class _CheckForUpdatesSplashScreenState
 
 class _UpdatingPage extends StatefulWidget {
   const _UpdatingPage({
-    Key? key,
     required this.hPadding,
-  }) : super(key: key);
+  });
 
   final double hPadding;
 
@@ -300,9 +300,8 @@ class _UpdatingPageState extends State<_UpdatingPage> {
 
 class _UpdatesHeader extends StatelessWidget {
   const _UpdatesHeader({
-    Key? key,
     required this.hPadding,
-  }) : super(key: key);
+  });
 
   final double hPadding;
 
@@ -327,7 +326,7 @@ class _UpdatesHeader extends StatelessWidget {
               onPressed: model.updatesState == UpdatesState.updating ||
                       model.updatesState == UpdatesState.checkingForUpdates
                   ? null
-                  : () => model.refresh(),
+                  : model.refresh,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -356,17 +355,17 @@ class _UpdatesHeader extends StatelessWidget {
             if (model.updatesState == UpdatesState.noUpdates)
               if (model.requireRestartApp)
                 ElevatedButton(
-                  onPressed: () => model.exitApp(),
+                  onPressed: model.exitApp,
                   child: Text(context.l10n.requireRestartApp),
                 )
               else if (model.requireRestartSession)
                 ElevatedButton(
-                  onPressed: () => model.logout(),
+                  onPressed: model.logout,
                   child: Text(context.l10n.requireRestartSession),
                 )
               else if (model.requireRestartSystem)
                 ElevatedButton(
-                  onPressed: () => model.reboot(),
+                  onPressed: model.reboot,
                   child: Text(context.l10n.requireRestartSystem),
                 )
           ],
@@ -487,9 +486,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
 }
 
 class _NoUpdatesPage extends StatelessWidget {
-  const _NoUpdatesPage({
-    Key? key,
-  }) : super(key: key);
+  const _NoUpdatesPage();
 
   @override
   Widget build(BuildContext context) {

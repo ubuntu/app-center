@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/packagekit_filter_x.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../../packagekit_filter_x.dart';
 
 class PackageKitFilterButton extends StatelessWidget {
   const PackageKitFilterButton({

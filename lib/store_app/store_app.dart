@@ -19,21 +19,21 @@ import 'package:badges/badges.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/store_app/explore/explore_page.dart';
-import 'package:software/store_app/my_apps/my_apps_page.dart';
-import 'package:software/store_app/settings/settings_page.dart';
-import 'package:software/store_app/store_model.dart';
-import 'package:software/store_app/updates/updates_page.dart';
-import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '../l10n/l10n.dart';
+import '../services/package_service.dart';
+import '../services/snap_service.dart';
+import '../updates_state.dart';
 import 'common/confirmation_dialog.dart';
+import 'explore/explore_page.dart';
+import 'my_apps/my_apps_page.dart';
+import 'settings/settings_page.dart';
+import 'store_model.dart';
+import 'updates/updates_page.dart';
 
 class StoreApp extends StatelessWidget {
   const StoreApp({super.key});

@@ -18,23 +18,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/color_generator.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/snapx.dart';
-import 'package:software/store_app/common/app_icon.dart';
-import 'package:software/store_app/common/app_website.dart';
-import 'package:software/store_app/common/snap/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '../../l10n/l10n.dart';
+import '../../services/color_generator.dart';
+import '../../services/snap_service.dart';
+import '../../snapx.dart';
+import '../common/app_icon.dart';
+import '../common/app_website.dart';
+import '../common/snap/snap_model.dart';
+
 class ColorBanner extends StatefulWidget {
   const ColorBanner({
-    Key? key,
+    super.key,
     required this.snap,
     required this.sectionName,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Snap snap;
   final String sectionName;

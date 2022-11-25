@@ -17,21 +17,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/store_app/common/snap/snap_section.dart';
-import 'package:software/store_app/explore/explore_header.dart';
-import 'package:software/store_app/explore/explore_model.dart';
-import 'package:software/store_app/explore/offline_page.dart';
-import 'package:software/store_app/explore/search_field.dart';
-import 'package:software/store_app/explore/search_page.dart';
-import 'package:software/store_app/explore/start_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '../../l10n/l10n.dart';
+import '../../services/package_service.dart';
+import '../../services/snap_service.dart';
+import '../common/snap/snap_section.dart';
+import 'explore_header.dart';
+import 'explore_model.dart';
+import 'offline_page.dart';
+import 'search_field.dart';
+import 'search_page.dart';
+import 'start_page.dart';
+
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({Key? key}) : super(key: key);
+  const ExplorePage({super.key});
 
   static Widget create(BuildContext context, bool online) {
     if (!online) return const OfflinePage();
@@ -57,7 +58,7 @@ class _ExplorePageState extends State<ExplorePage> {
     super.initState();
     final model = context.read<ExploreModel>();
 
-    for (var section in SnapSection.values) {
+    for (final section in SnapSection.values) {
       model.loadSection(section);
     }
   }
@@ -96,9 +97,9 @@ class _ExplorePageState extends State<ExplorePage> {
 }
 
 class _ErrorPage extends StatelessWidget {
-  final String errorMessage;
 
-  const _ErrorPage({Key? key, required this.errorMessage}) : super(key: key);
+  const _ErrorPage({required this.errorMessage});
+  final String errorMessage;
 
   @override
   Widget build(BuildContext context) {

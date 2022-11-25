@@ -21,11 +21,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/services/color_generator.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/snapx.dart';
-import 'package:software/store_app/common/app_model.dart';
-import 'package:software/store_app/common/utils.dart';
+import '../../../services/color_generator.dart';
+import '../../../services/snap_service.dart';
+import '../../../snapx.dart';
+import '../app_model.dart';
+import '../utils.dart';
 
 class SnapModel extends AppModel {
   SnapModel(
@@ -293,7 +293,7 @@ class SnapModel extends AppModel {
 
   /// Loads the first change in progress for [huskSnapName] from [SnapService]
   Future<void> _loadChange() async =>
-      change = (await _snapService.getSnapChanges(name: huskSnapName));
+      change = await _snapService.getSnapChanges(name: huskSnapName);
 
   Future<Snap?> _findLocalSnap(String huskSnapName) async =>
       _snapService.findLocalSnap(huskSnapName);
@@ -380,12 +380,12 @@ class SnapModel extends AppModel {
   }
 
   Map<String, SnapChannel> _fillSelectableChannels({required Snap? storeSnap}) {
-    Map<String, SnapChannel> selectableChannels = {};
+    final selectableChannels = <String, SnapChannel>{};
     if (storeSnap != null && storeSnap.tracks.isNotEmpty) {
-      for (var track in storeSnap.tracks) {
-        for (var risk in ['stable', 'candidate', 'beta', 'edge']) {
-          var name = '$track/$risk';
-          var channel = storeSnap.channels[name];
+      for (final track in storeSnap.tracks) {
+        for (final risk in ['stable', 'candidate', 'beta', 'edge']) {
+          final name = '$track/$risk';
+          final channel = storeSnap.channels[name];
           final channelName = '$track/$risk';
           if (channel != null) {
             selectableChannels.putIfAbsent(channelName, () => channel);

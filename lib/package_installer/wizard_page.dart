@@ -16,7 +16,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/store_app/common/constants.dart';
+import '../store_app/common/constants.dart';
 
 /// The padding around the content.
 const _kWizardContentPadding = EdgeInsets.symmetric(horizontal: 24);
@@ -34,7 +34,7 @@ const _kWizardFooterPadding = EdgeInsets.fromLTRB(24, 0, 24, 24);
 class WizardPage extends StatefulWidget {
   /// Creates the wizard page.
   const WizardPage({
-    Key? key,
+    super.key,
     this.title,
     this.header,
     this.headerPadding = _kWizardHeaderPadding,
@@ -43,7 +43,7 @@ class WizardPage extends StatefulWidget {
     this.footer,
     this.footerPadding = _kWizardFooterPadding,
     this.actions = const <Widget>[],
-  }) : super(key: key);
+  });
 
   /// The title widget in the app bar.
   final Widget? title;

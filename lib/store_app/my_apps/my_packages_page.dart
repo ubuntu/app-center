@@ -17,15 +17,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/store_app/common/animated_scroll_view_item.dart';
-import 'package:software/store_app/common/app_icon.dart';
-import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/packagekit/package_page.dart';
-import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '../common/animated_scroll_view_item.dart';
+import '../common/app_icon.dart';
+import '../common/constants.dart';
+import '../common/packagekit/package_page.dart';
+import 'my_apps_model.dart';
+
 class MyPackagesPage extends StatefulWidget {
-  const MyPackagesPage({Key? key}) : super(key: key);
+  const MyPackagesPage({super.key});
 
   @override
   State<MyPackagesPage> createState() => _MyPackagesPageState();

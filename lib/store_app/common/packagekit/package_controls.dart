@@ -16,8 +16,8 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/package_state.dart';
+import '../../../l10n/l10n.dart';
+import '../../../package_state.dart';
 
 class PackageControls extends StatelessWidget {
   const PackageControls({

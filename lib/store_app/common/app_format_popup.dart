@@ -16,9 +16,10 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/app_format.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../l10n/l10n.dart';
+import 'app_format.dart';
 
 class AppFormatPopup extends StatelessWidget {
   const AppFormatPopup({

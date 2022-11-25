@@ -17,13 +17,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:software/store_app/common/app_data.dart';
-import 'package:software/store_app/common/app_page/app_infos.dart';
-import 'package:software/store_app/common/app_website.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../app_data.dart';
+import '../app_website.dart';
+import '../constants.dart';
+import 'app_infos.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 const iconSize = 150.0;
@@ -42,7 +43,7 @@ class BannerAppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scaledFontSize = (800 / appData.title.length.toDouble());
+    final scaledFontSize = 800 / appData.title.length.toDouble();
     return Column(
       children: [
         Row(
@@ -132,7 +133,7 @@ class PageAppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scaledFontSize = (800 / appData.title.length.toDouble());
+    final scaledFontSize = 800 / appData.title.length.toDouble();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

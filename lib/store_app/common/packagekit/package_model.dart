@@ -19,15 +19,11 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:software/package_state.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/store_app/common/app_model.dart';
+import '../../../package_state.dart';
+import '../../../services/package_service.dart';
+import '../app_model.dart';
 
 class PackageModel extends AppModel {
-  final PackageService _service;
-
-  String? _path;
-  String? get path => _path;
 
   PackageModel({
     required PackageService service,
@@ -42,6 +38,10 @@ class PackageModel extends AppModel {
       throw Exception('Either packaged ID or local file path is required');
     }
   }
+  final PackageService _service;
+
+  String? _path;
+  String? get path => _path;
 
   List<String> get screenshotUrls => <String>[];
 

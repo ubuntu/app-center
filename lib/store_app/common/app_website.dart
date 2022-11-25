@@ -16,20 +16,21 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
+import '../../l10n/l10n.dart';
+
 class AppWebsite extends StatelessWidget {
   const AppWebsite({
-    Key? key,
+    super.key,
     required this.website,
     this.verified,
     this.starredDeveloper = false,
     this.publisherName,
     this.height = 15.0,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final String website;
   final bool? verified;
@@ -40,7 +41,7 @@ class AppWebsite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var sizedBox = SizedBox(
+    final sizedBox = SizedBox(
       height: height * 2,
       child: Row(
         mainAxisSize: MainAxisSize.min,

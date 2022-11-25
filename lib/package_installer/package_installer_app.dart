@@ -18,19 +18,20 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/package_installer/wizard_page.dart';
-import 'package:software/package_state.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/store_app/common/packagekit/package_model.dart';
-import 'package:software/store_app/common/utils.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '../l10n/l10n.dart';
+import '../package_state.dart';
+import '../services/package_service.dart';
+import '../store_app/common/packagekit/package_model.dart';
+import '../store_app/common/utils.dart';
+import 'wizard_page.dart';
+
 class PackageInstallerApp extends StatelessWidget {
-  const PackageInstallerApp({Key? key, required this.path}) : super(key: key);
+  const PackageInstallerApp({super.key, required this.path});
 
   final String path;
 
@@ -97,7 +98,7 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
                     model.packageId!.name.isEmpty ||
                     model.packageState == PackageState.processing
                 ? null
-                : () => model.remove(),
+                : model.remove,
             child: Text(context.l10n.remove),
           )
         else
@@ -106,7 +107,7 @@ class _PackageInstallerPageState extends State<_PackageInstallerPage> {
                     model.packageId!.name.isEmpty ||
                     model.packageState != PackageState.ready
                 ? null
-                : () => model.install(),
+                : model.install,
             child: Text(context.l10n.install),
           ),
       ],

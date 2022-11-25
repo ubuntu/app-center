@@ -17,17 +17,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:software/store_app/common/app_data.dart';
-import 'package:software/store_app/common/app_page/app_description.dart';
-import 'package:software/store_app/common/app_page/app_header.dart';
-import 'package:software/store_app/common/app_page/app_infos.dart';
-import 'package:software/store_app/common/app_page/app_reviews.dart';
-import 'package:software/store_app/common/app_page/media_tile.dart';
-import 'package:software/store_app/common/app_page/page_layouts.dart';
-import 'package:software/store_app/common/border_container.dart';
-import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../app_data.dart';
+import '../border_container.dart';
+import '../safe_network_image.dart';
+import 'app_description.dart';
+import 'app_header.dart';
+import 'app_infos.dart';
+import 'app_reviews.dart';
+import 'media_tile.dart';
+import 'page_layouts.dart';
 
 class AppPage extends StatefulWidget {
   const AppPage({
@@ -245,12 +246,11 @@ class _AppPageState extends State<AppPage> {
 
 class _CarouselDialog extends StatefulWidget {
   const _CarouselDialog({
-    Key? key,
     required this.windowHeight,
     required this.appData,
     required this.windowWidth,
     required this.initialIndex,
-  }) : super(key: key);
+  });
 
   final double windowHeight;
   final AppData appData;
@@ -320,9 +320,8 @@ class _CarouselDialogState extends State<_CarouselDialog> {
 
 class _CustomBackButton extends StatelessWidget {
   const _CustomBackButton({
-    Key? key,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   final Function()? onPressed;
 
@@ -333,7 +332,7 @@ class _CustomBackButton extends StatelessWidget {
         style: IconButton.styleFrom(fixedSize: const Size(40, 40)),
         onPressed: () {
           Navigator.maybePop(context);
-          if (onPressed != null) onPressed!();
+          if (onPressed != null) onPressed!.call();
         },
         icon: const Icon(YaruIcons.go_previous),
       ),

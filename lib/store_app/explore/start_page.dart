@@ -19,17 +19,18 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/snapx.dart';
-import 'package:software/store_app/explore/explore_model.dart';
-import 'package:software/store_app/explore/section_banner.dart';
-import 'package:software/store_app/explore/section_grid.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../snapx.dart';
+import 'explore_model.dart';
+import 'section_banner.dart';
+import 'section_grid.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({
-    Key? key,
+    super.key,
     required this.screenSize,
-  }) : super(key: key);
+  });
 
   final Size screenSize;
 
@@ -84,7 +85,7 @@ class _StartPageState extends State<StartPage> {
       child: Column(
         children: [
           SectionBanner(
-            gradientColors: bannerSection.colors.map((e) => Color(e)).toList(),
+            gradientColors: bannerSection.colors.map(Color.new).toList(),
             snaps: [bannerSnap, bannerSnap2, bannerSnap3],
             section: bannerSection,
           ),

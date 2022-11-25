@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/snapx.dart';
-import 'package:software/store_app/common/app_icon.dart';
-import 'package:software/store_app/common/snap/snap_page.dart';
-import 'package:software/store_app/common/snap/snap_section.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../l10n/l10n.dart';
+import '../../snapx.dart';
+import '../common/app_icon.dart';
+import '../common/snap/snap_page.dart';
+import '../common/snap/snap_section.dart';
 
 class SectionBanner extends StatelessWidget {
   const SectionBanner({

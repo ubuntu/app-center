@@ -18,7 +18,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:software/store_app/common/border_container.dart';
+import 'border_container.dart';
 
 class AppIcon extends StatelessWidget {
   const AppIcon({
@@ -69,11 +69,10 @@ class AppIcon extends StatelessWidget {
 
 class _FallBackIcon extends StatelessWidget {
   const _FallBackIcon({
-    Key? key,
     required this.size,
     this.borderColor,
     this.color,
-  }) : super(key: key);
+  });
 
   final double size;
   final Color? borderColor;

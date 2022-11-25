@@ -16,16 +16,17 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../safe_network_image.dart';
 
 class MediaTile extends StatelessWidget {
   const MediaTile({
-    Key? key,
+    super.key,
     required this.url,
     this.fit = BoxFit.contain,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String url;
   final BoxFit fit;

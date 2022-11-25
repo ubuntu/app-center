@@ -44,10 +44,10 @@ void main() {
     final controller = StreamController<PackageKitEvent>.broadcast();
     when(() => transaction.events).thenAnswer((_) => controller.stream);
 
-    when(() => transaction.getRepositoryList())
+    when(transaction.getRepositoryList)
         .thenAnswer((_) => emitFinishedEvent(controller));
 
-    when(() => transaction.refreshCache())
+    when(transaction.refreshCache)
         .thenAnswer((_) => emitFinishedEvent(controller));
 
     when(() => transaction.getUpdates(filter: {}))
@@ -300,10 +300,12 @@ void main() {
     final service = PackageService();
     expect(service.updates, isEmpty);
 
-    expectLater(
-      service.updatesState,
-      emitsInOrder(
-        [UpdatesState.checkingForUpdates, UpdatesState.noUpdates],
+    unawaited(
+      expectLater(
+        service.updatesState,
+        emitsInOrder(
+          [UpdatesState.checkingForUpdates, UpdatesState.noUpdates],
+        ),
       ),
     );
 
@@ -368,7 +370,7 @@ void main() {
   test('toggle repo', () async {
     final service = PackageService();
 
-    expectLater(service.reposChanged, emitsInOrder([true, true]));
+    unawaited(expectLater(service.reposChanged, emitsInOrder([true, true])));
 
     await service.toggleRepo(id: 'myrepository', value: true);
     await service.toggleRepo(id: 'myotherrepository', value: false);

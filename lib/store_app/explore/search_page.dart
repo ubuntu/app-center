@@ -20,17 +20,18 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/snapx.dart';
-import 'package:software/store_app/common/animated_scroll_view_item.dart';
-import 'package:software/store_app/common/app_format.dart';
-import 'package:software/store_app/common/app_icon.dart';
-import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/packagekit/package_page.dart';
-import 'package:software/store_app/common/snap/snap_page.dart';
-import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../l10n/l10n.dart';
+import '../../snapx.dart';
+import '../common/animated_scroll_view_item.dart';
+import '../common/app_format.dart';
+import '../common/app_icon.dart';
+import '../common/constants.dart';
+import '../common/packagekit/package_page.dart';
+import '../common/snap/snap_page.dart';
+import 'explore_model.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -161,9 +162,8 @@ class _PackageKitSearchPageState extends State<_PackageKitSearchPage> {
 
 class _WaitPage extends StatelessWidget {
   const _WaitPage({
-    Key? key,
     required this.message,
-  }) : super(key: key);
+  });
 
   final String message;
 
@@ -197,9 +197,8 @@ class _WaitPage extends StatelessWidget {
 
 class _NoSearchResultPage extends StatelessWidget {
   const _NoSearchResultPage({
-    Key? key,
     required this.message,
-  }) : super(key: key);
+  });
 
   final String message;
 

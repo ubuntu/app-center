@@ -18,17 +18,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/store_app/common/app_data.dart';
-import 'package:software/store_app/common/app_icon.dart';
-import 'package:software/store_app/common/app_page/app_loading_page.dart';
-import 'package:software/store_app/common/app_page/app_page.dart';
-import 'package:software/store_app/common/border_container.dart';
-import 'package:software/store_app/common/snap/snap_connections_settings.dart';
-import 'package:software/store_app/common/snap/snap_controls.dart';
-import 'package:software/store_app/common/snap/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../../services/snap_service.dart';
+import '../app_data.dart';
+import '../app_icon.dart';
+import '../app_page/app_loading_page.dart';
+import '../app_page/app_page.dart';
+import '../border_container.dart';
+import 'snap_connections_settings.dart';
+import 'snap_controls.dart';
+import 'snap_model.dart';
 
 class SnapPage extends StatefulWidget {
   const SnapPage({super.key});
@@ -50,7 +51,7 @@ class SnapPage extends StatefulWidget {
     return Navigator.push(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) {
+        builder: (context) {
           return SnapPage.create(
             context: context,
             huskSnapName: snap.name,

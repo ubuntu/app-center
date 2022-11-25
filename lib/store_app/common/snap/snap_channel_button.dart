@@ -20,15 +20,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/snap/snap_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../../l10n/l10n.dart';
+import '../constants.dart';
+import 'snap_model.dart';
 
 class SnapChannelPopupButton extends StatelessWidget {
   const SnapChannelPopupButton({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

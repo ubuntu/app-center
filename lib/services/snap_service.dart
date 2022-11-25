@@ -23,6 +23,10 @@ import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class SnapService {
+  SnapService()
+      : _snapChanges = {},
+        _snapDClient = getService<SnapdClient>(),
+        _notificationsClient = getService<NotificationsClient>();
   final Map<Snap, SnapdChange> _snapChanges;
   Map<Snap, SnapdChange> get snapChanges => _snapChanges;
   final SnapdClient _snapDClient;
@@ -38,15 +42,17 @@ class SnapService {
       final newChange = await _snapDClient.getChange(id);
       if (newChange.ready) {
         removeChange(snap);
-        _notificationsClient.notify(
-          'Software',
-          body: '$doneString: ${newChange.summary}',
-          appName: snap.name,
-          appIcon: 'snap-store',
-          hints: [
-            NotificationHint.desktopEntry('software'),
-            NotificationHint.urgency(NotificationUrgency.normal)
-          ],
+        unawaited(
+          _notificationsClient.notify(
+            'Software',
+            body: '$doneString: ${newChange.summary}',
+            appName: snap.name,
+            appIcon: 'snap-store',
+            hints: [
+              NotificationHint.desktopEntry('software'),
+              NotificationHint.urgency(NotificationUrgency.normal)
+            ],
+          ),
         );
         break;
       }
@@ -71,11 +77,6 @@ class SnapService {
 
   Stream<bool> get snapChangesInserted => _snapChangesController.stream;
 
-  SnapService()
-      : _snapChanges = {},
-        _snapDClient = getService<SnapdClient>(),
-        _notificationsClient = getService<NotificationsClient>();
-
   Future<void> init() async {
     return _snapDClient.loadAuthorization();
   }
@@ -90,7 +91,7 @@ class SnapService {
 
   Future<Snap?> findSnapByName(String name) async {
     try {
-      final snaps = (await _snapDClient.find(name: name));
+      final snaps = await _snapDClient.find(name: name);
       return snaps.first;
     } on SnapdException {
       return null;
@@ -98,8 +99,8 @@ class SnapService {
   }
 
   Future<List<Snap>> getLocalSnaps() async {
-    final List<Snap> localSnaps = [];
-    localSnaps.addAll((await _snapDClient.getSnaps()));
+    final localSnaps = <Snap>[];
+    localSnaps.addAll(await _snapDClient.getSnaps());
     return localSnaps;
   }
 
@@ -124,9 +125,9 @@ class SnapService {
   Future<List<Snap>> findSnapsBySection({String? sectionName}) async {
     if (sectionName == null) return [];
     try {
-      return (await _snapDClient.find(
+      return await _snapDClient.find(
         section: sectionName,
-      ));
+      );
     } on SnapdException catch (e) {
       throw SnapdException(message: e.message);
     }
@@ -183,7 +184,7 @@ class SnapService {
   }
 
   Future<Map<SnapPlug, bool>> loadPlugs(Snap localSnap) async {
-    final Map<SnapPlug, bool> plugs = {};
+    final plugs = <SnapPlug, bool>{};
 
     try {
       final response = await _snapDClient.getConnections(
@@ -236,7 +237,7 @@ class SnapService {
             slot ?? plug,
           );
 
-    _addChange(snapThatWantsAConnection, changeId, doneMessage);
+    unawaited(_addChange(snapThatWantsAConnection, changeId, doneMessage));
   }
 
   Future<bool> getSnapChangeInProgress({required String name}) async =>

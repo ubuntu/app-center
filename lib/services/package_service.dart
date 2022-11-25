@@ -23,11 +23,12 @@ import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:software/package_state.dart';
-import 'package:software/store_app/common/packagekit/package_model.dart';
-import 'package:software/updates_state.dart';
 import 'package:synchronized/extension.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+
+import '../package_state.dart';
+import '../store_app/common/packagekit/package_model.dart';
+import '../updates_state.dart';
 
 class MissingPackageIDException implements Exception {
   const MissingPackageIDException();
@@ -37,13 +38,14 @@ class MissingPackageIDException implements Exception {
 }
 
 class PackageService {
-  final PackageKitClient _client;
-  final NotificationsClient _notificationsClient;
   PackageService()
       : _client = getService<PackageKitClient>(),
         _notificationsClient = getService<NotificationsClient>() {
     _client.connect();
   }
+
+  final PackageKitClient _client;
+  final NotificationsClient _notificationsClient;
 
   final _terminalOutputController = StreamController<String>.broadcast();
   Stream<String> get terminalOutput => _terminalOutputController.stream;
@@ -198,7 +200,7 @@ class PackageService {
   Future<void> init({Set<PackageKitFilter> filters = const {}}) async {
     setErrorMessage('');
     await getInstalledPackages(filters: filters);
-    refreshUpdates();
+    unawaited(refreshUpdates());
   }
 
   Future<void> refreshUpdates() async {
@@ -271,9 +273,9 @@ class PackageService {
     });
     await transaction.getUpdates(filter: filter);
     await completer.future.whenComplete(subscription.cancel);
-    for (var entry in _updates.entries) {
+    for (final entry in _updates.entries) {
       if (!_idsToGroups.containsKey(entry.key)) {
-        final PackageKitGroup group = await _getGroup(entry.key);
+        final group = await _getGroup(entry.key);
         _idsToGroups.putIfAbsent(entry.key, () => group);
         setGroupsChanged(true);
       }
@@ -285,7 +287,7 @@ class PackageService {
     required String updatesAvailable,
   }) async {
     setErrorMessage('');
-    final List<PackageKitPackageId> selectedUpdates = _updates.entries
+    final selectedUpdates = _updates.entries
         .where((e) => e.value == true)
         .map((e) => e.key)
         .toList();
@@ -409,12 +411,12 @@ class PackageService {
       } else if (event is PackageKitItemProgressEvent) {
         model.percentage = 100 - event.percentage;
       } else if (event is PackageKitFinishedEvent) {
-        model.isInstalled = (event.exit != PackageKitExit.success);
+        model.isInstalled = event.exit != PackageKitExit.success;
         model.packageState = PackageState.ready;
         completer.complete();
       }
     });
-    transaction.removePackages([model.packageId!]);
+    unawaited(transaction.removePackages([model.packageId!]));
     return completer.future.whenComplete(subscription.cancel);
   }
 
@@ -430,11 +432,11 @@ class PackageService {
         model.percentage = event.percentage;
       } else if (event is PackageKitFinishedEvent) {
         model.packageState = PackageState.ready;
-        model.isInstalled = (event.exit == PackageKitExit.success);
+        model.isInstalled = event.exit == PackageKitExit.success;
         completer.complete();
       }
     });
-    transaction.installPackages([model.packageId!]);
+    unawaited(transaction.installPackages([model.packageId!]));
     return completer.future.whenComplete(subscription.cancel);
   }
 
@@ -452,10 +454,10 @@ class PackageService {
         completer.complete();
       }
     });
-    transaction.searchNames(
+    unawaited(transaction.searchNames(
       [model.packageId!.name],
       filter: {PackageKitFilter.installed},
-    );
+    ));
     return completer.future.whenComplete(subscription.cancel);
   }
 
@@ -477,7 +479,7 @@ class PackageService {
         completer.complete();
       }
     });
-    transaction.getDetails([model.packageId!]);
+    unawaited(transaction.getDetails([model.packageId!]));
     return completer.future.whenComplete(subscription.cancel);
   }
 
@@ -541,13 +543,15 @@ class PackageService {
   // Not implemented in packagekit.dart
   Future<void> addRepo(String manualRepoName) async {
     if (manualRepoName.isEmpty) return;
-    Process.start(
-      'pkexec',
-      [
-        'apt-add-repository',
-        manualRepoName,
-      ],
-      mode: ProcessStartMode.detached,
+    unawaited(
+      Process.start(
+        'pkexec',
+        [
+          'apt-add-repository',
+          manualRepoName,
+        ],
+        mode: ProcessStartMode.detached,
+      ),
     );
     setReposChanged(true);
   }
@@ -565,7 +569,7 @@ class PackageService {
     // ensure max one search transaction at a time
     return synchronized(() async {
       if (searchQuery != _searchQuery) return [];
-      final List<PackageKitPackageId> ids = [];
+      final ids = <PackageKitPackageId>[];
       final transaction = await _client.createTransaction();
       final completer = Completer();
       final subscription = transaction.events.listen((event) {
@@ -615,7 +619,7 @@ class PackageService {
         completer.complete();
       }
     });
-    transaction.getDetailsLocal([model.path!]);
+    unawaited(transaction.getDetailsLocal([model.path!]));
     return completer.future.whenComplete(subscription.cancel);
   }
 
@@ -638,12 +642,12 @@ class PackageService {
       } else if (event is PackageKitItemProgressEvent) {
         model.percentage = event.percentage;
       } else if (event is PackageKitFinishedEvent) {
-        model.isInstalled = (event.exit == PackageKitExit.success);
+        model.isInstalled = event.exit == PackageKitExit.success;
         model.packageState = PackageState.ready;
         completer.complete();
       }
     });
-    transaction.installFiles([model.path!]);
+    unawaited(transaction.installFiles([model.path!]));
     return completer.future.whenComplete(subscription.cancel);
   }
 
@@ -659,5 +663,5 @@ class PackageService {
     }.contains(code);
   }
 
-  exitApp() => exit(0);
+  Never exitApp() => exit(0);
 }

@@ -20,16 +20,16 @@ import 'dart:async';
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/store_app/common/app_format.dart';
+import '../../services/package_service.dart';
+import '../../services/snap_service.dart';
+import '../common/app_format.dart';
 
 class MyAppsModel extends SafeChangeNotifier {
-  final PackageService _packageService;
   MyAppsModel(
     this._packageService,
     this._snapService,
   ) : _localSnaps = [];
+  final PackageService _packageService;
 
   StreamSubscription<bool>? _installedSub;
 
@@ -59,7 +59,7 @@ class MyAppsModel extends SafeChangeNotifier {
   @override
   Future<void> dispose() async {
     await _snapChangesSub?.cancel();
-    _installedSub?.cancel();
+    unawaited(_installedSub?.cancel());
 
     super.dispose();
   }

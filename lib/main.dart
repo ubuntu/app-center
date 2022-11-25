@@ -15,24 +15,27 @@
  *
  */
 
+import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/package_installer/package_installer_app.dart';
-import 'package:software/services/color_generator.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/store_app/store_app.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'package_installer/package_installer_app.dart';
+import 'services/color_generator.dart';
+import 'services/package_service.dart';
+import 'services/snap_service.dart';
+import 'store_app/store_app.dart';
+
 Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-  windowManager.setPreventClose(false);
+  unawaited(windowManager.setPreventClose(false));
 
   registerService<NotificationsClient>(
     NotificationsClient.new,

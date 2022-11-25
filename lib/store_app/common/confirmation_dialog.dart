@@ -16,18 +16,19 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../l10n/l10n.dart';
 
 class ConfirmationDialog extends StatefulWidget {
   const ConfirmationDialog({
-    Key? key,
+    super.key,
     this.onConfirm,
     required this.iconData,
     this.title,
     this.message,
     this.positiveConfirm = true,
-  }) : super(key: key);
+  });
 
   final Function()? onConfirm;
   final IconData iconData;

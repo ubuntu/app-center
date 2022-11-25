@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/store_app/updates/updates_model.dart';
-import 'package:software/updates_state.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../l10n/l10n.dart';
+import '../../updates_state.dart';
+import '../updates/updates_model.dart';
 
 class RepoDialog extends StatefulWidget {
   // ignore: unused_element
@@ -41,7 +42,7 @@ class _RepoDialogState extends State<RepoDialog> {
                 children: [
                   IconButton(
                     onPressed:
-                        controller.text.isEmpty ? null : () => model.addRepo(),
+                        controller.text.isEmpty ? null : model.addRepo,
                     icon: const Icon(YaruIcons.plus),
                   ),
                   const SizedBox(

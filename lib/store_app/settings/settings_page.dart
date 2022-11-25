@@ -18,22 +18,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/store_app/common/border_container.dart';
-import 'package:software/store_app/common/message_bar.dart';
-import 'package:software/store_app/settings/repo_dialog.dart';
-import 'package:software/store_app/settings/settings_model.dart';
-import 'package:software/store_app/updates/updates_model.dart';
-import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '../../l10n/l10n.dart';
+import '../../services/package_service.dart';
+import '../../updates_state.dart';
+import '../common/border_container.dart';
+import '../common/message_bar.dart';
+import '../updates/updates_model.dart';
+import 'repo_dialog.dart';
+import 'settings_model.dart';
+
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
@@ -185,7 +186,7 @@ class _RepoTileState extends State<RepoTile> {
   @override
   void initState() {
     super.initState();
-    context.read<UpdatesModel>().init(handleError: () => showSnackBar());
+    context.read<UpdatesModel>().init(handleError: showSnackBar);
   }
 
   void showSnackBar() {

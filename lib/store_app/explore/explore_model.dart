@@ -20,14 +20,22 @@ import 'dart:async';
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/store_app/common/app_format.dart';
-import 'package:software/store_app/common/snap/snap_section.dart';
-import 'package:software/store_app/common/snap/snap_sort.dart';
-import 'package:software/updates_state.dart';
+
+import '../../services/package_service.dart';
+import '../../services/snap_service.dart';
+import '../../updates_state.dart';
+import '../common/app_format.dart';
+import '../common/snap/snap_section.dart';
+import '../common/snap/snap_sort.dart';
 
 class ExploreModel extends SafeChangeNotifier {
+
+  ExploreModel(
+    this._snapService,
+    this._packageService,
+  )   : _searchQuery = '',
+        sectionNameToSnapsMap = {},
+        _errorMessage = '';
   final SnapService _snapService;
   final PackageService _packageService;
   StreamSubscription<UpdatesState>? _updatesStateSub;
@@ -57,13 +65,6 @@ class ExploreModel extends SafeChangeNotifier {
     _updatesState = value;
     notifyListeners();
   }
-
-  ExploreModel(
-    this._snapService,
-    this._packageService,
-  )   : _searchQuery = '',
-        sectionNameToSnapsMap = {},
-        _errorMessage = '';
 
   String _errorMessage;
   String get errorMessage => _errorMessage;
@@ -123,11 +124,11 @@ class ExploreModel extends SafeChangeNotifier {
   Future<List<Snap>> findSnapsBySection({SnapSection? section}) async {
     if (section == null) return [];
     try {
-      return (await _snapService.findSnapsBySection(
+      return await _snapService.findSnapsBySection(
         sectionName: section == SnapSection.all
             ? SnapSection.featured.title
             : section.title,
-      ));
+      );
     } on SnapdException catch (e) {
       errorMessage = e.toString();
       return [];
@@ -136,7 +137,7 @@ class ExploreModel extends SafeChangeNotifier {
 
   Map<SnapSection, List<Snap>> sectionNameToSnapsMap;
   Future<void> loadSection(SnapSection section) async {
-    List<Snap> sectionList = [];
+    final sectionList = <Snap>[];
     for (final snap in await findSnapsBySection(
       section: section,
     )) {
@@ -202,7 +203,7 @@ class ExploreModel extends SafeChangeNotifier {
   }
 
   Future<Map<String, AppFinding>> search() async {
-    final Map<String, AppFinding> appFindings = {};
+    final appFindings = <String, AppFinding>{};
 
     final snaps = await findSnapsByQuery();
     for (final snap in snaps) {
@@ -212,7 +213,7 @@ class ExploreModel extends SafeChangeNotifier {
     final packages = await findPackageKitPackageIds();
     for (final package in packages) {
       Snap? foundSnap;
-      for (var snap in snaps) {
+      for (final snap in snaps) {
         if (snap.name == package.name) {
           foundSnap = snap;
         }
@@ -238,13 +239,13 @@ class ExploreModel extends SafeChangeNotifier {
 }
 
 class AppFinding {
-  final Snap? snap;
-  final PackageKitPackageId? packageId;
-  final double? rating;
 
   AppFinding({
     this.snap,
     this.packageId,
     this.rating,
   });
+  final Snap? snap;
+  final PackageKitPackageId? packageId;
+  final double? rating;
 }

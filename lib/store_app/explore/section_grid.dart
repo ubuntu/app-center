@@ -17,25 +17,26 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/snapx.dart';
-import 'package:software/store_app/common/animated_scroll_view_item.dart';
-import 'package:software/store_app/common/app_icon.dart';
-import 'package:software/store_app/common/constants.dart';
-import 'package:software/store_app/common/snap/snap_page.dart';
-import 'package:software/store_app/common/snap/snap_section.dart';
-import 'package:software/store_app/explore/explore_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../../snapx.dart';
+import '../common/animated_scroll_view_item.dart';
+import '../common/app_icon.dart';
+import '../common/constants.dart';
+import '../common/snap/snap_page.dart';
+import '../common/snap/snap_section.dart';
+import 'explore_model.dart';
 
 class SectionGrid extends StatelessWidget {
   const SectionGrid({
-    Key? key,
+    super.key,
     required this.snapSection,
     this.animateBanners = false,
     this.padding,
     this.initSection = true,
     this.ignoreScrolling = true,
     required this.initialAmount,
-  }) : super(key: key);
+  });
 
   final SnapSection snapSection;
   final bool animateBanners;

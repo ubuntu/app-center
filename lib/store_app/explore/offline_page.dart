@@ -16,11 +16,12 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
+import '../../l10n/l10n.dart';
+
 class OfflinePage extends StatelessWidget {
-  const OfflinePage({Key? key}) : super(key: key);
+  const OfflinePage({super.key});
 
   @override
   Widget build(BuildContext context) {

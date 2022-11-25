@@ -19,23 +19,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/package_state.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/store_app/common/app_icon.dart';
-import 'package:software/store_app/common/packagekit/package_model.dart';
-import 'package:software/store_app/common/utils.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '../../l10n/l10n.dart';
+import '../../package_state.dart';
+import '../../services/package_service.dart';
+import '../common/app_icon.dart';
+import '../common/packagekit/package_model.dart';
+import '../common/utils.dart';
+
 class UpdateDialog extends StatefulWidget {
   const UpdateDialog({
-    Key? key,
+    super.key,
     required this.id,
     required this.installedId,
-  }) : super(key: key);
+  });
 
   final PackageKitPackageId id;
   final PackageKitPackageId installedId;
