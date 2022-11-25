@@ -454,10 +454,12 @@ class PackageService {
         completer.complete();
       }
     });
-    unawaited(transaction.searchNames(
-      [model.packageId!.name],
-      filter: {PackageKitFilter.installed},
-    ));
+    unawaited(
+      transaction.searchNames(
+        [model.packageId!.name],
+        filter: {PackageKitFilter.installed},
+      ),
+    );
     return completer.future.whenComplete(subscription.cancel);
   }
 
