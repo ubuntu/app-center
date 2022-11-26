@@ -15,8 +15,6 @@
  *
  */
 
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:software/store_app/common/app_data.dart';
