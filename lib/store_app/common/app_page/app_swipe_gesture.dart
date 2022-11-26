@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:software/store_app/common/constants.dart';
 
 class BackGesture extends StatefulWidget {
-  final child;
+  final Widget child;
 
   const BackGesture({
     super.key,
-    this.child,
+    required this.child,
   });
 
   @override
