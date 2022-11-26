@@ -48,12 +48,10 @@ class _AppLoadingPageState extends State<AppLoadingPage> {
         details.delta.dy > -50 &&
         currentExtent <= kMaxExtent) {
       currentExtent += details.delta.dx;
-
       setState(() {
         xPosition += details.delta.dx * 0.2;
       });
     }
-
     if (details.delta.dx < 0 &&
         details.delta.dy < 50 &&
         details.delta.dy > -50 &&
