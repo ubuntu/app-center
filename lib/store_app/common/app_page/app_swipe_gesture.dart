@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:software/store_app/common/constants.dart';
 
 class BackGesture extends StatefulWidget {
-  final body;
+  final child;
 
   const BackGesture({
-    this.body,
+    super.key,
+    this.child,
   });
 
   @override
@@ -73,7 +74,7 @@ class _BackGestureState extends State<BackGesture> {
       onPanEnd: onPanEnd,
       child: Stack(
         children: <Widget>[
-          widget.body,
+          widget.child,
           Positioned(
             top: yPosition,
             left: xPosition,

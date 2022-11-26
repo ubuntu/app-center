@@ -155,7 +155,7 @@ class AppLoadingPage extends StatelessWidget {
         ),
       ),
       body: BackGesture(
-        body: body,
+        child: body,
       ),
     );
   }

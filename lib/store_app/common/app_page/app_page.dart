@@ -232,16 +232,17 @@ class _AppPageState extends State<AppPage> {
             : narrowWindowLayout;
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.appData.title),
-          titleSpacing: 0,
-          leading: _CustomBackButton(
-            onPressed: () => Navigator.pop(context),
-          ),
+      appBar: AppBar(
+        title: Text(widget.appData.title),
+        titleSpacing: 0,
+        leading: _CustomBackButton(
+          onPressed: () => Navigator.pop(context),
         ),
-        body: BackGesture(
-          body: body,
-        ));
+      ),
+      body: BackGesture(
+        child: body,
+      ),
+    );
   }
 }
 
