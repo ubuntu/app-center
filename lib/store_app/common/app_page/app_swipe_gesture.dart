@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 
 class BackGesture extends StatefulWidget {
   final Widget child;
@@ -80,19 +81,22 @@ class _BackGestureState extends State<BackGesture> {
             left: xPosition,
             child: Visibility(
               visible: isVisible,
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(255, 127, 80, 1),
-                  shape: BoxShape.circle,
+              child: OutlinedButton(
+                onPressed: () {},
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.grey[100],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(width),
+                  ),
+                  minimumSize: Size(width, height),
                 ),
-                width: width,
-                height: height,
                 child: const Icon(
-                  Icons.arrow_back_rounded,
+                  YaruIcons.go_previous,
+                  size: 20,
                 ),
               ),
             ),
-          ),
+          )
         ],
       ),
     );
