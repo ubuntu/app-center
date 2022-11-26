@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:software/store_app/common/app_page/page_layouts.dart';
 import 'package:software/store_app/common/border_container.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class AppLoadingPage extends StatefulWidget {
@@ -37,7 +38,6 @@ class _AppLoadingPageState extends State<AppLoadingPage> {
   double xPosition = 0;
   double yPosition = 0;
 
-  double maxExtent = 800;
   double currentExtent = 0;
 
   bool isVisible = false;
@@ -46,7 +46,7 @@ class _AppLoadingPageState extends State<AppLoadingPage> {
     if (details.delta.dx > 0 &&
         details.delta.dy < 50 &&
         details.delta.dy > -50 &&
-        currentExtent <= maxExtent) {
+        currentExtent <= kMaxExtent) {
       currentExtent += details.delta.dx;
 
       setState(() {
@@ -78,7 +78,7 @@ class _AppLoadingPageState extends State<AppLoadingPage> {
   }
 
   void onPanEnd(DragEndDetails details) {
-    if (currentExtent > (maxExtent / 2)) {
+    if (currentExtent > (kMaxExtent / 2)) {
       Navigator.of(context).pop();
     }
     setState(() {
