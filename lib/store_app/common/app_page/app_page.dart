@@ -15,6 +15,8 @@
  *
  */
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:software/store_app/common/app_data.dart';
@@ -78,6 +80,61 @@ class AppPage extends StatefulWidget {
 
 class _AppPageState extends State<AppPage> {
   late YaruCarouselController controller;
+
+  double width = 50;
+  double height = 50;
+
+  double xPosition = 0;
+  double yPosition = 0;
+
+  double maxExtent = 800;
+  double currentExtent = 0;
+
+  bool isVisible = false;
+
+  void onPanUpdate(DragUpdateDetails details) {
+    if (details.delta.dx > 0 &&
+        details.delta.dy < 50 &&
+        details.delta.dy > -50 &&
+        currentExtent <= maxExtent) {
+      currentExtent += details.delta.dx;
+
+      setState(() {
+        xPosition += details.delta.dx * 0.2;
+      });
+    }
+
+    if (details.delta.dx < 0 &&
+        details.delta.dy < 50 &&
+        details.delta.dy > -50 &&
+        currentExtent >= -width) {
+      currentExtent -= -details.delta.dx;
+      setState(() {
+        xPosition -= -details.delta.dx * 0.2;
+      });
+    }
+  }
+
+  void onPanStart(DragStartDetails details) {
+    currentExtent = 0;
+    xPosition = 0 - width;
+    yPosition =
+        (MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height -
+                height) /
+            2;
+    setState(() {
+      isVisible = true;
+    });
+  }
+
+  void onPanEnd(DragEndDetails details) {
+    if (currentExtent > (maxExtent / 2)) {
+      Navigator.of(context).pop();
+    }
+    setState(() {
+      isVisible = false;
+    });
+  }
 
   @override
   void initState() {
@@ -238,7 +295,34 @@ class _AppPageState extends State<AppPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: body,
+      body: GestureDetector(
+        onPanUpdate: onPanUpdate,
+        onPanStart: onPanStart,
+        onPanEnd: onPanEnd,
+        child: Stack(
+          children: <Widget>[
+            body,
+            Positioned(
+              top: yPosition,
+              left: xPosition,
+              child: Visibility(
+                visible: isVisible,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(255, 127, 80, 1),
+                    shape: BoxShape.circle,
+                  ),
+                  width: 50,
+                  height: 50,
+                  child: const Icon(
+                    Icons.arrow_back_rounded,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
