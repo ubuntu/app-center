@@ -135,7 +135,7 @@
   "@noPackageFound": {},
   "noSnapFound": "Przepraszamy, nie mogliśmy znaleźć żadnego pakietu snap z tym zapytaniem",
   "@noSnapFound": {},
-  "quitDanger": "Uwaga! Trwa aktualizacji systemu. Zamknięcie aplikacji teraz może spowodować uszkodzenie systemu!",
+  "quitDanger": "Trwa aktualizacji systemu. Zamknięcie aplikacji teraz może spowodować uszkodzenie systemu!",
   "@quitDanger": {},
   "appFormat": "Format pakietu aplikacji",
   "@appFormat": {},
@@ -206,5 +206,7 @@
   "unknown": "Nieznany",
   "@unknown": {},
   "multiAppFormatsFound": "Znaleźliśmy wiele formatów dla tej aplikacji.",
-  "@multiAppFormatsFound": {}
+  "@multiAppFormatsFound": {},
+  "attention": "Uwaga!",
+  "@attention": {}
 }

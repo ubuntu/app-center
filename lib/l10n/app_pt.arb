@@ -171,7 +171,7 @@
   "@confirm": {},
   "quit": "Sair",
   "@quit": {},
-  "quitDanger": "Atenção! As atualizações do sistema estão atualmente em curso. Sair agora da aplicação pode deixar o sistema num estado danificado!",
+  "quitDanger": "As atualizações do sistema estão atualmente em curso. Sair agora da aplicação pode deixar o sistema num estado danificado!",
   "@quitDanger": {},
   "appFormat": "O formato do pacote das aplicações",
   "@appFormat": {},
@@ -208,5 +208,7 @@
   "justAMoment": "Um momento!",
   "@justAMoment": {},
   "updateButton": "Atualizar",
-  "@updateButton": {}
+  "@updateButton": {},
+  "attention": "Atenção!",
+  "@attention": {}
 }
