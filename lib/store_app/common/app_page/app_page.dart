@@ -82,8 +82,8 @@ class AppPage extends StatefulWidget {
 class _AppPageState extends State<AppPage> {
   late YaruCarouselController controller;
 
-  double width = 50;
-  double height = 50;
+  final double width = 50;
+  final double height = 50;
 
   double xPosition = 0;
   double yPosition = 0;

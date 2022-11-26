@@ -32,8 +32,8 @@ class AppLoadingPage extends StatefulWidget {
 }
 
 class _AppLoadingPageState extends State<AppLoadingPage> {
-  double width = 50;
-  double height = 50;
+  final double width = 50;
+  final double height = 50;
 
   double xPosition = 0;
   double yPosition = 0;
