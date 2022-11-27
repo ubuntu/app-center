@@ -60,20 +60,20 @@ class MultiAppFormatPopup extends StatelessWidget {
   });
 
   final Set<AppFormat> appFormats;
-  final Function(bool value, AppFormat appFormat) onTap;
+  final Function(AppFormat appFormat) onTap;
 
   @override
   Widget build(BuildContext context) {
     return YaruPopupMenuButton<AppFormat>(
       tooltip: context.l10n.appFormat,
+      onSelected: (v) => onTap(v),
       itemBuilder: (context) {
         return [
           for (final appFormat in AppFormat.values)
-            YaruMultiSelectPopupMenuItem<AppFormat>(
+            YaruCheckedPopupMenuItem<AppFormat>(
               padding: EdgeInsets.zero,
               value: appFormat,
               checked: appFormats.contains(appFormat),
-              onChanged: (v) => onTap(v, appFormat),
               child: Text(
                 appFormat.localize(context.l10n),
               ),
