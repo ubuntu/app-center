@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+
+const double _kButtonSize = 50;
+const double _kMaxExtent = 800;
 
 class BackGesture extends StatefulWidget {
   final Widget child;
@@ -15,9 +17,6 @@ class BackGesture extends StatefulWidget {
 }
 
 class _BackGestureState extends State<BackGesture> {
-  final double width = 50;
-  final double height = 50;
-
   double xPosition = 0;
   double yPosition = 0;
 
@@ -29,7 +28,7 @@ class _BackGestureState extends State<BackGesture> {
     if (details.delta.dx > 0 &&
         details.delta.dy < 50 &&
         details.delta.dy > -50 &&
-        currentExtent <= kMaxExtent) {
+        currentExtent <= _kMaxExtent) {
       currentExtent += details.delta.dx;
       setState(() {
         xPosition += details.delta.dx * 0.2;
@@ -38,7 +37,7 @@ class _BackGestureState extends State<BackGesture> {
     if (details.delta.dx < 0 &&
         details.delta.dy < 50 &&
         details.delta.dy > -50 &&
-        currentExtent >= -width) {
+        currentExtent >= -_kButtonSize) {
       currentExtent -= -details.delta.dx;
       setState(() {
         xPosition -= -details.delta.dx * 0.2;
@@ -48,10 +47,10 @@ class _BackGestureState extends State<BackGesture> {
 
   void onPanStart(DragStartDetails details) {
     currentExtent = 0;
-    xPosition = 0 - width;
+    xPosition = 0 - _kButtonSize;
     yPosition =
         (MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height -
-                height) /
+                _kButtonSize) /
             2;
     setState(() {
       isVisible = true;
@@ -59,7 +58,7 @@ class _BackGestureState extends State<BackGesture> {
   }
 
   void onPanEnd(DragEndDetails details) {
-    if (currentExtent > (kMaxExtent / 2)) {
+    if (currentExtent > (_kMaxExtent / 2)) {
       Navigator.of(context).pop();
     }
     setState(() {
@@ -81,21 +80,24 @@ class _BackGestureState extends State<BackGesture> {
             left: xPosition,
             child: Visibility(
               visible: isVisible,
-              child: OutlinedButton(
-                onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  backgroundColor:
-                      Theme.of(context).brightness == Brightness.light
-                          ? Colors.grey[100]
-                          : Colors.grey[900],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(width),
+              child: SizedBox(
+                width: _kButtonSize,
+                height: _kButtonSize,
+                child: OutlinedButton(
+                  onPressed: () {},
+                  style: OutlinedButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    backgroundColor:
+                        Theme.of(context).brightness == Brightness.light
+                            ? Colors.grey[100]
+                            : Colors.grey[900],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(_kButtonSize),
+                    ),
                   ),
-                  minimumSize: Size(width, height),
-                ),
-                child: const Icon(
-                  YaruIcons.go_previous,
+                  child: const Icon(
+                    YaruIcons.go_previous,
+                  ),
                 ),
               ),
             ),
