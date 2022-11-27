@@ -96,7 +96,6 @@ class _BackGestureState extends State<BackGesture> {
                 ),
                 child: const Icon(
                   YaruIcons.go_previous,
-                  size: 24,
                 ),
               ),
             ),
