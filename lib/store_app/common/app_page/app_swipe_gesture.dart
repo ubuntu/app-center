@@ -84,10 +84,10 @@ class _BackGestureState extends State<BackGesture> {
               child: OutlinedButton(
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
-                  backgroundColor: Theme.of(context).brightness ==
-                          Brightness.light
-                      ? Colors.grey[100]
-                      : Colors.grey[900],
+                  backgroundColor:
+                      Theme.of(context).brightness == Brightness.light
+                          ? Colors.grey[100]
+                          : Colors.grey[900],
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(width),
                   ),
