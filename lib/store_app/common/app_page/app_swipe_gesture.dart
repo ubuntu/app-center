@@ -84,6 +84,7 @@ class _BackGestureState extends State<BackGesture> {
               child: OutlinedButton(
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
+                  padding: EdgeInsets.zero,
                   backgroundColor:
                       Theme.of(context).brightness == Brightness.light
                           ? Colors.grey[100]
@@ -95,7 +96,7 @@ class _BackGestureState extends State<BackGesture> {
                 ),
                 child: const Icon(
                   YaruIcons.go_previous,
-                  size: 20,
+                  size: 24,
                 ),
               ),
             ),
