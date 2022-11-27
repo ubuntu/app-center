@@ -192,10 +192,11 @@ class ExploreModel extends SafeChangeNotifier {
 
   final Set<AppFormat> _appFormats = {AppFormat.snap, AppFormat.packageKit};
   Set<AppFormat> get appFormats => _appFormats;
-  void handleAppFormat(bool value, AppFormat appFormat) {
-    if (value) {
+  void handleAppFormat(AppFormat appFormat) {
+    if (!_appFormats.contains(appFormat)) {
       _appFormats.add(appFormat);
     } else {
+      if (_appFormats.length < 2) return;
       _appFormats.remove(appFormat);
     }
     notifyListeners();
