@@ -98,16 +98,28 @@ class __AppState extends State<_App> {
   @override
   void initState() {
     super.initState();
+
     final model = context.read<StoreModel>();
+    var closeConfirmDialogOpen = false;
+
     model.init(
-      onAskForQuit: () => showDialog(
-        context: context,
-        builder: (c) => _CloseWindowConfirmDialog(
-          onConfirm: () {
-            model.quit();
+      onAskForQuit: () {
+        if (closeConfirmDialogOpen) {
+          return;
+        }
+
+        closeConfirmDialogOpen = true;
+        showDialog(
+          context: context,
+          builder: (c) {
+            return _CloseWindowConfirmDialog(
+              onConfirm: () {
+                model.quit();
+              },
+            );
           },
-        ),
-      ),
+        ).then((value) => closeConfirmDialogOpen = false);
+      },
     );
   }
 

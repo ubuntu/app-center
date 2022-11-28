@@ -25,8 +25,7 @@ class ExploreHeader extends StatelessWidget {
           children: [
             MultiAppFormatPopup(
               appFormats: model.appFormats,
-              onTap: (value, appFormat) =>
-                  model.handleAppFormat(value, appFormat),
+              onTap: (appFormat) => model.handleAppFormat(appFormat),
             ),
             if (model.appFormats.contains(AppFormat.snap))
               SnapSectionPopup(
