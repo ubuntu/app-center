@@ -20,6 +20,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/store_app/common/snap/snap_section.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class SnapService {
@@ -77,8 +78,13 @@ class SnapService {
         _notificationsClient = getService<NotificationsClient>();
 
   Future<void> init() async {
-    return _snapDClient.loadAuthorization();
+    await _snapDClient.loadAuthorization();
+    for (var section in SnapSection.values) {
+      await _loadSection(section);
+    }
   }
+
+  Future<void> authorize() async => _snapDClient.loadAuthorization();
 
   Future<Snap?> findLocalSnap(String huskSnapName) async {
     try {
@@ -244,4 +250,17 @@ class SnapService {
 
   Future<SnapdChange?> getSnapChanges({required String name}) async =>
       (await _snapDClient.getChanges(name: name)).firstOrNull;
+
+  Map<SnapSection, List<Snap>> sectionNameToSnapsMap = {};
+  Future<void> _loadSection(SnapSection section) async {
+    List<Snap> sectionList = [];
+    for (final snap in await findSnapsBySection(
+      sectionName: section == SnapSection.all
+          ? SnapSection.featured.title
+          : section.title,
+    )) {
+      sectionList.add(snap);
+    }
+    sectionNameToSnapsMap.putIfAbsent(section, () => sectionList);
+  }
 }

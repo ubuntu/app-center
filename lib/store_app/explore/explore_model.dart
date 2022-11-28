@@ -62,7 +62,6 @@ class ExploreModel extends SafeChangeNotifier {
     this._snapService,
     this._packageService,
   )   : _searchQuery = '',
-        sectionNameToSnapsMap = {},
         _errorMessage = '';
 
   String _errorMessage;
@@ -120,31 +119,8 @@ class ExploreModel extends SafeChangeNotifier {
     }
   }
 
-  Future<List<Snap>> findSnapsBySection({SnapSection? section}) async {
-    if (section == null) return [];
-    try {
-      return (await _snapService.findSnapsBySection(
-        sectionName: section == SnapSection.all
-            ? SnapSection.featured.title
-            : section.title,
-      ));
-    } on SnapdException catch (e) {
-      errorMessage = e.toString();
-      return [];
-    }
-  }
-
-  Map<SnapSection, List<Snap>> sectionNameToSnapsMap;
-  Future<void> loadSection(SnapSection section) async {
-    List<Snap> sectionList = [];
-    for (final snap in await findSnapsBySection(
-      section: section,
-    )) {
-      sectionList.add(snap);
-    }
-    sectionNameToSnapsMap.putIfAbsent(section, () => sectionList);
-    notifyListeners();
-  }
+  Map<SnapSection, List<Snap>> get sectionNameToSnapsMap =>
+      _snapService.sectionNameToSnapsMap;
 
   Future<List<PackageKitPackageId>> findPackageKitPackageIds() async =>
       _packageService.findPackageKitPackageIds(
