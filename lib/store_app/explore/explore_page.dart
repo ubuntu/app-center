@@ -20,7 +20,6 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
-import 'package:software/store_app/common/snap/snap_section.dart';
 import 'package:software/store_app/explore/explore_header.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/offline_page.dart';
@@ -30,7 +29,7 @@ import 'package:software/store_app/explore/start_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class ExplorePage extends StatefulWidget {
+class ExplorePage extends StatelessWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
   static Widget create(BuildContext context, bool online) {
@@ -46,21 +45,6 @@ class ExplorePage extends StatefulWidget {
 
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.explorePageTitle);
-
-  @override
-  State<ExplorePage> createState() => _ExplorePageState();
-}
-
-class _ExplorePageState extends State<ExplorePage> {
-  @override
-  void initState() {
-    super.initState();
-    final model = context.read<ExploreModel>();
-
-    for (var section in SnapSection.values) {
-      model.loadSection(section);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

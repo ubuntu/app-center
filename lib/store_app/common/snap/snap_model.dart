@@ -38,7 +38,7 @@ class SnapModel extends AppModel {
         _channelToBeInstalled = '';
 
   Future<void> init() async {
-    await _snapService.init();
+    await _snapService.authorize();
     await _loadSnapChangeInProgress();
     await _loadChange();
 
