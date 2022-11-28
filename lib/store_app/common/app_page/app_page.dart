@@ -24,6 +24,7 @@ import 'package:software/store_app/common/app_page/app_infos.dart';
 import 'package:software/store_app/common/app_page/app_reviews.dart';
 import 'package:software/store_app/common/app_page/media_tile.dart';
 import 'package:software/store_app/common/app_page/page_layouts.dart';
+import 'package:software/store_app/common/app_page/app_swipe_gesture.dart';
 import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/safe_network_image.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -238,7 +239,9 @@ class _AppPageState extends State<AppPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: body,
+      body: BackGesture(
+        child: body,
+      ),
     );
   }
 }

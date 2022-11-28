@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:software/store_app/common/app_page/page_layouts.dart';
+import 'package:software/store_app/common/app_page/app_swipe_gesture.dart';
 import 'package:software/store_app/common/border_container.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
@@ -153,10 +154,7 @@ class AppLoadingPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: GestureDetector(
-        onHorizontalDragEnd: (details) {
-          Navigator.of(context).pop();
-        },
+      body: BackGesture(
         child: body,
       ),
     );
