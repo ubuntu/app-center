@@ -113,6 +113,7 @@ class __AppState extends State<_App> {
         closeConfirmDialogOpen = true;
         showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (c) {
             return _CloseWindowConfirmDialog(
               onConfirm: () {
@@ -122,7 +123,7 @@ class __AppState extends State<_App> {
           },
         ).then((value) => closeConfirmDialogOpen = false);
       },
-    ).then((value) => _initialized = true);
+    ).then((_) => _initialized = true);
   }
 
   @override

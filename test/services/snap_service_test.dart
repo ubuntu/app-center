@@ -49,9 +49,9 @@ void main() {
     expect(service.snapChanges, isEmpty);
   });
 
-  test('init service', () async {
+  test('authorize service', () async {
     verifyNever(mockSnapdClient.loadAuthorization);
-    await service.init();
+    await service.authorize();
     verify(mockSnapdClient.loadAuthorization).called(1);
   });
 

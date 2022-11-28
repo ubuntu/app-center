@@ -6,7 +6,6 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 class StoreSplashScreen extends StatefulWidget {
   const StoreSplashScreen({
-    // ignore: unused_element
     super.key,
   });
 
@@ -47,8 +46,8 @@ class _StoreSplashScreenState extends State<StoreSplashScreen>
             alignment: Alignment.center,
             children: [
               SizedBox(
-                width: 129,
-                height: 180,
+                width: 128,
+                height: 184,
                 child: LiquidLinearProgressIndicator(
                   value: _animationController.value,
                   backgroundColor: theme.primaryColor.withOpacity(0.7),
@@ -62,7 +61,7 @@ class _StoreSplashScreenState extends State<StoreSplashScreen>
               Icon(
                 YaruIcons.ubuntu_logo_large,
                 size: 220,
-                color: theme.primaryColor,
+                color: theme.primaryColor.withOpacity(0.9),
               )
             ],
           ),
@@ -73,20 +72,6 @@ class _StoreSplashScreenState extends State<StoreSplashScreen>
             child: Text(
               context.l10n.justAMoment,
               style: theme.textTheme.headline4,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.visible,
-            ),
-          ),
-          const SizedBox(
-            height: kYaruPagePadding / 4,
-          ),
-          Center(
-            child: Text(
-              context.l10n.checkingForUpdates,
-              style: theme.textTheme.headline6!.copyWith(
-                fontWeight: FontWeight.w400,
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
-              ),
               textAlign: TextAlign.center,
               overflow: TextOverflow.visible,
             ),
