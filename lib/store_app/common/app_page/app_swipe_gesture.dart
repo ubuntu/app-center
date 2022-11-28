@@ -45,13 +45,10 @@ class _BackGestureState extends State<BackGesture> {
     }
   }
 
-  void onPanStart(DragStartDetails details) {
+  void onPanStart(DragStartDetails details, BoxConstraints constraints) {
     currentExtent = 0;
     xPosition = 0 - _kButtonSize;
-    yPosition =
-        (MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height -
-                _kButtonSize) /
-            2;
+    yPosition = (constraints.maxHeight - _kButtonSize) / 2;
     setState(() {
       isVisible = true;
     });
@@ -68,42 +65,46 @@ class _BackGestureState extends State<BackGesture> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onPanUpdate: onPanUpdate,
-      onPanStart: onPanStart,
-      onPanEnd: onPanEnd,
-      child: Stack(
-        children: <Widget>[
-          widget.child,
-          Positioned(
-            top: yPosition,
-            left: xPosition,
-            child: Visibility(
-              visible: isVisible,
-              child: SizedBox(
-                width: _kButtonSize,
-                height: _kButtonSize,
-                child: OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    backgroundColor:
-                        Theme.of(context).brightness == Brightness.light
-                            ? Colors.grey[100]
-                            : Colors.grey[900],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(_kButtonSize),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return GestureDetector(
+          onPanUpdate: onPanUpdate,
+          onPanStart: (details) => onPanStart(details, constraints),
+          onPanEnd: onPanEnd,
+          child: Stack(
+            children: <Widget>[
+              widget.child,
+              Positioned(
+                top: yPosition,
+                left: xPosition,
+                child: Visibility(
+                  visible: isVisible,
+                  child: SizedBox(
+                    width: _kButtonSize,
+                    height: _kButtonSize,
+                    child: OutlinedButton(
+                      onPressed: () {},
+                      style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        backgroundColor:
+                            Theme.of(context).brightness == Brightness.light
+                                ? Colors.grey[100]
+                                : Colors.grey[900],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(_kButtonSize),
+                        ),
+                      ),
+                      child: const Icon(
+                        YaruIcons.go_previous,
+                      ),
                     ),
                   ),
-                  child: const Icon(
-                    YaruIcons.go_previous,
-                  ),
                 ),
-              ),
-            ),
-          )
-        ],
-      ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }
