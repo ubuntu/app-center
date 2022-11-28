@@ -179,7 +179,7 @@
   "@confirm": {},
   "runsInBackground": "Ohjelmakauppa Ubuntu Software säilyy ajossa taustalla tarkistaakseen järjestelmäpäivityksiä.",
   "@runsInBackground": {},
-  "quitDanger": "Huomio! Järjestelmäpäivityksiä ajetaan juuri tällä hetkellä. Sovelluksen lopettaminen nyt voi jättää järjestelmäsi vaurioituneeseen tilaan!",
+  "quitDanger": "Järjestelmäpäivityksiä ajetaan juuri tällä hetkellä. Sovelluksen lopettaminen nyt voi jättää järjestelmäsi vaurioituneeseen tilaan!",
   "@quitDanger": {},
   "copyErrorMessage": "Kopioi virheilmoitus",
   "@copyErrorMessage": {},
@@ -196,5 +196,7 @@
   "reviewSent": "Arvostelusi on lähetetty",
   "@reviewSent": {},
   "multiAppFormatsFound": "Löysimme tälle sovellukselle useita eri tiedostomuotoja.",
-  "@multiAppFormatsFound": {}
+  "@multiAppFormatsFound": {},
+  "attention": "Huomio!",
+  "@attention": {}
 }

@@ -155,7 +155,7 @@
   "@readyToUpdate": {},
   "verified": "Verificeret udgiver",
   "@verified": {},
-  "quitDanger": "OBS! Systemopdateringer kører i øjeblikket. Hvis du afslutter appen nu, kan dit system blive beskadiget!",
+  "quitDanger": "Systemopdateringer kører i øjeblikket. Hvis du afslutter appen nu, kan dit system blive beskadiget!",
   "@quitDanger": {},
   "checkingForUpdates": "Lige et øjeblik - vi tjekker efter opdateringer",
   "@checkingForUpdates": {},
@@ -182,5 +182,7 @@
   "copyErrorMessage": "Kopiér fejlmeddelelse",
   "@copyErrorMessage": {},
   "madeBy": "Ubuntu Software er udviklet og designet af",
-  "@madeBy": {}
+  "@madeBy": {},
+  "attention": "OBS!",
+  "@attention": {}
 }

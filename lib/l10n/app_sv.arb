@@ -139,7 +139,7 @@
   "@runsInBackground": {},
   "cancel": "Avbryt",
   "@cancel": {},
-  "quitDanger": "OBS! Systemuppdateringar körs för närvarande. Om du avslutar programmet nu kan ditt system bli skadat!",
+  "quitDanger": "Systemuppdateringar körs för närvarande. Om du avslutar programmet nu kan ditt system bli skadat!",
   "@quitDanger": {},
   "confirm": "Bekräfta",
   "@confirm": {},
@@ -208,5 +208,7 @@
   "appFormat": "Paketformat för program",
   "@appFormat": {},
   "confinement": "Sandlåda",
-  "@confinement": {}
+  "@confinement": {},
+  "attention": "OBS!",
+  "@attention": {}
 }

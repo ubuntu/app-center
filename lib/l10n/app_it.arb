@@ -165,7 +165,7 @@
   "@runsInBackground": {},
   "quit": "Esci",
   "@quit": {},
-  "quitDanger": "Attenzione! Gli aggiornamenti di sistema sono attualmente in esecuzione. Chiudere l'app ora potrebbe danneggiare il tuo sistema!",
+  "quitDanger": "Gli aggiornamenti di sistema sono attualmente in esecuzione. Chiudere l'app ora potrebbe danneggiare il tuo sistema!",
   "@quitDanger": {},
   "appTitle": "Ubuntu Software",
   "@appTitle": {},
@@ -208,5 +208,7 @@
   "unknown": "Sconosciuto",
   "@unknown": {},
   "reviewSent": "Recensione inviata",
-  "@reviewSent": {}
+  "@reviewSent": {},
+  "attention": "Attenzione!",
+  "@attention": {}
 }

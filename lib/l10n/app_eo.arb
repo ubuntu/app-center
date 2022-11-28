@@ -165,7 +165,7 @@
   "@noPackageFound": {},
   "noSnapFound": "Neniu Snap-pako troviĝis per ĉi tiu serĉo",
   "@noSnapFound": {},
-  "quitDanger": "Atentu! La sistemo estas nun ĝisdatigata. Nuna forlaso de la programo eble difektos vian sistemon!",
+  "quitDanger": "La sistemo estas nun ĝisdatigata. Nuna forlaso de la programo eble difektos vian sistemon!",
   "@quitDanger": {},
   "runsInBackground": "Ubuntu-Programvendejo daŭre fone funkcias por kontroli sistemajn ĝisdatigojn.",
   "@runsInBackground": {},
@@ -208,5 +208,7 @@
   "multiAppFormatsFound": "Ni trovis plurajn formojn por ĉi tiu programo.",
   "@multiAppFormatsFound": {},
   "allSelected": "Ĉiuj ĝisdatigoj elektiĝis",
-  "@allSelected": {}
+  "@allSelected": {},
+  "attention": "Atentu!",
+  "@attention": {}
 }

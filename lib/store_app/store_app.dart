@@ -22,6 +22,8 @@ import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
+import 'package:software/store_app/common/animated_warning_icon.dart';
+import 'package:software/store_app/common/dangerous_delayed_button.dart';
 import 'package:software/store_app/explore/explore_page.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
@@ -32,8 +34,6 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
-
-import 'common/confirmation_dialog.dart';
 
 class StoreApp extends StatelessWidget {
   const StoreApp({super.key});
@@ -112,11 +112,7 @@ class __AppState extends State<_App> {
         showDialog(
           context: context,
           builder: (c) {
-            return ConfirmationDialog(
-              message: context.l10n.quitDanger,
-              title: '${context.l10n.quit}?',
-              iconData: YaruIcons.warning_filled,
-              positiveConfirm: false,
+            return _CloseWindowConfirmDialog(
               onConfirm: () {
                 model.quit();
               },
@@ -271,3 +267,79 @@ class _UpdatesIcon extends StatelessWidget {
 }
 
 const badgeTextStyle = TextStyle(color: Colors.white, fontSize: 10);
+
+class _CloseWindowConfirmDialog extends StatelessWidget {
+  const _CloseWindowConfirmDialog({
+    Key? key,
+    this.onConfirm,
+  }) : super(key: key);
+
+  final Function()? onConfirm;
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      title: const YaruCloseButton(
+        alignement: Alignment.centerRight,
+      ),
+      titlePadding: const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 0.0),
+      contentPadding: EdgeInsets.zero,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: SizedBox(
+            width: 500,
+            child: Column(
+              children: [
+                const AnimatedWarningIcon(),
+                Text(
+                  context.l10n.attention,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontSize: 24.0),
+                  textAlign: TextAlign.center,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 30.0),
+                  child: Text(
+                    context.l10n.quitDanger,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: DangerousDelayedButton(
+                  duration: const Duration(seconds: 3),
+                  onPressed: onConfirm,
+                  child: Text(
+                    context.l10n.quit,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(
+                    context.l10n.cancel,
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}

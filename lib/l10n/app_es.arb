@@ -169,7 +169,7 @@
   "@runsInBackground": {},
   "quit": "Salir",
   "@quit": {},
-  "quitDanger": "¡Atención! Las actualizaciones del sistema se están ejecutando actualmente. ¡Salir de la aplicación ahora podría dejar su sistema en un estado dañado!",
+  "quitDanger": "Las actualizaciones del sistema se están ejecutando actualmente. ¡Salir de la aplicación ahora podría dejar su sistema en un estado dañado!",
   "@quitDanger": {},
   "cancel": "Cancelar",
   "@cancel": {},
@@ -208,5 +208,7 @@
   "unknown": "Desconocido",
   "@unknown": {},
   "reviewSent": "Reseña enviada",
-  "@reviewSent": {}
+  "@reviewSent": {},
+  "attention": "¡Atención!",
+  "@attention": {}
 }

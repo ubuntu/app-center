@@ -155,7 +155,7 @@
   "@requireRestartSystem": {},
   "noPackageFound": "O planhèm mas cap de paquet es pas estat trobat per aquesta requèsta",
   "@noPackageFound": {},
-  "quitDanger": "Atencion ! De mesas a jorn sistèma son a s’aplicar. Quitar l’aplicacion ara poiriá damatjar lo sistèma !",
+  "quitDanger": "De mesas a jorn sistèma son a s’aplicar. Quitar l’aplicacion ara poiriá damatjar lo sistèma !",
   "@quitDanger": {},
   "personalisation": "Personalizacion",
   "@personalisation": {},
@@ -208,5 +208,7 @@
   "send": "Enviar",
   "@send": {},
   "reviewSent": "Avís enviat",
-  "@reviewSent": {}
+  "@reviewSent": {},
+  "attention": "Atencion !",
+  "@attention": {}
 }

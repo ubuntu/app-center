@@ -112,7 +112,7 @@
   "confirm": "Confirm",
   "runsInBackground": "Ubuntu Software keeps running in the background to check for system updates.",
   "quit": "Quit",
-  "quitDanger": "Attention! System updates are currently running. Quitting the App now could leave your system in a damaged state!",
+  "quitDanger": "System updates are currently running. Quitting the App now could leave your system in a damaged state!",
   "appFormat": "The package format of applications",
   "allPackageTypes": "All types of packages",
   "packageKitGroup": "The category",
@@ -133,5 +133,6 @@
   "changingPermissions": "Changing permissions",
   "installing": "Installing",
   "removing": "Removing",
-  "refreshing": "Refreshing"
-} 
+  "refreshing": "Refreshing",
+  "attention": "Attention!"
+}
