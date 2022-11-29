@@ -28,6 +28,7 @@ import 'package:software/store_app/explore/explore_page.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
 import 'package:software/store_app/store_model.dart';
+import 'package:software/store_app/store_splash_screen.dart';
 import 'package:software/store_app/updates/updates_page.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -94,6 +95,7 @@ class _App extends StatefulWidget {
 
 class __AppState extends State<_App> {
   int _myAppsIndex = 0;
+  bool _initialized = false;
 
   @override
   void initState() {
@@ -111,6 +113,7 @@ class __AppState extends State<_App> {
         closeConfirmDialogOpen = true;
         showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (c) {
             return _CloseWindowConfirmDialog(
               onConfirm: () {
@@ -120,7 +123,7 @@ class __AppState extends State<_App> {
           },
         ).then((value) => closeConfirmDialogOpen = false);
       },
-    );
+    ).then((_) => _initialized = true);
   }
 
   @override
@@ -172,20 +175,22 @@ class __AppState extends State<_App> {
       ),
     ];
 
-    return YaruCompactLayout(
-      length: pageItems.length,
-      itemBuilder: (context, index, selected) => YaruNavigationRailItem(
-        icon: pageItems[index].iconBuilder(context, selected),
-        label: pageItems[index].titleBuilder(context),
-        // tooltip: pageItems[index].tooltipMessage,
-        style: width > 800 && width < 1200
-            ? YaruNavigationRailStyle.labelled
-            : width > 1200
-                ? YaruNavigationRailStyle.labelledExtended
-                : YaruNavigationRailStyle.compact,
-      ),
-      pageBuilder: (context, index) => pageItems[index].builder(context),
-    );
+    return _initialized
+        ? YaruCompactLayout(
+            length: pageItems.length,
+            itemBuilder: (context, index, selected) => YaruNavigationRailItem(
+              icon: pageItems[index].iconBuilder(context, selected),
+              label: pageItems[index].titleBuilder(context),
+              // tooltip: pageItems[index].tooltipMessage,
+              style: width > 800 && width < 1200
+                  ? YaruNavigationRailStyle.labelled
+                  : width > 1200
+                      ? YaruNavigationRailStyle.labelledExtended
+                      : YaruNavigationRailStyle.compact,
+            ),
+            pageBuilder: (context, index) => pageItems[index].builder(context),
+          )
+        : const StoreSplashScreen();
   }
 }
 

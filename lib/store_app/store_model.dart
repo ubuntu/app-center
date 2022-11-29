@@ -61,6 +61,7 @@ class StoreModel extends SafeChangeNotifier implements WindowListener {
     windowManager.setPreventClose(true);
     windowManager.addListener(this);
 
+    await _snapService.init();
     await _packageService.init();
 
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
