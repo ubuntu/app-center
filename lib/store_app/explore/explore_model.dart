@@ -139,7 +139,7 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  SnapSort _snapSort = SnapSort.updateAvailable;
+  SnapSort _snapSort = SnapSort.name;
   SnapSort get snapSort => _snapSort;
   void setSnapSort(SnapSort value) {
     if (value == _snapSort) return;

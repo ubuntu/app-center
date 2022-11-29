@@ -23,6 +23,7 @@ import 'package:snapd/snapd.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
+import 'package:software/store_app/common/snap/snap_sort.dart';
 
 class MyAppsModel extends SafeChangeNotifier {
   final PackageService _packageService;
@@ -43,6 +44,7 @@ class MyAppsModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     await _loadLocalSnaps();
+    _localSnaps.sort((a, b) => a.name.compareTo(b.name));
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       if (_snapService.snapChanges.isEmpty) {
         _loadLocalSnaps().then((value) => notifyListeners());
@@ -65,12 +67,8 @@ class MyAppsModel extends SafeChangeNotifier {
   }
 
   Future<void> _loadLocalSnaps() async {
-    final snaps = (await _snapService.getLocalSnaps())
-        .where(
-          (snap) => _snapService.getChange(snap) == null,
-        )
-        .toList();
-    snaps.sort((a, b) => a.name.compareTo(b.name));
+    var snaps = await _snapService.getLocalSnaps();
+
     _localSnaps.clear();
     _localSnaps.addAll(snaps);
   }
@@ -88,6 +86,7 @@ class MyAppsModel extends SafeChangeNotifier {
   void setAppFormat(AppFormat value) {
     if (value == _appFormat) return;
     _appFormat = value;
+    _loadSnapsWithUpdates = false;
     notifyListeners();
   }
 
@@ -107,5 +106,129 @@ class MyAppsModel extends SafeChangeNotifier {
     }
     await _packageService.getInstalledPackages(filters: packageKitFilters);
     notifyListeners();
+  }
+
+  bool _busy = false;
+  bool get busy => _busy;
+  set busy(bool value) {
+    if (value == _busy) return;
+    _busy = value;
+    notifyListeners();
+  }
+
+  SnapSort _snapSort = SnapSort.name;
+  SnapSort get snapSort => _snapSort;
+  void setSnapSort(SnapSort value) {
+    if (value == _snapSort) return;
+    _snapSort = value;
+    switch (snapSort) {
+      case SnapSort.name:
+        _localSnaps.sort((a, b) => a.name.compareTo(b.name));
+        break;
+
+      case SnapSort.size:
+        _localSnaps.sort(
+          (a, b) {
+            if (a.installedSize == null || b.installedSize == null) return 0;
+            return b.installedSize!.compareTo(a.installedSize!);
+          },
+        );
+        break;
+
+      case SnapSort.installDate:
+        _localSnaps.sort(
+          (a, b) {
+            if (a.installDate == null || b.installDate == null) return 0;
+            return a.installDate!.compareTo(b.installDate!);
+          },
+        );
+        break;
+    }
+    notifyListeners();
+  }
+
+  bool _loadSnapsWithUpdates = false;
+  bool get loadSnapsWithUpdates => _loadSnapsWithUpdates;
+  set loadSnapsWithUpdates(bool value) {
+    if (value == _loadSnapsWithUpdates) return;
+    _loadSnapsWithUpdates = value;
+    busy = true;
+    if (value) {
+      _loadSnapsWithUpdate()
+          .then((_) => notifyListeners())
+          .then((_) => busy = false);
+    } else {
+      _loadLocalSnaps()
+          .then((_) => notifyListeners())
+          .then((_) => busy = false);
+    }
+  }
+
+  Future<void> _loadSnapsWithUpdate() async {
+    await _loadLocalSnaps();
+    Map<Snap, Snap> localSnapsToStoreSnaps = {};
+    for (var snap in _localSnaps) {
+      final storeSnap = await _snapService.findSnapByName(snap.name) ?? snap;
+      localSnapsToStoreSnaps.putIfAbsent(snap, () => storeSnap);
+    }
+
+    final snapsWithUpdates = _localSnaps.where((snap) {
+      if (localSnapsToStoreSnaps[snap] == null) return false;
+      return getUpdateAvailable(
+        storeSnap: localSnapsToStoreSnaps[snap]!,
+        localSnap: snap,
+      );
+    }).toList();
+
+    _localSnaps.clear();
+    _localSnaps.addAll(snapsWithUpdates);
+  }
+
+  bool getUpdateAvailable({required Snap storeSnap, required Snap localSnap}) {
+    final version = localSnap.version;
+
+    final selectAbleChannels = getSelectableChannels(storeSnap: storeSnap);
+    final tracking = getTrackingChannel(
+      trackingChannel: localSnap.trackingChannel,
+      selectableChannels: selectAbleChannels,
+    );
+    final trackingVersion = selectAbleChannels[tracking]!.version;
+
+    return trackingVersion != version;
+  }
+
+  Map<String, SnapChannel> getSelectableChannels({required Snap? storeSnap}) {
+    Map<String, SnapChannel> selectableChannels = {};
+    if (storeSnap != null && storeSnap.tracks.isNotEmpty) {
+      for (var track in storeSnap.tracks) {
+        for (var risk in ['stable', 'candidate', 'beta', 'edge']) {
+          var name = '$track/$risk';
+          var channel = storeSnap.channels[name];
+          final channelName = '$track/$risk';
+          if (channel != null) {
+            selectableChannels.putIfAbsent(channelName, () => channel);
+          }
+        }
+      }
+    }
+    return selectableChannels;
+  }
+
+  String getTrackingChannel({
+    required Map<String, SnapChannel> selectableChannels,
+    required String? trackingChannel,
+  }) {
+    if (selectableChannels.entries.isNotEmpty) {
+      if (trackingChannel != null &&
+          selectableChannels.entries
+              .where((element) => element.key.contains(trackingChannel))
+              .isNotEmpty) {
+        return trackingChannel;
+      } else {
+        return selectableChannels.entries.first.key;
+      }
+    } else {
+      return '';
+    }
   }
 }

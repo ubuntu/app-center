@@ -17,11 +17,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/store_app/common/app_format.dart';
 import 'package:software/store_app/common/app_format_popup.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/packagekit/packagekit_filter_button.dart';
+import 'package:software/store_app/common/snap/snap_sort_popup.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MyAppsHeader extends StatelessWidget {
   const MyAppsHeader({super.key});
@@ -49,6 +52,19 @@ class MyAppsHeader extends StatelessWidget {
                 filters: model.packageKitFilters,
                 lockInstalled: true,
               ),
+            if (model.appFormat == AppFormat.snap)
+              SnapSortPopup(
+                value: model.snapSort,
+                onSelected: (value) => model.setSnapSort(value),
+              ),
+            if (model.appFormat == AppFormat.snap)
+              YaruIconButton(
+                onPressed: () =>
+                    model.loadSnapsWithUpdates = !model.loadSnapsWithUpdates,
+                isSelected: model.loadSnapsWithUpdates,
+                icon: const Icon(Icons.upgrade_rounded),
+                tooltip: context.l10n.updateAvailable,
+              )
           ],
         ),
       ),

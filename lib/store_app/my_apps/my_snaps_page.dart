@@ -19,7 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/snapx.dart';
-import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap/snap_page.dart';
@@ -49,7 +48,9 @@ class _MySnapsPageState extends State<MySnapsPage> {
               (s) => s.name.startsWith(model.searchQuery!),
             )
             .toList();
-    return _MySnapsGrid(snaps: snaps);
+    return model.busy
+        ? const Center(child: YaruCircularProgressIndicator())
+        : _MySnapsGrid(snaps: snaps);
   }
 }
 
@@ -94,24 +95,22 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
       itemCount: widget.snaps.length,
       itemBuilder: (context, index) {
         final snap = widget.snaps.elementAt(index);
-        return AnimatedScrollViewItem(
-          child: YaruBanner(
-            title: Text(
-              snap.name,
-              overflow: TextOverflow.ellipsis,
-            ),
-            subtitle: Text(
-              snap.summary,
-              overflow: TextOverflow.ellipsis,
-            ),
-            icon: Padding(
-              padding: kIconPadding,
-              child: AppIcon(
-                iconUrl: snap.iconUrl,
-              ),
-            ),
-            onTap: () => SnapPage.push(context, snap),
+        return YaruBanner(
+          title: Text(
+            snap.name,
+            overflow: TextOverflow.ellipsis,
           ),
+          subtitle: Text(
+            snap.summary,
+            overflow: TextOverflow.ellipsis,
+          ),
+          icon: Padding(
+            padding: kIconPadding,
+            child: AppIcon(
+              iconUrl: snap.iconUrl,
+            ),
+          ),
+          onTap: () => SnapPage.push(context, snap),
         );
       },
     );
