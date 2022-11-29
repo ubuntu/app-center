@@ -231,4 +231,17 @@ class MyAppsModel extends SafeChangeNotifier {
       return '';
     }
   }
+
+  void updateAll() {
+    busy = true;
+    for (var snap in _localSnaps) {
+      _snapService
+          .refresh(
+            snap: snap,
+            message: 'message',
+            confinement: snap.confinement,
+          )
+          .then((value) => busy = false);
+    }
+  }
 }
