@@ -262,36 +262,44 @@ class _CombinedSearchPage extends StatelessWidget {
                       e.key,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    subtitle: Text(
-                      e.value.snap?.summary ?? e.value.packageId?.version ?? '',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    thirdTitle: Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          RatingBar.builder(
-                            initialRating: e.value.rating ?? 0,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemPadding: EdgeInsets.zero,
-                            itemSize: 20,
-                            itemBuilder: (context, _) => Icon(
-                              YaruIcons.star_filled,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withOpacity(0.7),
-                            ),
-                            onRatingUpdate: (rating) {},
-                            ignoreGestures: true,
+                    subtitle: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          e.value.snap?.summary ??
+                              e.value.packageId?.version ??
+                              '',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              RatingBar.builder(
+                                initialRating: e.value.rating ?? 0,
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemPadding: EdgeInsets.zero,
+                                itemSize: 20,
+                                itemBuilder: (context, _) => Icon(
+                                  YaruIcons.star_filled,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withOpacity(0.7),
+                                ),
+                                onRatingUpdate: (rating) {},
+                                ignoreGestures: true,
+                              ),
+                              _PackageIndicator(appFinding: e.value),
+                            ],
                           ),
-                          _PackageIndicator(appFinding: e.value),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     icon: AppIcon(
                       iconUrl: e.value.snap?.iconUrl,
