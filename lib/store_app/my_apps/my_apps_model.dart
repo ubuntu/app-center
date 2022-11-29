@@ -44,6 +44,7 @@ class MyAppsModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     await _loadLocalSnaps();
+    _localSnaps.sort((a, b) => a.name.compareTo(b.name));
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       if (_snapService.snapChanges.isEmpty) {
         _loadLocalSnaps().then((value) => notifyListeners());
@@ -85,6 +86,7 @@ class MyAppsModel extends SafeChangeNotifier {
   void setAppFormat(AppFormat value) {
     if (value == _appFormat) return;
     _appFormat = value;
+    _loadSnapsWithUpdates = false;
     notifyListeners();
   }
 
@@ -127,14 +129,19 @@ class MyAppsModel extends SafeChangeNotifier {
       case SnapSort.size:
         _localSnaps.sort(
           (a, b) {
-            return a.installedSize == null || b.installedSize == null
-                ? 0
-                : b.installedSize!.compareTo(a.installedSize!);
+            if (a.installedSize == null || b.installedSize == null) return 0;
+            return b.installedSize!.compareTo(a.installedSize!);
           },
         );
         break;
-      default:
-        _localSnaps.sort((a, b) => a.name.compareTo(b.name));
+
+      case SnapSort.installDate:
+        _localSnaps.sort(
+          (a, b) {
+            if (a.installDate == null || b.installDate == null) return 0;
+            return a.installDate!.compareTo(b.installDate!);
+          },
+        );
         break;
     }
     notifyListeners();
@@ -151,7 +158,9 @@ class MyAppsModel extends SafeChangeNotifier {
           .then((_) => notifyListeners())
           .then((_) => busy = false);
     } else {
-      _loadLocalSnaps().then((_) => notifyListeners());
+      _loadLocalSnaps()
+          .then((_) => notifyListeners())
+          .then((_) => busy = false);
     }
   }
 

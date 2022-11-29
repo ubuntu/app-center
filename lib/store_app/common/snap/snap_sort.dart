@@ -20,15 +20,12 @@ import 'package:software/l10n/l10n.dart';
 enum SnapSort {
   name,
   installDate,
-  size,
-  confinement;
+  size;
 
   String localize(AppLocalizations l10n) {
     switch (this) {
       case SnapSort.name:
         return l10n.name;
-      case SnapSort.confinement:
-        return l10n.confinement;
       case SnapSort.installDate:
         return l10n.installDate;
       case SnapSort.size:
