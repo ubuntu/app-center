@@ -25,13 +25,16 @@ class SnapSortPopup extends StatelessWidget {
     Key? key,
     required this.value,
     required this.onSelected,
+    this.enabled = true,
   }) : super(key: key);
   final SnapSort value;
   final void Function(SnapSort value) onSelected;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     return YaruPopupMenuButton(
+      enabled: enabled,
       initialValue: value,
       onSelected: onSelected,
       tooltip: context.l10n.sortBy,

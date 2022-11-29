@@ -21,8 +21,7 @@ enum SnapSort {
   name,
   installDate,
   size,
-  confinement,
-  updateAvailable;
+  confinement;
 
   String localize(AppLocalizations l10n) {
     switch (this) {
@@ -34,8 +33,6 @@ enum SnapSort {
         return l10n.installDate;
       case SnapSort.size:
         return l10n.size;
-      case SnapSort.updateAvailable:
-        return l10n.updateAvailable;
     }
   }
 }
