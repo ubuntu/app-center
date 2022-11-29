@@ -85,16 +85,23 @@ class _ColorBannerState extends State<ColorBanner> {
             .copyWith(fontWeight: FontWeight.w300),
         overflow: TextOverflow.ellipsis,
       ),
-      subtitle: Text(widget.sectionName),
-      surfaceTintColor: model.surfaceTintColor,
-      thirdTitle: AppWebsite(
-        height: 14,
-        website:
-            widget.snap.website ?? widget.snap.publisher?.displayName ?? '',
-        verified: model.verified,
-        starredDeveloper: model.starredDeveloper,
-        publisherName: widget.snap.publisher?.displayName ?? widget.snap.name,
+      subtitle: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(widget.sectionName),
+          AppWebsite(
+            height: 14,
+            website:
+                widget.snap.website ?? widget.snap.publisher?.displayName ?? '',
+            verified: model.verified,
+            starredDeveloper: model.starredDeveloper,
+            publisherName:
+                widget.snap.publisher?.displayName ?? widget.snap.name,
+          ),
+        ],
       ),
+      surfaceTintColor: model.surfaceTintColor,
       onTap: widget.onTap,
       iconPadding: const EdgeInsets.only(left: 20, right: 10),
       icon: AppIcon(
