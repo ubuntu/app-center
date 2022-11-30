@@ -26,6 +26,7 @@ import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap/snap_page.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:software/store_app/updates/no_updates_page.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MySnapsPage extends StatefulWidget {
@@ -125,12 +126,10 @@ class _LoadingGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     var light = theme.brightness == Brightness.light;
-    final shimmerBase = light
-        ? const Color.fromARGB(120, 228, 228, 228)
-        : theme.colorScheme.onSurface.withOpacity(0.02);
-    final shimmerHighLight = light
-        ? const Color.fromARGB(200, 247, 247, 247)
-        : theme.colorScheme.onSurface.withOpacity(0.25);
+    final shimmerBase =
+        light ? const Color.fromARGB(120, 228, 228, 228) : YaruColors.jet;
+    final shimmerHighLight =
+        light ? const Color.fromARGB(200, 247, 247, 247) : YaruColors.coolGrey;
     return GridView.builder(
       padding: kGridPadding,
       gridDelegate: kGridDelegate,
@@ -143,7 +142,6 @@ class _LoadingGrid extends StatelessWidget {
           child: const YaruBanner(
             title: Text(
               '',
-              overflow: TextOverflow.ellipsis,
             ),
             icon: Padding(
               padding: kIconPadding,
