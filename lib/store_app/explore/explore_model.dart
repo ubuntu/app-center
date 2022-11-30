@@ -36,8 +36,11 @@ class ExploreModel extends SafeChangeNotifier {
   final SnapService _snapService;
   final PackageService _packageService;
   StreamSubscription<UpdatesState>? _updatesStateSub;
+  StreamSubscription<bool>? _sectionsChangedSub;
 
   Future<void> init() async {
+    _sectionsChangedSub =
+        _snapService.sectionsChanged.listen((_) => notifyListeners());
     _updatesState = _packageService.lastUpdatesState;
     _updatesStateSub = _packageService.updatesState.listen((event) {
       updatesState = event;
@@ -47,6 +50,7 @@ class ExploreModel extends SafeChangeNotifier {
   @override
   void dispose() {
     _updatesStateSub?.cancel();
+    _sectionsChangedSub?.cancel();
     super.dispose();
   }
 

@@ -30,7 +30,7 @@ import 'package:software/store_app/explore/start_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class ExplorePage extends StatelessWidget {
+class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
   static Widget create(BuildContext context, bool online) {
@@ -47,6 +47,17 @@ class ExplorePage extends StatelessWidget {
 
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.explorePageTitle);
+
+  @override
+  State<ExplorePage> createState() => _ExplorePageState();
+}
+
+class _ExplorePageState extends State<ExplorePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ExploreModel>().init();
+  }
 
   @override
   Widget build(BuildContext context) {
