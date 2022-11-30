@@ -169,19 +169,21 @@ class SnapService {
   Future<Snap?> refresh({
     required Snap snap,
     required String message,
-    String? channel,
+    required String channel,
     required SnapConfinement confinement,
   }) async {
-    final changeId = await _snapDClient.refresh(
-      snap.name,
-      channel: channel != null && channel.isNotEmpty ? channel : null,
-      classic: confinement == SnapConfinement.classic,
-    );
-    await _addChange(
-      snap,
-      changeId,
-      message,
-    );
+    if (channel.isNotEmpty) {
+      final changeId = await _snapDClient.refresh(
+        snap.name,
+        channel: channel,
+        classic: confinement == SnapConfinement.classic,
+      );
+      await _addChange(
+        snap,
+        changeId,
+        message,
+      );
+    }
 
     return await findLocalSnap(snap.name);
   }

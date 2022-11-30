@@ -238,6 +238,7 @@ class MyAppsModel extends SafeChangeNotifier {
         snap: snap,
         message: 'message',
         confinement: snap.confinement,
+        channel: snap.channel,
       );
     }
     busy = false;
