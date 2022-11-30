@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/package_installer/package_installer_app.dart';
+import 'package:software/services/appstream_service.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
@@ -34,6 +35,7 @@ Future<void> main(List<String> args) async {
   await windowManager.ensureInitialized();
   windowManager.setPreventClose(false);
 
+  registerService<AppstreamService>(AppstreamService.new);
   registerService<NotificationsClient>(
     NotificationsClient.new,
     dispose: (s) => s.close(),

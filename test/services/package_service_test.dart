@@ -70,6 +70,17 @@ void main() {
       ),
     ).thenAnswer((_) => emitFinishedEvent(controller));
 
+    when(() => transaction.resolve(['firefox'])).thenAnswer((_) {
+      controller.add(
+        const PackageKitPackageEvent(
+          info: PackageKitInfo.available,
+          packageId: firefoxPackageId,
+          summary: '',
+        ),
+      );
+      return emitFinishedEvent(controller);
+    });
+
     when(() => transaction.getDetails([firefoxPackageId])).thenAnswer((_) {
       controller.add(
         PackageKitDetailsEvent(
@@ -352,19 +363,6 @@ void main() {
     ]);
   });
 
-  test('find package ids', () async {
-    final service = PackageService();
-
-    final results =
-        await service.findPackageKitPackageIds(searchQuery: ['fire']);
-    expect(results.length, 2);
-    expect(results[0], firefoxPackageId);
-    expect(
-      results[1],
-      const PackageKitPackageId(name: 'firejail', version: '0.9.66-2'),
-    );
-  });
-
   test('toggle repo', () async {
     final service = PackageService();
 
@@ -401,6 +399,11 @@ void main() {
         hints: any(named: 'hints'),
       ),
     ).called(1);
+  });
+
+  test('resolve package id', () async {
+    final service = PackageService();
+    expect(await service.resolve('firefox'), firefoxPackageId);
   });
 
   test('get details about local package', () async {
