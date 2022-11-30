@@ -67,10 +67,13 @@ class MyAppsModel extends SafeChangeNotifier {
   }
 
   Future<void> _loadLocalSnaps() async {
-    var snaps = await _snapService.getLocalSnaps();
+    List<Snap> snaps =
+        await _snapService.getLocalSnaps().timeout(const Duration(seconds: 40));
 
-    _localSnaps.clear();
-    _localSnaps.addAll(snaps);
+    if (snaps.isNotEmpty) {
+      _localSnaps.clear();
+      _localSnaps.addAll(snaps);
+    }
   }
 
   String? _searchQuery;
@@ -154,13 +157,9 @@ class MyAppsModel extends SafeChangeNotifier {
     _loadSnapsWithUpdates = value;
     busy = true;
     if (value) {
-      _loadSnapsWithUpdate()
-          .then((_) => notifyListeners())
-          .then((_) => busy = false);
+      _loadSnapsWithUpdate().then((_) => busy = false);
     } else {
-      _loadLocalSnaps()
-          .then((_) => notifyListeners())
-          .then((_) => busy = false);
+      _loadLocalSnaps().then((_) => busy = false);
     }
   }
 
@@ -232,16 +231,15 @@ class MyAppsModel extends SafeChangeNotifier {
     }
   }
 
-  void updateAll() {
+  Future<void> updateAll() async {
     busy = true;
     for (var snap in _localSnaps) {
-      _snapService
-          .refresh(
-            snap: snap,
-            message: 'message',
-            confinement: snap.confinement,
-          )
-          .then((value) => busy = false);
+      await _snapService.refresh(
+        snap: snap,
+        message: 'message',
+        confinement: snap.confinement,
+      );
     }
+    busy = false;
   }
 }
