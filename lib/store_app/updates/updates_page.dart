@@ -25,6 +25,7 @@ import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/message_bar.dart';
+import 'package:software/store_app/updates/no_updates_page.dart';
 import 'package:software/store_app/updates/update_banner.dart';
 import 'package:software/store_app/updates/updates_model.dart';
 import 'package:software/updates_state.dart';
@@ -88,8 +89,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
     return Column(
       children: [
         _UpdatesHeader(hPadding: hPadding),
-        if (model.updatesState == UpdatesState.noUpdates)
-          const _NoUpdatesPage(),
+        if (model.updatesState == UpdatesState.noUpdates) const NoUpdatesPage(),
         if (model.updatesState == UpdatesState.readyToUpdate)
           _UpdatesListView(hPadding: hPadding),
         if (model.updatesState == UpdatesState.updating)
@@ -481,47 +481,6 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _NoUpdatesPage extends StatelessWidget {
-  const _NoUpdatesPage({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Center(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                YaruAnimatedOkIcon(
-                  size: 90,
-                  filled: true,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? kGreenLight
-                      : kGreenDark,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  context.l10n.noUpdates,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                const SizedBox(
-                  height: 100,
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

@@ -184,6 +184,7 @@ class SnapService {
         message,
       );
     }
+
     return await findLocalSnap(snap.name);
   }
 

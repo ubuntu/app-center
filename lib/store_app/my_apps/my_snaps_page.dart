@@ -17,12 +17,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/snap/snap_page.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
+import 'package:software/store_app/updates/no_updates_page.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MySnapsPage extends StatefulWidget {
@@ -48,53 +52,50 @@ class _MySnapsPageState extends State<MySnapsPage> {
               (s) => s.name.startsWith(model.searchQuery!),
             )
             .toList();
+
+    if (model.localSnaps.isEmpty) {
+      return model.loadSnapsWithUpdates
+          ? const NoUpdatesPage(
+              expand: false,
+            )
+          : const _LoadingGrid();
+    }
+
     return model.busy
-        ? const Center(child: YaruCircularProgressIndicator())
+        ? Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  context.l10n.justAMoment,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                const SizedBox(
+                  height: kYaruPagePadding,
+                ),
+                const YaruCircularProgressIndicator(),
+              ],
+            ),
+          )
         : _MySnapsGrid(snaps: snaps);
   }
 }
 
-class _MySnapsGrid extends StatefulWidget {
+class _MySnapsGrid extends StatelessWidget {
   // ignore: unused_element
   const _MySnapsGrid({super.key, required this.snaps});
 
   final List<Snap> snaps;
 
   @override
-  State<_MySnapsGrid> createState() => __MySnapsGridState();
-}
-
-class __MySnapsGridState extends State<_MySnapsGrid> {
-  late ScrollController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = ScrollController();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final model = context.watch<MyAppsModel>();
-    if (model.localSnaps.isEmpty) {
-      return const Center(
-        child: YaruCircularProgressIndicator(),
-      );
-    }
     return GridView.builder(
-      controller: _controller,
       padding: kGridPadding,
       gridDelegate: kGridDelegate,
       shrinkWrap: true,
-      itemCount: widget.snaps.length,
+      itemCount: snaps.length,
       itemBuilder: (context, index) {
-        final snap = widget.snaps.elementAt(index);
+        final snap = snaps.elementAt(index);
         return YaruBanner(
           title: Text(
             snap.name,
@@ -111,6 +112,44 @@ class __MySnapsGridState extends State<_MySnapsGrid> {
             ),
           ),
           onTap: () => SnapPage.push(context, snap),
+        );
+      },
+    );
+  }
+}
+
+class _LoadingGrid extends StatelessWidget {
+  // ignore: unused_element
+  const _LoadingGrid({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    var light = theme.brightness == Brightness.light;
+    final shimmerBase =
+        light ? const Color.fromARGB(120, 228, 228, 228) : YaruColors.jet;
+    final shimmerHighLight =
+        light ? const Color.fromARGB(200, 247, 247, 247) : YaruColors.coolGrey;
+    return GridView.builder(
+      padding: kGridPadding,
+      gridDelegate: kGridDelegate,
+      shrinkWrap: true,
+      itemCount: 40,
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: shimmerBase,
+          highlightColor: shimmerHighLight,
+          child: const YaruBanner(
+            title: Text(
+              '',
+            ),
+            icon: Padding(
+              padding: kIconPadding,
+              child: AppIcon(
+                iconUrl: null,
+              ),
+            ),
+          ),
         );
       },
     );
