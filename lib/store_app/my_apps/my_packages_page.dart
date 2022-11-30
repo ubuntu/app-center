@@ -69,7 +69,7 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
                 child: YaruBanner(
                   title: Text(package.name),
                   subtitle: Text(package.version),
-                  onTap: () => PackagePage.push(context, package),
+                  onTap: () => PackagePage.push(context, id: package),
                   iconPadding: const EdgeInsets.only(left: 10, right: 5),
                   icon: const AppIcon(
                     iconUrl: null,

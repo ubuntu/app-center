@@ -20,6 +20,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/services/appstream_service.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/animated_warning_icon.dart';
@@ -43,6 +44,7 @@ class StoreApp extends StatelessWidget {
         create: (context) => StoreModel(
           getService<Connectivity>(),
           getService<SnapService>(),
+          getService<AppstreamService>(),
           getService<PackageService>(),
         ),
         child: const StoreApp(),

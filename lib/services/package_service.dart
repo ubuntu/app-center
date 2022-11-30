@@ -26,7 +26,6 @@ import 'package:packagekit/packagekit.dart';
 import 'package:software/package_state.dart';
 import 'package:software/store_app/common/packagekit/package_model.dart';
 import 'package:software/updates_state.dart';
-import 'package:synchronized/extension.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class MissingPackageIDException implements Exception {
@@ -459,6 +458,21 @@ class PackageService {
     return completer.future.whenComplete(subscription.cancel);
   }
 
+  Future<PackageKitPackageId> resolve(String name) async {
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    var id = PackageKitPackageId(name: name, version: '');
+    final subscription = transaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        id = event.packageId;
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+    transaction.resolve([name]);
+    return completer.future.then((_) => id).whenComplete(subscription.cancel);
+  }
+
   Future<void> getDetails({required PackageModel model}) async {
     if (model.packageId == null) throw const MissingPackageIDException();
     model.packageState = PackageState.processing;
@@ -550,43 +564,6 @@ class PackageService {
       mode: ProcessStartMode.detached,
     );
     setReposChanged(true);
-  }
-
-  Iterable<String>? _searchQuery;
-  PackageKitTransaction? _searchTransaction;
-
-  Future<List<PackageKitPackageId>> findPackageKitPackageIds({
-    required Iterable<String> searchQuery,
-    Set<PackageKitFilter> filter = const {},
-  }) async {
-    _searchQuery = searchQuery;
-    if (searchQuery.isEmpty) return [];
-    await _searchTransaction?.cancel();
-    // ensure max one search transaction at a time
-    return synchronized(() async {
-      if (searchQuery != _searchQuery) return [];
-      final List<PackageKitPackageId> ids = [];
-      final transaction = await _client.createTransaction();
-      final completer = Completer();
-      final subscription = transaction.events.listen((event) {
-        if (event is PackageKitPackageEvent) {
-          final id = event.packageId;
-          ids.add(id);
-        } else if (event is PackageKitErrorCodeEvent) {
-        } else if (event is PackageKitFinishedEvent) {
-          completer.complete();
-        }
-      });
-      _searchTransaction = transaction;
-      await transaction.searchNames(
-        searchQuery,
-        filter: filter,
-      );
-      await completer.future.whenComplete(subscription.cancel);
-      _searchTransaction = null;
-
-      return ids.take(20).toList();
-    });
   }
 
   Future<void> getDetailsAboutLocalPackage({

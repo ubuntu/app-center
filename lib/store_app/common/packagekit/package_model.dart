@@ -17,8 +17,11 @@
 
 import 'dart:async';
 
+import 'package:appstream/appstream.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:packagekit/packagekit.dart';
+import 'package:software/appstream_utils.dart';
 import 'package:software/package_state.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/app_model.dart';
@@ -29,11 +32,16 @@ class PackageModel extends AppModel {
   String? _path;
   String? get path => _path;
 
+  final AppstreamComponent? _appstream;
+  AppstreamComponent? get appstream => _appstream;
+
   PackageModel({
     required PackageService service,
     PackageKitPackageId? packageId,
+    AppstreamComponent? appstream,
     String? path,
-  }) : _service = service {
+  })  : _service = service,
+        _appstream = appstream {
     if (packageId != null) {
       _packageId = packageId;
     } else if (path != null) {
@@ -41,11 +49,21 @@ class PackageModel extends AppModel {
     } else {
       throw Exception('Either packaged ID or local file path is required');
     }
+    if (appstream?.projectLicense != null) {
+      _license = appstream!.projectLicense!;
+    }
   }
 
-  List<String> get screenshotUrls => <String>[];
+  String get title => appstream?.localizedName() ?? packageId?.name ?? '';
 
-  String get iconUrl => '';
+  List<String> get screenshotUrls =>
+      appstream?.screenshots
+          .map((e) => e.images.firstOrNull?.url)
+          .whereType<String>()
+          .toList() ??
+      [];
+
+  String? get iconUrl => appstream?.icon;
 
   Future<void> init({bool update = false}) async {
     if (_packageId != null) {
@@ -125,7 +143,9 @@ class PackageModel extends AppModel {
   String _license = '';
   String get license => _license;
   set license(String value) {
-    if (value == _license) return;
+    if (value.isEmpty ||
+        value == _license ||
+        (_license.isNotEmpty && value == 'unknown')) return;
     _license = value;
     notifyListeners();
   }
