@@ -32,6 +32,7 @@ void main() {
 
     final appstreamServiceMock = MockAppstreamService();
     registerMockService<AppstreamService>(appstreamServiceMock);
+    when(appstreamServiceMock.init).thenAnswer((_) async {});
 
     final packageServiceMock = MockPackageService();
     registerMockService<PackageService>(packageServiceMock);

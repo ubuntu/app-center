@@ -58,8 +58,6 @@ Future<void> main(List<String> args) async {
     registerService<Connectivity>(Connectivity.new);
     registerService<SnapService>(SnapService.new);
 
-    getService<AppstreamService>().init();
-
     runApp(StoreApp.create());
   } else {
     final path = args.where((arg) => arg.endsWith('.deb')).first;
