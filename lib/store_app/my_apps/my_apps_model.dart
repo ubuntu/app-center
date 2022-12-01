@@ -90,7 +90,11 @@ class MyAppsModel extends SafeChangeNotifier {
     if (value == _appFormat) return;
     _appFormat = value;
     _loadSnapsWithUpdates = false;
-    notifyListeners();
+    if (_appFormat == AppFormat.packageKit) {
+      _packageService.getInstalledPackages().then((_) => notifyListeners());
+    } else {
+      notifyListeners();
+    }
   }
 
   final Set<PackageKitFilter> _packageKitFilters = {
