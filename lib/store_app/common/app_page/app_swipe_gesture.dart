@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
@@ -18,13 +16,36 @@ class BackGesture extends StatefulWidget {
   State<BackGesture> createState() => _BackGestureState();
 }
 
-class _BackGestureState extends State<BackGesture> {
+class _BackGestureState extends State<BackGesture>
+    with SingleTickerProviderStateMixin {
+  late AnimationController swipeController;
+
   double xPosition = 0;
   double yPosition = 0;
 
   double currentExtent = 0;
 
   bool isVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    swipeController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    swipeController.addListener(() {
+      setState(() {
+        xPosition -= (xPosition + _kButtonSize) * swipeController.value;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    swipeController.dispose();
+    super.dispose();
+  }
 
   void onPanUpdate(DragUpdateDetails details) {
     if (details.delta.dx > 0 &&
@@ -57,18 +78,15 @@ class _BackGestureState extends State<BackGesture> {
   }
 
   void onPanEnd(DragEndDetails details) {
+    swipeController.forward().whenComplete(() {
+      swipeController.reset();
+      setState(() {
+        isVisible = false;
+      });
+    });
     if (currentExtent > (_kMaxExtent / 2)) {
       Navigator.of(context).pop();
     }
-    Timer.periodic(const Duration(milliseconds: 1), (timer) {
-      setState(() {
-        xPosition -= 1;
-        if (xPosition <= 0 - _kButtonSize) {
-          isVisible = false;
-          timer.cancel();
-        }
-      });
-    });
   }
 
   @override
