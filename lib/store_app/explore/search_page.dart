@@ -101,20 +101,9 @@ class _SnapSearchPage extends StatelessWidget {
   }
 }
 
-class _AppstreamSearchPage extends StatefulWidget {
+class _AppstreamSearchPage extends StatelessWidget {
   // ignore: unused_element
   const _AppstreamSearchPage({super.key});
-
-  @override
-  State<_AppstreamSearchPage> createState() => _AppstreamSearchPageState();
-}
-
-class _AppstreamSearchPageState extends State<_AppstreamSearchPage> {
-  @override
-  void initState() {
-    context.read<ExploreModel>().init();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
