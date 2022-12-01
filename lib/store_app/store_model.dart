@@ -60,14 +60,14 @@ class StoreModel extends SafeChangeNotifier implements WindowListener {
 
   void Function()? _onAskForQuit;
 
-  Future<void> init({required void Function() onAskForQuit}) async {
+  void init({required void Function() onAskForQuit}) {
     _onAskForQuit = onAskForQuit;
     windowManager.setPreventClose(true);
     windowManager.addListener(this);
 
-    await _snapService.init();
-    await _appstreamService.init();
-    await _packageService.init();
+    _snapService.init();
+    _appstreamService.init();
+    _packageService.init();
 
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       notifyListeners();
