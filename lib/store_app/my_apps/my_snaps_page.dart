@@ -17,16 +17,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/loading_banner_grid.dart';
 import 'package:software/store_app/common/snap/snap_page.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:software/store_app/updates/no_updates_page.dart';
-import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MySnapsPage extends StatefulWidget {
@@ -58,7 +57,7 @@ class _MySnapsPageState extends State<MySnapsPage> {
           ? const NoUpdatesPage(
               expand: false,
             )
-          : const _LoadingGrid();
+          : const LoadingBannerGrid();
     }
 
     return model.busy
@@ -112,44 +111,6 @@ class _MySnapsGrid extends StatelessWidget {
             ),
           ),
           onTap: () => SnapPage.push(context, snap),
-        );
-      },
-    );
-  }
-}
-
-class _LoadingGrid extends StatelessWidget {
-  // ignore: unused_element
-  const _LoadingGrid({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    var light = theme.brightness == Brightness.light;
-    final shimmerBase =
-        light ? const Color.fromARGB(120, 228, 228, 228) : YaruColors.jet;
-    final shimmerHighLight =
-        light ? const Color.fromARGB(200, 247, 247, 247) : YaruColors.coolGrey;
-    return GridView.builder(
-      padding: kGridPadding,
-      gridDelegate: kGridDelegate,
-      shrinkWrap: true,
-      itemCount: 40,
-      itemBuilder: (context, index) {
-        return Shimmer.fromColors(
-          baseColor: shimmerBase,
-          highlightColor: shimmerHighLight,
-          child: const YaruBanner(
-            title: Text(
-              '',
-            ),
-            icon: Padding(
-              padding: kIconPadding,
-              child: AppIcon(
-                iconUrl: null,
-              ),
-            ),
-          ),
         );
       },
     );
