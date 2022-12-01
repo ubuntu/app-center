@@ -60,9 +60,9 @@ class _BackGestureState extends State<BackGesture> {
     if (currentExtent > (_kMaxExtent / 2)) {
       Navigator.of(context).pop();
     }
-    Timer.periodic(const Duration(milliseconds: 10), (timer) {
+    Timer.periodic(const Duration(milliseconds: 1), (timer) {
       setState(() {
-        xPosition -= 10;
+        xPosition -= 1;
         if (xPosition <= 0 - _kButtonSize) {
           isVisible = false;
           timer.cancel();
