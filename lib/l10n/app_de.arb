@@ -233,7 +233,7 @@
   "reviewSent": "Rezension versendet",
   "@reviewSent": {},
   "multiAppFormatsFound": "Wir konnten verschiedene Formate für diese Anwendung finden.",
-  "@multiAppFormatsFound": {}
+  "@multiAppFormatsFound": {},
   "changingPermissions": "Ändere Berechtigungen",
   "installing": "Installiere",
   "removing": "Entferne",
