@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
@@ -28,7 +30,7 @@ class _BackGestureState extends State<BackGesture> {
     if (details.delta.dx > 0 &&
         details.delta.dy < 50 &&
         details.delta.dy > -50 &&
-        currentExtent <= _kMaxExtent) {
+        currentExtent + details.delta.dx <= _kMaxExtent) {
       currentExtent += details.delta.dx;
       setState(() {
         xPosition += details.delta.dx * 0.2;
@@ -37,7 +39,7 @@ class _BackGestureState extends State<BackGesture> {
     if (details.delta.dx < 0 &&
         details.delta.dy < 50 &&
         details.delta.dy > -50 &&
-        currentExtent >= -_kButtonSize) {
+        currentExtent - details.delta.dx >= -_kButtonSize) {
       currentExtent -= -details.delta.dx;
       setState(() {
         xPosition -= -details.delta.dx * 0.2;
@@ -58,8 +60,14 @@ class _BackGestureState extends State<BackGesture> {
     if (currentExtent > (_kMaxExtent / 2)) {
       Navigator.of(context).pop();
     }
-    setState(() {
-      isVisible = false;
+    Timer.periodic(const Duration(milliseconds: 10), (timer) {
+      setState(() {
+        xPosition -= 10;
+        if (xPosition <= 0 - _kButtonSize) {
+          isVisible = false;
+          timer.cancel();
+        }
+      });
     });
   }
 
