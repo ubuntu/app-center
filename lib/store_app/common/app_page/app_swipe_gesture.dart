@@ -34,11 +34,6 @@ class _BackGestureState extends State<BackGesture>
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
-    swipeController.addListener(() {
-      setState(() {
-        xPosition -= (xPosition + _kButtonSize) * swipeController.value;
-      });
-    });
   }
 
   @override
@@ -100,33 +95,39 @@ class _BackGestureState extends State<BackGesture>
           child: Stack(
             children: <Widget>[
               widget.child,
-              Positioned(
-                top: yPosition,
-                left: xPosition,
-                child: Visibility(
-                  visible: isVisible,
-                  child: SizedBox(
-                    width: _kButtonSize,
-                    height: _kButtonSize,
-                    child: OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        backgroundColor:
-                            Theme.of(context).brightness == Brightness.light
-                                ? Colors.grey[100]
-                                : Colors.grey[900],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(_kButtonSize),
+              AnimatedBuilder(
+                animation: swipeController,
+                builder: (BuildContext context, Widget? child) {
+                  return Positioned(
+                    top: yPosition,
+                    left: xPosition -=
+                        (xPosition + _kButtonSize) * swipeController.value,
+                    child: Visibility(
+                      visible: isVisible,
+                      child: SizedBox(
+                        width: _kButtonSize,
+                        height: _kButtonSize,
+                        child: OutlinedButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            backgroundColor:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? Colors.grey[100]
+                                    : Colors.grey[900],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(_kButtonSize),
+                            ),
+                          ),
+                          child: const Icon(
+                            YaruIcons.go_previous,
+                          ),
                         ),
                       ),
-                      child: const Icon(
-                        YaruIcons.go_previous,
-                      ),
                     ),
-                  ),
-                ),
-              )
+                  );
+                },
+              ),
             ],
           ),
         );
