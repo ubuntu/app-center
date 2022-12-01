@@ -185,24 +185,41 @@ class ExploreModel extends SafeChangeNotifier {
   Future<Map<String, AppFinding>> search() async {
     final Map<String, AppFinding> appFindings = {};
 
-    final snaps = await findSnapsByQuery();
-    for (final snap in snaps) {
-      appFindings.putIfAbsent(snap.name, () => AppFinding(snap: snap));
-    }
+    if (appFormats.containsAll([AppFormat.snap, AppFormat.packageKit])) {
+      final snaps = await findSnapsByQuery();
+      for (final snap in snaps) {
+        appFindings.putIfAbsent(snap.name, () => AppFinding(snap: snap));
+      }
 
-    final components = await findAppstreamComponents();
-    for (final component in components) {
-      final snap =
-          snaps.firstWhereOrNull((snap) => snap.name == component.package);
-      if (snap == null) {
+      final components = await findAppstreamComponents();
+      for (final component in components) {
+        final snap =
+            snaps.firstWhereOrNull((snap) => snap.name == component.package);
+        if (snap == null) {
+          appFindings.putIfAbsent(
+            component.localizedName(),
+            () => AppFinding(appstream: component),
+          );
+        } else {
+          appFindings.update(
+            snap.name,
+            (value) => AppFinding(snap: snap, appstream: component),
+          );
+        }
+      }
+    } else if (appFormats.contains(AppFormat.snap) &&
+        !(appFormats.contains(AppFormat.packageKit))) {
+      final snaps = await findSnapsByQuery();
+      for (final snap in snaps) {
+        appFindings.putIfAbsent(snap.name, () => AppFinding(snap: snap));
+      }
+    } else if (!appFormats.contains(AppFormat.snap) &&
+        (appFormats.contains(AppFormat.packageKit))) {
+      final components = await findAppstreamComponents();
+      for (final component in components) {
         appFindings.putIfAbsent(
           component.localizedName(),
           () => AppFinding(appstream: component),
-        );
-      } else {
-        appFindings.update(
-          snap.name,
-          (value) => AppFinding(snap: snap, appstream: component),
         );
       }
     }
