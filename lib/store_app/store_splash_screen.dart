@@ -22,7 +22,7 @@ class _StoreSplashScreenState extends State<StoreSplashScreen>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 13),
+      duration: const Duration(seconds: 20),
     );
 
     _animationController.addListener(() => setState(() {}));

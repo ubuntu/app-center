@@ -197,7 +197,6 @@ class PackageService {
   Future<void> init({Set<PackageKitFilter> filters = const {}}) async {
     setErrorMessage('');
     await getInstalledPackages(filters: filters);
-    refreshUpdates();
   }
 
   Future<void> refreshUpdates() async {
