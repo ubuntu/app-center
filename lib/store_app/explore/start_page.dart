@@ -19,12 +19,15 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/snapx.dart';
+import 'package:software/store_app/common/loading_banner_grid.dart';
+import 'package:software/store_app/common/snap/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/section_banner.dart';
 import 'package:software/store_app/explore/section_grid.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({
@@ -84,9 +87,18 @@ class _StartPageState extends State<StartPage> {
       bannerSnap3 = snapsWithIcons.elementAt(_randomSnapIndex + 2);
     }
 
-    if (bannerSnap == null || bannerSnap2 == null || bannerSnap3 == null) {
-      return const Center(
-        child: YaruCircularProgressIndicator(),
+    if (model.sectionNameToSnapsMap.isEmpty ||
+        bannerSnap == null ||
+        bannerSnap2 == null ||
+        bannerSnap3 == null) {
+      return SingleChildScrollView(
+        controller: _controller,
+        child: Column(
+          children: const [
+            _LoadingSectionBanner(),
+            LoadingBannerGrid(),
+          ],
+        ),
       );
     }
 
@@ -104,6 +116,30 @@ class _StartPageState extends State<StartPage> {
             initialAmount: _amount,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _LoadingSectionBanner extends StatelessWidget {
+  // ignore: unused_element
+  const _LoadingSectionBanner({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    var light = theme.brightness == Brightness.light;
+    final shimmerBase =
+        light ? const Color.fromARGB(120, 228, 228, 228) : YaruColors.jet;
+    final shimmerHighLight =
+        light ? const Color.fromARGB(200, 247, 247, 247) : YaruColors.coolGrey;
+    return Shimmer.fromColors(
+      baseColor: shimmerBase,
+      highlightColor: shimmerHighLight,
+      child: SectionBanner(
+        snaps: const [],
+        section: SnapSection.all,
+        gradientColors: SnapSection.all.colors.map((e) => Color(e)).toList(),
       ),
     );
   }

@@ -18,6 +18,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:software/store_app/common/border_container.dart';
 
 class AppIcon extends StatelessWidget {
@@ -49,6 +50,22 @@ class AppIcon extends StatelessWidget {
       ),
     );
 
+    final theme = Theme.of(context);
+    var light = theme.brightness == Brightness.light;
+    final shimmerBase = color ??
+        (light
+            ? const Color.fromARGB(120, 228, 228, 228)
+            : const Color.fromARGB(255, 94, 94, 94));
+    final shimmerHighLight = borderColor ??
+        (light
+            ? const Color.fromARGB(200, 247, 247, 247)
+            : const Color.fromARGB(255, 53, 53, 53));
+    final fallBackLoadingIcon = Shimmer.fromColors(
+      baseColor: shimmerBase,
+      highlightColor: shimmerHighLight,
+      child: fallBackIcon,
+    );
+
     return iconUrl == null || iconUrl!.isEmpty
         ? fallBackIcon
         : SizedBox(
@@ -59,7 +76,12 @@ class AppIcon extends StatelessWidget {
               filterQuality: FilterQuality.medium,
               fit: BoxFit.fitHeight,
               frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                return frame == null ? fallBackIcon : child;
+                return frame == null
+                    ? fallBackLoadingIcon
+                    : AnimatedContainer(
+                        duration: const Duration(milliseconds: 500),
+                        child: child,
+                      );
               },
               errorBuilder: (context, error, stackTrace) => fallBackIcon,
             ),
