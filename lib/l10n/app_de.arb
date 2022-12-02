@@ -239,5 +239,6 @@
   "removing": "Entferne",
   "refreshing": "Frische auf",
   "attention": "Achtung!",
-  "@attention": {}
+  "@attention": {},
+  "releasedAt": "Veröffentlicht am"
 }
