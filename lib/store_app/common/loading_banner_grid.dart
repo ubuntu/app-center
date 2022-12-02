@@ -42,11 +42,11 @@ class LoadingBannerGrid extends StatelessWidget {
         return Shimmer.fromColors(
           baseColor: shimmerBase,
           highlightColor: shimmerHighLight,
-          child: YaruBanner.tile(
-            title: const Text(
+          child: const YaruBanner(
+            title: Text(
               '',
             ),
-            icon: const Padding(
+            icon: Padding(
               padding: kIconPadding,
               child: AppIcon(
                 iconUrl: null,
