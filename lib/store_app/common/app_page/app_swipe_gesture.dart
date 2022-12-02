@@ -33,10 +33,9 @@ class _BackGestureState extends State<BackGesture>
     swipeBackController = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
-    );
-    swipeBackController.addListener(() {
-      xPosition -= (xPosition + _kButtonSize) * swipeBackController.value;
-    });
+    )..addListener(() {
+        xPosition -= (xPosition + _kButtonSize) * swipeBackController.value;
+      });
   }
 
   @override
