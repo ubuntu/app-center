@@ -33,11 +33,16 @@ class SnapChannelPopupButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-    final channelTextTheme = Theme.of(context)
-        .textTheme
-        .bodyMedium
-        ?.copyWith(fontWeight: FontWeight.w500);
-    final light = Theme.of(context).brightness == Brightness.light;
+    final theme = Theme.of(context);
+    final labelStyle = TextStyle(
+      color: theme.disabledColor,
+      fontSize: 14,
+    );
+    const infoStyle = TextStyle(
+      overflow: TextOverflow.ellipsis,
+      fontSize: 14,
+    );
+    final light = theme.brightness == Brightness.light;
 
     return YaruPopupMenuButton(
       initialValue: model.channelToBeInstalled,
@@ -47,29 +52,74 @@ class SnapChannelPopupButton extends StatelessWidget {
           PopupMenuItem(
             value: entry.key,
             padding: EdgeInsets.zero,
-            child: ListTile(
-              dense: true,
-              isThreeLine: true,
-              onTap: () {
-                model.channelToBeInstalled = entry.key;
-                Navigator.of(context).pop();
-              },
-              subtitle: Text(
-                entry.key,
-                style: channelTextTheme,
-              ),
-              title: Text(
-                DateFormat.yMMMMd(Platform.localeName)
-                    .format(entry.value.releasedAt),
-                style: const TextStyle(fontWeight: FontWeight.w300),
-              ),
-              trailing: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 180, minWidth: 80),
-                child: Text(
-                  entry.value.version,
-                  style: channelTextTheme,
-                  textAlign: TextAlign.end,
-                ),
+            onTap: () {
+              model.channelToBeInstalled = entry.key;
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          context.l10n.channel,
+                          style: labelStyle,
+                          maxLines: 1,
+                          textAlign: TextAlign.end,
+                        ),
+                        Text(
+                          context.l10n.version,
+                          style: labelStyle,
+                          maxLines: 1,
+                          textAlign: TextAlign.end,
+                        ),
+                        Text(
+                          context.l10n.releasedAt,
+                          style: labelStyle,
+                          maxLines: 1,
+                          textAlign: TextAlign.end,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          entry.key,
+                          style: infoStyle,
+                          maxLines: 1,
+                        ),
+                        Text(
+                          entry.value.version,
+                          style: infoStyle,
+                          maxLines: 1,
+                        ),
+                        Text(
+                          DateFormat.yMd(Platform.localeName)
+                              .format(entry.value.releasedAt),
+                          style: infoStyle,
+                          maxLines: 1,
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                ],
               ),
             ),
           )
