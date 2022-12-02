@@ -18,7 +18,7 @@ class BackGesture extends StatefulWidget {
 
 class _BackGestureState extends State<BackGesture>
     with SingleTickerProviderStateMixin {
-  late AnimationController swipeController;
+  late AnimationController swipeBackController;
 
   double xPosition = 0;
   double yPosition = 0;
@@ -30,15 +30,18 @@ class _BackGestureState extends State<BackGesture>
   @override
   void initState() {
     super.initState();
-    swipeController = AnimationController(
+    swipeBackController = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
+    swipeBackController.addListener(() {
+      xPosition -= (xPosition + _kButtonSize) * swipeBackController.value;
+    });
   }
 
   @override
   void dispose() {
-    swipeController.dispose();
+    swipeBackController.dispose();
     super.dispose();
   }
 
@@ -73,8 +76,8 @@ class _BackGestureState extends State<BackGesture>
   }
 
   void onPanEnd(DragEndDetails details) {
-    swipeController.forward().whenComplete(() {
-      swipeController.reset();
+    swipeBackController.forward().whenComplete(() {
+      swipeBackController.reset();
       setState(() {
         isVisible = false;
       });
@@ -96,12 +99,11 @@ class _BackGestureState extends State<BackGesture>
             children: <Widget>[
               widget.child,
               AnimatedBuilder(
-                animation: swipeController,
+                animation: swipeBackController,
                 builder: (BuildContext context, Widget? child) {
                   return Positioned(
                     top: yPosition,
-                    left: xPosition -=
-                        (xPosition + _kButtonSize) * swipeController.value,
+                    left: xPosition,
                     child: Visibility(
                       visible: isVisible,
                       child: SizedBox(
