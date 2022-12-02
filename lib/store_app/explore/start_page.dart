@@ -19,6 +19,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snapd/snapd.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/section_banner.dart';
@@ -66,12 +67,22 @@ class _StartPageState extends State<StartPage> {
 
     final bannerSection = model.selectedSection;
 
-    final snapsWithIcons = model.sectionNameToSnapsMap[model.selectedSection]
-        ?.where((snap) => snap.iconUrl != null);
+    final snapsWithIcons = model.sectionNameToSnapsMap.isEmpty ||
+            model.sectionNameToSnapsMap[model.selectedSection] == null
+        ? <Snap>[]
+        : model.sectionNameToSnapsMap[model.selectedSection]
+            ?.where((snap) => snap.iconUrl != null)
+            .toList();
 
-    final bannerSnap = snapsWithIcons?.elementAt(_randomSnapIndex);
-    final bannerSnap2 = snapsWithIcons?.elementAt(_randomSnapIndex + 1);
-    final bannerSnap3 = snapsWithIcons?.elementAt(_randomSnapIndex + 2);
+    Snap? bannerSnap;
+    Snap? bannerSnap2;
+    Snap? bannerSnap3;
+
+    if (snapsWithIcons != null && snapsWithIcons.isNotEmpty) {
+      bannerSnap = snapsWithIcons.elementAt(_randomSnapIndex);
+      bannerSnap2 = snapsWithIcons.elementAt(_randomSnapIndex + 1);
+      bannerSnap3 = snapsWithIcons.elementAt(_randomSnapIndex + 2);
+    }
 
     if (bannerSnap == null || bannerSnap2 == null || bannerSnap3 == null) {
       return const Center(

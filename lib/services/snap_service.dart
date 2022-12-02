@@ -79,7 +79,11 @@ class SnapService {
 
   Future<void> init() async => authorize().then((_) async {
         for (var section in SnapSection.values) {
-          await _loadSection(section);
+          try {
+            await _loadSection(section);
+          } on SnapdException catch (e) {
+            throw SnapdException(message: e.message);
+          }
         }
       });
 

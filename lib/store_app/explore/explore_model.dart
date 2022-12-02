@@ -70,30 +70,29 @@ class ExploreModel extends SafeChangeNotifier {
   ExploreModel(
     this._appstreamService,
     this._snapService,
-    this._packageService,
-  )   : _searchQuery = '',
-        _errorMessage = '';
+    this._packageService, [
+    this._errorMessage,
+  ]) : _searchQuery = '';
 
-  String _errorMessage;
-  String get errorMessage => _errorMessage;
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+  set errorMessage(String? value) {
+    if (value == _errorMessage) return;
+    _errorMessage = value;
+    notifyListeners();
+  }
 
   bool get showSectionBannerGrid =>
       searchQuery.isEmpty && sectionNameToSnapsMap.isNotEmpty;
 
   bool get showStartPage => selectedSection == SnapSection.all;
 
-  bool get showErrorPage => errorMessage.isNotEmpty;
+  bool get showErrorPage => errorMessage != null && errorMessage!.isNotEmpty;
 
   bool get showSearchPage => searchQuery.isNotEmpty;
 
   bool showTwoCarousels({required double width}) => width > 800;
   bool showThreeCarousels({required double width}) => width > 1500;
-
-  set errorMessage(String value) {
-    if (value == _errorMessage) return;
-    _errorMessage = value;
-    notifyListeners();
-  }
 
   String _searchQuery;
   String get searchQuery => _searchQuery;
