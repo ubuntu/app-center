@@ -25,6 +25,7 @@ import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/animated_warning_icon.dart';
 import 'package:software/store_app/common/dangerous_delayed_button.dart';
+import 'package:software/store_app/common/indeterminate_circular_progress_icon.dart';
 import 'package:software/store_app/explore/explore_page.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
@@ -211,12 +212,7 @@ class _MyAppsIcon extends StatelessWidget {
         count.toString(),
         style: badgeTextStyle,
       ),
-      child: const SizedBox(
-        height: 20,
-        child: YaruCircularProgressIndicator(
-          strokeWidth: 2,
-        ),
-      ),
+      child: const IndeterminateCircularProgressIcon(),
     );
   }
 }
@@ -245,21 +241,10 @@ class _UpdatesIcon extends StatelessWidget {
                 style: badgeTextStyle,
               )
             : null,
-        child: const SizedBox(
-          height: 24,
-          width: 23,
-          child: YaruCircularProgressIndicator(
-            strokeWidth: 2,
-          ),
-        ),
+        child: const IndeterminateCircularProgressIcon(),
       );
     } else if (updatesState == UpdatesState.updating) {
-      return const SizedBox(
-        height: 20,
-        child: YaruCircularProgressIndicator(
-          strokeWidth: 2,
-        ),
-      );
+      return const IndeterminateCircularProgressIcon();
     } else if (updatesState == UpdatesState.readyToUpdate) {
       return Badge(
         badgeColor: Theme.of(context).primaryColor,
