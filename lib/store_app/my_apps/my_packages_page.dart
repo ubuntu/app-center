@@ -66,13 +66,15 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
             itemBuilder: (context, index) {
               final package = installedApps[index];
               return AnimatedScrollViewItem(
-                child: YaruBanner(
+                child: YaruBanner.tile(
                   title: Text(package.name),
                   subtitle: Text(package.version),
                   onTap: () => PackagePage.push(context, id: package),
-                  iconPadding: const EdgeInsets.only(left: 10, right: 5),
-                  icon: const AppIcon(
-                    iconUrl: null,
+                  icon: const Padding(
+                    padding: EdgeInsets.only(left: 10, right: 5),
+                    child: AppIcon(
+                      iconUrl: null,
+                    ),
                   ),
                 ),
               );
