@@ -195,7 +195,7 @@ class MyAppsModel extends SafeChangeNotifier {
       trackingChannel: localSnap.trackingChannel,
       selectableChannels: selectAbleChannels,
     );
-    final trackingVersion = selectAbleChannels[tracking]!.version;
+    final trackingVersion = selectAbleChannels[tracking]?.version;
 
     return trackingVersion != version;
   }
