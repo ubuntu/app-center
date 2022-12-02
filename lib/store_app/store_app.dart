@@ -180,7 +180,7 @@ class __AppState extends State<_App> {
     ];
 
     return _initialized
-        ? YaruNavigationPage(
+        ? YaruCompactLayout(
             length: pageItems.length,
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(
               icon: pageItems[index].iconBuilder(context, selected),
@@ -273,7 +273,7 @@ class _CloseWindowConfirmDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleDialog(
       title: const YaruCloseButton(
-        alignment: Alignment.centerRight,
+        alignement: Alignment.centerRight,
       ),
       titlePadding: const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 0.0),
       contentPadding: EdgeInsets.zero,

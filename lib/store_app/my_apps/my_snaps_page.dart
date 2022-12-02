@@ -95,7 +95,7 @@ class _MySnapsGrid extends StatelessWidget {
       itemCount: snaps.length,
       itemBuilder: (context, index) {
         final snap = snaps.elementAt(index);
-        return YaruBanner.tile(
+        return YaruBanner(
           title: Text(
             snap.name,
             overflow: TextOverflow.ellipsis,
