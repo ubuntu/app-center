@@ -24,7 +24,7 @@ import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/message_bar.dart';
 import 'package:software/store_app/settings/repo_dialog.dart';
 import 'package:software/store_app/settings/settings_model.dart';
-import 'package:software/store_app/updates/updates_model.dart';
+import 'package:software/store_app/updates/package_updates_model.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';

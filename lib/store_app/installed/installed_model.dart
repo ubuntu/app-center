@@ -24,6 +24,7 @@ import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
 import 'package:software/store_app/common/snap/snap_sort.dart';
+import 'package:software/store_app/common/snap/snap_utils.dart';
 
 class InstalledModel extends SafeChangeNotifier {
   final PackageService _packageService;
@@ -177,7 +178,7 @@ class InstalledModel extends SafeChangeNotifier {
 
     final snapsWithUpdates = _localSnaps.where((snap) {
       if (localSnapsToStoreSnaps[snap] == null) return false;
-      return getUpdateAvailable(
+      return isSnapUpdateAvailable(
         storeSnap: localSnapsToStoreSnaps[snap]!,
         localSnap: snap,
       );
@@ -185,54 +186,6 @@ class InstalledModel extends SafeChangeNotifier {
 
     _localSnaps.clear();
     _localSnaps.addAll(snapsWithUpdates);
-  }
-
-  bool getUpdateAvailable({required Snap storeSnap, required Snap localSnap}) {
-    final version = localSnap.version;
-
-    final selectAbleChannels = getSelectableChannels(storeSnap: storeSnap);
-    final tracking = getTrackingChannel(
-      trackingChannel: localSnap.trackingChannel,
-      selectableChannels: selectAbleChannels,
-    );
-    final trackingVersion = selectAbleChannels[tracking]?.version;
-
-    return trackingVersion != version;
-  }
-
-  Map<String, SnapChannel> getSelectableChannels({required Snap? storeSnap}) {
-    Map<String, SnapChannel> selectableChannels = {};
-    if (storeSnap != null && storeSnap.tracks.isNotEmpty) {
-      for (var track in storeSnap.tracks) {
-        for (var risk in ['stable', 'candidate', 'beta', 'edge']) {
-          var name = '$track/$risk';
-          var channel = storeSnap.channels[name];
-          final channelName = '$track/$risk';
-          if (channel != null) {
-            selectableChannels.putIfAbsent(channelName, () => channel);
-          }
-        }
-      }
-    }
-    return selectableChannels;
-  }
-
-  String getTrackingChannel({
-    required Map<String, SnapChannel> selectableChannels,
-    required String? trackingChannel,
-  }) {
-    if (selectableChannels.entries.isNotEmpty) {
-      if (trackingChannel != null &&
-          selectableChannels.entries
-              .where((element) => element.key.contains(trackingChannel))
-              .isNotEmpty) {
-        return trackingChannel;
-      } else {
-        return selectableChannels.entries.first.key;
-      }
-    } else {
-      return '';
-    }
   }
 
   Future<void> updateAll({required String doneMessage}) async {
