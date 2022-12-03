@@ -75,42 +75,43 @@ class _ColorBannerState extends State<ColorBanner> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-    return YaruBanner(
-      copyIconAsWatermark: true,
-      title: Text(
-        widget.snap.name,
-        style: Theme.of(context)
-            .textTheme
-            .headline4!
-            .copyWith(fontWeight: FontWeight.w300),
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtitle: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(widget.sectionName),
-          AppWebsite(
-            height: 14,
-            website:
-                widget.snap.website ?? widget.snap.publisher?.displayName ?? '',
-            verified: model.verified,
-            starredDeveloper: model.starredDeveloper,
-            publisherName:
-                widget.snap.publisher?.displayName ?? widget.snap.name,
-          ),
-        ],
-      ),
-      surfaceTintColor: model.surfaceTintColor,
-      onTap: widget.onTap,
-      iconPadding: const EdgeInsets.only(left: 20, right: 10),
-      icon: AppIcon(
-        iconUrl: widget.snap.iconUrl,
-        size: 80,
-      ),
-      watermarkIcon: AppIcon(
+    return YaruWatermark(
+      watermark: AppIcon(
         iconUrl: widget.snap.iconUrl,
         size: 130,
+      ),
+      child: YaruBanner.tile(
+        title: Text(
+          widget.snap.name,
+          style: Theme.of(context)
+              .textTheme
+              .headline4!
+              .copyWith(fontWeight: FontWeight.w300),
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(widget.sectionName),
+            AppWebsite(
+              height: 14,
+              website: widget.snap.website ??
+                  widget.snap.publisher?.displayName ??
+                  '',
+              verified: model.verified,
+              starredDeveloper: model.starredDeveloper,
+              publisherName:
+                  widget.snap.publisher?.displayName ?? widget.snap.name,
+            ),
+          ],
+        ),
+        surfaceTintColor: model.surfaceTintColor,
+        onTap: widget.onTap,
+        icon: AppIcon(
+          iconUrl: widget.snap.iconUrl,
+          size: 80,
+        ),
       ),
     );
   }

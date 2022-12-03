@@ -57,7 +57,15 @@ class SearchPage extends StatelessWidget {
                   var showSnap = model.appFormats.contains(AppFormat.snap);
                   var showPackageKit =
                       model.appFormats.contains(AppFormat.packageKit);
-                  return YaruBanner(
+                  return YaruBanner.tile(
+                    padding: const EdgeInsets.only(
+                      left: kYaruPagePadding,
+                      right: kYaruPagePadding,
+                    ),
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? kBannerBgLight
+                        : kBannerBgDark,
+                    elevation: kBannerElevation,
                     title: Text(
                       appFinding.key,
                       overflow: TextOverflow.ellipsis,
@@ -67,12 +75,13 @@ class SearchPage extends StatelessWidget {
                       showSnap: showSnap,
                       showPackageKit: showPackageKit,
                     ),
-                    icon: AppIcon(
-                      iconUrl: appFinding.value.snap?.iconUrl ??
-                          appFinding.value.appstream?.icon,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(bottom: 25, right: 5),
+                      child: AppIcon(
+                        iconUrl: appFinding.value.snap?.iconUrl ??
+                            appFinding.value.appstream?.icon,
+                      ),
                     ),
-                    iconPadding:
-                        const EdgeInsets.only(left: 10, right: 5, bottom: 30),
                     onTap: appFinding.value.snap != null &&
                             appFinding.value.appstream != null &&
                             showSnap &&

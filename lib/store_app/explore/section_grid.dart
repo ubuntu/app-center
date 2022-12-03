@@ -60,7 +60,11 @@ class SectionGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         final snap = sections.take(initialAmount).elementAt(index);
 
-        final banner = YaruBanner(
+        final banner = YaruBanner.tile(
+          color: Theme.of(context).brightness == Brightness.light
+              ? kBannerBgLight
+              : kBannerBgDark,
+          elevation: kBannerElevation,
           title: Text(snap.name),
           subtitle: Text(
             snap.summary,
