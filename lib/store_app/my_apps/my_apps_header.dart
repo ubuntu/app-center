@@ -64,6 +64,17 @@ class MyAppsHeader extends StatelessWidget {
                 isSelected: model.loadSnapsWithUpdates,
                 icon: const Icon(Icons.upgrade_rounded),
                 tooltip: context.l10n.updateAvailable,
+              ),
+            if (model.appFormat == AppFormat.snap &&
+                model.loadSnapsWithUpdates &&
+                model.localSnaps.isNotEmpty)
+              ElevatedButton(
+                onPressed: model.busy
+                    ? null
+                    : () => model.updateAll(
+                          doneMessage: context.l10n.done,
+                        ),
+                child: Text(context.l10n.refresh),
               )
           ],
         ),

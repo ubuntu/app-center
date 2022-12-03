@@ -15,18 +15,16 @@
  *
  */
 
-import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
 import 'package:software/appstream_utils.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
-import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/app_format.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/loading_banner_grid.dart';
 import 'package:software/store_app/common/packagekit/package_page.dart';
 import 'package:software/store_app/common/snap/snap_page.dart';
 import 'package:software/store_app/explore/explore_model.dart';
@@ -37,37 +35,15 @@ class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
-
-    if (model.appFormats.contains(AppFormat.snap) &&
-        model.appFormats.contains(AppFormat.packageKit)) {
-      return const _CombinedSearchPage();
-    } else if (model.appFormats.contains(AppFormat.snap) &&
-        !model.appFormats.contains(AppFormat.packageKit)) {
-      return const _SnapSearchPage();
-    } else if (model.appFormats.contains(AppFormat.packageKit) &&
-        !model.appFormats.contains(AppFormat.snap)) {
-      return const _AppstreamSearchPage();
-    }
-
-    return const SizedBox();
-  }
-}
-
-class _SnapSearchPage extends StatelessWidget {
-  // ignore: unused_element
-  const _SnapSearchPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
 
-    return FutureBuilder<List<Snap>>(
-      future: model.findSnapsByQuery(),
+    return FutureBuilder<Map<String, AppFinding>>(
+      future: model.search(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const _WaitPage(message: '');
+          return const LoadingBannerGrid();
         }
 
         return snapshot.hasData && snapshot.data!.isNotEmpty
@@ -77,119 +53,62 @@ class _SnapSearchPage extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  final snap = snapshot.data![index];
-                  return AnimatedScrollViewItem(
-                    child: YaruBanner(
-                      title: Text(snap.name),
-                      subtitle: Text(
-                        snap.summary,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      icon: AppIcon(
-                        iconUrl: snap.iconUrl,
-                        size: 50,
-                      ),
-                      iconPadding: const EdgeInsets.only(left: 10, right: 5),
-                      onTap: () => SnapPage.push(context, snap),
-                    ),
-                  );
-                },
-              )
-            : _NoSearchResultPage(message: context.l10n.noSnapFound);
-      },
-    );
-  }
-}
-
-class _AppstreamSearchPage extends StatefulWidget {
-  // ignore: unused_element
-  const _AppstreamSearchPage({super.key});
-
-  @override
-  State<_AppstreamSearchPage> createState() => _AppstreamSearchPageState();
-}
-
-class _AppstreamSearchPageState extends State<_AppstreamSearchPage> {
-  @override
-  void initState() {
-    context.read<ExploreModel>().init();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
-
-    return FutureBuilder<List<AppstreamComponent>>(
-      future: model.findAppstreamComponents(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const _WaitPage(message: '');
-        }
-        return snapshot.hasData && snapshot.data!.isNotEmpty
-            ? GridView.builder(
-                padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-                gridDelegate: kGridDelegate,
-                shrinkWrap: true,
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  final appstream = snapshot.data![index];
+                  final appFinding = snapshot.data!.entries.elementAt(index);
+                  var showSnap = model.appFormats.contains(AppFormat.snap);
+                  var showPackageKit =
+                      model.appFormats.contains(AppFormat.packageKit);
                   return YaruBanner(
                     title: Text(
-                      appstream.localizedName(),
+                      appFinding.key,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    subtitle: Text(
-                      appstream.localizedSummary(),
-                      overflow: TextOverflow.ellipsis,
+                    subtitle: _SearchBannerSubtitle(
+                      appFinding: appFinding.value,
+                      showSnap: showSnap,
+                      showPackageKit: showPackageKit,
                     ),
                     icon: AppIcon(
-                      iconUrl: appstream.icon,
+                      iconUrl: appFinding.value.snap?.iconUrl ??
+                          appFinding.value.appstream?.icon,
                     ),
-                    iconPadding: const EdgeInsets.only(left: 10, right: 5),
-                    onTap: () =>
-                        PackagePage.push(context, appstream: appstream),
+                    iconPadding:
+                        const EdgeInsets.only(left: 10, right: 5, bottom: 30),
+                    onTap: appFinding.value.snap != null &&
+                            appFinding.value.appstream != null &&
+                            showSnap &&
+                            showPackageKit
+                        ? () => showDialog(
+                              useRootNavigator: false,
+                              context: context,
+                              builder: (context) => _AppFormatSelectDialog(
+                                title: appFinding.value.snap!.name,
+                                onPackageSelect: () => PackagePage.push(
+                                  context,
+                                  appstream: appFinding.value.appstream!,
+                                ),
+                                onSnapSelect: () => SnapPage.push(
+                                  context,
+                                  appFinding.value.snap!,
+                                ),
+                              ),
+                            )
+                        : () {
+                            if (appFinding.value.appstream != null &&
+                                showPackageKit) {
+                              PackagePage.push(
+                                context,
+                                appstream: appFinding.value.appstream!,
+                              );
+                            }
+                            if (appFinding.value.snap != null && showSnap) {
+                              SnapPage.push(context, appFinding.value.snap!);
+                            }
+                          },
                   );
                 },
               )
             : _NoSearchResultPage(message: context.l10n.noPackageFound);
       },
-    );
-  }
-}
-
-class _WaitPage extends StatelessWidget {
-  const _WaitPage({
-    Key? key,
-    required this.message,
-  }) : super(key: key);
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const YaruCircularProgressIndicator(),
-          const SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            width: 400,
-            child: Text(
-              message,
-              style:
-                  Theme.of(context).textTheme.headline4?.copyWith(fontSize: 25),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(
-            height: 200,
-          ),
-        ],
-      ),
     );
   }
 }
@@ -233,133 +152,88 @@ class _NoSearchResultPage extends StatelessWidget {
   }
 }
 
-class _CombinedSearchPage extends StatelessWidget {
-  // ignore: unused_element
-  const _CombinedSearchPage({super.key});
+class _SearchBannerSubtitle extends StatelessWidget {
+  const _SearchBannerSubtitle({
+    Key? key,
+    required this.appFinding,
+    this.showSnap = true,
+    this.showPackageKit = true,
+  }) : super(key: key);
+
+  final AppFinding appFinding;
+  final bool showSnap, showPackageKit;
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
-
-    return FutureBuilder<Map<String, AppFinding>>(
-      future: model.search(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const _WaitPage(message: '');
-        }
-
-        return snapshot.hasData && snapshot.data!.isNotEmpty
-            ? GridView.builder(
-                padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-                gridDelegate: kGridDelegate,
-                shrinkWrap: true,
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  final e = snapshot.data!.entries.elementAt(index);
-                  return YaruBanner(
-                    title: Text(
-                      e.key,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          e.value.snap?.summary ??
-                              e.value.appstream?.localizedSummary() ??
-                              '',
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              RatingBar.builder(
-                                initialRating: e.value.rating ?? 0,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemPadding: EdgeInsets.zero,
-                                itemSize: 20,
-                                itemBuilder: (context, _) => Icon(
-                                  YaruIcons.star_filled,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurface
-                                      .withOpacity(0.7),
-                                ),
-                                onRatingUpdate: (rating) {},
-                                ignoreGestures: true,
-                              ),
-                              _PackageIndicator(appFinding: e.value),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    icon: AppIcon(
-                      iconUrl: e.value.snap?.iconUrl ?? e.value.appstream?.icon,
-                    ),
-                    iconPadding:
-                        const EdgeInsets.only(left: 10, right: 5, bottom: 30),
-                    onTap: e.value.snap != null && e.value.appstream != null
-                        ? () => showDialog(
-                              useRootNavigator: false,
-                              context: context,
-                              builder: (context) => _AppFormatSelectDialog(
-                                title: e.value.snap!.name,
-                                onPackageSelect: () => PackagePage.push(
-                                  context,
-                                  appstream: e.value.appstream!,
-                                ),
-                                onSnapSelect: () =>
-                                    SnapPage.push(context, e.value.snap!),
-                              ),
-                            )
-                        : () {
-                            if (e.value.snap == null &&
-                                e.value.appstream != null) {
-                              PackagePage.push(
-                                context,
-                                appstream: e.value.appstream!,
-                              );
-                            }
-
-                            if (e.value.snap != null &&
-                                e.value.appstream == null) {
-                              SnapPage.push(context, e.value.snap!);
-                            }
-                          },
-                  );
-                },
-              )
-            : _NoSearchResultPage(message: context.l10n.noPackageFound);
-      },
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          appFinding.snap?.summary ??
+              appFinding.appstream?.localizedSummary() ??
+              '',
+          overflow: TextOverflow.ellipsis,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RatingBar.builder(
+                initialRating: appFinding.rating ?? 0,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: EdgeInsets.zero,
+                itemSize: 20,
+                itemBuilder: (context, _) => Icon(
+                  YaruIcons.star_filled,
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                ),
+                onRatingUpdate: (rating) {},
+                ignoreGestures: true,
+              ),
+              _PackageIndicator(
+                appFinding: appFinding,
+                showSnap: showSnap,
+                showPackageKit: showPackageKit,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
 
 class _PackageIndicator extends StatelessWidget {
-  // ignore: unused_element
-  const _PackageIndicator({super.key, required this.appFinding});
+  const _PackageIndicator({
+    // ignore: unused_element
+    super.key,
+    required this.appFinding,
+    this.showSnap = true,
+    this.showPackageKit = true,
+  });
 
   final AppFinding appFinding;
+  final bool showSnap;
+  final bool showPackageKit;
 
   @override
   Widget build(BuildContext context) {
     final appFormatEmblemColor = Theme.of(context).disabledColor;
     return Row(
       children: [
-        if (appFinding.snap != null)
+        if (appFinding.snap != null && showSnap)
           Icon(
             YaruIcons.snapcraft,
             color: appFormatEmblemColor,
             size: 20,
           ),
-        if (appFinding.appstream != null)
+        if (appFinding.appstream != null && showPackageKit)
           Padding(
             padding: const EdgeInsets.only(left: 5),
             child: Icon(
@@ -392,52 +266,68 @@ class _AppFormatSelectDialog extends StatelessWidget {
     return AlertDialog(
       title: YaruTitleBar(title: Text(title)),
       titlePadding: EdgeInsets.zero,
-      actionsPadding: const EdgeInsets.all(10),
+      actionsPadding: const EdgeInsets.only(
+        left: kYaruPagePadding,
+        right: kYaruPagePadding,
+        bottom: kYaruPagePadding,
+      ),
       actionsAlignment: MainAxisAlignment.spaceEvenly,
       content: Text(context.l10n.multiAppFormatsFound),
       actions: [
-        Row(
-          children: [
-            Expanded(
-              child: TextButton(
-                onPressed: onPackageSelect,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(YaruIcons.debian, size: 16),
-                    const SizedBox(
-                      width: 5,
+        SizedBox(
+          height: 100,
+          child: Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 90,
+                  child: OutlinedButton(
+                    onPressed: onPackageSelect,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(YaruIcons.debian, size: 25),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          AppFormat.packageKit.localize(context.l10n),
+                        ),
+                      ],
                     ),
-                    Text(
-                      AppFormat.packageKit.localize(context.l10n),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: TextButton(
-                onPressed: onSnapSelect,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      YaruIcons.snapcraft,
-                      size: 16,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      AppFormat.snap.localize(context.l10n),
-                    ),
-                  ],
-                ),
+              const SizedBox(
+                width: kYaruPagePadding,
               ),
-            )
-          ],
+              Expanded(
+                child: SizedBox(
+                  height: 90,
+                  child: OutlinedButton(
+                    onPressed: onSnapSelect,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          YaruIcons.snapcraft,
+                          size: 25,
+                        ),
+                        const SizedBox(
+                          height: kYaruPagePadding,
+                        ),
+                        Text(
+                          AppFormat.snap.localize(context.l10n),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         )
       ],
     );

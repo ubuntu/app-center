@@ -79,7 +79,11 @@ class SnapService {
 
   Future<void> init() async => authorize().then((_) async {
         for (var section in SnapSection.values) {
-          await _loadSection(section);
+          try {
+            await _loadSection(section);
+          } on SnapdException catch (e) {
+            throw SnapdException(message: e.message);
+          }
         }
       });
 
@@ -184,6 +188,7 @@ class SnapService {
         message,
       );
     }
+
     return await findLocalSnap(snap.name);
   }
 
@@ -250,7 +255,12 @@ class SnapService {
   Future<SnapdChange?> getSnapChanges({required String name}) async =>
       (await _snapDClient.getChanges(name: name)).firstOrNull;
 
-  Map<SnapSection, List<Snap>> sectionNameToSnapsMap = {};
+  final _sectionsChangedController = StreamController<bool>.broadcast();
+  Stream<bool> get sectionsChanged => _sectionsChangedController.stream;
+
+  final Map<SnapSection, List<Snap>> _sectionNameToSnapsMap = {};
+  Map<SnapSection, List<Snap>> get sectionNameToSnapsMap =>
+      _sectionNameToSnapsMap;
   Future<void> _loadSection(SnapSection section) async {
     List<Snap> sectionList = [];
     for (final snap in await findSnapsBySection(
@@ -260,6 +270,7 @@ class SnapService {
     )) {
       sectionList.add(snap);
     }
-    sectionNameToSnapsMap.putIfAbsent(section, () => sectionList);
+    _sectionNameToSnapsMap.putIfAbsent(section, () => sectionList);
+    _sectionsChangedController.add(true);
   }
 }

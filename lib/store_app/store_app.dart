@@ -25,6 +25,7 @@ import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/animated_warning_icon.dart';
 import 'package:software/store_app/common/dangerous_delayed_button.dart';
+import 'package:software/store_app/common/indeterminate_circular_progress_icon.dart';
 import 'package:software/store_app/explore/explore_page.dart';
 import 'package:software/store_app/my_apps/my_apps_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
@@ -123,7 +124,7 @@ class __AppState extends State<_App> {
               },
             );
           },
-        ).then((value) => closeConfirmDialogOpen = false);
+        ).then((_) => closeConfirmDialogOpen = false);
       },
     ).then((_) => _initialized = true);
   }
@@ -137,7 +138,8 @@ class __AppState extends State<_App> {
     final pageItems = [
       PageItem(
         titleBuilder: ExplorePage.createTitle,
-        builder: (context) => ExplorePage.create(context, model.appIsOnline),
+        builder: (context) =>
+            ExplorePage.create(context, model.appIsOnline, model.errorMessage),
         iconBuilder: (context, selected) => selected
             ? const Icon(YaruIcons.compass_filled)
             : const Icon(YaruIcons.compass),
@@ -164,7 +166,7 @@ class __AppState extends State<_App> {
         iconBuilder: (context, selected) {
           return _UpdatesIcon(
             count: model.updateAmount,
-            updatesState: model.updatesState ?? UpdatesState.checkingForUpdates,
+            updatesState: model.updatesState ?? UpdatesState.noUpdates,
           );
         },
       ),
@@ -210,12 +212,7 @@ class _MyAppsIcon extends StatelessWidget {
         count.toString(),
         style: badgeTextStyle,
       ),
-      child: const SizedBox(
-        height: 20,
-        child: YaruCircularProgressIndicator(
-          strokeWidth: 2,
-        ),
-      ),
+      child: const IndeterminateCircularProgressIcon(),
     );
   }
 }
@@ -244,21 +241,10 @@ class _UpdatesIcon extends StatelessWidget {
                 style: badgeTextStyle,
               )
             : null,
-        child: const SizedBox(
-          height: 24,
-          width: 23,
-          child: YaruCircularProgressIndicator(
-            strokeWidth: 2,
-          ),
-        ),
+        child: const IndeterminateCircularProgressIcon(),
       );
     } else if (updatesState == UpdatesState.updating) {
-      return const SizedBox(
-        height: 20,
-        child: YaruCircularProgressIndicator(
-          strokeWidth: 2,
-        ),
-      );
+      return const IndeterminateCircularProgressIcon();
     } else if (updatesState == UpdatesState.readyToUpdate) {
       return Badge(
         badgeColor: Theme.of(context).primaryColor,

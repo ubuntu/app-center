@@ -48,6 +48,12 @@ void main() {
     final snapServiceMock = MockSnapService();
     registerMockService<SnapService>(snapServiceMock);
     when(snapServiceMock.init).thenAnswer((_) async {});
+
+    when(() => snapServiceMock.sectionNameToSnapsMap).thenReturn({});
+    final snapSectionsChangedController = StreamController<bool>.broadcast();
+    when(() => snapServiceMock.sectionsChanged)
+        .thenAnswer((_) => snapSectionsChangedController.stream);
+
     when(() => snapServiceMock.snapChanges).thenReturn({});
     final snapChangesInsertedController = StreamController<bool>.broadcast();
     when(() => snapServiceMock.snapChangesInserted)

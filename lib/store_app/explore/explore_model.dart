@@ -36,8 +36,11 @@ class ExploreModel extends SafeChangeNotifier {
   final SnapService _snapService;
   final PackageService _packageService;
   StreamSubscription<UpdatesState>? _updatesStateSub;
+  StreamSubscription<bool>? _sectionsChangedSub;
 
   Future<void> init() async {
+    _sectionsChangedSub =
+        _snapService.sectionsChanged.listen((_) => notifyListeners());
     _updatesState = _packageService.lastUpdatesState;
     _updatesStateSub = _packageService.updatesState.listen((event) {
       updatesState = event;
@@ -47,6 +50,7 @@ class ExploreModel extends SafeChangeNotifier {
   @override
   void dispose() {
     _updatesStateSub?.cancel();
+    _sectionsChangedSub?.cancel();
     super.dispose();
   }
 
@@ -66,30 +70,29 @@ class ExploreModel extends SafeChangeNotifier {
   ExploreModel(
     this._appstreamService,
     this._snapService,
-    this._packageService,
-  )   : _searchQuery = '',
-        _errorMessage = '';
+    this._packageService, [
+    this._errorMessage,
+  ]) : _searchQuery = '';
 
-  String _errorMessage;
-  String get errorMessage => _errorMessage;
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+  set errorMessage(String? value) {
+    if (value == _errorMessage) return;
+    _errorMessage = value;
+    notifyListeners();
+  }
 
   bool get showSectionBannerGrid =>
       searchQuery.isEmpty && sectionNameToSnapsMap.isNotEmpty;
 
   bool get showStartPage => selectedSection == SnapSection.all;
 
-  bool get showErrorPage => errorMessage.isNotEmpty;
+  bool get showErrorPage => errorMessage != null && errorMessage!.isNotEmpty;
 
   bool get showSearchPage => searchQuery.isNotEmpty;
 
   bool showTwoCarousels({required double width}) => width > 800;
   bool showThreeCarousels({required double width}) => width > 1500;
-
-  set errorMessage(String value) {
-    if (value == _errorMessage) return;
-    _errorMessage = value;
-    notifyListeners();
-  }
 
   String _searchQuery;
   String get searchQuery => _searchQuery;
@@ -166,7 +169,12 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  final Set<AppFormat> _appFormats = {AppFormat.snap, AppFormat.packageKit};
+  // TODO: appstream search does not work in 22.10
+  // Thus disabling it by default until this is fixed
+  // https://github.com/ubuntu-flutter-community/software/issues/598
+  final Set<AppFormat> _appFormats = {
+    AppFormat.snap,
+  };
   Set<AppFormat> get appFormats => _appFormats;
   void handleAppFormat(AppFormat appFormat) {
     if (!_appFormats.contains(appFormat)) {
@@ -181,24 +189,41 @@ class ExploreModel extends SafeChangeNotifier {
   Future<Map<String, AppFinding>> search() async {
     final Map<String, AppFinding> appFindings = {};
 
-    final snaps = await findSnapsByQuery();
-    for (final snap in snaps) {
-      appFindings.putIfAbsent(snap.name, () => AppFinding(snap: snap));
-    }
+    if (appFormats.containsAll([AppFormat.snap, AppFormat.packageKit])) {
+      final snaps = await findSnapsByQuery();
+      for (final snap in snaps) {
+        appFindings.putIfAbsent(snap.name, () => AppFinding(snap: snap));
+      }
 
-    final components = await findAppstreamComponents();
-    for (final component in components) {
-      final snap =
-          snaps.firstWhereOrNull((snap) => snap.name == component.package);
-      if (snap == null) {
+      final components = await findAppstreamComponents();
+      for (final component in components) {
+        final snap =
+            snaps.firstWhereOrNull((snap) => snap.name == component.package);
+        if (snap == null) {
+          appFindings.putIfAbsent(
+            component.localizedName(),
+            () => AppFinding(appstream: component),
+          );
+        } else {
+          appFindings.update(
+            snap.name,
+            (value) => AppFinding(snap: snap, appstream: component),
+          );
+        }
+      }
+    } else if (appFormats.contains(AppFormat.snap) &&
+        !(appFormats.contains(AppFormat.packageKit))) {
+      final snaps = await findSnapsByQuery();
+      for (final snap in snaps) {
+        appFindings.putIfAbsent(snap.name, () => AppFinding(snap: snap));
+      }
+    } else if (!appFormats.contains(AppFormat.snap) &&
+        (appFormats.contains(AppFormat.packageKit))) {
+      final components = await findAppstreamComponents();
+      for (final component in components) {
         appFindings.putIfAbsent(
           component.localizedName(),
           () => AppFinding(appstream: component),
-        );
-      } else {
-        appFindings.update(
-          snap.name,
-          (value) => AppFinding(snap: snap, appstream: component),
         );
       }
     }

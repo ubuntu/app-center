@@ -16,7 +16,10 @@ class BackGesture extends StatefulWidget {
   State<BackGesture> createState() => _BackGestureState();
 }
 
-class _BackGestureState extends State<BackGesture> {
+class _BackGestureState extends State<BackGesture>
+    with SingleTickerProviderStateMixin {
+  late AnimationController swipeBackController;
+
   double xPosition = 0;
   double yPosition = 0;
 
@@ -24,11 +27,28 @@ class _BackGestureState extends State<BackGesture> {
 
   bool isVisible = false;
 
+  @override
+  void initState() {
+    super.initState();
+    swipeBackController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    )..addListener(() {
+        xPosition -= (xPosition + _kButtonSize) * swipeBackController.value;
+      });
+  }
+
+  @override
+  void dispose() {
+    swipeBackController.dispose();
+    super.dispose();
+  }
+
   void onPanUpdate(DragUpdateDetails details) {
     if (details.delta.dx > 0 &&
         details.delta.dy < 50 &&
         details.delta.dy > -50 &&
-        currentExtent <= _kMaxExtent) {
+        currentExtent + details.delta.dx <= _kMaxExtent) {
       currentExtent += details.delta.dx;
       setState(() {
         xPosition += details.delta.dx * 0.2;
@@ -37,7 +57,7 @@ class _BackGestureState extends State<BackGesture> {
     if (details.delta.dx < 0 &&
         details.delta.dy < 50 &&
         details.delta.dy > -50 &&
-        currentExtent >= -_kButtonSize) {
+        currentExtent - details.delta.dx >= -_kButtonSize) {
       currentExtent -= -details.delta.dx;
       setState(() {
         xPosition -= -details.delta.dx * 0.2;
@@ -55,12 +75,15 @@ class _BackGestureState extends State<BackGesture> {
   }
 
   void onPanEnd(DragEndDetails details) {
+    swipeBackController.forward().whenComplete(() {
+      swipeBackController.reset();
+      setState(() {
+        isVisible = false;
+      });
+    });
     if (currentExtent > (_kMaxExtent / 2)) {
       Navigator.of(context).pop();
     }
-    setState(() {
-      isVisible = false;
-    });
   }
 
   @override
@@ -74,33 +97,38 @@ class _BackGestureState extends State<BackGesture> {
           child: Stack(
             children: <Widget>[
               widget.child,
-              Positioned(
-                top: yPosition,
-                left: xPosition,
-                child: Visibility(
-                  visible: isVisible,
-                  child: SizedBox(
-                    width: _kButtonSize,
-                    height: _kButtonSize,
-                    child: OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        backgroundColor:
-                            Theme.of(context).brightness == Brightness.light
-                                ? Colors.grey[100]
-                                : Colors.grey[900],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(_kButtonSize),
+              AnimatedBuilder(
+                animation: swipeBackController,
+                builder: (BuildContext context, Widget? child) {
+                  return Positioned(
+                    top: yPosition,
+                    left: xPosition,
+                    child: Visibility(
+                      visible: isVisible,
+                      child: SizedBox(
+                        width: _kButtonSize,
+                        height: _kButtonSize,
+                        child: OutlinedButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            backgroundColor:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? Colors.grey[100]
+                                    : Colors.grey[900],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(_kButtonSize),
+                            ),
+                          ),
+                          child: const Icon(
+                            YaruIcons.go_previous,
+                          ),
                         ),
                       ),
-                      child: const Icon(
-                        YaruIcons.go_previous,
-                      ),
                     ),
-                  ),
-                ),
-              )
+                  );
+                },
+              ),
             ],
           ),
         );

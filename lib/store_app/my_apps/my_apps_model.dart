@@ -67,10 +67,13 @@ class MyAppsModel extends SafeChangeNotifier {
   }
 
   Future<void> _loadLocalSnaps() async {
-    var snaps = await _snapService.getLocalSnaps();
+    List<Snap> snaps =
+        await _snapService.getLocalSnaps().timeout(const Duration(seconds: 40));
 
-    _localSnaps.clear();
-    _localSnaps.addAll(snaps);
+    if (snaps.isNotEmpty) {
+      _localSnaps.clear();
+      _localSnaps.addAll(snaps);
+    }
   }
 
   String? _searchQuery;
@@ -87,7 +90,11 @@ class MyAppsModel extends SafeChangeNotifier {
     if (value == _appFormat) return;
     _appFormat = value;
     _loadSnapsWithUpdates = false;
-    notifyListeners();
+    if (_appFormat == AppFormat.packageKit) {
+      _packageService.getInstalledPackages().then((_) => notifyListeners());
+    } else {
+      notifyListeners();
+    }
   }
 
   final Set<PackageKitFilter> _packageKitFilters = {
@@ -154,13 +161,9 @@ class MyAppsModel extends SafeChangeNotifier {
     _loadSnapsWithUpdates = value;
     busy = true;
     if (value) {
-      _loadSnapsWithUpdate()
-          .then((_) => notifyListeners())
-          .then((_) => busy = false);
+      _loadSnapsWithUpdate().then((_) => busy = false);
     } else {
-      _loadLocalSnaps()
-          .then((_) => notifyListeners())
-          .then((_) => busy = false);
+      _loadLocalSnaps().then((_) => busy = false);
     }
   }
 
@@ -192,7 +195,7 @@ class MyAppsModel extends SafeChangeNotifier {
       trackingChannel: localSnap.trackingChannel,
       selectableChannels: selectAbleChannels,
     );
-    final trackingVersion = selectAbleChannels[tracking]!.version;
+    final trackingVersion = selectAbleChannels[tracking]?.version;
 
     return trackingVersion != version;
   }
@@ -230,5 +233,19 @@ class MyAppsModel extends SafeChangeNotifier {
     } else {
       return '';
     }
+  }
+
+  Future<void> updateAll({required String doneMessage}) async {
+    await _snapService.authorize().then((_) async {
+      for (var snap in _localSnaps) {
+        await _snapService.refresh(
+          snap: snap,
+          message: doneMessage,
+          confinement: snap.confinement,
+          channel: snap.channel,
+        );
+        notifyListeners();
+      }
+    }).then((_) => loadSnapsWithUpdates = false);
   }
 }

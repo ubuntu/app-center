@@ -65,9 +65,12 @@ class StoreModel extends SafeChangeNotifier implements WindowListener {
     windowManager.setPreventClose(true);
     windowManager.addListener(this);
 
-    await _snapService.init();
-    await _appstreamService.init();
-    await _packageService.init();
+    try {
+      _snapService.init();
+    } on SnapdException catch (e) {
+      errorMessage = e.message;
+    }
+    _appstreamService.init();
 
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       notifyListeners();
@@ -110,6 +113,14 @@ class StoreModel extends SafeChangeNotifier implements WindowListener {
 
   bool get appIsOnline => _connectivityResult != ConnectivityResult.none;
 
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+  set errorMessage(String? value) {
+    if (value == _errorMessage) return;
+    _errorMessage = value;
+    notifyListeners();
+  }
+
   Future<void> initConnectivity() async {
     _connectivitySub = _connectivity.onConnectivityChanged.listen((result) {
       _connectivityResult = result;
@@ -125,6 +136,7 @@ class StoreModel extends SafeChangeNotifier implements WindowListener {
   }
 
   bool get readyToQuit =>
+      updatesState == null ||
       updatesState == UpdatesState.readyToUpdate ||
       updatesState == UpdatesState.noUpdates;
 

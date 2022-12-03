@@ -30,16 +30,21 @@ import 'package:software/store_app/explore/start_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class ExplorePage extends StatelessWidget {
+class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
-  static Widget create(BuildContext context, bool online) {
+  static Widget create(
+    BuildContext context,
+    bool online, [
+    String? errorMessage,
+  ]) {
     if (!online) return const OfflinePage();
     return ChangeNotifierProvider(
       create: (_) => ExploreModel(
         getService<AppstreamService>(),
         getService<SnapService>(),
         getService<PackageService>(),
+        errorMessage,
       ),
       child: const ExplorePage(),
     );
@@ -47,6 +52,17 @@ class ExplorePage extends StatelessWidget {
 
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.explorePageTitle);
+
+  @override
+  State<ExplorePage> createState() => _ExplorePageState();
+}
+
+class _ExplorePageState extends State<ExplorePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ExploreModel>().init();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +82,7 @@ class ExplorePage extends StatelessWidget {
                 const ExploreHeader(),
                 Expanded(
                   child: model.showErrorPage
-                      ? _ErrorPage(errorMessage: model.errorMessage)
+                      ? _ErrorPage(errorMessage: model.errorMessage!)
                       : model.showSearchPage
                           ? const SearchPage()
                           : StartPage(screenSize: screenSize),
