@@ -207,7 +207,7 @@
   "@multiAppFormatsFound": {},
   "appFormat": "Paketformat för program",
   "@appFormat": {},
-  "confinement": "Sandlåda",
+  "confinement": "Isolering",
   "@confinement": {},
   "attention": "OBS!",
   "@attention": {}
