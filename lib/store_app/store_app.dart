@@ -31,6 +31,7 @@ import 'package:software/store_app/installed/installed_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
 import 'package:software/store_app/store_model.dart';
 import 'package:software/store_app/store_splash_screen.dart';
+import 'package:software/store_app/updates/package_updates_page.dart';
 import 'package:software/store_app/updates/updates_page.dart';
 import 'package:software/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -161,8 +162,8 @@ class __AppState extends State<_App> {
         },
       ),
       PageItem(
-        titleBuilder: UpdatesPage.createTitle,
-        builder: UpdatesPage.create,
+        titleBuilder: PackageUpdatesPage.createTitle,
+        builder: (context) => const UpdatesPage(),
         iconBuilder: (context, selected) {
           return _UpdatesIcon(
             count: model.updateAmount,

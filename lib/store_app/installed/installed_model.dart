@@ -168,84 +168,20 @@ class InstalledModel extends SafeChangeNotifier {
   }
 
   Future<void> _loadSnapsWithUpdate() async {
-    await _loadLocalSnaps();
-    Map<Snap, Snap> localSnapsToStoreSnaps = {};
-    for (var snap in _localSnaps) {
-      final storeSnap = await _snapService.findSnapByName(snap.name) ?? snap;
-      localSnapsToStoreSnaps.putIfAbsent(snap, () => storeSnap);
-    }
-
-    final snapsWithUpdates = _localSnaps.where((snap) {
-      if (localSnapsToStoreSnaps[snap] == null) return false;
-      return getUpdateAvailable(
-        storeSnap: localSnapsToStoreSnaps[snap]!,
-        localSnap: snap,
-      );
-    }).toList();
-
+    final snapsWithUpdates = await _snapService.loadSnapsWithUpdate();
     _localSnaps.clear();
     _localSnaps.addAll(snapsWithUpdates);
   }
 
-  bool getUpdateAvailable({required Snap storeSnap, required Snap localSnap}) {
-    final version = localSnap.version;
-
-    final selectAbleChannels = getSelectableChannels(storeSnap: storeSnap);
-    final tracking = getTrackingChannel(
-      trackingChannel: localSnap.trackingChannel,
-      selectableChannels: selectAbleChannels,
-    );
-    final trackingVersion = selectAbleChannels[tracking]?.version;
-
-    return trackingVersion != version;
-  }
-
-  Map<String, SnapChannel> getSelectableChannels({required Snap? storeSnap}) {
-    Map<String, SnapChannel> selectableChannels = {};
-    if (storeSnap != null && storeSnap.tracks.isNotEmpty) {
-      for (var track in storeSnap.tracks) {
-        for (var risk in ['stable', 'candidate', 'beta', 'edge']) {
-          var name = '$track/$risk';
-          var channel = storeSnap.channels[name];
-          final channelName = '$track/$risk';
-          if (channel != null) {
-            selectableChannels.putIfAbsent(channelName, () => channel);
-          }
-        }
-      }
+  Future<void> refreshSnaps({required String doneMessage}) async {
+    for (var snap in _localSnaps) {
+      await _snapService.refresh(
+        snap: snap,
+        message: doneMessage,
+        confinement: snap.confinement,
+        channel: snap.channel,
+      );
+      notifyListeners();
     }
-    return selectableChannels;
-  }
-
-  String getTrackingChannel({
-    required Map<String, SnapChannel> selectableChannels,
-    required String? trackingChannel,
-  }) {
-    if (selectableChannels.entries.isNotEmpty) {
-      if (trackingChannel != null &&
-          selectableChannels.entries
-              .where((element) => element.key.contains(trackingChannel))
-              .isNotEmpty) {
-        return trackingChannel;
-      } else {
-        return selectableChannels.entries.first.key;
-      }
-    } else {
-      return '';
-    }
-  }
-
-  Future<void> updateAll({required String doneMessage}) async {
-    await _snapService.authorize().then((_) async {
-      for (var snap in _localSnaps) {
-        await _snapService.refresh(
-          snap: snap,
-          message: doneMessage,
-          confinement: snap.confinement,
-          channel: snap.channel,
-        );
-        notifyListeners();
-      }
-    }).then((_) => loadSnapsWithUpdates = false);
   }
 }

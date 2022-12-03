@@ -21,6 +21,7 @@ import 'package:collection/collection.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/store_app/common/snap/snap_section.dart';
+import 'package:software/store_app/common/snap/snap_utils.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class SnapService {
@@ -272,5 +273,44 @@ class SnapService {
     }
     _sectionNameToSnapsMap.putIfAbsent(section, () => sectionList);
     _sectionsChangedController.add(true);
+  }
+
+  final List<Snap> _snapsWithUpdate = [];
+  Future<List<Snap>> loadSnapsWithUpdate() async {
+    List<Snap> localSnaps = await getLocalSnaps();
+
+    Map<Snap, Snap> localSnapsToStoreSnaps = {};
+    for (var snap in localSnaps) {
+      final storeSnap = await findSnapByName(snap.name) ?? snap;
+      localSnapsToStoreSnaps.putIfAbsent(snap, () => storeSnap);
+    }
+
+    final snapsWithUpdates = localSnaps.where((snap) {
+      if (localSnapsToStoreSnaps[snap] == null) return false;
+      return isSnapUpdateAvailable(
+        storeSnap: localSnapsToStoreSnaps[snap]!,
+        localSnap: snap,
+      );
+    }).toList();
+
+    _snapsWithUpdate.clear();
+    _snapsWithUpdate.addAll(snapsWithUpdates);
+
+    return _snapsWithUpdate;
+  }
+
+  Future<void> refreshAll({
+    required String doneMessage,
+    required List<Snap> snaps,
+  }) async {
+    await authorize();
+    for (var snap in snaps) {
+      await refresh(
+        snap: snap,
+        message: doneMessage,
+        confinement: snap.confinement,
+        channel: snap.channel,
+      );
+    }
   }
 }

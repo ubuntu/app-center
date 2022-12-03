@@ -17,17 +17,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:snapd/snapd.dart';
-import 'package:software/snapx.dart';
-import 'package:software/store_app/common/app_icon.dart';
-import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/loading_banner_grid.dart';
-import 'package:software/store_app/common/snap/snap_page.dart';
+import 'package:software/store_app/common/snap/snap_grid.dart';
 import 'package:software/store_app/common/updates_splash_screen.dart';
 import 'package:software/store_app/installed/installed_model.dart';
 import 'package:software/store_app/updates/no_updates_page.dart';
 import 'package:yaru_icons/yaru_icons.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class InstalledSnapsPage extends StatefulWidget {
   const InstalledSnapsPage({Key? key}) : super(key: key);
@@ -66,43 +61,6 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
             icon: YaruIcons.snapcraft,
             expanded: false,
           )
-        : _MySnapsGrid(snaps: snaps);
-  }
-}
-
-class _MySnapsGrid extends StatelessWidget {
-  // ignore: unused_element
-  const _MySnapsGrid({super.key, required this.snaps});
-
-  final List<Snap> snaps;
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: kGridPadding,
-      gridDelegate: kGridDelegate,
-      shrinkWrap: true,
-      itemCount: snaps.length,
-      itemBuilder: (context, index) {
-        final snap = snaps.elementAt(index);
-        return YaruBanner(
-          title: Text(
-            snap.name,
-            overflow: TextOverflow.ellipsis,
-          ),
-          subtitle: Text(
-            snap.summary,
-            overflow: TextOverflow.ellipsis,
-          ),
-          icon: Padding(
-            padding: kIconPadding,
-            child: AppIcon(
-              iconUrl: snap.iconUrl,
-            ),
-          ),
-          onTap: () => SnapPage.push(context, snap),
-        );
-      },
-    );
+        : SnapGrid(snaps: snaps);
   }
 }
