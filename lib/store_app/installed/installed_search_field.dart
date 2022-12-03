@@ -20,8 +20,8 @@ import 'package:flutter/services.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
-class MyAppSearchField extends StatefulWidget {
-  const MyAppSearchField({
+class InstalledSearchField extends StatefulWidget {
+  const InstalledSearchField({
     super.key,
     required this.searchQuery,
     required this.onChanged,
@@ -33,10 +33,10 @@ class MyAppSearchField extends StatefulWidget {
   final Function() clear;
 
   @override
-  State<MyAppSearchField> createState() => _MyAppSearchFieldState();
+  State<InstalledSearchField> createState() => _InstalledSearchFieldState();
 }
 
-class _MyAppSearchFieldState extends State<MyAppSearchField> {
+class _InstalledSearchFieldState extends State<InstalledSearchField> {
   late TextEditingController _controller;
 
   @override

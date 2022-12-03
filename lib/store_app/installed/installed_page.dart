@@ -21,15 +21,15 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
-import 'package:software/store_app/my_apps/my_apps_header.dart';
-import 'package:software/store_app/my_apps/my_apps_model.dart';
-import 'package:software/store_app/my_apps/my_apps_search_field.dart';
-import 'package:software/store_app/my_apps/my_packages_page.dart';
-import 'package:software/store_app/my_apps/my_snaps_page.dart';
+import 'package:software/store_app/installed/installed_header.dart';
+import 'package:software/store_app/installed/installed_model.dart';
+import 'package:software/store_app/installed/installed_search_field.dart';
+import 'package:software/store_app/installed/installed_packages_page.dart';
+import 'package:software/store_app/installed/installed_snaps_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-class MyAppsPage extends StatelessWidget {
-  const MyAppsPage({
+class InstalledPage extends StatelessWidget {
+  const InstalledPage({
     Key? key,
     this.onTabTapped,
     this.initalTabIndex = 0,
@@ -44,11 +44,11 @@ class MyAppsPage extends StatelessWidget {
     int tabIndex,
   ) {
     return ChangeNotifierProvider(
-      create: (context) => MyAppsModel(
+      create: (context) => InstalledModel(
         getService<PackageService>(),
         getService<SnapService>(),
       ),
-      child: MyAppsPage(
+      child: InstalledPage(
         onTabTapped: onTabTapped,
         initalTabIndex: tabIndex,
       ),
@@ -56,19 +56,19 @@ class MyAppsPage extends StatelessWidget {
   }
 
   static Widget createTitle(BuildContext context) =>
-      Text(context.l10n.myAppsPageTitle);
+      Text(context.l10n.installed);
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<MyAppsModel>();
+    final model = context.watch<InstalledModel>();
 
     final page = Column(
       children: [
-        const MyAppsHeader(),
+        const InstalledHeader(),
         if (model.appFormat == AppFormat.snap)
-          const Expanded(child: MySnapsPage())
+          const Expanded(child: InstalledSnapsPage())
         else if (model.appFormat == AppFormat.packageKit)
-          const Expanded(child: MyPackagesPage()),
+          const Expanded(child: InstalledPackagesPage()),
       ],
     );
 
@@ -77,7 +77,7 @@ class MyAppsPage extends StatelessWidget {
         MaterialPage(
           child: Scaffold(
             appBar: AppBar(
-              flexibleSpace: MyAppSearchField(
+              flexibleSpace: InstalledSearchField(
                 searchQuery: model.searchQuery ?? '',
                 onChanged: (v) => model.searchQuery = v,
                 clear: () {

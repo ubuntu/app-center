@@ -240,5 +240,6 @@
   "refreshing": "Frische auf",
   "attention": "Achtung!",
   "@attention": {},
-  "releasedAt": "Veröffentlicht am"
+  "releasedAt": "Veröffentlicht am",
+  "installed": "Installiert"
 }

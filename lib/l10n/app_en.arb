@@ -139,5 +139,6 @@
   "@appstreamSearchGreylist" : {
     "description": "List of 'grey-listed' words separated with ';'. Do not translate this list directly. Instead, provide a list of words in your language that people are likely to include in a search but that should normally be ignored in the search."
   },
-  "releasedAt": "Released at"
+  "releasedAt": "Released at",
+  "installed": "Installed"
 }

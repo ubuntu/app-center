@@ -27,7 +27,7 @@ import 'package:software/store_app/common/animated_warning_icon.dart';
 import 'package:software/store_app/common/dangerous_delayed_button.dart';
 import 'package:software/store_app/common/indeterminate_circular_progress_icon.dart';
 import 'package:software/store_app/explore/explore_page.dart';
-import 'package:software/store_app/my_apps/my_apps_page.dart';
+import 'package:software/store_app/installed/installed_page.dart';
 import 'package:software/store_app/settings/settings_page.dart';
 import 'package:software/store_app/store_model.dart';
 import 'package:software/store_app/store_splash_screen.dart';
@@ -97,7 +97,7 @@ class _App extends StatefulWidget {
 }
 
 class __AppState extends State<_App> {
-  int _myAppsIndex = 0;
+  int _installedPageIndex = 0;
   bool _initialized = false;
 
   @override
@@ -145,15 +145,15 @@ class __AppState extends State<_App> {
             : const Icon(YaruIcons.compass),
       ),
       PageItem(
-        titleBuilder: MyAppsPage.createTitle,
-        builder: (context) => MyAppsPage.create(
+        titleBuilder: InstalledPage.createTitle,
+        builder: (context) => InstalledPage.create(
           context,
-          (index) => _myAppsIndex = index,
-          _myAppsIndex,
+          (index) => _installedPageIndex = index,
+          _installedPageIndex,
         ),
         iconBuilder: (context, selected) {
           if (model.snapChanges.isNotEmpty) {
-            return _MyAppsIcon(count: model.snapChanges.length);
+            return _InstalledPageIcon(count: model.snapChanges.length);
           }
           return selected
               ? const Icon(YaruIcons.ok_filled)
@@ -198,9 +198,9 @@ class __AppState extends State<_App> {
   }
 }
 
-class _MyAppsIcon extends StatelessWidget {
+class _InstalledPageIcon extends StatelessWidget {
   // ignore: unused_element
-  const _MyAppsIcon({super.key, required this.count});
+  const _InstalledPageIcon({super.key, required this.count});
 
   final int count;
 
