@@ -69,7 +69,11 @@ class MyAppsHeader extends StatelessWidget {
                 model.loadSnapsWithUpdates &&
                 model.localSnaps.isNotEmpty)
               ElevatedButton(
-                onPressed: model.busy ? null : () => model.updateAll(),
+                onPressed: model.busy
+                    ? null
+                    : () => model.updateAll(
+                          doneMessage: context.l10n.done,
+                        ),
                 child: Text(context.l10n.refresh),
               )
           ],
