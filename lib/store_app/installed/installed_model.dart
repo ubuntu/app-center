@@ -24,7 +24,6 @@ import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
 import 'package:software/store_app/common/snap/snap_sort.dart';
-import 'package:software/store_app/common/snap/snap_utils.dart';
 
 class InstalledModel extends SafeChangeNotifier {
   final PackageService _packageService;
@@ -169,36 +168,20 @@ class InstalledModel extends SafeChangeNotifier {
   }
 
   Future<void> _loadSnapsWithUpdate() async {
-    await _loadLocalSnaps();
-    Map<Snap, Snap> localSnapsToStoreSnaps = {};
-    for (var snap in _localSnaps) {
-      final storeSnap = await _snapService.findSnapByName(snap.name) ?? snap;
-      localSnapsToStoreSnaps.putIfAbsent(snap, () => storeSnap);
-    }
-
-    final snapsWithUpdates = _localSnaps.where((snap) {
-      if (localSnapsToStoreSnaps[snap] == null) return false;
-      return isSnapUpdateAvailable(
-        storeSnap: localSnapsToStoreSnaps[snap]!,
-        localSnap: snap,
-      );
-    }).toList();
-
+    final snapsWithUpdates = await _snapService.loadSnapsWithUpdate();
     _localSnaps.clear();
     _localSnaps.addAll(snapsWithUpdates);
   }
 
-  Future<void> updateAll({required String doneMessage}) async {
-    await _snapService.authorize().then((_) async {
-      for (var snap in _localSnaps) {
-        await _snapService.refresh(
-          snap: snap,
-          message: doneMessage,
-          confinement: snap.confinement,
-          channel: snap.channel,
-        );
-        notifyListeners();
-      }
-    }).then((_) => loadSnapsWithUpdates = false);
+  Future<void> refreshSnaps({required String doneMessage}) async {
+    for (var snap in _localSnaps) {
+      await _snapService.refresh(
+        snap: snap,
+        message: doneMessage,
+        confinement: snap.confinement,
+        channel: snap.channel,
+      );
+      notifyListeners();
+    }
   }
 }

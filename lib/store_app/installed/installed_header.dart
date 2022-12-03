@@ -71,7 +71,7 @@ class InstalledHeader extends StatelessWidget {
               ElevatedButton(
                 onPressed: model.busy
                     ? null
-                    : () => model.updateAll(
+                    : () => model.refreshSnaps(
                           doneMessage: context.l10n.done,
                         ),
                 child: Text(context.l10n.refresh),

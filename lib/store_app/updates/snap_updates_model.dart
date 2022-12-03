@@ -20,7 +20,6 @@ import 'dart:async';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/snap_service.dart';
-import 'package:software/store_app/common/snap/snap_utils.dart';
 
 class SnapUpdatesModel extends SafeChangeNotifier {
   SnapUpdatesModel(
@@ -31,14 +30,12 @@ class SnapUpdatesModel extends SafeChangeNotifier {
   StreamSubscription<bool>? _snapChangesSub;
 
   Future<void> init() async {
-    await loadSnapsWithUpdate();
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       checkingForUpdates = true;
       if (_snapService.snapChanges.isEmpty) {
         loadSnapsWithUpdate().then((_) => checkingForUpdates = false);
       }
     });
-    checkingForUpdates = false;
   }
 
   @override
@@ -48,7 +45,7 @@ class SnapUpdatesModel extends SafeChangeNotifier {
     super.dispose();
   }
 
-  bool _checkingForUpdates = true;
+  bool _checkingForUpdates = false;
   bool get checkingForUpdates => _checkingForUpdates;
   set checkingForUpdates(bool value) {
     if (value == _checkingForUpdates) return;
@@ -62,40 +59,21 @@ class SnapUpdatesModel extends SafeChangeNotifier {
     checkingForUpdates = false;
   }
 
-  Future<List<Snap>> loadSnapsWithUpdate() async {
-    List<Snap> localSnaps = await _snapService.getLocalSnaps();
+  Future<List<Snap>> loadSnapsWithUpdate() async =>
+      await _snapService.loadSnapsWithUpdate();
 
-    Map<Snap, Snap> localSnapsToStoreSnaps = {};
-    for (var snap in localSnaps) {
-      final storeSnap = await _snapService.findSnapByName(snap.name) ?? snap;
-      localSnapsToStoreSnaps.putIfAbsent(snap, () => storeSnap);
-    }
-
-    final snapsWithUpdates = localSnaps.where((snap) {
-      if (localSnapsToStoreSnaps[snap] == null) return false;
-      return isSnapUpdateAvailable(
-        storeSnap: localSnapsToStoreSnaps[snap]!,
-        localSnap: snap,
-      );
-    }).toList();
-
-    return snapsWithUpdates;
-  }
-
-  Future<void> updateAll({
+  Future<void> refreshAll({
     required String doneMessage,
     required List<Snap> snaps,
   }) async {
-    await _snapService.authorize().then((_) async {
-      for (var snap in snaps) {
-        await _snapService.refresh(
-          snap: snap,
-          message: doneMessage,
-          confinement: snap.confinement,
-          channel: snap.channel,
-        );
-        notifyListeners();
-      }
-    });
+    for (var snap in snaps) {
+      await _snapService.refresh(
+        snap: snap,
+        message: doneMessage,
+        confinement: snap.confinement,
+        channel: snap.channel,
+      );
+      notifyListeners();
+    }
   }
 }

@@ -78,7 +78,7 @@ class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
                       onPressed: model.checkingForUpdates ||
                               snapshot.connectionState != ConnectionState.done
                           ? null
-                          : () => model.updateAll(
+                          : () => model.refreshAll(
                                 doneMessage: context.l10n.done,
                                 snaps: snaps,
                               ),
