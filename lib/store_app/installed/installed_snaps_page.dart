@@ -24,27 +24,27 @@ import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/loading_banner_grid.dart';
 import 'package:software/store_app/common/snap/snap_page.dart';
 import 'package:software/store_app/common/updates_splash_screen.dart';
-import 'package:software/store_app/my_apps/my_apps_model.dart';
+import 'package:software/store_app/installed/installed_model.dart';
 import 'package:software/store_app/updates/no_updates_page.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class MySnapsPage extends StatefulWidget {
-  const MySnapsPage({Key? key}) : super(key: key);
+class InstalledSnapsPage extends StatefulWidget {
+  const InstalledSnapsPage({Key? key}) : super(key: key);
   @override
-  State<MySnapsPage> createState() => _MySnapsPageState();
+  State<InstalledSnapsPage> createState() => _InstalledSnapsPageState();
 }
 
-class _MySnapsPageState extends State<MySnapsPage> {
+class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
   @override
   void initState() {
-    context.read<MyAppsModel>().init();
+    context.read<InstalledModel>().init();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<MyAppsModel>();
+    final model = context.watch<InstalledModel>();
     final snaps = model.searchQuery == null
         ? model.localSnaps
         : model.localSnaps

@@ -21,24 +21,24 @@ import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/packagekit/package_page.dart';
-import 'package:software/store_app/my_apps/my_apps_model.dart';
+import 'package:software/store_app/installed/installed_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class MyPackagesPage extends StatefulWidget {
-  const MyPackagesPage({Key? key}) : super(key: key);
+class InstalledPackagesPage extends StatefulWidget {
+  const InstalledPackagesPage({Key? key}) : super(key: key);
 
   @override
-  State<MyPackagesPage> createState() => _MyPackagesPageState();
+  State<InstalledPackagesPage> createState() => _InstalledPackagesPageState();
 }
 
-class _MyPackagesPageState extends State<MyPackagesPage> {
+class _InstalledPackagesPageState extends State<InstalledPackagesPage> {
   late ScrollController _controller;
 
   @override
   void initState() {
     super.initState();
     _controller = ScrollController();
-    context.read<MyAppsModel>().init();
+    context.read<InstalledModel>().init();
   }
 
   @override
@@ -49,7 +49,7 @@ class _MyPackagesPageState extends State<MyPackagesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<MyAppsModel>();
+    final model = context.watch<InstalledModel>();
     final installedApps = model.searchQuery == null
         ? model.installedPackages
         : model.installedPackages

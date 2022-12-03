@@ -25,9 +25,9 @@ import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
 import 'package:software/store_app/common/snap/snap_sort.dart';
 
-class MyAppsModel extends SafeChangeNotifier {
+class InstalledModel extends SafeChangeNotifier {
   final PackageService _packageService;
-  MyAppsModel(
+  InstalledModel(
     this._packageService,
     this._snapService,
   ) : _localSnaps = [];
