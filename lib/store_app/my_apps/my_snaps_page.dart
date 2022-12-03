@@ -18,14 +18,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/loading_banner_grid.dart';
 import 'package:software/store_app/common/snap/snap_page.dart';
+import 'package:software/store_app/common/updates_splash_screen.dart';
 import 'package:software/store_app/my_apps/my_apps_model.dart';
 import 'package:software/store_app/updates/no_updates_page.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MySnapsPage extends StatefulWidget {
@@ -61,20 +62,9 @@ class _MySnapsPageState extends State<MySnapsPage> {
     }
 
     return model.busy
-        ? Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  context.l10n.justAMoment,
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                const SizedBox(
-                  height: kYaruPagePadding,
-                ),
-                const YaruCircularProgressIndicator(),
-              ],
-            ),
+        ? const UpdatesSplashScreen(
+            icon: YaruIcons.snapcraft,
+            expanded: false,
           )
         : _MySnapsGrid(snaps: snaps);
   }

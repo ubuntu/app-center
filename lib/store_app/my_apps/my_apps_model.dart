@@ -235,19 +235,17 @@ class MyAppsModel extends SafeChangeNotifier {
     }
   }
 
-  void updateAll() {
-    busy = true;
-    for (var snap in _localSnaps) {
-      _snapService
-          .refresh(
-            snap: snap,
-            message: 'message',
-            confinement: snap.confinement,
-            channel: snap.channel,
-          )
-          .then((_) => notifyListeners());
-    }
-    busy = false;
-    loadSnapsWithUpdates = false;
+  Future<void> updateAll({required String doneMessage}) async {
+    await _snapService.authorize().then((_) async {
+      for (var snap in _localSnaps) {
+        await _snapService.refresh(
+          snap: snap,
+          message: doneMessage,
+          confinement: snap.confinement,
+          channel: snap.channel,
+        );
+        notifyListeners();
+      }
+    }).then((_) => loadSnapsWithUpdates = false);
   }
 }

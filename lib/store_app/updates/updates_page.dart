@@ -18,13 +18,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/store_app/common/border_container.dart';
 import 'package:software/store_app/common/constants.dart';
 import 'package:software/store_app/common/message_bar.dart';
+import 'package:software/store_app/common/updates_splash_screen.dart';
 import 'package:software/store_app/updates/no_updates_page.dart';
 import 'package:software/store_app/updates/update_banner.dart';
 import 'package:software/store_app/updates/updates_model.dart';
@@ -97,116 +97,11 @@ class _UpdatesPageState extends State<UpdatesPage> {
         if (model.updatesState == UpdatesState.updating)
           _UpdatingPage(hPadding: hPadding),
         if (model.updatesState == UpdatesState.checkingForUpdates)
-          _CheckForUpdatesSplashScreen(
+          UpdatesSplashScreen(
+            icon: YaruIcons.debian,
             percentage: model.percentage,
           )
       ],
-    );
-  }
-}
-
-class _CheckForUpdatesSplashScreen extends StatefulWidget {
-  const _CheckForUpdatesSplashScreen({
-    // ignore: unused_element
-    super.key,
-    this.percentage,
-  });
-
-  final int? percentage;
-
-  @override
-  State<_CheckForUpdatesSplashScreen> createState() =>
-      _CheckForUpdatesSplashScreenState();
-}
-
-class _CheckForUpdatesSplashScreenState
-    extends State<_CheckForUpdatesSplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 10),
-    );
-
-    _animationController.addListener(() => setState(() {}));
-    _animationController.forward();
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                SizedBox(
-                  width: 145,
-                  height: 185,
-                  child: LiquidLinearProgressIndicator(
-                    value: _animationController.value,
-                    backgroundColor: Colors.white.withOpacity(0.5),
-                    valueColor: AlwaysStoppedAnimation(
-                      Theme.of(context).primaryColor,
-                    ),
-                    direction: Axis.vertical,
-                    borderRadius: 20,
-                  ),
-                ),
-                Icon(
-                  YaruIcons.debian,
-                  size: 120,
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: kYaruPagePadding,
-            ),
-            Center(
-              child: Text(
-                context.l10n.justAMoment,
-                style: Theme.of(context).textTheme.headline4,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.visible,
-              ),
-            ),
-            const SizedBox(
-              height: kYaruPagePadding / 4,
-            ),
-            Center(
-              child: Text(
-                context.l10n.checkingForUpdates,
-                style: Theme.of(context).textTheme.headline6!.copyWith(
-                      fontWeight: FontWeight.w400,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.7),
-                    ),
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.visible,
-              ),
-            ),
-            const SizedBox(
-              height: 120,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
