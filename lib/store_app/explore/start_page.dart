@@ -66,16 +66,12 @@ class _StartPageState extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final bannerSection = context.select((ExploreModel m) => m.selectedSection);
+    final sectionSnaps = context
+        .select((ExploreModel m) => m.sectionNameToSnapsMap[bannerSection]);
 
-    final bannerSection = model.selectedSection;
-
-    final snapsWithIcons = model.sectionNameToSnapsMap.isEmpty ||
-            model.sectionNameToSnapsMap[model.selectedSection] == null
-        ? <Snap>[]
-        : model.sectionNameToSnapsMap[model.selectedSection]
-            ?.where((snap) => snap.iconUrl != null)
-            .toList();
+    final snapsWithIcons =
+        sectionSnaps?.where((snap) => snap.iconUrl != null).toList();
 
     Snap? bannerSnap;
     Snap? bannerSnap2;
@@ -87,10 +83,7 @@ class _StartPageState extends State<StartPage> {
       bannerSnap3 = snapsWithIcons.elementAt(_randomSnapIndex + 2);
     }
 
-    if (model.sectionNameToSnapsMap.isEmpty ||
-        bannerSnap == null ||
-        bannerSnap2 == null ||
-        bannerSnap3 == null) {
+    if (bannerSnap == null || bannerSnap2 == null || bannerSnap3 == null) {
       return SingleChildScrollView(
         controller: _controller,
         child: Column(
@@ -112,7 +105,7 @@ class _StartPageState extends State<StartPage> {
             section: bannerSection,
           ),
           SectionGrid(
-            snapSection: model.selectedSection,
+            snapSection: bannerSection,
             initialAmount: _amount,
           ),
         ],
