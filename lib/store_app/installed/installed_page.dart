@@ -62,7 +62,6 @@ class InstalledPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final searchQuery = context.select((InstalledModel m) => m.searchQuery);
     final appFormat = context.select((InstalledModel m) => m.appFormat);
-
     final setSearchQuery =
         context.select((InstalledModel m) => m.setSearchQuery);
 

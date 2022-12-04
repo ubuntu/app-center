@@ -70,16 +70,18 @@ class _ExplorePageState extends State<ExplorePage> {
     final errorMessage = context.select((ExploreModel m) => m.errorMessage);
     final showErrorPage = context.select((ExploreModel m) => m.showErrorPage);
     final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
-    final model = context.watch<ExploreModel>();
+    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
+    final setSearchQuery = context.select((ExploreModel m) => m.setSearchQuery);
+
     return Navigator(
       pages: [
         MaterialPage(
           child: Scaffold(
             appBar: AppBar(
               flexibleSpace: SearchField(
-                searchQuery: model.searchQuery,
-                onChanged: (value) => model.searchQuery = value,
-                clear: () => model.searchQuery = '',
+                searchQuery: searchQuery,
+                onChanged: (value) => setSearchQuery(value),
+                clear: () => setSearchQuery(''),
               ),
             ),
             body: Column(
