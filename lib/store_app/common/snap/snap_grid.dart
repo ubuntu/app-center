@@ -38,7 +38,7 @@ class SnapGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         final snap = snaps.elementAt(index);
         return YaruBanner.tile(
-          color: Theme.of(context).brightness == Brightness.light
+          surfaceTintColor: Theme.of(context).brightness == Brightness.light
               ? kBannerBgLight
               : kBannerBgDark,
           elevation: kBannerElevation,

@@ -61,7 +61,7 @@ class SectionGrid extends StatelessWidget {
         final snap = sections.take(initialAmount).elementAt(index);
 
         final banner = YaruBanner.tile(
-          color: Theme.of(context).brightness == Brightness.light
+          surfaceTintColor: Theme.of(context).brightness == Brightness.light
               ? kBannerBgLight
               : kBannerBgDark,
           elevation: kBannerElevation,

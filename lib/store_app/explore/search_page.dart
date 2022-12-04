@@ -62,9 +62,10 @@ class SearchPage extends StatelessWidget {
                       left: kYaruPagePadding,
                       right: kYaruPagePadding,
                     ),
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? kBannerBgLight
-                        : kBannerBgDark,
+                    surfaceTintColor:
+                        Theme.of(context).brightness == Brightness.light
+                            ? kBannerBgLight
+                            : kBannerBgDark,
                     elevation: kBannerElevation,
                     title: Text(
                       appFinding.key,

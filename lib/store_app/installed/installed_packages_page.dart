@@ -67,9 +67,10 @@ class _InstalledPackagesPageState extends State<InstalledPackagesPage> {
               final package = installedApps[index];
               return AnimatedScrollViewItem(
                 child: YaruBanner.tile(
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? kBannerBgLight
-                      : kBannerBgDark,
+                  surfaceTintColor:
+                      Theme.of(context).brightness == Brightness.light
+                          ? kBannerBgLight
+                          : kBannerBgDark,
                   elevation: kBannerElevation,
                   title: Text(package.name),
                   subtitle: Text(package.version),
