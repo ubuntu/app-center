@@ -74,6 +74,7 @@ class _ColorBannerState extends State<ColorBanner> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final model = context.watch<SnapModel>();
     return YaruWatermark(
       watermark: AppIcon(
@@ -83,10 +84,8 @@ class _ColorBannerState extends State<ColorBanner> {
       child: YaruBanner.tile(
         title: Text(
           widget.snap.name,
-          style: Theme.of(context)
-              .textTheme
-              .headline4!
-              .copyWith(fontWeight: FontWeight.w300),
+          style:
+              theme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w300),
           overflow: TextOverflow.ellipsis,
         ),
         subtitle: Column(

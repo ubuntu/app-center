@@ -30,6 +30,8 @@ class SnapGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final light = theme.brightness == Brightness.light;
     return GridView.builder(
       padding: kGridPadding,
       gridDelegate: kGridDelegate,
@@ -38,12 +40,8 @@ class SnapGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         final snap = snaps.elementAt(index);
         return YaruBanner.tile(
-          surfaceTintColor: Theme.of(context).brightness == Brightness.light
-              ? kBannerBgLight
-              : kBannerBgDark,
-          elevation: Theme.of(context).brightness == Brightness.light
-              ? kBannerElevationLight
-              : kBannerElevationDark,
+          surfaceTintColor: light ? kBannerBgLight : kBannerBgDark,
+          elevation: light ? kBannerElevationLight : kBannerElevationDark,
           title: Text(
             snap.name,
             overflow: TextOverflow.ellipsis,

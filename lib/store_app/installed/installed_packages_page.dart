@@ -49,6 +49,8 @@ class _InstalledPackagesPageState extends State<InstalledPackagesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final light = theme.brightness == Brightness.light;
     final model = context.watch<InstalledModel>();
     final installedApps = model.searchQuery == null
         ? model.installedPackages
@@ -67,13 +69,9 @@ class _InstalledPackagesPageState extends State<InstalledPackagesPage> {
               final package = installedApps[index];
               return AnimatedScrollViewItem(
                 child: YaruBanner.tile(
-                  surfaceTintColor:
-                      Theme.of(context).brightness == Brightness.light
-                          ? kBannerBgLight
-                          : kBannerBgDark,
-                  elevation: Theme.of(context).brightness == Brightness.light
-                      ? kBannerElevationLight
-                      : kBannerElevationDark,
+                  surfaceTintColor: light ? kBannerBgLight : kBannerBgDark,
+                  elevation:
+                      light ? kBannerElevationLight : kBannerElevationDark,
                   title: Text(package.name),
                   subtitle: Text(package.version),
                   onTap: () => PackagePage.push(context, id: package),
