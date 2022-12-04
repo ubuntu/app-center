@@ -16,6 +16,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:software/store_app/common/constants.dart';
 
 /// A [Container] with predefined [Decoration].
 /// The [Decoration] has a [Border] with [Divider]'s color.
@@ -86,6 +87,8 @@ class BorderContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final light = theme.brightness == Brightness.light;
     final container = Container(
       alignment: alignment,
       constraints: constraints,
@@ -97,13 +100,10 @@ class BorderContainer extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        color: color ??
-            (Theme.of(context).brightness == Brightness.light
-                ? Colors.white
-                : Theme.of(context).colorScheme.onSurface.withOpacity(0.03)),
+        color: color ?? (light ? kBannerBgLight : kBorderContainerBgDark),
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
-          color: borderColor ?? Theme.of(context).dividerColor,
+          color: borderColor ?? theme.dividerColor,
         ),
       ),
       child: child,

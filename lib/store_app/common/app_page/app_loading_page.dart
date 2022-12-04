@@ -20,6 +20,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:software/store_app/common/app_page/page_layouts.dart';
 import 'package:software/store_app/common/app_page/app_swipe_gesture.dart';
 import 'package:software/store_app/common/border_container.dart';
+import 'package:software/store_app/common/constants.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class AppLoadingPage extends StatelessWidget {
@@ -37,10 +38,10 @@ class AppLoadingPage extends StatelessWidget {
     var light = Theme.of(context).brightness == Brightness.light;
     final shimmerBase = light
         ? const Color.fromARGB(120, 228, 228, 228)
-        : Theme.of(context).colorScheme.onSurface.withOpacity(0.03);
+        : kBorderContainerBgDark;
     final shimmerHighLight = light
         ? const Color.fromARGB(200, 247, 247, 247)
-        : Theme.of(context).colorScheme.onSurface;
+        : const Color.fromARGB(255, 48, 48, 48);
 
     final media = Shimmer.fromColors(
       baseColor: shimmerBase,

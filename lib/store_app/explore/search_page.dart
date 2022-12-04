@@ -37,6 +37,8 @@ class SearchPage extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final light = theme.brightness == Brightness.light;
     final model = context.watch<ExploreModel>();
 
     return FutureBuilder<Map<String, AppFinding>>(
@@ -57,7 +59,14 @@ class SearchPage extends StatelessWidget {
                   var showSnap = model.appFormats.contains(AppFormat.snap);
                   var showPackageKit =
                       model.appFormats.contains(AppFormat.packageKit);
-                  return YaruBanner(
+                  return YaruBanner.tile(
+                    padding: const EdgeInsets.only(
+                      left: kYaruPagePadding,
+                      right: kYaruPagePadding,
+                    ),
+                    surfaceTintColor: light ? kBannerBgLight : kBannerBgDark,
+                    elevation:
+                        light ? kBannerElevationLight : kBannerElevationDark,
                     title: Text(
                       appFinding.key,
                       overflow: TextOverflow.ellipsis,
@@ -67,12 +76,13 @@ class SearchPage extends StatelessWidget {
                       showSnap: showSnap,
                       showPackageKit: showPackageKit,
                     ),
-                    icon: AppIcon(
-                      iconUrl: appFinding.value.snap?.iconUrl ??
-                          appFinding.value.appstream?.icon,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(bottom: 25, right: 5),
+                      child: AppIcon(
+                        iconUrl: appFinding.value.snap?.iconUrl ??
+                            appFinding.value.appstream?.icon,
+                      ),
                     ),
-                    iconPadding:
-                        const EdgeInsets.only(left: 10, right: 5, bottom: 30),
                     onTap: appFinding.value.snap != null &&
                             appFinding.value.appstream != null &&
                             showSnap &&
@@ -123,6 +133,7 @@ class _NoSearchResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -138,8 +149,7 @@ class _NoSearchResultPage extends StatelessWidget {
             width: 400,
             child: Text(
               message,
-              style:
-                  Theme.of(context).textTheme.headline4?.copyWith(fontSize: 25),
+              style: theme.textTheme.headline4?.copyWith(fontSize: 25),
               textAlign: TextAlign.center,
             ),
           ),
@@ -165,6 +175,7 @@ class _SearchBannerSubtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,8 +201,7 @@ class _SearchBannerSubtitle extends StatelessWidget {
                 itemSize: 20,
                 itemBuilder: (context, _) => Icon(
                   YaruIcons.star_filled,
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                  color: theme.colorScheme.onSurface.withOpacity(0.7),
                 ),
                 onRatingUpdate: (rating) {},
                 ignoreGestures: true,
@@ -224,7 +234,8 @@ class _PackageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appFormatEmblemColor = Theme.of(context).disabledColor;
+    final theme = Theme.of(context);
+    final appFormatEmblemColor = theme.disabledColor;
     return Row(
       children: [
         if (appFinding.snap != null && showSnap)

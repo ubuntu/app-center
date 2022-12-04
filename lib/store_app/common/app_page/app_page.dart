@@ -295,7 +295,7 @@ class _CarouselDialogState extends State<_CarouselDialog> {
       },
       child: SimpleDialog(
         title: const YaruCloseButton(
-          alignement: Alignment.centerRight,
+          alignment: Alignment.centerRight,
         ),
         contentPadding: const EdgeInsets.only(bottom: 20),
         titlePadding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 6.0),

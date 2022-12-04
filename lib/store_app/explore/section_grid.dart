@@ -46,6 +46,8 @@ class SectionGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final light = theme.brightness == Brightness.light;
     final model = context.watch<ExploreModel>();
     final sections = model.sectionNameToSnapsMap[snapSection] ?? [];
     if (sections.isEmpty) return const SizedBox();
@@ -60,7 +62,9 @@ class SectionGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         final snap = sections.take(initialAmount).elementAt(index);
 
-        final banner = YaruBanner(
+        final banner = YaruBanner.tile(
+          surfaceTintColor: light ? kBannerBgLight : kBannerBgDark,
+          elevation: light ? kBannerElevationLight : kBannerElevationDark,
           title: Text(snap.name),
           subtitle: Text(
             snap.summary,
