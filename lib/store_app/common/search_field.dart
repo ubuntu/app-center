@@ -49,13 +49,10 @@ class _SearchFieldState extends State<SearchField> {
   Widget build(BuildContext context) {
     return KeyboardListener(
       onKeyEvent: (value) {
-        if (value.logicalKey == LogicalKeyboardKey.escape) {
-          if (value.logicalKey == LogicalKeyboardKey.escape) {
-            if (widget.searchQuery.isNotEmpty) {
-              widget.clear();
-              _controller.clear();
-            }
-          }
+        if (value.logicalKey == LogicalKeyboardKey.escape &&
+            widget.searchQuery.isNotEmpty) {
+          widget.clear();
+          _controller.clear();
         }
       },
       focusNode: FocusNode(),
