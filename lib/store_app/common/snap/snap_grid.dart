@@ -41,7 +41,9 @@ class SnapGrid extends StatelessWidget {
           surfaceTintColor: Theme.of(context).brightness == Brightness.light
               ? kBannerBgLight
               : kBannerBgDark,
-          elevation: kBannerElevation,
+          elevation: Theme.of(context).brightness == Brightness.light
+              ? kBannerElevationLight
+              : kBannerElevationDark,
           title: Text(
             snap.name,
             overflow: TextOverflow.ellipsis,

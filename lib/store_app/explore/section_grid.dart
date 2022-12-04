@@ -64,7 +64,9 @@ class SectionGrid extends StatelessWidget {
           surfaceTintColor: Theme.of(context).brightness == Brightness.light
               ? kBannerBgLight
               : kBannerBgDark,
-          elevation: kBannerElevation,
+          elevation: Theme.of(context).brightness == Brightness.light
+              ? kBannerElevationLight
+              : kBannerElevationDark,
           title: Text(snap.name),
           subtitle: Text(
             snap.summary,

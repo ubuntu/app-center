@@ -87,6 +87,8 @@ class BorderContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final light = theme.brightness == Brightness.light;
     final container = Container(
       alignment: alignment,
       constraints: constraints,
@@ -98,13 +100,10 @@ class BorderContainer extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        color: color ??
-            (Theme.of(context).brightness == Brightness.light
-                ? kBannerBgLight
-                : kBannerBgDark),
+        color: color ?? (light ? kBannerBgLight : kBorderContainerBgDark),
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
-          color: borderColor ?? Theme.of(context).dividerColor,
+          color: borderColor ?? theme.dividerColor,
         ),
       ),
       child: child,

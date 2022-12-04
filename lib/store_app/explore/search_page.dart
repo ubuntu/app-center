@@ -66,7 +66,9 @@ class SearchPage extends StatelessWidget {
                         Theme.of(context).brightness == Brightness.light
                             ? kBannerBgLight
                             : kBannerBgDark,
-                    elevation: kBannerElevation,
+                    elevation: Theme.of(context).brightness == Brightness.light
+                        ? kBannerElevationLight
+                        : kBannerElevationDark,
                     title: Text(
                       appFinding.key,
                       overflow: TextOverflow.ellipsis,

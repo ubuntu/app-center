@@ -71,7 +71,9 @@ class _InstalledPackagesPageState extends State<InstalledPackagesPage> {
                       Theme.of(context).brightness == Brightness.light
                           ? kBannerBgLight
                           : kBannerBgDark,
-                  elevation: kBannerElevation,
+                  elevation: Theme.of(context).brightness == Brightness.light
+                      ? kBannerElevationLight
+                      : kBannerElevationDark,
                   title: Text(package.name),
                   subtitle: Text(package.version),
                   onTap: () => PackagePage.push(context, id: package),

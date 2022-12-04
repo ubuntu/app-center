@@ -36,8 +36,9 @@ class AppLoadingPage extends StatelessWidget {
     final isWindowWide = windowWidth > 1200;
 
     var light = Theme.of(context).brightness == Brightness.light;
-    final shimmerBase =
-        light ? const Color.fromARGB(120, 228, 228, 228) : kBannerBgDark;
+    final shimmerBase = light
+        ? const Color.fromARGB(120, 228, 228, 228)
+        : kBorderContainerBgDark;
     final shimmerHighLight = light
         ? const Color.fromARGB(200, 247, 247, 247)
         : const Color.fromARGB(255, 48, 48, 48);

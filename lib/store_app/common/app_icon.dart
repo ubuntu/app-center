@@ -55,11 +55,11 @@ class AppIcon extends StatelessWidget {
     final shimmerBase = color ??
         (light
             ? const Color.fromARGB(120, 228, 228, 228)
-            : const Color.fromARGB(255, 94, 94, 94));
+            : const Color.fromARGB(255, 51, 51, 51));
     final shimmerHighLight = borderColor ??
         (light
             ? const Color.fromARGB(200, 247, 247, 247)
-            : const Color.fromARGB(255, 53, 53, 53));
+            : const Color.fromARGB(255, 57, 57, 57));
     final fallBackLoadingIcon = Shimmer.fromColors(
       baseColor: shimmerBase,
       highlightColor: shimmerHighLight,

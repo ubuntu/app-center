@@ -40,5 +40,7 @@ const kCheckForUpdateTimeOutInMinutes = 30;
 const kFakeReviewText =
     'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
 const kBannerBgLight = Colors.white;
-const kBannerBgDark = Color.fromARGB(255, 44, 44, 44);
-const kBannerElevation = 0.3;
+const kBannerBgDark = Color.fromARGB(255, 126, 126, 126);
+const kBannerElevationDark = 1.0;
+const kBannerElevationLight = 0.0;
+const kBorderContainerBgDark = Color.fromARGB(255, 46, 46, 46);
