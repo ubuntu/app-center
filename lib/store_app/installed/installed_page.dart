@@ -60,14 +60,18 @@ class InstalledPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<InstalledModel>();
+    final searchQuery = context.select((InstalledModel m) => m.searchQuery);
+    final appFormat = context.select((InstalledModel m) => m.appFormat);
+
+    final setSearchQuery =
+        context.select((InstalledModel m) => m.setSearchQuery);
 
     final page = Column(
       children: [
         const InstalledHeader(),
-        if (model.appFormat == AppFormat.snap)
+        if (appFormat == AppFormat.snap)
           const Expanded(child: InstalledSnapsPage())
-        else if (model.appFormat == AppFormat.packageKit)
+        else if (appFormat == AppFormat.packageKit)
           const Expanded(child: InstalledPackagesPage()),
       ],
     );
@@ -78,10 +82,10 @@ class InstalledPage extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               flexibleSpace: SearchField(
-                searchQuery: model.searchQuery ?? '',
-                onChanged: (v) => model.searchQuery = v,
+                searchQuery: searchQuery ?? '',
+                onChanged: (v) => setSearchQuery(v),
                 clear: () {
-                  model.searchQuery = '';
+                  setSearchQuery('');
                 },
               ),
             ),

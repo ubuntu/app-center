@@ -78,7 +78,7 @@ class InstalledModel extends SafeChangeNotifier {
 
   String? _searchQuery;
   String? get searchQuery => _searchQuery;
-  set searchQuery(String? value) {
+  void setSearchQuery(String? value) {
     if (value == _searchQuery) return;
     _searchQuery = value;
     notifyListeners();
