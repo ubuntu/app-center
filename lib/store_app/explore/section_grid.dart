@@ -48,9 +48,10 @@ class SectionGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final light = theme.brightness == Brightness.light;
-    final model = context.watch<ExploreModel>();
-    final sections = model.sectionNameToSnapsMap[snapSection] ?? [];
-    if (sections.isEmpty) return const SizedBox();
+    final sections = context.select((ExploreModel m) {
+      return m.sectionNameToSnapsMap[snapSection]?.take(initialAmount).toList();
+    });
+    if (sections == null || sections.isEmpty) return const SizedBox();
 
     return GridView.builder(
       physics: ignoreScrolling ? const NeverScrollableScrollPhysics() : null,
@@ -58,9 +59,9 @@ class SectionGrid extends StatelessWidget {
           padding ?? const EdgeInsets.only(bottom: 20, left: 20, right: 20),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
-      itemCount: sections.take(initialAmount).length,
+      itemCount: sections.length,
       itemBuilder: (context, index) {
-        final snap = sections.take(initialAmount).elementAt(index);
+        final snap = sections.elementAt(index);
 
         final banner = YaruBanner.tile(
           surfaceTintColor: light ? kBannerBgLight : kBannerBgDark,
