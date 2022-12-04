@@ -21,9 +21,9 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
+import 'package:software/store_app/common/search_field.dart';
 import 'package:software/store_app/installed/installed_header.dart';
 import 'package:software/store_app/installed/installed_model.dart';
-import 'package:software/store_app/installed/installed_search_field.dart';
 import 'package:software/store_app/installed/installed_packages_page.dart';
 import 'package:software/store_app/installed/installed_snaps_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -77,7 +77,7 @@ class InstalledPage extends StatelessWidget {
         MaterialPage(
           child: Scaffold(
             appBar: AppBar(
-              flexibleSpace: InstalledSearchField(
+              flexibleSpace: SearchField(
                 searchQuery: model.searchQuery ?? '',
                 onChanged: (v) => model.searchQuery = v,
                 clear: () {
