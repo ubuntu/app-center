@@ -21,9 +21,9 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/common/app_format.dart';
+import 'package:software/store_app/common/search_field.dart';
 import 'package:software/store_app/installed/installed_header.dart';
 import 'package:software/store_app/installed/installed_model.dart';
-import 'package:software/store_app/installed/installed_search_field.dart';
 import 'package:software/store_app/installed/installed_packages_page.dart';
 import 'package:software/store_app/installed/installed_snaps_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -60,14 +60,17 @@ class InstalledPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<InstalledModel>();
+    final searchQuery = context.select((InstalledModel m) => m.searchQuery);
+    final appFormat = context.select((InstalledModel m) => m.appFormat);
+    final setSearchQuery =
+        context.select((InstalledModel m) => m.setSearchQuery);
 
     final page = Column(
       children: [
         const InstalledHeader(),
-        if (model.appFormat == AppFormat.snap)
+        if (appFormat == AppFormat.snap)
           const Expanded(child: InstalledSnapsPage())
-        else if (model.appFormat == AppFormat.packageKit)
+        else if (appFormat == AppFormat.packageKit)
           const Expanded(child: InstalledPackagesPage()),
       ],
     );
@@ -77,11 +80,11 @@ class InstalledPage extends StatelessWidget {
         MaterialPage(
           child: Scaffold(
             appBar: AppBar(
-              flexibleSpace: InstalledSearchField(
-                searchQuery: model.searchQuery ?? '',
-                onChanged: (v) => model.searchQuery = v,
+              flexibleSpace: SearchField(
+                searchQuery: searchQuery ?? '',
+                onChanged: (v) => setSearchQuery(v),
                 clear: () {
-                  model.searchQuery = '';
+                  setSearchQuery('');
                 },
               ),
             ),

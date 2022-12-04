@@ -24,7 +24,7 @@ import 'package:software/services/snap_service.dart';
 import 'package:software/store_app/explore/explore_header.dart';
 import 'package:software/store_app/explore/explore_model.dart';
 import 'package:software/store_app/explore/offline_page.dart';
-import 'package:software/store_app/explore/search_field.dart';
+import 'package:software/store_app/common/search_field.dart';
 import 'package:software/store_app/explore/search_page.dart';
 import 'package:software/store_app/explore/start_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -70,13 +70,19 @@ class _ExplorePageState extends State<ExplorePage> {
     final errorMessage = context.select((ExploreModel m) => m.errorMessage);
     final showErrorPage = context.select((ExploreModel m) => m.showErrorPage);
     final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
+    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
+    final setSearchQuery = context.select((ExploreModel m) => m.setSearchQuery);
 
     return Navigator(
       pages: [
         MaterialPage(
           child: Scaffold(
             appBar: AppBar(
-              flexibleSpace: const SearchField(),
+              flexibleSpace: SearchField(
+                searchQuery: searchQuery,
+                onChanged: (value) => setSearchQuery(value),
+                clear: () => setSearchQuery(''),
+              ),
             ),
             body: Column(
               children: [

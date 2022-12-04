@@ -20,8 +20,8 @@ import 'package:flutter/services.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
-class InstalledSearchField extends StatefulWidget {
-  const InstalledSearchField({
+class SearchField extends StatefulWidget {
+  const SearchField({
     super.key,
     required this.searchQuery,
     required this.onChanged,
@@ -33,33 +33,26 @@ class InstalledSearchField extends StatefulWidget {
   final Function() clear;
 
   @override
-  State<InstalledSearchField> createState() => _InstalledSearchFieldState();
+  State<SearchField> createState() => _SearchFieldState();
 }
 
-class _InstalledSearchFieldState extends State<InstalledSearchField> {
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    _controller = TextEditingController();
-    super.initState();
-  }
+class _SearchFieldState extends State<SearchField> {
+  final TextEditingController _controller = TextEditingController();
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
+    _controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return KeyboardListener(
       onKeyEvent: (value) {
-        if (value.logicalKey == LogicalKeyboardKey.escape) {
-          if (widget.searchQuery.isNotEmpty) {
-            widget.clear();
-            _controller.clear();
-          }
+        if (value.logicalKey == LogicalKeyboardKey.escape &&
+            widget.searchQuery.isNotEmpty) {
+          widget.clear();
+          _controller.clear();
         }
       },
       focusNode: FocusNode(),
@@ -67,6 +60,7 @@ class _InstalledSearchFieldState extends State<InstalledSearchField> {
         autofocus: true,
         controller: _controller,
         onChanged: widget.onChanged,
+        textInputAction: TextInputAction.send,
         decoration: InputDecoration(
           hintText: context.l10n.searchHint,
           prefixIcon: const Padding(
