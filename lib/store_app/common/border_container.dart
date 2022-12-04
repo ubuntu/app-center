@@ -100,7 +100,7 @@ class BorderContainer extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        color: color ?? (light ? kBannerBgLight : kBorderContainerBgDark),
+        color: color ?? (light ? Colors.white : kBorderContainerBgDark),
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
           color: borderColor ?? theme.dividerColor,

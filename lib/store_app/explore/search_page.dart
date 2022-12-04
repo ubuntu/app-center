@@ -37,8 +37,6 @@ class SearchPage extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final light = theme.brightness == Brightness.light;
     final model = context.watch<ExploreModel>();
 
     return FutureBuilder<Map<String, AppFinding>>(
@@ -59,66 +57,92 @@ class SearchPage extends StatelessWidget {
                   var showSnap = model.appFormats.contains(AppFormat.snap);
                   var showPackageKit =
                       model.appFormats.contains(AppFormat.packageKit);
-                  return YaruBanner.tile(
-                    padding: const EdgeInsets.only(
-                      left: kYaruPagePadding,
-                      right: kYaruPagePadding,
-                    ),
-                    surfaceTintColor: light ? kBannerBgLight : kBannerBgDark,
-                    elevation:
-                        light ? kBannerElevationLight : kBannerElevationDark,
-                    title: Text(
-                      appFinding.key,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: _SearchBannerSubtitle(
-                      appFinding: appFinding.value,
-                      showSnap: showSnap,
-                      showPackageKit: showPackageKit,
-                    ),
-                    icon: Padding(
-                      padding: const EdgeInsets.only(bottom: 25, right: 5),
-                      child: AppIcon(
-                        iconUrl: appFinding.value.snap?.iconUrl ??
-                            appFinding.value.appstream?.icon,
-                      ),
-                    ),
-                    onTap: appFinding.value.snap != null &&
-                            appFinding.value.appstream != null &&
-                            showSnap &&
-                            showPackageKit
-                        ? () => showDialog(
-                              useRootNavigator: false,
-                              context: context,
-                              builder: (context) => _AppFormatSelectDialog(
-                                title: appFinding.value.snap!.name,
-                                onPackageSelect: () => PackagePage.push(
-                                  context,
-                                  appstream: appFinding.value.appstream!,
-                                ),
-                                onSnapSelect: () => SnapPage.push(
-                                  context,
-                                  appFinding.value.snap!,
-                                ),
-                              ),
-                            )
-                        : () {
-                            if (appFinding.value.appstream != null &&
-                                showPackageKit) {
-                              PackagePage.push(
-                                context,
-                                appstream: appFinding.value.appstream!,
-                              );
-                            }
-                            if (appFinding.value.snap != null && showSnap) {
-                              SnapPage.push(context, appFinding.value.snap!);
-                            }
-                          },
+                  return SearchSnapBanner(
+                    appFinding: appFinding,
+                    showSnap: showSnap,
+                    showPackageKit: showPackageKit,
                   );
                 },
               )
             : _NoSearchResultPage(message: context.l10n.noPackageFound);
       },
+    );
+  }
+}
+
+class SearchSnapBanner extends StatelessWidget {
+  const SearchSnapBanner({
+    Key? key,
+    required this.appFinding,
+    required this.showSnap,
+    required this.showPackageKit,
+  }) : super(key: key);
+
+  final MapEntry<String, AppFinding> appFinding;
+  final bool showSnap;
+  final bool showPackageKit;
+
+  @override
+  Widget build(BuildContext context) {
+    var onTap = appFinding.value.snap != null &&
+            appFinding.value.appstream != null &&
+            showSnap &&
+            showPackageKit
+        ? () => showDialog(
+              useRootNavigator: false,
+              context: context,
+              builder: (context) => _AppFormatSelectDialog(
+                title: appFinding.value.snap!.name,
+                onPackageSelect: () => PackagePage.push(
+                  context,
+                  appstream: appFinding.value.appstream!,
+                ),
+                onSnapSelect: () => SnapPage.push(
+                  context,
+                  appFinding.value.snap!,
+                ),
+              ),
+            )
+        : () {
+            if (appFinding.value.appstream != null && showPackageKit) {
+              PackagePage.push(
+                context,
+                appstream: appFinding.value.appstream!,
+              );
+            }
+            if (appFinding.value.snap != null && showSnap) {
+              SnapPage.push(context, appFinding.value.snap!);
+            }
+          };
+    var iconUrl =
+        appFinding.value.snap?.iconUrl ?? appFinding.value.appstream?.icon;
+    var title = appFinding.key;
+
+    var subtitle = _SearchBannerSubtitle(
+      appFinding: appFinding.value,
+      showSnap: showSnap,
+      showPackageKit: showPackageKit,
+    );
+
+    var appIcon = Padding(
+      padding: const EdgeInsets.only(bottom: 25, right: 5),
+      child: AppIcon(
+        iconUrl: iconUrl,
+      ),
+    );
+
+    return YaruBanner.tile(
+      padding: const EdgeInsets.only(
+        left: kYaruPagePadding,
+        right: kYaruPagePadding,
+      ),
+      title: Text(
+        title,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: subtitle,
+      icon: appIcon,
+      onTap: onTap,
     );
   }
 }

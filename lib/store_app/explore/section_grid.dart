@@ -17,14 +17,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
-import 'package:software/store_app/common/animated_scroll_view_item.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/preview_banner.dart';
+import 'package:software/store_app/common/snap/snap_control_button.dart';
 import 'package:software/store_app/common/snap/snap_page.dart';
 import 'package:software/store_app/common/snap/snap_section.dart';
 import 'package:software/store_app/explore/explore_model.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SectionGrid extends StatelessWidget {
   const SectionGrid({
@@ -46,8 +47,6 @@ class SectionGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final light = theme.brightness == Brightness.light;
     final sections = context.select((ExploreModel m) {
       return m.sectionNameToSnapsMap[snapSection]?.take(initialAmount).toList();
     });
@@ -63,14 +62,15 @@ class SectionGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         final snap = sections.elementAt(index);
 
-        final banner = YaruBanner.tile(
-          surfaceTintColor: light ? kBannerBgLight : kBannerBgDark,
-          elevation: light ? kBannerElevationLight : kBannerElevationDark,
-          title: Text(snap.name),
-          subtitle: Text(
-            snap.summary,
-            overflow: TextOverflow.ellipsis,
+        return PreviewBanner(
+          controlWidget: SnapControlButton.create(
+            context: context,
+            huskSnapName: snap.name,
           ),
+          title: snap.name,
+          subTitle: snap.summary,
+          description:
+              '${snap.publisher?.displayName ?? ''} | ${context.l10n.version}: ${snap.version}',
           icon: Padding(
             padding: kIconPadding,
             child: AppIcon(
@@ -79,14 +79,6 @@ class SectionGrid extends StatelessWidget {
           ),
           onTap: () => SnapPage.push(context, snap),
         );
-
-        if (animateBanners) {
-          return AnimatedScrollViewItem(
-            child: banner,
-          );
-        } else {
-          return banner;
-        }
       },
     );
   }
