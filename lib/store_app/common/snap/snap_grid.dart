@@ -20,6 +20,7 @@ import 'package:snapd/snapd.dart';
 import 'package:software/snapx.dart';
 import 'package:software/store_app/common/app_icon.dart';
 import 'package:software/store_app/common/constants.dart';
+import 'package:software/store_app/common/preview_banner.dart';
 import 'package:software/store_app/common/snap/snap_page.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
