@@ -66,9 +66,10 @@ class _ExplorePageState extends State<ExplorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
-
     final screenSize = MediaQuery.of(context).size;
+    final errorMessage = context.select((ExploreModel m) => m.errorMessage);
+    final showErrorPage = context.select((ExploreModel m) => m.showErrorPage);
+    final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
 
     return Navigator(
       pages: [
@@ -81,9 +82,9 @@ class _ExplorePageState extends State<ExplorePage> {
               children: [
                 const ExploreHeader(),
                 Expanded(
-                  child: model.showErrorPage
-                      ? _ErrorPage(errorMessage: model.errorMessage!)
-                      : model.showSearchPage
+                  child: showErrorPage
+                      ? _ErrorPage(errorMessage: errorMessage!)
+                      : showSearchPage
                           ? const SearchPage()
                           : StartPage(screenSize: screenSize),
                 )
