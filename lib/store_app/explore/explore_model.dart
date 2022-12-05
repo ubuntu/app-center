@@ -169,11 +169,9 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  // TODO: appstream search does not work in 22.10
-  // Thus disabling it by default until this is fixed
-  // https://github.com/ubuntu-flutter-community/software/issues/598
   final Set<AppFormat> _appFormats = {
     AppFormat.snap,
+    AppFormat.packageKit,
   };
   Set<AppFormat> get appFormats => _appFormats;
   void handleAppFormat(AppFormat appFormat) {
