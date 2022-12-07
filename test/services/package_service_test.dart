@@ -6,10 +6,10 @@ import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:software/package_state.dart';
-import 'package:software/services/package_service.dart';
-import 'package:software/store_app/common/packagekit/package_model.dart';
-import 'package:software/updates_state.dart';
+import 'package:software/services/packagekit/package_state.dart';
+import 'package:software/services/packagekit/package_service.dart';
+import 'package:software/app/common/packagekit/package_model.dart';
+import 'package:software/services/packagekit/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class MockNotification extends Mock implements Notification {}

@@ -6,8 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:path/path.dart' as p;
-import 'package:software/appstream_utils.dart';
-import 'package:software/services/package_service.dart';
+import 'package:software/services/appstream/appstream_utils.dart';
+import 'package:software/services/packagekit/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class MockPackageService extends Mock implements PackageService {}

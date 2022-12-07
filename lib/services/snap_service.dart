@@ -20,8 +20,8 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/store_app/common/snap/snap_section.dart';
-import 'package:software/store_app/common/snap/snap_utils.dart';
+import 'package:software/app/common/snap/snap_section.dart';
+import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class SnapService {
