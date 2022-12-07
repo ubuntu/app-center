@@ -274,5 +274,9 @@
   "releasedAt": "Publicado en",
   "@releasedAt": {},
   "installed": "Instalado",
-  "@installed": {}
+  "@installed": {},
+  "educationSlogan": "Herramientas de educación en el hogar",
+  "@educationSlogan": {},
+  "socialSlogan": "Reunirse",
+  "@socialSlogan": {}
 }
