@@ -1,7 +1,7 @@
 import 'package:appstream/appstream.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:software/services/appstream_service.dart';
+import 'package:software/services/appstream/appstream_service.dart';
 
 class MockAppstreamPool extends Mock implements AppstreamPool {}
 
