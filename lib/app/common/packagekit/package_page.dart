@@ -33,11 +33,9 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 class PackagePage extends StatefulWidget {
   const PackagePage({
     super.key,
-    this.packageId,
     this.appstream,
   });
 
-  final PackageKitPackageId? packageId;
   final AppstreamComponent? appstream;
 
   static Widget create({
@@ -54,7 +52,6 @@ class PackagePage extends StatefulWidget {
         appstream: appstream,
       ),
       child: PackagePage(
-        packageId: packageId,
         appstream: appstream,
       ),
     );
