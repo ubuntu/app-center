@@ -244,7 +244,7 @@ class _AppPageState extends State<AppPage> {
                 child: IconButton(
                   style: IconButton.styleFrom(fixedSize: const Size(40, 40)),
                   onPressed: () async {
-                    final picPath = await openFile(
+                    final path = await openFile(
                       acceptedTypeGroups: [
                         XTypeGroup(
                           label: context.l10n.debianPackages,
@@ -254,8 +254,8 @@ class _AppPageState extends State<AppPage> {
                         )
                       ],
                     );
-                    if (null != picPath && widget.onFileSelect != null) {
-                      widget.onFileSelect!(picPath.path);
+                    if (null != path && widget.onFileSelect != null) {
+                      widget.onFileSelect!(path.path);
                     }
                   },
                   icon: const Icon(YaruIcons.document_open),

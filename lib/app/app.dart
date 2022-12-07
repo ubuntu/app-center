@@ -143,12 +143,8 @@ class __AppState extends State<_App> {
     final pageItems = [
       PageItem(
         titleBuilder: ExplorePage.createTitle,
-        builder: (context) => ExplorePage.create(
-          context,
-          model.appIsOnline,
-          model.errorMessage,
-          widget.path,
-        ),
+        builder: (context) =>
+            ExplorePage.create(context, model.appIsOnline, model.errorMessage),
         iconBuilder: (context, selected) => selected
             ? const Icon(YaruIcons.compass_filled)
             : const Icon(YaruIcons.compass),

@@ -17,29 +17,26 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/app/common/search_field.dart';
-import 'package:software/app/explore/explore_header.dart';
-import 'package:software/app/explore/explore_model.dart';
-import 'package:software/app/explore/offline_page.dart';
-import 'package:software/app/explore/search_page.dart';
-import 'package:software/app/explore/start_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
+import 'package:software/app/explore/explore_header.dart';
+import 'package:software/app/explore/explore_model.dart';
+import 'package:software/app/explore/offline_page.dart';
+import 'package:software/app/common/search_field.dart';
+import 'package:software/app/explore/search_page.dart';
+import 'package:software/app/explore/start_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({Key? key, this.path}) : super(key: key);
-
-  final String? path;
+  const ExplorePage({Key? key}) : super(key: key);
 
   static Widget create(
     BuildContext context,
     bool online, [
     String? errorMessage,
-    String? path,
   ]) {
     if (!online) return const OfflinePage();
     return ChangeNotifierProvider(
@@ -49,7 +46,7 @@ class ExplorePage extends StatefulWidget {
         getService<PackageService>(),
         errorMessage,
       ),
-      child: ExplorePage(path: path),
+      child: const ExplorePage(),
     );
   }
 
