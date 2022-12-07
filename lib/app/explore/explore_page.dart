@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
@@ -31,12 +32,15 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({Key? key}) : super(key: key);
+  const ExplorePage({Key? key, this.path}) : super(key: key);
+
+  final String? path;
 
   static Widget create(
     BuildContext context,
     bool online, [
     String? errorMessage,
+    String? path,
   ]) {
     if (!online) return const OfflinePage();
     return ChangeNotifierProvider(
@@ -46,7 +50,7 @@ class ExplorePage extends StatefulWidget {
         getService<PackageService>(),
         errorMessage,
       ),
-      child: const ExplorePage(),
+      child: ExplorePage(path: path),
     );
   }
 
@@ -98,6 +102,13 @@ class _ExplorePageState extends State<ExplorePage> {
             ),
           ),
         ),
+        if (widget.path != null)
+          MaterialPage(
+            child: PackagePage.create(
+              context: context,
+              path: widget.path,
+            ),
+          )
       ],
       onPopPage: (route, result) => route.didPop(result),
     );

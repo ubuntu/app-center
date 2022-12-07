@@ -64,7 +64,7 @@ void main() {
       ),
     ).thenAnswer((_) async => []);
 
-    await tester.pumpWidget(App.create());
+    await tester.pumpWidget(App.create(''));
 
     final materialApp = find.byType(MaterialApp);
     expect(materialApp, findsOneWidget);

@@ -65,10 +65,10 @@ class PackageModel extends AppModel {
 
   String? get iconUrl => appstream?.icon;
 
-  Future<void> init({bool update = false}) async {
+  Future<void> init({bool getUpdateDetail = false}) async {
     if (_packageId != null) {
       await _updateDetails();
-      if (update) {
+      if (getUpdateDetail) {
         await _service.getUpdateDetail(model: this);
       }
     } else if (_path != null) {
