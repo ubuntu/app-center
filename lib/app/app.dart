@@ -24,6 +24,7 @@ import 'package:software/app/app_splash_screen.dart';
 import 'package:software/app/common/animated_warning_icon.dart';
 import 'package:software/app/common/dangerous_delayed_button.dart';
 import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
+import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/explore/explore_page.dart';
 import 'package:software/app/installed/installed_page.dart';
 import 'package:software/app/settings/settings_page.dart';
@@ -178,6 +179,16 @@ class __AppState extends State<_App> {
           );
         },
       ),
+      if (widget.path != null)
+        PageItem(
+          titleBuilder: (c) => Text(context.l10n.packageInstaller),
+          builder: (c) => PackagePage.create(
+            context: context,
+            path: widget.path,
+          ),
+          iconBuilder: (context, selected) =>
+              const Icon(YaruIcons.insert_object),
+        ),
       PageItem(
         titleBuilder: SettingsPage.createTitle,
         builder: SettingsPage.create,

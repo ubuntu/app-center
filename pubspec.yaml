@@ -17,6 +17,8 @@ dependencies:
   connectivity_plus: ^2.3.1
   desktop_notifications: ^0.6.3
   file: ^6.1.2
+  file_selector: ^0.8.4+1
+  file_selector_linux: ^0.0.2+1
   flutter:
     sdk: flutter
   flutter_localizations:

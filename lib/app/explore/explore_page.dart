@@ -17,17 +17,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/app/common/packagekit/package_page.dart';
+import 'package:software/app/common/search_field.dart';
+import 'package:software/app/explore/explore_header.dart';
+import 'package:software/app/explore/explore_model.dart';
+import 'package:software/app/explore/offline_page.dart';
+import 'package:software/app/explore/search_page.dart';
+import 'package:software/app/explore/start_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
-import 'package:software/app/explore/explore_header.dart';
-import 'package:software/app/explore/explore_model.dart';
-import 'package:software/app/explore/offline_page.dart';
-import 'package:software/app/common/search_field.dart';
-import 'package:software/app/explore/search_page.dart';
-import 'package:software/app/explore/start_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -62,12 +61,10 @@ class ExplorePage extends StatefulWidget {
 }
 
 class _ExplorePageState extends State<ExplorePage> {
-  String? _path;
   @override
   void initState() {
     super.initState();
     context.read<ExploreModel>().init();
-    _path = widget.path;
   }
 
   @override
@@ -104,14 +101,6 @@ class _ExplorePageState extends State<ExplorePage> {
             ),
           ),
         ),
-        if (_path != null)
-          MaterialPage(
-            child: PackagePage.create(
-              onPop: () => _path = null,
-              context: context,
-              path: widget.path,
-            ),
-          )
       ],
       onPopPage: (route, result) => route.didPop(result),
     );

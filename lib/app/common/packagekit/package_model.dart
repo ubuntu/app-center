@@ -31,6 +31,11 @@ class PackageModel extends AppModel {
 
   String? _path;
   String? get path => _path;
+  set path(String? path) {
+    if (path == _path || path == null) return;
+    _path = path;
+    notifyListeners();
+  }
 
   final AppstreamComponent? _appstream;
   AppstreamComponent? get appstream => _appstream;

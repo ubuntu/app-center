@@ -34,18 +34,15 @@ class PackagePage extends StatefulWidget {
   const PackagePage({
     super.key,
     this.appstream,
-    this.onPop,
   });
 
   final AppstreamComponent? appstream;
-  final Function()? onPop;
 
   static Widget create({
     String? path,
     required BuildContext context,
     PackageKitPackageId? packageId,
     AppstreamComponent? appstream,
-    Function()? onPop,
   }) {
     return ChangeNotifierProvider(
       create: (context) => PackageModel(
@@ -56,7 +53,6 @@ class PackagePage extends StatefulWidget {
       ),
       child: PackagePage(
         appstream: appstream,
-        onPop: onPop,
       ),
     );
   }
@@ -122,7 +118,15 @@ class _PackagePageState extends State<PackagePage> {
     return !initialized
         ? const AppLoadingPage()
         : AppPage(
-            onPop: widget.onPop,
+            onFileSelect: model.path == null
+                ? null
+                : (path) async {
+                    initialized = false;
+                    model.path = path;
+                    model.packageId = null;
+
+                    await model.init().then((_) => initialized = true);
+                  },
             appData: appData,
             permissionContainer: null,
             icon: AppIcon(
