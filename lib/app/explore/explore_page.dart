@@ -62,10 +62,12 @@ class ExplorePage extends StatefulWidget {
 }
 
 class _ExplorePageState extends State<ExplorePage> {
+  String? _path;
   @override
   void initState() {
     super.initState();
     context.read<ExploreModel>().init();
+    _path = widget.path;
   }
 
   @override
@@ -102,9 +104,10 @@ class _ExplorePageState extends State<ExplorePage> {
             ),
           ),
         ),
-        if (widget.path != null)
+        if (_path != null)
           MaterialPage(
             child: PackagePage.create(
+              onPop: () => _path = null,
               context: context,
               path: widget.path,
             ),

@@ -51,6 +51,7 @@ class AppPage extends StatefulWidget {
     this.reviewRating,
     this.onVote,
     this.onFlag,
+    this.onPop,
   });
 
   final AppData appData;
@@ -72,6 +73,7 @@ class AppPage extends StatefulWidget {
   final void Function(String)? onReviewUserChanged;
   final Function(AppReview, bool)? onVote;
   final Function(AppReview)? onFlag;
+  final Function()? onPop;
 
   @override
   State<AppPage> createState() => _AppPageState();
@@ -236,7 +238,12 @@ class _AppPageState extends State<AppPage> {
         title: Text(widget.appData.title),
         titleSpacing: 0,
         leading: _CustomBackButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pop(context);
+            if (widget.onPop != null) {
+              widget.onPop!();
+            }
+          },
         ),
       ),
       body: BackGesture(
