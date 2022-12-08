@@ -196,7 +196,10 @@ class __AppState extends State<_App> {
 
     return _initialized
         ? YaruNavigationPage(
-            length: pageItems.length,
+            controller: YaruPageController(
+              length: pageItems.length,
+              initialIndex: widget.path != null ? 3 : 0,
+            ),
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(
               icon: pageItems[index].iconBuilder(context, selected),
               label: pageItems[index].titleBuilder(context),
