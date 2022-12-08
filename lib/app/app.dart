@@ -104,10 +104,14 @@ class _App extends StatefulWidget {
 class __AppState extends State<_App> {
   int _installedPageIndex = 0;
   bool _initialized = false;
+  int _initialIndex = 0;
 
   @override
   void initState() {
     super.initState();
+    if (widget.path != null) {
+      _initialIndex = 3;
+    }
 
     final model = context.read<AppModel>();
     var closeConfirmDialogOpen = false;
@@ -196,10 +200,8 @@ class __AppState extends State<_App> {
 
     return _initialized
         ? YaruNavigationPage(
-            controller: YaruPageController(
-              length: pageItems.length,
-              initialIndex: widget.path != null ? 3 : 0,
-            ),
+            length: pageItems.length,
+            initialIndex: _initialIndex,
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(
               icon: pageItems[index].iconBuilder(context, selected),
               label: pageItems[index].titleBuilder(context),

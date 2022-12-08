@@ -7,6 +7,7 @@ import 'package:software/main.dart' as app;
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '../test/test_utils.dart';
+import 'integration_test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -21,14 +22,15 @@ void main() {
 
       final helloExe = File('/usr/bin/hello');
       expect(helloExe.existsSync(), isFalse);
-
+      initCustomExpect();
       await app.main([localDeb.absolute.path]);
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       final installButton =
           find.widgetWithText(ElevatedButton, tester.lang.install);
       expectSync(installButton, findsOneWidget);
       await tester.tap(installButton);
+      await tester.pumpAndSettle();
 
       final uninstallButton =
           find.widgetWithText(OutlinedButton, tester.lang.remove);
@@ -38,6 +40,7 @@ void main() {
       expectSync(helloExe.existsSync(), isTrue);
 
       await tester.tap(uninstallButton);
+      await tester.pumpAndSettle();
 
       expect(installButton, findsOneWidget);
       expect(uninstallButton, findsNothing);
