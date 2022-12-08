@@ -57,7 +57,7 @@ class SearchPage extends StatelessWidget {
                   var showSnap = model.appFormats.contains(AppFormat.snap);
                   var showPackageKit =
                       model.appFormats.contains(AppFormat.packageKit);
-                  return SearchSnapBanner(
+                  return _AppFindingBanner(
                     appFinding: appFinding,
                     showSnap: showSnap,
                     showPackageKit: showPackageKit,
@@ -70,13 +70,14 @@ class SearchPage extends StatelessWidget {
   }
 }
 
-class SearchSnapBanner extends StatelessWidget {
-  const SearchSnapBanner({
-    Key? key,
+class _AppFindingBanner extends StatelessWidget {
+  const _AppFindingBanner({
+    // ignore: unused_element
+    super.key,
     required this.appFinding,
     required this.showSnap,
     required this.showPackageKit,
-  }) : super(key: key);
+  });
 
   final MapEntry<String, AppFinding> appFinding;
   final bool showSnap;

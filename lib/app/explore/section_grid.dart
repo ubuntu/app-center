@@ -17,15 +17,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/snapx.dart';
 import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:software/app/common/preview_banner.dart';
-import 'package:software/app/common/snap/snap_control_button.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/explore/explore_model.dart';
+import 'package:software/snapx.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SectionGrid extends StatelessWidget {
   const SectionGrid({
@@ -62,20 +60,15 @@ class SectionGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         final snap = sections.elementAt(index);
 
-        return PreviewBanner(
-          controlWidget: SnapControlButton.create(
-            context: context,
-            huskSnapName: snap.name,
+        return YaruBanner.tile(
+          title: Text(snap.name),
+          subtitle: Text(
+            snap.summary,
+            overflow: TextOverflow.ellipsis,
           ),
-          title: snap.name,
-          subTitle: snap.summary,
-          description:
-              '${snap.publisher?.displayName ?? ''} | ${context.l10n.version}: ${snap.version}',
           icon: Padding(
             padding: kIconPadding,
-            child: AppIcon(
-              iconUrl: snap.iconUrl,
-            ),
+            child: AppIcon(iconUrl: snap.iconUrl),
           ),
           onTap: () => SnapPage.push(context, snap),
         );
