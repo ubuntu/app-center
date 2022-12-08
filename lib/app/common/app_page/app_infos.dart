@@ -104,7 +104,7 @@ class _InstallDate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _InfoColumn(
+    return InfoColumn(
       header: context.l10n.installDate,
       tooltipMessage: installDateIsoNorm,
       childWidth: 120,
@@ -118,8 +118,8 @@ class _InstallDate extends StatelessWidget {
   }
 }
 
-class _InfoColumn extends StatelessWidget {
-  const _InfoColumn({
+class InfoColumn extends StatelessWidget {
+  const InfoColumn({
     Key? key,
     required this.header,
     required this.child,
@@ -168,7 +168,7 @@ class _Version extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _InfoColumn(
+    return InfoColumn(
       header: context.l10n.version,
       tooltipMessage: version,
       child: Text(
@@ -200,7 +200,7 @@ class _License extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _InfoColumn(
+    return InfoColumn(
       header: context.l10n.license,
       tooltipMessage: license,
       child: Text(
@@ -225,7 +225,7 @@ class _Confinement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _InfoColumn(
+    return InfoColumn(
       header: context.l10n.confinement,
       tooltipMessage: confinementName,
       child: Row(

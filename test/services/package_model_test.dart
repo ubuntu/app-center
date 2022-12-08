@@ -61,7 +61,7 @@ void main() {
     verifyNever(() => service.getDetailsAboutLocalPackage(model: model));
 
     resetService();
-    await model.init(update: true);
+    await model.init(getUpdateDetail: true);
     verify(() => service.getDetails(model: model)).called(1);
     verify(() => service.isInstalled(model: model)).called(1);
     verify(() => service.getUpdateDetail(model: model)).called(1);

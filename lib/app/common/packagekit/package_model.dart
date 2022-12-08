@@ -31,6 +31,11 @@ class PackageModel extends AppModel {
 
   String? _path;
   String? get path => _path;
+  set path(String? path) {
+    if (path == _path || path == null) return;
+    _path = path;
+    notifyListeners();
+  }
 
   final AppstreamComponent? _appstream;
   AppstreamComponent? get appstream => _appstream;
@@ -65,10 +70,10 @@ class PackageModel extends AppModel {
 
   String? get iconUrl => appstream?.icon;
 
-  Future<void> init({bool update = false}) async {
+  Future<void> init({bool getUpdateDetail = false}) async {
     if (_packageId != null) {
       await _updateDetails();
-      if (update) {
+      if (getUpdateDetail) {
         await _service.getUpdateDetail(model: this);
       }
     } else if (_path != null) {

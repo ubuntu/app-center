@@ -19,37 +19,40 @@ import 'package:badges/badges.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/appstream/appstream_service.dart';
-import 'package:software/services/packagekit/package_service.dart';
-import 'package:software/services/snap_service.dart';
+import 'package:software/app/app_model.dart';
+import 'package:software/app/app_splash_screen.dart';
 import 'package:software/app/common/animated_warning_icon.dart';
 import 'package:software/app/common/dangerous_delayed_button.dart';
 import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
+import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/explore/explore_page.dart';
 import 'package:software/app/installed/installed_page.dart';
 import 'package:software/app/settings/settings_page.dart';
-import 'package:software/app/app_model.dart';
-import 'package:software/app/app_splash_screen.dart';
 import 'package:software/app/updates/package_updates_page.dart';
 import 'package:software/app/updates/updates_page.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/services/appstream/appstream_service.dart';
+import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/updates_state.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  const App({super.key, this.path});
 
-  static Widget create() => ChangeNotifierProvider(
+  final String? path;
+
+  static Widget create(String? path) => ChangeNotifierProvider(
         create: (context) => AppModel(
           getService<Connectivity>(),
           getService<SnapService>(),
           getService<AppstreamService>(),
           getService<PackageService>(),
         ),
-        child: const App(),
+        child: App(path: path),
       );
 
   @override
@@ -66,8 +69,8 @@ class App extends StatelessWidget {
           onGenerateTitle: (context) => context.l10n.appTitle,
           routes: {
             Navigator.defaultRouteName: (context) {
-              return const Scaffold(
-                body: _App(),
+              return Scaffold(
+                body: _App(path: path),
               );
             },
           },
@@ -90,8 +93,9 @@ class PageItem {
 }
 
 class _App extends StatefulWidget {
+  final String? path;
   // ignore: unused_element
-  const _App({super.key});
+  const _App({super.key, this.path});
 
   @override
   State<_App> createState() => __AppState();
@@ -100,10 +104,14 @@ class _App extends StatefulWidget {
 class __AppState extends State<_App> {
   int _installedPageIndex = 0;
   bool _initialized = false;
+  int _initialIndex = 0;
 
   @override
   void initState() {
     super.initState();
+    if (widget.path != null) {
+      _initialIndex = 3;
+    }
 
     final model = context.read<AppModel>();
     var closeConfirmDialogOpen = false;
@@ -171,6 +179,16 @@ class __AppState extends State<_App> {
           );
         },
       ),
+      if (widget.path != null)
+        PageItem(
+          titleBuilder: (c) => Text(context.l10n.packageInstaller),
+          builder: (c) => PackagePage.create(
+            context: context,
+            path: widget.path,
+          ),
+          iconBuilder: (context, selected) =>
+              const Icon(YaruIcons.insert_object),
+        ),
       PageItem(
         titleBuilder: SettingsPage.createTitle,
         builder: SettingsPage.create,
@@ -183,6 +201,7 @@ class __AppState extends State<_App> {
     return _initialized
         ? YaruNavigationPage(
             length: pageItems.length,
+            initialIndex: _initialIndex,
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(
               icon: pageItems[index].iconBuilder(context, selected),
               label: pageItems[index].titleBuilder(context),

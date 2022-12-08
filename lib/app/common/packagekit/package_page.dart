@@ -33,30 +33,25 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 class PackagePage extends StatefulWidget {
   const PackagePage({
     super.key,
-    required this.noUpdate,
-    required this.packageId,
     this.appstream,
   });
 
-  final bool noUpdate;
-  final PackageKitPackageId packageId;
   final AppstreamComponent? appstream;
 
   static Widget create({
+    String? path,
     required BuildContext context,
-    required PackageKitPackageId packageId,
+    PackageKitPackageId? packageId,
     AppstreamComponent? appstream,
-    bool noUpdate = true,
   }) {
     return ChangeNotifierProvider(
       create: (context) => PackageModel(
+        path: path,
         service: getService<PackageService>(),
         packageId: packageId,
         appstream: appstream,
       ),
       child: PackagePage(
-        noUpdate: noUpdate,
-        packageId: packageId,
         appstream: appstream,
       ),
     );
@@ -96,10 +91,7 @@ class _PackagePageState extends State<PackagePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      context
-          .read<PackageModel>()
-          .init(update: !widget.noUpdate)
-          .then((value) => initialized = true);
+      context.read<PackageModel>().init().then((value) => initialized = true);
     });
   }
 
@@ -116,8 +108,8 @@ class _PackagePageState extends State<PackagePage> {
       website: model.url,
       summary: model.summary,
       title: model.title,
-      name: widget.packageId.name,
-      version: widget.packageId.version,
+      name: model.packageId?.name ?? '',
+      version: model.packageId?.version ?? '',
       screenShotUrls: model.screenshotUrls,
       description: model.description,
       userReviews: model.userReviews,
@@ -126,6 +118,15 @@ class _PackagePageState extends State<PackagePage> {
     return !initialized
         ? const AppLoadingPage()
         : AppPage(
+            onFileSelect: model.path == null
+                ? null
+                : (path) async {
+                    initialized = false;
+                    model.path = path;
+                    model.packageId = null;
+
+                    await model.init().then((_) => initialized = true);
+                  },
             appData: appData,
             permissionContainer: null,
             icon: AppIcon(

@@ -15,12 +15,12 @@
  *
  */
 
+import 'package:collection/collection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/app/package_installer/package_installer_app.dart';
 import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/services/packagekit/package_service.dart';
@@ -49,20 +49,12 @@ Future<void> main(List<String> args) async {
   );
   registerService<UbuntuSession>(UbuntuSession.new);
 
-  final loadPackageInstaller =
-      args.isNotEmpty && args.any((arg) => arg.endsWith('.deb'));
+  final path = args.where((arg) => arg.endsWith('.deb')).firstOrNull;
 
-  if (!loadPackageInstaller) {
-    registerService<ColorGenerator>(DominantColorGenerator.new);
-    registerService<SnapdClient>(SnapdClient.new, dispose: (s) => s.close());
-    registerService<Connectivity>(Connectivity.new);
-    registerService<SnapService>(SnapService.new);
+  registerService<ColorGenerator>(DominantColorGenerator.new);
+  registerService<SnapdClient>(SnapdClient.new, dispose: (s) => s.close());
+  registerService<Connectivity>(Connectivity.new);
+  registerService<SnapService>(SnapService.new);
 
-    runApp(App.create());
-  } else {
-    final path = args.where((arg) => arg.endsWith('.deb')).first;
-    runApp(
-      PackageInstallerApp(path: path),
-    );
-  }
+  runApp(App.create(path));
 }

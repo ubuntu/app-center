@@ -12,7 +12,7 @@ extension WidgetTesterX on WidgetTester {
 
   Future<void> pumpUntil(
     Finder finder, {
-    Duration timeout = const Duration(seconds: 30),
+    Duration timeout = const Duration(seconds: 40),
     bool present = true,
   }) async {
     assert(timeout.inMilliseconds >= 250);
