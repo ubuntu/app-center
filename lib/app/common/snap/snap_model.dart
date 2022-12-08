@@ -127,6 +127,12 @@ class SnapModel extends AppModel {
   Map<String, SnapChannel> get selectableChannels => _selectableChannels ?? {};
   Map<String, SnapChannel>? _selectableChannels;
 
+  SnapChannel getSelectableChannel(int i) =>
+      selectableChannels.entries.elementAt(i).value;
+
+  String getSelectableChannelName(int i) =>
+      selectableChannels.entries.elementAt(i).key;
+
   /// The [SnapChannel] the snap should be installed from.
   String _channelToBeInstalled;
   String get channelToBeInstalled => _channelToBeInstalled;
