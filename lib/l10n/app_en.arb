@@ -114,7 +114,7 @@
   "quit": "Quit",
   "quitDanger": "System updates are currently running. Quitting the App now could leave your system in a damaged state!",
   "appFormat": "The package format of applications",
-  "allPackageTypes": "All types of packages",
+  "allPackageTypes": "All package types",
   "packageKitGroup": "The category",
   "packageKitFilter": "The type of package",
   "packageDetails": "Package details",
