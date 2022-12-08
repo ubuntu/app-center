@@ -47,7 +47,6 @@ void main() {
       await tester.pumpUntil(
         uninstallButton,
       );
-      await tester.ensureVisible(uninstallButton);
       await tester.tap(uninstallButton);
 
       await tester.pumpUntil(installButton);
