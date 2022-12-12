@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gtk_application/gtk_application.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:software/app/app.dart';
 import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/app/app.dart';
 import 'package:software/services/packagekit/updates_state.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class MockAppstreamService extends Mock implements AppstreamService {}
@@ -18,6 +19,9 @@ class MockConnectivity extends Mock implements Connectivity {}
 class MockPackageService extends Mock implements PackageService {}
 
 class MockSnapService extends Mock implements SnapService {}
+
+class MockGtkApplicationNotifier extends Mock
+    implements GtkApplicationNotifier {}
 
 void main() {
   testWidgets('Software app', (tester) async {
@@ -64,7 +68,11 @@ void main() {
       ),
     ).thenAnswer((_) async => []);
 
-    await tester.pumpWidget(App.create(''));
+    final gtkApplicationNotifierMock = MockGtkApplicationNotifier();
+    registerMockService<GtkApplicationNotifier>(gtkApplicationNotifierMock);
+    when(() => gtkApplicationNotifierMock.commandLine).thenAnswer((_) => []);
+
+    await tester.pumpWidget(App.create());
 
     final materialApp = find.byType(MaterialApp);
     expect(materialApp, findsOneWidget);
