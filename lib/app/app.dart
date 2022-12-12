@@ -16,8 +16,10 @@
  */
 
 import 'package:badges/badges.dart';
+import 'package:collection/collection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:gtk_application/gtk_application.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
 import 'package:software/app/app_splash_screen.dart';
@@ -41,18 +43,16 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class App extends StatelessWidget {
-  const App({super.key, this.path});
+  const App({super.key});
 
-  final String? path;
-
-  static Widget create(String? path) => ChangeNotifierProvider(
+  static Widget create() => ChangeNotifierProvider(
         create: (context) => AppModel(
           getService<Connectivity>(),
           getService<SnapService>(),
           getService<AppstreamService>(),
           getService<PackageService>(),
         ),
-        child: App(path: path),
+        child: const App(),
       );
 
   @override
@@ -69,8 +69,8 @@ class App extends StatelessWidget {
           onGenerateTitle: (context) => context.l10n.appTitle,
           routes: {
             Navigator.defaultRouteName: (context) {
-              return Scaffold(
-                body: _App(path: path),
+              return const Scaffold(
+                body: _App(),
               );
             },
           },
@@ -93,9 +93,8 @@ class PageItem {
 }
 
 class _App extends StatefulWidget {
-  final String? path;
   // ignore: unused_element
-  const _App({super.key, this.path});
+  const _App({super.key});
 
   @override
   State<_App> createState() => __AppState();
@@ -105,13 +104,15 @@ class __AppState extends State<_App> {
   int _installedPageIndex = 0;
   bool _initialized = false;
   int _initialIndex = 0;
+  String? path;
 
   @override
   void initState() {
     super.initState();
-    if (widget.path != null) {
-      _initialIndex = 3;
-    }
+
+    final gtkNotifier = getService<GtkApplicationNotifier>();
+    _commandLineListener(gtkNotifier.commandLine!);
+    gtkNotifier.addCommandLineListener(_commandLineListener);
 
     final model = context.read<AppModel>();
     var closeConfirmDialogOpen = false;
@@ -136,6 +137,15 @@ class __AppState extends State<_App> {
         ).then((_) => closeConfirmDialogOpen = false);
       },
     ).then((_) => _initialized = true);
+  }
+
+  void _commandLineListener(List<String> args) {
+    setState(() {
+      path = args.where((arg) => arg.endsWith('.deb')).firstOrNull;
+      if (path != null) {
+        _initialIndex = 3;
+      }
+    });
   }
 
   @override
@@ -179,12 +189,12 @@ class __AppState extends State<_App> {
           );
         },
       ),
-      if (widget.path != null)
+      if (path != null)
         PageItem(
           titleBuilder: (c) => Text(context.l10n.packageInstaller),
           builder: (c) => PackagePage.create(
             context: context,
-            path: widget.path,
+            path: path,
           ),
           iconBuilder: (context, selected) =>
               const Icon(YaruIcons.insert_object),
@@ -200,6 +210,7 @@ class __AppState extends State<_App> {
 
     return _initialized
         ? YaruNavigationPage(
+            key: GlobalKey(),
             length: pageItems.length,
             initialIndex: _initialIndex,
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(

@@ -15,17 +15,17 @@
  *
  */
 
-import 'package:collection/collection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:gtk_application/gtk_application.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/app.dart';
 import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/color_generator.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
-import 'package:software/app/app.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:window_manager/window_manager.dart';
@@ -49,12 +49,15 @@ Future<void> main(List<String> args) async {
   );
   registerService<UbuntuSession>(UbuntuSession.new);
 
-  final path = args.where((arg) => arg.endsWith('.deb')).firstOrNull;
-
   registerService<ColorGenerator>(DominantColorGenerator.new);
   registerService<SnapdClient>(SnapdClient.new, dispose: (s) => s.close());
   registerService<Connectivity>(Connectivity.new);
   registerService<SnapService>(SnapService.new);
 
-  runApp(App.create(path));
+  registerService<GtkApplicationNotifier>(
+    () => GtkApplicationNotifier(args),
+    dispose: (s) => s.dispose(),
+  );
+
+  runApp(App.create());
 }
