@@ -26,6 +26,7 @@ dependencies:
   flutter_markdown: ^0.6.10+3
   flutter_rating_bar: ^4.0.1
   flutter_svg: ^1.1.0
+  gtk_application: ^0.0.3
   handy_window: ^0.1.4
   intl: ^0.17.0
   liquid_progress_indicator: ^0.4.0
