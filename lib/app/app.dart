@@ -210,7 +210,7 @@ class __AppState extends State<_App> {
 
     return _initialized
         ? YaruNavigationPage(
-            key: GlobalKey(),
+            key: ValueKey(path),
             length: pageItems.length,
             initialIndex: _initialIndex,
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(
