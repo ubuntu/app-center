@@ -241,5 +241,7 @@
   "attention": "Achtung!",
   "@attention": {},
   "releasedAt": "Veröffentlicht am",
-  "installed": "Installiert"
+  "installed": "Installiert",
+  "configure": "Konfigurieren",
+  "sourcesDescription": "Legen sie fest aus welchen Quellen ihr System und Drittanbieter-Anwendungen aktualisiert werden."
 }
