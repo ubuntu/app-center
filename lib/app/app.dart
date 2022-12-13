@@ -69,9 +69,7 @@ class App extends StatelessWidget {
           onGenerateTitle: (context) => context.l10n.appTitle,
           routes: {
             Navigator.defaultRouteName: (context) {
-              return const Scaffold(
-                body: _App(),
-              );
+              return const _App();
             },
           },
         );
