@@ -142,5 +142,5 @@
   "releasedAt": "Released at",
   "installed": "Installed",
   "configure": "Configure",
-  "sourcesDescription": "Used to update your system and third party Debian packages."
+  "sourcesDescription": "Setup where your system and third-party Debian packages are updated from."
 }

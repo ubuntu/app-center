@@ -243,5 +243,5 @@
   "releasedAt": "Veröffentlicht am",
   "installed": "Installiert",
   "configure": "Konfigurieren",
-  "sourcesDescription": "Wird benutzt um ihr System und Drittanwendungen zu aktualisieren."
+  "sourcesDescription": "Legen sie fest aus welchen Quellen ihr System und Drittanbieter-Anwendungen aktualisiert werden."
 }
