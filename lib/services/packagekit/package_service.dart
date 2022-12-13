@@ -202,7 +202,7 @@ class PackageService {
   Future<void> refreshUpdates() async {
     setErrorMessage('');
     setUpdatesState(UpdatesState.checkingForUpdates);
-    await _loadRepoList();
+    await loadRepoList();
     await _refreshCache();
     await _getUpdates();
     setUpdatesState(
@@ -513,7 +513,7 @@ class PackageService {
     return completer.future.whenComplete(subscription.cancel);
   }
 
-  Future<void> _loadRepoList() async {
+  Future<void> loadRepoList() async {
     setErrorMessage('');
     _repos.clear();
     final transaction = await _client.createTransaction();
@@ -544,7 +544,7 @@ class PackageService {
     await transaction.setRepositoryEnabled(id, value);
     await completer.future.whenComplete(subscription.cancel);
     await _refreshCache();
-    await _loadRepoList();
+    await loadRepoList();
     setReposChanged(true);
     setUpdatesState(
       _updates.isEmpty ? UpdatesState.noUpdates : UpdatesState.readyToUpdate,

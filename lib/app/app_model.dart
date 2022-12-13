@@ -58,6 +58,10 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
 
   int get updateAmount => _packageService.updates.length;
 
+  bool get updatesProcessing =>
+      updatesState == UpdatesState.checkingForUpdates ||
+      updatesState == UpdatesState.updating;
+
   void Function()? _onAskForQuit;
 
   Future<void> init({required void Function() onAskForQuit}) async {

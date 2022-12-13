@@ -15,8 +15,11 @@
  *
  */
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:software/app/common/constants.dart';
+import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
@@ -27,36 +30,39 @@ import 'package:software/app/installed/installed_model.dart';
 import 'package:software/app/installed/installed_packages_page.dart';
 import 'package:software/app/installed/installed_snaps_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 
 class InstalledPage extends StatelessWidget {
-  const InstalledPage({
-    Key? key,
-    this.onTabTapped,
-    this.initalTabIndex = 0,
-  }) : super(key: key);
-
-  final Function(int)? onTabTapped;
-  final int initalTabIndex;
+  const InstalledPage({Key? key}) : super(key: key);
 
   static Widget create(
     BuildContext context,
-    Function(int)? onTabTapped,
-    int tabIndex,
   ) {
     return ChangeNotifierProvider(
       create: (context) => InstalledModel(
         getService<PackageService>(),
         getService<SnapService>(),
       ),
-      child: InstalledPage(
-        onTabTapped: onTabTapped,
-        initalTabIndex: tabIndex,
-      ),
+      child: const InstalledPage(),
     );
   }
 
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.installed);
+
+  static Widget createIcon({
+    required BuildContext context,
+    required bool selected,
+    int? badgeCount,
+    bool? processing,
+  }) {
+    if (badgeCount != null && badgeCount > 0) {
+      return _InstalledPageIcon(count: badgeCount);
+    }
+    return selected
+        ? const Icon(YaruIcons.ok_filled)
+        : const Icon(YaruIcons.ok);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +99,25 @@ class InstalledPage extends StatelessWidget {
         ),
       ],
       onPopPage: (route, result) => route.didPop(result),
+    );
+  }
+}
+
+class _InstalledPageIcon extends StatelessWidget {
+  // ignore: unused_element
+  const _InstalledPageIcon({super.key, required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    return Badge(
+      badgeColor: Theme.of(context).primaryColor,
+      badgeContent: Text(
+        count.toString(),
+        style: badgeTextStyle,
+      ),
+      child: const IndeterminateCircularProgressIcon(),
     );
   }
 }
