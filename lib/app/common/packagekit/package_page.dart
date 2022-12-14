@@ -19,6 +19,8 @@ import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
+import 'package:snapd/snapd.dart';
+import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
@@ -34,15 +36,18 @@ class PackagePage extends StatefulWidget {
   const PackagePage({
     super.key,
     this.appstream,
+    this.snap,
   });
 
   final AppstreamComponent? appstream;
+  final Snap? snap;
 
   static Widget create({
     String? path,
     required BuildContext context,
     PackageKitPackageId? packageId,
     AppstreamComponent? appstream,
+    Snap? snap,
   }) {
     return ChangeNotifierProvider(
       create: (context) => PackageModel(
@@ -53,6 +58,7 @@ class PackagePage extends StatefulWidget {
       ),
       child: PackagePage(
         appstream: appstream,
+        snap: snap,
       ),
     );
   }
@@ -61,6 +67,7 @@ class PackagePage extends StatefulWidget {
     BuildContext context, {
     PackageKitPackageId? id,
     AppstreamComponent? appstream,
+    Snap? snap,
   }) {
     assert(id != null || appstream != null);
     return (id == null ? appstream!.packageKitId : Future.value(id)).then(
@@ -72,6 +79,7 @@ class PackagePage extends StatefulWidget {
               context: context,
               packageId: id,
               appstream: appstream,
+              snap: snap,
             );
           },
         ),
@@ -115,6 +123,12 @@ class _PackagePageState extends State<PackagePage> {
       userReviews: model.userReviews,
       averageRating: model.averageRating,
     );
+    var packageControls = PackageControls(
+      isInstalled: model.isInstalled,
+      packageState: model.packageState,
+      remove: () => model.remove(),
+      install: () => model.install(),
+    );
     return !initialized
         ? const AppLoadingPage()
         : AppPage(
@@ -133,12 +147,20 @@ class _PackagePageState extends State<PackagePage> {
               iconUrl: model.iconUrl,
               size: 150,
             ),
-            controls: PackageControls(
-              isInstalled: model.isInstalled,
-              packageState: model.packageState,
-              remove: () => model.remove(),
-              install: () => model.install(),
-            ),
+            controls: widget.snap != null
+                ? Wrap(
+                    runSpacing: 20,
+                    spacing: 10,
+                    children: [
+                      packageControls,
+                      OutlinedButton(
+                        onPressed: () =>
+                            SnapPage.push(context: context, snap: widget.snap!),
+                        child: const Text('Switch to Snap'),
+                      )
+                    ],
+                  )
+                : packageControls,
             onReviewSend: model.sendReview,
             onRatingUpdate: (v) => model.reviewRating = v,
             onReviewTitleChanged: (v) => model.reviewTitle = v,

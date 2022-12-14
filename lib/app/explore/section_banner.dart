@@ -113,7 +113,7 @@ class _PlatedIconState extends State<_PlatedIcon> {
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
-      onTap: () => SnapPage.push(context, widget.snap),
+      onTap: () => SnapPage.push(context: context, snap: widget.snap),
       onHover: (value) => setState(() => hovered = value),
       child: _BasePlate(
         hovered: hovered,

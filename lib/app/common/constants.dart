@@ -28,14 +28,16 @@ const kHeaderPadding =
 const kIconPadding = EdgeInsets.only(top: 8, bottom: 8, right: 5);
 const kDialogWidth = 450.0;
 const kGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
-  mainAxisExtent: 110,
+  mainAxisExtent: 130,
   mainAxisSpacing: 15,
   crossAxisSpacing: 15,
   maxCrossAxisExtent: 550,
 );
+const kSnapcraftColor = Color(0xFF82bfa1);
+const kDebianColor = Color(0xFFdb2264);
 const kGreenLight = Color.fromARGB(255, 51, 121, 63);
 const kGreenDark = Color.fromARGB(255, 128, 211, 143);
-const kRatingOrange = Color.fromARGB(255, 247, 160, 31);
+const kRatingOrange = Color(0xFFe95420);
 const kCheckForUpdateTimeOutInMinutes = 30;
 const kFakeReviewText =
     'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
