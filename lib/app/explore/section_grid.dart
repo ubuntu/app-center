@@ -70,7 +70,7 @@ class SectionGrid extends StatelessWidget {
             padding: kIconPadding,
             child: AppIcon(iconUrl: snap.iconUrl),
           ),
-          onTap: () => SnapPage.push(context, snap),
+          onTap: () => SnapPage.push(context: context, snap: snap),
         );
       },
     );
