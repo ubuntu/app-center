@@ -6,13 +6,14 @@ class IndeterminateCircularProgressIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox.square(
+    return SizedBox.square(
       dimension: 24,
       child: Center(
         child: SizedBox.square(
           dimension: 20,
           child: YaruCircularProgressIndicator(
             strokeWidth: 2,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ),
