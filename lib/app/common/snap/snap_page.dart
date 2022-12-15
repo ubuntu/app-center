@@ -15,9 +15,12 @@
  *
  */
 
+import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/app/common/app_data.dart';
@@ -31,11 +34,16 @@ import 'package:software/app/common/snap/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class SnapPage extends StatefulWidget {
-  const SnapPage({super.key});
+  const SnapPage({super.key, this.appstream});
+
+  /// Optional AppstreamComponent if found
+  final AppstreamComponent? appstream;
 
   static Widget create({
     required BuildContext context,
     required String huskSnapName,
+    PackageKitPackageId? packageId,
+    AppstreamComponent? appstream,
   }) =>
       ChangeNotifierProvider<SnapModel>(
         create: (_) => SnapModel(
@@ -43,10 +51,16 @@ class SnapPage extends StatefulWidget {
           getService<SnapService>(),
           huskSnapName: huskSnapName,
         ),
-        child: const SnapPage(),
+        child: SnapPage(
+          appstream: appstream,
+        ),
       );
 
-  static Future<void> push(BuildContext context, Snap snap) {
+  static Future<void> push({
+    required BuildContext context,
+    required Snap snap,
+    AppstreamComponent? appstream,
+  }) {
     return Navigator.push(
       context,
       MaterialPageRoute<void>(
@@ -54,6 +68,7 @@ class SnapPage extends StatefulWidget {
           return SnapPage.create(
             context: context,
             huskSnapName: snap.name,
+            appstream: appstream,
           );
         },
       ),
@@ -111,7 +126,23 @@ class _SnapPageState extends State<SnapPage> {
                     child: SnapConnectionsSettings(),
                   )
                 : null,
-            controls: const SnapControls(),
+            controls: widget.appstream != null
+                ? Wrap(
+                    runSpacing: 20,
+                    spacing: 10,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      const SnapControls(),
+                      OutlinedButton(
+                        onPressed: () => PackagePage.push(
+                          context,
+                          appstream: widget.appstream,
+                        ),
+                        child: const Text('Switch to Debian'),
+                      ),
+                    ],
+                  )
+                : const SnapControls(),
             icon: AppIcon(
               iconUrl: model.iconUrl,
               size: 150,

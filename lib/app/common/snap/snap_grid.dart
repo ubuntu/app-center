@@ -52,7 +52,10 @@ class SnapGrid extends StatelessWidget {
               iconUrl: snap.iconUrl,
             ),
           ),
-          onTap: () => SnapPage.push(context, snap),
+          onTap: () => SnapPage.push(
+            context: context,
+            snap: snap,
+          ),
         );
       },
     );

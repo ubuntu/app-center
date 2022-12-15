@@ -17,17 +17,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:software/app/common/search_field.dart';
+import 'package:software/app/explore/explore_header.dart';
+import 'package:software/app/explore/explore_model.dart';
+import 'package:software/app/explore/offline_page.dart';
+import 'package:software/app/explore/search_page.dart';
+import 'package:software/app/explore/start_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
-import 'package:software/app/explore/explore_header.dart';
-import 'package:software/app/explore/explore_model.dart';
-import 'package:software/app/explore/offline_page.dart';
-import 'package:software/app/common/search_field.dart';
-import 'package:software/app/explore/search_page.dart';
-import 'package:software/app/explore/start_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatefulWidget {
@@ -52,6 +53,14 @@ class ExplorePage extends StatefulWidget {
 
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.explorePageTitle);
+
+  static Widget createIcon(
+    BuildContext context,
+    bool selected,
+  ) =>
+      selected
+          ? const Icon(YaruIcons.compass_filled)
+          : const Icon(YaruIcons.compass);
 
   @override
   State<ExplorePage> createState() => _ExplorePageState();

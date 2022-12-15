@@ -184,13 +184,20 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  // TODO: get real rating from backend
   Future<Map<String, AppFinding>> search() async {
     final Map<String, AppFinding> appFindings = {};
 
     if (appFormats.containsAll([AppFormat.snap, AppFormat.packageKit])) {
       final snaps = await findSnapsByQuery();
       for (final snap in snaps) {
-        appFindings.putIfAbsent(snap.name, () => AppFinding(snap: snap));
+        appFindings.putIfAbsent(
+          snap.name,
+          () => AppFinding(
+            snap: snap,
+            rating: 3.5,
+          ),
+        );
       }
 
       final components = await findAppstreamComponents();
@@ -200,12 +207,13 @@ class ExploreModel extends SafeChangeNotifier {
         if (snap == null) {
           appFindings.putIfAbsent(
             component.localizedName(),
-            () => AppFinding(appstream: component),
+            () => AppFinding(appstream: component, rating: 3.5),
           );
         } else {
           appFindings.update(
             snap.name,
-            (value) => AppFinding(snap: snap, appstream: component),
+            (value) =>
+                AppFinding(snap: snap, appstream: component, rating: 3.5),
           );
         }
       }
@@ -221,7 +229,7 @@ class ExploreModel extends SafeChangeNotifier {
       for (final component in components) {
         appFindings.putIfAbsent(
           component.localizedName(),
-          () => AppFinding(appstream: component),
+          () => AppFinding(appstream: component, rating: 3.5),
         );
       }
     }

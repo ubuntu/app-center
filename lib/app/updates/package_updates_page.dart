@@ -42,15 +42,13 @@ class PackageUpdatesPage extends StatefulWidget {
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => UpdatesModel(
+      create: (_) => PackageUpdatesModel(
         getService<PackageService>(),
         getService<UbuntuSession>(),
       ),
       child: const PackageUpdatesPage(),
     );
   }
-
-  static Widget createTitle(BuildContext context) => Text(context.l10n.updates);
 
   @override
   State<PackageUpdatesPage> createState() => _PackageUpdatesPageState();
@@ -60,13 +58,13 @@ class _PackageUpdatesPageState extends State<PackageUpdatesPage> {
   @override
   void initState() {
     super.initState();
-    final model = context.read<UpdatesModel>();
+    final model = context.read<PackageUpdatesModel>();
     model.init(handleError: () => showSnackBar());
   }
 
   void showSnackBar() {
     if (!mounted) return;
-    final model = context.read<UpdatesModel>();
+    final model = context.read<PackageUpdatesModel>();
     if (model.errorMessage.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -83,15 +81,13 @@ class _PackageUpdatesPageState extends State<PackageUpdatesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<UpdatesModel>();
+    final model = context.watch<PackageUpdatesModel>();
     final hPadding = (0.00013 * pow(MediaQuery.of(context).size.width, 2)) - 20;
 
     return Column(
       children: [
         const _UpdatesHeader(),
-        if (model.updatesState == UpdatesState.noUpdates ||
-            model.updatesState == null)
-          const NoUpdatesPage(),
+        if (model.updatesState == UpdatesState.noUpdates) const NoUpdatesPage(),
         if (model.updatesState == UpdatesState.readyToUpdate)
           _UpdatesListView(hPadding: hPadding),
         if (model.updatesState == UpdatesState.updating)
@@ -123,7 +119,7 @@ class _UpdatingPageState extends State<_UpdatingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<UpdatesModel>();
+    final model = context.watch<PackageUpdatesModel>();
 
     final children = [
       Text(
@@ -202,7 +198,7 @@ class _UpdatesHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<UpdatesModel>();
+    final model = context.watch<PackageUpdatesModel>();
 
     return Align(
       alignment: Alignment.centerLeft,
@@ -285,7 +281,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<UpdatesModel>();
+    final model = context.watch<PackageUpdatesModel>();
 
     return Expanded(
       child: ListView(

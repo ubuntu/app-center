@@ -15,7 +15,6 @@
  *
  */
 
-import 'package:badges/badges.dart';
 import 'package:collection/collection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -23,23 +22,19 @@ import 'package:gtk_application/gtk_application.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
 import 'package:software/app/app_splash_screen.dart';
-import 'package:software/app/common/animated_warning_icon.dart';
-import 'package:software/app/common/dangerous_delayed_button.dart';
-import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
-import 'package:software/app/common/packagekit/package_page.dart';
+import 'package:software/app/common/close_confirmation_dialog.dart';
+import 'package:software/app/common/page_item.dart';
 import 'package:software/app/explore/explore_page.dart';
 import 'package:software/app/installed/installed_page.dart';
+import 'package:software/app/package_installer/package_installer_page.dart';
 import 'package:software/app/settings/settings_page.dart';
-import 'package:software/app/updates/package_updates_page.dart';
 import 'package:software/app/updates/updates_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
-import 'package:software/services/packagekit/updates_state.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class App extends StatelessWidget {
@@ -78,18 +73,6 @@ class App extends StatelessWidget {
   }
 }
 
-class PageItem {
-  const PageItem({
-    required this.titleBuilder,
-    required this.builder,
-    required this.iconBuilder,
-  });
-
-  final WidgetBuilder titleBuilder;
-  final WidgetBuilder builder;
-  final Widget Function(BuildContext context, bool selected) iconBuilder;
-}
-
 class _App extends StatefulWidget {
   // ignore: unused_element
   const _App({super.key});
@@ -99,7 +82,7 @@ class _App extends StatefulWidget {
 }
 
 class __AppState extends State<_App> {
-  int _installedPageIndex = 0;
+  int _updatesPageIndex = 0;
   bool _initialized = false;
   int _initialIndex = 0;
   String? path;
@@ -126,7 +109,7 @@ class __AppState extends State<_App> {
           context: context,
           barrierDismissible: false,
           builder: (c) {
-            return _CloseWindowConfirmDialog(
+            return CloseWindowConfirmDialog(
               onConfirm: () {
                 model.quit();
               },
@@ -152,58 +135,57 @@ class __AppState extends State<_App> {
     model.setupNotifications(updatesAvailable: context.l10n.updateAvailable);
     final width = MediaQuery.of(context).size.width;
 
+    final itemStyle = width > 800 && width < 1200
+        ? YaruNavigationRailStyle.labelled
+        : width > 1200
+            ? YaruNavigationRailStyle.labelledExtended
+            : YaruNavigationRailStyle.compact;
+
     final pageItems = [
       PageItem(
         titleBuilder: ExplorePage.createTitle,
         builder: (context) =>
             ExplorePage.create(context, model.appIsOnline, model.errorMessage),
-        iconBuilder: (context, selected) => selected
-            ? const Icon(YaruIcons.compass_filled)
-            : const Icon(YaruIcons.compass),
+        iconBuilder: ExplorePage.createIcon,
       ),
       PageItem(
         titleBuilder: InstalledPage.createTitle,
-        builder: (context) => InstalledPage.create(
-          context,
-          (index) => _installedPageIndex = index,
-          _installedPageIndex,
+        builder: (context) => InstalledPage.create(context),
+        iconBuilder: (context, selected) => InstalledPage.createIcon(
+          context: context,
+          selected: selected,
+          badgeCount: model.snapChanges.length,
+          processing: model.snapChanges.isNotEmpty,
         ),
-        iconBuilder: (context, selected) {
-          if (model.snapChanges.isNotEmpty) {
-            return _InstalledPageIcon(count: model.snapChanges.length);
-          }
-          return selected
-              ? const Icon(YaruIcons.ok_filled)
-              : const Icon(YaruIcons.ok);
-        },
       ),
       PageItem(
-        titleBuilder: PackageUpdatesPage.createTitle,
-        builder: (context) => const UpdatesPage(),
-        iconBuilder: (context, selected) {
-          return _UpdatesIcon(
-            count: model.updateAmount,
-            selected: selected,
-            updatesState: model.updatesState ?? UpdatesState.noUpdates,
-          );
-        },
+        titleBuilder: UpdatesPage.createTitle,
+        builder: (context) => UpdatesPage(
+          onTabTapped: (index) => setState(() => _updatesPageIndex = index),
+          tabIndex: _updatesPageIndex,
+        ),
+        iconBuilder: (context, selected) => UpdatesPage.createIcon(
+          context: context,
+          selected: selected,
+          badgeCount: model.updateAmount,
+          processing: model.updatesProcessing,
+        ),
       ),
       if (path != null)
         PageItem(
-          titleBuilder: (c) => Text(context.l10n.packageInstaller),
-          builder: (c) => PackagePage.create(
+          titleBuilder: (context) => Text(context.l10n.packageInstaller),
+          builder: (context) => PackageInstallerPage.create(
             context: context,
             path: path,
           ),
           iconBuilder: (context, selected) =>
-              const Icon(YaruIcons.insert_object),
+              PackageInstallerPage.createIcon(context, selected),
         ),
       PageItem(
         titleBuilder: SettingsPage.createTitle,
         builder: SettingsPage.create,
-        iconBuilder: (context, selected) => selected
-            ? const Icon(YaruIcons.gear_filled)
-            : const Icon(YaruIcons.gear),
+        iconBuilder: (context, selected) =>
+            SettingsPage.createIcon(context, selected),
       ),
     ];
 
@@ -216,157 +198,10 @@ class __AppState extends State<_App> {
               icon: pageItems[index].iconBuilder(context, selected),
               label: pageItems[index].titleBuilder(context),
               // tooltip: pageItems[index].tooltipMessage,
-              style: width > 800 && width < 1200
-                  ? YaruNavigationRailStyle.labelled
-                  : width > 1200
-                      ? YaruNavigationRailStyle.labelledExtended
-                      : YaruNavigationRailStyle.compact,
+              style: itemStyle,
             ),
             pageBuilder: (context, index) => pageItems[index].builder(context),
           )
         : const StoreSplashScreen();
-  }
-}
-
-class _InstalledPageIcon extends StatelessWidget {
-  // ignore: unused_element
-  const _InstalledPageIcon({super.key, required this.count});
-
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    return Badge(
-      badgeColor: Theme.of(context).primaryColor,
-      badgeContent: Text(
-        count.toString(),
-        style: badgeTextStyle,
-      ),
-      child: const IndeterminateCircularProgressIcon(),
-    );
-  }
-}
-
-class _UpdatesIcon extends StatelessWidget {
-  const _UpdatesIcon({
-    // ignore: unused_element
-    super.key,
-    required this.count,
-    required this.selected,
-    required this.updatesState,
-  });
-
-  final int count;
-  final bool selected;
-  final UpdatesState updatesState;
-
-  @override
-  Widget build(BuildContext context) {
-    if (updatesState == UpdatesState.checkingForUpdates) {
-      return Badge(
-        position: BadgePosition.topEnd(),
-        badgeColor:
-            count > 0 ? Theme.of(context).primaryColor : Colors.transparent,
-        badgeContent: count > 0
-            ? Text(
-                count.toString(),
-                style: badgeTextStyle,
-              )
-            : null,
-        child: const IndeterminateCircularProgressIcon(),
-      );
-    } else if (updatesState == UpdatesState.updating) {
-      return const IndeterminateCircularProgressIcon();
-    } else if (updatesState == UpdatesState.readyToUpdate) {
-      return Badge(
-        badgeColor: Theme.of(context).primaryColor,
-        badgeContent: Text(
-          count.toString(),
-          style: badgeTextStyle,
-        ),
-        child: selected
-            ? const Icon(YaruIcons.update_available_filled)
-            : const Icon(YaruIcons.update_available),
-      );
-    }
-    return const Icon(YaruIcons.update);
-  }
-}
-
-const badgeTextStyle = TextStyle(color: Colors.white, fontSize: 10);
-
-class _CloseWindowConfirmDialog extends StatelessWidget {
-  const _CloseWindowConfirmDialog({
-    Key? key,
-    this.onConfirm,
-  }) : super(key: key);
-
-  final Function()? onConfirm;
-
-  @override
-  Widget build(BuildContext context) {
-    return SimpleDialog(
-      title: const YaruCloseButton(
-        alignment: Alignment.centerRight,
-      ),
-      titlePadding: const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 0.0),
-      contentPadding: EdgeInsets.zero,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: SizedBox(
-            width: 500,
-            child: Column(
-              children: [
-                const AnimatedWarningIcon(),
-                Text(
-                  context.l10n.attention,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(fontSize: 24.0),
-                  textAlign: TextAlign.center,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30.0),
-                  child: Text(
-                    context.l10n.quitDanger,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: DangerousDelayedButton(
-                  duration: const Duration(seconds: 3),
-                  onPressed: onConfirm,
-                  child: Text(
-                    context.l10n.quit,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(
-                    context.l10n.cancel,
-                  ),
-                ),
-              )
-            ],
-          ),
-        )
-      ],
-    );
   }
 }

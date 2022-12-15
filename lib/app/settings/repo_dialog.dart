@@ -31,7 +31,7 @@ class _RepoDialogState extends State<RepoDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<UpdatesModel>();
+    final model = context.watch<PackageUpdatesModel>();
 
     return SimpleDialog(
       title: YaruTitleBar(
@@ -53,8 +53,12 @@ class _RepoDialogState extends State<RepoDialog> {
                       onChanged: (value) => model.manualRepoName = value,
                       controller: controller,
                       decoration: InputDecoration(
+                        isDense: false,
                         hintText: context.l10n.enterRepoName,
                         border: const UnderlineInputBorder(),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                        ),
                       ),
                     ),
                   )
