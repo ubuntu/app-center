@@ -183,6 +183,7 @@ class __AppState extends State<_App> {
         iconBuilder: (context, selected) {
           return _UpdatesIcon(
             count: model.updateAmount,
+            selected: selected,
             updatesState: model.updatesState ?? UpdatesState.noUpdates,
           );
         },
@@ -201,8 +202,8 @@ class __AppState extends State<_App> {
         titleBuilder: SettingsPage.createTitle,
         builder: SettingsPage.create,
         iconBuilder: (context, selected) => selected
-            ? const Icon(YaruIcons.settings_filled)
-            : const Icon(YaruIcons.settings),
+            ? const Icon(YaruIcons.gear_filled)
+            : const Icon(YaruIcons.gear),
       ),
     ];
 
@@ -251,10 +252,12 @@ class _UpdatesIcon extends StatelessWidget {
     // ignore: unused_element
     super.key,
     required this.count,
+    required this.selected,
     required this.updatesState,
   });
 
   final int count;
+  final bool selected;
   final UpdatesState updatesState;
 
   @override
@@ -281,10 +284,12 @@ class _UpdatesIcon extends StatelessWidget {
           count.toString(),
           style: badgeTextStyle,
         ),
-        child: const Icon(YaruIcons.synchronizing),
+        child: selected
+            ? const Icon(YaruIcons.update_available_filled)
+            : const Icon(YaruIcons.update_available),
       );
     }
-    return const Icon(YaruIcons.synchronizing);
+    return const Icon(YaruIcons.update);
   }
 }
 
