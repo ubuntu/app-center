@@ -65,6 +65,7 @@ apps:
       - desktop
       - desktop-legacy
       - network
+      - network-manager
       - network-manager-observe
       - opengl
       - packagekit-control
