@@ -22,4 +22,6 @@ extension SnapX on Snap {
   String? get iconUrl => media.firstWhereOrNull((m) => m.type == 'icon')?.url;
   List<String> get screenshotUrls =>
       media.where((m) => m.type == 'screenshot').map((m) => m.url).toList();
+  bool get verified => publisher?.validation == 'verified';
+  bool get starredDeveloper => publisher?.validation == 'starred';
 }
