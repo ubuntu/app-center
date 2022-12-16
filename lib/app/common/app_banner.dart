@@ -123,7 +123,7 @@ class SearchBannerSubtitle extends StatelessWidget {
       publisherName = appFinding.snap!.publisher!.displayName;
     }
 
-    if (appFinding.appstream != null && showPackageKit) {
+    if (appFinding.appstream != null && showPackageKit && !showSnap) {
       if (appFinding.appstream!
               .developerName[Localizations.localeOf(context).toLanguageTag()] !=
           null) {
