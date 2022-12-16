@@ -35,7 +35,7 @@ class InstalledModel extends SafeChangeNotifier {
   StreamSubscription<bool>? _installedSub;
 
   List<PackageKitPackageId> get installedPackages =>
-      _packageService.installedPackages;
+      _packageService.isAvailable ? _packageService.installedPackages : [];
 
   final SnapService _snapService;
   StreamSubscription<bool>? _snapChangesSub;
@@ -50,10 +50,12 @@ class InstalledModel extends SafeChangeNotifier {
         _loadLocalSnaps().then((value) => notifyListeners());
       }
     });
-    _installedSub = _packageService.installedPackagesChanged.listen((event) {
-      notifyListeners();
-    });
-    await _packageService.getInstalledPackages(filters: packageKitFilters);
+    if (_packageService.isAvailable) {
+      _installedSub = _packageService.installedPackagesChanged.listen((event) {
+        notifyListeners();
+      });
+      await _packageService.getInstalledPackages(filters: packageKitFilters);
+    }
 
     notifyListeners();
   }
@@ -90,7 +92,7 @@ class InstalledModel extends SafeChangeNotifier {
     if (value == _appFormat) return;
     _appFormat = value;
     _loadSnapsWithUpdates = false;
-    if (_appFormat == AppFormat.packageKit) {
+    if (_appFormat == AppFormat.packageKit && _packageService.isAvailable) {
       _packageService.getInstalledPackages().then((_) => notifyListeners());
     } else {
       notifyListeners();
@@ -106,6 +108,7 @@ class InstalledModel extends SafeChangeNotifier {
   };
   Set<PackageKitFilter> get packageKitFilters => _packageKitFilters;
   Future<void> handleFilter(bool value, PackageKitFilter filter) async {
+    if (!_packageService.isAvailable) return;
     if (value) {
       _packageKitFilters.add(filter);
     } else {
