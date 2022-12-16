@@ -34,7 +34,11 @@ class SnapConnectionsSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<SnapModel>();
+    final plugs = context.select((SnapModel m) => m.plugs);
+    final snapChangeInProgress =
+        context.select((SnapModel m) => m.snapChangeInProgress);
+    final toggleConnection =
+        context.select((SnapModel m) => m.toggleConnection);
     return YaruExpandable(
       isExpanded: isExpanded,
       header: Text(
@@ -44,8 +48,8 @@ class SnapConnectionsSettings extends StatelessWidget {
       expandIcon: const Icon(YaruIcons.pan_end),
       child: Column(
         children: [
-          if (model.plugs != null && model.plugs!.isNotEmpty)
-            for (final plugEntry in model.plugs!.entries)
+          if (plugs != null && plugs.isNotEmpty)
+            for (final plugEntry in plugs.entries)
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -54,11 +58,11 @@ class SnapConnectionsSettings extends StatelessWidget {
                     Text(plugEntry.key.interface ?? ''),
                     YaruSwitch(
                       value: plugEntry.value,
-                      onChanged: model.snapChangeInProgress
+                      onChanged: snapChangeInProgress
                           ? null
                           : (value) {
                               if (plugEntry.key.interface == null) return;
-                              model.toggleConnection(
+                              toggleConnection(
                                 interface: plugEntry.key.interface!,
                                 snap: plugEntry.key,
                                 value: value,
