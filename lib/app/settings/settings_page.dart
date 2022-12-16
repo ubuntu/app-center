@@ -37,7 +37,7 @@ class SettingsPage extends StatefulWidget {
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SettingsModel(),
+      create: (_) => SettingsModel(getService<PackageService>()),
       child: const SettingsPage(),
     );
   }
@@ -69,7 +69,11 @@ class _SettingsPageState extends State<SettingsPage> {
             return BorderContainer(
               childPadding: const EdgeInsets.all(kYaruPagePadding),
               child: Column(
-                children: [_RepoTile.create(context), const _AboutTile()],
+                children: [
+                  if (context.read<SettingsModel>().packageKitAvailable)
+                    _RepoTile.create(context),
+                  const _AboutTile()
+                ],
               ),
             );
           },
