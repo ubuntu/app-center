@@ -178,7 +178,7 @@ class ExploreModel extends SafeChangeNotifier {
   late final Set<AppFormat> _selectedAppFormats;
   Set<AppFormat> get selectedAppFormats => _selectedAppFormats;
   final Set<AppFormat> _enabledAppFormats = {};
-  Set<AppFormat> get enabledAppFormats => _selectedAppFormats;
+  Set<AppFormat> get enabledAppFormats => _enabledAppFormats;
   void handleAppFormat(AppFormat appFormat) {
     if (!_selectedAppFormats.contains(appFormat)) {
       _selectedAppFormats.add(appFormat);
