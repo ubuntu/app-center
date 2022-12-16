@@ -172,20 +172,27 @@ class SearchBannerSubtitle extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              RatingBar.builder(
-                initialRating: appFinding.rating ?? 0,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: EdgeInsets.zero,
-                itemSize: 20,
-                itemBuilder: (context, _) => const Icon(
-                  YaruIcons.star_filled,
-                  color: kRatingOrange,
-                ),
-                onRatingUpdate: (rating) {},
-                ignoreGestures: true,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RatingBar.builder(
+                    initialRating: appFinding.rating ?? 0,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.zero,
+                    itemSize: 20,
+                    itemBuilder: (context, _) => const Icon(
+                      YaruIcons.star_filled,
+                      color: kRatingOrange,
+                    ),
+                    onRatingUpdate: (rating) {},
+                    ignoreGestures: true,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(appFinding.totalRatings.toString())
+                ],
               ),
               PackageIndicator(
                 appFinding: appFinding,

@@ -16,6 +16,7 @@
  */
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
@@ -196,6 +197,7 @@ class ExploreModel extends SafeChangeNotifier {
           () => AppFinding(
             snap: snap,
             rating: 3.5,
+            totalRatings: Random().nextInt(3000),
           ),
         );
       }
@@ -207,13 +209,21 @@ class ExploreModel extends SafeChangeNotifier {
         if (snap == null) {
           appFindings.putIfAbsent(
             component.localizedName(),
-            () => AppFinding(appstream: component, rating: 3.5),
+            () => AppFinding(
+              appstream: component,
+              rating: 3.5,
+              totalRatings: Random().nextInt(3000),
+            ),
           );
         } else {
           appFindings.update(
             snap.name,
-            (value) =>
-                AppFinding(snap: snap, appstream: component, rating: 3.5),
+            (value) => AppFinding(
+              snap: snap,
+              appstream: component,
+              rating: 3.5,
+              totalRatings: Random().nextInt(3000),
+            ),
           );
         }
       }
@@ -229,7 +239,11 @@ class ExploreModel extends SafeChangeNotifier {
       for (final component in components) {
         appFindings.putIfAbsent(
           component.localizedName(),
-          () => AppFinding(appstream: component, rating: 3.5),
+          () => AppFinding(
+            appstream: component,
+            rating: 3.5,
+            totalRatings: Random().nextInt(3000),
+          ),
         );
       }
     }
@@ -242,10 +256,12 @@ class AppFinding {
   final Snap? snap;
   final AppstreamComponent? appstream;
   final double? rating;
+  final int? totalRatings;
 
   AppFinding({
     this.snap,
     this.appstream,
     this.rating,
+    this.totalRatings,
   });
 }
