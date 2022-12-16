@@ -22,7 +22,9 @@ import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/app/explore/explore_model.dart';
-import 'package:software/services/appstream/appstream_utils.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/services/appstream/appstream_utils.dart'
+    as appstream_icons;
 import 'package:software/snapx.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -75,7 +77,7 @@ class AppBanner extends StatelessWidget {
     );
 
     var appIcon = Padding(
-      padding: const EdgeInsets.only(bottom: 35, right: 5),
+      padding: const EdgeInsets.only(bottom: 55, right: 5),
       child: AppIcon(
         iconUrl: iconUrl,
       ),
@@ -110,10 +112,55 @@ class SearchBannerSubtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final light = theme.brightness == Brightness.light;
+
+    var publisherName = context.l10n.unknown;
+
+    if (appFinding.snap != null &&
+        appFinding.snap!.publisher != null &&
+        showSnap) {
+      publisherName = appFinding.snap!.publisher!.displayName;
+    }
+
+    if (appFinding.appstream != null && showPackageKit && !showSnap) {
+      if (appFinding.appstream!
+              .developerName[Localizations.localeOf(context).toLanguageTag()] !=
+          null) {
+        publisherName = appFinding.appstream!
+            .developerName[Localizations.localeOf(context).toLanguageTag()]!;
+      } else if (appFinding.appstream!.urls.isNotEmpty) {
+        publisherName = appFinding.appstream!.urls.first.url;
+      }
+    }
+
     return Column(
-      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              publisherName,
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                color: theme.colorScheme.onSurface.withOpacity(0.5),
+              ),
+            ),
+            if (appFinding.snap?.verified == true)
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Icon(
+                  Icons.verified,
+                  color: light ? kGreenLight : kGreenDark,
+                  size: 12,
+                ),
+              )
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
         Text(
           appFinding.snap?.summary ??
               appFinding.appstream?.localizedSummary() ??
@@ -121,24 +168,31 @@ class SearchBannerSubtitle extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              RatingBar.builder(
-                initialRating: appFinding.rating ?? 0,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: EdgeInsets.zero,
-                itemSize: 20,
-                itemBuilder: (context, _) => const Icon(
-                  YaruIcons.star_filled,
-                  color: kRatingOrange,
-                ),
-                onRatingUpdate: (rating) {},
-                ignoreGestures: true,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RatingBar.builder(
+                    initialRating: appFinding.rating ?? 0,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.zero,
+                    itemSize: 20,
+                    itemBuilder: (context, _) => const Icon(
+                      YaruIcons.star_filled,
+                      color: kRatingOrange,
+                    ),
+                    onRatingUpdate: (rating) {},
+                    ignoreGestures: true,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(appFinding.totalRatings.toString())
+                ],
               ),
               PackageIndicator(
                 appFinding: appFinding,
