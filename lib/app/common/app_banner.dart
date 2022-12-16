@@ -17,11 +17,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/snap/snap_page.dart';
-import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_utils.dart'
     as appstream_icons;

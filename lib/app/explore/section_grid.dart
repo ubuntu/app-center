@@ -15,15 +15,15 @@
  *
  */
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/app/common/app_icon.dart';
+import 'package:software/app/common/app_banner.dart';
+import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/explore/explore_model.dart';
-import 'package:software/snapx.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SectionGrid extends StatelessWidget {
   const SectionGrid({
@@ -60,17 +60,17 @@ class SectionGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         final snap = sections.elementAt(index);
 
-        return YaruBanner.tile(
-          title: Text(snap.name),
-          subtitle: Text(
-            snap.summary,
-            overflow: TextOverflow.ellipsis,
+        return AppBanner(
+          appFinding: MapEntry<String, AppFinding>(
+            snap.name,
+            AppFinding(
+              snap: snap,
+              rating: 4.5,
+              totalRatings: Random().nextInt(3000),
+            ),
           ),
-          icon: Padding(
-            padding: kIconPadding,
-            child: AppIcon(iconUrl: snap.iconUrl),
-          ),
-          onTap: () => SnapPage.push(context: context, snap: snap),
+          showSnap: true,
+          showPackageKit: false,
         );
       },
     );
