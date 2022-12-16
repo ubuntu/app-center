@@ -23,6 +23,7 @@ import 'package:collection/collection.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/app_finding.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
 import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
@@ -257,18 +258,4 @@ class ExploreModel extends SafeChangeNotifier {
 
     return appFindings;
   }
-}
-
-class AppFinding {
-  final Snap? snap;
-  final AppstreamComponent? appstream;
-  final double? rating;
-  final int? totalRatings;
-
-  AppFinding({
-    this.snap,
-    this.appstream,
-    this.rating,
-    this.totalRatings,
-  });
 }
