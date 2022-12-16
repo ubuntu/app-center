@@ -50,7 +50,9 @@ class InstalledModel extends SafeChangeNotifier {
         _loadLocalSnaps().then((value) => notifyListeners());
       }
     });
+    _enabledAppFormats.add(AppFormat.snap);
     if (_packageService.isAvailable) {
+      _enabledAppFormats.add(AppFormat.packageKit);
       _installedSub = _packageService.installedPackagesChanged.listen((event) {
         notifyListeners();
       });
@@ -86,6 +88,8 @@ class InstalledModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  final Set<AppFormat> _enabledAppFormats = {};
+  Set<AppFormat> get enabledAppFormats => _enabledAppFormats;
   AppFormat _appFormat = AppFormat.snap;
   AppFormat get appFormat => _appFormat;
   void setAppFormat(AppFormat value) {

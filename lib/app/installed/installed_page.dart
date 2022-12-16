@@ -42,7 +42,7 @@ class InstalledPage extends StatelessWidget {
       create: (context) => InstalledModel(
         getService<PackageService>(),
         getService<SnapService>(),
-      ),
+      )..init(),
       child: const InstalledPage(),
     );
   }

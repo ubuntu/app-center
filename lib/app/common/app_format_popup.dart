@@ -25,10 +25,12 @@ class AppFormatPopup extends StatelessWidget {
     super.key,
     required this.onSelected,
     required this.appFormat,
+    required this.enabledAppFormats,
   });
 
   final void Function(AppFormat appFormat) onSelected;
   final AppFormat appFormat;
+  final Set<AppFormat> enabledAppFormats;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class AppFormatPopup extends StatelessWidget {
       initialValue: appFormat,
       tooltip: context.l10n.appFormat,
       itemBuilder: (v) => [
-        for (var appFormat in AppFormat.values)
+        for (var appFormat in enabledAppFormats)
           PopupMenuItem(
             value: appFormat,
             onTap: () => onSelected(appFormat),
