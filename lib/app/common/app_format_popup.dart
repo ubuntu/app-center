@@ -55,11 +55,13 @@ class AppFormatPopup extends StatelessWidget {
 class MultiAppFormatPopup extends StatelessWidget {
   const MultiAppFormatPopup({
     super.key,
-    required this.appFormats,
+    required this.selectedAppFormats,
+    required this.enabledAppFormats,
     required this.onTap,
   });
 
-  final Set<AppFormat> appFormats;
+  final Set<AppFormat> selectedAppFormats;
+  final Set<AppFormat> enabledAppFormats;
   final Function(AppFormat appFormat) onTap;
 
   @override
@@ -69,11 +71,11 @@ class MultiAppFormatPopup extends StatelessWidget {
       onSelected: (v) => onTap(v),
       itemBuilder: (context) {
         return [
-          for (final appFormat in AppFormat.values)
+          for (final appFormat in enabledAppFormats)
             YaruCheckedPopupMenuItem<AppFormat>(
               padding: EdgeInsets.zero,
               value: appFormat,
-              checked: appFormats.contains(appFormat),
+              checked: selectedAppFormats.contains(appFormat),
               child: Text(
                 appFormat.localize(context.l10n),
               ),
@@ -81,9 +83,9 @@ class MultiAppFormatPopup extends StatelessWidget {
         ];
       },
       child: Text(
-        appFormats.length == AppFormat.values.length
+        selectedAppFormats.length == AppFormat.values.length
             ? context.l10n.allPackageTypes
-            : appFormats.first.localize(context.l10n),
+            : selectedAppFormats.first.localize(context.l10n),
       ),
     );
   }
