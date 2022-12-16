@@ -41,10 +41,16 @@ class ExploreModel extends SafeChangeNotifier {
   Future<void> init() async {
     _sectionsChangedSub =
         _snapService.sectionsChanged.listen((_) => notifyListeners());
-    _updatesState = _packageService.lastUpdatesState;
-    _updatesStateSub = _packageService.updatesState.listen((event) {
-      updatesState = event;
-    });
+    if (_packageService.isAvailable) {
+      _updatesState = _packageService.lastUpdatesState;
+      _updatesStateSub = _packageService.updatesState.listen((event) {
+        updatesState = event;
+      });
+    }
+    _appFormats = {
+      AppFormat.snap,
+      if (_packageService.isAvailable) AppFormat.packageKit,
+    };
   }
 
   @override
@@ -169,10 +175,7 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  final Set<AppFormat> _appFormats = {
-    AppFormat.snap,
-    AppFormat.packageKit,
-  };
+  late final Set<AppFormat> _appFormats;
   Set<AppFormat> get appFormats => _appFormats;
   void handleAppFormat(AppFormat appFormat) {
     if (!_appFormats.contains(appFormat)) {
