@@ -278,5 +278,9 @@
   "yourReviewTitle": "Título da análise (opcional)",
   "@yourReviewTitle": {},
   "showAllReviews": "Mostrar todas as análises",
-  "@showAllReviews": {}
+  "@showAllReviews": {},
+  "configure": "Configure",
+  "@configure": {},
+  "sourcesDescription": "Configuração de onde o seu sistema e pacotes de Debian de terceiros são atualizados.",
+  "@sourcesDescription": {}
 }

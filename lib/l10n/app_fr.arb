@@ -67,7 +67,7 @@
   "@channel": {},
   "install": "Installer",
   "@install": {},
-  "refresh": "Rafraîchir",
+  "refresh": "Mettre à jour",
   "@refresh": {},
   "remove": "Supprimer",
   "@remove": {},
@@ -251,7 +251,7 @@
   "@installing": {},
   "removing": "En cours de suppression",
   "@removing": {},
-  "refreshing": "Rafraîchissement en cours",
+  "refreshing": "Mise à jour en cours",
   "@refreshing": {},
   "changingPermissions": "Changement des permissions",
   "@changingPermissions": {},
@@ -278,5 +278,9 @@
   "devicesAndIotSlogan": "Appareils et objets connectés",
   "@devicesAndIotSlogan": {},
   "installed": "Installé",
-  "@installed": {}
+  "@installed": {},
+  "configure": "Configurer",
+  "@configure": {},
+  "sourcesDescription": "Définir depuis quels dépôts les paquets Debian sont mis à jour.",
+  "@sourcesDescription": {}
 }
