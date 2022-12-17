@@ -37,7 +37,6 @@ class UpdatesPage extends StatefulWidget {
   }) {
     return _UpdatesIcon(
       count: badgeCount ?? 0,
-      selected: selected,
       processing: processing ?? false,
     );
   }
@@ -120,12 +119,10 @@ class _UpdatesIcon extends StatelessWidget {
     // ignore: unused_element
     super.key,
     required this.count,
-    required this.selected,
     required this.processing,
   });
 
   final int count;
-  final bool selected;
   final bool processing;
 
   @override
@@ -152,11 +149,9 @@ class _UpdatesIcon extends StatelessWidget {
           count.toString(),
           style: badgeTextStyle,
         ),
-        child: selected
-            ? const Icon(YaruIcons.update_available_filled)
-            : const Icon(YaruIcons.update_available),
+        child: const Icon(YaruIcons.sync),
       );
     }
-    return const Icon(YaruIcons.update);
+    return const Icon(YaruIcons.sync);
   }
 }
