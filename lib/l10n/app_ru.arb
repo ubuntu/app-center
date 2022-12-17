@@ -263,7 +263,7 @@
   "@photoAndVideoSlogan": {},
   "utilitiesSlogan": "Утилиты",
   "@utilitiesSlogan": {},
-  "allPackageTypes": "Все типы пакетов",
+  "allPackageTypes": "Все пакеты",
   "@allPackageTypes": {},
   "scienceSlogan": "Научные инструменты",
   "@scienceSlogan": {},
@@ -278,5 +278,9 @@
   "releasedAt": "Дата выпуска",
   "@releasedAt": {},
   "installed": "Установленные",
-  "@installed": {}
+  "@installed": {},
+  "configure": "Настроить",
+  "@configure": {},
+  "sourcesDescription": "Настройте источники для обновления системы и остальных Debian пакетов.",
+  "@sourcesDescription": {}
 }

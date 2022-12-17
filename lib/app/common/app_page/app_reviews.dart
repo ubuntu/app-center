@@ -226,6 +226,7 @@ class _ReviewPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -250,9 +251,10 @@ class _ReviewPanel extends StatelessWidget {
                   itemSize: 35,
                   itemBuilder: (context, _) => const Icon(
                     YaruIcons.star_filled,
-                    color: kRatingOrange,
+                    color: kStarColor,
                     size: 2,
                   ),
+                  unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
                   onRatingUpdate: (rating) {
                     if (onRatingUpdate != null) {
                       onRatingUpdate!(rating);
@@ -354,6 +356,7 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       title: YaruTitleBar(
@@ -374,9 +377,10 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
             itemSize: 50,
             itemBuilder: (context, _) => const Icon(
               YaruIcons.star_filled,
-              color: kRatingOrange,
+              color: kStarColor,
               size: 2,
             ),
+            unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
             onRatingUpdate: (rating) {
               if (widget.onRatingUpdate == null) return;
               widget.onRatingUpdate!(rating);
@@ -511,6 +515,7 @@ class _RatingHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -526,9 +531,10 @@ class _RatingHeader extends StatelessWidget {
               itemSize: 15,
               itemBuilder: (context, _) => const Icon(
                 YaruIcons.star_filled,
-                color: kRatingOrange,
+                color: kStarColor,
                 size: 2,
               ),
+              unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
               onRatingUpdate: (rating) {},
               ignoreGestures: true,
             ),

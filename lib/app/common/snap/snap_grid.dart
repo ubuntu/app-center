@@ -15,13 +15,14 @@
  *
  */
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/snapx.dart';
-import 'package:software/app/common/app_icon.dart';
+import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:software/app/common/snap/snap_page.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
+
+import '../app_banner.dart';
 
 class SnapGrid extends StatelessWidget {
   const SnapGrid({super.key, required this.snaps});
@@ -37,25 +38,17 @@ class SnapGrid extends StatelessWidget {
       itemCount: snaps.length,
       itemBuilder: (context, index) {
         final snap = snaps.elementAt(index);
-        return YaruBanner.tile(
-          title: Text(
+        return AppBanner(
+          appFinding: MapEntry<String, AppFinding>(
             snap.name,
-            overflow: TextOverflow.ellipsis,
-          ),
-          subtitle: Text(
-            snap.summary,
-            overflow: TextOverflow.ellipsis,
-          ),
-          icon: Padding(
-            padding: kIconPadding,
-            child: AppIcon(
-              iconUrl: snap.iconUrl,
+            AppFinding(
+              snap: snap,
+              rating: 4.5,
+              totalRatings: Random().nextInt(3000),
             ),
           ),
-          onTap: () => SnapPage.push(
-            context: context,
-            snap: snap,
-          ),
+          showSnap: true,
+          showPackageKit: false,
         );
       },
     );

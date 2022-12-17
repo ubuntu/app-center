@@ -278,5 +278,9 @@
   "educationSlogan": "Herramientas de educación en el hogar",
   "@educationSlogan": {},
   "socialSlogan": "Reunirse",
-  "@socialSlogan": {}
+  "@socialSlogan": {},
+  "configure": "Configurar",
+  "@configure": {},
+  "sourcesDescription": "Configure desde dónde se actualizan su sistema y los paquetes Debian de terceros.",
+  "@sourcesDescription": {}
 }
