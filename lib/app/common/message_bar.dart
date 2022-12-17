@@ -24,7 +24,7 @@ class MessageBar extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  YaruIcons.edit_copy,
+                  YaruIcons.copy,
                   color: Theme.of(context).primaryColor,
                 ),
                 Text(

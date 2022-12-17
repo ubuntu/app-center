@@ -50,11 +50,11 @@ dependencies:
   xterm: ^3.3.0
   yaru: ^0.4.4
   yaru_colors: ^0.1.1
-  yaru_icons: ^0.2.7
+  yaru_icons: ^1.0.0
   yaru_widgets:
     git:
       url: https://github.com/ubuntu/yaru_widgets.dart
-      ref: 749f73cd54455fabec35f17df803c396529bee8c
+      ref: af5beb0989a52107ecf05c470d379b5343f1f25d
 
 dev_dependencies:
   build_runner: ^2.2.0

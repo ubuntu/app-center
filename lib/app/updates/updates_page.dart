@@ -153,9 +153,9 @@ class _UpdatesIcon extends StatelessWidget {
           count.toString(),
           style: badgeTextStyle,
         ),
-        child: const Icon(YaruIcons.synchronizing),
+        child: const Icon(YaruIcons.sync),
       );
     }
-    return const Icon(YaruIcons.synchronizing);
+    return const Icon(YaruIcons.sync);
   }
 }

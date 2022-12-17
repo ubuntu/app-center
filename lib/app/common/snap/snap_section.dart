@@ -252,7 +252,7 @@ enum SnapSection {
 }
 
 Map<SnapSection, IconData> snapSectionToIcon = {
-  SnapSection.art_and_design: YaruIcons.template,
+  SnapSection.art_and_design: YaruIcons.rule_and_pen,
   SnapSection.books_and_reference: YaruIcons.book,
   SnapSection.development: YaruIcons.wrench,
   SnapSection.devices_and_iot: YaruIcons.chip,
@@ -263,14 +263,14 @@ Map<SnapSection, IconData> snapSectionToIcon = {
   SnapSection.games: YaruIcons.games,
   SnapSection.health_and_fitness: YaruIcons.health,
   SnapSection.music_and_audio: YaruIcons.headphones,
-  SnapSection.news_and_weather: YaruIcons.weather_storm,
+  SnapSection.news_and_weather: YaruIcons.storm,
   SnapSection.personalisation: YaruIcons.desktop_appearance,
   SnapSection.photo_and_video: YaruIcons.camera_photo,
   SnapSection.productivity: YaruIcons.clock,
   SnapSection.science: YaruIcons.beaker,
   SnapSection.security: YaruIcons.shield,
-  SnapSection.server_and_cloud: YaruIcons.weather_cloudy,
+  SnapSection.server_and_cloud: YaruIcons.cloud,
   SnapSection.social: YaruIcons.subtitles,
-  SnapSection.utilities: YaruIcons.utilities,
+  SnapSection.utilities: YaruIcons.swiss_knife,
   SnapSection.all: YaruIcons.app_grid
 };
