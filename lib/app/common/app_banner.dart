@@ -130,7 +130,9 @@ class SearchBannerSubtitle extends StatelessWidget {
         publisherName = appFinding.appstream!
             .developerName[Localizations.localeOf(context).toLanguageTag()]!;
       } else if (appFinding.appstream!.urls.isNotEmpty) {
-        publisherName = appFinding.appstream!.urls.first.url;
+        publisherName = appFinding.appstream!.urls
+            .firstWhere((element) => element.url.isNotEmpty)
+            .url;
       }
     }
 
@@ -140,11 +142,15 @@ class SearchBannerSubtitle extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              publisherName,
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                color: theme.colorScheme.onSurface.withOpacity(0.5),
+            Expanded(
+              child: Text(
+                publisherName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  color: theme.colorScheme.onSurface.withOpacity(0.5),
+                ),
               ),
             ),
             if (appFinding.snap?.verified == true)
