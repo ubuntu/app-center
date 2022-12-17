@@ -202,8 +202,8 @@ class ExploreModel extends SafeChangeNotifier {
           snap.name,
           () => AppFinding(
             snap: snap,
-            rating: Random().nextDouble() * 5,
-            totalRatings: Random().nextInt(3000),
+            rating: fakeRating(),
+            totalRatings: fakeTotalRatings(),
           ),
         );
       }
@@ -215,11 +215,13 @@ class ExploreModel extends SafeChangeNotifier {
         if (snap == null) {
           appFindings.putIfAbsent(
             component.localizedName(),
-            () => AppFinding(
-              appstream: component,
-              rating: Random().nextDouble() * 5,
-              totalRatings: Random().nextInt(3000),
-            ),
+            () {
+              return AppFinding(
+                appstream: component,
+                rating: fakeRating(),
+                totalRatings: fakeTotalRatings(),
+              );
+            },
           );
         } else {
           appFindings.update(
@@ -227,8 +229,8 @@ class ExploreModel extends SafeChangeNotifier {
             (value) => AppFinding(
               snap: snap,
               appstream: component,
-              rating: Random().nextDouble() * 5,
-              totalRatings: Random().nextInt(3000),
+              rating: fakeRating(),
+              totalRatings: fakeTotalRatings(),
             ),
           );
         }
@@ -241,8 +243,8 @@ class ExploreModel extends SafeChangeNotifier {
           snap.name,
           () => AppFinding(
             snap: snap,
-            rating: Random().nextDouble() * 5,
-            totalRatings: Random().nextInt(3000),
+            rating: fakeRating(),
+            totalRatings: fakeTotalRatings(),
           ),
         );
       }
@@ -254,8 +256,8 @@ class ExploreModel extends SafeChangeNotifier {
           component.localizedName(),
           () => AppFinding(
             appstream: component,
-            rating: Random().nextDouble() * 5,
-            totalRatings: Random().nextInt(3000),
+            rating: fakeRating(),
+            totalRatings: fakeTotalRatings(),
           ),
         );
       }
@@ -263,4 +265,8 @@ class ExploreModel extends SafeChangeNotifier {
 
     return appFindings;
   }
+
+  int fakeTotalRatings() => Random().nextInt(3000);
+
+  double fakeRating() => 4.5;
 }
