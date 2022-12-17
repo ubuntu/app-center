@@ -130,7 +130,9 @@ class SearchBannerSubtitle extends StatelessWidget {
         publisherName = appFinding.appstream!
             .developerName[Localizations.localeOf(context).toLanguageTag()]!;
       } else if (appFinding.appstream!.urls.isNotEmpty) {
-        publisherName = appFinding.appstream!.urls.first.url;
+        publisherName = appFinding.appstream!.urls
+            .firstWhere((element) => element.url.isNotEmpty)
+            .url;
       }
     }
 
@@ -140,11 +142,15 @@ class SearchBannerSubtitle extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              publisherName,
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                color: theme.colorScheme.onSurface.withOpacity(0.5),
+            Expanded(
+              child: Text(
+                publisherName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  color: theme.colorScheme.onSurface.withOpacity(0.5),
+                ),
               ),
             ),
             if (appFinding.snap?.verified == true)
@@ -174,6 +180,7 @@ class SearchBannerSubtitle extends StatelessWidget {
             children: [
               Row(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   RatingBar.builder(
                     initialRating: appFinding.rating ?? 0,
@@ -182,11 +189,12 @@ class SearchBannerSubtitle extends StatelessWidget {
                     allowHalfRating: true,
                     itemCount: 5,
                     itemPadding: EdgeInsets.zero,
-                    itemSize: 20,
+                    itemSize: 18,
                     itemBuilder: (context, _) => const Icon(
                       YaruIcons.star_filled,
-                      color: kRatingOrange,
+                      color: kStarColor,
                     ),
+                    unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
                     onRatingUpdate: (rating) {},
                     ignoreGestures: true,
                   ),
@@ -221,20 +229,21 @@ class PackageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       children: [
         if (appFinding.snap != null && showSnap)
-          const Icon(
+          Icon(
             YaruIcons.snapcraft,
-            color: kSnapcraftColor,
+            color: theme.disabledColor,
             size: 20,
           ),
         if (appFinding.appstream != null && showPackageKit)
-          const Padding(
-            padding: EdgeInsets.only(left: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
             child: Icon(
               YaruIcons.debian,
-              color: kDebianColor,
+              color: theme.disabledColor,
               size: 20,
             ),
           )

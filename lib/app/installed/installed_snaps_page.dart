@@ -32,12 +32,6 @@ class InstalledSnapsPage extends StatefulWidget {
 
 class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
   @override
-  void initState() {
-    context.read<InstalledModel>().init();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final model = context.watch<InstalledModel>();
     final snaps = model.searchQuery == null

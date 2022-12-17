@@ -5,6 +5,8 @@ import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
 import 'package:software/app/updates/package_updates_page.dart';
 import 'package:software/app/updates/snap_updates_page.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/services/packagekit/package_service.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class UpdatesPage extends StatefulWidget {
@@ -48,9 +50,10 @@ class UpdatesPage extends StatefulWidget {
 class _UpdatesPageState extends State<UpdatesPage> {
   @override
   Widget build(BuildContext context) {
+    final packageService = getService<PackageService>();
     return DefaultTabController(
       initialIndex: widget.tabIndex,
-      length: 2,
+      length: packageService.isAvailable ? 2 : 1,
       child: Scaffold(
         appBar: AppBar(
           flexibleSpace: TabBar(
@@ -66,19 +69,20 @@ class _UpdatesPageState extends State<UpdatesPage> {
                   label: context.l10n.snapPackages,
                 ),
               ),
-              Tab(
-                icon: _TabChild(
-                  iconData: YaruIcons.debian,
-                  label: context.l10n.debianPackages,
+              if (packageService.isAvailable)
+                Tab(
+                  icon: _TabChild(
+                    iconData: YaruIcons.debian,
+                    label: context.l10n.debianPackages,
+                  ),
                 ),
-              ),
             ],
           ),
         ),
         body: TabBarView(
           children: [
             SnapUpdatesPage.create(context),
-            PackageUpdatesPage.create(context),
+            if (packageService.isAvailable) PackageUpdatesPage.create(context),
           ],
         ),
       ),

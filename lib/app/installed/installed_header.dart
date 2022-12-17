@@ -44,6 +44,7 @@ class InstalledHeader extends StatelessWidget {
           children: [
             AppFormatPopup(
               appFormat: model.appFormat,
+              enabledAppFormats: model.enabledAppFormats,
               onSelected: model.setAppFormat,
             ),
             if (model.appFormat == AppFormat.packageKit)

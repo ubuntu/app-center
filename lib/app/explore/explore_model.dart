@@ -41,12 +41,17 @@ class ExploreModel extends SafeChangeNotifier {
   StreamSubscription<bool>? _sectionsChangedSub;
 
   Future<void> init() async {
+    _enabledAppFormats.add(AppFormat.snap);
     _sectionsChangedSub =
         _snapService.sectionsChanged.listen((_) => notifyListeners());
-    _updatesState = _packageService.lastUpdatesState;
-    _updatesStateSub = _packageService.updatesState.listen((event) {
-      updatesState = event;
-    });
+    if (_packageService.isAvailable) {
+      _enabledAppFormats.add(AppFormat.packageKit);
+      _updatesState = _packageService.lastUpdatesState;
+      _updatesStateSub = _packageService.updatesState.listen((event) {
+        updatesState = event;
+      });
+    }
+    _selectedAppFormats = Set.from(_enabledAppFormats);
   }
 
   @override
@@ -171,17 +176,16 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  final Set<AppFormat> _appFormats = {
-    AppFormat.snap,
-    AppFormat.packageKit,
-  };
-  Set<AppFormat> get appFormats => _appFormats;
+  late final Set<AppFormat> _selectedAppFormats;
+  Set<AppFormat> get selectedAppFormats => _selectedAppFormats;
+  final Set<AppFormat> _enabledAppFormats = {};
+  Set<AppFormat> get enabledAppFormats => _enabledAppFormats;
   void handleAppFormat(AppFormat appFormat) {
-    if (!_appFormats.contains(appFormat)) {
-      _appFormats.add(appFormat);
+    if (!_selectedAppFormats.contains(appFormat)) {
+      _selectedAppFormats.add(appFormat);
     } else {
-      if (_appFormats.length < 2) return;
-      _appFormats.remove(appFormat);
+      if (_selectedAppFormats.length < 2) return;
+      _selectedAppFormats.remove(appFormat);
     }
     notifyListeners();
   }
@@ -190,15 +194,16 @@ class ExploreModel extends SafeChangeNotifier {
   Future<Map<String, AppFinding>> search() async {
     final Map<String, AppFinding> appFindings = {};
 
-    if (appFormats.containsAll([AppFormat.snap, AppFormat.packageKit])) {
+    if (selectedAppFormats
+        .containsAll([AppFormat.snap, AppFormat.packageKit])) {
       final snaps = await findSnapsByQuery();
       for (final snap in snaps) {
         appFindings.putIfAbsent(
           snap.name,
           () => AppFinding(
             snap: snap,
-            rating: Random().nextDouble() * 5,
-            totalRatings: Random().nextInt(3000),
+            rating: fakeRating(),
+            totalRatings: fakeTotalRatings(),
           ),
         );
       }
@@ -210,11 +215,13 @@ class ExploreModel extends SafeChangeNotifier {
         if (snap == null) {
           appFindings.putIfAbsent(
             component.localizedName(),
-            () => AppFinding(
-              appstream: component,
-              rating: Random().nextDouble() * 5,
-              totalRatings: Random().nextInt(3000),
-            ),
+            () {
+              return AppFinding(
+                appstream: component,
+                rating: fakeRating(),
+                totalRatings: fakeTotalRatings(),
+              );
+            },
           );
         } else {
           appFindings.update(
@@ -222,35 +229,35 @@ class ExploreModel extends SafeChangeNotifier {
             (value) => AppFinding(
               snap: snap,
               appstream: component,
-              rating: Random().nextDouble() * 5,
-              totalRatings: Random().nextInt(3000),
+              rating: fakeRating(),
+              totalRatings: fakeTotalRatings(),
             ),
           );
         }
       }
-    } else if (appFormats.contains(AppFormat.snap) &&
-        !(appFormats.contains(AppFormat.packageKit))) {
+    } else if (selectedAppFormats.contains(AppFormat.snap) &&
+        !(selectedAppFormats.contains(AppFormat.packageKit))) {
       final snaps = await findSnapsByQuery();
       for (final snap in snaps) {
         appFindings.putIfAbsent(
           snap.name,
           () => AppFinding(
             snap: snap,
-            rating: Random().nextDouble() * 5,
-            totalRatings: Random().nextInt(3000),
+            rating: fakeRating(),
+            totalRatings: fakeTotalRatings(),
           ),
         );
       }
-    } else if (!appFormats.contains(AppFormat.snap) &&
-        (appFormats.contains(AppFormat.packageKit))) {
+    } else if (!selectedAppFormats.contains(AppFormat.snap) &&
+        (selectedAppFormats.contains(AppFormat.packageKit))) {
       final components = await findAppstreamComponents();
       for (final component in components) {
         appFindings.putIfAbsent(
           component.localizedName(),
           () => AppFinding(
             appstream: component,
-            rating: Random().nextDouble() * 5,
-            totalRatings: Random().nextInt(3000),
+            rating: fakeRating(),
+            totalRatings: fakeTotalRatings(),
           ),
         );
       }
@@ -258,4 +265,8 @@ class ExploreModel extends SafeChangeNotifier {
 
     return appFindings;
   }
+
+  int fakeTotalRatings() => Random().nextInt(3000);
+
+  double fakeRating() => 4.5;
 }
