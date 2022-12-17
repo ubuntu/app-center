@@ -17,6 +17,7 @@
 
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
+import 'package:software/services/packagekit/package_service.dart';
 
 const repoUrl = 'https://github.com/ubuntu-flutter-community/software';
 
@@ -28,11 +29,15 @@ class SettingsModel extends SafeChangeNotifier {
   String version;
 
   String buildNumber;
-  SettingsModel()
+
+  final PackageService _packageService;
+  SettingsModel(this._packageService)
       : appName = '',
         packageName = '',
         version = '',
         buildNumber = '';
+
+  bool get packageKitAvailable => _packageService.isAvailable;
 
   Future<void> init() async {
     final packageInfo = await PackageInfo.fromPlatform();

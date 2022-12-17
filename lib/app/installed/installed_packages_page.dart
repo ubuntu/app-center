@@ -38,7 +38,6 @@ class _InstalledPackagesPageState extends State<InstalledPackagesPage> {
   void initState() {
     super.initState();
     _controller = ScrollController();
-    context.read<InstalledModel>().init();
   }
 
   @override

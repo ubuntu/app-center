@@ -48,9 +48,10 @@ class SearchPage extends StatelessWidget {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final appFinding = snapshot.data!.entries.elementAt(index);
-                  var showSnap = model.appFormats.contains(AppFormat.snap);
+                  var showSnap =
+                      model.selectedAppFormats.contains(AppFormat.snap);
                   var showPackageKit =
-                      model.appFormats.contains(AppFormat.packageKit);
+                      model.selectedAppFormats.contains(AppFormat.packageKit);
                   return AppBanner(
                     appFinding: appFinding,
                     showSnap: showSnap,
