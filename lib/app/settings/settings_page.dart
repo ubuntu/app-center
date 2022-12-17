@@ -19,7 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app.dart';
-import 'package:software/app/common/constants.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/app/common/message_bar.dart';
@@ -32,8 +31,6 @@ import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
-
-const kMinSectionWidth = 400.0;
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -135,7 +132,6 @@ class _ThemeSectionState extends State<ThemeSection> {
         right: kYaruPagePadding,
       ),
       headline: const Text('Theme'),
-      width: kMinSectionWidth,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
