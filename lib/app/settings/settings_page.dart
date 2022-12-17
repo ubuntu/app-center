@@ -63,11 +63,6 @@ class _SettingsPageState extends State<SettingsPage> {
     context.read<SettingsModel>().init();
   }
 
-  bool value = true;
-  int? _listTileValue = 0;
-
-  final themes = ['System', 'Light', 'Dark'];
-
   @override
   Widget build(BuildContext context) {
     return Navigator(
@@ -76,60 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
           builder: (context) {
             return ListView(
               children: [
-                YaruSection(
-                  margin: const EdgeInsets.only(
-                    left: kYaruPagePadding,
-                    top: kYaruPagePadding,
-                    right: kYaruPagePadding,
-                  ),
-                  headline: const Text('Theme'),
-                  width: kMinSectionWidth,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      for (var i = 0; i < 3; ++i)
-                        YaruRadioListTile<int>(
-                          title: Text(
-                            themes[i],
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                          dense: true,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          controlAffinity: ListTileControlAffinity.trailing,
-                          value: i,
-                          groupValue: _listTileValue,
-                          onChanged: (v) => setState(() {
-                            _listTileValue = i;
-                            switch (i) {
-                              case 0:
-                                {
-                                  App.themeNotifier.value = ThemeMode.system;
-                                }
-                                break;
-
-                              case 1:
-                                {
-                                  App.themeNotifier.value = ThemeMode.light;
-                                }
-                                break;
-
-                              case 2:
-                                {
-                                  App.themeNotifier.value = ThemeMode.dark;
-                                }
-                                break;
-                            }
-                          }),
-                          toggleable: true,
-                        ),
-                    ],
-                  ),
-                ),
+                const ThemeSection(),
                 YaruSection(
                   margin: const EdgeInsets.all(kYaruPagePadding),
                   //width: kMinSectionWidth,
@@ -143,6 +85,81 @@ class _SettingsPageState extends State<SettingsPage> {
         );
       },
       onPopPage: (route, result) => route.didPop(result),
+    );
+  }
+}
+
+class ThemeSection extends StatefulWidget {
+  const ThemeSection({Key? key}) : super(key: key);
+
+  @override
+  State<ThemeSection> createState() => _ThemeSectionState();
+}
+
+class _ThemeSectionState extends State<ThemeSection> {
+  int _listTileValue = 0;
+
+  final themes = ['System', 'Light', 'Dark'];
+
+  void onChanged(index) {
+    setState(() {
+      _listTileValue = index;
+      switch (index) {
+        case 0:
+          {
+            App.themeNotifier.value = ThemeMode.system;
+          }
+          break;
+
+        case 1:
+          {
+            App.themeNotifier.value = ThemeMode.light;
+          }
+          break;
+
+        case 2:
+          {
+            App.themeNotifier.value = ThemeMode.dark;
+          }
+          break;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return YaruSection(
+      margin: const EdgeInsets.only(
+        left: kYaruPagePadding,
+        top: kYaruPagePadding,
+        right: kYaruPagePadding,
+      ),
+      headline: const Text('Theme'),
+      width: kMinSectionWidth,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (var i = 0; i < 3; ++i)
+            YaruRadioListTile<int>(
+              title: Text(
+                themes[i],
+                style: const TextStyle(fontSize: 14),
+              ),
+              dense: true,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 8,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(kYaruContainerRadius),
+              ),
+              controlAffinity: ListTileControlAffinity.trailing,
+              value: i,
+              groupValue: _listTileValue,
+              onChanged: onChanged,
+              toggleable: false,
+            ),
+        ],
+      ),
     );
   }
 }
