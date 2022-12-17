@@ -18,9 +18,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
+import 'package:software/app/app.dart';
+import 'package:software/app/common/constants.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
-import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/message_bar.dart';
 import 'package:software/app/settings/repo_dialog.dart';
 import 'package:software/app/settings/settings_model.dart';
@@ -31,6 +32,8 @@ import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+const kMinSectionWidth = 400.0;
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -60,17 +63,81 @@ class _SettingsPageState extends State<SettingsPage> {
     context.read<SettingsModel>().init();
   }
 
+  bool value = true;
+  int? _listTileValue = 0;
+
+  final themes = ['System', 'Light', 'Dark'];
+
   @override
   Widget build(BuildContext context) {
     return Navigator(
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
           builder: (context) {
-            return BorderContainer(
-              childPadding: const EdgeInsets.all(kYaruPagePadding),
-              child: Column(
-                children: [_RepoTile.create(context), const _AboutTile()],
-              ),
+            return ListView(
+              children: [
+                YaruSection(
+                  margin: const EdgeInsets.only(
+                    left: kYaruPagePadding,
+                    top: kYaruPagePadding,
+                    right: kYaruPagePadding,
+                  ),
+                  headline: const Text('Theme'),
+                  width: kMinSectionWidth,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      for (var i = 0; i < 3; ++i)
+                        YaruRadioListTile<int>(
+                          title: Text(
+                            themes[i],
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                          dense: true,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          controlAffinity: ListTileControlAffinity.trailing,
+                          value: i,
+                          groupValue: _listTileValue,
+                          onChanged: (v) => setState(() {
+                            _listTileValue = i;
+                            switch (i) {
+                              case 0:
+                                {
+                                  App.themeNotifier.value = ThemeMode.system;
+                                }
+                                break;
+
+                              case 1:
+                                {
+                                  App.themeNotifier.value = ThemeMode.light;
+                                }
+                                break;
+
+                              case 2:
+                                {
+                                  App.themeNotifier.value = ThemeMode.dark;
+                                }
+                                break;
+                            }
+                          }),
+                          toggleable: true,
+                        ),
+                    ],
+                  ),
+                ),
+                YaruSection(
+                  margin: const EdgeInsets.all(kYaruPagePadding),
+                  //width: kMinSectionWidth,
+                  child: Column(
+                    children: [_RepoTile.create(context), const _AboutTile()],
+                  ),
+                )
+              ],
             );
           },
         );
