@@ -43,6 +43,7 @@ class BannerAppHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scaledFontSize = (800 / appData.title.length.toDouble());
+    final theme = Theme.of(context);
     return Column(
       children: [
         Row(
@@ -60,9 +61,9 @@ class BannerAppHeader extends StatelessWidget {
                 children: [
                   Text(
                     appData.title,
-                    style: Theme.of(context).textTheme.headline3!.copyWith(
-                          fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
-                        ),
+                    style: theme.textTheme.headline3!.copyWith(
+                      fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
+                    ),
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
@@ -94,9 +95,11 @@ class BannerAppHeader extends StatelessWidget {
                         itemSize: 15,
                         itemBuilder: (context, _) => const Icon(
                           YaruIcons.star_filled,
-                          color: kRatingOrange,
+                          color: kStarColor,
                           size: 2,
                         ),
+                        unratedColor:
+                            theme.colorScheme.onSurface.withOpacity(0.2),
                         onRatingUpdate: (rating) {},
                         ignoreGestures: true,
                       )
@@ -133,6 +136,7 @@ class PageAppHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scaledFontSize = (800 / appData.title.length.toDouble());
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -148,9 +152,9 @@ class PageAppHeader extends StatelessWidget {
               padding: const EdgeInsets.all(kYaruPagePadding),
               child: Text(
                 appData.title,
-                style: Theme.of(context).textTheme.headline3!.copyWith(
-                      fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
-                    ),
+                style: theme.textTheme.headline3!.copyWith(
+                  fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
+                ),
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
               ),
@@ -172,9 +176,10 @@ class PageAppHeader extends StatelessWidget {
               itemSize: 15,
               itemBuilder: (context, _) => const Icon(
                 YaruIcons.star_filled,
-                color: kRatingOrange,
+                color: kStarColor,
                 size: 2,
               ),
+              unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
               onRatingUpdate: (rating) {},
               ignoreGestures: true,
             )
@@ -193,7 +198,7 @@ class PageAppHeader extends StatelessWidget {
         ),
         Text(
           appData.summary,
-          style: Theme.of(context).textTheme.bodySmall,
+          style: theme.textTheme.bodySmall,
         ),
       ],
     );

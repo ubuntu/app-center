@@ -174,6 +174,7 @@ class SearchBannerSubtitle extends StatelessWidget {
             children: [
               Row(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   RatingBar.builder(
                     initialRating: appFinding.rating ?? 0,
@@ -182,11 +183,12 @@ class SearchBannerSubtitle extends StatelessWidget {
                     allowHalfRating: true,
                     itemCount: 5,
                     itemPadding: EdgeInsets.zero,
-                    itemSize: 20,
+                    itemSize: 18,
                     itemBuilder: (context, _) => const Icon(
                       YaruIcons.star_filled,
-                      color: kRatingOrange,
+                      color: kStarColor,
                     ),
+                    unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
                     onRatingUpdate: (rating) {},
                     ignoreGestures: true,
                   ),
@@ -221,20 +223,21 @@ class PackageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       children: [
         if (appFinding.snap != null && showSnap)
-          const Icon(
+          Icon(
             YaruIcons.snapcraft,
-            color: kSnapcraftColor,
+            color: theme.disabledColor,
             size: 20,
           ),
         if (appFinding.appstream != null && showPackageKit)
-          const Padding(
-            padding: EdgeInsets.only(left: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
             child: Icon(
               YaruIcons.debian,
-              color: kDebianColor,
+              color: theme.disabledColor,
               size: 20,
             ),
           )
