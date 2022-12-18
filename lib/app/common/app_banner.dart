@@ -142,7 +142,8 @@ class SearchBannerSubtitle extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 150),
               child: Text(
                 publisherName,
                 maxLines: 1,
