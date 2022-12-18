@@ -95,8 +95,6 @@ class ThemeSection extends StatefulWidget {
 class _ThemeSectionState extends State<ThemeSection> {
   int _listTileValue = 0;
 
-  final themes = ['System', 'Light', 'Dark'];
-
   void onChanged(index) {
     setState(() {
       _listTileValue = index;
@@ -124,13 +122,14 @@ class _ThemeSectionState extends State<ThemeSection> {
 
   @override
   Widget build(BuildContext context) {
+    final themes = [context.l10n.system, context.l10n.light, context.l10n.dark];
     return YaruSection(
       margin: const EdgeInsets.only(
         left: kYaruPagePadding,
         top: kYaruPagePadding,
         right: kYaruPagePadding,
       ),
-      headline: const Text('Theme'),
+      headline: Text(context.l10n.theme),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
