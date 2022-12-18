@@ -51,13 +51,13 @@ class App extends StatelessWidget {
       );
 
   static final ValueNotifier<ThemeMode> themeNotifier =
-  ValueNotifier(ThemeMode.system);
+      ValueNotifier(ThemeMode.system);
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
-        valueListenable: themeNotifier,
-        builder: (_, ThemeMode currentMode, __) {
+      valueListenable: themeNotifier,
+      builder: (_, ThemeMode currentMode, __) {
         return YaruTheme(
           builder: (context, yaru, child) {
             return MaterialApp(
@@ -77,7 +77,7 @@ class App extends StatelessWidget {
             );
           },
         );
-      }
+      },
     );
   }
 }
