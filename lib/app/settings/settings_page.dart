@@ -145,7 +145,7 @@ class _ThemeSectionState extends State<ThemeSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          for (var i = 0; i < 3; ++i)
+          for (var i = 0; i < themes.length; ++i)
             YaruRadioListTile<int>(
               title: Text(
                 themes[i],
