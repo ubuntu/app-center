@@ -121,6 +121,18 @@ class _ThemeSectionState extends State<ThemeSection> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (App.themeNotifier.value == ThemeMode.system) {
+      _listTileValue = 0;
+    } else if (App.themeNotifier.value == ThemeMode.light) {
+      _listTileValue = 1;
+    } else if (App.themeNotifier.value == ThemeMode.dark) {
+      _listTileValue = 2;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final themes = [context.l10n.system, context.l10n.light, context.l10n.dark];
     return YaruSection(
