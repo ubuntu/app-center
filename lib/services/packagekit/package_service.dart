@@ -18,6 +18,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dbus/dbus.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
@@ -38,11 +39,19 @@ class MissingPackageIDException implements Exception {
 class PackageService {
   final PackageKitClient _client;
   final NotificationsClient _notificationsClient;
+  bool _serviceAvailable = false;
   PackageService()
       : _client = getService<PackageKitClient>(),
         _notificationsClient = getService<NotificationsClient>() {
-    _client.connect();
+    _client.connect().then((_) {
+      _serviceAvailable = true;
+    }).onError(
+      (_, __) {},
+      test: (error) => error is DBusServiceUnknownException,
+    );
   }
+
+  bool get isAvailable => _serviceAvailable;
 
   final _terminalOutputController = StreamController<String>.broadcast();
   Stream<String> get terminalOutput => _terminalOutputController.stream;

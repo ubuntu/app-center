@@ -37,7 +37,7 @@ class SettingsPage extends StatefulWidget {
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SettingsModel(),
+      create: (_) => SettingsModel(getService<PackageService>()),
       child: const SettingsPage(),
     );
   }
@@ -45,9 +45,8 @@ class SettingsPage extends StatefulWidget {
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.settingsPageTitle);
 
-  static Widget createIcon(BuildContext context, bool selected) => selected
-      ? const Icon(YaruIcons.settings_filled)
-      : const Icon(YaruIcons.settings);
+  static Widget createIcon(BuildContext context, bool selected) =>
+      selected ? const Icon(YaruIcons.gear_filled) : const Icon(YaruIcons.gear);
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
