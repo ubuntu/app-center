@@ -18,9 +18,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
+import 'package:software/app/app.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
-import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/message_bar.dart';
 import 'package:software/app/settings/repo_dialog.dart';
 import 'package:software/app/settings/settings_model.dart';
@@ -65,20 +65,107 @@ class _SettingsPageState extends State<SettingsPage> {
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
           builder: (context) {
-            return BorderContainer(
-              childPadding: const EdgeInsets.all(kYaruPagePadding),
-              child: Column(
-                children: [
-                  if (context.read<SettingsModel>().packageKitAvailable)
-                    _RepoTile.create(context),
-                  const _AboutTile()
-                ],
-              ),
+            return ListView(
+              children: [
+                const ThemeSection(),
+                YaruSection(
+                  margin: const EdgeInsets.all(kYaruPagePadding),
+                  //width: kMinSectionWidth,
+                  child: Column(
+                    children: [_RepoTile.create(context), const _AboutTile()],
+                  ),
+                )
+              ],
             );
           },
         );
       },
       onPopPage: (route, result) => route.didPop(result),
+    );
+  }
+}
+
+class ThemeSection extends StatefulWidget {
+  const ThemeSection({Key? key}) : super(key: key);
+
+  @override
+  State<ThemeSection> createState() => _ThemeSectionState();
+}
+
+class _ThemeSectionState extends State<ThemeSection> {
+  int _listTileValue = 0;
+
+  void onChanged(index) {
+    setState(() {
+      _listTileValue = index;
+      switch (index) {
+        case 0:
+          {
+            App.themeNotifier.value = ThemeMode.system;
+          }
+          break;
+
+        case 1:
+          {
+            App.themeNotifier.value = ThemeMode.light;
+          }
+          break;
+
+        case 2:
+          {
+            App.themeNotifier.value = ThemeMode.dark;
+          }
+          break;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (App.themeNotifier.value == ThemeMode.system) {
+      _listTileValue = 0;
+    } else if (App.themeNotifier.value == ThemeMode.light) {
+      _listTileValue = 1;
+    } else if (App.themeNotifier.value == ThemeMode.dark) {
+      _listTileValue = 2;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final themes = [context.l10n.system, context.l10n.light, context.l10n.dark];
+    return YaruSection(
+      margin: const EdgeInsets.only(
+        left: kYaruPagePadding,
+        top: kYaruPagePadding,
+        right: kYaruPagePadding,
+      ),
+      headline: Text(context.l10n.theme),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (var i = 0; i < themes.length; ++i)
+            YaruRadioListTile<int>(
+              title: Text(
+                themes[i],
+                style: const TextStyle(fontSize: 14),
+              ),
+              dense: true,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 8,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(kYaruContainerRadius),
+              ),
+              controlAffinity: ListTileControlAffinity.trailing,
+              value: i,
+              groupValue: _listTileValue,
+              onChanged: onChanged,
+              toggleable: false,
+            ),
+        ],
+      ),
     );
   }
 }
