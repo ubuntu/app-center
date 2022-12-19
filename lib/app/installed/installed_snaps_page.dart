@@ -21,7 +21,6 @@ import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_grid.dart';
 import 'package:software/app/common/updates_splash_screen.dart';
 import 'package:software/app/installed/installed_model.dart';
-import 'package:software/app/updates/no_updates_page.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class InstalledSnapsPage extends StatefulWidget {
