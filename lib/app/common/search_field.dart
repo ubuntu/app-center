@@ -15,6 +15,7 @@
  *
  */
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:software/l10n/l10n.dart';
@@ -45,6 +46,11 @@ class _SearchFieldState extends State<SearchField> {
     _controller.dispose();
   }
 
+  void onDoubleTap() {
+    _controller.selection =
+        TextSelection(baseOffset: 0, extentOffset: _controller.text.length);
+  }
+
   @override
   Widget build(BuildContext context) {
     return KeyboardListener(
@@ -56,44 +62,47 @@ class _SearchFieldState extends State<SearchField> {
         }
       },
       focusNode: FocusNode(),
-      child: TextField(
-        autofocus: true,
-        controller: _controller,
-        onChanged: widget.onChanged,
-        textInputAction: TextInputAction.send,
-        decoration: InputDecoration(
-          hintText: context.l10n.searchHint,
-          prefixIcon: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Icon(
-              YaruIcons.search,
-              size: 20,
+      child: GestureDetector(
+        onDoubleTap: onDoubleTap,
+        child: TextField(
+          autofocus: true,
+          controller: _controller,
+          onChanged: widget.onChanged,
+          textInputAction: TextInputAction.send,
+          decoration: InputDecoration(
+            hintText: context.l10n.searchHint,
+            prefixIcon: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: Icon(
+                YaruIcons.search,
+                size: 20,
+              ),
             ),
-          ),
-          prefixIconConstraints: const BoxConstraints(
-            minHeight: 45,
-            minWidth: 40,
-          ),
-          isDense: false,
-          border: const UnderlineInputBorder(),
-          enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-          ),
-          suffixIcon: widget.searchQuery.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: IconButton(
-                    onPressed: () {
-                      widget.clear();
-                      _controller.clear();
-                    },
-                    icon: Icon(
-                      YaruIcons.edit_clear,
-                      color: Theme.of(context).hintColor,
+            prefixIconConstraints: const BoxConstraints(
+              minHeight: 45,
+              minWidth: 40,
+            ),
+            isDense: false,
+            border: const UnderlineInputBorder(),
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent),
+            ),
+            suffixIcon: widget.searchQuery.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: IconButton(
+                      onPressed: () {
+                        widget.clear();
+                        _controller.clear();
+                      },
+                      icon: Icon(
+                        YaruIcons.edit_clear,
+                        color: Theme.of(context).hintColor,
+                      ),
                     ),
-                  ),
-                )
-              : null,
+                  )
+                : null,
+          ),
         ),
       ),
     );
