@@ -50,22 +50,31 @@ class App extends StatelessWidget {
         child: const App(),
       );
 
+  static final ValueNotifier<ThemeMode> themeNotifier =
+      ValueNotifier(ThemeMode.system);
+
   @override
   Widget build(BuildContext context) {
-    return YaruTheme(
-      builder: (context, yaru, child) {
-        return MaterialApp(
-          theme: yaru.theme,
-          darkTheme: yaru.darkTheme,
-          debugShowCheckedModeBanner: false,
-          title: 'Ubuntu Software App',
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: supportedLocales,
-          onGenerateTitle: (context) => context.l10n.appTitle,
-          routes: {
-            Navigator.defaultRouteName: (context) {
-              return const _App();
-            },
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeNotifier,
+      builder: (_, ThemeMode currentMode, __) {
+        return YaruTheme(
+          builder: (context, yaru, child) {
+            return MaterialApp(
+              theme: yaru.theme,
+              darkTheme: yaru.darkTheme,
+              themeMode: currentMode,
+              debugShowCheckedModeBanner: false,
+              title: 'Ubuntu Software App',
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: supportedLocales,
+              onGenerateTitle: (context) => context.l10n.appTitle,
+              routes: {
+                Navigator.defaultRouteName: (context) {
+                  return const _App();
+                },
+              },
+            );
           },
         );
       },
