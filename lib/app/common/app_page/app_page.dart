@@ -19,6 +19,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:software/app/common/app_data.dart';
+import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_page/app_description.dart';
 import 'package:software/app/common/app_page/app_header.dart';
 import 'package:software/app/common/app_page/app_infos.dart';
@@ -54,6 +55,8 @@ class AppPage extends StatefulWidget {
     this.onVote,
     this.onFlag,
     this.onFileSelect,
+    this.onAppStreamSelect,
+    this.onSnapSelect,
   });
 
   final AppData appData;
@@ -76,6 +79,8 @@ class AppPage extends StatefulWidget {
   final Function(AppReview, bool)? onVote;
   final Function(AppReview)? onFlag;
   final void Function(String path)? onFileSelect;
+  final void Function()? onSnapSelect;
+  final void Function()? onAppStreamSelect;
 
   @override
   State<AppPage> createState() => _AppPageState();
@@ -100,11 +105,45 @@ class _AppPageState extends State<AppPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final windowSize = MediaQuery.of(context).size;
     final windowWidth = windowSize.width;
     final windowHeight = windowSize.height;
     final isWindowNormalSized = windowWidth > 800 && windowWidth < 1200;
     final isWindowWide = windowWidth > 1200;
+
+    final icon = Stack(
+      alignment: Alignment.bottomRight,
+      children: [
+        widget.icon,
+        PopupMenuButton<AppFormat>(
+          initialValue: widget.appData.appFormat,
+          tooltip: context.l10n.appFormat,
+          itemBuilder: (context) => [
+            PopupMenuItem<AppFormat>(
+              enabled: widget.onSnapSelect != null,
+              onTap: widget.onSnapSelect,
+              child: const Text('Snap'),
+            ),
+            PopupMenuItem<AppFormat>(
+              enabled: widget.onAppStreamSelect != null,
+              onTap: widget.onAppStreamSelect,
+              child: const Text('Debian'),
+            )
+          ],
+          child: YaruBorderContainer(
+            color: theme.backgroundColor,
+            borderRadius: BorderRadius.circular(40),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: widget.appData.appFormat == AppFormat.snap
+                  ? const Icon(YaruIcons.snapcraft)
+                  : const Icon(YaruIcons.debian),
+            ),
+          ),
+        )
+      ],
+    );
 
     final media = BorderContainer(
       child: YaruCarousel(
@@ -156,7 +195,7 @@ class _AppPageState extends State<AppPage> {
       child: BannerAppHeader(
         appData: widget.appData,
         controls: widget.controls,
-        icon: widget.icon,
+        icon: icon,
       ),
     );
 
@@ -164,7 +203,7 @@ class _AppPageState extends State<AppPage> {
       width: 500,
       child: PageAppHeader(
         appData: widget.appData,
-        icon: widget.icon,
+        icon: icon,
         controls: widget.controls,
         subControls: widget.subControlPageHeader,
       ),
@@ -174,7 +213,7 @@ class _AppPageState extends State<AppPage> {
       height: 700,
       child: PageAppHeader(
         appData: widget.appData,
-        icon: widget.icon,
+        icon: icon,
         controls: widget.controls,
         subControls: widget.subControlPageHeader,
       ),

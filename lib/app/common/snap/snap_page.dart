@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/snap_service.dart';
@@ -34,14 +35,15 @@ import 'package:software/app/common/snap/snap_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class SnapPage extends StatefulWidget {
-  const SnapPage({super.key, this.appstream});
+  const SnapPage({super.key, this.appstream, required this.snap});
 
   /// Optional AppstreamComponent if found
   final AppstreamComponent? appstream;
+  final Snap snap;
 
   static Widget create({
     required BuildContext context,
-    required String huskSnapName,
+    required Snap snap,
     PackageKitPackageId? packageId,
     AppstreamComponent? appstream,
   }) =>
@@ -49,10 +51,11 @@ class SnapPage extends StatefulWidget {
         create: (_) => SnapModel(
           doneMessage: context.l10n.done,
           getService<SnapService>(),
-          huskSnapName: huskSnapName,
+          huskSnapName: snap.name,
         ),
         child: SnapPage(
           appstream: appstream,
+          snap: snap,
         ),
       );
 
@@ -67,7 +70,26 @@ class SnapPage extends StatefulWidget {
         builder: (BuildContext context) {
           return SnapPage.create(
             context: context,
-            huskSnapName: snap.name,
+            snap: snap,
+            appstream: appstream,
+          );
+        },
+      ),
+    );
+  }
+
+  static Future<void> pushReplacement({
+    required BuildContext context,
+    required Snap snap,
+    AppstreamComponent? appstream,
+  }) {
+    return Navigator.pushReplacement(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return SnapPage.create(
+            context: context,
+            snap: snap,
             appstream: appstream,
           );
         },
@@ -114,6 +136,7 @@ class _SnapPageState extends State<SnapPage> {
               model.version,
       userReviews: model.userReviews,
       averageRating: model.averageRating,
+      appFormat: AppFormat.snap,
     );
 
     return !initialized
@@ -126,23 +149,7 @@ class _SnapPageState extends State<SnapPage> {
                     child: SnapConnectionsSettings(),
                   )
                 : null,
-            controls: widget.appstream != null
-                ? Wrap(
-                    runSpacing: 20,
-                    spacing: 10,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      const SnapControls(),
-                      OutlinedButton(
-                        onPressed: () => PackagePage.push(
-                          context,
-                          appstream: widget.appstream,
-                        ),
-                        child: const Text('Switch to Debian'),
-                      ),
-                    ],
-                  )
-                : const SnapControls(),
+            controls: const SnapControls(),
             icon: AppIcon(
               iconUrl: model.iconUrl,
               size: 150,
@@ -158,6 +165,13 @@ class _SnapPageState extends State<SnapPage> {
             reviewUser: model.reviewUser,
             onVote: model.voteReview,
             onFlag: model.flagReview,
+            onAppStreamSelect: widget.appstream != null
+                ? () => PackagePage.pushReplacement(
+                      context,
+                      appstream: widget.appstream,
+                      snap: widget.snap,
+                    )
+                : null,
           );
   }
 }
