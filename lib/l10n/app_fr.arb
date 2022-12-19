@@ -282,5 +282,17 @@
   "configure": "Configurer",
   "@configure": {},
   "sourcesDescription": "Définir depuis quels dépôts les paquets Debian sont mis à jour.",
-  "@sourcesDescription": {}
+  "@sourcesDescription": {},
+  "snapPackage": "Snap",
+  "@snapPackage": {},
+  "light": "Clair",
+  "@light": {},
+  "system": "Par défaut du système",
+  "@system": {},
+  "theme": "Thème",
+  "@theme": {},
+  "dark": "Sombre",
+  "@dark": {},
+  "debianPackage": "Debian",
+  "@debianPackage": {}
 }
