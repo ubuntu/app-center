@@ -21,6 +21,7 @@ import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_grid.dart';
 import 'package:software/app/common/updates_splash_screen.dart';
 import 'package:software/app/installed/installed_model.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class InstalledSnapsPage extends StatefulWidget {
@@ -65,8 +66,7 @@ class NoSnapsPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Tooltip(
-            message: 'No Snaps installed',
+          const SizedBox(
             child: Icon(
               YaruIcons.important,
               size: 90,
@@ -76,7 +76,7 @@ class NoSnapsPage extends StatelessWidget {
             height: 20,
           ),
           Text(
-            'No Snaps installed',
+            context.l10n.noSnapsInstalled,
             style: Theme.of(context).textTheme.headlineMedium,
           ),
           const SizedBox(
