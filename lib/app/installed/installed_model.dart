@@ -70,6 +70,8 @@ class InstalledModel extends SafeChangeNotifier {
     super.dispose();
   }
 
+  bool _isLoadingSnapsCompleted = false;
+  bool get isLoadingSnapsCompleted => _isLoadingSnapsCompleted;
   Future<void> _loadLocalSnaps() async {
     List<Snap> snaps =
         await _snapService.getLocalSnaps().timeout(const Duration(seconds: 40));
@@ -78,6 +80,7 @@ class InstalledModel extends SafeChangeNotifier {
       _localSnaps.clear();
       _localSnaps.addAll(snaps);
     }
+    _isLoadingSnapsCompleted = true;
   }
 
   String? _searchQuery;

@@ -42,12 +42,10 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
             )
             .toList();
 
-    if (model.localSnaps.isEmpty) {
-      return model.loadSnapsWithUpdates
-          ? const NoUpdatesPage(
-              expand: false,
-            )
-          : const LoadingBannerGrid();
+    if (model.localSnaps.isEmpty && !model.isLoadingSnapsCompleted) {
+      return const LoadingBannerGrid();
+    } else if (model.localSnaps.isEmpty && model.isLoadingSnapsCompleted) {
+      return const NoSnapsPage();
     }
 
     return model.busy
@@ -56,5 +54,37 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
             expanded: false,
           )
         : SnapGrid(snaps: snaps);
+  }
+}
+
+class NoSnapsPage extends StatelessWidget {
+  const NoSnapsPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Tooltip(
+            message: 'No Snaps installed',
+            child: Icon(
+              YaruIcons.important,
+              size: 90,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Text(
+            'No Snaps installed',
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          const SizedBox(
+            height: 100,
+          ),
+        ],
+      ),
+    );
   }
 }
