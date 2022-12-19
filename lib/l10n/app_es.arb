@@ -290,5 +290,7 @@
   "dark": "Oscuro",
   "@dark": {},
   "system": "Sistema",
-  "@system": {}
+  "@system": {},
+  "debianPackage": "Debian",
+  "@debianPackage": {}
 }
