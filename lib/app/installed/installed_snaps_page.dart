@@ -66,11 +66,9 @@ class NoSnapsPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const SizedBox(
-            child: Icon(
-              YaruIcons.important,
-              size: 90,
-            ),
+          const Icon(
+            YaruIcons.important,
+            size: 90,
           ),
           const SizedBox(
             height: 20,
