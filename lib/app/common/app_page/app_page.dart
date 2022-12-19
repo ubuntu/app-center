@@ -116,30 +116,14 @@ class _AppPageState extends State<AppPage> {
       alignment: Alignment.bottomRight,
       children: [
         widget.icon,
-        PopupMenuButton<AppFormat>(
-          initialValue: widget.appData.appFormat,
-          tooltip: context.l10n.appFormat,
-          itemBuilder: (context) => [
-            PopupMenuItem<AppFormat>(
-              enabled: widget.onSnapSelect != null,
-              onTap: widget.onSnapSelect,
-              child: const Text('Snap'),
-            ),
-            PopupMenuItem<AppFormat>(
-              enabled: widget.onAppStreamSelect != null,
-              onTap: widget.onAppStreamSelect,
-              child: const Text('Debian'),
-            )
-          ],
-          child: YaruBorderContainer(
-            color: theme.backgroundColor,
-            borderRadius: BorderRadius.circular(40),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: widget.appData.appFormat == AppFormat.snap
-                  ? const Icon(YaruIcons.snapcraft)
-                  : const Icon(YaruIcons.debian),
-            ),
+        YaruBorderContainer(
+          color: theme.backgroundColor,
+          borderRadius: BorderRadius.circular(40),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: widget.appData.appFormat == AppFormat.snap
+                ? const Icon(YaruIcons.snapcraft)
+                : const Icon(YaruIcons.debian),
           ),
         )
       ],

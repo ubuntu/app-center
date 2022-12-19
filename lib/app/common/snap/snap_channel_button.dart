@@ -17,10 +17,12 @@
 
 import 'dart:io';
 
+import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/constants.dart';
+import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/snap/snap_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -28,20 +30,15 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class SnapChannelPopupButton extends StatelessWidget {
   const SnapChannelPopupButton({
     Key? key,
+    this.appstream,
   }) : super(key: key);
+
+  final AppstreamComponent? appstream;
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
     final theme = Theme.of(context);
-    final labelStyle = TextStyle(
-      color: theme.disabledColor,
-      fontSize: 14,
-    );
-    const infoStyle = TextStyle(
-      overflow: TextOverflow.ellipsis,
-      fontSize: 14,
-    );
     final light = theme.brightness == Brightness.light;
 
     return YaruPopupMenuButton(
@@ -54,82 +51,26 @@ class SnapChannelPopupButton extends StatelessWidget {
             padding: EdgeInsets.zero,
             onTap: () =>
                 model.channelToBeInstalled = model.getSelectableChannelName(i),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              context.l10n.channel,
-                              style: labelStyle,
-                              maxLines: 1,
-                              textAlign: TextAlign.end,
-                            ),
-                            Text(
-                              context.l10n.version,
-                              style: labelStyle,
-                              maxLines: 1,
-                              textAlign: TextAlign.end,
-                            ),
-                            Text(
-                              context.l10n.releasedAt,
-                              style: labelStyle,
-                              maxLines: 1,
-                              textAlign: TextAlign.end,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              model.getSelectableChannelName(i),
-                              style: infoStyle,
-                              maxLines: 1,
-                            ),
-                            Text(
-                              model.getSelectableChannel(i).version,
-                              style: infoStyle,
-                              maxLines: 1,
-                            ),
-                            Text(
-                              DateFormat.yMd(Platform.localeName).format(
-                                model.getSelectableChannel(i).releasedAt,
-                              ),
-                              style: infoStyle,
-                              maxLines: 1,
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                ),
-                if (i < model.selectableChannels.length - 1)
-                  const Divider(
-                    height: 0,
-                  )
-              ],
+            child: _Item(
+              name: model.getSelectableChannelName(i),
+              version: model.getSelectableChannel(i).version,
+              releasedAt: DateFormat.yMd(Platform.localeName).format(
+                model.getSelectableChannel(i).releasedAt,
+              ),
+              apendDivider:
+                  i < model.selectableChannels.length - 1 || appstream != null,
+            ),
+          ),
+        if (appstream != null)
+          PopupMenuItem(
+            child: _Item(
+              name: context.l10n.debianPackage,
+              version: '',
+              releasedAt: '',
+            ),
+            onTap: () => PackagePage.push(
+              context,
+              appstream: appstream,
             ),
           )
       ],
@@ -139,6 +80,108 @@ class SnapChannelPopupButton extends StatelessWidget {
             ? TextStyle(color: light ? kGreenLight : kGreenDark)
             : null,
       ),
+    );
+  }
+}
+
+class _Item extends StatelessWidget {
+  const _Item({
+    this.apendDivider = false,
+    required this.name,
+    required this.version,
+    required this.releasedAt,
+  });
+
+  final bool apendDivider;
+  final String name;
+  final String version;
+  final String releasedAt;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final labelStyle = TextStyle(
+      color: theme.disabledColor,
+      fontSize: 14,
+    );
+    const infoStyle = TextStyle(
+      overflow: TextOverflow.ellipsis,
+      fontSize: 14,
+    );
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      context.l10n.channel,
+                      style: labelStyle,
+                      maxLines: 1,
+                      textAlign: TextAlign.end,
+                    ),
+                    Text(
+                      context.l10n.version,
+                      style: labelStyle,
+                      maxLines: 1,
+                      textAlign: TextAlign.end,
+                    ),
+                    Text(
+                      context.l10n.releasedAt,
+                      style: labelStyle,
+                      maxLines: 1,
+                      textAlign: TextAlign.end,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: infoStyle,
+                      maxLines: 1,
+                    ),
+                    Text(
+                      version,
+                      style: infoStyle,
+                      maxLines: 1,
+                    ),
+                    Text(
+                      releasedAt,
+                      style: infoStyle,
+                      maxLines: 1,
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+            ],
+          ),
+        ),
+        if (apendDivider)
+          const Divider(
+            height: 0,
+          )
+      ],
     );
   }
 }

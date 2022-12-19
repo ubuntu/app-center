@@ -63,38 +63,23 @@ class SnapPage extends StatefulWidget {
     required BuildContext context,
     required Snap snap,
     AppstreamComponent? appstream,
+    bool replace = false,
   }) {
-    return Navigator.push(
-      context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          return SnapPage.create(
-            context: context,
-            snap: snap,
-            appstream: appstream,
-          );
-        },
-      ),
+    final route = MaterialPageRoute<void>(
+      builder: (BuildContext context) {
+        return SnapPage.create(
+          context: context,
+          snap: snap,
+          appstream: appstream,
+        );
+      },
     );
-  }
-
-  static Future<void> pushReplacement({
-    required BuildContext context,
-    required Snap snap,
-    AppstreamComponent? appstream,
-  }) {
-    return Navigator.pushReplacement(
-      context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          return SnapPage.create(
-            context: context,
-            snap: snap,
-            appstream: appstream,
+    return replace
+        ? Navigator.pushReplacement(context, route)
+        : Navigator.push(
+            context,
+            route,
           );
-        },
-      ),
-    );
   }
 
   @override
@@ -149,7 +134,9 @@ class _SnapPageState extends State<SnapPage> {
                     child: SnapConnectionsSettings(),
                   )
                 : null,
-            controls: const SnapControls(),
+            controls: SnapControls(
+              appstream: widget.appstream,
+            ),
             icon: AppIcon(
               iconUrl: model.iconUrl,
               size: 150,
@@ -166,10 +153,11 @@ class _SnapPageState extends State<SnapPage> {
             onVote: model.voteReview,
             onFlag: model.flagReview,
             onAppStreamSelect: widget.appstream != null
-                ? () => PackagePage.pushReplacement(
+                ? () => PackagePage.push(
                       context,
                       appstream: widget.appstream,
                       snap: widget.snap,
+                      replace: true,
                     )
                 : null,
           );

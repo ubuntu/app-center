@@ -69,46 +69,37 @@ class PackagePage extends StatefulWidget {
     PackageKitPackageId? id,
     AppstreamComponent? appstream,
     Snap? snap,
+    bool replace = false,
   }) {
     assert(id != null || appstream != null);
     return (id == null ? appstream!.packageKitId : Future.value(id)).then(
-      (id) => Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) {
-            return PackagePage.create(
-              context: context,
-              packageId: id,
-              appstream: appstream,
-              snap: snap,
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  static Future<void> pushReplacement(
-    BuildContext context, {
-    PackageKitPackageId? id,
-    AppstreamComponent? appstream,
-    Snap? snap,
-  }) {
-    assert(id != null || appstream != null);
-    return (id == null ? appstream!.packageKitId : Future.value(id)).then(
-      (id) => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) {
-            return PackagePage.create(
-              context: context,
-              packageId: id,
-              appstream: appstream,
-              snap: snap,
-            );
-          },
-        ),
-      ),
+      (id) => replace
+          ? Navigator.pushReplacement(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) {
+                  return PackagePage.create(
+                    context: context,
+                    packageId: id,
+                    appstream: appstream,
+                    snap: snap,
+                  );
+                },
+              ),
+            )
+          : Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) {
+                  return PackagePage.create(
+                    context: context,
+                    packageId: id,
+                    appstream: appstream,
+                    snap: snap,
+                  );
+                },
+              ),
+            ),
     );
   }
 
@@ -184,9 +175,10 @@ class _PackagePageState extends State<PackagePage> {
             reviewTitle: model.reviewTitle,
             reviewUser: model.reviewUser,
             onSnapSelect: widget.snap != null
-                ? () => SnapPage.pushReplacement(
+                ? () => SnapPage.push(
                       context: context,
                       snap: widget.snap!,
+                      replace: true,
                     )
                 : null,
           );

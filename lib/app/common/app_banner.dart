@@ -57,12 +57,14 @@ class AppBanner extends StatelessWidget {
               PackagePage.push(
                 context,
                 appstream: appFinding.value.appstream!,
+                snap: appFinding.value.snap,
               );
             }
             if (appFinding.value.snap != null && showSnap) {
               SnapPage.push(
                 context: context,
                 snap: appFinding.value.snap!,
+                appstream: appFinding.value.appstream,
               );
             }
           };
