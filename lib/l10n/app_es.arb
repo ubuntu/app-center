@@ -292,5 +292,7 @@
   "system": "Sistema",
   "@system": {},
   "debianPackage": "Debian",
-  "@debianPackage": {}
+  "@debianPackage": {},
+  "snapPackage": "Snap",
+  "@snapPackage": {}
 }
