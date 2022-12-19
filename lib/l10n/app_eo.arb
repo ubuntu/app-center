@@ -278,5 +278,21 @@
   "utilitiesSlogan": "Pliutiligu vian komputilon",
   "@utilitiesSlogan": {},
   "yourReviewName": "Via nomo (nedeviga)",
-  "@yourReviewName": {}
+  "@yourReviewName": {},
+  "sourcesDescription": "Agordi la fontojn, laŭ kiuj ĝisdatiĝos viaj sistemaj kaj triapartiaj Debian-pakoj.",
+  "@sourcesDescription": {},
+  "snapPackage": "Snap",
+  "@snapPackage": {},
+  "system": "Sistema",
+  "@system": {},
+  "debianPackage": "Debian",
+  "@debianPackage": {},
+  "light": "Hela",
+  "@light": {},
+  "theme": "Etoso",
+  "@theme": {},
+  "dark": "Malhela",
+  "@dark": {},
+  "configure": "Agordi",
+  "@configure": {}
 }
