@@ -52,6 +52,9 @@ class ExploreModel extends SafeChangeNotifier {
       });
     }
     _selectedAppFormats = Set.from(_enabledAppFormats);
+    // Remove classic packages from search until AppStreamService.init is faster
+    // See https://github.com/ubuntu-flutter-community/software/issues/663
+    _selectedAppFormats.remove(AppFormat.packageKit);
   }
 
   @override
