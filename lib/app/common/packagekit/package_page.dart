@@ -139,9 +139,11 @@ class _PackagePageState extends State<PackagePage> {
       userReviews: model.userReviews,
       averageRating: model.averageRating,
       appFormat: AppFormat.packageKit,
+      versionChanged: model.versionChanged,
     );
     var packageControls = PackageControls(
       isInstalled: model.isInstalled,
+      versionChanged: model.versionChanged,
       packageState: model.packageState,
       remove: () => model.remove(),
       install: () => model.install(),

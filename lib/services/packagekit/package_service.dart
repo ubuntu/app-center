@@ -453,6 +453,8 @@ class PackageService {
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         model.isInstalled = event.info == PackageKitInfo.installed;
+        model.versionChanged =
+            event.packageId.version != model.packageId?.version;
       } else if (event is PackageKitFinishedEvent) {
         model.isInstalled ??= false;
         model.packageState = PackageState.ready;

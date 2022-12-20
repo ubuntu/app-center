@@ -26,12 +26,14 @@ class PackageControls extends StatelessWidget {
     required this.install,
     required this.remove,
     required this.packageState,
+    required this.versionChanged,
   });
 
   final bool? isInstalled;
   final VoidCallback install;
   final VoidCallback remove;
   final PackageState packageState;
+  final bool? versionChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class PackageControls extends StatelessWidget {
       spacing: 10,
       runSpacing: 10,
       children: [
-        if (isInstalled == null)
+        if (isInstalled == false)
           const SizedBox.shrink()
         else if (isInstalled!)
           OutlinedButton(
@@ -53,6 +55,11 @@ class PackageControls extends StatelessWidget {
           ElevatedButton(
             onPressed: packageState != PackageState.ready ? null : install,
             child: Text(context.l10n.install),
+          ),
+        if (isInstalled == true && versionChanged == true)
+          ElevatedButton(
+            onPressed: packageState != PackageState.ready ? null : install,
+            child: Text(context.l10n.refresh),
           )
       ],
     );
