@@ -282,5 +282,13 @@
   "configure": "Configurar",
   "@configure": {},
   "sourcesDescription": "Configure desde dónde se actualizan su sistema y los paquetes Debian de terceros.",
-  "@sourcesDescription": {}
+  "@sourcesDescription": {},
+  "light": "Claro",
+  "@light": {},
+  "theme": "Tema",
+  "@theme": {},
+  "dark": "Oscuro",
+  "@dark": {},
+  "system": "Sistema",
+  "@system": {}
 }
