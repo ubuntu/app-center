@@ -35,7 +35,7 @@
   "@social": {},
   "utilities": "Verktyg",
   "@utilities": {},
-  "all": "Sök alla",
+  "all": "Alla snap-kategorier",
   "@all": {},
   "installDate": "Installationsdatum",
   "@installDate": {},
@@ -210,5 +210,13 @@
   "confinement": "Isolering",
   "@confinement": {},
   "attention": "OBS!",
-  "@attention": {}
+  "@attention": {},
+  "artAndDesignSlogan": "Verktyg för konstnärer",
+  "@artAndDesignSlogan": {},
+  "booksAndReferenceSlogan": "Organisera din boksamling",
+  "@booksAndReferenceSlogan": {},
+  "developmentSlogan": "Program för utvecklare",
+  "@developmentSlogan": {},
+  "devicesAndIotSlogan": "Enheter och IOT",
+  "@devicesAndIotSlogan": {}
 }
