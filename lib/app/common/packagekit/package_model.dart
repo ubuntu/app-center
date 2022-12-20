@@ -197,6 +197,14 @@ class PackageModel extends AppModel {
     notifyListeners();
   }
 
+  bool? _versionChanged;
+  bool? get versionChanged => _versionChanged;
+  set versionChanged(bool? value) {
+    if (value == _versionChanged) return;
+    _versionChanged = value;
+    notifyListeners();
+  }
+
   Future<void> _updateDetails([void _]) async {
     assert(_packageId != null);
     return _service.getDetails(model: this);
