@@ -16,6 +16,7 @@
  */
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
@@ -29,6 +30,8 @@ class SnapService {
   Map<Snap, SnapdChange> get snapChanges => _snapChanges;
   final SnapdClient _snapDClient;
   final NotificationsClient _notificationsClient;
+
+  static bool isSnapdInstalled = true;
 
   Future<void> _addChange(Snap snap, String id, String doneString) async {
     final newChange = await _snapDClient.getChange(id);
@@ -84,6 +87,9 @@ class SnapService {
             await _loadSection(section);
           } on SnapdException catch (e) {
             throw SnapdException(message: e.message);
+          } on SocketException {
+            isSnapdInstalled  = false;
+            print("Is snapd installed: $isSnapdInstalled");
           }
         }
       });

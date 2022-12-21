@@ -21,6 +21,7 @@ import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_grid.dart';
 import 'package:software/app/common/updates_splash_screen.dart';
 import 'package:software/app/installed/installed_model.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
@@ -42,10 +43,16 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
             )
             .toList();
 
-    if (model.localSnaps.isEmpty && !model.isLoadingSnapsCompleted) {
+    if (!SnapService.isSnapdInstalled) {
+      return const NoSnapsPage(
+        message: 'Snapd is not installed on your system!',
+      );
+    } else if (model.localSnaps.isEmpty && !model.isLoadingSnapsCompleted) {
       return const LoadingBannerGrid();
     } else if (model.localSnaps.isEmpty && model.isLoadingSnapsCompleted) {
-      return const NoSnapsPage();
+      return NoSnapsPage(
+        message: context.l10n.noSnapsInstalled,
+      );
     }
 
     return model.busy
@@ -58,7 +65,9 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
 }
 
 class NoSnapsPage extends StatelessWidget {
-  const NoSnapsPage({Key? key}) : super(key: key);
+  final String message;
+
+  const NoSnapsPage({required this.message, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +83,7 @@ class NoSnapsPage extends StatelessWidget {
             height: 20,
           ),
           Text(
-            context.l10n.noSnapsInstalled,
+            message,
             style: Theme.of(context).textTheme.headlineMedium,
           ),
           const SizedBox(

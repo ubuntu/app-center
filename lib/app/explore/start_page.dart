@@ -22,11 +22,13 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/snapx.dart';
+import 'package:software/app/installed/installed_snaps_page.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/section_banner.dart';
 import 'package:software/app/explore/section_grid.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 
 class StartPage extends StatefulWidget {
@@ -81,6 +83,10 @@ class _StartPageState extends State<StartPage> {
       bannerSnap = snapsWithIcons.elementAt(_randomSnapIndex);
       bannerSnap2 = snapsWithIcons.elementAt(_randomSnapIndex + 1);
       bannerSnap3 = snapsWithIcons.elementAt(_randomSnapIndex + 2);
+    }
+
+    if (!SnapService.isSnapdInstalled) {
+      return NoSnapsPage(message: "Snapd is not installed on your system");
     }
 
     if (bannerSnap == null || bannerSnap2 == null || bannerSnap3 == null) {
