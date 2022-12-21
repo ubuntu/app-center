@@ -66,17 +66,6 @@ class InstalledHeader extends StatelessWidget {
                 icon: const Icon(Icons.upgrade_rounded),
                 tooltip: context.l10n.updateAvailable,
               ),
-            if (model.appFormat == AppFormat.snap &&
-                model.loadSnapsWithUpdates &&
-                model.localSnaps.isNotEmpty)
-              ElevatedButton(
-                onPressed: model.busy
-                    ? null
-                    : () => model.refreshSnaps(
-                          doneMessage: context.l10n.done,
-                        ),
-                child: Text(context.l10n.refresh),
-              )
           ],
         ),
       ),
