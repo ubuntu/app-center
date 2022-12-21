@@ -37,7 +37,10 @@ class SnapUpdatesPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => SnapUpdatesModel(
         getService<SnapService>(),
-      )..init(),
+      )..init(
+          onRefreshError: (e) => ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(e))),
+        ),
       child: const SnapUpdatesPage(),
     );
   }
