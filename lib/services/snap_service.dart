@@ -176,6 +176,9 @@ class SnapService {
     return await findLocalSnap(snap.name);
   }
 
+  final _refreshErrorController = StreamController<String>.broadcast();
+  Stream<String> get refreshError => _refreshErrorController.stream;
+
   Future<Snap?> refresh({
     required Snap snap,
     required String message,
@@ -183,16 +186,25 @@ class SnapService {
     required SnapConfinement confinement,
   }) async {
     if (channel.isNotEmpty) {
-      final changeId = await _snapDClient.refresh(
-        snap.name,
-        channel: channel,
-        classic: confinement == SnapConfinement.classic,
-      );
-      await _addChange(
-        snap,
-        changeId,
-        message,
-      );
+      try {
+        final changeId = await _snapDClient.refresh(
+          snap.name,
+          channel: channel,
+          classic: confinement == SnapConfinement.classic,
+        );
+
+        await _addChange(
+          snap,
+          changeId,
+          message,
+        );
+      } on SnapdException catch (e) {
+        if (e.message.contains('has running apps')) {
+          _refreshErrorController.add(
+            '${snap.name} has running apps, close ${snap.name} to update.',
+          );
+        }
+      }
     }
 
     return await findLocalSnap(snap.name);
