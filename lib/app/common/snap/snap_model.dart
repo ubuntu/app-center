@@ -18,10 +18,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/services/color_generator.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
 import 'package:software/app/common/app_model.dart';
@@ -31,7 +29,6 @@ class SnapModel extends AppModel {
   SnapModel(
     this._snapService, {
     required this.doneMessage,
-    this.colorGenerator,
     required this.huskSnapName,
     this.online = true,
   })  : _snapChangeInProgress = true,
@@ -85,9 +82,6 @@ class SnapModel extends AppModel {
 
   /// The service to handle all snap related actions.
   final SnapService _snapService;
-
-  /// Used for some banners to have a generated color tint.
-  final ColorGenerator? colorGenerator;
 
   /// [SnapDClient] does not return information about channels of a [Snap] unless
   /// they are found by name. Thus we instantiate [SnapModel] only with the [huskSnapName]
@@ -357,23 +351,6 @@ class SnapModel extends AppModel {
       doneMessage: doneMessage,
       value: value,
     );
-  }
-
-  Color? _surfaceTintColor;
-  Color get surfaceTintColor {
-    if (_surfaceTintColor == null && colorGenerator != null) {
-      _generateSurfaceTintColor();
-    }
-    return _surfaceTintColor ?? Colors.transparent;
-  }
-
-  Future<void> _generateSurfaceTintColor() async {
-    final url = _storeSnap?.iconUrl;
-    final color = url != null ? await colorGenerator?.generateColor(url) : null;
-    if (_surfaceTintColor != color) {
-      _surfaceTintColor = color;
-      notifyListeners();
-    }
   }
 
   void open() {
