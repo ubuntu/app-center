@@ -38,6 +38,7 @@ const kDebianColor = Color(0xFFdb2264);
 const kGreenLight = Color.fromARGB(255, 51, 121, 63);
 const kGreenDark = Color.fromARGB(255, 128, 211, 143);
 const kStarColor = Color(0xFFf99b11);
+const kStarDevColor = Color(0xFFb24a26);
 const kCheckForUpdateTimeOutInMinutes = 30;
 const kFakeReviewText =
     'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
