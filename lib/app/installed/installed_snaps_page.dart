@@ -17,8 +17,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snapd/snapd.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_grid.dart';
+import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:software/app/common/updates_splash_screen.dart';
 import 'package:software/app/installed/installed_model.dart';
 import 'package:software/app/updates/no_updates_page.dart';
@@ -34,27 +36,46 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<InstalledModel>();
-    final snaps = model.searchQuery == null
-        ? model.localSnaps
-        : model.localSnaps
-            .where(
-              (s) => s.name.startsWith(model.searchQuery!),
-            )
-            .toList();
 
-    if (model.localSnaps.isEmpty) {
-      return model.loadSnapsWithUpdates
-          ? const NoUpdatesPage(
-              expand: false,
-            )
-          : const LoadingBannerGrid();
+    if (model.loadSnapsWithUpdates) {
+      return FutureBuilder<List<Snap>>(
+        future: model.localSnapsWithUpdate,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const UpdatesSplashScreen(
+              icon: YaruIcons.snapcraft,
+              expanded: false,
+            );
+          } else {
+            if (!snapshot.hasData) {
+              return const NoUpdatesPage();
+            } else {
+              return SnapGrid(
+                snaps: sortSnaps(
+                  snapSort: model.snapSort,
+                  snaps: snapshot.data!,
+                ),
+              );
+            }
+          }
+        },
+      );
+    } else {
+      if (model.localSnaps.isEmpty) {
+        return const LoadingBannerGrid();
+      } else {
+        final snaps = model.searchQuery == null
+            ? model.localSnaps
+            : model.localSnaps
+                .where((snap) => snap.name.startsWith(model.searchQuery!))
+                .toList();
+        return SnapGrid(
+          snaps: sortSnaps(
+            snapSort: model.snapSort,
+            snaps: snaps,
+          ),
+        );
+      }
     }
-
-    return model.busy
-        ? const UpdatesSplashScreen(
-            icon: YaruIcons.snapcraft,
-            expanded: false,
-          )
-        : SnapGrid(snaps: snaps);
   }
 }

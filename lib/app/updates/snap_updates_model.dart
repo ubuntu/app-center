@@ -59,6 +59,8 @@ class SnapUpdatesModel extends SafeChangeNotifier {
     checkingForUpdates = false;
   }
 
+  void notify() => notifyListeners();
+
   Future<List<Snap>> loadSnapsWithUpdate() async =>
       await _snapService.loadSnapsWithUpdate();
 
@@ -67,7 +69,7 @@ class SnapUpdatesModel extends SafeChangeNotifier {
     required List<Snap> snaps,
   }) async {
     for (var snap in snaps) {
-      await _snapService.refresh(
+      _snapService.refresh(
         snap: snap,
         message: doneMessage,
         confinement: snap.confinement,

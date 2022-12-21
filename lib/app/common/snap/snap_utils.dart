@@ -1,4 +1,5 @@
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/snap/snap_sort.dart';
 
 bool isSnapUpdateAvailable({required Snap storeSnap, required Snap localSnap}) {
   if (storeSnap.name == 'snapcraft') return false;
@@ -47,4 +48,34 @@ String getTrackingChannel({
   } else {
     return '';
   }
+}
+
+List<Snap> sortSnaps({
+  required SnapSort snapSort,
+  required List<Snap> snaps,
+}) {
+  switch (snapSort) {
+    case SnapSort.name:
+      snaps.sort((a, b) => a.name.compareTo(b.name));
+      break;
+
+    case SnapSort.size:
+      snaps.sort(
+        (a, b) {
+          if (a.installedSize == null || b.installedSize == null) return 0;
+          return b.installedSize!.compareTo(a.installedSize!);
+        },
+      );
+      break;
+
+    case SnapSort.installDate:
+      snaps.sort(
+        (a, b) {
+          if (a.installDate == null || b.installDate == null) return 0;
+          return a.installDate!.compareTo(b.installDate!);
+        },
+      );
+      break;
+  }
+  return snaps;
 }

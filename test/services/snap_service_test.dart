@@ -90,8 +90,8 @@ void main() {
 
   test('get local snaps', () async {
     when(mockSnapdClient.getSnaps).thenAnswer((_) async => [snap1, snap2]);
-
-    final snaps = await service.getLocalSnaps();
+    await service.loadLocalSnaps();
+    final snaps = service.localSnaps;
     expect(snaps, equals([snap1, snap2]));
     verify(mockSnapdClient.getSnaps).called(1);
   });
