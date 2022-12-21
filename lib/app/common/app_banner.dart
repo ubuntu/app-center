@@ -164,6 +164,25 @@ class SearchBannerSubtitle extends StatelessWidget {
                   color: light ? kGreenLight : kGreenDark,
                   size: 12,
                 ),
+              ),
+            if (appFinding.snap?.starredDeveloper == true)
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: const [
+                    Icon(
+                      Icons.circle,
+                      color: Colors.white,
+                      size: 9,
+                    ),
+                    Icon(
+                      Icons.stars,
+                      color: kStarDevColor,
+                      size: 12,
+                    ),
+                  ],
+                ),
               )
           ],
         ),
