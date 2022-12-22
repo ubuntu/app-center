@@ -282,5 +282,17 @@
   "configure": "Настроить",
   "@configure": {},
   "sourcesDescription": "Настройте источники для обновления системы и остальных Debian пакетов.",
-  "@sourcesDescription": {}
+  "@sourcesDescription": {},
+  "system": "Системная",
+  "@system": {},
+  "light": "Светлая",
+  "@light": {},
+  "dark": "Темная",
+  "@dark": {},
+  "debianPackage": "Debian",
+  "@debianPackage": {},
+  "snapPackage": "Snap",
+  "@snapPackage": {},
+  "theme": "Тема",
+  "@theme": {}
 }
