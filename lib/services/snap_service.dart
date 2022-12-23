@@ -89,7 +89,6 @@ class SnapService {
             throw SnapdException(message: e.message);
           } on SocketException {
             isSnapdInstalled  = false;
-            print("Is snapd installed: $isSnapdInstalled");
           }
         }
       });
@@ -121,6 +120,7 @@ class SnapService {
       snaps = await _snapDClient.getSnaps();
     }
     on SocketException {
+      isSnapdInstalled = false;
       return localSnaps;
     }
     if (snaps.length != _localSnaps.length) {

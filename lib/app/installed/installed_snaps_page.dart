@@ -18,13 +18,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_grid.dart';
 import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:software/app/common/updates_splash_screen.dart';
 import 'package:software/app/installed/installed_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
+import '../../services/snap_service.dart';
 import '../common/error_page.dart';
 import '../updates/no_updates_page.dart';
 
@@ -62,22 +62,31 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
         },
       );
     } else {
-      if (model.localSnaps.isEmpty) {
-        return const ErrorPage(message: "no snaps installed", icon: YaruIcons.warning,);
-      } else {
-        final snaps = model.searchQuery == null
-            ? model.localSnaps
-            : model.localSnaps
-                .where((snap) => snap.name.startsWith(model.searchQuery!))
-                .toList();
-        return SnapGrid(
-          snaps: sortSnaps(
-            snapSort: model.snapSort,
-            snaps: snaps,
-          ),
+      if (!SnapService.isSnapdInstalled) {
+        return const ErrorPage(
+          icon: YaruIcons.warning,
+          message: 'Snapd is not installed on your system',
         );
+      } else {
+        if (model.localSnaps.isEmpty) {
+          return const ErrorPage(
+            message: 'no snaps installed',
+            icon: YaruIcons.warning,
+          );
+        } else {
+          final snaps = model.searchQuery == null
+              ? model.localSnaps
+              : model.localSnaps
+                  .where((snap) => snap.name.startsWith(model.searchQuery!))
+                  .toList();
+          return SnapGrid(
+            snaps: sortSnaps(
+              snapSort: model.snapSort,
+              snaps: snaps,
+            ),
+          );
+        }
       }
     }
   }
 }
-

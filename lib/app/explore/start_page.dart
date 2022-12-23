@@ -88,8 +88,9 @@ class _StartPageState extends State<StartPage> {
 
     if (!SnapService.isSnapdInstalled) {
       return const ErrorPage(
-          icon: YaruIcons.warning,
-          message: "Snapd is not installed on your system");
+        icon: YaruIcons.warning,
+        message: 'Snapd is not installed on your system',
+      );
     }
 
     if (bannerSnap == null || bannerSnap2 == null || bannerSnap3 == null) {
