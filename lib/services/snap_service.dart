@@ -88,7 +88,7 @@ class SnapService {
           } on SnapdException catch (e) {
             throw SnapdException(message: e.message);
           } on SocketException {
-            isSnapdInstalled  = false;
+            isSnapdInstalled = false;
           }
         }
       });
@@ -118,8 +118,7 @@ class SnapService {
     final List<Snap> snaps;
     try {
       snaps = await _snapDClient.getSnaps();
-    }
-    on SocketException {
+    } on SocketException {
       isSnapdInstalled = false;
       return localSnaps;
     }
