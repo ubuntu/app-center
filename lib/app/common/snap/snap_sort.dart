@@ -33,3 +33,20 @@ enum SnapSort {
     }
   }
 }
+
+enum StoreSnapSort {
+  name,
+  releasedAt,
+  downloadSize;
+
+  String localize(AppLocalizations l10n) {
+    switch (this) {
+      case StoreSnapSort.name:
+        return l10n.name;
+      case StoreSnapSort.releasedAt:
+        return l10n.releasedAt;
+      case StoreSnapSort.downloadSize:
+        return l10n.size;
+    }
+  }
+}

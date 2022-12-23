@@ -22,6 +22,7 @@ import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
+import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
 
@@ -32,6 +33,11 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
+    final onlySnaps = model.selectedAppFormats.contains(AppFormat.snap) &&
+        !model.selectedAppFormats.contains(AppFormat.packageKit);
+    final showSnap = model.selectedAppFormats.contains(AppFormat.snap);
+    final showPackageKit =
+        model.selectedAppFormats.contains(AppFormat.packageKit);
 
     return FutureBuilder<Map<String, AppFinding>>(
       future: model.search(),
@@ -40,26 +46,33 @@ class SearchPage extends StatelessWidget {
           return const LoadingBannerGrid();
         }
 
-        return snapshot.hasData && snapshot.data!.isNotEmpty
-            ? GridView.builder(
-                padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-                gridDelegate: kGridDelegate,
-                shrinkWrap: true,
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  final appFinding = snapshot.data!.entries.elementAt(index);
-                  var showSnap =
-                      model.selectedAppFormats.contains(AppFormat.snap);
-                  var showPackageKit =
-                      model.selectedAppFormats.contains(AppFormat.packageKit);
-                  return AppBanner(
-                    appFinding: appFinding,
-                    showSnap: showSnap,
-                    showPackageKit: showPackageKit,
-                  );
-                },
-              )
-            : _NoSearchResultPage(message: context.l10n.noPackageFound);
+        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          var appFindings = snapshot.data!;
+
+          if (onlySnaps) {
+            appFindings = sortAppFindings(
+              storeSnapSort: model.storeSnapSort,
+              appFindings: appFindings,
+            );
+          }
+          return GridView.builder(
+            padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+            gridDelegate: kGridDelegate,
+            shrinkWrap: true,
+            itemCount: appFindings.length,
+            itemBuilder: (context, index) {
+              final appFinding = appFindings.entries.elementAt(index);
+
+              return AppBanner(
+                appFinding: appFinding,
+                showSnap: showSnap,
+                showPackageKit: showPackageKit,
+              );
+            },
+          );
+        } else {
+          return _NoSearchResultPage(message: context.l10n.noPackageFound);
+        }
       },
     );
   }

@@ -15,14 +15,13 @@
  *
  */
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/app_banner.dart';
 import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/snap/snap_section.dart';
+import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:software/app/explore/explore_model.dart';
 
 class SectionGrid extends StatelessWidget {
@@ -45,10 +44,17 @@ class SectionGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sections = context.select((ExploreModel m) {
+    final snaps = context.select((ExploreModel m) {
       return m.sectionNameToSnapsMap[snapSection]?.take(initialAmount).toList();
     });
-    if (sections == null || sections.isEmpty) return const SizedBox();
+    if (snaps == null || snaps.isEmpty) return const SizedBox();
+    final storeSnapSort = context.select((ExploreModel m) => m.storeSnapSort);
+    // TODO: get real ratings from backend
+    final fakeRating = context.select((ExploreModel m) => m.fakeRating());
+    final totalRatings =
+        context.select((ExploreModel m) => m.fakeTotalRatings());
+
+    sortStoreSnaps(storeSnapSort: storeSnapSort, snaps: snaps);
 
     return GridView.builder(
       physics: ignoreScrolling ? const NeverScrollableScrollPhysics() : null,
@@ -56,17 +62,17 @@ class SectionGrid extends StatelessWidget {
           padding ?? const EdgeInsets.only(bottom: 20, left: 20, right: 20),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
-      itemCount: sections.length,
+      itemCount: snaps.length,
       itemBuilder: (context, index) {
-        final snap = sections.elementAt(index);
+        final snap = snaps.elementAt(index);
 
         return AppBanner(
           appFinding: MapEntry<String, AppFinding>(
             snap.name,
             AppFinding(
               snap: snap,
-              rating: 4.5,
-              totalRatings: Random().nextInt(3000),
+              rating: fakeRating,
+              totalRatings: totalRatings,
             ),
           ),
           showSnap: true,

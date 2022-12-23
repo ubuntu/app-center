@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_format_popup.dart';
 import 'package:software/app/common/snap/snap_section_popup.dart';
+import 'package:software/app/common/snap/snap_sort_popup.dart';
 import 'package:software/app/explore/explore_model.dart';
 
 class ExploreHeader extends StatelessWidget {
@@ -31,7 +32,12 @@ class ExploreHeader extends StatelessWidget {
             if (model.selectedAppFormats.contains(AppFormat.snap))
               SnapSectionPopup(
                 value: model.selectedSection,
-                onSelected: (v) => model.selectedSection = v,
+                onSelected: (v) => model.setSelectedSection(v),
+              ),
+            if (model.selectedAppFormats.contains(AppFormat.snap))
+              StoreSnapSortPopup(
+                value: model.storeSnapSort,
+                onSelected: (v) => model.setStoreSnapSort(v),
               ),
 
             // TODO: wait for packagekit.dart to implement PackageKitGroup

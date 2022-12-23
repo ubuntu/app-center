@@ -53,3 +53,37 @@ class SnapSortPopup extends StatelessWidget {
     );
   }
 }
+
+class StoreSnapSortPopup extends StatelessWidget {
+  const StoreSnapSortPopup({
+    Key? key,
+    required this.value,
+    required this.onSelected,
+    this.enabled = true,
+  }) : super(key: key);
+  final StoreSnapSort value;
+  final void Function(StoreSnapSort value) onSelected;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    return YaruPopupMenuButton(
+      enabled: enabled,
+      initialValue: value,
+      onSelected: onSelected,
+      tooltip: context.l10n.sortBy,
+      itemBuilder: (v) => [
+        for (var appFormat in StoreSnapSort.values)
+          PopupMenuItem(
+            value: appFormat,
+            onTap: () => onSelected(appFormat),
+            child: Text(
+              appFormat.localize(context.l10n),
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+      ],
+      child: Text('${context.l10n.sortBy}: ${value.localize(context.l10n)}'),
+    );
+  }
+}

@@ -115,7 +115,7 @@ class ExploreModel extends SafeChangeNotifier {
 
   SnapSection _selectedSection = SnapSection.all;
   SnapSection get selectedSection => _selectedSection;
-  set selectedSection(SnapSection value) {
+  void setSelectedSection(SnapSection value) {
     if (value == _selectedSection) return;
     _selectedSection = value;
     notifyListeners();
@@ -152,11 +152,11 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  SnapSort _snapSort = SnapSort.name;
-  SnapSort get snapSort => _snapSort;
-  void setSnapSort(SnapSort value) {
-    if (value == _snapSort) return;
-    _snapSort = value;
+  StoreSnapSort _storeSnapSort = StoreSnapSort.name;
+  StoreSnapSort get storeSnapSort => _storeSnapSort;
+  void setStoreSnapSort(StoreSnapSort value) {
+    if (value == _storeSnapSort) return;
+    _storeSnapSort = value;
     notifyListeners();
   }
 
@@ -269,7 +269,8 @@ class ExploreModel extends SafeChangeNotifier {
     return appFindings;
   }
 
-  int fakeTotalRatings() => Random().nextInt(3000);
+  final random = Random();
+  int fakeTotalRatings() => random.nextInt(3000);
 
   double fakeRating() => 4.5;
 }

@@ -24,4 +24,5 @@ extension SnapX on Snap {
       media.where((m) => m.type == 'screenshot').map((m) => m.url).toList();
   bool get verified => publisher?.validation == 'verified';
   bool get starredDeveloper => publisher?.validation == 'starred';
+  DateTime? get releasedAt => channels.entries.firstOrNull?.value.releasedAt;
 }
