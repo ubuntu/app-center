@@ -42,7 +42,12 @@ class InstalledModel extends SafeChangeNotifier {
 
   // Local snaps
   List<Snap> get localSnaps => _snapService.localSnaps;
-  Future<void> loadLocalSnaps() async => _snapService.loadLocalSnaps();
+  bool _isLoadingSnapsCompleted = false;
+  bool get isLoadingSnapsCompleted => _isLoadingSnapsCompleted;
+  Future<void> loadLocalSnaps() async {
+    _snapService.loadLocalSnaps();
+    _isLoadingSnapsCompleted = true;
+  }
 
   // Local snaps with update
   Future<List<Snap>> get localSnapsWithUpdate async =>

@@ -69,7 +69,7 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
           message: 'Snapd is not installed on your system',
         );
       } else {
-        if (model.localSnaps.isEmpty) {
+        if (model.localSnaps.isEmpty && !model.isLoadingSnapsCompleted) {
           return const LoadingBannerGrid();
         } else {
           final snaps = model.searchQuery == null
