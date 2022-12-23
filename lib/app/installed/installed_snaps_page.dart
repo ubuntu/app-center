@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_grid.dart';
 import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:software/app/common/updates_splash_screen.dart';
@@ -69,10 +70,7 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
         );
       } else {
         if (model.localSnaps.isEmpty) {
-          return const ErrorPage(
-            message: 'no snaps installed',
-            icon: YaruIcons.warning,
-          );
+          return const LoadingBannerGrid();
         } else {
           final snaps = model.searchQuery == null
               ? model.localSnaps
