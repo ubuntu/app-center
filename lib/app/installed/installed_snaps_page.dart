@@ -25,6 +25,7 @@ import 'package:software/app/common/updates_splash_screen.dart';
 import 'package:software/app/installed/installed_model.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
+import '../common/error_page.dart';
 import '../updates/no_updates_page.dart';
 
 class InstalledSnapsPage extends StatefulWidget {
@@ -62,7 +63,7 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
       );
     } else {
       if (model.localSnaps.isEmpty) {
-        return const LoadingBannerGrid();
+        return const ErrorPage(message: "no snaps installed", icon: YaruIcons.warning,);
       } else {
         final snaps = model.searchQuery == null
             ? model.localSnaps
