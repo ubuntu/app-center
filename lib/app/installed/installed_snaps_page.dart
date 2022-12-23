@@ -17,14 +17,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snapd/snapd.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_grid.dart';
+import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:software/app/common/updates_splash_screen.dart';
 import 'package:software/app/installed/installed_model.dart';
-import 'package:software/app/common/error_page.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+
+import '../updates/no_updates_page.dart';
 
 class InstalledSnapsPage extends StatefulWidget {
   const InstalledSnapsPage({Key? key}) : super(key: key);
@@ -36,34 +37,46 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<InstalledModel>();
-    final snaps = model.searchQuery == null
-        ? model.localSnaps
-        : model.localSnaps
-            .where(
-              (s) => s.name.startsWith(model.searchQuery!),
-            )
-            .toList();
-
-    if (!SnapService.isSnapdInstalled) {
-      return const ErrorPage(
-        icon: YaruIcons.warning,
-        message: 'Snapd is not installed on your system!',
+    if (model.loadSnapsWithUpdates) {
+      return FutureBuilder<List<Snap>>(
+        future: model.localSnapsWithUpdate,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const UpdatesSplashScreen(
+              icon: YaruIcons.snapcraft,
+              expanded: false,
+            );
+          } else {
+            if (!snapshot.hasData) {
+              return const NoUpdatesPage();
+            } else {
+              return SnapGrid(
+                snaps: sortSnaps(
+                  snapSort: model.snapSort,
+                  snaps: snapshot.data!,
+                ),
+              );
+            }
+          }
+        },
       );
-    } else if (model.localSnaps.isEmpty && !model.isLoadingSnapsCompleted) {
-      return const LoadingBannerGrid();
-    } else if (model.localSnaps.isEmpty && model.isLoadingSnapsCompleted) {
-      return ErrorPage(
-        icon: YaruIcons.warning,
-        message: context.l10n.noSnapsInstalled,
-      );
+    } else {
+      if (model.localSnaps.isEmpty) {
+        return const LoadingBannerGrid();
+      } else {
+        final snaps = model.searchQuery == null
+            ? model.localSnaps
+            : model.localSnaps
+                .where((snap) => snap.name.startsWith(model.searchQuery!))
+                .toList();
+        return SnapGrid(
+          snaps: sortSnaps(
+            snapSort: model.snapSort,
+            snaps: snaps,
+          ),
+        );
+      }
     }
-
-    return model.busy
-        ? const UpdatesSplashScreen(
-            icon: YaruIcons.snapcraft,
-            expanded: false,
-          )
-        : SnapGrid(snaps: snaps);
   }
 }
 

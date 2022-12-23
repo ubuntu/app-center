@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
 import 'package:software/l10n/l10n.dart';
@@ -68,22 +69,37 @@ class PackagePage extends StatefulWidget {
     PackageKitPackageId? id,
     AppstreamComponent? appstream,
     Snap? snap,
+    bool replace = false,
   }) {
     assert(id != null || appstream != null);
     return (id == null ? appstream!.packageKitId : Future.value(id)).then(
-      (id) => Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) {
-            return PackagePage.create(
-              context: context,
-              packageId: id,
-              appstream: appstream,
-              snap: snap,
-            );
-          },
-        ),
-      ),
+      (id) => replace
+          ? Navigator.pushReplacement(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) {
+                  return PackagePage.create(
+                    context: context,
+                    packageId: id,
+                    appstream: appstream,
+                    snap: snap,
+                  );
+                },
+              ),
+            )
+          : Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) {
+                  return PackagePage.create(
+                    context: context,
+                    packageId: id,
+                    appstream: appstream,
+                    snap: snap,
+                  );
+                },
+              ),
+            ),
     );
   }
 
@@ -122,9 +138,12 @@ class _PackagePageState extends State<PackagePage> {
       description: model.description,
       userReviews: model.userReviews,
       averageRating: model.averageRating,
+      appFormat: AppFormat.packageKit,
+      versionChanged: model.versionChanged,
     );
     var packageControls = PackageControls(
       isInstalled: model.isInstalled,
+      versionChanged: model.versionChanged,
       packageState: model.packageState,
       remove: () => model.remove(),
       install: () => model.install(),
@@ -147,20 +166,7 @@ class _PackagePageState extends State<PackagePage> {
               iconUrl: model.iconUrl,
               size: 150,
             ),
-            controls: widget.snap != null
-                ? Wrap(
-                    runSpacing: 20,
-                    spacing: 10,
-                    children: [
-                      packageControls,
-                      OutlinedButton(
-                        onPressed: () =>
-                            SnapPage.push(context: context, snap: widget.snap!),
-                        child: const Text('Switch to Snap'),
-                      )
-                    ],
-                  )
-                : packageControls,
+            controls: packageControls,
             onReviewSend: model.sendReview,
             onRatingUpdate: (v) => model.reviewRating = v,
             onReviewTitleChanged: (v) => model.reviewTitle = v,
@@ -170,6 +176,13 @@ class _PackagePageState extends State<PackagePage> {
             review: model.review,
             reviewTitle: model.reviewTitle,
             reviewUser: model.reviewUser,
+            onSnapSelect: widget.snap != null
+                ? () => SnapPage.push(
+                      context: context,
+                      snap: widget.snap!,
+                      replace: true,
+                    )
+                : null,
           );
   }
 }

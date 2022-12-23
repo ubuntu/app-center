@@ -28,7 +28,7 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class SnapUpdatesPage extends StatefulWidget {
+class SnapUpdatesPage extends StatelessWidget {
   const SnapUpdatesPage({Key? key}) : super(key: key);
 
   static Widget create(
@@ -37,20 +37,12 @@ class SnapUpdatesPage extends StatefulWidget {
     return ChangeNotifierProvider(
       create: (context) => SnapUpdatesModel(
         getService<SnapService>(),
-      ),
+      )..init(
+          onRefreshError: (e) => ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(e))),
+        ),
       child: const SnapUpdatesPage(),
     );
-  }
-
-  @override
-  State<SnapUpdatesPage> createState() => _SnapUpdatesPageState();
-}
-
-class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<SnapUpdatesModel>().init();
   }
 
   @override
@@ -60,6 +52,13 @@ class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
     return FutureBuilder<List<Snap>>(
       future: model.loadSnapsWithUpdate(),
       builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const UpdatesSplashScreen(
+            expanded: false,
+            icon: YaruIcons.snapcraft,
+          );
+        }
+
         final List<Snap> snaps = snapshot.hasData ? snapshot.data! : [];
 
         return Column(
@@ -73,17 +72,18 @@ class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
               ),
               child: Row(
                 children: [
-                  if (snaps.isNotEmpty)
-                    ElevatedButton(
-                      onPressed: model.checkingForUpdates ||
-                              snapshot.connectionState != ConnectionState.done
-                          ? null
-                          : () => model.refreshAll(
-                                doneMessage: context.l10n.done,
-                                snaps: snaps,
-                              ),
-                      child: Text(context.l10n.updateButton),
-                    ),
+                  ElevatedButton(
+                    onPressed: snaps.isEmpty ||
+                            (model.checkingForUpdates ||
+                                snapshot.connectionState !=
+                                    ConnectionState.done)
+                        ? null
+                        : () => model.refreshAll(
+                              doneMessage: context.l10n.done,
+                              snaps: snaps,
+                            ),
+                    child: Text(context.l10n.updateButton),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -91,7 +91,7 @@ class _SnapUpdatesPageState extends State<SnapUpdatesPage> {
                     onPressed: model.checkingForUpdates ||
                             snapshot.connectionState != ConnectionState.done
                         ? null
-                        : () => model.checkForUpdates(),
+                        : () => model.notify(),
                     child: Text(
                       context.l10n.refreshButton,
                     ),

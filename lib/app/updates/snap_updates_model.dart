@@ -28,12 +28,18 @@ class SnapUpdatesModel extends SafeChangeNotifier {
 
   final SnapService _snapService;
   StreamSubscription<bool>? _snapChangesSub;
+  StreamSubscription<String>? _refreshErrorSub;
 
-  Future<void> init() async {
+  Future<void> init({Function(String)? onRefreshError}) async {
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       checkingForUpdates = true;
       if (_snapService.snapChanges.isEmpty) {
         loadSnapsWithUpdate().then((_) => checkingForUpdates = false);
+      }
+    });
+    _refreshErrorSub = _snapService.refreshError.listen((event) {
+      if (onRefreshError != null) {
+        onRefreshError(event);
       }
     });
   }
@@ -41,7 +47,7 @@ class SnapUpdatesModel extends SafeChangeNotifier {
   @override
   Future<void> dispose() async {
     await _snapChangesSub?.cancel();
-
+    await _refreshErrorSub?.cancel();
     super.dispose();
   }
 
@@ -59,6 +65,8 @@ class SnapUpdatesModel extends SafeChangeNotifier {
     checkingForUpdates = false;
   }
 
+  void notify() => notifyListeners();
+
   Future<List<Snap>> loadSnapsWithUpdate() async =>
       await _snapService.loadSnapsWithUpdate();
 
@@ -67,7 +75,7 @@ class SnapUpdatesModel extends SafeChangeNotifier {
     required List<Snap> snaps,
   }) async {
     for (var snap in snaps) {
-      await _snapService.refresh(
+      _snapService.refresh(
         snap: snap,
         message: doneMessage,
         confinement: snap.confinement,

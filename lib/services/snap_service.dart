@@ -113,15 +113,15 @@ class SnapService {
     }
   }
 
-  Future<List<Snap>> getLocalSnaps() async {
-    final List<Snap> localSnaps = [];
-    try {
-      localSnaps.addAll((await _snapDClient.getSnaps()));
+  final List<Snap> _localSnaps = [];
+  List<Snap> get localSnaps => _localSnaps;
+  Future<List<Snap>> loadLocalSnaps() async {
+    final snaps = (await _snapDClient.getSnaps());
+    if (snaps.length != _localSnaps.length) {
+      _localSnaps.clear();
+      _localSnaps.addAll(snaps);
     }
-    on SocketException {
-      return localSnaps;
-    }
-    return localSnaps;
+    return _localSnaps;
   }
 
   Future<List<Snap>> findSnapsByQuery({
@@ -182,6 +182,9 @@ class SnapService {
     return await findLocalSnap(snap.name);
   }
 
+  final _refreshErrorController = StreamController<String>.broadcast();
+  Stream<String> get refreshError => _refreshErrorController.stream;
+
   Future<Snap?> refresh({
     required Snap snap,
     required String message,
@@ -189,16 +192,25 @@ class SnapService {
     required SnapConfinement confinement,
   }) async {
     if (channel.isNotEmpty) {
-      final changeId = await _snapDClient.refresh(
-        snap.name,
-        channel: channel,
-        classic: confinement == SnapConfinement.classic,
-      );
-      await _addChange(
-        snap,
-        changeId,
-        message,
-      );
+      try {
+        final changeId = await _snapDClient.refresh(
+          snap.name,
+          channel: channel,
+          classic: confinement == SnapConfinement.classic,
+        );
+
+        await _addChange(
+          snap,
+          changeId,
+          message,
+        );
+      } on SnapdException catch (e) {
+        if (e.message.contains('has running apps')) {
+          _refreshErrorController.add(
+            '${snap.name} has running apps, close ${snap.name} to update.',
+          );
+        }
+      }
     }
 
     return await findLocalSnap(snap.name);
@@ -287,8 +299,9 @@ class SnapService {
   }
 
   final List<Snap> _snapsWithUpdate = [];
+  List<Snap> get snapsWithUpdate => _snapsWithUpdate;
   Future<List<Snap>> loadSnapsWithUpdate() async {
-    List<Snap> localSnaps = await getLocalSnaps();
+    List<Snap> localSnaps = await _snapDClient.getSnaps();
 
     Map<Snap, Snap> localSnapsToStoreSnaps = {};
     for (var snap in localSnaps) {
@@ -304,8 +317,10 @@ class SnapService {
       );
     }).toList();
 
-    _snapsWithUpdate.clear();
-    _snapsWithUpdate.addAll(snapsWithUpdates);
+    if (_snapsWithUpdate.length != snapsWithUpdates.length) {
+      _snapsWithUpdate.clear();
+      _snapsWithUpdate.addAll(snapsWithUpdates);
+    }
 
     return _snapsWithUpdate;
   }

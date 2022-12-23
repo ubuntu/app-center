@@ -30,7 +30,7 @@ class InstalledModel extends SafeChangeNotifier {
   InstalledModel(
     this._packageService,
     this._snapService,
-  ) : _localSnaps = [];
+  );
 
   StreamSubscription<bool>? _installedSub;
 
@@ -39,16 +39,18 @@ class InstalledModel extends SafeChangeNotifier {
 
   final SnapService _snapService;
   StreamSubscription<bool>? _snapChangesSub;
-  final List<Snap> _localSnaps;
-  List<Snap> get localSnaps => _localSnaps;
+
+  // Local snaps
+  List<Snap> get localSnaps => _snapService.localSnaps;
+  Future<void> loadLocalSnaps() async => _snapService.loadLocalSnaps();
+
+  // Local snaps with update
+  Future<List<Snap>> get localSnapsWithUpdate async =>
+      await _snapService.loadSnapsWithUpdate();
 
   Future<void> init() async {
-    await _loadLocalSnaps();
-    _localSnaps.sort((a, b) => a.name.compareTo(b.name));
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
-      if (_snapService.snapChanges.isEmpty) {
-        _loadLocalSnaps().then((value) => notifyListeners());
-      }
+      if (_snapService.snapChanges.isEmpty) {}
     });
     _enabledAppFormats.add(AppFormat.snap);
     if (_packageService.isAvailable) {
@@ -59,6 +61,7 @@ class InstalledModel extends SafeChangeNotifier {
       await _packageService.getInstalledPackages(filters: packageKitFilters);
     }
 
+    await loadLocalSnaps();
     notifyListeners();
   }
 
@@ -68,19 +71,6 @@ class InstalledModel extends SafeChangeNotifier {
     _installedSub?.cancel();
 
     super.dispose();
-  }
-
-  bool _isLoadingSnapsCompleted = false;
-  bool get isLoadingSnapsCompleted => _isLoadingSnapsCompleted;
-  Future<void> _loadLocalSnaps() async {
-    List<Snap> snaps =
-        await _snapService.getLocalSnaps().timeout(const Duration(seconds: 40));
-
-    if (snaps.isNotEmpty) {
-      _localSnaps.clear();
-      _localSnaps.addAll(snaps);
-    }
-    _isLoadingSnapsCompleted = true;
   }
 
   String? _searchQuery;
@@ -138,29 +128,6 @@ class InstalledModel extends SafeChangeNotifier {
   void setSnapSort(SnapSort value) {
     if (value == _snapSort) return;
     _snapSort = value;
-    switch (snapSort) {
-      case SnapSort.name:
-        _localSnaps.sort((a, b) => a.name.compareTo(b.name));
-        break;
-
-      case SnapSort.size:
-        _localSnaps.sort(
-          (a, b) {
-            if (a.installedSize == null || b.installedSize == null) return 0;
-            return b.installedSize!.compareTo(a.installedSize!);
-          },
-        );
-        break;
-
-      case SnapSort.installDate:
-        _localSnaps.sort(
-          (a, b) {
-            if (a.installDate == null || b.installDate == null) return 0;
-            return a.installDate!.compareTo(b.installDate!);
-          },
-        );
-        break;
-    }
     notifyListeners();
   }
 
@@ -169,29 +136,6 @@ class InstalledModel extends SafeChangeNotifier {
   set loadSnapsWithUpdates(bool value) {
     if (value == _loadSnapsWithUpdates) return;
     _loadSnapsWithUpdates = value;
-    busy = true;
-    if (value) {
-      _loadSnapsWithUpdate().then((_) => busy = false);
-    } else {
-      _loadLocalSnaps().then((_) => busy = false);
-    }
-  }
-
-  Future<void> _loadSnapsWithUpdate() async {
-    final snapsWithUpdates = await _snapService.loadSnapsWithUpdate();
-    _localSnaps.clear();
-    _localSnaps.addAll(snapsWithUpdates);
-  }
-
-  Future<void> refreshSnaps({required String doneMessage}) async {
-    for (var snap in _localSnaps) {
-      await _snapService.refresh(
-        snap: snap,
-        message: doneMessage,
-        confinement: snap.confinement,
-        channel: snap.channel,
-      );
-      notifyListeners();
-    }
+    notifyListeners();
   }
 }

@@ -15,20 +15,23 @@
  *
  */
 
+import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:software/app/common/snap/snap_channel_button.dart';
 import 'package:software/app/common/snap/snap_model.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapControls extends StatelessWidget {
   const SnapControls({
     Key? key,
     this.direction = Axis.horizontal,
+    this.appstream,
   }) : super(key: key);
 
   final Axis direction;
+  final AppstreamComponent? appstream;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +85,9 @@ class SnapControls extends StatelessWidget {
                 ),
               if (model.selectableChannels.isNotEmpty &&
                   model.selectableChannels.length > 1)
-                const SnapChannelPopupButton(),
+                SnapChannelPopupButton(
+                  appstream: appstream,
+                ),
             ],
     );
   }
