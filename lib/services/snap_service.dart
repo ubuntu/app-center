@@ -115,7 +115,12 @@ class SnapService {
 
   Future<List<Snap>> getLocalSnaps() async {
     final List<Snap> localSnaps = [];
-    localSnaps.addAll((await _snapDClient.getSnaps()));
+    try {
+      localSnaps.addAll((await _snapDClient.getSnaps()));
+    }
+    on SocketException {
+      return localSnaps;
+    }
     return localSnaps;
   }
 

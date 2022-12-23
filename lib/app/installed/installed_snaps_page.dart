@@ -21,6 +21,7 @@ import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_grid.dart';
 import 'package:software/app/common/updates_splash_screen.dart';
 import 'package:software/app/installed/installed_model.dart';
+import 'package:software/app/common/error_page.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -44,13 +45,15 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
             .toList();
 
     if (!SnapService.isSnapdInstalled) {
-      return const NoSnapsPage(
+      return const ErrorPage(
+        icon: YaruIcons.warning,
         message: 'Snapd is not installed on your system!',
       );
     } else if (model.localSnaps.isEmpty && !model.isLoadingSnapsCompleted) {
       return const LoadingBannerGrid();
     } else if (model.localSnaps.isEmpty && model.isLoadingSnapsCompleted) {
-      return NoSnapsPage(
+      return ErrorPage(
+        icon: YaruIcons.warning,
         message: context.l10n.noSnapsInstalled,
       );
     }
@@ -64,33 +67,3 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
   }
 }
 
-class NoSnapsPage extends StatelessWidget {
-  final String message;
-
-  const NoSnapsPage({required this.message, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Icon(
-            YaruIcons.important,
-            size: 90,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            message,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const SizedBox(
-            height: 100,
-          ),
-        ],
-      ),
-    );
-  }
-}
