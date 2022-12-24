@@ -23,6 +23,7 @@ import 'package:software/app/common/snap/snap_grid.dart';
 import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:software/app/common/updates_splash_screen.dart';
 import 'package:software/app/installed/installed_model.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 import '../../services/snap_service.dart';
@@ -64,14 +65,17 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
       );
     } else {
       if (!SnapService.isSnapdInstalled) {
-        return const ErrorPage(
+        return ErrorPage(
           icon: YaruIcons.warning,
-          message: 'Snapd is not installed on your system',
+          message: context.l10n.noSnapdInstalled,
         );
       } else {
         if (model.localSnaps.isEmpty) {
           if (model.isLoadingSnapsCompleted) {
-            return const ErrorPage(message: 'No Snaps installed', icon: YaruIcons.warning);
+            return ErrorPage(
+              icon: YaruIcons.warning,
+              message: context.l10n.noSnapsInstalled,
+            );
           }
           return const LoadingBannerGrid();
         } else {

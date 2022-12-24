@@ -138,6 +138,7 @@
   "refreshing": "Refreshing",
   "attention": "Attention!",
   "noSnapsInstalled": "No Snaps installed",
+  "noSnapdInstalled": "Snapd is not installed",
   "theme": "Theme",
   "system": "System",
   "light": "Light",

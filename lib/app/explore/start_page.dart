@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/app/common/error_page.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
@@ -87,9 +88,9 @@ class _StartPageState extends State<StartPage> {
     }
 
     if (!SnapService.isSnapdInstalled) {
-      return const ErrorPage(
+      return ErrorPage(
         icon: YaruIcons.warning,
-        message: 'Snapd is not installed on your system',
+        message: context.l10n.noSnapdInstalled,
       );
     }
 
