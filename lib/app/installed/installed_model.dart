@@ -45,8 +45,10 @@ class InstalledModel extends SafeChangeNotifier {
   bool _isLoadingSnapsCompleted = false;
   bool get isLoadingSnapsCompleted => _isLoadingSnapsCompleted;
   Future<void> loadLocalSnaps() async {
-    _snapService.loadLocalSnaps();
-    _isLoadingSnapsCompleted = true;
+    _snapService.loadLocalSnaps().whenComplete(() {
+      _isLoadingSnapsCompleted = true;
+      notifyListeners();
+    });
   }
 
   // Local snaps with update

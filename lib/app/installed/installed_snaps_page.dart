@@ -70,14 +70,13 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
           message: context.l10n.noSnapdInstalled,
         );
       } else {
-        if (model.localSnaps.isEmpty) {
-          if (model.isLoadingSnapsCompleted) {
-            return ErrorPage(
-              icon: YaruIcons.warning,
-              message: context.l10n.noSnapsInstalled,
-            );
-          }
+        if (model.localSnaps.isEmpty && !model.isLoadingSnapsCompleted) {
           return const LoadingBannerGrid();
+        } else if (model.isLoadingSnapsCompleted && model.localSnaps.isEmpty) {
+          return ErrorPage(
+            icon: YaruIcons.warning,
+            message: context.l10n.noSnapsInstalled,
+          );
         } else {
           final snaps = model.searchQuery == null
               ? model.localSnaps

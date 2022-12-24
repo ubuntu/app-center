@@ -120,7 +120,7 @@ class SnapService {
       snaps = await _snapDClient.getSnaps();
     } on SocketException {
       isSnapdInstalled = false;
-      return localSnaps;
+      return _localSnaps;
     }
     if (snaps.length != _localSnaps.length) {
       _localSnaps.clear();
