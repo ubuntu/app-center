@@ -44,14 +44,12 @@ class PackageControls extends StatelessWidget {
       spacing: 10,
       runSpacing: 10,
       children: [
-        if (isInstalled == false)
-          const SizedBox.shrink()
-        else if (isInstalled!)
+        if (isInstalled == true)
           OutlinedButton(
             onPressed: packageState != PackageState.ready ? null : remove,
             child: Text(context.l10n.remove),
-          )
-        else
+          ),
+        if (isInstalled == false)
           ElevatedButton(
             onPressed: packageState != PackageState.ready ? null : install,
             child: Text(context.l10n.install),
@@ -60,7 +58,8 @@ class PackageControls extends StatelessWidget {
           ElevatedButton(
             onPressed: packageState != PackageState.ready ? null : install,
             child: Text(context.l10n.refresh),
-          )
+          ),
+        const SizedBox.shrink()
       ],
     );
   }

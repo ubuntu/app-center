@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk_application/gtk_application.dart';
 import 'package:mocktail/mocktail.dart';
@@ -73,12 +72,5 @@ void main() {
     when(() => gtkApplicationNotifierMock.commandLine).thenAnswer((_) => []);
 
     await tester.pumpWidget(App.create());
-
-    final materialApp = find.byType(MaterialApp);
-    expect(materialApp, findsOneWidget);
-    expect(
-      (materialApp.evaluate().single.widget as MaterialApp).title,
-      'Ubuntu Software App',
-    );
   });
 }
