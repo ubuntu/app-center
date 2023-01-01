@@ -7,6 +7,8 @@ import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '../common/constants.dart';
+
 class SectionBanner extends StatelessWidget {
   const SectionBanner({
     super.key,
@@ -28,9 +30,9 @@ class SectionBanner extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(
           top: 5,
-          left: kYaruPagePadding + 5,
-          right: kYaruPagePadding + 5,
-          bottom: kYaruPagePadding,
+          left: kPagePadding,
+          right: kPagePadding,
+          bottom: kPagePadding - 5,
         ),
         child: InkWell(
           onTap: onTap,

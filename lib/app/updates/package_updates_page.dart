@@ -203,7 +203,7 @@ class _UpdatesHeader extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
-        padding: const EdgeInsets.all(kYaruPagePadding),
+        padding: const EdgeInsets.all(kPagePadding),
         child: Wrap(
           direction: Axis.horizontal,
           alignment: WrapAlignment.start,

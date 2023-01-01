@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/constants.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
@@ -64,12 +65,7 @@ class SnapUpdatesPage extends StatelessWidget {
         return Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                left: 25,
-                top: kYaruPagePadding,
-                bottom: kYaruPagePadding,
-                right: 25,
-              ),
+              padding: const EdgeInsets.all(kPagePadding),
               child: Row(
                 children: [
                   ElevatedButton(
