@@ -27,7 +27,6 @@ import 'package:software/app/common/updates_splash_screen.dart';
 import 'package:software/app/updates/snap_updates_model.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapUpdatesPage extends StatelessWidget {
   const SnapUpdatesPage({Key? key}) : super(key: key);
