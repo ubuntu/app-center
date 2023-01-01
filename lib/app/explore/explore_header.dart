@@ -15,7 +15,10 @@ class ExploreHeader extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(
-          top: kPagePadding, left: kPagePadding, bottom: kPagePadding - 5,),
+        top: kPagePadding,
+        left: kPagePadding,
+        bottom: kPagePadding - 5,
+      ),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Wrap(

@@ -43,9 +43,10 @@ class SearchPage extends StatelessWidget {
         return snapshot.hasData && snapshot.data!.isNotEmpty
             ? GridView.builder(
                 padding: const EdgeInsets.only(
-                    bottom: kPagePadding - 5,
-                    left: kPagePadding - 5,
-                    right: kPagePadding - 5,),
+                  bottom: kPagePadding - 5,
+                  left: kPagePadding - 5,
+                  right: kPagePadding - 5,
+                ),
                 gridDelegate: kGridDelegate,
                 shrinkWrap: true,
                 itemCount: snapshot.data!.length,

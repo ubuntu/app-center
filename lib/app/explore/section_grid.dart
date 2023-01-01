@@ -54,9 +54,10 @@ class SectionGrid extends StatelessWidget {
       physics: ignoreScrolling ? const NeverScrollableScrollPhysics() : null,
       padding: padding ??
           const EdgeInsets.only(
-              bottom: kPagePadding - 5,
-              left: kPagePadding - 5,
-              right: kPagePadding - 5,),
+            bottom: kPagePadding - 5,
+            left: kPagePadding - 5,
+            right: kPagePadding - 5,
+          ),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
       itemCount: sections.length,
