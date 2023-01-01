@@ -3,6 +3,7 @@
 - [Mads Rosendahl](https://github.com/madsrh)
 - [JP Nurmi](https://github.com/jpnurmi)
 - [Olivier Tilloy](https://github.com/oSoMoN)
+- [Ken VanDine](https://github.com/kenvandine)
 - [Henry Riehl](https://github.com/whiskeyPeak)
 - [Elio Qoshi](https://github.com/elioqoshi)
 - [小山田 純 - Oyamada Jun](https://github.com/oyajun)
