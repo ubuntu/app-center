@@ -14,7 +14,8 @@ class ExploreHeader extends StatelessWidget {
     final model = context.watch<ExploreModel>();
 
     return Padding(
-      padding: const EdgeInsets.only(top: kPagePadding, left: kPagePadding, bottom: kPagePadding - 5),
+      padding: const EdgeInsets.only(
+          top: kPagePadding, left: kPagePadding, bottom: kPagePadding - 5,),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Wrap(
