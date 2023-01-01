@@ -88,7 +88,7 @@ class SnapService {
         }
       });
 
-  Future<void> authorize() async => _snapDClient.loadAuthorization();
+  Future<void> authorize() async => await _snapDClient.loadAuthorization();
 
   Future<Snap?> findLocalSnap(String huskSnapName) async {
     try {
