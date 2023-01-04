@@ -50,7 +50,9 @@ class InstalledModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
-      if (_snapService.snapChanges.isEmpty) {}
+      if (_snapService.snapChanges.isEmpty) {
+        loadLocalSnaps().then((value) => notifyListeners());
+      }
     });
     _enabledAppFormats.add(AppFormat.snap);
     if (_packageService.isAvailable) {
