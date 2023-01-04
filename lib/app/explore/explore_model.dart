@@ -49,7 +49,7 @@ class ExploreModel extends SafeChangeNotifier {
     );
 
     if (_packageService.isAvailable) {
-      _appstreamService.init().then((value) {
+      _appstreamService.init().then((_) {
         _enabledAppFormats.add(AppFormat.packageKit);
         _selectedAppFormats.add(AppFormat.packageKit);
         notifyListeners();
