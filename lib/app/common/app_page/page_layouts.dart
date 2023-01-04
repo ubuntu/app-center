@@ -25,39 +25,37 @@ class PanedPageLayout extends StatelessWidget {
         Theme.of(context).appBarTheme.toolbarHeight?.toDouble() ??
             kToolbarHeight;
 
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: kPagePadding,
-          bottom: kPagePadding,
-          left: hPadding,
-          right: hPadding,
-        ),
-        child: SizedBox(
-          height: height - appBarHeight,
-          child: Row(
-            children: [
-              SizedBox(
-                height: height,
-                child: leftChild,
+    return Padding(
+      padding: EdgeInsets.only(
+        top: kPagePadding,
+        bottom: kPagePadding,
+        left: hPadding,
+        right: hPadding,
+      ),
+      child: SizedBox(
+        height: height - appBarHeight,
+        child: Row(
+          children: [
+            SizedBox(
+              height: height,
+              child: leftChild,
+            ),
+            const SizedBox(
+              width: kPagePadding,
+            ),
+            Expanded(
+              child: ListView(
+                shrinkWrap: false,
+                children: [
+                  for (final child in rightChildren)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: kPagePadding),
+                      child: child,
+                    ),
+                ],
               ),
-              const SizedBox(
-                width: kPagePadding,
-              ),
-              Expanded(
-                child: ListView(
-                  shrinkWrap: false,
-                  children: [
-                    for (final child in rightChildren)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: kPagePadding),
-                        child: child,
-                      ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
