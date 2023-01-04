@@ -29,7 +29,6 @@ class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
 
   @override
-  @override
   Widget build(BuildContext context) {
     final model = context.watch<ExploreModel>();
 
