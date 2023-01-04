@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_format_popup.dart';
+import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/snap/snap_section_popup.dart';
 import 'package:software/app/explore/explore_model.dart';
 
@@ -13,7 +14,11 @@ class ExploreHeader extends StatelessWidget {
     final model = context.watch<ExploreModel>();
 
     return Padding(
-      padding: const EdgeInsets.only(top: 25, left: 25, bottom: 20),
+      padding: const EdgeInsets.only(
+        top: kPagePadding,
+        left: kPagePadding,
+        bottom: kPagePadding - 5,
+      ),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Wrap(

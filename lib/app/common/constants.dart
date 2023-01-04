@@ -20,17 +20,20 @@ import 'package:flutter/material.dart';
 const kPagePadding = 20.0;
 const kGridPadding = EdgeInsets.only(
   bottom: kPagePadding,
-  left: kPagePadding,
-  right: kPagePadding,
+  left: kPagePadding - 5,
+  right: kPagePadding - 5,
 );
-const kHeaderPadding =
-    EdgeInsets.only(top: kPagePadding, left: 25, bottom: kPagePadding);
+const kHeaderPadding = EdgeInsets.only(
+  top: kPagePadding,
+  left: kPagePadding,
+  bottom: kPagePadding - 5,
+);
 const kIconPadding = EdgeInsets.only(top: 8, bottom: 8, right: 5);
 const kDialogWidth = 450.0;
 const kGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
   mainAxisExtent: 150,
-  mainAxisSpacing: 15,
-  crossAxisSpacing: 15,
+  mainAxisSpacing: 10,
+  crossAxisSpacing: 10,
   maxCrossAxisExtent: 550,
 );
 const kSnapcraftColor = Color(0xFFE95420);
