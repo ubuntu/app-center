@@ -74,6 +74,7 @@ class SnapUpdatesModel extends SafeChangeNotifier {
     required String doneMessage,
     required List<Snap> snaps,
   }) async {
+    await _snapService.authorize();
     for (var snap in snaps) {
       _snapService.refresh(
         snap: snap,
@@ -81,7 +82,7 @@ class SnapUpdatesModel extends SafeChangeNotifier {
         confinement: snap.confinement,
         channel: snap.channel,
       );
-      notifyListeners();
     }
+    notifyListeners();
   }
 }

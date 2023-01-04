@@ -45,7 +45,7 @@ dependencies:
   ubuntu_session: ^0.0.2
   url_launcher: ^6.1.2
   version: ^3.0.2
-  window_manager: ^0.2.6
+  window_manager: 0.2.8
   xdg_icons: ^0.0.1
   xterm: ^3.3.0
   yaru: ^0.4.4
