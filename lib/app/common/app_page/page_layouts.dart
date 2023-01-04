@@ -30,6 +30,7 @@ class PanedPageLayout extends StatelessWidget {
           top: kPagePadding,
           left: hPadding,
           right: hPadding,
+          bottom: kPagePadding,
         ),
         child: SizedBox(
           height: height - appBarHeight,
@@ -37,24 +38,20 @@ class PanedPageLayout extends StatelessWidget {
             children: [
               SizedBox(
                 height: height,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: kPagePadding),
-                  child: leftChild,
-                ),
+                child: leftChild,
               ),
               const SizedBox(
                 width: kPagePadding,
               ),
               Expanded(
-                child: ListView(
+                child: ListView.separated(
                   shrinkWrap: false,
-                  children: [
-                    for (final child in rightChildren)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: kPagePadding),
-                        child: child,
-                      ),
-                  ],
+                  itemCount: rightChildren.length,
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const SizedBox(
+                    height: kPagePadding,
+                  ),
+                  itemBuilder: (context, index) => rightChildren[index],
                 ),
               ),
             ],
