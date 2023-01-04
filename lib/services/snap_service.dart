@@ -78,15 +78,21 @@ class SnapService {
         _snapDClient = getService<SnapdClient>(),
         _notificationsClient = getService<NotificationsClient>();
 
-  Future<void> init() async => authorize().then((_) async {
-        for (var section in SnapSection.values) {
-          try {
-            await _loadSection(section);
-          } on SnapdException catch (e) {
-            throw SnapdException(message: e.message);
-          }
+  late Future<void> _initialized;
+  Future<void> get initialized => _initialized;
+
+  Future<void> init() {
+    _initialized = authorize().then((_) async {
+      for (var section in SnapSection.values) {
+        try {
+          await _loadSection(section);
+        } on SnapdException catch (e) {
+          throw SnapdException(message: e.message);
         }
-      });
+      }
+    });
+    return _initialized;
+  }
 
   Future<void> authorize() async => await _snapDClient.loadAuthorization();
 
