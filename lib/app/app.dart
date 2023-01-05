@@ -126,7 +126,11 @@ class __AppState extends State<_App> {
           },
         ).then((_) => closeConfirmDialogOpen = false);
       },
-    ).then((_) => _initialized = true);
+    ).then((_) {
+      setState(() {
+        _initialized = true;
+      });
+    });
   }
 
   void _commandLineListener(List<String> args) {
