@@ -21,6 +21,7 @@ import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_format.dart';
+import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
 import 'package:software/l10n/l10n.dart';
@@ -147,6 +148,24 @@ class _PackagePageState extends State<PackagePage> {
       packageState: model.packageState,
       remove: () => model.remove(),
       install: () => model.install(),
+      appFormatToggle: widget.snap == null
+          ? null
+          : AppFormatToggleButtons(
+              isSelected: const [
+                false,
+                true,
+              ],
+              onPressed: (v) {
+                if (v == 0) {
+                  SnapPage.push(
+                    context: context,
+                    appstream: widget.appstream,
+                    snap: widget.snap!,
+                    replace: true,
+                  );
+                }
+              },
+            ),
     );
     return !initialized
         ? const AppLoadingPage()
