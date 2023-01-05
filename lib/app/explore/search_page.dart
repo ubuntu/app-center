@@ -30,7 +30,14 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final model = context.read<ExploreModel>();
+    final showSnap = context.select(
+      (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.snap),
+    );
+    final showPackageKit = context.select(
+      (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
+    );
+    context.select((ExploreModel m) => m.searchQuery);
 
     return FutureBuilder<Map<String, AppFinding>>(
       future: model.search(),
@@ -51,10 +58,6 @@ class SearchPage extends StatelessWidget {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final appFinding = snapshot.data!.entries.elementAt(index);
-                  var showSnap =
-                      model.selectedAppFormats.contains(AppFormat.snap);
-                  var showPackageKit =
-                      model.selectedAppFormats.contains(AppFormat.packageKit);
                   return AppBanner(
                     appFinding: appFinding,
                     showSnap: showSnap,
