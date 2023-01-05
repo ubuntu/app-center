@@ -171,14 +171,6 @@ class _SnapPageState extends State<SnapPage> {
             reviewUser: model.reviewUser,
             onVote: model.voteReview,
             onFlag: model.flagReview,
-            onAppStreamSelect: widget.appstream != null
-                ? () => PackagePage.push(
-                      context,
-                      appstream: widget.appstream,
-                      snap: widget.snap,
-                      replace: true,
-                    )
-                : null,
           );
   }
 }

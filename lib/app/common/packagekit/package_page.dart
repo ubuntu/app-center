@@ -195,13 +195,6 @@ class _PackagePageState extends State<PackagePage> {
             review: model.review,
             reviewTitle: model.reviewTitle,
             reviewUser: model.reviewUser,
-            onSnapSelect: widget.snap != null
-                ? () => SnapPage.push(
-                      context: context,
-                      snap: widget.snap!,
-                      replace: true,
-                    )
-                : null,
           );
   }
 }
