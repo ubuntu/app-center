@@ -30,4 +30,4 @@ jobs:
           sudo touch /etc/NetworkManager/conf.d/10-globally-managed-devices.conf
           sudo systemctl restart NetworkManager.service
       - run: sudo cp integration_test/assets/packagekit-ci.pkla /var/lib/polkit-1/localauthority/50-local.d/
-      - run: xvfb-run -a -s '-screen 0 1024x768x24 +extension GLX' flutter test integration_test
+      - run: LANG=en_US.UTF-8 xvfb-run -a -s '-screen 0 1024x768x24 +extension GLX' flutter test integration_test

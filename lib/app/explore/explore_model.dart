@@ -43,10 +43,8 @@ class ExploreModel extends SafeChangeNotifier {
   Future<void> init() async {
     _enabledAppFormats.add(AppFormat.snap);
     _selectedAppFormats.add(AppFormat.snap);
-    _snapService.initialized.then(
-      (value) => _sectionsChangedSub =
-          _snapService.sectionsChanged.listen((_) => notifyListeners()),
-    );
+    _sectionsChangedSub =
+        _snapService.sectionsChanged.listen((_) => notifyListeners());
 
     if (_packageService.isAvailable) {
       _appstreamService.init().then((_) {
