@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:software/main.dart' as app;
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'integration_test_utils.dart';
+import '../test/test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -22,29 +24,36 @@ void main() {
       expect(helloExe.existsSync(), isFalse);
       initCustomExpect();
       await app.main([localDeb.absolute.path]);
-      await tester.pump();
+      await tester.pumpAndSettle();
 
-      // TODO: fix integration test
-      // final installButton =
-      //     find.widgetWithText(ElevatedButton, tester.lang.install);
-      // expectSync(installButton, findsOneWidget);
-      // await tester.tap(installButton);
-      // tester.pumpUntil(installButton);
+      final installButton =
+          find.widgetWithText(ElevatedButton, tester.lang.install);
+      expectSync(installButton, findsOneWidget);
+      await tester.tap(installButton);
 
-      // final uninstallButton =
-      //     find.widgetWithText(OutlinedButton, tester.lang.remove);
-      // expectSync(uninstallButton, findsOneWidget);
-      // expectSync(installButton, findsNothing);
+      final enabledUninstallButton = find.ancestor(
+        of: find.text(tester.lang.remove),
+        matching: find.byWidgetPredicate(
+          (widget) => widget is OutlinedButton && widget.enabled,
+        ),
+      );
+      await tester.pumpUntil(enabledUninstallButton);
 
-      // expectSync(helloExe.existsSync(), isTrue);
+      final uninstallButton =
+          find.widgetWithText(OutlinedButton, tester.lang.remove);
 
-      // await tester.tap(uninstallButton);
-      // tester.pumpUntil(uninstallButton);
+      expectSync(uninstallButton, findsOneWidget);
+      expectSync(installButton, findsNothing);
 
-      // expect(installButton, findsOneWidget);
-      // expect(uninstallButton, findsNothing);
+      expectSync(helloExe.existsSync(), isTrue);
 
-      // expect(helloExe.existsSync(), isFalse);
+      await tester.tap(uninstallButton);
+      await tester.pumpUntil(uninstallButton, present: false);
+
+      expect(installButton, findsOneWidget);
+      expect(uninstallButton, findsNothing);
+
+      expect(helloExe.existsSync(), isFalse);
     });
   });
 }
