@@ -20,18 +20,19 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/app/common/app_format.dart';
-import 'package:software/app/common/packagekit/package_page.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/snap_service.dart';
 import 'package:software/app/common/app_data.dart';
+import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_icon.dart';
+import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/app_page/app_loading_page.dart';
 import 'package:software/app/common/app_page/app_page.dart';
 import 'package:software/app/common/border_container.dart';
+import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/snap/snap_connections_settings.dart';
 import 'package:software/app/common/snap/snap_controls.dart';
 import 'package:software/app/common/snap/snap_model.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class SnapPage extends StatefulWidget {
@@ -136,6 +137,24 @@ class _SnapPageState extends State<SnapPage> {
                 : null,
             controls: SnapControls(
               appstream: widget.appstream,
+              appFormatToggle: widget.appstream == null
+                  ? null
+                  : AppFormatToggleButtons(
+                      isSelected: const [
+                        true,
+                        false,
+                      ],
+                      onPressed: (v) {
+                        if (v == 1) {
+                          PackagePage.push(
+                            context,
+                            appstream: widget.appstream,
+                            snap: widget.snap,
+                            replace: true,
+                          );
+                        }
+                      },
+                    ),
             ),
             icon: AppIcon(
               iconUrl: model.iconUrl,
