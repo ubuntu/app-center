@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/main.dart' as app;
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -24,6 +25,10 @@ void main() {
       expect(helloExe.existsSync(), isFalse);
       initCustomExpect();
       await app.main([localDeb.absolute.path]);
+      await tester.pumpUntil(
+        find.byWidgetPredicate((widget) => widget is PackagePage),
+        timeout: const Duration(seconds: 80),
+      );
       await tester.pumpAndSettle();
 
       final installButton =
