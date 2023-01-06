@@ -91,6 +91,7 @@ class _BackGestureState extends State<BackGesture>
     return LayoutBuilder(
       builder: (context, constraints) {
         return GestureDetector(
+          behavior: HitTestBehavior.translucent,
           onPanUpdate: onPanUpdate,
           onPanStart: (details) => onPanStart(details, constraints),
           onPanEnd: onPanEnd,
