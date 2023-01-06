@@ -43,7 +43,7 @@ class PackageService {
   PackageService()
       : _client = getService<PackageKitClient>(),
         _notificationsClient = getService<NotificationsClient>() {
-    _client.connect().then((_) {
+    _initialized = _client.connect().then((_) {
       _serviceAvailable = true;
     }).onError(
       (_, __) {},
@@ -51,6 +51,8 @@ class PackageService {
     );
   }
 
+  late final Future<void> _initialized;
+  Future<void> get initialized => _initialized;
   bool get isAvailable => _serviceAvailable;
 
   final _terminalOutputController = StreamController<String>.broadcast();
