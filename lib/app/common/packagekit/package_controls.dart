@@ -27,6 +27,7 @@ class PackageControls extends StatelessWidget {
     required this.remove,
     required this.packageState,
     required this.versionChanged,
+    this.appFormatToggle,
   });
 
   final bool? isInstalled;
@@ -34,16 +35,18 @@ class PackageControls extends StatelessWidget {
   final VoidCallback remove;
   final PackageState packageState;
   final bool? versionChanged;
+  final Widget? appFormatToggle;
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
-      alignment: WrapAlignment.center,
-      runAlignment: WrapAlignment.center,
+      alignment: WrapAlignment.start,
+      runAlignment: WrapAlignment.start,
       spacing: 10,
       runSpacing: 10,
       children: [
+        if (appFormatToggle != null) appFormatToggle!,
         if (isInstalled == true)
           OutlinedButton(
             onPressed: packageState != PackageState.ready ? null : remove,

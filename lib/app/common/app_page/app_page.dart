@@ -19,15 +19,15 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:software/app/common/app_data.dart';
-import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_page/app_description.dart';
 import 'package:software/app/common/app_page/app_header.dart';
 import 'package:software/app/common/app_page/app_infos.dart';
 import 'package:software/app/common/app_page/app_reviews.dart';
+import 'package:software/app/common/app_page/app_swipe_gesture.dart';
 import 'package:software/app/common/app_page/media_tile.dart';
 import 'package:software/app/common/app_page/page_layouts.dart';
-import 'package:software/app/common/app_page/app_swipe_gesture.dart';
 import 'package:software/app/common/border_container.dart';
+import 'package:software/app/common/custom_back_button.dart';
 import 'package:software/app/common/safe_network_image.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -55,8 +55,6 @@ class AppPage extends StatefulWidget {
     this.onVote,
     this.onFlag,
     this.onFileSelect,
-    this.onAppStreamSelect,
-    this.onSnapSelect,
   });
 
   final AppData appData;
@@ -79,8 +77,6 @@ class AppPage extends StatefulWidget {
   final Function(AppReview, bool)? onVote;
   final Function(AppReview)? onFlag;
   final void Function(String path)? onFileSelect;
-  final void Function()? onSnapSelect;
-  final void Function()? onAppStreamSelect;
 
   @override
   State<AppPage> createState() => _AppPageState();
@@ -105,29 +101,13 @@ class _AppPageState extends State<AppPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final windowSize = MediaQuery.of(context).size;
     final windowWidth = windowSize.width;
     final windowHeight = windowSize.height;
     final isWindowNormalSized = windowWidth > 800 && windowWidth < 1200;
     final isWindowWide = windowWidth > 1200;
 
-    final icon = Stack(
-      alignment: Alignment.bottomRight,
-      children: [
-        widget.icon,
-        YaruBorderContainer(
-          color: theme.backgroundColor,
-          borderRadius: BorderRadius.circular(40),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.appData.appFormat == AppFormat.snap
-                ? const Icon(YaruIcons.snapcraft)
-                : const Icon(YaruIcons.debian),
-          ),
-        )
-      ],
-    );
+    final icon = widget.icon;
 
     final media = BorderContainer(
       child: YaruCarousel(
@@ -284,7 +264,7 @@ class _AppPageState extends State<AppPage> {
                   icon: const Icon(YaruIcons.document_open),
                 ),
               )
-            : _CustomBackButton(
+            : CustomBackButton(
                 onPressed: () => Navigator.pop(context),
               ),
       ),
@@ -365,29 +345,6 @@ class _CarouselDialogState extends State<_CarouselDialog> {
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-class _CustomBackButton extends StatelessWidget {
-  const _CustomBackButton({
-    Key? key,
-    this.onPressed,
-  }) : super(key: key);
-
-  final Function()? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: IconButton(
-        style: IconButton.styleFrom(fixedSize: const Size(40, 40)),
-        onPressed: () {
-          Navigator.maybePop(context);
-          if (onPressed != null) onPressed!();
-        },
-        icon: const Icon(YaruIcons.go_previous),
       ),
     );
   }

@@ -18,11 +18,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:software/app/common/app_data.dart';
-import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_page/app_infos.dart';
 import 'package:software/app/common/app_website.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -62,9 +60,7 @@ class BannerAppHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    appData.appFormat == AppFormat.snap
-                        ? '${appData.title} (${context.l10n.snapPackage})'
-                        : '${appData.title} (${context.l10n.debianPackage})',
+                    appData.title,
                     style: theme.textTheme.headline3!.copyWith(
                       fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
                     ),
@@ -159,16 +155,6 @@ class PageAppHeader extends StatelessWidget {
                 children: [
                   Text(
                     appData.title,
-                    style: theme.textTheme.headline3!.copyWith(
-                      fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    appData.appFormat == AppFormat.snap
-                        ? '(${context.l10n.snapPackage})'
-                        : '(${context.l10n.debianPackage})',
                     style: theme.textTheme.headline3!.copyWith(
                       fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
                     ),

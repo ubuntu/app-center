@@ -46,6 +46,7 @@ class ExploreModel extends SafeChangeNotifier {
     _sectionsChangedSub =
         _snapService.sectionsChanged.listen((_) => notifyListeners());
 
+    await _packageService.initialized;
     if (_packageService.isAvailable) {
       _appstreamService.init().then((_) {
         _enabledAppFormats.add(AppFormat.packageKit);

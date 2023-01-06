@@ -88,10 +88,7 @@ class InstalledPage extends StatelessWidget {
             appBar: AppBar(
               flexibleSpace: SearchField(
                 searchQuery: searchQuery ?? '',
-                onChanged: (v) => setSearchQuery(v),
-                clear: () {
-                  setSearchQuery('');
-                },
+                onChanged: setSearchQuery,
               ),
             ),
             body: page,
