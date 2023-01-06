@@ -22,25 +22,29 @@ import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
+
+import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({super.key});
+  const SearchPage({super.key, required this.searchField});
+
+  final Widget searchField;
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<ExploreModel>();
+    final search = context.select((ExploreModel m) => m.search);
+
     final showSnap = context.select(
       (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.snap),
     );
     final showPackageKit = context.select(
       (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
     );
-    context.select((ExploreModel m) => m.searchQuery);
 
-    return FutureBuilder<Map<String, AppFinding>>(
-      future: model.search(),
+    final grid = FutureBuilder<Map<String, AppFinding>>(
+      future: search(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingBannerGrid();
@@ -67,6 +71,21 @@ class SearchPage extends StatelessWidget {
               )
             : _NoSearchResultPage(message: context.l10n.noPackageFound);
       },
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        flexibleSpace: searchField,
+      ),
+      body: Column(
+        children: [
+          const ExploreHeader(),
+          Expanded(
+            child: grid,
+          )
+        ],
+      ),
     );
   }
 }

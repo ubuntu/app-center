@@ -21,21 +21,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/snapx.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_section.dart';
+import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/section_banner.dart';
 import 'package:software/app/explore/section_grid.dart';
+import 'package:software/snapx.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({
-    Key? key,
-    required this.screenSize,
-  }) : super(key: key);
+    super.key,
+    required this.searchField,
+  });
 
-  final Size screenSize;
+  final Widget searchField;
 
   @override
   State<StartPage> createState() => _StartPageState();
@@ -69,7 +70,6 @@ class _StartPageState extends State<StartPage> {
     final bannerSection = context.select((ExploreModel m) => m.selectedSection);
     final sectionSnaps = context
         .select((ExploreModel m) => m.sectionNameToSnapsMap[bannerSection]);
-
     final snapsWithIcons =
         sectionSnaps?.where((snap) => snap.iconUrl != null).toList();
 
@@ -95,7 +95,7 @@ class _StartPageState extends State<StartPage> {
       );
     }
 
-    return SingleChildScrollView(
+    final page = SingleChildScrollView(
       controller: _controller,
       child: Column(
         children: [
@@ -108,6 +108,20 @@ class _StartPageState extends State<StartPage> {
             snapSection: bannerSection,
             initialAmount: _amount,
           ),
+        ],
+      ),
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: widget.searchField,
+      ),
+      body: Column(
+        children: [
+          const ExploreHeader(),
+          Expanded(
+            child: page,
+          )
         ],
       ),
     );

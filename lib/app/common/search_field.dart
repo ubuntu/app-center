@@ -25,12 +25,12 @@ class SearchField extends StatefulWidget {
     super.key,
     required this.searchQuery,
     required this.onChanged,
-    required this.clear,
+    this.showBackButton = false,
   });
 
   final String searchQuery;
   final Function(String value) onChanged;
-  final Function() clear;
+  final bool showBackButton;
 
   @override
   State<SearchField> createState() => _SearchFieldState();
@@ -40,9 +40,15 @@ class _SearchFieldState extends State<SearchField> {
   final TextEditingController _controller = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _controller.text = widget.searchQuery;
+  }
+
+  @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   void onDoubleTap() {
@@ -54,10 +60,8 @@ class _SearchFieldState extends State<SearchField> {
   Widget build(BuildContext context) {
     return KeyboardListener(
       onKeyEvent: (value) {
-        if (value.logicalKey == LogicalKeyboardKey.escape &&
-            widget.searchQuery.isNotEmpty) {
-          widget.clear();
-          _controller.clear();
+        if (value.logicalKey == LogicalKeyboardKey.escape) {
+          _clear();
         }
       },
       focusNode: FocusNode(),
@@ -70,7 +74,18 @@ class _SearchFieldState extends State<SearchField> {
           textInputAction: TextInputAction.send,
           decoration: InputDecoration(
             hintText: context.l10n.searchHint,
-            prefixIcon: const Padding(
+            prefixIcon:
+
+                //  widget.showBackButton
+                // ? SizedBox(
+                //     width: 60,
+                //     child: CustomBackButton(
+                //       onPressed: () =>
+                //           Navigator.maybePop(context).then((_) => _clear()),
+                //     ),
+                //   )
+                // :
+                const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Icon(
                 YaruIcons.search,
@@ -78,7 +93,7 @@ class _SearchFieldState extends State<SearchField> {
               ),
             ),
             prefixIconConstraints: const BoxConstraints(
-              minHeight: 45,
+              minHeight: 50,
               minWidth: 40,
             ),
             isDense: false,
@@ -90,10 +105,7 @@ class _SearchFieldState extends State<SearchField> {
                 ? Padding(
                     padding: const EdgeInsets.only(right: 12.0),
                     child: IconButton(
-                      onPressed: () {
-                        widget.clear();
-                        _controller.clear();
-                      },
+                      onPressed: () => _clear(),
                       icon: Icon(
                         YaruIcons.edit_clear,
                         color: Theme.of(context).hintColor,
@@ -105,5 +117,10 @@ class _SearchFieldState extends State<SearchField> {
         ),
       ),
     );
+  }
+
+  void _clear() {
+    widget.onChanged('');
+    _controller.clear();
   }
 }
