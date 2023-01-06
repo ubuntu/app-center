@@ -24,38 +24,36 @@ class PanedPageLayout extends StatelessWidget {
         Theme.of(context).appBarTheme.toolbarHeight?.toDouble() ??
             kToolbarHeight;
 
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: kPagePadding,
-          left: hPadding,
-          right: hPadding,
-          bottom: kPagePadding,
-        ),
-        child: SizedBox(
-          height: height - appBarHeight,
-          child: Row(
-            children: [
-              SizedBox(
-                height: height,
-                child: leftChild,
-              ),
-              const SizedBox(
-                width: kPagePadding,
-              ),
-              Expanded(
-                child: ListView.separated(
-                  shrinkWrap: false,
-                  itemCount: rightChildren.length,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const SizedBox(
-                    height: kPagePadding,
-                  ),
-                  itemBuilder: (context, index) => rightChildren[index],
+    return Padding(
+      padding: EdgeInsets.only(
+        top: kPagePadding,
+        left: hPadding,
+        right: hPadding,
+        bottom: kPagePadding,
+      ),
+      child: SizedBox(
+        height: height - appBarHeight,
+        child: Row(
+          children: [
+            SizedBox(
+              height: height,
+              child: leftChild,
+            ),
+            const SizedBox(
+              width: kPagePadding,
+            ),
+            Expanded(
+              child: ListView.separated(
+                shrinkWrap: false,
+                itemCount: rightChildren.length,
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(
+                  height: kPagePadding,
                 ),
+                itemBuilder: (context, index) => rightChildren[index],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
