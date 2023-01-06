@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PanedPageLayout extends StatelessWidget {
   const PanedPageLayout({
@@ -28,9 +27,9 @@ class PanedPageLayout extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
         top: kPagePadding,
-        bottom: kPagePadding,
         left: hPadding,
         right: hPadding,
+        bottom: kPagePadding,
       ),
       child: SizedBox(
         height: height - appBarHeight,
@@ -44,15 +43,14 @@ class PanedPageLayout extends StatelessWidget {
               width: kPagePadding,
             ),
             Expanded(
-              child: ListView(
+              child: ListView.separated(
                 shrinkWrap: false,
-                children: [
-                  for (final child in rightChildren)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: kPagePadding),
-                      child: child,
-                    ),
-                ],
+                itemCount: rightChildren.length,
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(
+                  height: kPagePadding,
+                ),
+                itemBuilder: (context, index) => rightChildren[index],
               ),
             ),
           ],
@@ -78,8 +76,16 @@ class OnePageLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       padding: adaptivePadding
-          ? const EdgeInsets.all(kYaruPagePadding)
-          : const EdgeInsets.all(kYaruPagePadding),
+          ? const EdgeInsets.only(
+              top: kPagePadding,
+              left: kPagePadding,
+              right: kPagePadding,
+            )
+          : const EdgeInsets.only(
+              top: kPagePadding,
+              left: kPagePadding,
+              right: kPagePadding,
+            ),
       shrinkWrap: true,
       children: [
         for (final child in children)
