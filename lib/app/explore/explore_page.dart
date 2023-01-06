@@ -17,7 +17,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/app/common/search_field.dart';
 import 'package:software/app/explore/explore_error_page.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/offline_page.dart';
@@ -30,7 +29,7 @@ import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
-class ExplorePage extends StatefulWidget {
+class ExplorePage extends StatelessWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
   static Widget create(
@@ -45,7 +44,7 @@ class ExplorePage extends StatefulWidget {
         getService<SnapService>(),
         getService<PackageService>(),
         errorMessage,
-      ),
+      )..init(),
       child: const ExplorePage(),
     );
   }
@@ -62,27 +61,9 @@ class ExplorePage extends StatefulWidget {
           : const Icon(YaruIcons.compass);
 
   @override
-  State<ExplorePage> createState() => _ExplorePageState();
-}
-
-class _ExplorePageState extends State<ExplorePage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<ExploreModel>().init();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final showErrorPage = context.select((ExploreModel m) => m.showErrorPage);
     final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
-    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
-    final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
-
-    final searchField = SearchField(
-      searchQuery: searchQuery,
-      onChanged: setSearchQuery,
-    );
 
     if (showErrorPage) {
       return const ExploreErrorPage();
@@ -90,16 +71,8 @@ class _ExplorePageState extends State<ExplorePage> {
       return Navigator(
         pages: [
           MaterialPage(
-            child: StartPage(
-              searchField: searchField,
-            ),
+            child: showSearchPage ? const SearchPage() : const StartPage(),
           ),
-          if (showSearchPage)
-            MaterialPage(
-              child: SearchPage(
-                searchField: searchField,
-              ),
-            )
         ],
         onPopPage: (route, result) => route.didPop(result),
       );

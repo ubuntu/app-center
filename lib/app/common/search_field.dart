@@ -25,12 +25,10 @@ class SearchField extends StatefulWidget {
     super.key,
     required this.searchQuery,
     required this.onChanged,
-    this.showBackButton = false,
   });
 
   final String searchQuery;
   final Function(String value) onChanged;
-  final bool showBackButton;
 
   @override
   State<SearchField> createState() => _SearchFieldState();
@@ -74,18 +72,7 @@ class _SearchFieldState extends State<SearchField> {
           textInputAction: TextInputAction.send,
           decoration: InputDecoration(
             hintText: context.l10n.searchHint,
-            prefixIcon:
-
-                //  widget.showBackButton
-                // ? SizedBox(
-                //     width: 60,
-                //     child: CustomBackButton(
-                //       onPressed: () =>
-                //           Navigator.maybePop(context).then((_) => _clear()),
-                //     ),
-                //   )
-                // :
-                const Padding(
+            prefixIcon: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Icon(
                 YaruIcons.search,

@@ -22,20 +22,22 @@ import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
+import 'package:software/app/common/search_field.dart';
 
 import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({super.key, required this.searchField});
-
-  final Widget searchField;
+  const SearchPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final search = context.select((ExploreModel m) => m.search);
-
+    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
+    final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
     final showSnap = context.select(
       (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.snap),
     );
@@ -76,7 +78,10 @@ class SearchPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        flexibleSpace: searchField,
+        flexibleSpace: SearchField(
+          searchQuery: searchQuery,
+          onChanged: setSearchQuery,
+        ),
       ),
       body: Column(
         children: [

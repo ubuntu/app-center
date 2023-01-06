@@ -22,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
+import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
@@ -33,10 +34,7 @@ import 'package:yaru_colors/yaru_colors.dart';
 class StartPage extends StatefulWidget {
   const StartPage({
     super.key,
-    required this.searchField,
   });
-
-  final Widget searchField;
 
   @override
   State<StartPage> createState() => _StartPageState();
@@ -72,6 +70,8 @@ class _StartPageState extends State<StartPage> {
         .select((ExploreModel m) => m.sectionNameToSnapsMap[bannerSection]);
     final snapsWithIcons =
         sectionSnaps?.where((snap) => snap.iconUrl != null).toList();
+    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
+    final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
 
     Snap? bannerSnap;
     Snap? bannerSnap2;
@@ -114,7 +114,10 @@ class _StartPageState extends State<StartPage> {
 
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: widget.searchField,
+        flexibleSpace: SearchField(
+          searchQuery: searchQuery,
+          onChanged: setSearchQuery,
+        ),
       ),
       body: Column(
         children: [
