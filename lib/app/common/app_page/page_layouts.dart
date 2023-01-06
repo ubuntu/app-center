@@ -76,20 +76,12 @@ class OnePageLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = windowSize.width;
-    final hPadding = kPagePadding + 0.0007 * pow((width - 800) * 0.9, 2);
     return ListView(
-      padding: adaptivePadding
-          ? EdgeInsets.only(
-              top: kPagePadding,
-              left: hPadding,
-              right: hPadding,
-            )
-          : const EdgeInsets.only(
-              top: kPagePadding,
-              left: kPagePadding,
-              right: kPagePadding,
-            ),
+      padding: const EdgeInsets.only(
+        top: kPagePadding,
+        left: kPagePadding,
+        right: kPagePadding,
+      ),
       shrinkWrap: true,
       children: [
         for (final child in children)

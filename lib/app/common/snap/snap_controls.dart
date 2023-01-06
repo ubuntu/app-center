@@ -28,10 +28,12 @@ class SnapControls extends StatelessWidget {
     Key? key,
     this.direction = Axis.horizontal,
     this.appstream,
+    this.appFormatToggle,
   }) : super(key: key);
 
   final Axis direction;
   final AppstreamComponent? appstream;
+  final Widget? appFormatToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +42,8 @@ class SnapControls extends StatelessWidget {
     return Wrap(
       direction: direction,
       crossAxisAlignment: WrapCrossAlignment.center,
-      alignment: WrapAlignment.center,
-      runAlignment: WrapAlignment.center,
+      alignment: WrapAlignment.start,
+      runAlignment: WrapAlignment.start,
       spacing: 10,
       runSpacing: 10,
       children: model.snapChangeInProgress
@@ -61,6 +63,7 @@ class SnapControls extends StatelessWidget {
                 ),
             ]
           : [
+              if (appFormatToggle != null) appFormatToggle!,
               if (model.snapIsInstalled)
                 OutlinedButton(
                   onPressed: model.remove,
@@ -85,9 +88,7 @@ class SnapControls extends StatelessWidget {
                 ),
               if (model.selectableChannels.isNotEmpty &&
                   model.selectableChannels.length > 1)
-                SnapChannelPopupButton(
-                  appstream: appstream,
-                ),
+                const SnapChannelPopupButton(),
             ],
     );
   }

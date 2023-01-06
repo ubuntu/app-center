@@ -17,12 +17,10 @@
 
 import 'dart:io';
 
-import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/snap/snap_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -30,10 +28,7 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class SnapChannelPopupButton extends StatelessWidget {
   const SnapChannelPopupButton({
     Key? key,
-    this.appstream,
   }) : super(key: key);
-
-  final AppstreamComponent? appstream;
 
   @override
   Widget build(BuildContext context) {
@@ -57,22 +52,9 @@ class SnapChannelPopupButton extends StatelessWidget {
               releasedAt: DateFormat.yMd(Platform.localeName).format(
                 model.getSelectableChannel(i).releasedAt,
               ),
-              apendDivider:
-                  i < model.selectableChannels.length - 1 || appstream != null,
+              apendDivider: i < model.selectableChannels.length - 1,
             ),
           ),
-        if (appstream != null)
-          PopupMenuItem(
-            child: _Item(
-              name: context.l10n.debianPackage,
-              version: '',
-              releasedAt: '',
-            ),
-            onTap: () => PackagePage.push(
-              context,
-              appstream: appstream,
-            ),
-          )
       ],
       child: Text(
         model.channelToBeInstalled,
