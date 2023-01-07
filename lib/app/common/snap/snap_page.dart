@@ -101,6 +101,7 @@ class _SnapPageState extends State<SnapPage> {
     final model = context.watch<SnapModel>();
 
     final appData = AppData(
+      appSize: model.downloadSize,
       confinementName: model.confinement != null ? model.confinement!.name : '',
       installDate: model.installDate,
       installDateIsoNorm: model.installDateIsoNorm,
@@ -125,6 +126,9 @@ class _SnapPageState extends State<SnapPage> {
       appFormat: AppFormat.snap,
     );
 
+    var snapControls = SnapControls(
+      appstream: widget.appstream,
+    );
     return !initialized
         ? const AppLoadingPage()
         : AppPage(
@@ -135,27 +139,26 @@ class _SnapPageState extends State<SnapPage> {
                     child: SnapConnectionsSettings(),
                   )
                 : null,
-            controls: SnapControls(
-              appstream: widget.appstream,
-              appFormatToggle: widget.appstream == null
-                  ? null
-                  : AppFormatToggleButtons(
-                      isSelected: const [
-                        true,
-                        false,
-                      ],
-                      onPressed: (v) {
-                        if (v == 1) {
-                          PackagePage.push(
-                            context,
-                            appstream: widget.appstream,
-                            snap: widget.snap,
-                            replace: true,
-                          );
-                        }
-                      },
-                    ),
-            ),
+            subControlPageHeader:
+                widget.appstream != null ? snapControls : null,
+            controls: widget.appstream != null
+                ? AppFormatToggleButtons(
+                    isSelected: const [
+                      true,
+                      false,
+                    ],
+                    onPressed: (v) {
+                      if (v == 1) {
+                        PackagePage.push(
+                          context,
+                          appstream: widget.appstream,
+                          snap: widget.snap,
+                          replace: true,
+                        );
+                      }
+                    },
+                  )
+                : snapControls,
             icon: AppIcon(
               iconUrl: model.iconUrl,
               size: 150,

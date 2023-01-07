@@ -37,6 +37,7 @@ class AppData {
   final double? averageRating;
   final List<AppReview>? userReviews;
   final AppFormat appFormat;
+  final String appSize;
 
   AppData({
     required this.title,
@@ -58,6 +59,7 @@ class AppData {
     this.averageRating,
     this.userReviews,
     required this.appFormat,
+    required this.appSize,
   });
 }
 

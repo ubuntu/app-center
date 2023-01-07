@@ -28,12 +28,10 @@ class SnapControls extends StatelessWidget {
     Key? key,
     this.direction = Axis.horizontal,
     this.appstream,
-    this.appFormatToggle,
   }) : super(key: key);
 
   final Axis direction;
   final AppstreamComponent? appstream;
-  final Widget? appFormatToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +61,6 @@ class SnapControls extends StatelessWidget {
                 ),
             ]
           : [
-              if (appFormatToggle != null) appFormatToggle!,
               if (model.snapIsInstalled)
                 OutlinedButton(
                   onPressed: model.remove,
