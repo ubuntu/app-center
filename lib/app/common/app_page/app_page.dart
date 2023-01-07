@@ -155,10 +155,18 @@ class _AppPageState extends State<AppPage> {
       onFlag: widget.onFlag,
     );
 
+    final appInfos = BorderContainer(
+      child: AppInfos(
+        appData: widget.appData,
+      ),
+    );
+
     final normalWindowAppHeader = BorderContainer(
       child: BannerAppHeader(
+        windowSize: windowSize,
         appData: widget.appData,
         controls: widget.controls,
+        subControls: widget.subControlPageHeader,
         icon: icon,
       ),
     );
@@ -192,17 +200,7 @@ class _AppPageState extends State<AppPage> {
           BorderContainer(
             child: widget.subBannerHeader,
           ),
-        BorderContainer(
-          child: AppInfos(
-            strict: widget.appData.strict,
-            confinementName: widget.appData.confinementName,
-            license: widget.appData.license,
-            installDate: widget.appData.installDate,
-            installDateIsoNorm: widget.appData.installDateIsoNorm,
-            version: widget.appData.version,
-            versionChanged: widget.appData.versionChanged,
-          ),
-        ),
+        appInfos,
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
         ratingsAndReviews,
@@ -213,6 +211,7 @@ class _AppPageState extends State<AppPage> {
     final wideWindowLayout = PanedPageLayout(
       leftChild: wideWindowAppHeader,
       rightChildren: [
+        appInfos,
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
         ratingsAndReviews,
@@ -225,6 +224,7 @@ class _AppPageState extends State<AppPage> {
       windowSize: windowSize,
       children: [
         narrowWindowAppHeader,
+        appInfos,
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
         ratingsAndReviews,

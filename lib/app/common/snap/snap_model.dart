@@ -142,6 +142,12 @@ class SnapModel extends AppModel {
           ? selectableChannels[channelToBeInstalled]!.version
           : '';
 
+  String get selectedChannelReleasedAt =>
+      selectableChannels[channelToBeInstalled] != null
+          ? DateFormat.yMd(Platform.localeName)
+              .format(selectableChannels[channelToBeInstalled]!.releasedAt)
+          : '';
+
   /// Common IDs this snap contains.
   List<String>? get commonIds => _storeSnap?.commonIds ?? _localSnap?.commonIds;
 
@@ -158,7 +164,10 @@ class SnapModel extends AppModel {
   String? get description => _storeSnap?.description ?? _localSnap?.description;
 
   /// Download size in bytes.
-  int? get downloadSize => _storeSnap?.downloadSize ?? _localSnap?.downloadSize;
+  String get downloadSize =>
+      _storeSnap != null && _storeSnap!.downloadSize != null
+          ? formatBytes(_storeSnap!.downloadSize!, 2)
+          : '';
 
   /// Helper getter to get the icon url of the [SnapMedia]
   String? get iconUrl => _storeSnap?.iconUrl ?? _localSnap?.iconUrl;

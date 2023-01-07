@@ -62,11 +62,11 @@ static void my_application_activate(GApplication* application) {
 
   GdkGeometry geometry_min;
   geometry_min.min_width = 660;
-  geometry_min.min_height = 870;
+  geometry_min.min_height = 600;
   gtk_window_set_geometry_hints(window, nullptr, &geometry_min, GDK_HINT_MIN_SIZE);
 
 
-  gtk_window_set_default_size(window, 910, 870);
+  gtk_window_set_default_size(window, 860, 860);
 
   g_autoptr(FlDartProject) project = fl_dart_project_new();
   fl_dart_project_set_dart_entrypoint_arguments(project, self->dart_entrypoint_arguments);
