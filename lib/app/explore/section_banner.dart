@@ -114,16 +114,20 @@ class _PlatedIconState extends State<_PlatedIcon> {
   @override
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
-    return InkWell(
-      onTap: () => SnapPage.push(context: context, snap: widget.snap),
-      onHover: (value) => setState(() => hovered = value),
-      child: _BasePlate(
-        hovered: hovered,
-        child: AppIcon(
-          iconUrl: widget.snap.iconUrl,
-          color: dark ? const Color.fromARGB(255, 236, 236, 236) : null,
-          borderColor: dark ? const Color.fromARGB(255, 211, 211, 211) : null,
-          size: 65,
+    return Tooltip(
+      message: widget.snap.name,
+      verticalOffset: 50.0,
+      child: InkWell(
+        onTap: () => SnapPage.push(context: context, snap: widget.snap),
+        onHover: (value) => setState(() => hovered = value),
+        child: _BasePlate(
+          hovered: hovered,
+          child: AppIcon(
+            iconUrl: widget.snap.iconUrl,
+            color: dark ? const Color.fromARGB(255, 236, 236, 236) : null,
+            borderColor: dark ? const Color.fromARGB(255, 211, 211, 211) : null,
+            size: 65,
+          ),
         ),
       ),
     );
