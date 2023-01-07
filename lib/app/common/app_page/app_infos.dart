@@ -82,9 +82,9 @@ class AppInfos extends StatelessWidget {
           InfoColumn(
             header: context.l10n.releasedAt,
             tooltipMessage: context.l10n.releasedAt,
-            child: const Align(
+            child: Align(
               alignment: Alignment.center,
-              child: Text('12.12.12'),
+              child: Text(appData.releasedAt),
             ),
           ),
           InfoColumn(

@@ -38,6 +38,7 @@ class AppData {
   final List<AppReview>? userReviews;
   final AppFormat appFormat;
   final String appSize;
+  final String releasedAt;
 
   AppData({
     required this.title,
@@ -60,6 +61,7 @@ class AppData {
     this.userReviews,
     required this.appFormat,
     required this.appSize,
+    required this.releasedAt,
   });
 }
 

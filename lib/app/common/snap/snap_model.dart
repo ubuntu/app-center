@@ -142,6 +142,12 @@ class SnapModel extends AppModel {
           ? selectableChannels[channelToBeInstalled]!.version
           : '';
 
+  String get selectedChannelReleasedAt =>
+      selectableChannels[channelToBeInstalled] != null
+          ? DateFormat.yMd(Platform.localeName)
+              .format(selectableChannels[channelToBeInstalled]!.releasedAt)
+          : '';
+
   /// Common IDs this snap contains.
   List<String>? get commonIds => _storeSnap?.commonIds ?? _localSnap?.commonIds;
 

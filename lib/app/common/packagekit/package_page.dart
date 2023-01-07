@@ -126,6 +126,7 @@ class _PackagePageState extends State<PackagePage> {
     final model = context.watch<PackageModel>();
 
     final appData = AppData(
+      releasedAt: '',
       appSize: formatBytes(model.size, 2),
       confinementName: context.l10n.classic,
       license: model.license,

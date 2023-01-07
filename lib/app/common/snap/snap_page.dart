@@ -101,6 +101,7 @@ class _SnapPageState extends State<SnapPage> {
     final model = context.watch<SnapModel>();
 
     final appData = AppData(
+      releasedAt: model.selectedChannelReleasedAt,
       appSize: model.downloadSize,
       confinementName: model.confinement != null ? model.confinement!.name : '',
       installDate: model.installDate,
