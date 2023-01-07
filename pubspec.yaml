@@ -48,9 +48,9 @@ dependencies:
   window_manager: 0.2.8
   xdg_icons: ^0.0.1
   xterm: ^3.3.0
-  yaru: ^0.4.4
+  yaru: ^0.4.7
   yaru_colors: ^0.1.1
-  yaru_icons: ^1.0.0
+  yaru_icons: ^1.0.1
   yaru_widgets:
     git:
       url: https://github.com/ubuntu/yaru_widgets.dart
