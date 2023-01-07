@@ -193,6 +193,9 @@ class SearchBannerSubtitle extends StatelessWidget {
           appFinding.snap?.summary ??
               appFinding.appstream?.localizedSummary() ??
               '',
+          style: TextStyle(
+            color: theme.colorScheme.onSurface,
+          ),
           overflow: TextOverflow.ellipsis,
         ),
         Padding(
