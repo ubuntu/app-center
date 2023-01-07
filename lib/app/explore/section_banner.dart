@@ -116,7 +116,7 @@ class _PlatedIconState extends State<_PlatedIcon> {
     final dark = Theme.of(context).brightness == Brightness.dark;
     return Tooltip(
       message: widget.snap.name,
-      verticalOffset: 50.0,
+      verticalOffset: 45.0,
       child: InkWell(
         onTap: () => SnapPage.push(context: context, snap: widget.snap),
         onHover: (value) => setState(() => hovered = value),
