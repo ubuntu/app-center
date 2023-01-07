@@ -18,10 +18,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:software/app/common/app_data.dart';
-import 'package:software/l10n/l10n.dart';
+import 'package:software/app/common/app_page/info_column.dart';
+import 'package:software/app/common/app_page/publisher_name.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:yaru_colors/yaru_colors.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
@@ -54,11 +54,15 @@ class AppInfos extends StatelessWidget {
         runSpacing: 40,
         direction: direction,
         children: [
-          _PublisherName(
-            publisherName: appData.publisherName ?? '',
-            verified: appData.verified,
-            starDev: appData.starredDeveloper,
-            website: appData.website,
+          InfoColumn(
+            header: context.l10n.publisher,
+            tooltipMessage: appData.website,
+            child: PublisherName(
+              publisherName: appData.publisherName ?? '',
+              verified: appData.verified,
+              starDev: appData.starredDeveloper,
+              website: appData.website,
+            ),
           ),
           InfoColumn(
             header: context.l10n.rating,
@@ -164,44 +168,6 @@ class _InstallDate extends StatelessWidget {
   }
 }
 
-class InfoColumn extends StatelessWidget {
-  const InfoColumn({
-    Key? key,
-    required this.header,
-    required this.child,
-    required this.tooltipMessage,
-    this.childWidth,
-  }) : super(key: key);
-
-  final String header;
-  final String tooltipMessage;
-  final Widget child;
-  final double? childWidth;
-
-  @override
-  Widget build(BuildContext context) {
-    return Tooltip(
-      message: tooltipMessage,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            header,
-            overflow: TextOverflow.ellipsis,
-            style: headerStyle,
-          ),
-          SizedBox(
-            width: childWidth ?? 100,
-            child: child,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _Version extends StatelessWidget {
   const _Version({
     Key? key,
@@ -280,7 +246,7 @@ class _Confinement extends StatelessWidget {
         children: [
           Icon(
             strict ? YaruIcons.shield : YaruIcons.warning,
-            size: 18,
+            size: 16,
           ),
           const SizedBox(
             width: 5,
@@ -290,86 +256,6 @@ class _Confinement extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _PublisherName extends StatelessWidget {
-  const _PublisherName({
-    Key? key,
-    this.verified = false,
-    required this.publisherName,
-    this.starDev = false,
-    required this.website,
-  }) : super(key: key);
-
-  final bool verified;
-  final bool starDev;
-  final String publisherName;
-  final String website;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final light = theme.brightness == Brightness.light;
-    return InkWell(
-      onTap: () => launchUrl(Uri.parse(website)),
-      child: InfoColumn(
-        header: context.l10n.publisher,
-        tooltipMessage: website,
-        child: Align(
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (verified)
-                Padding(
-                  padding: const EdgeInsets.only(right: 5),
-                  child: Icon(
-                    Icons.verified,
-                    color: light ? kGreenLight : kGreenDark,
-                    size: 14,
-                  ),
-                )
-              else if (starDev)
-                const Padding(
-                  padding: EdgeInsets.only(right: 5),
-                  child: _StarDeveloper(),
-                ),
-              Expanded(
-                child: Text(
-                  publisherName,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _StarDeveloper extends StatelessWidget {
-  const _StarDeveloper({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: YaruColors.orange.withOpacity(0.7),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: const Center(
-        child: Icon(
-          Icons.star,
-          color: Colors.white,
-        ),
       ),
     );
   }

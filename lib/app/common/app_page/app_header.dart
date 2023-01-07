@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:software/app/common/app_data.dart';
+import 'package:software/app/common/app_page/publisher_name.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
@@ -63,6 +64,7 @@ class BannerAppHeader extends StatelessWidget {
                     appData.title,
                     style: theme.textTheme.headline3!.copyWith(
                       fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
+                      color: theme.colorScheme.onSurface,
                     ),
                   ),
                   const SizedBox(
@@ -118,14 +120,28 @@ class PageAppHeader extends StatelessWidget {
               padding: const EdgeInsets.all(kYaruPagePadding),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     appData.title,
                     style: theme.textTheme.headline3!.copyWith(
                       fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
+                      color: theme.colorScheme.onSurface,
                     ),
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
+                  ),
+                  Center(
+                    child: PublisherName(
+                      height: 20,
+                      publisherName: appData.publisherName ?? '',
+                      website: appData.website,
+                      verified: appData.verified,
+                      starDev: appData.starredDeveloper,
+                      expandChild: false,
+                      enhanceChildText: true,
+                    ),
                   ),
                 ],
               ),
