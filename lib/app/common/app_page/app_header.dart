@@ -50,6 +50,7 @@ class BannerAppHeader extends StatelessWidget {
           children: [
             SizedBox(
               height: iconSize,
+              width: iconSize,
               child: icon,
             ),
             const SizedBox(width: 30),
@@ -110,6 +111,7 @@ class PageAppHeader extends StatelessWidget {
           children: [
             SizedBox(
               height: iconSize,
+              width: iconSize,
               child: icon,
             ),
             Padding(
