@@ -50,8 +50,11 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
               ),
             );
           } else {
-            if (!snapshot.hasData) {
-              return const NoUpdatesPage();
+            if ((snapshot.hasData && snapshot.data!.isEmpty) ||
+                !snapshot.hasData) {
+              return const Center(
+                child: SingleChildScrollView(child: NoUpdatesPage()),
+              );
             } else {
               return SnapGrid(
                 snaps: sortSnaps(
