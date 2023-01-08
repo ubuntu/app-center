@@ -87,15 +87,22 @@ class _PackageUpdatesPageState extends State<PackageUpdatesPage> {
     return Column(
       children: [
         const _UpdatesHeader(),
-        if (model.updatesState == UpdatesState.noUpdates) const NoUpdatesPage(),
+        if (model.updatesState == UpdatesState.noUpdates)
+          const Expanded(child: Center(child: NoUpdatesPage())),
         if (model.updatesState == UpdatesState.readyToUpdate)
           _UpdatesListView(hPadding: hPadding),
         if (model.updatesState == UpdatesState.updating)
           _UpdatingPage(hPadding: hPadding),
         if (model.updatesState == UpdatesState.checkingForUpdates)
-          UpdatesSplashScreen(
-            icon: YaruIcons.debian,
-            percentage: model.percentage,
+          Expanded(
+            child: Center(
+              child: SingleChildScrollView(
+                child: UpdatesSplashScreen(
+                  icon: YaruIcons.debian,
+                  percentage: model.percentage,
+                ),
+              ),
+            ),
           )
       ],
     );
