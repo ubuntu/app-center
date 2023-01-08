@@ -47,7 +47,8 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
               expanded: false,
             );
           } else {
-            if ((snapshot.hasData && snapshot.data!.isEmpty) || !snapshot.hasData) {
+            if ((snapshot.hasData && snapshot.data!.isEmpty) ||
+                !snapshot.hasData) {
               return const NoUpdatesPage();
             } else {
               return SnapGrid(
