@@ -6,11 +6,14 @@ import 'package:yaru_icons/yaru_icons.dart';
 class NoUpdatesPage extends StatelessWidget {
   const NoUpdatesPage({
     Key? key,
+    this.expand = true,
   }) : super(key: key);
+
+  final bool expand;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    final page = Center(
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -39,5 +42,11 @@ class NoUpdatesPage extends StatelessWidget {
         ],
       ),
     );
+
+    return expand
+        ? Expanded(
+            child: page,
+          )
+        : page;
   }
 }
