@@ -53,9 +53,12 @@ class SnapUpdatesPage extends StatelessWidget {
       future: model.loadSnapsWithUpdate(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
-          return const UpdatesSplashScreen(
-            expanded: false,
-            icon: YaruIcons.snapcraft,
+          return const Center(
+            child: SingleChildScrollView(
+              child: UpdatesSplashScreen(
+                icon: YaruIcons.snapcraft,
+              ),
+            ),
           );
         }
 
