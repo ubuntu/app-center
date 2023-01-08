@@ -44,13 +44,19 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
         future: model.localSnapsWithUpdate,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const UpdatesSplashScreen(
-              icon: YaruIcons.snapcraft,
-              expanded: false,
+            return const Center(
+              child: SingleChildScrollView(
+                child: UpdatesSplashScreen(
+                  icon: YaruIcons.snapcraft,
+                ),
+              ),
             );
           } else {
-            if (!snapshot.hasData) {
-              return const NoUpdatesPage();
+            if ((snapshot.hasData && snapshot.data!.isEmpty) ||
+                !snapshot.hasData) {
+              return const Center(
+                child: SingleChildScrollView(child: NoUpdatesPage()),
+              );
             } else {
               return SnapGrid(
                 snaps: sortSnaps(
