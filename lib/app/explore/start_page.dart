@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_section.dart';
@@ -88,6 +89,9 @@ class _StartPageState extends State<StartPage> {
         controller: _controller,
         child: Column(
           children: const [
+            SizedBox(
+              height: kPagePadding - 5,
+            ),
             _LoadingSectionBanner(),
             LoadingBannerGrid(),
           ],
