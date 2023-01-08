@@ -5,8 +5,11 @@ class NoSnapsInstalledPage extends StatelessWidget {
   final String message;
   final IconData icon;
 
-  const NoSnapsInstalledPage(
-      {required this.message, required this.icon, super.key});
+  const NoSnapsInstalledPage({
+    required this.message,
+    required this.icon,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
