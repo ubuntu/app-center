@@ -648,5 +648,30 @@ class PackageService {
     }.contains(code);
   }
 
+  Future<Map<PackageKitPackageId, PackageKitInfo>> getDependencies(
+    PackageKitPackageId id,
+  ) async {
+    Map<PackageKitPackageId, PackageKitInfo> dependencies = {};
+
+    final dependsOnTransaction = await _client.createTransaction();
+    final dependsOnCompleter = Completer();
+    dependsOnTransaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        dependencies.putIfAbsent(
+          event.packageId,
+          () => event.info,
+        );
+      } else if (event is PackageKitErrorCodeEvent) {
+        setErrorMessage('${event.code}: ${event.details}');
+      } else if (event is PackageKitFinishedEvent) {
+        dependsOnCompleter.complete();
+      }
+    });
+    await dependsOnTransaction.dependsOn([id]);
+    await dependsOnCompleter.future;
+
+    return dependencies;
+  }
+
   exitApp() => exit(0);
 }
