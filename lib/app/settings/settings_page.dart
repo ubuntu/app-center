@@ -61,26 +61,17 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      onGenerateRoute: (settings) {
-        return MaterialPageRoute(
-          builder: (context) {
-            return ListView(
-              children: [
-                const ThemeSection(),
-                YaruSection(
-                  margin: const EdgeInsets.all(kYaruPagePadding),
-                  //width: kMinSectionWidth,
-                  child: Column(
-                    children: [_RepoTile.create(context), const _AboutTile()],
-                  ),
-                )
-              ],
-            );
-          },
-        );
-      },
-      onPopPage: (route, result) => route.didPop(result),
+    return ListView(
+      children: [
+        const ThemeSection(),
+        YaruSection(
+          margin: const EdgeInsets.all(kYaruPagePadding),
+          //width: kMinSectionWidth,
+          child: Column(
+            children: [_RepoTile.create(context), const _AboutTile()],
+          ),
+        )
+      ],
     );
   }
 }

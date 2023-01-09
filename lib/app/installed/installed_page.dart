@@ -81,21 +81,14 @@ class InstalledPage extends StatelessWidget {
       ],
     );
 
-    return Navigator(
-      pages: [
-        MaterialPage(
-          child: Scaffold(
-            appBar: AppBar(
-              flexibleSpace: SearchField(
-                searchQuery: searchQuery ?? '',
-                onChanged: setSearchQuery,
-              ),
-            ),
-            body: page,
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: SearchField(
+          searchQuery: searchQuery ?? '',
+          onChanged: setSearchQuery,
         ),
-      ],
-      onPopPage: (route, result) => route.didPop(result),
+      ),
+      body: page,
     );
   }
 }
