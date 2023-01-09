@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/constants.dart';
+import 'package:software/app/updates/no_updates_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
@@ -99,6 +100,12 @@ class SnapUpdatesPage extends StatelessWidget {
             ),
             if (model.checkingForUpdates)
               const UpdatesSplashScreen(icon: YaruIcons.snapcraft)
+            else if (snaps.isEmpty)
+              const Expanded(
+                child: Center(
+                  child: NoUpdatesPage(),
+                ),
+              )
             else
               Expanded(
                 child: snapshot.connectionState != ConnectionState.done
