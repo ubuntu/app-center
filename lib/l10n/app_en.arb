@@ -151,5 +151,19 @@
   "releasedAt": "Released at",
   "installed": "Installed",
   "configure": "Configure",
-  "sourcesDescription": "Setup where your system and third-party Debian packages are updated from."
+  "sourcesDescription": "Setup where your system and third-party Debian packages are updated from.",
+  "dependencies": "Dependencies",
+  "dependenciesQuestion": "Are you sure you want to proceed?",
+  "dependenciesFullList": "See full list of dependencies",
+  "dependenciesListing": "{length} dependencies will be downloaded when installing {packageName}",
+  "@dependenciesListing" : {
+    "placeholders": {
+        "length": {
+          "type": "int"
+        },
+        "packageName": {
+          "type": "String"
+        }
+    }
+}
 }
