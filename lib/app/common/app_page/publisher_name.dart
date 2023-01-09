@@ -27,7 +27,7 @@ class PublisherName extends StatelessWidget {
     required this.publisherName,
     this.starDev = false,
     required this.website,
-    this.expandChild = true,
+    this.limitChildWidth = true,
     this.height = 14,
     this.enhanceChildText = false,
   }) : super(key: key);
@@ -36,7 +36,7 @@ class PublisherName extends StatelessWidget {
   final bool starDev;
   final String publisherName;
   final String website;
-  final bool expandChild;
+  final bool limitChildWidth;
   final double height;
   final bool enhanceChildText;
 
@@ -64,7 +64,13 @@ class PublisherName extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (expandChild) Expanded(child: child) else child,
+              if (limitChildWidth)
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 80),
+                  child: child,
+                )
+              else
+                child,
               if (verified)
                 Padding(
                   padding: EdgeInsets.only(left: height * 0.2),

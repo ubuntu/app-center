@@ -139,7 +139,7 @@ class PageAppHeader extends StatelessWidget {
                       website: appData.website,
                       verified: appData.verified,
                       starDev: appData.starredDeveloper,
-                      expandChild: false,
+                      limitChildWidth: false,
                       enhanceChildText: true,
                     ),
                   ),
