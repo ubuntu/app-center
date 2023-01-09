@@ -20,20 +20,23 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/app/common/app_format.dart';
-import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
-import 'package:software/app/common/snap/snap_page.dart';
-import 'package:software/app/common/utils.dart';
-import 'package:software/services/appstream/appstream_utils.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/app/common/app_data.dart';
+import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_icon.dart';
+import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/app_page/app_loading_page.dart';
 import 'package:software/app/common/app_page/app_page.dart';
+import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_controls.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
+import 'package:software/app/common/snap/snap_page.dart';
+import 'package:software/app/common/utils.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/services/appstream/appstream_utils.dart';
+import 'package:software/services/packagekit/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackagePage extends StatefulWidget {
   const PackagePage({
@@ -150,8 +153,40 @@ class _PackagePageState extends State<PackagePage> {
       versionChanged: model.versionChanged,
       packageState: model.packageState,
       remove: () => model.remove(),
-      install: () => model.install(),
+      install: model.install,
+      hasDependencies: model.uninstalledDependencyNames.isNotEmpty,
+      showDeps: () => showDialog(
+        context: context,
+        builder: (context) => _ShowDepsDialog(
+          packageName: model.title,
+          onInstall: model.install,
+          dependencies: model.uninstalledDependencyNames,
+        ),
+      ),
     );
+
+    final dependencies = BorderContainer(
+      child: YaruExpandable(
+        header: Text(
+          '${context.l10n.dependencies} (${model.uninstalledDependencyNames.length})',
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Column(
+            children: model.uninstalledDependencyNames
+                .map(
+                  (e) => ListTile(
+                    title: Text(e),
+                    leading: const Icon(YaruIcons.package_deb),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+      ),
+    );
+
     return !initialized
         ? const AppLoadingPage()
         : AppPage(
@@ -189,6 +224,8 @@ class _PackagePageState extends State<PackagePage> {
                     },
                   ),
             subControlPageHeader: widget.snap != null ? packageControls : null,
+            subDescription:
+                model.uninstalledDependencyNames.isEmpty ? null : dependencies,
             onReviewSend: model.sendReview,
             onRatingUpdate: (v) => model.reviewRating = v,
             onReviewTitleChanged: (v) => model.reviewTitle = v,
@@ -199,5 +236,98 @@ class _PackagePageState extends State<PackagePage> {
             reviewTitle: model.reviewTitle,
             reviewUser: model.reviewUser,
           );
+  }
+}
+
+class _ShowDepsDialog extends StatefulWidget {
+  final void Function() onInstall;
+  final String packageName;
+  final List<String> dependencies;
+
+  const _ShowDepsDialog({
+    required this.onInstall,
+    required this.dependencies,
+    required this.packageName,
+  });
+
+  @override
+  State<_ShowDepsDialog> createState() => _ShowDepsDialogState();
+}
+
+class _ShowDepsDialogState extends State<_ShowDepsDialog> {
+  bool _isExpanded = false;
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return AlertDialog(
+      title: SizedBox(
+        width: 500,
+        child: YaruTitleBar(
+          title: Text(context.l10n.dependencies),
+        ),
+      ),
+      titlePadding: EdgeInsets.zero,
+      scrollable: true,
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: kYaruPagePadding / 2),
+            child: Text(
+              context.l10n.dependenciesListing(
+                widget.dependencies.length,
+                widget.packageName,
+              ),
+              style: theme.textTheme.bodyLarge,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: kYaruPagePadding),
+            child: Text(
+              context.l10n.dependenciesQuestion,
+              style: theme.textTheme.bodyLarge!
+                  .copyWith(fontWeight: FontWeight.w500),
+            ),
+          ),
+          YaruExpandable(
+            onChange: (isExpanded) => setState(() => _isExpanded = isExpanded),
+            header: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: Text(
+                _isExpanded
+                    ? context.l10n.dependencies
+                    : context.l10n.dependenciesFullList,
+                style: TextStyle(
+                  color: _isExpanded ? null : theme.primaryColor,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            child: Column(
+              children: [
+                for (var d in widget.dependencies)
+                  ListTile(
+                    title: Text(d),
+                    leading: const Icon(
+                      YaruIcons.package_deb,
+                    ),
+                  )
+              ],
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        OutlinedButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(context.l10n.cancel),
+        ),
+        ElevatedButton(
+          onPressed: widget.onInstall,
+          child: Text(context.l10n.install),
+        )
+      ],
+    );
   }
 }

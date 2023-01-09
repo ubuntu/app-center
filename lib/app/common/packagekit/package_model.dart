@@ -21,10 +21,10 @@ import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:software/services/appstream/appstream_utils.dart';
-import 'package:software/services/packagekit/package_state.dart';
-import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/app/common/app_model.dart';
+import 'package:software/services/appstream/appstream_utils.dart';
+import 'package:software/services/packagekit/package_service.dart';
+import 'package:software/services/packagekit/package_state.dart';
 
 class PackageModel extends AppModel {
   final PackageService _service;
@@ -80,6 +80,7 @@ class PackageModel extends AppModel {
       await _service.getDetailsAboutLocalPackage(model: this);
     }
     _info = null;
+    await checkDependencies();
 
     return _service.isInstalled(model: this).then(_updatePercentage);
   }
@@ -235,6 +236,28 @@ class PackageModel extends AppModel {
         .remove(model: this)
         .then(_updateDetails)
         .then(_updatePercentage);
+  }
+
+  Map<PackageKitPackageId, PackageKitInfo>? _dependencies;
+  Map<PackageKitPackageId, PackageKitInfo>? get dependencies => _dependencies;
+  set dependencies(Map<PackageKitPackageId, PackageKitInfo>? value) {
+    if (value == null) return;
+    _dependencies = value;
+    notifyListeners();
+  }
+
+  List<String> get uninstalledDependencyNames => dependencies != null
+      ? dependencies!.entries
+          .where(
+            (element) => element.value == PackageKitInfo.available,
+          )
+          .map((e) => e.key.name)
+          .toList()
+      : [];
+
+  Future<void> checkDependencies() async {
+    if (_packageId == null) return;
+    await _service.getDependencies(model: this);
   }
 
   @override
