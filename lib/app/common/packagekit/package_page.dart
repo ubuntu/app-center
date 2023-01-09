@@ -229,15 +229,15 @@ class _ShowDepsDialog extends StatefulWidget {
 }
 
 class _ShowDepsDialogState extends State<_ShowDepsDialog> {
-  bool _expanded = false;
+  bool _isExpanded = false;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return AlertDialog(
-      title: const SizedBox(
+      title: SizedBox(
         width: 500,
         child: YaruTitleBar(
-          title: Text('Dependencies'),
+          title: Text(context.l10n.dependencies),
         ),
       ),
       titlePadding: EdgeInsets.zero,
@@ -249,23 +249,34 @@ class _ShowDepsDialogState extends State<_ShowDepsDialog> {
           Padding(
             padding: const EdgeInsets.only(bottom: kYaruPagePadding / 2),
             child: Text(
-              '${widget.dependencies.length} dependencies will be downloaded when installing ${widget.packageName}',
+              context.l10n.dependenciesListing(
+                widget.dependencies.length,
+                widget.packageName,
+              ),
               style: theme.textTheme.bodyLarge,
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: kYaruPagePadding),
             child: Text(
-              'Are you sure you want to proceed?',
+              context.l10n.dependenciesQuestion,
               style: theme.textTheme.bodyLarge!
                   .copyWith(fontWeight: FontWeight.w500),
             ),
           ),
           YaruExpandable(
-            onChange: (isExpanded) => setState(() => _expanded = isExpanded),
-            header: Text(
-              _expanded ? 'Dependencies' : 'See full list of dependencies',
-              style: TextStyle(color: theme.primaryColor),
+            onChange: (isExpanded) => setState(() => _isExpanded = isExpanded),
+            header: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: Text(
+                _isExpanded
+                    ? context.l10n.dependencies
+                    : context.l10n.dependenciesFullList,
+                style: TextStyle(
+                  color: _isExpanded ? null : theme.primaryColor,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
             child: Column(
               children: [
