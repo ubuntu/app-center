@@ -16,8 +16,12 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:software/l10n/l10n.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:software/app/common/app_data.dart';
+import 'package:software/app/common/app_page/info_column.dart';
+import 'package:software/app/common/app_page/publisher_name.dart';
 import 'package:software/app/common/constants.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
@@ -25,30 +29,19 @@ const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 class AppInfos extends StatelessWidget {
   const AppInfos({
     Key? key,
-    required this.strict,
-    required this.confinementName,
-    required this.license,
-    this.installDate,
-    this.installDateIsoNorm,
-    required this.version,
-    this.versionChanged,
+    required this.appData,
     this.alignment = Alignment.center,
     this.wrapAlignment = WrapAlignment.center,
     this.runAlignment = WrapAlignment.center,
     this.direction = Axis.horizontal,
   }) : super(key: key);
 
-  final bool strict;
-  final String confinementName;
-  final String license;
-  final String? installDate;
-  final String? installDateIsoNorm;
-  final String version;
-  final bool? versionChanged;
+  final AppData appData;
+
+  final Axis direction;
   final AlignmentGeometry alignment;
   final WrapAlignment wrapAlignment;
   final WrapAlignment runAlignment;
-  final Axis direction;
 
   @override
   Widget build(BuildContext context) {
@@ -57,39 +50,96 @@ class AppInfos extends StatelessWidget {
       child: Wrap(
         alignment: wrapAlignment,
         runAlignment: runAlignment,
+        spacing: 50,
         runSpacing: 40,
         direction: direction,
         children: [
-          _Confinement(
-            strict: strict,
-            confinementName: confinementName,
+          InfoColumn(
+            header: context.l10n.publisher,
+            tooltipMessage: appData.website,
+            child: PublisherName(
+              publisherName: appData.publisherName ?? '',
+              verified: appData.verified,
+              starDev: appData.starredDeveloper,
+              website: appData.website,
+            ),
           ),
-          _divider(direction),
-          _License(headerStyle: headerStyle, license: license),
-          _divider(direction),
+          InfoColumn(
+            header: context.l10n.rating,
+            tooltipMessage: appData.averageRating.toString(),
+            child: Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: _RatingBar(averageRating: appData.averageRating ?? 0),
+              ),
+            ),
+          ),
           _Version(
-            version: version,
-            versionChanged: versionChanged,
+            version: appData.version,
+            versionChanged: appData.versionChanged,
           ),
-          if (installDate != null && installDateIsoNorm != null)
-            _divider(direction),
-          if (installDate != null && installDateIsoNorm != null)
-            _InstallDate(
-              installDateIsoNorm: installDateIsoNorm!,
-              installDate: installDate!,
-            )
+          _Confinement(
+            strict: appData.strict,
+            confinementName: appData.confinementName,
+          ),
+          InfoColumn(
+            header: context.l10n.releasedAt,
+            tooltipMessage: context.l10n.releasedAt,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(appData.releasedAt),
+            ),
+          ),
+          InfoColumn(
+            header: context.l10n.size,
+            tooltipMessage: context.l10n.size,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(appData.appSize),
+            ),
+          ),
+          _License(headerStyle: headerStyle, license: appData.license),
+          _InstallDate(
+            installDateIsoNorm: appData.installDateIsoNorm ?? '',
+            installDate: appData.installDate ?? '',
+          ),
         ],
       ),
     );
   }
+}
 
-  Widget _divider(Axis direction) => direction == Axis.horizontal
-      ? const SizedBox(height: 40, width: 30, child: VerticalDivider())
-      : const SizedBox(
-          width: 100,
-          height: 30,
-          child: Divider(),
-        );
+class _RatingBar extends StatelessWidget {
+  const _RatingBar({
+    Key? key,
+    required this.averageRating,
+  }) : super(key: key);
+
+  final double averageRating;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return RatingBar.builder(
+      initialRating: averageRating,
+      minRating: 1,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      itemPadding: EdgeInsets.zero,
+      itemSize: 15,
+      itemBuilder: (context, _) => const Icon(
+        YaruIcons.star_filled,
+        color: kStarColor,
+        size: 2,
+      ),
+      unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
+      onRatingUpdate: (rating) {},
+      ignoreGestures: true,
+    );
+  }
 }
 
 class _InstallDate extends StatelessWidget {
@@ -113,44 +163,6 @@ class _InstallDate extends StatelessWidget {
         maxLines: 1,
         overflow: TextOverflow.visible,
         textAlign: TextAlign.center,
-      ),
-    );
-  }
-}
-
-class InfoColumn extends StatelessWidget {
-  const InfoColumn({
-    Key? key,
-    required this.header,
-    required this.child,
-    required this.tooltipMessage,
-    this.childWidth,
-  }) : super(key: key);
-
-  final String header;
-  final String tooltipMessage;
-  final Widget child;
-  final double? childWidth;
-
-  @override
-  Widget build(BuildContext context) {
-    return Tooltip(
-      message: tooltipMessage,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            header,
-            overflow: TextOverflow.ellipsis,
-            style: headerStyle,
-          ),
-          SizedBox(
-            width: childWidth ?? 100,
-            child: child,
-          ),
-        ],
       ),
     );
   }
@@ -234,7 +246,7 @@ class _Confinement extends StatelessWidget {
         children: [
           Icon(
             strict ? YaruIcons.shield : YaruIcons.warning,
-            size: 18,
+            size: 16,
           ),
           const SizedBox(
             width: 5,

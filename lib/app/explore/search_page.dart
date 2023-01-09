@@ -22,19 +22,31 @@ import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
+import 'package:software/app/common/search_field.dart';
+
+import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({super.key});
+  const SearchPage({
+    super.key,
+  });
 
-  @override
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final search = context.select((ExploreModel m) => m.search);
+    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
+    final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
+    final showSnap = context.select(
+      (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.snap),
+    );
+    final showPackageKit = context.select(
+      (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
+    );
 
-    return FutureBuilder<Map<String, AppFinding>>(
-      future: model.search(),
+    final grid = FutureBuilder<Map<String, AppFinding>>(
+      future: search(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingBannerGrid();
@@ -42,16 +54,16 @@ class SearchPage extends StatelessWidget {
 
         return snapshot.hasData && snapshot.data!.isNotEmpty
             ? GridView.builder(
-                padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+                padding: const EdgeInsets.only(
+                  bottom: kPagePadding - 5,
+                  left: kPagePadding - 5,
+                  right: kPagePadding - 5,
+                ),
                 gridDelegate: kGridDelegate,
                 shrinkWrap: true,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final appFinding = snapshot.data!.entries.elementAt(index);
-                  var showSnap =
-                      model.selectedAppFormats.contains(AppFormat.snap);
-                  var showPackageKit =
-                      model.selectedAppFormats.contains(AppFormat.packageKit);
                   return AppBanner(
                     appFinding: appFinding,
                     showSnap: showSnap,
@@ -61,6 +73,24 @@ class SearchPage extends StatelessWidget {
               )
             : _NoSearchResultPage(message: context.l10n.noPackageFound);
       },
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        flexibleSpace: SearchField(
+          searchQuery: searchQuery,
+          onChanged: setSearchQuery,
+        ),
+      ),
+      body: Column(
+        children: [
+          const ExploreHeader(),
+          Expanded(
+            child: grid,
+          )
+        ],
+      ),
     );
   }
 }

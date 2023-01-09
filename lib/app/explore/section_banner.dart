@@ -7,6 +7,8 @@ import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '../common/constants.dart';
+
 class SectionBanner extends StatelessWidget {
   const SectionBanner({
     super.key,
@@ -28,9 +30,9 @@ class SectionBanner extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(
           top: 5,
-          left: kYaruPagePadding + 5,
-          right: kYaruPagePadding + 5,
-          bottom: kYaruPagePadding,
+          left: kPagePadding,
+          right: kPagePadding,
+          bottom: kPagePadding - 5,
         ),
         child: InkWell(
           onTap: onTap,
@@ -112,16 +114,20 @@ class _PlatedIconState extends State<_PlatedIcon> {
   @override
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
-    return InkWell(
-      onTap: () => SnapPage.push(context: context, snap: widget.snap),
-      onHover: (value) => setState(() => hovered = value),
-      child: _BasePlate(
-        hovered: hovered,
-        child: AppIcon(
-          iconUrl: widget.snap.iconUrl,
-          color: dark ? const Color.fromARGB(255, 236, 236, 236) : null,
-          borderColor: dark ? const Color.fromARGB(255, 211, 211, 211) : null,
-          size: 65,
+    return Tooltip(
+      message: widget.snap.name,
+      verticalOffset: 45.0,
+      child: InkWell(
+        onTap: () => SnapPage.push(context: context, snap: widget.snap),
+        onHover: (value) => setState(() => hovered = value),
+        child: _BasePlate(
+          hovered: hovered,
+          child: AppIcon(
+            iconUrl: widget.snap.iconUrl,
+            color: dark ? const Color.fromARGB(255, 236, 236, 236) : null,
+            borderColor: dark ? const Color.fromARGB(255, 211, 211, 211) : null,
+            size: 65,
+          ),
         ),
       ),
     );

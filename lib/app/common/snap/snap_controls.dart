@@ -40,8 +40,8 @@ class SnapControls extends StatelessWidget {
     return Wrap(
       direction: direction,
       crossAxisAlignment: WrapCrossAlignment.center,
-      alignment: WrapAlignment.center,
-      runAlignment: WrapAlignment.center,
+      alignment: WrapAlignment.start,
+      runAlignment: WrapAlignment.start,
       spacing: 10,
       runSpacing: 10,
       children: model.snapChangeInProgress
@@ -85,9 +85,7 @@ class SnapControls extends StatelessWidget {
                 ),
               if (model.selectableChannels.isNotEmpty &&
                   model.selectableChannels.length > 1)
-                SnapChannelPopupButton(
-                  appstream: appstream,
-                ),
+                const SnapChannelPopupButton(),
             ],
     );
   }

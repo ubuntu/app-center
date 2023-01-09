@@ -22,8 +22,10 @@ import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_grid.dart';
 import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:software/app/common/updates_splash_screen.dart';
+import 'package:software/app/common/snap/no_snaps_installed_page.dart';
 import 'package:software/app/installed/installed_model.dart';
 import 'package:software/app/updates/no_updates_page.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class InstalledSnapsPage extends StatefulWidget {
@@ -42,13 +44,19 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
         future: model.localSnapsWithUpdate,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const UpdatesSplashScreen(
-              icon: YaruIcons.snapcraft,
-              expanded: false,
+            return const Center(
+              child: SingleChildScrollView(
+                child: UpdatesSplashScreen(
+                  icon: YaruIcons.snapcraft,
+                ),
+              ),
             );
           } else {
-            if (!snapshot.hasData) {
-              return const NoUpdatesPage();
+            if ((snapshot.hasData && snapshot.data!.isEmpty) ||
+                !snapshot.hasData) {
+              return const Center(
+                child: SingleChildScrollView(child: NoUpdatesPage()),
+              );
             } else {
               return SnapGrid(
                 snaps: sortSnaps(
@@ -61,8 +69,13 @@ class _InstalledSnapsPageState extends State<InstalledSnapsPage> {
         },
       );
     } else {
-      if (model.localSnaps.isEmpty) {
+      if (model.localSnaps.isEmpty && !model.isLoadingSnapsCompleted) {
         return const LoadingBannerGrid();
+      } else if (model.localSnaps.isEmpty && model.isLoadingSnapsCompleted) {
+        return NoSnapsInstalledPage(
+          message: context.l10n.noSnapsInstalled,
+          icon: YaruIcons.no_package_snap,
+        );
       } else {
         final snaps = model.searchQuery == null
             ? model.localSnaps

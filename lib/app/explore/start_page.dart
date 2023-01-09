@@ -21,21 +21,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/snapx.dart';
+import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
+import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_section.dart';
+import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/section_banner.dart';
 import 'package:software/app/explore/section_grid.dart';
+import 'package:software/snapx.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({
-    Key? key,
-    required this.screenSize,
-  }) : super(key: key);
-
-  final Size screenSize;
+    super.key,
+  });
 
   @override
   State<StartPage> createState() => _StartPageState();
@@ -69,9 +69,10 @@ class _StartPageState extends State<StartPage> {
     final bannerSection = context.select((ExploreModel m) => m.selectedSection);
     final sectionSnaps = context
         .select((ExploreModel m) => m.sectionNameToSnapsMap[bannerSection]);
-
     final snapsWithIcons =
         sectionSnaps?.where((snap) => snap.iconUrl != null).toList();
+    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
+    final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
 
     Snap? bannerSnap;
     Snap? bannerSnap2;
@@ -88,6 +89,9 @@ class _StartPageState extends State<StartPage> {
         controller: _controller,
         child: Column(
           children: const [
+            SizedBox(
+              height: kPagePadding - 5,
+            ),
             _LoadingSectionBanner(),
             LoadingBannerGrid(),
           ],
@@ -95,7 +99,7 @@ class _StartPageState extends State<StartPage> {
       );
     }
 
-    return SingleChildScrollView(
+    final page = SingleChildScrollView(
       controller: _controller,
       child: Column(
         children: [
@@ -108,6 +112,23 @@ class _StartPageState extends State<StartPage> {
             snapSection: bannerSection,
             initialAmount: _amount,
           ),
+        ],
+      ),
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: SearchField(
+          searchQuery: searchQuery,
+          onChanged: setSearchQuery,
+        ),
+      ),
+      body: Column(
+        children: [
+          const ExploreHeader(),
+          Expanded(
+            child: page,
+          )
         ],
       ),
     );

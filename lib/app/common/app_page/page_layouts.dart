@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PanedPageLayout extends StatelessWidget {
   const PanedPageLayout({
@@ -25,39 +24,36 @@ class PanedPageLayout extends StatelessWidget {
         Theme.of(context).appBarTheme.toolbarHeight?.toDouble() ??
             kToolbarHeight;
 
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: kPagePadding,
-          bottom: kPagePadding,
-          left: hPadding,
-          right: hPadding,
-        ),
-        child: SizedBox(
-          height: height - appBarHeight,
-          child: Row(
-            children: [
-              SizedBox(
-                height: height,
-                child: leftChild,
-              ),
-              const SizedBox(
-                width: kPagePadding,
-              ),
-              Expanded(
-                child: ListView(
-                  shrinkWrap: false,
-                  children: [
-                    for (final child in rightChildren)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: kPagePadding),
-                        child: child,
-                      ),
-                  ],
+    return Padding(
+      padding: EdgeInsets.only(
+        top: kPagePadding,
+        left: hPadding,
+        right: hPadding,
+        bottom: kPagePadding,
+      ),
+      child: SizedBox(
+        height: height - appBarHeight,
+        child: Row(
+          children: [
+            SizedBox(
+              height: height,
+              child: leftChild,
+            ),
+            const SizedBox(
+              width: kPagePadding,
+            ),
+            Expanded(
+              child: ListView.separated(
+                shrinkWrap: false,
+                itemCount: rightChildren.length,
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(
+                  height: kPagePadding,
                 ),
+                itemBuilder: (context, index) => rightChildren[index],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -78,17 +74,18 @@ class OnePageLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = windowSize.width;
-    final hPadding = 10 + 0.0007 * pow((width - 700) * 0.9, 2);
     return ListView(
       padding: adaptivePadding
-          ? EdgeInsets.only(
-              top: kYaruPagePadding,
-              bottom: kYaruPagePadding,
-              left: hPadding,
-              right: hPadding,
+          ? const EdgeInsets.only(
+              top: kPagePadding,
+              left: kPagePadding,
+              right: kPagePadding,
             )
-          : const EdgeInsets.all(kYaruPagePadding),
+          : const EdgeInsets.only(
+              top: kPagePadding,
+              left: kPagePadding,
+              right: kPagePadding,
+            ),
       shrinkWrap: true,
       children: [
         for (final child in children)

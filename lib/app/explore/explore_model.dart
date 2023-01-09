@@ -42,19 +42,22 @@ class ExploreModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     _enabledAppFormats.add(AppFormat.snap);
+    _selectedAppFormats.add(AppFormat.snap);
     _sectionsChangedSub =
         _snapService.sectionsChanged.listen((_) => notifyListeners());
+
+    await _packageService.initialized;
     if (_packageService.isAvailable) {
-      _enabledAppFormats.add(AppFormat.packageKit);
+      _appstreamService.init().then((_) {
+        _enabledAppFormats.add(AppFormat.packageKit);
+        _selectedAppFormats.add(AppFormat.packageKit);
+        notifyListeners();
+      });
       _updatesState = _packageService.lastUpdatesState;
       _updatesStateSub = _packageService.updatesState.listen((event) {
         updatesState = event;
       });
     }
-    _selectedAppFormats = Set.from(_enabledAppFormats);
-    // Remove classic packages from search until AppStreamService.init is faster
-    // See https://github.com/ubuntu-flutter-community/software/issues/663
-    _selectedAppFormats.remove(AppFormat.packageKit);
   }
 
   @override
@@ -179,7 +182,7 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  late final Set<AppFormat> _selectedAppFormats;
+  final Set<AppFormat> _selectedAppFormats = {};
   Set<AppFormat> get selectedAppFormats => _selectedAppFormats;
   final Set<AppFormat> _enabledAppFormats = {};
   Set<AppFormat> get enabledAppFormats => _enabledAppFormats;

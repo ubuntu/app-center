@@ -16,19 +16,12 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:software/app/common/app_data.dart';
-import 'package:software/app/common/app_format.dart';
-import 'package:software/app/common/app_page/app_infos.dart';
-import 'package:software/app/common/app_website.dart';
-import 'package:software/app/common/constants.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:yaru_icons/yaru_icons.dart';
+import 'package:software/app/common/app_page/publisher_name.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
-const iconSize = 150.0;
+const iconSize = 120.0;
 
 class BannerAppHeader extends StatelessWidget {
   const BannerAppHeader({
@@ -36,11 +29,16 @@ class BannerAppHeader extends StatelessWidget {
     required this.appData,
     required this.controls,
     required this.icon,
+    required this.windowSize,
+    this.subControls,
   });
 
   final AppData appData;
   final Widget controls;
+  final Widget? subControls;
+
   final Widget icon;
+  final Size windowSize;
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +47,11 @@ class BannerAppHeader extends StatelessWidget {
     return Column(
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: iconSize,
+              width: iconSize,
               child: icon,
             ),
             const SizedBox(width: 30),
@@ -62,57 +61,21 @@ class BannerAppHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    appData.appFormat == AppFormat.snap
-                        ? '${appData.title} (${context.l10n.snapPackage})'
-                        : '${appData.title} (${context.l10n.debianPackage})',
+                    appData.title,
                     style: theme.textTheme.headline3!.copyWith(
                       fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
+                      color: theme.colorScheme.onSurface,
                     ),
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      AppWebsite(
-                        height: 15,
-                        website: appData.website,
-                        verified: appData.verified,
-                        starredDeveloper: appData.starredDeveloper,
-                        publisherName: appData.publisherName,
-                        onTap: () => launchUrl(Uri.parse(appData.website)),
-                      ),
-                      if (appData.publisherName != null ||
-                          appData.website.isNotEmpty)
-                        const SizedBox(
-                          height: 15,
-                          child: VerticalDivider(
-                            width: 20,
-                          ),
-                        ),
-                      RatingBar.builder(
-                        initialRating: appData.averageRating ?? 5,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.zero,
-                        itemSize: 15,
-                        itemBuilder: (context, _) => const Icon(
-                          YaruIcons.star_filled,
-                          color: kStarColor,
-                          size: 2,
-                        ),
-                        unratedColor:
-                            theme.colorScheme.onSurface.withOpacity(0.2),
-                        onRatingUpdate: (rating) {},
-                        ignoreGestures: true,
-                      )
-                    ],
                   ),
                   const SizedBox(
                     height: kYaruPagePadding,
                   ),
                   controls,
+                  if (subControls != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: kYaruPagePadding),
+                      child: subControls!,
+                    ),
                 ],
               ),
             ),
@@ -150,71 +113,43 @@ class PageAppHeader extends StatelessWidget {
           children: [
             SizedBox(
               height: iconSize,
+              width: iconSize,
               child: icon,
             ),
             Padding(
               padding: const EdgeInsets.all(kYaruPagePadding),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     appData.title,
                     style: theme.textTheme.headline3!.copyWith(
                       fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
+                      color: theme.colorScheme.onSurface,
                     ),
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                   ),
-                  Text(
-                    appData.appFormat == AppFormat.snap
-                        ? '(${context.l10n.snapPackage})'
-                        : '(${context.l10n.debianPackage})',
-                    style: theme.textTheme.headline3!.copyWith(
-                      fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
+                  Center(
+                    child: PublisherName(
+                      height: 20,
+                      publisherName: appData.publisherName ?? '',
+                      website: appData.website,
+                      verified: appData.verified,
+                      starDev: appData.starredDeveloper,
+                      expandChild: false,
+                      enhanceChildText: true,
                     ),
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
             ),
-            AppWebsite(
-              website: appData.website,
-              verified: appData.verified,
-              starredDeveloper: appData.starredDeveloper,
-              publisherName: appData.publisherName,
-              onTap: () => launchUrl(Uri.parse(appData.website)),
-            ),
-            RatingBar.builder(
-              initialRating: appData.averageRating ?? 5,
-              minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: EdgeInsets.zero,
-              itemSize: 15,
-              itemBuilder: (context, _) => const Icon(
-                YaruIcons.star_filled,
-                color: kStarColor,
-                size: 2,
-              ),
-              unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
-              onRatingUpdate: (rating) {},
-              ignoreGestures: true,
-            )
           ],
         ),
         controls,
         if (subControls != null) subControls!,
-        AppInfos(
-          strict: appData.strict,
-          confinementName: appData.confinementName,
-          license: appData.license,
-          installDate: appData.installDate,
-          installDateIsoNorm: appData.installDateIsoNorm,
-          version: appData.version,
-          versionChanged: appData.versionChanged,
-        ),
         Text(
           appData.summary,
           style: theme.textTheme.bodySmall,

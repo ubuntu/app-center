@@ -20,18 +20,19 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/app/common/app_format.dart';
-import 'package:software/app/common/packagekit/package_page.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/snap_service.dart';
 import 'package:software/app/common/app_data.dart';
+import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_icon.dart';
+import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/app_page/app_loading_page.dart';
 import 'package:software/app/common/app_page/app_page.dart';
 import 'package:software/app/common/border_container.dart';
+import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/snap/snap_connections_settings.dart';
 import 'package:software/app/common/snap/snap_controls.dart';
 import 'package:software/app/common/snap/snap_model.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class SnapPage extends StatefulWidget {
@@ -100,6 +101,8 @@ class _SnapPageState extends State<SnapPage> {
     final model = context.watch<SnapModel>();
 
     final appData = AppData(
+      releasedAt: model.selectedChannelReleasedAt,
+      appSize: model.downloadSize,
       confinementName: model.confinement != null ? model.confinement!.name : '',
       installDate: model.installDate,
       installDateIsoNorm: model.installDateIsoNorm,
@@ -124,6 +127,9 @@ class _SnapPageState extends State<SnapPage> {
       appFormat: AppFormat.snap,
     );
 
+    var snapControls = SnapControls(
+      appstream: widget.appstream,
+    );
     return !initialized
         ? const AppLoadingPage()
         : AppPage(
@@ -134,9 +140,26 @@ class _SnapPageState extends State<SnapPage> {
                     child: SnapConnectionsSettings(),
                   )
                 : null,
-            controls: SnapControls(
-              appstream: widget.appstream,
-            ),
+            subControlPageHeader:
+                widget.appstream != null ? snapControls : null,
+            controls: widget.appstream != null
+                ? AppFormatToggleButtons(
+                    isSelected: const [
+                      true,
+                      false,
+                    ],
+                    onPressed: (v) {
+                      if (v == 1) {
+                        PackagePage.push(
+                          context,
+                          appstream: widget.appstream,
+                          snap: widget.snap,
+                          replace: true,
+                        );
+                      }
+                    },
+                  )
+                : snapControls,
             icon: AppIcon(
               iconUrl: model.iconUrl,
               size: 150,
@@ -152,14 +175,6 @@ class _SnapPageState extends State<SnapPage> {
             reviewUser: model.reviewUser,
             onVote: model.voteReview,
             onFlag: model.flagReview,
-            onAppStreamSelect: widget.appstream != null
-                ? () => PackagePage.push(
-                      context,
-                      appstream: widget.appstream,
-                      snap: widget.snap,
-                      replace: true,
-                    )
-                : null,
           );
   }
 }

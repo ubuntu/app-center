@@ -41,8 +41,15 @@ class InstalledModel extends SafeChangeNotifier {
   StreamSubscription<bool>? _snapChangesSub;
 
   // Local snaps
+  bool _isLoadingSnapsCompleted = false;
+  bool get isLoadingSnapsCompleted => _isLoadingSnapsCompleted;
   List<Snap> get localSnaps => _snapService.localSnaps;
-  Future<void> loadLocalSnaps() async => _snapService.loadLocalSnaps();
+  Future<void> loadLocalSnaps() async {
+    _snapService.loadLocalSnaps().whenComplete(() {
+      _isLoadingSnapsCompleted = true;
+      notifyListeners();
+    });
+  }
 
   // Local snaps with update
   Future<List<Snap>> get localSnapsWithUpdate async =>
@@ -50,7 +57,9 @@ class InstalledModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
-      if (_snapService.snapChanges.isEmpty) {}
+      if (_snapService.snapChanges.isEmpty) {
+        loadLocalSnaps().then((value) => notifyListeners());
+      }
     });
     _enabledAppFormats.add(AppFormat.snap);
     if (_packageService.isAvailable) {

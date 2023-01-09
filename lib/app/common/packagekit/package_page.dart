@@ -21,7 +21,9 @@ import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_format.dart';
+import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/snap/snap_page.dart';
+import 'package:software/app/common/utils.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
@@ -124,6 +126,8 @@ class _PackagePageState extends State<PackagePage> {
     final model = context.watch<PackageModel>();
 
     final appData = AppData(
+      releasedAt: '',
+      appSize: formatBytes(model.size, 2),
       confinementName: context.l10n.classic,
       license: model.license,
       strict: false,
@@ -166,7 +170,25 @@ class _PackagePageState extends State<PackagePage> {
               iconUrl: model.iconUrl,
               size: 150,
             ),
-            controls: packageControls,
+            controls: widget.snap == null
+                ? packageControls
+                : AppFormatToggleButtons(
+                    isSelected: const [
+                      false,
+                      true,
+                    ],
+                    onPressed: (v) {
+                      if (v == 0) {
+                        SnapPage.push(
+                          context: context,
+                          appstream: widget.appstream,
+                          snap: widget.snap!,
+                          replace: true,
+                        );
+                      }
+                    },
+                  ),
+            subControlPageHeader: widget.snap != null ? packageControls : null,
             onReviewSend: model.sendReview,
             onRatingUpdate: (v) => model.reviewRating = v,
             onReviewTitleChanged: (v) => model.reviewTitle = v,
@@ -176,13 +198,6 @@ class _PackagePageState extends State<PackagePage> {
             review: model.review,
             reviewTitle: model.reviewTitle,
             reviewUser: model.reviewUser,
-            onSnapSelect: widget.snap != null
-                ? () => SnapPage.push(
-                      context: context,
-                      snap: widget.snap!,
-                      replace: true,
-                    )
-                : null,
           );
   }
 }

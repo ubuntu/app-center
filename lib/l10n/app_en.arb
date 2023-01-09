@@ -105,6 +105,7 @@
   "packageInstaller": "Package Installer",
   "classic": "classic",
   "verified": "Verified Publisher",
+  "publisher": "Publisher",
   "updatesComplete": "Updates complete",
   "findOurRepository": "Find us on GitHub",
   "changelogTooLong": "For the full changelog, please visit:",
@@ -123,6 +124,7 @@
   "copyErrorMessage": "Copy error message",
   "madeBy": "Ubuntu Software is developed and designed by",
   "reviewsAndRatings": "Reviews and ratings",
+  "rating": "Rating",
   "yourReview": "Your review",
   "yourReviewTitle": "Review Title (optional)",
   "yourReviewName": "Your name (optional)",
@@ -141,6 +143,7 @@
   "system": "System",
   "light": "Light",
   "dark": "Dark",
+  "noSnapsInstalled" : "There are no Snap applications installed on your system",
   "appstreamSearchGreylist" : "app;application;package;program;programme;suite;tool",
   "@appstreamSearchGreylist" : {
     "description": "List of 'grey-listed' words separated with ';'. Do not translate this list directly. Instead, provide a list of words in your language that people are likely to include in a search but that should normally be ignored in the search."
