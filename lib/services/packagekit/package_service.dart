@@ -648,11 +648,11 @@ class PackageService {
     }.contains(code);
   }
 
-  Future<Map<PackageKitPackageId, PackageKitInfo>> getDependencies(
-    PackageKitPackageId id,
-  ) async {
+  Future<void> getDependencies({
+    required PackageModel model,
+  }) async {
     Map<PackageKitPackageId, PackageKitInfo> dependencies = {};
-
+    if (model.packageId == null) return;
     final dependsOnTransaction = await _client.createTransaction();
     final dependsOnCompleter = Completer();
     dependsOnTransaction.events.listen((event) {
@@ -667,10 +667,10 @@ class PackageService {
         dependsOnCompleter.complete();
       }
     });
-    await dependsOnTransaction.dependsOn([id]);
+    await dependsOnTransaction.dependsOn([model.packageId!]);
     await dependsOnCompleter.future;
 
-    return dependencies;
+    model.dependencies = dependencies;
   }
 
   exitApp() => exit(0);

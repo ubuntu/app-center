@@ -260,7 +260,7 @@ class PackageModel extends AppModel {
 
   Future<void> checkDependencies() async {
     if (_packageId == null) return;
-    dependencies = await _service.getDependencies(_packageId!);
+    await _service.getDependencies(model: this);
   }
 
   @override
