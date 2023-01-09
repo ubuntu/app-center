@@ -171,15 +171,18 @@ class _PackagePageState extends State<PackagePage> {
           context.l10n.dependencies,
           style: Theme.of(context).textTheme.headline6,
         ),
-        child: Column(
-          children: model.uninstalledDependencyNames
-              .map(
-                (e) => ListTile(
-                  title: Text(e),
-                  leading: const Icon(YaruIcons.package_deb),
-                ),
-              )
-              .toList(),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Column(
+            children: model.uninstalledDependencyNames
+                .map(
+                  (e) => ListTile(
+                    title: Text(e),
+                    leading: const Icon(YaruIcons.package_deb),
+                  ),
+                )
+                .toList(),
+          ),
         ),
       ),
     );
