@@ -238,9 +238,6 @@ class PackageModel extends AppModel {
         .then(_updatePercentage);
   }
 
-  bool? get hasDependencies =>
-      _dependencies == null ? false : _dependencies!.isNotEmpty;
-
   Map<PackageKitPackageId, PackageKitInfo>? _dependencies;
   Map<PackageKitPackageId, PackageKitInfo>? get dependencies => _dependencies;
   set dependencies(Map<PackageKitPackageId, PackageKitInfo>? value) {

@@ -153,7 +153,7 @@ class _PackagePageState extends State<PackagePage> {
       packageState: model.packageState,
       remove: () => model.remove(),
       install: model.install,
-      hasDependencies: model.hasDependencies,
+      hasDependencies: model.uninstalledDependencyNames.isNotEmpty,
       showDeps: () => showDialog(
         context: context,
         builder: (context) => _ShowDepsDialog(
