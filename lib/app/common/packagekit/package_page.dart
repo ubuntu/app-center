@@ -168,7 +168,7 @@ class _PackagePageState extends State<PackagePage> {
     final dependencies = BorderContainer(
       child: YaruExpandable(
         header: Text(
-          context.l10n.dependencies,
+          '${context.l10n.dependencies} (${model.uninstalledDependencyNames.length})',
           style: Theme.of(context).textTheme.headline6,
         ),
         child: Padding(
