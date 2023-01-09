@@ -11,7 +11,13 @@ class ExploreHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final model = context.read<ExploreModel>();
+    final selectedAppFormats =
+        context.select((ExploreModel m) => m.selectedAppFormats);
+    final enabledAppFormats =
+        context.select((ExploreModel m) => m.enabledAppFormats);
+    final selectedSection =
+        context.select((ExploreModel m) => m.selectedSection);
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -29,13 +35,13 @@ class ExploreHeader extends StatelessWidget {
           runSpacing: 10,
           children: [
             MultiAppFormatPopup(
-              selectedAppFormats: model.selectedAppFormats,
-              enabledAppFormats: model.enabledAppFormats,
+              selectedAppFormats: selectedAppFormats,
+              enabledAppFormats: enabledAppFormats,
               onTap: (appFormat) => model.handleAppFormat(appFormat),
             ),
-            if (model.selectedAppFormats.contains(AppFormat.snap))
+            if (selectedAppFormats.contains(AppFormat.snap))
               SnapSectionPopup(
-                value: model.selectedSection,
+                value: selectedSection,
                 onSelected: (v) => model.selectedSection = v,
               ),
 
