@@ -41,7 +41,7 @@ class AppPage extends StatefulWidget {
     required this.permissionContainer,
     required this.controls,
     this.subControlPageHeader,
-    this.subBannerHeader,
+    this.subDescription,
     this.appIsInstalled = false,
     this.onRatingUpdate,
     this.onReviewSend,
@@ -62,7 +62,7 @@ class AppPage extends StatefulWidget {
   final Widget? permissionContainer;
   final Widget controls;
   final Widget? subControlPageHeader;
-  final Widget? subBannerHeader;
+  final Widget? subDescription;
   final bool appIsInstalled;
 
   final double? reviewRating;
@@ -196,13 +196,10 @@ class _AppPageState extends State<AppPage> {
       adaptivePadding: true,
       children: [
         normalWindowAppHeader,
-        if (widget.subBannerHeader != null)
-          BorderContainer(
-            child: widget.subBannerHeader,
-          ),
         appInfos,
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
+        if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
       ],
@@ -214,6 +211,7 @@ class _AppPageState extends State<AppPage> {
         appInfos,
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
+        if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
       ],
@@ -227,6 +225,7 @@ class _AppPageState extends State<AppPage> {
         appInfos,
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
+        if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
       ],

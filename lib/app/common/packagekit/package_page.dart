@@ -26,6 +26,7 @@ import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/app_page/app_loading_page.dart';
 import 'package:software/app/common/app_page/app_page.dart';
+import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_controls.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/app/common/snap/snap_page.dart';
@@ -163,6 +164,26 @@ class _PackagePageState extends State<PackagePage> {
         ),
       ),
     );
+
+    final dependencies = BorderContainer(
+      child: YaruExpandable(
+        header: Text(
+          context.l10n.dependencies,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        child: Column(
+          children: model.uninstalledDependencyNames
+              .map(
+                (e) => ListTile(
+                  title: Text(e),
+                  leading: const Icon(YaruIcons.package_deb),
+                ),
+              )
+              .toList(),
+        ),
+      ),
+    );
+
     return !initialized
         ? const AppLoadingPage()
         : AppPage(
@@ -200,6 +221,8 @@ class _PackagePageState extends State<PackagePage> {
                     },
                   ),
             subControlPageHeader: widget.snap != null ? packageControls : null,
+            subDescription:
+                model.uninstalledDependencyNames.isEmpty ? null : dependencies,
             onReviewSend: model.sendReview,
             onRatingUpdate: (v) => model.reviewRating = v,
             onReviewTitleChanged: (v) => model.reviewTitle = v,
