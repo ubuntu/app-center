@@ -294,5 +294,11 @@
   "debianPackage": "Debian",
   "@debianPackage": {},
   "snapPackage": "Snap",
-  "@snapPackage": {}
+  "@snapPackage": {},
+  "rating": "Valoración",
+  "@rating": {},
+  "noSnapsInstalled": "No hay aplicaciones Snap instaladas en su sistema",
+  "@noSnapsInstalled": {},
+  "publisher": "Editor",
+  "@publisher": {}
 }
