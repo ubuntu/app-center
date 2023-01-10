@@ -18,7 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:yaru_colors/yaru_colors.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 
 class PublisherName extends StatelessWidget {
   const PublisherName({
@@ -81,9 +81,11 @@ class PublisherName extends StatelessWidget {
                   ),
                 )
               else if (starDev)
-                const Padding(
-                  padding: EdgeInsets.only(left: 5),
-                  child: _StarDeveloper(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: _StarDeveloper(
+                    height: height * 0.85,
+                  ),
                 ),
             ],
           ),
@@ -95,20 +97,23 @@ class PublisherName extends StatelessWidget {
 
 class _StarDeveloper extends StatelessWidget {
   const _StarDeveloper({
-    Key? key,
-  }) : super(key: key);
+    required this.height,
+  });
+
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: YaruColors.orange.withOpacity(0.7),
+        color: kStarDevColor,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: const Center(
+      child: Center(
         child: Icon(
-          Icons.star,
+          YaruIcons.star_filled,
           color: Colors.white,
+          size: height,
         ),
       ),
     );
