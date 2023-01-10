@@ -21,6 +21,8 @@ void main() {
     when(service.init).thenAnswer((_) async {});
     when(() => service.getDetails(model: any(named: 'model')))
         .thenAnswer((_) async {});
+    when(() => service.getDependencies(model: any(named: 'model')))
+        .thenAnswer((_) async {});
     when(() => service.getUpdateDetail(model: any(named: 'model')))
         .thenAnswer((_) async {});
     when(() => service.getDetailsAboutLocalPackage(model: any(named: 'model')))
@@ -57,6 +59,7 @@ void main() {
     await model.init();
     verify(() => service.getDetails(model: model)).called(1);
     verify(() => service.isInstalled(model: model)).called(1);
+    verify(() => service.getDependencies(model: model)).called(1);
     verifyNever(() => service.getUpdateDetail(model: model));
     verifyNever(() => service.getDetailsAboutLocalPackage(model: model));
 

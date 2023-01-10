@@ -27,6 +27,8 @@ class PackageControls extends StatelessWidget {
     required this.remove,
     required this.packageState,
     required this.versionChanged,
+    this.hasDependencies,
+    this.showDeps,
   });
 
   final bool? isInstalled;
@@ -34,6 +36,9 @@ class PackageControls extends StatelessWidget {
   final VoidCallback remove;
   final PackageState packageState;
   final bool? versionChanged;
+  final bool? hasDependencies;
+  final VoidCallback? showDeps;
+
   @override
   Widget build(BuildContext context) {
     return Wrap(
@@ -50,7 +55,9 @@ class PackageControls extends StatelessWidget {
           ),
         if (isInstalled == false)
           ElevatedButton(
-            onPressed: packageState != PackageState.ready ? null : install,
+            onPressed: packageState != PackageState.ready
+                ? null
+                : (hasDependencies == true ? showDeps : install),
             child: Text(context.l10n.install),
           ),
         if (isInstalled == true && versionChanged == true)

@@ -68,14 +68,7 @@ class ExplorePage extends StatelessWidget {
     if (showErrorPage) {
       return const ExploreErrorPage();
     } else {
-      return Navigator(
-        pages: [
-          MaterialPage(
-            child: showSearchPage ? const SearchPage() : const StartPage(),
-          ),
-        ],
-        onPopPage: (route, result) => route.didPop(result),
-      );
+      return showSearchPage ? const SearchPage() : const StartPage();
     }
   }
 }
