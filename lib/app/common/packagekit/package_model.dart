@@ -71,6 +71,7 @@ class PackageModel extends AppModel {
   String? get iconUrl => appstream?.icon;
 
   Future<void> init({bool getUpdateDetail = false}) async {
+    await _service.cancelCurrentUpdatesRefresh();
     if (_packageId != null) {
       await _updateDetails();
       if (getUpdateDetail) {

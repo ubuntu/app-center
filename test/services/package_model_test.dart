@@ -19,6 +19,7 @@ void main() {
   void resetService() {
     reset(service);
     when(service.init).thenAnswer((_) async {});
+    when(service.cancelCurrentUpdatesRefresh).thenAnswer((_) async {});
     when(() => service.getDetails(model: any(named: 'model')))
         .thenAnswer((_) async {});
     when(() => service.getDependencies(model: any(named: 'model')))
@@ -57,6 +58,7 @@ void main() {
   test('init model', () async {
     var model = PackageModel(service: service, packageId: firefoxPackageId);
     await model.init();
+    verify(() => service.cancelCurrentUpdatesRefresh()).called(1);
     verify(() => service.getDetails(model: model)).called(1);
     verify(() => service.isInstalled(model: model)).called(1);
     verify(() => service.getDependencies(model: model)).called(1);
@@ -65,6 +67,7 @@ void main() {
 
     resetService();
     await model.init(getUpdateDetail: true);
+    verify(() => service.cancelCurrentUpdatesRefresh()).called(1);
     verify(() => service.getDetails(model: model)).called(1);
     verify(() => service.isInstalled(model: model)).called(1);
     verify(() => service.getUpdateDetail(model: model)).called(1);
@@ -73,6 +76,7 @@ void main() {
     resetService();
     model = PackageModel(service: service, path: '/some/path/to/file.deb');
     await model.init();
+    verify(() => service.cancelCurrentUpdatesRefresh()).called(1);
     verify(() => service.getDetailsAboutLocalPackage(model: model)).called(1);
     verify(() => service.isInstalled(model: model)).called(1);
     verifyNever(() => service.getDetails(model: model));
