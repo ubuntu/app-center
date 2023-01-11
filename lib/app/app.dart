@@ -197,6 +197,7 @@ class __AppState extends State<_App> {
 
     return _initialized
         ? YaruMasterDetailPage(
+            layoutDelegate: const YaruMasterFixedPaneDelegate(paneWidth: 220),
             appBar: const YaruWindowTitleBar(
               isClosable: false,
               isMaximizable: false,

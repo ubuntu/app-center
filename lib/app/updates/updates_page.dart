@@ -117,7 +117,13 @@ class _TabChild extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        Text(label)
+        Expanded(
+          child: Text(
+            label,
+            overflow: TextOverflow.fade,
+            maxLines: 1,
+          ),
+        )
       ],
     );
   }
