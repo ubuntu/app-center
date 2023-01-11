@@ -63,6 +63,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: YaruWindowTitleBar(
+        title: Text(context.l10n.settingsPageTitle),
         leading: MediaQuery.of(context).size.width < 611
             ? const YaruBackButton()
             : null,

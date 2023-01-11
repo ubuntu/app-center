@@ -236,9 +236,7 @@ class _AppPageState extends State<AppPage> {
       appBar: YaruWindowTitleBar(
         title: Text(widget.appData.title),
         titleSpacing: 0,
-        leading: MediaQuery.of(context).size.width < 611
-            ? const YaruBackButton()
-            : null,
+        leading: const YaruBackButton(),
       ),
       body: BackGesture(
         child: body,
