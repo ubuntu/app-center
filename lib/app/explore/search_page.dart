@@ -27,6 +27,7 @@ import 'package:software/app/common/search_field.dart';
 import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({
@@ -76,9 +77,13 @@ class SearchPage extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        flexibleSpace: SearchField(
+      appBar: YaruWindowTitleBar(
+        leading: MediaQuery.of(context).size.width < 611
+            ? const YaruBackButton()
+            : null,
+        titleSpacing: 0,
+        centerTitle: false,
+        title: SearchField(
           searchQuery: searchQuery,
           onChanged: setSearchQuery,
         ),

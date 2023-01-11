@@ -31,6 +31,7 @@ import 'package:software/app/installed/installed_packages_page.dart';
 import 'package:software/app/installed/installed_snaps_page.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class InstalledPage extends StatelessWidget {
   const InstalledPage({Key? key}) : super(key: key);
@@ -82,8 +83,13 @@ class InstalledPage extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: SearchField(
+      appBar: YaruWindowTitleBar(
+        leading: MediaQuery.of(context).size.width < 611
+            ? const YaruBackButton()
+            : null,
+        titleSpacing: 0,
+        centerTitle: false,
+        title: SearchField(
           searchQuery: searchQuery ?? '',
           onChanged: setSearchQuery,
         ),

@@ -45,7 +45,7 @@ dependencies:
   ubuntu_session: ^0.0.2
   url_launcher: ^6.1.2
   version: ^3.0.2
-  window_manager: 0.2.8
+  window_manager: 0.3.0
   xdg_icons: ^0.0.1
   xterm: ^3.3.0
   yaru: ^0.4.7
@@ -54,7 +54,7 @@ dependencies:
   yaru_widgets:
     git:
       url: https://github.com/ubuntu/yaru_widgets.dart
-      ref: bace5613a9e463b1b3c4b778713ee4859496c2c0
+      ref: 4c6e25ab51c05b659eca0f296f8e0beb157e4657
 
 dev_dependencies:
   build_runner: ^2.2.0

@@ -15,7 +15,6 @@
  *
  */
 
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:software/app/common/app_data.dart';
@@ -27,9 +26,7 @@ import 'package:software/app/common/app_page/app_swipe_gesture.dart';
 import 'package:software/app/common/app_page/media_tile.dart';
 import 'package:software/app/common/app_page/page_layouts.dart';
 import 'package:software/app/common/border_container.dart';
-import 'package:software/app/common/custom_back_button.dart';
 import 'package:software/app/common/safe_network_image.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -54,7 +51,6 @@ class AppPage extends StatefulWidget {
     this.reviewRating,
     this.onVote,
     this.onFlag,
-    this.onFileSelect,
   });
 
   final AppData appData;
@@ -76,7 +72,6 @@ class AppPage extends StatefulWidget {
   final void Function(String)? onReviewUserChanged;
   final Function(AppReview, bool)? onVote;
   final Function(AppReview)? onFlag;
-  final void Function(String path)? onFileSelect;
 
   @override
   State<AppPage> createState() => _AppPageState();
@@ -238,34 +233,12 @@ class _AppPageState extends State<AppPage> {
             : narrowWindowLayout;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: YaruWindowTitleBar(
         title: Text(widget.appData.title),
         titleSpacing: 0,
-        leading: widget.onFileSelect != null
-            ? Center(
-                child: IconButton(
-                  style: IconButton.styleFrom(fixedSize: const Size(40, 40)),
-                  onPressed: () async {
-                    final path = await openFile(
-                      acceptedTypeGroups: [
-                        XTypeGroup(
-                          label: context.l10n.debianPackages,
-                          extensions: const <String>[
-                            'deb',
-                          ],
-                        )
-                      ],
-                    );
-                    if (null != path && widget.onFileSelect != null) {
-                      widget.onFileSelect!(path.path);
-                    }
-                  },
-                  icon: const Icon(YaruIcons.document_open),
-                ),
-              )
-            : CustomBackButton(
-                onPressed: () => Navigator.pop(context),
-              ),
+        leading: MediaQuery.of(context).size.width < 611
+            ? const YaruBackButton()
+            : null,
       ),
       body: BackGesture(
         child: body,

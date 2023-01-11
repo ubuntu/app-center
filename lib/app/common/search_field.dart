@@ -65,41 +65,31 @@ class _SearchFieldState extends State<SearchField> {
       focusNode: FocusNode(),
       child: GestureDetector(
         onDoubleTap: onDoubleTap,
-        child: TextField(
-          autofocus: true,
-          controller: _controller,
-          onChanged: widget.onChanged,
-          textInputAction: TextInputAction.send,
-          decoration: InputDecoration(
-            hintText: context.l10n.searchHint,
-            prefixIcon: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Icon(
+        child: SizedBox(
+          width: 400,
+          child: TextField(
+            autofocus: true,
+            controller: _controller,
+            onChanged: widget.onChanged,
+            textInputAction: TextInputAction.send,
+            decoration: InputDecoration(
+              hintText: context.l10n.searchHint,
+              prefixIcon: const Icon(
                 YaruIcons.search,
                 size: 20,
               ),
+              prefixIconConstraints: const BoxConstraints(
+                minHeight: 44,
+                minWidth: 40,
+              ),
+              isDense: false,
+              border: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
+              enabledBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
             ),
-            prefixIconConstraints: const BoxConstraints(
-              minHeight: 50,
-              minWidth: 40,
-            ),
-            isDense: false,
-            border: const UnderlineInputBorder(),
-            enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent),
-            ),
-            suffixIcon: widget.searchQuery.isNotEmpty
-                ? Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
-                    child: IconButton(
-                      onPressed: () => _clear(),
-                      icon: Icon(
-                        YaruIcons.edit_clear,
-                        color: Theme.of(context).hintColor,
-                      ),
-                    ),
-                  )
-                : null,
           ),
         ),
       ),
