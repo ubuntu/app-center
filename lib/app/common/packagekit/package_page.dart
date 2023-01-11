@@ -206,7 +206,11 @@ class _PackagePageState extends State<PackagePage> {
               size: 150,
             ),
             controls: widget.snap == null
-                ? packageControls
+                ? const BorderContainer(
+                    containerPadding: EdgeInsets.symmetric(horizontal: 5),
+                    borderRadius: 6,
+                    child: SizedBox(height: 40, child: DebianLabel()),
+                  )
                 : AppFormatToggleButtons(
                     isSelected: const [
                       false,
@@ -223,7 +227,7 @@ class _PackagePageState extends State<PackagePage> {
                       }
                     },
                   ),
-            subControlPageHeader: widget.snap != null ? packageControls : null,
+            subControlPageHeader: packageControls,
             subDescription:
                 model.uninstalledDependencyNames.isEmpty ? null : dependencies,
             onReviewSend: model.sendReview,
