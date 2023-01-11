@@ -190,15 +190,6 @@ class _PackagePageState extends State<PackagePage> {
     return !initialized
         ? const AppLoadingPage()
         : AppPage(
-            onFileSelect: model.path == null
-                ? null
-                : (path) async {
-                    initialized = false;
-                    model.path = path;
-                    model.packageId = null;
-
-                    await model.init().then((_) => initialized = true);
-                  },
             appData: appData,
             permissionContainer: null,
             icon: AppIcon(

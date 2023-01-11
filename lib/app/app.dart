@@ -146,13 +146,6 @@ class __AppState extends State<_App> {
   Widget build(BuildContext context) {
     final model = context.watch<AppModel>();
     model.setupNotifications(updatesAvailable: context.l10n.updateAvailable);
-    final width = MediaQuery.of(context).size.width;
-
-    final itemStyle = width > 800 && width < 1200
-        ? YaruNavigationRailStyle.labelled
-        : width > 1200
-            ? YaruNavigationRailStyle.labelledExtended
-            : YaruNavigationRailStyle.compact;
 
     final pageItems = [
       PageItem(
@@ -203,15 +196,21 @@ class __AppState extends State<_App> {
     ];
 
     return _initialized
-        ? YaruNavigationPage(
+        ? YaruMasterDetailPage(
+            layoutDelegate: const YaruMasterFixedPaneDelegate(paneWidth: 220),
+            appBar: const YaruWindowTitleBar(
+              isClosable: false,
+              isMaximizable: false,
+              isMinimizable: false,
+              isRestorable: false,
+            ),
             key: ValueKey(path),
             length: pageItems.length,
             initialIndex: _initialIndex,
-            itemBuilder: (context, index, selected) => YaruNavigationRailItem(
-              icon: pageItems[index].iconBuilder(context, selected),
-              label: pageItems[index].titleBuilder(context),
+            tileBuilder: (context, index, selected) => YaruMasterTile(
+              leading: pageItems[index].iconBuilder(context, selected),
+              title: pageItems[index].titleBuilder(context),
               // tooltip: pageItems[index].tooltipMessage,
-              style: itemStyle,
             ),
             pageBuilder: (context, index) => pageItems[index].builder(context),
           )

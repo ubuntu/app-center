@@ -25,12 +25,12 @@ import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_section.dart';
-import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/section_banner.dart';
 import 'package:software/app/explore/section_grid.dart';
 import 'package:software/snapx.dart';
 import 'package:yaru_colors/yaru_colors.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({
@@ -117,19 +117,20 @@ class _StartPageState extends State<StartPage> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: SearchField(
+      appBar: YaruWindowTitleBar(
+        leading: MediaQuery.of(context).size.width < 611
+            ? const YaruBackButton()
+            : null,
+        titleSpacing: 0,
+        centerTitle: false,
+        title: SearchField(
           searchQuery: searchQuery,
           onChanged: setSearchQuery,
         ),
       ),
-      body: Column(
-        children: [
-          const ExploreHeader(),
-          Expanded(
-            child: page,
-          )
-        ],
+      body: Padding(
+        padding: const EdgeInsets.only(top: 15),
+        child: page,
       ),
     );
   }

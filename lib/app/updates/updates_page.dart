@@ -8,6 +8,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class UpdatesPage extends StatefulWidget {
   const UpdatesPage({
@@ -55,8 +56,12 @@ class _UpdatesPageState extends State<UpdatesPage> {
       initialIndex: widget.tabIndex,
       length: packageService.isAvailable ? 2 : 1,
       child: Scaffold(
-        appBar: AppBar(
-          flexibleSpace: TabBar(
+        appBar: YaruWindowTitleBar(
+          titleSpacing: 0,
+          leading: MediaQuery.of(context).size.width < 611
+              ? const YaruBackButton()
+              : null,
+          title: TabBar(
             onTap: (value) {
               if (widget.onTabTapped != null) {
                 widget.onTabTapped!(value);
@@ -112,7 +117,13 @@ class _TabChild extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        Text(label)
+        Expanded(
+          child: Text(
+            label,
+            overflow: TextOverflow.fade,
+            maxLines: 1,
+          ),
+        )
       ],
     );
   }
