@@ -195,7 +195,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
       )
     ];
     return SimpleDialog(
-      title: YaruTitleBar(
+      title: YaruDialogTitleBar(
         centerTitle: false,
         title: model.packageState != PackageState.ready
             ? null

@@ -69,14 +69,13 @@ class _SearchFieldState extends State<SearchField> {
         onDoubleTap: onDoubleTap,
         child: Center(
           child: SizedBox(
-            width: 300,
+            width: 280,
             height: 34,
             child: TextField(
               autofocus: widget.autofocus,
               controller: _controller,
               onChanged: widget.onChanged,
               textInputAction: TextInputAction.send,
-              textAlign: TextAlign.center,
               decoration: InputDecoration(
                 filled: true,
                 hintText: context.l10n.searchHint,
@@ -84,11 +83,10 @@ class _SearchFieldState extends State<SearchField> {
                     ? null
                     : const Icon(
                         YaruIcons.search,
-                        size: 18,
+                        size: 15,
                       ),
-                prefixIconConstraints: const BoxConstraints(
-                  minWidth: 40,
-                ),
+                prefixIconConstraints:
+                    const BoxConstraints(minWidth: 40, minHeight: 0),
                 isDense: true,
                 contentPadding: const EdgeInsets.all(8),
                 fillColor: Theme.of(context).dividerColor,
