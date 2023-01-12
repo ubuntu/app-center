@@ -34,7 +34,7 @@ class _RepoDialogState extends State<RepoDialog> {
     final model = context.watch<PackageUpdatesModel>();
 
     return SimpleDialog(
-      title: YaruTitleBar(
+      title: YaruDialogTitleBar(
         title: model.updatesState != UpdatesState.updating &&
                 model.updatesState != UpdatesState.checkingForUpdates
             ? Row(
