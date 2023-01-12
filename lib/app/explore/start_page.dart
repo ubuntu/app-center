@@ -15,13 +15,10 @@
  *
  */
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/custom_back_button.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/search_field.dart';
@@ -43,7 +40,6 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-  late int _randomSnapIndex;
   late ScrollController _controller;
   late int _amount;
 
@@ -61,57 +57,23 @@ class _StartPageState extends State<StartPage> {
         });
       }
     });
-
-    _randomSnapIndex = Random().nextInt(10);
   }
 
   @override
   Widget build(BuildContext context) {
-    final bannerSection = context.select((ExploreModel m) => m.selectedSection);
-    final sectionSnaps = context
-        .select((ExploreModel m) => m.sectionNameToSnapsMap[bannerSection]);
-    final snapsWithIcons =
-        sectionSnaps?.where((snap) => snap.iconUrl != null).toList();
     final searchQuery = context.select((ExploreModel m) => m.searchQuery);
     final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
-
-    Snap? bannerSnap;
-    Snap? bannerSnap2;
-    Snap? bannerSnap3;
-
-    if (snapsWithIcons != null && snapsWithIcons.isNotEmpty) {
-      bannerSnap = snapsWithIcons.elementAt(_randomSnapIndex);
-      bannerSnap2 = snapsWithIcons.elementAt(_randomSnapIndex + 1);
-      bannerSnap3 = snapsWithIcons.elementAt(_randomSnapIndex + 2);
-    }
-
-    if (bannerSnap == null || bannerSnap2 == null || bannerSnap3 == null) {
-      return SingleChildScrollView(
-        controller: _controller,
-        child: Column(
-          children: const [
-            SizedBox(
-              height: kPagePadding - 5,
-            ),
-            _LoadingSectionBanner(),
-            LoadingBannerGrid(),
-          ],
-        ),
-      );
-    }
+    final sectionSnapsAll = context.select((ExploreModel m) {
+      return m.sectionNameToSnapsMap[SnapSection.all];
+    });
 
     final page = SingleChildScrollView(
       controller: _controller,
       child: Column(
         children: [
-          SectionBanner(
-            gradientColors: bannerSection.colors.map((e) => Color(e)).toList(),
-            snaps: [bannerSnap, bannerSnap2, bannerSnap3],
-            section: bannerSection,
-          ),
-          SectionGrid(
-            snapSection: bannerSection,
-            initialAmount: _amount,
+          _TeaserPage(
+            snapSection: SnapSection.all,
+            snaps: sectionSnapsAll,
           ),
         ],
       ),
@@ -133,6 +95,54 @@ class _StartPageState extends State<StartPage> {
         padding: const EdgeInsets.only(top: 15),
         child: page,
       ),
+    );
+  }
+}
+
+class _TeaserPage extends StatelessWidget {
+  const _TeaserPage({
+    required this.snapSection,
+    this.snaps,
+  });
+
+  final SnapSection snapSection;
+  final List<Snap>? snaps;
+
+  @override
+  Widget build(BuildContext context) {
+    final snapsWithIcons =
+        snaps?.where((snap) => snap.iconUrl != null).toList();
+    Snap? bannerSnap;
+    Snap? bannerSnap2;
+    Snap? bannerSnap3;
+
+    if (snapsWithIcons != null && snapsWithIcons.isNotEmpty) {
+      bannerSnap = snapsWithIcons.elementAt(0);
+      bannerSnap2 = snapsWithIcons.elementAt(1);
+      bannerSnap3 = snapsWithIcons.elementAt(2);
+    }
+    if (bannerSnap == null || bannerSnap2 == null || bannerSnap3 == null) {
+      return Column(
+        children: const [
+          _LoadingSectionBanner(),
+          LoadingBannerGrid(),
+        ],
+      );
+    }
+
+    return Column(
+      children: [
+        SectionBanner(
+          gradientColors: snapSection.colors.map((e) => Color(e)).toList(),
+          snaps: [bannerSnap, bannerSnap2, bannerSnap3],
+          section: snapSection,
+        ),
+        SectionGrid(
+          snaps: snaps ?? [],
+          take: 20,
+          skip: 3,
+        ),
+      ],
     );
   }
 }
