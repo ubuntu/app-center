@@ -63,6 +63,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
               ? const CustomBackButton()
               : null,
           title: TabBar(
+            indicatorPadding: EdgeInsets.zero,
             onTap: (value) {
               if (widget.onTabTapped != null) {
                 widget.onTabTapped!(value);
@@ -70,14 +71,14 @@ class _UpdatesPageState extends State<UpdatesPage> {
             },
             tabs: [
               Tab(
-                icon: _TabChild(
+                child: _TabChild(
                   iconData: YaruIcons.snapcraft,
                   label: context.l10n.snapPackages,
                 ),
               ),
               if (packageService.isAvailable)
                 Tab(
-                  icon: _TabChild(
+                  child: _TabChild(
                     iconData: YaruIcons.debian,
                     label: context.l10n.debianPackages,
                   ),
@@ -118,10 +119,11 @@ class _TabChild extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        Expanded(
+        SizedBox(
+          width: 130,
           child: Text(
             label,
-            overflow: TextOverflow.fade,
+            overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),
         )
