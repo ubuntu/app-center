@@ -119,8 +119,8 @@ class _TabChild extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        SizedBox(
-          width: 130,
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 130),
           child: Text(
             label,
             overflow: TextOverflow.ellipsis,
