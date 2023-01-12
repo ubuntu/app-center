@@ -70,12 +70,13 @@ class _SearchFieldState extends State<SearchField> {
         child: Center(
           child: SizedBox(
             width: 300,
-            height: 34.5,
+            height: 34,
             child: TextField(
               autofocus: widget.autofocus,
               controller: _controller,
               onChanged: widget.onChanged,
               textInputAction: TextInputAction.send,
+              textAlign: TextAlign.center,
               decoration: InputDecoration(
                 filled: true,
                 hintText: context.l10n.searchHint,
@@ -86,10 +87,10 @@ class _SearchFieldState extends State<SearchField> {
                         size: 18,
                       ),
                 prefixIconConstraints: const BoxConstraints(
-                  minHeight: 34,
                   minWidth: 40,
                 ),
                 isDense: true,
+                contentPadding: const EdgeInsets.all(8),
                 fillColor: Theme.of(context).dividerColor,
                 enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.transparent),
