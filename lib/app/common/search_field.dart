@@ -25,10 +25,12 @@ class SearchField extends StatefulWidget {
     super.key,
     required this.searchQuery,
     required this.onChanged,
+    this.autofocus = true,
   });
 
   final String searchQuery;
   final Function(String value) onChanged;
+  final bool autofocus;
 
   @override
   State<SearchField> createState() => _SearchFieldState();
@@ -65,31 +67,36 @@ class _SearchFieldState extends State<SearchField> {
       focusNode: FocusNode(),
       child: GestureDetector(
         onDoubleTap: onDoubleTap,
-        child: SizedBox(
-          width: 400,
-          child: TextField(
-            autofocus: true,
-            controller: _controller,
-            onChanged: widget.onChanged,
-            textInputAction: TextInputAction.send,
-            decoration: InputDecoration(
-              hintText: context.l10n.searchHint,
-              prefixIcon: MediaQuery.of(context).size.width < 611
-                  ? null
-                  : const Icon(
-                      YaruIcons.search,
-                      size: 20,
-                    ),
-              prefixIconConstraints: const BoxConstraints(
-                minHeight: 44,
-                minWidth: 40,
-              ),
-              isDense: false,
-              border: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent),
-              ),
-              enabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent),
+        child: Center(
+          child: SizedBox(
+            width: 300,
+            height: 34.5,
+            child: TextField(
+              autofocus: widget.autofocus,
+              controller: _controller,
+              onChanged: widget.onChanged,
+              textInputAction: TextInputAction.send,
+              decoration: InputDecoration(
+                filled: true,
+                hintText: context.l10n.searchHint,
+                prefixIcon: MediaQuery.of(context).size.width < 611
+                    ? null
+                    : const Icon(
+                        YaruIcons.search,
+                        size: 18,
+                      ),
+                prefixIconConstraints: const BoxConstraints(
+                  minHeight: 34,
+                  minWidth: 40,
+                ),
+                isDense: true,
+                fillColor: Theme.of(context).dividerColor,
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent),
+                ),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent),
+                ),
               ),
             ),
           ),

@@ -91,6 +91,7 @@ class InstalledPage extends StatelessWidget {
         titleSpacing: 0,
         centerTitle: false,
         title: SearchField(
+          autofocus: false,
           searchQuery: searchQuery ?? '',
           onChanged: setSearchQuery,
         ),
