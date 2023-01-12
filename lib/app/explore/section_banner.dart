@@ -117,16 +117,20 @@ class _PlatedIconState extends State<_PlatedIcon> {
     return Tooltip(
       message: widget.snap.name,
       verticalOffset: 45.0,
-      child: InkWell(
-        onTap: () => SnapPage.push(context: context, snap: widget.snap),
-        onHover: (value) => setState(() => hovered = value),
-        child: _BasePlate(
-          hovered: hovered,
-          child: AppIcon(
-            iconUrl: widget.snap.iconUrl,
-            color: dark ? const Color.fromARGB(255, 236, 236, 236) : null,
-            borderColor: dark ? const Color.fromARGB(255, 211, 211, 211) : null,
-            size: 65,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => SnapPage.push(context: context, snap: widget.snap),
+          onHover: (value) => setState(() => hovered = value),
+          child: _BasePlate(
+            hovered: hovered,
+            child: AppIcon(
+              iconUrl: widget.snap.iconUrl,
+              color: dark ? const Color.fromARGB(255, 236, 236, 236) : null,
+              borderColor:
+                  dark ? const Color.fromARGB(255, 211, 211, 211) : null,
+              size: 65,
+            ),
           ),
         ),
       ),
