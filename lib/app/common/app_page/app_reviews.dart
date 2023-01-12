@@ -148,7 +148,7 @@ class _ReviewDetailsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: YaruTitleBar(
+      title: YaruDialogTitleBar(
         title: Text(context.l10n.reviewsAndRatings),
       ),
       titlePadding: EdgeInsets.zero,
@@ -359,7 +359,7 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
     final theme = Theme.of(context);
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
-      title: YaruTitleBar(
+      title: YaruDialogTitleBar(
         title: Text(context.l10n.yourReview),
         leading: const Icon(YaruIcons.star_filled),
       ),

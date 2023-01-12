@@ -257,7 +257,7 @@ class _ShowDepsDialogState extends State<_ShowDepsDialog> {
     return AlertDialog(
       title: SizedBox(
         width: 500,
-        child: YaruTitleBar(
+        child: YaruDialogTitleBar(
           title: Text(context.l10n.dependencies),
         ),
       ),
