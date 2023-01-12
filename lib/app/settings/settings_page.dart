@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app.dart';
+import 'package:software/app/common/custom_back_button.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/app/common/message_bar.dart';
@@ -65,7 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: YaruWindowTitleBar(
         title: Text(context.l10n.settingsPageTitle),
         leading: MediaQuery.of(context).size.width < 611
-            ? const YaruBackButton()
+            ? const CustomBackButton()
             : null,
       ),
       body: ListView(
