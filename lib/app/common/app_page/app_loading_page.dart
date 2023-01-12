@@ -17,11 +17,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:software/app/common/app_page/page_layouts.dart';
 import 'package:software/app/common/app_page/app_swipe_gesture.dart';
+import 'package:software/app/common/app_page/page_layouts.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:yaru_icons/yaru_icons.dart';
+import 'package:software/app/common/custom_back_button.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppLoadingPage extends StatelessWidget {
   const AppLoadingPage({
@@ -148,38 +149,13 @@ class AppLoadingPage extends StatelessWidget {
             : narrowWindowLayout;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
+      appBar: const YaruWindowTitleBar(
+        title: SizedBox.shrink(),
         titleSpacing: 0,
-        leading: _CustomBackButton(
-          onPressed: () => Navigator.pop(context),
-        ),
+        leading: CustomBackButton(),
       ),
       body: BackGesture(
         child: body,
-      ),
-    );
-  }
-}
-
-class _CustomBackButton extends StatelessWidget {
-  const _CustomBackButton({
-    Key? key,
-    this.onPressed,
-  }) : super(key: key);
-
-  final Function()? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: IconButton(
-        style: IconButton.styleFrom(fixedSize: const Size(40, 40)),
-        onPressed: () {
-          Navigator.maybePop(context);
-          if (onPressed != null) onPressed!();
-        },
-        icon: const Icon(YaruIcons.go_previous),
       ),
     );
   }

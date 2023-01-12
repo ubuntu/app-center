@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:software/app/common/constants.dart';
+import 'package:software/app/common/custom_back_button.dart';
 import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
 import 'package:software/app/updates/package_updates_page.dart';
 import 'package:software/app/updates/snap_updates_page.dart';
@@ -59,7 +60,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
         appBar: YaruWindowTitleBar(
           titleSpacing: 0,
           leading: MediaQuery.of(context).size.width < 611
-              ? const YaruBackButton()
+              ? const CustomBackButton()
               : null,
           title: TabBar(
             onTap: (value) {
