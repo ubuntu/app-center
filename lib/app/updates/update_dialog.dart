@@ -19,12 +19,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/packagekit/package_state.dart';
-import 'package:software/services/packagekit/package_service.dart';
-import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/app/common/utils.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/services/packagekit/package_service.dart';
+import 'package:software/services/packagekit/package_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -196,24 +195,11 @@ class _UpdateDialogState extends State<UpdateDialog> {
     ];
     return SimpleDialog(
       title: YaruDialogTitleBar(
-        centerTitle: false,
         title: model.packageState != PackageState.ready
             ? null
-            : Row(
-                children: [
-                  const AppIcon(
-                    iconUrl: null,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Text(
-                      widget.id.name,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
+            : Text(
+                widget.id.name,
+                overflow: TextOverflow.ellipsis,
               ),
       ),
       titlePadding: EdgeInsets.zero,
