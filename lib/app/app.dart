@@ -199,10 +199,7 @@ class __AppState extends State<_App> {
         ? YaruMasterDetailPage(
             layoutDelegate: const YaruMasterFixedPaneDelegate(paneWidth: 220),
             appBar: const YaruWindowTitleBar(
-              isClosable: false,
-              isMaximizable: false,
-              isMinimizable: false,
-              isRestorable: false,
+              style: YaruTitleBarStyle.undecorated,
             ),
             key: ValueKey(path),
             length: pageItems.length,
