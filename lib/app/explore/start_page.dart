@@ -85,8 +85,8 @@ class _StartPageState extends State<StartPage> {
             ? const CustomBackButton()
             : null,
         titleSpacing: 0,
-        centerTitle: false,
         title: SearchField(
+          autofocus: false,
           searchQuery: searchQuery,
           onChanged: setSearchQuery,
         ),

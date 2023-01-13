@@ -84,7 +84,7 @@ class SearchPage extends StatelessWidget {
             ? const CustomBackButton()
             : null,
         titleSpacing: 0,
-        centerTitle: false,
+        centerTitle: true,
         title: SearchField(
           searchQuery: searchQuery,
           onChanged: setSearchQuery,
