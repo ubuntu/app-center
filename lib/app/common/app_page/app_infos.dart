@@ -45,66 +45,68 @@ class AppInfos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: alignment,
-      child: Wrap(
-        alignment: wrapAlignment,
-        runAlignment: runAlignment,
-        spacing: 50,
-        runSpacing: 40,
-        direction: direction,
-        children: [
-          InfoColumn(
-            header: context.l10n.publisher,
-            tooltipMessage: appData.website,
-            child: PublisherName(
-              publisherName: appData.publisherName ?? '',
-              verified: appData.verified,
-              starDev: appData.starredDeveloper,
-              website: appData.website,
-            ),
+    final appInfos = [
+      InfoColumn(
+        header: context.l10n.publisher,
+        tooltipMessage: appData.website,
+        child: PublisherName(
+          publisherName: appData.publisherName ?? '',
+          verified: appData.verified,
+          starDev: appData.starredDeveloper,
+          website: appData.website,
+        ),
+      ),
+      InfoColumn(
+        header: context.l10n.rating,
+        tooltipMessage: appData.averageRating.toString(),
+        child: Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: _RatingBar(averageRating: appData.averageRating ?? 0),
           ),
-          InfoColumn(
-            header: context.l10n.rating,
-            tooltipMessage: appData.averageRating.toString(),
-            child: Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: _RatingBar(averageRating: appData.averageRating ?? 0),
-              ),
-            ),
-          ),
-          _Version(
-            version: appData.version,
-            versionChanged: appData.versionChanged,
-          ),
-          _Confinement(
-            strict: appData.strict,
-            confinementName: appData.confinementName,
-          ),
-          InfoColumn(
-            header: context.l10n.releasedAt,
-            tooltipMessage: context.l10n.releasedAt,
-            child: Align(
-              alignment: Alignment.center,
-              child: Text(appData.releasedAt),
-            ),
-          ),
-          InfoColumn(
-            header: context.l10n.size,
-            tooltipMessage: context.l10n.size,
-            child: Align(
-              alignment: Alignment.center,
-              child: Text(appData.appSize),
-            ),
-          ),
-          _License(headerStyle: headerStyle, license: appData.license),
-          _InstallDate(
-            installDateIsoNorm: appData.installDateIsoNorm ?? '',
-            installDate: appData.installDate ?? '',
-          ),
-        ],
+        ),
+      ),
+      _Version(
+        version: appData.version,
+        versionChanged: appData.versionChanged,
+      ),
+      _Confinement(
+        strict: appData.strict,
+        confinementName: appData.confinementName,
+      ),
+      InfoColumn(
+        header: context.l10n.releasedAt,
+        tooltipMessage: context.l10n.releasedAt,
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(appData.releasedAt),
+        ),
+      ),
+      InfoColumn(
+        header: context.l10n.size,
+        tooltipMessage: context.l10n.size,
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(appData.appSize),
+        ),
+      ),
+      _License(headerStyle: headerStyle, license: appData.license),
+      _InstallDate(
+        installDateIsoNorm: appData.installDateIsoNorm ?? '',
+        installDate: appData.installDate ?? '',
+      ),
+    ];
+
+    return SizedBox(
+      height: 200,
+      child: GridView(
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 200,
+          mainAxisExtent: 100,
+        ),
+        children: appInfos,
       ),
     );
   }
