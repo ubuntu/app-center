@@ -37,10 +37,19 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<ExploreModel>();
+    final search = context.select((ExploreModel m) => m.search);
+    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
+    final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
+    final showSnap = context.select(
+      (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.snap),
+    );
+    final showPackageKit = context.select(
+      (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
+    );
+    context.select((ExploreModel m) => m.selectedSection);
 
     final grid = FutureBuilder<Map<String, AppFinding>>(
-      future: model.search(),
+      future: search(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingBannerGrid();
@@ -60,9 +69,8 @@ class SearchPage extends StatelessWidget {
                   final appFinding = snapshot.data!.entries.elementAt(index);
                   return AppBanner(
                     appFinding: appFinding,
-                    showSnap: model.selectedAppFormats.contains(AppFormat.snap),
-                    showPackageKit:
-                        model.selectedAppFormats.contains(AppFormat.packageKit),
+                    showSnap: showSnap,
+                    showPackageKit: showPackageKit,
                   );
                 },
               )
@@ -78,8 +86,8 @@ class SearchPage extends StatelessWidget {
         titleSpacing: 0,
         centerTitle: false,
         title: SearchField(
-          searchQuery: model.searchQuery,
-          onChanged: model.setSearchQuery,
+          searchQuery: searchQuery,
+          onChanged: setSearchQuery,
         ),
       ),
       body: Column(
