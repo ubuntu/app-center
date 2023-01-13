@@ -46,6 +46,7 @@ class SearchPage extends StatelessWidget {
     final showPackageKit = context.select(
       (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
     );
+    context.select((ExploreModel m) => m.selectedSection);
 
     final grid = FutureBuilder<Map<String, AppFinding>>(
       future: search(),
