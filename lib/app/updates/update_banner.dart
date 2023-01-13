@@ -57,10 +57,12 @@ class UpdateBanner extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            installedId.version,
-            style: const TextStyle(
-              overflow: TextOverflow.ellipsis,
+          Flexible(
+            child: Text(
+              installedId.version,
+              style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
           const Icon(YaruIcons.pan_end),
