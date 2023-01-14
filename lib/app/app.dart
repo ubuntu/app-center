@@ -195,21 +195,36 @@ class __AppState extends State<_App> {
       ),
     ];
 
+    final width = MediaQuery.of(context).size.width;
+
+    var normalWindowSize = width > 800 && width < 1200;
+    var wideWindowSize = width > 1200;
+    final itemStyle = normalWindowSize
+        ? YaruNavigationRailStyle.labelled
+        : wideWindowSize
+            ? YaruNavigationRailStyle.labelledExtended
+            : YaruNavigationRailStyle.compact;
+
     return _initialized
-        ? YaruMasterDetailPage(
-            layoutDelegate: const YaruMasterFixedPaneDelegate(paneWidth: 220),
-            appBar: const YaruWindowTitleBar(
-              isClosable: false,
-              isMaximizable: false,
-              isMinimizable: false,
-              isRestorable: false,
+        ? YaruNavigationPage(
+            leading: AnimatedContainer(
+              width: normalWindowSize
+                  ? 110
+                  : wideWindowSize
+                      ? 250
+                      : 60,
+              duration: const Duration(milliseconds: 200),
+              child: YaruWindowTitleBar(
+                title: Text(wideWindowSize ? 'Ubuntu Software' : ''),
+                style: YaruTitleBarStyle.undecorated,
+              ),
             ),
             key: ValueKey(path),
             length: pageItems.length,
             initialIndex: _initialIndex,
-            tileBuilder: (context, index, selected) => YaruMasterTile(
-              leading: pageItems[index].iconBuilder(context, selected),
-              title: pageItems[index].titleBuilder(context),
+            itemBuilder: (context, index, selected) => YaruNavigationRailItem(
+              icon: pageItems[index].iconBuilder(context, selected),
+              label: pageItems[index].titleBuilder(context), style: itemStyle,
               // tooltip: pageItems[index].tooltipMessage,
             ),
             pageBuilder: (context, index) => pageItems[index].builder(context),
