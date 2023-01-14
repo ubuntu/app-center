@@ -209,7 +209,7 @@ class __AppState extends State<_App> {
         ? YaruNavigationPage(
             leading: AnimatedContainer(
               width: normalWindowSize
-                  ? 110
+                  ? 100
                   : wideWindowSize
                       ? 250
                       : 60,
