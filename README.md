@@ -11,7 +11,7 @@
 
 Test Ubuntu Software in the **preview/edge** channel of the snap-store snap
 
-## Explore the snapcraft.io from your Ubuntu machine
+## Explore [snapcraft.io](https://snapcraft.io/) from your Ubuntu machine
 
 ![](.github/assets/explore_dark.png)
 
