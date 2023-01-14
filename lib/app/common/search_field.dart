@@ -79,12 +79,10 @@ class _SearchFieldState extends State<SearchField> {
               decoration: InputDecoration(
                 filled: true,
                 hintText: context.l10n.searchHint,
-                prefixIcon: MediaQuery.of(context).size.width < 611
-                    ? null
-                    : const Icon(
-                        YaruIcons.search,
-                        size: 15,
-                      ),
+                prefixIcon: const Icon(
+                  YaruIcons.search,
+                  size: 15,
+                ),
                 prefixIconConstraints:
                     const BoxConstraints(minWidth: 40, minHeight: 0),
                 isDense: true,

@@ -19,13 +19,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app.dart';
-import 'package:software/app/common/custom_back_button.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/app/common/message_bar.dart';
 import 'package:software/app/settings/repo_dialog.dart';
 import 'package:software/app/settings/settings_model.dart';
 import 'package:software/app/updates/package_updates_model.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
@@ -65,9 +64,6 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: YaruWindowTitleBar(
         title: Text(context.l10n.settingsPageTitle),
-        leading: MediaQuery.of(context).size.width < 611
-            ? const CustomBackButton()
-            : null,
       ),
       body: ListView(
         children: [
