@@ -19,8 +19,10 @@ import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/snap/snap_channel_button.dart';
+import 'package:software/app/common/snap/snap_connections_settings.dart';
 import 'package:software/app/common/snap/snap_model.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapControls extends StatelessWidget {
@@ -37,10 +39,31 @@ class SnapControls extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
 
+    final connectionsButton = OutlinedButton(
+      onPressed: () => showDialog(
+        context: context,
+        builder: ((context) => ChangeNotifierProvider.value(
+              value: model,
+              child: const SnapConnectionsDialog(),
+            )),
+      ),
+      child: Wrap(
+        spacing: 10,
+        runSpacing: 10,
+        children: [
+          const Icon(
+            YaruIcons.lock,
+            size: 18,
+          ),
+          Text(context.l10n.connections),
+        ],
+      ),
+    );
+
     return Wrap(
       direction: direction,
       crossAxisAlignment: WrapCrossAlignment.center,
-      alignment: WrapAlignment.start,
+      alignment: WrapAlignment.center,
       runAlignment: WrapAlignment.start,
       spacing: 10,
       runSpacing: 10,
@@ -86,6 +109,7 @@ class SnapControls extends StatelessWidget {
                     context.l10n.install,
                   ),
                 ),
+              if (model.snapIsInstalled && model.strict) connectionsButton,
             ],
     );
   }

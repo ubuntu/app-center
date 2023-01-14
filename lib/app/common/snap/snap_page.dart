@@ -28,13 +28,11 @@ import 'package:software/app/common/app_page/app_loading_page.dart';
 import 'package:software/app/common/app_page/app_page.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
-import 'package:software/app/common/snap/snap_connections_settings.dart';
 import 'package:software/app/common/snap/snap_controls.dart';
 import 'package:software/app/common/snap/snap_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 
 class SnapPage extends StatefulWidget {
   const SnapPage({super.key, this.appstream, required this.snap});
@@ -132,29 +130,6 @@ class _SnapPageState extends State<SnapPage> {
       appstream: widget.appstream,
     );
 
-    var connectionsButton = Padding(
-      padding: const EdgeInsets.only(left: 10),
-      child: OutlinedButton(
-        onPressed: () => showDialog(
-          context: context,
-          builder: ((context) => ChangeNotifierProvider.value(
-                value: model,
-                child: const SnapConnectionsDialog(),
-              )),
-        ),
-        child: Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children: [
-            const Icon(
-              YaruIcons.lock,
-              size: 18,
-            ),
-            Text(context.l10n.connections),
-          ],
-        ),
-      ),
-    );
     return !initialized
         ? const AppLoadingPage()
         : AppPage(
@@ -179,17 +154,10 @@ class _SnapPageState extends State<SnapPage> {
                       }
                     },
                   )
-                : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const BorderContainer(
-                        containerPadding: EdgeInsets.symmetric(horizontal: 5),
-                        borderRadius: 6,
-                        child: SizedBox(height: 40, child: SnapLabel()),
-                      ),
-                      if (model.strict && model.snapIsInstalled)
-                        connectionsButton
-                    ],
+                : const BorderContainer(
+                    containerPadding: EdgeInsets.symmetric(horizontal: 5),
+                    borderRadius: 6,
+                    child: SizedBox(height: 40, child: SnapLabel()),
                   ),
             icon: AppIcon(
               iconUrl: model.iconUrl,
