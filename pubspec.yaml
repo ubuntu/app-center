@@ -4,7 +4,7 @@ description: The Ubuntu Software Store made with Flutter.
 
 publish_to: "none"
 
-version: 0.2.5-alpha
+version: 0.2.6-alpha
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
@@ -54,7 +54,7 @@ dependencies:
   yaru_widgets:
     git:
       url: https://github.com/ubuntu/yaru_widgets.dart
-      ref: b23950a134d4d96960823e874ff224f3c308f04e
+      ref: b16e8525747e0cc13a28d8553d9f3355ccacdec8
 
 dev_dependencies:
   build_runner: ^2.2.0

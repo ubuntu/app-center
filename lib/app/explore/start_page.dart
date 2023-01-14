@@ -19,7 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
-import 'package:software/app/common/custom_back_button.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_section.dart';
@@ -81,12 +80,9 @@ class _StartPageState extends State<StartPage> {
 
     return Scaffold(
       appBar: YaruWindowTitleBar(
-        leading: MediaQuery.of(context).size.width < 611
-            ? const CustomBackButton()
-            : null,
         titleSpacing: 0,
-        centerTitle: false,
         title: SearchField(
+          autofocus: false,
           searchQuery: searchQuery,
           onChanged: setSearchQuery,
         ),
