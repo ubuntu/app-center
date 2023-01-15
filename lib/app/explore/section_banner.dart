@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/base_plate.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
 import 'package:software/app/common/app_icon.dart';
@@ -117,7 +118,7 @@ class _PlatedIconState extends State<_PlatedIcon> {
         child: InkWell(
           onTap: () => SnapPage.push(context: context, snap: widget.snap),
           onHover: (value) => setState(() => hovered = value),
-          child: _BasePlate(
+          child: BasePlate(
             hovered: hovered,
             child: AppIcon(
               iconUrl: widget.snap.iconUrl,
@@ -128,41 +129,6 @@ class _PlatedIconState extends State<_PlatedIcon> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _BasePlate extends StatelessWidget {
-  const _BasePlate({
-    // ignore: unused_element
-    super.key,
-    required this.child,
-    required this.hovered,
-  });
-
-  final Widget child;
-  final bool hovered;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(hovered ? 0.4 : 0.15),
-            spreadRadius: 3,
-            blurRadius: 5,
-            offset: const Offset(0, 1), // changes position of shadow
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: child,
       ),
     );
   }
