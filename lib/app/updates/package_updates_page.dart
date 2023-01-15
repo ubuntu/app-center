@@ -342,9 +342,12 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                           const SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
-                            style: Theme.of(context).textTheme.headline6,
+                          Expanded(
+                            child: Text(
+                              '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
+                              style: Theme.of(context).textTheme.headline6,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           )
                         ],
                       )
