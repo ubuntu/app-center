@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:software/app/common/constants.dart';
@@ -15,20 +17,12 @@ class UpdatesPage extends StatefulWidget {
     super.key,
     this.onTabTapped,
     this.tabIndex = 0,
+    required this.windowWidth,
   });
 
   final Function(int)? onTabTapped;
   final int tabIndex;
-
-  static Widget create(
-    BuildContext context,
-    Function(int)? onTabTapped,
-    int tabIndex,
-  ) =>
-      UpdatesPage(
-        tabIndex: tabIndex,
-        onTabTapped: onTabTapped,
-      );
+  final double windowWidth;
 
   static Widget createTitle(BuildContext context) => Text(context.l10n.updates);
 
@@ -53,6 +47,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final packageService = getService<PackageService>();
+    final padding = 0.0004 * pow((widget.windowWidth * 0.85), 2);
     return DefaultTabController(
       initialIndex: widget.tabIndex,
       length: packageService.isAvailable ? 2 : 1,
@@ -65,7 +60,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
               borderRadius: BorderRadius.circular(kYaruButtonRadius),
             ),
             child: TabBar(
-              padding: const EdgeInsets.symmetric(horizontal: 140),
+              padding: EdgeInsets.symmetric(horizontal: padding / 2),
               indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(kYaruButtonRadius),
                 color: theme.colorScheme.onSurface.withOpacity(0.1),
@@ -122,6 +117,7 @@ class _TabChild extends StatelessWidget {
     final tabTextStyle = theme.textTheme.labelLarge;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Icon(
           iconData,
