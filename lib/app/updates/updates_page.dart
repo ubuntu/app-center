@@ -51,6 +51,7 @@ class UpdatesPage extends StatefulWidget {
 class _UpdatesPageState extends State<UpdatesPage> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final packageService = getService<PackageService>();
     return DefaultTabController(
       initialIndex: widget.tabIndex,
@@ -58,28 +59,40 @@ class _UpdatesPageState extends State<UpdatesPage> {
       child: Scaffold(
         appBar: YaruWindowTitleBar(
           titleSpacing: 0,
-          title: TabBar(
-            indicatorPadding: EdgeInsets.zero,
-            onTap: (value) {
-              if (widget.onTabTapped != null) {
-                widget.onTabTapped!(value);
-              }
-            },
-            tabs: [
-              Tab(
-                child: _TabChild(
-                  iconData: YaruIcons.snapcraft,
-                  label: context.l10n.snapPackages,
-                ),
+          title: Container(
+            height: 34,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(kYaruButtonRadius),
+            ),
+            child: TabBar(
+              padding: const EdgeInsets.symmetric(horizontal: 140),
+              indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(kYaruButtonRadius),
+                color: theme.colorScheme.onSurface.withOpacity(0.1),
               ),
-              if (packageService.isAvailable)
+              labelColor: theme.colorScheme.onSurface,
+              splashBorderRadius: BorderRadius.circular(kYaruButtonRadius),
+              onTap: (value) {
+                if (widget.onTabTapped != null) {
+                  widget.onTabTapped!(value);
+                }
+              },
+              tabs: [
                 Tab(
                   child: _TabChild(
-                    iconData: YaruIcons.debian,
-                    label: context.l10n.debianPackages,
+                    iconData: YaruIcons.snapcraft,
+                    label: context.l10n.snapPackages,
                   ),
                 ),
-            ],
+                if (packageService.isAvailable)
+                  Tab(
+                    child: _TabChild(
+                      iconData: YaruIcons.debian,
+                      label: context.l10n.debianPackages,
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
         body: TabBarView(
@@ -105,6 +118,8 @@ class _TabChild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final tabTextStyle = theme.textTheme.labelLarge;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -120,6 +135,7 @@ class _TabChild extends StatelessWidget {
             label,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
+            style: tabTextStyle,
           ),
         )
       ],
@@ -140,11 +156,11 @@ class _UpdatesIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     if (processing && count > 0) {
       return Badge(
         position: BadgePosition.topEnd(),
-        badgeColor:
-            count > 0 ? Theme.of(context).primaryColor : Colors.transparent,
+        badgeColor: count > 0 ? theme.primaryColor : Colors.transparent,
         badgeContent: count > 0
             ? Text(
                 count.toString(),
@@ -157,7 +173,7 @@ class _UpdatesIcon extends StatelessWidget {
       return const IndeterminateCircularProgressIcon();
     } else if (!processing && count > 0) {
       return Badge(
-        badgeColor: Theme.of(context).primaryColor,
+        badgeColor: theme.primaryColor,
         badgeContent: Text(
           count.toString(),
           style: badgeTextStyle,
