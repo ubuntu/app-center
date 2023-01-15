@@ -145,6 +145,8 @@ class __AppState extends State<_App> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<AppModel>();
+    final width = MediaQuery.of(context).size.width;
+
     model.setupNotifications(updatesAvailable: context.l10n.updateAvailable);
 
     final pageItems = [
@@ -167,6 +169,7 @@ class __AppState extends State<_App> {
       PageItem(
         titleBuilder: UpdatesPage.createTitle,
         builder: (context) => UpdatesPage(
+          windowWidth: width,
           onTabTapped: (index) => setState(() => _updatesPageIndex = index),
           tabIndex: _updatesPageIndex,
         ),
@@ -194,8 +197,6 @@ class __AppState extends State<_App> {
             SettingsPage.createIcon(context, selected),
       ),
     ];
-
-    final width = MediaQuery.of(context).size.width;
 
     var normalWindowSize = width > 800 && width < 1200;
     var wideWindowSize = width > 1200;
