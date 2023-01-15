@@ -60,12 +60,12 @@ class _UpdatesPageState extends State<UpdatesPage> {
         appBar: YaruWindowTitleBar(
           titleSpacing: 0,
           title: Container(
-            width: 380,
             height: 34,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kYaruButtonRadius),
             ),
             child: TabBar(
+              padding: const EdgeInsets.symmetric(horizontal: 140),
               indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(kYaruButtonRadius),
                 color: theme.colorScheme.onSurface.withOpacity(0.1),
@@ -118,6 +118,8 @@ class _TabChild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final tabTextStyle = theme.textTheme.labelLarge;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -133,6 +135,7 @@ class _TabChild extends StatelessWidget {
             label,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
+            style: tabTextStyle,
           ),
         )
       ],
