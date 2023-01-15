@@ -25,6 +25,7 @@ import 'package:software/app/common/app_page/app_reviews.dart';
 import 'package:software/app/common/app_page/app_swipe_gesture.dart';
 import 'package:software/app/common/app_page/media_tile.dart';
 import 'package:software/app/common/app_page/page_layouts.dart';
+import 'package:software/app/common/base_plate.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/custom_back_button.dart';
 import 'package:software/app/common/safe_network_image.dart';
@@ -104,7 +105,14 @@ class _AppPageState extends State<AppPage> {
     final isWindowNormalSized = windowWidth > 800 && windowWidth < 1200;
     final isWindowWide = windowWidth > 1200;
 
-    final icon = widget.icon;
+    final icon = SizedBox(
+      child: BasePlate(
+        useBorder: true,
+        hovered: false,
+        radius: 100,
+        child: widget.icon,
+      ),
+    );
 
     final media = BorderContainer(
       child: YaruExpandable(

@@ -73,12 +73,6 @@ class _UpdatesPageState extends State<UpdatesPage> {
                 }
               },
               tabs: [
-                Tab(
-                  child: _TabChild(
-                    iconData: YaruIcons.snapcraft,
-                    label: context.l10n.snapPackages,
-                  ),
-                ),
                 if (packageService.isAvailable)
                   Tab(
                     child: _TabChild(
@@ -86,14 +80,20 @@ class _UpdatesPageState extends State<UpdatesPage> {
                       label: context.l10n.debianPackages,
                     ),
                   ),
+                Tab(
+                  child: _TabChild(
+                    iconData: YaruIcons.snapcraft,
+                    label: context.l10n.snapPackages,
+                  ),
+                ),
               ],
             ),
           ),
         ),
         body: TabBarView(
           children: [
-            SnapUpdatesPage.create(context),
             if (packageService.isAvailable) PackageUpdatesPage.create(context),
+            SnapUpdatesPage.create(context),
           ],
         ),
       ),
