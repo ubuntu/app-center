@@ -48,56 +48,65 @@ class _UpdatesPageState extends State<UpdatesPage> {
     final theme = Theme.of(context);
     final packageService = getService<PackageService>();
     final padding = 0.0004 * pow((widget.windowWidth * 0.85), 2);
-    return DefaultTabController(
-      initialIndex: widget.tabIndex,
-      length: packageService.isAvailable ? 2 : 1,
-      child: Scaffold(
+
+    if (!packageService.isAvailable) {
+      return Scaffold(
         appBar: YaruWindowTitleBar(
-          titleSpacing: 0,
-          title: Container(
-            height: 34,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(kYaruButtonRadius),
-            ),
-            child: TabBar(
-              padding: EdgeInsets.symmetric(horizontal: padding / 2),
-              indicator: BoxDecoration(
+          title: Text(context.l10n.updates),
+        ),
+        body: SnapUpdatesPage.create(context),
+      );
+    } else {
+      return DefaultTabController(
+        initialIndex: widget.tabIndex,
+        length: 2,
+        child: Scaffold(
+          appBar: YaruWindowTitleBar(
+            titleSpacing: 0,
+            title: Container(
+              height: 34,
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(kYaruButtonRadius),
-                color: theme.colorScheme.onSurface.withOpacity(0.1),
               ),
-              labelColor: theme.colorScheme.onSurface,
-              splashBorderRadius: BorderRadius.circular(kYaruButtonRadius),
-              onTap: (value) {
-                if (widget.onTabTapped != null) {
-                  widget.onTabTapped!(value);
-                }
-              },
-              tabs: [
-                if (packageService.isAvailable)
+              child: TabBar(
+                padding: EdgeInsets.symmetric(horizontal: padding / 2),
+                indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(kYaruButtonRadius),
+                  color: theme.colorScheme.onSurface.withOpacity(0.1),
+                ),
+                labelColor: theme.colorScheme.onSurface,
+                splashBorderRadius: BorderRadius.circular(kYaruButtonRadius),
+                onTap: (value) {
+                  if (widget.onTabTapped != null) {
+                    widget.onTabTapped!(value);
+                  }
+                },
+                tabs: [
                   Tab(
                     child: _TabChild(
                       iconData: YaruIcons.debian,
                       label: context.l10n.debianPackages,
                     ),
                   ),
-                Tab(
-                  child: _TabChild(
-                    iconData: YaruIcons.snapcraft,
-                    label: context.l10n.snapPackages,
+                  Tab(
+                    child: _TabChild(
+                      iconData: YaruIcons.snapcraft,
+                      label: context.l10n.snapPackages,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
+          body: TabBarView(
+            children: [
+              PackageUpdatesPage.create(context),
+              SnapUpdatesPage.create(context),
+            ],
+          ),
         ),
-        body: TabBarView(
-          children: [
-            if (packageService.isAvailable) PackageUpdatesPage.create(context),
-            SnapUpdatesPage.create(context),
-          ],
-        ),
-      ),
-    );
+      );
+    }
   }
 }
 
