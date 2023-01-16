@@ -319,7 +319,10 @@ class _ShowDepsDialogState extends State<_ShowDepsDialog> {
           child: Text(context.l10n.cancel),
         ),
         ElevatedButton(
-          onPressed: widget.onInstall,
+          onPressed: () {
+            widget.onInstall();
+            Navigator.of(context).pop();
+          },
           child: Text(context.l10n.install),
         )
       ],
