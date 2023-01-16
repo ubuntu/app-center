@@ -108,7 +108,7 @@ class _AppPageState extends State<AppPage> {
       child: BasePlate(
         useBorder: true,
         hovered: false,
-        radius: 100,
+        radius: 10,
         child: widget.icon,
       ),
     );

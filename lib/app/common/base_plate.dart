@@ -9,6 +9,7 @@ class BasePlate extends StatelessWidget {
     this.blurRadius = 5,
     this.spreadRadius = 3,
     this.useBorder = false,
+    this.childPadding = 10.0,
   });
 
   final Widget child;
@@ -17,6 +18,7 @@ class BasePlate extends StatelessWidget {
   final int spreadRadius;
   final int blurRadius;
   final bool useBorder;
+  final double childPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class BasePlate extends StatelessWidget {
               ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(childPadding),
         child: child,
       ),
     );
