@@ -31,6 +31,9 @@ class SnapGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (snaps.isEmpty) {
+      return const SizedBox.shrink();
+    }
     return GridView.builder(
       padding: kGridPadding,
       gridDelegate: kGridDelegate,

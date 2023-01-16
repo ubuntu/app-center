@@ -19,12 +19,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/app/common/message_bar.dart';
 import 'package:software/app/settings/repo_dialog.dart';
 import 'package:software/app/settings/settings_model.dart';
 import 'package:software/app/updates/package_updates_model.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
@@ -61,26 +61,22 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      onGenerateRoute: (settings) {
-        return MaterialPageRoute(
-          builder: (context) {
-            return ListView(
-              children: [
-                const ThemeSection(),
-                YaruSection(
-                  margin: const EdgeInsets.all(kYaruPagePadding),
-                  //width: kMinSectionWidth,
-                  child: Column(
-                    children: [_RepoTile.create(context), const _AboutTile()],
-                  ),
-                )
-              ],
-            );
-          },
-        );
-      },
-      onPopPage: (route, result) => route.didPop(result),
+    return Scaffold(
+      appBar: YaruWindowTitleBar(
+        title: Text(context.l10n.settingsPageTitle),
+      ),
+      body: ListView(
+        children: [
+          const ThemeSection(),
+          YaruSection(
+            margin: const EdgeInsets.all(kYaruPagePadding),
+            //width: kMinSectionWidth,
+            child: Column(
+              children: [_RepoTile.create(context), const _AboutTile()],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

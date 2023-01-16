@@ -15,40 +15,37 @@
  *
  */
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_banner.dart';
 import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:software/app/common/snap/snap_section.dart';
-import 'package:software/app/explore/explore_model.dart';
 
 class SectionGrid extends StatelessWidget {
   const SectionGrid({
     Key? key,
-    required this.snapSection,
+    required this.snaps,
     this.animateBanners = false,
     this.padding,
     this.initSection = true,
     this.ignoreScrolling = true,
-    required this.initialAmount,
+    this.take = 10,
+    this.skip = 0,
   }) : super(key: key);
 
-  final SnapSection snapSection;
+  final List<Snap> snaps;
+  final int take;
+  final int skip;
   final bool animateBanners;
   final EdgeInsets? padding;
   final bool initSection;
-  final int initialAmount;
   final bool ignoreScrolling;
 
   @override
   Widget build(BuildContext context) {
-    final sections = context.select((ExploreModel m) {
-      return m.sectionNameToSnapsMap[snapSection]?.take(initialAmount).toList();
-    });
-    if (sections == null || sections.isEmpty) return const SizedBox();
+    if (snaps.isEmpty) return const SizedBox();
+
+    final snapsMod = snaps.take(take).toList().skip(skip);
 
     return GridView.builder(
       physics: ignoreScrolling ? const NeverScrollableScrollPhysics() : null,
@@ -60,9 +57,9 @@ class SectionGrid extends StatelessWidget {
           ),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
-      itemCount: sections.length,
+      itemCount: snapsMod.length,
       itemBuilder: (context, index) {
-        final snap = sections.elementAt(index);
+        final snap = snapsMod.elementAt(index);
 
         return AppBanner(
           appFinding: MapEntry<String, AppFinding>(
@@ -70,7 +67,7 @@ class SectionGrid extends StatelessWidget {
             AppFinding(
               snap: snap,
               rating: 4.5,
-              totalRatings: Random().nextInt(3000),
+              totalRatings: 234,
             ),
           ),
           showSnap: true,

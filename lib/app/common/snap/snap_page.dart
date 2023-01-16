@@ -140,8 +140,7 @@ class _SnapPageState extends State<SnapPage> {
                     child: SnapConnectionsSettings(),
                   )
                 : null,
-            subControlPageHeader:
-                widget.appstream != null ? snapControls : null,
+            subControlPageHeader: snapControls,
             controls: widget.appstream != null
                 ? AppFormatToggleButtons(
                     isSelected: const [
@@ -159,7 +158,11 @@ class _SnapPageState extends State<SnapPage> {
                       }
                     },
                   )
-                : snapControls,
+                : const BorderContainer(
+                    containerPadding: EdgeInsets.symmetric(horizontal: 5),
+                    borderRadius: 6,
+                    child: SizedBox(height: 40, child: SnapLabel()),
+                  ),
             icon: AppIcon(
               iconUrl: model.iconUrl,
               size: 150,

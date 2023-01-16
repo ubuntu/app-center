@@ -15,7 +15,6 @@
  *
  */
 
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:software/app/common/app_data.dart';
@@ -26,10 +25,10 @@ import 'package:software/app/common/app_page/app_reviews.dart';
 import 'package:software/app/common/app_page/app_swipe_gesture.dart';
 import 'package:software/app/common/app_page/media_tile.dart';
 import 'package:software/app/common/app_page/page_layouts.dart';
+import 'package:software/app/common/base_plate.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/custom_back_button.dart';
 import 'package:software/app/common/safe_network_image.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -41,7 +40,7 @@ class AppPage extends StatefulWidget {
     required this.permissionContainer,
     required this.controls,
     this.subControlPageHeader,
-    this.subBannerHeader,
+    this.subDescription,
     this.appIsInstalled = false,
     this.onRatingUpdate,
     this.onReviewSend,
@@ -54,7 +53,6 @@ class AppPage extends StatefulWidget {
     this.reviewRating,
     this.onVote,
     this.onFlag,
-    this.onFileSelect,
   });
 
   final AppData appData;
@@ -62,7 +60,7 @@ class AppPage extends StatefulWidget {
   final Widget? permissionContainer;
   final Widget controls;
   final Widget? subControlPageHeader;
-  final Widget? subBannerHeader;
+  final Widget? subDescription;
   final bool appIsInstalled;
 
   final double? reviewRating;
@@ -76,7 +74,6 @@ class AppPage extends StatefulWidget {
   final void Function(String)? onReviewUserChanged;
   final Function(AppReview, bool)? onVote;
   final Function(AppReview)? onFlag;
-  final void Function(String path)? onFileSelect;
 
   @override
   State<AppPage> createState() => _AppPageState();
@@ -107,7 +104,14 @@ class _AppPageState extends State<AppPage> {
     final isWindowNormalSized = windowWidth > 800 && windowWidth < 1200;
     final isWindowWide = windowWidth > 1200;
 
-    final icon = widget.icon;
+    final icon = SizedBox(
+      child: BasePlate(
+        useBorder: true,
+        hovered: false,
+        radius: 100,
+        child: widget.icon,
+      ),
+    );
 
     final media = BorderContainer(
       child: YaruCarousel(
@@ -196,13 +200,10 @@ class _AppPageState extends State<AppPage> {
       adaptivePadding: true,
       children: [
         normalWindowAppHeader,
-        if (widget.subBannerHeader != null)
-          BorderContainer(
-            child: widget.subBannerHeader,
-          ),
         appInfos,
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
+        if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
       ],
@@ -214,6 +215,7 @@ class _AppPageState extends State<AppPage> {
         appInfos,
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
+        if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
       ],
@@ -227,6 +229,7 @@ class _AppPageState extends State<AppPage> {
         appInfos,
         if (widget.appData.screenShotUrls.isNotEmpty) media,
         description,
+        if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
       ],
@@ -239,34 +242,10 @@ class _AppPageState extends State<AppPage> {
             : narrowWindowLayout;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: YaruWindowTitleBar(
         title: Text(widget.appData.title),
         titleSpacing: 0,
-        leading: widget.onFileSelect != null
-            ? Center(
-                child: IconButton(
-                  style: IconButton.styleFrom(fixedSize: const Size(40, 40)),
-                  onPressed: () async {
-                    final path = await openFile(
-                      acceptedTypeGroups: [
-                        XTypeGroup(
-                          label: context.l10n.debianPackages,
-                          extensions: const <String>[
-                            'deb',
-                          ],
-                        )
-                      ],
-                    );
-                    if (null != path && widget.onFileSelect != null) {
-                      widget.onFileSelect!(path.path);
-                    }
-                  },
-                  icon: const Icon(YaruIcons.document_open),
-                ),
-              )
-            : CustomBackButton(
-                onPressed: () => Navigator.pop(context),
-              ),
+        leading: const CustomBackButton(),
       ),
       body: BackGesture(
         child: body,

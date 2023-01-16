@@ -23,10 +23,10 @@ import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/search_field.dart';
-
 import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({
@@ -44,6 +44,7 @@ class SearchPage extends StatelessWidget {
     final showPackageKit = context.select(
       (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
     );
+    context.select((ExploreModel m) => m.selectedSection);
 
     final grid = FutureBuilder<Map<String, AppFinding>>(
       future: search(),
@@ -76,9 +77,10 @@ class SearchPage extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        flexibleSpace: SearchField(
+      appBar: YaruWindowTitleBar(
+        titleSpacing: 0,
+        centerTitle: true,
+        title: SearchField(
           searchQuery: searchQuery,
           onChanged: setSearchQuery,
         ),

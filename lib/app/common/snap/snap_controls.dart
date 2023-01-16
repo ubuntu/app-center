@@ -61,6 +61,9 @@ class SnapControls extends StatelessWidget {
                 ),
             ]
           : [
+              if (model.selectableChannels.isNotEmpty &&
+                  model.selectableChannels.length > 1)
+                const SnapChannelPopupButton(),
               if (model.snapIsInstalled)
                 OutlinedButton(
                   onPressed: model.remove,
@@ -83,9 +86,6 @@ class SnapControls extends StatelessWidget {
                     context.l10n.install,
                   ),
                 ),
-              if (model.selectableChannels.isNotEmpty &&
-                  model.selectableChannels.length > 1)
-                const SnapChannelPopupButton(),
             ],
     );
   }

@@ -19,47 +19,69 @@ class AppFormatToggleButtons extends StatelessWidget {
       child: ToggleButtons(
         isSelected: isSelected,
         onPressed: onPressed,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(
-                width: 10,
-              ),
-              const Icon(
-                YaruIcons.snapcraft,
-                size: 16,
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Text(context.l10n.snapPackage),
-              const SizedBox(
-                width: 10,
-              ),
-            ],
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(
-                width: 10,
-              ),
-              const Icon(
-                YaruIcons.debian,
-                size: 16,
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Text(context.l10n.debianPackage),
-              const SizedBox(
-                width: 10,
-              ),
-            ],
-          ),
+        children: const [
+          SnapLabel(),
+          DebianLabel(),
         ],
       ),
+    );
+  }
+}
+
+class SnapLabel extends StatelessWidget {
+  const SnapLabel({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(
+          width: 10,
+        ),
+        const Icon(
+          YaruIcons.snapcraft,
+          size: 16,
+        ),
+        const SizedBox(
+          width: 5,
+        ),
+        Text(context.l10n.snapPackage),
+        const SizedBox(
+          width: 10,
+        ),
+      ],
+    );
+  }
+}
+
+class DebianLabel extends StatelessWidget {
+  const DebianLabel({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(
+          width: 10,
+        ),
+        const Icon(
+          YaruIcons.debian,
+          size: 16,
+        ),
+        const SizedBox(
+          width: 5,
+        ),
+        Text(context.l10n.debianPackage),
+        const SizedBox(
+          width: 10,
+        ),
+      ],
     );
   }
 }

@@ -18,19 +18,20 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/packagekit/package_service.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/installed/installed_header.dart';
 import 'package:software/app/installed/installed_model.dart';
 import 'package:software/app/installed/installed_packages_page.dart';
 import 'package:software/app/installed/installed_snaps_page.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/services/packagekit/package_service.dart';
+import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class InstalledPage extends StatelessWidget {
   const InstalledPage({Key? key}) : super(key: key);
@@ -81,21 +82,17 @@ class InstalledPage extends StatelessWidget {
       ],
     );
 
-    return Navigator(
-      pages: [
-        MaterialPage(
-          child: Scaffold(
-            appBar: AppBar(
-              flexibleSpace: SearchField(
-                searchQuery: searchQuery ?? '',
-                onChanged: setSearchQuery,
-              ),
-            ),
-            body: page,
-          ),
+    return Scaffold(
+      appBar: YaruWindowTitleBar(
+        titleSpacing: 0,
+        centerTitle: false,
+        title: SearchField(
+          autofocus: false,
+          searchQuery: searchQuery ?? '',
+          onChanged: setSearchQuery,
         ),
-      ],
-      onPopPage: (route, result) => route.didPop(result),
+      ),
+      body: page,
     );
   }
 }

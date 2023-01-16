@@ -11,13 +11,40 @@
 
 Test Ubuntu Software in the **preview/edge** channel of the snap-store snap
 
+## Explore [snapcraft.io](https://snapcraft.io/) from your Ubuntu machine
 
-![1](.github/assets/01.png)
-![2](.github/assets/02.png)
-![3](.github/assets/03.png)
-![4](.github/assets/04.png)
-![5](.github/assets/05.png)
+![](.github/assets/explore_dark.png)
 
+## Search and find snaps _and_ debian packages
+
+![](.github/assets/search_dark.png)
+
+## Install and remove apps and manage snap apps' channels
+
+![](.github/assets/apppage_dark.png)
+
+## Update your snap apps
+
+![](.github/assets/snapupdates_dark.png)
+
+
+## And your debian packages
+
+![](.github/assets/check_deb_updates_dark.png)
+
+![](.github/assets/deb_updates_dark.png)
+
+## We even have a light theme ;) and a layout for small windows
+
+![](.github/assets/explore_small_window_light.png)
+
+## And for wide windows
+
+![](.github/assets/explore_wide_window_light.png)
+
+## You can also install and update local debian package files from your file manager
+
+![](.github/assets/package_installer_light.png)
 
 ## Goals
 

@@ -18,7 +18,7 @@ class MessageBar extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        YaruTitleBar(
+        YaruDialogTitleBar(
           title: TextButton(
             child: Row(
               mainAxisSize: MainAxisSize.min,
