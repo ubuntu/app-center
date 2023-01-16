@@ -166,5 +166,6 @@
           "type": "String"
         }
     }
-}
+  },
+  "gallery": "Gallery"
 }
