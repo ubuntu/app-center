@@ -2,6 +2,7 @@ import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -53,6 +54,23 @@ void main() {
     verifyNever(mockSnapdClient.loadAuthorization);
     await service.authorize();
     verify(mockSnapdClient.loadAuthorization).called(1);
+  });
+
+  test('initialize service', () async {
+    when(() => mockSnapdClient.find(section: any(named: 'section'))).thenAnswer(
+      (i) async {
+        return i.namedArguments[const Symbol('section')] ==
+                SnapSection.development.title
+            ? [snap1]
+            : [];
+      },
+    );
+    service.sectionsChanged
+        .listen(expectAsync1((_) {}, count: SnapSection.values.length));
+    service.init();
+    await service.initialized;
+    verify(mockSnapdClient.loadAuthorization).called(1);
+    expect(service.sectionNameToSnapsMap[SnapSection.development], [snap1]);
   });
 
   test('find local snap', () async {
@@ -298,6 +316,21 @@ void main() {
         hints: any(named: 'hints'),
       ),
     ).called(1);
+
+    when(
+      () => mockSnapdClient.refresh(
+        snap1.name,
+        channel: any(named: 'channel'),
+        classic: any(named: 'classic'),
+      ),
+    ).thenThrow(SnapdException(message: 'has running apps'));
+    service.refreshError.listen(expectAsync1((_) {}));
+    snap = await service.refresh(
+      snap: snap1,
+      message: '',
+      channel: channel,
+      confinement: SnapConfinement.strict,
+    );
   });
 
   test('load plugs', () async {
@@ -396,5 +429,58 @@ void main() {
           [SnapdChange(id: '42', spawnTime: DateTime.now(), ready: true)],
     );
     expect(await service.getSnapChangeInProgress(name: snap1.name), isTrue);
+  });
+
+  test('get snap changes', () async {
+    when(() => mockSnapdClient.getChanges(name: snap1.name))
+        .thenAnswer((_) async => []);
+    expect(await service.getSnapChanges(name: snap1.name), isNull);
+
+    final testChange =
+        SnapdChange(id: '42', spawnTime: DateTime.now(), ready: true);
+    when(() => mockSnapdClient.getChanges(name: snap1.name)).thenAnswer(
+      (_) async => [testChange],
+    );
+    expect(await service.getSnapChanges(name: snap1.name), testChange);
+  });
+
+  test('load snaps with update', () async {
+    const snapWithUpdateOld = Snap(
+      name: 'snapWithUpdate',
+      version: '1',
+      tracks: ['latest'],
+      trackingChannel: 'latest/stable',
+    );
+    final snapWithUpdateNew = Snap(
+      name: 'snapWithUpdate',
+      version: '2',
+      tracks: ['latest'],
+      trackingChannel: 'latest/stable',
+      channels: {
+        'latest/stable': SnapChannel(releasedAt: DateTime.now(), version: '2')
+      },
+    );
+    final snapWithoutUpdate = Snap(
+      name: 'snapWithoutUpdate',
+      version: '1',
+      tracks: ['latest'],
+      trackingChannel: 'latest/stable',
+      channels: {
+        'latest/stable': SnapChannel(releasedAt: DateTime.now(), version: '1')
+      },
+    );
+    when(mockSnapdClient.getSnaps).thenAnswer(
+      (_) async => [snapWithUpdateOld, snapWithoutUpdate],
+    );
+    when(() => mockSnapdClient.find(section: any(named: 'name'))).thenAnswer(
+      (i) async =>
+          i.namedArguments[const Symbol('name')] == snapWithUpdateOld.name
+              ? [snapWithUpdateNew]
+              : i.namedArguments[const Symbol('name')] == snapWithoutUpdate.name
+                  ? [snapWithoutUpdate]
+                  : [],
+    );
+    await service.loadSnapsWithUpdate();
+    expect(service.snapsWithUpdate, [snapWithUpdateOld]);
   });
 }
