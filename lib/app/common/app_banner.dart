@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/app_icon.dart';
+import 'package:software/app/common/base_plate.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/snap/snap_page.dart';
@@ -80,8 +81,17 @@ class AppBanner extends StatelessWidget {
 
     var appIcon = Padding(
       padding: const EdgeInsets.only(bottom: 55, right: 5),
-      child: AppIcon(
-        iconUrl: iconUrl,
+      child: SizedBox(
+        height: 45,
+        width: 45,
+        child: BasePlate(
+          useBorder: true,
+          hovered: false,
+          radius: 100,
+          child: AppIcon(
+            iconUrl: iconUrl,
+          ),
+        ),
       ),
     );
 
