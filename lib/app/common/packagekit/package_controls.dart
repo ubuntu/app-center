@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_state.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageControls extends StatelessWidget {
   const PackageControls({
@@ -47,26 +48,37 @@ class PackageControls extends StatelessWidget {
       runAlignment: WrapAlignment.start,
       spacing: 10,
       runSpacing: 10,
-      children: [
-        if (isInstalled == true)
-          OutlinedButton(
-            onPressed: packageState != PackageState.ready ? null : remove,
-            child: Text(context.l10n.remove),
-          ),
-        if (isInstalled == false)
-          ElevatedButton(
-            onPressed: packageState != PackageState.ready
-                ? null
-                : (hasDependencies == true ? showDeps : install),
-            child: Text(context.l10n.install),
-          ),
-        if (isInstalled == true && versionChanged == true)
-          ElevatedButton(
-            onPressed: packageState != PackageState.ready ? null : install,
-            child: Text(context.l10n.refresh),
-          ),
-        const SizedBox.shrink()
-      ],
+      children: packageState == PackageState.processing
+          ? [
+              const SizedBox(
+                height: 20,
+                child: YaruCircularProgressIndicator(
+                  strokeWidth: 3,
+                ),
+              ),
+              Text(context.l10n.processing),
+            ]
+          : [
+              if (isInstalled == true)
+                OutlinedButton(
+                  onPressed: packageState != PackageState.ready ? null : remove,
+                  child: Text(context.l10n.remove),
+                ),
+              if (isInstalled == false)
+                ElevatedButton(
+                  onPressed: packageState != PackageState.ready
+                      ? null
+                      : (hasDependencies == true ? showDeps : install),
+                  child: Text(context.l10n.install),
+                ),
+              if (isInstalled == true && versionChanged == true)
+                ElevatedButton(
+                  onPressed:
+                      packageState != PackageState.ready ? null : install,
+                  child: Text(context.l10n.refresh),
+                ),
+              const SizedBox.shrink()
+            ],
     );
   }
 }

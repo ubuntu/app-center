@@ -29,12 +29,14 @@ class SnapUpdatesModel extends SafeChangeNotifier {
   final SnapService _snapService;
   StreamSubscription<bool>? _snapChangesSub;
   StreamSubscription<String>? _refreshErrorSub;
+  List<Snap>? _snapsWithUpdates;
+  List<Snap>? get snapsWithUpdates => _snapsWithUpdates;
 
   Future<void> init({Function(String)? onRefreshError}) async {
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       checkingForUpdates = true;
       if (_snapService.snapChanges.isEmpty) {
-        loadSnapsWithUpdate().then((_) => checkingForUpdates = false);
+        _loadSnapsWithUpdate().then((_) => checkingForUpdates = false);
       }
     });
     _refreshErrorSub = _snapService.refreshError.listen((event) {
@@ -42,6 +44,8 @@ class SnapUpdatesModel extends SafeChangeNotifier {
         onRefreshError(event);
       }
     });
+
+    await checkForUpdates();
   }
 
   @override
@@ -61,21 +65,19 @@ class SnapUpdatesModel extends SafeChangeNotifier {
 
   Future<void> checkForUpdates() async {
     checkingForUpdates = true;
-    await loadSnapsWithUpdate();
+    _snapsWithUpdates = await _loadSnapsWithUpdate();
     checkingForUpdates = false;
   }
 
-  void notify() => notifyListeners();
-
-  Future<List<Snap>> loadSnapsWithUpdate() async =>
+  Future<List<Snap>> _loadSnapsWithUpdate() async =>
       await _snapService.loadSnapsWithUpdate();
 
   Future<void> refreshAll({
     required String doneMessage,
-    required List<Snap> snaps,
   }) async {
     await _snapService.authorize();
-    for (var snap in snaps) {
+    if (_snapsWithUpdates == null) return;
+    for (var snap in _snapsWithUpdates!) {
       _snapService.refresh(
         snap: snap,
         message: doneMessage,
