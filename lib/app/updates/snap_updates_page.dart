@@ -55,17 +55,20 @@ class SnapUpdatesPage extends StatelessWidget {
           padding: EdgeInsets.all(kPagePadding),
           child: _SnapUpdatesHeader(),
         ),
-        Expanded(
-          child: Center(
-            child: model.checkingForUpdates
-                ? const UpdatesSplashScreen(icon: YaruIcons.snapcraft)
-                : snaps.isEmpty
-                    ? const NoUpdatesPage()
-                    : SnapGrid(
-                        snaps: snaps,
-                      ),
-          ),
-        )
+        if (model.checkingForUpdates)
+          const Expanded(
+            child: Center(
+              child: UpdatesSplashScreen(icon: YaruIcons.snapcraft),
+            ),
+          )
+        else if (snaps.isEmpty)
+          const Expanded(child: Center(child: NoUpdatesPage()))
+        else
+          Expanded(
+            child: SnapGrid(
+              snaps: snaps,
+            ),
+          )
       ],
     );
   }
