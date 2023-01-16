@@ -82,12 +82,13 @@ class AppBanner extends StatelessWidget {
     var appIcon = Padding(
       padding: const EdgeInsets.only(bottom: 55, right: 5),
       child: SizedBox(
-        height: 45,
-        width: 45,
+        height: 40,
+        width: 40,
         child: BasePlate(
+          childPadding: 5,
           useBorder: true,
           hovered: false,
-          radius: 100,
+          radius: 8,
           child: AppIcon(
             iconUrl: iconUrl,
           ),
