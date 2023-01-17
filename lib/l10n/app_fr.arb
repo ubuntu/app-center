@@ -167,7 +167,7 @@
   "@requireRestartApp": {},
   "quit": "Quitter",
   "@quit": {},
-  "updating": "Veuillez patienter pendant la mise à jour de votre système. Merci de ne pas quitter cette application ni éteindre votre ordinateur.",
+  "updating": "Veuillez patienter pendant la mise à jour de votre système. Merci de ne pas quitter cette application ni éteindre votre ordinateur",
   "@updating": {},
   "readyToUpdate": "Prêt à appliquer les mises à jour",
   "@readyToUpdate": {},
@@ -294,5 +294,26 @@
   "dark": "Sombre",
   "@dark": {},
   "debianPackage": "Debian",
-  "@debianPackage": {}
+  "@debianPackage": {},
+  "dependencies": "Dépendances",
+  "@dependencies": {},
+  "dependenciesQuestion": "Êtes-vous sûr de vouloir continuer ?",
+  "@dependenciesQuestion": {},
+  "dependenciesFullList": "Voir la liste complète des dépendances",
+  "@dependenciesFullList": {},
+  "gallery": "Galerie",
+  "@gallery": {},
+  "dependenciesListing": "{length} dépendances seront téléchargées lors de l'installation de {packageName}",
+  "@dependenciesListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "noSnapsInstalled": "Aucune application Snap n'est installée sur votre système",
+  "@noSnapsInstalled": {}
 }
