@@ -317,5 +317,9 @@
   "noSnapsInstalled": "Aucune application Snap n'est installée sur votre système",
   "@noSnapsInstalled": {},
   "rating": "Note",
-  "@rating": {}
+  "@rating": {},
+  "publisher": "Éditeur",
+  "@publisher": {},
+  "processing": "En cours de traitement",
+  "@processing": {}
 }
