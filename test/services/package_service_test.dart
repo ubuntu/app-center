@@ -512,7 +512,7 @@ void main() {
     ]);
   });
 
-  test('update all', () async {
+  MockPackageKitTransaction createMockUpdateTransaction() {
     final updateTransaction = MockPackageKitTransaction();
     final controller = StreamController<PackageKitEvent>.broadcast();
     when(() => updateTransaction.events).thenAnswer((_) => controller.stream);
@@ -565,7 +565,11 @@ void main() {
     });
     when(() => updateTransaction.getDetails([firefoxPackageId]))
         .thenAnswer((_) => emitFinishedEvent(controller));
+    return updateTransaction;
+  }
 
+  test('update all', () async {
+    final updateTransaction = createMockUpdateTransaction();
     when(mockPKClient.createTransaction)
         .thenAnswer((_) async => updateTransaction);
 
@@ -573,11 +577,29 @@ void main() {
     await service.refreshUpdates();
     expect(service.updates.length, 1);
 
-    when(updateTransaction.getUpdates)
-        .thenAnswer((_) => emitFinishedEvent(controller));
     expectLater(service.info, emits(PackageKitInfo.updating));
     expectLater(service.updatesPercentage, emitsInOrder([13, 37]));
     expectLater(service.requireRestart, emits(PackageKitRestart.application));
+    expectLater(service.status, emits(PackageKitStatus.update));
     await service.updateAll(updatesComplete: 'foo', updatesAvailable: 'bar');
+  });
+
+  test('select updates', () async {
+    final updateTransaction = createMockUpdateTransaction();
+    when(mockPKClient.createTransaction)
+        .thenAnswer((_) async => updateTransaction);
+
+    final service = PackageService();
+    await service.refreshUpdates();
+    expect(service.isUpdateSelected(firefoxPackageId), isTrue);
+    service.selectionChanged.listen(expectAsync1((_) {}, count: 3));
+    service.deselectAll();
+    expect(service.nothingSelected, isTrue);
+    service.selectAll();
+    expect(service.allSelected, isTrue);
+    expect(service.selectedUpdatesLength, 1);
+    service.selectUpdate(firefoxPackageId, false);
+    expect(service.isUpdateSelected(firefoxPackageId), isFalse);
+    expect(service.nothingSelected, isTrue);
   });
 }
