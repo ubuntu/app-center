@@ -271,7 +271,7 @@ void main() {
     mockPKClient = MockPackageKitClient();
     registerMockService<PackageKitClient>(mockPKClient);
     when(mockPKClient.connect).thenAnswer((_) async {});
-    when(() => mockPKClient.createTransaction())
+    when(mockPKClient.createTransaction)
         .thenAnswer((_) async => createMockTransaction());
 
     mockNotificationsClient = MockNotificationsClient();
@@ -293,8 +293,7 @@ void main() {
   });
 
   test('instantiate service', () {
-    // ignore: unused_local_variable
-    final service = PackageService();
+    PackageService();
 
     verify(mockPKClient.connect).called(1);
   });
@@ -302,8 +301,12 @@ void main() {
   test('init', () async {
     final service = PackageService();
 
-    await service.init(filters: {PackageKitFilter.installed});
+    expect(service.isAvailable, isFalse);
 
+    service.init(filters: {PackageKitFilter.installed});
+    await service.initialized;
+
+    expect(service.isAvailable, isTrue);
     expect(service.installedPackages, isEmpty);
   });
 
