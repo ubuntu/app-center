@@ -511,4 +511,73 @@ void main() {
       PackageState.ready,
     ]);
   });
+
+  test('update all', () async {
+    final updateTransaction = MockPackageKitTransaction();
+    final controller = StreamController<PackageKitEvent>.broadcast();
+    when(() => updateTransaction.events).thenAnswer((_) => controller.stream);
+
+    when(updateTransaction.getRepositoryList)
+        .thenAnswer((_) => emitFinishedEvent(controller));
+    when(() => updateTransaction.getUpdates(filter: any(named: 'filter')))
+        .thenAnswer((_) {
+      controller.add(
+        const PackageKitPackageEvent(
+          info: PackageKitInfo.installed,
+          packageId: firefoxPackageId,
+          summary: 'a fox',
+        ),
+      );
+      return emitFinishedEvent(controller);
+    });
+    when(updateTransaction.refreshCache)
+        .thenAnswer((_) => emitFinishedEvent(controller));
+    when(() => updateTransaction.updatePackages([firefoxPackageId]))
+        .thenAnswer((_) async {
+      controller.add(
+        const PackageKitPackageEvent(
+          info: PackageKitInfo.updating,
+          packageId: firefoxPackageId,
+          summary: 'a fox',
+        ),
+      );
+      controller.add(
+        const PackageKitItemProgressEvent(
+          packageId: firefoxPackageId,
+          status: PackageKitStatus.update,
+          percentage: 13,
+        ),
+      );
+      controller.add(
+        const PackageKitItemProgressEvent(
+          packageId: firefoxPackageId,
+          status: PackageKitStatus.update,
+          percentage: 37,
+        ),
+      );
+      controller.add(
+        const PackageKitRequireRestartEvent(
+          type: PackageKitRestart.application,
+          packageId: firefoxPackageId,
+        ),
+      );
+      return emitFinishedEvent(controller);
+    });
+    when(() => updateTransaction.getDetails([firefoxPackageId]))
+        .thenAnswer((_) => emitFinishedEvent(controller));
+
+    when(mockPKClient.createTransaction)
+        .thenAnswer((_) async => updateTransaction);
+
+    final service = PackageService();
+    await service.refreshUpdates();
+    expect(service.updates.length, 1);
+
+    when(updateTransaction.getUpdates)
+        .thenAnswer((_) => emitFinishedEvent(controller));
+    expectLater(service.info, emits(PackageKitInfo.updating));
+    expectLater(service.updatesPercentage, emitsInOrder([13, 37]));
+    expectLater(service.requireRestart, emits(PackageKitRestart.application));
+    await service.updateAll(updatesComplete: 'foo', updatesAvailable: 'bar');
+  });
 }
