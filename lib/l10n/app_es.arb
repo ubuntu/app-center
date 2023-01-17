@@ -305,7 +305,7 @@
   "@gallery": {},
   "dependenciesFullList": "Ver la lista completa de las dependencias",
   "@dependenciesFullList": {},
-  "dependenciesListing": "Las dependencias {length} se descargarán al instalar {packageName}",
+  "dependenciesListing": "{length} dependencias se descargarán al instalar {packageName}",
   "@dependenciesListing": {
     "placeholders": {
       "length": {
@@ -317,5 +317,7 @@
     }
   },
   "dependencies": "Dependencias",
-  "@dependencies": {}
+  "@dependencies": {},
+  "dependenciesQuestion": "¿Estas seguro que deseas continuar?",
+  "@dependenciesQuestion": {}
 }
