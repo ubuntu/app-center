@@ -302,5 +302,20 @@
   "publisher": "Editor",
   "@publisher": {},
   "gallery": "Galería",
-  "@gallery": {}
+  "@gallery": {},
+  "dependenciesFullList": "Ver la lista completa de las dependencias",
+  "@dependenciesFullList": {},
+  "dependenciesListing": "Las dependencias {length} se descargarán al instalar {packageName}",
+  "@dependenciesListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "dependencies": "Dependencias",
+  "@dependencies": {}
 }
