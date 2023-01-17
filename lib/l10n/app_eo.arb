@@ -294,5 +294,32 @@
   "dark": "Malhela",
   "@dark": {},
   "configure": "Agordi",
-  "@configure": {}
+  "@configure": {},
+  "gallery": "Galerio",
+  "@gallery": {},
+  "dependencies": "Dependaĵoj",
+  "@dependencies": {},
+  "dependenciesQuestion": "Ĉu vi certe volas daŭrigi?",
+  "@dependenciesQuestion": {},
+  "dependenciesFullList": "Vidi plenan liston de dependaĵoj",
+  "@dependenciesFullList": {},
+  "rating": "Takso",
+  "@rating": {},
+  "processing": "Traktante",
+  "@processing": {},
+  "publisher": "Eldonejo",
+  "@publisher": {},
+  "noSnapsInstalled": "Ekzistas neniuj Snap-programoj instalitaj sur via sistemo",
+  "@noSnapsInstalled": {},
+  "dependenciesListing": "{length} dependaĵoj estas kuninstalotaj kune kun {packageName}",
+  "@dependenciesListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  }
 }
