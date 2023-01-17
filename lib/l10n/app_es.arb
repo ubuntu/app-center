@@ -319,5 +319,7 @@
   "dependencies": "Dependencias",
   "@dependencies": {},
   "dependenciesQuestion": "¿Estas seguro que deseas continuar?",
-  "@dependenciesQuestion": {}
+  "@dependenciesQuestion": {},
+  "processing": "Procesando",
+  "@processing": {}
 }
