@@ -25,10 +25,10 @@ import 'package:software/app/common/app_page/app_reviews.dart';
 import 'package:software/app/common/app_page/app_swipe_gesture.dart';
 import 'package:software/app/common/app_page/media_tile.dart';
 import 'package:software/app/common/app_page/page_layouts.dart';
-import 'package:software/app/common/base_plate.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/custom_back_button.dart';
 import 'package:software/app/common/safe_network_image.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -104,37 +104,38 @@ class _AppPageState extends State<AppPage> {
     final isWindowNormalSized = windowWidth > 800 && windowWidth < 1200;
     final isWindowWide = windowWidth > 1200;
 
-    final icon = SizedBox(
-      child: BasePlate(
-        useBorder: true,
-        hovered: false,
-        radius: 100,
-        child: widget.icon,
-      ),
-    );
+    final icon = widget.icon;
 
     final media = BorderContainer(
-      child: YaruCarousel(
-        controller: controller,
-        nextIcon: const Icon(YaruIcons.go_next),
-        previousIcon: const Icon(YaruIcons.go_previous),
-        navigationControls: widget.appData.screenShotUrls.length > 1,
-        height: 400,
-        children: [
-          for (int i = 0; i < widget.appData.screenShotUrls.length; i++)
-            MediaTile(
-              url: widget.appData.screenShotUrls[i],
-              onTap: () => showDialog(
-                context: context,
-                builder: (c) => _CarouselDialog(
-                  windowHeight: windowHeight,
-                  appData: widget.appData,
-                  windowWidth: windowWidth,
-                  initialIndex: i,
+      child: YaruExpandable(
+        isExpanded: true,
+        header: Text(
+          context.l10n.gallery,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        child: YaruCarousel(
+          controller: controller,
+          nextIcon: const Icon(YaruIcons.go_next),
+          previousIcon: const Icon(YaruIcons.go_previous),
+          navigationControls: widget.appData.screenShotUrls.length > 1,
+          height: 400,
+          width: 550,
+          children: [
+            for (int i = 0; i < widget.appData.screenShotUrls.length; i++)
+              MediaTile(
+                url: widget.appData.screenShotUrls[i],
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (c) => _CarouselDialog(
+                    windowHeight: windowHeight,
+                    appData: widget.appData,
+                    windowWidth: windowWidth,
+                    initialIndex: i,
+                  ),
                 ),
-              ),
-            )
-        ],
+              )
+          ],
+        ),
       ),
     );
 

@@ -19,7 +19,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:software/app/common/border_container.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
+
+const _borderColor = Color.fromARGB(255, 189, 189, 189);
 
 class AppIcon extends StatelessWidget {
   const AppIcon({
@@ -37,29 +39,19 @@ class AppIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fallBackIcon = BorderContainer(
-      borderColor: color,
-      containerPadding: EdgeInsets.zero,
-      borderRadius: 200,
+    final fallBackIcon = YaruBorderContainer(
+      border: Border.all(color: _borderColor),
+      borderRadius: BorderRadius.circular(200),
       width: size,
       height: size,
       child: _FallBackIcon(
         size: size,
-        borderColor: borderColor,
-        color: color,
       ),
     );
 
-    final theme = Theme.of(context);
-    var light = theme.brightness == Brightness.light;
-    final shimmerBase = color ??
-        (light
-            ? const Color.fromARGB(120, 228, 228, 228)
-            : const Color.fromARGB(255, 51, 51, 51));
-    final shimmerHighLight = borderColor ??
-        (light
-            ? const Color.fromARGB(200, 247, 247, 247)
-            : const Color.fromARGB(255, 57, 57, 57));
+    final shimmerBase = color ?? (const Color.fromARGB(120, 228, 228, 228));
+    final shimmerHighLight =
+        borderColor ?? (const Color.fromARGB(200, 247, 247, 247));
     final fallBackLoadingIcon = Shimmer.fromColors(
       baseColor: shimmerBase,
       highlightColor: shimmerHighLight,
@@ -93,37 +85,19 @@ class _FallBackIcon extends StatelessWidget {
   const _FallBackIcon({
     Key? key,
     required this.size,
-    this.borderColor,
-    this.color,
   }) : super(key: key);
 
   final double size;
-  final Color? borderColor;
-  final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final light = theme.brightness == Brightness.light;
-    final border = BorderSide(
-      color: borderColor ?? (light ? Colors.white : theme.dividerColor),
-      width: light ? 0.5 : 0.3,
+    const border = BorderSide(
+      color: _borderColor,
+      width: 0.5,
     );
-    final shadeMax = color != null
-        ? color!.withOpacity(0.1)
-        : light
-            ? theme.dividerColor.withOpacity(0.1)
-            : theme.colorScheme.onSurface.withOpacity(0.03);
-    final shadeMid = color != null
-        ? color!.withOpacity(0.05)
-        : light
-            ? theme.dividerColor.withOpacity(0.05)
-            : theme.colorScheme.onSurface.withOpacity(0.015);
-    final shadeMin = color != null
-        ? color!.withOpacity(0.005)
-        : light
-            ? theme.dividerColor.withOpacity(0.005)
-            : theme.colorScheme.onSurface.withOpacity(0.005);
+    const shadeMax = Color.fromARGB(255, 199, 199, 199);
+    const shadeMid = Color.fromARGB(255, 214, 214, 214);
+    const shadeMin = Color.fromARGB(255, 236, 236, 236);
     return ClipOval(
       child: FittedBox(
         fit: BoxFit.none,
@@ -135,7 +109,7 @@ class _FallBackIcon extends StatelessWidget {
                 children: [
                   Container(
                     padding: EdgeInsets.all(size),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       border: Border(
                         right: border,
                       ),
@@ -144,7 +118,7 @@ class _FallBackIcon extends StatelessWidget {
                   ),
                   Container(
                     padding: EdgeInsets.all(size),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: shadeMax,
                       border: Border(
                         top: border,
@@ -158,7 +132,7 @@ class _FallBackIcon extends StatelessWidget {
                 children: [
                   Container(
                     padding: EdgeInsets.all(size * 1.2),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: shadeMin,
                       border: Border(
                         bottom: border,
@@ -167,7 +141,7 @@ class _FallBackIcon extends StatelessWidget {
                   ),
                   Container(
                     padding: EdgeInsets.all(size * 1.2),
-                    decoration: BoxDecoration(color: shadeMid),
+                    decoration: const BoxDecoration(color: shadeMid),
                   ),
                 ],
               ),
