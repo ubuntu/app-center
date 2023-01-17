@@ -315,5 +315,7 @@
     }
   },
   "noSnapsInstalled": "Aucune application Snap n'est installée sur votre système",
-  "@noSnapsInstalled": {}
+  "@noSnapsInstalled": {},
+  "rating": "Note",
+  "@rating": {}
 }
