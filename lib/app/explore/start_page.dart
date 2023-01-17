@@ -82,7 +82,6 @@ class _StartPageState extends State<StartPage> {
       appBar: YaruWindowTitleBar(
         titleSpacing: 0,
         title: SearchField(
-          autofocus: false,
           searchQuery: searchQuery,
           onChanged: setSearchQuery,
         ),
