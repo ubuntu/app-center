@@ -107,7 +107,8 @@ class _AppPageState extends State<AppPage> {
 
     final icon = SizedBox(
       child: BasePlate(
-        useBorder: true,
+        spreadRadius: 0.1,
+        blurRadius: 2,
         hovered: false,
         radius: 10,
         child: widget.icon,

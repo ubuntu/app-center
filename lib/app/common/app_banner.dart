@@ -86,9 +86,10 @@ class AppBanner extends StatelessWidget {
         width: 40,
         child: BasePlate(
           childPadding: 5,
-          useBorder: true,
+          spreadRadius: 0.2,
+          blurRadius: 1,
           hovered: false,
-          radius: 8,
+          radius: 5,
           child: AppIcon(
             iconUrl: iconUrl,
           ),
