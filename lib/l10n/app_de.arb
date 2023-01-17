@@ -282,5 +282,40 @@
   "publisher": "Herausgeber",
   "@publisher": {},
   "snapPackage": "Snap",
-  "@snapPackage": {}
+  "@snapPackage": {},
+  "dark": "Dunkel",
+  "@dark": {},
+  "refreshButton": "Auf Aktualisierungen prüfen",
+  "@refreshButton": {},
+  "processing": "Wird verarbeitet",
+  "@processing": {},
+  "theme": "Thema",
+  "@theme": {},
+  "dependenciesFullList": "Siehe vollständige Liste der Abhängigkeiten",
+  "@dependenciesFullList": {},
+  "dependenciesListing": "{length} Abhängigkeiten werden bei der Installation von {packageName} heruntergeladen",
+  "@dependenciesListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "gallery": "Galerie",
+  "@gallery": {},
+  "dependenciesQuestion": "Sind Sie sicher, dass Sie fortfahren möchten?",
+  "@dependenciesQuestion": {},
+  "system": "System",
+  "@system": {},
+  "light": "Hell",
+  "@light": {},
+  "rating": "Bewertung",
+  "@rating": {},
+  "dependencies": "Abhängigkeiten",
+  "@dependencies": {},
+  "noSnapsInstalled": "Auf Ihrem System sind keine Snap-Anwendungen installiert",
+  "@noSnapsInstalled": {}
 }
