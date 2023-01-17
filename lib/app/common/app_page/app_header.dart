@@ -21,7 +21,7 @@ import 'package:software/app/common/app_page/publisher_name.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
-const iconSize = 120.0;
+const iconSize = 115.0;
 
 class BannerAppHeader extends StatelessWidget {
   const BannerAppHeader({
@@ -54,7 +54,7 @@ class BannerAppHeader extends StatelessWidget {
               width: iconSize,
               child: icon,
             ),
-            const SizedBox(width: 30),
+            const SizedBox(width: kYaruPagePadding),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
