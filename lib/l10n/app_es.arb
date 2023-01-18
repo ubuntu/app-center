@@ -321,5 +321,7 @@
   "dependenciesQuestion": "¿Estas seguro que deseas continuar?",
   "@dependenciesQuestion": {},
   "processing": "Procesando",
-  "@processing": {}
+  "@processing": {},
+  "permissions": "Permisos",
+  "@permissions": {}
 }
