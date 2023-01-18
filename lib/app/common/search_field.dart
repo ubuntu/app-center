@@ -15,6 +15,8 @@
  *
  */
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:software/l10n/l10n.dart';
@@ -38,6 +40,7 @@ class SearchField extends StatefulWidget {
 
 class _SearchFieldState extends State<SearchField> {
   final TextEditingController _controller = TextEditingController();
+  Timer? onChangedTimer;
 
   @override
   void initState() {
@@ -54,6 +57,16 @@ class _SearchFieldState extends State<SearchField> {
   void onDoubleTap() {
     _controller.selection =
         TextSelection(baseOffset: 0, extentOffset: _controller.text.length);
+  }
+
+  void onChanged(String value) {
+    onChangedTimer?.cancel();
+    setState(() {
+      onChangedTimer = Timer(
+        const Duration(milliseconds: 200),
+        () => widget.onChanged(value),
+      );
+    });
   }
 
   @override
@@ -74,7 +87,7 @@ class _SearchFieldState extends State<SearchField> {
             child: TextField(
               autofocus: widget.autofocus,
               controller: _controller,
-              onChanged: widget.onChanged,
+              onChanged: onChanged,
               textInputAction: TextInputAction.send,
               decoration: InputDecoration(
                 filled: true,
