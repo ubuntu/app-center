@@ -28,6 +28,8 @@ import 'package:software/app/common/app_page/app_loading_page.dart';
 import 'package:software/app/common/app_page/app_page.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
+import 'package:software/app/common/snap/snap_connections_button.dart';
+import 'package:software/app/common/snap/snap_connections_dialog.dart';
 import 'package:software/app/common/snap/snap_controls.dart';
 import 'package:software/app/common/snap/snap_model.dart';
 import 'package:software/l10n/l10n.dart';
@@ -126,8 +128,47 @@ class _SnapPageState extends State<SnapPage> {
       appFormat: AppFormat.snap,
     );
 
-    var snapControls = SnapControls(
+    final controls = SnapControls(
       appstream: widget.appstream,
+    );
+
+    final preControls = Wrap(
+      spacing: 10,
+      children: [
+        if (widget.appstream != null)
+          AppFormatToggleButtons(
+            isSelected: const [
+              true,
+              false,
+            ],
+            onPressed: (v) {
+              if (v == 1) {
+                PackagePage.push(
+                  context,
+                  appstream: widget.appstream,
+                  snap: widget.snap,
+                  replace: true,
+                );
+              }
+            },
+          )
+        else
+          const BorderContainer(
+            containerPadding: EdgeInsets.symmetric(horizontal: 5),
+            borderRadius: 6,
+            child: SizedBox(height: 39, child: SnapLabel()),
+          ),
+        if (model.snapIsInstalled && model.strict)
+          SnapConnectionsButton(
+            onPressed: () => showDialog(
+              context: context,
+              builder: ((context) => ChangeNotifierProvider.value(
+                    value: model,
+                    child: const SnapConnectionsDialog(),
+                  )),
+            ),
+          )
+      ],
     );
 
     return !initialized
@@ -136,29 +177,8 @@ class _SnapPageState extends State<SnapPage> {
             appData: appData,
             appIsInstalled: model.snapIsInstalled,
             permissionContainer: null,
-            subControlPageHeader: snapControls,
-            controls: widget.appstream != null
-                ? AppFormatToggleButtons(
-                    isSelected: const [
-                      true,
-                      false,
-                    ],
-                    onPressed: (v) {
-                      if (v == 1) {
-                        PackagePage.push(
-                          context,
-                          appstream: widget.appstream,
-                          snap: widget.snap,
-                          replace: true,
-                        );
-                      }
-                    },
-                  )
-                : const BorderContainer(
-                    containerPadding: EdgeInsets.symmetric(horizontal: 5),
-                    borderRadius: 6,
-                    child: SizedBox(height: 40, child: SnapLabel()),
-                  ),
+            subControlPageHeader: controls,
+            preControls: preControls,
             icon: AppIcon(
               iconUrl: model.iconUrl,
               size: 150,
