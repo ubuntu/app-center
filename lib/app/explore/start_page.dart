@@ -20,14 +20,12 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
-import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/section_banner.dart';
 import 'package:software/app/explore/section_grid.dart';
 import 'package:software/snapx.dart';
 import 'package:yaru_colors/yaru_colors.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({
@@ -60,13 +58,12 @@ class _StartPageState extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
-    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
-    final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
     final sectionSnapsAll = context.select((ExploreModel m) {
       return m.sectionNameToSnapsMap[SnapSection.all];
     });
 
-    final page = SingleChildScrollView(
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(top: 15),
       controller: _controller,
       child: Column(
         children: [
@@ -75,20 +72,6 @@ class _StartPageState extends State<StartPage> {
             snaps: sectionSnapsAll,
           ),
         ],
-      ),
-    );
-
-    return Scaffold(
-      appBar: YaruWindowTitleBar(
-        titleSpacing: 0,
-        title: SearchField(
-          searchQuery: searchQuery,
-          onChanged: setSearchQuery,
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 15),
-        child: page,
       ),
     );
   }

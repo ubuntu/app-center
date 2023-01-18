@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:software/app/common/search_field.dart';
 import 'package:software/app/explore/explore_error_page.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/offline_page.dart';
@@ -28,6 +29,7 @@ import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatelessWidget {
   const ExplorePage({Key? key}) : super(key: key);
@@ -64,11 +66,19 @@ class ExplorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final showErrorPage = context.select((ExploreModel m) => m.showErrorPage);
     final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
+    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
+    final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
 
-    if (showErrorPage) {
-      return const ExploreErrorPage();
-    } else {
-      return showSearchPage ? const SearchPage() : const StartPage();
-    }
+    return Scaffold(
+      appBar: YaruWindowTitleBar(
+        title: SearchField(
+          searchQuery: searchQuery,
+          onChanged: setSearchQuery,
+        ),
+      ),
+      body: showErrorPage
+          ? const ExploreErrorPage()
+          : (showSearchPage ? const SearchPage() : const StartPage()),
+    );
   }
 }
