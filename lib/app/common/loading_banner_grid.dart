@@ -34,7 +34,11 @@ class LoadingBannerGrid extends StatelessWidget {
     final shimmerHighLight =
         light ? const Color.fromARGB(200, 247, 247, 247) : YaruColors.coolGrey;
     return GridView.builder(
-      padding: kGridPadding,
+      padding: const EdgeInsets.only(
+        bottom: 15,
+        right: 15,
+        left: 15,
+      ),
       gridDelegate: kGridDelegate,
       shrinkWrap: true,
       itemCount: 40,
@@ -55,6 +59,54 @@ class LoadingBannerGrid extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class LoadingExploreHeader extends StatelessWidget {
+  const LoadingExploreHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    var light = theme.brightness == Brightness.light;
+    final shimmerBase =
+        light ? const Color.fromARGB(120, 228, 228, 228) : YaruColors.jet;
+    final shimmerHighLight =
+        light ? const Color.fromARGB(200, 247, 247, 247) : YaruColors.coolGrey;
+    return Shimmer.fromColors(
+      baseColor: shimmerBase,
+      highlightColor: shimmerHighLight,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: kPagePadding,
+          left: kPagePadding,
+          bottom: kPagePadding - 5,
+        ),
+        child: Wrap(
+          alignment: WrapAlignment.start,
+          runAlignment: WrapAlignment.start,
+          crossAxisAlignment: WrapCrossAlignment.start,
+          spacing: 10,
+          children: const [_LoadingButton(), _LoadingButton()],
+        ),
+      ),
+    );
+  }
+}
+
+class _LoadingButton extends StatelessWidget {
+  const _LoadingButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      width: 150,
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(6),
+      ),
     );
   }
 }

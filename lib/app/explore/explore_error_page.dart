@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/app/common/search_field.dart';
-import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -10,11 +8,9 @@ class ExploreErrorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
-    final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
     final errorMessage = context.select((ExploreModel m) => m.errorMessage);
 
-    final page = ListView(
+    return ListView(
       padding: const EdgeInsets.all(kYaruPagePadding),
       children: [
         Center(
@@ -29,18 +25,6 @@ class ExploreErrorPage extends StatelessWidget {
           ),
         )
       ],
-    );
-
-    return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: SearchField(
-          searchQuery: searchQuery,
-          onChanged: setSearchQuery,
-        ),
-      ),
-      body: Column(
-        children: [const ExploreHeader(), Expanded(child: page)],
-      ),
     );
   }
 }
