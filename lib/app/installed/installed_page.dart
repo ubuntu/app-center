@@ -84,10 +84,7 @@ class InstalledPage extends StatelessWidget {
 
     return Scaffold(
       appBar: YaruWindowTitleBar(
-        titleSpacing: 0,
-        centerTitle: false,
         title: SearchField(
-          autofocus: false,
           searchQuery: searchQuery ?? '',
           onChanged: setSearchQuery,
         ),
