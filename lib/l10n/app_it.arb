@@ -282,5 +282,17 @@
   "sourcesDescription": "Imposta da dove viene aggiornato il tuo sistema e i pacchetti Debian di terze parti.",
   "@sourcesDescription": {},
   "configure": "Configura",
-  "@configure": {}
+  "@configure": {},
+  "dark": "Scuro",
+  "@dark": {},
+  "snapPackage": "Snap",
+  "@snapPackage": {},
+  "debianPackage": "Debian",
+  "@debianPackage": {},
+  "light": "Chiaro",
+  "@light": {},
+  "theme": "Tema",
+  "@theme": {},
+  "publisher": "Editore",
+  "@publisher": {}
 }
