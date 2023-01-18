@@ -71,6 +71,9 @@ class _SearchFieldState extends State<SearchField> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final light = theme.brightness == Brightness.light;
+    final borderColor = light ? theme.dividerColor : Colors.transparent;
     return KeyboardListener(
       onKeyEvent: (value) {
         if (value.logicalKey == LogicalKeyboardKey.escape) {
@@ -100,12 +103,25 @@ class _SearchFieldState extends State<SearchField> {
                     const BoxConstraints(minWidth: 40, minHeight: 0),
                 isDense: true,
                 contentPadding: const EdgeInsets.all(8),
-                fillColor: Theme.of(context).dividerColor,
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
+                fillColor:
+                    light ? Colors.white : Theme.of(context).dividerColor,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 0.0,
+                    color: borderColor,
+                  ),
                 ),
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 0.0,
+                    color: borderColor,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 0.0,
+                    color: theme.primaryColor,
+                  ),
                 ),
               ),
             ),
