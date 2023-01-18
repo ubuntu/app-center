@@ -271,7 +271,7 @@ void main() {
     mockPKClient = MockPackageKitClient();
     registerMockService<PackageKitClient>(mockPKClient);
     when(mockPKClient.connect).thenAnswer((_) async {});
-    when(() => mockPKClient.createTransaction())
+    when(mockPKClient.createTransaction)
         .thenAnswer((_) async => createMockTransaction());
 
     mockNotificationsClient = MockNotificationsClient();
@@ -293,8 +293,7 @@ void main() {
   });
 
   test('instantiate service', () {
-    // ignore: unused_local_variable
-    final service = PackageService();
+    PackageService();
 
     verify(mockPKClient.connect).called(1);
   });
@@ -302,8 +301,12 @@ void main() {
   test('init', () async {
     final service = PackageService();
 
-    await service.init(filters: {PackageKitFilter.installed});
+    expect(service.isAvailable, isFalse);
 
+    service.init(filters: {PackageKitFilter.installed});
+    await service.initialized;
+
+    expect(service.isAvailable, isTrue);
     expect(service.installedPackages, isEmpty);
   });
 
@@ -507,5 +510,96 @@ void main() {
       PackageState.processing,
       PackageState.ready,
     ]);
+  });
+
+  MockPackageKitTransaction createMockUpdateTransaction() {
+    final updateTransaction = MockPackageKitTransaction();
+    final controller = StreamController<PackageKitEvent>.broadcast();
+    when(() => updateTransaction.events).thenAnswer((_) => controller.stream);
+
+    when(updateTransaction.getRepositoryList)
+        .thenAnswer((_) => emitFinishedEvent(controller));
+    when(() => updateTransaction.getUpdates(filter: any(named: 'filter')))
+        .thenAnswer((_) {
+      controller.add(
+        const PackageKitPackageEvent(
+          info: PackageKitInfo.installed,
+          packageId: firefoxPackageId,
+          summary: 'a fox',
+        ),
+      );
+      return emitFinishedEvent(controller);
+    });
+    when(updateTransaction.refreshCache)
+        .thenAnswer((_) => emitFinishedEvent(controller));
+    when(() => updateTransaction.updatePackages([firefoxPackageId]))
+        .thenAnswer((_) async {
+      controller.add(
+        const PackageKitPackageEvent(
+          info: PackageKitInfo.updating,
+          packageId: firefoxPackageId,
+          summary: 'a fox',
+        ),
+      );
+      controller.add(
+        const PackageKitItemProgressEvent(
+          packageId: firefoxPackageId,
+          status: PackageKitStatus.update,
+          percentage: 13,
+        ),
+      );
+      controller.add(
+        const PackageKitItemProgressEvent(
+          packageId: firefoxPackageId,
+          status: PackageKitStatus.update,
+          percentage: 37,
+        ),
+      );
+      controller.add(
+        const PackageKitRequireRestartEvent(
+          type: PackageKitRestart.application,
+          packageId: firefoxPackageId,
+        ),
+      );
+      return emitFinishedEvent(controller);
+    });
+    when(() => updateTransaction.getDetails([firefoxPackageId]))
+        .thenAnswer((_) => emitFinishedEvent(controller));
+    return updateTransaction;
+  }
+
+  test('update all', () async {
+    final updateTransaction = createMockUpdateTransaction();
+    when(mockPKClient.createTransaction)
+        .thenAnswer((_) async => updateTransaction);
+
+    final service = PackageService();
+    await service.refreshUpdates();
+    expect(service.updates.length, 1);
+
+    expectLater(service.info, emits(PackageKitInfo.updating));
+    expectLater(service.updatesPercentage, emitsInOrder([13, 37]));
+    expectLater(service.requireRestart, emits(PackageKitRestart.application));
+    expectLater(service.status, emits(PackageKitStatus.update));
+    await service.updateAll(updatesComplete: 'foo', updatesAvailable: 'bar');
+  });
+
+  test('select updates', () async {
+    final updateTransaction = createMockUpdateTransaction();
+    when(mockPKClient.createTransaction)
+        .thenAnswer((_) async => updateTransaction);
+
+    final service = PackageService();
+    await service.refreshUpdates();
+    expect(service.isUpdateSelected(firefoxPackageId), isTrue);
+    service.selectionChanged.listen(expectAsync1((_) {}, count: 3));
+    service.deselectAll();
+    expect(service.nothingSelected, isTrue);
+    service.selectAll();
+    expect(service.allSelected, isTrue);
+    expect(service.selectedUpdatesLength, 1);
+    service.selectUpdate(firefoxPackageId, false);
+    expect(service.isUpdateSelected(firefoxPackageId), isFalse);
+    expect(service.nothingSelected, isTrue);
   });
 }
