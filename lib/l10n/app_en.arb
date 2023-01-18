@@ -135,6 +135,7 @@
   "reviewSent": "Review sent",
   "multiAppFormatsFound": "We've found multiple formats for this application.",
   "changingPermissions": "Changing permissions",
+  "permissions": "Permissions",
   "installing": "Installing",
   "processing": "Processing",
   "removing": "Removing",

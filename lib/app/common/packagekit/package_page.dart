@@ -148,7 +148,31 @@ class _PackagePageState extends State<PackagePage> {
       appFormat: AppFormat.packageKit,
       versionChanged: model.versionChanged,
     );
-    var packageControls = PackageControls(
+
+    final preControls = widget.snap == null
+        ? const BorderContainer(
+            containerPadding: EdgeInsets.symmetric(horizontal: 5),
+            borderRadius: 6,
+            child: SizedBox(height: 40, child: DebianLabel()),
+          )
+        : AppFormatToggleButtons(
+            isSelected: const [
+              false,
+              true,
+            ],
+            onPressed: (v) {
+              if (v == 0) {
+                SnapPage.push(
+                  context: context,
+                  appstream: widget.appstream,
+                  snap: widget.snap!,
+                  replace: true,
+                );
+              }
+            },
+          );
+
+    var controls = PackageControls(
       isInstalled: model.isInstalled,
       versionChanged: model.versionChanged,
       packageState: model.packageState,
@@ -196,29 +220,8 @@ class _PackagePageState extends State<PackagePage> {
               iconUrl: model.iconUrl,
               size: 150,
             ),
-            controls: widget.snap == null
-                ? const BorderContainer(
-                    containerPadding: EdgeInsets.symmetric(horizontal: 5),
-                    borderRadius: 6,
-                    child: SizedBox(height: 40, child: DebianLabel()),
-                  )
-                : AppFormatToggleButtons(
-                    isSelected: const [
-                      false,
-                      true,
-                    ],
-                    onPressed: (v) {
-                      if (v == 0) {
-                        SnapPage.push(
-                          context: context,
-                          appstream: widget.appstream,
-                          snap: widget.snap!,
-                          replace: true,
-                        );
-                      }
-                    },
-                  ),
-            subControlPageHeader: packageControls,
+            preControls: preControls,
+            subControlPageHeader: controls,
             subDescription:
                 model.uninstalledDependencyNames.isEmpty ? null : dependencies,
             onReviewSend: model.sendReview,

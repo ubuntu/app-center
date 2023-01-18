@@ -16,10 +16,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/app/common/snap/snap_model.dart';
-import 'package:yaru_icons/yaru_icons.dart';
+import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapConnectionsSettings extends StatelessWidget {
@@ -27,53 +24,50 @@ class SnapConnectionsSettings extends StatelessWidget {
     super.key,
     this.headerTextStyle,
     this.isExpanded = true,
+    required this.snapChangeInProgress,
+    required this.plugs,
+    required this.toggleConnection,
   });
 
   final TextStyle? headerTextStyle;
   final bool isExpanded;
+  final bool snapChangeInProgress;
+  final Map<SnapPlug, bool> plugs;
+  final void Function({
+    required String interface,
+    required SnapPlug snap,
+    required bool value,
+  }) toggleConnection;
 
   @override
   Widget build(BuildContext context) {
-    final plugs = context.select((SnapModel m) => m.plugs);
-    final snapChangeInProgress =
-        context.select((SnapModel m) => m.snapChangeInProgress);
-    final toggleConnection =
-        context.select((SnapModel m) => m.toggleConnection);
-    return YaruExpandable(
-      isExpanded: isExpanded,
-      header: Text(
-        context.l10n.connections,
-        style: Theme.of(context).textTheme.headline6,
-      ),
-      expandIcon: const Icon(YaruIcons.pan_end),
-      child: Column(
-        children: [
-          if (plugs != null && plugs.isNotEmpty)
-            for (final plugEntry in plugs.entries)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(plugEntry.key.interface ?? ''),
-                    YaruSwitch(
-                      value: plugEntry.value,
-                      onChanged: snapChangeInProgress
-                          ? null
-                          : (value) {
-                              if (plugEntry.key.interface == null) return;
-                              toggleConnection(
-                                interface: plugEntry.key.interface!,
-                                snap: plugEntry.key,
-                                value: value,
-                              );
-                            },
-                    )
-                  ],
-                ),
+    return Column(
+      children: [
+        if (plugs.isNotEmpty)
+          for (final plugEntry in plugs.entries)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(plugEntry.key.interface ?? ''),
+                  YaruSwitch(
+                    value: plugEntry.value,
+                    onChanged: snapChangeInProgress
+                        ? null
+                        : (value) {
+                            if (plugEntry.key.interface == null) return;
+                            toggleConnection(
+                              interface: plugEntry.key.interface!,
+                              snap: plugEntry.key,
+                              value: value,
+                            );
+                          },
+                  )
+                ],
               ),
-        ],
-      ),
+            ),
+      ],
     );
   }
 }

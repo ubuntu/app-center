@@ -40,7 +40,7 @@ class SnapControls extends StatelessWidget {
     return Wrap(
       direction: direction,
       crossAxisAlignment: WrapCrossAlignment.center,
-      alignment: WrapAlignment.start,
+      alignment: WrapAlignment.center,
       runAlignment: WrapAlignment.start,
       spacing: 10,
       runSpacing: 10,

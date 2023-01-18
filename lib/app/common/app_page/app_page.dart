@@ -38,7 +38,7 @@ class AppPage extends StatefulWidget {
     required this.appData,
     required this.icon,
     required this.permissionContainer,
-    required this.controls,
+    required this.preControls,
     this.subControlPageHeader,
     this.subDescription,
     this.appIsInstalled = false,
@@ -58,7 +58,7 @@ class AppPage extends StatefulWidget {
   final AppData appData;
   final Widget icon;
   final Widget? permissionContainer;
-  final Widget controls;
+  final Widget preControls;
   final Widget? subControlPageHeader;
   final Widget? subDescription;
   final bool appIsInstalled;
@@ -170,7 +170,7 @@ class _AppPageState extends State<AppPage> {
       child: BannerAppHeader(
         windowSize: windowSize,
         appData: widget.appData,
-        controls: widget.controls,
+        controls: widget.preControls,
         subControls: widget.subControlPageHeader,
         icon: icon,
       ),
@@ -181,7 +181,7 @@ class _AppPageState extends State<AppPage> {
       child: PageAppHeader(
         appData: widget.appData,
         icon: icon,
-        controls: widget.controls,
+        controls: widget.preControls,
         subControls: widget.subControlPageHeader,
       ),
     );
@@ -191,7 +191,7 @@ class _AppPageState extends State<AppPage> {
       child: PageAppHeader(
         appData: widget.appData,
         icon: icon,
-        controls: widget.controls,
+        controls: widget.preControls,
         subControls: widget.subControlPageHeader,
       ),
     );
