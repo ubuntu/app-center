@@ -32,14 +32,15 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatelessWidget {
-  const ExplorePage({Key? key}) : super(key: key);
+  const ExplorePage({Key? key, required this.online}) : super(key: key);
+
+  final bool online;
 
   static Widget create(
     BuildContext context,
     bool online, [
     String? errorMessage,
   ]) {
-    if (!online) return const OfflinePage();
     return ChangeNotifierProvider(
       create: (_) => ExploreModel(
         getService<AppstreamService>(),
@@ -47,7 +48,9 @@ class ExplorePage extends StatelessWidget {
         getService<PackageService>(),
         errorMessage,
       )..init(),
-      child: const ExplorePage(),
+      child: ExplorePage(
+        online: online,
+      ),
     );
   }
 
@@ -76,9 +79,11 @@ class ExplorePage extends StatelessWidget {
           onChanged: setSearchQuery,
         ),
       ),
-      body: showErrorPage
-          ? const ExploreErrorPage()
-          : (showSearchPage ? const SearchPage() : const StartPage()),
+      body: !online
+          ? const OfflinePage()
+          : showErrorPage
+              ? const ExploreErrorPage()
+              : (showSearchPage ? const SearchPage() : const StartPage()),
     );
   }
 }
