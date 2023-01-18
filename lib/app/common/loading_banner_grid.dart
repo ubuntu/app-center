@@ -33,65 +33,70 @@ class LoadingBannerGrid extends StatelessWidget {
         light ? const Color.fromARGB(120, 228, 228, 228) : YaruColors.jet;
     final shimmerHighLight =
         light ? const Color.fromARGB(200, 247, 247, 247) : YaruColors.coolGrey;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Shimmer.fromColors(
+    return GridView.builder(
+      padding: const EdgeInsets.only(
+        bottom: 15,
+        right: 15,
+        left: 15,
+      ),
+      gridDelegate: kGridDelegate,
+      shrinkWrap: true,
+      itemCount: 40,
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
           baseColor: shimmerBase,
           highlightColor: shimmerHighLight,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: kPagePadding,
-              left: kPagePadding,
-              bottom: kPagePadding - 5,
+          child: YaruBanner.tile(
+            title: const Text(
+              '',
             ),
-            child: Wrap(
-              alignment: WrapAlignment.start,
-              runAlignment: WrapAlignment.start,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              spacing: 10,
-              children: const [_DummyButton(), _DummyButton()],
+            icon: const Padding(
+              padding: kIconPadding,
+              child: AppIcon(
+                iconUrl: null,
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: GridView.builder(
-            padding: const EdgeInsets.only(
-              bottom: 15,
-              right: 15,
-              left: 15,
-            ),
-            gridDelegate: kGridDelegate,
-            shrinkWrap: true,
-            itemCount: 40,
-            itemBuilder: (context, index) {
-              return Shimmer.fromColors(
-                baseColor: shimmerBase,
-                highlightColor: shimmerHighLight,
-                child: YaruBanner.tile(
-                  title: const Text(
-                    '',
-                  ),
-                  icon: const Padding(
-                    padding: kIconPadding,
-                    child: AppIcon(
-                      iconUrl: null,
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 }
 
-class _DummyButton extends StatelessWidget {
-  const _DummyButton({
-    Key? key,
-  }) : super(key: key);
+class LoadingExploreHeader extends StatelessWidget {
+  const LoadingExploreHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    var light = theme.brightness == Brightness.light;
+    final shimmerBase =
+        light ? const Color.fromARGB(120, 228, 228, 228) : YaruColors.jet;
+    final shimmerHighLight =
+        light ? const Color.fromARGB(200, 247, 247, 247) : YaruColors.coolGrey;
+    return Shimmer.fromColors(
+      baseColor: shimmerBase,
+      highlightColor: shimmerHighLight,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: kPagePadding,
+          left: kPagePadding,
+          bottom: kPagePadding - 5,
+        ),
+        child: Wrap(
+          alignment: WrapAlignment.start,
+          runAlignment: WrapAlignment.start,
+          crossAxisAlignment: WrapCrossAlignment.start,
+          spacing: 10,
+          children: const [_LoadingButton(), _LoadingButton()],
+        ),
+      ),
+    );
+  }
+}
+
+class _LoadingButton extends StatelessWidget {
+  const _LoadingButton();
 
   @override
   Widget build(BuildContext context) {

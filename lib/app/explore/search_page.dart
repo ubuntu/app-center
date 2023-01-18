@@ -47,7 +47,13 @@ class SearchPage extends StatelessWidget {
       future: search(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const LoadingBannerGrid();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              LoadingExploreHeader(),
+              Expanded(child: LoadingBannerGrid()),
+            ],
+          );
         }
 
         return snapshot.hasData && snapshot.data!.isNotEmpty
