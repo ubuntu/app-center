@@ -75,7 +75,7 @@ class PackageControls extends StatelessWidget {
                 ElevatedButton(
                   onPressed:
                       packageState != PackageState.ready ? null : install,
-                  child: Text(context.l10n.refresh),
+                  child: Text(context.l10n.update),
                 ),
               const SizedBox.shrink()
             ],

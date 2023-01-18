@@ -76,7 +76,7 @@ class SnapControls extends StatelessWidget {
                       ? model.refresh
                       : null,
                   child: Text(
-                    context.l10n.refresh,
+                    context.l10n.update,
                   ),
                 )
               else
@@ -100,7 +100,7 @@ class SnapControls extends StatelessWidget {
       case 'remove-snap':
         return context.l10n.removing;
       case 'refresh-snap':
-        return context.l10n.refreshing;
+        return context.l10n.updating;
       case 'connect-snap':
         return context.l10n.changingPermissions;
       case 'disconnect-snap':
