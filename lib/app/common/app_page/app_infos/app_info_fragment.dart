@@ -19,19 +19,21 @@ import 'package:flutter/material.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
-class InfoColumn extends StatelessWidget {
-  const InfoColumn({
+class AppInfoFragment extends StatelessWidget {
+  const AppInfoFragment({
     Key? key,
     required this.header,
     required this.child,
     required this.tooltipMessage,
     this.childWidth,
+    this.mainAxisAlignment = MainAxisAlignment.center,
   }) : super(key: key);
 
   final String header;
   final String tooltipMessage;
   final Widget child;
   final double? childWidth;
+  final MainAxisAlignment mainAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class InfoColumn extends StatelessWidget {
       message: tooltipMessage,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: mainAxisAlignment,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(

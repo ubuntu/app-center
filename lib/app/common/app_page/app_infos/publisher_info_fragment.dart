@@ -16,12 +16,13 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:software/app/common/app_page/app_infos/app_info_fragment.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
-class PublisherName extends StatelessWidget {
-  const PublisherName({
+class PublisherInfoFragment extends StatelessWidget {
+  const PublisherInfoFragment({
     Key? key,
     this.verified = false,
     required this.publisherName,
@@ -55,8 +56,8 @@ class PublisherName extends StatelessWidget {
           ),
       overflow: TextOverflow.ellipsis,
     );
-    return InkWell(
-      onTap: () => launchUrl(Uri.parse(website)),
+    final align = Align(
+      alignment: Alignment.center,
       child: SizedBox(
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -88,6 +89,12 @@ class PublisherName extends StatelessWidget {
           ],
         ),
       ),
+    );
+
+    return AppInfoFragment(
+      header: context.l10n.publisher,
+      tooltipMessage: publisherName,
+      child: align,
     );
   }
 }

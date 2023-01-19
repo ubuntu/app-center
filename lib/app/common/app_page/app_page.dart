@@ -20,7 +20,8 @@ import 'package:flutter/services.dart';
 import 'package:software/app/common/app_data.dart';
 import 'package:software/app/common/app_page/app_description.dart';
 import 'package:software/app/common/app_page/app_header.dart';
-import 'package:software/app/common/app_page/app_infos.dart';
+import 'package:software/app/common/app_page/app_infos/additional_information.dart';
+import 'package:software/app/common/app_page/app_infos/app_infos.dart';
 import 'package:software/app/common/app_page/app_reviews.dart';
 import 'package:software/app/common/app_page/app_swipe_gesture.dart';
 import 'package:software/app/common/app_page/media_tile.dart';
@@ -166,6 +167,10 @@ class _AppPageState extends State<AppPage> {
       ),
     );
 
+    const additionalInformation = BorderContainer(
+      child: AdditionalInformation(),
+    );
+
     final normalWindowAppHeader = BorderContainer(
       child: BannerAppHeader(
         windowSize: windowSize,
@@ -207,6 +212,7 @@ class _AppPageState extends State<AppPage> {
         if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
+        additionalInformation,
       ],
     );
 
@@ -219,6 +225,7 @@ class _AppPageState extends State<AppPage> {
         if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
         if (widget.permissionContainer != null) widget.permissionContainer!,
+        additionalInformation,
       ],
       windowSize: windowSize,
     );
@@ -232,7 +239,7 @@ class _AppPageState extends State<AppPage> {
         description,
         if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
-        if (widget.permissionContainer != null) widget.permissionContainer!,
+        additionalInformation,
       ],
     );
 
