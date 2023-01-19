@@ -6,12 +6,13 @@ import 'package:integration_test/integration_test.dart';
 import 'package:software/app/common/app_banner.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/search_field.dart';
+import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/app/explore/start_page.dart';
 import 'package:software/main.dart' as app;
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-import 'integration_test_utils.dart';
 import '../test/test_utils.dart';
+import 'integration_test_utils.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +54,22 @@ void main() {
       await tester.pumpAndSettle();
 
       await testSearchPackage(tester, packageName: packageName);
+      await testInstallPackage(tester, installedFile: installedFile);
+      await testRemovePackage(tester, installedFile: installedFile);
+    });
+
+    testWidgets('Install and remove snap from url', (tester) async {
+      final installedFile = File('/snap/bin/hello');
+
+      initCustomExpect();
+
+      await app.main(['snap://hello']);
+      await tester.pumpUntil(
+        find.byType(SnapPage),
+        timeout: const Duration(seconds: 80),
+      );
+      await tester.pumpAndSettle();
+
       await testInstallPackage(tester, installedFile: installedFile);
       await testRemovePackage(tester, installedFile: installedFile);
     });
