@@ -72,7 +72,7 @@ class ExplorePage extends StatelessWidget {
     final searchQuery = context.select((ExploreModel m) => m.searchQuery);
     final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
 
-    return Scaffold(
+    return YaruDetailPage(
       appBar: YaruWindowTitleBar(
         title: SearchField(
           searchQuery: searchQuery,

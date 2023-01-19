@@ -242,7 +242,7 @@ class _AppPageState extends State<AppPage> {
             ? normalWindowLayout
             : narrowWindowLayout;
 
-    return Scaffold(
+    return YaruDetailPage(
       appBar: YaruWindowTitleBar(
         title: Text(widget.appData.title),
         titleSpacing: 0,

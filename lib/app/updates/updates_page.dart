@@ -50,7 +50,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
     final padding = 0.0004 * pow((widget.windowWidth * 0.85), 2);
 
     if (!packageService.isAvailable) {
-      return Scaffold(
+      return YaruDetailPage(
         appBar: YaruWindowTitleBar(
           title: Text(context.l10n.updates),
         ),
@@ -60,7 +60,7 @@ class _UpdatesPageState extends State<UpdatesPage> {
       return DefaultTabController(
         initialIndex: widget.tabIndex,
         length: 2,
-        child: Scaffold(
+        child: YaruDetailPage(
           appBar: YaruWindowTitleBar(
             titleSpacing: 0,
             title: Container(

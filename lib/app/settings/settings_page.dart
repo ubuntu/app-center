@@ -61,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return YaruDetailPage(
       appBar: YaruWindowTitleBar(
         title: Text(context.l10n.settingsPageTitle),
       ),

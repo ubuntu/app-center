@@ -148,7 +148,7 @@ class AppLoadingPage extends StatelessWidget {
             ? normalWindowLayout
             : narrowWindowLayout;
 
-    return Scaffold(
+    return YaruDetailPage(
       appBar: const YaruWindowTitleBar(
         title: SizedBox.shrink(),
         titleSpacing: 0,
