@@ -321,5 +321,7 @@
   "publisher": "Éditeur",
   "@publisher": {},
   "processing": "En cours de traitement",
-  "@processing": {}
+  "@processing": {},
+  "permissions": "Permissions",
+  "@permissions": {}
 }
