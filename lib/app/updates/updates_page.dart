@@ -42,7 +42,23 @@ class UpdatesPage extends StatefulWidget {
   State<UpdatesPage> createState() => _UpdatesPageState();
 }
 
-class _UpdatesPageState extends State<UpdatesPage> {
+class _UpdatesPageState extends State<UpdatesPage>
+    with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController =
+        TabController(length: 2, initialIndex: widget.tabIndex, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -57,53 +73,51 @@ class _UpdatesPageState extends State<UpdatesPage> {
         body: SnapUpdatesPage.create(context),
       );
     } else {
-      return DefaultTabController(
-        initialIndex: widget.tabIndex,
-        length: 2,
-        child: Scaffold(
-          appBar: YaruWindowTitleBar(
-            titleSpacing: 0,
-            title: Container(
-              height: 34,
-              decoration: BoxDecoration(
+      return YaruDetailPage(
+        appBar: YaruWindowTitleBar(
+          titleSpacing: 0,
+          title: Container(
+            height: 34,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(kYaruButtonRadius),
+            ),
+            child: TabBar(
+              controller: _tabController,
+              padding: EdgeInsets.symmetric(horizontal: padding / 2),
+              indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(kYaruButtonRadius),
+                color: theme.colorScheme.onSurface.withOpacity(0.1),
               ),
-              child: TabBar(
-                padding: EdgeInsets.symmetric(horizontal: padding / 2),
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(kYaruButtonRadius),
-                  color: theme.colorScheme.onSurface.withOpacity(0.1),
+              labelColor: theme.colorScheme.onSurface,
+              splashBorderRadius: BorderRadius.circular(kYaruButtonRadius),
+              onTap: (value) {
+                if (widget.onTabTapped != null) {
+                  widget.onTabTapped!(value);
+                }
+              },
+              tabs: [
+                Tab(
+                  child: _TabChild(
+                    iconData: YaruIcons.debian,
+                    label: context.l10n.debianPackages,
+                  ),
                 ),
-                labelColor: theme.colorScheme.onSurface,
-                splashBorderRadius: BorderRadius.circular(kYaruButtonRadius),
-                onTap: (value) {
-                  if (widget.onTabTapped != null) {
-                    widget.onTabTapped!(value);
-                  }
-                },
-                tabs: [
-                  Tab(
-                    child: _TabChild(
-                      iconData: YaruIcons.debian,
-                      label: context.l10n.debianPackages,
-                    ),
+                Tab(
+                  child: _TabChild(
+                    iconData: YaruIcons.snapcraft,
+                    label: context.l10n.snapPackages,
                   ),
-                  Tab(
-                    child: _TabChild(
-                      iconData: YaruIcons.snapcraft,
-                      label: context.l10n.snapPackages,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-          body: TabBarView(
-            children: [
-              PackageUpdatesPage.create(context),
-              SnapUpdatesPage.create(context),
-            ],
-          ),
+        ),
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            PackageUpdatesPage.create(context),
+            SnapUpdatesPage.create(context),
+          ],
         ),
       );
     }

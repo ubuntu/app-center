@@ -82,7 +82,7 @@ class InstalledPage extends StatelessWidget {
       ],
     );
 
-    return Scaffold(
+    return YaruDetailPage(
       appBar: YaruWindowTitleBar(
         title: SearchField(
           searchQuery: searchQuery ?? '',

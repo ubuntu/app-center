@@ -35,11 +35,7 @@ class MessageBar extends StatelessWidget {
             ),
             onPressed: () => Clipboard.setData(ClipboardData(text: message)),
           ),
-          trailing: YaruCloseButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).clearSnackBars();
-            },
-          ),
+          onClose: (context) => ScaffoldMessenger.of(context).clearSnackBars(),
         ),
         ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 400, minHeight: 200),
