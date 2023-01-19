@@ -56,45 +56,43 @@ class PublisherInfoFragment extends StatelessWidget {
           ),
       overflow: TextOverflow.ellipsis,
     );
-    final align = Align(
-      alignment: Alignment.center,
-      child: SizedBox(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (limitChildWidth)
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 80),
-                child: child,
-              )
-            else
-              child,
-            if (verified)
-              Padding(
-                padding: EdgeInsets.only(left: height * 0.2),
-                child: Icon(
-                  Icons.verified,
-                  color: light ? kGreenLight : kGreenDark,
-                  size: height * 0.85,
-                ),
-              )
-            else if (starDev)
-              Padding(
-                padding: const EdgeInsets.only(left: 5),
-                child: _StarDeveloper(
-                  height: height * 0.85,
-                ),
+    final box = SizedBox(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          if (limitChildWidth)
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 100),
+              child: child,
+            )
+          else
+            child,
+          if (verified)
+            Padding(
+              padding: EdgeInsets.only(left: height * 0.2),
+              child: Icon(
+                Icons.verified,
+                color: light ? kGreenLight : kGreenDark,
+                size: height * 0.85,
               ),
-          ],
-        ),
+            )
+          else if (starDev)
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: _StarDeveloper(
+                height: height * 0.85,
+              ),
+            ),
+        ],
       ),
     );
 
     return AppInfoFragment(
+      crossAxisAlignment: CrossAxisAlignment.start,
       header: context.l10n.publisher,
       tooltipMessage: publisherName,
-      child: align,
+      child: box,
     );
   }
 }

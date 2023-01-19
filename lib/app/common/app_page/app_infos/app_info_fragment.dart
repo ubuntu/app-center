@@ -25,15 +25,15 @@ class AppInfoFragment extends StatelessWidget {
     required this.header,
     required this.child,
     required this.tooltipMessage,
-    this.childWidth,
     this.mainAxisAlignment = MainAxisAlignment.center,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
   }) : super(key: key);
 
   final String header;
   final String tooltipMessage;
   final Widget child;
-  final double? childWidth;
   final MainAxisAlignment mainAxisAlignment;
+  final CrossAxisAlignment crossAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +42,14 @@ class AppInfoFragment extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: mainAxisAlignment,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: crossAxisAlignment,
         children: [
           Text(
             header,
             overflow: TextOverflow.ellipsis,
             style: headerStyle,
           ),
-          SizedBox(
-            width: childWidth ?? 100,
-            child: child,
-          ),
+          child,
         ],
       ),
     );

@@ -10,6 +10,7 @@ class ReleasedAtInfoFragment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppInfoFragment(
+      crossAxisAlignment: CrossAxisAlignment.start,
       header: context.l10n.releasedAt,
       tooltipMessage: context.l10n.releasedAt,
       child: Text(

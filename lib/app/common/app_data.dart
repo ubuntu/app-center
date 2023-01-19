@@ -31,6 +31,7 @@ class AppData {
   final bool starredDeveloper;
   final String? publisherName;
   final String website;
+  final String? contact;
   final List<String> screenShotUrls;
   final String description;
   final bool? versionChanged;
@@ -62,6 +63,7 @@ class AppData {
     required this.appFormat,
     required this.appSize,
     required this.releasedAt,
+    this.contact,
   });
 }
 

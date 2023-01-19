@@ -167,8 +167,10 @@ class _AppPageState extends State<AppPage> {
       ),
     );
 
-    const additionalInformation = BorderContainer(
-      child: AdditionalInformation(),
+    final additionalInformation = BorderContainer(
+      child: AdditionalInformation(
+        appData: widget.appData,
+      ),
     );
 
     final normalWindowAppHeader = BorderContainer(

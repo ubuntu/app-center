@@ -169,5 +169,6 @@
     }
   },
   "gallery": "Gallery",
-  "additionalInformation": "Additional Information"
+  "additionalInformation": "Additional Information",
+  "links": "Links"
 }
