@@ -94,7 +94,8 @@ class __AppState extends State<_App> {
   int _updatesPageIndex = 0;
   bool _initialized = false;
   int _initialIndex = 0;
-  String? path;
+  String? debPath;
+  String? snapName;
 
   @override
   void initState() {
@@ -135,8 +136,12 @@ class __AppState extends State<_App> {
 
   void _commandLineListener(List<String> args) {
     setState(() {
-      path = args.where((arg) => arg.endsWith('.deb')).firstOrNull;
-      if (path != null) {
+      debPath = args.where((arg) => arg.endsWith('.deb')).firstOrNull;
+      snapName = args
+          .where((arg) => arg.startsWith('snap://'))
+          .firstOrNull
+          ?.substring(7);
+      if (debPath != null || snapName != null) {
         _initialIndex = 3;
       }
     });
@@ -180,12 +185,13 @@ class __AppState extends State<_App> {
           processing: model.updatesProcessing,
         ),
       ),
-      if (path != null)
+      if (debPath != null || snapName != null)
         PageItem(
           titleBuilder: (context) => Text(context.l10n.packageInstaller),
           builder: (context) => PackageInstallerPage.create(
             context: context,
-            path: path,
+            debPath: debPath,
+            snapName: snapName,
           ),
           iconBuilder: (context, selected) =>
               PackageInstallerPage.createIcon(context, selected),
@@ -220,7 +226,7 @@ class __AppState extends State<_App> {
                 style: YaruTitleBarStyle.undecorated,
               ),
             ),
-            key: ValueKey(path),
+            key: ValueKey((debPath ?? '') + (snapName ?? '')),
             length: pageItems.length,
             initialIndex: _initialIndex,
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(
