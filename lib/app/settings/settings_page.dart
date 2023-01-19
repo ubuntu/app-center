@@ -260,7 +260,8 @@ class _AboutTile extends StatelessWidget {
               filterQuality: FilterQuality.medium,
             ),
             children: [
-              Center(
+              Align(
+                alignment: Alignment.centerLeft,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(5),
                   onTap: () async => await launchUrl(Uri.parse(repoUrl)),
@@ -290,12 +291,13 @@ class _AboutTile extends StatelessWidget {
               ),
               SizedBox(
                 width: 400,
-                height: 600,
+                height: 300,
                 child: FutureBuilder<String>(
                   future: loadAsset(context),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      return MarkdownBody(
+                      return Markdown(
+                        padding: EdgeInsets.zero,
                         data: '${context.l10n.madeBy}:\n ${snapshot.data!}',
                         onTapLink: (text, href, title) =>
                             href != null ? launchUrl(Uri.parse(href)) : null,
