@@ -73,7 +73,7 @@ class _UpdatesPageState extends State<UpdatesPage>
         body: SnapUpdatesPage.create(context),
       );
     } else {
-      return YaruDetailPage(
+      return Scaffold(
         appBar: YaruWindowTitleBar(
           titleSpacing: 0,
           title: Container(
