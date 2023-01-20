@@ -26,11 +26,12 @@ class AdditionalInformation extends StatelessWidget {
         context.l10n.additionalInformation,
         style: Theme.of(context).textTheme.headline6,
       ),
-      child: SizedBox(
-        height: 200,
+      child: ConstrainedBox(
+        constraints: BoxConstraints.loose(const Size(1000, 200)),
         child: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
           child: GridView(
+            shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,
