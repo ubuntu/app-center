@@ -294,5 +294,34 @@
   "theme": "Tema",
   "@theme": {},
   "publisher": "Editore",
-  "@publisher": {}
+  "@publisher": {},
+  "rating": "Valutazione",
+  "@rating": {},
+  "permissions": "Autorizzazioni",
+  "@permissions": {},
+  "processing": "Elaborazione",
+  "@processing": {},
+  "system": "Sistema",
+  "@system": {},
+  "noSnapsInstalled": "Non ci sono applicazioni Snap installate sul tuo sistema",
+  "@noSnapsInstalled": {},
+  "dependencies": "Dipendenze",
+  "@dependencies": {},
+  "dependenciesQuestion": "Sei sicuro di voler procedere?",
+  "@dependenciesQuestion": {},
+  "dependenciesFullList": "Visualizza l'elenco completo delle dipendenze",
+  "@dependenciesFullList": {},
+  "dependenciesListing": "{length} le dipendenze verranno scaricate durante l'installazione {packageName}",
+  "@dependenciesListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "gallery": "Galleria",
+  "@gallery": {}
 }

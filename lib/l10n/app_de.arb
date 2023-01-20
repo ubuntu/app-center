@@ -317,5 +317,11 @@
   "dependencies": "Abhängigkeiten",
   "@dependencies": {},
   "noSnapsInstalled": "Auf Ihrem System sind keine Snap-Anwendungen installiert",
-  "@noSnapsInstalled": {}
+  "@noSnapsInstalled": {},
+  "appstreamSearchGreylist": "Anwenderprogramm;Anwenderprogramme;Anwendung;Anwendungen;Anwendungsprogramm;Anwendungsprogramme;Anwendungssoftware;App;Apps;Applikation;Applikationen;Berechnungsprogramm;Berechnungsprogramme;Computerprogramm;Computerprogramme;Paket;Pakete;Programm;Programme;Software",
+  "@appstreamSearchGreylist": {
+    "description": "List of 'grey-listed' words separated with ';'. Do not translate this list directly. Instead, provide a list of words in your language that people are likely to include in a search but that should normally be ignored in the search."
+  },
+  "permissions": "Berechtigungen",
+  "@permissions": {}
 }

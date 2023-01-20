@@ -279,8 +279,49 @@
   "@yourReviewTitle": {},
   "showAllReviews": "Mostrar todas as análises",
   "@showAllReviews": {},
-  "configure": "Configure",
+  "configure": "Configurar",
   "@configure": {},
   "sourcesDescription": "Configuração de onde o seu sistema e pacotes de Debian de terceiros são atualizados.",
-  "@sourcesDescription": {}
+  "@sourcesDescription": {},
+  "snapPackage": "Snap",
+  "@snapPackage": {},
+  "debianPackage": "Debian",
+  "@debianPackage": {},
+  "theme": "Tema",
+  "@theme": {},
+  "dependenciesListing": "{length} as dependências serão descarregadas ao instalar {packageName}",
+  "@dependenciesListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "publisher": "Editor",
+  "@publisher": {},
+  "rating": "Avaliação",
+  "@rating": {},
+  "system": "Sistema",
+  "@system": {},
+  "permissions": "Permissões",
+  "@permissions": {},
+  "processing": "A processar",
+  "@processing": {},
+  "light": "Claro",
+  "@light": {},
+  "dark": "Escuro",
+  "@dark": {},
+  "noSnapsInstalled": "Não existem aplicações Snap instaladas no sistema",
+  "@noSnapsInstalled": {},
+  "dependencies": "Dependências",
+  "@dependencies": {},
+  "dependenciesQuestion": "Tem a certeza de que quer prosseguir?",
+  "@dependenciesQuestion": {},
+  "dependenciesFullList": "Ver lista completa de dependências",
+  "@dependenciesFullList": {},
+  "gallery": "Galeria",
+  "@gallery": {}
 }
