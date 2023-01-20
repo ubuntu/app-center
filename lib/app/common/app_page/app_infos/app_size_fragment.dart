@@ -11,7 +11,7 @@ class AppSizeFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppInfoFragment(
       header: context.l10n.size,
-      tooltipMessage: context.l10n.size,
+      tooltipMessage: appSize,
       child: Text(
         appSize,
         textAlign: TextAlign.center,
