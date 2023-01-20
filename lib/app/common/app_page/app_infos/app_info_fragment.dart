@@ -24,34 +24,42 @@ class AppInfoFragment extends StatelessWidget {
     Key? key,
     required this.header,
     required this.child,
-    required this.tooltipMessage,
+    this.tooltipMessage,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.mainAxisSize = MainAxisSize.min,
   }) : super(key: key);
 
   final String header;
-  final String tooltipMessage;
+  final String? tooltipMessage;
   final Widget child;
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
+  final MainAxisSize mainAxisSize;
 
   @override
   Widget build(BuildContext context) {
+    final column = Column(
+      mainAxisSize: mainAxisSize,
+      mainAxisAlignment: mainAxisAlignment,
+      crossAxisAlignment: crossAxisAlignment,
+      children: [
+        Text(
+          header,
+          overflow: TextOverflow.ellipsis,
+          style: headerStyle,
+        ),
+        child,
+      ],
+    );
+
+    if (tooltipMessage == null) {
+      return column;
+    }
+
     return Tooltip(
       message: tooltipMessage,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: mainAxisAlignment,
-        crossAxisAlignment: crossAxisAlignment,
-        children: [
-          Text(
-            header,
-            overflow: TextOverflow.ellipsis,
-            style: headerStyle,
-          ),
-          child,
-        ],
-      ),
+      child: column,
     );
   }
 }
