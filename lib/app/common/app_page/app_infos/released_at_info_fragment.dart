@@ -12,7 +12,7 @@ class ReleasedAtInfoFragment extends StatelessWidget {
     return AppInfoFragment(
       crossAxisAlignment: CrossAxisAlignment.start,
       header: context.l10n.releasedAt,
-      tooltipMessage: context.l10n.releasedAt,
+      tooltipMessage: releasedAt,
       child: Text(
         releasedAt,
         textAlign: TextAlign.center,
