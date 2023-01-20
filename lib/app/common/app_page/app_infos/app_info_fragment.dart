@@ -19,40 +19,47 @@ import 'package:flutter/material.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
-class InfoColumn extends StatelessWidget {
-  const InfoColumn({
+class AppInfoFragment extends StatelessWidget {
+  const AppInfoFragment({
     Key? key,
     required this.header,
     required this.child,
-    required this.tooltipMessage,
-    this.childWidth,
+    this.tooltipMessage,
+    this.mainAxisAlignment = MainAxisAlignment.center,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.mainAxisSize = MainAxisSize.min,
   }) : super(key: key);
 
   final String header;
-  final String tooltipMessage;
+  final String? tooltipMessage;
   final Widget child;
-  final double? childWidth;
+  final MainAxisAlignment mainAxisAlignment;
+  final CrossAxisAlignment crossAxisAlignment;
+  final MainAxisSize mainAxisSize;
 
   @override
   Widget build(BuildContext context) {
+    final column = Column(
+      mainAxisSize: mainAxisSize,
+      mainAxisAlignment: mainAxisAlignment,
+      crossAxisAlignment: crossAxisAlignment,
+      children: [
+        Text(
+          header,
+          overflow: TextOverflow.ellipsis,
+          style: headerStyle,
+        ),
+        child,
+      ],
+    );
+
+    if (tooltipMessage == null) {
+      return column;
+    }
+
     return Tooltip(
       message: tooltipMessage,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            header,
-            overflow: TextOverflow.ellipsis,
-            style: headerStyle,
-          ),
-          SizedBox(
-            width: childWidth ?? 100,
-            child: child,
-          ),
-        ],
-      ),
+      child: column,
     );
   }
 }

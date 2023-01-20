@@ -126,6 +126,7 @@ class _SnapPageState extends State<SnapPage> {
       userReviews: model.userReviews,
       averageRating: model.averageRating,
       appFormat: AppFormat.snap,
+      contact: model.contact,
     );
 
     final controls = SnapControls(

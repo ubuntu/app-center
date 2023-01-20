@@ -68,7 +68,7 @@ class _AppReviewsState extends State<AppReviews> {
   Widget build(BuildContext context) {
     return BorderContainer(
       child: YaruExpandable(
-        isExpanded: true,
+        isExpanded: false,
         header: Text(
           context.l10n.reviewsAndRatings,
           style: Theme.of(context).textTheme.headline6,

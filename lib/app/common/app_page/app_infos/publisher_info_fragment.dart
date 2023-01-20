@@ -16,12 +16,13 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:software/app/common/app_page/app_infos/app_info_fragment.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
-class PublisherName extends StatelessWidget {
-  const PublisherName({
+class PublisherInfoFragment extends StatelessWidget {
+  const PublisherInfoFragment({
     Key? key,
     this.verified = false,
     required this.publisherName,
@@ -55,39 +56,43 @@ class PublisherName extends StatelessWidget {
           ),
       overflow: TextOverflow.ellipsis,
     );
-    return InkWell(
-      onTap: () => launchUrl(Uri.parse(website)),
-      child: SizedBox(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (limitChildWidth)
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 80),
-                child: child,
-              )
-            else
-              child,
-            if (verified)
-              Padding(
-                padding: EdgeInsets.only(left: height * 0.2),
-                child: Icon(
-                  Icons.verified,
-                  color: light ? kGreenLight : kGreenDark,
-                  size: height * 0.85,
-                ),
-              )
-            else if (starDev)
-              Padding(
-                padding: const EdgeInsets.only(left: 5),
-                child: _StarDeveloper(
-                  height: height * 0.85,
-                ),
+    final box = SizedBox(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          if (limitChildWidth)
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 100),
+              child: child,
+            )
+          else
+            child,
+          if (verified)
+            Padding(
+              padding: EdgeInsets.only(left: height * 0.2),
+              child: Icon(
+                Icons.verified,
+                color: light ? kGreenLight : kGreenDark,
+                size: height * 0.85,
               ),
-          ],
-        ),
+            )
+          else if (starDev)
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: _StarDeveloper(
+                height: height * 0.85,
+              ),
+            ),
+        ],
       ),
+    );
+
+    return AppInfoFragment(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      header: context.l10n.publisher,
+      tooltipMessage: publisherName,
+      child: box,
     );
   }
 }

@@ -168,5 +168,7 @@
         }
     }
   },
-  "gallery": "Gallery"
+  "gallery": "Gallery",
+  "additionalInformation": "Additional Information",
+  "links": "Links"
 }
