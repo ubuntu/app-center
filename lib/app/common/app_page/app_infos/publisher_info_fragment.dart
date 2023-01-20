@@ -63,7 +63,7 @@ class PublisherInfoFragment extends StatelessWidget {
         children: [
           if (limitChildWidth)
             ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 100),
+              constraints: const BoxConstraints(maxWidth: 110),
               child: child,
             )
           else
