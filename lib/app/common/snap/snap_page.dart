@@ -24,7 +24,6 @@ import 'package:software/app/common/app_data.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
-import 'package:software/app/common/app_page/app_loading_page.dart';
 import 'package:software/app/common/app_page/app_page.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
@@ -172,29 +171,28 @@ class _SnapPageState extends State<SnapPage> {
       ],
     );
 
-    return !initialized
-        ? const AppLoadingPage()
-        : AppPage(
-            appData: appData,
-            appIsInstalled: model.snapIsInstalled,
-            permissionContainer: null,
-            subControlPageHeader: controls,
-            preControls: preControls,
-            icon: AppIcon(
-              iconUrl: model.iconUrl,
-              size: 150,
-            ),
-            onReviewSend: model.sendReview,
-            onRatingUpdate: (v) => model.reviewRating = v,
-            onReviewTitleChanged: (v) => model.reviewTitle = v,
-            onReviewUserChanged: (v) => model.reviewUser = v,
-            onReviewChanged: (v) => model.review = v,
-            reviewRating: model.reviewRating,
-            review: model.review,
-            reviewTitle: model.reviewTitle,
-            reviewUser: model.reviewUser,
-            onVote: model.voteReview,
-            onFlag: model.flagReview,
-          );
+    return AppPage(
+      initialized: initialized,
+      appData: appData,
+      appIsInstalled: model.snapIsInstalled,
+      permissionContainer: null,
+      subControlPageHeader: controls,
+      preControls: preControls,
+      icon: AppIcon(
+        iconUrl: model.iconUrl,
+        size: 150,
+      ),
+      onReviewSend: model.sendReview,
+      onRatingUpdate: (v) => model.reviewRating = v,
+      onReviewTitleChanged: (v) => model.reviewTitle = v,
+      onReviewUserChanged: (v) => model.reviewUser = v,
+      onReviewChanged: (v) => model.review = v,
+      reviewRating: model.reviewRating,
+      review: model.review,
+      reviewTitle: model.reviewTitle,
+      reviewUser: model.reviewUser,
+      onVote: model.voteReview,
+      onFlag: model.flagReview,
+    );
   }
 }
