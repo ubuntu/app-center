@@ -190,6 +190,7 @@ class _PackagePageState extends State<PackagePage> {
     );
 
     final dependencies = BorderContainer(
+      initialized: initialized,
       child: YaruExpandable(
         header: Text(
           '${context.l10n.dependencies} (${model.uninstalledDependencyNames.length})',
