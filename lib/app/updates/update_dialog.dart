@@ -75,7 +75,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
     final model = context.watch<PackageModel>();
     const headerStyle = TextStyle(fontWeight: FontWeight.bold);
     const detailStyle = TextStyle(fontWeight: FontWeight.w400);
-    const detailPadding = EdgeInsets.only(top: 8, bottom: 8, right: 16);
+    const detailPadding = EdgeInsets.only(top: 8, bottom: 8);
     if (model.packageState != PackageState.ready || model.changelog.isEmpty) {
       return const AlertDialog(
         content: Padding(
@@ -119,9 +119,10 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   context.l10n.version,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                trailing: Text(widget.id.version,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface)),
+                trailing: Text(
+                  widget.id.version,
+                  style: detailStyle,
+                ),
               ),
               YaruTile(
                 padding: detailPadding,
@@ -129,9 +130,10 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   context.l10n.size,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                trailing: Text(formatBytes(model.size, 2),
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface)),
+                trailing: Text(
+                  formatBytes(model.size, 2),
+                  style: detailStyle,
+                ),
               ),
               YaruTile(
                 padding: detailPadding,
@@ -139,9 +141,10 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   context.l10n.architecture,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                trailing: Text(widget.id.arch,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface)),
+                trailing: Text(
+                  widget.id.arch,
+                  style: detailStyle,
+                ),
               ),
               YaruTile(
                 padding: detailPadding,
@@ -149,9 +152,10 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   context.l10n.source,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                trailing: Text(widget.id.data,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface)),
+                trailing: Text(
+                  widget.id.data,
+                  style: detailStyle,
+                ),
               ),
               YaruTile(
                 padding: detailPadding,
@@ -159,9 +163,10 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   context.l10n.license,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                trailing: Text(model.license,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface)),
+                trailing: Text(
+                  model.license,
+                  style: detailStyle,
+                ),
               ),
               YaruTile(
                 padding: detailPadding,
@@ -175,7 +180,6 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   onPressed: () => launchUrl(Uri.parse(model.url)),
                   icon: Icon(
                     YaruIcons.external_link,
-                    color: Theme.of(context).colorScheme.onSurface,
                     size: 20,
                   ),
                 ),
@@ -187,9 +191,10 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   context.l10n.issued,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                trailing: Text(model.issued,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface)),
+                trailing: Text(
+                  model.issued,
+                  style: detailStyle,
+                ),
               ),
             ],
           ),
@@ -203,14 +208,11 @@ class _UpdateDialogState extends State<UpdateDialog> {
         isExpanded: false,
         expandIcon: const Icon(YaruIcons.pan_end),
         child: BorderContainer(
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: Text(
-              model.description,
-            ),
+          child: Text(
+            model.description,
           ),
         ),
-      )
+      ),
     ];
     return SimpleDialog(
       title: YaruDialogTitleBar(
