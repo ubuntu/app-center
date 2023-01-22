@@ -39,7 +39,7 @@ class AppIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final fallBackIcon = BorderContainer(
       borderColor: color,
-      containerPadding: EdgeInsets.zero,
+      padding: EdgeInsets.zero,
       borderRadius: 200,
       width: size,
       height: size,
