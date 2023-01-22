@@ -223,7 +223,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
       ),
       titlePadding: EdgeInsets.zero,
       contentPadding:
-          const EdgeInsets.only(left: 20, top: 10, bottom: 20, right: 10),
+          const EdgeInsets.only(left: 20, top: 10, bottom: 20, right: 20),
       children: children
           .map(
             (e) => SizedBox(
