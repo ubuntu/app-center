@@ -117,7 +117,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 padding: detailPadding,
                 title: Text(
                   context.l10n.version,
-                  style: detailStyle,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 trailing: Text(widget.id.version,
                     style: TextStyle(
@@ -127,7 +127,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 padding: detailPadding,
                 title: Text(
                   context.l10n.size,
-                  style: detailStyle,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 trailing: Text(formatBytes(model.size, 2),
                     style: TextStyle(
@@ -137,7 +137,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 padding: detailPadding,
                 title: Text(
                   context.l10n.architecture,
-                  style: detailStyle,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 trailing: Text(widget.id.arch,
                     style: TextStyle(
@@ -147,7 +147,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 padding: detailPadding,
                 title: Text(
                   context.l10n.source,
-                  style: detailStyle,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 trailing: Text(widget.id.data,
                     style: TextStyle(
@@ -157,7 +157,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 padding: detailPadding,
                 title: Text(
                   context.l10n.license,
-                  style: detailStyle,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 trailing: Text(model.license,
                     style: TextStyle(
@@ -167,7 +167,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 padding: detailPadding,
                 title: Text(
                   context.l10n.website,
-                  style: detailStyle,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 trailing: IconButton(
                   tooltip: model.url,
@@ -185,7 +185,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 padding: detailPadding,
                 title: Text(
                   context.l10n.issued,
-                  style: detailStyle,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 trailing: Text(model.issued,
                     style: TextStyle(
