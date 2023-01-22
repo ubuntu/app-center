@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
+import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/app/common/utils.dart';
 import 'package:software/l10n/l10n.dart';
@@ -90,14 +91,16 @@ class _UpdateDialogState extends State<UpdateDialog> {
           context.l10n.changelog,
           style: headerStyle,
         ),
-        child: MarkdownBody(
-          data: model.changelog.length > 4000
-              ? '${model.changelog.substring(0, 4000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
-              : model.changelog,
-          shrinkWrap: true,
-          selectable: true,
-          onTapLink: (text, href, title) =>
-              href != null ? launchUrl(Uri.parse(href)) : null,
+        child: BorderContainer(
+          child: MarkdownBody(
+            data: model.changelog.length > 2000
+                ? '${model.changelog.substring(0, 2000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
+                : model.changelog,
+            shrinkWrap: true,
+            selectable: true,
+            onTapLink: (text, href, title) =>
+                href != null ? launchUrl(Uri.parse(href)) : null,
+          ),
         ),
       ),
       YaruExpandable(
@@ -105,77 +108,91 @@ class _UpdateDialogState extends State<UpdateDialog> {
           context.l10n.packageDetails,
           style: headerStyle,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            YaruTile(
-              padding: detailPadding,
-              title: Text(
-                context.l10n.version,
-                style: detailStyle,
-              ),
-              trailing: Text(widget.id.version),
-            ),
-            YaruTile(
-              padding: detailPadding,
-              title: Text(
-                context.l10n.size,
-                style: detailStyle,
-              ),
-              trailing: Text(formatBytes(model.size, 2)),
-            ),
-            YaruTile(
-              padding: detailPadding,
-              title: Text(
-                context.l10n.architecture,
-                style: detailStyle,
-              ),
-              trailing: Text(widget.id.arch),
-            ),
-            YaruTile(
-              padding: detailPadding,
-              title: Text(
-                context.l10n.source,
-                style: detailStyle,
-              ),
-              trailing: Text(widget.id.data),
-            ),
-            YaruTile(
-              padding: detailPadding,
-              title: Text(
-                context.l10n.license,
-                style: detailStyle,
-              ),
-              trailing: Text(model.license),
-            ),
-            YaruTile(
-              padding: detailPadding,
-              title: Text(
-                context.l10n.website,
-                style: detailStyle,
-              ),
-              trailing: IconButton(
-                splashRadius: 20,
-                tooltip: model.url,
-                onPressed: () => launchUrl(Uri.parse(model.url)),
-                icon: Icon(
-                  YaruIcons.external_link,
-                  color: Theme.of(context).colorScheme.onSurface,
-                  size: 20,
+        child: BorderContainer(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              YaruTile(
+                padding: detailPadding,
+                title: Text(
+                  context.l10n.version,
+                  style: detailStyle,
                 ),
+                trailing: Text(widget.id.version,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface)),
               ),
-              enabled: true,
-            ),
-            YaruTile(
-              padding: detailPadding,
-              title: Text(
-                context.l10n.issued,
-                style: detailStyle,
+              YaruTile(
+                padding: detailPadding,
+                title: Text(
+                  context.l10n.size,
+                  style: detailStyle,
+                ),
+                trailing: Text(formatBytes(model.size, 2),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface)),
               ),
-              trailing: Text(model.issued),
-            ),
-          ],
+              YaruTile(
+                padding: detailPadding,
+                title: Text(
+                  context.l10n.architecture,
+                  style: detailStyle,
+                ),
+                trailing: Text(widget.id.arch,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface)),
+              ),
+              YaruTile(
+                padding: detailPadding,
+                title: Text(
+                  context.l10n.source,
+                  style: detailStyle,
+                ),
+                trailing: Text(widget.id.data,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface)),
+              ),
+              YaruTile(
+                padding: detailPadding,
+                title: Text(
+                  context.l10n.license,
+                  style: detailStyle,
+                ),
+                trailing: Text(model.license,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface)),
+              ),
+              YaruTile(
+                padding: detailPadding,
+                title: Text(
+                  context.l10n.website,
+                  style: detailStyle,
+                ),
+                trailing: IconButton(
+                  tooltip: model.url,
+                  splashRadius: 20,
+                  onPressed: () => launchUrl(Uri.parse(model.url)),
+                  icon: Icon(
+                    YaruIcons.external_link,
+                    color: Theme.of(context).colorScheme.onSurface,
+                    size: 20,
+                  ),
+                ),
+                enabled: true,
+              ),
+              YaruTile(
+                padding: detailPadding,
+                title: Text(
+                  context.l10n.issued,
+                  style: detailStyle,
+                ),
+                trailing: Text(model.issued,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface)),
+              ),
+            ],
+          ),
         ),
       ),
       YaruExpandable(
@@ -185,10 +202,12 @@ class _UpdateDialogState extends State<UpdateDialog> {
         ),
         isExpanded: false,
         expandIcon: const Icon(YaruIcons.pan_end),
-        child: Padding(
-          padding: const EdgeInsets.only(right: 16.0),
-          child: Text(
-            model.description,
+        child: BorderContainer(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: Text(
+              model.description,
+            ),
           ),
         ),
       )
