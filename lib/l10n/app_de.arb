@@ -177,7 +177,7 @@
   "@checkingForUpdates": {},
   "readyToUpdate": "Bereit zur Aktualisierung",
   "@readyToUpdate": {},
-  "apps": "apps",
+  "apps": "Apps",
   "@apps": {},
   "filterSnaps": "Den Snap Filter setzen",
   "@filterSnaps": {},
@@ -323,5 +323,9 @@
     "description": "List of 'grey-listed' words separated with ';'. Do not translate this list directly. Instead, provide a list of words in your language that people are likely to include in a search but that should normally be ignored in the search."
   },
   "permissions": "Berechtigungen",
-  "@permissions": {}
+  "@permissions": {},
+  "additionalInformation": "Zusätzliche Informationen",
+  "@additionalInformation": {},
+  "links": "Links",
+  "@links": {}
 }
