@@ -178,7 +178,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   tooltip: model.url,
                   splashRadius: 20,
                   onPressed: () => launchUrl(Uri.parse(model.url)),
-                  icon: Icon(
+                  icon: const Icon(
                     YaruIcons.external_link,
                     size: 20,
                   ),
