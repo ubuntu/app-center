@@ -51,9 +51,12 @@ class PackageControls extends StatelessWidget {
       children: packageState == PackageState.processing
           ? [
               const SizedBox(
-                height: 20,
-                child: YaruCircularProgressIndicator(
-                  strokeWidth: 3,
+                height: 40,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: YaruCircularProgressIndicator(
+                    strokeWidth: 3,
+                  ),
                 ),
               ),
               Text(context.l10n.processing),

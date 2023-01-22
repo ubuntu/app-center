@@ -175,8 +175,7 @@ class _SnapPageState extends State<SnapPage> {
       initialized: initialized,
       appData: appData,
       appIsInstalled: model.snapIsInstalled,
-      permissionContainer: null,
-      subControlPageHeader: controls,
+      controls: controls,
       preControls: preControls,
       icon: AppIcon(
         iconUrl: model.iconUrl,

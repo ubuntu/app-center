@@ -38,9 +38,8 @@ class AppPage extends StatefulWidget {
     super.key,
     required this.appData,
     required this.icon,
-    required this.permissionContainer,
     required this.preControls,
-    this.subControlPageHeader,
+    this.controls,
     this.subDescription,
     this.appIsInstalled = false,
     this.onRatingUpdate,
@@ -60,9 +59,8 @@ class AppPage extends StatefulWidget {
   final bool initialized;
   final AppData appData;
   final Widget icon;
-  final Widget? permissionContainer;
   final Widget preControls;
-  final Widget? subControlPageHeader;
+  final Widget? controls;
   final Widget? subDescription;
   final bool appIsInstalled;
 
@@ -186,7 +184,7 @@ class _AppPageState extends State<AppPage> {
         windowSize: windowSize,
         appData: widget.appData,
         controls: widget.preControls,
-        subControls: widget.subControlPageHeader,
+        subControls: widget.controls,
         icon: icon,
       ),
     );
@@ -198,7 +196,7 @@ class _AppPageState extends State<AppPage> {
         appData: widget.appData,
         icon: icon,
         controls: widget.preControls,
-        subControls: widget.subControlPageHeader,
+        subControls: widget.controls,
       ),
     );
 
@@ -209,7 +207,7 @@ class _AppPageState extends State<AppPage> {
         appData: widget.appData,
         icon: icon,
         controls: widget.preControls,
-        subControls: widget.subControlPageHeader,
+        subControls: widget.controls,
       ),
     );
 
@@ -223,7 +221,6 @@ class _AppPageState extends State<AppPage> {
         description,
         if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
-        if (widget.permissionContainer != null) widget.permissionContainer!,
         additionalInformation,
       ],
     );
@@ -236,7 +233,6 @@ class _AppPageState extends State<AppPage> {
         description,
         if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
-        if (widget.permissionContainer != null) widget.permissionContainer!,
         additionalInformation,
       ],
       windowSize: windowSize,

@@ -213,13 +213,12 @@ class _PackagePageState extends State<PackagePage> {
     return AppPage(
       initialized: initialized,
       appData: appData,
-      permissionContainer: null,
       icon: AppIcon(
         iconUrl: model.iconUrl,
         size: 150,
       ),
       preControls: preControls,
-      subControlPageHeader: controls,
+      controls: controls,
       subDescription:
           model.uninstalledDependencyNames.isEmpty ? null : dependencies,
       onReviewSend: model.sendReview,
