@@ -155,7 +155,7 @@ class _SnapPageState extends State<SnapPage> {
           )
         else
           const BorderContainer(
-            containerPadding: EdgeInsets.symmetric(horizontal: 5),
+            padding: EdgeInsets.symmetric(horizontal: 5),
             borderRadius: 6,
             child: SizedBox(height: 39, child: SnapLabel()),
           ),

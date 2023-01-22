@@ -17,17 +17,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:software/app/common/constants.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
-/// A [Container] with predefined [Decoration].
-/// The [Decoration] has a [Border] with [Divider]'s color.
-/// The [BorderContainer] wraps its [child] in a [Padding]
-/// which defaults to 20 on all sides
+/// A [YaruBorderContainer] with software specific defaults.
 class BorderContainer extends StatelessWidget {
   const BorderContainer({
     super.key,
     this.height,
     this.width,
-    this.childPadding,
     this.child,
     this.borderRadius = 10,
     this.alignment,
@@ -37,7 +34,7 @@ class BorderContainer extends StatelessWidget {
     this.transform,
     this.transformAlignment,
     this.clipBehavior = Clip.none,
-    this.containerPadding,
+    this.padding = const EdgeInsets.all(kYaruPagePadding),
     this.borderColor,
   });
 
@@ -47,12 +44,8 @@ class BorderContainer extends StatelessWidget {
   /// Forwarded to [Container]
   final double? width;
 
-  /// The [Padding] which the [child] is surrounded by. Defaults to 20
-  /// on all sides.
-  final EdgeInsets? childPadding;
-
   /// Forwarded to [Container]
-  final EdgeInsets? containerPadding;
+  final EdgeInsets? padding;
 
   /// Forwarded to [Container]
   final Widget? child;
@@ -89,31 +82,21 @@ class BorderContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final light = theme.brightness == Brightness.light;
-    final container = Container(
+    final container = YaruBorderContainer(
+      borderRadius: BorderRadius.circular(borderRadius),
       alignment: alignment,
       constraints: constraints,
       margin: margin,
       transform: transform,
       transformAlignment: transformAlignment,
       clipBehavior: clipBehavior,
-      padding: containerPadding ?? const EdgeInsets.all(20),
+      padding: padding ?? const EdgeInsets.all(20),
       height: height,
       width: width,
-      decoration: BoxDecoration(
-        color: color ?? (light ? Colors.white : kBorderContainerBgDark),
-        borderRadius: BorderRadius.circular(borderRadius),
-        border: Border.all(
-          color: borderColor ?? theme.dividerColor,
-        ),
-      ),
+      color: color ?? (light ? Colors.white : kBorderContainerBgDark),
       child: child,
     );
 
-    return childPadding != null
-        ? Padding(
-            padding: childPadding!,
-            child: container,
-          )
-        : container;
+    return container;
   }
 }
