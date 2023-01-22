@@ -323,5 +323,9 @@
     }
   },
   "permissions": "Permesoj",
-  "@permissions": {}
+  "@permissions": {},
+  "additionalInformation": "Pliaj informoj",
+  "@additionalInformation": {},
+  "links": "Ligoj",
+  "@links": {}
 }
