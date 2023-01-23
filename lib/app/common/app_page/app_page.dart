@@ -38,9 +38,8 @@ class AppPage extends StatefulWidget {
     super.key,
     required this.appData,
     required this.icon,
-    required this.permissionContainer,
     required this.preControls,
-    this.subControlPageHeader,
+    this.controls,
     this.subDescription,
     this.appIsInstalled = false,
     this.onRatingUpdate,
@@ -54,13 +53,14 @@ class AppPage extends StatefulWidget {
     this.reviewRating,
     this.onVote,
     this.onFlag,
+    this.initialized = false,
   });
 
+  final bool initialized;
   final AppData appData;
   final Widget icon;
-  final Widget? permissionContainer;
   final Widget preControls;
-  final Widget? subControlPageHeader;
+  final Widget? controls;
   final Widget? subDescription;
   final bool appIsInstalled;
 
@@ -108,6 +108,7 @@ class _AppPageState extends State<AppPage> {
     final icon = widget.icon;
 
     final media = BorderContainer(
+      initialized: widget.initialized,
       child: YaruExpandable(
         isExpanded: true,
         header: Text(
@@ -141,10 +142,12 @@ class _AppPageState extends State<AppPage> {
     );
 
     final description = BorderContainer(
+      initialized: widget.initialized,
       child: AppDescription(description: widget.appData.description),
     );
 
     final ratingsAndReviews = AppReviews(
+      initialized: widget.initialized,
       reviewRating: widget.reviewRating,
       review: widget.review,
       reviewTitle: widget.reviewTitle,
@@ -162,44 +165,49 @@ class _AppPageState extends State<AppPage> {
     );
 
     final appInfos = BorderContainer(
+      initialized: widget.initialized,
       child: AppInfos(
         appData: widget.appData,
       ),
     );
 
     final additionalInformation = BorderContainer(
+      initialized: widget.initialized,
       child: AdditionalInformation(
         appData: widget.appData,
       ),
     );
 
     final normalWindowAppHeader = BorderContainer(
+      initialized: widget.initialized,
       child: BannerAppHeader(
         windowSize: windowSize,
         appData: widget.appData,
         controls: widget.preControls,
-        subControls: widget.subControlPageHeader,
+        subControls: widget.controls,
         icon: icon,
       ),
     );
 
     final wideWindowAppHeader = BorderContainer(
+      initialized: widget.initialized,
       width: 500,
       child: PageAppHeader(
         appData: widget.appData,
         icon: icon,
         controls: widget.preControls,
-        subControls: widget.subControlPageHeader,
+        subControls: widget.controls,
       ),
     );
 
     final narrowWindowAppHeader = BorderContainer(
+      initialized: widget.initialized,
       height: 700,
       child: PageAppHeader(
         appData: widget.appData,
         icon: icon,
         controls: widget.preControls,
-        subControls: widget.subControlPageHeader,
+        subControls: widget.controls,
       ),
     );
 
@@ -213,7 +221,6 @@ class _AppPageState extends State<AppPage> {
         description,
         if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
-        if (widget.permissionContainer != null) widget.permissionContainer!,
         additionalInformation,
       ],
     );
@@ -226,7 +233,6 @@ class _AppPageState extends State<AppPage> {
         description,
         if (widget.subDescription != null) widget.subDescription!,
         ratingsAndReviews,
-        if (widget.permissionContainer != null) widget.permissionContainer!,
         additionalInformation,
       ],
       windowSize: windowSize,
