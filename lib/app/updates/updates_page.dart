@@ -5,7 +5,6 @@ import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_format_popup.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
-import 'package:software/app/common/search_field.dart';
 import 'package:software/app/updates/package_updates_page.dart';
 import 'package:software/app/updates/snap_updates_page.dart';
 import 'package:software/app/updates/updates_model.dart';
@@ -80,11 +79,7 @@ class _UpdatesPageState extends State<UpdatesPage>
     return Scaffold(
       appBar: YaruWindowTitleBar(
         titleSpacing: 0,
-        // TODO: implement search
-        title: SearchField(
-          onChanged: (String value) {},
-          searchQuery: '',
-        ),
+        title: Text(context.l10n.updates),
       ),
       body: model.appFormat == AppFormat.packageKit
           ? PackageUpdatesPage.create(
