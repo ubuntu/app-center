@@ -16,10 +16,13 @@
  */
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/app/common/app_model.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
@@ -60,6 +63,22 @@ class PackageModel extends AppModel {
   }
 
   String get title => appstream?.localizedName() ?? packageId?.name ?? '';
+
+  String? get developerName {
+    return appstream?.developerName[
+        WidgetsBinding.instance.window.locale.countryCode?.toLowerCase()];
+  }
+
+  String? get releasedAt {
+    if (appstream == null ||
+        (appstream != null && appstream!.releases.firstOrNull?.date == null)) {
+      return null;
+    }
+
+    return DateFormat.yMd(Platform.localeName)
+        .add_jms()
+        .format(appstream!.releases.first.date!.toLocal());
+  }
 
   List<String> get screenshotUrls =>
       appstream?.screenshots
