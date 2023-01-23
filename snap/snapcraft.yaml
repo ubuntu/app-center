@@ -70,6 +70,7 @@ apps:
       - opengl
       - packagekit-control
       - snapd-control
+      - unity7
 
 slots:
   packagekit-svc:
