@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:software/app/common/constants.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PanedPageLayout extends StatelessWidget {
   const PanedPageLayout({
@@ -18,19 +17,12 @@ class PanedPageLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = windowSize.height;
-    final width = windowSize.width;
-    final hPadding = kPagePadding + 0.0004 * pow((width - 1200) * 0.8, 2);
     final appBarHeight =
         Theme.of(context).appBarTheme.toolbarHeight?.toDouble() ??
             kToolbarHeight;
 
     return Padding(
-      padding: EdgeInsets.only(
-        top: kPagePadding,
-        left: hPadding,
-        right: hPadding,
-        bottom: kPagePadding,
-      ),
+      padding: const EdgeInsets.all(kYaruPagePadding),
       child: SizedBox(
         height: height - appBarHeight,
         child: Row(
