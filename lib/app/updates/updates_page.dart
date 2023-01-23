@@ -80,6 +80,7 @@ class _UpdatesPageState extends State<UpdatesPage>
     return Scaffold(
       appBar: YaruWindowTitleBar(
         titleSpacing: 0,
+        // TODO: implement search
         title: SearchField(
           onChanged: (String value) {},
           searchQuery: '',
