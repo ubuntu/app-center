@@ -19,6 +19,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:gtk_application/gtk_application.dart';
+import 'package:launcher_entry/launcher_entry.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/app.dart';
@@ -59,6 +60,12 @@ Future<void> main(List<String> args) async {
   registerService<GtkApplicationNotifier>(
     () => GtkApplicationNotifier(args),
     dispose: (s) => s.dispose(),
+  );
+
+  registerService<LauncherEntryService>(
+    (() => LauncherEntryService(
+          appUri: 'application://snap-store_snap-store.desktop',
+        )),
   );
 
   runApp(App.create());
