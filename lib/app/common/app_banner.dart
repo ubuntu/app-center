@@ -17,10 +17,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
+import 'package:software/app/common/safe_network_image.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_utils.dart'
@@ -98,6 +101,68 @@ class AppBanner extends StatelessWidget {
       subtitle: subtitle,
       icon: appIcon,
       onTap: onTap,
+    );
+  }
+}
+
+class AppImageBanner extends StatelessWidget {
+  const AppImageBanner({super.key, required this.snap});
+
+  final Snap snap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    var light = theme.brightness == Brightness.light;
+
+    final fallBackLoadingIcon = Shimmer.fromColors(
+      baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
+      highlightColor: light ? kShimmerHighLightLight : kShimmerHighLightDark,
+      child: Container(
+        color: light ? kShimmerBaseLight : kShimmerBaseDark,
+        height: 300,
+        width: 480,
+      ),
+    );
+
+    return YaruBanner(
+      padding: EdgeInsets.zero,
+      onTap: () => SnapPage.push(
+        context: context,
+        snap: snap,
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 160,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              child: SafeNetworkImage(
+                fallBackIcon: fallBackLoadingIcon,
+                url: snap.bannerUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Expanded(
+            child: ListTile(
+              title: Text(
+                snap.name,
+              ),
+              subtitle: SearchBannerSubtitle(
+                appFinding:
+                    AppFinding(snap: snap, rating: 5, totalRatings: 1234),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -187,8 +187,8 @@ enum SnapSection {
         ];
       case SnapSection.games:
         return [
-          const Color.fromARGB(255, 25, 119, 119).value,
-          YaruColors.viridian.value
+          const Color.fromARGB(255, 25, 119, 96).value,
+          const Color.fromARGB(255, 135, 3, 124).value
         ];
       case SnapSection.health_and_fitness:
         return [

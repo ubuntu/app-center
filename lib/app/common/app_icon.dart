@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:software/app/common/constants.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class AppIcon extends StatelessWidget {
@@ -39,17 +40,9 @@ class AppIcon extends StatelessWidget {
 
     final theme = Theme.of(context);
     var light = theme.brightness == Brightness.light;
-    final shimmerBase = color ??
-        (light
-            ? const Color.fromARGB(120, 228, 228, 228)
-            : const Color.fromARGB(255, 51, 51, 51));
-    final shimmerHighLight = borderColor ??
-        (light
-            ? const Color.fromARGB(200, 247, 247, 247)
-            : const Color.fromARGB(255, 57, 57, 57));
     final fallBackLoadingIcon = Shimmer.fromColors(
-      baseColor: shimmerBase,
-      highlightColor: shimmerHighLight,
+      baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
+      highlightColor: light ? kShimmerHighLightLight : kShimmerHighLightDark,
       child: fallBackIcon,
     );
 
