@@ -28,11 +28,15 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class SnapUpdatesPage extends StatelessWidget {
-  const SnapUpdatesPage({Key? key}) : super(key: key);
+  const SnapUpdatesPage({Key? key, required this.appFormatPopup})
+      : super(key: key);
 
-  static Widget create(
-    BuildContext context,
-  ) {
+  final Widget appFormatPopup;
+
+  static Widget create({
+    required BuildContext context,
+    required Widget appFormatPopup,
+  }) {
     return ChangeNotifierProvider(
       create: (context) => SnapUpdatesModel(
         getService<SnapService>(),
@@ -40,7 +44,7 @@ class SnapUpdatesPage extends StatelessWidget {
           onRefreshError: (e) => ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(e))),
         ),
-      child: const SnapUpdatesPage(),
+      child: SnapUpdatesPage(appFormatPopup: appFormatPopup),
     );
   }
 
@@ -51,9 +55,9 @@ class SnapUpdatesPage extends StatelessWidget {
 
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.all(kPagePadding),
-          child: _SnapUpdatesHeader(),
+        Padding(
+          padding: const EdgeInsets.all(kPagePadding),
+          child: _SnapUpdatesHeader(appFormatPopup: appFormatPopup),
         ),
         if (model.checkingForUpdates)
           const Expanded(
@@ -76,8 +80,10 @@ class SnapUpdatesPage extends StatelessWidget {
 
 class _SnapUpdatesHeader extends StatelessWidget {
   const _SnapUpdatesHeader({
-    Key? key,
-  }) : super(key: key);
+    required this.appFormatPopup,
+  });
+
+  final Widget appFormatPopup;
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +94,7 @@ class _SnapUpdatesHeader extends StatelessWidget {
       child: Wrap(
         spacing: 10,
         children: [
+          appFormatPopup,
           OutlinedButton(
             onPressed: model.checkingForUpdates ? null : model.checkForUpdates,
             child: Text(

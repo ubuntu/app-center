@@ -93,7 +93,6 @@ class _App extends StatefulWidget {
 }
 
 class __AppState extends State<_App> {
-  int _updatesPageIndex = 0;
   bool _initialized = false;
   int _initialIndex = 0;
   String? debPath;
@@ -175,10 +174,9 @@ class __AppState extends State<_App> {
       ),
       PageItem(
         titleBuilder: UpdatesPage.createTitle,
-        builder: (context) => UpdatesPage(
+        builder: (context) => UpdatesPage.create(
+          context: context,
           windowWidth: width,
-          onTabTapped: (index) => setState(() => _updatesPageIndex = index),
-          tabIndex: _updatesPageIndex,
         ),
         iconBuilder: (context, selected) => UpdatesPage.createIcon(
           context: context,
