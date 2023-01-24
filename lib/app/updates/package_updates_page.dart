@@ -320,71 +320,73 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
           const SizedBox(
             height: 10,
           ),
-          BorderContainer(
+          Padding(
             padding: EdgeInsets.only(
               top: 20,
               bottom: 50,
               left: widget.hPadding,
               right: widget.hPadding,
             ),
-            child: YaruExpandable(
-              isExpanded: _isExpanded,
-              onChange: (isExpanded) =>
-                  setState(() => _isExpanded = isExpanded),
-              header: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: _isExpanded
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          YaruCheckbox(
-                            value: model.allSelected
-                                ? true
-                                : model.nothingSelected
-                                    ? false
-                                    : null,
-                            tristate: true,
-                            onChanged: (v) => v != null
-                                ? model.selectAll()
-                                : model.deselectAll(),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Text(
-                              '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
-                              style: Theme.of(context).textTheme.headline6,
-                              overflow: TextOverflow.ellipsis,
+            child: BorderContainer(
+              child: YaruExpandable(
+                isExpanded: _isExpanded,
+                onChange: (isExpanded) =>
+                    setState(() => _isExpanded = isExpanded),
+                header: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: _isExpanded
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            YaruCheckbox(
+                              value: model.allSelected
+                                  ? true
+                                  : model.nothingSelected
+                                      ? false
+                                      : null,
+                              tristate: true,
+                              onChanged: (v) => v != null
+                                  ? model.selectAll()
+                                  : model.deselectAll(),
                             ),
-                          )
-                        ],
-                      )
-                    : Text(
-                        '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: kYaruPagePadding),
-                child: Column(
-                  children: List.generate(model.updates.length, (index) {
-                    final update = model.getUpdate(index);
-                    return SizedBox(
-                      height: 70,
-                      child: UpdateBanner(
-                        group: model.getGroup(update),
-                        selected: model.isUpdateSelected(update),
-                        updateId: update,
-                        installedId:
-                            model.getInstalledId(update.name) ?? update,
-                        onChanged: model.updatesState ==
-                                UpdatesState.checkingForUpdates
-                            ? null
-                            : (v) => model.selectUpdate(update, v!),
-                      ),
-                    );
-                  }),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
+                                style: Theme.of(context).textTheme.headline6,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        )
+                      : Text(
+                          '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: kYaruPagePadding),
+                  child: Column(
+                    children: List.generate(model.updates.length, (index) {
+                      final update = model.getUpdate(index);
+                      return SizedBox(
+                        height: 70,
+                        child: UpdateBanner(
+                          group: model.getGroup(update),
+                          selected: model.isUpdateSelected(update),
+                          updateId: update,
+                          installedId:
+                              model.getInstalledId(update.name) ?? update,
+                          onChanged: model.updatesState ==
+                                  UpdatesState.checkingForUpdates
+                              ? null
+                              : (v) => model.selectUpdate(update, v!),
+                        ),
+                      );
+                    }),
+                  ),
                 ),
               ),
             ),
