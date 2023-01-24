@@ -53,7 +53,9 @@ class BannerAppHeader extends StatelessWidget {
               SizedBox(
                 height: iconSize,
                 width: iconSize,
-                child: icon,
+                child: FittedBox(
+                  child: icon,
+                ),
               ),
               const SizedBox(width: kYaruPagePadding),
               Expanded(
@@ -125,7 +127,9 @@ class PageAppHeader extends StatelessWidget {
             SizedBox(
               height: iconSize,
               width: iconSize,
-              child: icon,
+              child: FittedBox(
+                child: icon,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(kYaruPagePadding),
