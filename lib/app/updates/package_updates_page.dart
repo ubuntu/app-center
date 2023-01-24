@@ -87,7 +87,9 @@ class _PackageUpdatesPageState extends State<PackageUpdatesPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageUpdatesModel>();
-    final hPadding = (0.00013 * pow(MediaQuery.of(context).size.width, 2)) - 20;
+    var hPadding = (0.00013 * pow(MediaQuery.of(context).size.width, 2)) - 20;
+
+    hPadding = hPadding > 800 ? 800 : hPadding;
 
     return Column(
       children: [
