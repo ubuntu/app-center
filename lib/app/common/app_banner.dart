@@ -333,9 +333,9 @@ class PackageIndicator extends StatelessWidget {
     return Row(
       children: [
         if (appFinding.snap != null && showSnap)
-          Icon(
+          const Icon(
             YaruIcons.snapcraft,
-            color: theme.disabledColor,
+            color: kSnapcraftColor,
             size: 20,
           ),
         if (appFinding.appstream != null && showPackageKit)
@@ -343,7 +343,8 @@ class PackageIndicator extends StatelessWidget {
             padding: const EdgeInsets.only(left: 5),
             child: Icon(
               YaruIcons.debian,
-              color: theme.disabledColor,
+              color:
+                  appFinding.snap == null ? kDebianColor : theme.disabledColor,
               size: 20,
             ),
           )
