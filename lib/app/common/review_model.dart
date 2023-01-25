@@ -1,25 +1,18 @@
+import 'package:odrs/odrs.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:software/app/common/app_data.dart';
-import 'package:software/app/common/constants.dart';
+import 'package:software/services/odrs_service.dart';
 
-// TODO: adapt to Rating backend when ready
 class ReviewModel extends SafeChangeNotifier {
-// Static data from backend;
-  final double? averageRating = 5.0;
+  ReviewModel(this._odrs);
 
-  Future<void> load(String appId, String version) async {
-    _userReviews = [
-      for (var i = 0; i < 20; i++)
-        AppReview(
-          rating: 3.4,
-          review: kFakeReviewText,
-          dateTime: DateTime.now(),
-          username: null,
-          positiveVote: 10,
-          negativeVote: 2,
-        ),
-    ];
-    notifyListeners();
+  final OdrsService _odrs;
+
+  Future<void> load(String appId, [String? version]) async {
+    await for (final reviews in _odrs.getReviews(appId, version: version)) {
+      _userReviews = reviews.map((r) => r.toAppReview()).toList();
+      notifyListeners();
+    }
   }
 
   List<AppReview>? _userReviews;
@@ -63,4 +56,19 @@ class ReviewModel extends SafeChangeNotifier {
   Future<void> vote(AppReview review, bool positive) async {}
 
   Future<void> flag(AppReview review) async {}
+}
+
+extension on OdrsReview {
+  AppReview toAppReview() {
+    return AppReview(
+      id: reviewId,
+      rating: rating / 100.0 * 5,
+      review: description,
+      title: summary,
+      dateTime: dateCreated,
+      username: userDisplay,
+      positiveVote: karmaUp,
+      negativeVote: karmaDown,
+    );
+  }
 }
