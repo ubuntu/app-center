@@ -65,7 +65,7 @@ class BannerAppHeader extends StatelessWidget {
                   children: [
                     Text(
                       appData.title,
-                      style: theme.textTheme.headline3!.copyWith(
+                      style: theme.textTheme.displaySmall!.copyWith(
                         fontSize: 20,
                         color: theme.colorScheme.onSurface,
                       ),
@@ -140,7 +140,7 @@ class PageAppHeader extends StatelessWidget {
                 children: [
                   Text(
                     appData.title,
-                    style: theme.textTheme.headline3!.copyWith(
+                    style: theme.textTheme.displaySmall!.copyWith(
                       fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
                       color: theme.colorScheme.onSurface,
                     ),
