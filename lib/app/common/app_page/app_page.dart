@@ -113,7 +113,7 @@ class _AppPageState extends State<AppPage> {
         isExpanded: true,
         header: Text(
           context.l10n.gallery,
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         child: YaruCarousel(
           controller: controller,

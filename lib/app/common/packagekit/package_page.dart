@@ -126,6 +126,7 @@ class _PackagePageState extends State<PackagePage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
+    final theme = Theme.of(context);
 
     final appData = AppData(
       publisherName: model.developerName ?? context.l10n.unknown,
@@ -194,7 +195,7 @@ class _PackagePageState extends State<PackagePage> {
       child: YaruExpandable(
         header: Text(
           '${context.l10n.dependencies} (${model.uninstalledDependencyNames.length})',
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 10),
@@ -203,7 +204,10 @@ class _PackagePageState extends State<PackagePage> {
                 .map(
                   (e) => ListTile(
                     title: Text(e),
-                    leading: const Icon(YaruIcons.package_deb),
+                    leading: Icon(
+                      YaruIcons.package_deb,
+                      color: theme.colorScheme.onSurface,
+                    ),
                   ),
                 )
                 .toList(),
