@@ -87,6 +87,7 @@ class OnePageLayout extends StatelessWidget {
               left: kPagePadding,
               right: kPagePadding,
             ),
+      shrinkWrap: false,
       children: [
         for (final child in children)
           Padding(
