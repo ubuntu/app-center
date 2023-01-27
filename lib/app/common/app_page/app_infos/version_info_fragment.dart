@@ -5,10 +5,10 @@ import 'package:software/l10n/l10n.dart';
 
 class VersionInfoFragment extends StatelessWidget {
   const VersionInfoFragment({
-    Key? key,
+    super.key,
     required this.version,
     this.versionChanged,
-  }) : super(key: key);
+  });
 
   final String version;
   final bool? versionChanged;

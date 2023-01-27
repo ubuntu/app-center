@@ -4,10 +4,10 @@ import 'package:software/l10n/l10n.dart';
 
 class LicenseInfoFragment extends StatelessWidget {
   const LicenseInfoFragment({
-    Key? key,
+    super.key,
     required this.headerStyle,
     required this.license,
-  }) : super(key: key);
+  });
 
   final TextStyle headerStyle;
   final String license;

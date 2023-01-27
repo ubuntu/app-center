@@ -6,9 +6,9 @@ import 'package:software/l10n/l10n.dart';
 
 class LinksInfoFragment extends StatelessWidget {
   const LinksInfoFragment({
-    Key? key,
+    super.key,
     required this.appData,
-  }) : super(key: key);
+  });
 
   final AppData appData;
 

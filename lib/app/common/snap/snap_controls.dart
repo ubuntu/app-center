@@ -25,10 +25,10 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapControls extends StatelessWidget {
   const SnapControls({
-    Key? key,
+    super.key,
     this.direction = Axis.horizontal,
     this.appstream,
-  }) : super(key: key);
+  });
 
   final Axis direction;
   final AppstreamComponent? appstream;

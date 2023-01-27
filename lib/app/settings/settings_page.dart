@@ -33,7 +33,7 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
@@ -82,7 +82,7 @@ class _SettingsPageState extends State<SettingsPage> {
 }
 
 class ThemeSection extends StatefulWidget {
-  const ThemeSection({Key? key}) : super(key: key);
+  const ThemeSection({super.key});
 
   @override
   State<ThemeSection> createState() => _ThemeSectionState();
