@@ -48,25 +48,27 @@ class AppIcon extends StatelessWidget {
       child: fallBackIcon,
     );
 
-    return iconUrl == null || iconUrl!.isEmpty
-        ? fallBackIcon
-        : SizedBox(
-            height: size,
-            width: size,
-            child: Image.network(
-              iconUrl!,
-              filterQuality: FilterQuality.medium,
-              fit: BoxFit.fitHeight,
-              frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                return frame == null
-                    ? fallBackLoadingIcon
-                    : AnimatedContainer(
-                        duration: const Duration(milliseconds: 500),
-                        child: child,
-                      );
-              },
-              errorBuilder: (context, error, stackTrace) => fallBackIcon,
+    return RepaintBoundary(
+      child: iconUrl == null || iconUrl!.isEmpty
+          ? fallBackIcon
+          : SizedBox(
+              height: size,
+              width: size,
+              child: Image.network(
+                iconUrl!,
+                filterQuality: FilterQuality.medium,
+                fit: BoxFit.fitHeight,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                  return frame == null
+                      ? fallBackLoadingIcon
+                      : AnimatedContainer(
+                          duration: const Duration(milliseconds: 500),
+                          child: child,
+                        );
+                },
+                errorBuilder: (context, error, stackTrace) => fallBackIcon,
+              ),
             ),
-          );
+    );
   }
 }
