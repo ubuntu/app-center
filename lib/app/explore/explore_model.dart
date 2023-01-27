@@ -128,9 +128,11 @@ class ExploreModel extends SafeChangeNotifier {
     if (searchQuery.isEmpty) {
       return [];
     } else {
+      final clearedSearchQuery =
+          searchQuery.replaceAll(RegExp('[^A-Za-z0-9]', unicode: true), '');
       try {
         return await _snapService.findSnapsByQuery(
-          searchQuery: searchQuery,
+          searchQuery: clearedSearchQuery,
           sectionName:
               selectedSection == SnapSection.all ? null : selectedSection.title,
         );
