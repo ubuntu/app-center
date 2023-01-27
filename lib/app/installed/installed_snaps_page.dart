@@ -29,7 +29,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class InstalledSnapsPage extends StatefulWidget {
-  const InstalledSnapsPage({Key? key}) : super(key: key);
+  const InstalledSnapsPage({super.key});
   @override
   State<InstalledSnapsPage> createState() => _InstalledSnapsPageState();
 }

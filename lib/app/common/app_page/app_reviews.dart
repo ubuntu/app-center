@@ -138,11 +138,10 @@ class _AppReviewsState extends State<AppReviews> {
 
 class _ReviewDetailsDialog extends StatelessWidget {
   const _ReviewDetailsDialog({
-    Key? key,
     required this.userReviews,
     this.onVote,
     this.onFlag,
-  }) : super(key: key);
+  });
 
   final List<AppReview>? userReviews;
   final Function(AppReview, bool)? onVote;
@@ -506,11 +505,10 @@ class _ReviewsCarousel extends StatelessWidget {
 
 class _RatingHeader extends StatelessWidget {
   const _RatingHeader({
-    Key? key,
     required this.userReview,
     this.onVote,
     this.onFlag,
-  }) : super(key: key);
+  });
 
   final AppReview userReview;
   final Function(AppReview, bool)? onVote;

@@ -5,8 +5,8 @@ import 'package:yaru_icons/yaru_icons.dart';
 
 class NoUpdatesPage extends StatelessWidget {
   const NoUpdatesPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
