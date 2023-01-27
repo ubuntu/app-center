@@ -201,16 +201,10 @@ class SearchBannerSubtitle extends StatelessWidget {
     }
 
     if (appFinding.appstream != null && showPackageKit && !showSnap) {
-      if (appFinding.appstream!
-              .developerName[Localizations.localeOf(context).toLanguageTag()] !=
-          null) {
-        publisherName = appFinding.appstream!
-            .developerName[Localizations.localeOf(context).toLanguageTag()]!;
-      } else if (appFinding.appstream!.urls.isNotEmpty) {
-        publisherName = appFinding.appstream!.urls
-            .firstWhere((element) => element.url.isNotEmpty)
-            .url;
-      }
+      publisherName = appFinding.appstream!.developerName['C'] ??
+          appFinding.appstream!.developerName['en'] ??
+          appFinding.appstream!.developerName['en_GB'] ??
+          appFinding.appstream!.localizedName();
     }
 
     return Column(

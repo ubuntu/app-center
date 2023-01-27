@@ -21,10 +21,10 @@ import 'dart:io';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/app/common/app_model.dart';
+import 'package:software/app/common/utils.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/package_state.dart';
@@ -62,11 +62,13 @@ class PackageModel extends AppModel {
     }
   }
 
-  String get title => appstream?.localizedName() ?? packageId?.name ?? '';
+  String? get title => appstream?.localizedName() ?? packageId?.name;
 
   String? get developerName {
-    return appstream?.developerName[
-        WidgetsBinding.instance.window.locale.countryCode?.toLowerCase()];
+    return appstream!.developerName['C'] ??
+        appstream!.developerName['en'] ??
+        appstream!.developerName['en_GB'] ??
+        appstream!.localizedName();
   }
 
   String? get releasedAt {
@@ -148,39 +150,37 @@ class PackageModel extends AppModel {
   }
 
   /// The one line package summary, e.g. "Clipart for OpenOffice"
-  String _summary = '';
-  String get summary => _summary;
-  set summary(String value) {
-    if (value == _summary) return;
+  String? _summary;
+  String? get summary => _summary;
+  set summary(String? value) {
+    if (value == null || value == _summary) return;
     _summary = value;
     notifyListeners();
   }
 
   // The upstream project homepage.
-  String _url = '';
-  String get url => _url;
-  set url(String value) {
-    if (value == _url) return;
+  String? _url;
+  String? get url => _url;
+  set url(String? value) {
+    if (value == null || value == _url) return;
     _url = value;
     notifyListeners();
   }
 
   /// The license string, e.g. GPLv2+
-  String _license = '';
-  String get license => _license;
-  set license(String value) {
-    if (value.isEmpty ||
-        value == _license ||
-        (_license.isNotEmpty && value == 'unknown')) return;
+  String? _license;
+  String? get license => appstream?.projectLicense ?? _license;
+  set license(String? value) {
+    if (value == null || value == _license) return;
     _license = value;
     notifyListeners();
   }
 
   /// The size of the package in bytes.
-  int _size = 0;
-  int get size => _size;
-  set size(int value) {
-    if (value == _size) return;
+  int? _size;
+  String? getSize() => _size == null ? null : formatBytes(_size!, 2);
+  set size(int? value) {
+    if (value == null || value == _size) return;
     _size = value;
     notifyListeners();
   }

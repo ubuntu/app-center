@@ -261,7 +261,6 @@ void main() {
     expect(model.summary, '');
     expect(model.url, '');
     expect(model.license, '');
-    expect(model.size, 0);
     expect(model.description, '');
     expect(model.isInstalled, isNull);
     return model;
@@ -338,7 +337,7 @@ void main() {
     expect(model.summary, 'a summary');
     expect(model.url, 'https://example.org/');
     expect(model.license, 'a license');
-    expect(model.size, 43008);
+    expect(model.getSize(), 43008);
     expect(model.description, 'a description');
   });
 
@@ -423,7 +422,6 @@ void main() {
     expect(model.summary, 'a fox');
     expect(model.url, 'https://example.org/');
     expect(model.license, 'a license');
-    expect(model.size, 43008);
     expect(model.group, PackageKitGroup.internet);
     expect(model.description, 'a fire fox');
   });

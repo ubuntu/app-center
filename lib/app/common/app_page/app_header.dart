@@ -72,7 +72,7 @@ class BannerAppHeader extends StatelessWidget {
                     ),
                     PublisherName(
                       height: 18,
-                      publisherName: appData.publisherName ?? '',
+                      publisherName: appData.publisherName,
                       website: appData.website,
                       verified: appData.verified,
                       starDev: appData.starredDeveloper,
@@ -150,7 +150,7 @@ class PageAppHeader extends StatelessWidget {
                   Center(
                     child: PublisherName(
                       height: 20,
-                      publisherName: appData.publisherName ?? '',
+                      publisherName: appData.publisherName,
                       website: appData.website,
                       verified: appData.verified,
                       starDev: appData.starredDeveloper,
