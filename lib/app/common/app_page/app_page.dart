@@ -272,12 +272,11 @@ class _AppPageState extends State<AppPage> {
 
 class _CarouselDialog extends StatefulWidget {
   const _CarouselDialog({
-    Key? key,
     required this.windowHeight,
     required this.appData,
     required this.windowWidth,
     required this.initialIndex,
-  }) : super(key: key);
+  });
 
   final double windowHeight;
   final AppData appData;

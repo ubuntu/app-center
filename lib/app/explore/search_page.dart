@@ -91,9 +91,8 @@ class SearchPage extends StatelessWidget {
 
 class _NoSearchResultPage extends StatelessWidget {
   const _NoSearchResultPage({
-    Key? key,
     required this.message,
-  }) : super(key: key);
+  });
 
   final String message;
 

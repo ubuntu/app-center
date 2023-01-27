@@ -20,9 +20,9 @@ import 'package:yaru_icons/yaru_icons.dart';
 
 class CustomBackButton extends StatelessWidget {
   const CustomBackButton({
-    Key? key,
+    super.key,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   final Function()? onPressed;
 

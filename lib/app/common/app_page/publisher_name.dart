@@ -22,7 +22,7 @@ import 'package:yaru_icons/yaru_icons.dart';
 
 class PublisherName extends StatelessWidget {
   const PublisherName({
-    Key? key,
+    super.key,
     this.verified = false,
     required this.publisherName,
     this.starDev = false,
@@ -30,7 +30,7 @@ class PublisherName extends StatelessWidget {
     this.limitChildWidth = true,
     this.height = 14,
     this.enhanceChildText = false,
-  }) : super(key: key);
+  });
 
   final bool verified;
   final bool starDev;

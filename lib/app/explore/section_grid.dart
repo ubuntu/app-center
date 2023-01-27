@@ -23,7 +23,7 @@ import 'package:software/app/common/constants.dart';
 
 class SectionGrid extends StatelessWidget {
   const SectionGrid({
-    Key? key,
+    super.key,
     required this.snaps,
     this.animateBanners = false,
     this.padding,
@@ -31,7 +31,7 @@ class SectionGrid extends StatelessWidget {
     this.ignoreScrolling = true,
     this.take = 10,
     this.skip = 0,
-  }) : super(key: key);
+  });
 
   final List<Snap> snaps;
   final int take;
