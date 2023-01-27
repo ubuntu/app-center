@@ -1,11 +1,13 @@
-import 'dart:math';
-
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:software/app/common/app_format.dart';
+import 'package:software/app/common/app_format_popup.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
 import 'package:software/app/updates/package_updates_page.dart';
 import 'package:software/app/updates/snap_updates_page.dart';
+import 'package:software/app/updates/updates_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -15,14 +17,20 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class UpdatesPage extends StatefulWidget {
   const UpdatesPage({
     super.key,
-    this.onTabTapped,
-    this.tabIndex = 0,
     required this.windowWidth,
   });
 
-  final Function(int)? onTabTapped;
-  final int tabIndex;
   final double windowWidth;
+
+  static Widget create({
+    required BuildContext context,
+    required double windowWidth,
+  }) {
+    return ChangeNotifierProvider<UpdatesModel>(
+      create: (context) => UpdatesModel(getService<PackageService>())..init(),
+      child: UpdatesPage(windowWidth: windowWidth),
+    );
+  }
 
   static Widget createTitle(BuildContext context) => Text(context.l10n.updates);
 
@@ -49,8 +57,7 @@ class _UpdatesPageState extends State<UpdatesPage>
   @override
   void initState() {
     super.initState();
-    _tabController =
-        TabController(length: 2, initialIndex: widget.tabIndex, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -61,103 +68,28 @@ class _UpdatesPageState extends State<UpdatesPage>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final packageService = getService<PackageService>();
-    final padding = 0.0004 * pow((widget.windowWidth * 0.85), 2);
+    final model = context.watch<UpdatesModel>();
 
-    if (!packageService.isAvailable) {
-      return Scaffold(
-        appBar: YaruWindowTitleBar(
-          title: Text(context.l10n.updates),
-        ),
-        body: SnapUpdatesPage.create(context),
-      );
-    } else {
-      return Scaffold(
-        appBar: YaruWindowTitleBar(
-          titleSpacing: 0,
-          title: Container(
-            height: 34,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(kYaruButtonRadius),
+    final appFormatPopup = AppFormatPopup(
+      onSelected: (appFormat) => model.appFormat = appFormat,
+      appFormat: model.appFormat ?? AppFormat.snap,
+      enabledAppFormats: model.enabledAppFormats,
+    );
+
+    return Scaffold(
+      appBar: YaruWindowTitleBar(
+        titleSpacing: 0,
+        title: Text(context.l10n.updates),
+      ),
+      body: model.appFormat == AppFormat.packageKit
+          ? PackageUpdatesPage.create(
+              context: context,
+              appFormatPopup: appFormatPopup,
+            )
+          : SnapUpdatesPage.create(
+              context: context,
+              appFormatPopup: appFormatPopup,
             ),
-            child: TabBar(
-              controller: _tabController,
-              padding: EdgeInsets.symmetric(horizontal: padding / 2),
-              indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(kYaruButtonRadius),
-                color: theme.colorScheme.onSurface.withOpacity(0.1),
-              ),
-              labelColor: theme.colorScheme.onSurface,
-              splashBorderRadius: BorderRadius.circular(kYaruButtonRadius),
-              onTap: (value) {
-                if (widget.onTabTapped != null) {
-                  widget.onTabTapped!(value);
-                }
-              },
-              tabs: [
-                Tab(
-                  child: _TabChild(
-                    iconData: YaruIcons.debian,
-                    label: context.l10n.debianPackages,
-                  ),
-                ),
-                Tab(
-                  child: _TabChild(
-                    iconData: YaruIcons.snapcraft,
-                    label: context.l10n.snapPackages,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            PackageUpdatesPage.create(context),
-            SnapUpdatesPage.create(context),
-          ],
-        ),
-      );
-    }
-  }
-}
-
-class _TabChild extends StatelessWidget {
-  const _TabChild({
-    Key? key,
-    required this.iconData,
-    required this.label,
-  }) : super(key: key);
-
-  final IconData iconData;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final tabTextStyle = theme.textTheme.labelLarge;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          iconData,
-          size: 18,
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Flexible(
-          child: Text(
-            label,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            style: tabTextStyle,
-          ),
-        )
-      ],
     );
   }
 }
@@ -177,8 +109,8 @@ class _UpdatesIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     if (processing && count > 0) {
-      return Badge(
-        position: BadgePosition.topEnd(),
+      return badges.Badge(
+        position: badges.BadgePosition.topEnd(),
         badgeColor: count > 0 ? theme.primaryColor : Colors.transparent,
         badgeContent: count > 0
             ? Text(
@@ -191,7 +123,7 @@ class _UpdatesIcon extends StatelessWidget {
     } else if (processing && count == 0) {
       return const IndeterminateCircularProgressIcon();
     } else if (!processing && count > 0) {
-      return Badge(
+      return badges.Badge(
         badgeColor: theme.primaryColor,
         badgeContent: Text(
           count.toString(),

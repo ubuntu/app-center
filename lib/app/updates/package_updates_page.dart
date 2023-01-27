@@ -31,22 +31,26 @@ import 'package:software/app/updates/package_updates_model.dart';
 import 'package:software/services/packagekit/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
+import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:xdg_icons/xdg_icons.dart';
-import 'package:xterm/ui.dart';
-import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageUpdatesPage extends StatefulWidget {
-  const PackageUpdatesPage({super.key});
+  const PackageUpdatesPage({super.key, required this.appFormatPopup});
 
-  static Widget create(BuildContext context) {
+  final Widget appFormatPopup;
+
+  static Widget create({
+    required BuildContext context,
+    required Widget appFormatPopup,
+  }) {
     return ChangeNotifierProvider(
       create: (_) => PackageUpdatesModel(
         getService<PackageService>(),
         getService<UbuntuSession>(),
       ),
-      child: const PackageUpdatesPage(),
+      child: PackageUpdatesPage(appFormatPopup: appFormatPopup),
     );
   }
 
@@ -82,11 +86,13 @@ class _PackageUpdatesPageState extends State<PackageUpdatesPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageUpdatesModel>();
-    final hPadding = (0.00013 * pow(MediaQuery.of(context).size.width, 2)) - 20;
+    var hPadding = (0.00013 * pow(MediaQuery.of(context).size.width, 2)) - 20;
+
+    hPadding = hPadding > 800 ? 800 : hPadding;
 
     return Column(
       children: [
-        const _UpdatesHeader(),
+        _UpdatesHeader(appFormatsPopup: widget.appFormatPopup),
         if (model.updatesState == UpdatesState.noUpdates)
           const Expanded(child: Center(child: NoUpdatesPage())),
         if (model.updatesState == UpdatesState.readyToUpdate)
@@ -122,7 +128,7 @@ class _UpdatingPage extends StatefulWidget {
 }
 
 class _UpdatingPageState extends State<_UpdatingPage> {
-  final terminalController = TerminalController();
+  //final terminalController = TerminalController();
 
   @override
   Widget build(BuildContext context) {
@@ -162,19 +168,18 @@ class _UpdatingPageState extends State<_UpdatingPage> {
           child: YaruExpandable(
             header: Text(
               'Details',
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             child: SizedBox(
               height: 300,
               width: 600,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: kYaruPagePadding,
-                ),
-                child: TerminalView(
-                  model.terminal,
-                  controller: terminalController,
-                  theme: generateTerminalTheme(Theme.of(context)),
+              child: LogView(
+                log: model.terminalOutput,
+                style: TextStyle(
+                  inherit: false,
+                  fontFamily: 'Ubuntu Mono',
+                  fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
+                  textBaseline: TextBaseline.alphabetic,
                 ),
               ),
             ),
@@ -201,7 +206,10 @@ class _UpdatingPageState extends State<_UpdatingPage> {
 class _UpdatesHeader extends StatelessWidget {
   const _UpdatesHeader({
     Key? key,
+    required this.appFormatsPopup,
   }) : super(key: key);
+
+  final Widget appFormatsPopup;
 
   @override
   Widget build(BuildContext context) {
@@ -220,6 +228,17 @@ class _UpdatesHeader extends StatelessWidget {
           spacing: 10,
           runSpacing: 10,
           children: [
+            if (model.updates.isNotEmpty)
+              ElevatedButton(
+                onPressed: model.updatesState == UpdatesState.readyToUpdate &&
+                        !model.nothingSelected
+                    ? () => model.updateAll(
+                          updatesComplete: context.l10n.updatesComplete,
+                          updatesAvailable: context.l10n.updateAvailable,
+                        )
+                    : null,
+                child: Text(context.l10n.updateButton),
+              ),
             OutlinedButton(
               onPressed: model.updatesState == UpdatesState.updating ||
                       model.updatesState == UpdatesState.checkingForUpdates
@@ -239,17 +258,6 @@ class _UpdatesHeader extends StatelessWidget {
                 ],
               ),
             ),
-            if (model.updates.isNotEmpty)
-              ElevatedButton(
-                onPressed: model.updatesState == UpdatesState.readyToUpdate &&
-                        !model.nothingSelected
-                    ? () => model.updateAll(
-                          updatesComplete: context.l10n.updatesComplete,
-                          updatesAvailable: context.l10n.updateAvailable,
-                        )
-                    : null,
-                child: Text(context.l10n.updateButton),
-              ),
             if (model.updatesState == UpdatesState.noUpdates)
               if (model.requireRestartApp)
                 ElevatedButton(
@@ -265,7 +273,8 @@ class _UpdatesHeader extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () => model.reboot(),
                   child: Text(context.l10n.requireRestartSystem),
-                )
+                ),
+            appFormatsPopup,
           ],
         ),
       ),
@@ -304,78 +313,80 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
           Center(
             child: Text(
               context.l10n.weHaveUpdates,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
           ),
           const SizedBox(
             height: 10,
           ),
-          BorderContainer(
+          Padding(
             padding: EdgeInsets.only(
               top: 20,
               bottom: 50,
               left: widget.hPadding,
               right: widget.hPadding,
             ),
-            child: YaruExpandable(
-              isExpanded: _isExpanded,
-              onChange: (isExpanded) =>
-                  setState(() => _isExpanded = isExpanded),
-              header: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: _isExpanded
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          YaruCheckbox(
-                            value: model.allSelected
-                                ? true
-                                : model.nothingSelected
-                                    ? false
-                                    : null,
-                            tristate: true,
-                            onChanged: (v) => v != null
-                                ? model.selectAll()
-                                : model.deselectAll(),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Text(
-                              '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
-                              style: Theme.of(context).textTheme.headline6,
-                              overflow: TextOverflow.ellipsis,
+            child: BorderContainer(
+              child: YaruExpandable(
+                isExpanded: _isExpanded,
+                onChange: (isExpanded) =>
+                    setState(() => _isExpanded = isExpanded),
+                header: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: _isExpanded
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            YaruCheckbox(
+                              value: model.allSelected
+                                  ? true
+                                  : model.nothingSelected
+                                      ? false
+                                      : null,
+                              tristate: true,
+                              onChanged: (v) => v != null
+                                  ? model.selectAll()
+                                  : model.deselectAll(),
                             ),
-                          )
-                        ],
-                      )
-                    : Text(
-                        '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: kYaruPagePadding),
-                child: Column(
-                  children: List.generate(model.updates.length, (index) {
-                    final update = model.getUpdate(index);
-                    return SizedBox(
-                      height: 70,
-                      child: UpdateBanner(
-                        group: model.getGroup(update),
-                        selected: model.isUpdateSelected(update),
-                        updateId: update,
-                        installedId:
-                            model.getInstalledId(update.name) ?? update,
-                        onChanged: model.updatesState ==
-                                UpdatesState.checkingForUpdates
-                            ? null
-                            : (v) => model.selectUpdate(update, v!),
-                      ),
-                    );
-                  }),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
+                                style: Theme.of(context).textTheme.titleLarge,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        )
+                      : Text(
+                          '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: kYaruPagePadding),
+                  child: Column(
+                    children: List.generate(model.updates.length, (index) {
+                      final update = model.getUpdate(index);
+                      return SizedBox(
+                        height: 70,
+                        child: UpdateBanner(
+                          group: model.getGroup(update),
+                          selected: model.isUpdateSelected(update),
+                          updateId: update,
+                          installedId:
+                              model.getInstalledId(update.name) ?? update,
+                          onChanged: model.updatesState ==
+                                  UpdatesState.checkingForUpdates
+                              ? null
+                              : (v) => model.selectUpdate(update, v!),
+                        ),
+                      );
+                    }),
+                  ),
                 ),
               ),
             ),
@@ -384,33 +395,4 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
       ),
     );
   }
-}
-
-TerminalTheme generateTerminalTheme(ThemeData themeData) {
-  final light = themeData.brightness == Brightness.light;
-  return TerminalTheme(
-    cursor: light ? YaruColors.inkstone : YaruColors.porcelain,
-    selection: themeData.primaryColor,
-    foreground: themeData.colorScheme.onSurface,
-    background: themeData.colorScheme.surface,
-    black: YaruColors.jet,
-    white: YaruColors.porcelain,
-    red: YaruColors.error,
-    green: light ? kGreenLight : kGreenDark,
-    yellow: YaruColors.warning,
-    blue: YaruColors.blue,
-    magenta: YaruColors.magenta,
-    cyan: Colors.cyan,
-    brightBlack: YaruColors.inkstone,
-    brightRed: YaruColors.red,
-    brightGreen: kGreenLight,
-    brightYellow: Colors.yellow,
-    brightBlue: Colors.lightBlue,
-    brightMagenta: const Color.fromARGB(255, 208, 79, 236),
-    brightCyan: const Color.fromARGB(255, 44, 215, 238),
-    brightWhite: Colors.white,
-    searchHitBackground: themeData.colorScheme.background,
-    searchHitBackgroundCurrent: themeData.colorScheme.surface,
-    searchHitForeground: themeData.colorScheme.onSurface,
-  );
 }

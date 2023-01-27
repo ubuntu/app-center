@@ -19,6 +19,7 @@ import 'package:collection/collection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:gtk_application/gtk_application.dart';
+import 'package:launcher_entry/launcher_entry.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
 import 'package:software/app/app_splash_screen.dart';
@@ -46,6 +47,7 @@ class App extends StatelessWidget {
           getService<SnapService>(),
           getService<AppstreamService>(),
           getService<PackageService>(),
+          getService<LauncherEntryService>(),
         ),
         child: const App(),
       );
@@ -91,7 +93,6 @@ class _App extends StatefulWidget {
 }
 
 class __AppState extends State<_App> {
-  int _updatesPageIndex = 0;
   bool _initialized = false;
   int _initialIndex = 0;
   String? debPath;
@@ -173,10 +174,9 @@ class __AppState extends State<_App> {
       ),
       PageItem(
         titleBuilder: UpdatesPage.createTitle,
-        builder: (context) => UpdatesPage(
+        builder: (context) => UpdatesPage.create(
+          context: context,
           windowWidth: width,
-          onTabTapped: (index) => setState(() => _updatesPageIndex = index),
-          tabIndex: _updatesPageIndex,
         ),
         iconBuilder: (context, selected) => UpdatesPage.createIcon(
           context: context,
@@ -228,6 +228,7 @@ class __AppState extends State<_App> {
             ),
             key: ValueKey((debPath ?? '') + (snapName ?? '')),
             length: pageItems.length,
+            onSelected: (value) => model.selectedIndex = value,
             initialIndex: _initialIndex,
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(
               icon: pageItems[index].iconBuilder(context, selected),

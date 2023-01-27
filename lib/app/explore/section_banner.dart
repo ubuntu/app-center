@@ -53,7 +53,7 @@ class SectionBanner extends StatelessWidget {
                 constraints: BoxConstraints.loose(const Size(250, 1000)),
                 child: Text(
                   section.slogan(context.l10n),
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     color: Colors.white,
                     shadows: [
                       Shadow(
@@ -122,8 +122,9 @@ class _PlatedIconState extends State<_PlatedIcon> {
             hovered: hovered,
             child: AppIcon(
               iconUrl: widget.snap.iconUrl,
-              color: dark ? const Color.fromARGB(255, 236, 236, 236) : null,
-              borderColor:
+              loadingBaseColor:
+                  dark ? const Color.fromARGB(255, 236, 236, 236) : null,
+              loadingHighlight:
                   dark ? const Color.fromARGB(255, 211, 211, 211) : null,
               size: 65,
             ),

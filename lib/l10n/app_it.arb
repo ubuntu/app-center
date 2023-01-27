@@ -323,5 +323,9 @@
     }
   },
   "gallery": "Galleria",
-  "@gallery": {}
+  "@gallery": {},
+  "additionalInformation": "Informazioni aggiuntive",
+  "@additionalInformation": {},
+  "links": "Link",
+  "@links": {}
 }

@@ -233,11 +233,11 @@
   "@clickToRate": {},
   "showAllReviews": "Показать все отзывы",
   "@showAllReviews": {},
-  "changingPermissions": "Идет изменение разрешений",
+  "changingPermissions": "Применение разрешений",
   "@changingPermissions": {},
-  "removing": "Идет удаление",
+  "removing": "Удаление",
   "@removing": {},
-  "refreshing": "Идет обновление",
+  "refreshing": "Обновление",
   "@refreshing": {},
   "socialSlogan": "Общайтесь вместе",
   "@socialSlogan": {},
@@ -269,7 +269,7 @@
   "@scienceSlogan": {},
   "yourReviewTitle": "Заголовок для Отзыва (необязательно)",
   "@yourReviewTitle": {},
-  "installing": "Идет установка",
+  "installing": "Установка",
   "@installing": {},
   "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
   "@appstreamSearchGreylist": {
@@ -294,5 +294,38 @@
   "snapPackage": "Snap",
   "@snapPackage": {},
   "theme": "Тема",
-  "@theme": {}
+  "@theme": {},
+  "noSnapsInstalled": "На вашей системе нет установленных Snap приложений",
+  "@noSnapsInstalled": {},
+  "dependenciesQuestion": "Вы уверены, что хотите продолжить?",
+  "@dependenciesQuestion": {},
+  "dependenciesFullList": "Посмотреть полный список зависимостей",
+  "@dependenciesFullList": {},
+  "dependenciesListing": "{length} зависимостей будет загружено в процессе установки {packageName}",
+  "@dependenciesListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "publisher": "Издатель",
+  "@publisher": {},
+  "rating": "Рейтинг",
+  "@rating": {},
+  "permissions": "Разрешения",
+  "@permissions": {},
+  "processing": "Обработка",
+  "@processing": {},
+  "dependencies": "Зависимости",
+  "@dependencies": {},
+  "gallery": "Галерея",
+  "@gallery": {},
+  "additionalInformation": "Дополнительная Информация",
+  "@additionalInformation": {},
+  "links": "Ссылки",
+  "@links": {}
 }

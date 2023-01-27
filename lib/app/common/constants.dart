@@ -36,6 +36,12 @@ const kGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
   crossAxisSpacing: 10,
   maxCrossAxisExtent: 550,
 );
+const kImageGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+  maxCrossAxisExtent: 480,
+  mainAxisExtent: 300,
+  mainAxisSpacing: 10,
+  crossAxisSpacing: 10,
+);
 const kSnapcraftColor = Color(0xFFE95420);
 const kDebianColor = Color(0xFFdb2264);
 const kGreenLight = Color.fromARGB(255, 51, 121, 63);
@@ -48,3 +54,8 @@ const kFakeReviewText =
 
 const kBorderContainerBgDark = Color.fromARGB(255, 46, 46, 46);
 const badgeTextStyle = TextStyle(color: Colors.white, fontSize: 10);
+
+const kShimmerBaseLight = Color.fromARGB(120, 228, 228, 228);
+const kShimmerBaseDark = Color.fromARGB(255, 51, 51, 51);
+const kShimmerHighLightLight = Color.fromARGB(200, 247, 247, 247);
+const kShimmerHighLightDark = Color.fromARGB(255, 57, 57, 57);
