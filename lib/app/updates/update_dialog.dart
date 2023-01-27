@@ -94,7 +94,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
           data: model.changelog.length > 4000
               ? '${model.changelog.substring(0, 4000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
               : model.changelog,
-          shrinkWrap: true,
+          shrinkWrap: false,
           selectable: true,
           onTapLink: (text, href, title) =>
               href != null ? launchUrl(Uri.parse(href)) : null,

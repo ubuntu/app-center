@@ -40,7 +40,7 @@ class AppDescription extends StatelessWidget {
         padding: const EdgeInsets.only(top: 20),
         child: MarkdownBody(
           data: description,
-          shrinkWrap: true,
+          shrinkWrap: false,
           selectable: true,
           onTapLink: (text, href, title) =>
               href != null ? launchUrl(Uri.parse(href)) : null,

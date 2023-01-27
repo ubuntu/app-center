@@ -68,7 +68,7 @@ class SearchPage extends StatelessWidget {
                         left: 15,
                       ),
                       gridDelegate: kGridDelegate,
-                      shrinkWrap: true,
+                      shrinkWrap: false,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         final appFinding =

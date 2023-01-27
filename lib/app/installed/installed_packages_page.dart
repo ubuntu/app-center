@@ -58,9 +58,13 @@ class _InstalledPackagesPageState extends State<InstalledPackagesPage> {
     return model.installedPackages.isNotEmpty
         ? GridView.builder(
             controller: _controller,
-            padding: kGridPadding,
+            padding: const EdgeInsets.only(
+              bottom: 15,
+              right: 15,
+              left: 15,
+            ),
             gridDelegate: kGridDelegate,
-            shrinkWrap: true,
+            shrinkWrap: false,
             itemCount: installedApps.length,
             itemBuilder: (context, index) {
               final package = installedApps[index];

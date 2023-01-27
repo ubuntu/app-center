@@ -31,7 +31,7 @@ class AdditionalInformation extends StatelessWidget {
         child: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
           child: GridView(
-            shrinkWrap: true,
+            shrinkWrap: false,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,

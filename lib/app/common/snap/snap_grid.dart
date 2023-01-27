@@ -35,9 +35,13 @@ class SnapGrid extends StatelessWidget {
       return const SizedBox.shrink();
     }
     return GridView.builder(
-      padding: kGridPadding,
+      padding: const EdgeInsets.only(
+        bottom: 15,
+        right: 15,
+        left: 15,
+      ),
       gridDelegate: kGridDelegate,
-      shrinkWrap: true,
+      shrinkWrap: false,
       itemCount: snaps.length,
       itemBuilder: (context, index) {
         final snap = snaps.elementAt(index);
