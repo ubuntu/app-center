@@ -21,14 +21,14 @@ const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
 class AppInfoFragment extends StatelessWidget {
   const AppInfoFragment({
-    Key? key,
+    super.key,
     required this.header,
     required this.child,
     this.tooltipMessage,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.mainAxisSize = MainAxisSize.min,
-  }) : super(key: key);
+  });
 
   final String header;
   final String? tooltipMessage;

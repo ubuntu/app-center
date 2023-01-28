@@ -23,9 +23,9 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 class CloseWindowConfirmDialog extends StatelessWidget {
   const CloseWindowConfirmDialog({
-    Key? key,
+    super.key,
     this.onConfirm,
-  }) : super(key: key);
+  });
 
   final Function()? onConfirm;
 

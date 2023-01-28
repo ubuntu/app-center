@@ -5,10 +5,10 @@ import 'package:yaru_icons/yaru_icons.dart';
 
 class ConfinementInfoFragment extends StatelessWidget {
   const ConfinementInfoFragment({
-    Key? key,
+    super.key,
     required this.strict,
     required this.confinementName,
-  }) : super(key: key);
+  });
 
   final bool strict;
   final String confinementName;

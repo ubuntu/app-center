@@ -30,10 +30,10 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 class UpdateDialog extends StatefulWidget {
   const UpdateDialog({
-    Key? key,
+    super.key,
     required this.id,
     required this.installedId,
-  }) : super(key: key);
+  });
 
   final PackageKitPackageId id;
   final PackageKitPackageId installedId;
