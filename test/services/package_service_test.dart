@@ -258,9 +258,9 @@ void main() {
       packageId: packageId,
       path: path,
     );
-    expect(model.summary, '');
-    expect(model.url, '');
-    expect(model.license, '');
+    expect(model.summary, isNull);
+    expect(model.url, isNull);
+    expect(model.license, isNull);
     expect(model.description, '');
     expect(model.isInstalled, isNull);
     return model;
@@ -337,7 +337,7 @@ void main() {
     expect(model.summary, 'a summary');
     expect(model.url, 'https://example.org/');
     expect(model.license, 'a license');
-    expect(model.getSize(), 43008);
+    expect(model.size, 43008);
     expect(model.description, 'a description');
   });
 

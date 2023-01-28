@@ -65,10 +65,10 @@ class PackageModel extends AppModel {
   String? get title => appstream?.localizedName() ?? packageId?.name;
 
   String? get developerName {
-    return appstream!.developerName['C'] ??
-        appstream!.developerName['en'] ??
-        appstream!.developerName['en_GB'] ??
-        appstream!.localizedName();
+    return appstream?.developerName['C'] ??
+        appstream?.developerName['en'] ??
+        appstream?.developerName['en_GB'] ??
+        appstream?.localizedName();
   }
 
   String? get releasedAt {
@@ -178,7 +178,8 @@ class PackageModel extends AppModel {
 
   /// The size of the package in bytes.
   int? _size;
-  String? getSize() => _size == null ? null : formatBytes(_size!, 2);
+  String? getFormattedSize() => _size == null ? null : formatBytes(_size!, 2);
+  int get size => _size ?? 0;
   set size(int? value) {
     if (value == null || value == _size) return;
     _size = value;

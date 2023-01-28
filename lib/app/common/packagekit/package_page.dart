@@ -130,7 +130,7 @@ class _PackagePageState extends State<PackagePage> {
     final appData = AppData(
       publisherName: model.developerName ?? context.l10n.unknown,
       releasedAt: model.releasedAt ?? context.l10n.unknown,
-      appSize: model.getSize() ?? context.l10n.unknown,
+      appSize: model.getFormattedSize() ?? context.l10n.unknown,
       confinementName: context.l10n.classic,
       license: model.license ?? context.l10n.unknown,
       strict: false,

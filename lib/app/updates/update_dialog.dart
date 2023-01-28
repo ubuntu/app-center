@@ -122,7 +122,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 context.l10n.size,
                 style: detailStyle,
               ),
-              trailing: Text(model.getSize() ?? context.l10n.unknown),
+              trailing: Text(model.getFormattedSize() ?? context.l10n.unknown),
             ),
             YaruTile(
               padding: detailPadding,
