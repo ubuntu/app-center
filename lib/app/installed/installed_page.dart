@@ -15,7 +15,7 @@
  *
  */
 
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/app_format.dart';
@@ -34,7 +34,7 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class InstalledPage extends StatelessWidget {
-  const InstalledPage({Key? key}) : super(key: key);
+  const InstalledPage({super.key});
 
   static Widget create(
     BuildContext context,
@@ -102,7 +102,7 @@ class _InstalledPageIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Badge(
+    return badges.Badge(
       badgeColor: Theme.of(context).primaryColor,
       badgeContent: Text(
         count.toString(),

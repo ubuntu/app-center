@@ -91,9 +91,8 @@ class SearchPage extends StatelessWidget {
 
 class _NoSearchResultPage extends StatelessWidget {
   const _NoSearchResultPage({
-    Key? key,
     required this.message,
-  }) : super(key: key);
+  });
 
   final String message;
 
@@ -115,7 +114,7 @@ class _NoSearchResultPage extends StatelessWidget {
             width: 400,
             child: Text(
               message,
-              style: theme.textTheme.headline4?.copyWith(fontSize: 25),
+              style: theme.textTheme.headlineMedium?.copyWith(fontSize: 25),
               textAlign: TextAlign.center,
             ),
           ),

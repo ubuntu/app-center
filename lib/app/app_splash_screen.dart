@@ -71,7 +71,7 @@ class _StoreSplashScreenState extends State<StoreSplashScreen>
           Center(
             child: Text(
               context.l10n.justAMoment,
-              style: theme.textTheme.headline4,
+              style: theme.textTheme.headlineMedium,
               textAlign: TextAlign.center,
               overflow: TextOverflow.visible,
             ),

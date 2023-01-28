@@ -21,7 +21,7 @@ import 'package:software/app/common/app_page/publisher_name.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
-const iconSize = 140.0;
+const iconSize = 108.0;
 
 class BannerAppHeader extends StatelessWidget {
   const BannerAppHeader({
@@ -42,55 +42,59 @@ class BannerAppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scaledFontSize = (800 / appData.title.length.toDouble());
     final theme = Theme.of(context);
-    return Column(
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: iconSize,
-              width: iconSize,
-              child: icon,
-            ),
-            const SizedBox(width: kYaruPagePadding),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    appData.title,
-                    style: theme.textTheme.headline3!.copyWith(
-                      fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
-                      color: theme.colorScheme.onSurface,
-                    ),
-                  ),
-                  PublisherName(
-                    height: 18,
-                    publisherName: appData.publisherName ?? '',
-                    website: appData.website,
-                    verified: appData.verified,
-                    starDev: appData.starredDeveloper,
-                    limitChildWidth: false,
-                    enhanceChildText: true,
-                  ),
-                  const SizedBox(
-                    height: kYaruPagePadding,
-                  ),
-                  controls,
-                  if (subControls != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: kYaruPagePadding),
-                      child: subControls!,
-                    ),
-                ],
+    return SizedBox(
+      height: 170,
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: iconSize,
+                width: iconSize,
+                child: FittedBox(
+                  child: icon,
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
+              const SizedBox(width: kYaruPagePadding),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      appData.title,
+                      style: theme.textTheme.displaySmall!.copyWith(
+                        fontSize: 20,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                    PublisherName(
+                      height: 18,
+                      publisherName: appData.publisherName ?? '',
+                      website: appData.website,
+                      verified: appData.verified,
+                      starDev: appData.starredDeveloper,
+                      limitChildWidth: false,
+                      enhanceChildText: true,
+                    ),
+                    const SizedBox(
+                      height: kYaruPagePadding,
+                    ),
+                    controls,
+                    if (subControls != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: kYaruPagePadding),
+                        child: subControls!,
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -123,7 +127,9 @@ class PageAppHeader extends StatelessWidget {
             SizedBox(
               height: iconSize,
               width: iconSize,
-              child: icon,
+              child: FittedBox(
+                child: icon,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(kYaruPagePadding),
@@ -134,7 +140,7 @@ class PageAppHeader extends StatelessWidget {
                 children: [
                   Text(
                     appData.title,
-                    style: theme.textTheme.headline3!.copyWith(
+                    style: theme.textTheme.displaySmall!.copyWith(
                       fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
                       color: theme.colorScheme.onSurface,
                     ),

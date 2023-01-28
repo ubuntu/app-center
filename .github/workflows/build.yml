@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
       - run: sudo apt update
@@ -25,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: sudo snap install flutter --classic
+      - run: flutter doctor -v
+      - run: git -C $HOME/snap/flutter/common/flutter checkout 3.7.0
       - run: flutter build linux -v

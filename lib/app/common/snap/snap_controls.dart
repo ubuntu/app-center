@@ -25,10 +25,10 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapControls extends StatelessWidget {
   const SnapControls({
-    Key? key,
+    super.key,
     this.direction = Axis.horizontal,
     this.appstream,
-  }) : super(key: key);
+  });
 
   final Axis direction;
   final AppstreamComponent? appstream;
@@ -76,7 +76,7 @@ class SnapControls extends StatelessWidget {
                       ? model.refresh
                       : null,
                   child: Text(
-                    context.l10n.update,
+                    context.l10n.updateButton,
                   ),
                 )
               else
@@ -100,7 +100,7 @@ class SnapControls extends StatelessWidget {
       case 'remove-snap':
         return context.l10n.removing;
       case 'refresh-snap':
-        return context.l10n.updating;
+        return context.l10n.refreshing;
       case 'connect-snap':
         return context.l10n.changingPermissions;
       case 'disconnect-snap':

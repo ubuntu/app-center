@@ -27,8 +27,8 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapChannelPopupButton extends StatelessWidget {
   const SnapChannelPopupButton({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

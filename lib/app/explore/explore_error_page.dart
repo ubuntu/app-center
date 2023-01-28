@@ -4,7 +4,7 @@ import 'package:software/app/explore/explore_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExploreErrorPage extends StatelessWidget {
-  const ExploreErrorPage({Key? key}) : super(key: key);
+  const ExploreErrorPage({super.key});
 
   @override
   Widget build(BuildContext context) {

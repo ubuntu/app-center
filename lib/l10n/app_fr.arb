@@ -323,5 +323,9 @@
   "processing": "En cours de traitement",
   "@processing": {},
   "permissions": "Permissions",
-  "@permissions": {}
+  "@permissions": {},
+  "links": "Liens",
+  "@links": {},
+  "additionalInformation": "Informations complémentaires",
+  "@additionalInformation": {}
 }

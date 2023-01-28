@@ -27,6 +27,7 @@ class AppReviews extends StatefulWidget {
     this.reviewRating,
     this.onVote,
     this.onFlag,
+    required this.initialized,
   });
 
   final double? averageRating;
@@ -44,6 +45,7 @@ class AppReviews extends StatefulWidget {
   final Function(AppReview)? onFlag;
 
   final bool appIsInstalled;
+  final bool initialized;
 
   @override
   State<AppReviews> createState() => _AppReviewsState();
@@ -67,11 +69,12 @@ class _AppReviewsState extends State<AppReviews> {
   @override
   Widget build(BuildContext context) {
     return BorderContainer(
+      initialized: widget.initialized,
       child: YaruExpandable(
         isExpanded: false,
         header: Text(
           context.l10n.reviewsAndRatings,
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
           overflow: TextOverflow.ellipsis,
         ),
         child: Column(
@@ -135,11 +138,10 @@ class _AppReviewsState extends State<AppReviews> {
 
 class _ReviewDetailsDialog extends StatelessWidget {
   const _ReviewDetailsDialog({
-    Key? key,
     required this.userReviews,
     this.onVote,
     this.onFlag,
-  }) : super(key: key);
+  });
 
   final List<AppReview>? userReviews;
   final Function(AppReview, bool)? onVote;
@@ -503,11 +505,10 @@ class _ReviewsCarousel extends StatelessWidget {
 
 class _RatingHeader extends StatelessWidget {
   const _RatingHeader({
-    Key? key,
     required this.userReview,
     this.onVote,
     this.onFlag,
-  }) : super(key: key);
+  });
 
   final AppReview userReview;
   final Function(AppReview, bool)? onVote;

@@ -21,11 +21,11 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 class MediaTile extends StatelessWidget {
   const MediaTile({
-    Key? key,
+    super.key,
     required this.url,
     this.fit = BoxFit.contain,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String url;
   final BoxFit fit;

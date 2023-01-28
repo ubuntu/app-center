@@ -30,19 +30,21 @@ class AppFormatToggleButtons extends StatelessWidget {
 
 class SnapLabel extends StatelessWidget {
   const SnapLabel({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(
           width: 10,
         ),
-        const Icon(
+        Icon(
           YaruIcons.snapcraft,
+          color: theme.colorScheme.onSurface,
           size: 16,
         ),
         const SizedBox(
@@ -59,19 +61,21 @@ class SnapLabel extends StatelessWidget {
 
 class DebianLabel extends StatelessWidget {
   const DebianLabel({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(
           width: 10,
         ),
-        const Icon(
+        Icon(
           YaruIcons.debian,
+          color: theme.colorScheme.onSurface,
           size: 16,
         ),
         const SizedBox(

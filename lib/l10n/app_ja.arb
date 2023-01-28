@@ -49,7 +49,7 @@
   "@social": {},
   "utilities": "ユーティリティー",
   "@utilities": {},
-  "all": "すべてのスナップ・カテゴリー",
+  "all": "すべてのSnapカテゴリー",
   "@all": {},
   "installDate": "インストール日",
   "@installDate": {},
@@ -149,7 +149,7 @@
   "@theme": {},
   "system": "システム",
   "@system": {},
-  "snapPackage": "スナップ",
+  "snapPackage": "Snap",
   "@snapPackage": {},
   "artAndDesignSlogan": "アーティスト向けツール",
   "@artAndDesignSlogan": {},
@@ -239,7 +239,7 @@
   "@allSelected": {},
   "unknown": "不明",
   "@unknown": {},
-  "debianPackage": "デビアン",
+  "debianPackage": "Debian",
   "@debianPackage": {},
   "send": "送信",
   "@send": {},
@@ -309,5 +309,23 @@
         "type": "String"
       }
     }
-  }
+  },
+  "socialSlogan": "一緒にソーシャルしましょう。",
+  "@socialSlogan": {},
+  "noPackageFound": "検索クエリーに該当するパッケージがありません",
+  "@noPackageFound": {},
+  "noSnapFound": "検索クエリーに該当するSnapがありません",
+  "@noSnapFound": {},
+  "multiAppFormatsFound": "このアプリには、複数のパッケージ形式があります。",
+  "@multiAppFormatsFound": {},
+  "runsInBackground": "Ubuntu Softwareは、システムのアップデートを確認するためにバックグラウンドで実行され続けています。",
+  "@runsInBackground": {},
+  "quitDanger": "システムアップデートが実行中です。今、アプリを終了すると、システムが破損される可能性があります。",
+  "@quitDanger": {},
+  "sourcesDescription": "システムおよびサードパーテのDebianパッケージがアップデートされるソースを設定します。",
+  "@sourcesDescription": {},
+  "links": "リンク",
+  "@links": {},
+  "additionalInformation": "追加情報",
+  "@additionalInformation": {}
 }
