@@ -74,8 +74,11 @@ class _UpdateDialogState extends State<UpdateDialog> {
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
     const headerStyle = TextStyle(fontWeight: FontWeight.bold);
-    final detailStyle = Theme.of(context).textTheme.bodyMedium;
-    const detailPadding = EdgeInsets.only(top: 8, bottom: 8, right: 8);
+    final detailStyle = Theme.of(context)
+        .textTheme
+        .bodyMedium
+        ?.copyWith(fontWeight: FontWeight.w500);
+    const detailPadding = EdgeInsets.only(top: 8, bottom: 8);
     if (model.packageState != PackageState.ready || model.changelog.isEmpty) {
       return const AlertDialog(
         content: Padding(
@@ -86,6 +89,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
     }
     final children = [
       YaruExpandable(
+        expandButtonPosition: YaruExpandableButtonPosition.start,
         isExpanded: true,
         header: Text(
           context.l10n.changelog,
@@ -107,6 +111,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
         ),
       ),
       YaruExpandable(
+        expandButtonPosition: YaruExpandableButtonPosition.start,
         header: Text(
           context.l10n.packageDetails,
           style: headerStyle,
@@ -121,10 +126,18 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 YaruTile(
                   padding: detailPadding,
                   title: Text(
+                    context.l10n.issued,
+                    style: detailStyle,
+                  ),
+                  trailing: SelectableText(model.issued),
+                ),
+                YaruTile(
+                  padding: detailPadding,
+                  title: SelectableText(
                     context.l10n.version,
                     style: detailStyle,
                   ),
-                  trailing: Text(widget.id.version),
+                  trailing: SelectableText(widget.id.version),
                 ),
                 YaruTile(
                   padding: detailPadding,
@@ -132,7 +145,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                     context.l10n.size,
                     style: detailStyle,
                   ),
-                  trailing: Text(formatBytes(model.size, 2)),
+                  trailing: SelectableText(formatBytes(model.size, 2)),
                 ),
                 YaruTile(
                   padding: detailPadding,
@@ -140,7 +153,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                     context.l10n.architecture,
                     style: detailStyle,
                   ),
-                  trailing: Text(widget.id.arch),
+                  trailing: SelectableText(widget.id.arch),
                 ),
                 YaruTile(
                   padding: detailPadding,
@@ -148,7 +161,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                     context.l10n.source,
                     style: detailStyle,
                   ),
-                  trailing: Text(widget.id.data),
+                  trailing: SelectableText(widget.id.data),
                 ),
                 YaruTile(
                   padding: detailPadding,
@@ -156,7 +169,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                     context.l10n.license,
                     style: detailStyle,
                   ),
-                  trailing: Text(model.license),
+                  trailing: SelectableText(model.license),
                 ),
                 YaruTile(
                   padding: detailPadding,
@@ -176,20 +189,13 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   ),
                   enabled: true,
                 ),
-                YaruTile(
-                  padding: detailPadding,
-                  title: Text(
-                    context.l10n.issued,
-                    style: detailStyle,
-                  ),
-                  trailing: Text(model.issued),
-                ),
               ],
             ),
           ),
         ),
       ),
       YaruExpandable(
+        expandButtonPosition: YaruExpandableButtonPosition.start,
         header: Text(
           context.l10n.description,
           style: headerStyle,
