@@ -201,9 +201,10 @@ class SearchBannerSubtitle extends StatelessWidget {
     }
 
     if (appFinding.appstream != null && showPackageKit && !showSnap) {
-      publisherName = appFinding.appstream!.developerName['C'] ??
-          appFinding.appstream!.developerName['en'] ??
-          appFinding.appstream!.developerName['en_GB'] ??
+      publisherName = appFinding.appstream!.developerName[WidgetsBinding
+              .instance.window.locale.countryCode
+              ?.toLowerCase()] ??
+          appFinding.appstream!.developerName['C'] ??
           appFinding.appstream!.localizedName();
     }
 

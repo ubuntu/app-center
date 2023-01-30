@@ -21,6 +21,7 @@ import 'dart:io';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/app/common/app_model.dart';
@@ -65,10 +66,11 @@ class PackageModel extends AppModel {
   String? get title => appstream?.localizedName() ?? packageId?.name;
 
   String? get developerName {
-    return appstream?.developerName['C'] ??
-        appstream?.developerName['en'] ??
-        appstream?.developerName['en_GB'] ??
-        appstream?.localizedName();
+    final devName = appstream?.developerName[
+            WidgetsBinding.instance.window.locale.countryCode?.toLowerCase()] ??
+        appstream?.developerName['C'];
+
+    return devName ?? appstream?.localizedName();
   }
 
   String? get releasedAt {
