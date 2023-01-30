@@ -25,18 +25,18 @@ class AppData {
   final String confinementName;
   final String version;
   final String license;
-  final String? installDate;
-  final String? installDateIsoNorm;
+  final String installDate;
+  final String installDateIsoNorm;
   final bool verified;
   final bool starredDeveloper;
-  final String? publisherName;
+  final String publisherName;
   final String website;
-  final String? contact;
+  final String contact;
   final List<String> screenShotUrls;
   final String description;
-  final bool? versionChanged;
-  final double? averageRating;
-  final List<AppReview>? userReviews;
+  final bool versionChanged;
+  final double averageRating;
+  final List<AppReview> userReviews;
   final AppFormat appFormat;
   final String appSize;
   final String releasedAt;
@@ -49,21 +49,21 @@ class AppData {
     required this.confinementName,
     required this.version,
     required this.license,
-    this.installDate,
-    this.installDateIsoNorm,
+    required this.installDate,
+    required this.installDateIsoNorm,
     required this.verified,
     required this.starredDeveloper,
-    this.publisherName,
+    required this.publisherName,
     required this.website,
     required this.screenShotUrls,
     required this.description,
-    this.versionChanged,
-    this.averageRating,
-    this.userReviews,
+    required this.versionChanged,
+    required this.averageRating,
+    required this.userReviews,
     required this.appFormat,
     required this.appSize,
     required this.releasedAt,
-    this.contact,
+    required this.contact,
   });
 }
 

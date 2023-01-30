@@ -20,7 +20,6 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
-import 'package:software/app/common/utils.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/package_state.dart';
@@ -145,7 +144,9 @@ class _UpdateDialogState extends State<UpdateDialog> {
                     context.l10n.size,
                     style: detailStyle,
                   ),
-                  trailing: SelectableText(formatBytes(model.size, 2)),
+                  trailing: SelectableText(
+                    model.getFormattedSize() ?? context.l10n.unknown,
+                  ),
                 ),
                 YaruTile(
                   padding: detailPadding,
@@ -169,7 +170,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
                     context.l10n.license,
                     style: detailStyle,
                   ),
-                  trailing: SelectableText(model.license),
+                  trailing:
+                      SelectableText(model.license ?? context.l10n.unknown),
                 ),
                 YaruTile(
                   padding: detailPadding,
@@ -180,7 +182,9 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   trailing: IconButton(
                     splashRadius: 20,
                     tooltip: model.url,
-                    onPressed: () => launchUrl(Uri.parse(model.url)),
+                    onPressed: model.url == null
+                        ? null
+                        : () => launchUrl(Uri.parse(model.url!)),
                     icon: Icon(
                       YaruIcons.external_link,
                       color: Theme.of(context).colorScheme.onSurface,

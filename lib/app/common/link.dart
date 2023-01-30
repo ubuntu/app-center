@@ -16,6 +16,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Link extends StatelessWidget {
@@ -34,7 +35,9 @@ class Link extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(5),
-      onTap: () async => await launchUrl(Uri.parse(url)),
+      onTap: url == context.l10n.unknown
+          ? null
+          : () async => await launchUrl(Uri.parse(url)),
       child: Text(
         linkText,
         style: textStyle ??
