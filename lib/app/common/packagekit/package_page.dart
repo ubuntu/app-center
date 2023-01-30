@@ -294,29 +294,30 @@ class _ShowDepsDialogState extends State<_ShowDepsDialog> {
             ),
           ),
           YaruExpandable(
+            expandButtonPosition: YaruExpandableButtonPosition.start,
             onChange: (isExpanded) => setState(() => _isExpanded = isExpanded),
             header: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: Text(
-                _isExpanded
-                    ? context.l10n.dependencies
-                    : context.l10n.dependenciesFullList,
+                context.l10n.dependencies,
                 style: TextStyle(
                   color: _isExpanded ? null : theme.primaryColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ),
-            child: Column(
-              children: [
-                for (var d in widget.dependencies)
-                  ListTile(
-                    title: Text(d),
-                    leading: const Icon(
-                      YaruIcons.package_deb,
-                    ),
-                  )
-              ],
+            child: BorderContainer(
+              child: Column(
+                children: [
+                  for (var d in widget.dependencies)
+                    ListTile(
+                      title: Text(d),
+                      leading: const Icon(
+                        YaruIcons.package_deb,
+                      ),
+                    )
+                ],
+              ),
             ),
           ),
         ],
