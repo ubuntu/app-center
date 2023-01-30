@@ -103,18 +103,25 @@ class _SearchFieldState extends State<SearchField> {
                 prefixIconConstraints:
                     const BoxConstraints(minWidth: 40, minHeight: 0),
                 suffixIcon: widget.searchQuery.isNotEmpty
-                    ? IconButton(
-                        onPressed: _clear,
-                        icon: Center(
-                          child: Icon(
-                            YaruIcons.edit_clear,
-                            color: Theme.of(context).hintColor,
+                    ? SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: _clear,
+                            child: Center(
+                              child: Icon(
+                                YaruIcons.edit_clear,
+                                color: Theme.of(context).hintColor,
+                              ),
+                            ),
                           ),
                         ),
                       )
                     : null,
                 suffixIconConstraints:
-                    const BoxConstraints(maxWidth: 35, maxHeight: 35),
+                    const BoxConstraints(maxWidth: 30, minHeight: 0),
                 isDense: true,
                 contentPadding: const EdgeInsets.all(8),
                 fillColor:
