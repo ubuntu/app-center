@@ -39,6 +39,8 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import 'explore/explore_model.dart';
+
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -54,6 +56,13 @@ class App extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (_) => ConnectivityNotifier(getService<Connectivity>()),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => ExploreModel(
+              getService<AppstreamService>(),
+              getService<SnapService>(),
+              getService<PackageService>(),
+            )..init(),
           ),
         ],
         child: const App(),

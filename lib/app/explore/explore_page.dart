@@ -28,10 +28,6 @@ import 'package:software/app/explore/offline_page.dart';
 import 'package:software/app/explore/search_page.dart';
 import 'package:software/app/explore/start_page.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/appstream/appstream_service.dart';
-import 'package:software/services/packagekit/package_service.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -42,15 +38,7 @@ class ExplorePage extends StatefulWidget {
     BuildContext context, [
     String? errorMessage,
   ]) {
-    return ChangeNotifierProvider(
-      create: (_) => ExploreModel(
-        getService<AppstreamService>(),
-        getService<SnapService>(),
-        getService<PackageService>(),
-        errorMessage,
-      )..init(),
-      child: const ExplorePage(),
-    );
+    return const ExplorePage();
   }
 
   static Widget createTitle(BuildContext context) =>
