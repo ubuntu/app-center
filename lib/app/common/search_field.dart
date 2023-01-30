@@ -19,7 +19,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class SearchField extends StatefulWidget {
@@ -28,11 +27,13 @@ class SearchField extends StatefulWidget {
     required this.searchQuery,
     required this.onChanged,
     this.autofocus = true,
+    this.hintText,
   });
 
   final String searchQuery;
   final Function(String value) onChanged;
   final bool autofocus;
+  final String? hintText;
 
   @override
   State<SearchField> createState() => _SearchFieldState();
@@ -94,7 +95,7 @@ class _SearchFieldState extends State<SearchField> {
               textInputAction: TextInputAction.send,
               decoration: InputDecoration(
                 filled: true,
-                hintText: context.l10n.searchHint,
+                hintText: widget.hintText,
                 prefixIcon: const Icon(
                   YaruIcons.search,
                   size: 15,

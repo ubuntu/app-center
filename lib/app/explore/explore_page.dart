@@ -102,6 +102,7 @@ class _ExplorePageState extends State<ExplorePage> {
           key: ValueKey(showSearchPage),
           searchQuery: searchQuery,
           onChanged: setSearchQuery,
+          hintText: context.l10n.searchHintAppStore,
         ),
       ),
       body: !connectivity.isOnline
