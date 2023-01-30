@@ -39,7 +39,7 @@ class AdditionalInformation extends StatelessWidget {
             ),
             children: [
               PublisherInfoFragment(
-                publisherName: appData.publisherName ?? context.l10n.unknown,
+                publisherName: appData.publisherName,
                 website: appData.website,
                 verified: appData.verified,
                 starDev: appData.starredDeveloper,
@@ -61,9 +61,8 @@ class AdditionalInformation extends StatelessWidget {
               //   child: Text(context.l10n.unknown),
               // ),
               InstallDateInfoFragment(
-                installDateIsoNorm:
-                    appData.installDateIsoNorm ?? context.l10n.notInstalled,
-                installDate: appData.installDate ?? context.l10n.notInstalled,
+                installDateIsoNorm: appData.installDateIsoNorm,
+                installDate: appData.installDate,
               ),
               LinksInfoFragment(appData: appData),
             ],
