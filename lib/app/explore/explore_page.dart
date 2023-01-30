@@ -83,11 +83,12 @@ class _ExplorePageState extends State<ExplorePage> {
     final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
     final searchQuery = context.select((ExploreModel m) => m.searchQuery);
     final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
-
+    final isCurrent = ModalRoute.of(context)?.isCurrent ?? false;
     return Scaffold(
       appBar: YaruWindowTitleBar(
         title: SearchField(
-          key: ValueKey(showSearchPage),
+          autofocus: isCurrent,
+          key: ValueKey(showSearchPage != isCurrent),
           searchQuery: searchQuery,
           onChanged: setSearchQuery,
           hintText: context.l10n.searchHintAppStore,

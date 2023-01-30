@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:software/app/common/app_data.dart';
 import 'package:software/app/common/app_page/app_description.dart';
 import 'package:software/app/common/app_page/app_header.dart';
@@ -29,6 +30,8 @@ import 'package:software/app/common/app_page/page_layouts.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/custom_back_button.dart';
 import 'package:software/app/common/safe_network_image.dart';
+import 'package:software/app/common/search_field.dart';
+import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -257,10 +260,16 @@ class _AppPageState extends State<AppPage> {
             ? normalWindowLayout
             : narrowWindowLayout;
 
+    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
+    final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
+
     return Scaffold(
       appBar: YaruWindowTitleBar(
-        title: Text(widget.appData.title),
-        titleSpacing: 0,
+        title: SearchField(
+          searchQuery: searchQuery,
+          onChanged: setSearchQuery,
+          onSubmitted: Navigator.of(context).pop,
+        ),
         leading: const CustomBackButton(),
       ),
       body: BackGesture(
