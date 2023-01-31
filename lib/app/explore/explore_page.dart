@@ -24,6 +24,7 @@ import 'package:software/app/common/connectivity_notifier.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/explore/explore_error_page.dart';
+import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/offline_page.dart';
 import 'package:software/app/explore/search_page.dart';
@@ -99,6 +100,16 @@ class _ExplorePageState extends State<ExplorePage> {
     final sectionSnapsAll = context.select((ExploreModel m) {
       return m.sectionNameToSnapsMap[SnapSection.all];
     });
+    final selectedAppFormats =
+        context.select((ExploreModel m) => m.selectedAppFormats);
+    final enabledAppFormats =
+        context.select((ExploreModel m) => m.enabledAppFormats);
+    final selectedSection =
+        context.select((ExploreModel m) => m.selectedSection);
+    final setSelectedSection =
+        context.select((ExploreModel m) => m.setSelectedSection);
+    final handleAppFormat =
+        context.select((ExploreModel m) => m.handleAppFormat);
 
     return Scaffold(
       appBar: YaruWindowTitleBar(
@@ -114,7 +125,15 @@ class _ExplorePageState extends State<ExplorePage> {
           : showErrorPage
               ? const ExploreErrorPage()
               : (showSearchPage
-                  ? const SearchPage()
+                  ? SearchPage(
+                      header: ExploreHeader(
+                        selectedSection: selectedSection,
+                        enabledAppFormats: enabledAppFormats,
+                        selectedAppFormats: selectedAppFormats,
+                        handleAppFormat: handleAppFormat,
+                        setSelectedSection: setSelectedSection,
+                      ),
+                    )
                   : StartPage(
                       snaps: sectionSnapsAll,
                       snapSection: SnapSection.all,

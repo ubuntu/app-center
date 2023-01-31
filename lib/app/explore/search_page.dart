@@ -22,14 +22,16 @@ import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
-import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({
     super.key,
+    required this.header,
   });
+
+  final Widget header;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class SearchPage extends StatelessWidget {
     final showPackageKit = context.select(
       (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
     );
+
     context.select((ExploreModel m) => m.selectedSection);
     context.select((ExploreModel m) => m.searchQuery);
 
@@ -56,11 +59,11 @@ class SearchPage extends StatelessWidget {
           );
         }
 
-        return snapshot.hasData && snapshot.data!.isNotEmpty
-            ? Column(
-                children: [
-                  const ExploreHeader(),
-                  Expanded(
+        return Column(
+          children: [
+            header,
+            snapshot.hasData && snapshot.data!.isNotEmpty
+                ? Expanded(
                     child: GridView.builder(
                       padding: const EdgeInsets.only(
                         bottom: 15,
@@ -80,10 +83,10 @@ class SearchPage extends StatelessWidget {
                         );
                       },
                     ),
-                  ),
-                ],
-              )
-            : _NoSearchResultPage(message: context.l10n.noPackageFound);
+                  )
+                : _NoSearchResultPage(message: context.l10n.noPackageFound),
+          ],
+        );
       },
     );
   }

@@ -69,12 +69,34 @@ class InstalledPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final searchQuery = context.select((InstalledModel m) => m.searchQuery);
     final appFormat = context.select((InstalledModel m) => m.appFormat);
+    final setAppFormat = context.select((InstalledModel m) => m.setAppFormat);
     final setSearchQuery =
         context.select((InstalledModel m) => m.setSearchQuery);
+    final enabledAppFormats =
+        context.select((InstalledModel m) => m.enabledAppFormats);
+    final loadSnapsWithUpdates =
+        context.select((InstalledModel m) => m.loadSnapsWithUpdates);
+    final setLoadSnapsWithUpdates =
+        context.select((InstalledModel m) => m.setLoadSnapsWithUpdates);
+    final handleFilter = context.select((InstalledModel m) => m.handleFilter);
+    final packageKitFilters =
+        context.select((InstalledModel m) => m.packageKitFilters);
+    final snapSort = context.select((InstalledModel m) => m.snapSort);
+    final setSnapSort = context.select((InstalledModel m) => m.setSnapSort);
 
     final page = Column(
       children: [
-        const InstalledHeader(),
+        InstalledHeader(
+          appFormat: appFormat,
+          enabledAppFormats: enabledAppFormats,
+          handleFilter: handleFilter,
+          loadSnapsWithUpdates: loadSnapsWithUpdates,
+          packageKitFilters: packageKitFilters,
+          setAppFormat: setAppFormat,
+          setLoadSnapsWithUpdates: setLoadSnapsWithUpdates,
+          setSnapSort: setSnapSort,
+          snapSort: snapSort,
+        ),
         if (appFormat == AppFormat.snap)
           const Expanded(child: InstalledSnapsPage())
         else if (appFormat == AppFormat.packageKit)
