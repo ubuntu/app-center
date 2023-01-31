@@ -25,9 +25,11 @@ import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/app_page/app_page.dart';
+import 'package:software/app/common/app_rating.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_controls.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
+import 'package:software/app/common/rating_model.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
@@ -126,6 +128,10 @@ class _PackagePageState extends State<PackagePage> {
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
     final theme = Theme.of(context);
+    final rating = model.appstream != null
+        ? context
+            .select((RatingModel m) => m.getRating(model.appstream!.ratingId))
+        : null;
 
     final appData = AppData(
       publisherName: model.developerName ?? context.l10n.unknown,
@@ -144,7 +150,7 @@ class _PackagePageState extends State<PackagePage> {
       screenShotUrls: model.screenshotUrls,
       description: model.description,
       userReviews: model.userReviews ?? [],
-      averageRating: model.averageRating ?? 0.0,
+      averageRating: rating?.average ?? 0.0,
       appFormat: AppFormat.packageKit,
       versionChanged: model.versionChanged ?? false,
       contact: context.l10n.unknown,

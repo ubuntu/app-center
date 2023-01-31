@@ -16,7 +16,6 @@
  */
 
 import 'dart:async';
-import 'dart:math';
 
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
@@ -206,11 +205,7 @@ class ExploreModel extends SafeChangeNotifier {
       for (final snap in snaps) {
         appFindings.putIfAbsent(
           snap.name,
-          () => AppFinding(
-            snap: snap,
-            rating: fakeRating(),
-            totalRatings: fakeTotalRatings(),
-          ),
+          () => AppFinding(snap: snap),
         );
       }
 
@@ -221,13 +216,7 @@ class ExploreModel extends SafeChangeNotifier {
         if (snap == null) {
           appFindings.putIfAbsent(
             component.localizedName(),
-            () {
-              return AppFinding(
-                appstream: component,
-                rating: fakeRating(),
-                totalRatings: fakeTotalRatings(),
-              );
-            },
+            () => AppFinding(appstream: component),
           );
         } else {
           appFindings.update(
@@ -235,8 +224,6 @@ class ExploreModel extends SafeChangeNotifier {
             (value) => AppFinding(
               snap: snap,
               appstream: component,
-              rating: fakeRating(),
-              totalRatings: fakeTotalRatings(),
             ),
           );
         }
@@ -247,11 +234,7 @@ class ExploreModel extends SafeChangeNotifier {
       for (final snap in snaps) {
         appFindings.putIfAbsent(
           snap.name,
-          () => AppFinding(
-            snap: snap,
-            rating: fakeRating(),
-            totalRatings: fakeTotalRatings(),
-          ),
+          () => AppFinding(snap: snap),
         );
       }
     } else if (!selectedAppFormats.contains(AppFormat.snap) &&
@@ -260,19 +243,11 @@ class ExploreModel extends SafeChangeNotifier {
       for (final component in components) {
         appFindings.putIfAbsent(
           component.localizedName(),
-          () => AppFinding(
-            appstream: component,
-            rating: fakeRating(),
-            totalRatings: fakeTotalRatings(),
-          ),
+          () => AppFinding(appstream: component),
         );
       }
     }
 
     return appFindings;
   }
-
-  int fakeTotalRatings() => Random().nextInt(3000);
-
-  double fakeRating() => 4.5;
 }
