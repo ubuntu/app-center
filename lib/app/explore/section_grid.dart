@@ -64,11 +64,7 @@ class SectionGrid extends StatelessWidget {
         return AppBanner(
           appFinding: MapEntry<String, AppFinding>(
             snap.name,
-            AppFinding(
-              snap: snap,
-              rating: 4.5,
-              totalRatings: 234,
-            ),
+            AppFinding(snap: snap),
           ),
           showSnap: true,
           showPackageKit: false,
