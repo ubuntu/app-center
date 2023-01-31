@@ -62,7 +62,7 @@ class ExploreModel extends SafeChangeNotifier {
     this._snapService,
     this._packageService, [
     this._errorMessage,
-  ]) : _searchQuery = '';
+  ]);
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
@@ -72,25 +72,23 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  bool get showStartPage => selectedSection == SnapSection.all;
-
   bool get showErrorPage => errorMessage != null && errorMessage!.isNotEmpty;
 
-  bool get showSearchPage => searchQuery.isNotEmpty;
+  bool get showSearchPage => searchQuery != null && searchQuery!.isNotEmpty;
 
-  String _searchQuery;
-  String get searchQuery => _searchQuery;
-  void setSearchQuery(String value) {
+  String? _searchQuery;
+  String? get searchQuery => _searchQuery;
+  void setSearchQuery(String? value) {
     errorMessage = '';
-    if (value == _searchQuery) return;
+    if (value == null || value == _searchQuery) return;
     _searchQuery = value;
     notifyListeners();
   }
 
-  SnapSection _selectedSection = SnapSection.all;
-  SnapSection get selectedSection => _selectedSection;
-  set selectedSection(SnapSection value) {
-    if (value == _selectedSection) return;
+  SnapSection? _selectedSection = SnapSection.all;
+  SnapSection? get selectedSection => _selectedSection;
+  set selectedSection(SnapSection? value) {
+    if (value == null || value == _selectedSection) return;
     _selectedSection = value;
     notifyListeners();
   }
@@ -112,33 +110,36 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Snap>> _findSnapsByQuery() async {
-    if (searchQuery.isEmpty) {
+  Future<List<Snap>> _findSnapsByQuery(String searchQuery) async {
+    try {
+      return await _snapService.findSnapsByQuery(
+        searchQuery: searchQuery,
+        sectionName:
+            selectedSection == null || selectedSection == SnapSection.all
+                ? null
+                : selectedSection!.title,
+      );
+    } on SnapdException catch (e) {
+      errorMessage = e.message.toString();
       return [];
-    } else {
-      try {
-        return await _snapService.findSnapsByQuery(
-          searchQuery: searchQuery,
-          sectionName:
-              selectedSection == SnapSection.all ? null : selectedSection.title,
-        );
-      } on SnapdException catch (e) {
-        errorMessage = e.message.toString();
-        return [];
-      }
     }
   }
 
-  Future<List<AppstreamComponent>> _findAppstreamComponents() async =>
+  Future<List<AppstreamComponent>> _findAppstreamComponents(
+    String searchQuery,
+  ) async =>
       _appstreamService.search(searchQuery);
 
   // TODO: get real rating from backend
   Future<Map<String, AppFinding>> search() async {
     final Map<String, AppFinding> appFindings = {};
+    if (searchQuery == null || searchQuery == '') {
+      return appFindings;
+    }
 
     if (selectedAppFormats
         .containsAll([AppFormat.snap, AppFormat.packageKit])) {
-      final snaps = await _findSnapsByQuery();
+      final snaps = await _findSnapsByQuery(searchQuery!);
       for (final snap in snaps) {
         appFindings.putIfAbsent(
           snap.name,
@@ -146,7 +147,7 @@ class ExploreModel extends SafeChangeNotifier {
         );
       }
 
-      final components = await _findAppstreamComponents();
+      final components = await _findAppstreamComponents(searchQuery!);
       for (final component in components) {
         final snap =
             snaps.firstWhereOrNull((snap) => snap.name == component.package);
@@ -167,7 +168,7 @@ class ExploreModel extends SafeChangeNotifier {
       }
     } else if (selectedAppFormats.contains(AppFormat.snap) &&
         !(selectedAppFormats.contains(AppFormat.packageKit))) {
-      final snaps = await _findSnapsByQuery();
+      final snaps = await _findSnapsByQuery(searchQuery!);
       for (final snap in snaps) {
         appFindings.putIfAbsent(
           snap.name,
@@ -176,7 +177,7 @@ class ExploreModel extends SafeChangeNotifier {
       }
     } else if (!selectedAppFormats.contains(AppFormat.snap) &&
         (selectedAppFormats.contains(AppFormat.packageKit))) {
-      final components = await _findAppstreamComponents();
+      final components = await _findAppstreamComponents(searchQuery!);
       for (final component in components) {
         appFindings.putIfAbsent(
           component.localizedName(),

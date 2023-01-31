@@ -24,11 +24,11 @@ class SnapSectionPopup extends StatelessWidget {
   const SnapSectionPopup({
     // ignore: unused_element
     super.key,
-    required this.value,
+    this.value,
     required this.onSelected,
   });
 
-  final SnapSection value;
+  final SnapSection? value;
   final Function(SnapSection) onSelected;
 
   @override
@@ -76,7 +76,7 @@ class SnapSectionPopup extends StatelessWidget {
             ),
           )
       ],
-      child: Text(value.localize(context.l10n)),
+      child: Text(value?.localize(context.l10n) ?? ''),
     );
   }
 }
