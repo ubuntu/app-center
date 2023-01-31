@@ -40,6 +40,17 @@ class SearchPage extends StatelessWidget {
     final showPackageKit = context.select(
       (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
     );
+    final selectedAppFormats =
+        context.select((ExploreModel m) => m.selectedAppFormats);
+    final enabledAppFormats =
+        context.select((ExploreModel m) => m.enabledAppFormats);
+    final selectedSection =
+        context.select((ExploreModel m) => m.selectedSection);
+    final setSelectedSection =
+        context.select((ExploreModel m) => m.setSelectedSection);
+    final handleAppFormat =
+        context.select((ExploreModel m) => m.handleAppFormat);
+
     context.select((ExploreModel m) => m.selectedSection);
     context.select((ExploreModel m) => m.searchQuery);
 
@@ -56,11 +67,17 @@ class SearchPage extends StatelessWidget {
           );
         }
 
-        return snapshot.hasData && snapshot.data!.isNotEmpty
-            ? Column(
-                children: [
-                  const ExploreHeader(),
-                  Expanded(
+        return Column(
+          children: [
+            ExploreHeader(
+              selectedSection: selectedSection,
+              enabledAppFormats: enabledAppFormats,
+              selectedAppFormats: selectedAppFormats,
+              handleAppFormat: handleAppFormat,
+              setSelectedSection: setSelectedSection,
+            ),
+            snapshot.hasData && snapshot.data!.isNotEmpty
+                ? Expanded(
                     child: GridView.builder(
                       padding: const EdgeInsets.only(
                         bottom: 15,
@@ -80,10 +97,10 @@ class SearchPage extends StatelessWidget {
                         );
                       },
                     ),
-                  ),
-                ],
-              )
-            : _NoSearchResultPage(message: context.l10n.noPackageFound);
+                  )
+                : _NoSearchResultPage(message: context.l10n.noPackageFound),
+          ],
+        );
       },
     );
   }
