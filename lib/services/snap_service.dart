@@ -22,6 +22,7 @@ import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/common/snap/snap_utils.dart';
+import 'package:software/snapd_change_x.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class SnapService {
@@ -36,8 +37,15 @@ class SnapService {
     if (!_snapChangesController.isClosed) {
       _snapChangesController.add(true);
     }
+    var progress = newChange.progress;
     while (true) {
       final newChange = await _snapDClient.getChange(id);
+      if (progress != newChange.progress) {
+        progress = newChange.progress;
+        if (!_snapChangesController.isClosed) {
+          _snapChangesController.add(true);
+        }
+      }
       if (newChange.ready) {
         removeChange(snap);
         _notificationsClient.notify(
