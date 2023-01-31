@@ -34,6 +34,7 @@ import 'package:software/app/settings/settings_page.dart';
 import 'package:software/app/updates/updates_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_service.dart';
+import 'package:software/services/odrs_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -57,7 +58,7 @@ class App extends StatelessWidget {
             create: (_) => ConnectivityNotifier(getService<Connectivity>()),
           ),
           ChangeNotifierProvider(
-            create: (_) => RatingModel(),
+            create: (_) => RatingModel(getService<OdrsService>()),
           ),
         ],
         child: const App(),
