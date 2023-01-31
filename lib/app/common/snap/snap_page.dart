@@ -29,6 +29,7 @@ import 'package:software/app/common/app_rating.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/rating_model.dart';
+import 'package:software/app/common/review_model.dart';
 import 'package:software/app/common/snap/snap_connections_button.dart';
 import 'package:software/app/common/snap/snap_connections_dialog.dart';
 import 'package:software/app/common/snap/snap_controls.dart';
@@ -50,12 +51,19 @@ class SnapPage extends StatefulWidget {
     PackageKitPackageId? packageId,
     AppstreamComponent? appstream,
   }) =>
-      ChangeNotifierProvider<SnapModel>(
-        create: (_) => SnapModel(
-          doneMessage: context.l10n.done,
-          getService<SnapService>(),
-          huskSnapName: snap.name,
-        ),
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<SnapModel>(
+            create: (_) => SnapModel(
+              doneMessage: context.l10n.done,
+              getService<SnapService>(),
+              huskSnapName: snap.name,
+            ),
+          ),
+          ChangeNotifierProvider<ReviewModel>(
+            create: (_) => ReviewModel(),
+          ),
+        ],
         child: SnapPage(
           appstream: appstream,
           snap: snap,
@@ -92,17 +100,24 @@ class SnapPage extends StatefulWidget {
 class _SnapPageState extends State<SnapPage> {
   bool initialized = false;
 
+  String get _ratingId => widget.snap.ratingId;
+  String get _ratingVersion => widget.snap.version;
+
   @override
   void initState() {
     super.initState();
-    context.read<SnapModel>().init().then((value) => initialized = true);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<SnapModel>().init().then((value) => initialized = true);
+      context.read<ReviewModel>().load(_ratingId, _ratingVersion);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
-    final rating =
-        context.select((RatingModel m) => m.getRating(widget.snap.ratingId));
+    final rating = context.select((RatingModel m) => m.getRating(_ratingId));
+    final userReviews = context.select((ReviewModel m) => m.userReviews);
 
     final appData = AppData(
       releasedAt: model.selectedChannelReleasedAt,
@@ -126,7 +141,7 @@ class _SnapPageState extends State<SnapPage> {
       versionChanged:
           model.selectableChannels[model.channelToBeInstalled]?.version !=
               model.version,
-      userReviews: model.userReviews ?? [],
+      userReviews: userReviews ?? [],
       averageRating: rating?.average ?? 0.0,
       appFormat: AppFormat.snap,
       contact: model.contact ?? context.l10n.unknown,
@@ -175,6 +190,7 @@ class _SnapPageState extends State<SnapPage> {
       ],
     );
 
+    final review = context.read<ReviewModel>();
     return AppPage(
       initialized: initialized,
       appData: appData,
@@ -185,17 +201,17 @@ class _SnapPageState extends State<SnapPage> {
         iconUrl: model.iconUrl,
         size: 150,
       ),
-      onReviewSend: model.sendReview,
-      onRatingUpdate: (v) => model.reviewRating = v,
-      onReviewTitleChanged: (v) => model.reviewTitle = v,
-      onReviewUserChanged: (v) => model.reviewUser = v,
-      onReviewChanged: (v) => model.review = v,
-      reviewRating: model.reviewRating,
-      review: model.review,
-      reviewTitle: model.reviewTitle,
-      reviewUser: model.reviewUser,
-      onVote: model.voteReview,
-      onFlag: model.flagReview,
+      onReviewSend: () => review.submit(_ratingId, _ratingVersion),
+      onRatingUpdate: (v) => review.rating = v,
+      onReviewTitleChanged: (v) => review.title = v,
+      onReviewUserChanged: (v) => review.user = v,
+      onReviewChanged: (v) => review.review = v,
+      reviewRating: review.rating,
+      review: review.review,
+      reviewTitle: review.title,
+      reviewUser: review.user,
+      onVote: review.vote,
+      onFlag: review.flag,
     );
   }
 }
