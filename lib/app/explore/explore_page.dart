@@ -147,8 +147,14 @@ class _ExplorePageState extends State<ExplorePage> {
                         selectedSection: selectedSection,
                         enabledAppFormats: enabledAppFormats,
                         selectedAppFormats: selectedAppFormats,
-                        handleAppFormat: handleAppFormat,
-                        setSelectedSection: setSelectedSection,
+                        handleAppFormat: (appFormat) {
+                          handleAppFormat(appFormat);
+                          search();
+                        },
+                        setSelectedSection: (value) {
+                          setSelectedSection(value);
+                          search();
+                        },
                       ),
                     )
                   : StartPage(

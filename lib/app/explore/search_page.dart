@@ -16,12 +16,10 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:software/app/common/app_banner.dart';
 import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
-import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
 
 class SearchPage extends StatelessWidget {
@@ -40,9 +38,6 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.select((ExploreModel m) => m.selectedSection);
-    context.select((ExploreModel m) => m.searchQuery);
-
     if (searchResult == null) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
