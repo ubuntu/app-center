@@ -1,28 +1,28 @@
-import 'dart:math';
-
+import 'package:async/async.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:software/app/common/app_rating.dart';
+import 'package:software/services/odrs_service.dart';
+
+const _kCachePeriod = Duration(minutes: 10);
 
 class RatingModel extends SafeChangeNotifier {
-  RatingModel();
+  RatingModel(this._odrs);
 
-  final Map<String, AppRating?> _ratings = {};
+  final OdrsService _odrs;
+  var _ratings = <String, AppRating>{};
+  final _cache = AsyncCache(_kCachePeriod);
 
   AppRating? getRating(String appId) {
-    if (!_ratings.containsKey(appId)) {
-      _ratings[appId] = null;
-      Future.delayed(fakeDelay()).then((value) {
-        _ratings[appId] = AppRating(
-          average: fakeRating(),
-          total: fakeTotalRatings(),
-        );
+    _cache.fetch(() async {
+      await for (final ratings in _odrs.getRatings()) {
+        _ratings = ratings.map((k, v) => MapEntry(k, v.toAppRating()));
         notifyListeners();
-      });
-    }
+      }
+    });
     return _ratings[appId];
   }
+}
 
-  double fakeRating() => 4.5;
-  int fakeTotalRatings() => Random().nextInt(3000);
-  Duration fakeDelay() => Duration(milliseconds: Random().nextInt(100));
+extension on OdrsRating {
+  AppRating toAppRating() => AppRating(average: average, total: total);
 }
