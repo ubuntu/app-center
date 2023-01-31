@@ -323,5 +323,13 @@
   "processing": "Procesando",
   "@processing": {},
   "permissions": "Permisos",
-  "@permissions": {}
+  "@permissions": {},
+  "searchHintAppStore": "Buscar las aplicaciones",
+  "@searchHintAppStore": {},
+  "searchHintInstalled": "Buscar las aplicaciones instaladas",
+  "@searchHintInstalled": {},
+  "additionalInformation": "Información adicional",
+  "@additionalInformation": {},
+  "links": "Enlaces",
+  "@links": {}
 }
