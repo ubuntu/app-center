@@ -73,7 +73,9 @@ class SearchPage extends StatelessWidget {
             ),
           )
         else
-          _NoSearchResultPage(message: context.l10n.noPackageFound),
+          Expanded(
+            child: _NoSearchResultPage(message: context.l10n.noPackageFound),
+          ),
       ],
     );
   }
