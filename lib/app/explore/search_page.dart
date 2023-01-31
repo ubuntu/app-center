@@ -22,14 +22,16 @@ import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
-import 'package:software/app/explore/explore_header.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({
     super.key,
+    required this.header,
   });
+
+  final Widget header;
 
   @override
   Widget build(BuildContext context) {
@@ -40,16 +42,6 @@ class SearchPage extends StatelessWidget {
     final showPackageKit = context.select(
       (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
     );
-    final selectedAppFormats =
-        context.select((ExploreModel m) => m.selectedAppFormats);
-    final enabledAppFormats =
-        context.select((ExploreModel m) => m.enabledAppFormats);
-    final selectedSection =
-        context.select((ExploreModel m) => m.selectedSection);
-    final setSelectedSection =
-        context.select((ExploreModel m) => m.setSelectedSection);
-    final handleAppFormat =
-        context.select((ExploreModel m) => m.handleAppFormat);
 
     context.select((ExploreModel m) => m.selectedSection);
     context.select((ExploreModel m) => m.searchQuery);
@@ -69,13 +61,7 @@ class SearchPage extends StatelessWidget {
 
         return Column(
           children: [
-            ExploreHeader(
-              selectedSection: selectedSection,
-              enabledAppFormats: enabledAppFormats,
-              selectedAppFormats: selectedAppFormats,
-              handleAppFormat: handleAppFormat,
-              setSelectedSection: setSelectedSection,
-            ),
+            header,
             snapshot.hasData && snapshot.data!.isNotEmpty
                 ? Expanded(
                     child: GridView.builder(
