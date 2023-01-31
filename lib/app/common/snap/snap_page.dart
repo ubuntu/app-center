@@ -25,8 +25,10 @@ import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/app_page/app_page.dart';
+import 'package:software/app/common/app_rating.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
+import 'package:software/app/common/rating_model.dart';
 import 'package:software/app/common/snap/snap_connections_button.dart';
 import 'package:software/app/common/snap/snap_connections_dialog.dart';
 import 'package:software/app/common/snap/snap_controls.dart';
@@ -99,6 +101,8 @@ class _SnapPageState extends State<SnapPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
+    final rating =
+        context.select((RatingModel m) => m.getRating(widget.snap.ratingId));
 
     final appData = AppData(
       releasedAt: model.selectedChannelReleasedAt,
@@ -123,7 +127,7 @@ class _SnapPageState extends State<SnapPage> {
           model.selectableChannels[model.channelToBeInstalled]?.version !=
               model.version,
       userReviews: model.userReviews ?? [],
-      averageRating: model.averageRating ?? 0.0,
+      averageRating: rating?.average ?? 0.0,
       appFormat: AppFormat.snap,
       contact: model.contact ?? context.l10n.unknown,
     );
