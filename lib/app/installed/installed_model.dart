@@ -142,7 +142,7 @@ class InstalledModel extends SafeChangeNotifier {
 
   bool _loadSnapsWithUpdates = false;
   bool get loadSnapsWithUpdates => _loadSnapsWithUpdates;
-  set loadSnapsWithUpdates(bool value) {
+  void setLoadSnapsWithUpdates(bool value) {
     if (value == _loadSnapsWithUpdates) return;
     _loadSnapsWithUpdates = value;
     notifyListeners();
