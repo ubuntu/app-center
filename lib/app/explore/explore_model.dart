@@ -130,68 +130,62 @@ class ExploreModel extends SafeChangeNotifier {
   ) async =>
       _appstreamService.search(searchQuery);
 
-  Map<String, AppFinding>? _searchResult;
-  Map<String, AppFinding>? get searchResult => _searchResult;
-  set searchResult(Map<String, AppFinding>? value) {
-    _searchResult = value;
-    notifyListeners();
-  }
-
-  Future<void> search() async {
-    searchResult = null;
-
+  // TODO: get real rating from backend
+  Future<Map<String, AppFinding>> search() async {
     final Map<String, AppFinding> appFindings = {};
-    if (searchQuery != null && searchQuery != '') {
-      if (selectedAppFormats
-          .containsAll([AppFormat.snap, AppFormat.packageKit])) {
-        final snaps = await _findSnapsByQuery(searchQuery!);
-        for (final snap in snaps) {
-          appFindings.putIfAbsent(
-            snap.name,
-            () => AppFinding(snap: snap),
-          );
-        }
+    if (searchQuery == null || searchQuery == '') {
+      return appFindings;
+    }
 
-        final components = await _findAppstreamComponents(searchQuery!);
-        for (final component in components) {
-          final snap =
-              snaps.firstWhereOrNull((snap) => snap.name == component.package);
-          if (snap == null) {
-            appFindings.putIfAbsent(
-              component.localizedName(),
-              () => AppFinding(appstream: component),
-            );
-          } else {
-            appFindings.update(
-              snap.name,
-              (value) => AppFinding(
-                snap: snap,
-                appstream: component,
-              ),
-            );
-          }
-        }
-      } else if (selectedAppFormats.contains(AppFormat.snap) &&
-          !(selectedAppFormats.contains(AppFormat.packageKit))) {
-        final snaps = await _findSnapsByQuery(searchQuery!);
-        for (final snap in snaps) {
-          appFindings.putIfAbsent(
-            snap.name,
-            () => AppFinding(snap: snap),
-          );
-        }
-      } else if (!selectedAppFormats.contains(AppFormat.snap) &&
-          (selectedAppFormats.contains(AppFormat.packageKit))) {
-        final components = await _findAppstreamComponents(searchQuery!);
-        for (final component in components) {
+    if (selectedAppFormats
+        .containsAll([AppFormat.snap, AppFormat.packageKit])) {
+      final snaps = await _findSnapsByQuery(searchQuery!);
+      for (final snap in snaps) {
+        appFindings.putIfAbsent(
+          snap.name,
+          () => AppFinding(snap: snap),
+        );
+      }
+
+      final components = await _findAppstreamComponents(searchQuery!);
+      for (final component in components) {
+        final snap =
+            snaps.firstWhereOrNull((snap) => snap.name == component.package);
+        if (snap == null) {
           appFindings.putIfAbsent(
             component.localizedName(),
             () => AppFinding(appstream: component),
           );
+        } else {
+          appFindings.update(
+            snap.name,
+            (value) => AppFinding(
+              snap: snap,
+              appstream: component,
+            ),
+          );
         }
       }
-
-      searchResult = appFindings;
+    } else if (selectedAppFormats.contains(AppFormat.snap) &&
+        !(selectedAppFormats.contains(AppFormat.packageKit))) {
+      final snaps = await _findSnapsByQuery(searchQuery!);
+      for (final snap in snaps) {
+        appFindings.putIfAbsent(
+          snap.name,
+          () => AppFinding(snap: snap),
+        );
+      }
+    } else if (!selectedAppFormats.contains(AppFormat.snap) &&
+        (selectedAppFormats.contains(AppFormat.packageKit))) {
+      final components = await _findAppstreamComponents(searchQuery!);
+      for (final component in components) {
+        appFindings.putIfAbsent(
+          component.localizedName(),
+          () => AppFinding(appstream: component),
+        );
+      }
     }
+
+    return appFindings;
   }
 }

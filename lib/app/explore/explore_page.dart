@@ -20,7 +20,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
-import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/connectivity_notifier.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_section.dart';
@@ -112,25 +111,12 @@ class _ExplorePageState extends State<ExplorePage> {
     final handleAppFormat =
         context.select((ExploreModel m) => m.handleAppFormat);
 
-    final showSnap = context.select(
-      (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.snap),
-    );
-    final showPackageKit = context.select(
-      (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
-    );
-
-    final searchResult = context.select((ExploreModel m) => m.searchResult);
-    final search = context.select((ExploreModel m) => m.search);
-
     return Scaffold(
       appBar: YaruWindowTitleBar(
         title: SearchField(
           key: ValueKey(showSearchPage),
           searchQuery: searchQuery,
-          onChanged: (value) {
-            setSearchQuery(value);
-            search();
-          },
+          onChanged: setSearchQuery,
           hintText: context.l10n.searchHintAppStore,
         ),
       ),
@@ -140,21 +126,12 @@ class _ExplorePageState extends State<ExplorePage> {
               ? const ExploreErrorPage()
               : (showSearchPage
                   ? SearchPage(
-                      searchResult: searchResult,
-                      showPackageKit: showPackageKit,
-                      showSnap: showSnap,
                       header: ExploreHeader(
                         selectedSection: selectedSection,
                         enabledAppFormats: enabledAppFormats,
                         selectedAppFormats: selectedAppFormats,
-                        handleAppFormat: (appFormat) {
-                          handleAppFormat(appFormat);
-                          search();
-                        },
-                        setSelectedSection: (value) {
-                          setSelectedSection(value);
-                          search();
-                        },
+                        handleAppFormat: handleAppFormat,
+                        setSelectedSection: setSelectedSection,
                       ),
                     )
                   : StartPage(
