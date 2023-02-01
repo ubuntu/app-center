@@ -162,40 +162,38 @@ class _ReviewDetailsDialog extends StatelessWidget {
           ? []
           : userReviews!
               .map(
-                (e) => Padding(
-                  padding: const EdgeInsets.only(
+                (e) => BorderContainer(
+                  margin: const EdgeInsets.only(
                     left: kYaruPagePadding,
                     right: kYaruPagePadding,
                     bottom: kYaruPagePadding,
                   ),
-                  child: BorderContainer(
-                    padding: const EdgeInsets.only(
-                      right: kYaruPagePadding,
-                      left: kYaruPagePadding,
-                      top: 10,
-                      bottom: kYaruPagePadding,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _RatingHeader(
-                          userReview: e,
-                          onVote: onVote,
-                          onFlag: onFlag,
+                  padding: const EdgeInsets.only(
+                    right: kYaruPagePadding,
+                    left: kYaruPagePadding,
+                    top: 10,
+                    bottom: kYaruPagePadding,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _RatingHeader(
+                        userReview: e,
+                        onVote: onVote,
+                        onFlag: onFlag,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: 400,
+                        child: Text(
+                          e.review ?? '',
+                          overflow: TextOverflow.visible,
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          width: 400,
-                          child: Text(
-                            e.review ?? '',
-                            overflow: TextOverflow.visible,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               )
