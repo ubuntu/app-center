@@ -22,6 +22,7 @@ import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/updates_state.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
+import 'package:xterm/xterm.dart';
 
 class PackageUpdatesModel extends SafeChangeNotifier {
   final PackageService _service;
@@ -38,6 +39,7 @@ class PackageUpdatesModel extends SafeChangeNotifier {
   StreamSubscription<bool>? _reposChangedSub;
   StreamSubscription<bool>? _updatesChangedSub;
   StreamSubscription<bool>? _selectionChanged;
+  StreamSubscription<String>? _terminalOutputSub;
 
   PackageUpdatesModel(
     this._service,
@@ -95,6 +97,10 @@ class PackageUpdatesModel extends SafeChangeNotifier {
     _selectionChanged = _service.selectionChanged.listen((event) {
       notifyListeners();
     });
+    _terminalOutputSub = _service.terminalOutput.listen((event) {
+      terminal.write(event);
+      terminal.nextLine();
+    });
 
     _service.getInstalledPackages();
     if (loadRepoList == true) {
@@ -116,10 +122,10 @@ class PackageUpdatesModel extends SafeChangeNotifier {
     _installedSub?.cancel();
     _reposChangedSub?.cancel();
     _selectionChanged?.cancel();
+    _terminalOutputSub?.cancel();
     super.dispose();
   }
 
-  Stream<String> get terminalOutput => _service.terminalOutput;
   List<PackageKitPackageId> get updates => _service.updates;
   PackageKitPackageId getUpdate(int index) => _service.getUpdate(index);
   PackageKitGroup getGroup(PackageKitPackageId id) =>
@@ -242,4 +248,6 @@ class PackageUpdatesModel extends SafeChangeNotifier {
   void logout() => _session.logout();
 
   void exitApp() => _service.exitApp();
+
+  final terminal = Terminal(maxLines: 50);
 }

@@ -42,16 +42,13 @@ dependencies:
   snapd: ^0.4.6
   snowball_stemmer: ^0.1.0
   synchronized: ^3.0.0+3
-  ubuntu_widgets:
-    git:
-      url: https://github.com/canonical/ubuntu-flutter-plugins
-      path: packages/ubuntu_widgets
   ubuntu_service: ^0.2.0
   ubuntu_session: ^0.0.2
   url_launcher: ^6.1.2
   version: ^3.0.2
   window_manager: 0.3.0
   xdg_icons: ^0.0.1
+  xterm: ^3.3.0
   yaru: ^0.4.7
   yaru_colors: ^0.1.1
   yaru_icons: ^1.0.2
