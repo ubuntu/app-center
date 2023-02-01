@@ -38,20 +38,15 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageUpdatesPage extends StatefulWidget {
-  const PackageUpdatesPage({super.key, required this.appFormatPopup});
+  const PackageUpdatesPage({super.key});
 
-  final Widget appFormatPopup;
-
-  static Widget create({
-    required BuildContext context,
-    required Widget appFormatPopup,
-  }) {
+  static Widget create(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => PackageUpdatesModel(
         getService<PackageService>(),
         getService<UbuntuSession>(),
       ),
-      child: PackageUpdatesPage(appFormatPopup: appFormatPopup),
+      child: const PackageUpdatesPage(),
     );
   }
 
@@ -91,7 +86,7 @@ class _PackageUpdatesPageState extends State<PackageUpdatesPage> {
 
     return Column(
       children: [
-        _UpdatesHeader(appFormatsPopup: widget.appFormatPopup),
+        const _UpdatesHeader(),
         if (model.updatesState == UpdatesState.noUpdates)
           const Expanded(child: Center(child: NoUpdatesPage())),
         if (model.updatesState == UpdatesState.readyToUpdate)
@@ -206,10 +201,7 @@ class _UpdatingPageState extends State<_UpdatingPage> {
 class _UpdatesHeader extends StatelessWidget {
   const _UpdatesHeader({
     Key? key,
-    required this.appFormatsPopup,
   }) : super(key: key);
-
-  final Widget appFormatsPopup;
 
   @override
   Widget build(BuildContext context) {
@@ -228,17 +220,6 @@ class _UpdatesHeader extends StatelessWidget {
           spacing: 10,
           runSpacing: 10,
           children: [
-            if (model.updates.isNotEmpty)
-              ElevatedButton(
-                onPressed: model.updatesState == UpdatesState.readyToUpdate &&
-                        !model.nothingSelected
-                    ? () => model.updateAll(
-                          updatesComplete: context.l10n.updatesComplete,
-                          updatesAvailable: context.l10n.updateAvailable,
-                        )
-                    : null,
-                child: Text(context.l10n.updateButton),
-              ),
             OutlinedButton(
               onPressed: model.updatesState == UpdatesState.updating ||
                       model.updatesState == UpdatesState.checkingForUpdates
@@ -258,6 +239,17 @@ class _UpdatesHeader extends StatelessWidget {
                 ],
               ),
             ),
+            if (model.updates.isNotEmpty)
+              ElevatedButton(
+                onPressed: model.updatesState == UpdatesState.readyToUpdate &&
+                        !model.nothingSelected
+                    ? () => model.updateAll(
+                          updatesComplete: context.l10n.updatesComplete,
+                          updatesAvailable: context.l10n.updateAvailable,
+                        )
+                    : null,
+                child: Text(context.l10n.updateButton),
+              ),
             if (model.updatesState == UpdatesState.noUpdates)
               if (model.requireRestartApp)
                 ElevatedButton(
@@ -273,8 +265,7 @@ class _UpdatesHeader extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () => model.reboot(),
                   child: Text(context.l10n.requireRestartSystem),
-                ),
-            appFormatsPopup,
+                )
           ],
         ),
       ),
