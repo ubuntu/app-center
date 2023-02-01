@@ -563,9 +563,8 @@ void main() {
       );
       return emitFinishedEvent(controller);
     });
-    when(
-      () => updateTransaction.getDetails(any(that: contains(firefoxPackageId))),
-    ).thenAnswer((_) => emitFinishedEvent(controller));
+    when(() => updateTransaction.getDetails([firefoxPackageId]))
+        .thenAnswer((_) => emitFinishedEvent(controller));
     return updateTransaction;
   }
 

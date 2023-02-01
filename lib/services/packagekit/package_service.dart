@@ -306,8 +306,13 @@ class PackageService {
     await completer.future
         .whenComplete(subscription.cancel)
         .whenComplete(() => _pendingUpdatesCheckTransaction = null);
-    await _updateGroups(_updates.keys);
-    setGroupsChanged(true);
+    for (var entry in _updates.entries) {
+      if (!_idsToGroups.containsKey(entry.key)) {
+        final PackageKitGroup group = await _getGroup(entry.key);
+        _idsToGroups.putIfAbsent(entry.key, () => group);
+        setGroupsChanged(true);
+      }
+    }
   }
 
   Future<void> updateAll({
@@ -412,18 +417,20 @@ class PackageService {
     return completer.future.whenComplete(subscription.cancel);
   }
 
-  Future<void> _updateGroups(Iterable<PackageKitPackageId> ids) async {
-    final transaction = await _client.createTransaction();
+  Future<PackageKitGroup> _getGroup(PackageKitPackageId id) async {
+    final installTransaction = await _client.createTransaction();
     final completer = Completer();
-    final subscription = transaction.events.listen((event) {
+    PackageKitGroup? group;
+    final subscription = installTransaction.events.listen((event) {
       if (event is PackageKitDetailsEvent) {
-        _idsToGroups.putIfAbsent(event.packageId, () => event.group);
+        group = event.group;
       } else if (event is PackageKitFinishedEvent) {
         completer.complete();
       }
     });
-    await transaction.getDetails(ids);
-    return completer.future.whenComplete(subscription.cancel);
+    await installTransaction.getDetails([id]);
+    await completer.future.whenComplete(subscription.cancel);
+    return group ?? PackageKitGroup.unknown;
   }
 
   Future<void> remove({required PackageModel model}) async {
