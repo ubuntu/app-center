@@ -14,18 +14,17 @@ class LinksInfoFragment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppInfoFragment(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      header: context.l10n.links,
-      child: Column(
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: AppInfoFragment(
+        mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (appData.website == context.l10n.unknown)
-            Text(appData.website)
-          else
+        header: context.l10n.links,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
             Tooltip(
               message: appData.website,
               child: Link(
@@ -33,7 +32,17 @@ class LinksInfoFragment extends StatelessWidget {
                 linkText: context.l10n.website,
               ),
             ),
-        ],
+            if (appData.contact != null)
+              Tooltip(
+                message: '${context.l10n.contact}: ${appData.publisherName!}',
+                child: Link(
+                  url: appData.contact!,
+                  linkText:
+                      '${context.l10n.contact}: ${appData.publisherName!}',
+                ),
+              )
+          ],
+        ),
       ),
     );
   }

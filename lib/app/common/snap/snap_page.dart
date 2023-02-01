@@ -122,10 +122,10 @@ class _SnapPageState extends State<SnapPage> {
       versionChanged:
           model.selectableChannels[model.channelToBeInstalled]?.version !=
               model.version,
-      userReviews: model.userReviews ?? [],
-      averageRating: model.averageRating ?? 0.0,
+      userReviews: model.userReviews,
+      averageRating: model.averageRating,
       appFormat: AppFormat.snap,
-      contact: model.contact ?? context.l10n.unknown,
+      contact: model.contact,
     );
 
     final controls = SnapControls(

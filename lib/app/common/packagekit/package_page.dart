@@ -29,6 +29,7 @@ import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_controls.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/app/common/snap/snap_page.dart';
+import 'package:software/app/common/utils.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
 import 'package:software/services/packagekit/package_service.dart';
@@ -130,26 +131,23 @@ class _PackagePageState extends State<PackagePage> {
     final appData = AppData(
       publisherName: model.developerName ?? context.l10n.unknown,
       releasedAt: model.releasedAt ?? context.l10n.unknown,
-      appSize: model.getFormattedSize() ?? context.l10n.unknown,
+      appSize: formatBytes(model.size, 2),
       confinementName: context.l10n.classic,
-      license: model.license ?? context.l10n.unknown,
+      license: model.license,
       strict: false,
       verified: false,
       starredDeveloper: false,
-      website: model.url ?? context.l10n.unknown,
-      summary: model.summary ?? context.l10n.unknown,
-      title: model.title ?? context.l10n.unknown,
+      website: model.url,
+      summary: model.summary,
+      title: model.title,
       name: model.packageId?.name ?? '',
       version: model.packageId?.version ?? '',
       screenShotUrls: model.screenshotUrls,
       description: model.description,
-      userReviews: model.userReviews ?? [],
-      averageRating: model.averageRating ?? 0.0,
+      userReviews: model.userReviews,
+      averageRating: model.averageRating,
       appFormat: AppFormat.packageKit,
-      versionChanged: model.versionChanged ?? false,
-      contact: context.l10n.unknown,
-      installDate: context.l10n.unknown,
-      installDateIsoNorm: context.l10n.unknown,
+      versionChanged: model.versionChanged,
     );
 
     final preControls = widget.snap == null
@@ -185,7 +183,7 @@ class _PackagePageState extends State<PackagePage> {
       showDeps: () => showDialog(
         context: context,
         builder: (context) => _ShowDepsDialog(
-          packageName: model.title ?? context.l10n.unknown,
+          packageName: model.title,
           onInstall: model.install,
           dependencies: model.uninstalledDependencyNames,
         ),
