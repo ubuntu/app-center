@@ -117,8 +117,9 @@ class _PackageUpdatesPageState extends State<PackageUpdatesPage> {
 
 class _UpdatingPage extends StatefulWidget {
   const _UpdatingPage({
+    Key? key,
     required this.hPadding,
-  });
+  }) : super(key: key);
 
   final double hPadding;
 
@@ -204,8 +205,9 @@ class _UpdatingPageState extends State<_UpdatingPage> {
 
 class _UpdatesHeader extends StatelessWidget {
   const _UpdatesHeader({
+    Key? key,
     required this.appFormatsPopup,
-  });
+  }) : super(key: key);
 
   final Widget appFormatsPopup;
 

@@ -36,7 +36,7 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({super.key});
+  const ExplorePage({Key? key}) : super(key: key);
 
   static Widget create(
     BuildContext context, [

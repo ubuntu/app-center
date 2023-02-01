@@ -28,7 +28,8 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class SnapUpdatesPage extends StatelessWidget {
-  const SnapUpdatesPage({super.key, required this.appFormatPopup});
+  const SnapUpdatesPage({Key? key, required this.appFormatPopup})
+      : super(key: key);
 
   final Widget appFormatPopup;
 

@@ -30,8 +30,8 @@ class AppFormatToggleButtons extends StatelessWidget {
 
 class SnapLabel extends StatelessWidget {
   const SnapLabel({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +61,8 @@ class SnapLabel extends StatelessWidget {
 
 class DebianLabel extends StatelessWidget {
   const DebianLabel({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

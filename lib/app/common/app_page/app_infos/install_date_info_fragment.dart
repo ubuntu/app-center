@@ -4,10 +4,10 @@ import 'package:software/l10n/l10n.dart';
 
 class InstallDateInfoFragment extends StatelessWidget {
   const InstallDateInfoFragment({
-    super.key,
+    Key? key,
     required this.installDateIsoNorm,
     required this.installDate,
-  });
+  }) : super(key: key);
 
   final String installDateIsoNorm;
   final String installDate;

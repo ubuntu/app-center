@@ -7,8 +7,8 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapConnectionsDialog extends StatelessWidget {
   const SnapConnectionsDialog({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

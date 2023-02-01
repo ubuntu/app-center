@@ -20,7 +20,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 class OfflinePage extends StatelessWidget {
-  const OfflinePage({super.key});
+  const OfflinePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

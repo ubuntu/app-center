@@ -8,8 +8,8 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapControlButton extends StatefulWidget {
   const SnapControlButton({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   static Widget create({
     required BuildContext context,

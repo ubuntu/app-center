@@ -22,11 +22,11 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapSortPopup extends StatelessWidget {
   const SnapSortPopup({
-    super.key,
+    Key? key,
     required this.value,
     required this.onSelected,
     this.enabled = true,
-  });
+  }) : super(key: key);
   final SnapSort value;
   final void Function(SnapSort value) onSelected;
   final bool enabled;

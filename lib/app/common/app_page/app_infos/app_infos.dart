@@ -30,13 +30,13 @@ const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
 class AppInfos extends StatelessWidget {
   const AppInfos({
-    super.key,
+    Key? key,
     required this.appData,
     this.alignment = Alignment.center,
     this.wrapAlignment = WrapAlignment.center,
     this.runAlignment = WrapAlignment.center,
     this.direction = Axis.horizontal,
-  });
+  }) : super(key: key);
 
   final AppData appData;
 
@@ -72,9 +72,9 @@ class AppInfos extends StatelessWidget {
 
 class RatingInfoFragment extends StatelessWidget {
   const RatingInfoFragment({
-    super.key,
+    Key? key,
     required this.averageRating,
-  });
+  }) : super(key: key);
 
   final double averageRating;
 

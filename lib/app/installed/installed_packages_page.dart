@@ -25,7 +25,7 @@ import 'package:software/app/installed/installed_model.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class InstalledPackagesPage extends StatefulWidget {
-  const InstalledPackagesPage({super.key});
+  const InstalledPackagesPage({Key? key}) : super(key: key);
 
   @override
   State<InstalledPackagesPage> createState() => _InstalledPackagesPageState();
