@@ -163,9 +163,15 @@ class _ReviewDetailsDialog extends StatelessWidget {
           : userReviews!
               .map(
                 (e) => BorderContainer(
-                  padding: const EdgeInsets.only(
+                  margin: const EdgeInsets.only(
                     left: kYaruPagePadding,
                     right: kYaruPagePadding,
+                    bottom: kYaruPagePadding,
+                  ),
+                  padding: const EdgeInsets.only(
+                    right: kYaruPagePadding,
+                    left: kYaruPagePadding,
+                    top: 10,
                     bottom: kYaruPagePadding,
                   ),
                   child: Column(
@@ -178,7 +184,7 @@ class _ReviewDetailsDialog extends StatelessWidget {
                         onFlag: onFlag,
                       ),
                       const SizedBox(
-                        height: kYaruPagePadding,
+                        height: 10,
                       ),
                       SizedBox(
                         width: 400,
