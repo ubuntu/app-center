@@ -87,7 +87,7 @@ class ExploreModel extends SafeChangeNotifier {
 
   SnapSection? _selectedSection = SnapSection.all;
   SnapSection? get selectedSection => _selectedSection;
-  void setSelectedSection(SnapSection? value) {
+  set selectedSection(SnapSection? value) {
     if (value == null || value == _selectedSection) return;
     _selectedSection = value;
     notifyListeners();
