@@ -323,9 +323,5 @@
   "dependenciesFullList": "Ver lista completa de dependências",
   "@dependenciesFullList": {},
   "gallery": "Galeria",
-  "@gallery": {},
-  "additionalInformation": "Informação adicional",
-  "@additionalInformation": {},
-  "links": "Ligações",
-  "@links": {}
+  "@gallery": {}
 }
