@@ -74,7 +74,7 @@ class _UpdatesSplashScreenState extends State<UpdatesSplashScreen>
         Center(
           child: Text(
             context.l10n.justAMoment,
-            style: Theme.of(context).textTheme.headlineMedium,
+            style: Theme.of(context).textTheme.headline4,
             textAlign: TextAlign.center,
             overflow: TextOverflow.visible,
           ),
@@ -85,7 +85,7 @@ class _UpdatesSplashScreenState extends State<UpdatesSplashScreen>
         Center(
           child: Text(
             context.l10n.checkingForUpdates,
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            style: Theme.of(context).textTheme.headline6!.copyWith(
                   fontWeight: FontWeight.w400,
                   color:
                       Theme.of(context).colorScheme.onSurface.withOpacity(0.7),

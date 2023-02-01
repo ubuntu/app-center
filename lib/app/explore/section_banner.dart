@@ -53,7 +53,7 @@ class SectionBanner extends StatelessWidget {
                 constraints: BoxConstraints.loose(const Size(250, 1000)),
                 child: Text(
                   section.slogan(context.l10n),
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                  style: Theme.of(context).textTheme.headline5!.copyWith(
                     color: Colors.white,
                     shadows: [
                       Shadow(

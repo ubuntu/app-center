@@ -24,7 +24,7 @@ class AdditionalInformation extends StatelessWidget {
       isExpanded: true,
       header: Text(
         context.l10n.additionalInformation,
-        style: Theme.of(context).textTheme.titleLarge,
+        style: Theme.of(context).textTheme.headline6,
       ),
       child: ConstrainedBox(
         constraints: BoxConstraints.loose(const Size(1000, 200)),

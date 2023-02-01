@@ -17,6 +17,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
+          flutter-version: "3.3.x"
 
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: format

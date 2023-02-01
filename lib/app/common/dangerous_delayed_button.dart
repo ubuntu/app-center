@@ -66,7 +66,7 @@ class _DangerousDelayedButtonState extends State<DangerousDelayedButton> {
 
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.error,
+        backgroundColor: Theme.of(context).errorColor,
       ),
       onPressed: disabled ? null : widget.onPressed,
       child: disabled

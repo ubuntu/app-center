@@ -168,7 +168,7 @@ class _UpdatingPageState extends State<_UpdatingPage> {
           child: YaruExpandable(
             header: Text(
               'Details',
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.headline6,
             ),
             child: SizedBox(
               height: 300,
@@ -313,7 +313,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
           Center(
             child: Text(
               context.l10n.weHaveUpdates,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.headline5,
               textAlign: TextAlign.center,
             ),
           ),
@@ -355,7 +355,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                             Expanded(
                               child: Text(
                                 '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
-                                style: Theme.of(context).textTheme.titleLarge,
+                                style: Theme.of(context).textTheme.headline6,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             )
@@ -363,7 +363,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                         )
                       : Text(
                           '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
-                          style: Theme.of(context).textTheme.titleLarge,
+                          style: Theme.of(context).textTheme.headline6,
                         ),
                 ),
                 child: Padding(

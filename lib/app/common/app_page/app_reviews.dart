@@ -74,7 +74,7 @@ class _AppReviewsState extends State<AppReviews> {
         isExpanded: false,
         header: Text(
           context.l10n.reviewsAndRatings,
-          style: Theme.of(context).textTheme.titleLarge,
+          style: Theme.of(context).textTheme.headline6,
           overflow: TextOverflow.ellipsis,
         ),
         child: Column(

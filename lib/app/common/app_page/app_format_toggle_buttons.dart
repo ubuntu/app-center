@@ -35,16 +35,14 @@ class SnapLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(
           width: 10,
         ),
-        Icon(
+        const Icon(
           YaruIcons.snapcraft,
-          color: theme.colorScheme.onSurface,
           size: 16,
         ),
         const SizedBox(
@@ -66,16 +64,14 @@ class DebianLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(
           width: 10,
         ),
-        Icon(
+        const Icon(
           YaruIcons.debian,
-          color: theme.colorScheme.onSurface,
           size: 16,
         ),
         const SizedBox(
