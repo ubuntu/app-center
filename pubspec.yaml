@@ -12,11 +12,9 @@ environment:
 
 dependencies:
   appstream: ^0.2.8
-  async: ^2.10.0
   badges: ^2.0.3
   collection: ^1.16.0
   connectivity_plus: ^2.3.1
-  crypto: ^3.0.2
   dbus: ^0.7.8
   desktop_notifications: ^0.6.3
   file: ^6.1.2
@@ -29,16 +27,11 @@ dependencies:
   flutter_markdown: ^0.6.10+3
   flutter_rating_bar: ^4.0.1
   flutter_svg: ^1.1.0
-  glib: 0.0.1
   gtk_application: ^0.0.3
   handy_window: ^0.2.0
   intl: ^0.17.0
   launcher_entry: ^0.1.0
   liquid_progress_indicator: ^0.4.0
-  meta: ^1.7.0
-  odrs:
-    git:
-      url: https://github.com/ubuntu-flutter-community/odrs.dart
   package_info_plus: ^1.4.2
   packagekit: ^0.2.4
   palette_generator: ^0.3.3
@@ -49,12 +42,12 @@ dependencies:
   snapd: ^0.4.6
   snowball_stemmer: ^0.1.0
   synchronized: ^3.0.0+3
-  ubuntu_service: ^0.2.0
-  ubuntu_session: ^0.0.2
   ubuntu_widgets:
     git:
       url: https://github.com/canonical/ubuntu-flutter-plugins
       path: packages/ubuntu_widgets
+  ubuntu_service: ^0.2.0
+  ubuntu_session: ^0.0.2
   url_launcher: ^6.1.2
   version: ^3.0.2
   window_manager: 0.3.0

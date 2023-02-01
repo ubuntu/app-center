@@ -24,7 +24,6 @@ import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/app.dart';
 import 'package:software/services/appstream/appstream_service.dart';
-import 'package:software/services/odrs_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -67,11 +66,6 @@ Future<void> main(List<String> args) async {
     (() => LauncherEntryService(
           appUri: 'application://snap-store_snap-store.desktop',
         )),
-  );
-
-  registerService<OdrsService>(
-    () => OdrsService(Uri.https('odrs.gnome.org')),
-    dispose: (s) => s.close(),
   );
 
   runApp(App.create());
