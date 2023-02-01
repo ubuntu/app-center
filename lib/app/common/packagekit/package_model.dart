@@ -20,12 +20,12 @@ import 'dart:io';
 
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
+import 'package:data_size/data_size.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
-import 'package:software/app/common/utils.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/package_state.dart';
@@ -180,7 +180,7 @@ class PackageModel extends SafeChangeNotifier {
 
   /// The size of the package in bytes.
   int? _size;
-  String? getFormattedSize() => _size == null ? null : formatBytes(_size!, 2);
+  String? getFormattedSize() => _size?.formatByteSize();
   int get size => _size ?? 0;
   set size(int? value) {
     if (value == null || value == _size) return;
