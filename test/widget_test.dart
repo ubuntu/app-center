@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk_application/gtk_application.dart';
-import 'package:launcher_entry/launcher_entry.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:software/app/app.dart';
 import 'package:software/services/appstream/appstream_service.dart';
@@ -22,8 +21,6 @@ class MockSnapService extends Mock implements SnapService {}
 
 class MockGtkApplicationNotifier extends Mock
     implements GtkApplicationNotifier {}
-
-class MockLauncherEntryService extends Mock implements LauncherEntryService {}
 
 void main() {
   testWidgets('Software app', (tester) async {
@@ -50,9 +47,6 @@ void main() {
     final updatesStateController = StreamController<UpdatesState>.broadcast();
     when(() => packageServiceMock.updatesState)
         .thenAnswer((_) => updatesStateController.stream);
-    final updatesPercentageController = StreamController<int?>.broadcast();
-    when(() => packageServiceMock.updatesPercentage)
-        .thenAnswer((_) => updatesPercentageController.stream);
 
     final snapServiceMock = MockSnapService();
     registerMockService<SnapService>(snapServiceMock);
@@ -76,10 +70,6 @@ void main() {
     final gtkApplicationNotifierMock = MockGtkApplicationNotifier();
     registerMockService<GtkApplicationNotifier>(gtkApplicationNotifierMock);
     when(() => gtkApplicationNotifierMock.commandLine).thenAnswer((_) => []);
-
-    final launcherEntryServiceMock = MockLauncherEntryService();
-    registerMockService<LauncherEntryService>(launcherEntryServiceMock);
-    when(launcherEntryServiceMock.update).thenAnswer((_) async {});
 
     await tester.pumpWidget(App.create());
   });

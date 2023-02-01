@@ -18,7 +18,6 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:launcher_entry/launcher_entry.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/appstream/appstream_service.dart';
@@ -33,7 +32,6 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
     this._snapService,
     this._appstreamService,
     this._packageService,
-    this._launcherEntryService,
   );
 
   final SnapService _snapService;
@@ -50,9 +48,6 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
   final PackageService _packageService;
   StreamSubscription<bool>? _updatesChangedSub;
   StreamSubscription<UpdatesState>? _updatesStateSub;
-  StreamSubscription<int?>? _updatesPercentageSub;
-
-  final LauncherEntryService _launcherEntryService;
 
   UpdatesState? _updatesState;
   UpdatesState? get updatesState => _updatesState;
@@ -94,21 +89,6 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
         _packageService.sendUpdateNotification(
           updatesAvailable: _updatesAvailable!,
         );
-        _launcherEntryService.update(count: updateAmount, countVisible: true);
-      } else {
-        _launcherEntryService.update(count: 0, countVisible: false);
-      }
-    });
-
-    _updatesPercentageSub =
-        _packageService.updatesPercentage.listen((percentage) {
-      if (percentage == null) {
-        _launcherEntryService.update(progressVisible: false);
-      } else {
-        _launcherEntryService.update(
-          progress: percentage / 100.0,
-          progressVisible: true,
-        );
       }
     });
   }
@@ -124,7 +104,6 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
     _connectivitySub?.cancel();
     _updatesChangedSub?.cancel();
     _updatesStateSub?.cancel();
-    _updatesPercentageSub?.cancel();
 
     super.dispose();
   }
