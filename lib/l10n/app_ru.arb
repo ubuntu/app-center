@@ -294,32 +294,5 @@
   "snapPackage": "Snap",
   "@snapPackage": {},
   "theme": "Тема",
-  "@theme": {},
-  "noSnapsInstalled": "На вашей системе нет установленных Snap приложений",
-  "@noSnapsInstalled": {},
-  "dependenciesQuestion": "Вы уверены, что хотите продолжить?",
-  "@dependenciesQuestion": {},
-  "dependenciesFullList": "Посмотреть полный список зависимостей",
-  "@dependenciesFullList": {},
-  "dependenciesListing": "{length} зависимостей будет загружено в процессе установки {packageName}",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
-  "publisher": "Издатель",
-  "@publisher": {},
-  "rating": "Рейтинг",
-  "@rating": {},
-  "permissions": "Разрешения",
-  "@permissions": {},
-  "processing": "Идет обработка",
-  "@processing": {},
-  "dependencies": "Зависимости",
-  "@dependencies": {}
+  "@theme": {}
 }
