@@ -249,7 +249,7 @@ class __AppState extends State<_App> {
               ),
               title: SearchField(
                 autofocus: true,
-                clear: () {
+                onClear: () {
                   setSearchQuery(value: null, notify: true);
                   setSearchActive(false);
                 },
