@@ -47,25 +47,6 @@ class OdrsService {
     }
   }
 
-  Stream<List<OdrsReview>> getReviews(String appId, {String? version}) async* {
-    final file = File(_cachePath('$appId-$version.json'));
-    final exists = await file.exists();
-    if (exists) {
-      final reviews = await file.readReviews();
-      if (reviews != null) yield reviews;
-    }
-    if (!exists || await file.expired(_kCachePeriod)) {
-      try {
-        final reviews =
-            await _client.getReviews(appId: appId, version: version);
-        yield reviews;
-        await file.writeReviews(reviews);
-      } on OdrsException {
-        // ignore
-      }
-    }
-  }
-
   String _cachePath(String fileName) {
     final cacheDir = glib.getUserCacheDir();
     final programName = glib.getProgramName();
@@ -99,29 +80,6 @@ extension _OdrsCacheFile on File {
         await parent.create(recursive: true);
       }
       await writeAsString(jsonEncode(ratings));
-    } on FileSystemException {
-      // ignore
-    }
-  }
-
-  Future<List<OdrsReview>?> readReviews() async {
-    try {
-      final json =
-          await readAsString().then((data) => jsonDecode(data) as List);
-      return json.map((json) => OdrsReview.fromJson(json)).toList();
-    } on FormatException {
-      return null;
-    } on FileSystemException {
-      return null;
-    }
-  }
-
-  Future<void> writeReviews(List<OdrsReview> reviews) async {
-    try {
-      if (!await parent.exists()) {
-        await parent.create(recursive: true);
-      }
-      await writeAsString(jsonEncode(reviews));
     } on FileSystemException {
       // ignore
     }

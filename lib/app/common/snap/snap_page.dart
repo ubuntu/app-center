@@ -35,7 +35,6 @@ import 'package:software/app/common/snap/snap_connections_dialog.dart';
 import 'package:software/app/common/snap/snap_controls.dart';
 import 'package:software/app/common/snap/snap_model.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/odrs_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -62,7 +61,7 @@ class SnapPage extends StatefulWidget {
             ),
           ),
           ChangeNotifierProvider<ReviewModel>(
-            create: (_) => ReviewModel(getService<OdrsService>()),
+            create: (_) => ReviewModel(),
           ),
         ],
         child: SnapPage(

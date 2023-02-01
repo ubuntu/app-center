@@ -87,32 +87,4 @@ class AppReview {
     this.positiveVote,
     this.negativeVote,
   });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    return other is AppReview &&
-        other.id == id &&
-        other.rating == rating &&
-        other.review == review &&
-        other.title == title &&
-        other.dateTime == dateTime &&
-        other.username == username &&
-        other.positiveVote == positiveVote &&
-        other.negativeVote == negativeVote;
-  }
-
-  @override
-  int get hashCode {
-    return Object.hash(
-      id,
-      rating,
-      review,
-      title,
-      dateTime,
-      username,
-      positiveVote,
-      negativeVote,
-    );
-  }
 }

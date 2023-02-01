@@ -34,7 +34,6 @@ import 'package:software/app/common/review_model.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
-import 'package:software/services/odrs_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -68,7 +67,7 @@ class PackagePage extends StatefulWidget {
           ),
         ),
         ChangeNotifierProvider<ReviewModel>(
-          create: (_) => ReviewModel(getService<OdrsService>()),
+          create: (_) => ReviewModel(),
         ),
       ],
       child: PackagePage(
