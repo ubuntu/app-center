@@ -15,11 +15,8 @@
  *
  */
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/app/app_model.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/explore/explore_error_page.dart';
 import 'package:software/app/explore/explore_model.dart';
@@ -34,7 +31,7 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class ExplorePage extends StatefulWidget {
+class ExplorePage extends StatelessWidget {
   const ExplorePage({Key? key, required this.online}) : super(key: key);
 
   final bool online;
@@ -69,28 +66,6 @@ class ExplorePage extends StatefulWidget {
           : const Icon(YaruIcons.compass);
 
   @override
-  State<ExplorePage> createState() => _ExplorePageState();
-}
-
-class _ExplorePageState extends State<ExplorePage> {
-  StreamSubscription<bool>? _sidebarEventListener;
-  @override
-  void initState() {
-    super.initState();
-    final model = context.read<ExploreModel>();
-    _sidebarEventListener = context
-        .read<AppModel>()
-        .sidebarEvents
-        .listen((_) => model.setSearchQuery(''));
-  }
-
-  @override
-  void dispose() {
-    _sidebarEventListener?.cancel();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final showErrorPage = context.select((ExploreModel m) => m.showErrorPage);
     final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
@@ -100,12 +75,11 @@ class _ExplorePageState extends State<ExplorePage> {
     return Scaffold(
       appBar: YaruWindowTitleBar(
         title: SearchField(
-          key: ValueKey(showSearchPage),
           searchQuery: searchQuery,
           onChanged: setSearchQuery,
         ),
       ),
-      body: !widget.online
+      body: !online
           ? const OfflinePage()
           : showErrorPage
               ? const ExploreErrorPage()

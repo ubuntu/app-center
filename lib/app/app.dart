@@ -228,7 +228,6 @@ class __AppState extends State<_App> {
             ),
             key: ValueKey((debPath ?? '') + (snapName ?? '')),
             length: pageItems.length,
-            onSelected: (value) => model.selectedIndex = value,
             initialIndex: _initialIndex,
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(
               icon: pageItems[index].iconBuilder(context, selected),
