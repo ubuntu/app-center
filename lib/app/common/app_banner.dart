@@ -17,15 +17,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/app_icon.dart';
-import 'package:software/app/common/app_rating.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
-import 'package:software/app/common/rating_model.dart';
 import 'package:software/app/common/safe_network_image.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/l10n/l10n.dart';
@@ -168,7 +165,8 @@ class AppImageBanner extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               subtitle: SearchBannerSubtitle(
-                appFinding: AppFinding(snap: snap),
+                appFinding:
+                    AppFinding(snap: snap, rating: 5, totalRatings: 1234),
               ),
             ),
           )
@@ -194,14 +192,12 @@ class SearchBannerSubtitle extends StatelessWidget {
     final theme = Theme.of(context);
     final light = theme.brightness == Brightness.light;
 
-    String? ratingId;
     var publisherName = context.l10n.unknown;
 
     if (appFinding.snap != null &&
         appFinding.snap!.publisher != null &&
         showSnap) {
       publisherName = appFinding.snap!.publisher!.displayName;
-      ratingId = appFinding.snap!.ratingId;
     }
 
     if (appFinding.appstream != null && showPackageKit && !showSnap) {
@@ -210,12 +206,7 @@ class SearchBannerSubtitle extends StatelessWidget {
               ?.toLowerCase()] ??
           appFinding.appstream!.developerName['C'] ??
           appFinding.appstream!.localizedName();
-      ratingId = appFinding.appstream!.ratingId;
     }
-
-    final rating = ratingId != null
-        ? context.select((RatingModel m) => m.getRating(ratingId!))
-        : null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -287,7 +278,7 @@ class SearchBannerSubtitle extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   RatingBar.builder(
-                    initialRating: rating?.average ?? 0,
+                    initialRating: appFinding.rating ?? 0,
                     minRating: 1,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
@@ -303,7 +294,7 @@ class SearchBannerSubtitle extends StatelessWidget {
                     ignoreGestures: true,
                   ),
                   const SizedBox(width: 5),
-                  Text(rating?.total.toString() ?? ''),
+                  Text(appFinding.totalRatings.toString())
                 ],
               ),
               PackageIndicator(

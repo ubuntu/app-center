@@ -15,6 +15,8 @@
  *
  */
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_finding.dart';
@@ -42,7 +44,11 @@ class SnapGrid extends StatelessWidget {
         return AppBanner(
           appFinding: MapEntry<String, AppFinding>(
             snap.name,
-            AppFinding(snap: snap),
+            AppFinding(
+              snap: snap,
+              rating: 4.5,
+              totalRatings: Random().nextInt(3000),
+            ),
           ),
           showSnap: true,
           showPackageKit: false,

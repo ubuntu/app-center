@@ -26,7 +26,6 @@ import 'package:software/app/app_splash_screen.dart';
 import 'package:software/app/common/close_confirmation_dialog.dart';
 import 'package:software/app/common/connectivity_notifier.dart';
 import 'package:software/app/common/page_item.dart';
-import 'package:software/app/common/rating_model.dart';
 import 'package:software/app/explore/explore_page.dart';
 import 'package:software/app/installed/installed_page.dart';
 import 'package:software/app/package_installer/package_installer_page.dart';
@@ -55,9 +54,6 @@ class App extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (_) => ConnectivityNotifier(getService<Connectivity>()),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => RatingModel(),
           ),
         ],
         child: const App(),
