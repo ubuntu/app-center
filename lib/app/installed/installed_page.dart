@@ -21,7 +21,6 @@ import 'package:provider/provider.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
-import 'package:software/app/common/search_field.dart';
 import 'package:software/app/installed/installed_header.dart';
 import 'package:software/app/installed/installed_model.dart';
 import 'package:software/app/installed/installed_packages_page.dart';
@@ -31,7 +30,6 @@ import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class InstalledPage extends StatelessWidget {
   const InstalledPage({super.key});
@@ -67,11 +65,11 @@ class InstalledPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final searchQuery = context.select((InstalledModel m) => m.searchQuery);
+    // final searchQuery = context.select((InstalledModel m) => m.searchQuery);
     final appFormat = context.select((InstalledModel m) => m.appFormat);
     final setAppFormat = context.select((InstalledModel m) => m.setAppFormat);
-    final setSearchQuery =
-        context.select((InstalledModel m) => m.setSearchQuery);
+    // final setSearchQuery =
+    //     context.select((InstalledModel m) => m.setSearchQuery);
     final enabledAppFormats =
         context.select((InstalledModel m) => m.enabledAppFormats);
     final loadSnapsWithUpdates =
@@ -84,7 +82,7 @@ class InstalledPage extends StatelessWidget {
     final snapSort = context.select((InstalledModel m) => m.snapSort);
     final setSnapSort = context.select((InstalledModel m) => m.setSnapSort);
 
-    final page = Column(
+    return Column(
       children: [
         InstalledHeader(
           appFormat: appFormat,
@@ -102,17 +100,6 @@ class InstalledPage extends StatelessWidget {
         else if (appFormat == AppFormat.packageKit)
           const Expanded(child: InstalledPackagesPage()),
       ],
-    );
-
-    return Scaffold(
-      appBar: YaruWindowTitleBar(
-        title: SearchField(
-          searchQuery: searchQuery ?? '',
-          onChanged: setSearchQuery,
-          hintText: context.l10n.searchHintInstalled,
-        ),
-      ),
-      body: page,
     );
   }
 }

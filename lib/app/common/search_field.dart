@@ -28,10 +28,14 @@ class SearchField extends StatefulWidget {
     required this.onChanged,
     this.autofocus = true,
     this.hintText,
+    this.onSubmitted,
+    this.clear,
   });
 
   final String? searchQuery;
   final Function(String value) onChanged;
+  final void Function(String?)? onSubmitted;
+  final void Function()? clear;
   final bool autofocus;
   final String? hintText;
 
@@ -80,7 +84,11 @@ class _SearchFieldState extends State<SearchField> {
     return KeyboardListener(
       onKeyEvent: (value) {
         if (value.logicalKey == LogicalKeyboardKey.escape) {
-          _clear();
+          if (widget.clear != null) {
+            widget.clear!();
+          } else {
+            _clear();
+          }
         }
       },
       focusNode: FocusNode(),
@@ -94,6 +102,7 @@ class _SearchFieldState extends State<SearchField> {
               autofocus: widget.autofocus,
               controller: _controller,
               onChanged: onChanged,
+              onSubmitted: widget.onSubmitted,
               textInputAction: TextInputAction.send,
               decoration: InputDecoration(
                 filled: true,
@@ -112,7 +121,7 @@ class _SearchFieldState extends State<SearchField> {
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
-                                onTap: _clear,
+                                onTap: widget.clear ?? _clear,
                                 child: Center(
                                   child: Icon(
                                     YaruIcons.edit_clear,

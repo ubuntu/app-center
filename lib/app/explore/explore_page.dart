@@ -22,39 +22,19 @@ import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/connectivity_notifier.dart';
-import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/explore/explore_error_page.dart';
 import 'package:software/app/explore/explore_header.dart';
-import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/offline_page.dart';
 import 'package:software/app/explore/search_page.dart';
 import 'package:software/app/explore/start_page.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/appstream/appstream_service.dart';
-import 'package:software/services/packagekit/package_service.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({super.key});
-
-  static Widget create(
-    BuildContext context, [
-    String? errorMessage,
-  ]) {
-    return ChangeNotifierProvider(
-      create: (_) => ExploreModel(
-        getService<AppstreamService>(),
-        getService<SnapService>(),
-        getService<PackageService>(),
-        errorMessage,
-      )..init(),
-      child: const ExplorePage(),
-    );
-  }
+  const ExplorePage({
+    super.key,
+  });
 
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.explorePageTitle);
@@ -76,11 +56,10 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   void initState() {
     super.initState();
-    final model = context.read<ExploreModel>();
-    _sidebarEventListener = context
-        .read<AppModel>()
-        .sidebarEvents
-        .listen((_) => model.setSearchQuery(''));
+    final model = context.read<AppModel>();
+    _sidebarEventListener = model.sidebarEvents.listen((_) {
+      model.setSearchActive(false);
+    });
     final connectivity = context.read<ConnectivityNotifier>();
     connectivity.init();
   }
@@ -94,73 +73,57 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     final connectivity = context.watch<ConnectivityNotifier>();
-    final showErrorPage = context.select((ExploreModel m) => m.showErrorPage);
-    final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
-    final searchQuery = context.select((ExploreModel m) => m.searchQuery);
-    final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
-    final sectionSnapsAll = context.select((ExploreModel m) {
-      return m.sectionNameToSnapsMap[SnapSection.all];
-    });
     final selectedAppFormats =
-        context.select((ExploreModel m) => m.selectedAppFormats);
+        context.select((AppModel m) => m.selectedAppFormats);
     final enabledAppFormats =
-        context.select((ExploreModel m) => m.enabledAppFormats);
-    final selectedSection =
-        context.select((ExploreModel m) => m.selectedSection);
+        context.select((AppModel m) => m.enabledAppFormats);
+    final selectedSection = context.select((AppModel m) => m.selectedSection);
     final setSelectedSection =
-        context.select((ExploreModel m) => m.setSelectedSection);
-    final handleAppFormat =
-        context.select((ExploreModel m) => m.handleAppFormat);
-
+        context.select((AppModel m) => m.setSelectedSection);
+    final handleAppFormat = context.select((AppModel m) => m.handleAppFormat);
     final showSnap = context.select(
-      (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.snap),
+      (AppModel m) => m.selectedAppFormats.contains(AppFormat.snap),
     );
     final showPackageKit = context.select(
-      (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
+      (AppModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
     );
+    final searchResult = context.select((AppModel m) => m.searchResult);
 
-    final searchResult = context.select((ExploreModel m) => m.searchResult);
-    final search = context.select((ExploreModel m) => m.search);
+    final errorMessage = context.select((AppModel m) => m.errorMessage);
+    final sectionSnapsAll = context.select((AppModel m) {
+      return m.sectionNameToSnapsMap[SnapSection.all];
+    });
+    final search = context.select((AppModel m) => m.search);
+    final searchActive = context.select((AppModel m) => m.searchActive);
 
-    return Scaffold(
-      appBar: YaruWindowTitleBar(
-        title: SearchField(
-          key: ValueKey(showSearchPage),
-          searchQuery: searchQuery,
-          onChanged: (value) {
-            setSearchQuery(value);
-            search();
-          },
-          hintText: context.l10n.searchHintAppStore,
-        ),
-      ),
-      body: !connectivity.isOnline
-          ? const OfflinePage()
-          : showErrorPage
-              ? const ExploreErrorPage()
-              : (showSearchPage
-                  ? SearchPage(
-                      searchResult: searchResult,
-                      showPackageKit: showPackageKit,
-                      showSnap: showSnap,
-                      header: ExploreHeader(
-                        selectedSection: selectedSection,
-                        enabledAppFormats: enabledAppFormats,
-                        selectedAppFormats: selectedAppFormats,
-                        handleAppFormat: (appFormat) {
-                          handleAppFormat(appFormat);
-                          search();
-                        },
-                        setSelectedSection: (value) {
-                          setSelectedSection(value);
-                          search();
-                        },
-                      ),
-                    )
-                  : StartPage(
-                      snaps: sectionSnapsAll,
-                      snapSection: SnapSection.all,
-                    )),
-    );
+    return !connectivity.isOnline
+        ? const OfflinePage()
+        : errorMessage != null && errorMessage.isNotEmpty
+            ? ExploreErrorPage(
+                errorMessage: errorMessage,
+              )
+            : searchActive == true
+                ? SearchPage(
+                    searchResult: searchResult,
+                    showPackageKit: showPackageKit,
+                    showSnap: showSnap,
+                    header: ExploreHeader(
+                      selectedSection: selectedSection,
+                      selectedAppFormats: selectedAppFormats,
+                      enabledAppFormats: enabledAppFormats,
+                      setSelectedSection: (value) {
+                        setSelectedSection(value);
+                        search();
+                      },
+                      handleAppFormat: (appFormat) {
+                        handleAppFormat(appFormat);
+                        search();
+                      },
+                    ),
+                  )
+                : StartPage(
+                    snaps: sectionSnapsAll,
+                    snapSection: SnapSection.all,
+                  );
   }
 }

@@ -17,10 +17,16 @@
 
 import 'dart:async';
 
+import 'package:appstream/appstream.dart';
+import 'package:collection/collection.dart';
 import 'package:launcher_entry/launcher_entry.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/app_finding.dart';
+import 'package:software/app/common/app_format.dart';
+import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/services/appstream/appstream_service.dart';
+import 'package:software/services/appstream/appstream_utils.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/services/packagekit/updates_state.dart';
@@ -66,7 +72,7 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
   final _sidebarEventController = StreamController<bool>.broadcast();
   Stream<bool> get sidebarEvents => _sidebarEventController.stream;
   int _selectedIndex = 0;
-  set selectedIndex(int index) {
+  void setSelectedIndex(int index) {
     if (_selectedIndex == index) {
       _sidebarEventController.add(true);
     } else {
@@ -120,6 +126,18 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
       }
       updateLauncherEntry();
     });
+
+    _enabledAppFormats.add(AppFormat.snap);
+    _selectedAppFormats.add(AppFormat.snap);
+
+    await _packageService.initialized;
+    if (_packageService.isAvailable) {
+      _appstreamService.init().then((_) {
+        _enabledAppFormats.add(AppFormat.packageKit);
+        _selectedAppFormats.add(AppFormat.packageKit);
+        notifyListeners();
+      });
+    }
   }
 
   String? _updatesAvailable;
@@ -154,6 +172,134 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
       updatesState == null ||
       updatesState == UpdatesState.readyToUpdate ||
       updatesState == UpdatesState.noUpdates;
+
+  String? _searchQuery;
+  String? get searchQuery => _searchQuery;
+  void setSearchQuery({String? value, bool notify = false}) {
+    _errorMessage = '';
+    _searchQuery = value;
+    if (notify == true) {
+      notifyListeners();
+    }
+  }
+
+  bool? _searchActive;
+  bool? get searchActive => _searchActive;
+  void setSearchActive(bool? value) {
+    if (value == null || value == _searchActive) return;
+    _searchActive = value;
+    notifyListeners();
+  }
+
+  SnapSection? _selectedSection = SnapSection.all;
+  SnapSection? get selectedSection => _selectedSection;
+  void setSelectedSection(SnapSection? value) {
+    if (value == null || value == _selectedSection) return;
+    _selectedSection = value;
+    notifyListeners();
+  }
+
+  Map<SnapSection, List<Snap>> get sectionNameToSnapsMap =>
+      _snapService.sectionNameToSnapsMap;
+
+  final Set<AppFormat> _selectedAppFormats = {};
+  Set<AppFormat> get selectedAppFormats => Set.from(_selectedAppFormats);
+  final Set<AppFormat> _enabledAppFormats = {};
+  Set<AppFormat> get enabledAppFormats => Set.from(_enabledAppFormats);
+  void handleAppFormat(AppFormat appFormat) {
+    if (!_selectedAppFormats.contains(appFormat)) {
+      _selectedAppFormats.add(appFormat);
+    } else {
+      if (_selectedAppFormats.length < 2) return;
+      _selectedAppFormats.remove(appFormat);
+    }
+    notifyListeners();
+  }
+
+  Future<List<Snap>> _findSnapsByQuery(String searchQuery) async {
+    try {
+      return await _snapService.findSnapsByQuery(
+        searchQuery: searchQuery,
+        sectionName:
+            selectedSection == null || selectedSection == SnapSection.all
+                ? null
+                : selectedSection!.title,
+      );
+    } on SnapdException catch (e) {
+      errorMessage = e.message.toString();
+      return [];
+    }
+  }
+
+  Future<List<AppstreamComponent>> _findAppstreamComponents(
+    String searchQuery,
+  ) async =>
+      _appstreamService.search(searchQuery);
+
+  Map<String, AppFinding>? _searchResult;
+  Map<String, AppFinding>? get searchResult => _searchResult;
+  set searchResult(Map<String, AppFinding>? value) {
+    _searchResult = value;
+    notifyListeners();
+  }
+
+  Future<void> search() async {
+    searchResult = null;
+
+    final Map<String, AppFinding> appFindings = {};
+    if (searchQuery != null && searchQuery!.isNotEmpty) {
+      if (selectedAppFormats
+          .containsAll([AppFormat.snap, AppFormat.packageKit])) {
+        final snaps = await _findSnapsByQuery(searchQuery!);
+        for (final snap in snaps) {
+          appFindings.putIfAbsent(
+            snap.name,
+            () => AppFinding(snap: snap),
+          );
+        }
+
+        final components = await _findAppstreamComponents(searchQuery!);
+        for (final component in components) {
+          final snap =
+              snaps.firstWhereOrNull((snap) => snap.name == component.package);
+          if (snap == null) {
+            appFindings.putIfAbsent(
+              component.localizedName(),
+              () => AppFinding(appstream: component),
+            );
+          } else {
+            appFindings.update(
+              snap.name,
+              (value) => AppFinding(
+                snap: snap,
+                appstream: component,
+              ),
+            );
+          }
+        }
+      } else if (selectedAppFormats.contains(AppFormat.snap) &&
+          !(selectedAppFormats.contains(AppFormat.packageKit))) {
+        final snaps = await _findSnapsByQuery(searchQuery!);
+        for (final snap in snaps) {
+          appFindings.putIfAbsent(
+            snap.name,
+            () => AppFinding(snap: snap),
+          );
+        }
+      } else if (!selectedAppFormats.contains(AppFormat.snap) &&
+          (selectedAppFormats.contains(AppFormat.packageKit))) {
+        final components = await _findAppstreamComponents(searchQuery!);
+        for (final component in components) {
+          appFindings.putIfAbsent(
+            component.localizedName(),
+            () => AppFinding(appstream: component),
+          );
+        }
+      }
+
+      searchResult = appFindings;
+    }
+  }
 
   @override
   void onWindowBlur() {}

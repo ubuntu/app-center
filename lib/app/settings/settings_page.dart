@@ -61,22 +61,17 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: YaruWindowTitleBar(
-        title: Text(context.l10n.settingsPageTitle),
-      ),
-      body: ListView(
-        children: [
-          const ThemeSection(),
-          YaruSection(
-            margin: const EdgeInsets.all(kYaruPagePadding),
-            //width: kMinSectionWidth,
-            child: Column(
-              children: [_RepoTile.create(context), const _AboutTile()],
-            ),
-          )
-        ],
-      ),
+    return ListView(
+      children: [
+        const ThemeSection(),
+        YaruSection(
+          margin: const EdgeInsets.all(kYaruPagePadding),
+          //width: kMinSectionWidth,
+          child: Column(
+            children: [_RepoTile.create(context), const _AboutTile()],
+          ),
+        )
+      ],
     );
   }
 }

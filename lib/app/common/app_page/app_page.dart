@@ -27,7 +27,6 @@ import 'package:software/app/common/app_page/app_swipe_gesture.dart';
 import 'package:software/app/common/app_page/media_tile.dart';
 import 'package:software/app/common/app_page/page_layouts.dart';
 import 'package:software/app/common/border_container.dart';
-import 'package:software/app/common/custom_back_button.dart';
 import 'package:software/app/common/safe_network_image.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -258,11 +257,6 @@ class _AppPageState extends State<AppPage> {
             : narrowWindowLayout;
 
     return Scaffold(
-      appBar: YaruWindowTitleBar(
-        title: Text(widget.appData.title),
-        titleSpacing: 0,
-        leading: const CustomBackButton(),
-      ),
       body: BackGesture(
         child: body,
       ),

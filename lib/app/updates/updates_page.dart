@@ -12,7 +12,6 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 class UpdatesPage extends StatefulWidget {
   const UpdatesPage({
@@ -76,21 +75,15 @@ class _UpdatesPageState extends State<UpdatesPage>
       enabledAppFormats: model.enabledAppFormats,
     );
 
-    return Scaffold(
-      appBar: YaruWindowTitleBar(
-        titleSpacing: 0,
-        title: Text(context.l10n.updates),
-      ),
-      body: model.appFormat == AppFormat.packageKit
-          ? PackageUpdatesPage.create(
-              context: context,
-              appFormatPopup: appFormatPopup,
-            )
-          : SnapUpdatesPage.create(
-              context: context,
-              appFormatPopup: appFormatPopup,
-            ),
-    );
+    return model.appFormat == AppFormat.packageKit
+        ? PackageUpdatesPage.create(
+            context: context,
+            appFormatPopup: appFormatPopup,
+          )
+        : SnapUpdatesPage.create(
+            context: context,
+            appFormatPopup: appFormatPopup,
+          );
   }
 }
 

@@ -27,6 +27,7 @@ import 'package:software/app/common/close_confirmation_dialog.dart';
 import 'package:software/app/common/connectivity_notifier.dart';
 import 'package:software/app/common/page_item.dart';
 import 'package:software/app/common/rating_model.dart';
+import 'package:software/app/common/search_field.dart';
 import 'package:software/app/explore/explore_page.dart';
 import 'package:software/app/installed/installed_page.dart';
 import 'package:software/app/package_installer/package_installer_page.dart';
@@ -162,15 +163,27 @@ class __AppState extends State<_App> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AppModel>();
+    final badgeCount = context.select((AppModel m) => m.snapChanges.length);
+    final processing = context.select((AppModel m) => m.snapChanges.isNotEmpty);
+    final updateAmount = context.select((AppModel m) => m.updateAmount);
+    final updatesProcessing =
+        context.select((AppModel m) => m.updatesProcessing);
     final width = MediaQuery.of(context).size.width;
 
-    model.setupNotifications(updatesAvailable: context.l10n.updateAvailable);
+    context
+        .read<AppModel>()
+        .setupNotifications(updatesAvailable: context.l10n.updateAvailable);
+
+    final setSelectedIndex = context.select((AppModel m) => m.setSelectedIndex);
+    final search = context.select((AppModel m) => m.search);
+    final searchQuery = context.select((AppModel m) => m.searchQuery);
+    final setSearchQuery = context.select((AppModel m) => m.setSearchQuery);
+    final setSearchActive = context.select((AppModel m) => m.setSearchActive);
 
     final pageItems = [
       PageItem(
         titleBuilder: ExplorePage.createTitle,
-        builder: (context) => ExplorePage.create(context, model.errorMessage),
+        builder: (context) => const ExplorePage(),
         iconBuilder: ExplorePage.createIcon,
       ),
       PageItem(
@@ -179,8 +192,8 @@ class __AppState extends State<_App> {
         iconBuilder: (context, selected) => InstalledPage.createIcon(
           context: context,
           selected: selected,
-          badgeCount: model.snapChanges.length,
-          processing: model.snapChanges.isNotEmpty,
+          badgeCount: badgeCount,
+          processing: processing,
         ),
       ),
       PageItem(
@@ -192,8 +205,8 @@ class __AppState extends State<_App> {
         iconBuilder: (context, selected) => UpdatesPage.createIcon(
           context: context,
           selected: selected,
-          badgeCount: model.updateAmount,
-          processing: model.updatesProcessing,
+          badgeCount: updateAmount,
+          processing: updatesProcessing,
         ),
       ),
       if (debPath != null || snapName != null)
@@ -224,29 +237,42 @@ class __AppState extends State<_App> {
             : YaruNavigationRailStyle.compact;
 
     return _initialized
-        ? YaruNavigationPage(
-            leading: AnimatedContainer(
-              width: normalWindowSize
-                  ? 100
-                  : wideWindowSize
-                      ? 250
-                      : 60,
-              duration: const Duration(milliseconds: 200),
-              child: YaruWindowTitleBar(
-                title: Text(wideWindowSize ? 'Ubuntu Software' : ''),
-                style: YaruTitleBarStyle.undecorated,
+        ? Scaffold(
+            appBar: YaruWindowTitleBar(
+              leading: const SizedBox(
+                width: 40,
+              ),
+              title: SearchField(
+                autofocus: true,
+                clear: () {
+                  setSearchQuery(value: null, notify: true);
+                  setSearchActive(false);
+                },
+                key: ValueKey(searchQuery != null && searchQuery.isNotEmpty),
+                searchQuery: searchQuery,
+                onChanged: (value) => setSearchQuery(value: value),
+                onSubmitted: (v) {
+                  setSearchQuery(value: v);
+
+                  setSearchActive(true);
+                  search();
+                },
+                hintText: context.l10n.searchHintAppStore,
               ),
             ),
-            key: ValueKey((debPath ?? '') + (snapName ?? '')),
-            length: pageItems.length,
-            onSelected: (value) => model.selectedIndex = value,
-            initialIndex: _initialIndex,
-            itemBuilder: (context, index, selected) => YaruNavigationRailItem(
-              icon: pageItems[index].iconBuilder(context, selected),
-              label: pageItems[index].titleBuilder(context), style: itemStyle,
-              // tooltip: pageItems[index].tooltipMessage,
+            body: YaruNavigationPage(
+              key: ValueKey((debPath ?? '') + (snapName ?? '')),
+              length: pageItems.length,
+              onSelected: (value) => setSelectedIndex(value),
+              initialIndex: _initialIndex,
+              itemBuilder: (context, index, selected) => YaruNavigationRailItem(
+                icon: pageItems[index].iconBuilder(context, selected),
+                label: pageItems[index].titleBuilder(context), style: itemStyle,
+                // tooltip: pageItems[index].tooltipMessage,
+              ),
+              pageBuilder: (context, index) =>
+                  pageItems[index].builder(context),
             ),
-            pageBuilder: (context, index) => pageItems[index].builder(context),
           )
         : const StoreSplashScreen();
   }
