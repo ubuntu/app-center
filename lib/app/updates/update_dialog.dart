@@ -28,7 +28,6 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
-import 'package:software/app/common/border_container.dart';
 
 class UpdateDialog extends StatefulWidget {
   const UpdateDialog({
@@ -74,8 +73,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
     const headerStyle = TextStyle(fontWeight: FontWeight.bold);
-    final detailStyle = Theme.of(context).textTheme.bodyMedium;
-    const detailPadding = EdgeInsets.only(top: 8, bottom: 8, right: 8);
+    const detailStyle = TextStyle(fontWeight: FontWeight.w400);
+    const detailPadding = EdgeInsets.only(top: 8, bottom: 8, right: 16);
     if (model.packageState != PackageState.ready || model.changelog.isEmpty) {
       return const AlertDialog(
         content: Padding(
@@ -91,19 +90,14 @@ class _UpdateDialogState extends State<UpdateDialog> {
           context.l10n.changelog,
           style: headerStyle,
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: BorderContainer(
-            child: MarkdownBody(
-              data: model.changelog.length > 4000
-                  ? '${model.changelog.substring(0, 4000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
-                  : model.changelog,
-              shrinkWrap: true,
-              selectable: true,
-              onTapLink: (text, href, title) =>
-                  href != null ? launchUrl(Uri.parse(href)) : null,
-            ),
-          ),
+        child: MarkdownBody(
+          data: model.changelog.length > 4000
+              ? '${model.changelog.substring(0, 4000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
+              : model.changelog,
+          shrinkWrap: true,
+          selectable: true,
+          onTapLink: (text, href, title) =>
+              href != null ? launchUrl(Uri.parse(href)) : null,
         ),
       ),
       YaruExpandable(
@@ -111,82 +105,77 @@ class _UpdateDialogState extends State<UpdateDialog> {
           context.l10n.packageDetails,
           style: headerStyle,
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: BorderContainer(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                YaruTile(
-                  padding: detailPadding,
-                  title: Text(
-                    context.l10n.version,
-                    style: detailStyle,
-                  ),
-                  trailing: Text(widget.id.version),
-                ),
-                YaruTile(
-                  padding: detailPadding,
-                  title: Text(
-                    context.l10n.size,
-                    style: detailStyle,
-                  ),
-                  trailing: Text(formatBytes(model.size, 2)),
-                ),
-                YaruTile(
-                  padding: detailPadding,
-                  title: Text(
-                    context.l10n.architecture,
-                    style: detailStyle,
-                  ),
-                  trailing: Text(widget.id.arch),
-                ),
-                YaruTile(
-                  padding: detailPadding,
-                  title: Text(
-                    context.l10n.source,
-                    style: detailStyle,
-                  ),
-                  trailing: Text(widget.id.data),
-                ),
-                YaruTile(
-                  padding: detailPadding,
-                  title: Text(
-                    context.l10n.license,
-                    style: detailStyle,
-                  ),
-                  trailing: Text(model.license),
-                ),
-                YaruTile(
-                  padding: detailPadding,
-                  title: Text(
-                    context.l10n.website,
-                    style: detailStyle,
-                  ),
-                  trailing: IconButton(
-                    splashRadius: 20,
-                    tooltip: model.url,
-                    onPressed: () => launchUrl(Uri.parse(model.url)),
-                    icon: Icon(
-                      YaruIcons.external_link,
-                      color: Theme.of(context).colorScheme.onSurface,
-                      size: 20,
-                    ),
-                  ),
-                  enabled: true,
-                ),
-                YaruTile(
-                  padding: detailPadding,
-                  title: Text(
-                    context.l10n.issued,
-                    style: detailStyle,
-                  ),
-                  trailing: Text(model.issued),
-                ),
-              ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            YaruTile(
+              padding: detailPadding,
+              title: Text(
+                context.l10n.version,
+                style: detailStyle,
+              ),
+              trailing: Text(widget.id.version),
             ),
-          ),
+            YaruTile(
+              padding: detailPadding,
+              title: Text(
+                context.l10n.size,
+                style: detailStyle,
+              ),
+              trailing: Text(formatBytes(model.size, 2)),
+            ),
+            YaruTile(
+              padding: detailPadding,
+              title: Text(
+                context.l10n.architecture,
+                style: detailStyle,
+              ),
+              trailing: Text(widget.id.arch),
+            ),
+            YaruTile(
+              padding: detailPadding,
+              title: Text(
+                context.l10n.source,
+                style: detailStyle,
+              ),
+              trailing: Text(widget.id.data),
+            ),
+            YaruTile(
+              padding: detailPadding,
+              title: Text(
+                context.l10n.license,
+                style: detailStyle,
+              ),
+              trailing: Text(model.license),
+            ),
+            YaruTile(
+              padding: detailPadding,
+              title: Text(
+                context.l10n.website,
+                style: detailStyle,
+              ),
+              trailing: IconButton(
+                splashRadius: 20,
+                tooltip: model.url,
+                onPressed: () => launchUrl(Uri.parse(model.url)),
+                icon: Icon(
+                  YaruIcons.external_link,
+                  color: Theme.of(context).colorScheme.onSurface,
+                  size: 20,
+                ),
+              ),
+              enabled: true,
+            ),
+            YaruTile(
+              padding: detailPadding,
+              title: Text(
+                context.l10n.issued,
+                style: detailStyle,
+              ),
+              trailing: Text(model.issued),
+            ),
+          ],
         ),
       ),
       YaruExpandable(
@@ -196,13 +185,13 @@ class _UpdateDialogState extends State<UpdateDialog> {
         ),
         isExpanded: false,
         expandIcon: const Icon(YaruIcons.pan_end),
-        child: BorderContainer(
-          width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16.0),
           child: Text(
             model.description,
           ),
         ),
-      ),
+      )
     ];
     return SimpleDialog(
       title: YaruDialogTitleBar(
@@ -215,7 +204,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
       ),
       titlePadding: EdgeInsets.zero,
       contentPadding:
-          const EdgeInsets.only(left: 20, top: 10, bottom: 20, right: 20),
+          const EdgeInsets.only(left: 20, top: 10, bottom: 20, right: 10),
       children: children
           .map(
             (e) => SizedBox(
