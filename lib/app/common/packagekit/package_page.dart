@@ -151,7 +151,7 @@ class _PackagePageState extends State<PackagePage> {
 
     final preControls = widget.snap == null
         ? const BorderContainer(
-            padding: EdgeInsets.symmetric(horizontal: 5),
+            containerPadding: EdgeInsets.symmetric(horizontal: 5),
             borderRadius: 6,
             child: SizedBox(height: 40, child: DebianLabel()),
           )

@@ -161,7 +161,7 @@ class _ReviewDetailsDialog extends StatelessWidget {
           : userReviews!
               .map(
                 (e) => BorderContainer(
-                  padding: const EdgeInsets.only(
+                  childPadding: const EdgeInsets.only(
                     left: kYaruPagePadding,
                     right: kYaruPagePadding,
                     bottom: kYaruPagePadding,

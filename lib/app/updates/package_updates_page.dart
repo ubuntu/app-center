@@ -312,7 +312,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
             height: 10,
           ),
           BorderContainer(
-            padding: EdgeInsets.only(
+            childPadding: EdgeInsets.only(
               top: 20,
               bottom: 50,
               left: widget.hPadding,
