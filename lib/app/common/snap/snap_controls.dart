@@ -21,7 +21,6 @@ import 'package:provider/provider.dart';
 import 'package:software/app/common/snap/snap_channel_button.dart';
 import 'package:software/app/common/snap/snap_model.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/snapd_change_x.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapControls extends StatelessWidget {
@@ -47,18 +46,17 @@ class SnapControls extends StatelessWidget {
       runSpacing: 10,
       children: model.snapChangeInProgress
           ? [
-              SizedBox(
+              const SizedBox(
                 height: 20,
                 child: YaruCircularProgressIndicator(
                   strokeWidth: 3,
-                  value: model.change?.progress,
                 ),
               ),
               if (model.change != null)
                 Text(
                   getChangeMessage(
                     context: context,
-                    changeKind: model.change!.kind,
+                    changeKind: model.change?.kind,
                   ),
                 ),
             ]
