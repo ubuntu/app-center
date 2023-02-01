@@ -87,7 +87,6 @@ class InstalledPage extends StatelessWidget {
         title: SearchField(
           searchQuery: searchQuery ?? '',
           onChanged: setSearchQuery,
-          hintText: context.l10n.searchHintInstalled,
         ),
       ),
       body: page,

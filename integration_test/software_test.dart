@@ -80,8 +80,7 @@ Future<void> testSearchPackage(
   WidgetTester tester, {
   required String packageName,
 }) async {
-  final searchField =
-      find.widgetWithText(SearchField, tester.lang.searchHintAppStore);
+  final searchField = find.widgetWithText(SearchField, tester.lang.searchHint);
   expectSync(searchField, findsOneWidget);
   await tester.enterText(searchField, packageName);
   await tester.pumpAndSettle();
