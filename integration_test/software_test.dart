@@ -84,6 +84,7 @@ Future<void> testSearchPackage(
       find.widgetWithText(SearchField, tester.lang.searchHintAppStore);
   expectSync(searchField, findsOneWidget);
   await tester.enterText(searchField, packageName);
+  await tester.testTextInput.receiveAction(TextInputAction.done);
   await tester.pumpAndSettle();
 
   final helloBanner = find.widgetWithText(AppBanner, packageName);
