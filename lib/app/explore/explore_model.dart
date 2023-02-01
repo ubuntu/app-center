@@ -19,20 +19,24 @@ import 'dart:async';
 
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_finding.dart';
-import 'package:software/app/common/app_format.dart';
-import 'package:software/app/common/snap/snap_section.dart';
-import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
+import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
+import 'package:software/app/common/app_format.dart';
+import 'package:software/app/common/snap/snap_section.dart';
+import 'package:software/app/common/snap/snap_sort.dart';
+import 'package:software/services/packagekit/updates_state.dart';
 
 class ExploreModel extends SafeChangeNotifier {
   final AppstreamService _appstreamService;
   final SnapService _snapService;
   final PackageService _packageService;
+  StreamSubscription<UpdatesState>? _updatesStateSub;
   StreamSubscription<bool>? _sectionsChangedSub;
 
   Future<void> init() async {
@@ -48,13 +52,31 @@ class ExploreModel extends SafeChangeNotifier {
         _selectedAppFormats.add(AppFormat.packageKit);
         notifyListeners();
       });
+      _updatesState = _packageService.lastUpdatesState;
+      _updatesStateSub = _packageService.updatesState.listen((event) {
+        updatesState = event;
+      });
     }
   }
 
   @override
   void dispose() {
+    _updatesStateSub?.cancel();
     _sectionsChangedSub?.cancel();
     super.dispose();
+  }
+
+  bool get packageKitReady =>
+      updatesState != null &&
+      updatesState != UpdatesState.updating &&
+      updatesState != UpdatesState.checkingForUpdates;
+
+  UpdatesState? _updatesState;
+  UpdatesState? get updatesState => _updatesState;
+  set updatesState(UpdatesState? value) {
+    if (value == _updatesState) return;
+    _updatesState = value;
+    notifyListeners();
   }
 
   ExploreModel(
@@ -72,11 +94,17 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  bool get showSectionBannerGrid =>
+      searchQuery.isEmpty && sectionNameToSnapsMap.isNotEmpty;
+
   bool get showStartPage => selectedSection == SnapSection.all;
 
   bool get showErrorPage => errorMessage != null && errorMessage!.isNotEmpty;
 
   bool get showSearchPage => searchQuery.isNotEmpty;
+
+  bool showTwoCarousels({required double width}) => width > 800;
+  bool showThreeCarousels({required double width}) => width > 1500;
 
   String _searchQuery;
   String get searchQuery => _searchQuery;
@@ -95,24 +123,7 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Map<SnapSection, List<Snap>> get sectionNameToSnapsMap =>
-      _snapService.sectionNameToSnapsMap;
-
-  final Set<AppFormat> _selectedAppFormats = {};
-  Set<AppFormat> get selectedAppFormats => Set.from(_selectedAppFormats);
-  final Set<AppFormat> _enabledAppFormats = {};
-  Set<AppFormat> get enabledAppFormats => Set.from(_enabledAppFormats);
-  void handleAppFormat(AppFormat appFormat) {
-    if (!_selectedAppFormats.contains(appFormat)) {
-      _selectedAppFormats.add(appFormat);
-    } else {
-      if (_selectedAppFormats.length < 2) return;
-      _selectedAppFormats.remove(appFormat);
-    }
-    notifyListeners();
-  }
-
-  Future<List<Snap>> _findSnapsByQuery() async {
+  Future<List<Snap>> findSnapsByQuery() async {
     if (searchQuery.isEmpty) {
       return [];
     } else {
@@ -129,8 +140,60 @@ class ExploreModel extends SafeChangeNotifier {
     }
   }
 
-  Future<List<AppstreamComponent>> _findAppstreamComponents() async =>
+  Map<SnapSection, List<Snap>> get sectionNameToSnapsMap =>
+      _snapService.sectionNameToSnapsMap;
+
+  Future<List<AppstreamComponent>> findAppstreamComponents() async =>
       _appstreamService.search(searchQuery);
+
+  AppFormat _appFormat = AppFormat.snap;
+  AppFormat get appFormat => _appFormat;
+  void setAppFormat(AppFormat value) {
+    if (value == _appFormat) return;
+    _appFormat = value;
+    notifyListeners();
+  }
+
+  SnapSort _snapSort = SnapSort.name;
+  SnapSort get snapSort => _snapSort;
+  void setSnapSort(SnapSort value) {
+    if (value == _snapSort) return;
+    _snapSort = value;
+    notifyListeners();
+  }
+
+  PackageKitGroup? _packageKitGroup;
+  PackageKitGroup? get packageKitGroup => _packageKitGroup;
+  void setPackageKitGroup(PackageKitGroup? value) {
+    if (value == _packageKitGroup) return;
+    _packageKitGroup = value;
+    notifyListeners();
+  }
+
+  final Set<PackageKitFilter> _packageKitFilters = {};
+  Set<PackageKitFilter> get packageKitFilters => _packageKitFilters;
+  void handleFilter(bool value, PackageKitFilter filter) {
+    if (value) {
+      _packageKitFilters.add(filter);
+    } else {
+      _packageKitFilters.remove(filter);
+    }
+    notifyListeners();
+  }
+
+  final Set<AppFormat> _selectedAppFormats = {};
+  Set<AppFormat> get selectedAppFormats => Set.from(_selectedAppFormats);
+  final Set<AppFormat> _enabledAppFormats = {};
+  Set<AppFormat> get enabledAppFormats => Set.from(_enabledAppFormats);
+  void handleAppFormat(AppFormat appFormat) {
+    if (!_selectedAppFormats.contains(appFormat)) {
+      _selectedAppFormats.add(appFormat);
+    } else {
+      if (_selectedAppFormats.length < 2) return;
+      _selectedAppFormats.remove(appFormat);
+    }
+    notifyListeners();
+  }
 
   // TODO: get real rating from backend
   Future<Map<String, AppFinding>> search() async {
@@ -138,7 +201,7 @@ class ExploreModel extends SafeChangeNotifier {
 
     if (selectedAppFormats
         .containsAll([AppFormat.snap, AppFormat.packageKit])) {
-      final snaps = await _findSnapsByQuery();
+      final snaps = await findSnapsByQuery();
       for (final snap in snaps) {
         appFindings.putIfAbsent(
           snap.name,
@@ -146,7 +209,7 @@ class ExploreModel extends SafeChangeNotifier {
         );
       }
 
-      final components = await _findAppstreamComponents();
+      final components = await findAppstreamComponents();
       for (final component in components) {
         final snap =
             snaps.firstWhereOrNull((snap) => snap.name == component.package);
@@ -167,7 +230,7 @@ class ExploreModel extends SafeChangeNotifier {
       }
     } else if (selectedAppFormats.contains(AppFormat.snap) &&
         !(selectedAppFormats.contains(AppFormat.packageKit))) {
-      final snaps = await _findSnapsByQuery();
+      final snaps = await findSnapsByQuery();
       for (final snap in snaps) {
         appFindings.putIfAbsent(
           snap.name,
@@ -176,7 +239,7 @@ class ExploreModel extends SafeChangeNotifier {
       }
     } else if (!selectedAppFormats.contains(AppFormat.snap) &&
         (selectedAppFormats.contains(AppFormat.packageKit))) {
-      final components = await _findAppstreamComponents();
+      final components = await findAppstreamComponents();
       for (final component in components) {
         appFindings.putIfAbsent(
           component.localizedName(),
