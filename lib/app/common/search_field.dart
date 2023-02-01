@@ -24,13 +24,13 @@ import 'package:yaru_icons/yaru_icons.dart';
 class SearchField extends StatefulWidget {
   const SearchField({
     super.key,
-    this.searchQuery,
+    required this.searchQuery,
     required this.onChanged,
     this.autofocus = true,
     this.hintText,
   });
 
-  final String? searchQuery;
+  final String searchQuery;
   final Function(String value) onChanged;
   final bool autofocus;
   final String? hintText;
@@ -46,9 +46,7 @@ class _SearchFieldState extends State<SearchField> {
   @override
   void initState() {
     super.initState();
-    if (widget.searchQuery != null) {
-      _controller.text = widget.searchQuery!;
-    }
+    _controller.text = widget.searchQuery;
   }
 
   @override
@@ -104,25 +102,24 @@ class _SearchFieldState extends State<SearchField> {
                 ),
                 prefixIconConstraints:
                     const BoxConstraints(minWidth: 40, minHeight: 0),
-                suffixIcon:
-                    widget.searchQuery != null && widget.searchQuery!.isNotEmpty
-                        ? SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: _clear,
-                                child: Center(
-                                  child: Icon(
-                                    YaruIcons.edit_clear,
-                                    color: Theme.of(context).hintColor,
-                                  ),
-                                ),
+                suffixIcon: widget.searchQuery.isNotEmpty
+                    ? SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: _clear,
+                            child: Center(
+                              child: Icon(
+                                YaruIcons.edit_clear,
+                                color: Theme.of(context).hintColor,
                               ),
                             ),
-                          )
-                        : null,
+                          ),
+                        ),
+                      )
+                    : null,
                 suffixIconConstraints:
                     const BoxConstraints(maxWidth: 30, minHeight: 0),
                 isDense: true,
