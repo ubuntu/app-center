@@ -162,23 +162,15 @@ class __AppState extends State<_App> {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<AppModel>();
     final width = MediaQuery.of(context).size.width;
 
-    context
-        .read<AppModel>()
-        .setupNotifications(updatesAvailable: context.l10n.updateAvailable);
-    final badgeCount = context.select((AppModel m) => m.snapChanges.length);
-    final processing = context.select((AppModel m) => m.snapChanges.isNotEmpty);
-    final errorMessage = context.select((AppModel m) => m.errorMessage);
-    final updateAmount = context.select((AppModel m) => m.updateAmount);
-    final updatesProcessing =
-        context.select((AppModel m) => m.updatesProcessing);
-    final setSelectedIndex = context.select((AppModel m) => m.setSelectedIndex);
+    model.setupNotifications(updatesAvailable: context.l10n.updateAvailable);
 
     final pageItems = [
       PageItem(
         titleBuilder: ExplorePage.createTitle,
-        builder: (context) => ExplorePage.create(context, errorMessage),
+        builder: (context) => ExplorePage.create(context, model.errorMessage),
         iconBuilder: ExplorePage.createIcon,
       ),
       PageItem(
@@ -187,8 +179,8 @@ class __AppState extends State<_App> {
         iconBuilder: (context, selected) => InstalledPage.createIcon(
           context: context,
           selected: selected,
-          badgeCount: badgeCount,
-          processing: processing,
+          badgeCount: model.snapChanges.length,
+          processing: model.snapChanges.isNotEmpty,
         ),
       ),
       PageItem(
@@ -200,8 +192,8 @@ class __AppState extends State<_App> {
         iconBuilder: (context, selected) => UpdatesPage.createIcon(
           context: context,
           selected: selected,
-          badgeCount: updateAmount,
-          processing: updatesProcessing,
+          badgeCount: model.updateAmount,
+          processing: model.updatesProcessing,
         ),
       ),
       if (debPath != null || snapName != null)
@@ -247,7 +239,7 @@ class __AppState extends State<_App> {
             ),
             key: ValueKey((debPath ?? '') + (snapName ?? '')),
             length: pageItems.length,
-            onSelected: (value) => setSelectedIndex(value),
+            onSelected: (value) => model.selectedIndex = value,
             initialIndex: _initialIndex,
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(
               icon: pageItems[index].iconBuilder(context, selected),

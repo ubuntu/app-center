@@ -66,7 +66,7 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
   final _sidebarEventController = StreamController<bool>.broadcast();
   Stream<bool> get sidebarEvents => _sidebarEventController.stream;
   int _selectedIndex = 0;
-  void setSelectedIndex(int index) {
+  set selectedIndex(int index) {
     if (_selectedIndex == index) {
       _sidebarEventController.add(true);
     } else {
