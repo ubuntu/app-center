@@ -18,12 +18,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:data_size/data_size.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
+import 'package:software/app/common/utils.dart';
 
 class SnapModel extends SafeChangeNotifier {
   SnapModel(
@@ -164,7 +164,10 @@ class SnapModel extends SafeChangeNotifier {
   String? get description => _storeSnap?.description ?? _localSnap?.description;
 
   /// Download size in bytes.
-  String get downloadSize => _storeSnap?.downloadSize?.formatByteSize() ?? '';
+  String get downloadSize =>
+      _storeSnap != null && _storeSnap!.downloadSize != null
+          ? formatBytes(_storeSnap!.downloadSize!, 2)
+          : '';
 
   /// Helper getter to get the icon url of the [SnapMedia]
   String? get iconUrl => _storeSnap?.iconUrl ?? _localSnap?.iconUrl;
@@ -198,7 +201,11 @@ class SnapModel extends SafeChangeNotifier {
       _localSnap != null && _localSnap!.installDate != null;
 
   /// Installed size in bytes as a formated string.
-  String get installedSize => _localSnap?.installedSize?.formatByteSize() ?? '';
+  String get installedSize {
+    return _localSnap != null && _localSnap!.installedSize != null
+        ? formatBytes(_localSnap!.installedSize!, 2)
+        : '';
+  }
 
   /// Package license.
   String? get license => _storeSnap?.license ?? _localSnap?.license;
