@@ -151,18 +151,9 @@ class AppImageBanner extends StatelessWidget {
             height: 5,
           ),
           Expanded(
-            child: YaruTile(
-              style: YaruTileStyle.banner,
-              padding: const EdgeInsets.only(
-                left: 15,
-                right: 15,
-                top: 6,
-                bottom: 5,
-              ),
+            child: ListTile(
               title: Text(
                 snap.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
               subtitle: SearchBannerSubtitle(
                 appFinding:

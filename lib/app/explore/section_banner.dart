@@ -122,9 +122,8 @@ class _PlatedIconState extends State<_PlatedIcon> {
             hovered: hovered,
             child: AppIcon(
               iconUrl: widget.snap.iconUrl,
-              loadingBaseColor:
-                  dark ? const Color.fromARGB(255, 236, 236, 236) : null,
-              loadingHighlight:
+              color: dark ? const Color.fromARGB(255, 236, 236, 236) : null,
+              borderColor:
                   dark ? const Color.fromARGB(255, 211, 211, 211) : null,
               size: 65,
             ),

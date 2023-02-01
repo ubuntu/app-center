@@ -25,14 +25,14 @@ class AppIcon extends StatelessWidget {
     super.key,
     required this.iconUrl,
     this.size = 45,
-    this.loadingHighlight,
-    this.loadingBaseColor,
+    this.borderColor,
+    this.color,
   });
 
   final String? iconUrl;
   final double size;
-  final Color? loadingHighlight;
-  final Color? loadingBaseColor;
+  final Color? borderColor;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +41,8 @@ class AppIcon extends StatelessWidget {
     final theme = Theme.of(context);
     var light = theme.brightness == Brightness.light;
     final fallBackLoadingIcon = Shimmer.fromColors(
-      baseColor:
-          loadingBaseColor ?? (light ? kShimmerBaseLight : kShimmerBaseDark),
-      highlightColor: loadingHighlight ??
-          (light ? kShimmerHighLightLight : kShimmerHighLightDark),
+      baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
+      highlightColor: light ? kShimmerHighLightLight : kShimmerHighLightDark,
       child: fallBackIcon,
     );
 
