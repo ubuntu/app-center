@@ -300,32 +300,5 @@
   "configure": "Configurar",
   "@configure": {},
   "sourcesDescription": "Definir los depaus de mesa a jorn dels paquets Debian.",
-  "@sourcesDescription": {},
-  "permissions": "Permissions",
-  "@permissions": {},
-  "processing": "Tractament",
-  "@processing": {},
-  "dependencies": "Dependéncias",
-  "@dependencies": {},
-  "dependenciesQuestion": "Volètz vertadièrament contunhar ?",
-  "@dependenciesQuestion": {},
-  "dependenciesFullList": "Veire la lista complèta de las dependéncias",
-  "@dependenciesFullList": {},
-  "dependenciesListing": "{length} dependéncias seràn telecargadas en installant {packageName}",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
-  "gallery": "Galariá",
-  "@gallery": {},
-  "additionalInformation": "Informacions complementàrias",
-  "@additionalInformation": {},
-  "links": "Ligams",
-  "@links": {}
+  "@sourcesDescription": {}
 }
