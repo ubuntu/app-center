@@ -43,6 +43,9 @@ void main() {
     final packageServiceMock = MockPackageService();
     registerMockService<PackageService>(packageServiceMock);
     when(packageServiceMock.init).thenAnswer((_) async {});
+    when(() => packageServiceMock.initialized)
+        .thenAnswer((_) => Future.value());
+    when(() => packageServiceMock.isAvailable).thenReturn(true);
     when(() => packageServiceMock.updates).thenReturn([]);
     final updatesChangedController = StreamController<bool>.broadcast();
     when(() => packageServiceMock.updatesChanged)
