@@ -46,15 +46,6 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
   StreamSubscription<int?>? _updatesPercentageSub;
 
   final LauncherEntryService _launcherEntryService;
-  var _launcherEntryProgress = 0.0;
-  var _launcherEntryProgressVisible = false;
-
-  void updateLauncherEntry() => _launcherEntryService.update(
-        count: updateAmount,
-        countVisible: updateAmount > 0,
-        progress: _launcherEntryProgress,
-        progressVisible: _launcherEntryProgressVisible,
-      );
 
   UpdatesState? _updatesState;
   UpdatesState? get updatesState => _updatesState;
@@ -106,19 +97,22 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
         _packageService.sendUpdateNotification(
           updatesAvailable: _updatesAvailable!,
         );
+        _launcherEntryService.update(count: updateAmount, countVisible: true);
+      } else {
+        _launcherEntryService.update(count: 0, countVisible: false);
       }
-      updateLauncherEntry();
     });
 
     _updatesPercentageSub =
         _packageService.updatesPercentage.listen((percentage) {
       if (percentage == null) {
-        _launcherEntryProgressVisible = false;
+        _launcherEntryService.update(progressVisible: false);
       } else {
-        _launcherEntryProgressVisible = true;
-        _launcherEntryProgress = percentage / 100.0;
+        _launcherEntryService.update(
+          progress: percentage / 100.0,
+          progressVisible: true,
+        );
       }
-      updateLauncherEntry();
     });
   }
 
