@@ -20,7 +20,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
-import 'package:software/app/common/connectivity_notifier.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/explore/explore_error_page.dart';
 import 'package:software/app/explore/explore_model.dart';
@@ -36,10 +35,13 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({Key? key}) : super(key: key);
+  const ExplorePage({Key? key, required this.online}) : super(key: key);
+
+  final bool online;
 
   static Widget create(
-    BuildContext context, [
+    BuildContext context,
+    bool online, [
     String? errorMessage,
   ]) {
     return ChangeNotifierProvider(
@@ -49,7 +51,9 @@ class ExplorePage extends StatefulWidget {
         getService<PackageService>(),
         errorMessage,
       )..init(),
-      child: const ExplorePage(),
+      child: ExplorePage(
+        online: online,
+      ),
     );
   }
 
@@ -78,8 +82,6 @@ class _ExplorePageState extends State<ExplorePage> {
         .read<AppModel>()
         .sidebarEvents
         .listen((_) => model.setSearchQuery(''));
-    final connectivity = context.read<ConnectivityNotifier>();
-    connectivity.init();
   }
 
   @override
@@ -90,7 +92,6 @@ class _ExplorePageState extends State<ExplorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final connectivity = context.watch<ConnectivityNotifier>();
     final showErrorPage = context.select((ExploreModel m) => m.showErrorPage);
     final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
     final searchQuery = context.select((ExploreModel m) => m.searchQuery);
@@ -104,7 +105,7 @@ class _ExplorePageState extends State<ExplorePage> {
           onChanged: setSearchQuery,
         ),
       ),
-      body: !connectivity.isOnline
+      body: !widget.online
           ? const OfflinePage()
           : showErrorPage
               ? const ExploreErrorPage()

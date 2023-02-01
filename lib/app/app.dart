@@ -24,7 +24,6 @@ import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
 import 'package:software/app/app_splash_screen.dart';
 import 'package:software/app/common/close_confirmation_dialog.dart';
-import 'package:software/app/common/connectivity_notifier.dart';
 import 'package:software/app/common/page_item.dart';
 import 'package:software/app/explore/explore_page.dart';
 import 'package:software/app/installed/installed_page.dart';
@@ -42,20 +41,14 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class App extends StatelessWidget {
   const App({super.key});
 
-  static Widget create() => MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => AppModel(
-              getService<SnapService>(),
-              getService<AppstreamService>(),
-              getService<PackageService>(),
-              getService<LauncherEntryService>(),
-            ),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => ConnectivityNotifier(getService<Connectivity>()),
-          ),
-        ],
+  static Widget create() => ChangeNotifierProvider(
+        create: (context) => AppModel(
+          getService<Connectivity>(),
+          getService<SnapService>(),
+          getService<AppstreamService>(),
+          getService<PackageService>(),
+          getService<LauncherEntryService>(),
+        ),
         child: const App(),
       );
 
@@ -165,7 +158,8 @@ class __AppState extends State<_App> {
     final pageItems = [
       PageItem(
         titleBuilder: ExplorePage.createTitle,
-        builder: (context) => ExplorePage.create(context, model.errorMessage),
+        builder: (context) =>
+            ExplorePage.create(context, model.appIsOnline, model.errorMessage),
         iconBuilder: ExplorePage.createIcon,
       ),
       PageItem(

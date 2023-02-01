@@ -17,6 +17,7 @@
 
 import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:launcher_entry/launcher_entry.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
@@ -28,6 +29,7 @@ import 'package:window_manager/window_manager.dart';
 
 class AppModel extends SafeChangeNotifier implements WindowListener {
   AppModel(
+    this._connectivity,
     this._snapService,
     this._appstreamService,
     this._packageService,
@@ -39,6 +41,11 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
   StreamSubscription<bool>? _snapChangesSub;
 
   final AppstreamService _appstreamService;
+
+  final Connectivity _connectivity;
+  StreamSubscription? _connectivitySub;
+  ConnectivityResult? _connectivityResult = ConnectivityResult.wifi;
+  ConnectivityResult? get state => _connectivityResult;
 
   final PackageService _packageService;
   StreamSubscription<bool>? _updatesChangedSub;
@@ -88,6 +95,7 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       notifyListeners();
     });
+    initConnectivity();
     _updatesChangedSub = _packageService.updatesChanged.listen((event) {
       notifyListeners();
     });
@@ -124,6 +132,7 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
   @override
   Future<void> dispose() async {
     await _snapChangesSub?.cancel();
+    _connectivitySub?.cancel();
     _updatesChangedSub?.cancel();
     _updatesStateSub?.cancel();
     _updatesPercentageSub?.cancel();
@@ -131,12 +140,30 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
     super.dispose();
   }
 
+  Future<void> refreshConnectivity() {
+    return _connectivity.checkConnectivity().then((state) {
+      _connectivityResult = state;
+      notifyListeners();
+    });
+  }
+
+  bool get appIsOnline => _connectivityResult != ConnectivityResult.none;
+
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
   set errorMessage(String? value) {
     if (value == _errorMessage) return;
     _errorMessage = value;
     notifyListeners();
+  }
+
+  Future<void> initConnectivity() async {
+    _connectivitySub = _connectivity.onConnectivityChanged.listen((result) {
+      _connectivityResult = result;
+
+      notifyListeners();
+    });
+    return refreshConnectivity();
   }
 
   void quit() {
