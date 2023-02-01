@@ -7,31 +7,28 @@ class SafeNetworkImage extends StatelessWidget {
     required this.url,
     this.filterQuality = FilterQuality.medium,
     this.fit = BoxFit.fitHeight,
-    this.fallBackIcon,
   });
 
   final String? url;
   final FilterQuality filterQuality;
   final BoxFit fit;
-  final Widget? fallBackIcon;
 
   @override
   Widget build(BuildContext context) {
-    final fallBack = fallBackIcon ??
-        Icon(
-          YaruIcons.image,
-          size: 60,
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-        );
-    if (url == null) return fallBack;
+    final fallbackIcon = Icon(
+      YaruIcons.image,
+      size: 60,
+      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+    );
+    if (url == null) return fallbackIcon;
     return Image.network(
       url!,
       filterQuality: filterQuality,
       fit: fit,
       frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-        return frame == null ? fallBack : child;
+        return frame == null ? fallbackIcon : child;
       },
-      errorBuilder: (context, error, stackTrace) => fallBack,
+      errorBuilder: (context, error, stackTrace) => fallbackIcon,
     );
   }
 }
