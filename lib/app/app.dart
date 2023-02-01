@@ -236,6 +236,11 @@ class __AppState extends State<_App> {
             ? YaruNavigationRailStyle.labelledExtended
             : YaruNavigationRailStyle.compact;
 
+    final controller = YaruPageController(
+      length: pageItems.length,
+      initialIndex: _initialIndex,
+    );
+
     return _initialized
         ? Scaffold(
             appBar: YaruWindowTitleBar(
@@ -256,15 +261,15 @@ class __AppState extends State<_App> {
 
                   setSearchActive(true);
                   search();
+                  controller.index = 3;
                 },
                 hintText: context.l10n.searchHintAppStore,
               ),
             ),
             body: YaruNavigationPage(
               key: ValueKey((debPath ?? '') + (snapName ?? '')),
-              length: pageItems.length,
+              controller: controller,
               onSelected: (value) => setSelectedIndex(value),
-              initialIndex: _initialIndex,
               itemBuilder: (context, index, selected) => YaruNavigationRailItem(
                 icon: pageItems[index].iconBuilder(context, selected),
                 label: pageItems[index].titleBuilder(context), style: itemStyle,
