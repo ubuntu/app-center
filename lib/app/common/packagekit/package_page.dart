@@ -30,7 +30,6 @@ import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_controls.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/app/common/rating_model.dart';
-import 'package:software/app/common/review_model.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
@@ -56,20 +55,13 @@ class PackagePage extends StatefulWidget {
     AppstreamComponent? appstream,
     Snap? snap,
   }) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => PackageModel(
-            path: path,
-            service: getService<PackageService>(),
-            packageId: packageId,
-            appstream: appstream,
-          ),
-        ),
-        ChangeNotifierProvider<ReviewModel>(
-          create: (_) => ReviewModel(),
-        ),
-      ],
+    return ChangeNotifierProvider(
+      create: (context) => PackageModel(
+        path: path,
+        service: getService<PackageService>(),
+        packageId: packageId,
+        appstream: appstream,
+      ),
       child: PackagePage(
         appstream: appstream,
         snap: snap,
@@ -123,17 +115,12 @@ class PackagePage extends StatefulWidget {
 class _PackagePageState extends State<PackagePage> {
   bool initialized = false;
 
-  String get _ratingId => widget.appstream?.ratingId ?? 'unknown';
-  String get _ratingVersion =>
-      context.read<PackageModel>().packageId?.version ?? 'unknown';
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       context.read<PackageModel>().init().then((value) => initialized = true);
-      context.read<ReviewModel>().load(_ratingId, _ratingVersion);
     });
   }
 
@@ -141,8 +128,10 @@ class _PackagePageState extends State<PackagePage> {
   Widget build(BuildContext context) {
     final model = context.watch<PackageModel>();
     final theme = Theme.of(context);
-    final rating = context.select((RatingModel m) => m.getRating(_ratingId));
-    final userReviews = context.select((ReviewModel m) => m.userReviews);
+    final rating = model.appstream != null
+        ? context
+            .select((RatingModel m) => m.getRating(model.appstream!.ratingId))
+        : null;
 
     final appData = AppData(
       publisherName: model.developerName ?? context.l10n.unknown,
@@ -160,7 +149,7 @@ class _PackagePageState extends State<PackagePage> {
       version: model.packageId?.version ?? '',
       screenShotUrls: model.screenshotUrls,
       description: model.description,
-      userReviews: userReviews ?? [],
+      userReviews: model.userReviews ?? [],
       averageRating: rating?.average ?? 0.0,
       appFormat: AppFormat.packageKit,
       versionChanged: model.versionChanged ?? false,
@@ -235,7 +224,6 @@ class _PackagePageState extends State<PackagePage> {
       ),
     );
 
-    final review = context.read<ReviewModel>();
     return AppPage(
       initialized: initialized,
       appData: appData,
@@ -247,15 +235,15 @@ class _PackagePageState extends State<PackagePage> {
       controls: controls,
       subDescription:
           model.uninstalledDependencyNames.isEmpty ? null : dependencies,
-      onReviewSend: () => review.submit(_ratingId, _ratingVersion),
-      onRatingUpdate: (v) => review.rating = v,
-      onReviewTitleChanged: (v) => review.title = v,
-      onReviewUserChanged: (v) => review.user = v,
-      onReviewChanged: (v) => review.review = v,
-      reviewRating: review.rating,
-      review: review.review,
-      reviewTitle: review.title,
-      reviewUser: review.user,
+      onReviewSend: model.sendReview,
+      onRatingUpdate: (v) => model.reviewRating = v,
+      onReviewTitleChanged: (v) => model.reviewTitle = v,
+      onReviewUserChanged: (v) => model.reviewUser = v,
+      onReviewChanged: (v) => model.review = v,
+      reviewRating: model.reviewRating,
+      review: model.review,
+      reviewTitle: model.reviewTitle,
+      reviewUser: model.reviewUser,
     );
   }
 }

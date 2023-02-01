@@ -24,13 +24,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:safe_change_notifier/safe_change_notifier.dart';
+import 'package:software/app/common/app_model.dart';
 import 'package:software/app/common/utils.dart';
 import 'package:software/services/appstream/appstream_utils.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/package_state.dart';
 
-class PackageModel extends SafeChangeNotifier {
+class PackageModel extends AppModel {
   final PackageService _service;
 
   String? _path;

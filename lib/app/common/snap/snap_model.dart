@@ -19,13 +19,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:intl/intl.dart';
-import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
+import 'package:software/app/common/app_model.dart';
 import 'package:software/app/common/utils.dart';
 
-class SnapModel extends SafeChangeNotifier {
+class SnapModel extends AppModel {
   SnapModel(
     this._snapService, {
     required this.doneMessage,
