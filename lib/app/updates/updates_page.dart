@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart' as badges;
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/app_format.dart';
@@ -109,8 +109,8 @@ class _UpdatesIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     if (processing && count > 0) {
-      return badges.Badge(
-        position: badges.BadgePosition.topEnd(),
+      return Badge(
+        position: BadgePosition.topEnd(),
         badgeColor: count > 0 ? theme.primaryColor : Colors.transparent,
         badgeContent: count > 0
             ? Text(
@@ -123,7 +123,7 @@ class _UpdatesIcon extends StatelessWidget {
     } else if (processing && count == 0) {
       return const IndeterminateCircularProgressIcon();
     } else if (!processing && count > 0) {
-      return badges.Badge(
+      return Badge(
         badgeColor: theme.primaryColor,
         badgeContent: Text(
           count.toString(),

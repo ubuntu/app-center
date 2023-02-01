@@ -15,7 +15,7 @@
  *
  */
 
-import 'package:badges/badges.dart' as badges;
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/app_format.dart';
@@ -102,7 +102,7 @@ class _InstalledPageIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return badges.Badge(
+    return Badge(
       badgeColor: Theme.of(context).primaryColor,
       badgeContent: Text(
         count.toString(),
