@@ -16,10 +16,12 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_section.dart';
+import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/section_banner.dart';
 import 'package:software/app/explore/section_grid.dart';
 import 'package:software/snapx.dart';
@@ -28,12 +30,7 @@ import 'package:yaru_colors/yaru_colors.dart';
 class StartPage extends StatefulWidget {
   const StartPage({
     super.key,
-    this.snaps,
-    required this.snapSection,
   });
-
-  final List<Snap>? snaps;
-  final SnapSection snapSection;
 
   @override
   State<StartPage> createState() => _StartPageState();
@@ -61,14 +58,18 @@ class _StartPageState extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
+    final sectionSnapsAll = context.select((ExploreModel m) {
+      return m.sectionNameToSnapsMap[SnapSection.all];
+    });
+
     return SingleChildScrollView(
       padding: const EdgeInsets.only(top: 15),
       controller: _controller,
       child: Column(
         children: [
           _TeaserPage(
-            snapSection: widget.snapSection,
-            snaps: widget.snaps,
+            snapSection: SnapSection.all,
+            snaps: sectionSnapsAll,
           ),
         ],
       ),

@@ -22,7 +22,6 @@ import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
 import 'package:software/app/common/connectivity_notifier.dart';
 import 'package:software/app/common/search_field.dart';
-import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/explore/explore_error_page.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/offline_page.dart';
@@ -96,9 +95,6 @@ class _ExplorePageState extends State<ExplorePage> {
     final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
     final searchQuery = context.select((ExploreModel m) => m.searchQuery);
     final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
-    final sectionSnapsAll = context.select((ExploreModel m) {
-      return m.sectionNameToSnapsMap[SnapSection.all];
-    });
 
     return Scaffold(
       appBar: YaruWindowTitleBar(
@@ -113,12 +109,7 @@ class _ExplorePageState extends State<ExplorePage> {
           ? const OfflinePage()
           : showErrorPage
               ? const ExploreErrorPage()
-              : (showSearchPage
-                  ? const SearchPage()
-                  : StartPage(
-                      snaps: sectionSnapsAll,
-                      snapSection: SnapSection.all,
-                    )),
+              : (showSearchPage ? const SearchPage() : const StartPage()),
     );
   }
 }
