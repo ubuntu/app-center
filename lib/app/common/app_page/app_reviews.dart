@@ -27,7 +27,6 @@ class AppReviews extends StatefulWidget {
     this.reviewRating,
     this.onVote,
     this.onFlag,
-    required this.initialized,
   });
 
   final double? averageRating;
@@ -45,7 +44,6 @@ class AppReviews extends StatefulWidget {
   final Function(AppReview)? onFlag;
 
   final bool appIsInstalled;
-  final bool initialized;
 
   @override
   State<AppReviews> createState() => _AppReviewsState();
@@ -69,7 +67,6 @@ class _AppReviewsState extends State<AppReviews> {
   @override
   Widget build(BuildContext context) {
     return BorderContainer(
-      initialized: widget.initialized,
       child: YaruExpandable(
         isExpanded: false,
         header: Text(

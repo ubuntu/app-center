@@ -16,7 +16,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -37,10 +36,7 @@ class BorderContainer extends StatelessWidget {
     this.clipBehavior = Clip.none,
     this.padding = const EdgeInsets.all(kYaruPagePadding),
     this.borderColor,
-    this.initialized = true,
   });
-
-  final bool initialized;
 
   /// Forwarded to [Container]
   final double? height;
@@ -86,13 +82,6 @@ class BorderContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final light = theme.brightness == Brightness.light;
-
-    final baseColor = light
-        ? const Color.fromARGB(120, 228, 228, 228)
-        : kBorderContainerBgDark;
-    final highlightColor = light
-        ? const Color.fromARGB(200, 247, 247, 247)
-        : const Color.fromARGB(255, 48, 48, 48);
     final container = YaruBorderContainer(
       borderRadius: BorderRadius.circular(borderRadius),
       alignment: alignment,
@@ -108,12 +97,6 @@ class BorderContainer extends StatelessWidget {
       child: child,
     );
 
-    return initialized
-        ? container
-        : Shimmer.fromColors(
-            baseColor: baseColor,
-            highlightColor: highlightColor,
-            child: container,
-          );
+    return container;
   }
 }
