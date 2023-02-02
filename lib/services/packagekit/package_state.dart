@@ -15,4 +15,30 @@
  *
  */
 
-enum PackageState { processing, ready }
+import 'package:software/l10n/l10n.dart';
+
+enum PackageState {
+  installing,
+  removing,
+  upgrading,
+  downloading,
+  processing,
+  ready;
+
+  String localize(AppLocalizations l10n) {
+    switch (this) {
+      case PackageState.installing:
+        return l10n.installing;
+      case PackageState.removing:
+        return l10n.removing;
+      case PackageState.upgrading:
+        return l10n.upgrading;
+      case PackageState.downloading:
+        return l10n.downloading;
+      case PackageState.processing:
+        return l10n.processing;
+      case PackageState.ready:
+        return l10n.ready;
+    }
+  }
+}
