@@ -16,6 +16,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/l10n/l10n.dart';
@@ -39,18 +40,25 @@ class PackageControls extends StatelessWidget {
       runAlignment: WrapAlignment.start,
       spacing: 10,
       runSpacing: 10,
-      children: model.packageState == PackageState.processing
+      children: model.packageState != PackageState.ready
           ? [
-              const SizedBox(
+              SizedBox(
                 height: 40,
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: YaruCircularProgressIndicator(
                     strokeWidth: 3,
+                    value: model.percentage / 100.0,
                   ),
                 ),
               ),
-              Text(context.l10n.processing),
+              Text(model.packageState.localize(context.l10n)),
+              if (model.status == PackageKitStatus.download)
+                Text(
+                  '(${context.l10n.downloadRemaining(
+                    model.getFormattedDownloadSizeRemaining(),
+                  )})',
+                ),
             ]
           : [
               if (model.isInstalled == true)
