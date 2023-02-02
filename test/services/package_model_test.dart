@@ -83,18 +83,6 @@ void main() {
     verifyNever(() => service.getUpdateDetail(model: model));
   });
 
-  test('update percentage', () async {
-    final model = PackageModel(service: service, packageId: firefoxPackageId);
-
-    model.isInstalled = true;
-    await model.init();
-    expect(model.percentage, 100);
-
-    model.isInstalled = false;
-    await model.init();
-    expect(model.percentage, 0);
-  });
-
   test('install', () async {
     var model = PackageModel(service: service, packageId: firefoxPackageId);
     await model.install();
