@@ -19,7 +19,7 @@ assumes:
 parts:
   flutter-git:
     source: https://github.com/flutter/flutter.git
-    source-tag: 3.3.10
+    source-tag: 3.7.0
     plugin: nil
     override-build: |
       set -eux
@@ -29,8 +29,6 @@ parts:
       ln -sf $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/flutter $CRAFT_PART_INSTALL/usr/bin/flutter
       export PATH="$CRAFT_PART_INSTALL/usr/bin:$PATH"
       flutter doctor
-      flutter channel stable
-      flutter upgrade
     build-packages:
       - clang
       - cmake
