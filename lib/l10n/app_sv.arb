@@ -321,5 +321,11 @@
   "additionalInformation": "Ytterligare information",
   "@additionalInformation": {},
   "links": "Länkar",
-  "@links": {}
+  "@links": {},
+  "searchHintAppStore": "Sök efter program",
+  "@searchHintAppStore": {},
+  "searchHintInstalled": "Sök bland dina installerade program",
+  "@searchHintInstalled": {},
+  "musicAndAudioSlogan": "Musik och ljud",
+  "@musicAndAudioSlogan": {}
 }
