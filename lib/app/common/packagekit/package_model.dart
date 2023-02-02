@@ -111,7 +111,7 @@ class PackageModel extends SafeChangeNotifier {
       await checkDependencies();
     }
 
-    return _service.isInstalled(model: this).then(_updatePercentage);
+    return _service.isInstalled(model: this);
   }
 
   PackageKitPackageId? _packageId;
@@ -135,6 +135,14 @@ class PackageModel extends SafeChangeNotifier {
   set packageState(PackageState value) {
     if (value == _packageState) return;
     _packageState = value;
+    notifyListeners();
+  }
+
+  PackageKitStatus _status = PackageKitStatus.unknown;
+  PackageKitStatus get status => _status;
+  set status(PackageKitStatus status) {
+    if (status == _status) return;
+    _status = status;
     notifyListeners();
   }
 
@@ -202,6 +210,16 @@ class PackageModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  String getFormattedDownloadSizeRemaining() =>
+      _downloadSizeRemaining.formatByteSize();
+  int _downloadSizeRemaining = 0;
+  int get downloadSizeRemaining => _downloadSizeRemaining;
+  set downloadSizeRemaining(int value) {
+    if (value == _downloadSizeRemaining) return;
+    _downloadSizeRemaining = value;
+    notifyListeners();
+  }
+
   String _changelog = '';
   String get changelog => _changelog;
   set changelog(String value) {
@@ -239,31 +257,16 @@ class PackageModel extends SafeChangeNotifier {
     return _service.getDetails(model: this);
   }
 
-  void _updatePercentage([void _]) {
-    if (isInstalled != null) {
-      percentage = isInstalled! ? 100 : 0;
-    }
-  }
-
   Future<void> install() async {
     if (_path != null) {
-      return _service
-          .installLocalFile(model: this)
-          .then(_updateDetails)
-          .then(_updatePercentage);
+      return _service.installLocalFile(model: this).then(_updateDetails);
     } else if (_packageId != null) {
-      return _service
-          .install(model: this)
-          .then(_updateDetails)
-          .then(_updatePercentage);
+      return _service.install(model: this).then(_updateDetails);
     }
   }
 
   Future<void> remove() async {
-    return _service
-        .remove(model: this)
-        .then(_updateDetails)
-        .then(_updatePercentage);
+    return _service.remove(model: this).then(_updateDetails);
   }
 
   List<PackageDependecy> _dependencies = [];
