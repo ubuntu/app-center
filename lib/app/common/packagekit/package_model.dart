@@ -93,7 +93,10 @@ class PackageModel extends SafeChangeNotifier {
 
   String? get iconUrl => appstream?.icon;
 
-  Future<void> init({bool getUpdateDetail = false}) async {
+  Future<void> init({
+    bool getUpdateDetail = false,
+    bool getDependencies = true,
+  }) async {
     await _service.cancelCurrentUpdatesRefresh();
     if (_packageId != null) {
       await _updateDetails();
@@ -104,7 +107,9 @@ class PackageModel extends SafeChangeNotifier {
       await _service.getDetailsAboutLocalPackage(model: this);
     }
     _info = null;
-    await checkDependencies();
+    if (getDependencies) {
+      await checkDependencies();
+    }
 
     return _service.isInstalled(model: this).then(_updatePercentage);
   }
