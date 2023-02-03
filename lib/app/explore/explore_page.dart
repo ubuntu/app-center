@@ -35,7 +35,9 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({super.key});
+  const ExplorePage({super.key, required this.section});
+
+  final SnapSection section;
 
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.explorePageTitle);
@@ -78,8 +80,8 @@ class _ExplorePageState extends State<ExplorePage> {
     final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
     final searchQuery = context.select((ExploreModel m) => m.searchQuery);
     final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
-    final sectionSnapsAll = context.select((ExploreModel m) {
-      return m.sectionNameToSnapsMap[SnapSection.all];
+    final snaps = context.select((ExploreModel m) {
+      return m.sectionNameToSnapsMap[widget.section];
     });
     final selectedAppFormats =
         context.select((ExploreModel m) => m.selectedAppFormats);
@@ -139,8 +141,8 @@ class _ExplorePageState extends State<ExplorePage> {
                       ),
                     )
                   : StartPage(
-                      snaps: sectionSnapsAll,
-                      snapSection: SnapSection.all,
+                      snaps: snaps,
+                      snapSection: widget.section,
                     )),
     );
   }
