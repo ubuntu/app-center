@@ -16,6 +16,8 @@
  */
 
 import 'package:appstream/appstream.dart';
+import 'package:collection/collection.dart';
+import 'package:data_size/data_size.dart';
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
@@ -199,13 +201,13 @@ class _PackagePageState extends State<PackagePage> {
       packageState: model.packageState,
       remove: () => model.remove(),
       install: model.install,
-      hasDependencies: model.uninstalledDependencyNames.isNotEmpty,
+      hasDependencies: model.missingDependencies.isNotEmpty,
       showDeps: () => showDialog(
         context: context,
         builder: (context) => _ShowDepsDialog(
           packageName: model.title ?? context.l10n.unknown,
           onInstall: model.install,
-          dependencies: model.uninstalledDependencyNames,
+          dependencies: model.missingDependencies,
         ),
       ),
     );
@@ -214,16 +216,16 @@ class _PackagePageState extends State<PackagePage> {
       initialized: initialized,
       child: YaruExpandable(
         header: Text(
-          '${context.l10n.dependencies} (${model.uninstalledDependencyNames.length})',
+          '${context.l10n.dependencies} (${model.missingDependencies.length})',
           style: Theme.of(context).textTheme.titleLarge,
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Column(
-            children: model.uninstalledDependencyNames
+            children: model.missingDependencies
                 .map(
                   (e) => ListTile(
-                    title: Text(e),
+                    title: Text(e.id.name),
                     leading: Icon(
                       YaruIcons.package_deb,
                       color: theme.colorScheme.onSurface,
@@ -246,8 +248,7 @@ class _PackagePageState extends State<PackagePage> {
       ),
       preControls: preControls,
       controls: controls,
-      subDescription:
-          model.uninstalledDependencyNames.isEmpty ? null : dependencies,
+      subDescription: model.missingDependencies.isEmpty ? null : dependencies,
       onReviewSend: () => review.submit(_ratingId, _ratingVersion),
       onRatingUpdate: (v) => review.rating = v,
       onReviewTitleChanged: (v) => review.title = v,
@@ -264,7 +265,7 @@ class _PackagePageState extends State<PackagePage> {
 class _ShowDepsDialog extends StatefulWidget {
   final void Function() onInstall;
   final String packageName;
-  final List<String> dependencies;
+  final List<PackageDependecy> dependencies;
 
   const _ShowDepsDialog({
     required this.onInstall,
@@ -299,13 +300,14 @@ class _ShowDepsDialogState extends State<_ShowDepsDialog> {
             child: Text(
               context.l10n.dependenciesListing(
                 widget.dependencies.length,
+                widget.dependencies.map((d) => d.size).sum.formatByteSize(),
                 widget.packageName,
               ),
               style: theme.textTheme.bodyLarge,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: kYaruPagePadding),
+            padding: const EdgeInsets.only(bottom: kYaruPagePadding / 2),
             child: Text(
               context.l10n.dependenciesQuestion,
               style: theme.textTheme.bodyLarge!
@@ -330,7 +332,8 @@ class _ShowDepsDialogState extends State<_ShowDepsDialog> {
                 children: [
                   for (var d in widget.dependencies)
                     ListTile(
-                      title: Text(d),
+                      title: Text(d.id.name),
+                      subtitle: Text(d.size.formatByteSize()),
                       leading: const Icon(
                         YaruIcons.package_deb,
                       ),

@@ -93,7 +93,10 @@ class PackageModel extends SafeChangeNotifier {
 
   String? get iconUrl => appstream?.icon;
 
-  Future<void> init({bool getUpdateDetail = false}) async {
+  Future<void> init({
+    bool getUpdateDetail = false,
+    bool getDependencies = true,
+  }) async {
     await _service.cancelCurrentUpdatesRefresh();
     if (_packageId != null) {
       await _updateDetails();
@@ -104,7 +107,9 @@ class PackageModel extends SafeChangeNotifier {
       await _service.getDetailsAboutLocalPackage(model: this);
     }
     _info = null;
-    await checkDependencies();
+    if (getDependencies) {
+      await checkDependencies();
+    }
 
     return _service.isInstalled(model: this).then(_updatePercentage);
   }
@@ -261,22 +266,16 @@ class PackageModel extends SafeChangeNotifier {
         .then(_updatePercentage);
   }
 
-  Map<PackageKitPackageId, PackageKitInfo>? _dependencies;
-  Map<PackageKitPackageId, PackageKitInfo>? get dependencies => _dependencies;
-  set dependencies(Map<PackageKitPackageId, PackageKitInfo>? value) {
-    if (value == null) return;
-    _dependencies = value;
+  List<PackageDependecy> _dependencies = [];
+  List<PackageDependecy> get dependencies => _dependencies;
+  set dependencies(List<PackageDependecy> value) {
+    if (listEquals(_dependencies, value)) return;
+    _dependencies = value.toList();
     notifyListeners();
   }
 
-  List<String> get uninstalledDependencyNames => dependencies != null
-      ? dependencies!.entries
-          .where(
-            (element) => element.value == PackageKitInfo.available,
-          )
-          .map((e) => e.key.name)
-          .toList()
-      : [];
+  List<PackageDependecy> get missingDependencies =>
+      _dependencies.where((d) => d.info == PackageKitInfo.available).toList();
 
   Future<void> checkDependencies() async {
     if (_packageId == null) return;
@@ -286,4 +285,28 @@ class PackageModel extends SafeChangeNotifier {
   @override
   String toString() =>
       'PackageModel($_packageId, $_path, ${describeEnum(_packageState)})';
+}
+
+@immutable
+class PackageDependecy {
+  const PackageDependecy({
+    required this.id,
+    required this.info,
+    required this.size,
+  });
+  final PackageKitPackageId id;
+  final PackageKitInfo info;
+  final int size;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is PackageDependecy &&
+        other.id == id &&
+        other.info == info &&
+        other.size == size;
+  }
+
+  @override
+  int get hashCode => Object.hash(id, info, size);
 }

@@ -31,30 +31,11 @@ import 'package:software/app/explore/offline_page.dart';
 import 'package:software/app/explore/search_page.dart';
 import 'package:software/app/explore/start_page.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/appstream/appstream_service.dart';
-import 'package:software/services/packagekit/package_service.dart';
-import 'package:software/services/snap_service.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
-
-  static Widget create(
-    BuildContext context, [
-    String? errorMessage,
-  ]) {
-    return ChangeNotifierProvider(
-      create: (_) => ExploreModel(
-        getService<AppstreamService>(),
-        getService<SnapService>(),
-        getService<PackageService>(),
-        errorMessage,
-      )..init(),
-      child: const ExplorePage(),
-    );
-  }
 
   static Widget createTitle(BuildContext context) =>
       Text(context.l10n.explorePageTitle);
@@ -94,7 +75,6 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     final connectivity = context.watch<ConnectivityNotifier>();
-    final showErrorPage = context.select((ExploreModel m) => m.showErrorPage);
     final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
     final searchQuery = context.select((ExploreModel m) => m.searchQuery);
     final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
@@ -121,6 +101,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
     final searchResult = context.select((ExploreModel m) => m.searchResult);
     final search = context.select((ExploreModel m) => m.search);
+    final errorMessage = context.select((AppModel m) => m.errorMessage);
 
     return Scaffold(
       appBar: YaruWindowTitleBar(
@@ -136,7 +117,7 @@ class _ExplorePageState extends State<ExplorePage> {
       ),
       body: !connectivity.isOnline
           ? const OfflinePage()
-          : showErrorPage
+          : errorMessage != null && errorMessage.isNotEmpty
               ? const ExploreErrorPage()
               : (showSearchPage
                   ? SearchPage(

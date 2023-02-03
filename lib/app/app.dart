@@ -27,6 +27,7 @@ import 'package:software/app/common/close_confirmation_dialog.dart';
 import 'package:software/app/common/connectivity_notifier.dart';
 import 'package:software/app/common/page_item.dart';
 import 'package:software/app/common/rating_model.dart';
+import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/explore_page.dart';
 import 'package:software/app/installed/installed_page.dart';
 import 'package:software/app/package_installer/package_installer_page.dart';
@@ -60,6 +61,13 @@ class App extends StatelessWidget {
           ChangeNotifierProvider(
             create: (_) => RatingModel(getService<OdrsService>()),
           ),
+          ChangeNotifierProvider(
+            create: (_) => ExploreModel(
+              getService<AppstreamService>(),
+              getService<SnapService>(),
+              getService<PackageService>(),
+            )..init(),
+          )
         ],
         child: const App(),
       );
@@ -169,7 +177,6 @@ class __AppState extends State<_App> {
         .setupNotifications(updatesAvailable: context.l10n.updateAvailable);
     final badgeCount = context.select((AppModel m) => m.snapChanges.length);
     final processing = context.select((AppModel m) => m.snapChanges.isNotEmpty);
-    final errorMessage = context.select((AppModel m) => m.errorMessage);
     final updateAmount = context.select((AppModel m) => m.updateAmount);
     final updatesProcessing =
         context.select((AppModel m) => m.updatesProcessing);
@@ -178,7 +185,7 @@ class __AppState extends State<_App> {
     final pageItems = [
       PageItem(
         titleBuilder: ExplorePage.createTitle,
-        builder: (context) => ExplorePage.create(context, errorMessage),
+        builder: (context) => const ExplorePage(),
         iconBuilder: ExplorePage.createIcon,
       ),
       PageItem(

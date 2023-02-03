@@ -65,7 +65,10 @@ class _UpdateDialogState extends State<UpdateDialog> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      context.read<PackageModel>().init(getUpdateDetail: true);
+      context.read<PackageModel>().init(
+            getUpdateDetail: true,
+            getDependencies: false,
+          );
     });
   }
 
