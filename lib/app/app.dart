@@ -222,12 +222,6 @@ class __AppState extends State<_App> {
           iconBuilder: (context, selected) =>
               PackageInstallerPage.createIcon(context, selected),
         ),
-      PageItem(
-        titleBuilder: SettingsPage.createTitle,
-        builder: SettingsPage.create,
-        iconBuilder: (context, selected) =>
-            SettingsPage.createIcon(context, selected),
-      ),
     ];
 
     var normalWindowSize = width > 800 && width < 1200;
@@ -240,6 +234,22 @@ class __AppState extends State<_App> {
 
     return _initialized
         ? YaruNavigationPage(
+            trailing: YaruNavigationRailItem(
+              icon: SettingsPage.createIcon(context, false),
+              label: SettingsPage.createTitle(context),
+              style: itemStyle,
+              onTap: () => showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: YaruDialogTitleBar(
+                    title: SettingsPage.createTitle(context),
+                  ),
+                  titlePadding: EdgeInsets.zero,
+                  content:
+                      SizedBox(width: 600, child: SettingsPage.create(context)),
+                ),
+              ),
+            ),
             leading: AnimatedContainer(
               width: normalWindowSize
                   ? 100
