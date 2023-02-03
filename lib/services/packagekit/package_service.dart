@@ -682,7 +682,7 @@ class PackageService {
     if (model.packageId == null) return;
     final dependsOnTransaction = await _client.createTransaction();
     final dependsOnCompleter = Completer();
-    dependsOnTransaction.events.listen((event) {
+    final dependsOnSubscription = dependsOnTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         dependencyInfos.putIfAbsent(
           event.packageId,
@@ -695,13 +695,13 @@ class PackageService {
       }
     });
     await dependsOnTransaction.dependsOn([model.packageId!], recursive: true);
-    await dependsOnCompleter.future;
+    await dependsOnCompleter.future.whenComplete(dependsOnSubscription.cancel);
 
     final dependencies = <PackageDependecy>[];
 
     final getDetailsTransaction = await _client.createTransaction();
     final getDetailsCompleter = Completer();
-    getDetailsTransaction.events.listen((event) {
+    final getDetailsSubscription = getDetailsTransaction.events.listen((event) {
       if (event is PackageKitDetailsEvent) {
         dependencies.add(
           PackageDependecy(
@@ -715,7 +715,8 @@ class PackageService {
       }
     });
     await getDetailsTransaction.getDetails(dependencyInfos.keys);
-    await getDetailsCompleter.future;
+    await getDetailsCompleter.future
+        .whenComplete(getDetailsSubscription.cancel);
 
     model.dependencies = dependencies;
   }
