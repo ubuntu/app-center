@@ -678,13 +678,13 @@ class PackageService {
   Future<void> getDependencies({
     required PackageModel model,
   }) async {
-    Map<PackageKitPackageId, PackageKitInfo> dependencies = {};
+    Map<PackageKitPackageId, PackageKitInfo> dependencyInfos = {};
     if (model.packageId == null) return;
     final dependsOnTransaction = await _client.createTransaction();
     final dependsOnCompleter = Completer();
     dependsOnTransaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
-        dependencies.putIfAbsent(
+        dependencyInfos.putIfAbsent(
           event.packageId,
           () => event.info,
         );
@@ -694,8 +694,28 @@ class PackageService {
         dependsOnCompleter.complete();
       }
     });
-    await dependsOnTransaction.dependsOn([model.packageId!]);
+    await dependsOnTransaction.dependsOn([model.packageId!], recursive: true);
     await dependsOnCompleter.future;
+
+    final dependencies = <PackageDependecy>[];
+
+    final getDetailsTransaction = await _client.createTransaction();
+    final getDetailsCompleter = Completer();
+    getDetailsTransaction.events.listen((event) {
+      if (event is PackageKitDetailsEvent) {
+        dependencies.add(
+          PackageDependecy(
+            id: event.packageId,
+            info: dependencyInfos[event.packageId] ?? PackageKitInfo.unknown,
+            size: event.size,
+          ),
+        );
+      } else if (event is PackageKitFinishedEvent) {
+        getDetailsCompleter.complete();
+      }
+    });
+    await getDetailsTransaction.getDetails(dependencyInfos.keys);
+    await getDetailsCompleter.future;
 
     model.dependencies = dependencies;
   }
