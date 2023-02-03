@@ -22,6 +22,7 @@ import 'package:software/app/app.dart';
 import 'package:software/app/common/message_bar.dart';
 import 'package:software/app/settings/repo_dialog.dart';
 import 'package:software/app/settings/settings_model.dart';
+import 'package:software/app/settings/theme_tile.dart';
 import 'package:software/app/updates/package_updates_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
@@ -30,7 +31,6 @@ import 'package:software/theme_mode_x.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -145,7 +145,7 @@ class _ThemeSectionState extends State<ThemeSection> {
                       borderRadius: BorderRadius.circular(12),
                       selected: App.themeNotifier.value == ThemeMode.values[i],
                       onTap: () => onChanged(i),
-                      child: _ThemeTile(ThemeMode.values[i]),
+                      child: ThemeTile(ThemeMode.values[i]),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -159,71 +159,6 @@ class _ThemeSectionState extends State<ThemeSection> {
       ),
     );
   }
-}
-
-class _ThemeTile extends StatelessWidget {
-  const _ThemeTile(this.themeMode);
-
-  final ThemeMode themeMode;
-
-  @override
-  Widget build(BuildContext context) {
-    const height = 100.0;
-    const width = 150.0;
-    var borderRadius2 = BorderRadius.circular(10);
-    var lightContainer = Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: borderRadius2,
-      ),
-    );
-    var darkContainer = Container(
-      decoration: BoxDecoration(
-        color: YaruColors.coolGrey,
-        borderRadius: borderRadius2,
-      ),
-    );
-    return Card(
-      elevation: 5,
-      child: SizedBox(
-        height: height,
-        width: width,
-        child: themeMode == ThemeMode.system
-            ? Stack(
-                children: [
-                  lightContainer,
-                  ClipPath(
-                    clipBehavior: Clip.antiAlias,
-                    clipper: CustomClipPath(
-                      height: height,
-                      width: width,
-                    ),
-                    child: darkContainer,
-                  )
-                ],
-              )
-            : (themeMode == ThemeMode.light ? lightContainer : darkContainer),
-      ),
-    );
-  }
-}
-
-class CustomClipPath extends CustomClipper<Path> {
-  CustomClipPath({required this.height, required this.width});
-
-  final double height;
-  final double width;
-
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.lineTo(0, width);
-    path.lineTo(width, height);
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
 
 class _RepoTile extends StatefulWidget {
