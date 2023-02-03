@@ -290,59 +290,61 @@ class _ShowDepsDialogState extends State<_ShowDepsDialog> {
         ),
       ),
       titlePadding: EdgeInsets.zero,
-      scrollable: true,
-      content: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: kYaruPagePadding / 2),
-            child: Text(
-              context.l10n.dependenciesListing(
-                widget.dependencies.length,
-                widget.dependencies.map((d) => d.size).sum.formatByteSize(),
-                widget.packageName,
-              ),
-              style: theme.textTheme.bodyLarge,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: kYaruPagePadding / 2),
-            child: Text(
-              context.l10n.dependenciesQuestion,
-              style: theme.textTheme.bodyLarge!
-                  .copyWith(fontWeight: FontWeight.w500),
-            ),
-          ),
-          YaruExpandable(
-            expandButtonPosition: YaruExpandableButtonPosition.start,
-            onChange: (isExpanded) => setState(() => _isExpanded = isExpanded),
-            header: MouseRegion(
-              cursor: SystemMouseCursors.click,
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: kYaruPagePadding / 2),
               child: Text(
-                context.l10n.dependencies,
-                style: TextStyle(
-                  color: _isExpanded ? null : theme.primaryColor,
-                  fontWeight: FontWeight.w500,
+                context.l10n.dependenciesListing(
+                  widget.dependencies.length,
+                  widget.dependencies.map((d) => d.size).sum.formatByteSize(),
+                  widget.packageName,
+                ),
+                style: theme.textTheme.bodyLarge,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: kYaruPagePadding / 2),
+              child: Text(
+                context.l10n.dependenciesQuestion,
+                style: theme.textTheme.bodyLarge!
+                    .copyWith(fontWeight: FontWeight.w500),
+              ),
+            ),
+            YaruExpandable(
+              expandButtonPosition: YaruExpandableButtonPosition.start,
+              onChange: (isExpanded) =>
+                  setState(() => _isExpanded = isExpanded),
+              header: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: Text(
+                  context.l10n.dependencies,
+                  style: TextStyle(
+                    color: _isExpanded ? null : theme.primaryColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              child: BorderContainer(
+                child: Column(
+                  children: [
+                    for (var d in widget.dependencies)
+                      ListTile(
+                        title: Text(d.id.name),
+                        subtitle: Text(d.size.formatByteSize()),
+                        leading: const Icon(
+                          YaruIcons.package_deb,
+                        ),
+                      )
+                  ],
                 ),
               ),
             ),
-            child: BorderContainer(
-              child: Column(
-                children: [
-                  for (var d in widget.dependencies)
-                    ListTile(
-                      title: Text(d.id.name),
-                      subtitle: Text(d.size.formatByteSize()),
-                      leading: const Icon(
-                        YaruIcons.package_deb,
-                      ),
-                    )
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
       actions: [
         OutlinedButton(
