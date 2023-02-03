@@ -268,88 +268,90 @@ class _AboutDialog extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: ListView(
-            padding: const EdgeInsets.only(
-              top: kYaruPagePadding,
-              bottom: kYaruPagePadding,
-              left: 40,
-              right: 40,
-            ),
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    'assets/software.png',
-                    width: 100,
-                    height: 100,
-                    filterQuality: FilterQuality.medium,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          model.appName,
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        Text(
-                          '${context.l10n.version} ${model.version} ${model.buildNumber}',
-                        ),
-                        InkWell(
-                          borderRadius: BorderRadius.circular(5),
-                          onTap: () async =>
-                              await launchUrl(Uri.parse(repoUrl)),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                context.l10n.findOurRepository,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Icon(
-                                YaruIcons.external_link,
-                                color: Theme.of(context).primaryColor,
-                                size: 18,
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
+            child: ListView(
+              padding: const EdgeInsets.only(
+                top: kYaruPagePadding,
+                bottom: kYaruPagePadding,
+                left: 40,
+                right: 40,
+              ),
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      'assets/software.png',
+                      width: 100,
+                      height: 100,
+                      filterQuality: FilterQuality.medium,
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              FutureBuilder<String>(
-                future: loadAsset(context),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return MarkdownBody(
-                      data: '${context.l10n.madeBy}:\n ${snapshot.data!}',
-                      onTapLink: (text, href, title) =>
-                          href != null ? launchUrl(Uri.parse(href)) : null,
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                },
-              )
-            ],
-          ))
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            model.appName,
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          Text(
+                            '${context.l10n.version} ${model.version} ${model.buildNumber}',
+                          ),
+                          InkWell(
+                            borderRadius: BorderRadius.circular(5),
+                            onTap: () async =>
+                                await launchUrl(Uri.parse(repoUrl)),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  context.l10n.findOurRepository,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Icon(
+                                  YaruIcons.external_link,
+                                  color: Theme.of(context).primaryColor,
+                                  size: 18,
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                FutureBuilder<String>(
+                  future: loadAsset(context),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return MarkdownBody(
+                        data: '${context.l10n.madeBy}:\n ${snapshot.data!}',
+                        onTapLink: (text, href, title) =>
+                            href != null ? launchUrl(Uri.parse(href)) : null,
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                )
+              ],
+            ),
+          )
         ],
       ),
     );

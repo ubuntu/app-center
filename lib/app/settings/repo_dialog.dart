@@ -120,6 +120,10 @@ class _RepoDialogState extends State<RepoDialog> {
           else
             Expanded(
               child: ListView(
+                padding: const EdgeInsets.only(
+                  top: kYaruPagePadding,
+                  bottom: kYaruPagePadding,
+                ),
                 children: [
                   for (final e in model.repos)
                     ListTile(
