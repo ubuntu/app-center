@@ -41,7 +41,6 @@ import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class App extends StatelessWidget {
@@ -186,37 +185,46 @@ class __AppState extends State<_App> {
 
     final pageItems = [
       PageItem(
-        titleBuilder: ExplorePage.createTitle,
+        titleBuilder: (context) =>
+            ExplorePage.createTitle(context, SnapSection.all),
         builder: (context) => const ExplorePage(section: SnapSection.all),
-        iconBuilder: (context, selected) => selected
-            ? const Icon(YaruIcons.compass_filled)
-            : const Icon(YaruIcons.compass),
+        iconBuilder: (context, selected) => ExplorePage.createIcon(
+          context: context,
+          selected: selected,
+          snapSection: SnapSection.all,
+        ),
       ),
       PageItem(
         titleBuilder: (context) =>
             Text(SnapSection.development.localize(context.l10n)),
         builder: (context) =>
             const ExplorePage(section: SnapSection.development),
-        iconBuilder: (context, selected) => selected
-            ? const Icon(YaruIcons.wrench)
-            : const Icon(YaruIcons.wrench),
+        iconBuilder: (context, selected) => ExplorePage.createIcon(
+          context: context,
+          selected: selected,
+          snapSection: SnapSection.development,
+        ),
       ),
       PageItem(
         titleBuilder: (context) =>
             Text(SnapSection.games.localize(context.l10n)),
         builder: (context) => const ExplorePage(section: SnapSection.games),
-        iconBuilder: (context, selected) => selected
-            ? const Icon(YaruIcons.games_filled)
-            : const Icon(YaruIcons.games),
+        iconBuilder: (context, selected) => ExplorePage.createIcon(
+          context: context,
+          selected: selected,
+          snapSection: SnapSection.games,
+        ),
       ),
       PageItem(
         titleBuilder: (context) =>
             Text(SnapSection.art_and_design.localize(context.l10n)),
         builder: (context) =>
             const ExplorePage(section: SnapSection.art_and_design),
-        iconBuilder: (context, selected) => selected
-            ? const Icon(YaruIcons.rule_and_pen_filled)
-            : const Icon(YaruIcons.rule_and_pen),
+        iconBuilder: (context, selected) => ExplorePage.createIcon(
+          context: context,
+          selected: selected,
+          snapSection: SnapSection.art_and_design,
+        ),
       ),
       PageItem(
         titleBuilder: InstalledPage.createTitle,
@@ -264,13 +272,16 @@ class __AppState extends State<_App> {
 
     return _initialized
         ? YaruNavigationPage(
-            trailing: YaruNavigationRailItem(
-              icon: SettingsPage.createIcon(context, false),
-              label: SettingsPage.createTitle(context),
-              style: itemStyle,
-              onTap: () => showDialog(
-                context: context,
-                builder: (context) => SettingsPage.create(context),
+            trailing: Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: YaruNavigationRailItem(
+                icon: SettingsPage.createIcon(context, false),
+                label: SettingsPage.createTitle(context),
+                style: itemStyle,
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => SettingsPage.create(context),
+                ),
               ),
             ),
             leading: AnimatedContainer(

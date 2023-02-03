@@ -18,6 +18,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/app_banner.dart';
+import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/explore/section_banner.dart';
@@ -114,11 +116,24 @@ class _TeaserPage extends StatelessWidget {
           snaps: [bannerSnap, bannerSnap2, bannerSnap3],
           section: snapSection,
         ),
-        SectionGrid(
-          snaps: snaps ?? [],
-          take: 20,
-          skip: 3,
-        ),
+        snapSection == SnapSection.games
+            ? GridView(
+                shrinkWrap: true,
+                padding: kGridPadding,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: kImageGridDelegate,
+                children: [
+                  for (final snap
+                      in snaps?.where((s) => s.bannerUrl != null).toList() ??
+                          <Snap>[])
+                    AppImageBanner(snap: snap),
+                ],
+              )
+            : SectionGrid(
+                snaps: snaps ?? [],
+                take: 20,
+                skip: 3,
+              ),
       ],
     );
   }

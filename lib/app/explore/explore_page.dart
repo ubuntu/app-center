@@ -39,16 +39,39 @@ class ExplorePage extends StatefulWidget {
 
   final SnapSection section;
 
-  static Widget createTitle(BuildContext context) =>
-      Text(context.l10n.explorePageTitle);
+  static Widget createTitle(BuildContext context, SnapSection snapSection) =>
+      Text(
+        snapSection == SnapSection.all
+            ? context.l10n.explorePageTitle
+            : snapSection.localize(context.l10n),
+      );
 
-  static Widget createIcon(
-    BuildContext context,
-    bool selected,
-  ) =>
-      selected
-          ? const Icon(YaruIcons.compass_filled)
-          : const Icon(YaruIcons.compass);
+  static Widget createIcon({
+    required BuildContext context,
+    required bool selected,
+    required SnapSection snapSection,
+  }) {
+    switch (snapSection) {
+      case SnapSection.all:
+        return selected
+            ? const Icon(YaruIcons.compass_filled)
+            : const Icon(YaruIcons.compass);
+      case SnapSection.development:
+        return const Icon(YaruIcons.wrench);
+      case SnapSection.games:
+        return selected
+            ? const Icon(YaruIcons.games_filled)
+            : const Icon(YaruIcons.games);
+      case SnapSection.art_and_design:
+        return selected
+            ? const Icon(YaruIcons.rule_and_pen_filled)
+            : const Icon(YaruIcons.rule_and_pen);
+      default:
+        return selected
+            ? const Icon(YaruIcons.compass_filled)
+            : const Icon(YaruIcons.compass);
+    }
+  }
 
   @override
   State<ExplorePage> createState() => _ExplorePageState();
