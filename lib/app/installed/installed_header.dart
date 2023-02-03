@@ -61,6 +61,7 @@ class InstalledHeader extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.start,
           runAlignment: WrapAlignment.start,
           spacing: 10,
+          runSpacing: 10,
           children: [
             AppFormatPopup(
               appFormat: appFormat,
@@ -79,12 +80,30 @@ class InstalledHeader extends StatelessWidget {
                 onSelected: (value) => setSnapSort(value),
               ),
             if (appFormat == AppFormat.snap)
-              YaruIconButton(
-                onPressed: () => setLoadSnapsWithUpdates(!loadSnapsWithUpdates),
-                isSelected: loadSnapsWithUpdates,
-                icon: const Icon(Icons.upgrade_rounded),
-                tooltip: context.l10n.updateAvailable,
-              ),
+              SizedBox(
+                height: 40,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    YaruCheckbox(
+                      value: loadSnapsWithUpdates,
+                      onChanged: (value) {
+                        if (value == null) return;
+                        setLoadSnapsWithUpdates(value);
+                      },
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      context.l10n.updateAvailable,
+                    ),
+                  ],
+                ),
+              )
           ],
         ),
       ),

@@ -327,5 +327,9 @@
   "additionalInformation": "Дополнительная Информация",
   "@additionalInformation": {},
   "links": "Ссылки",
-  "@links": {}
+  "@links": {},
+  "searchHintInstalled": "Поиск установленных приложений",
+  "@searchHintInstalled": {},
+  "searchHintAppStore": "Поиск приложений",
+  "@searchHintAppStore": {}
 }
