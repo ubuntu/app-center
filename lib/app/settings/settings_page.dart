@@ -117,10 +117,17 @@ class _SettingsPage extends StatelessWidget {
             children: [
               const ThemeSection(),
               YaruSection(
+                headline: Text(context.l10n.sources),
                 margin: const EdgeInsets.all(kYaruPagePadding),
                 child: Column(
-                  children: const [_RepoTile(), _AboutTile()],
+                  children: const [
+                    _RepoTile(),
+                  ],
                 ),
+              ),
+              const YaruSection(
+                margin: EdgeInsets.symmetric(horizontal: kYaruPagePadding),
+                child: _AboutTile(),
               )
             ],
           ),
@@ -215,7 +222,6 @@ class _RepoTileState extends State<_RepoTile> {
   Widget build(BuildContext context) {
     // final model = context.watch<PackageUpdatesModel>();
     return YaruTile(
-      title: Text(context.l10n.sources),
       subtitle: Text(context.l10n.sourcesDescription),
       trailing: OutlinedButton(
         onPressed: () =>
@@ -235,7 +241,7 @@ class _AboutTile extends StatelessWidget {
 
     return YaruTile(
       title: Text(
-        '${model.appName} ${model.version} ${model.buildNumber}',
+        '${context.l10n.version} ${model.version} ${model.buildNumber}',
       ),
       trailing: TextButton(
         onPressed: () => Utils.settingsNav.currentState!.pushNamed('/about'),
