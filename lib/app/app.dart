@@ -164,7 +164,7 @@ class __AppState extends State<_App> {
           .firstOrNull
           ?.substring(7);
       if (debPath != null || snapName != null) {
-        _initialIndex = 3;
+        _initialIndex = 6;
       }
     });
   }
