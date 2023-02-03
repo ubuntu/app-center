@@ -61,7 +61,7 @@ dependencies:
   window_manager: 0.3.0
   xdg_icons: ^0.0.1
   yaru: ^0.5.1
-  yaru_colors: ^0.1.1
+  yaru_colors: ^0.1.2
   yaru_icons: ^1.0.2
   yaru_widgets: ^2.0.1
 
