@@ -240,14 +240,7 @@ class __AppState extends State<_App> {
               style: itemStyle,
               onTap: () => showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  title: YaruDialogTitleBar(
-                    title: SettingsPage.createTitle(context),
-                  ),
-                  titlePadding: EdgeInsets.zero,
-                  content:
-                      SizedBox(width: 600, child: SettingsPage.create(context)),
-                ),
+                builder: (context) => SettingsPage.create(context),
               ),
             ),
             leading: AnimatedContainer(

@@ -19,17 +19,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app.dart';
-import 'package:software/app/common/message_bar.dart';
 import 'package:software/app/settings/repo_dialog.dart';
 import 'package:software/app/settings/settings_model.dart';
 import 'package:software/app/settings/theme_tile.dart';
-import 'package:software/app/updates/package_updates_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_service.dart';
-import 'package:software/services/packagekit/updates_state.dart';
 import 'package:software/theme_mode_x.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -63,21 +59,73 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 650,
-        child: ListView(
-          children: [
-            const ThemeSection(),
-            YaruSection(
-              margin: const EdgeInsets.all(kYaruPagePadding),
-              child: Column(
-                children: [_RepoTile.create(context), const _AboutTile()],
-              ),
-            )
-          ],
+    final nav = Navigator(
+      onPopPage: (route, result) => route.didPop(result),
+      key: Utils.settingsNav,
+      initialRoute: '/settings',
+      onGenerateRoute: (settings) {
+        Widget page;
+
+        switch (settings.name) {
+          case '/settings':
+            page = const _SettingsPage();
+            break;
+          case '/repoDialog':
+            page = RepoDialog.create(context);
+            break;
+          case '/about':
+            page = const _AboutDialog();
+            break;
+          default:
+            page = const _SettingsPage();
+            break;
+        }
+
+        return PageRouteBuilder(
+          pageBuilder: (_, __, ___) => page,
+          transitionDuration: const Duration(milliseconds: 500),
+        );
+      },
+    );
+
+    return AlertDialog(
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
+      content: SizedBox(height: 800, width: 600, child: nav),
+    );
+  }
+
+  Future<String> loadAsset(BuildContext context) async {
+    return await DefaultAssetBundle.of(context)
+        .loadString('assets/contributors.md');
+  }
+}
+
+class _SettingsPage extends StatelessWidget {
+  const _SettingsPage();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        YaruDialogTitleBar(
+          onClose: (p0) => Navigator.of(rootNavigator: true, context).pop(),
+          title: SettingsPage.createTitle(context),
         ),
-      ),
+        Expanded(
+          child: ListView(
+            children: [
+              const ThemeSection(),
+              YaruSection(
+                margin: const EdgeInsets.all(kYaruPagePadding),
+                child: Column(
+                  children: const [_RepoTile(), _AboutTile()],
+                ),
+              )
+            ],
+          ),
+        )
+      ],
     );
   }
 }
@@ -160,69 +208,18 @@ class _RepoTile extends StatefulWidget {
 
   @override
   State<_RepoTile> createState() => _RepoTileState();
-
-  static Widget create(BuildContext context) {
-    return ChangeNotifierProvider<PackageUpdatesModel>(
-      create: (context) => PackageUpdatesModel(
-        getService<PackageService>(),
-        getService<UbuntuSession>(),
-      ),
-      child: const _RepoTile(),
-    );
-  }
 }
 
 class _RepoTileState extends State<_RepoTile> {
-  bool _initialized = false;
-  @override
-  void initState() {
-    super.initState();
-    context
-        .read<PackageUpdatesModel>()
-        .init(handleError: () => showSnackBar(), loadRepoList: true)
-        .then((_) => _initialized = true);
-  }
-
-  void showSnackBar() {
-    if (!mounted) return;
-    final model = context.read<PackageUpdatesModel>();
-    if (model.errorMessage.isNotEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          duration: const Duration(minutes: 1),
-          padding: EdgeInsets.zero,
-          content: MessageBar(
-            message: model.errorMessage,
-            copyMessage: context.l10n.copyErrorMessage,
-          ),
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<PackageUpdatesModel>();
+    // final model = context.watch<PackageUpdatesModel>();
     return YaruTile(
       title: Text(context.l10n.sources),
       subtitle: Text(context.l10n.sourcesDescription),
       trailing: OutlinedButton(
-        onPressed: model.updatesState == UpdatesState.updating
-            ? null
-            : () => showDialog(
-                  context: context,
-                  builder: (context) {
-                    if (!_initialized) {
-                      return const AlertDialog(
-                        content: YaruCircularProgressIndicator(),
-                      );
-                    }
-                    return ChangeNotifierProvider.value(
-                      value: model,
-                      child: const RepoDialog(),
-                    );
-                  },
-                ),
+        onPressed: () =>
+            Utils.settingsNav.currentState!.pushNamed('/repoDialog'),
         child: Text(context.l10n.configure),
       ),
     );
@@ -235,76 +232,126 @@ class _AboutTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SettingsModel>();
+
     return YaruTile(
       title: Text(
         '${model.appName} ${model.version} ${model.buildNumber}',
       ),
       trailing: TextButton(
-        onPressed: () {
-          showAboutDialog(
-            applicationVersion: model.version,
-            applicationIcon: Image.asset(
-              'assets/software.png',
-              width: 60,
-              filterQuality: FilterQuality.medium,
+        onPressed: () => Utils.settingsNav.currentState!.pushNamed('/about'),
+        child: Text(context.l10n.about),
+      ),
+      enabled: true,
+    );
+  }
+}
+
+class _AboutDialog extends StatelessWidget {
+  const _AboutDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<SettingsModel>();
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          YaruDialogTitleBar(
+            leading: YaruBackButton(
+              style: YaruBackButtonStyle.rounded,
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+          Expanded(
+              child: ListView(
+            padding: const EdgeInsets.only(
+              top: kYaruPagePadding,
+              bottom: kYaruPagePadding,
+              left: 40,
+              right: 40,
             ),
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(5),
-                  onTap: () async => await launchUrl(Uri.parse(repoUrl)),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        context.l10n.findOurRepository,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Icon(
-                        YaruIcons.external_link,
-                        color: Theme.of(context).primaryColor,
-                        size: 18,
-                      )
-                    ],
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    'assets/software.png',
+                    width: 100,
+                    height: 100,
+                    filterQuality: FilterQuality.medium,
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          model.appName,
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        Text(
+                          '${context.l10n.version} ${model.version} ${model.buildNumber}',
+                        ),
+                        InkWell(
+                          borderRadius: BorderRadius.circular(5),
+                          onTap: () async =>
+                              await launchUrl(Uri.parse(repoUrl)),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                context.l10n.findOurRepository,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Icon(
+                                YaruIcons.external_link,
+                                color: Theme.of(context).primaryColor,
+                                size: 18,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
-                width: 400,
-                height: 300,
-                child: FutureBuilder<String>(
-                  future: loadAsset(context),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Markdown(
-                        padding: EdgeInsets.zero,
-                        data: '${context.l10n.madeBy}:\n ${snapshot.data!}',
-                        onTapLink: (text, href, title) =>
-                            href != null ? launchUrl(Uri.parse(href)) : null,
-                      );
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ),
+              FutureBuilder<String>(
+                future: loadAsset(context),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return MarkdownBody(
+                      data: '${context.l10n.madeBy}:\n ${snapshot.data!}',
+                      onTapLink: (text, href, title) =>
+                          href != null ? launchUrl(Uri.parse(href)) : null,
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
               )
             ],
-            context: context,
-            useRootNavigator: false,
-          );
-        },
-        child: Text(context.l10n.about),
+          ))
+        ],
       ),
-      enabled: true,
     );
   }
 
@@ -312,4 +359,10 @@ class _AboutTile extends StatelessWidget {
     return await DefaultAssetBundle.of(context)
         .loadString('assets/contributors.md');
   }
+}
+
+class Utils {
+  static GlobalKey<NavigatorState> settingsNav = GlobalKey();
+  static GlobalKey<NavigatorState> repoNav = GlobalKey();
+  static GlobalKey<NavigatorState> aboutNav = GlobalKey();
 }
