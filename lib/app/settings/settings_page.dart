@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app.dart';
+import 'package:software/app/common/link.dart';
 import 'package:software/app/settings/repo_dialog.dart';
 import 'package:software/app/settings/settings_model.dart';
 import 'package:software/app/settings/theme_tile.dart';
@@ -76,6 +77,9 @@ class _SettingsPageState extends State<SettingsPage> {
           case '/about':
             page = const _AboutDialog();
             break;
+          case '/licenses':
+            page = const _LicensePage();
+            break;
           default:
             page = const _SettingsPage();
             break;
@@ -126,10 +130,14 @@ class _SettingsPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const YaruSection(
-                margin: EdgeInsets.symmetric(horizontal: kYaruPagePadding),
-                child: _AboutTile(),
-              )
+              YaruSection(
+                headline: Text(context.l10n.about),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: kYaruPagePadding),
+                child: Column(
+                  children: const [_AboutTile(), _LicenseTile()],
+                ),
+              ),
             ],
           ),
         )
@@ -260,13 +268,12 @@ class _AboutTile extends StatelessWidget {
 
     return YaruTile(
       title: Text(
-        '${context.l10n.version} ${model.version} ${model.buildNumber}',
+        '${context.l10n.version}: ${model.version} ${model.buildNumber}',
       ),
-      trailing: TextButton(
+      trailing: OutlinedButton(
         onPressed: () => Utils.settingsNav.currentState!.pushNamed('/about'),
-        child: Text(context.l10n.about),
+        child: Text(context.l10n.contributors),
       ),
-      enabled: true,
     );
   }
 }
@@ -373,7 +380,7 @@ class _AboutDialog extends StatelessWidget {
                       return const SizedBox();
                     }
                   },
-                )
+                ),
               ],
             ),
           )
@@ -385,6 +392,62 @@ class _AboutDialog extends StatelessWidget {
   Future<String> loadAsset(BuildContext context) async {
     return await DefaultAssetBundle.of(context)
         .loadString('assets/contributors.md');
+  }
+}
+
+class _LicenseTile extends StatelessWidget {
+  const _LicenseTile();
+
+  @override
+  Widget build(BuildContext context) {
+    return YaruTile(
+      title: Link(
+        linkText: '${context.l10n.license}: GPL3',
+        url: 'https://www.gnu.org/licenses/gpl-3.0.de.html',
+        textStyle: Theme.of(context).textTheme.bodyLarge,
+      ),
+      trailing: OutlinedButton(
+        onPressed: () => Utils.settingsNav.currentState!.pushNamed('/licenses'),
+        child: Text(context.l10n.packagesUsed),
+      ),
+      enabled: true,
+    );
+  }
+}
+
+class _LicensePage extends StatelessWidget {
+  const _LicensePage();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          YaruDialogTitleBar(
+            leading: YaruBackButton(
+              style: YaruBackButtonStyle.rounded,
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+          Expanded(
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                pageTransitionsTheme:
+                    YaruMasterDetailTheme.of(context).landscapeTransitions,
+              ),
+              child: const LicensePage(),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          )
+        ],
+      ),
+    );
   }
 }
 
