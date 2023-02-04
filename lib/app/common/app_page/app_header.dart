@@ -65,13 +65,10 @@ class BannerAppHeader extends StatelessWidget {
                   children: [
                     Text(
                       appData.title,
-                      style: theme.textTheme.displaySmall!.copyWith(
-                        fontSize: 20,
-                        color: theme.colorScheme.onSurface,
-                      ),
+                      style: theme.textTheme.titleLarge,
                     ),
                     PublisherName(
-                      height: 18,
+                      height: 14,
                       publisherName: appData.publisherName,
                       website: appData.website,
                       verified: appData.verified,
@@ -149,7 +146,7 @@ class PageAppHeader extends StatelessWidget {
                   ),
                   Center(
                     child: PublisherName(
-                      height: 20,
+                      height: 14,
                       publisherName: appData.publisherName,
                       website: appData.website,
                       verified: appData.verified,
