@@ -175,5 +175,7 @@
   },
   "gallery": "Gallery",
   "additionalInformation": "Additional Information",
-  "links": "Links"
+  "links": "Links",
+  "packagesUsed": "Packages used",
+  "contributors": "Contributors"
 }
