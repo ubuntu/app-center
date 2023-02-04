@@ -427,7 +427,7 @@ class _LicensePage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          YaruDialogTitleBar(),
+          const YaruDialogTitleBar(),
           Expanded(
             child: Theme(
               data: Theme.of(context).copyWith(
