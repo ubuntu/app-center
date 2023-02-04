@@ -427,12 +427,7 @@ class _LicensePage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          YaruDialogTitleBar(
-            leading: YaruBackButton(
-              style: YaruBackButtonStyle.rounded,
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
+          YaruDialogTitleBar(),
           Expanded(
             child: Theme(
               data: Theme.of(context).copyWith(
@@ -442,9 +437,6 @@ class _LicensePage extends StatelessWidget {
               child: const LicensePage(),
             ),
           ),
-          const SizedBox(
-            height: 20,
-          )
         ],
       ),
     );
