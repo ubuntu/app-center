@@ -65,7 +65,7 @@ class BannerAppHeader extends StatelessWidget {
                   children: [
                     Text(
                       appData.title,
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: theme.textTheme.titleLarge,
                     ),
                     PublisherName(
                       height: 14,
