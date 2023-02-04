@@ -227,7 +227,25 @@ class _RepoTileState extends State<_RepoTile> {
       trailing: OutlinedButton(
         onPressed: () =>
             Utils.settingsNav.currentState!.pushNamed('/repoDialog'),
-        child: Text(context.l10n.configure),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(
+              width: 10,
+            ),
+            const Icon(
+              YaruIcons.settings,
+              size: 18,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Text(context.l10n.configure),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
       ),
     );
   }
