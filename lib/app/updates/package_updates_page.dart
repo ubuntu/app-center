@@ -177,6 +177,7 @@ class _UpdatingPageState extends State<_UpdatingPage> {
                 style: TextStyle(
                   inherit: false,
                   fontFamily: 'Ubuntu Mono',
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
                   textBaseline: TextBaseline.alphabetic,
                 ),
