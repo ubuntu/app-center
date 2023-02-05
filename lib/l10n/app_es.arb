@@ -331,5 +331,9 @@
   "additionalInformation": "Información adicional",
   "@additionalInformation": {},
   "links": "Enlaces",
-  "@links": {}
+  "@links": {},
+  "packagesUsed": "Paquetes utilizados",
+  "@packagesUsed": {},
+  "contributors": "Colaboradores",
+  "@contributors": {}
 }
