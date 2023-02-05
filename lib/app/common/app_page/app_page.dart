@@ -101,7 +101,6 @@ class _AppPageState extends State<AppPage> {
   Widget build(BuildContext context) {
     final windowSize = MediaQuery.of(context).size;
     final windowWidth = windowSize.width;
-    final windowHeight = windowSize.height;
     final isWindowNormalSized = windowWidth > 800 && windowWidth < 1200;
     final isWindowWide = windowWidth > 1200;
 
@@ -129,9 +128,7 @@ class _AppPageState extends State<AppPage> {
                 onTap: () => showDialog(
                   context: context,
                   builder: (c) => _CarouselDialog(
-                    windowHeight: windowHeight,
                     appData: widget.appData,
-                    windowWidth: windowWidth,
                     initialIndex: i,
                   ),
                 ),
@@ -272,15 +269,11 @@ class _AppPageState extends State<AppPage> {
 
 class _CarouselDialog extends StatefulWidget {
   const _CarouselDialog({
-    required this.windowHeight,
     required this.appData,
-    required this.windowWidth,
     required this.initialIndex,
   });
 
-  final double windowHeight;
   final AppData appData;
-  final double windowWidth;
   final int initialIndex;
 
   @override
@@ -307,6 +300,7 @@ class _CarouselDialogState extends State<_CarouselDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return KeyboardListener(
       focusNode: FocusNode(),
       onKeyEvent: (value) {
@@ -317,24 +311,28 @@ class _CarouselDialogState extends State<_CarouselDialog> {
         }
       },
       child: SimpleDialog(
-        title: const YaruCloseButton(
-          alignment: Alignment.centerRight,
+        title: YaruDialogTitleBar(
+          title: Text(widget.appData.name),
         ),
-        contentPadding: const EdgeInsets.only(bottom: 20),
-        titlePadding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 6.0),
+        contentPadding: const EdgeInsets.only(bottom: 20, top: 20),
+        titlePadding: EdgeInsets.zero,
         children: [
           SizedBox(
-            height: widget.windowHeight - 150,
+            height: size.height - 150,
+            width: size.width,
             child: YaruCarousel(
               controller: controller,
               nextIcon: const Icon(YaruIcons.go_next),
               previousIcon: const Icon(YaruIcons.go_previous),
               navigationControls: widget.appData.screenShotUrls.length > 1,
-              width: widget.windowWidth,
+              width: size.width,
               placeIndicatorMarginTop: 20.0,
               children: [
                 for (final url in widget.appData.screenShotUrls)
-                  SafeNetworkImage(url: url)
+                  SafeNetworkImage(
+                    url: url,
+                    fit: BoxFit.fitWidth,
+                  )
               ],
             ),
           )
