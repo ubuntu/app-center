@@ -425,27 +425,25 @@ class _LicensePage extends StatelessWidget {
         color: Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Column(
-        children: [
-          YaruDialogTitleBar(
-            leading: YaruBackButton(
-              style: YaruBackButtonStyle.rounded,
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
-          Expanded(
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                pageTransitionsTheme:
-                    YaruMasterDetailTheme.of(context).landscapeTransitions,
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(8.0),
+          bottomRight: Radius.circular(8.0),
+        ),
+        child: Column(
+          children: [
+            const YaruDialogTitleBar(),
+            Expanded(
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  pageTransitionsTheme:
+                      YaruMasterDetailTheme.of(context).landscapeTransitions,
+                ),
+                child: const LicensePage(),
               ),
-              child: const LicensePage(),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
