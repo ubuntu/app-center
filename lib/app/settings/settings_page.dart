@@ -324,7 +324,7 @@ class _AboutDialog extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            model.appName,
+                            model.appName ?? '',
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
                           Text(
@@ -333,7 +333,7 @@ class _AboutDialog extends StatelessWidget {
                           InkWell(
                             borderRadius: BorderRadius.circular(5),
                             onTap: () async =>
-                                await launchUrl(Uri.parse(repoUrl)),
+                                await launchUrl(Uri.parse(model.repoUrl)),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
