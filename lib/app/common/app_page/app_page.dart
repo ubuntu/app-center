@@ -311,7 +311,9 @@ class _CarouselDialogState extends State<_CarouselDialog> {
         }
       },
       child: SimpleDialog(
-        title: const YaruDialogTitleBar(),
+        title: YaruDialogTitleBar(
+          title: Text(widget.appData.name),
+        ),
         contentPadding: const EdgeInsets.only(bottom: 20, top: 20),
         titlePadding: EdgeInsets.zero,
         children: [
