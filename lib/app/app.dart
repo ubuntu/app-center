@@ -23,6 +23,7 @@ import 'package:launcher_entry/launcher_entry.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
 import 'package:software/app/app_splash_screen.dart';
+import 'package:software/app/collection/collection_page.dart';
 import 'package:software/app/common/close_confirmation_dialog.dart';
 import 'package:software/app/common/connectivity_notifier.dart';
 import 'package:software/app/common/page_item.dart';
@@ -163,7 +164,7 @@ class __AppState extends State<_App> {
           .firstOrNull
           ?.substring(7);
       if (debPath != null || snapName != null) {
-        _initialIndex = 3;
+        _initialIndex = 4;
       }
     });
   }
@@ -209,6 +210,18 @@ class __AppState extends State<_App> {
           selected: selected,
           badgeCount: updateAmount,
           processing: updatesProcessing,
+        ),
+      ),
+      PageItem(
+        titleBuilder: CollectionPage.createTitle,
+        builder: (context) => CollectionPage.create(context),
+        iconBuilder: (c, s) => CollectionPage.createIcon(
+          context: c,
+          selected: s,
+          badgeCount: badgeCount,
+          processing: processing,
+          updateCount: updateAmount,
+          updateProcessing: updatesProcessing,
         ),
       ),
       if (debPath != null || snapName != null)

@@ -177,5 +177,6 @@
   "additionalInformation": "Additional Information",
   "links": "Links",
   "packagesUsed": "Packages used",
-  "contributors": "Contributors"
+  "contributors": "Contributors",
+  "collection": "Collection"
 }
