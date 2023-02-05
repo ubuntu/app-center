@@ -83,12 +83,20 @@ class _ExplorePageState extends State<ExplorePage> {
   void initState() {
     super.initState();
     final model = context.read<ExploreModel>();
-    _sidebarEventListener = context
-        .read<AppModel>()
-        .sidebarEvents
-        .listen((_) => model.setSearchQuery(''));
+    _sidebarEventListener = context.read<AppModel>().sidebarEvents.listen((_) {
+      model.setSearchQuery('');
+      model.setSelectedSection(widget.section);
+    });
     final connectivity = context.read<ConnectivityNotifier>();
     connectivity.init();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      model.setSelectedSection(widget.section);
+      if (model.searchQuery?.isNotEmpty == true) {
+        model.search();
+      }
+    });
   }
 
   @override
@@ -137,7 +145,9 @@ class _ExplorePageState extends State<ExplorePage> {
             setSearchQuery(value);
             search();
           },
-          hintText: context.l10n.searchHintAppStore,
+          hintText: widget.section == SnapSection.all
+              ? context.l10n.searchHintAppStore
+              : '${context.l10n.searchHint}: ${widget.section.localize(context.l10n)}',
         ),
       ),
       body: !connectivity.isOnline

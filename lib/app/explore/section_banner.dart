@@ -30,7 +30,7 @@ class SectionBanner extends StatelessWidget {
         ) ==
         Brightness.light;
     return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 230),
+      constraints: const BoxConstraints(minHeight: 220),
       child: Padding(
         padding: const EdgeInsets.only(
           top: 5,
