@@ -19,25 +19,47 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:software/services/packagekit/package_service.dart';
 
-const repoUrl = 'https://github.com/ubuntu-flutter-community/software';
+const _repoUrl = 'https://github.com/ubuntu-flutter-community/software';
 
 class SettingsModel extends SafeChangeNotifier {
-  String appName;
-
-  String packageName;
-
-  String version;
-
-  String buildNumber;
-
   final PackageService _packageService;
-  SettingsModel(this._packageService)
-      : appName = '',
-        packageName = '',
-        version = '',
-        buildNumber = '';
+  SettingsModel(this._packageService);
+
+  String? _appName;
+  String? get appName => _appName;
+  set appName(String? value) {
+    if (value == null || value == _appName) return;
+    _appName = value;
+    notifyListeners();
+  }
+
+  String? _packageName;
+  String? get packageName => _packageName;
+  set packageName(String? value) {
+    if (value == null || value == _packageName) return;
+    _packageName = value;
+    notifyListeners();
+  }
+
+  String? _version;
+  String? get version => _version;
+  set version(String? value) {
+    if (value == null || value == _version) return;
+    _version = value;
+    notifyListeners();
+  }
+
+  String? _buildNumber;
+  String? get buildNumber => _buildNumber;
+  set buildNumber(String? value) {
+    if (value == null || value == _buildNumber) return;
+    _buildNumber = value;
+    notifyListeners();
+  }
 
   bool get packageKitAvailable => _packageService.isAvailable;
+
+  String get repoUrl => _repoUrl;
 
   Future<void> init() async {
     final packageInfo = await PackageInfo.fromPlatform();
