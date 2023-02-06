@@ -85,7 +85,14 @@ class CollectionModel extends SafeChangeNotifier {
         return 1;
       }
     });
-    return Map.fromEntries(entryList);
+
+    return searchQuery == null || searchQuery?.isEmpty == true
+        ? Map.fromEntries(entryList)
+        : Map.fromEntries(
+            entryList.where(
+              (element) => element.key.name.contains(searchQuery!),
+            ),
+          );
   }
 
   bool get snapUpdatesAvailable =>

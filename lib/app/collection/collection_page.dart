@@ -199,16 +199,9 @@ class _SnapList extends StatelessWidget {
   Widget build(BuildContext context) {
     final installedSnaps =
         context.select((CollectionModel m) => m.installedSnaps);
-    final searchQuery = context.select((CollectionModel m) => m.searchQuery);
 
     final checkingForSnapUpdates =
         context.select((CollectionModel m) => m.checkingForSnapUpdates);
-
-    final snaps = searchQuery == null || searchQuery.isEmpty
-        ? installedSnaps.entries
-        : installedSnaps.entries.where(
-            (element) => element.key.name.contains(searchQuery),
-          );
 
     return BorderContainer(
       padding: EdgeInsets.zero,
@@ -220,7 +213,7 @@ class _SnapList extends StatelessWidget {
       child: ListView(
         shrinkWrap: true,
         children: [
-          for (final e in snaps)
+          for (final e in installedSnaps.entries)
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
