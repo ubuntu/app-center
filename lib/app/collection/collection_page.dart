@@ -11,6 +11,7 @@ import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
+import 'package:software/app/common/packagekit/packagekit_filter_button.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/l10n/l10n.dart';
@@ -80,6 +81,10 @@ class CollectionPage extends StatelessWidget {
     final setLoadPackagesWithUpdates =
         context.select((CollectionModel m) => m.setLoadPackagesWithUpdates);
 
+    final packageKitFilters =
+        context.select((CollectionModel m) => m.packageKitFilters);
+    final handleFilter = context.select((CollectionModel m) => m.handleFilter);
+
     final content = Center(
       child: SizedBox(
         width: 700,
@@ -122,7 +127,12 @@ class CollectionPage extends StatelessWidget {
                           : () => refreshAllSnapsWithUpdates(
                                 doneMessage: context.l10n.done,
                               ),
-                      child: const Text('Udate all'),
+                      child: Text(context.l10n.multiUpdateButton),
+                    ),
+                  if (appFormat == AppFormat.packageKit)
+                    PackageKitFilterButton(
+                      onTap: handleFilter,
+                      filters: packageKitFilters,
                     ),
                   if (appFormat == AppFormat.packageKit)
                     SizedBox(
@@ -191,6 +201,12 @@ class _SnapList extends StatelessWidget {
     final checkingForSnapUpdates =
         context.select((CollectionModel m) => m.checkingForSnapUpdates);
 
+    final snaps = searchQuery == null || searchQuery.isEmpty
+        ? installedSnaps.entries
+        : installedSnaps.entries.where(
+            (element) => element.key.name.contains(searchQuery),
+          );
+
     return BorderContainer(
       padding: EdgeInsets.zero,
       margin: const EdgeInsets.only(
@@ -201,11 +217,7 @@ class _SnapList extends StatelessWidget {
       child: ListView(
         shrinkWrap: true,
         children: [
-          for (final e in searchQuery == null || searchQuery.isEmpty
-              ? installedSnaps.entries
-              : installedSnaps.entries.where(
-                  (element) => element.key.name.contains(searchQuery),
-                ))
+          for (final e in snaps)
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [

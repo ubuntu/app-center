@@ -184,4 +184,24 @@ class CollectionModel extends SafeChangeNotifier {
     _loadPackagesWithUpdates = value;
     notifyListeners();
   }
+
+  final Set<PackageKitFilter> _packageKitFilters = {
+    PackageKitFilter.installed,
+    PackageKitFilter.gui,
+    PackageKitFilter.newest,
+    PackageKitFilter.application,
+    PackageKitFilter.notSource,
+    PackageKitFilter.notDevelopment,
+  };
+  Set<PackageKitFilter> get packageKitFilters => _packageKitFilters;
+  Future<void> handleFilter(bool value, PackageKitFilter filter) async {
+    if (!_packageService.isAvailable) return;
+    if (value) {
+      _packageKitFilters.add(filter);
+    } else {
+      _packageKitFilters.remove(filter);
+    }
+    await _packageService.getInstalledPackages(filters: packageKitFilters);
+    notifyListeners();
+  }
 }

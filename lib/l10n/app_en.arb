@@ -88,6 +88,7 @@
   "deselectAll": "Deselect all",
   "update": "Update",
   "updateButton": "Update",
+  "multiUpdateButton": "Update all",
   "refreshButton": "Check for updates",
   "noUpdates": "Everything is up to date",
   "updating": "Hang on - we are updating your system. Please do not close this app, or shutdown your computer",
