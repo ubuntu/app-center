@@ -76,15 +76,27 @@ class SnapUpdatesModel extends SafeChangeNotifier {
     required String doneMessage,
   }) async {
     await _snapService.authorize();
-    if (_snapsWithUpdates == null) return;
-    for (var snap in _snapsWithUpdates!) {
-      _snapService.refresh(
-        snap: snap,
-        message: doneMessage,
-        confinement: snap.confinement,
-        channel: snap.channel,
-      );
-    }
-    notifyListeners();
+    if (_snapsWithUpdates?.isEmpty ?? true) return;
+
+    final firstSnap = _snapsWithUpdates!.first;
+    _snapService
+        .refresh(
+      snap: firstSnap,
+      message: doneMessage,
+      channel: firstSnap.channel,
+      confinement: firstSnap.confinement,
+    )
+        .then((_) {
+      notifyListeners();
+      for (var snap in _snapsWithUpdates!.skip(1)) {
+        _snapService.refresh(
+          snap: snap,
+          message: doneMessage,
+          confinement: snap.confinement,
+          channel: snap.channel,
+        );
+        notifyListeners();
+      }
+    });
   }
 }
