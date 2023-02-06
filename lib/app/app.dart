@@ -164,7 +164,7 @@ class __AppState extends State<_App> {
           .firstOrNull
           ?.substring(7);
       if (debPath != null || snapName != null) {
-        _initialIndex = 4;
+        _initialIndex = 3;
       }
     });
   }
@@ -210,18 +210,6 @@ class __AppState extends State<_App> {
           selected: selected,
           badgeCount: updateAmount,
           processing: updatesProcessing,
-        ),
-      ),
-      PageItem(
-        titleBuilder: CollectionPage.createTitle,
-        builder: (context) => CollectionPage.create(context),
-        iconBuilder: (c, s) => CollectionPage.createIcon(
-          context: c,
-          selected: s,
-          badgeCount: badgeCount,
-          processing: processing,
-          updateCount: updateAmount,
-          updateProcessing: updatesProcessing,
         ),
       ),
       if (debPath != null || snapName != null)
