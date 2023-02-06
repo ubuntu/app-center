@@ -23,7 +23,6 @@ import 'package:launcher_entry/launcher_entry.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
 import 'package:software/app/app_splash_screen.dart';
-import 'package:software/app/collection/collection_page.dart';
 import 'package:software/app/common/close_confirmation_dialog.dart';
 import 'package:software/app/common/connectivity_notifier.dart';
 import 'package:software/app/common/page_item.dart';
