@@ -178,13 +178,14 @@ class CollectionPage extends StatelessWidget {
 
     return Scaffold(
       appBar: YaruWindowTitleBar(
-        title: loadPackagesWithUpdates == true
-            ? Text(context.l10n.updates)
-            : SearchField(
-                searchQuery: searchQuery ?? '',
-                onChanged: setSearchQuery,
-                hintText: context.l10n.searchHintInstalled,
-              ),
+        title:
+            loadPackagesWithUpdates == true && appFormat == AppFormat.packageKit
+                ? Text(context.l10n.updates)
+                : SearchField(
+                    searchQuery: searchQuery ?? '',
+                    onChanged: setSearchQuery,
+                    hintText: context.l10n.searchHintInstalled,
+                  ),
       ),
       body: content,
     );
