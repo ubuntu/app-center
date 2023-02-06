@@ -76,8 +76,7 @@ class SnapUpdatesModel extends SafeChangeNotifier {
     required String doneMessage,
   }) async {
     await _snapService.authorize();
-    if (_snapsWithUpdates == null ||
-        _snapsWithUpdates != null && _snapsWithUpdates!.isEmpty) return;
+    if (_snapsWithUpdates?.isEmpty ?? true) return;
 
     final firstSnap = _snapsWithUpdates!.first;
     _snapService
