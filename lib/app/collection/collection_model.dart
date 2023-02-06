@@ -179,10 +179,18 @@ class CollectionModel extends SafeChangeNotifier {
 
   // PACKAGEKIT PACKAGES
 
-  // Future<void> _checkForPackageUpdates() async {}
-
-  List<PackageKitPackageId> get installedPackages =>
-      _packageService.isAvailable ? _packageService.installedPackages : [];
+  List<PackageKitPackageId> get installedPackages {
+    if (!_packageService.isAvailable) {
+      return [];
+    } else {
+      if (searchQuery?.isEmpty == true) {
+        return _packageService.installedPackages;
+      }
+      return _packageService.installedPackages
+          .where((e) => e.name.contains(searchQuery!))
+          .toList();
+    }
+  }
 
   bool? _loadPackagesWithUpdates;
   bool? get loadPackagesWithUpdates => _loadPackagesWithUpdates;
