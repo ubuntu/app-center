@@ -19,6 +19,9 @@ class CollectionModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     await _loadInstalledSnaps();
+    _appFormat = AppFormat.snap;
+    notifyListeners();
+
     if (_snapService.snapChanges.isEmpty) {
       await checkForSnapUpdates();
     } else {
@@ -34,6 +37,7 @@ class CollectionModel extends SafeChangeNotifier {
       }
     });
     _enabledAppFormats.add(AppFormat.snap);
+
     if (_packageService.isAvailable) {
       _enabledAppFormats.add(AppFormat.packageKit);
       // _appFormat = AppFormat.packageKit;

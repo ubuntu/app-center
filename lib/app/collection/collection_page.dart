@@ -118,9 +118,10 @@ class CollectionPage extends StatelessWidget {
                 ],
               ),
             ),
-            const Expanded(
-              child: _SnapList(),
-            ),
+            if (appFormat == AppFormat.snap)
+              const Expanded(
+                child: _SnapList(),
+              ),
           ],
         ),
       ),
