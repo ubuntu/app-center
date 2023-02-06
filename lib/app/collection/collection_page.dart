@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/collection/collection_model.dart';
 import 'package:software/app/collection/collection_packages_page.dart';
@@ -10,6 +11,8 @@ import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
+import 'package:software/app/common/packagekit/package_controls.dart';
+import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/packagekit/packagekit_filter_button.dart';
 import 'package:software/app/common/search_field.dart';
@@ -112,7 +115,8 @@ class CollectionPage extends StatelessWidget {
                           : () => checkForSnapUpdates(),
                       child: Text(context.l10n.refreshButton),
                     ),
-                  if (checkingForSnapUpdates == true)
+                  if (checkingForSnapUpdates == true &&
+                      appFormat == AppFormat.snap)
                     const SizedBox(
                       height: 25,
                       width: 25,
@@ -274,27 +278,9 @@ class _PackagesList extends StatelessWidget {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ListTile(
-                      key: ValueKey(package),
-                      // enabled: checkingForSnapUpdates == false,
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: kYaruPagePadding,
-                        vertical: 10,
-                      ),
-                      onTap: () => PackagePage.push(context, id: package),
-                      leading: const AppIcon(
-                        iconUrl: null,
-                        size: 25,
-                      ),
-                      title: Text(
-                        package.name,
-                      ),
-                      // trailing: SimpleSnapControls.create(
-                      //   context: context,
-                      //   snap: e.key,
-                      //   hasUpdate: e.value,
-                      //   enabled: checkingForSnapUpdates == false,
-                      // ),
+                    _PackageTile.create(
+                      context,
+                      package,
                     ),
                     const Divider(
                       thickness: 0.0,
@@ -306,6 +292,53 @@ class _PackagesList extends StatelessWidget {
             ),
           )
         : const SizedBox();
+  }
+}
+
+class _PackageTile extends StatelessWidget {
+  const _PackageTile({super.key, required this.id});
+
+  final PackageKitPackageId id;
+
+  static Widget create(BuildContext context, PackageKitPackageId id) {
+    return ChangeNotifierProvider(
+      create: (_) =>
+          PackageModel(packageId: id, service: getService<PackageService>()),
+      child: _PackageTile(
+        id: id,
+        key: ValueKey(id),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final packageState = context.select((PackageModel m) => m.packageState);
+    final remove = context.select((PackageModel m) => m.remove);
+    final install = context.select((PackageModel m) => m.install);
+
+    return ListTile(
+      key: ValueKey(id),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: kYaruPagePadding,
+        vertical: 10,
+      ),
+      onTap: () => PackagePage.push(context, id: id),
+      leading: const AppIcon(
+        iconUrl: null,
+        size: 25,
+      ),
+      title: Text(
+        id.name,
+      ),
+      trailing: PackageControls(
+        versionChanged: false,
+        isInstalled: true,
+        packageState: packageState,
+        remove: () => remove(),
+        install: install,
+      ),
+    );
   }
 }
 

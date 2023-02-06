@@ -4,6 +4,7 @@ import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_format.dart';
+import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
 
@@ -15,19 +16,11 @@ class CollectionModel extends SafeChangeNotifier {
 
   final SnapService _snapService;
   StreamSubscription<bool>? _snapChangesSub;
+  StreamSubscription<bool>? _packagesChanged;
 
   final PackageService _packageService;
 
   Future<void> init() async {
-    await _loadInstalledSnaps();
-    _appFormat = AppFormat.snap;
-    notifyListeners();
-
-    if (_snapService.snapChanges.isEmpty) {
-      await checkForSnapUpdates();
-    } else {
-      checkingForSnapUpdates = false;
-    }
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
       if (_snapService.snapChanges.isEmpty) {
         _installedSnaps.clear();
@@ -41,14 +34,33 @@ class CollectionModel extends SafeChangeNotifier {
 
     if (_packageService.isAvailable) {
       _enabledAppFormats.add(AppFormat.packageKit);
-      // _appFormat = AppFormat.packageKit;
+      _appFormat = AppFormat.packageKit;
+      await _packageService.getInstalledPackages(filters: packageKitFilters);
+
+      _packagesChanged =
+          _packageService.installedPackagesChanged.listen((event) {
+        notifyListeners();
+      });
+
       notifyListeners();
+    } else {
+      _appFormat = AppFormat.snap;
+    }
+
+    await _loadInstalledSnaps();
+    notifyListeners();
+
+    if (_snapService.snapChanges.isEmpty) {
+      await checkForSnapUpdates();
+    } else {
+      checkingForSnapUpdates = false;
     }
   }
 
   @override
   void dispose() {
     _snapChangesSub?.cancel();
+    _packagesChanged?.cancel();
     super.dispose();
   }
 
@@ -221,4 +233,7 @@ class CollectionModel extends SafeChangeNotifier {
     await _packageService.getInstalledPackages(filters: packageKitFilters);
     notifyListeners();
   }
+
+  Future<void> remove(PackageModel model) =>
+      _packageService.remove(model: model);
 }
