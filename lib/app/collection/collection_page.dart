@@ -50,11 +50,27 @@ class CollectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<CollectionModel>();
-
     final searchQuery = context.select((CollectionModel m) => m.searchQuery);
+
     final setSearchQuery =
         context.select((CollectionModel m) => m.setSearchQuery);
+
+    final checkForSnapUpdates =
+        context.select((CollectionModel m) => m.checkForSnapUpdates);
+    final snapUpdatesAvailable =
+        context.select((CollectionModel m) => m.snapUpdatesAvailable);
+    final checkingForSnapUpdates =
+        context.select((CollectionModel m) => m.checkingForSnapUpdates);
+    final snapServiceIsBusy =
+        context.select((CollectionModel m) => m.snapServiceIsBusy);
+
+    final refreshAllSnapsWithUpdates =
+        context.select((CollectionModel m) => m.refreshAllSnapsWithUpdates);
+
+    final appFormat = context.select((CollectionModel m) => m.appFormat);
+    final setAppFormat = context.select((CollectionModel m) => m.setAppFormat);
+    final enabledAppFormats =
+        context.select((CollectionModel m) => m.enabledAppFormats);
 
     final content = Center(
       child: SizedBox(
@@ -71,18 +87,18 @@ class CollectionPage extends StatelessWidget {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   AppFormatPopup(
-                    onSelected: (appFormat) => model.appFormat = appFormat,
-                    appFormat: model.appFormat ?? AppFormat.snap,
-                    enabledAppFormats: model.enabledAppFormats,
+                    onSelected: (appFormat) => setAppFormat(appFormat),
+                    appFormat: appFormat ?? AppFormat.snap,
+                    enabledAppFormats: enabledAppFormats,
                   ),
                   OutlinedButton(
-                    onPressed: model.checkingForSnapUpdates == true ||
-                            model.snapServiceIsBusy == true
+                    onPressed: checkingForSnapUpdates == true ||
+                            snapServiceIsBusy == true
                         ? null
-                        : () => model.checkForSnapUpdates(),
+                        : () => checkForSnapUpdates(),
                     child: Text(context.l10n.refreshButton),
                   ),
-                  if (model.checkingForSnapUpdates == true)
+                  if (checkingForSnapUpdates == true)
                     const SizedBox(
                       height: 25,
                       width: 25,
@@ -90,11 +106,11 @@ class CollectionPage extends StatelessWidget {
                         child: YaruCircularProgressIndicator(strokeWidth: 3),
                       ),
                     )
-                  else if (model.snapUpdatesAvailable)
+                  else if (snapUpdatesAvailable)
                     ElevatedButton(
-                      onPressed: model.snapServiceIsBusy == true
+                      onPressed: snapServiceIsBusy == true
                           ? null
-                          : () => model.refreshAllSnapsWithUpdates(
+                          : () => refreshAllSnapsWithUpdates(
                                 doneMessage: context.l10n.done,
                               ),
                       child: const Text('Udate all'),
@@ -102,55 +118,8 @@ class CollectionPage extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(
-              child: YaruBorderContainer(
-                margin: const EdgeInsets.only(
-                  left: kYaruPagePadding,
-                  right: kYaruPagePadding,
-                  bottom: kYaruPagePadding,
-                ),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    for (final e in searchQuery == null || searchQuery.isEmpty
-                        ? model.installedSnaps.entries
-                        : model.installedSnaps.entries.where(
-                            (element) => element.key.name.contains(searchQuery),
-                          ))
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ListTile(
-                            enabled: model.checkingForSnapUpdates == false,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: kYaruPagePadding,
-                              vertical: 10,
-                            ),
-                            onTap: () =>
-                                SnapPage.push(context: context, snap: e.key),
-                            leading: AppIcon(
-                              iconUrl: e.key.iconUrl,
-                              size: 25,
-                            ),
-                            title: Text(
-                              e.key.name,
-                            ),
-                            trailing: SimpleSnapControls.create(
-                              context: context,
-                              snap: e.key,
-                              hasUpdate: e.value,
-                              enabled: model.checkingForSnapUpdates == false,
-                            ),
-                          ),
-                          const Divider(
-                            thickness: 0.0,
-                            height: 0,
-                          )
-                        ],
-                      )
-                  ],
-                ),
-              ),
+            const Expanded(
+              child: _SnapList(),
             ),
           ],
         ),
@@ -166,6 +135,69 @@ class CollectionPage extends StatelessWidget {
         ),
       ),
       body: content,
+    );
+  }
+}
+
+class _SnapList extends StatelessWidget {
+  const _SnapList();
+
+  @override
+  Widget build(BuildContext context) {
+    final installedSnaps =
+        context.select((CollectionModel m) => m.installedSnaps);
+    final searchQuery = context.select((CollectionModel m) => m.searchQuery);
+
+    final checkingForSnapUpdates =
+        context.select((CollectionModel m) => m.checkingForSnapUpdates);
+
+    return YaruBorderContainer(
+      margin: const EdgeInsets.only(
+        left: kYaruPagePadding,
+        right: kYaruPagePadding,
+        bottom: kYaruPagePadding,
+      ),
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          for (final e in searchQuery == null || searchQuery.isEmpty
+              ? installedSnaps.entries
+              : installedSnaps.entries.where(
+                  (element) => element.key.name.contains(searchQuery),
+                ))
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  key: ValueKey(e.key),
+                  enabled: checkingForSnapUpdates == false,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: kYaruPagePadding,
+                    vertical: 10,
+                  ),
+                  onTap: () => SnapPage.push(context: context, snap: e.key),
+                  leading: AppIcon(
+                    iconUrl: e.key.iconUrl,
+                    size: 25,
+                  ),
+                  title: Text(
+                    e.key.name,
+                  ),
+                  trailing: SimpleSnapControls.create(
+                    context: context,
+                    snap: e.key,
+                    hasUpdate: e.value,
+                    enabled: checkingForSnapUpdates == false,
+                  ),
+                ),
+                const Divider(
+                  thickness: 0.0,
+                  height: 0,
+                )
+              ],
+            )
+        ],
+      ),
     );
   }
 }
