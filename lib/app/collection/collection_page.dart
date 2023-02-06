@@ -11,6 +11,7 @@ import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -24,7 +25,7 @@ class CollectionPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => CollectionModel(
         getService<SnapService>(),
-        // getService<PackageService>(),
+        getService<PackageService>(),
       )..init(),
       child: const CollectionPage(),
     );
@@ -70,15 +71,13 @@ class CollectionPage extends StatelessWidget {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   AppFormatPopup(
-                    onSelected: (v) {},
-                    appFormat: AppFormat.snap,
-                    enabledAppFormats: const {
-                      AppFormat.snap,
-                    },
+                    onSelected: (appFormat) => model.appFormat = appFormat,
+                    appFormat: model.appFormat ?? AppFormat.snap,
+                    enabledAppFormats: model.enabledAppFormats,
                   ),
                   OutlinedButton(
                     onPressed: model.checkingForSnapUpdates == true ||
-                            model.serviceBusy == true
+                            model.snapServiceIsBusy == true
                         ? null
                         : () => model.checkForSnapUpdates(),
                     child: Text(context.l10n.refreshButton),
@@ -93,7 +92,7 @@ class CollectionPage extends StatelessWidget {
                     )
                   else if (model.snapUpdatesAvailable)
                     ElevatedButton(
-                      onPressed: model.serviceBusy == true
+                      onPressed: model.snapServiceIsBusy == true
                           ? null
                           : () => model.refreshAllSnapsWithUpdates(
                                 doneMessage: context.l10n.done,

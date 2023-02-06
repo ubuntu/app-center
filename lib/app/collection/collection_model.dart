@@ -2,18 +2,71 @@ import 'dart:async';
 
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/app_format.dart';
+import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
 
 class CollectionModel extends SafeChangeNotifier {
   CollectionModel(
     this._snapService,
-    // this._packageService,
+    this._packageService,
   );
 
   final SnapService _snapService;
   StreamSubscription<bool>? _snapChangesSub;
 
-  // final PackageService _packageService;
+  final PackageService _packageService;
+
+  Future<void> init() async {
+    await _loadInstalledSnaps();
+    if (_snapService.snapChanges.isEmpty) {
+      await checkForSnapUpdates();
+    } else {
+      checkingForSnapUpdates = false;
+    }
+    _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
+      if (_snapService.snapChanges.isEmpty) {
+        _installedSnaps.clear();
+        _loadInstalledSnaps();
+        snapServiceIsBusy = false;
+      } else {
+        snapServiceIsBusy = true;
+      }
+    });
+    _enabledAppFormats.add(AppFormat.snap);
+    if (_packageService.isAvailable) {
+      _enabledAppFormats.add(AppFormat.packageKit);
+      // _appFormat = AppFormat.packageKit;
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    _snapChangesSub?.cancel();
+    super.dispose();
+  }
+
+  AppFormat? _appFormat;
+  AppFormat? get appFormat => _appFormat;
+  set appFormat(AppFormat? value) {
+    if (value == null || value == _appFormat) return;
+    _appFormat = value;
+    notifyListeners();
+  }
+
+  final Set<AppFormat> _enabledAppFormats = {};
+  Set<AppFormat> get enabledAppFormats => _enabledAppFormats;
+
+  void setAppFormat(AppFormat value) {
+    if (value == _appFormat) return;
+    _appFormat = value;
+    if (_appFormat == AppFormat.packageKit && _packageService.isAvailable) {
+      _packageService.getInstalledPackages().then((_) => notifyListeners());
+    } else {
+      notifyListeners();
+    }
+  }
 
   final Map<Snap, bool> _installedSnaps = {};
   Map<Snap, bool> get installedSnaps {
@@ -31,11 +84,11 @@ class CollectionModel extends SafeChangeNotifier {
   bool get snapUpdatesAvailable =>
       _installedSnaps.entries.where((e) => e.value == true).toList().isNotEmpty;
 
-  bool? _serviceIsBusy;
-  bool? get serviceBusy => _serviceIsBusy;
-  set serviceBusy(bool? value) {
-    if (value == null || value == _serviceIsBusy) return;
-    _serviceIsBusy = value;
+  bool? _snapServiceIsBusy;
+  bool? get snapServiceIsBusy => _snapServiceIsBusy;
+  set snapServiceIsBusy(bool? value) {
+    if (value == null || value == _snapServiceIsBusy) return;
+    _snapServiceIsBusy = value;
     notifyListeners();
   }
 
@@ -46,36 +99,12 @@ class CollectionModel extends SafeChangeNotifier {
 
   // final Map<PackageKitPackageId, bool>? _installedPackages = {};
 
-  Future<void> init() async {
-    await _loadInstalledSnaps();
-    if (_snapService.snapChanges.isEmpty) {
-      await checkForSnapUpdates();
-    } else {
-      checkingForSnapUpdates = false;
-    }
-    _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
-      if (_snapService.snapChanges.isEmpty) {
-        _installedSnaps.clear();
-        _loadInstalledSnaps();
-        serviceBusy = false;
-      } else {
-        serviceBusy = true;
-      }
-    });
-  }
-
   Future<void> _loadInstalledSnaps() async {
     await _snapService.loadLocalSnaps();
     for (var snap in _snapService.localSnaps) {
       _installedSnaps.putIfAbsent(snap, () => false);
     }
     notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    _snapChangesSub?.cancel();
-    super.dispose();
   }
 
   String? _searchQuery;
