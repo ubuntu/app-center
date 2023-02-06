@@ -183,7 +183,7 @@ class CollectionModel extends SafeChangeNotifier {
     if (!_packageService.isAvailable) {
       return [];
     } else {
-      if (searchQuery?.isEmpty == true) {
+      if (searchQuery == null || searchQuery?.isEmpty == true) {
         return _packageService.installedPackages;
       }
       return _packageService.installedPackages
