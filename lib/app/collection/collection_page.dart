@@ -2,12 +2,15 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/collection/collection_model.dart';
+import 'package:software/app/collection/collection_packages_page.dart';
 import 'package:software/app/collection/simple_snap_controls.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/app_format_popup.dart';
 import 'package:software/app/common/app_icon.dart';
+import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
+import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/l10n/l10n.dart';
@@ -72,6 +75,11 @@ class CollectionPage extends StatelessWidget {
     final enabledAppFormats =
         context.select((CollectionModel m) => m.enabledAppFormats);
 
+    final loadPackagesWithUpdates =
+        context.select((CollectionModel m) => m.loadPackagesWithUpdates);
+    final setLoadPackagesWithUpdates =
+        context.select((CollectionModel m) => m.setLoadPackagesWithUpdates);
+
     final content = Center(
       child: SizedBox(
         width: 700,
@@ -91,13 +99,14 @@ class CollectionPage extends StatelessWidget {
                     appFormat: appFormat ?? AppFormat.snap,
                     enabledAppFormats: enabledAppFormats,
                   ),
-                  OutlinedButton(
-                    onPressed: checkingForSnapUpdates == true ||
-                            snapServiceIsBusy == true
-                        ? null
-                        : () => checkForSnapUpdates(),
-                    child: Text(context.l10n.refreshButton),
-                  ),
+                  if (appFormat == AppFormat.snap)
+                    OutlinedButton(
+                      onPressed: checkingForSnapUpdates == true ||
+                              snapServiceIsBusy == true
+                          ? null
+                          : () => checkForSnapUpdates(),
+                      child: Text(context.l10n.refreshButton),
+                    ),
                   if (checkingForSnapUpdates == true)
                     const SizedBox(
                       height: 25,
@@ -106,7 +115,7 @@ class CollectionPage extends StatelessWidget {
                         child: YaruCircularProgressIndicator(strokeWidth: 3),
                       ),
                     )
-                  else if (snapUpdatesAvailable)
+                  else if (snapUpdatesAvailable && appFormat == AppFormat.snap)
                     ElevatedButton(
                       onPressed: snapServiceIsBusy == true
                           ? null
@@ -114,14 +123,44 @@ class CollectionPage extends StatelessWidget {
                                 doneMessage: context.l10n.done,
                               ),
                       child: const Text('Udate all'),
-                    )
+                    ),
+                  if (appFormat == AppFormat.packageKit)
+                    SizedBox(
+                      height: 40,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          YaruCheckbox(
+                            value: loadPackagesWithUpdates == true,
+                            onChanged: setLoadPackagesWithUpdates,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            context.l10n.updateAvailable,
+                          ),
+                        ],
+                      ),
+                    ),
+                  // if (appFormat == AppFormat.packageKit)
+                  //   CollectionPackageUpdatesHeader(),
                 ],
               ),
             ),
             if (appFormat == AppFormat.snap)
               const Expanded(
                 child: _SnapList(),
-              ),
+              )
+            else if (appFormat == AppFormat.packageKit)
+              Expanded(
+                child: loadPackagesWithUpdates == true
+                    ? CollectionPackagesPage.create(context: context)
+                    : const _PackagesList(),
+              )
           ],
         ),
       ),
@@ -152,7 +191,8 @@ class _SnapList extends StatelessWidget {
     final checkingForSnapUpdates =
         context.select((CollectionModel m) => m.checkingForSnapUpdates);
 
-    return YaruBorderContainer(
+    return BorderContainer(
+      padding: EdgeInsets.zero,
       margin: const EdgeInsets.only(
         left: kYaruPagePadding,
         right: kYaruPagePadding,
@@ -200,6 +240,64 @@ class _SnapList extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _PackagesList extends StatelessWidget {
+  const _PackagesList();
+
+  @override
+  Widget build(BuildContext context) {
+    final installedPackages =
+        context.select((CollectionModel m) => m.installedPackages);
+
+    return installedPackages.isNotEmpty
+        ? BorderContainer(
+            padding: EdgeInsets.zero,
+            margin: const EdgeInsets.only(
+              left: kYaruPagePadding,
+              right: kYaruPagePadding,
+              bottom: kYaruPagePadding,
+            ),
+            child: ListView.builder(
+              itemCount: installedPackages.length,
+              itemBuilder: (context, index) {
+                final package = installedPackages[index];
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      key: ValueKey(package),
+                      // enabled: checkingForSnapUpdates == false,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: kYaruPagePadding,
+                        vertical: 10,
+                      ),
+                      onTap: () => PackagePage.push(context, id: package),
+                      leading: const AppIcon(
+                        iconUrl: null,
+                        size: 25,
+                      ),
+                      title: Text(
+                        package.name,
+                      ),
+                      // trailing: SimpleSnapControls.create(
+                      //   context: context,
+                      //   snap: e.key,
+                      //   hasUpdate: e.value,
+                      //   enabled: checkingForSnapUpdates == false,
+                      // ),
+                    ),
+                    const Divider(
+                      thickness: 0.0,
+                      height: 0,
+                    )
+                  ],
+                );
+              },
+            ),
+          )
+        : const SizedBox();
   }
 }
 

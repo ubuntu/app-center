@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:packagekit/packagekit.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_format.dart';
@@ -72,6 +73,8 @@ class CollectionModel extends SafeChangeNotifier {
     }
   }
 
+  // SNAPS
+
   final Map<Snap, bool> _installedSnaps = {};
   Map<Snap, bool> get installedSnaps {
     final entryList = _installedSnaps.entries.toList();
@@ -100,8 +103,6 @@ class CollectionModel extends SafeChangeNotifier {
       .where((e) => e.value == true)
       .map((e) => e.key)
       .toList();
-
-  // final Map<PackageKitPackageId, bool>? _installedPackages = {};
 
   Future<void> _loadInstalledSnaps() async {
     await _snapService.loadLocalSnaps();
@@ -169,5 +170,18 @@ class CollectionModel extends SafeChangeNotifier {
     });
   }
 
+  // PACKAGEKIT PACKAGES
+
   // Future<void> _checkForPackageUpdates() async {}
+
+  List<PackageKitPackageId> get installedPackages =>
+      _packageService.isAvailable ? _packageService.installedPackages : [];
+
+  bool? _loadPackagesWithUpdates;
+  bool? get loadPackagesWithUpdates => _loadPackagesWithUpdates;
+  void setLoadPackagesWithUpdates(bool? value) {
+    if (value == null || value == _loadPackagesWithUpdates) return;
+    _loadPackagesWithUpdates = value;
+    notifyListeners();
+  }
 }
