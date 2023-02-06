@@ -17,15 +17,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/packagekit/package_service.dart';
+import 'package:software/app/collection/collection_package_update_banner.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/message_bar.dart';
 import 'package:software/app/common/updates_splash_screen.dart';
 import 'package:software/app/updates/no_updates_page.dart';
-import 'package:software/app/updates/update_banner.dart';
 import 'package:software/app/updates/package_updates_model.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
@@ -89,7 +89,7 @@ class _CollectionPackagesPageState extends State<CollectionPackagesPage> {
 
     return Center(
       child: SizedBox(
-        width: 650,
+        width: 700,
         child: Column(
           children: [
             if (model.updatesState == UpdatesState.noUpdates)
@@ -288,6 +288,11 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
               bottom: 50,
             ),
             child: BorderContainer(
+              margin: const EdgeInsets.only(
+                left: kYaruPagePadding,
+                right: kYaruPagePadding,
+                bottom: kYaruPagePadding,
+              ),
               child: YaruExpandable(
                 isExpanded: _isExpanded,
                 onChange: (isExpanded) =>
@@ -333,7 +338,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                       final update = model.getUpdate(index);
                       return SizedBox(
                         height: 70,
-                        child: UpdateBanner(
+                        child: CollectionPackageUpdateBanner(
                           group: model.getGroup(update),
                           selected: model.isUpdateSelected(update),
                           updateId: update,
