@@ -573,6 +573,10 @@ void main() {
     when(
       () => updateTransaction.getDetails(any(that: contains(firefoxPackageId))),
     ).thenAnswer((_) => emitFinishedEvent(controller));
+    var percentages = [13, 37];
+    when(() => updateTransaction.percentage)
+        .thenAnswer((_) => percentages.removeAt(0));
+    when(() => updateTransaction.downloadSizeRemaining).thenReturn(0);
     return updateTransaction;
   }
 

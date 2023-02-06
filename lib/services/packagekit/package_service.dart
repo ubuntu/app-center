@@ -288,7 +288,7 @@ class PackageService {
         _updates.putIfAbsent(id, () => true);
         setUpdatesChanged(true);
       } else if (event is PackageKitItemProgressEvent) {
-        setUpdatePercentage(event.percentage);
+        setUpdatePercentage(_pendingUpdatesCheckTransaction?.percentage);
       } else if (event is PackageKitErrorCodeEvent) {
         if (isRefreshErrorToReport(event.code)) {
           final error = '${event.code}: ${event.details}';
@@ -331,7 +331,7 @@ class PackageService {
         setTerminalOutput(event.info.toString());
       } else if (event is PackageKitItemProgressEvent) {
         setUpdatesState(UpdatesState.updating);
-        setUpdatePercentage(event.percentage);
+        setUpdatePercentage(updatePackagesTransaction.percentage);
         setProcessedId(event.packageId);
         setStatus(event.status);
 
