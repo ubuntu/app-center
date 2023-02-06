@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/message_bar.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/app/updates/package_updates_model.dart';
+import 'package:software/app/collection/package_updates_model.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';

@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:software/app/updates/update_dialog.dart';
+import 'package:software/app/collection/update_dialog.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
