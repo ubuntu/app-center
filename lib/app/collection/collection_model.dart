@@ -67,7 +67,9 @@ class CollectionModel extends SafeChangeNotifier {
     if (value == _appFormat) return;
     _appFormat = value;
     if (_appFormat == AppFormat.packageKit && _packageService.isAvailable) {
-      _packageService.getInstalledPackages().then((_) => notifyListeners());
+      _packageService
+          .getInstalledPackages(filters: _packageKitFilters)
+          .then((_) => notifyListeners());
     } else {
       notifyListeners();
     }
