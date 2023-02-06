@@ -137,6 +137,7 @@ class CollectionPage extends StatelessWidget {
                     PackageKitFilterButton(
                       onTap: handleFilter,
                       filters: packageKitFilters,
+                      lockInstalled: true,
                     ),
                   if (appFormat == AppFormat.packageKit)
                     SizedBox(
