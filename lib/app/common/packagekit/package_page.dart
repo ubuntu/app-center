@@ -32,6 +32,7 @@ import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_controls.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/app/common/rating_model.dart';
+import 'package:software/app/common/remove_deps_dialog.dart';
 import 'package:software/app/common/review_model.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/l10n/l10n.dart';
@@ -199,15 +200,23 @@ class _PackagePageState extends State<PackagePage> {
       isInstalled: model.isInstalled,
       versionChanged: model.versionChanged,
       packageState: model.packageState,
-      remove: () => model.remove(),
+      remove: model.remove,
       install: model.install,
-      hasDependencies: model.missingDependencies.isNotEmpty,
-      showDeps: () => showDialog(
+      hasDependencies: model.dependencies.isNotEmpty,
+      hasMissingDependencies: model.missingDependencies.isNotEmpty,
+      showDepsAndInstall: () => showDialog(
         context: context,
         builder: (context) => _ShowDepsDialog(
           packageName: model.title ?? context.l10n.unknown,
           onInstall: model.install,
           dependencies: model.missingDependencies,
+        ),
+      ),
+      showDepsAndRemove: () => showDialog(
+        context: context,
+        builder: (_) => RemoveDepsDialog(
+          removeDeps: () => model.remove(dependencies: true),
+          dontRemoveDeps: model.remove,
         ),
       ),
     );

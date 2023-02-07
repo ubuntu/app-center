@@ -29,7 +29,9 @@ class PackageControls extends StatelessWidget {
     required this.packageState,
     required this.versionChanged,
     this.hasDependencies,
-    this.showDeps,
+    this.hasMissingDependencies,
+    this.showDepsAndInstall,
+    this.showDepsAndRemove,
   });
 
   final bool? isInstalled;
@@ -38,7 +40,9 @@ class PackageControls extends StatelessWidget {
   final PackageState packageState;
   final bool? versionChanged;
   final bool? hasDependencies;
-  final VoidCallback? showDeps;
+  final bool? hasMissingDependencies;
+  final VoidCallback? showDepsAndInstall;
+  final VoidCallback? showDepsAndRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +68,20 @@ class PackageControls extends StatelessWidget {
           : [
               if (isInstalled == true)
                 OutlinedButton(
-                  onPressed: packageState != PackageState.ready ? null : remove,
+                  onPressed: packageState != PackageState.ready
+                      ? null
+                      : (hasDependencies ?? false
+                          ? showDepsAndRemove ?? remove
+                          : remove),
                   child: Text(context.l10n.remove),
                 ),
               if (isInstalled == false)
                 ElevatedButton(
                   onPressed: packageState != PackageState.ready
                       ? null
-                      : (hasDependencies == true ? showDeps : install),
+                      : (hasMissingDependencies == true
+                          ? showDepsAndInstall
+                          : install),
                   child: Text(context.l10n.install),
                 ),
               if (isInstalled == true && versionChanged == true)
