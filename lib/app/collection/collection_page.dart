@@ -411,7 +411,8 @@ class _PackageTile extends StatelessWidget {
   ) {
     return ChangeNotifierProvider(
       create: (_) =>
-          PackageModel(packageId: id, service: getService<PackageService>()),
+          PackageModel(packageId: id, service: getService<PackageService>())
+            ..isInstalled = true,
       child: _PackageTile(
         id: id,
         key: ValueKey(id),
