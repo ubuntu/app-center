@@ -24,8 +24,8 @@ import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class CollectionPackageUpdateBanner extends StatelessWidget {
-  const CollectionPackageUpdateBanner({
+class PackageUpdateBanner extends StatelessWidget {
+  const PackageUpdateBanner({
     super.key,
     required this.selected,
     this.onChanged,
@@ -42,9 +42,7 @@ class CollectionPackageUpdateBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
       onTap: () => showDialog(
         context: context,
         builder: (_) => UpdateDialog.create(
@@ -84,10 +82,10 @@ class CollectionPackageUpdateBanner extends StatelessWidget {
           group == PackageKitGroup.system || group == PackageKitGroup.security
               ? const _SystemUpdateIcon()
               : const Padding(
-                  padding: EdgeInsets.only(bottom: 5, left: 5),
+                  padding: EdgeInsets.only(bottom: 8, left: 4),
                   child: AppIcon(
                     iconUrl: null,
-                    size: 38,
+                    size: 25,
                   ),
                 ),
       trailing: YaruCheckbox(
@@ -109,11 +107,11 @@ class _SystemUpdateIcon extends StatelessWidget {
     return Stack(
       children: [
         Positioned(
-          bottom: 2,
-          left: 13,
+          bottom: 5,
+          left: 8,
           child: Container(
-            height: 25,
-            width: 25,
+            height: 18,
+            width: 18,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
@@ -122,12 +120,12 @@ class _SystemUpdateIcon extends StatelessWidget {
         ),
         const Icon(
           YaruIcons.ubuntu_logo_large,
-          size: 50,
+          size: 35,
           color: YaruColors.orange,
         ),
         Positioned(
           top: -2,
-          right: 2,
+          right: -2,
           child: Icon(
             YaruIcons.shield_filled,
             size: 26,
@@ -135,8 +133,8 @@ class _SystemUpdateIcon extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 0,
-          right: 2,
+          top: -1,
+          right: -1,
           child: Icon(
             YaruIcons.shield_filled,
             size: 25,

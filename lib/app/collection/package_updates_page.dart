@@ -17,53 +17,31 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/app/collection/collection_package_update_banner.dart';
+import 'package:software/app/collection/package_update_banner.dart';
+import 'package:software/app/collection/package_updates_model.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/message_bar.dart';
-import 'package:software/app/common/updates_splash_screen.dart';
-import 'package:software/app/collection/no_updates_page.dart';
-import 'package:software/app/collection/package_updates_model.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/updates_state.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
-import 'package:xdg_icons/xdg_icons.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class CollectionPackagesPage extends StatefulWidget {
-  const CollectionPackagesPage({
+class PackageUpdatesPage extends StatefulWidget {
+  const PackageUpdatesPage({
     super.key,
   });
 
-  static Widget create({
-    required BuildContext context,
-  }) {
-    return ChangeNotifierProvider(
-      create: (_) => PackageUpdatesModel(
-        getService<PackageService>(),
-        getService<UbuntuSession>(),
-      ),
-      child: const CollectionPackagesPage(),
-    );
-  }
-
   @override
-  State<CollectionPackagesPage> createState() => _CollectionPackagesPageState();
+  State<PackageUpdatesPage> createState() => _PackageUpdatesPageState();
 }
 
-class _CollectionPackagesPageState extends State<CollectionPackagesPage> {
+class _PackageUpdatesPageState extends State<PackageUpdatesPage> {
   @override
   void initState() {
     super.initState();
     final model = context.read<PackageUpdatesModel>();
     model.init(handleError: () => showSnackBar());
-    if (model.updates.isEmpty) {
-      model.refresh();
-    }
   }
 
   void showSnackBar() {
@@ -87,32 +65,14 @@ class _CollectionPackagesPageState extends State<CollectionPackagesPage> {
   Widget build(BuildContext context) {
     final model = context.watch<PackageUpdatesModel>();
 
-    return Center(
-      child: SizedBox(
-        width: 700,
-        child: Column(
-          children: [
-            if (model.updatesState == UpdatesState.noUpdates)
-              const Expanded(child: Center(child: NoUpdatesPage())),
-            if (model.updatesState == UpdatesState.readyToUpdate)
-              const _UpdatesListView(),
-            if (model.updatesState == UpdatesState.updating)
-              const _UpdatingPage(),
-            if (model.updatesState == UpdatesState.checkingForUpdates)
-              Expanded(
-                child: Center(
-                  child: SingleChildScrollView(
-                    child: UpdatesSplashScreen(
-                      icon: YaruIcons.debian,
-                      percentage: model.percentage,
-                    ),
-                  ),
-                ),
-              )
-          ],
-        ),
-      ),
-    );
+    if (model.updatesState == UpdatesState.readyToUpdate) {
+      return const _UpdatesListView();
+    }
+    if (model.updatesState == UpdatesState.updating) {
+      return const _UpdatingPage();
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 }
 
@@ -176,23 +136,21 @@ class _UpdatingPageState extends State<_UpdatingPage> {
       ),
     ];
 
-    return Expanded(
-      child: Center(
-        child: ListView(
-          children: [
-            for (final child in children)
-              Center(
-                child: child,
-              )
-          ],
-        ),
+    return Center(
+      child: ListView(
+        children: [
+          for (final child in children)
+            Center(
+              child: child,
+            )
+        ],
       ),
     );
   }
 }
 
-class _UpdatesHeader extends StatelessWidget {
-  const _UpdatesHeader();
+class PackageUpdatesHeader extends StatelessWidget {
+  const PackageUpdatesHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -254,109 +212,80 @@ class _UpdatesListView extends StatefulWidget {
 }
 
 class _UpdatesListViewState extends State<_UpdatesListView> {
-  bool _isExpanded = true;
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageUpdatesModel>();
 
-    return Expanded(
-      child: ListView(
-        children: [
-          const XdgIcon(
-            name: 'aptdaemon-upgrade',
-            theme: 'Yaru',
-            size: 100,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Center(
-            child: Text(
-              context.l10n.weHaveUpdates,
-              style: Theme.of(context).textTheme.headlineSmall,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const _UpdatesHeader(),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
+    return BorderContainer(
+      margin: const EdgeInsets.only(
+        left: kYaruPagePadding,
+        right: kYaruPagePadding,
+        bottom: kYaruPagePadding,
+      ),
+      padding: EdgeInsets.zero,
+      child: YaruExpandable(
+        isExpanded: _isExpanded,
+        onChange: (isExpanded) => setState(() => _isExpanded = isExpanded),
+        header: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: Padding(
             padding: const EdgeInsets.only(
-              top: 20,
-              bottom: 50,
+              top: kYaruPagePadding,
+              left: kYaruPagePadding - 3,
+              bottom: kYaruPagePadding,
+              right: kYaruPagePadding,
             ),
-            child: BorderContainer(
-              margin: const EdgeInsets.only(
-                left: kYaruPagePadding,
-                right: kYaruPagePadding,
-                bottom: kYaruPagePadding,
-              ),
-              child: YaruExpandable(
-                isExpanded: _isExpanded,
-                onChange: (isExpanded) =>
-                    setState(() => _isExpanded = isExpanded),
-                header: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: _isExpanded
-                      ? Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            YaruCheckbox(
-                              value: model.allSelected
-                                  ? true
-                                  : model.nothingSelected
-                                      ? false
-                                      : null,
-                              tristate: true,
-                              onChanged: (v) => v != null
-                                  ? model.selectAll()
-                                  : model.deselectAll(),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Text(
-                                '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
-                                style: Theme.of(context).textTheme.titleLarge,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            )
-                          ],
-                        )
-                      : Text(
+            child: _isExpanded
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      YaruCheckbox(
+                        value: model.allSelected
+                            ? true
+                            : model.nothingSelected
+                                ? false
+                                : null,
+                        tristate: true,
+                        onChanged: (v) =>
+                            v != null ? model.selectAll() : model.deselectAll(),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Text(
                           '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
                           style: Theme.of(context).textTheme.titleLarge,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: kYaruPagePadding),
-                  child: Column(
-                    children: List.generate(model.updates.length, (index) {
-                      final update = model.getUpdate(index);
-                      return SizedBox(
-                        height: 70,
-                        child: CollectionPackageUpdateBanner(
-                          group: model.getGroup(update),
-                          selected: model.isUpdateSelected(update),
-                          updateId: update,
-                          installedId:
-                              model.getInstalledId(update.name) ?? update,
-                          onChanged: model.updatesState ==
-                                  UpdatesState.checkingForUpdates
-                              ? null
-                              : (v) => model.selectUpdate(update, v!),
-                        ),
-                      );
-                    }),
+                      )
+                    ],
+                  )
+                : Text(
+                    '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
-                ),
-              ),
-            ),
           ),
-        ],
+        ),
+        child: Column(
+          children: List.generate(model.updates.length, (index) {
+            final update = model.getUpdate(index);
+            return SizedBox(
+              height: 70,
+              child: PackageUpdateBanner(
+                group: model.getGroup(update),
+                selected: model.isUpdateSelected(update),
+                updateId: update,
+                installedId: model.getInstalledId(update.name) ?? update,
+                onChanged: model.updatesState == UpdatesState.checkingForUpdates
+                    ? null
+                    : (v) => model.selectUpdate(update, v!),
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
