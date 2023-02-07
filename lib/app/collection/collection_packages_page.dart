@@ -15,19 +15,17 @@
  *
  */
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/services/packagekit/package_service.dart';
+import 'package:software/app/collection/collection_package_update_banner.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/message_bar.dart';
 import 'package:software/app/common/updates_splash_screen.dart';
-import 'package:software/app/updates/no_updates_page.dart';
-import 'package:software/app/updates/update_banner.dart';
-import 'package:software/app/updates/package_updates_model.dart';
+import 'package:software/app/collection/no_updates_page.dart';
+import 'package:software/app/collection/package_updates_model.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/updates_state.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
@@ -36,34 +34,36 @@ import 'package:xdg_icons/xdg_icons.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class PackageUpdatesPage extends StatefulWidget {
-  const PackageUpdatesPage({super.key, required this.appFormatPopup});
-
-  final Widget appFormatPopup;
+class CollectionPackagesPage extends StatefulWidget {
+  const CollectionPackagesPage({
+    super.key,
+  });
 
   static Widget create({
     required BuildContext context,
-    required Widget appFormatPopup,
   }) {
     return ChangeNotifierProvider(
       create: (_) => PackageUpdatesModel(
         getService<PackageService>(),
         getService<UbuntuSession>(),
       ),
-      child: PackageUpdatesPage(appFormatPopup: appFormatPopup),
+      child: const CollectionPackagesPage(),
     );
   }
 
   @override
-  State<PackageUpdatesPage> createState() => _PackageUpdatesPageState();
+  State<CollectionPackagesPage> createState() => _CollectionPackagesPageState();
 }
 
-class _PackageUpdatesPageState extends State<PackageUpdatesPage> {
+class _CollectionPackagesPageState extends State<CollectionPackagesPage> {
   @override
   void initState() {
     super.initState();
     final model = context.read<PackageUpdatesModel>();
     model.init(handleError: () => showSnackBar());
+    if (model.updates.isEmpty) {
+      model.refresh();
+    }
   }
 
   void showSnackBar() {
@@ -86,41 +86,38 @@ class _PackageUpdatesPageState extends State<PackageUpdatesPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageUpdatesModel>();
-    var hPadding = (0.00013 * pow(MediaQuery.of(context).size.width, 2)) - 20;
 
-    hPadding = hPadding > 800 ? 800 : hPadding;
-
-    return Column(
-      children: [
-        _UpdatesHeader(appFormatsPopup: widget.appFormatPopup),
-        if (model.updatesState == UpdatesState.noUpdates)
-          const Expanded(child: Center(child: NoUpdatesPage())),
-        if (model.updatesState == UpdatesState.readyToUpdate)
-          _UpdatesListView(hPadding: hPadding),
-        if (model.updatesState == UpdatesState.updating)
-          _UpdatingPage(hPadding: hPadding),
-        if (model.updatesState == UpdatesState.checkingForUpdates)
-          Expanded(
-            child: Center(
-              child: SingleChildScrollView(
-                child: UpdatesSplashScreen(
-                  icon: YaruIcons.debian,
-                  percentage: model.percentage,
+    return Center(
+      child: SizedBox(
+        width: 700,
+        child: Column(
+          children: [
+            if (model.updatesState == UpdatesState.noUpdates)
+              const Expanded(child: Center(child: NoUpdatesPage())),
+            if (model.updatesState == UpdatesState.readyToUpdate)
+              const _UpdatesListView(),
+            if (model.updatesState == UpdatesState.updating)
+              const _UpdatingPage(),
+            if (model.updatesState == UpdatesState.checkingForUpdates)
+              Expanded(
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: UpdatesSplashScreen(
+                      icon: YaruIcons.debian,
+                      percentage: model.percentage,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          )
-      ],
+              )
+          ],
+        ),
+      ),
     );
   }
 }
 
 class _UpdatingPage extends StatefulWidget {
-  const _UpdatingPage({
-    required this.hPadding,
-  });
-
-  final double hPadding;
+  const _UpdatingPage();
 
   @override
   State<_UpdatingPage> createState() => _UpdatingPageState();
@@ -148,39 +145,30 @@ class _UpdatingPageState extends State<_UpdatingPage> {
       const SizedBox(
         height: 20,
       ),
-      Padding(
-        padding: EdgeInsets.only(
-          left: widget.hPadding * 1.5,
-          right: widget.hPadding * 1.5,
-        ),
-        child: YaruLinearProgressIndicator(
-          value: model.percentage != null ? model.percentage! / 100 : 0,
-        ),
+      YaruLinearProgressIndicator(
+        value: model.percentage != null ? model.percentage! / 100 : 0,
       ),
       const SizedBox(
         height: 100,
       ),
-      Padding(
-        padding: EdgeInsets.only(left: widget.hPadding, right: widget.hPadding),
-        child: BorderContainer(
-          color: Colors.transparent,
-          child: YaruExpandable(
-            header: Text(
-              'Details',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            child: SizedBox(
-              height: 300,
-              width: 600,
-              child: LogView(
-                log: model.terminalOutput,
-                style: TextStyle(
-                  inherit: false,
-                  fontFamily: 'Ubuntu Mono',
-                  color: Theme.of(context).colorScheme.onSurface,
-                  fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
-                  textBaseline: TextBaseline.alphabetic,
-                ),
+      BorderContainer(
+        color: Colors.transparent,
+        child: YaruExpandable(
+          header: Text(
+            'Details',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          child: SizedBox(
+            height: 300,
+            width: 600,
+            child: LogView(
+              log: model.terminalOutput,
+              style: TextStyle(
+                inherit: false,
+                fontFamily: 'Ubuntu Mono',
+                color: Theme.of(context).colorScheme.onSurface,
+                fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
+                textBaseline: TextBaseline.alphabetic,
               ),
             ),
           ),
@@ -204,18 +192,14 @@ class _UpdatingPageState extends State<_UpdatingPage> {
 }
 
 class _UpdatesHeader extends StatelessWidget {
-  const _UpdatesHeader({
-    required this.appFormatsPopup,
-  });
-
-  final Widget appFormatsPopup;
+  const _UpdatesHeader();
 
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageUpdatesModel>();
 
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       child: Padding(
         padding: const EdgeInsets.all(kPagePadding),
         child: Wrap(
@@ -238,25 +222,6 @@ class _UpdatesHeader extends StatelessWidget {
                     : null,
                 child: Text(context.l10n.updateButton),
               ),
-            OutlinedButton(
-              onPressed: model.updatesState == UpdatesState.updating ||
-                      model.updatesState == UpdatesState.checkingForUpdates
-                  ? null
-                  : () => model.refresh(),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    YaruIcons.refresh,
-                    size: 18,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(context.l10n.refreshButton)
-                ],
-              ),
-            ),
             if (model.updatesState == UpdatesState.noUpdates)
               if (model.requireRestartApp)
                 ElevatedButton(
@@ -273,7 +238,6 @@ class _UpdatesHeader extends StatelessWidget {
                   onPressed: () => model.reboot(),
                   child: Text(context.l10n.requireRestartSystem),
                 ),
-            appFormatsPopup,
           ],
         ),
       ),
@@ -283,9 +247,7 @@ class _UpdatesHeader extends StatelessWidget {
 
 class _UpdatesListView extends StatefulWidget {
   // ignore: unused_element
-  const _UpdatesListView({super.key, required this.hPadding});
-
-  final double hPadding;
+  const _UpdatesListView({super.key});
 
   @override
   State<_UpdatesListView> createState() => _UpdatesListViewState();
@@ -316,17 +278,21 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
               textAlign: TextAlign.center,
             ),
           ),
+          const _UpdatesHeader(),
           const SizedBox(
             height: 10,
           ),
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               top: 20,
               bottom: 50,
-              left: widget.hPadding,
-              right: widget.hPadding,
             ),
             child: BorderContainer(
+              margin: const EdgeInsets.only(
+                left: kYaruPagePadding,
+                right: kYaruPagePadding,
+                bottom: kYaruPagePadding,
+              ),
               child: YaruExpandable(
                 isExpanded: _isExpanded,
                 onChange: (isExpanded) =>
@@ -372,7 +338,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                       final update = model.getUpdate(index);
                       return SizedBox(
                         height: 70,
-                        child: UpdateBanner(
+                        child: CollectionPackageUpdateBanner(
                           group: model.getGroup(update),
                           selected: model.isUpdateSelected(update),
                           updateId: update,
