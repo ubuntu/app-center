@@ -33,11 +33,12 @@ class CollectionModel extends SafeChangeNotifier {
       }
     });
     _enabledAppFormats.add(AppFormat.snap);
+    _appFormat = AppFormat.snap;
 
     if (_packageService.isAvailable) {
       _enabledAppFormats.add(AppFormat.packageKit);
-      _appFormat = AppFormat.packageKit;
-      await _packageService.getInstalledPackages(filters: packageKitFilters);
+      await _packageService.getInstalledPackages(filters: _packageKitFilters);
+      _installedPackages = _packageService.installedPackages;
 
       _packagesChanged =
           _packageService.installedPackagesChanged.listen((event) {
@@ -45,8 +46,6 @@ class CollectionModel extends SafeChangeNotifier {
       });
 
       notifyListeners();
-    } else {
-      _appFormat = AppFormat.snap;
     }
 
     await _loadInstalledSnaps();
@@ -80,13 +79,7 @@ class CollectionModel extends SafeChangeNotifier {
   void setAppFormat(AppFormat value) {
     if (value == _appFormat) return;
     _appFormat = value;
-    if (_appFormat == AppFormat.packageKit && _packageService.isAvailable) {
-      _packageService
-          .getInstalledPackages(filters: _packageKitFilters)
-          .then((_) => notifyListeners());
-    } else {
-      notifyListeners();
-    }
+    notifyListeners();
   }
 
   // SNAPS
@@ -202,15 +195,16 @@ class CollectionModel extends SafeChangeNotifier {
 
   // PACKAGEKIT PACKAGES
 
-  List<PackageKitPackageId> get installedPackages {
+  List<PackageKitPackageId>? _installedPackages;
+  List<PackageKitPackageId>? get installedPackages {
     if (!_packageService.isAvailable) {
       return [];
     } else {
       if (searchQuery?.isEmpty ?? true) {
-        return _packageService.installedPackages;
+        return _installedPackages;
       }
-      return _packageService.installedPackages
-          .where((e) => e.name.contains(searchQuery!))
+      return _installedPackages
+          ?.where((e) => e.name.contains(searchQuery!))
           .toList();
     }
   }
