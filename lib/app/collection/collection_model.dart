@@ -5,6 +5,8 @@ import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
+import 'package:software/app/common/snap/snap_sort.dart';
+import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
 
@@ -90,23 +92,22 @@ class CollectionModel extends SafeChangeNotifier {
   // SNAPS
 
   final Map<Snap, bool> _installedSnaps = {};
-  Map<Snap, bool> get installedSnaps {
-    final entryList = _installedSnaps.entries.toList();
-    entryList.sort((a, b) {
-      if (a.value) {
-        return -1;
-      } else {
-        return 1;
-      }
-    });
+  List<Snap> get installedSnaps {
+    final entryList =
+        _installedSnaps.entries.toList().where((e) => e.value == false);
+
+    final list = entryList.map((e) => e.key).toList();
+
+    sortSnaps(snapSort: snapSort, snaps: list);
 
     return searchQuery == null || searchQuery?.isEmpty == true
-        ? Map.fromEntries(entryList)
-        : Map.fromEntries(
-            entryList.where(
-              (element) => element.key.name.contains(searchQuery!),
-            ),
-          );
+        ? list
+        : list.where((snap) => snap.name.contains(searchQuery!)).toList();
+  }
+
+  Map<Snap, bool> get installedSnapsWithUpdates {
+    final entryList = _installedSnaps.entries.toList().where((e) => e.value);
+    return Map.fromEntries(entryList);
   }
 
   bool get snapUpdatesAvailable =>
@@ -189,6 +190,14 @@ class CollectionModel extends SafeChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  SnapSort _snapSort = SnapSort.name;
+  SnapSort get snapSort => _snapSort;
+  void setSnapSort(SnapSort value) {
+    if (value == _snapSort) return;
+    _snapSort = value;
+    notifyListeners();
   }
 
   // PACKAGEKIT PACKAGES
