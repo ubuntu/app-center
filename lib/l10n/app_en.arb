@@ -174,10 +174,13 @@
         }
     }
   },
+  "dependencyRemovalChoice": "Do you want to remove dependencies that are not needed any longer?",
   "gallery": "Gallery",
   "additionalInformation": "Additional Information",
   "links": "Links",
   "packagesUsed": "Packages used",
   "contributors": "Contributors",
-  "collection": "Collection"
+  "collection": "Collection",
+  "yes": "Yes",
+  "no": "No"
 }
