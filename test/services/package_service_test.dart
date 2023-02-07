@@ -133,8 +133,7 @@ void main() {
     });
 
     when(
-      () => transaction
-          .searchNames(['firefox'], filter: {PackageKitFilter.installed}),
+      () => transaction.searchNames(['firefox']),
     ).thenAnswer((_) {
       controller.add(
         const PackageKitPackageEvent(
