@@ -442,8 +442,10 @@ class PackageService {
         completer.complete();
       }
     });
-    transaction.removePackages([model.packageId!]);
-    return completer.future.whenComplete(subscription.cancel);
+    await transaction.removePackages([model.packageId!]);
+    await completer.future;
+    await subscription.cancel();
+    _installedPackages.remove(model.packageId!.name);
   }
 
   Future<void> install({required PackageModel model}) async {
@@ -462,8 +464,13 @@ class PackageService {
         completer.complete();
       }
     });
-    transaction.installPackages([model.packageId!]);
-    return completer.future.whenComplete(subscription.cancel);
+    await transaction.installPackages([model.packageId!]);
+    await completer.future;
+    await subscription.cancel();
+    _installedPackages.putIfAbsent(
+      model.packageId!.name,
+      () => model.packageId!,
+    );
   }
 
   Future<void> isInstalled({required PackageModel model}) async {
@@ -659,8 +666,13 @@ class PackageService {
         completer.complete();
       }
     });
-    transaction.installFiles([model.path!]);
-    return completer.future.whenComplete(subscription.cancel);
+    await transaction.installFiles([model.path!]);
+    await completer.future;
+    await subscription.cancel();
+    _installedPackages.putIfAbsent(
+      model.packageId!.name,
+      () => model.packageId!,
+    );
   }
 
   bool isRefreshErrorToReport(PackageKitError code) {
