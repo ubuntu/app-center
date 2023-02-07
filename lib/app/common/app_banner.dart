@@ -155,6 +155,13 @@ class AppImageBanner extends StatelessWidget {
           ),
           Expanded(
             child: YaruTile(
+              leading: Padding(
+                padding: const EdgeInsets.only(bottom: 55, right: 5),
+                child: AppIcon(
+                  size: 40,
+                  iconUrl: snap.iconUrl,
+                ),
+              ),
               style: YaruTileStyle.banner,
               padding: const EdgeInsets.only(
                 left: 15,

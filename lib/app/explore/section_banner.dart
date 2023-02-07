@@ -6,6 +6,7 @@ import 'package:software/snapx.dart';
 import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/app/common/snap/snap_section.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '../common/constants.dart';
@@ -24,8 +25,12 @@ class SectionBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final firstGradientColorIsBright = ThemeData.estimateBrightnessForColor(
+          gradientColors.first,
+        ) ==
+        Brightness.light;
     return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 230),
+      constraints: const BoxConstraints(minHeight: 220),
       child: Padding(
         padding: const EdgeInsets.only(
           top: 5,
@@ -54,14 +59,26 @@ class SectionBanner extends StatelessWidget {
                 child: Text(
                   section.slogan(context.l10n),
                   style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    color: Colors.white,
+                    color: firstGradientColorIsBright
+                        ? YaruColors.inkstone
+                        : Colors.white,
                     shadows: [
-                      Shadow(
-                        offset: const Offset(0, 1), //position of shadow
-                        blurRadius: 1.0, //blur intensity of shadow
-                        color: Colors.black
-                            .withOpacity(0.4), //color of shadow with opacity
-                      ),
+                      if (!firstGradientColorIsBright)
+                        Shadow(
+                          offset: const Offset(0, 1), //position of shadow
+                          blurRadius: 1.0, //blur intensity of shadow
+                          color: Colors.black.withOpacity(
+                            0.4,
+                          ), //color of shadow with opacity
+                        )
+                      else
+                        Shadow(
+                          offset: const Offset(0, 1), //position of shadow
+                          blurRadius: 1.0, //blur intensity of shadow
+                          color: Colors.white.withOpacity(
+                            0.9,
+                          ),
+                        )
                     ],
                   ),
                 ),

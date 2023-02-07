@@ -35,18 +35,43 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({super.key});
+  const ExplorePage({super.key, required this.section});
 
-  static Widget createTitle(BuildContext context) =>
-      Text(context.l10n.explorePageTitle);
+  final SnapSection section;
 
-  static Widget createIcon(
-    BuildContext context,
-    bool selected,
-  ) =>
-      selected
-          ? const Icon(YaruIcons.compass_filled)
-          : const Icon(YaruIcons.compass);
+  static Widget createTitle(BuildContext context, SnapSection snapSection) =>
+      Text(
+        snapSection == SnapSection.all
+            ? context.l10n.explorePageTitle
+            : snapSection.localize(context.l10n),
+      );
+
+  static Widget createIcon({
+    required BuildContext context,
+    required bool selected,
+    required SnapSection snapSection,
+  }) {
+    switch (snapSection) {
+      case SnapSection.all:
+        return selected
+            ? const Icon(YaruIcons.compass_filled)
+            : const Icon(YaruIcons.compass);
+      case SnapSection.development:
+        return const Icon(YaruIcons.wrench);
+      case SnapSection.games:
+        return selected
+            ? const Icon(YaruIcons.games_filled)
+            : const Icon(YaruIcons.games);
+      case SnapSection.art_and_design:
+        return selected
+            ? const Icon(YaruIcons.rule_and_pen_filled)
+            : const Icon(YaruIcons.rule_and_pen);
+      default:
+        return selected
+            ? const Icon(YaruIcons.compass_filled)
+            : const Icon(YaruIcons.compass);
+    }
+  }
 
   @override
   State<ExplorePage> createState() => _ExplorePageState();
@@ -58,12 +83,20 @@ class _ExplorePageState extends State<ExplorePage> {
   void initState() {
     super.initState();
     final model = context.read<ExploreModel>();
-    _sidebarEventListener = context
-        .read<AppModel>()
-        .sidebarEvents
-        .listen((_) => model.setSearchQuery(''));
+    _sidebarEventListener = context.read<AppModel>().sidebarEvents.listen((_) {
+      model.setSearchQuery('');
+      model.setSelectedSection(widget.section);
+    });
     final connectivity = context.read<ConnectivityNotifier>();
     connectivity.init();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      model.setSelectedSection(widget.section);
+      if (model.searchQuery?.isNotEmpty == true) {
+        model.search();
+      }
+    });
   }
 
   @override
@@ -78,8 +111,8 @@ class _ExplorePageState extends State<ExplorePage> {
     final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
     final searchQuery = context.select((ExploreModel m) => m.searchQuery);
     final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
-    final sectionSnapsAll = context.select((ExploreModel m) {
-      return m.sectionNameToSnapsMap[SnapSection.all];
+    final snaps = context.select((ExploreModel m) {
+      return m.sectionNameToSnapsMap[widget.section];
     });
     final selectedAppFormats =
         context.select((ExploreModel m) => m.selectedAppFormats);
@@ -112,7 +145,9 @@ class _ExplorePageState extends State<ExplorePage> {
             setSearchQuery(value);
             search();
           },
-          hintText: context.l10n.searchHintAppStore,
+          hintText: widget.section == SnapSection.all
+              ? context.l10n.searchHintAppStore
+              : '${context.l10n.searchHint}: ${widget.section.localize(context.l10n)}',
         ),
       ),
       body: !connectivity.isOnline
@@ -139,8 +174,8 @@ class _ExplorePageState extends State<ExplorePage> {
                       ),
                     )
                   : StartPage(
-                      snaps: sectionSnapsAll,
-                      snapSection: SnapSection.all,
+                      snaps: snaps,
+                      snapSection: widget.section,
                     )),
     );
   }
