@@ -232,10 +232,10 @@ class _SnapList extends StatelessWidget {
             ),
             child: Column(
               children: [
-                for (final e in installedSnapsWithUpdates.entries)
+                for (final e in installedSnapsWithUpdates)
                   _SnapTile(
-                    snap: e.key,
-                    hasUpdate: e.value,
+                    snap: e,
+                    hasUpdate: true,
                     enabled: checkingForSnapUpdates,
                   )
               ],

@@ -105,9 +105,9 @@ class CollectionModel extends SafeChangeNotifier {
         : list.where((snap) => snap.name.contains(searchQuery!)).toList();
   }
 
-  Map<Snap, bool> get installedSnapsWithUpdates {
+  List<Snap> get installedSnapsWithUpdates {
     final entryList = _installedSnaps.entries.toList().where((e) => e.value);
-    return Map.fromEntries(entryList);
+    return entryList.map((e) => e.key).toList();
   }
 
   bool get snapUpdatesAvailable =>
