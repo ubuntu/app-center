@@ -484,7 +484,6 @@ class PackageService {
     });
     transaction.searchNames(
       [model.packageId!.name],
-      filter: {PackageKitFilter.installed},
     );
     return completer.future.whenComplete(subscription.cancel);
   }
