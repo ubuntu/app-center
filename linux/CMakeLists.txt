@@ -6,6 +6,8 @@ set(APPLICATION_ID "io.snapcraft.Store")
 
 cmake_policy(SET CMP0063 NEW)
 
+set(USE_LIBHANDY ON)
+
 set(CMAKE_INSTALL_RPATH "$ORIGIN/lib")
 
 # Configure build options.
