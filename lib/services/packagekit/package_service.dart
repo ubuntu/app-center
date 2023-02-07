@@ -426,7 +426,10 @@ class PackageService {
     return completer.future.whenComplete(subscription.cancel);
   }
 
-  Future<void> remove({required PackageModel model}) async {
+  Future<void> remove({
+    required PackageModel model,
+    dependencies = false,
+  }) async {
     if (model.packageId == null) throw const MissingPackageIDException();
     model.packageState = PackageState.processing;
     final transaction = await _client.createTransaction();
@@ -442,7 +445,11 @@ class PackageService {
         completer.complete();
       }
     });
-    await transaction.removePackages([model.packageId!]);
+    await transaction.removePackages(
+      [model.packageId!],
+      allowDeps: dependencies,
+      autoremove: dependencies,
+    );
     await completer.future;
     await subscription.cancel();
     _installedPackages.remove(model.packageId!.name);
