@@ -442,6 +442,7 @@ void main() {
       }
     });
 
+    expectLater(service.installedPackagesChanged, emits(true));
     await service.install(model: model);
 
     expect(model.info, PackageKitInfo.installing);
@@ -452,6 +453,7 @@ void main() {
       PackageState.ready,
     ]);
     expect(percentages, [0, 33, 67, 100]);
+    expect(service.installedPackages.contains(model.packageId), isTrue);
   });
 
   test('remove package', () async {
@@ -473,6 +475,7 @@ void main() {
       }
     });
 
+    expectLater(service.installedPackagesChanged, emits(true));
     await service.remove(model: model);
 
     expect(model.info, PackageKitInfo.removing);
@@ -483,6 +486,7 @@ void main() {
       PackageState.ready,
     ]);
     expect(percentages, [100, 73, 28, 0]);
+    expect(service.installedPackages.contains(model.packageId), isFalse);
   });
 
   test('install local file', () async {
@@ -497,6 +501,7 @@ void main() {
       }
     });
 
+    expectLater(service.installedPackagesChanged, emits(true));
     await service.installLocalFile(model: model, fileSystem: testFS);
 
     expect(model.packageId, firefoxPackageId);
@@ -507,6 +512,7 @@ void main() {
       PackageState.processing,
       PackageState.ready,
     ]);
+    expect(service.installedPackages.contains(model.packageId), isTrue);
   });
 
   MockPackageKitTransaction createMockUpdateTransaction() {
