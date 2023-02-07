@@ -149,7 +149,10 @@ enum SnapSection {
   List<int> get colors {
     switch (this) {
       case SnapSection.art_and_design:
-        return [0xFF12c2e9, 0xFFf64f59];
+        return [
+          const Color.fromARGB(255, 36, 143, 192).value,
+          const Color.fromARGB(255, 163, 33, 163).value
+        ];
       case SnapSection.books_and_reference:
         return [
           const Color.fromARGB(255, 59, 54, 54).value,
