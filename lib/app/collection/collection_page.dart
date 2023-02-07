@@ -215,7 +215,7 @@ class _SnapList extends StatelessWidget {
   Widget build(BuildContext context) {
     final installedSnaps =
         context.select((CollectionModel m) => m.installedSnaps);
-    final installedSnapsWithUpdates =
+    final snapUpdates =
         context.select((CollectionModel m) => m.installedSnapsWithUpdates);
 
     final checkingForSnapUpdates =
@@ -223,7 +223,7 @@ class _SnapList extends StatelessWidget {
 
     return ListView(
       children: [
-        if (installedSnapsWithUpdates.isNotEmpty)
+        if (snapUpdates.isNotEmpty)
           BorderContainer(
             padding: EdgeInsets.zero,
             margin: const EdgeInsets.only(
@@ -233,11 +233,29 @@ class _SnapList extends StatelessWidget {
             ),
             child: Column(
               children: [
-                for (final e in installedSnapsWithUpdates)
-                  _SnapTile(
-                    snap: e,
-                    hasUpdate: true,
-                    enabled: checkingForSnapUpdates,
+                for (var i = 0; i < snapUpdates.length; i++)
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _SnapTile(
+                        tileShape: snapUpdates.length == 1
+                            ? _RoundedListPosition.only
+                            : (i == 0
+                                ? _RoundedListPosition.top
+                                : (i == snapUpdates.length - 1
+                                    ? _RoundedListPosition.bottom
+                                    : _RoundedListPosition.middle)),
+                        snap: snapUpdates[i],
+                        hasUpdate: true,
+                        enabled: checkingForSnapUpdates,
+                      ),
+                      if ((i == 0 && snapUpdates.length > 1) ||
+                          (i != snapUpdates.length - 1))
+                        const Divider(
+                          thickness: 0.0,
+                          height: 0,
+                        )
+                    ],
                   )
               ],
             ),
@@ -252,24 +270,33 @@ class _SnapList extends StatelessWidget {
             ),
             child: Column(
               children: [
-                for (final e in installedSnaps)
+                for (var i = 0; i < installedSnaps.length; i++)
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _SnapTile(
-                        snap: e,
+                        tileShape: installedSnaps.length == 1
+                            ? _RoundedListPosition.only
+                            : (i == 0
+                                ? _RoundedListPosition.top
+                                : (i == installedSnaps.length - 1
+                                    ? _RoundedListPosition.bottom
+                                    : _RoundedListPosition.middle)),
+                        snap: installedSnaps[i],
                         enabled: checkingForSnapUpdates,
                       ),
-                      const Divider(
-                        thickness: 0.0,
-                        height: 0,
-                      )
+                      if ((i == 0 && installedSnaps.length > 1) ||
+                          (i != installedSnaps.length - 1))
+                        const Divider(
+                          thickness: 0.0,
+                          height: 0,
+                        )
                     ],
                   )
               ],
             ),
           ),
-        if (installedSnapsWithUpdates.isEmpty && installedSnaps.isEmpty)
+        if (snapUpdates.isEmpty && installedSnaps.isEmpty)
           Center(
             child: Text(context.l10n.noSnapsInstalled),
           )
@@ -283,15 +310,25 @@ class _SnapTile extends StatelessWidget {
     required this.snap,
     required this.enabled,
     this.hasUpdate = false,
+    this.tileShape = _RoundedListPosition.middle,
   });
 
   final Snap snap;
   final bool hasUpdate;
   final bool? enabled;
+  final _RoundedListPosition tileShape;
 
   @override
   Widget build(BuildContext context) {
+    final shape = tileShape == _RoundedListPosition.middle
+        ? null
+        : (tileShape == _RoundedListPosition.top
+            ? _topChildShape
+            : (tileShape == _RoundedListPosition.bottom
+                ? _bottomChildShape
+                : _onlyChildShape));
     return ListTile(
+      shape: shape,
       key: ValueKey(snap),
       enabled: enabled == false,
       contentPadding: const EdgeInsets.symmetric(
@@ -342,11 +379,20 @@ class _PackagesList extends StatelessWidget {
                     _PackageTile.create(
                       context,
                       package,
+                      installedPackages.length == 1
+                          ? _RoundedListPosition.only
+                          : (index == 0
+                              ? _RoundedListPosition.top
+                              : (index == installedPackages.length - 1
+                                  ? _RoundedListPosition.bottom
+                                  : _RoundedListPosition.middle)),
                     ),
-                    const Divider(
-                      thickness: 0.0,
-                      height: 0,
-                    )
+                    if ((index == 0 && installedPackages.length > 1) ||
+                        (index != installedPackages.length - 1))
+                      const Divider(
+                        thickness: 0.0,
+                        height: 0,
+                      )
                   ],
                 );
               },
@@ -357,17 +403,23 @@ class _PackagesList extends StatelessWidget {
 }
 
 class _PackageTile extends StatelessWidget {
-  const _PackageTile({super.key, required this.id});
+  const _PackageTile({super.key, required this.id, required this.tileShape});
 
   final PackageKitPackageId id;
+  final _RoundedListPosition tileShape;
 
-  static Widget create(BuildContext context, PackageKitPackageId id) {
+  static Widget create(
+    BuildContext context,
+    PackageKitPackageId id,
+    _RoundedListPosition tileShape,
+  ) {
     return ChangeNotifierProvider(
       create: (_) =>
           PackageModel(packageId: id, service: getService<PackageService>()),
       child: _PackageTile(
         id: id,
         key: ValueKey(id),
+        tileShape: tileShape,
       ),
     );
   }
@@ -378,7 +430,16 @@ class _PackageTile extends StatelessWidget {
     final remove = context.select((PackageModel m) => m.remove);
     final install = context.select((PackageModel m) => m.install);
 
+    final shape = tileShape == _RoundedListPosition.middle
+        ? null
+        : (tileShape == _RoundedListPosition.top
+            ? _topChildShape
+            : (tileShape == _RoundedListPosition.bottom
+                ? _bottomChildShape
+                : _onlyChildShape));
+
     return ListTile(
+      shape: shape,
       key: ValueKey(id),
       contentPadding: const EdgeInsets.symmetric(
         horizontal: kYaruPagePadding,
@@ -444,3 +505,33 @@ class _CollectionIcon extends StatelessWidget {
     return const Icon(YaruIcons.unordered_list);
   }
 }
+
+enum _RoundedListPosition {
+  top,
+  middle,
+  bottom,
+  only;
+}
+
+const _topChildShape = RoundedRectangleBorder(
+  borderRadius: BorderRadius.only(
+    topLeft: Radius.circular(10),
+    topRight: Radius.circular(10),
+  ),
+);
+
+const _bottomChildShape = RoundedRectangleBorder(
+  borderRadius: BorderRadius.only(
+    bottomLeft: Radius.circular(10),
+    bottomRight: Radius.circular(10),
+  ),
+);
+
+const _onlyChildShape = RoundedRectangleBorder(
+  borderRadius: BorderRadius.only(
+    bottomLeft: Radius.circular(10),
+    bottomRight: Radius.circular(10),
+    topLeft: Radius.circular(10),
+    topRight: Radius.circular(10),
+  ),
+);
