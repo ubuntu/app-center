@@ -23,6 +23,7 @@ import 'package:launcher_entry/launcher_entry.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
 import 'package:software/app/app_splash_screen.dart';
+import 'package:software/app/collection/collection_page.dart';
 import 'package:software/app/common/close_confirmation_dialog.dart';
 import 'package:software/app/common/connectivity_notifier.dart';
 import 'package:software/app/common/page_item.dart';
@@ -30,10 +31,8 @@ import 'package:software/app/common/rating_model.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/explore_page.dart';
-import 'package:software/app/installed/installed_page.dart';
 import 'package:software/app/package_installer/package_installer_page.dart';
 import 'package:software/app/settings/settings_page.dart';
-import 'package:software/app/updates/updates_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/odrs_service.dart';
@@ -164,7 +163,7 @@ class __AppState extends State<_App> {
           .firstOrNull
           ?.substring(7);
       if (debPath != null || snapName != null) {
-        _initialIndex = 6;
+        _initialIndex = 5;
       }
     });
   }
@@ -227,26 +226,15 @@ class __AppState extends State<_App> {
         ),
       ),
       PageItem(
-        titleBuilder: InstalledPage.createTitle,
-        builder: (context) => InstalledPage.create(context),
-        iconBuilder: (context, selected) => InstalledPage.createIcon(
+        titleBuilder: CollectionPage.createTitle,
+        builder: (context) => CollectionPage.create(context),
+        iconBuilder: (context, selected) => CollectionPage.createIcon(
           context: context,
           selected: selected,
           badgeCount: badgeCount,
           processing: processing,
-        ),
-      ),
-      PageItem(
-        titleBuilder: UpdatesPage.createTitle,
-        builder: (context) => UpdatesPage.create(
-          context: context,
-          windowWidth: width,
-        ),
-        iconBuilder: (context, selected) => UpdatesPage.createIcon(
-          context: context,
-          selected: selected,
-          badgeCount: updateAmount,
-          processing: updatesProcessing,
+          updateCount: updateAmount,
+          updateProcessing: updatesProcessing,
         ),
       ),
       if (debPath != null || snapName != null)

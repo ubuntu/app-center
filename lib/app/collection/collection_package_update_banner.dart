@@ -17,14 +17,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
+import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:software/app/updates/update_dialog.dart';
+import 'package:software/app/collection/update_dialog.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class UpdateBanner extends StatelessWidget {
-  const UpdateBanner({
+class CollectionPackageUpdateBanner extends StatelessWidget {
+  const CollectionPackageUpdateBanner({
     super.key,
     required this.selected,
     this.onChanged,
@@ -82,12 +83,11 @@ class UpdateBanner extends StatelessWidget {
       leading:
           group == PackageKitGroup.system || group == PackageKitGroup.security
               ? const _SystemUpdateIcon()
-              : Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Icon(
-                    YaruIcons.package_deb_filled,
-                    size: 50,
-                    color: Colors.brown[300],
+              : const Padding(
+                  padding: EdgeInsets.only(bottom: 5, left: 5),
+                  child: AppIcon(
+                    iconUrl: null,
+                    size: 38,
                   ),
                 ),
       trailing: YaruCheckbox(
@@ -126,10 +126,10 @@ class _SystemUpdateIcon extends StatelessWidget {
           color: YaruColors.orange,
         ),
         Positioned(
-          top: -1,
+          top: -2,
           right: 2,
           child: Icon(
-            YaruIcons.shield,
+            YaruIcons.shield_filled,
             size: 26,
             color: Colors.white.withOpacity(0.8),
           ),
@@ -138,7 +138,7 @@ class _SystemUpdateIcon extends StatelessWidget {
           top: 0,
           right: 2,
           child: Icon(
-            YaruIcons.shield,
+            YaruIcons.shield_filled,
             size: 25,
             color: Colors.amber[800],
           ),
