@@ -311,7 +311,7 @@
   "@dependenciesQuestion": {},
   "dependenciesFullList": "Veire la lista complèta de las dependéncias",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} dependéncias seràn telecargadas en installant {packageName}",
+  "dependenciesListing": "{length} dependéncias amb una talha total de {size} seràn telecargadas en installant {packageName}",
   "@dependenciesListing": {
     "placeholders": {
       "length": {
@@ -327,5 +327,9 @@
   "additionalInformation": "Informacions complementàrias",
   "@additionalInformation": {},
   "links": "Ligams",
-  "@links": {}
+  "@links": {},
+  "searchHintAppStore": "Cercar d’aplicacions",
+  "@searchHintAppStore": {},
+  "searchHintInstalled": "Cercar dins las aplicacions installadas",
+  "@searchHintInstalled": {}
 }

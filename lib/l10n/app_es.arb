@@ -305,7 +305,7 @@
   "@gallery": {},
   "dependenciesFullList": "Ver la lista completa de las dependencias",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} dependencias se descargarán al instalar {packageName}",
+  "dependenciesListing": "Se descargarán {length} dependencias con un tamaño total de {size} al instalar {packageName}",
   "@dependenciesListing": {
     "placeholders": {
       "length": {
@@ -331,5 +331,9 @@
   "additionalInformation": "Información adicional",
   "@additionalInformation": {},
   "links": "Enlaces",
-  "@links": {}
+  "@links": {},
+  "packagesUsed": "Paquetes utilizados",
+  "@packagesUsed": {},
+  "contributors": "Colaboradores",
+  "@contributors": {}
 }
