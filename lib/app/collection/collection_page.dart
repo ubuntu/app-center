@@ -103,6 +103,7 @@ class CollectionPage extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Wrap(
                 spacing: 10,
+                runSpacing: 20,
                 alignment: WrapAlignment.start,
                 runAlignment: WrapAlignment.start,
                 crossAxisAlignment: WrapCrossAlignment.center,
