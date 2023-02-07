@@ -66,12 +66,12 @@ class SimpleSnapControls extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       alignment: WrapAlignment.center,
       runAlignment: WrapAlignment.start,
-      spacing: 20,
+      spacing: 10,
       runSpacing: 10,
       children: model.change != null
           ? [
               SizedBox(
-                height: 10,
+                height: 20,
                 child: YaruCircularProgressIndicator(
                   strokeWidth: 3,
                   value: model.change?.progress,
