@@ -66,12 +66,12 @@ class SimpleSnapControls extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       alignment: WrapAlignment.center,
       runAlignment: WrapAlignment.start,
-      spacing: 10,
+      spacing: 20,
       runSpacing: 10,
       children: model.change != null
           ? [
               SizedBox(
-                height: 20,
+                height: 10,
                 child: YaruCircularProgressIndicator(
                   strokeWidth: 3,
                   value: model.change?.progress,
@@ -98,21 +98,20 @@ class SimpleSnapControls extends StatelessWidget {
                     ),
                   ),
                 ),
+              if (model.snap.type == 'app' &&
+                  (model.snap.apps.length == 1) &&
+                  enabled)
+                OutlinedButton(
+                  onPressed: () => model.open(),
+                  child: Text(
+                    context.l10n.open,
+                  ),
+                ),
               OutlinedButton(
                 onPressed:
                     enabled ? () => model.remove(context.l10n.done) : null,
                 child: Text(context.l10n.remove),
               ),
-              OutlinedButton(
-                onPressed: (model.snap.type == 'app' &&
-                        (model.snap.apps.length == 1) &&
-                        enabled)
-                    ? () => model.open()
-                    : null,
-                child: Text(
-                  context.l10n.open,
-                ),
-              )
             ],
     );
   }
