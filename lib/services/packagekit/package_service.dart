@@ -446,6 +446,7 @@ class PackageService {
     await completer.future;
     await subscription.cancel();
     _installedPackages.remove(model.packageId!.name);
+    setInstalledPackagesChanged(true);
   }
 
   Future<void> install({required PackageModel model}) async {
@@ -471,6 +472,7 @@ class PackageService {
       model.packageId!.name,
       () => model.packageId!,
     );
+    setInstalledPackagesChanged(true);
   }
 
   Future<void> isInstalled({required PackageModel model}) async {
@@ -673,6 +675,7 @@ class PackageService {
       model.packageId!.name,
       () => model.packageId!,
     );
+    setInstalledPackagesChanged(true);
   }
 
   bool isRefreshErrorToReport(PackageKitError code) {
