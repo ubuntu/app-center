@@ -472,7 +472,8 @@ class PackageService {
     final transaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = transaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
+      if (event is PackageKitPackageEvent &&
+          model.packageId!.name == event.packageId.name) {
         model.isInstalled = event.info == PackageKitInfo.installed;
         model.versionChanged =
             event.packageId.version != model.packageId?.version;
