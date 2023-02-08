@@ -195,7 +195,7 @@ class __AppState extends State<_App> {
       ),
       PageItem(
         titleBuilder: (context) =>
-            Text(SnapSection.development.localize(context.l10n)),
+            ExplorePage.createTitle(context, SnapSection.development),
         builder: (context) =>
             const ExplorePage(section: SnapSection.development),
         iconBuilder: (context, selected) => ExplorePage.createIcon(
@@ -206,7 +206,7 @@ class __AppState extends State<_App> {
       ),
       PageItem(
         titleBuilder: (context) =>
-            Text(SnapSection.games.localize(context.l10n)),
+            ExplorePage.createTitle(context, SnapSection.games),
         builder: (context) => const ExplorePage(section: SnapSection.games),
         iconBuilder: (context, selected) => ExplorePage.createIcon(
           context: context,
@@ -216,13 +216,35 @@ class __AppState extends State<_App> {
       ),
       PageItem(
         titleBuilder: (context) =>
-            Text(SnapSection.art_and_design.localize(context.l10n)),
+            ExplorePage.createTitle(context, SnapSection.art_and_design),
         builder: (context) =>
             const ExplorePage(section: SnapSection.art_and_design),
         iconBuilder: (context, selected) => ExplorePage.createIcon(
           context: context,
           selected: selected,
           snapSection: SnapSection.art_and_design,
+        ),
+      ),
+      PageItem(
+        titleBuilder: (context) =>
+            ExplorePage.createTitle(context, SnapSection.devices_and_iot),
+        builder: (context) =>
+            const ExplorePage(section: SnapSection.devices_and_iot),
+        iconBuilder: (context, selected) => ExplorePage.createIcon(
+          context: context,
+          selected: selected,
+          snapSection: SnapSection.devices_and_iot,
+        ),
+      ),
+      PageItem(
+        titleBuilder: (context) =>
+            ExplorePage.createTitle(context, SnapSection.server_and_cloud),
+        builder: (context) =>
+            const ExplorePage(section: SnapSection.server_and_cloud),
+        iconBuilder: (context, selected) => ExplorePage.createIcon(
+          context: context,
+          selected: selected,
+          snapSection: SnapSection.server_and_cloud,
         ),
       ),
       PageItem(

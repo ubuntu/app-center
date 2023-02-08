@@ -31,7 +31,6 @@ import 'package:software/app/explore/offline_page.dart';
 import 'package:software/app/explore/search_page.dart';
 import 'package:software/app/explore/start_page.dart';
 import 'package:software/l10n/l10n.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatefulWidget {
@@ -51,26 +50,7 @@ class ExplorePage extends StatefulWidget {
     required bool selected,
     required SnapSection snapSection,
   }) {
-    switch (snapSection) {
-      case SnapSection.all:
-        return selected
-            ? const Icon(YaruIcons.compass_filled)
-            : const Icon(YaruIcons.compass);
-      case SnapSection.development:
-        return const Icon(YaruIcons.wrench);
-      case SnapSection.games:
-        return selected
-            ? const Icon(YaruIcons.games_filled)
-            : const Icon(YaruIcons.games);
-      case SnapSection.art_and_design:
-        return selected
-            ? const Icon(YaruIcons.rule_and_pen_filled)
-            : const Icon(YaruIcons.rule_and_pen);
-      default:
-        return selected
-            ? const Icon(YaruIcons.compass_filled)
-            : const Icon(YaruIcons.compass);
-    }
+    return Icon(snapSection.getIcon(selected));
   }
 
   @override
