@@ -482,8 +482,9 @@ class PackageService {
     final completer = Completer();
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent &&
-          model.packageId!.name == event.packageId.name) {
-        model.isInstalled = event.info == PackageKitInfo.installed;
+          model.packageId!.name == event.packageId.name &&
+          event.info == PackageKitInfo.installed) {
+        model.isInstalled = true;
         model.versionChanged =
             event.packageId.version != model.packageId?.version;
       } else if (event is PackageKitFinishedEvent) {
