@@ -335,5 +335,9 @@
   "packagesUsed": "Paquetes utilizados",
   "@packagesUsed": {},
   "contributors": "Colaboradores",
-  "@contributors": {}
+  "@contributors": {},
+  "collection": "Colección",
+  "@collection": {},
+  "multiUpdateButton": "Actualizar todo",
+  "@multiUpdateButton": {}
 }
