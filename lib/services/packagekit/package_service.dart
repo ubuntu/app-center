@@ -399,7 +399,6 @@ class PackageService {
           event.packageId.name,
           () => event.packageId,
         );
-        setInstalledPackagesChanged(true);
       } else if (event is PackageKitErrorCodeEvent) {
         setErrorMessage('${event.code}: ${event.details}');
       } else if (event is PackageKitFinishedEvent) {
@@ -409,7 +408,9 @@ class PackageService {
     await transaction.getPackages(
       filter: filters,
     );
-    return completer.future.whenComplete(subscription.cancel);
+    await completer.future;
+    await subscription.cancel();
+    setInstalledPackagesChanged(true);
   }
 
   Future<void> _updateGroups(Iterable<PackageKitPackageId> ids) async {
