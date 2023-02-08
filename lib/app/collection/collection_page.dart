@@ -407,7 +407,7 @@ class _PackagesList extends StatelessWidget {
 }
 
 class _PackageTile extends StatelessWidget {
-  const _PackageTile({super.key, required this.id, required this.tileShape});
+  const _PackageTile({required this.id, required this.tileShape});
 
   final PackageKitPackageId id;
   final _RoundedListPosition tileShape;
