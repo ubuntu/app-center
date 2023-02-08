@@ -407,7 +407,7 @@ class _PackagesList extends StatelessWidget {
 }
 
 class _PackageTile extends StatelessWidget {
-  const _PackageTile({super.key, required this.id, required this.tileShape});
+  const _PackageTile({required this.id, required this.tileShape});
 
   final PackageKitPackageId id;
   final _RoundedListPosition tileShape;
@@ -418,12 +418,12 @@ class _PackageTile extends StatelessWidget {
     _RoundedListPosition tileShape,
   ) {
     return ChangeNotifierProvider(
+      key: ValueKey(id),
       create: (_) =>
           PackageModel(packageId: id, service: getService<PackageService>())
             ..isInstalled = true,
       child: _PackageTile(
         id: id,
-        key: ValueKey(id),
         tileShape: tileShape,
       ),
     );
