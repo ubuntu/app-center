@@ -40,6 +40,7 @@ class CollectionModel extends SafeChangeNotifier {
 
       _packagesChanged =
           _packageService.installedPackagesChanged.listen((event) {
+        _installedPackages = _packageService.installedPackages;
         notifyListeners();
       });
 
@@ -177,7 +178,7 @@ class CollectionModel extends SafeChangeNotifier {
       return [];
     } else {
       if (searchQuery?.isEmpty ?? true) {
-        return _installedPackages;
+        return _installedPackages?.toList();
       }
       return _installedPackages
           ?.where((e) => e.name.contains(searchQuery!))
