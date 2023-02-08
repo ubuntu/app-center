@@ -29,8 +29,8 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 import 'package:software/app/common/border_container.dart';
 
-class UpdateDialog extends StatefulWidget {
-  const UpdateDialog({
+class PackageUpdateDialog extends StatefulWidget {
+  const PackageUpdateDialog({
     super.key,
     required this.id,
     required this.installedId,
@@ -48,7 +48,7 @@ class UpdateDialog extends StatefulWidget {
     return ChangeNotifierProvider(
       create: (context) =>
           PackageModel(service: getService<PackageService>(), packageId: id),
-      child: UpdateDialog(
+      child: PackageUpdateDialog(
         id: id,
         installedId: installedId,
       ),
@@ -56,10 +56,10 @@ class UpdateDialog extends StatefulWidget {
   }
 
   @override
-  State<UpdateDialog> createState() => _UpdateDialogState();
+  State<PackageUpdateDialog> createState() => _PackageUpdateDialogState();
 }
 
-class _UpdateDialogState extends State<UpdateDialog> {
+class _PackageUpdateDialogState extends State<PackageUpdateDialog> {
   @override
   void initState() {
     super.initState();
