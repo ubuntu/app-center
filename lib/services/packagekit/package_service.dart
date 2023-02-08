@@ -288,7 +288,7 @@ class PackageService {
         _updates.putIfAbsent(id, () => true);
         setUpdatesChanged(true);
       } else if (event is PackageKitItemProgressEvent) {
-        setUpdatePercentage(event.percentage);
+        setUpdatePercentage(_pendingUpdatesCheckTransaction?.percentage);
       } else if (event is PackageKitErrorCodeEvent) {
         if (isRefreshErrorToReport(event.code)) {
           final error = '${event.code}: ${event.details}';
@@ -331,7 +331,7 @@ class PackageService {
         setTerminalOutput(event.info.toString());
       } else if (event is PackageKitItemProgressEvent) {
         setUpdatesState(UpdatesState.updating);
-        setUpdatePercentage(event.percentage);
+        setUpdatePercentage(updatePackagesTransaction.percentage);
         setProcessedId(event.packageId);
         setStatus(event.status);
 
@@ -428,14 +428,16 @@ class PackageService {
 
   Future<void> remove({required PackageModel model}) async {
     if (model.packageId == null) throw const MissingPackageIDException();
-    model.packageState = PackageState.processing;
+    model.packageState = PackageState.removing;
+    model.percentage = 0;
     final transaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         model.info = event.info;
       } else if (event is PackageKitItemProgressEvent) {
-        model.percentage = 100 - event.percentage;
+        model.percentage = event.percentage;
+        model.status = event.status;
       } else if (event is PackageKitFinishedEvent) {
         model.isInstalled = (event.exit != PackageKitExit.success);
         model.packageState = PackageState.ready;
@@ -451,17 +453,21 @@ class PackageService {
 
   Future<void> install({required PackageModel model}) async {
     if (model.packageId == null) throw const MissingPackageIDException();
-    model.packageState = PackageState.processing;
+    model.packageState = PackageState.installing;
+    model.percentage = 0;
     final transaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
         model.info = event.info;
       } else if (event is PackageKitItemProgressEvent) {
-        model.percentage = event.percentage;
+        model.percentage = transaction.percentage;
+        model.downloadSizeRemaining = transaction.downloadSizeRemaining;
+        model.status = event.status;
       } else if (event is PackageKitFinishedEvent) {
         model.packageState = PackageState.ready;
         model.isInstalled = (event.exit == PackageKitExit.success);
+        model.status = PackageKitStatus.unknown;
         completer.complete();
       }
     });
@@ -654,7 +660,8 @@ class PackageService {
         !fileSystem.file(model.path!).existsSync()) {
       throw FileSystemException('', model.path);
     }
-    model.packageState = PackageState.processing;
+    model.packageState = PackageState.installing;
+    model.percentage = 0;
     final transaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = transaction.events.listen((event) {
@@ -662,10 +669,13 @@ class PackageService {
         model.info = event.info;
         model.packageId = event.packageId;
       } else if (event is PackageKitItemProgressEvent) {
-        model.percentage = event.percentage;
+        model.percentage = transaction.percentage;
+        model.downloadSizeRemaining = transaction.downloadSizeRemaining;
+        model.status = event.status;
       } else if (event is PackageKitFinishedEvent) {
         model.isInstalled = (event.exit == PackageKitExit.success);
         model.packageState = PackageState.ready;
+        model.status = PackageKitStatus.unknown;
         completer.complete();
       }
     });
