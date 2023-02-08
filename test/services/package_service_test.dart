@@ -189,14 +189,14 @@ void main() {
         const PackageKitItemProgressEvent(
           packageId: firefoxPackageId,
           status: PackageKitStatus.remove,
-          percentage: 27,
+          percentage: 33,
         ),
       );
       controller.add(
         const PackageKitItemProgressEvent(
           packageId: firefoxPackageId,
           status: PackageKitStatus.remove,
-          percentage: 72,
+          percentage: 67,
         ),
       );
       controller.add(
@@ -235,6 +235,11 @@ void main() {
       );
       return emitFinishedEvent(controller);
     });
+
+    var percentages = [33, 67, 100];
+    when(() => transaction.percentage)
+        .thenAnswer((_) => percentages.removeAt(0));
+    when(() => transaction.downloadSizeRemaining).thenReturn(0);
 
     return transaction;
   }
@@ -449,7 +454,7 @@ void main() {
     expect(model.isInstalled, isTrue);
     expect(packageStates, [
       PackageState.ready,
-      PackageState.processing,
+      PackageState.installing,
       PackageState.ready,
     ]);
     expect(percentages, [0, 33, 67, 100]);
@@ -463,7 +468,6 @@ void main() {
       packageId: firefoxPackageId,
     );
     model.isInstalled = true;
-    model.percentage = 100;
 
     final packageStates = [model.packageState];
     final percentages = [model.percentage];
@@ -482,10 +486,10 @@ void main() {
     expect(model.isInstalled, isFalse);
     expect(packageStates, [
       PackageState.ready,
-      PackageState.processing,
+      PackageState.removing,
       PackageState.ready,
     ]);
-    expect(percentages, [100, 73, 28, 0]);
+    expect(percentages, [0, 33, 67, 100]);
     expect(service.installedPackages.contains(model.packageId), isFalse);
   });
 
@@ -509,7 +513,7 @@ void main() {
     expect(model.isInstalled, isTrue);
     expect(packageStates, [
       PackageState.ready,
-      PackageState.processing,
+      PackageState.installing,
       PackageState.ready,
     ]);
     expect(service.installedPackages.contains(model.packageId), isTrue);
@@ -569,6 +573,10 @@ void main() {
     when(
       () => updateTransaction.getDetails(any(that: contains(firefoxPackageId))),
     ).thenAnswer((_) => emitFinishedEvent(controller));
+    var percentages = [13, 37];
+    when(() => updateTransaction.percentage)
+        .thenAnswer((_) => percentages.removeAt(0));
+    when(() => updateTransaction.downloadSizeRemaining).thenReturn(0);
     return updateTransaction;
   }
 

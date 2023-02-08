@@ -139,10 +139,21 @@
   "multiAppFormatsFound": "We've found multiple formats for this application.",
   "changingPermissions": "Changing permissions",
   "permissions": "Permissions",
+  "downloading": "Downloading",
+  "downloadRemaining": "Downloading... {bytes} remaining",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
   "installing": "Installing",
   "processing": "Processing",
+  "ready": "Ready",
   "removing": "Removing",
   "refreshing": "Refreshing",
+  "upgrading": "Upgrading",
   "attention": "Attention!",
   "theme": "Theme",
   "system": "System",

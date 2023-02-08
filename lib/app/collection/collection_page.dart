@@ -422,7 +422,8 @@ class _PackageTile extends StatelessWidget {
   ) {
     return ChangeNotifierProvider(
       create: (_) =>
-          PackageModel(packageId: id, service: getService<PackageService>()),
+          PackageModel(packageId: id, service: getService<PackageService>())
+            ..isInstalled = true,
       child: _PackageTile(
         id: id,
         key: ValueKey(id),
@@ -433,10 +434,6 @@ class _PackageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final packageState = context.select((PackageModel m) => m.packageState);
-    final remove = context.select((PackageModel m) => m.remove);
-    final install = context.select((PackageModel m) => m.install);
-
     final shape = tileShape == _RoundedListPosition.middle
         ? null
         : (tileShape == _RoundedListPosition.top
@@ -460,13 +457,7 @@ class _PackageTile extends StatelessWidget {
       title: Text(
         id.name,
       ),
-      trailing: PackageControls(
-        versionChanged: false,
-        isInstalled: true,
-        packageState: packageState,
-        remove: () => remove(),
-        install: install,
-      ),
+      trailing: const PackageControls(),
     );
   }
 }

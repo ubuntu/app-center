@@ -196,12 +196,6 @@ class _PackagePageState extends State<PackagePage> {
           );
 
     var controls = PackageControls(
-      isInstalled: model.isInstalled,
-      versionChanged: model.versionChanged,
-      packageState: model.packageState,
-      remove: () => model.remove(),
-      install: model.install,
-      hasDependencies: model.missingDependencies.isNotEmpty,
       showDeps: () => showDialog(
         context: context,
         builder: (context) => _ShowDepsDialog(
