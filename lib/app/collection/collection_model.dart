@@ -196,8 +196,6 @@ class CollectionModel extends SafeChangeNotifier {
 
   final Set<PackageKitFilter> _packageKitFilters = {
     PackageKitFilter.installed,
-    PackageKitFilter.gui,
-    PackageKitFilter.newest,
     PackageKitFilter.application,
     PackageKitFilter.notSource,
     PackageKitFilter.notDevelopment,

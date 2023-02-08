@@ -16,6 +16,7 @@ import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
 import 'package:software/app/common/packagekit/package_controls.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
+import 'package:software/app/common/packagekit/packagekit_filter_button.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/app/common/snap/snap_sort_popup.dart';
@@ -91,6 +92,10 @@ class CollectionPage extends StatelessWidget {
     final snapSort = context.select((CollectionModel m) => m.snapSort);
     final setSnapSort = context.select((CollectionModel m) => m.setSnapSort);
 
+    final packageKitFilters =
+        context.select((CollectionModel m) => m.packageKitFilters);
+    final handleFilter = context.select((CollectionModel m) => m.handleFilter);
+
     final checkForPackageUpdates =
         context.select((PackageUpdatesModel m) => m.refresh);
     final checkingForPackageUpdates = context.select(
@@ -103,92 +108,96 @@ class CollectionPage extends StatelessWidget {
         context.select((PackageUpdatesModel m) => m.selectedUpdatesLength);
 
     final content = Center(
-      child: SizedBox(
-        width: 700,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Wrap(
-                spacing: 10,
-                runSpacing: 20,
-                alignment: WrapAlignment.start,
-                runAlignment: WrapAlignment.start,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  AppFormatPopup(
-                    onSelected: (appFormat) => setAppFormat(appFormat),
-                    appFormat: appFormat ?? AppFormat.snap,
-                    enabledAppFormats: enabledAppFormats,
-                  ),
-                  if (appFormat == AppFormat.snap)
-                    SnapSortPopup(
-                      value: snapSort,
-                      onSelected: (value) => setSnapSort(value),
-                    ),
-                  if (appFormat == AppFormat.snap)
-                    OutlinedButton(
-                      onPressed: checkingForSnapUpdates == true ||
-                              snapServiceIsBusy == true
-                          ? null
-                          : () => loadSnaps(),
-                      child: Text(context.l10n.refreshButton),
-                    ),
-                  if (appFormat == AppFormat.packageKit)
-                    OutlinedButton(
-                      onPressed: checkingForPackageUpdates
-                          ? null
-                          : () => checkForPackageUpdates(),
-                      child: Text(context.l10n.refreshButton),
-                    ),
-                  if (checkingForSnapUpdates == true ||
-                      checkingForPackageUpdates)
-                    const SizedBox(
-                      height: 25,
-                      width: 25,
-                      child: Center(
-                        child: YaruCircularProgressIndicator(strokeWidth: 3),
-                      ),
-                    )
-                  else if (snapsWithUpdate.isNotEmpty &&
-                      appFormat == AppFormat.snap)
-                    ElevatedButton(
-                      onPressed: snapServiceIsBusy == true
-                          ? null
-                          : () => refreshAllSnapsWithUpdates(
-                                doneMessage: context.l10n.done,
-                              ),
-                      child: Text(context.l10n.multiUpdateButton),
-                    ),
-                  if (appFormat == AppFormat.packageKit &&
-                      !checkingForPackageUpdates)
-                    ElevatedButton(
-                      onPressed: checkingForPackageUpdates ||
-                              selectedUpdatesLength == 0
-                          ? null
-                          : () => updateAllPackages(
-                                updatesComplete: context.l10n.updatesComplete,
-                                updatesAvailable: context.l10n.updateAvailable,
-                              ),
-                      child: Text(context.l10n.multiUpdateButton),
-                    ),
-                ],
-              ),
-            ),
-            if (appFormat == AppFormat.snap)
-              const Expanded(
-                child: _SnapList(),
-              )
-            else if (appFormat == AppFormat.packageKit)
-              Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: const [PackageUpdatesPage(), _PackagesList()],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Wrap(
+              spacing: 10,
+              runSpacing: 20,
+              alignment: WrapAlignment.start,
+              runAlignment: WrapAlignment.start,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                AppFormatPopup(
+                  onSelected: (appFormat) => setAppFormat(appFormat),
+                  appFormat: appFormat ?? AppFormat.snap,
+                  enabledAppFormats: enabledAppFormats,
                 ),
-              )
-          ],
-        ),
+                if (appFormat == AppFormat.snap)
+                  SnapSortPopup(
+                    value: snapSort,
+                    onSelected: (value) => setSnapSort(value),
+                  )
+                else
+                  PackageKitFilterButton(
+                    onTap: handleFilter,
+                    filters: packageKitFilters,
+                  ),
+                if (appFormat == AppFormat.snap)
+                  OutlinedButton(
+                    onPressed: checkingForSnapUpdates == true ||
+                            snapServiceIsBusy == true
+                        ? null
+                        : () => loadSnaps(),
+                    child: Text(context.l10n.refreshButton),
+                  ),
+                if (appFormat == AppFormat.packageKit)
+                  OutlinedButton(
+                    onPressed: checkingForPackageUpdates
+                        ? null
+                        : () => checkForPackageUpdates(),
+                    child: Text(context.l10n.refreshButton),
+                  ),
+                if (checkingForSnapUpdates == true || checkingForPackageUpdates)
+                  const SizedBox(
+                    height: 25,
+                    width: 25,
+                    child: Center(
+                      child: YaruCircularProgressIndicator(strokeWidth: 3),
+                    ),
+                  )
+                else if (snapsWithUpdate.isNotEmpty &&
+                    appFormat == AppFormat.snap)
+                  ElevatedButton(
+                    onPressed: snapServiceIsBusy == true
+                        ? null
+                        : () => refreshAllSnapsWithUpdates(
+                              doneMessage: context.l10n.done,
+                            ),
+                    child: Text(context.l10n.multiUpdateButton),
+                  ),
+                if (appFormat == AppFormat.packageKit &&
+                    !checkingForPackageUpdates)
+                  ElevatedButton(
+                    onPressed: checkingForPackageUpdates ||
+                            selectedUpdatesLength == 0
+                        ? null
+                        : () => updateAllPackages(
+                              updatesComplete: context.l10n.updatesComplete,
+                              updatesAvailable: context.l10n.updateAvailable,
+                            ),
+                    child: Text(context.l10n.multiUpdateButton),
+                  ),
+              ],
+            ),
+          ),
+          if (appFormat == AppFormat.snap)
+            const Expanded(
+              child: _SnapList(),
+            )
+          else if (appFormat == AppFormat.packageKit)
+            Expanded(
+              child: SingleChildScrollView(
+                child: Center(
+                  child: Column(
+                    children: const [PackageUpdatesPage(), _PackagesList()],
+                  ),
+                ),
+              ),
+            )
+        ],
       ),
     );
 
@@ -226,86 +235,93 @@ class _SnapList extends StatelessWidget {
       );
     }
 
-    return ListView(
-      children: [
-        if (snapUpdates.isNotEmpty)
-          BorderContainer(
-            padding: EdgeInsets.zero,
-            margin: const EdgeInsets.only(
-              left: kYaruPagePadding,
-              right: kYaruPagePadding,
-              bottom: kYaruPagePadding,
-            ),
-            child: Column(
-              children: [
-                for (var i = 0; i < snapUpdates.length; i++)
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _SnapTile(
-                        tileShape: snapUpdates.length == 1
-                            ? _RoundedListPosition.only
-                            : (i == 0
-                                ? _RoundedListPosition.top
-                                : (i == snapUpdates.length - 1
-                                    ? _RoundedListPosition.bottom
-                                    : _RoundedListPosition.middle)),
-                        snap: snapUpdates[i],
-                        hasUpdate: true,
-                        enabled: checkingForSnapUpdates,
-                      ),
-                      if ((i == 0 && snapUpdates.length > 1) ||
-                          (i != snapUpdates.length - 1))
-                        const Divider(
-                          thickness: 0.0,
-                          height: 0,
-                        )
-                    ],
-                  )
-              ],
-            ),
-          ),
-        if (installedSnaps == null)
-          const Center(
-            child: YaruCircularProgressIndicator(),
-          )
-        else if (installedSnaps.isNotEmpty)
-          BorderContainer(
-            padding: EdgeInsets.zero,
-            margin: const EdgeInsets.only(
-              left: kYaruPagePadding,
-              right: kYaruPagePadding,
-              bottom: kYaruPagePadding,
-            ),
-            child: Column(
-              children: [
-                for (var i = 0; i < installedSnaps.length; i++)
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _SnapTile(
-                        tileShape: installedSnaps.length == 1
-                            ? _RoundedListPosition.only
-                            : (i == 0
-                                ? _RoundedListPosition.top
-                                : (i == installedSnaps.length - 1
-                                    ? _RoundedListPosition.bottom
-                                    : _RoundedListPosition.middle)),
-                        snap: installedSnaps[i],
-                        enabled: checkingForSnapUpdates,
-                      ),
-                      if ((i == 0 && installedSnaps.length > 1) ||
-                          (i != installedSnaps.length - 1))
-                        const Divider(
-                          thickness: 0.0,
-                          height: 0,
-                        )
-                    ],
-                  )
-              ],
-            ),
-          )
-      ],
+    return SingleChildScrollView(
+      child: Center(
+        child: Column(
+          children: [
+            if (snapUpdates.isNotEmpty)
+              BorderContainer(
+                padding: EdgeInsets.zero,
+                margin: const EdgeInsets.only(
+                  left: kYaruPagePadding,
+                  right: kYaruPagePadding,
+                  bottom: kYaruPagePadding,
+                ),
+                child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: snapUpdates.length,
+                  itemBuilder: (context, i) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _SnapTile(
+                          tileShape: snapUpdates.length == 1
+                              ? _RoundedListPosition.only
+                              : (i == 0
+                                  ? _RoundedListPosition.top
+                                  : (i == snapUpdates.length - 1
+                                      ? _RoundedListPosition.bottom
+                                      : _RoundedListPosition.middle)),
+                          snap: snapUpdates[i],
+                          hasUpdate: true,
+                          enabled: checkingForSnapUpdates,
+                        ),
+                        if ((i == 0 && snapUpdates.length > 1) ||
+                            (i != snapUpdates.length - 1))
+                          const Divider(
+                            thickness: 0.0,
+                            height: 0,
+                          )
+                      ],
+                    );
+                  },
+                ),
+              ),
+            if (installedSnaps == null)
+              const Center(
+                child: YaruCircularProgressIndicator(),
+              )
+            else if (installedSnaps.isNotEmpty)
+              BorderContainer(
+                padding: EdgeInsets.zero,
+                margin: const EdgeInsets.only(
+                  left: kYaruPagePadding,
+                  right: kYaruPagePadding,
+                  bottom: kYaruPagePadding,
+                ),
+                child: ListView.builder(
+                  itemCount: installedSnaps.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, i) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _SnapTile(
+                          tileShape: installedSnaps.length == 1
+                              ? _RoundedListPosition.only
+                              : (i == 0
+                                  ? _RoundedListPosition.top
+                                  : (i == installedSnaps.length - 1
+                                      ? _RoundedListPosition.bottom
+                                      : _RoundedListPosition.middle)),
+                          snap: installedSnaps[i],
+                          enabled: checkingForSnapUpdates,
+                        ),
+                        if ((i == 0 && installedSnaps.length > 1) ||
+                            (i != installedSnaps.length - 1))
+                          const Divider(
+                            thickness: 0.0,
+                            height: 0,
+                          )
+                      ],
+                    );
+                  },
+                ),
+              )
+          ],
+        ),
+      ),
     );
   }
 }
@@ -374,32 +390,34 @@ class _PackagesList extends StatelessWidget {
               right: kYaruPagePadding,
               bottom: kYaruPagePadding,
             ),
-            child: Column(
-              children: [
-                for (var index = 0; index < installedPackages.length; index++)
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _PackageTile.create(
-                        context,
-                        installedPackages[index],
-                        installedPackages.length == 1
-                            ? _RoundedListPosition.only
-                            : (index == 0
-                                ? _RoundedListPosition.top
-                                : (index == installedPackages.length - 1
-                                    ? _RoundedListPosition.bottom
-                                    : _RoundedListPosition.middle)),
-                      ),
-                      if ((index == 0 && installedPackages.length > 1) ||
-                          (index != installedPackages.length - 1))
-                        const Divider(
-                          thickness: 0.0,
-                          height: 0,
-                        )
-                    ],
-                  )
-              ],
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: installedPackages.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _PackageTile.create(
+                      context,
+                      installedPackages[index],
+                      installedPackages.length == 1
+                          ? _RoundedListPosition.only
+                          : (index == 0
+                              ? _RoundedListPosition.top
+                              : (index == installedPackages.length - 1
+                                  ? _RoundedListPosition.bottom
+                                  : _RoundedListPosition.middle)),
+                    ),
+                    if ((index == 0 && installedPackages.length > 1) ||
+                        (index != installedPackages.length - 1))
+                      const Divider(
+                        thickness: 0.0,
+                        height: 0,
+                      )
+                  ],
+                );
+              },
             ),
           )
         : const SizedBox();

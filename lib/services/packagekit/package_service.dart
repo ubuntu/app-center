@@ -77,13 +77,18 @@ class PackageService {
   final Map<String, PackageKitPackageId> _installedPackages = {};
   List<PackageKitPackageId> get installedPackages =>
       _installedPackages.entries.map((e) => e.value).toList();
-  PackageKitPackageId? getInstalledId(String name) => _installedPackages[name];
   final _installedPackagesController = StreamController<bool>.broadcast();
   Stream<bool> get installedPackagesChanged =>
       _installedPackagesController.stream;
   void setInstalledPackagesChanged(bool value) {
     _installedPackagesController.add(value);
   }
+
+  final Map<String, PackageKitPackageId> _installedPackagesForUpdates = {};
+  List<PackageKitPackageId> get installedPackagesForUpdates =>
+      _installedPackagesForUpdates.entries.map((e) => e.value).toList();
+  PackageKitPackageId? getInstalledId(String name) =>
+      _installedPackagesForUpdates[name];
 
   final Map<PackageKitPackageId, PackageKitGroup> _idsToGroups = {};
   final _groupsController = StreamController<bool>.broadcast();
@@ -383,6 +388,34 @@ class PackageService {
         NotificationHint.urgency(NotificationUrgency.normal)
       ],
     );
+  }
+
+  Future<void> getInstalledPackagesForUpdates({
+    Set<PackageKitFilter> filters = const {
+      PackageKitFilter.installed,
+    },
+  }) async {
+    _installedPackagesForUpdates.clear();
+    final transaction = await _client.createTransaction();
+    final completer = Completer();
+    final subscription = transaction.events.listen((event) {
+      if (event is PackageKitPackageEvent) {
+        _installedPackagesForUpdates.putIfAbsent(
+          event.packageId.name,
+          () => event.packageId,
+        );
+      } else if (event is PackageKitErrorCodeEvent) {
+        setErrorMessage('${event.code}: ${event.details}');
+      } else if (event is PackageKitFinishedEvent) {
+        completer.complete();
+      }
+    });
+    await transaction.getPackages(
+      filter: filters,
+    );
+    await completer.future;
+    await subscription.cancel();
+    setInstalledPackagesChanged(true);
   }
 
   Future<void> getInstalledPackages({
