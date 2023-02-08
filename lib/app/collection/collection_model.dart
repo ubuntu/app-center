@@ -106,8 +106,6 @@ class CollectionModel extends SafeChangeNotifier {
 
   Future<void> loadSnaps() async {
     checkingForSnapUpdates = true;
-    _installedSnaps = null;
-    snapsWithUpdate.clear();
     await _snapService.loadLocalSnaps();
     await _snapService.loadSnapsWithUpdate();
     _installedSnaps = _snapService.localSnaps;
