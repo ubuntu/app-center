@@ -99,7 +99,7 @@ class CollectionModel extends SafeChangeNotifier {
   List<Snap>? get installedSnapsWithUpdates => _snapService.snapsWithUpdate;
 
   bool get snapUpdatesAvailable =>
-      (_installedSnaps?.isEmpty ?? false) ? false : true;
+      installedSnapsWithUpdates?.isNotEmpty ?? false;
 
   bool? _snapServiceIsBusy;
   bool? get snapServiceIsBusy => _snapServiceIsBusy;
