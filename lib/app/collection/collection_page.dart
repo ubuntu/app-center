@@ -79,8 +79,7 @@ class CollectionPage extends StatelessWidget {
     final enabledAppFormats =
         context.select((CollectionModel m) => m.enabledAppFormats);
 
-    final checkForSnapUpdates =
-        context.select((CollectionModel m) => m.checkForSnapUpdates);
+    final loadSnaps = context.select((CollectionModel m) => m.loadSnaps);
     final snapUpdatesAvailable =
         context.select((CollectionModel m) => m.snapUpdatesAvailable);
     final checkingForSnapUpdates =
@@ -133,7 +132,7 @@ class CollectionPage extends StatelessWidget {
                       onPressed: checkingForSnapUpdates == true ||
                               snapServiceIsBusy == true
                           ? null
-                          : () => checkForSnapUpdates(),
+                          : () => loadSnaps(),
                       child: Text(context.l10n.refreshButton),
                     ),
                   if (appFormat == AppFormat.packageKit)
@@ -218,9 +217,21 @@ class _SnapList extends StatelessWidget {
     final checkingForSnapUpdates =
         context.select((CollectionModel m) => m.checkingForSnapUpdates);
 
+    if (checkingForSnapUpdates == false &&
+        installedSnaps != null &&
+        installedSnaps.isEmpty) {
+      return Center(
+        child: Text(context.l10n.noSnapsInstalled),
+      );
+    }
+
     return ListView(
       children: [
-        if (snapUpdates.isNotEmpty)
+        if (snapUpdates == null)
+          const Center(
+            child: YaruCircularProgressIndicator(),
+          )
+        else if (snapUpdates.isNotEmpty)
           BorderContainer(
             padding: EdgeInsets.zero,
             margin: const EdgeInsets.only(
@@ -257,7 +268,11 @@ class _SnapList extends StatelessWidget {
               ],
             ),
           ),
-        if (installedSnaps.isNotEmpty)
+        if (installedSnaps == null)
+          const Center(
+            child: YaruCircularProgressIndicator(),
+          )
+        else if (installedSnaps.isNotEmpty)
           BorderContainer(
             padding: EdgeInsets.zero,
             margin: const EdgeInsets.only(
@@ -292,10 +307,6 @@ class _SnapList extends StatelessWidget {
                   )
               ],
             ),
-          ),
-        if (snapUpdates.isEmpty && installedSnaps.isEmpty)
-          Center(
-            child: Text(context.l10n.noSnapsInstalled),
           )
       ],
     );
