@@ -79,10 +79,9 @@ class CollectionPage extends StatelessWidget {
     final enabledAppFormats =
         context.select((CollectionModel m) => m.enabledAppFormats);
 
-    final checkForSnapUpdates =
-        context.select((CollectionModel m) => m.checkForSnapUpdates);
-    final snapUpdatesAvailable =
-        context.select((CollectionModel m) => m.snapUpdatesAvailable);
+    final loadSnaps = context.select((CollectionModel m) => m.loadSnaps);
+    final snapsWithUpdate =
+        context.select((CollectionModel m) => m.snapsWithUpdate);
     final checkingForSnapUpdates =
         context.select((CollectionModel m) => m.checkingForSnapUpdates);
     final snapServiceIsBusy =
@@ -133,7 +132,7 @@ class CollectionPage extends StatelessWidget {
                       onPressed: checkingForSnapUpdates == true ||
                               snapServiceIsBusy == true
                           ? null
-                          : () => checkForSnapUpdates(),
+                          : () => loadSnaps(),
                       child: Text(context.l10n.refreshButton),
                     ),
                   if (appFormat == AppFormat.packageKit)
@@ -152,7 +151,8 @@ class CollectionPage extends StatelessWidget {
                         child: YaruCircularProgressIndicator(strokeWidth: 3),
                       ),
                     )
-                  else if (snapUpdatesAvailable && appFormat == AppFormat.snap)
+                  else if (snapsWithUpdate.isNotEmpty &&
+                      appFormat == AppFormat.snap)
                     ElevatedButton(
                       onPressed: snapServiceIsBusy == true
                           ? null
@@ -213,10 +213,18 @@ class _SnapList extends StatelessWidget {
     final installedSnaps =
         context.select((CollectionModel m) => m.installedSnaps);
     final snapUpdates =
-        context.select((CollectionModel m) => m.installedSnapsWithUpdates);
+        context.select((CollectionModel m) => m.snapsWithUpdate);
 
     final checkingForSnapUpdates =
         context.select((CollectionModel m) => m.checkingForSnapUpdates);
+
+    if (checkingForSnapUpdates == false &&
+        installedSnaps != null &&
+        installedSnaps.isEmpty) {
+      return Center(
+        child: Text(context.l10n.noSnapsInstalled),
+      );
+    }
 
     return ListView(
       children: [
@@ -257,7 +265,11 @@ class _SnapList extends StatelessWidget {
               ],
             ),
           ),
-        if (installedSnaps.isNotEmpty)
+        if (installedSnaps == null)
+          const Center(
+            child: YaruCircularProgressIndicator(),
+          )
+        else if (installedSnaps.isNotEmpty)
           BorderContainer(
             padding: EdgeInsets.zero,
             margin: const EdgeInsets.only(
@@ -292,10 +304,6 @@ class _SnapList extends StatelessWidget {
                   )
               ],
             ),
-          ),
-        if (snapUpdates.isEmpty && installedSnaps.isEmpty)
-          Center(
-            child: Text(context.l10n.noSnapsInstalled),
           )
       ],
     );

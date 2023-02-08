@@ -25,9 +25,7 @@ class CollectionModel extends SafeChangeNotifier {
   Future<void> init() async {
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
       if (_snapService.snapChanges.isEmpty) {
-        _installedSnaps.clear();
-        _loadInstalledSnaps();
-        snapServiceIsBusy = false;
+        await loadSnaps();
       } else {
         snapServiceIsBusy = true;
       }
@@ -48,11 +46,8 @@ class CollectionModel extends SafeChangeNotifier {
       notifyListeners();
     }
 
-    await _loadInstalledSnaps();
-    notifyListeners();
-
     if (_snapService.snapChanges.isEmpty) {
-      await checkForSnapUpdates();
+      await loadSnaps();
     } else {
       checkingForSnapUpdates = false;
     }
@@ -84,27 +79,22 @@ class CollectionModel extends SafeChangeNotifier {
 
   // SNAPS
 
-  final Map<Snap, bool> _installedSnaps = {};
-  List<Snap> get installedSnaps {
-    final entryList =
-        _installedSnaps.entries.toList().where((e) => e.value == false);
+  List<Snap>? _installedSnaps;
+  List<Snap>? get installedSnaps {
+    _installedSnaps = _snapService.localSnaps;
 
-    final list = entryList.map((e) => e.key).toList();
-
-    sortSnaps(snapSort: snapSort, snaps: list);
+    if (_installedSnaps != null) {
+      sortSnaps(snapSort: snapSort, snaps: _installedSnaps!);
+    }
 
     return searchQuery == null || searchQuery?.isEmpty == true
-        ? list
-        : list.where((snap) => snap.name.contains(searchQuery!)).toList();
+        ? _installedSnaps
+        : _installedSnaps!
+            .where((snap) => snap.name.contains(searchQuery!))
+            .toList();
   }
 
-  List<Snap> get installedSnapsWithUpdates {
-    final entryList = _installedSnaps.entries.toList().where((e) => e.value);
-    return entryList.map((e) => e.key).toList();
-  }
-
-  bool get snapUpdatesAvailable =>
-      _installedSnaps.entries.where((e) => e.value == true).toList().isNotEmpty;
+  List<Snap> get snapsWithUpdate => _snapService.snapsWithUpdate;
 
   bool? _snapServiceIsBusy;
   bool? get snapServiceIsBusy => _snapServiceIsBusy;
@@ -114,17 +104,19 @@ class CollectionModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  List<Snap> get _snapsWithUpdates => _installedSnaps.entries
-      .where((e) => e.value == true)
-      .map((e) => e.key)
-      .toList();
-
-  Future<void> _loadInstalledSnaps() async {
+  Future<void> loadSnaps() async {
+    checkingForSnapUpdates = true;
+    _installedSnaps = null;
+    snapsWithUpdate.clear();
     await _snapService.loadLocalSnaps();
+    await _snapService.loadSnapsWithUpdate();
+    _installedSnaps = _snapService.localSnaps;
     for (var snap in _snapService.localSnaps) {
-      _installedSnaps.putIfAbsent(snap, () => false);
+      if (_snapService.snapsWithUpdate.contains(snap)) {
+        _installedSnaps?.remove(snap);
+      }
     }
-    notifyListeners();
+    checkingForSnapUpdates = false;
   }
 
   String? _searchQuery;
@@ -143,27 +135,13 @@ class CollectionModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> checkForSnapUpdates() async {
-    checkingForSnapUpdates = true;
-    final snapsWithUpdate = await _snapService.loadSnapsWithUpdate();
-    checkingForSnapUpdates = false;
-    for (var update in snapsWithUpdate) {
-      for (var e in _installedSnaps.entries) {
-        if (e.key.name == update.name) {
-          _installedSnaps.update(e.key, (value) => true);
-          notifyListeners();
-        }
-      }
-    }
-  }
-
   Future<void> refreshAllSnapsWithUpdates({
     required String doneMessage,
   }) async {
     await _snapService.authorize();
-    if (_snapsWithUpdates.isEmpty) return;
+    if (snapsWithUpdate.isEmpty) return;
 
-    final firstSnap = _snapsWithUpdates.first;
+    final firstSnap = snapsWithUpdate.first;
     _snapService
         .refresh(
       snap: firstSnap,
@@ -173,7 +151,7 @@ class CollectionModel extends SafeChangeNotifier {
     )
         .then((_) {
       notifyListeners();
-      for (var snap in _snapsWithUpdates.skip(1)) {
+      for (var snap in snapsWithUpdate.skip(1)) {
         _snapService.refresh(
           snap: snap,
           message: doneMessage,
