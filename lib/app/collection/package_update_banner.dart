@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:software/app/collection/update_dialog.dart';
+import 'package:software/app/collection/package_update_dialog.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -45,7 +45,7 @@ class PackageUpdateBanner extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
       onTap: () => showDialog(
         context: context,
-        builder: (_) => UpdateDialog.create(
+        builder: (_) => PackageUpdateDialog.create(
           context: context,
           id: updateId,
           installedId: installedId,
