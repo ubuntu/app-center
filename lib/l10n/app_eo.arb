@@ -311,7 +311,7 @@
   "@publisher": {},
   "noSnapsInstalled": "Ekzistas neniuj Snap-programoj instalitaj sur via sistemo",
   "@noSnapsInstalled": {},
-  "dependenciesListing": "{length} dependaĵoj estas kuninstalotaj kune kun {packageName}",
+  "dependenciesListing": "{length} dependaĵoj de totala grando {size} estas kuninstalotaj kune kun {packageName}",
   "@dependenciesListing": {
     "placeholders": {
       "length": {
@@ -327,5 +327,31 @@
   "additionalInformation": "Pliaj informoj",
   "@additionalInformation": {},
   "links": "Ligoj",
-  "@links": {}
+  "@links": {},
+  "searchHintAppStore": "Serĉi programojn",
+  "@searchHintAppStore": {},
+  "searchHintInstalled": "Serĉi viajn instalitajn programojn",
+  "@searchHintInstalled": {},
+  "multiUpdateButton": "Ĝisdatigi ĉion",
+  "@multiUpdateButton": {},
+  "packagesUsed": "Uzataj pakoj",
+  "@packagesUsed": {},
+  "upgrading": "Ĝisdatigante",
+  "@upgrading": {},
+  "downloading": "Elŝutante",
+  "@downloading": {},
+  "ready": "Prete",
+  "@ready": {},
+  "downloadRemaining": "Elŝutante… {bytes} restas",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "contributors": "Kontribuintoj",
+  "@contributors": {},
+  "collection": "Kolekto",
+  "@collection": {}
 }
