@@ -94,10 +94,7 @@ class CollectionModel extends SafeChangeNotifier {
             .toList();
   }
 
-  List<Snap>? get installedSnapsWithUpdates => _snapService.snapsWithUpdate;
-
-  bool get snapUpdatesAvailable =>
-      installedSnapsWithUpdates?.isNotEmpty ?? false;
+  List<Snap> get snapsWithUpdate => _snapService.snapsWithUpdate;
 
   bool? _snapServiceIsBusy;
   bool? get snapServiceIsBusy => _snapServiceIsBusy;
@@ -107,12 +104,10 @@ class CollectionModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  List<Snap>? get _snapsWithUpdates => _snapService.snapsWithUpdate;
-
   Future<void> loadSnaps() async {
     checkingForSnapUpdates = true;
     _installedSnaps = null;
-    _snapsWithUpdates?.clear();
+    snapsWithUpdate.clear();
     await _snapService.loadLocalSnaps();
     await _snapService.loadSnapsWithUpdate();
     _installedSnaps = _snapService.localSnaps;
@@ -144,9 +139,9 @@ class CollectionModel extends SafeChangeNotifier {
     required String doneMessage,
   }) async {
     await _snapService.authorize();
-    if (_snapsWithUpdates?.isEmpty ?? true) return;
+    if (snapsWithUpdate.isEmpty) return;
 
-    final firstSnap = _snapsWithUpdates!.first;
+    final firstSnap = snapsWithUpdate.first;
     _snapService
         .refresh(
       snap: firstSnap,
@@ -156,7 +151,7 @@ class CollectionModel extends SafeChangeNotifier {
     )
         .then((_) {
       notifyListeners();
-      for (var snap in _snapsWithUpdates!.skip(1)) {
+      for (var snap in snapsWithUpdate.skip(1)) {
         _snapService.refresh(
           snap: snap,
           message: doneMessage,

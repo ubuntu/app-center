@@ -80,8 +80,8 @@ class CollectionPage extends StatelessWidget {
         context.select((CollectionModel m) => m.enabledAppFormats);
 
     final loadSnaps = context.select((CollectionModel m) => m.loadSnaps);
-    final snapUpdatesAvailable =
-        context.select((CollectionModel m) => m.snapUpdatesAvailable);
+    final snapsWithUpdate =
+        context.select((CollectionModel m) => m.snapsWithUpdate);
     final checkingForSnapUpdates =
         context.select((CollectionModel m) => m.checkingForSnapUpdates);
     final snapServiceIsBusy =
@@ -151,7 +151,8 @@ class CollectionPage extends StatelessWidget {
                         child: YaruCircularProgressIndicator(strokeWidth: 3),
                       ),
                     )
-                  else if (snapUpdatesAvailable && appFormat == AppFormat.snap)
+                  else if (snapsWithUpdate.isNotEmpty &&
+                      appFormat == AppFormat.snap)
                     ElevatedButton(
                       onPressed: snapServiceIsBusy == true
                           ? null
@@ -212,7 +213,7 @@ class _SnapList extends StatelessWidget {
     final installedSnaps =
         context.select((CollectionModel m) => m.installedSnaps);
     final snapUpdates =
-        context.select((CollectionModel m) => m.installedSnapsWithUpdates);
+        context.select((CollectionModel m) => m.snapsWithUpdate);
 
     final checkingForSnapUpdates =
         context.select((CollectionModel m) => m.checkingForSnapUpdates);
@@ -227,11 +228,7 @@ class _SnapList extends StatelessWidget {
 
     return ListView(
       children: [
-        if (snapUpdates == null)
-          const Center(
-            child: YaruCircularProgressIndicator(),
-          )
-        else if (snapUpdates.isNotEmpty)
+        if (snapUpdates.isNotEmpty)
           BorderContainer(
             padding: EdgeInsets.zero,
             margin: const EdgeInsets.only(
