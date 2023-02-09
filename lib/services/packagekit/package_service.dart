@@ -390,45 +390,21 @@ class PackageService {
     );
   }
 
-  Future<void> getInstalledPackagesForUpdates({
-    Set<PackageKitFilter> filters = const {
-      PackageKitFilter.installed,
-    },
-  }) async {
-    _installedPackagesForUpdates.clear();
-    final transaction = await _client.createTransaction();
-    final completer = Completer();
-    final subscription = transaction.events.listen((event) {
-      if (event is PackageKitPackageEvent) {
-        _installedPackagesForUpdates.putIfAbsent(
-          event.packageId.name,
-          () => event.packageId,
-        );
-      } else if (event is PackageKitErrorCodeEvent) {
-        setErrorMessage('${event.code}: ${event.details}');
-      } else if (event is PackageKitFinishedEvent) {
-        completer.complete();
-      }
-    });
-    await transaction.getPackages(
-      filter: filters,
-    );
-    await completer.future;
-    await subscription.cancel();
-    setInstalledPackagesChanged(true);
-  }
-
   Future<void> getInstalledPackages({
     Set<PackageKitFilter> filters = const {
       PackageKitFilter.installed,
     },
+    bool? forUpdates,
   }) async {
-    _installedPackages.clear();
+    final list =
+        forUpdates == true ? _installedPackagesForUpdates : _installedPackages;
+
+    list.clear();
     final transaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
-        _installedPackages.putIfAbsent(
+        list.putIfAbsent(
           event.packageId.name,
           () => event.packageId,
         );
