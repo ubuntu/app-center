@@ -241,36 +241,31 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
               bottom: _isExpanded ? 10 : kYaruPagePadding,
               right: kYaruPagePadding,
             ),
-            child: _isExpanded
-                ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      YaruCheckbox(
-                        value: model.allSelected
-                            ? true
-                            : model.nothingSelected
-                                ? false
-                                : null,
-                        tristate: true,
-                        onChanged: (v) =>
-                            v != null ? model.selectAll() : model.deselectAll(),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Text(
-                          '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
-                          style: Theme.of(context).textTheme.titleLarge,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      )
-                    ],
-                  )
-                : Text(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                YaruCheckbox(
+                  value: model.allSelected
+                      ? true
+                      : model.nothingSelected
+                          ? false
+                          : null,
+                  tristate: true,
+                  onChanged: (v) =>
+                      v != null ? model.selectAll() : model.deselectAll(),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Text(
                     '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
                     style: Theme.of(context).textTheme.titleLarge,
+                    overflow: TextOverflow.ellipsis,
                   ),
+                )
+              ],
+            ),
           ),
         ),
         child: ListView.builder(
