@@ -252,6 +252,29 @@ enum SnapSection {
         ];
     }
   }
+
+  IconData getIcon(bool selected) {
+    switch (this) {
+      case SnapSection.all:
+        return selected ? YaruIcons.compass_filled : YaruIcons.compass;
+      case SnapSection.development:
+        return YaruIcons.wrench;
+      case SnapSection.games:
+        return selected ? YaruIcons.games_filled : YaruIcons.games;
+      case SnapSection.art_and_design:
+        return selected
+            ? YaruIcons.rule_and_pen_filled
+            : YaruIcons.rule_and_pen;
+      case SnapSection.devices_and_iot:
+        return selected ? YaruIcons.chip_filled : YaruIcons.chip;
+      case SnapSection.server_and_cloud:
+        return selected ? YaruIcons.cloud_filled : YaruIcons.cloud;
+      case SnapSection.productivity:
+        return selected ? YaruIcons.send_filled : YaruIcons.send;
+      default:
+        return selected ? YaruIcons.compass_filled : YaruIcons.compass;
+    }
+  }
 }
 
 Map<SnapSection, IconData> snapSectionToIcon = {
