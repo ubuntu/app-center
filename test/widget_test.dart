@@ -6,6 +6,7 @@ import 'package:gtk_application/gtk_application.dart';
 import 'package:launcher_entry/launcher_entry.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:software/app/app.dart';
+import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/packagekit/updates_state.dart';
@@ -59,7 +60,8 @@ void main() {
     when(snapServiceMock.init).thenAnswer((_) async {});
 
     when(() => snapServiceMock.sectionNameToSnapsMap).thenReturn({});
-    final snapSectionsChangedController = StreamController<bool>.broadcast();
+    final snapSectionsChangedController =
+        StreamController<SnapSection>.broadcast();
     when(() => snapServiceMock.sectionsChanged)
         .thenAnswer((_) => snapSectionsChangedController.stream);
 

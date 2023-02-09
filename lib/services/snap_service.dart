@@ -287,8 +287,8 @@ class SnapService {
   Future<SnapdChange?> getSnapChanges({required String name}) async =>
       (await _snapDClient.getChanges(name: name)).firstOrNull;
 
-  final _sectionsChangedController = StreamController<bool>.broadcast();
-  Stream<bool> get sectionsChanged => _sectionsChangedController.stream;
+  final _sectionsChangedController = StreamController<SnapSection>.broadcast();
+  Stream<SnapSection> get sectionsChanged => _sectionsChangedController.stream;
 
   final Map<SnapSection, List<Snap>> _sectionNameToSnapsMap = {};
   Map<SnapSection, List<Snap>> get sectionNameToSnapsMap =>
@@ -303,7 +303,7 @@ class SnapService {
       sectionList.add(snap);
     }
     _sectionNameToSnapsMap.putIfAbsent(section, () => sectionList);
-    _sectionsChangedController.add(true);
+    _sectionsChangedController.add(section);
   }
 
   final List<Snap> _snapsWithUpdate = [];
