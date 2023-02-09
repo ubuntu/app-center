@@ -289,9 +289,7 @@ class _SnapList extends StatelessWidget {
                 ),
               ),
             if (installedSnaps == null)
-              const Center(
-                child: YaruCircularProgressIndicator(),
-              )
+              const SizedBox.shrink()
             else if (installedSnaps.isNotEmpty)
               BorderContainer(
                 padding: EdgeInsets.zero,

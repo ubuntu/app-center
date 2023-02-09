@@ -93,9 +93,11 @@ class SimpleSnapControls extends StatelessWidget {
                       : null,
                   child: Text(
                     context.l10n.updateButton,
-                    style: TextStyle(
-                      color: light ? kGreenLight : kGreenDark,
-                    ),
+                    style: enabled
+                        ? TextStyle(
+                            color: light ? kGreenLight : kGreenDark,
+                          )
+                        : null,
                   ),
                 ),
               if (model.snap.type == 'app' &&
