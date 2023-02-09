@@ -137,13 +137,16 @@ class _UpdatingPageState extends State<_UpdatingPage> {
     ];
 
     return Center(
-      child: ListView(
-        children: [
-          for (final child in children)
-            Center(
-              child: child,
-            )
-        ],
+      child: SizedBox(
+        width: 500,
+        child: Column(
+          children: [
+            for (final child in children)
+              Center(
+                child: child,
+              )
+          ],
+        ),
       ),
     );
   }
@@ -269,8 +272,11 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                   ),
           ),
         ),
-        child: Column(
-          children: List.generate(model.updates.length, (index) {
+        child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: model.updates.length,
+          itemBuilder: (context, index) {
             final update = model.getUpdate(index);
             return SizedBox(
               height: 70,
@@ -284,7 +290,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                     : (v) => model.selectUpdate(update, v!),
               ),
             );
-          }),
+          },
         ),
       ),
     );

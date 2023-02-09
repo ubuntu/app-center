@@ -77,13 +77,18 @@ class PackageService {
   final Map<String, PackageKitPackageId> _installedPackages = {};
   List<PackageKitPackageId> get installedPackages =>
       _installedPackages.entries.map((e) => e.value).toList();
-  PackageKitPackageId? getInstalledId(String name) => _installedPackages[name];
   final _installedPackagesController = StreamController<bool>.broadcast();
   Stream<bool> get installedPackagesChanged =>
       _installedPackagesController.stream;
   void setInstalledPackagesChanged(bool value) {
     _installedPackagesController.add(value);
   }
+
+  final Map<String, PackageKitPackageId> _installedPackagesForUpdates = {};
+  List<PackageKitPackageId> get installedPackagesForUpdates =>
+      _installedPackagesForUpdates.entries.map((e) => e.value).toList();
+  PackageKitPackageId? getInstalledId(String name) =>
+      _installedPackagesForUpdates[name];
 
   final Map<PackageKitPackageId, PackageKitGroup> _idsToGroups = {};
   final _groupsController = StreamController<bool>.broadcast();
@@ -389,13 +394,17 @@ class PackageService {
     Set<PackageKitFilter> filters = const {
       PackageKitFilter.installed,
     },
+    bool? forUpdates,
   }) async {
-    _installedPackages.clear();
+    final list =
+        forUpdates == true ? _installedPackagesForUpdates : _installedPackages;
+
+    list.clear();
     final transaction = await _client.createTransaction();
     final completer = Completer();
     final subscription = transaction.events.listen((event) {
       if (event is PackageKitPackageEvent) {
-        _installedPackages.putIfAbsent(
+        list.putIfAbsent(
           event.packageId.name,
           () => event.packageId,
         );

@@ -96,7 +96,7 @@ class PackageUpdatesModel extends SafeChangeNotifier {
       notifyListeners();
     });
 
-    _service.getInstalledPackages();
+    _service.getInstalledPackages(forUpdates: true);
     if (loadRepoList == true) {
       _service.loadRepoList();
     }
