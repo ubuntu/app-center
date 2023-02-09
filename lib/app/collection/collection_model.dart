@@ -26,8 +26,6 @@ class CollectionModel extends SafeChangeNotifier {
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
       if (_snapService.snapChanges.isEmpty) {
         await loadSnaps();
-      } else {
-        snapServiceIsBusy = true;
       }
     });
     _enabledAppFormats.add(AppFormat.snap);
@@ -82,8 +80,6 @@ class CollectionModel extends SafeChangeNotifier {
 
   List<Snap>? _installedSnaps;
   List<Snap>? get installedSnaps {
-    _installedSnaps = _snapService.localSnaps;
-
     if (_installedSnaps != null) {
       sortSnaps(snapSort: snapSort, snaps: _installedSnaps!);
     }
@@ -97,22 +93,18 @@ class CollectionModel extends SafeChangeNotifier {
 
   List<Snap> get snapsWithUpdate => _snapService.snapsWithUpdate;
 
-  bool? _snapServiceIsBusy;
-  bool? get snapServiceIsBusy => _snapServiceIsBusy;
-  set snapServiceIsBusy(bool? value) {
-    if (value == null || value == _snapServiceIsBusy) return;
-    _snapServiceIsBusy = value;
-    notifyListeners();
-  }
-
   Future<void> loadSnaps() async {
     checkingForSnapUpdates = true;
     await _snapService.loadLocalSnaps();
     await _snapService.loadSnapsWithUpdate();
     _installedSnaps = _snapService.localSnaps;
-    for (var snap in _snapService.localSnaps) {
-      if (_snapService.snapsWithUpdate.contains(snap)) {
-        _installedSnaps?.remove(snap);
+    for (var update in snapsWithUpdate) {
+      for (var snap in _installedSnaps!) {
+        if (update.name == snap.name) {
+          _installedSnaps!.remove(snap);
+          notifyListeners();
+          break;
+        }
       }
     }
     checkingForSnapUpdates = false;
