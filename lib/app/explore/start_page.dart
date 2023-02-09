@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_banner.dart';
+import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_section.dart';
@@ -30,11 +31,11 @@ import 'package:yaru_colors/yaru_colors.dart';
 class StartPage extends StatefulWidget {
   const StartPage({
     super.key,
-    this.snaps,
+    this.apps,
     required this.snapSection,
   });
 
-  final List<Snap>? snaps;
+  final List<AppFinding>? apps;
   final SnapSection snapSection;
 
   @override
@@ -70,7 +71,7 @@ class _StartPageState extends State<StartPage> {
         children: [
           _TeaserPage(
             snapSection: widget.snapSection,
-            snaps: widget.snaps,
+            apps: widget.apps,
           ),
         ],
       ),
@@ -81,24 +82,24 @@ class _StartPageState extends State<StartPage> {
 class _TeaserPage extends StatelessWidget {
   const _TeaserPage({
     required this.snapSection,
-    this.snaps,
+    this.apps,
   });
 
   final SnapSection snapSection;
-  final List<Snap>? snaps;
+  final List<AppFinding>? apps;
 
   @override
   Widget build(BuildContext context) {
-    final snapsWithIcons =
-        snaps?.where((snap) => snap.iconUrl != null).toList();
+    final appsWithIcons =
+        apps?.where((app) => app.snap?.iconUrl != null).toList();
     Snap? bannerSnap;
     Snap? bannerSnap2;
     Snap? bannerSnap3;
 
-    if (snapsWithIcons != null && snapsWithIcons.isNotEmpty) {
-      bannerSnap = snapsWithIcons.elementAt(0);
-      bannerSnap2 = snapsWithIcons.elementAt(1);
-      bannerSnap3 = snapsWithIcons.elementAt(2);
+    if (appsWithIcons != null && appsWithIcons.isNotEmpty) {
+      bannerSnap = appsWithIcons.elementAt(0).snap;
+      bannerSnap2 = appsWithIcons.elementAt(1).snap;
+      bannerSnap3 = appsWithIcons.elementAt(2).snap;
     }
     if (bannerSnap == null || bannerSnap2 == null || bannerSnap3 == null) {
       return Column(
@@ -123,14 +124,15 @@ class _TeaserPage extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: kImageGridDelegate,
                 children: [
-                  for (final snap
-                      in snaps?.where((s) => s.bannerUrl != null).toList() ??
-                          <Snap>[])
-                    AppImageBanner(snap: snap),
+                  for (final app in apps
+                          ?.where((a) => a.snap!.bannerUrl != null)
+                          .toList() ??
+                      <AppFinding>[])
+                    AppImageBanner(snap: app.snap!),
                 ],
               )
             : SectionGrid(
-                snaps: snaps ?? [],
+                apps: apps ?? [],
                 take: 20,
                 skip: 3,
               ),

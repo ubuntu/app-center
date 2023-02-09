@@ -40,13 +40,22 @@ class ExploreModel extends SafeChangeNotifier {
     _selectedAppFormats.add(AppFormat.snap);
     _sectionsChangedSub = _snapService.sectionsChanged.listen(
       (section) {
+        _loadStartPageSnaps(section);
         notifyListeners();
       },
     );
 
     await _packageService.initialized;
     if (_packageService.isAvailable) {
-      _appstreamService.init().then((_) {
+      _appstreamService
+          .init()
+          .then(
+            (_) => Future.forEach<SnapSection>(
+              startPageApps.keys,
+              _loadStartPageAppstreamComponents,
+            ),
+          )
+          .then((_) {
         _enabledAppFormats.add(AppFormat.packageKit);
         _selectedAppFormats.add(AppFormat.packageKit);
         notifyListeners();
@@ -96,8 +105,8 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Map<SnapSection, List<Snap>> get sectionNameToSnapsMap =>
-      _snapService.sectionNameToSnapsMap;
+  final startPageApps = <SnapSection, List<AppFinding>>{};
+  var startPageAppsChanged = 0;
 
   final Set<AppFormat> _selectedAppFormats = {};
   Set<AppFormat> get selectedAppFormats => Set.from(_selectedAppFormats);
@@ -137,6 +146,40 @@ class ExploreModel extends SafeChangeNotifier {
   Map<String, AppFinding>? get searchResult => _searchResult;
   set searchResult(Map<String, AppFinding>? value) {
     _searchResult = value;
+    notifyListeners();
+  }
+
+  void _loadStartPageSnaps(SnapSection section) {
+    if (!_snapService.sectionNameToSnapsMap.containsKey(section)) return;
+    startPageApps[section] = _snapService.sectionNameToSnapsMap[section]!
+        .map((s) => AppFinding(snap: s))
+        .toList();
+    startPageAppsChanged++;
+  }
+
+  Future<AppstreamComponent?> _getAppstreamComponentFromSnap(Snap snap) =>
+      _findAppstreamComponents(snap.name).then(
+        (components) =>
+            components.firstWhereOrNull((e) => e.package == snap.name),
+      );
+
+  Future<void> _loadStartPageAppstreamComponents(
+    SnapSection section,
+  ) async {
+    if (!startPageApps.containsKey(section)) return;
+    for (var i = 0; i < startPageApps[section]!.length; i++) {
+      final appstreamComponent = await _getAppstreamComponentFromSnap(
+        startPageApps[section]![i].snap!,
+      );
+      await Future.delayed(const Duration(milliseconds: 2));
+      if (appstreamComponent != null) {
+        startPageApps[section]![i] = AppFinding(
+          snap: startPageApps[section]![i].snap,
+          appstream: appstreamComponent,
+        );
+      }
+    }
+    startPageAppsChanged++;
     notifyListeners();
   }
 

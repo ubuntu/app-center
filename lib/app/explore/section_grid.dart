@@ -16,7 +16,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_banner.dart';
 import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/constants.dart';
@@ -24,7 +23,7 @@ import 'package:software/app/common/constants.dart';
 class SectionGrid extends StatelessWidget {
   const SectionGrid({
     super.key,
-    required this.snaps,
+    required this.apps,
     this.animateBanners = false,
     this.padding,
     this.initSection = true,
@@ -33,7 +32,7 @@ class SectionGrid extends StatelessWidget {
     this.skip = 0,
   });
 
-  final List<Snap> snaps;
+  final List<AppFinding> apps;
   final int take;
   final int skip;
   final bool animateBanners;
@@ -43,9 +42,9 @@ class SectionGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (snaps.isEmpty) return const SizedBox();
+    if (apps.isEmpty) return const SizedBox();
 
-    final snapsMod = snaps.take(take).toList().skip(skip);
+    final appsMod = apps.take(take).toList().skip(skip);
 
     return GridView.builder(
       physics: ignoreScrolling ? const NeverScrollableScrollPhysics() : null,
@@ -57,17 +56,17 @@ class SectionGrid extends StatelessWidget {
           ),
       shrinkWrap: true,
       gridDelegate: kGridDelegate,
-      itemCount: snapsMod.length,
+      itemCount: appsMod.length,
       itemBuilder: (context, index) {
-        final snap = snapsMod.elementAt(index);
+        final app = appsMod.elementAt(index);
 
         return AppBanner(
           appFinding: MapEntry<String, AppFinding>(
-            snap.name,
-            AppFinding(snap: snap),
+            app.snap!.name,
+            app,
           ),
           showSnap: true,
-          showPackageKit: false,
+          showPackageKit: true,
         );
       },
     );

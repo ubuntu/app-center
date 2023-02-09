@@ -91,9 +91,8 @@ class _ExplorePageState extends State<ExplorePage> {
     final showSearchPage = context.select((ExploreModel m) => m.showSearchPage);
     final searchQuery = context.select((ExploreModel m) => m.searchQuery);
     final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
-    final snaps = context.select((ExploreModel m) {
-      return m.sectionNameToSnapsMap[widget.section];
-    });
+    final startPageApps = context.read<ExploreModel>().startPageApps;
+    context.select((ExploreModel m) => m.startPageAppsChanged);
     final selectedAppFormats =
         context.select((ExploreModel m) => m.selectedAppFormats);
     final enabledAppFormats =
@@ -154,7 +153,7 @@ class _ExplorePageState extends State<ExplorePage> {
                       ),
                     )
                   : StartPage(
-                      snaps: snaps,
+                      apps: startPageApps[widget.section],
                       snapSection: widget.section,
                     )),
     );
