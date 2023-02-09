@@ -291,6 +291,7 @@ class _SnapList extends StatelessWidget {
                   bottom: kYaruPagePadding,
                 ),
                 child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: installedSnaps.length,
                   shrinkWrap: true,
                   itemBuilder: (context, i) {
