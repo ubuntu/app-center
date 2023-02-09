@@ -471,9 +471,11 @@ class _PackageTile extends StatelessWidget {
     return ListTile(
       shape: shape,
       key: ValueKey(id),
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: kYaruPagePadding,
-        vertical: 10,
+      contentPadding: const EdgeInsets.only(
+        left: kYaruPagePadding,
+        top: 10,
+        bottom: 10,
+        right: 10,
       ),
       onTap: () => PackagePage.push(context, id: id),
       leading: const AppIcon(
