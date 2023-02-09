@@ -229,15 +229,16 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
       ),
       padding: EdgeInsets.zero,
       child: YaruExpandable(
+        expandIconPadding: const EdgeInsets.only(right: 10),
         isExpanded: _isExpanded,
         onChange: (isExpanded) => setState(() => _isExpanded = isExpanded),
         header: MouseRegion(
           cursor: SystemMouseCursors.click,
           child: Padding(
-            padding: const EdgeInsets.only(
+            padding: EdgeInsets.only(
               top: kYaruPagePadding,
               left: kYaruPagePadding - 3,
-              bottom: kYaruPagePadding,
+              bottom: _isExpanded ? 10 : kYaruPagePadding,
               right: kYaruPagePadding,
             ),
             child: _isExpanded

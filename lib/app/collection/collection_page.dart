@@ -150,36 +150,35 @@ class CollectionPage extends StatelessWidget {
                         : () => checkForPackageUpdates(),
                     child: Text(context.l10n.refreshButton),
                   ),
-                if (checkingForSnapUpdates == true || checkingForPackageUpdates)
-                  const SizedBox(
-                    height: 25,
-                    width: 25,
-                    child: Center(
-                      child: YaruCircularProgressIndicator(strokeWidth: 3),
+                if (appFormat == AppFormat.snap)
+                  if (checkingForSnapUpdates == true)
+                    const _ProgressIndicator()
+                  else if (snapsWithUpdate.isNotEmpty)
+                    ElevatedButton(
+                      onPressed: snapServiceIsBusy == true
+                          ? null
+                          : () => refreshAllSnapsWithUpdates(
+                                doneMessage: context.l10n.done,
+                              ),
+                      child: Text(
+                        '${context.l10n.updateButton} (${snapsWithUpdate.length})',
+                      ),
                     ),
-                  )
-                else if (snapsWithUpdate.isNotEmpty &&
-                    appFormat == AppFormat.snap)
-                  ElevatedButton(
-                    onPressed: snapServiceIsBusy == true
-                        ? null
-                        : () => refreshAllSnapsWithUpdates(
-                              doneMessage: context.l10n.done,
-                            ),
-                    child: Text(context.l10n.multiUpdateButton),
-                  ),
-                if (appFormat == AppFormat.packageKit &&
-                    !checkingForPackageUpdates)
-                  ElevatedButton(
-                    onPressed: checkingForPackageUpdates ||
-                            selectedUpdatesLength == 0
-                        ? null
-                        : () => updateAllPackages(
-                              updatesComplete: context.l10n.updatesComplete,
-                              updatesAvailable: context.l10n.updateAvailable,
-                            ),
-                    child: Text(context.l10n.multiUpdateButton),
-                  ),
+                if (appFormat == AppFormat.packageKit)
+                  if (checkingForPackageUpdates)
+                    const _ProgressIndicator()
+                  else
+                    ElevatedButton(
+                      onPressed: selectedUpdatesLength == 0
+                          ? null
+                          : () => updateAllPackages(
+                                updatesComplete: context.l10n.updatesComplete,
+                                updatesAvailable: context.l10n.updateAvailable,
+                              ),
+                      child: Text(
+                        '${context.l10n.updateButton} ($selectedUpdatesLength)',
+                      ),
+                    ),
               ],
             ),
           ),
@@ -210,6 +209,21 @@ class CollectionPage extends StatelessWidget {
         ),
       ),
       body: content,
+    );
+  }
+}
+
+class _ProgressIndicator extends StatelessWidget {
+  const _ProgressIndicator();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 25,
+      width: 25,
+      child: Center(
+        child: YaruCircularProgressIndicator(strokeWidth: 3),
+      ),
     );
   }
 }
@@ -491,6 +505,7 @@ class _CollectionIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const icon = Icon(YaruIcons.app_grid);
     final theme = Theme.of(context);
     if (processing && count > 0) {
       return badges.Badge(
@@ -513,10 +528,10 @@ class _CollectionIcon extends StatelessWidget {
           count.toString(),
           style: badgeTextStyle,
         ),
-        child: const Icon(YaruIcons.unordered_list),
+        child: icon,
       );
     }
-    return const Icon(YaruIcons.unordered_list);
+    return icon;
   }
 }
 
