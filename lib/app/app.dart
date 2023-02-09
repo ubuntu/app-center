@@ -183,59 +183,11 @@ class __AppState extends State<_App> {
     final setSelectedIndex = context.select((AppModel m) => m.setSelectedIndex);
 
     final pageItems = [
-      PageItem(
-        titleBuilder: (context) =>
-            ExplorePage.createTitle(context, SnapSection.all),
-        builder: (context) => const ExplorePage(section: SnapSection.all),
-        iconBuilder: (context, selected) => ExplorePage.createIcon(
-          context: context,
-          selected: selected,
-          snapSection: SnapSection.all,
-        ),
-      ),
-      PageItem(
-        titleBuilder: (context) =>
-            ExplorePage.createTitle(context, SnapSection.productivity),
-        builder: (context) =>
-            const ExplorePage(section: SnapSection.productivity),
-        iconBuilder: (context, selected) => ExplorePage.createIcon(
-          context: context,
-          selected: selected,
-          snapSection: SnapSection.productivity,
-        ),
-      ),
-      PageItem(
-        titleBuilder: (context) =>
-            ExplorePage.createTitle(context, SnapSection.development),
-        builder: (context) =>
-            const ExplorePage(section: SnapSection.development),
-        iconBuilder: (context, selected) => ExplorePage.createIcon(
-          context: context,
-          selected: selected,
-          snapSection: SnapSection.development,
-        ),
-      ),
-      PageItem(
-        titleBuilder: (context) =>
-            ExplorePage.createTitle(context, SnapSection.games),
-        builder: (context) => const ExplorePage(section: SnapSection.games),
-        iconBuilder: (context, selected) => ExplorePage.createIcon(
-          context: context,
-          selected: selected,
-          snapSection: SnapSection.games,
-        ),
-      ),
-      PageItem(
-        titleBuilder: (context) =>
-            ExplorePage.createTitle(context, SnapSection.art_and_design),
-        builder: (context) =>
-            const ExplorePage(section: SnapSection.art_and_design),
-        iconBuilder: (context, selected) => ExplorePage.createIcon(
-          context: context,
-          selected: selected,
-          snapSection: SnapSection.art_and_design,
-        ),
-      ),
+      _createExplorePageItem(SnapSection.all),
+      _createExplorePageItem(SnapSection.productivity),
+      _createExplorePageItem(SnapSection.development),
+      _createExplorePageItem(SnapSection.games),
+      _createExplorePageItem(SnapSection.art_and_design),
       PageItem(
         titleBuilder: CollectionPage.createTitle,
         builder: (context) => CollectionPage.create(context),
@@ -308,4 +260,15 @@ class __AppState extends State<_App> {
           )
         : const StoreSplashScreen();
   }
+
+  PageItem _createExplorePageItem(SnapSection snapSection) => PageItem(
+        titleBuilder: (context) =>
+            ExplorePage.createTitle(context, snapSection),
+        builder: (context) => ExplorePage(section: snapSection),
+        iconBuilder: (context, selected) => ExplorePage.createIcon(
+          context: context,
+          selected: selected,
+          snapSection: snapSection,
+        ),
+      );
 }
