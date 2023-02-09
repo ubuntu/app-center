@@ -85,8 +85,6 @@ class CollectionPage extends StatelessWidget {
         context.select((CollectionModel m) => m.snapsWithUpdate);
     final checkingForSnapUpdates =
         context.select((CollectionModel m) => m.checkingForSnapUpdates);
-    final snapServiceIsBusy =
-        context.select((CollectionModel m) => m.snapServiceIsBusy);
     final refreshAllSnapsWithUpdates =
         context.select((CollectionModel m) => m.refreshAllSnapsWithUpdates);
     final snapSort = context.select((CollectionModel m) => m.snapSort);
@@ -107,6 +105,54 @@ class CollectionPage extends StatelessWidget {
     final selectedUpdatesLength =
         context.select((PackageUpdatesModel m) => m.selectedUpdatesLength);
 
+    final snapChildren = [
+      SnapSortPopup(
+        value: snapSort,
+        onSelected: (value) => setSnapSort(value),
+      ),
+      OutlinedButton(
+        onPressed: checkingForSnapUpdates == true ? null : () => loadSnaps(),
+        child: Text(context.l10n.refreshButton),
+      ),
+      if (checkingForSnapUpdates == true)
+        const _ProgressIndicator()
+      else if (snapsWithUpdate.isNotEmpty)
+        ElevatedButton(
+          onPressed: () => refreshAllSnapsWithUpdates(
+            doneMessage: context.l10n.done,
+          ),
+          child: Text(
+            '${context.l10n.updateButton} (${snapsWithUpdate.length})',
+          ),
+        ),
+    ];
+
+    final packageKitChildren = [
+      PackageKitFilterButton(
+        onTap: handleFilter,
+        filters: packageKitFilters,
+      ),
+      OutlinedButton(
+        onPressed:
+            checkingForPackageUpdates ? null : () => checkForPackageUpdates(),
+        child: Text(context.l10n.refreshButton),
+      ),
+      if (checkingForPackageUpdates)
+        const _ProgressIndicator()
+      else
+        ElevatedButton(
+          onPressed: selectedUpdatesLength == 0
+              ? null
+              : () => updateAllPackages(
+                    updatesComplete: context.l10n.updatesComplete,
+                    updatesAvailable: context.l10n.updateAvailable,
+                  ),
+          child: Text(
+            '${context.l10n.updateButton} ($selectedUpdatesLength)',
+          ),
+        ),
+    ];
+
     final content = Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,59 +172,9 @@ class CollectionPage extends StatelessWidget {
                   enabledAppFormats: enabledAppFormats,
                 ),
                 if (appFormat == AppFormat.snap)
-                  SnapSortPopup(
-                    value: snapSort,
-                    onSelected: (value) => setSnapSort(value),
-                  )
+                  ...snapChildren
                 else
-                  PackageKitFilterButton(
-                    onTap: handleFilter,
-                    filters: packageKitFilters,
-                  ),
-                if (appFormat == AppFormat.snap)
-                  OutlinedButton(
-                    onPressed: checkingForSnapUpdates == true ||
-                            snapServiceIsBusy == true
-                        ? null
-                        : () => loadSnaps(),
-                    child: Text(context.l10n.refreshButton),
-                  ),
-                if (appFormat == AppFormat.packageKit)
-                  OutlinedButton(
-                    onPressed: checkingForPackageUpdates
-                        ? null
-                        : () => checkForPackageUpdates(),
-                    child: Text(context.l10n.refreshButton),
-                  ),
-                if (appFormat == AppFormat.snap)
-                  if (checkingForSnapUpdates == true)
-                    const _ProgressIndicator()
-                  else if (snapsWithUpdate.isNotEmpty)
-                    ElevatedButton(
-                      onPressed: snapServiceIsBusy == true
-                          ? null
-                          : () => refreshAllSnapsWithUpdates(
-                                doneMessage: context.l10n.done,
-                              ),
-                      child: Text(
-                        '${context.l10n.updateButton} (${snapsWithUpdate.length})',
-                      ),
-                    ),
-                if (appFormat == AppFormat.packageKit)
-                  if (checkingForPackageUpdates)
-                    const _ProgressIndicator()
-                  else
-                    ElevatedButton(
-                      onPressed: selectedUpdatesLength == 0
-                          ? null
-                          : () => updateAllPackages(
-                                updatesComplete: context.l10n.updatesComplete,
-                                updatesAvailable: context.l10n.updateAvailable,
-                              ),
-                      child: Text(
-                        '${context.l10n.updateButton} ($selectedUpdatesLength)',
-                      ),
-                    ),
+                  ...packageKitChildren
               ],
             ),
           ),
@@ -186,7 +182,7 @@ class CollectionPage extends StatelessWidget {
             const Expanded(
               child: _SnapList(),
             )
-          else if (appFormat == AppFormat.packageKit)
+          else
             Expanded(
               child: SingleChildScrollView(
                 child: Center(

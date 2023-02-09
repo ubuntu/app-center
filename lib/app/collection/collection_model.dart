@@ -27,7 +27,7 @@ class CollectionModel extends SafeChangeNotifier {
       if (_snapService.snapChanges.isEmpty) {
         await loadSnaps();
       } else {
-        snapServiceIsBusy = true;
+        checkingForSnapUpdates = true;
       }
     });
     _enabledAppFormats.add(AppFormat.snap);
@@ -96,14 +96,6 @@ class CollectionModel extends SafeChangeNotifier {
   }
 
   List<Snap> get snapsWithUpdate => _snapService.snapsWithUpdate;
-
-  bool? _snapServiceIsBusy;
-  bool? get snapServiceIsBusy => _snapServiceIsBusy;
-  set snapServiceIsBusy(bool? value) {
-    if (value == null || value == _snapServiceIsBusy) return;
-    _snapServiceIsBusy = value;
-    notifyListeners();
-  }
 
   Future<void> loadSnaps() async {
     checkingForSnapUpdates = true;
