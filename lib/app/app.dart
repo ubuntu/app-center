@@ -163,7 +163,7 @@ class __AppState extends State<_App> {
           .firstOrNull
           ?.substring(7);
       if (debPath != null || snapName != null) {
-        _initialIndex = 7;
+        _initialIndex = 6;
       }
     });
   }
@@ -191,6 +191,17 @@ class __AppState extends State<_App> {
           context: context,
           selected: selected,
           snapSection: SnapSection.all,
+        ),
+      ),
+      PageItem(
+        titleBuilder: (context) =>
+            ExplorePage.createTitle(context, SnapSection.productivity),
+        builder: (context) =>
+            const ExplorePage(section: SnapSection.productivity),
+        iconBuilder: (context, selected) => ExplorePage.createIcon(
+          context: context,
+          selected: selected,
+          snapSection: SnapSection.productivity,
         ),
       ),
       PageItem(
@@ -223,28 +234,6 @@ class __AppState extends State<_App> {
           context: context,
           selected: selected,
           snapSection: SnapSection.art_and_design,
-        ),
-      ),
-      PageItem(
-        titleBuilder: (context) =>
-            ExplorePage.createTitle(context, SnapSection.devices_and_iot),
-        builder: (context) =>
-            const ExplorePage(section: SnapSection.devices_and_iot),
-        iconBuilder: (context, selected) => ExplorePage.createIcon(
-          context: context,
-          selected: selected,
-          snapSection: SnapSection.devices_and_iot,
-        ),
-      ),
-      PageItem(
-        titleBuilder: (context) =>
-            ExplorePage.createTitle(context, SnapSection.server_and_cloud),
-        builder: (context) =>
-            const ExplorePage(section: SnapSection.server_and_cloud),
-        iconBuilder: (context, selected) => ExplorePage.createIcon(
-          context: context,
-          selected: selected,
-          snapSection: SnapSection.server_and_cloud,
         ),
       ),
       PageItem(

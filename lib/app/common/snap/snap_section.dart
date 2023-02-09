@@ -269,6 +269,8 @@ enum SnapSection {
         return selected ? YaruIcons.chip_filled : YaruIcons.chip;
       case SnapSection.server_and_cloud:
         return selected ? YaruIcons.cloud_filled : YaruIcons.cloud;
+      case SnapSection.productivity:
+        return selected ? YaruIcons.clock_filled : YaruIcons.clock;
       default:
         return selected ? YaruIcons.compass_filled : YaruIcons.compass;
     }
