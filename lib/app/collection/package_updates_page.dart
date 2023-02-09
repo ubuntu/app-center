@@ -235,10 +235,10 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
         header: MouseRegion(
           cursor: SystemMouseCursors.click,
           child: Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               top: kYaruPagePadding,
               left: kYaruPagePadding - 3,
-              bottom: _isExpanded ? 10 : kYaruPagePadding,
+              bottom: 20,
               right: kYaruPagePadding,
             ),
             child: Row(
@@ -268,25 +268,42 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
             ),
           ),
         ),
-        child: ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: model.updates.length,
-          itemBuilder: (context, index) {
-            final update = model.getUpdate(index);
-            return SizedBox(
-              height: 70,
-              child: PackageUpdateBanner(
-                group: model.getGroup(update),
-                selected: model.isUpdateSelected(update),
-                updateId: update,
-                installedId: model.getInstalledId(update.name) ?? update,
-                onChanged: model.updatesState == UpdatesState.checkingForUpdates
-                    ? null
-                    : (v) => model.selectUpdate(update, v!),
-              ),
-            );
-          },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Divider(
+              thickness: 0.0,
+              height: 0,
+            ),
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: model.updates.length,
+              itemBuilder: (context, index) {
+                final update = model.getUpdate(index);
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    PackageUpdateBanner(
+                      group: model.getGroup(update),
+                      selected: model.isUpdateSelected(update),
+                      updateId: update,
+                      installedId: model.getInstalledId(update.name) ?? update,
+                      onChanged:
+                          model.updatesState == UpdatesState.checkingForUpdates
+                              ? null
+                              : (v) => model.selectUpdate(update, v!),
+                    ),
+                    if (index != model.updates.length - 1)
+                      const Divider(
+                        thickness: 0.0,
+                        height: 0,
+                      )
+                  ],
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
