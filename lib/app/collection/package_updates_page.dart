@@ -229,6 +229,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
       ),
       padding: EdgeInsets.zero,
       child: YaruExpandable(
+        expandIconPadding: const EdgeInsets.only(right: 10),
         isExpanded: _isExpanded,
         onChange: (isExpanded) => setState(() => _isExpanded = isExpanded),
         header: MouseRegion(
@@ -237,60 +238,72 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
             padding: const EdgeInsets.only(
               top: kYaruPagePadding,
               left: kYaruPagePadding - 3,
-              bottom: kYaruPagePadding,
+              bottom: 20,
               right: kYaruPagePadding,
             ),
-            child: _isExpanded
-                ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      YaruCheckbox(
-                        value: model.allSelected
-                            ? true
-                            : model.nothingSelected
-                                ? false
-                                : null,
-                        tristate: true,
-                        onChanged: (v) =>
-                            v != null ? model.selectAll() : model.deselectAll(),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Text(
-                          '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
-                          style: Theme.of(context).textTheme.titleLarge,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      )
-                    ],
-                  )
-                : Text(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                YaruCheckbox(
+                  value: model.allSelected
+                      ? true
+                      : model.nothingSelected
+                          ? false
+                          : null,
+                  tristate: true,
+                  onChanged: (v) =>
+                      v != null ? model.selectAll() : model.deselectAll(),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Text(
                     '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
                     style: Theme.of(context).textTheme.titleLarge,
+                    overflow: TextOverflow.ellipsis,
                   ),
+                )
+              ],
+            ),
           ),
         ),
-        child: ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: model.updates.length,
-          itemBuilder: (context, index) {
-            final update = model.getUpdate(index);
-            return SizedBox(
-              height: 70,
-              child: PackageUpdateBanner(
-                group: model.getGroup(update),
-                selected: model.isUpdateSelected(update),
-                updateId: update,
-                installedId: model.getInstalledId(update.name) ?? update,
-                onChanged: model.updatesState == UpdatesState.checkingForUpdates
-                    ? null
-                    : (v) => model.selectUpdate(update, v!),
-              ),
-            );
-          },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Divider(
+              thickness: 0.0,
+              height: 0,
+            ),
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: model.updates.length,
+              itemBuilder: (context, index) {
+                final update = model.getUpdate(index);
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    PackageUpdateBanner(
+                      group: model.getGroup(update),
+                      selected: model.isUpdateSelected(update),
+                      updateId: update,
+                      installedId: model.getInstalledId(update.name) ?? update,
+                      onChanged:
+                          model.updatesState == UpdatesState.checkingForUpdates
+                              ? null
+                              : (v) => model.selectUpdate(update, v!),
+                    ),
+                    if (index != model.updates.length - 1)
+                      const Divider(
+                        thickness: 0.0,
+                        height: 0,
+                      )
+                  ],
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

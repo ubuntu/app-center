@@ -298,5 +298,5 @@ Map<SnapSection, IconData> snapSectionToIcon = {
   SnapSection.server_and_cloud: YaruIcons.cloud,
   SnapSection.social: YaruIcons.subtitles,
   SnapSection.utilities: YaruIcons.swiss_knife,
-  SnapSection.all: YaruIcons.app_grid
+  SnapSection.all: YaruIcons.application
 };
