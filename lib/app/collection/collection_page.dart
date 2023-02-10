@@ -223,22 +223,22 @@ class _CollectionPageState extends State<CollectionPage> {
               ],
             ),
           ),
-          Expanded(
-            child: Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                if (appFormat == AppFormat.snap)
-                  const _SnapList()
-                else
+          if (appFormat == AppFormat.snap)
+            const Expanded(child: _SnapList())
+          else
+            Expanded(
+              child: Stack(
+                alignment: Alignment.bottomRight,
+                children: [
                   packageList,
-                if (_showFap)
-                  Padding(
-                    padding: const EdgeInsets.all(kYaruPagePadding),
-                    child: floatingActionButton,
-                  )
-              ],
-            ),
-          )
+                  if (_showFap)
+                    Padding(
+                      padding: const EdgeInsets.all(kYaruPagePadding),
+                      child: floatingActionButton,
+                    )
+                ],
+              ),
+            )
         ],
       ),
     );
