@@ -492,10 +492,12 @@ class _ReviewsCarousel extends StatelessWidget {
                       builder: (c) =>
                           _ReviewDetailsDialog(userReviews: userReviews),
                     ),
-                    child: Text(
-                      userReview.review ?? '',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 8,
+                    child: SizedBox.expand(
+                      child: Text(
+                        userReview.review ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 8,
+                      ),
                     ),
                   ),
                 ),
