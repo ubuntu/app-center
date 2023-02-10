@@ -464,7 +464,7 @@ class _ReviewsCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruCarousel(
-      height: 200,
+      height: 230,
       width: 1000,
       placeIndicator: false,
       controller: controller,
