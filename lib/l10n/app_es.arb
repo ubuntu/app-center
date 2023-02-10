@@ -339,5 +339,19 @@
   "collection": "Colección",
   "@collection": {},
   "multiUpdateButton": "Actualizar todo",
-  "@multiUpdateButton": {}
+  "@multiUpdateButton": {},
+  "ready": "Listo",
+  "@ready": {},
+  "upgrading": "Actualizando",
+  "@upgrading": {},
+  "downloading": "Descargando",
+  "@downloading": {},
+  "downloadRemaining": "Descargando... {bytes} restantes",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  }
 }

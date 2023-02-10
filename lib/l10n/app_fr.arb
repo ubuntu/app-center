@@ -303,7 +303,7 @@
   "@dependenciesFullList": {},
   "gallery": "Galerie",
   "@gallery": {},
-  "dependenciesListing": "{length} dépendances seront téléchargées lors de l'installation de {packageName}",
+  "dependenciesListing": "{length} dépendances d'une taille totale de {size} seront téléchargées lors de l'installation de {packageName}",
   "@dependenciesListing": {
     "placeholders": {
       "length": {
@@ -327,5 +327,31 @@
   "links": "Liens",
   "@links": {},
   "additionalInformation": "Informations complémentaires",
-  "@additionalInformation": {}
+  "@additionalInformation": {},
+  "searchHintAppStore": "Rechercher des applications",
+  "@searchHintAppStore": {},
+  "searchHintInstalled": "Rechercher vos applications installées",
+  "@searchHintInstalled": {},
+  "multiUpdateButton": "Tout mettre à jour",
+  "@multiUpdateButton": {},
+  "packagesUsed": "Paquets utilisés",
+  "@packagesUsed": {},
+  "downloadRemaining": "En course de téléchargement… {bytes} restant",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "collection": "Collection",
+  "@collection": {},
+  "ready": "Prêt",
+  "@ready": {},
+  "upgrading": "En cours de mise à jour",
+  "@upgrading": {},
+  "contributors": "Contributeurs",
+  "@contributors": {},
+  "downloading": "En cours de téléchargement",
+  "@downloading": {}
 }

@@ -271,7 +271,7 @@
   "@yourReviewTitle": {},
   "installing": "Установка",
   "@installing": {},
-  "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
+  "appstreamSearchGreylist": "приложение;програма;программа;программы;приложения;инструмент",
   "@appstreamSearchGreylist": {
     "description": "List of 'grey-listed' words separated with ';'. Do not translate this list directly. Instead, provide a list of words in your language that people are likely to include in a search but that should normally be ignored in the search."
   },
@@ -301,7 +301,7 @@
   "@dependenciesQuestion": {},
   "dependenciesFullList": "Посмотреть полный список зависимостей",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} зависимостей будет загружено в процессе установки {packageName}",
+  "dependenciesListing": "{length} зависимостей размером {size} будет загружено в процессе установки {packageName}",
   "@dependenciesListing": {
     "placeholders": {
       "length": {
@@ -331,5 +331,27 @@
   "searchHintInstalled": "Поиск установленных приложений",
   "@searchHintInstalled": {},
   "searchHintAppStore": "Поиск приложений",
-  "@searchHintAppStore": {}
+  "@searchHintAppStore": {},
+  "multiUpdateButton": "Обновить всё",
+  "@multiUpdateButton": {},
+  "downloading": "Загрузка",
+  "@downloading": {},
+  "downloadRemaining": "Загрузка... {bytes} осталось",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "ready": "Готово",
+  "@ready": {},
+  "upgrading": "Обновление",
+  "@upgrading": {},
+  "packagesUsed": "Использованных пакетов",
+  "@packagesUsed": {},
+  "contributors": "Участники",
+  "@contributors": {},
+  "collection": "Коллекция",
+  "@collection": {}
 }

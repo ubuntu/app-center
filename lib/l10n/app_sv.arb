@@ -285,7 +285,7 @@
   "@dependenciesQuestion": {},
   "dependenciesFullList": "Se fullständig lista över beroenden",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} beroenden kommer att laddas ned när {packageName} installeras",
+  "dependenciesListing": "{length} beroenden med en total storlek av {size} kommer att laddas ned när {packageName} installeras",
   "@dependenciesListing": {
     "placeholders": {
       "length": {
@@ -327,5 +327,31 @@
   "searchHintInstalled": "Sök bland dina installerade program",
   "@searchHintInstalled": {},
   "musicAndAudioSlogan": "Musik och ljud",
-  "@musicAndAudioSlogan": {}
+  "@musicAndAudioSlogan": {},
+  "ready": "Redo",
+  "@ready": {},
+  "multiUpdateButton": "Uppdatera alla",
+  "@multiUpdateButton": {},
+  "changingPermissions": "Ändra behörigheter",
+  "@changingPermissions": {},
+  "permissions": "Behörigheter",
+  "@permissions": {},
+  "downloading": "Laddar ner",
+  "@downloading": {},
+  "downloadRemaining": "Laddar ner... {bytes} kvar",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "upgrading": "Uppgraderar",
+  "@upgrading": {},
+  "contributors": "Bidragsgivare",
+  "@contributors": {},
+  "collection": "Samling",
+  "@collection": {},
+  "packagesUsed": "Paket som används",
+  "@packagesUsed": {}
 }

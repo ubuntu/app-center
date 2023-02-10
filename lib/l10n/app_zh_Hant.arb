@@ -93,7 +93,7 @@
   "@reviewSent": {},
   "installed": "已安裝",
   "@installed": {},
-  "dependenciesListing": "安裝 {packageName} 也會下載 {length} 個依賴套件",
+  "dependenciesListing": "安裝 {packageName} 也會下載 {length} 個依賴套件（佔用 {size} 的空間）",
   "@dependenciesListing": {
     "placeholders": {
       "length": {
@@ -331,5 +331,27 @@
   "additionalInformation": "額外資訊",
   "@additionalInformation": {},
   "links": "連結",
-  "@links": {}
+  "@links": {},
+  "downloading": "下載中",
+  "@downloading": {},
+  "multiUpdateButton": "更新全部",
+  "@multiUpdateButton": {},
+  "downloadRemaining": "下載中…尚餘 {bytes}",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "ready": "準備完成",
+  "@ready": {},
+  "upgrading": "更新中",
+  "@upgrading": {},
+  "packagesUsed": "使用的套件",
+  "@packagesUsed": {},
+  "collection": "收藏庫",
+  "@collection": {},
+  "contributors": "協力者",
+  "@contributors": {}
 }
