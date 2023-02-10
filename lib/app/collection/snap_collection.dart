@@ -30,112 +30,110 @@ class SnapCollection extends StatelessWidget {
       );
     }
 
-    return SingleChildScrollView(
-      child: Center(
-        child: Column(
-          children: [
-            if (snapUpdates.isNotEmpty)
-              BorderContainer(
-                padding: EdgeInsets.zero,
-                margin: const EdgeInsets.only(
-                  left: kYaruPagePadding,
-                  right: kYaruPagePadding,
-                  bottom: kYaruPagePadding,
-                ),
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: snapUpdates.length,
-                  itemBuilder: (context, i) {
-                    final snap = snapUpdates[i];
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CollectionTile(
-                          key: ValueKey(snap),
-                          iconUrl: snap.iconUrl,
-                          name: snap.name,
-                          collectionTilePosition: snapUpdates.length == 1
-                              ? CollectionTilePosition.only
-                              : (i == 0
-                                  ? CollectionTilePosition.top
-                                  : (i == snapUpdates.length - 1
-                                      ? CollectionTilePosition.bottom
-                                      : CollectionTilePosition.middle)),
-                          enabled: checkingForSnapUpdates == false,
-                          onTap: () =>
-                              SnapPage.push(context: context, snap: snap),
-                          trailing: SimpleSnapControls.create(
-                            context: context,
-                            snap: snap,
-                            hasUpdate: true,
-                            enabled: checkingForSnapUpdates == false,
-                          ),
-                        ),
-                        if ((i == 0 && snapUpdates.length > 1) ||
-                            (i != snapUpdates.length - 1))
-                          const Divider(
-                            thickness: 0.0,
-                            height: 0,
-                          )
-                      ],
-                    );
-                  },
-                ),
+    return Center(
+      child: Column(
+        children: [
+          if (snapUpdates.isNotEmpty)
+            BorderContainer(
+              padding: EdgeInsets.zero,
+              margin: const EdgeInsets.only(
+                left: kYaruPagePadding,
+                right: kYaruPagePadding,
+                bottom: kYaruPagePadding,
               ),
-            if (installedSnaps == null)
-              const SizedBox.shrink()
-            else if (installedSnaps.isNotEmpty)
-              BorderContainer(
-                padding: EdgeInsets.zero,
-                margin: const EdgeInsets.only(
-                  left: kYaruPagePadding,
-                  right: kYaruPagePadding,
-                  bottom: kYaruPagePadding,
-                ),
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: installedSnaps.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, i) {
-                    final snap = installedSnaps[i];
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CollectionTile(
-                          key: ValueKey(snap),
-                          iconUrl: snap.iconUrl,
-                          name: snap.name,
-                          collectionTilePosition: installedSnaps.length == 1
-                              ? CollectionTilePosition.only
-                              : (i == 0
-                                  ? CollectionTilePosition.top
-                                  : (i == installedSnaps.length - 1
-                                      ? CollectionTilePosition.bottom
-                                      : CollectionTilePosition.middle)),
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: snapUpdates.length,
+                itemBuilder: (context, i) {
+                  final snap = snapUpdates[i];
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CollectionTile(
+                        key: ValueKey(snap),
+                        iconUrl: snap.iconUrl,
+                        name: snap.name,
+                        collectionTilePosition: snapUpdates.length == 1
+                            ? CollectionTilePosition.only
+                            : (i == 0
+                                ? CollectionTilePosition.top
+                                : (i == snapUpdates.length - 1
+                                    ? CollectionTilePosition.bottom
+                                    : CollectionTilePosition.middle)),
+                        enabled: checkingForSnapUpdates == false,
+                        onTap: () =>
+                            SnapPage.push(context: context, snap: snap),
+                        trailing: SimpleSnapControls.create(
+                          context: context,
+                          snap: snap,
+                          hasUpdate: true,
                           enabled: checkingForSnapUpdates == false,
-                          onTap: () =>
-                              SnapPage.push(context: context, snap: snap),
-                          trailing: SimpleSnapControls.create(
-                            context: context,
-                            snap: snap,
-                            hasUpdate: false,
-                            enabled: checkingForSnapUpdates == false,
-                          ),
                         ),
-                        if ((i == 0 && installedSnaps.length > 1) ||
-                            (i != installedSnaps.length - 1))
-                          const Divider(
-                            thickness: 0.0,
-                            height: 0,
-                          )
-                      ],
-                    );
-                  },
-                ),
-              )
-          ],
-        ),
+                      ),
+                      if ((i == 0 && snapUpdates.length > 1) ||
+                          (i != snapUpdates.length - 1))
+                        const Divider(
+                          thickness: 0.0,
+                          height: 0,
+                        )
+                    ],
+                  );
+                },
+              ),
+            ),
+          if (installedSnaps == null)
+            const SizedBox.shrink()
+          else if (installedSnaps.isNotEmpty)
+            BorderContainer(
+              padding: EdgeInsets.zero,
+              margin: const EdgeInsets.only(
+                left: kYaruPagePadding,
+                right: kYaruPagePadding,
+                bottom: kYaruPagePadding,
+              ),
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: installedSnaps.length,
+                shrinkWrap: true,
+                itemBuilder: (context, i) {
+                  final snap = installedSnaps[i];
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CollectionTile(
+                        key: ValueKey(snap),
+                        iconUrl: snap.iconUrl,
+                        name: snap.name,
+                        collectionTilePosition: installedSnaps.length == 1
+                            ? CollectionTilePosition.only
+                            : (i == 0
+                                ? CollectionTilePosition.top
+                                : (i == installedSnaps.length - 1
+                                    ? CollectionTilePosition.bottom
+                                    : CollectionTilePosition.middle)),
+                        enabled: checkingForSnapUpdates == false,
+                        onTap: () =>
+                            SnapPage.push(context: context, snap: snap),
+                        trailing: SimpleSnapControls.create(
+                          context: context,
+                          snap: snap,
+                          hasUpdate: false,
+                          enabled: checkingForSnapUpdates == false,
+                        ),
+                      ),
+                      if ((i == 0 && installedSnaps.length > 1) ||
+                          (i != installedSnaps.length - 1))
+                        const Divider(
+                          thickness: 0.0,
+                          height: 0,
+                        )
+                    ],
+                  );
+                },
+              ),
+            )
+        ],
       ),
     );
   }

@@ -67,7 +67,7 @@ class CollectionPage extends StatefulWidget {
 
 class _CollectionPageState extends State<CollectionPage> {
   late ScrollController _controller;
-  bool _showFap = false;
+  bool _showFab = false;
 
   @override
   void initState() {
@@ -75,9 +75,9 @@ class _CollectionPageState extends State<CollectionPage> {
     _controller = ScrollController();
     _controller.addListener(() {
       if (_controller.offset > 50.0) {
-        setState(() => _showFap = true);
+        setState(() => _showFab = true);
       } else {
-        setState(() => _showFap = false);
+        setState(() => _showFab = false);
       }
     });
   }
@@ -215,27 +215,26 @@ class _CollectionPageState extends State<CollectionPage> {
               ],
             ),
           ),
-          if (appFormat == AppFormat.snap)
-            const Expanded(child: SnapCollection())
-          else
-            Expanded(
-              child: Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  SingleChildScrollView(
-                    controller: _controller,
-                    child: PackageCollection(
-                      enabled: !checkingForPackageUpdates,
-                    ),
-                  ),
-                  if (_showFap)
-                    Padding(
-                      padding: const EdgeInsets.all(kYaruPagePadding),
-                      child: floatingActionButton,
-                    )
-                ],
-              ),
-            )
+          Expanded(
+            child: Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                SingleChildScrollView(
+                  controller: _controller,
+                  child: (appFormat == AppFormat.snap)
+                      ? const SnapCollection()
+                      : PackageCollection(
+                          enabled: !checkingForPackageUpdates,
+                        ),
+                ),
+                if (_showFab)
+                  Padding(
+                    padding: const EdgeInsets.all(kYaruPagePadding),
+                    child: floatingActionButton,
+                  )
+              ],
+            ),
+          )
         ],
       ),
     );
