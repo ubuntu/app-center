@@ -568,9 +568,6 @@ class _RatingHeader extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodySmall,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
               ],
             ),
           ),
