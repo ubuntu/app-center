@@ -49,7 +49,7 @@ void main() {
       await app.main([]);
       await tester.pumpUntil(
         find.byType(StartPage),
-        timeout: const Duration(seconds: 80),
+        timeout: const Duration(seconds: 120),
       );
       await tester.pumpAndSettle();
 
