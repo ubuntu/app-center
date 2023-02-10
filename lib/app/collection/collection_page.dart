@@ -217,7 +217,6 @@ class _CollectionPageState extends State<CollectionPage> {
           ),
           Expanded(
             child: Stack(
-              alignment: Alignment.bottomRight,
               children: [
                 SingleChildScrollView(
                   controller: _controller,
@@ -228,9 +227,12 @@ class _CollectionPageState extends State<CollectionPage> {
                         ),
                 ),
                 if (_showFab)
-                  Padding(
-                    padding: const EdgeInsets.all(kYaruPagePadding),
-                    child: floatingActionButton,
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(kYaruPagePadding),
+                      child: floatingActionButton,
+                    ),
                   )
               ],
             ),
