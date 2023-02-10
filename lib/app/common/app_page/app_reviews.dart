@@ -525,95 +525,105 @@ class _RatingHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            RatingBar.builder(
-              initialRating: userReview.rating ?? 0,
-              minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: EdgeInsets.zero,
-              itemSize: 15,
-              itemBuilder: (context, _) => const Icon(
-                YaruIcons.star_filled,
-                color: kStarColor,
-                size: 2,
-              ),
-              unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
-              onRatingUpdate: (rating) {},
-              ignoreGestures: true,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              DateFormat.yMd(Platform.localeName).format(
-                userReview.dateTime ?? DateTime.now(),
-              ),
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              userReview.username ?? context.l10n.unknown,
-              style: Theme.of(context).textTheme.bodySmall,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            IconButton(
-              icon: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '${userReview.positiveVote ?? 1}',
-                    style: Theme.of(context).textTheme.bodySmall,
+    return SizedBox(
+      width: double.infinity,
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RatingBar.builder(
+                  initialRating: userReview.rating ?? 0,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.zero,
+                  itemSize: 15,
+                  itemBuilder: (context, _) => const Icon(
+                    YaruIcons.star_filled,
+                    color: kStarColor,
+                    size: 2,
                   ),
-                  Icon(
-                    Icons.arrow_upward,
-                    color: Theme.of(context).disabledColor,
-                    size: 16,
-                  )
-                ],
-              ),
-              onPressed:
-                  onVote == null ? null : () => onVote!(userReview, false),
-            ),
-            IconButton(
-              icon: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '${userReview.negativeVote ?? 1}',
-                    style: Theme.of(context).textTheme.bodySmall,
+                  unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
+                  onRatingUpdate: (rating) {},
+                  ignoreGestures: true,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  DateFormat.yMd(Platform.localeName).format(
+                    userReview.dateTime ?? DateTime.now(),
                   ),
-                  Icon(
-                    Icons.arrow_downward,
-                    color: Theme.of(context).disabledColor,
-                    size: 16,
-                  )
-                ],
-              ),
-              onPressed:
-                  onVote == null ? null : () => onVote!(userReview, true),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  userReview.username ?? context.l10n.unknown,
+                  style: Theme.of(context).textTheme.bodySmall,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
-          ],
-        ),
-        IconButton(
-          icon: Icon(
-            Icons.flag_rounded,
-            size: 16,
-            color: Theme.of(context).disabledColor,
           ),
-          onPressed: onFlag == null ? null : () => onFlag!(userReview),
-        )
-      ],
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '${userReview.positiveVote ?? 1}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    Icon(
+                      Icons.arrow_upward,
+                      color: Theme.of(context).disabledColor,
+                      size: 16,
+                    )
+                  ],
+                ),
+                onPressed:
+                    onVote == null ? null : () => onVote!(userReview, false),
+              ),
+              IconButton(
+                icon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '${userReview.negativeVote ?? 1}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    Icon(
+                      Icons.arrow_downward,
+                      color: Theme.of(context).disabledColor,
+                      size: 16,
+                    )
+                  ],
+                ),
+                onPressed:
+                    onVote == null ? null : () => onVote!(userReview, true),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.flag_rounded,
+                  size: 16,
+                  color: Theme.of(context).disabledColor,
+                ),
+                onPressed: onFlag == null ? null : () => onFlag!(userReview),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }
