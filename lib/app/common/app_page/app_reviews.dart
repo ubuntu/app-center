@@ -156,7 +156,6 @@ class _ReviewDetailsDialog extends StatelessWidget {
       titlePadding: EdgeInsets.zero,
       contentPadding: const EdgeInsets.only(
         top: kYaruPagePadding,
-        bottom: kYaruPagePadding,
       ),
       children: userReviews == null
           ? []
