@@ -30,7 +30,7 @@ import 'package:ubuntu_session/ubuntu_session.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class CollectionPage extends StatelessWidget {
+class CollectionPage extends StatefulWidget {
   const CollectionPage({super.key});
 
   static Widget create(BuildContext context) {
@@ -71,7 +71,35 @@ class CollectionPage extends StatelessWidget {
       Text(context.l10n.collection);
 
   @override
+  State<CollectionPage> createState() => _CollectionPageState();
+}
+
+class _CollectionPageState extends State<CollectionPage> {
+  late ScrollController _controller;
+  bool _showFap = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ScrollController();
+    _controller.addListener(() {
+      if (_controller.offset > 50.0) {
+        setState(() => _showFap = true);
+      } else {
+        setState(() => _showFap = false);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final searchQuery = context.select((CollectionModel m) => m.searchQuery);
     final setSearchQuery =
         context.select((CollectionModel m) => m.setSearchQuery);
@@ -155,6 +183,27 @@ class CollectionPage extends StatelessWidget {
         ),
     ];
 
+    final packageList = SingleChildScrollView(
+      controller: _controller,
+      child: Center(
+        child: Column(
+          children: const [PackageUpdatesPage(), _InstalledPackagesList()],
+        ),
+      ),
+    );
+
+    final floatingActionButton = FloatingActionButton(
+      foregroundColor: theme.colorScheme.onInverseSurface,
+      backgroundColor: theme.colorScheme.inverseSurface,
+      shape: const CircleBorder(),
+      onPressed: () => _controller.animateTo(
+        0,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOutCubic,
+      ),
+      child: const Icon(YaruIcons.pan_up),
+    );
+
     final content = Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,17 +234,19 @@ class CollectionPage extends StatelessWidget {
             ),
           ),
           if (appFormat == AppFormat.snap)
-            const Expanded(
-              child: _SnapList(),
-            )
+            const Expanded(child: _SnapList())
           else
             Expanded(
-              child: SingleChildScrollView(
-                child: Center(
-                  child: Column(
-                    children: const [PackageUpdatesPage(), _PackagesList()],
-                  ),
-                ),
+              child: Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  packageList,
+                  if (_showFap)
+                    Padding(
+                      padding: const EdgeInsets.all(kYaruPagePadding),
+                      child: floatingActionButton,
+                    )
+                ],
               ),
             )
         ],
@@ -389,8 +440,8 @@ class _SnapTile extends StatelessWidget {
   }
 }
 
-class _PackagesList extends StatelessWidget {
-  const _PackagesList();
+class _InstalledPackagesList extends StatelessWidget {
+  const _InstalledPackagesList();
 
   @override
   Widget build(BuildContext context) {

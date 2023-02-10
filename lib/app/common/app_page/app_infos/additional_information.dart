@@ -26,47 +26,44 @@ class AdditionalInformation extends StatelessWidget {
         context.l10n.additionalInformation,
         style: Theme.of(context).textTheme.titleLarge,
       ),
-      child: ConstrainedBox(
-        constraints: BoxConstraints.loose(const Size(1000, 200)),
-        child: ScrollConfiguration(
-          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-          child: GridView(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
-              mainAxisExtent: 100,
-            ),
-            children: [
-              PublisherInfoFragment(
-                publisherName: appData.publisherName,
-                website: appData.website,
-                verified: appData.verified,
-                starDev: appData.starredDeveloper,
-              ),
-              ReleasedAtInfoFragment(releasedAt: appData.releasedAt),
-              LicenseInfoFragment(
-                headerStyle: headerStyle,
-                license: appData.license,
-              ),
-              // TODO: the category is currently not provided
-              // by snapd, and thus not by snapd.dart
-              // when a snap is found by name
-              // See: https://bugs.launchpad.net/snapd/+bug/1838786/comments/5
-
-              // AppInfoFragment(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   header: 'Category',
-              //   tooltipMessage: '',
-              //   child: Text(context.l10n.unknown),
-              // ),
-              InstallDateInfoFragment(
-                installDateIsoNorm: appData.installDateIsoNorm,
-                installDate: appData.installDate,
-              ),
-              LinksInfoFragment(appData: appData),
-            ],
+      child: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+        child: GridView(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200,
+            mainAxisExtent: 100,
           ),
+          children: [
+            PublisherInfoFragment(
+              publisherName: appData.publisherName,
+              website: appData.website,
+              verified: appData.verified,
+              starDev: appData.starredDeveloper,
+            ),
+            ReleasedAtInfoFragment(releasedAt: appData.releasedAt),
+            LicenseInfoFragment(
+              headerStyle: headerStyle,
+              license: appData.license,
+            ),
+            // TODO: the category is currently not provided
+            // by snapd, and thus not by snapd.dart
+            // when a snap is found by name
+            // See: https://bugs.launchpad.net/snapd/+bug/1838786/comments/5
+
+            // AppInfoFragment(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   header: 'Category',
+            //   tooltipMessage: '',
+            //   child: Text(context.l10n.unknown),
+            // ),
+            InstallDateInfoFragment(
+              installDateIsoNorm: appData.installDateIsoNorm,
+              installDate: appData.installDate,
+            ),
+            LinksInfoFragment(appData: appData),
+          ],
         ),
       ),
     );

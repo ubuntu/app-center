@@ -156,7 +156,6 @@ class _ReviewDetailsDialog extends StatelessWidget {
       titlePadding: EdgeInsets.zero,
       contentPadding: const EdgeInsets.only(
         top: kYaruPagePadding,
-        bottom: kYaruPagePadding,
       ),
       children: userReviews == null
           ? []
@@ -464,7 +463,7 @@ class _ReviewsCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruCarousel(
-      height: 200,
+      height: 230,
       width: 1000,
       placeIndicator: false,
       controller: controller,
@@ -492,10 +491,12 @@ class _ReviewsCarousel extends StatelessWidget {
                       builder: (c) =>
                           _ReviewDetailsDialog(userReviews: userReviews),
                     ),
-                    child: Text(
-                      userReview.review ?? '',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 8,
+                    child: SizedBox.expand(
+                      child: Text(
+                        userReview.review ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 8,
+                      ),
                     ),
                   ),
                 ),
