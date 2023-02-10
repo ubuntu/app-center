@@ -194,7 +194,11 @@ class _CollectionPageState extends State<CollectionPage> {
       foregroundColor: theme.colorScheme.onInverseSurface,
       backgroundColor: theme.colorScheme.inverseSurface,
       shape: const CircleBorder(),
-      onPressed: () => _controller.jumpTo(0),
+      onPressed: () => _controller.animateTo(
+        0,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOutCubic,
+      ),
       child: const Icon(YaruIcons.pan_up),
     );
 
