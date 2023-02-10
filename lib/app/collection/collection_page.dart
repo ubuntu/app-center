@@ -92,6 +92,12 @@ class _CollectionPageState extends State<CollectionPage> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final searchQuery = context.select((CollectionModel m) => m.searchQuery);
