@@ -104,6 +104,8 @@ class CollectionPage extends StatelessWidget {
         context.select((PackageUpdatesModel m) => m.updateAll);
     final selectedUpdatesLength =
         context.select((PackageUpdatesModel m) => m.selectedUpdatesLength);
+    final availablePackageUpdatesLength =
+        context.select((PackageUpdatesModel m) => m.updates.length);
 
     final snapChildren = [
       SnapSortPopup(
@@ -170,6 +172,10 @@ class CollectionPage extends StatelessWidget {
                   onSelected: (appFormat) => setAppFormat(appFormat),
                   appFormat: appFormat ?? AppFormat.snap,
                   enabledAppFormats: enabledAppFormats,
+                  badgedAppFormats: {
+                    AppFormat.snap: snapsWithUpdate.length,
+                    AppFormat.packageKit: availablePackageUpdatesLength,
+                  },
                 ),
                 if (appFormat == AppFormat.snap)
                   ...snapChildren
