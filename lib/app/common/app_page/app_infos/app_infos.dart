@@ -102,7 +102,6 @@ class RatingInfoFragment extends StatelessWidget {
 
     return AppInfoFragment(
       header: context.l10n.rating,
-      tooltipMessage: averageRating.toString(),
       child: Align(
         alignment: Alignment.center,
         child: Padding(

@@ -17,7 +17,6 @@ class LicenseInfoFragment extends StatelessWidget {
     return AppInfoFragment(
       crossAxisAlignment: CrossAxisAlignment.start,
       header: context.l10n.license,
-      tooltipMessage: license,
       child: Text(
         license,
         overflow: TextOverflow.ellipsis,
