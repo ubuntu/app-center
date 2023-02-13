@@ -173,10 +173,16 @@ class _PackagePageState extends State<PackagePage> {
     );
 
     final preControls = widget.snap == null
-        ? const BorderContainer(
-            padding: EdgeInsets.symmetric(horizontal: 5),
+        ? BorderContainer(
+            color: theme.dividerColor,
+            padding: const EdgeInsets.symmetric(horizontal: 5),
             borderRadius: 6,
-            child: SizedBox(height: 40, child: DebianLabel()),
+            child: const SizedBox(
+              height: 40,
+              child: AppFormatLabel(
+                appFormat: AppFormat.packageKit,
+              ),
+            ),
           )
         : AppFormatToggleButtons(
             isSelected: const [

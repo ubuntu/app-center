@@ -64,7 +64,8 @@ class SnapControls extends StatelessWidget {
             ]
           : [
               if (model.selectableChannels.isNotEmpty &&
-                  model.selectableChannels.length > 1)
+                  model.selectableChannels.length > 1 &&
+                  appstream != null)
                 const SnapChannelPopupButton(),
               if (model.snapIsInstalled)
                 OutlinedButton(

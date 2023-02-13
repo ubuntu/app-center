@@ -26,10 +26,10 @@ import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/app_page/app_page.dart';
 import 'package:software/app/common/app_rating.dart';
-import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/rating_model.dart';
 import 'package:software/app/common/review_model.dart';
+import 'package:software/app/common/snap/snap_channel_button.dart';
 import 'package:software/app/common/snap/snap_connections_button.dart';
 import 'package:software/app/common/snap/snap_connections_dialog.dart';
 import 'package:software/app/common/snap/snap_controls.dart';
@@ -38,6 +38,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/odrs_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapPage extends StatefulWidget {
   const SnapPage({super.key, this.appstream, required this.snap});
@@ -119,6 +120,7 @@ class _SnapPageState extends State<SnapPage> {
     final model = context.watch<SnapModel>();
     final rating = context.select((RatingModel m) => m.getRating(_ratingId));
     final userReviews = context.select((ReviewModel m) => m.userReviews);
+    final theme = Theme.of(context);
 
     final appData = AppData(
       releasedAt: model.selectedChannelReleasedAt,
@@ -152,6 +154,43 @@ class _SnapPageState extends State<SnapPage> {
       appstream: widget.appstream,
     );
 
+    const snapLabel = SizedBox(
+      height: 39,
+      child: AppFormatLabel(appFormat: AppFormat.snap),
+    );
+
+    final snapLabelContainerCut = YaruBorderContainer(
+      color: theme.dividerColor,
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(kYaruButtonRadius),
+        bottomLeft: Radius.circular(kYaruButtonRadius),
+      ),
+      child: snapLabel,
+    );
+
+    final snapLabelWithChannelButton = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        snapLabelContainerCut,
+        OutlinedButtonTheme(
+          data: OutlinedButtonThemeData(
+            style: OutlinedButtonTheme.of(context).style?.copyWith(
+                  shape: MaterialStateProperty.resolveWith(
+                    (states) => const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(kYaruButtonRadius),
+                        bottomRight: Radius.circular(kYaruButtonRadius),
+                      ),
+                    ),
+                  ),
+                ),
+          ),
+          child: const SnapChannelPopupButton(),
+        )
+      ],
+    );
+
     final preControls = Wrap(
       spacing: 10,
       children: [
@@ -173,11 +212,7 @@ class _SnapPageState extends State<SnapPage> {
             },
           )
         else
-          const BorderContainer(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            borderRadius: 6,
-            child: SizedBox(height: 39, child: SnapLabel()),
-          ),
+          snapLabelWithChannelButton,
         if (model.snapIsInstalled && model.strict)
           SnapConnectionsButton(
             onPressed: () => showDialog(
