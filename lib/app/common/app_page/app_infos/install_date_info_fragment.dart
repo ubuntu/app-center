@@ -17,7 +17,6 @@ class InstallDateInfoFragment extends StatelessWidget {
     return AppInfoFragment(
       crossAxisAlignment: CrossAxisAlignment.start,
       header: context.l10n.installDate,
-      tooltipMessage: installDateIsoNorm,
       child: Text(
         installDate.isNotEmpty ? installDate : context.l10n.notInstalled,
         maxLines: 1,

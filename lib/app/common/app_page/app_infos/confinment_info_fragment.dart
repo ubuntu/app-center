@@ -17,7 +17,6 @@ class ConfinementInfoFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppInfoFragment(
       header: context.l10n.confinement,
-      tooltipMessage: confinementName,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
