@@ -91,7 +91,7 @@ class PublisherInfoFragment extends StatelessWidget {
     return AppInfoFragment(
       crossAxisAlignment: CrossAxisAlignment.start,
       header: context.l10n.publisher,
-      tooltipMessage: publisherName,
+      tooltipMessage: publisherName.length > 12 ? publisherName : null,
       child: box,
     );
   }
