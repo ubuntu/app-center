@@ -64,7 +64,6 @@ class _PackageUpdatesPageState extends State<PackageUpdatesPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageUpdatesModel>();
-
     if (model.updatesState == UpdatesState.readyToUpdate) {
       return const _UpdatesListView();
     }
@@ -84,13 +83,14 @@ class _UpdatingPage extends StatefulWidget {
 }
 
 class _UpdatingPageState extends State<_UpdatingPage> {
-  //final terminalController = TerminalController();
-
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageUpdatesModel>();
 
     final children = [
+      const SizedBox(
+        height: 50,
+      ),
       Text(
         model.info != null ? model.info!.name : '',
         style: Theme.of(context).textTheme.headlineMedium,
@@ -134,6 +134,7 @@ class _UpdatingPageState extends State<_UpdatingPage> {
           ),
         ),
       ),
+      const SizedBox(height: 100)
     ];
 
     return Center(
