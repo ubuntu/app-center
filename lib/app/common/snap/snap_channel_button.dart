@@ -37,6 +37,7 @@ class SnapChannelPopupButton extends StatelessWidget {
     final light = theme.brightness == Brightness.light;
 
     return YaruPopupMenuButton(
+      padding: const EdgeInsets.only(left: 15, right: 5),
       initialValue: model.channelToBeInstalled,
       tooltip: context.l10n.channel,
       itemBuilder: (v) => [
