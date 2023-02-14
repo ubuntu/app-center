@@ -191,5 +191,6 @@
   "packagesUsed": "Packages used",
   "contributors": "Contributors",
   "collection": "Collection",
-  "copiedToClipboard": "Copied to clipboard"
+  "copiedToClipboard": "Copied to clipboard",
+  "share": "Share"
 }
