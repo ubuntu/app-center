@@ -20,6 +20,7 @@ import 'package:software/app/common/app_data.dart';
 import 'package:software/app/common/app_page/publisher_name.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import 'package:software/l10n/l10n.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 const iconSize = 108.0;
@@ -93,6 +94,7 @@ class BannerAppHeader extends StatelessWidget {
               ),
               if (onShare != null)
                 YaruIconButton(
+                  tooltip: context.l10n.share,
                   icon: const Icon(YaruIcons.share),
                   onPressed: onShare,
                 )
