@@ -3,9 +3,8 @@ on: [pull_request_target]
 
 jobs:
   cla-check:
+    if: github.event.pull_request.user.login != 'weblate'
     runs-on: ubuntu-20.04
     steps:
       - name: Check if CLA signed
         uses: canonical/has-signed-canonical-cla@v1
-        with:
-          exempted-bots: dependabot,renovate,weblate
