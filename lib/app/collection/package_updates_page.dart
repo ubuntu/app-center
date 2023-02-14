@@ -24,7 +24,6 @@ import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/message_bar.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/updates_state.dart';
-import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageUpdatesPage extends StatefulWidget {
@@ -111,30 +110,6 @@ class _UpdatingPageState extends State<_UpdatingPage> {
       const SizedBox(
         height: 100,
       ),
-      BorderContainer(
-        color: Colors.transparent,
-        child: YaruExpandable(
-          header: Text(
-            'Details',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          child: SizedBox(
-            height: 300,
-            width: 600,
-            child: LogView(
-              log: model.terminalOutput,
-              style: TextStyle(
-                inherit: false,
-                fontFamily: 'Ubuntu Mono',
-                color: Theme.of(context).colorScheme.onSurface,
-                fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
-                textBaseline: TextBaseline.alphabetic,
-              ),
-            ),
-          ),
-        ),
-      ),
-      const SizedBox(height: 100)
     ];
 
     return Center(

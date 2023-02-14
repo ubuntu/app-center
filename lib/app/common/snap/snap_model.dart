@@ -22,6 +22,7 @@ import 'package:data_size/data_size.dart';
 import 'package:intl/intl.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
+import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/snapx.dart';
 
@@ -400,5 +401,11 @@ class SnapModel extends SafeChangeNotifier {
       return selectableChannels.entries.first.key;
     }
     return '';
+  }
+
+  bool isUpdateAvailable() {
+    return _storeSnap == null || _localSnap == null
+        ? false
+        : isSnapUpdateAvailable(storeSnap: _storeSnap!, localSnap: _localSnap!);
   }
 }
