@@ -190,5 +190,6 @@
   "links": "Links",
   "packagesUsed": "Packages used",
   "contributors": "Contributors",
-  "collection": "Collection"
+  "collection": "Collection",
+  "copiedToClipboard": "Copied to clipboard"
 }

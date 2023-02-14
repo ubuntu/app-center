@@ -28,6 +28,7 @@ import 'package:software/app/common/app_page/media_tile.dart';
 import 'package:software/app/common/app_page/page_layouts.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/custom_back_button.dart';
+import 'package:software/app/common/link.dart';
 import 'package:software/app/common/safe_network_image.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -175,6 +176,21 @@ class _AppPageState extends State<AppPage> {
       ),
     );
 
+    void onShare(AppData appData) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('${context.l10n.copiedToClipboard}: '),
+              Link(url: appData.website, linkText: appData.website)
+            ],
+          ),
+        ),
+      );
+      Clipboard.setData(ClipboardData(text: appData.website));
+    }
+
     final normalWindowAppHeader = BorderContainer(
       initialized: widget.initialized,
       child: BannerAppHeader(
@@ -183,6 +199,7 @@ class _AppPageState extends State<AppPage> {
         controls: widget.preControls,
         subControls: widget.controls,
         icon: icon,
+        onShare: () => onShare(widget.appData),
       ),
     );
 
@@ -194,6 +211,7 @@ class _AppPageState extends State<AppPage> {
         icon: icon,
         controls: widget.preControls,
         subControls: widget.controls,
+        onShare: () => onShare(widget.appData),
       ),
     );
 
@@ -205,6 +223,7 @@ class _AppPageState extends State<AppPage> {
         icon: icon,
         controls: widget.preControls,
         subControls: widget.controls,
+        onShare: () => onShare(widget.appData),
       ),
     );
 

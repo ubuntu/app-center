@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:software/app/common/app_data.dart';
 import 'package:software/app/common/app_page/publisher_name.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
@@ -31,6 +32,7 @@ class BannerAppHeader extends StatelessWidget {
     required this.icon,
     required this.windowSize,
     this.subControls,
+    this.onShare,
   });
 
   final AppData appData;
@@ -39,6 +41,7 @@ class BannerAppHeader extends StatelessWidget {
 
   final Widget icon;
   final Size windowSize;
+  final Function()? onShare;
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +91,11 @@ class BannerAppHeader extends StatelessWidget {
                   ],
                 ),
               ),
+              if (onShare != null)
+                YaruIconButton(
+                  icon: const Icon(YaruIcons.share),
+                  onPressed: onShare,
+                )
             ],
           ),
         ],
@@ -103,12 +111,14 @@ class PageAppHeader extends StatelessWidget {
     required this.controls,
     required this.icon,
     this.subControls,
+    this.onShare,
   });
 
   final AppData appData;
   final Widget controls;
   final Widget icon;
   final Widget? subControls;
+  final Function()? onShare;
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +168,11 @@ class PageAppHeader extends StatelessWidget {
                 ],
               ),
             ),
+            if (onShare != null)
+              YaruIconButton(
+                icon: const Icon(YaruIcons.share),
+                onPressed: onShare,
+              )
           ],
         ),
         controls,
