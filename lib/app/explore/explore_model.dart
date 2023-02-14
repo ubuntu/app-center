@@ -47,19 +47,16 @@ class ExploreModel extends SafeChangeNotifier {
 
     await _packageService.initialized;
     if (_packageService.isAvailable) {
-      _appstreamService
-          .init()
-          .then(
-            (_) => Future.forEach<SnapSection>(
-              startPageApps.keys,
-              _loadStartPageAppstreamComponents,
-            ),
-          )
-          .then((_) {
+      _appstreamService.init().then((_) {
         _enabledAppFormats.add(AppFormat.packageKit);
         _selectedAppFormats.add(AppFormat.packageKit);
         notifyListeners();
-      });
+      }).then(
+        (_) => Future.forEach<SnapSection>(
+          startPageApps.keys,
+          _loadStartPageAppstreamComponents,
+        ),
+      );
     }
   }
 

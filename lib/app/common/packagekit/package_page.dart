@@ -242,6 +242,7 @@ class _PackagePageState extends State<PackagePage> {
     return AppPage(
       initialized: initialized,
       appData: appData,
+      appIsInstalled: model.isInstalled ?? false,
       icon: AppIcon(
         iconUrl: model.iconUrl,
         size: 150,
