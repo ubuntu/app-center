@@ -29,66 +29,95 @@ class SectionBanner extends StatelessWidget {
           gradientColors.first,
         ) ==
         Brightness.light;
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 220),
-      child: Padding(
-        padding: const EdgeInsets.only(
-          top: 5,
-          left: kPagePadding,
-          right: kPagePadding,
-          bottom: kPagePadding - 5,
-        ),
-        child: Container(
-          padding: const EdgeInsets.all(kYaruPagePadding),
-          width: 20000,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: LinearGradient(
-              colors: gradientColors,
-            ),
-          ),
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.spaceBetween,
-            runAlignment: WrapAlignment.start,
-            runSpacing: 20,
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints.loose(const Size(250, 1000)),
-                child: Text(
-                  section.slogan(context.l10n),
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    color: firstGradientColorIsBright
-                        ? YaruColors.inkstone
-                        : Colors.white,
-                    shadows: [
-                      if (!firstGradientColorIsBright)
-                        Shadow(
-                          offset: const Offset(0, 1), //position of shadow
-                          blurRadius: 1.0, //blur intensity of shadow
-                          color: Colors.black.withOpacity(
-                            0.4,
-                          ), //color of shadow with opacity
-                        )
-                      else
-                        Shadow(
-                          offset: const Offset(0, 1), //position of shadow
-                          blurRadius: 1.0, //blur intensity of shadow
-                          color: Colors.white.withOpacity(
-                            0.9,
-                          ),
-                        )
-                    ],
-                  ),
-                ),
+
+    final title = Text(
+      section.localize(context.l10n),
+      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+        color: firstGradientColorIsBright ? YaruColors.inkstone : Colors.white,
+        shadows: [
+          if (!firstGradientColorIsBright)
+            Shadow(
+              offset: const Offset(0, 1),
+              blurRadius: 1.0,
+              color: Colors.black.withOpacity(
+                0.4,
+              ), //color of shadow with opacity
+            )
+          else
+            Shadow(
+              offset: const Offset(0, 1),
+              blurRadius: 1.0,
+              color: Colors.white.withOpacity(
+                0.9,
               ),
-              const SizedBox(
-                width: 80,
+            )
+        ],
+      ),
+    );
+
+    final subSlogan = Text(
+      section.slogan(context.l10n),
+      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+        color: firstGradientColorIsBright
+            ? YaruColors.inkstone
+            : Colors.white.withOpacity(0.7),
+        fontWeight: FontWeight.w100,
+        shadows: [
+          if (!firstGradientColorIsBright)
+            Shadow(
+              offset: const Offset(0, 1),
+              blurRadius: 1.0,
+              color: Colors.black.withOpacity(
+                0.4,
+              ), //color of shadow with opacity
+            )
+          else
+            Shadow(
+              offset: const Offset(0, 1),
+              blurRadius: 1.0,
+              color: Colors.white.withOpacity(
+                0.9,
+              ),
+            )
+        ],
+      ),
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 5,
+        left: kPagePadding,
+        right: kPagePadding,
+        bottom: kPagePadding - 5,
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(30),
+        height: 220,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          gradient: LinearGradient(
+            colors: gradientColors,
+          ),
+        ),
+        child: SizedBox(
+          width: 800,
+          child: Wrap(
+            runSpacing: kYaruPagePadding,
+            runAlignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.start,
+            alignment: WrapAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  title,
+                  subSlogan,
+                ],
               ),
               Wrap(
-                alignment: WrapAlignment.spaceBetween,
-                spacing: kYaruPagePadding,
+                spacing: 10,
                 children: snaps
                     .map(
                       (e) => _PlatedIcon(
@@ -96,9 +125,6 @@ class SectionBanner extends StatelessWidget {
                       ),
                     )
                     .toList(),
-              ),
-              const SizedBox(
-                height: kYaruPagePadding,
               ),
             ],
           ),
@@ -143,7 +169,7 @@ class _PlatedIconState extends State<_PlatedIcon> {
                   dark ? const Color.fromARGB(255, 236, 236, 236) : null,
               loadingHighlight:
                   dark ? const Color.fromARGB(255, 211, 211, 211) : null,
-              size: 65,
+              size: 50,
             ),
           ),
         ),
