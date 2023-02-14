@@ -74,10 +74,10 @@ class SnapControls extends StatelessWidget {
                 ),
               if (model.snapIsInstalled)
                 ElevatedButton(
-                  onPressed: (model.selectedChannelVersion != model.version) &&
-                          !model.snapChangeInProgress
-                      ? model.refresh
-                      : null,
+                  onPressed:
+                      model.isUpdateAvailable() && !model.snapChangeInProgress
+                          ? model.refresh
+                          : null,
                   child: Text(
                     context.l10n.updateButton,
                   ),
