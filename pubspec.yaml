@@ -52,10 +52,6 @@ dependencies:
   synchronized: ^3.0.0+3
   ubuntu_service: ^0.2.0
   ubuntu_session: ^0.0.2
-  ubuntu_widgets:
-    git:
-      url: https://github.com/canonical/ubuntu-flutter-plugins
-      path: packages/ubuntu_widgets
   url_launcher: ^6.1.2
   version: ^3.0.2
   window_manager: 0.3.0
