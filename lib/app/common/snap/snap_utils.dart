@@ -12,7 +12,7 @@ bool isSnapUpdateAvailable({required Snap storeSnap, required Snap localSnap}) {
   );
   final trackingVersion = selectAbleChannels[tracking]?.version;
 
-  return trackingVersion != version;
+  return trackingVersion == null ? false : trackingVersion != version;
 }
 
 Map<String, SnapChannel> getSelectableChannels({required Snap? storeSnap}) {
