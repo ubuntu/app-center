@@ -16,7 +16,6 @@
  */
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
@@ -79,9 +78,7 @@ class PackageModel extends SafeChangeNotifier {
       return null;
     }
 
-    return DateFormat.yMd(Platform.localeName)
-        .add_jms()
-        .format(appstream!.releases.first.date!.toLocal());
+    return DateFormat.yMd().format(appstream!.releases.first.date!.toLocal());
   }
 
   List<String> get screenshotUrls =>
