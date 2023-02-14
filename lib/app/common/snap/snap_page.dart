@@ -141,9 +141,7 @@ class _SnapPageState extends State<SnapPage> {
           model.version,
       screenShotUrls: model.screenshotUrls ?? [],
       description: model.description ?? '',
-      versionChanged:
-          model.selectableChannels[model.channelToBeInstalled]?.version !=
-              model.version,
+      versionChanged: model.isUpdateAvailable(),
       userReviews: userReviews ?? [],
       averageRating: rating?.average ?? 0.0,
       appFormat: AppFormat.snap,
