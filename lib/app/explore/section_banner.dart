@@ -101,13 +101,12 @@ class SectionBanner extends StatelessWidget {
           ),
         ),
         child: SizedBox(
-          width: double.infinity,
+          width: 800,
           child: Wrap(
-            spacing: 50,
             runSpacing: kYaruPagePadding,
             runAlignment: WrapAlignment.start,
             crossAxisAlignment: WrapCrossAlignment.start,
-            alignment: WrapAlignment.center,
+            alignment: WrapAlignment.spaceBetween,
             children: [
               Column(
                 mainAxisSize: MainAxisSize.min,
