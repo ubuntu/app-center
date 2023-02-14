@@ -172,6 +172,7 @@ class PageAppHeader extends StatelessWidget {
             ),
             if (onShare != null)
               YaruIconButton(
+                tooltip: context.l10n.share,
                 icon: const Icon(YaruIcons.share),
                 onPressed: onShare,
               )
