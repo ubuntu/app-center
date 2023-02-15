@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
+import 'package:software/l10n/l10n.dart';
 
 class PublisherName extends StatelessWidget {
   const PublisherName({
@@ -72,10 +73,13 @@ class PublisherName extends StatelessWidget {
             if (verified)
               Padding(
                 padding: EdgeInsets.only(left: height * 0.2),
-                child: Icon(
-                  Icons.verified,
-                  color: light ? kGreenLight : kGreenDark,
-                  size: height * 0.85,
+                child: Tooltip(
+                  message: context.l10n.verified,
+                  child: Icon(
+                    Icons.verified,
+                    color: light ? kGreenLight : kGreenDark,
+                    size: height * 0.85,
+                  ),
                 ),
               )
             else if (starDev)
@@ -107,10 +111,13 @@ class _StarDeveloper extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Center(
-        child: Icon(
-          YaruIcons.star_filled,
-          color: Colors.white,
-          size: height,
+        child: Tooltip(
+          message: context.l10n.starDeveloper,
+          child: Icon(
+            YaruIcons.star_filled,
+            color: Colors.white,
+            size: height,
+          ),
         ),
       ),
     );
