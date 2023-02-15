@@ -275,8 +275,7 @@ class _AppPageState extends State<AppPage> {
 
     return Scaffold(
       appBar: YaruWindowTitleBar(
-        title: Text(widget.appData.title),
-        titleSpacing: 0,
+        title: Center(child: Text(widget.appData.title)),
         leading: const CustomBackButton(),
       ),
       body: BackGesture(

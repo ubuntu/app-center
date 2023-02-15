@@ -22,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/connectivity_notifier.dart';
+import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/search_field.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/explore/explore_error_page.dart';
@@ -117,6 +118,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
     return Scaffold(
       appBar: YaruWindowTitleBar(
+        leading: const SizedBox(width: kLeadingGap),
         title: SearchField(
           key: ValueKey(showSearchPage),
           searchQuery: searchQuery,
