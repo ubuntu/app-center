@@ -243,6 +243,7 @@ class _CollectionPageState extends State<CollectionPage> {
 
     return Scaffold(
       appBar: YaruWindowTitleBar(
+        leading: const SizedBox(width: kLeadingGap),
         title: SearchField(
           searchQuery: searchQuery ?? '',
           onChanged: setSearchQuery,
