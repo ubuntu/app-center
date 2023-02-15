@@ -14,6 +14,7 @@
 #include <url_launcher_linux/url_launcher_plugin.h>
 #include <window_manager/window_manager_plugin.h>
 #include <xdg_icons/xdg_icons_plugin.h>
+#include <yaru_window_linux/yaru_window_linux_plugin.h>
 
 void fl_register_plugins(FlPluginRegistry* registry) {
   g_autoptr(FlPluginRegistrar) file_selector_linux_registrar =
@@ -40,4 +41,7 @@ void fl_register_plugins(FlPluginRegistry* registry) {
   g_autoptr(FlPluginRegistrar) xdg_icons_registrar =
       fl_plugin_registry_get_registrar_for_plugin(registry, "XdgIconsPlugin");
   xdg_icons_plugin_register_with_registrar(xdg_icons_registrar);
+  g_autoptr(FlPluginRegistrar) yaru_window_linux_registrar =
+      fl_plugin_registry_get_registrar_for_plugin(registry, "YaruWindowLinuxPlugin");
+  yaru_window_linux_plugin_register_with_registrar(yaru_window_linux_registrar);
 }

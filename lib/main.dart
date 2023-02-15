@@ -29,16 +29,10 @@ import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_session/ubuntu_session.dart';
-import 'package:window_manager/window_manager.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 Future<void> main(List<String> args) async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
-
   await YaruWindowTitleBar.ensureInitialized();
-
-  windowManager.setPreventClose(false);
 
   registerService<AppstreamService>(AppstreamService.new);
   registerService<NotificationsClient>(

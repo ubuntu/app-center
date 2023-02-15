@@ -24,9 +24,8 @@ import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/packagekit/package_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:software/services/packagekit/updates_state.dart';
-import 'package:window_manager/window_manager.dart';
 
-class AppModel extends SafeChangeNotifier implements WindowListener {
+class AppModel extends SafeChangeNotifier {
   AppModel(
     this._snapService,
     this._appstreamService,
@@ -80,13 +79,7 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
       updatesState == UpdatesState.checkingForUpdates ||
       updatesState == UpdatesState.updating;
 
-  void Function()? _onAskForQuit;
-
-  Future<void> init({required void Function() onAskForQuit}) async {
-    _onAskForQuit = onAskForQuit;
-    windowManager.setPreventClose(true);
-    windowManager.addListener(this);
-
+  Future<void> init() async {
     try {
       _snapService.init();
     } on SnapdException catch (e) {
@@ -145,63 +138,8 @@ class AppModel extends SafeChangeNotifier implements WindowListener {
     notifyListeners();
   }
 
-  void quit() {
-    windowManager.setPreventClose(false);
-    windowManager.close();
-  }
-
   bool get readyToQuit =>
       updatesState == null ||
       updatesState == UpdatesState.readyToUpdate ||
       updatesState == UpdatesState.noUpdates;
-
-  @override
-  void onWindowBlur() {}
-
-  @override
-  void onWindowClose() {
-    if (readyToQuit) {
-      quit();
-    } else {
-      if (_onAskForQuit != null) {
-        _onAskForQuit!();
-      }
-    }
-  }
-
-  @override
-  void onWindowEnterFullScreen() {}
-
-  @override
-  void onWindowEvent(String eventName) {}
-
-  @override
-  void onWindowFocus() {}
-
-  @override
-  void onWindowLeaveFullScreen() {}
-
-  @override
-  void onWindowMaximize() {}
-
-  @override
-  void onWindowMinimize() {}
-
-  @override
-  void onWindowMove() {}
-
-  @override
-  void onWindowMoved() {}
-
-  @override
-  void onWindowResize() {}
-
-  @override
-  void onWindowResized() {}
-
-  @override
-  void onWindowRestore() {}
-
-  @override
-  void onWindowUnmaximize() {}
 }
