@@ -114,11 +114,12 @@ class _ExplorePageState extends State<ExplorePage> {
     final searchResult = context.select((ExploreModel m) => m.searchResult);
     final search = context.select((ExploreModel m) => m.search);
     final errorMessage = context.select((AppModel m) => m.errorMessage);
+    final isCurrent = ModalRoute.of(context)?.isCurrent ?? false;
 
     return Scaffold(
       appBar: YaruWindowTitleBar(
         title: SearchField(
-          key: ValueKey(showSearchPage),
+          key: ValueKey(showSearchPage != isCurrent),
           searchQuery: searchQuery,
           onChanged: (value) {
             setSearchQuery(value);
@@ -127,6 +128,9 @@ class _ExplorePageState extends State<ExplorePage> {
           hintText: widget.section == SnapSection.all
               ? context.l10n.searchHintAppStore
               : '${context.l10n.searchHint}: ${widget.section.localize(context.l10n)}',
+        ),
+        leading: const SizedBox(
+          width: 40,
         ),
       ),
       body: !connectivity.isOnline

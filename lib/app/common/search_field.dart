@@ -28,10 +28,12 @@ class SearchField extends StatefulWidget {
     required this.onChanged,
     this.autofocus = true,
     this.hintText,
+    this.onSubmitted,
   });
 
   final String? searchQuery;
   final Function(String value) onChanged;
+  final Function(String value)? onSubmitted;
   final bool autofocus;
   final String? hintText;
 
@@ -94,6 +96,7 @@ class _SearchFieldState extends State<SearchField> {
               autofocus: widget.autofocus,
               controller: _controller,
               onChanged: onChanged,
+              onSubmitted: widget.onSubmitted,
               textInputAction: TextInputAction.send,
               decoration: InputDecoration(
                 filled: true,
