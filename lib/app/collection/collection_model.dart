@@ -97,7 +97,7 @@ class CollectionModel extends SafeChangeNotifier {
     checkingForSnapUpdates = true;
     await _snapService.loadLocalSnaps();
     await _snapService.loadSnapsWithUpdate();
-    _installedSnaps = _snapService.localSnaps;
+    _installedSnaps = _snapService.localSnaps.toList();
     for (var update in snapsWithUpdate) {
       for (var snap in _installedSnaps!) {
         if (update.name == snap.name) {
