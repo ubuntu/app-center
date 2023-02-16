@@ -1,20 +1,6 @@
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/snap/snap_sort.dart';
 
-bool isSnapUpdateAvailable({required Snap storeSnap, required Snap localSnap}) {
-  if (storeSnap.name == 'snapcraft') return false;
-  final version = localSnap.version;
-
-  final selectAbleChannels = getSelectableChannels(storeSnap: storeSnap);
-  final tracking = getTrackingChannel(
-    trackingChannel: localSnap.trackingChannel,
-    selectableChannels: selectAbleChannels,
-  );
-  final trackingVersion = selectAbleChannels[tracking]?.version;
-
-  return trackingVersion == null ? false : trackingVersion != version;
-}
-
 Map<String, SnapChannel> getSelectableChannels({required Snap? storeSnap}) {
   Map<String, SnapChannel> selectableChannels = {};
   if (storeSnap != null && storeSnap.tracks.isNotEmpty) {
