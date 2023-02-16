@@ -21,7 +21,6 @@ import 'package:collection/collection.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/snap/snap_section.dart';
-import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:software/snapd_change_x.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -121,15 +120,11 @@ class SnapService {
     }
   }
 
-  final List<Snap> _localSnaps = [];
-  List<Snap> get localSnaps => _localSnaps;
-  Future<List<Snap>> loadLocalSnaps() async {
-    final snaps = (await _snapDClient.getSnaps());
-    if (snaps.length != _localSnaps.length) {
-      _localSnaps.clear();
-      _localSnaps.addAll(snaps);
-    }
-    return _localSnaps;
+  List<Snap> _localSnaps = [];
+  UnmodifiableListView<Snap> get localSnaps =>
+      UnmodifiableListView(_localSnaps);
+  Future<void> loadLocalSnaps() async {
+    _localSnaps = (await _snapDClient.getSnaps());
   }
 
   Future<List<Snap>> findSnapsByQuery({
@@ -306,31 +301,11 @@ class SnapService {
     _sectionsChangedController.add(section);
   }
 
-  final List<Snap> _snapsWithUpdate = [];
-  List<Snap> get snapsWithUpdate => _snapsWithUpdate;
-  Future<List<Snap>> loadSnapsWithUpdate() async {
-    List<Snap> localSnaps = await _snapDClient.getSnaps();
-
-    Map<Snap, Snap> localSnapsToStoreSnaps = {};
-    for (var snap in localSnaps) {
-      final storeSnap = await findSnapByName(snap.name) ?? snap;
-      localSnapsToStoreSnaps.putIfAbsent(snap, () => storeSnap);
-    }
-
-    final snapsWithUpdates = localSnaps.where((snap) {
-      if (localSnapsToStoreSnaps[snap] == null) return false;
-      return isSnapUpdateAvailable(
-        storeSnap: localSnapsToStoreSnaps[snap]!,
-        localSnap: snap,
-      );
-    }).toList();
-
-    if (_snapsWithUpdate.length != snapsWithUpdates.length) {
-      _snapsWithUpdate.clear();
-      _snapsWithUpdate.addAll(snapsWithUpdates);
-    }
-
-    return _snapsWithUpdate;
+  List<Snap> _snapsWithUpdate = [];
+  UnmodifiableListView<Snap> get snapsWithUpdate =>
+      UnmodifiableListView(_snapsWithUpdate);
+  Future<void> loadSnapsWithUpdate() async {
+    _snapsWithUpdate = await _snapDClient.find(select: 'refresh');
   }
 
   Future<void> refreshAll({

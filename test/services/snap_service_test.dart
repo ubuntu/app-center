@@ -472,15 +472,9 @@ void main() {
     when(mockSnapdClient.getSnaps).thenAnswer(
       (_) async => [snapWithUpdateOld, snapWithoutUpdate],
     );
-    when(() => mockSnapdClient.find(section: any(named: 'name'))).thenAnswer(
-      (i) async =>
-          i.namedArguments[const Symbol('name')] == snapWithUpdateOld.name
-              ? [snapWithUpdateNew]
-              : i.namedArguments[const Symbol('name')] == snapWithoutUpdate.name
-                  ? [snapWithoutUpdate]
-                  : [],
-    );
+    when(() => mockSnapdClient.find(select: 'refresh'))
+        .thenAnswer((_) async => [snapWithUpdateNew]);
     await service.loadSnapsWithUpdate();
-    expect(service.snapsWithUpdate, [snapWithUpdateOld]);
+    expect(service.snapsWithUpdate, [snapWithUpdateNew]);
   });
 }
