@@ -201,27 +201,17 @@ class SearchBannerSubtitle extends StatelessWidget {
     final theme = Theme.of(context);
     final light = theme.brightness == Brightness.light;
 
-    String? ratingId;
-    var publisherName = context.l10n.unknown;
-
-    if (appFinding.snap != null &&
-        appFinding.snap!.publisher != null &&
-        showSnap) {
-      publisherName = appFinding.snap!.publisher!.displayName;
-      ratingId = appFinding.snap!.ratingId;
-    }
-
-    if (appFinding.appstream != null && showPackageKit && !showSnap) {
-      publisherName = appFinding.appstream!.developerName[WidgetsBinding
-              .instance.window.locale.countryCode
-              ?.toLowerCase()] ??
-          appFinding.appstream!.developerName['C'] ??
-          appFinding.appstream!.localizedName();
-      ratingId = appFinding.appstream!.ratingId;
-    }
+    String? ratingId =
+        appFinding.snap?.ratingId ?? appFinding.appstream?.ratingId;
+    final publisherName = appFinding.snap?.publisher?.displayName ??
+        appFinding.appstream?.developerName[
+            WidgetsBinding.instance.window.locale.countryCode?.toLowerCase()] ??
+        appFinding.appstream?.developerName['C'] ??
+        appFinding.appstream?.localizedName() ??
+        context.l10n.unknown;
 
     final rating = ratingId != null
-        ? context.select((RatingModel m) => m.getRating(ratingId!))
+        ? context.select((RatingModel m) => m.getRating(ratingId))
         : null;
 
     return Column(
