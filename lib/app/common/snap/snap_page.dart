@@ -41,17 +41,24 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapPage extends StatefulWidget {
-  const SnapPage({super.key, this.appstream, required this.snap});
+  const SnapPage({
+    super.key,
+    this.appstream,
+    required this.snap,
+    this.enableSearch = true,
+  });
 
   /// Optional AppstreamComponent if found
   final AppstreamComponent? appstream;
   final Snap snap;
+  final bool enableSearch;
 
   static Widget create({
     required BuildContext context,
     required Snap snap,
     PackageKitPackageId? packageId,
     AppstreamComponent? appstream,
+    bool enableSearch = true,
   }) =>
       MultiProvider(
         providers: [
@@ -69,6 +76,7 @@ class SnapPage extends StatefulWidget {
         child: SnapPage(
           appstream: appstream,
           snap: snap,
+          enableSearch: enableSearch,
         ),
       );
 
@@ -77,6 +85,7 @@ class SnapPage extends StatefulWidget {
     required Snap snap,
     AppstreamComponent? appstream,
     bool replace = false,
+    bool enableSearch = true,
   }) {
     final route = MaterialPageRoute<void>(
       builder: (BuildContext context) {
@@ -84,6 +93,7 @@ class SnapPage extends StatefulWidget {
           context: context,
           snap: snap,
           appstream: appstream,
+          enableSearch: enableSearch,
         );
       },
     );
@@ -133,6 +143,7 @@ class _SnapPageState extends State<SnapPage> {
       verified: model.verified,
       starredDeveloper: model.starredDeveloper,
       publisherName: model.publisher?.displayName ?? '',
+      publisherUsername: model.publisher?.username ?? '',
       website: model.storeUrl ?? '',
       summary: model.summary ?? '',
       title: model.title ?? '',
@@ -226,6 +237,7 @@ class _SnapPageState extends State<SnapPage> {
 
     final review = context.read<ReviewModel>();
     return AppPage(
+      enableSearch: widget.enableSearch,
       initialized: initialized,
       appData: appData,
       appIsInstalled: model.snapIsInstalled,

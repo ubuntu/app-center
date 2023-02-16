@@ -120,7 +120,7 @@ class _ExplorePageState extends State<ExplorePage> {
       appBar: YaruWindowTitleBar(
         leading: const SizedBox(width: kLeadingGap),
         title: SearchField(
-          key: ValueKey(showSearchPage),
+          key: ObjectKey(ModalRoute.of(context)?.isCurrent ?? searchQuery),
           searchQuery: searchQuery,
           onChanged: (value) {
             setSearchQuery(value);

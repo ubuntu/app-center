@@ -30,6 +30,7 @@ class AppData {
   final bool verified;
   final bool starredDeveloper;
   final String publisherName;
+  final String publisherUsername;
   final String website;
   final String contact;
   final List<String> screenShotUrls;
@@ -64,6 +65,7 @@ class AppData {
     required this.appSize,
     required this.releasedAt,
     required this.contact,
+    required this.publisherUsername,
   });
 }
 

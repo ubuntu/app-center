@@ -62,8 +62,11 @@ class SnapCollection extends StatelessWidget {
                                     ? CollectionTilePosition.bottom
                                     : CollectionTilePosition.middle)),
                         enabled: checkingForSnapUpdates == false,
-                        onTap: () =>
-                            SnapPage.push(context: context, snap: snap),
+                        onTap: () => SnapPage.push(
+                          context: context,
+                          snap: snap,
+                          enableSearch: false,
+                        ),
                         trailing: SimpleSnapControls.create(
                           context: context,
                           snap: snap,
@@ -113,8 +116,11 @@ class SnapCollection extends StatelessWidget {
                                     ? CollectionTilePosition.bottom
                                     : CollectionTilePosition.middle)),
                         enabled: checkingForSnapUpdates == false,
-                        onTap: () =>
-                            SnapPage.push(context: context, snap: snap),
+                        onTap: () => SnapPage.push(
+                          context: context,
+                          snap: snap,
+                          enableSearch: false,
+                        ),
                         trailing: SimpleSnapControls.create(
                           context: context,
                           snap: snap,
