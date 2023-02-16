@@ -306,31 +306,11 @@ class SnapService {
     _sectionsChangedController.add(section);
   }
 
-  final List<Snap> _snapsWithUpdate = [];
-  List<Snap> get snapsWithUpdate => _snapsWithUpdate;
-  Future<List<Snap>> loadSnapsWithUpdate() async {
-    List<Snap> localSnaps = await _snapDClient.getSnaps();
-
-    Map<Snap, Snap> localSnapsToStoreSnaps = {};
-    for (var snap in localSnaps) {
-      final storeSnap = await findSnapByName(snap.name) ?? snap;
-      localSnapsToStoreSnaps.putIfAbsent(snap, () => storeSnap);
-    }
-
-    final snapsWithUpdates = localSnaps.where((snap) {
-      if (localSnapsToStoreSnaps[snap] == null) return false;
-      return isSnapUpdateAvailable(
-        storeSnap: localSnapsToStoreSnaps[snap]!,
-        localSnap: snap,
-      );
-    }).toList();
-
-    if (_snapsWithUpdate.length != snapsWithUpdates.length) {
-      _snapsWithUpdate.clear();
-      _snapsWithUpdate.addAll(snapsWithUpdates);
-    }
-
-    return _snapsWithUpdate;
+  List<Snap> _snapsWithUpdate = [];
+  UnmodifiableListView<Snap> get snapsWithUpdate =>
+      UnmodifiableListView(_snapsWithUpdate);
+  Future<void> loadSnapsWithUpdate() async {
+    _snapsWithUpdate = await _snapDClient.find(select: 'refresh');
   }
 
   Future<void> refreshAll({
