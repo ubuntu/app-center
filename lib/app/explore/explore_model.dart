@@ -134,6 +134,15 @@ class ExploreModel extends SafeChangeNotifier {
     }
   }
 
+  Future<Snap?> _findSnapByName(String name) async {
+    try {
+      return await _snapService.findSnapByName(name);
+    } on SnapdException catch (e) {
+      errorMessage = e.message.toString();
+      return null;
+    }
+  }
+
   Future<List<AppstreamComponent>> _findAppstreamComponents(
     String searchQuery,
   ) async =>
@@ -188,6 +197,10 @@ class ExploreModel extends SafeChangeNotifier {
       if (selectedAppFormats
           .containsAll([AppFormat.snap, AppFormat.packageKit])) {
         final snaps = await _findSnapsByQuery(searchQuery!);
+        final exactMatch = await _findSnapByName(searchQuery!);
+        if (exactMatch != null) {
+          snaps.insert(0, exactMatch);
+        }
         for (final snap in snaps) {
           appFindings.putIfAbsent(
             snap.name,
