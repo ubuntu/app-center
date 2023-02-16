@@ -1,0 +1,9 @@
+dependency_overrides:
+  handy_window:
+    git:
+      ref: main
+      url: https://github.com/ubuntu-flutter-community/handy_window
+  window_manager:
+    git:
+      ref: linux-hide-title
+      url: https://github.com/jpnurmi/window_manager
