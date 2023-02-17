@@ -17,9 +17,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:yaru_icons/yaru_icons.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 
 class PublisherName extends StatelessWidget {
   const PublisherName({
@@ -31,6 +30,7 @@ class PublisherName extends StatelessWidget {
     this.limitChildWidth = true,
     this.height = 14,
     this.enhanceChildText = false,
+    required this.onPublisherSearch,
   });
 
   final bool verified;
@@ -40,6 +40,7 @@ class PublisherName extends StatelessWidget {
   final bool limitChildWidth;
   final double height;
   final bool enhanceChildText;
+  final void Function()? onPublisherSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class PublisherName extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
     );
     return InkWell(
-      onTap: () => launchUrl(Uri.parse(website)),
+      onTap: onPublisherSearch,
       child: SizedBox(
         child: Row(
           mainAxisSize: MainAxisSize.min,

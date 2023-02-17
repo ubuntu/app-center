@@ -189,6 +189,28 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> searchByPublisher(String username) async {
+    setSearchQuery(username);
+
+    searchResult = null;
+
+    final Map<String, AppFinding> appFindings = {};
+    if (searchQuery != null && searchQuery != '') {
+      final snaps = await _findSnapsByQuery(searchQuery!);
+      final publishersSnaps =
+          snaps.where((snap) => snap.publisher?.username == username);
+
+      for (final snap in publishersSnaps) {
+        appFindings.putIfAbsent(
+          snap.name,
+          () => AppFinding(snap: snap),
+        );
+      }
+
+      searchResult = appFindings;
+    }
+  }
+
   Future<void> search() async {
     searchResult = null;
 
