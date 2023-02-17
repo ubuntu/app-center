@@ -86,8 +86,8 @@ class CollectionModel extends SafeChangeNotifier {
 
     return searchQuery == null || searchQuery?.isEmpty == true
         ? _installedSnaps
-        : _installedSnaps!
-            .where((snap) => snap.name.contains(searchQuery!))
+        : _installedSnaps
+            ?.where((snap) => snap.name.contains(searchQuery!))
             .toList();
   }
 
