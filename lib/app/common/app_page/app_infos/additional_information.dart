@@ -7,6 +7,7 @@ import 'package:software/app/common/app_page/app_infos/publisher_info_fragment.d
 import 'package:software/app/common/app_page/app_infos/released_at_info_fragment.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import '../../expandable_title.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 
@@ -22,9 +23,8 @@ class AdditionalInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return YaruExpandable(
       isExpanded: true,
-      header: Text(
-        context.l10n.additionalInformation,
-        style: Theme.of(context).textTheme.titleLarge,
+      header: YaruExpandableTitle(
+        title: context.l10n.additionalInformation,
       ),
       child: ScrollConfiguration(
         behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
