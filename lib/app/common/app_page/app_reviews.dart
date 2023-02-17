@@ -74,7 +74,7 @@ class _AppReviewsState extends State<AppReviews> {
       child: YaruExpandable(
         isExpanded: false,
         header: YaruExpandableTitle(
-          title: context.l10n.reviewsAndRatings,
+          context.l10n.reviewsAndRatings,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

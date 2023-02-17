@@ -34,7 +34,7 @@ class AppDescription extends StatelessWidget {
       isExpanded: true,
       expandIcon: const Icon(YaruIcons.pan_end),
       header: YaruExpandableTitle(
-        title: context.l10n.description,
+        context.l10n.description,
       ),
       child: Padding(
         padding: const EdgeInsets.only(top: 20),

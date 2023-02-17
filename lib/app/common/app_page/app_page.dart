@@ -120,7 +120,7 @@ class _AppPageState extends State<AppPage> {
       child: YaruExpandable(
         isExpanded: true,
         header: YaruExpandableTitle(
-          title: context.l10n.gallery,
+          context.l10n.gallery,
         ),
         child: YaruCarousel(
           controller: controller,
