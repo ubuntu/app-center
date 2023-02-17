@@ -21,6 +21,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import '../expandable_title.dart';
 
 class AppDescription extends StatelessWidget {
   const AppDescription({super.key, required this.description});
@@ -32,9 +33,8 @@ class AppDescription extends StatelessWidget {
     return YaruExpandable(
       isExpanded: true,
       expandIcon: const Icon(YaruIcons.pan_end),
-      header: Text(
-        context.l10n.description,
-        style: Theme.of(context).textTheme.titleLarge,
+      header: YaruExpandableTitle(
+        title: context.l10n.description,
       ),
       child: Padding(
         padding: const EdgeInsets.only(top: 20),

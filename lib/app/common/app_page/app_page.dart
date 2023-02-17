@@ -35,6 +35,7 @@ import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import '../expandable_title.dart';
 
 class AppPage extends StatefulWidget {
   const AppPage({
@@ -118,9 +119,8 @@ class _AppPageState extends State<AppPage> {
       initialized: widget.initialized,
       child: YaruExpandable(
         isExpanded: true,
-        header: Text(
-          context.l10n.gallery,
-          style: Theme.of(context).textTheme.titleLarge,
+        header: YaruExpandableTitle(
+          title: context.l10n.gallery,
         ),
         child: YaruCarousel(
           controller: controller,
