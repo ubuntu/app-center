@@ -201,8 +201,12 @@ class _AppPageState extends State<AppPage> {
     final onPublisherSearch =
         widget.enableSearch == false || !widget.initialized
             ? null
-            : () => Navigator.of(context)
-                .pop(searchByPublisher(widget.appData.publisherUsername));
+            : () async {
+                await searchByPublisher(widget.appData.publisherUsername);
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              };
 
     final normalWindowAppHeader = BorderContainer(
       initialized: widget.initialized,
