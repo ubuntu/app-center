@@ -226,8 +226,7 @@ class _PackagePageState extends State<PackagePage> {
       initialized: initialized,
       child: YaruExpandable(
         header: YaruExpandableTitle(
-          title:
-              '${context.l10n.dependencies} (${model.missingDependencies.length})',
+          '${context.l10n.dependencies} (${model.missingDependencies.length})',
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 10),
