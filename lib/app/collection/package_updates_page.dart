@@ -25,6 +25,7 @@ import 'package:software/app/common/message_bar.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/updates_state.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import '../common/expandable_title.dart';
 
 class PackageUpdatesPage extends StatefulWidget {
   const PackageUpdatesPage({
@@ -234,10 +235,9 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                   width: 10,
                 ),
                 Expanded(
-                  child: Text(
-                    '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
-                    style: Theme.of(context).textTheme.titleLarge,
-                    overflow: TextOverflow.ellipsis,
+                  child: YaruExpandableTitle(
+                    title:
+                        '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
                   ),
                 )
               ],
