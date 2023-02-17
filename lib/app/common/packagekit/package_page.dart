@@ -41,6 +41,7 @@ import 'package:software/services/packagekit/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import '../expandable_title.dart';
 
 class PackagePage extends StatefulWidget {
   const PackagePage({
@@ -224,9 +225,9 @@ class _PackagePageState extends State<PackagePage> {
     final dependencies = BorderContainer(
       initialized: initialized,
       child: YaruExpandable(
-        header: Text(
-          '${context.l10n.dependencies} (${model.missingDependencies.length})',
-          style: Theme.of(context).textTheme.titleLarge,
+        header: YaruExpandableTitle(
+          title:
+              '${context.l10n.dependencies} (${model.missingDependencies.length})',
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 10),
