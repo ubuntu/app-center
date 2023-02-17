@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 class YaruExpandableTitle extends StatelessWidget {
   final String title;
 
-  const YaruExpandableTitle(this.title);
+  final Key? titleKey;
+
+  const YaruExpandableTitle(
+    this.title, {
+    this.titleKey,
+  }) : super(key: titleKey);
 
   @override
   Widget build(BuildContext context) {
