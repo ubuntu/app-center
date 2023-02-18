@@ -235,7 +235,7 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                   width: 10,
                 ),
                 Expanded(
-                  child: YaruExpandableTitle(
+                  child: ExpandableContainerTitle(
                     '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
                   ),
                 )
