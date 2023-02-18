@@ -225,7 +225,7 @@ class _PackagePageState extends State<PackagePage> {
     final dependencies = BorderContainer(
       initialized: initialized,
       child: YaruExpandable(
-        header: YaruExpandableTitle(
+        header: ExpandableContainerTitle(
           '${context.l10n.dependencies} (${model.missingDependencies.length})',
         ),
         child: Padding(
