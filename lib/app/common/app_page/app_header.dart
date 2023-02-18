@@ -72,6 +72,8 @@ class BannerAppHeader extends StatelessWidget {
                     Text(
                       appData.title,
                       style: theme.textTheme.titleLarge,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     PublisherName(
                       onPublisherSearch: onPublisherSearch,
