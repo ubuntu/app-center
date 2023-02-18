@@ -71,7 +71,7 @@ class BannerAppHeader extends StatelessWidget {
                   children: [
                     Text(
                       appData.title,
-                      style: theme.textTheme.titleLarge,
+                      style: theme.textTheme.titleLarge!.copyWith(fontSize: 23),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -131,7 +131,6 @@ class PageAppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scaledFontSize = (800 / appData.title.length.toDouble());
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -156,11 +155,9 @@ class PageAppHeader extends StatelessWidget {
                 children: [
                   Text(
                     appData.title,
-                    style: theme.textTheme.displaySmall!.copyWith(
-                      fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
-                      color: theme.colorScheme.onSurface,
+                    style: theme.textTheme.titleLarge!.copyWith(
+                      fontSize: 23,
                     ),
-                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                   ),
                   Center(
