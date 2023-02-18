@@ -33,7 +33,7 @@ class AppDescription extends StatelessWidget {
     return YaruExpandable(
       isExpanded: true,
       expandIcon: const Icon(YaruIcons.pan_end),
-      header: YaruExpandableTitle(
+      header: ExpandableContainerTitle(
         context.l10n.description,
       ),
       child: Padding(

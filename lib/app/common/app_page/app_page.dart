@@ -119,7 +119,7 @@ class _AppPageState extends State<AppPage> {
       initialized: widget.initialized,
       child: YaruExpandable(
         isExpanded: true,
-        header: YaruExpandableTitle(
+        header: ExpandableContainerTitle(
           context.l10n.gallery,
         ),
         child: YaruCarousel(

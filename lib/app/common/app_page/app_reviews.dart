@@ -73,7 +73,7 @@ class _AppReviewsState extends State<AppReviews> {
       initialized: widget.initialized,
       child: YaruExpandable(
         isExpanded: false,
-        header: YaruExpandableTitle(
+        header: ExpandableContainerTitle(
           context.l10n.reviewsAndRatings,
         ),
         child: Column(
