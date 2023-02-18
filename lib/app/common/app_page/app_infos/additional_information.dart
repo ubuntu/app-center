@@ -23,7 +23,7 @@ class AdditionalInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return YaruExpandable(
       isExpanded: true,
-      header: YaruExpandableTitle(
+      header: ExpandableContainerTitle(
         context.l10n.additionalInformation,
       ),
       child: ScrollConfiguration(
