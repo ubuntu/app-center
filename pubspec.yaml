@@ -50,7 +50,7 @@ dependencies:
   snapd:
     git:
       url: https://github.com/d-loose/snapd.dart
-      ref: find-select
+      ref: 0e65293b1d1849efcdcc82352e99cca3d42464da
   snowball_stemmer: ^0.1.0
   synchronized: ^3.0.0+3
   ubuntu_service: ^0.2.0
