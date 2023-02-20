@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:software/app/common/app_data.dart';
 import 'package:software/app/common/app_page/app_description.dart';
 import 'package:software/app/common/app_page/app_header.dart';
@@ -30,9 +31,11 @@ import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/custom_back_button.dart';
 import 'package:software/app/common/link.dart';
 import 'package:software/app/common/safe_network_image.dart';
+import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import '../expandable_title.dart';
 
 class AppPage extends StatefulWidget {
   const AppPage({
@@ -55,6 +58,7 @@ class AppPage extends StatefulWidget {
     this.onVote,
     this.onFlag,
     this.initialized = false,
+    this.enableSearch = true,
   });
 
   final bool initialized;
@@ -64,6 +68,7 @@ class AppPage extends StatefulWidget {
   final Widget? controls;
   final Widget? subDescription;
   final bool appIsInstalled;
+  final bool enableSearch;
 
   final double? reviewRating;
   final String? review;
@@ -107,13 +112,15 @@ class _AppPageState extends State<AppPage> {
 
     final icon = widget.icon;
 
+    final searchByPublisher =
+        context.select((ExploreModel m) => m.searchByPublisher);
+
     final media = BorderContainer(
       initialized: widget.initialized,
       child: YaruExpandable(
         isExpanded: true,
-        header: Text(
+        header: ExpandableContainerTitle(
           context.l10n.gallery,
-          style: Theme.of(context).textTheme.titleLarge,
         ),
         child: YaruCarousel(
           controller: controller,
@@ -191,9 +198,20 @@ class _AppPageState extends State<AppPage> {
       Clipboard.setData(ClipboardData(text: appData.website));
     }
 
+    final onPublisherSearch =
+        widget.enableSearch == false || !widget.initialized
+            ? null
+            : () async {
+                await searchByPublisher(widget.appData.publisherUsername);
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              };
+
     final normalWindowAppHeader = BorderContainer(
       initialized: widget.initialized,
       child: BannerAppHeader(
+        onPublisherSearch: onPublisherSearch,
         windowSize: windowSize,
         appData: widget.appData,
         controls: widget.preControls,
@@ -207,6 +225,7 @@ class _AppPageState extends State<AppPage> {
       initialized: widget.initialized,
       width: 500,
       child: PageAppHeader(
+        onPublisherSearch: onPublisherSearch,
         appData: widget.appData,
         icon: icon,
         controls: widget.preControls,
@@ -219,6 +238,7 @@ class _AppPageState extends State<AppPage> {
       initialized: widget.initialized,
       height: 700,
       child: PageAppHeader(
+        onPublisherSearch: onPublisherSearch,
         appData: widget.appData,
         icon: icon,
         controls: widget.preControls,

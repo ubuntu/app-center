@@ -41,16 +41,19 @@ import 'package:software/services/packagekit/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import '../expandable_title.dart';
 
 class PackagePage extends StatefulWidget {
   const PackagePage({
     super.key,
     this.appstream,
     this.snap,
+    this.enableSearch = true,
   });
 
   final AppstreamComponent? appstream;
   final Snap? snap;
+  final bool enableSearch;
 
   static Widget create({
     String? path,
@@ -58,6 +61,7 @@ class PackagePage extends StatefulWidget {
     PackageKitPackageId? packageId,
     AppstreamComponent? appstream,
     Snap? snap,
+    bool enableSearch = true,
   }) {
     return MultiProvider(
       providers: [
@@ -76,6 +80,7 @@ class PackagePage extends StatefulWidget {
       child: PackagePage(
         appstream: appstream,
         snap: snap,
+        enableSearch: enableSearch,
       ),
     );
   }
@@ -86,6 +91,7 @@ class PackagePage extends StatefulWidget {
     AppstreamComponent? appstream,
     Snap? snap,
     bool replace = false,
+    bool enableSearch = true,
   }) {
     assert(id != null || appstream != null);
     return (id == null ? appstream!.packageKitId : Future.value(id)).then(
@@ -99,6 +105,7 @@ class PackagePage extends StatefulWidget {
                     packageId: id,
                     appstream: appstream,
                     snap: snap,
+                    enableSearch: enableSearch,
                   );
                 },
               ),
@@ -112,6 +119,7 @@ class PackagePage extends StatefulWidget {
                     packageId: id,
                     appstream: appstream,
                     snap: snap,
+                    enableSearch: enableSearch,
                   );
                 },
               ),
@@ -149,6 +157,7 @@ class _PackagePageState extends State<PackagePage> {
 
     final appData = AppData(
       publisherName: model.developerName ?? context.l10n.unknown,
+      publisherUsername: model.developerName ?? context.l10n.unknown,
       releasedAt: model.releasedAt ?? context.l10n.unknown,
       appSize: model.getFormattedSize() ?? context.l10n.unknown,
       confinementName: context.l10n.classic,
@@ -196,6 +205,7 @@ class _PackagePageState extends State<PackagePage> {
                   appstream: widget.appstream,
                   snap: widget.snap!,
                   replace: true,
+                  enableSearch: widget.enableSearch,
                 );
               }
             },
@@ -215,9 +225,8 @@ class _PackagePageState extends State<PackagePage> {
     final dependencies = BorderContainer(
       initialized: initialized,
       child: YaruExpandable(
-        header: Text(
+        header: ExpandableContainerTitle(
           '${context.l10n.dependencies} (${model.missingDependencies.length})',
-          style: Theme.of(context).textTheme.titleLarge,
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 10),
@@ -240,6 +249,7 @@ class _PackagePageState extends State<PackagePage> {
 
     final review = context.read<ReviewModel>();
     return AppPage(
+      enableSearch: widget.enableSearch,
       initialized: initialized,
       appData: appData,
       appIsInstalled: model.isInstalled ?? false,

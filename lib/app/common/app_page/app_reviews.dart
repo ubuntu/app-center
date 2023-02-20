@@ -9,6 +9,7 @@ import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import '../expandable_title.dart';
 
 class AppReviews extends StatefulWidget {
   const AppReviews({
@@ -72,10 +73,8 @@ class _AppReviewsState extends State<AppReviews> {
       initialized: widget.initialized,
       child: YaruExpandable(
         isExpanded: false,
-        header: Text(
+        header: ExpandableContainerTitle(
           context.l10n.reviewsAndRatings,
-          style: Theme.of(context).textTheme.titleLarge,
-          overflow: TextOverflow.ellipsis,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -120,7 +120,11 @@ class _PackageTile extends StatelessWidget {
       name: id.name,
       key: ValueKey(id),
       trailing: const PackageControls(),
-      onTap: () => PackagePage.push(context, id: id),
+      onTap: () => PackagePage.push(
+        context,
+        id: id,
+        enableSearch: false,
+      ),
     );
   }
 }

@@ -84,18 +84,18 @@ class _Item extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final labelStyle = TextStyle(
-      color: theme.disabledColor,
-      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: theme.hintColor,
     );
     const infoStyle = TextStyle(
       overflow: TextOverflow.ellipsis,
-      fontSize: 14,
+      fontWeight: FontWeight.normal,
     );
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(10.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

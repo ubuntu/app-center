@@ -34,6 +34,7 @@ class BannerAppHeader extends StatelessWidget {
     required this.windowSize,
     this.subControls,
     this.onShare,
+    this.onPublisherSearch,
   });
 
   final AppData appData;
@@ -43,6 +44,7 @@ class BannerAppHeader extends StatelessWidget {
   final Widget icon;
   final Size windowSize;
   final Function()? onShare;
+  final void Function()? onPublisherSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +71,12 @@ class BannerAppHeader extends StatelessWidget {
                   children: [
                     Text(
                       appData.title,
-                      style: theme.textTheme.titleLarge,
+                      style: theme.textTheme.titleLarge!.copyWith(fontSize: 23),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     PublisherName(
+                      onPublisherSearch: onPublisherSearch,
                       height: 14,
                       publisherName: appData.publisherName,
                       website: appData.website,
@@ -114,6 +119,7 @@ class PageAppHeader extends StatelessWidget {
     required this.icon,
     this.subControls,
     this.onShare,
+    this.onPublisherSearch,
   });
 
   final AppData appData;
@@ -121,10 +127,10 @@ class PageAppHeader extends StatelessWidget {
   final Widget icon;
   final Widget? subControls;
   final Function()? onShare;
+  final void Function()? onPublisherSearch;
 
   @override
   Widget build(BuildContext context) {
-    final scaledFontSize = (800 / appData.title.length.toDouble());
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -149,15 +155,14 @@ class PageAppHeader extends StatelessWidget {
                 children: [
                   Text(
                     appData.title,
-                    style: theme.textTheme.displaySmall!.copyWith(
-                      fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
-                      color: theme.colorScheme.onSurface,
+                    style: theme.textTheme.titleLarge!.copyWith(
+                      fontSize: 23,
                     ),
-                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                   ),
                   Center(
                     child: PublisherName(
+                      onPublisherSearch: onPublisherSearch,
                       height: 14,
                       publisherName: appData.publisherName,
                       website: appData.website,
