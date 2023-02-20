@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk_application/gtk_application.dart';
@@ -74,6 +75,8 @@ void main() {
         sectionName: any(named: 'sectionName'),
       ),
     ).thenAnswer((_) async => []);
+    when(() => snapServiceMock.snapsWithUpdate)
+        .thenReturn(UnmodifiableListView([]));
 
     final gtkApplicationNotifierMock = MockGtkApplicationNotifier();
     registerMockService<GtkApplicationNotifier>(gtkApplicationNotifierMock);
