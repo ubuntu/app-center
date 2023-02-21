@@ -73,7 +73,8 @@ class AppModel extends SafeChangeNotifier {
     }
   }
 
-  int get updateAmount => _packageService.updates.length;
+  int get updateAmount =>
+      _packageService.updates.length + _snapService.snapsWithUpdate.length;
 
   bool get updatesProcessing =>
       updatesState == UpdatesState.checkingForUpdates ||
