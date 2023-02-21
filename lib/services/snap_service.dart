@@ -305,7 +305,7 @@ class SnapService {
   UnmodifiableListView<Snap> get snapsWithUpdate =>
       UnmodifiableListView(_snapsWithUpdate);
   Future<void> loadSnapsWithUpdate() async {
-    _snapsWithUpdate = await _snapDClient.find(select: 'refresh');
+    _snapsWithUpdate = await _snapDClient.find(filter: SnapFindFilter.refresh);
   }
 
   Future<void> refreshAll({
