@@ -129,29 +129,13 @@ class CollectionModel extends SafeChangeNotifier {
   Future<void> refreshAllSnapsWithUpdates({
     required String doneMessage,
   }) async {
-    await _snapService.authorize();
     if (snapsWithUpdate.isEmpty) return;
-
-    final firstSnap = snapsWithUpdate.first;
-    _snapService
-        .refresh(
-      snap: firstSnap,
+    await _snapService.authorize();
+    await _snapService.refreshMany(
+      snaps: snapsWithUpdate,
       message: doneMessage,
-      channel: firstSnap.channel,
-      confinement: firstSnap.confinement,
-    )
-        .then((_) {
-      notifyListeners();
-      for (var snap in snapsWithUpdate.skip(1)) {
-        _snapService.refresh(
-          snap: snap,
-          message: doneMessage,
-          confinement: snap.confinement,
-          channel: snap.channel,
-        );
-        notifyListeners();
-      }
-    });
+    );
+    notifyListeners();
   }
 
   SnapSort _snapSort = SnapSort.name;
