@@ -217,6 +217,15 @@ class SnapService {
     return await findLocalSnap(snap.name);
   }
 
+  Future<void> refreshMany({
+    required List<Snap> snaps,
+    required String message,
+  }) async {
+    final changeId =
+        await _snapDClient.refreshMany(snaps.map((e) => e.name).toList());
+    await _addChange(changeId, message);
+  }
+
   Future<Map<SnapPlug, bool>> loadPlugs(Snap localSnap) async {
     final Map<SnapPlug, bool> plugs = {};
 
@@ -311,13 +320,9 @@ class SnapService {
     required List<Snap> snaps,
   }) async {
     await authorize();
-    for (var snap in snaps) {
-      await refresh(
-        snap: snap,
-        message: doneMessage,
-        confinement: snap.confinement,
-        channel: snap.channel,
-      );
-    }
+    await refreshMany(
+      snaps: snaps,
+      message: doneMessage,
+    );
   }
 }
