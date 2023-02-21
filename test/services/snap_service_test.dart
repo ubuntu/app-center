@@ -477,4 +477,35 @@ void main() {
     await service.loadSnapsWithUpdate();
     expect(service.snapsWithUpdate, [snapWithUpdateNew]);
   });
+
+  test('refresh many', () async {
+    const snap1 = Snap(name: 'Snap1');
+    const snap2 = Snap(name: 'Snap2');
+
+    const changeId = '42';
+    when(() => mockSnapdClient.refreshMany([snap1.name, snap2.name]))
+        .thenAnswer((_) async => changeId);
+    when(() => mockSnapdClient.getChange(changeId)).thenAnswer(
+      (_) async => SnapdChange(
+        id: changeId,
+        spawnTime: DateTime.now(),
+        ready: true,
+        snapNames: [snap1.name, snap2.name],
+      ),
+    );
+
+    expectLater(service.snapChangesInserted, emitsInOrder([true, true]));
+
+    await service.refreshMany(snaps: [snap1, snap2], message: 'done');
+    expect(service.snapChanges, isEmpty);
+    verify(
+      () => mockNotificationsClient.notify(
+        any(),
+        body: any(named: 'body'),
+        appName: 'Snap Store',
+        appIcon: 'snap-store',
+        hints: any(named: 'hints'),
+      ),
+    ).called(1);
+  });
 }
