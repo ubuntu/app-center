@@ -314,15 +314,4 @@ class SnapService {
   Future<void> loadSnapsWithUpdate() async {
     _snapsWithUpdate = await _snapDClient.find(filter: SnapFindFilter.refresh);
   }
-
-  Future<void> refreshAll({
-    required String doneMessage,
-    required List<Snap> snaps,
-  }) async {
-    await authorize();
-    await refreshMany(
-      snaps: snaps,
-      message: doneMessage,
-    );
-  }
 }
