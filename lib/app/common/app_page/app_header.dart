@@ -50,7 +50,7 @@ class BannerAppHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return SizedBox(
-      height: 170,
+      height: 174,
       child: Column(
         children: [
           Row(
@@ -71,7 +71,7 @@ class BannerAppHeader extends StatelessWidget {
                   children: [
                     Text(
                       appData.title,
-                      style: theme.textTheme.titleLarge!.copyWith(fontSize: 23),
+                      style: theme.textTheme.titleLarge!.copyWith(fontSize: 24),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -156,7 +156,7 @@ class PageAppHeader extends StatelessWidget {
                   Text(
                     appData.title,
                     style: theme.textTheme.titleLarge!.copyWith(
-                      fontSize: 23,
+                      fontSize: 24,
                     ),
                     textAlign: TextAlign.center,
                   ),
