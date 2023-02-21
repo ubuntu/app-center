@@ -32,7 +32,7 @@ void main() {
       () => mockNotificationsClient.notify(
         any(),
         body: any(named: 'body'),
-        appName: snap1.name,
+        appName: 'Snap Store',
         appIcon: 'snap-store',
         hints: any(named: 'hints'),
       ),
@@ -223,7 +223,7 @@ void main() {
       () => mockNotificationsClient.notify(
         any(),
         body: any(named: 'body'),
-        appName: snap1.name,
+        appName: 'Snap Store',
         appIcon: 'snap-store',
         hints: any(named: 'hints'),
       ),
@@ -251,7 +251,7 @@ void main() {
       () => mockNotificationsClient.notify(
         any(),
         body: any(named: 'body'),
-        appName: snap1.name,
+        appName: 'Snap Store',
         appIcon: 'snap-store',
         hints: any(named: 'hints'),
       ),
@@ -311,7 +311,7 @@ void main() {
       () => mockNotificationsClient.notify(
         any(),
         body: any(named: 'body'),
-        appName: snap1.name,
+        appName: 'Snap Store',
         appIcon: 'snap-store',
         hints: any(named: 'hints'),
       ),

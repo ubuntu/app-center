@@ -25,14 +25,14 @@ import 'package:software/snapd_change_x.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 class SnapService {
-  final Map<Snap, SnapdChange> _snapChanges;
-  Map<Snap, SnapdChange> get snapChanges => _snapChanges;
+  final Map<String, SnapdChange> _snapChanges;
+  Map<String, SnapdChange> get snapChanges => _snapChanges;
   final SnapdClient _snapDClient;
   final NotificationsClient _notificationsClient;
 
-  Future<void> _addChange(Snap snap, String id, String doneString) async {
+  Future<void> _addChange(String id, String doneString) async {
     final newChange = await _snapDClient.getChange(id);
-    _snapChanges.putIfAbsent(snap, () => newChange);
+    _snapChanges.putIfAbsent(id, () => newChange);
     if (!_snapChangesController.isClosed) {
       _snapChangesController.add(true);
     }
@@ -46,11 +46,11 @@ class SnapService {
         }
       }
       if (newChange.ready) {
-        removeChange(snap);
+        removeChange(id);
         _notificationsClient.notify(
           'Software',
           body: '$doneString: ${newChange.summary}',
-          appName: snap.name,
+          appName: 'Snap Store',
           appIcon: 'snap-store',
           hints: [
             NotificationHint.desktopEntry('software'),
@@ -65,15 +65,16 @@ class SnapService {
     }
   }
 
-  void removeChange(Snap snap) {
-    _snapChanges.remove(snap);
+  void removeChange(String id) {
+    _snapChanges.remove(id);
     if (!_snapChangesController.isClosed) {
       _snapChangesController.add(true);
     }
   }
 
   SnapdChange? getChange(Snap snap) {
-    return _snapChanges[snap];
+    return _snapChanges.values
+        .firstWhereOrNull((change) => change.snapNames.contains(snap.name));
   }
 
   final _snapChangesController = StreamController<bool>.broadcast();
@@ -168,7 +169,6 @@ class SnapService {
       classic: snap.confinement == SnapConfinement.classic,
     );
     await _addChange(
-      snap,
       changeId,
       doneString,
     );
@@ -178,7 +178,6 @@ class SnapService {
   Future<Snap?> remove(Snap snap, String doneString) async {
     final changeId = await _snapDClient.remove(snap.name);
     await _addChange(
-      snap,
       changeId,
       doneString,
     );
@@ -203,7 +202,6 @@ class SnapService {
         );
 
         await _addChange(
-          snap,
           changeId,
           message,
         );
@@ -273,7 +271,7 @@ class SnapService {
             slot ?? plug,
           );
 
-    _addChange(snapThatWantsAConnection, changeId, doneMessage);
+    _addChange(changeId, doneMessage);
   }
 
   Future<bool> getSnapChangeInProgress({required String name}) async =>

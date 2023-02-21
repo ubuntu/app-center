@@ -34,7 +34,7 @@ class AppModel extends SafeChangeNotifier {
   );
 
   final SnapService _snapService;
-  Map<Snap, SnapdChange> get snapChanges => _snapService.snapChanges;
+  Map<String, SnapdChange> get snapChanges => _snapService.snapChanges;
   StreamSubscription<bool>? _snapChangesSub;
 
   final AppstreamService _appstreamService;
