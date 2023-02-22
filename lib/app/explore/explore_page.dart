@@ -74,9 +74,7 @@ class _ExplorePageState extends State<ExplorePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       model.setSelectedSection(widget.section);
-      if (model.searchQuery?.isNotEmpty == true) {
-        model.search();
-      }
+      model.setSearchQuery('');
     });
   }
 

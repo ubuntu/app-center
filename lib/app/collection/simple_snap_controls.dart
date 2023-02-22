@@ -110,8 +110,36 @@ class SimpleSnapControls extends StatelessWidget {
                   ),
                 ),
               OutlinedButton(
-                onPressed:
-                    enabled ? () => model.remove(context.l10n.done) : null,
+                onPressed: enabled
+                    ? () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(context.l10n.confirm),
+                              content: Text(
+                                '${context.l10n.remove} ${model.snap.apps.first.name}?',
+                              ),
+                              actions: <Widget>[
+                                OutlinedButton(
+                                  child: Text(context.l10n.cancel),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                ElevatedButton(
+                                  child: Text(context.l10n.remove),
+                                  onPressed: () {
+                                    model.remove(context.l10n.done);
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    : null,
                 child: Text(context.l10n.remove),
               ),
             ],
