@@ -108,6 +108,10 @@ class _PackageUpdateDialogState extends State<PackageUpdateDialog> {
               selectable: true,
               onTapLink: (text, href, title) =>
                   href != null ? launchUrl(Uri.parse(href)) : null,
+              styleSheet: MarkdownStyleSheet(
+                p: Theme.of(context).textTheme.bodyMedium,
+                a: TextStyle(color: Theme.of(context).primaryColor),
+              ),
             ),
           ),
         ),
