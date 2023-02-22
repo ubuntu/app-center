@@ -289,7 +289,6 @@ class _ShowDepsDialog extends StatefulWidget {
 }
 
 class _ShowDepsDialogState extends State<_ShowDepsDialog> {
-  bool _isExpanded = false;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -327,14 +326,11 @@ class _ShowDepsDialogState extends State<_ShowDepsDialog> {
             ),
             YaruExpandable(
               expandButtonPosition: YaruExpandableButtonPosition.start,
-              onChange: (isExpanded) =>
-                  setState(() => _isExpanded = isExpanded),
               header: MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: Text(
                   context.l10n.dependencies,
-                  style: TextStyle(
-                    color: _isExpanded ? null : theme.primaryColor,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
                 ),

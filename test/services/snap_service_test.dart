@@ -472,7 +472,7 @@ void main() {
     when(mockSnapdClient.getSnaps).thenAnswer(
       (_) async => [snapWithUpdateOld, snapWithoutUpdate],
     );
-    when(() => mockSnapdClient.find(select: 'refresh'))
+    when(() => mockSnapdClient.find(filter: SnapFindFilter.refresh))
         .thenAnswer((_) async => [snapWithUpdateNew]);
     await service.loadSnapsWithUpdate();
     expect(service.snapsWithUpdate, [snapWithUpdateNew]);

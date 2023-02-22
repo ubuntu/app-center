@@ -47,10 +47,7 @@ dependencies:
   quiver: ^3.1.0
   safe_change_notifier: ^0.2.0
   shimmer: ^2.0.0
-  snapd:
-    git:
-      url: https://github.com/d-loose/snapd.dart
-      ref: find-select
+  snapd: ^0.4.7
   snowball_stemmer: ^0.1.0
   synchronized: ^3.0.0+3
   ubuntu_service: ^0.2.0
