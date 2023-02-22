@@ -56,7 +56,7 @@
   "refresh": "Refresh",
   "remove": "Remove",
   "confirmRemove": "Are you sure you want to remove this package?",
-    "removePackage": "Remove {package}?",
+    "removePackage": "Remove {package}",
   "@removePackage": {
     "placeholders": {
       "package": {
