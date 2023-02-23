@@ -169,7 +169,7 @@ class _SnapPageState extends State<SnapPage> {
     );
 
     final snapLabelContainerCut = YaruBorderContainer(
-      color: theme.dividerColor,
+      color: theme.colorScheme.outline,
       padding: const EdgeInsets.symmetric(horizontal: 5),
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(kYaruButtonRadius),
