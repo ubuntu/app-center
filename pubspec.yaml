@@ -55,7 +55,7 @@ dependencies:
   url_launcher: ^6.1.2
   version: ^3.0.2
   xdg_icons: ^0.0.1
-  yaru: ^0.5.4
+  yaru: ^0.5.5
   yaru_colors: ^0.1.6
   yaru_icons: ^1.0.3
   yaru_widgets: ^2.1.1
