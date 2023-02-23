@@ -116,9 +116,12 @@ class SimpleSnapControls extends StatelessWidget {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text(context.l10n.confirm),
+                              title: Text(
+                                context.l10n
+                                    .removePackage(model.snap.apps.first.name),
+                              ),
                               content: Text(
-                                '${context.l10n.remove} ${model.snap.apps.first.name}?',
+                                context.l10n.confirmRemove,
                               ),
                               actions: <Widget>[
                                 OutlinedButton(
@@ -128,6 +131,10 @@ class SimpleSnapControls extends StatelessWidget {
                                   },
                                 ),
                                 ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.error,
+                                  ),
                                   child: Text(context.l10n.remove),
                                   onPressed: () {
                                     model.remove(context.l10n.done);
