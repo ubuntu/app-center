@@ -143,9 +143,6 @@ enum SnapSection {
     }
   }
 
-  // TODO: @madsrh please add colors
-  // Those are normal hex plus the leading FF for alpha, just leave FF
-  // or take colors from YaruColors
   List<int> get colors {
     switch (this) {
       case SnapSection.art_and_design:
