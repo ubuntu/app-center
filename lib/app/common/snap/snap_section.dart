@@ -143,15 +143,12 @@ enum SnapSection {
     }
   }
 
-  // TODO: @madsrh please add colors
-  // Those are normal hex plus the leading FF for alpha, just leave FF
-  // or take colors from YaruColors
   List<int> get colors {
     switch (this) {
       case SnapSection.art_and_design:
         return [
-          const Color.fromARGB(255, 36, 143, 192).value,
-          const Color.fromARGB(255, 163, 33, 163).value
+          const Color.fromARGB(255, 0, 5, 148).value,
+          const Color.fromARGB(255, 255, 155, 179).value
         ];
       case SnapSection.books_and_reference:
         return [
@@ -160,8 +157,8 @@ enum SnapSection {
         ];
       case SnapSection.development:
         return [
-          const Color.fromARGB(255, 113, 80, 151).value,
-          const Color.fromARGB(255, 165, 26, 146).value
+          const Color.fromARGB(255, 54, 0, 80).value,
+          const Color.fromARGB(255, 225, 59, 149).value
         ];
       case SnapSection.devices_and_iot:
         return [
@@ -190,8 +187,8 @@ enum SnapSection {
         ];
       case SnapSection.games:
         return [
-          const Color.fromARGB(255, 25, 119, 96).value,
-          const Color.fromARGB(255, 135, 3, 124).value
+          const Color.fromARGB(255, 180, 22, 1).value,
+          const Color.fromARGB(255, 254, 172, 12).value
         ];
       case SnapSection.health_and_fitness:
         return [
@@ -219,7 +216,10 @@ enum SnapSection {
           const Color.fromARGB(255, 133, 133, 133).value
         ];
       case SnapSection.productivity:
-        return [const Color(0xFF712290).value, const Color(0xFFff5733).value];
+        return [
+          const Color.fromARGB(255, 8, 36, 53).value,
+          const Color.fromARGB(255, 41, 112, 104).value
+        ];
       case SnapSection.science:
         return [
           const Color.fromARGB(255, 71, 71, 71).value,
@@ -247,8 +247,8 @@ enum SnapSection {
         ];
       case SnapSection.all:
         return [
-          const Color.fromARGB(255, 167, 92, 22).value,
-          const Color.fromARGB(255, 133, 1, 122).value
+          const Color.fromARGB(255, 112, 0, 69).value,
+          const Color.fromARGB(255, 233, 84, 32).value
         ];
     }
   }
