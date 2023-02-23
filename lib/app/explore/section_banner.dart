@@ -34,6 +34,7 @@ class SectionBanner extends StatelessWidget {
       section.localize(context.l10n),
       style: Theme.of(context).textTheme.headlineSmall!.copyWith(
         color: firstGradientColorIsBright ? YaruColors.inkstone : Colors.white,
+        fontWeight: FontWeight.w500,
         shadows: [
           if (!firstGradientColorIsBright)
             Shadow(
@@ -58,9 +59,7 @@ class SectionBanner extends StatelessWidget {
     final subSlogan = Text(
       section.slogan(context.l10n),
       style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-        color: firstGradientColorIsBright
-            ? YaruColors.inkstone
-            : Colors.white.withOpacity(0.7),
+        color: firstGradientColorIsBright ? YaruColors.inkstone : Colors.white,
         fontWeight: FontWeight.w100,
         shadows: [
           if (!firstGradientColorIsBright)

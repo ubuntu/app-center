@@ -100,6 +100,7 @@ class _PackageUpdateDialogState extends State<PackageUpdateDialog> {
         child: Padding(
           padding: const EdgeInsets.only(bottom: 16),
           child: BorderContainer(
+            width: double.infinity,
             child: MarkdownBody(
               data: model.changelog.length > 4000
                   ? '${model.changelog.substring(0, 4000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
