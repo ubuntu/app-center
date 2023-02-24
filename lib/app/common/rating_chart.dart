@@ -62,82 +62,89 @@ class RatingChart extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (appRating.star5 != null)
-                  Row(
-                    children: [
-                      const Text(
-                        '5',
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: YaruLinearProgressIndicator(
-                          value: (appRating.star5! / 100).toDouble(),
-                        ),
-                      ),
-                    ],
+                  _RatingBar(
+                    starXAmount: appRating.star5!,
+                    total: appRating.total!,
+                    label: '5',
+                    color: const Color.fromARGB(255, 54, 177, 52),
                   ),
                 if (appRating.star4 != null)
-                  Row(
-                    children: [
-                      const Text('4'),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: YaruLinearProgressIndicator(
-                          value: (appRating.star5! / 100).toDouble(),
-                        ),
-                      ),
-                    ],
+                  _RatingBar(
+                    starXAmount: appRating.star4!,
+                    total: appRating.total!,
+                    label: '4',
+                    color: const Color(0xFFb1cf00),
                   ),
                 if (appRating.star3 != null)
-                  Row(
-                    children: [
-                      const Text('3'),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: YaruLinearProgressIndicator(
-                          value: (appRating.star3! / 100).toDouble(),
-                        ),
-                      ),
-                    ],
+                  _RatingBar(
+                    starXAmount: appRating.star3!,
+                    total: appRating.total!,
+                    label: '3',
+                    color: const Color(0xFFd49e00),
                   ),
                 if (appRating.star2 != null)
-                  Row(
-                    children: [
-                      const Text('2'),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: YaruLinearProgressIndicator(
-                          value: (appRating.star2! / 100).toDouble(),
-                        ),
-                      ),
-                    ],
+                  _RatingBar(
+                    starXAmount: appRating.star2!,
+                    total: appRating.total!,
+                    label: '2',
+                    color: const Color(0xFFe56500),
                   ),
                 if (appRating.star1 != null)
-                  Row(
-                    children: [
-                      const Text('1'),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: YaruLinearProgressIndicator(
-                          value: (appRating.star1! / 100).toDouble(),
-                        ),
-                      ),
-                    ],
+                  _RatingBar(
+                    starXAmount: appRating.star1!,
+                    total: appRating.total!,
+                    label: '1',
+                    color: const Color(0xFFe21033),
                   ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _RatingBar extends StatelessWidget {
+  const _RatingBar({
+    required this.starXAmount,
+    required this.total,
+    required this.label,
+    required this.color,
+  });
+
+  final int starXAmount;
+  final int total;
+  final String label;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          label,
+        ),
+        const SizedBox(
+          width: 5,
+        ),
+        Expanded(
+          child: YaruLinearProgressIndicator(
+            color: color,
+            value: (starXAmount / total).toDouble(),
+          ),
+        ),
+        const SizedBox(
+          width: 2,
+        ),
+        SizedBox(
+          width: 33,
+          child: Text(
+            starXAmount.toString(),
+            textAlign: TextAlign.end,
+          ),
+        ),
+      ],
     );
   }
 }
