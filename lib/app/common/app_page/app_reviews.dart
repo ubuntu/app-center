@@ -611,9 +611,45 @@ class _RatingHeader extends StatelessWidget {
                 size: 16,
                 color: Theme.of(context).disabledColor,
               ),
-              onPressed: onFlag == null ? null : () => onFlag!(userReview),
+              onPressed: onFlag == null
+                  ? null
+                  : () => showDialog(
+                        context: context,
+                        builder: (context) => _ReportReviewDialog(
+                          onFlag: () => onFlag!(userReview),
+                        ),
+                      ),
             )
           ],
+        )
+      ],
+    );
+  }
+}
+
+class _ReportReviewDialog extends StatelessWidget {
+  const _ReportReviewDialog({required this.onFlag});
+
+  final void Function() onFlag;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      titlePadding: EdgeInsets.zero,
+      title:
+          YaruDialogTitleBar(title: Text(context.l10n.reportReviewDialogTitle)),
+      content: Text(context.l10n.reportReviewDialogBody),
+      actions: [
+        OutlinedButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(context.l10n.cancel),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            onFlag();
+            Navigator.of(context).pop();
+          },
+          child: Text(context.l10n.report),
         )
       ],
     );

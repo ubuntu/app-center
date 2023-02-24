@@ -202,5 +202,8 @@
   "contributors": "Contributors",
   "collection": "Collection",
   "copiedToClipboard": "Copied to clipboard",
-  "share": "Share"
+  "share": "Share",
+  "report": "Report",
+  "reportReviewDialogTitle": "Report review?",
+  "reportReviewDialogBody": "You can report review for abusive, rude, or discriminatory behavior. Once reported, a review will be hidden until it has been checked by an administrator."
 }
