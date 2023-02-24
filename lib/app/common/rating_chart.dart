@@ -134,16 +134,6 @@ class _RatingBar extends StatelessWidget {
             value: (starXAmount / total).toDouble(),
           ),
         ),
-        const SizedBox(
-          width: 2,
-        ),
-        SizedBox(
-          width: 33,
-          child: Text(
-            starXAmount.toString(),
-            textAlign: TextAlign.end,
-          ),
-        ),
       ],
     );
   }

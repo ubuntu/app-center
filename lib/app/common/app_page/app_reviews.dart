@@ -160,47 +160,12 @@ class _ReviewDetailsDialog extends StatelessWidget {
         title: Text(context.l10n.reviewsAndRatings),
       ),
       titlePadding: EdgeInsets.zero,
-      contentPadding: const EdgeInsets.only(
-        top: kYaruPagePadding,
-      ),
+      contentPadding: const EdgeInsets.all(kYaruPagePadding),
       children: userReviews == null
           ? []
           : userReviews!
               .map(
-                (e) => BorderContainer(
-                  margin: const EdgeInsets.only(
-                    left: kYaruPagePadding,
-                    right: kYaruPagePadding,
-                    bottom: kYaruPagePadding,
-                  ),
-                  padding: const EdgeInsets.only(
-                    right: kYaruPagePadding,
-                    left: kYaruPagePadding,
-                    top: 10,
-                    bottom: kYaruPagePadding,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _RatingHeader(
-                        userReview: e,
-                        onVote: onVote,
-                        onFlag: onFlag,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: 400,
-                        child: Text(
-                          e.review ?? '',
-                          overflow: TextOverflow.visible,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                (e) => _Review(userReview: e, onFlag: onFlag, onVote: onVote),
               )
               .toList(),
     );
