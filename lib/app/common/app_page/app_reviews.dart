@@ -668,7 +668,8 @@ class _ReportReviewDialog extends StatelessWidget {
       titlePadding: EdgeInsets.zero,
       title:
           YaruDialogTitleBar(title: Text(context.l10n.reportReviewDialogTitle)),
-      content: Text(context.l10n.reportReviewDialogBody),
+      content: SizedBox(
+          width: 400, child: Text(context.l10n.reportReviewDialogBody)),
       actions: [
         OutlinedButton(
           onPressed: () => Navigator.of(context).pop(),
