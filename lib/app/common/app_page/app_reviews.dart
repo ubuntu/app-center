@@ -3,14 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
-import 'package:software/app/common/app_rating.dart';
-import 'package:software/app/common/rating_chart.dart';
-import 'package:software/l10n/l10n.dart';
 import 'package:software/app/common/app_data.dart';
+import 'package:software/app/common/app_rating.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/constants.dart';
+import 'package:software/app/common/rating_chart.dart';
+import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
 import '../expandable_title.dart';
 
 class AppReviews extends StatefulWidget {
@@ -166,9 +167,9 @@ class _ReviewDetailsDialog extends StatelessWidget {
           : userReviews!
               .map(
                 (e) => SizedBox(
-                    width: 500,
-                    child:
-                        _Review(userReview: e, onFlag: onFlag, onVote: onVote)),
+                  width: 500,
+                  child: _Review(userReview: e, onFlag: onFlag, onVote: onVote),
+                ),
               )
               .toList(),
     );
@@ -325,30 +326,41 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
       titlePadding: EdgeInsets.zero,
       title: YaruDialogTitleBar(
         title: Text(context.l10n.yourReview),
-        leading: const Icon(YaruIcons.star_filled),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          RatingBar.builder(
-            initialRating: widget.reviewRating ?? 0,
-            minRating: 1,
-            direction: Axis.horizontal,
-            allowHalfRating: true,
-            itemCount: 5,
-            itemPadding: const EdgeInsets.only(right: 10),
-            itemSize: 50,
-            itemBuilder: (context, _) => const Icon(
-              YaruIcons.star_filled,
-              color: kStarColor,
-              size: 2,
-            ),
-            unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
-            onRatingUpdate: (rating) {
-              if (widget.onRatingUpdate == null) return;
-              widget.onRatingUpdate!(rating);
-            },
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${context.l10n.rating}:',
+                style: theme.textTheme.bodyLarge?.copyWith(height: 1.2),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              RatingBar.builder(
+                initialRating: widget.reviewRating ?? 0,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: const EdgeInsets.only(right: 5),
+                itemSize: 25,
+                itemBuilder: (context, _) => const Icon(
+                  YaruIcons.star_filled,
+                  color: kStarColor,
+                  size: 2,
+                ),
+                unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
+                onRatingUpdate: (rating) {
+                  if (widget.onRatingUpdate == null) return;
+                  widget.onRatingUpdate!(rating);
+                },
+              ),
+            ],
           ),
           const SizedBox(
             height: kYaruPagePadding,
@@ -356,7 +368,8 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
           TextField(
             controller: _reviewUserController,
             onChanged: widget.onReviewUserChanged,
-            decoration: InputDecoration(hintText: context.l10n.yourReviewName),
+            decoration:
+                InputDecoration(label: Text(context.l10n.yourReviewName)),
           ),
           const SizedBox(
             height: kYaruPagePadding,
@@ -364,7 +377,8 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
           TextField(
             controller: _reviewTitleController,
             onChanged: widget.onReviewTitleChanged,
-            decoration: InputDecoration(hintText: context.l10n.yourReviewTitle),
+            decoration:
+                InputDecoration(label: Text(context.l10n.yourReviewTitle)),
           ),
           const SizedBox(
             height: kYaruPagePadding,
@@ -377,12 +391,19 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
               keyboardType: TextInputType.multiline,
               minLines: 10,
               maxLines: 10,
-              decoration: InputDecoration(hintText: context.l10n.yourReview),
+              decoration: InputDecoration(
+                label: Text(context.l10n.yourReview),
+                floatingLabelAlignment: FloatingLabelAlignment.start,
+              ),
             ),
           ),
         ],
       ),
       actions: [
+        OutlinedButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(context.l10n.cancel),
+        ),
         ElevatedButton(
           onPressed: () {
             if (widget.onReviewSend != null) {
