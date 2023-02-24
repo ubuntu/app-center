@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:software/app/common/app_rating.dart';
+import 'package:software/app/common/rating_chart.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/app/common/app_data.dart';
 import 'package:software/app/common/border_container.dart';
@@ -14,7 +16,7 @@ import '../expandable_title.dart';
 class AppReviews extends StatefulWidget {
   const AppReviews({
     super.key,
-    this.averageRating,
+    this.appRating,
     this.userReviews,
     this.onRatingUpdate,
     this.onReviewSend,
@@ -31,7 +33,7 @@ class AppReviews extends StatefulWidget {
     required this.initialized,
   });
 
-  final double? averageRating;
+  final AppRating? appRating;
   final double? reviewRating;
   final String? reviewTitle;
   final String? review;
@@ -79,20 +81,41 @@ class _AppReviewsState extends State<AppReviews> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _ReviewPanel(
-              appIsInstalled: widget.appIsInstalled,
-              averageRating: widget.averageRating,
-              reviewRating: widget.reviewRating,
-              review: widget.review,
-              reviewTitle: widget.reviewTitle,
-              reviewUser: widget.reviewUser,
-              onRatingUpdate: widget.onRatingUpdate,
-              onReviewSend: widget.onReviewSend,
-              onReviewChanged: widget.onReviewChanged,
-              onReviewTitleChanged: widget.onReviewTitleChanged,
-              onReviewUserChanged: widget.onReviewUserChanged,
+            RatingChart(
+              appRating: AppRating(
+                average: widget.appRating?.average,
+                total: widget.appRating?.total,
+                star0: widget.appRating?.star0,
+                star1: widget.appRating?.star1,
+                star2: widget.appRating?.star2,
+                star3: widget.appRating?.star3,
+                star4: widget.appRating?.star4,
+                star5: widget.appRating?.star5,
+              ),
             ),
-            const Divider(),
+            const Divider(
+              height: 60,
+              thickness: 0.0,
+            ),
+            if (widget.appIsInstalled)
+              _ReviewPanel(
+                appIsInstalled: widget.appIsInstalled,
+                averageRating: widget.appRating?.average,
+                reviewRating: widget.reviewRating,
+                review: widget.review,
+                reviewTitle: widget.reviewTitle,
+                reviewUser: widget.reviewUser,
+                onRatingUpdate: widget.onRatingUpdate,
+                onReviewSend: widget.onReviewSend,
+                onReviewChanged: widget.onReviewChanged,
+                onReviewTitleChanged: widget.onReviewTitleChanged,
+                onReviewUserChanged: widget.onReviewUserChanged,
+              ),
+            if (widget.appIsInstalled)
+              const Divider(
+                height: 60,
+                thickness: 0.0,
+              ),
             _ReviewsCarousel(
               userReviews: widget.userReviews,
               controller: _controller,
@@ -234,27 +257,29 @@ class _ReviewPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const SizedBox(
-          height: kYaruPagePadding,
-        ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+            Row(
               children: [
+                Text(
+                  '${context.l10n.clickToRate}:',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
                 RatingBar.builder(
                   initialRating: reviewRating ?? 0,
                   minRating: 1,
                   direction: Axis.horizontal,
                   allowHalfRating: true,
                   itemCount: 5,
-                  itemPadding: const EdgeInsets.only(right: 5),
-                  itemSize: 35,
+                  itemPadding: const EdgeInsets.only(right: 1),
+                  itemSize: 20,
                   itemBuilder: (context, _) => const Icon(
                     YaruIcons.star_filled,
                     color: kStarColor,
@@ -268,49 +293,30 @@ class _ReviewPanel extends StatelessWidget {
                   },
                   ignoreGestures: !appIsInstalled,
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Text(
-                    appIsInstalled
-                        ? context.l10n.clickToRate
-                        : context.l10n.notInstalled,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ),
               ],
             ),
-            const SizedBox(
-              width: kYaruPagePadding,
-            ),
-            if (appIsInstalled)
-              ElevatedButton(
-                onPressed: () => showDialog(
-                  context: context,
-                  builder: (context) => _MyReviewDialog(
-                    reviewRating: reviewRating,
-                    review: review,
-                    reviewTitle: reviewTitle,
-                    reviewUser: reviewUser,
-                    onRatingUpdate: (rating) {
-                      if (onRatingUpdate != null) {
-                        onRatingUpdate!(rating);
-                      }
-                    },
-                    onReviewSend: onReviewSend,
-                    onReviewChanged: onReviewChanged,
-                    onReviewTitleChanged: onReviewTitleChanged,
-                    onReviewUserChanged: onReviewUserChanged,
-                  ),
+            ElevatedButton(
+              onPressed: () => showDialog(
+                context: context,
+                builder: (context) => _MyReviewDialog(
+                  reviewRating: reviewRating,
+                  review: review,
+                  reviewTitle: reviewTitle,
+                  reviewUser: reviewUser,
+                  onRatingUpdate: (rating) {
+                    if (onRatingUpdate != null) {
+                      onRatingUpdate!(rating);
+                    }
+                  },
+                  onReviewSend: onReviewSend,
+                  onReviewChanged: onReviewChanged,
+                  onReviewTitleChanged: onReviewTitleChanged,
+                  onReviewUserChanged: onReviewUserChanged,
                 ),
-                child: Text(context.l10n.yourReview),
-              )
+              ),
+              child: Text(context.l10n.yourReview),
+            )
           ],
-        ),
-        const SizedBox(
-          height: kYaruPagePadding,
         ),
       ],
     );
