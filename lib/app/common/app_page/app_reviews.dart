@@ -669,7 +669,9 @@ class _ReportReviewDialog extends StatelessWidget {
       title:
           YaruDialogTitleBar(title: Text(context.l10n.reportReviewDialogTitle)),
       content: SizedBox(
-          width: 400, child: Text(context.l10n.reportReviewDialogBody)),
+        width: 400,
+        child: Text(context.l10n.reportReviewDialogBody),
+      ),
       actions: [
         OutlinedButton(
           onPressed: () => Navigator.of(context).pop(),
