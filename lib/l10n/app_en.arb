@@ -204,6 +204,7 @@
   "copiedToClipboard": "Copied to clipboard",
   "share": "Share",
   "report": "Report",
+  "reportAbuse": "Report Abuse",
   "reportReviewDialogTitle": "Report review?",
   "reportReviewDialogBody": "You can report a review for abusive, rude, or discriminatory behavior. Once reported, a review will be hidden until it has been checked by an administrator."
 }

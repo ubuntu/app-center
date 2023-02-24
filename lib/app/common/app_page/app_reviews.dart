@@ -83,7 +83,7 @@ class _AppReviewsState extends State<AppReviews> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: kYaruPagePadding,
+              height: 10,
             ),
             if (widget.appRating != null)
               RatingChart(
@@ -534,6 +534,9 @@ class _Review extends StatelessWidget {
             ),
           ],
         ),
+        const SizedBox(
+          height: 10,
+        ),
         _RatingHeader(
           userReview: userReview,
           onFlag: onFlag,
@@ -561,44 +564,59 @@ class _RatingHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Wrap(
-      alignment: WrapAlignment.spaceBetween,
+      alignment: WrapAlignment.start,
       crossAxisAlignment: WrapCrossAlignment.start,
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
+              padding: EdgeInsets.zero,
               icon: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    '${userReview.positiveVote ?? 1}',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
                   Icon(
-                    Icons.arrow_upward,
-                    color: Theme.of(context).disabledColor,
+                    Icons.thumb_up_outlined,
+                    color: theme.disabledColor,
                     size: 16,
-                  )
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    '${userReview.positiveVote ?? 1}   helpful',
+                    style: theme.textTheme.bodySmall,
+                  ),
                 ],
               ),
               onPressed:
                   onVote == null ? null : () => onVote!(userReview, false),
             ),
+            const SizedBox(
+              width: kYaruPagePadding,
+            ),
             IconButton(
+              padding: EdgeInsets.zero,
               icon: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    '${userReview.negativeVote ?? 1}',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
                   Icon(
-                    Icons.arrow_downward,
-                    color: Theme.of(context).disabledColor,
+                    Icons.thumb_down_outlined,
+                    color: theme.disabledColor,
                     size: 16,
-                  )
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    '${userReview.negativeVote ?? 1}   not helpful',
+                    style: theme.textTheme.bodySmall,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
                 ],
               ),
               onPressed:
@@ -606,10 +624,22 @@ class _RatingHeader extends StatelessWidget {
             ),
             const SizedBox(height: 15, child: VerticalDivider()),
             IconButton(
-              icon: Icon(
-                Icons.flag_rounded,
-                size: 16,
-                color: Theme.of(context).disabledColor,
+              padding: EdgeInsets.zero,
+              icon: Row(
+                children: [
+                  Icon(
+                    Icons.flag_rounded,
+                    size: 16,
+                    color: Theme.of(context).disabledColor,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    context.l10n.reportAbuse,
+                    style: theme.textTheme.bodySmall,
+                  )
+                ],
               ),
               onPressed: onFlag == null
                   ? null

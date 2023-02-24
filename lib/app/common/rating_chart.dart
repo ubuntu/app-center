@@ -20,7 +20,7 @@ class RatingChart extends StatelessWidget {
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 appRating.average?.toStringAsFixed(1) ?? '',
@@ -29,9 +29,6 @@ class RatingChart extends StatelessWidget {
                   fontSize: 50,
                   fontWeight: FontWeight.w200,
                 ),
-              ),
-              const SizedBox(
-                height: 10,
               ),
               RatingBar.builder(
                 initialRating: appRating.average ?? 0,
