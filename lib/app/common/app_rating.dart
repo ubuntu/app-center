@@ -7,9 +7,22 @@ class AppRating {
   final double? average;
   final int? total;
 
+  final int? star0;
+  final int? star1;
+  final int? star2;
+  final int? star3;
+  final int? star4;
+  final int? star5;
+
   const AppRating({
     this.average,
     this.total,
+    this.star0,
+    this.star1,
+    this.star2,
+    this.star3,
+    this.star4,
+    this.star5,
   });
 
   @override
