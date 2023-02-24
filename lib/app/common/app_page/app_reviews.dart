@@ -165,7 +165,10 @@ class _ReviewDetailsDialog extends StatelessWidget {
           ? []
           : userReviews!
               .map(
-                (e) => _Review(userReview: e, onFlag: onFlag, onVote: onVote),
+                (e) => SizedBox(
+                    width: 500,
+                    child:
+                        _Review(userReview: e, onFlag: onFlag, onVote: onVote)),
               )
               .toList(),
     );
