@@ -154,7 +154,7 @@ class _SnapPageState extends State<SnapPage> {
       description: model.description ?? '',
       versionChanged: model.isUpdateAvailable(),
       userReviews: userReviews ?? [],
-      averageRating: rating?.average ?? 0.0,
+      appRating: rating,
       appFormat: AppFormat.snap,
       contact: model.contact ?? context.l10n.unknown,
     );

@@ -173,7 +173,7 @@ class _PackagePageState extends State<PackagePage> {
       screenShotUrls: model.screenshotUrls,
       description: model.description,
       userReviews: userReviews ?? [],
-      averageRating: rating?.average ?? 0.0,
+      appRating: rating,
       appFormat: AppFormat.packageKit,
       versionChanged: model.versionChanged ?? false,
       contact: context.l10n.unknown,

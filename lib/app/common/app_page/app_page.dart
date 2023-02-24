@@ -157,7 +157,7 @@ class _AppPageState extends State<AppPage> {
       review: widget.review,
       reviewTitle: widget.reviewTitle,
       reviewUser: widget.reviewUser,
-      averageRating: widget.appData.averageRating,
+      appRating: widget.appData.appRating,
       userReviews: widget.appData.userReviews,
       appIsInstalled: widget.appIsInstalled,
       onRatingUpdate: widget.onRatingUpdate,

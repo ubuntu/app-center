@@ -48,7 +48,7 @@ class AppInfos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appInfos = [
-      RatingInfoFragment(averageRating: appData.averageRating),
+      RatingInfoFragment(averageRating: appData.appRating?.average ?? 0.0),
       ConfinementInfoFragment(
         strict: appData.strict,
         confinementName: appData.confinementName,
