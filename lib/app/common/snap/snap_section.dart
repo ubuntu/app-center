@@ -187,10 +187,10 @@ enum SnapSection {
         ];
       case SnapSection.games:
         return [
-          Color.fromARGB(255, 3, 0, 30).value,
-          Color.fromARGB(255, 115, 3, 192).value,
-          Color.fromARGB(255, 236, 56, 188).value,
-          const Color.fromARGB(255, 238, 114, 205).value
+          const Color.fromARGB(255, 3, 0, 30).value,
+          const Color.fromARGB(255, 115, 3, 192).value,
+          const Color.fromARGB(255, 236, 56, 188).value,
+          const Color.fromARGB(255, 238, 114, 205).value,
         ];
       case SnapSection.health_and_fitness:
         return [
