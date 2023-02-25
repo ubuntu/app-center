@@ -231,12 +231,15 @@ class _ReviewPanel extends StatelessWidget {
                   direction: Axis.horizontal,
                   allowHalfRating: true,
                   itemCount: 5,
-                  itemPadding: const EdgeInsets.only(right: 1),
-                  itemSize: 20,
-                  itemBuilder: (context, _) => const Icon(
-                    YaruIcons.star_filled,
-                    color: kStarColor,
-                    size: 2,
+                  itemPadding: const EdgeInsets.only(right: 5),
+                  itemSize: 25,
+                  itemBuilder: (context, _) => const MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: Icon(
+                      YaruIcons.star_filled,
+                      color: kStarColor,
+                      size: 2,
+                    ),
                   ),
                   unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
                   onRatingUpdate: (rating) {
@@ -334,13 +337,6 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '${context.l10n.rating}:',
-                style: theme.textTheme.bodyLarge?.copyWith(height: 1.2),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
               RatingBar.builder(
                 initialRating: widget.reviewRating ?? 0,
                 minRating: 1,
@@ -348,11 +344,14 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
                 allowHalfRating: true,
                 itemCount: 5,
                 itemPadding: const EdgeInsets.only(right: 5),
-                itemSize: 25,
-                itemBuilder: (context, _) => const Icon(
-                  YaruIcons.star_filled,
-                  color: kStarColor,
-                  size: 2,
+                itemSize: 40,
+                itemBuilder: (context, _) => const MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Icon(
+                    YaruIcons.star_filled,
+                    color: kStarColor,
+                    size: 2,
+                  ),
                 ),
                 unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
                 onRatingUpdate: (rating) {
@@ -368,8 +367,13 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
           TextField(
             controller: _reviewUserController,
             onChanged: widget.onReviewUserChanged,
-            decoration:
-                InputDecoration(label: Text(context.l10n.yourReviewName)),
+            style: theme.textTheme.bodyMedium,
+            decoration: InputDecoration(
+              label: Text(
+                context.l10n.yourReviewName,
+                style: theme.textTheme.bodyMedium,
+              ),
+            ),
           ),
           const SizedBox(
             height: kYaruPagePadding,
@@ -377,8 +381,13 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
           TextField(
             controller: _reviewTitleController,
             onChanged: widget.onReviewTitleChanged,
-            decoration:
-                InputDecoration(label: Text(context.l10n.yourReviewTitle)),
+            style: theme.textTheme.bodyMedium,
+            decoration: InputDecoration(
+              label: Text(
+                context.l10n.yourReviewTitle,
+                style: theme.textTheme.bodyMedium,
+              ),
+            ),
           ),
           const SizedBox(
             height: kYaruPagePadding,
@@ -391,9 +400,14 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
               keyboardType: TextInputType.multiline,
               minLines: 10,
               maxLines: 10,
+              style: theme.textTheme.bodyMedium,
               decoration: InputDecoration(
-                label: Text(context.l10n.yourReview),
+                label: Text(
+                  context.l10n.yourReview,
+                  style: theme.textTheme.bodyMedium,
+                ),
                 floatingLabelAlignment: FloatingLabelAlignment.start,
+                alignLabelWithHint: true,
               ),
             ),
           ),
@@ -522,15 +536,19 @@ class _Review extends StatelessWidget {
               DateFormat.yMd(Platform.localeName).format(
                 userReview.dateTime ?? DateTime.now(),
               ),
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: Theme.of(context).hintColor,
+                  ),
             ),
             const SizedBox(
-              width: 10,
+              width: 5,
             ),
             Text(
               userReview.username ?? context.l10n.unknown,
-              style: Theme.of(context).textTheme.bodySmall,
-              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: Theme.of(context).hintColor,
+                    overflow: TextOverflow.ellipsis,
+                  ),
             ),
           ],
         ),
@@ -573,20 +591,20 @@ class _RatingHeader extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              padding: EdgeInsets.zero,
+              padding: const EdgeInsets.only(left: 10, right: 10),
               icon: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     Icons.thumb_up_outlined,
-                    color: theme.disabledColor,
+                    color: theme.hintColor,
                     size: 16,
                   ),
                   const SizedBox(
                     width: 5,
                   ),
                   Text(
-                    '${userReview.positiveVote ?? 1}   helpful',
+                    '${userReview.positiveVote ?? 1} ${context.l10n.helpful}',
                     style: theme.textTheme.bodySmall,
                   ),
                 ],
@@ -595,27 +613,27 @@ class _RatingHeader extends StatelessWidget {
                   onVote == null ? null : () => onVote!(userReview, false),
             ),
             const SizedBox(
-              width: kYaruPagePadding,
+              width: 5,
             ),
             IconButton(
-              padding: EdgeInsets.zero,
+              padding: const EdgeInsets.only(left: 10),
               icon: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     Icons.thumb_down_outlined,
-                    color: theme.disabledColor,
+                    color: theme.hintColor,
                     size: 16,
                   ),
                   const SizedBox(
                     width: 5,
                   ),
                   Text(
-                    '${userReview.negativeVote ?? 1}   not helpful',
+                    '${userReview.negativeVote ?? 1} ${context.l10n.notHelpful}',
                     style: theme.textTheme.bodySmall,
                   ),
                   const SizedBox(
-                    width: 5,
+                    width: 10,
                   ),
                 ],
               ),
@@ -624,13 +642,13 @@ class _RatingHeader extends StatelessWidget {
             ),
             const SizedBox(height: 15, child: VerticalDivider()),
             IconButton(
-              padding: EdgeInsets.zero,
+              padding: const EdgeInsets.only(left: 10, right: 10),
               icon: Row(
                 children: [
                   Icon(
                     Icons.flag_rounded,
                     size: 16,
-                    color: Theme.of(context).disabledColor,
+                    color: Theme.of(context).hintColor,
                   ),
                   const SizedBox(
                     width: 5,
@@ -638,7 +656,7 @@ class _RatingHeader extends StatelessWidget {
                   Text(
                     context.l10n.reportAbuse,
                     style: theme.textTheme.bodySmall,
-                  )
+                  ),
                 ],
               ),
               onPressed: onFlag == null
