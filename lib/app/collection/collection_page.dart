@@ -58,8 +58,7 @@ class CollectionPage extends StatefulWidget {
     );
   }
 
-  static Widget createTitle(BuildContext context) =>
-      Text(context.l10n.collection);
+  static Widget createTitle(BuildContext context) => Text(context.l10n.manage);
 
   @override
   State<CollectionPage> createState() => _CollectionPageState();
