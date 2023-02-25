@@ -553,24 +553,23 @@ class _Review extends StatelessWidget {
           ],
         ),
         const SizedBox(
-          height: 10,
+          height: kYaruPagePadding,
         ),
-        _RatingHeader(
+        _ReviewRatingBar(
           userReview: userReview,
           onFlag: onFlag,
           onVote: onVote,
         ),
         const Divider(
           height: 40,
-          thickness: 0.0,
         )
       ],
     );
   }
 }
 
-class _RatingHeader extends StatelessWidget {
-  const _RatingHeader({
+class _ReviewRatingBar extends StatelessWidget {
+  const _ReviewRatingBar({
     required this.userReview,
     this.onVote,
     this.onFlag,
@@ -585,90 +584,79 @@ class _RatingHeader extends StatelessWidget {
     final theme = Theme.of(context);
     return Wrap(
       alignment: WrapAlignment.start,
-      crossAxisAlignment: WrapCrossAlignment.start,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 10,
+      runSpacing: 20,
       children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              icon: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.thumb_up_outlined,
-                    color: theme.hintColor,
-                    size: 16,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    '${userReview.positiveVote ?? 1} ${context.l10n.helpful}',
-                    style: theme.textTheme.bodySmall,
-                  ),
-                ],
+        RawChip(
+          onPressed: onVote == null ? null : () => onVote!(userReview, false),
+          label: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.thumb_up_outlined,
+                color: theme.hintColor,
+                size: 16,
               ),
-              onPressed:
-                  onVote == null ? null : () => onVote!(userReview, false),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            IconButton(
-              padding: const EdgeInsets.only(left: 10),
-              icon: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.thumb_down_outlined,
-                    color: theme.hintColor,
-                    size: 16,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    '${userReview.negativeVote ?? 1} ${context.l10n.notHelpful}',
-                    style: theme.textTheme.bodySmall,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                ],
+              const SizedBox(
+                width: 5,
               ),
-              onPressed:
-                  onVote == null ? null : () => onVote!(userReview, true),
-            ),
-            const SizedBox(height: 15, child: VerticalDivider()),
-            IconButton(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              icon: Row(
-                children: [
-                  Icon(
-                    Icons.flag_rounded,
-                    size: 16,
-                    color: Theme.of(context).hintColor,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    context.l10n.reportAbuse,
-                    style: theme.textTheme.bodySmall,
-                  ),
-                ],
+              Text(
+                '${userReview.positiveVote ?? 1} ${context.l10n.helpful}',
+                style: theme.textTheme.bodySmall,
               ),
-              onPressed: onFlag == null
-                  ? null
-                  : () => showDialog(
-                        context: context,
-                        builder: (context) => _ReportReviewDialog(
-                          onFlag: () => onFlag!(userReview),
-                        ),
-                      ),
-            )
-          ],
+            ],
+          ),
+        ),
+        RawChip(
+          onPressed: onVote == null ? null : () => onVote!(userReview, true),
+          label: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.thumb_down_outlined,
+                color: theme.hintColor,
+                size: 16,
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Text(
+                '${userReview.negativeVote ?? 1} ${context.l10n.notHelpful}',
+                style: theme.textTheme.bodySmall,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+            ],
+          ),
+        ),
+        RawChip(
+          onPressed: onFlag == null
+              ? null
+              : () => showDialog(
+                    context: context,
+                    builder: (context) => _ReportReviewDialog(
+                      onFlag: () => onFlag!(userReview),
+                    ),
+                  ),
+          label: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.flag_rounded,
+                size: 16,
+                color: Theme.of(context).hintColor,
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Text(
+                context.l10n.reportAbuse,
+                style: theme.textTheme.bodySmall,
+              ),
+            ],
+          ),
         )
       ],
     );
