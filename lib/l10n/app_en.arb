@@ -132,6 +132,7 @@
   "allPackageTypes": "All package types",
   "packageKitGroup": "The category",
   "packageKitFilter": "The type of package",
+  "packageType": "Package type",
   "packageDetails": "Package details",
   "copyErrorMessage": "Copy error message",
   "madeBy": "Ubuntu Software is developed and designed by",
