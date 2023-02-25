@@ -36,7 +36,7 @@ class PackageKitFilterButton extends StatelessWidget {
             ),
         ];
       },
-      child: Text(context.l10n.packageKitFilter),
+      child: Text(context.l10n.packageType),
     );
   }
 }
