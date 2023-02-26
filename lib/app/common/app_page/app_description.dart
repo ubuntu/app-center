@@ -36,8 +36,9 @@ class AppDescription extends StatelessWidget {
       header: ExpandableContainerTitle(
         context.l10n.description,
       ),
-      child: Padding(
+      child: Container(
         padding: const EdgeInsets.only(top: 20),
+        width: double.infinity,
         child: MarkdownBody(
           data: description,
           shrinkWrap: true,
@@ -47,6 +48,7 @@ class AppDescription extends StatelessWidget {
           styleSheet: MarkdownStyleSheet(
             p: Theme.of(context).textTheme.bodyMedium,
             a: TextStyle(color: Theme.of(context).primaryColor),
+            textAlign: WrapAlignment.start,
           ),
         ),
       ),
