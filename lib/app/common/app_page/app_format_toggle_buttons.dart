@@ -20,9 +20,15 @@ class AppFormatToggleButtons extends StatelessWidget {
       child: ToggleButtons(
         isSelected: isSelected,
         onPressed: onPressed,
-        children: const [
-          AppFormatLabel(appFormat: AppFormat.snap),
-          AppFormatLabel(appFormat: AppFormat.packageKit)
+        children: [
+          AppFormatLabel(
+            appFormat: AppFormat.snap,
+            isSelected: isSelected[0],
+          ),
+          AppFormatLabel(
+            appFormat: AppFormat.packageKit,
+            isSelected: isSelected[1],
+          )
         ],
       ),
     );
@@ -33,9 +39,11 @@ class AppFormatLabel extends StatelessWidget {
   const AppFormatLabel({
     super.key,
     required this.appFormat,
+    required this.isSelected,
   });
 
   final AppFormat appFormat;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +71,19 @@ class AppFormatLabel extends StatelessWidget {
           width: 5,
         ),
         if (appFormat == AppFormat.snap)
-          Text(context.l10n.snapPackage)
+          Text(
+            context.l10n.snapPackage,
+            style: isSelected
+                ? const TextStyle(fontWeight: FontWeight.w500)
+                : null,
+          )
         else
-          Text(context.l10n.debianPackage),
+          Text(
+            context.l10n.debianPackage,
+            style: isSelected
+                ? const TextStyle(fontWeight: FontWeight.w500)
+                : null,
+          ),
         const SizedBox(
           width: 10,
         ),
