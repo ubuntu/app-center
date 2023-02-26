@@ -165,7 +165,10 @@ class _SnapPageState extends State<SnapPage> {
 
     const snapLabel = SizedBox(
       height: 39,
-      child: AppFormatLabel(appFormat: AppFormat.snap),
+      child: AppFormatLabel(
+        appFormat: AppFormat.snap,
+        isSelected: true,
+      ),
     );
 
     final snapLabelContainerCut = YaruBorderContainer(
