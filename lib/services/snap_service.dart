@@ -312,10 +312,24 @@ class SnapService {
 
   Future<void> refreshAll({
     required String doneMessage,
-    required List<Snap> snaps,
   }) async {
     await authorize();
-    for (var snap in snaps) {
+    if (snapsWithUpdate.isEmpty) return;
+
+    final firstSnap = snapsWithUpdate.first;
+    try {
+      await refresh(
+        snap: firstSnap,
+        message: doneMessage,
+        channel: firstSnap.channel,
+        confinement: firstSnap.confinement,
+      );
+    } on SnapdException catch (e) {
+      if (e.kind == 'auth-cancelled') {
+        return;
+      }
+    }
+    for (var snap in snapsWithUpdate.skip(1)) {
       await refresh(
         snap: snap,
         message: doneMessage,
