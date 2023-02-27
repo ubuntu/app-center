@@ -212,6 +212,8 @@ class SnapService {
           _refreshErrorController.add(
             '${snap.name} has running apps, close ${snap.name} to update.',
           );
+        } else if (e.kind == 'auth-cancelled') {
+          rethrow;
         }
       }
     }
