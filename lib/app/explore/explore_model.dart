@@ -38,6 +38,7 @@ class ExploreModel extends SafeChangeNotifier {
   Future<void> init() async {
     _enabledAppFormats.add(AppFormat.snap);
     _selectedAppFormats.add(AppFormat.snap);
+    _loadStartPageSnaps(SnapSection.all);
     _sectionsChangedSub = _snapService.sectionsChanged.listen(
       (section) {
         _loadStartPageSnaps(section);
