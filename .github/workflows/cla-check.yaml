@@ -1,11 +1,11 @@
 name: cla-check
 on:
-  pull_request:
+  pull_request_target:
     branches: [main]
 
 jobs:
   cla-check:
-    if: contains(fromJson('["weblate",), github.event.pull_request.user.login) == false
+    if: github.event.pull_request.user.login != 'weblate'
     runs-on: ubuntu-20.04
     steps:
       - name: Check if CLA signed
