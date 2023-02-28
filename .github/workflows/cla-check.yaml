@@ -1,5 +1,7 @@
 name: cla-check
-on: [pull_request_target]
+on:
+  pull_request:
+    branches: [main]
 
 jobs:
   cla-check:
