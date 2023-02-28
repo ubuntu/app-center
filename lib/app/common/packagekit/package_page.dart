@@ -190,6 +190,7 @@ class _PackagePageState extends State<PackagePage> {
               height: 40,
               child: AppFormatLabel(
                 appFormat: AppFormat.packageKit,
+                isSelected: true,
               ),
             ),
           )
