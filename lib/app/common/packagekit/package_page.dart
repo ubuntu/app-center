@@ -236,6 +236,7 @@ class _PackagePageState extends State<PackagePage> {
                     .map<Widget>(
                       (e) => ListTile(
                         title: Text(e.id.name),
+                        subtitle: e.summary != null ? Text(e.summary!) : null,
                         leading: Icon(
                           YaruIcons.package_deb,
                           color: theme.colorScheme.onSurface,
