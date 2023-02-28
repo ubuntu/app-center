@@ -233,16 +233,30 @@ class _PackagePageState extends State<PackagePage> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: model.missingDependencies
-                .map(
-                  (e) => ListTile(
-                    title: Text(e.id.name),
-                    leading: Icon(
-                      YaruIcons.package_deb,
-                      color: theme.colorScheme.onSurface,
+                    .map<Widget>(
+                      (e) => ListTile(
+                        title: Text(e.id.name),
+                        leading: Icon(
+                          YaruIcons.package_deb,
+                          color: theme.colorScheme.onSurface,
+                        ),
+                        trailing: Text(e.size.formatByteSize()),
+                      ),
+                    )
+                    .toList() +
+                [
+                  const Divider(),
+                  ListTile(
+                    title: const Text('Total'),
+                    leading: const SizedBox(),
+                    trailing: Text(
+                      model.missingDependencies
+                          .map((d) => d.size)
+                          .sum
+                          .formatByteSize(),
                     ),
                   ),
-                )
-                .toList(),
+                ],
           ),
         ),
       ),
