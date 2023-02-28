@@ -293,10 +293,12 @@ class PackageDependecy {
     required this.id,
     required this.info,
     required this.size,
+    this.summary,
   });
   final PackageKitPackageId id;
   final PackageKitInfo info;
   final int size;
+  final String? summary;
 
   @override
   bool operator ==(Object other) {
@@ -304,9 +306,10 @@ class PackageDependecy {
     return other is PackageDependecy &&
         other.id == id &&
         other.info == info &&
-        other.size == size;
+        other.size == size &&
+        other.summary == summary;
   }
 
   @override
-  int get hashCode => Object.hash(id, info, size);
+  int get hashCode => Object.hash(id, info, size, summary);
 }
