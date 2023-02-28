@@ -744,6 +744,7 @@ class PackageService {
             id: event.packageId,
             info: dependencyInfos[event.packageId] ?? PackageKitInfo.unknown,
             size: event.size,
+            summary: event.summary,
           ),
         );
       } else if (event is PackageKitFinishedEvent) {
