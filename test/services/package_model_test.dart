@@ -79,7 +79,6 @@ void main() {
     await model.init();
     verify(() => service.cancelCurrentUpdatesRefresh()).called(1);
     verify(() => service.getDetailsAboutLocalPackage(model: model)).called(1);
-    verify(() => service.isInstalled(model: model)).called(1);
     verifyNever(() => service.getDetails(model: model));
     verifyNever(() => service.getUpdateDetail(model: model));
   });
