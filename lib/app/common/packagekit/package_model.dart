@@ -95,6 +95,7 @@ class PackageModel extends SafeChangeNotifier {
     bool getDependencies = true,
   }) async {
     await _service.cancelCurrentUpdatesRefresh();
+    await _service.isInstalled(model: this);
     if (_packageId != null) {
       await _updateDetails();
       if (getUpdateDetail) {
@@ -107,8 +108,6 @@ class PackageModel extends SafeChangeNotifier {
     if (getDependencies) {
       await checkDependencies();
     }
-
-    return _service.isInstalled(model: this);
   }
 
   PackageKitPackageId? _packageId;

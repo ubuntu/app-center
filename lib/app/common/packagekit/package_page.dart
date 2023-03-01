@@ -143,7 +143,10 @@ class _PackagePageState extends State<PackagePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      context.read<PackageModel>().init().then((value) => initialized = true);
+      context
+          .read<PackageModel>()
+          .init()
+          .then((_) => setState(() => initialized = true));
       context.read<ReviewModel>().load(_ratingId, _ratingVersion);
     });
   }
