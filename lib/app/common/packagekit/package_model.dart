@@ -255,16 +255,23 @@ class PackageModel extends SafeChangeNotifier {
 
   Future<void> install() async {
     if (_path != null) {
-      return _service.installLocalFile(model: this).then(_updateDetails);
+      return _service
+          .installLocalFile(model: this)
+          .then(_updateDetails)
+          .then((_) => checkDependencies());
     } else if (_packageId != null) {
-      return _service.install(model: this).then(_updateDetails);
+      return _service
+          .install(model: this)
+          .then(_updateDetails)
+          .then((_) => checkDependencies());
     }
   }
 
   Future<void> remove({bool autoremove = false}) async {
     return _service
         .remove(model: this, autoremove: autoremove)
-        .then(_updateDetails);
+        .then(_updateDetails)
+        .then((_) => checkDependencies());
   }
 
   List<PackageDependecy> _dependencies = [];
