@@ -55,6 +55,7 @@
   "install": "Install",
   "refresh": "Refresh",
   "remove": "Remove",
+  "removeAll": "Remove all",
   "confirmRemove": "Are you sure you want to remove this package?",
     "removePackage": "Remove {package}",
   "@removePackage": {
@@ -183,8 +184,8 @@
   "dependencies": "Dependencies",
   "dependenciesQuestion": "Are you sure you want to proceed?",
   "dependenciesFullList": "See full list of dependencies",
-  "dependenciesListing": "{length} dependencies with a total size of {size} will be downloaded when installing {packageName}",
-  "@dependenciesListing" : {
+  "dependenciesInstallListing": "{length} dependencies with a total size of {size} will be downloaded when installing {packageName}",
+  "@dependenciesInstallListing" : {
     "placeholders": {
         "length": {
           "type": "int"
@@ -197,6 +198,21 @@
         }
     }
   },
+  "dependenciesRemoveListing": "{length} dependencies with a total size of {size} can be automatically removed when removing {packageName}",
+  "@dependenciesRemoveListing" : {
+    "placeholders": {
+        "length": {
+          "type": "int"
+        },
+        "size": {
+          "type": "String"
+        },
+        "packageName": {
+          "type": "String"
+        }
+    }
+  },
+  "dependenciesAutoremove": "Remove no longer needed dependencies",
   "gallery": "Gallery",
   "additionalInformation": "Additional Information",
   "links": "Links",
