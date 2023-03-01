@@ -262,8 +262,10 @@ class PackageModel extends SafeChangeNotifier {
     }
   }
 
-  Future<void> remove() async {
-    return _service.remove(model: this).then(_updateDetails);
+  Future<void> remove({bool autoremove = false}) async {
+    return _service
+        .remove(model: this, autoremove: autoremove)
+        .then(_updateDetails);
   }
 
   List<PackageDependecy> _dependencies = [];
