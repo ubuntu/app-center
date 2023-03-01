@@ -221,7 +221,7 @@ class _PackagePageState extends State<PackagePage> {
         builder: (context) => _ShowDepsDialog(
           packageName: model.title ?? context.l10n.unknown,
           onInstall: model.install,
-          dependencies: model.missingDependencies,
+          dependencies: model.dependencies,
         ),
       ),
     );
@@ -230,12 +230,13 @@ class _PackagePageState extends State<PackagePage> {
       initialized: initialized,
       child: YaruExpandable(
         header: ExpandableContainerTitle(
-          '${context.l10n.dependencies} (${model.missingDependencies.length}) - ${model.missingDependencies.map((d) => d.size).sum.formatByteSize()}',
+          '${context.l10n.dependencies} (${model.dependencies.length}) - '
+          '${model.dependencies.map((d) => d.size).sum.formatByteSize()}',
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Column(
-            children: model.missingDependencies
+            children: model.dependencies
                 .map<Widget>(
                   (e) => ListTile(
                     title: Text(e.id.name),
@@ -274,7 +275,7 @@ class _PackagePageState extends State<PackagePage> {
       ),
       preControls: preControls,
       controls: controls,
-      subDescription: model.missingDependencies.isEmpty ? null : dependencies,
+      subDescription: model.dependencies.isEmpty ? null : dependencies,
       onReviewSend: () => review.submit(_ratingId, _ratingVersion),
       onRatingUpdate: (v) => review.rating = v,
       onReviewTitleChanged: (v) => review.title = v,

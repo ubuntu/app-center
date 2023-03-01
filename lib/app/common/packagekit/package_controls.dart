@@ -72,9 +72,9 @@ class PackageControls extends StatelessWidget {
                 ElevatedButton(
                   onPressed: model.packageState != PackageState.ready
                       ? null
-                      : (model.missingDependencies.isNotEmpty
+                      : model.dependencies.isNotEmpty
                           ? showDeps
-                          : model.install),
+                          : model.install,
                   child: Text(context.l10n.install),
                 ),
               if (model.isInstalled == true && model.versionChanged == true)
