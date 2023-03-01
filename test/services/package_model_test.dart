@@ -57,6 +57,7 @@ void main() {
 
   test('init model', () async {
     var model = PackageModel(service: service, packageId: firefoxPackageId);
+    model.isInstalled = false;
     await model.init();
     verify(() => service.cancelCurrentUpdatesRefresh()).called(1);
     verify(() => service.getDetails(model: model)).called(1);
