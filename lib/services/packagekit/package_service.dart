@@ -436,8 +436,10 @@ class PackageService {
     return completer.future.whenComplete(subscription.cancel);
   }
 
-  Future<void> remove(
-      {required PackageModel model, bool autoremove = false}) async {
+  Future<void> remove({
+    required PackageModel model,
+    bool autoremove = false,
+  }) async {
     if (model.packageId == null) throw const MissingPackageIDException();
     model.packageState = PackageState.removing;
     model.percentage = 0;
