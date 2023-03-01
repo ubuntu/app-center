@@ -227,37 +227,33 @@ class _PackagePageState extends State<PackagePage> {
       initialized: initialized,
       child: YaruExpandable(
         header: ExpandableContainerTitle(
-          '${context.l10n.dependencies} (${model.missingDependencies.length})',
+          '${context.l10n.dependencies} (${model.missingDependencies.length}) - ${model.missingDependencies.map((d) => d.size).sum.formatByteSize()}',
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: model.missingDependencies
-                    .map<Widget>(
-                      (e) => ListTile(
-                        title: Text(e.id.name),
-                        subtitle: e.summary != null ? Text(e.summary!) : null,
-                        leading: Icon(
-                          YaruIcons.package_deb,
-                          color: theme.colorScheme.onSurface,
-                        ),
-                        trailing: Text(e.size.formatByteSize()),
-                      ),
-                    )
-                    .toList() +
-                [
-                  const Divider(),
-                  ListTile(
-                    title: const Text('Total'),
-                    leading: const SizedBox(),
+                .map<Widget>(
+                  (e) => ListTile(
+                    title: Text(e.id.name),
+                    subtitle: e.summary != null
+                        ? Text(
+                            e.summary!,
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                            ),
+                          )
+                        : null,
+                    leading: Icon(
+                      YaruIcons.package_deb,
+                      color: theme.colorScheme.onSurface,
+                    ),
                     trailing: Text(
-                      model.missingDependencies
-                          .map((d) => d.size)
-                          .sum
-                          .formatByteSize(),
+                      e.size.formatByteSize(),
                     ),
                   ),
-                ],
+                )
+                .toList(),
           ),
         ),
       ),
@@ -310,7 +306,7 @@ class _ShowDepsDialogState extends State<_ShowDepsDialog> {
     final theme = Theme.of(context);
     return AlertDialog(
       title: SizedBox(
-        width: 500,
+        width: 400,
         child: YaruDialogTitleBar(
           title: Text(context.l10n.dependencies),
         ),
@@ -329,7 +325,6 @@ class _ShowDepsDialogState extends State<_ShowDepsDialog> {
                   widget.dependencies.map((d) => d.size).sum.formatByteSize(),
                   widget.packageName,
                 ),
-                style: theme.textTheme.bodyLarge,
               ),
             ),
             Padding(
@@ -357,10 +352,17 @@ class _ShowDepsDialogState extends State<_ShowDepsDialog> {
                     for (var d in widget.dependencies)
                       ListTile(
                         title: Text(d.id.name),
-                        subtitle: Text(d.size.formatByteSize()),
-                        leading: const Icon(
-                          YaruIcons.package_deb,
+                        subtitle: Text(
+                          d.summary ?? context.l10n.unknown,
+                          style: TextStyle(
+                            color: Theme.of(context).hintColor,
+                          ),
                         ),
+                        leading: Icon(
+                          YaruIcons.package_deb,
+                          color: theme.colorScheme.onSurface,
+                        ),
+                        trailing: Text(d.size.formatByteSize()),
                       )
                   ],
                 ),
