@@ -76,6 +76,13 @@ class SnapService {
     return _snapChanges[snap];
   }
 
+  Future<void> abortChange(Snap snap) async {
+    final change = getChange(snap);
+    if (change == null) return;
+    await _snapDClient.abortChange(change.id);
+    removeChange(snap);
+  }
+
   final _snapChangesController = StreamController<bool>.broadcast();
 
   Stream<bool> get snapChangesInserted => _snapChangesController.stream;
