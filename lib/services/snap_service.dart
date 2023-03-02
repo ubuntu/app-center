@@ -82,7 +82,6 @@ class SnapService {
     final change = getChange(snap);
     if (change == null) return;
     await _snapDClient.abortChange(change.id);
-    removeChange(snap);
   }
 
   final _snapChangesController = StreamController<bool>.broadcast();
