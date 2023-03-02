@@ -47,16 +47,18 @@ class SnapService {
       }
       if (newChange.ready) {
         removeChange(snap);
-        _notificationsClient.notify(
-          'Software',
-          body: '$doneString: ${newChange.summary}',
-          appName: snap.name,
-          appIcon: 'snap-store',
-          hints: [
-            NotificationHint.desktopEntry('software'),
-            NotificationHint.urgency(NotificationUrgency.normal)
-          ],
-        );
+        if (newChange.status == 'Done') {
+          _notificationsClient.notify(
+            'Software',
+            body: '$doneString: ${newChange.summary}',
+            appName: snap.name,
+            appIcon: 'snap-store',
+            hints: [
+              NotificationHint.desktopEntry('software'),
+              NotificationHint.urgency(NotificationUrgency.normal)
+            ],
+          );
+        }
         break;
       }
       await Future.delayed(
