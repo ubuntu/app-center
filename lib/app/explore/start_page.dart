@@ -17,7 +17,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_banner.dart';
 import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/constants.dart';
@@ -92,16 +91,16 @@ class _TeaserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final appsWithIcons =
         apps?.where((app) => app.snap?.iconUrl != null).toList();
-    Snap? bannerSnap;
-    Snap? bannerSnap2;
-    Snap? bannerSnap3;
+    AppFinding? bannerApp;
+    AppFinding? bannerApp2;
+    AppFinding? bannerApp3;
 
     if (appsWithIcons != null && appsWithIcons.isNotEmpty) {
-      bannerSnap = appsWithIcons.elementAt(0).snap;
-      bannerSnap2 = appsWithIcons.elementAt(1).snap;
-      bannerSnap3 = appsWithIcons.elementAt(2).snap;
+      bannerApp = appsWithIcons.elementAt(0);
+      bannerApp2 = appsWithIcons.elementAt(1);
+      bannerApp3 = appsWithIcons.elementAt(2);
     }
-    if (bannerSnap == null || bannerSnap2 == null || bannerSnap3 == null) {
+    if (bannerApp == null || bannerApp2 == null || bannerApp3 == null) {
       return Column(
         children: const [
           _LoadingSectionBanner(),
@@ -114,7 +113,7 @@ class _TeaserPage extends StatelessWidget {
       children: [
         SectionBanner(
           gradientColors: snapSection.colors.map((e) => Color(e)).toList(),
-          snaps: [bannerSnap, bannerSnap2, bannerSnap3],
+          apps: [bannerApp, bannerApp2, bannerApp3],
           section: snapSection,
         ),
         snapSection == SnapSection.games
@@ -157,7 +156,7 @@ class _LoadingSectionBanner extends StatelessWidget {
       baseColor: shimmerBase,
       highlightColor: shimmerHighLight,
       child: SectionBanner(
-        snaps: const [],
+        apps: const [],
         section: SnapSection.all,
         gradientColors: SnapSection.all.colors.map((e) => Color(e)).toList(),
       ),
