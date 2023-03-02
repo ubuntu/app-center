@@ -77,13 +77,19 @@ class SimpleSnapControls extends StatelessWidget {
                   value: model.change?.progress,
                 ),
               ),
-              if (model.change != null)
+              if (model.change != null) ...[
                 Text(
                   getChangeMessage(
                     context: context,
                     changeKind: model.change!.kind,
                   ),
                 ),
+                if (model.change!.kind != 'remove-snap')
+                  OutlinedButton(
+                    onPressed: model.abortChange,
+                    child: Text(context.l10n.cancel),
+                  ),
+              ]
             ]
           : [
               if (hasUpdate)
