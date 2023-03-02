@@ -298,6 +298,11 @@ class SnapModel extends SafeChangeNotifier {
   Future<void> _loadChange() async =>
       change = (await _snapService.getSnapChanges(name: huskSnapName));
 
+  Future<void> abortChange() async {
+    await _snapService.abortChange(_storeSnap!);
+    return _loadChange();
+  }
+
   Future<Snap?> _findLocalSnap(String huskSnapName) async =>
       _snapService.findLocalSnap(huskSnapName);
 
