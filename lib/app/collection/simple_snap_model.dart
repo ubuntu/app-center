@@ -75,6 +75,11 @@ class SimpleSnapModel extends SafeChangeNotifier {
     change = (await _snapService.getSnapChanges(name: snap.name));
   }
 
+  Future<void> abortChange() async {
+    await _snapService.abortChange(snap);
+    return _loadChange();
+  }
+
   Future<void> remove(String doneMessage) async {
     await _snapService.remove(snap, doneMessage);
     notifyListeners();
