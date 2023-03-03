@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:snapd/snapd.dart';
+import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/base_plate.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/snapx.dart';
@@ -14,12 +14,12 @@ import '../common/constants.dart';
 class SectionBanner extends StatelessWidget {
   const SectionBanner({
     super.key,
-    required this.snaps,
+    required this.apps,
     required this.section,
     required this.gradientColors,
   });
 
-  final List<Snap> snaps;
+  final List<AppFinding> apps;
   final SnapSection section;
   final List<Color> gradientColors;
 
@@ -117,10 +117,10 @@ class SectionBanner extends StatelessWidget {
               ),
               Wrap(
                 spacing: 10,
-                children: snaps
+                children: apps
                     .map(
                       (e) => _PlatedIcon(
-                        snap: e,
+                        app: e,
                       ),
                     )
                     .toList(),
@@ -137,10 +137,10 @@ class _PlatedIcon extends StatefulWidget {
   const _PlatedIcon({
     // ignore: unused_element
     super.key,
-    required this.snap,
+    required this.app,
   });
 
-  final Snap snap;
+  final AppFinding app;
 
   @override
   State<_PlatedIcon> createState() => _PlatedIconState();
@@ -153,17 +153,21 @@ class _PlatedIconState extends State<_PlatedIcon> {
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
     return Tooltip(
-      message: widget.snap.name,
+      message: widget.app.snap!.name,
       verticalOffset: 45.0,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => SnapPage.push(context: context, snap: widget.snap),
+          onTap: () => SnapPage.push(
+            context: context,
+            snap: widget.app.snap!,
+            appstream: widget.app.appstream,
+          ),
           onHover: (value) => setState(() => hovered = value),
           child: BasePlate(
             hovered: hovered,
             child: AppIcon(
-              iconUrl: widget.snap.iconUrl,
+              iconUrl: widget.app.snap!.iconUrl,
               loadingBaseColor:
                   dark ? const Color.fromARGB(255, 236, 236, 236) : null,
               loadingHighlight:
