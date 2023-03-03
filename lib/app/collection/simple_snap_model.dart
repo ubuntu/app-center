@@ -18,18 +18,23 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
+import 'package:path/path.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
+import 'package:snapcraft_launcher/snapcraft_launcher.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/services/snap_service.dart';
 
 class SimpleSnapModel extends SafeChangeNotifier {
   SimpleSnapModel(
-    this._snapService, {
+    this._snapService,
+    this._launcher, {
     required this.snap,
   });
 
   Future<void> init() async {
     await _snapService.authorize();
+    await _launcher.connect();
     await _loadChange();
 
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) async {
@@ -49,6 +54,9 @@ class SimpleSnapModel extends SafeChangeNotifier {
 
   /// The service to handle all snap related actions.
   final SnapService _snapService;
+
+  /// Snapcraft launcher that allows launching desktop snap applications.
+  final PrivilegedDesktopLauncher _launcher;
 
   /// Mainly used for the information about the install [SnapChannel] and
   /// the [SnapConnection]s. It is used as a fallback for some information
@@ -95,12 +103,13 @@ class SimpleSnapModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  String? get _desktopFile =>
+      snap.apps.firstWhereOrNull((app) => app.desktopFile != null)?.desktopFile;
+  bool get isLaunchable =>
+      snap.type == 'app' && _desktopFile != null && _launcher.isAvailable;
+
   void open() {
-    if (snap.apps.isEmpty) return;
-    Process.start(
-      snap.apps.first.name,
-      [],
-      mode: ProcessStartMode.detached,
-    );
+    if (_desktopFile == null) return;
+    _launcher.openDesktopEntry(basename(_desktopFile!));
   }
 }
