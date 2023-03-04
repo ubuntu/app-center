@@ -96,19 +96,19 @@ class PackageModel extends SafeChangeNotifier {
   }) async {
     await _service.cancelCurrentUpdatesRefresh();
     if (_packageId != null) {
+      await _service.isInstalled(model: this);
       await _updateDetails();
       if (getUpdateDetail) {
         await _service.getUpdateDetail(model: this);
       }
     } else if (_path != null) {
+      isInstalled = false;
       await _service.getDetailsAboutLocalPackage(model: this);
     }
     _info = null;
     if (getDependencies) {
       await checkDependencies();
     }
-
-    return _service.isInstalled(model: this);
   }
 
   PackageKitPackageId? _packageId;
@@ -256,30 +256,41 @@ class PackageModel extends SafeChangeNotifier {
 
   Future<void> install() async {
     if (_path != null) {
-      return _service.installLocalFile(model: this).then(_updateDetails);
+      return _service
+          .installLocalFile(model: this)
+          .then(_updateDetails)
+          .then((_) => checkDependencies());
     } else if (_packageId != null) {
-      return _service.install(model: this).then(_updateDetails);
+      return _service
+          .install(model: this)
+          .then(_updateDetails)
+          .then((_) => checkDependencies());
     }
   }
 
-  Future<void> remove() async {
-    return _service.remove(model: this).then(_updateDetails);
+  Future<void> remove({bool autoremove = false}) async {
+    return _service
+        .remove(model: this, autoremove: autoremove)
+        .then(_updateDetails)
+        .then((_) => checkDependencies());
   }
 
   List<PackageDependecy> _dependencies = [];
-  List<PackageDependecy> get dependencies => _dependencies;
+  UnmodifiableListView<PackageDependecy> get dependencies =>
+      UnmodifiableListView(_dependencies);
   set dependencies(List<PackageDependecy> value) {
     if (listEquals(_dependencies, value)) return;
     _dependencies = value.toList();
     notifyListeners();
   }
 
-  List<PackageDependecy> get missingDependencies =>
-      _dependencies.where((d) => d.info == PackageKitInfo.available).toList();
-
   Future<void> checkDependencies() async {
-    if (_packageId == null) return;
-    await _service.getDependencies(model: this);
+    if (_packageId == null || isInstalled == null) return;
+    if (isInstalled!) {
+      await _service.getInstalledDependencies(model: this);
+    } else {
+      await _service.getMissingDependencies(model: this);
+    }
   }
 
   @override

@@ -22,7 +22,7 @@ void main() {
     when(service.cancelCurrentUpdatesRefresh).thenAnswer((_) async {});
     when(() => service.getDetails(model: any(named: 'model')))
         .thenAnswer((_) async {});
-    when(() => service.getDependencies(model: any(named: 'model')))
+    when(() => service.getMissingDependencies(model: any(named: 'model')))
         .thenAnswer((_) async {});
     when(() => service.getUpdateDetail(model: any(named: 'model')))
         .thenAnswer((_) async {});
@@ -57,11 +57,12 @@ void main() {
 
   test('init model', () async {
     var model = PackageModel(service: service, packageId: firefoxPackageId);
+    model.isInstalled = false;
     await model.init();
     verify(() => service.cancelCurrentUpdatesRefresh()).called(1);
     verify(() => service.getDetails(model: model)).called(1);
     verify(() => service.isInstalled(model: model)).called(1);
-    verify(() => service.getDependencies(model: model)).called(1);
+    verify(() => service.getMissingDependencies(model: model)).called(1);
     verifyNever(() => service.getUpdateDetail(model: model));
     verifyNever(() => service.getDetailsAboutLocalPackage(model: model));
 
@@ -78,7 +79,6 @@ void main() {
     await model.init();
     verify(() => service.cancelCurrentUpdatesRefresh()).called(1);
     verify(() => service.getDetailsAboutLocalPackage(model: model)).called(1);
-    verify(() => service.isInstalled(model: model)).called(1);
     verifyNever(() => service.getDetails(model: model));
     verifyNever(() => service.getUpdateDetail(model: model));
   });

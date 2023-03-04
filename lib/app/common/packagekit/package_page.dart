@@ -29,6 +29,7 @@ import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/app_page/app_page.dart';
 import 'package:software/app/common/app_rating.dart';
 import 'package:software/app/common/border_container.dart';
+import 'package:software/app/common/packagekit/dependency_dialogs.dart';
 import 'package:software/app/common/packagekit/package_controls.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/app/common/rating_model.dart';
@@ -143,7 +144,10 @@ class _PackagePageState extends State<PackagePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      context.read<PackageModel>().init().then((value) => initialized = true);
+      context
+          .read<PackageModel>()
+          .init()
+          .then((_) => setState(() => initialized = true));
       context.read<ReviewModel>().load(_ratingId, _ratingVersion);
     });
   }
@@ -213,12 +217,20 @@ class _PackagePageState extends State<PackagePage> {
           );
 
     var controls = PackageControls(
-      showDeps: () => showDialog(
+      showInstallDeps: () => showDialog(
         context: context,
-        builder: (context) => _ShowDepsDialog(
+        builder: (context) => InstallDepsDialog(
           packageName: model.title ?? context.l10n.unknown,
           onInstall: model.install,
-          dependencies: model.missingDependencies,
+          dependencies: model.dependencies,
+        ),
+      ),
+      showRemoveDeps: () => showDialog(
+        context: context,
+        builder: (context) => RemoveDepsDialog(
+          packageName: model.title ?? context.l10n.unknown,
+          onRemove: (autoremove) => model.remove(autoremove: autoremove),
+          dependencies: model.dependencies,
         ),
       ),
     );
@@ -227,12 +239,13 @@ class _PackagePageState extends State<PackagePage> {
       initialized: initialized,
       child: YaruExpandable(
         header: ExpandableContainerTitle(
-          '${context.l10n.dependencies} (${model.missingDependencies.length}) - ${model.missingDependencies.map((d) => d.size).sum.formatByteSize()}',
+          '${context.l10n.dependencies} (${model.dependencies.length}) - '
+          '${model.dependencies.map((d) => d.size).sum.formatByteSize()}',
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Column(
-            children: model.missingDependencies
+            children: model.dependencies
                 .map<Widget>(
                   (e) => ListTile(
                     title: Text(e.id.name),
@@ -271,7 +284,7 @@ class _PackagePageState extends State<PackagePage> {
       ),
       preControls: preControls,
       controls: controls,
-      subDescription: model.missingDependencies.isEmpty ? null : dependencies,
+      subDescription: model.dependencies.isEmpty ? null : dependencies,
       onReviewSend: () => review.submit(_ratingId, _ratingVersion),
       onRatingUpdate: (v) => review.rating = v,
       onReviewTitleChanged: (v) => review.title = v,
@@ -281,109 +294,6 @@ class _PackagePageState extends State<PackagePage> {
       review: review.review,
       reviewTitle: review.title,
       reviewUser: review.user,
-    );
-  }
-}
-
-class _ShowDepsDialog extends StatefulWidget {
-  final void Function() onInstall;
-  final String packageName;
-  final List<PackageDependecy> dependencies;
-
-  const _ShowDepsDialog({
-    required this.onInstall,
-    required this.dependencies,
-    required this.packageName,
-  });
-
-  @override
-  State<_ShowDepsDialog> createState() => _ShowDepsDialogState();
-}
-
-class _ShowDepsDialogState extends State<_ShowDepsDialog> {
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return AlertDialog(
-      title: SizedBox(
-        width: 400,
-        child: YaruDialogTitleBar(
-          title: Text(context.l10n.dependencies),
-        ),
-      ),
-      titlePadding: EdgeInsets.zero,
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: kYaruPagePadding / 2),
-              child: Text(
-                context.l10n.dependenciesListing(
-                  widget.dependencies.length,
-                  widget.dependencies.map((d) => d.size).sum.formatByteSize(),
-                  widget.packageName,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: kYaruPagePadding / 2),
-              child: Text(
-                context.l10n.dependenciesQuestion,
-                style: theme.textTheme.bodyLarge!
-                    .copyWith(fontWeight: FontWeight.w500),
-              ),
-            ),
-            YaruExpandable(
-              expandButtonPosition: YaruExpandableButtonPosition.start,
-              header: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: Text(
-                  context.l10n.dependencies,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              child: BorderContainer(
-                child: Column(
-                  children: [
-                    for (var d in widget.dependencies)
-                      ListTile(
-                        title: Text(d.id.name),
-                        subtitle: Text(
-                          d.summary ?? context.l10n.unknown,
-                          style: TextStyle(
-                            color: Theme.of(context).hintColor,
-                          ),
-                        ),
-                        leading: Icon(
-                          YaruIcons.package_deb,
-                          color: theme.colorScheme.onSurface,
-                        ),
-                        trailing: Text(d.size.formatByteSize()),
-                      )
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        OutlinedButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(context.l10n.cancel),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            widget.onInstall();
-            Navigator.of(context).pop();
-          },
-          child: Text(context.l10n.install),
-        )
-      ],
     );
   }
 }
