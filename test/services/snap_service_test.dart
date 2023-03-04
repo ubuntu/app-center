@@ -200,8 +200,12 @@ void main() {
       ),
     ).thenAnswer((_) async => changeId);
     when(() => mockSnapdClient.getChange(changeId)).thenAnswer(
-      (_) async =>
-          SnapdChange(id: changeId, spawnTime: DateTime.now(), ready: true),
+      (_) async => SnapdChange(
+        id: changeId,
+        spawnTime: DateTime.now(),
+        ready: true,
+        status: 'Done',
+      ),
     );
     when(() => mockSnapdClient.getSnap(snap1.name))
         .thenAnswer((_) async => snap1);
@@ -235,8 +239,12 @@ void main() {
     when(() => mockSnapdClient.remove(snap1.name))
         .thenAnswer((_) async => changeId);
     when(() => mockSnapdClient.getChange(changeId)).thenAnswer(
-      (_) async =>
-          SnapdChange(id: changeId, spawnTime: DateTime.now(), ready: true),
+      (_) async => SnapdChange(
+        id: changeId,
+        spawnTime: DateTime.now(),
+        ready: true,
+        status: 'Done',
+      ),
     );
     when(() => mockSnapdClient.getSnap(snap1.name))
         .thenAnswer((_) async => snap1);
@@ -286,8 +294,12 @@ void main() {
       ),
     ).thenAnswer((_) async => changeId);
     when(() => mockSnapdClient.getChange(changeId)).thenAnswer(
-      (_) async =>
-          SnapdChange(id: changeId, spawnTime: DateTime.now(), ready: true),
+      (_) async => SnapdChange(
+        id: changeId,
+        spawnTime: DateTime.now(),
+        ready: true,
+        status: 'Done',
+      ),
     );
     when(() => mockSnapdClient.getSnap(snap1.name))
         .thenAnswer((_) async => snap1);
@@ -476,5 +488,48 @@ void main() {
         .thenAnswer((_) async => [snapWithUpdateNew]);
     await service.loadSnapsWithUpdate();
     expect(service.snapsWithUpdate, [snapWithUpdateNew]);
+  });
+
+  test('abort change', () async {
+    const changeId = '42';
+    const channel = 'latest/stable';
+    var ready = false;
+    when(
+      () => mockSnapdClient.install(
+        snap1.name,
+        channel: any(named: 'channel'),
+        classic: any(named: 'classic'),
+      ),
+    ).thenAnswer((_) async => changeId);
+    when(() => mockSnapdClient.getChange(changeId)).thenAnswer(
+      (_) async {
+        return SnapdChange(
+          id: changeId,
+          spawnTime: DateTime.now(),
+          ready: ready,
+          status: ready ? 'Error' : '',
+        );
+      },
+    );
+    when(() => mockSnapdClient.getSnap(snap1.name))
+        .thenAnswer((_) async => snap1);
+    when(() => mockSnapdClient.abortChange(changeId)).thenAnswer((_) async {
+      ready = true;
+      return SnapdChange(spawnTime: DateTime.now());
+    });
+
+    service.snapChangesInserted.listen((event) {
+      service.abortChange(snap1);
+    });
+    await service.install(snap1, channel, '');
+    verifyNever(
+      () => mockNotificationsClient.notify(
+        any(),
+        body: any(named: 'body'),
+        appName: snap1.name,
+        appIcon: 'snap-store',
+        hints: any(named: 'hints'),
+      ),
+    );
   });
 }

@@ -47,16 +47,18 @@ class SnapService {
       }
       if (newChange.ready) {
         removeChange(snap);
-        _notificationsClient.notify(
-          'Software',
-          body: '$doneString: ${newChange.summary}',
-          appName: snap.name,
-          appIcon: 'snap-store',
-          hints: [
-            NotificationHint.desktopEntry('software'),
-            NotificationHint.urgency(NotificationUrgency.normal)
-          ],
-        );
+        if (newChange.status == 'Done') {
+          _notificationsClient.notify(
+            'Software',
+            body: '$doneString: ${newChange.summary}',
+            appName: snap.name,
+            appIcon: 'snap-store',
+            hints: [
+              NotificationHint.desktopEntry('software'),
+              NotificationHint.urgency(NotificationUrgency.normal)
+            ],
+          );
+        }
         break;
       }
       await Future.delayed(
@@ -74,6 +76,12 @@ class SnapService {
 
   SnapdChange? getChange(Snap snap) {
     return _snapChanges[snap];
+  }
+
+  Future<void> abortChange(Snap snap) async {
+    final change = getChange(snap);
+    if (change == null) return;
+    await _snapDClient.abortChange(change.id);
   }
 
   final _snapChangesController = StreamController<bool>.broadcast();
