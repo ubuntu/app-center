@@ -27,6 +27,7 @@ parts:
       mkdir -p $CRAFT_PART_INSTALL/usr/libexec
       cp -r $CRAFT_PART_SRC $CRAFT_PART_INSTALL/usr/libexec/flutter
       ln -sf $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/flutter $CRAFT_PART_INSTALL/usr/bin/flutter
+      ln -sf $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/dart $CRAFT_PART_INSTALL/usr/bin/dart
       export PATH="$CRAFT_PART_INSTALL/usr/bin:$PATH"
       flutter doctor
     build-packages:
@@ -38,7 +39,7 @@ parts:
     override-prime: ''
 
   software:
-    after: [ flutter-git ]
+    after: [flutter-git]
     plugin: nil
     source: .
     build-packages:
@@ -50,13 +51,52 @@ parts:
       craftctl set version="$(jq -r '.version' build/flutter_assets/version.json)"
       mkdir -p $CRAFT_PART_INSTALL/bin
       cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/bin/
-      sed -i -e 's|\(Icon=\).*|\1/bin/data/flutter_assets/assets/software.png|' \
+      sed -i -e 's|\(Icon=\).*|\1/software/bin/data/flutter_assets/assets/software.png|' \
           $CRAFT_PART_INSTALL/bin/data/flutter_assets/assets/software.desktop
+    organize:
+      bin: software/bin
+
+  firmware-updater-app:
+    after: [flutter-git]
+    plugin: nil
+    source: https://github.com/canonical/firmware-updater.git
+    override-build: |
+      set -eux
+      flutter channel stable
+      flutter upgrade
+      flutter config --enable-linux-desktop
+      flutter doctor
+      dart pub get
+      flutter build linux --release -v
+      mkdir -p $CRAFT_PART_INSTALL/bin/
+      cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/bin/
+    organize:
+      bin: firmware-updater/bin
+
+  firmware-notifier:
+    after: [flutter-git]
+    plugin: nil
+    source: https://github.com/canonical/firmware-updater.git
+    override-build: |
+      cd packages/firmware_notifier/
+      set -eux
+      dart pub get
+      mkdir -p $CRAFT_PART_INSTALL/bin/
+      dart compile exe bin/firmware_notifier.dart -o $CRAFT_PART_INSTALL/bin/firmware-notifier
+    organize:
+      bin: firmware-updater/bin
+
+  firmware-updater:
+    plugin: dump
+    source: https://github.com/canonical/firmware-updater.git
+    source-subdir: ./launcher-script/
+    organize:
+      bin: firmware-updater/bin
 
 apps:
   snap-store:
-    command: bin/software
-    desktop: bin/data/flutter_assets/assets/software.desktop
+    command: software/bin/software
+    desktop: software/bin/data/flutter_assets/assets/software.desktop
     extensions: [gnome]
     plugs:
       - appstream-metadata
@@ -70,13 +110,44 @@ apps:
       - snapd-control
       - unity7
 
+  firmware-updater:
+    command: firmware-updater/bin/launch-firmware-updater.sh
+    desktop: firmware-updater/bin/data/flutter_assets/assets/firmware-updater.desktop
+    extensions: [gnome]
+
+  firmware-updater-app:
+    command: firmware-updater/bin/firmware-updater --gapplication-service
+    daemon: dbus
+    passthrough:
+      daemon-scope: user
+    activates-on: [firmware-updater-dbus-slot]
+    extensions: [gnome]
+    plugs:
+      - fwupd
+      - upower-observe
+
+  firmware-notifier:
+    command: firmware-updater/bin/firmware-notifier
+    daemon: simple
+    passthrough:
+      daemon-scope: user
+    timer: '00:00-24:00/8'
+    extensions: [gnome]
+    plugs:
+      - desktop
+      - fwupd
+      - upower-observe
+
 slots:
   packagekit-svc:
     interface: dbus
     bus: session
     name: org.freedesktop.PackageKit
-  dbus-name:
+  software-dbus-slot:
     interface: dbus
     bus: session
     name: io.snapcraft.Store
-
+  firmware-updater-dbus-slot:
+    interface: dbus
+    name: com.canonical.firmware_updater
+    bus: session
