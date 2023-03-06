@@ -114,6 +114,8 @@ class _ExplorePageState extends State<ExplorePage> {
     final search = context.select((ExploreModel m) => m.search);
     final errorMessage = context.select((AppModel m) => m.errorMessage);
 
+    final topRatedApps = context.watch<ExploreModel>().topRatedApps;
+
     return Scaffold(
       appBar: YaruWindowTitleBar(
         leading: const SizedBox(width: kLeadingGap),
@@ -155,8 +157,12 @@ class _ExplorePageState extends State<ExplorePage> {
                       ),
                     )
                   : StartPage(
+                      topRatedApps: topRatedApps ?? [],
                       apps: startPageApps[widget.section],
                       snapSection: widget.section,
+                      gameApps: widget.section == SnapSection.all
+                          ? startPageApps[SnapSection.games]
+                          : null,
                     )),
     );
   }

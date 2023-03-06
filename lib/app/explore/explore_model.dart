@@ -273,4 +273,19 @@ class ExploreModel extends SafeChangeNotifier {
       searchResult = appFindings;
     }
   }
+
+  List<AppFinding>? _topRatedApps;
+  List<AppFinding>? get topRatedApps => _topRatedApps;
+  Future<void> findTopRatedApps() async {
+    final topApps = <AppFinding>[];
+    final snaps =
+        await _snapService.findSnapsByQuery(searchQuery: ' ', sectionName: '');
+    for (var s in snaps) {
+      topApps.add(AppFinding(snap: s));
+    }
+
+    _topRatedApps = topApps;
+
+    notifyListeners();
+  }
 }

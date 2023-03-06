@@ -66,7 +66,7 @@ class App extends StatelessWidget {
               getService<AppstreamService>(),
               getService<SnapService>(),
               getService<PackageService>(),
-            )..init(),
+            ),
           )
         ],
         child: const App(),
@@ -141,6 +141,14 @@ class __AppState extends State<_App> {
         barrierDismissible: false,
         builder: (c) => const CloseWindowConfirmDialog(),
       ).then((result) => result ?? false);
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (mounted) {
+        context.read<ExploreModel>().init().then((value) {
+          context.read<ExploreModel>().findTopRatedApps();
+        });
+      }
     });
   }
 
