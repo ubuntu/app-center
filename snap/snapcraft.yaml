@@ -60,6 +60,7 @@ parts:
     after: [flutter-git]
     plugin: nil
     source: https://github.com/canonical/firmware-updater.git
+    source-commit: 12af098022b64c02f246467dedeaf727291bbeef
     override-build: |
       set -eux
       flutter channel stable
@@ -77,6 +78,7 @@ parts:
     after: [flutter-git]
     plugin: nil
     source: https://github.com/canonical/firmware-updater.git
+    source-commit: 12af098022b64c02f246467dedeaf727291bbeef
     override-build: |
       cd packages/firmware_notifier/
       set -eux
@@ -89,6 +91,7 @@ parts:
   firmware-updater:
     plugin: dump
     source: https://github.com/canonical/firmware-updater.git
+    source-commit: 12af098022b64c02f246467dedeaf727291bbeef
     source-subdir: ./launcher-script/
     organize:
       bin: firmware-updater/bin
