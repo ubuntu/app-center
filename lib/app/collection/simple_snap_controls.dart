@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:snapcraft_launcher/snapcraft_launcher.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/collection/simple_snap_model.dart';
 import 'package:software/app/common/constants.dart';
@@ -43,6 +44,7 @@ class SimpleSnapControls extends StatelessWidget {
       create: (_) {
         return SimpleSnapModel(
           getService<SnapService>(),
+          getService<PrivilegedDesktopLauncher>(),
           snap: snap,
         )..init();
       },
@@ -106,11 +108,9 @@ class SimpleSnapControls extends StatelessWidget {
                         : null,
                   ),
                 ),
-              if (model.snap.type == 'app' &&
-                  (model.snap.apps.length == 1) &&
-                  enabled)
+              if (model.isLaunchable && enabled)
                 OutlinedButton(
-                  onPressed: () => model.open(),
+                  onPressed: model.open,
                   child: Text(
                     context.l10n.open,
                   ),

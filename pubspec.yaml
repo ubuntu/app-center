@@ -43,10 +43,12 @@ dependencies:
   package_info_plus: ^1.4.2
   packagekit: ^0.2.6
   palette_generator: ^0.3.3
+  path: ^1.8.2
   provider: ^6.0.2
   quiver: ^3.1.0
   safe_change_notifier: ^0.2.0
   shimmer: ^2.0.0
+  snapcraft_launcher: ^0.1.0
   snapd: ^0.4.7
   snowball_stemmer: ^0.1.0
   synchronized: ^3.0.0+3
@@ -68,7 +70,6 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   mocktail: ^0.3.0
-  path: ^1.8.0
 
 flutter:
   uses-material-design: true

@@ -61,6 +61,7 @@ apps:
     plugs:
       - appstream-metadata
       - desktop
+      - desktop-launch
       - desktop-legacy
       - network
       - network-manager
