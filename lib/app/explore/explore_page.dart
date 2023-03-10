@@ -114,6 +114,22 @@ class _ExplorePageState extends State<ExplorePage> {
     final search = context.select((ExploreModel m) => m.search);
     final errorMessage = context.select((AppModel m) => m.errorMessage);
 
+    Widget? page;
+    switch (widget.section) {
+      case SnapSection.games:
+        page = const GamesStartPage();
+        break;
+      case SnapSection.all:
+        page = const ExploreAllPage();
+        break;
+      default:
+        page = GenericStartPage(
+          snapSection: widget.section,
+          apps: startPageApps[widget.section],
+        );
+        break;
+    }
+
     return Scaffold(
       appBar: YaruWindowTitleBar(
         leading: const SizedBox(width: kLeadingGap),
@@ -154,10 +170,7 @@ class _ExplorePageState extends State<ExplorePage> {
                         },
                       ),
                     )
-                  : StartPage(
-                      apps: startPageApps[widget.section],
-                      snapSection: widget.section,
-                    )),
+                  : page),
     );
   }
 }
