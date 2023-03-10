@@ -48,7 +48,7 @@ void main() {
 
       await app.main([]);
       await tester.pumpUntil(
-        find.byType(StartPage),
+        find.byType(ExploreAllPage),
         timeout: const Duration(seconds: 120),
       );
       await tester.pumpAndSettle();
