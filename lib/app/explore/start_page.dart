@@ -17,17 +17,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:software/app/common/app_banner.dart';
 import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/constants.dart';
-import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/section_banner.dart';
 import 'package:software/app/explore/section_grid.dart';
 import 'package:software/snapx.dart';
-import 'package:yaru_colors/yaru_colors.dart';
 
 class GenericStartPage extends StatefulWidget {
   const GenericStartPage({
@@ -71,22 +68,9 @@ class _GenericStartPageState extends State<GenericStartPage> {
     AppFinding? bannerApp2;
     AppFinding? bannerApp3;
 
-    if (appsWithIcons != null && appsWithIcons.isNotEmpty) {
-      bannerApp = appsWithIcons.elementAt(0);
-      bannerApp2 = appsWithIcons.elementAt(1);
-      bannerApp3 = appsWithIcons.elementAt(2);
-    }
-    if (bannerApp == null || bannerApp2 == null || bannerApp3 == null) {
-      return SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 15),
-        child: Column(
-          children: const [
-            _LoadingSectionBanner(),
-            LoadingBannerGrid(),
-          ],
-        ),
-      );
-    }
+    bannerApp = appsWithIcons?.elementAt(0);
+    bannerApp2 = appsWithIcons?.elementAt(1);
+    bannerApp3 = appsWithIcons?.elementAt(2);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.only(top: 15),
@@ -100,7 +84,7 @@ class _GenericStartPageState extends State<GenericStartPage> {
             section: widget.snapSection,
           ),
           SectionGrid(
-            apps: widget.apps ?? [],
+            apps: widget.apps,
             take: 20,
             skip: 3,
           ),
@@ -139,8 +123,8 @@ class _ExploreAllPageState extends State<ExploreAllPage> {
 
   @override
   Widget build(BuildContext context) {
-    final apps =
-        context.select((ExploreModel m) => m.startPageApps[SnapSection.all]);
+    final apps = context.read<ExploreModel>().startPageApps[SnapSection.all];
+    context.select((ExploreModel m) => m.startPageAppsChanged);
 
     final appsWithIcons =
         apps?.where((app) => app.snap?.iconUrl != null).toList();
@@ -148,22 +132,9 @@ class _ExploreAllPageState extends State<ExploreAllPage> {
     AppFinding? bannerApp2;
     AppFinding? bannerApp3;
 
-    if (appsWithIcons != null && appsWithIcons.isNotEmpty) {
-      bannerApp = appsWithIcons.elementAt(0);
-      bannerApp2 = appsWithIcons.elementAt(1);
-      bannerApp3 = appsWithIcons.elementAt(2);
-    }
-    if (bannerApp == null || bannerApp2 == null || bannerApp3 == null) {
-      return SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 15),
-        child: Column(
-          children: const [
-            _LoadingSectionBanner(),
-            LoadingBannerGrid(),
-          ],
-        ),
-      );
-    }
+    bannerApp = appsWithIcons?.elementAt(0);
+    bannerApp2 = appsWithIcons?.elementAt(1);
+    bannerApp3 = appsWithIcons?.elementAt(2);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.only(top: 15),
@@ -177,7 +148,7 @@ class _ExploreAllPageState extends State<ExploreAllPage> {
             section: SnapSection.all,
           ),
           SectionGrid(
-            apps: apps ?? [],
+            apps: apps,
             take: 20,
             skip: 3,
           ),
@@ -224,22 +195,9 @@ class _GamesStartPageState extends State<GamesStartPage> {
     AppFinding? bannerApp2;
     AppFinding? bannerApp3;
 
-    if (appsWithIcons != null && appsWithIcons.isNotEmpty) {
-      bannerApp = appsWithIcons.elementAt(0);
-      bannerApp2 = appsWithIcons.elementAt(1);
-      bannerApp3 = appsWithIcons.elementAt(2);
-    }
-    if (bannerApp == null || bannerApp2 == null || bannerApp3 == null) {
-      return SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 15),
-        child: Column(
-          children: const [
-            _LoadingSectionBanner(),
-            LoadingBannerGrid(),
-          ],
-        ),
-      );
-    }
+    bannerApp = appsWithIcons?.elementAt(0);
+    bannerApp2 = appsWithIcons?.elementAt(1);
+    bannerApp3 = appsWithIcons?.elementAt(2);
 
     return SingleChildScrollView(
       controller: _controller,
@@ -267,34 +225,6 @@ class _GamesStartPageState extends State<GamesStartPage> {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-final sectionToPage = {
-  SnapSection.games: GamesStartPage,
-};
-
-class _LoadingSectionBanner extends StatelessWidget {
-  // ignore: unused_element
-  const _LoadingSectionBanner({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    var light = theme.brightness == Brightness.light;
-    final shimmerBase =
-        light ? const Color.fromARGB(120, 228, 228, 228) : YaruColors.jet;
-    final shimmerHighLight =
-        light ? const Color.fromARGB(200, 247, 247, 247) : YaruColors.coolGrey;
-    return Shimmer.fromColors(
-      baseColor: shimmerBase,
-      highlightColor: shimmerHighLight,
-      child: SectionBanner(
-        apps: const [],
-        section: SnapSection.all,
-        gradientColors: SnapSection.all.colors.map((e) => Color(e)).toList(),
       ),
     );
   }
