@@ -50,10 +50,7 @@ class PublisherName extends StatelessWidget {
       publisherName,
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             fontSize: height,
-            fontStyle: enhanceChildText ? FontStyle.italic : FontStyle.normal,
-            color: enhanceChildText
-                ? theme.colorScheme.onSurface.withOpacity(0.7)
-                : null,
+            color: enhanceChildText ? theme.hintColor : null,
           ),
       overflow: TextOverflow.ellipsis,
     );

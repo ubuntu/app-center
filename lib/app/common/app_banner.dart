@@ -232,8 +232,7 @@ class SearchBannerSubtitle extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  color: theme.colorScheme.onSurface.withOpacity(0.5),
+                  color: theme.hintColor,
                 ),
               ),
             ),
