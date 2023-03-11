@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 
 class Link extends StatelessWidget {
   const Link({
@@ -44,8 +45,14 @@ class Link extends StatelessWidget {
             Theme.of(context)
                 .textTheme
                 .bodyMedium
-                ?.copyWith(color: Theme.of(context).colorScheme.primary),
+                ?.copyWith(color: context.linkColor),
       ),
     );
   }
+}
+
+extension LinkColor on BuildContext {
+  Color get linkColor => Theme.of(this).brightness == Brightness.light
+      ? YaruColors.blue[700]!
+      : YaruColors.blue[500]!;
 }
