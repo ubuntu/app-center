@@ -28,6 +28,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 import 'package:software/app/common/border_container.dart';
+import 'package:software/app/common/link.dart';
 
 class PackageUpdateDialog extends StatefulWidget {
   const PackageUpdateDialog({
@@ -110,8 +111,7 @@ class _PackageUpdateDialogState extends State<PackageUpdateDialog> {
               onTapLink: (text, href, title) =>
                   href != null ? launchUrl(Uri.parse(href)) : null,
               styleSheet: MarkdownStyleSheet(
-                p: Theme.of(context).textTheme.bodyMedium,
-                a: TextStyle(color: Theme.of(context).primaryColor),
+                a: TextStyle(color: context.linkColor),
               ),
             ),
           ),
