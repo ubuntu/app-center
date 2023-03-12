@@ -89,7 +89,7 @@ class _SearchFieldState extends State<SearchField> {
         child: Center(
           child: SizedBox(
             width: 280,
-            height: 30,
+            height: 34,
             child: TextField(
               style: theme.textTheme.bodyMedium,
               strutStyle: const StrutStyle(
@@ -131,7 +131,7 @@ class _SearchFieldState extends State<SearchField> {
                 suffixIconConstraints:
                     const BoxConstraints(maxWidth: 30, minHeight: 0),
                 isDense: true,
-                contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 14),
+                contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 18),
                 fillColor:
                     light ? Colors.white : Theme.of(context).dividerColor,
                 enabledBorder: OutlineInputBorder(
