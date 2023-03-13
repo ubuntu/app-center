@@ -118,9 +118,6 @@ class _AppReviewsState extends State<AppReviews> {
               onVote: widget.onVote,
               onFlag: widget.onFlag,
             ),
-            const SizedBox(
-              height: kYaruPagePadding,
-            ),
             Row(
               children: [
                 OutlinedButton(
