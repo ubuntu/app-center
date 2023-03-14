@@ -28,7 +28,6 @@ class PublisherInfoFragment extends StatelessWidget {
     required this.publisherName,
     this.starDev = false,
     required this.website,
-    this.limitChildWidth = true,
     this.height = 14,
     this.enhanceChildText = false,
   });
@@ -37,7 +36,6 @@ class PublisherInfoFragment extends StatelessWidget {
   final bool starDev;
   final String publisherName;
   final String website;
-  final bool limitChildWidth;
   final double height;
   final bool enhanceChildText;
 
@@ -46,7 +44,7 @@ class PublisherInfoFragment extends StatelessWidget {
     final theme = Theme.of(context);
     final light = theme.brightness == Brightness.light;
     var child = Text(
-      publisherName,
+      publisherName.replaceAll(' ', '\u00A0'),
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             fontSize: height,
             fontStyle: enhanceChildText ? FontStyle.italic : FontStyle.normal,
@@ -55,22 +53,16 @@ class PublisherInfoFragment extends StatelessWidget {
                 : null,
           ),
       overflow: TextOverflow.ellipsis,
+      maxLines: 1,
     );
     final box = SizedBox(
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          if (limitChildWidth)
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 110),
-              child: child,
-            )
-          else
-            child,
           if (verified)
             Padding(
-              padding: EdgeInsets.only(left: height * 0.2),
+              padding: const EdgeInsets.only(right: 5),
               child: Icon(
                 Icons.verified,
                 color: light ? kGreenLight : kGreenDark,
@@ -79,11 +71,14 @@ class PublisherInfoFragment extends StatelessWidget {
             )
           else if (starDev)
             Padding(
-              padding: const EdgeInsets.only(left: 5),
+              padding: const EdgeInsets.only(right: 5),
               child: _StarDeveloper(
                 height: height * 0.85,
               ),
             ),
+          Flexible(
+            child: child,
+          ),
         ],
       ),
     );
