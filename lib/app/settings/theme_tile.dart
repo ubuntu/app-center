@@ -47,10 +47,17 @@ class ThemeTile extends StatelessWidget {
             child: themeMode == ThemeMode.system
                 ? Stack(
                     children: [
-                      lightContainer,
                       ClipPath(
                         clipBehavior: Clip.antiAlias,
-                        clipper: _CustomClipPath(
+                        clipper: _CustomClipPathLight(
+                          height: height,
+                          width: width,
+                        ),
+                        child: lightContainer,
+                      ),
+                      ClipPath(
+                        clipBehavior: Clip.antiAlias,
+                        clipper: _CustomClipPathDark(
                           height: height,
                           width: width,
                         ),
@@ -100,8 +107,8 @@ class ThemeTile extends StatelessWidget {
   }
 }
 
-class _CustomClipPath extends CustomClipper<Path> {
-  _CustomClipPath({required this.height, required this.width});
+class _CustomClipPathDark extends CustomClipper<Path> {
+  _CustomClipPathDark({required this.height, required this.width});
 
   final double height;
   final double width;
@@ -110,6 +117,24 @@ class _CustomClipPath extends CustomClipper<Path> {
   Path getClip(Size size) {
     Path path = Path();
     path.lineTo(0, width);
+    path.lineTo(width, height);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+class _CustomClipPathLight extends CustomClipper<Path> {
+  _CustomClipPathLight({required this.height, required this.width});
+
+  final double height;
+  final double width;
+
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(width, 0);
     path.lineTo(width, height);
     return path;
   }
