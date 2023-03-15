@@ -235,8 +235,8 @@ class _CollectionPageState extends State<CollectionPage> {
                     child: (appFormat == AppFormat.snap)
                         ? const SnapCollection()
                         : PackageCollection(
-                      enabled: !checkingForPackageUpdates,
-                    ),
+                            enabled: !checkingForPackageUpdates,
+                          ),
                   ),
                   if (_showFab)
                     Align(
