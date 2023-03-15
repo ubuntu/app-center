@@ -11,7 +11,7 @@ class ThemeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     const height = 100.0;
     const width = 150.0;
-    var borderRadius2 = BorderRadius.circular(10);
+    var borderRadius2 = BorderRadius.circular(12);
     var lightContainer = Container(
       decoration: BoxDecoration(
         color: Colors.white,
