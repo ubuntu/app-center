@@ -130,11 +130,9 @@ class _CollectionPageState extends State<CollectionPage> {
     double hPadding;
     double windowWidth = MediaQuery.of(context).size.width;
 
-    if (windowWidth <= 1200) {
-      hPadding = kPagePadding;
-    } else {
-      hPadding = kPagePadding + 0.0004 * pow((windowWidth - 1200) * 0.8, 2);
-    }
+    hPadding = windowWidth < 1200
+        ? kPagePadding
+        : kPagePadding + 0.0004 * pow((windowWidth - 1200) * 0.8, 2);
 
     final snapChildren = [
       SnapSortPopup(
