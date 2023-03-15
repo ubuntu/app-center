@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -125,6 +127,15 @@ class _CollectionPageState extends State<CollectionPage> {
     final availablePackageUpdatesLength =
         context.select((PackageUpdatesModel m) => m.updates.length);
 
+    double hPadding;
+    double windowWidth = MediaQuery.of(context).size.width;
+
+    if (windowWidth <= 1200) {
+      hPadding = kPagePadding;
+    } else {
+      hPadding = kPagePadding + 0.0004 * pow((windowWidth - 1200) * 0.8, 2);
+    }
+
     final snapChildren = [
       SnapSortPopup(
         value: snapSort,
@@ -185,58 +196,61 @@ class _CollectionPageState extends State<CollectionPage> {
       child: const Icon(YaruIcons.pan_up),
     );
 
-    final content = Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Wrap(
-              spacing: 10,
-              runSpacing: 20,
-              alignment: WrapAlignment.start,
-              runAlignment: WrapAlignment.start,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                CollectionToggle(
-                  onSelected: (appFormat) => setAppFormat(appFormat),
-                  appFormat: appFormat ?? AppFormat.snap,
-                  enabledAppFormats: enabledAppFormats,
-                  badgedAppFormats: {
-                    AppFormat.snap: snapsWithUpdate.length,
-                    AppFormat.packageKit: availablePackageUpdatesLength,
-                  },
-                ),
-                if (appFormat == AppFormat.snap)
-                  ...snapChildren
-                else
-                  ...packageKitChildren
-              ],
+    final content = Padding(
+      padding: EdgeInsets.symmetric(horizontal: hPadding),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: kPagePadding),
+              child: Wrap(
+                spacing: 10,
+                runSpacing: 20,
+                alignment: WrapAlignment.start,
+                runAlignment: WrapAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  CollectionToggle(
+                    onSelected: (appFormat) => setAppFormat(appFormat),
+                    appFormat: appFormat ?? AppFormat.snap,
+                    enabledAppFormats: enabledAppFormats,
+                    badgedAppFormats: {
+                      AppFormat.snap: snapsWithUpdate.length,
+                      AppFormat.packageKit: availablePackageUpdatesLength,
+                    },
+                  ),
+                  if (appFormat == AppFormat.snap)
+                    ...snapChildren
+                  else
+                    ...packageKitChildren
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: Stack(
-              children: [
-                SingleChildScrollView(
-                  controller: _controller,
-                  child: (appFormat == AppFormat.snap)
-                      ? const SnapCollection()
-                      : PackageCollection(
-                          enabled: !checkingForPackageUpdates,
-                        ),
-                ),
-                if (_showFab)
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(kYaruPagePadding),
-                      child: floatingActionButton,
+            Expanded(
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    controller: _controller,
+                    child: (appFormat == AppFormat.snap)
+                        ? const SnapCollection()
+                        : PackageCollection(
+                      enabled: !checkingForPackageUpdates,
                     ),
-                  )
-              ],
-            ),
-          )
-        ],
+                  ),
+                  if (_showFab)
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(kYaruPagePadding),
+                        child: floatingActionButton,
+                      ),
+                    )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
 

@@ -43,8 +43,6 @@ class _InstalledPackagesList extends StatelessWidget {
         ? BorderContainer(
             padding: EdgeInsets.zero,
             margin: const EdgeInsets.only(
-              left: kYaruPagePadding,
-              right: kYaruPagePadding,
               bottom: kYaruPagePadding,
             ),
             child: ListView.builder(
