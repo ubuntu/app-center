@@ -60,9 +60,12 @@ class PublisherInfoFragment extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          Flexible(
+            child: child,
+          ),
           if (verified)
             Padding(
-              padding: const EdgeInsets.only(right: 5),
+              padding: const EdgeInsets.only(left: 5),
               child: Icon(
                 Icons.verified,
                 color: light ? kGreenLight : kGreenDark,
@@ -71,14 +74,11 @@ class PublisherInfoFragment extends StatelessWidget {
             )
           else if (starDev)
             Padding(
-              padding: const EdgeInsets.only(right: 5),
+              padding: const EdgeInsets.only(left: 5),
               child: _StarDeveloper(
                 height: height * 0.85,
               ),
             ),
-          Flexible(
-            child: child,
-          ),
         ],
       ),
     );
@@ -86,7 +86,7 @@ class PublisherInfoFragment extends StatelessWidget {
     return AppInfoFragment(
       crossAxisAlignment: CrossAxisAlignment.start,
       header: context.l10n.publisher,
-      tooltipMessage: publisherName.length > 12 ? publisherName : null,
+      tooltipMessage: publisherName,
       child: box,
     );
   }
