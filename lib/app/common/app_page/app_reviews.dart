@@ -89,9 +89,13 @@ class _AppReviewsState extends State<AppReviews> {
               RatingChart(
                 appRating: widget.appRating!,
               ),
-            const Divider(
-              height: 60,
-              thickness: 0.0,
+            Container(
+              height: 1,
+              margin: const EdgeInsets.symmetric(vertical: 30),
+              decoration: BoxDecoration(
+                color: Theme.of(context).dividerColor,
+                borderRadius: BorderRadius.circular(1),
+              ),
             ),
             if (widget.appIsInstalled)
               _ReviewPanel(
@@ -108,9 +112,13 @@ class _AppReviewsState extends State<AppReviews> {
                 onReviewUserChanged: widget.onReviewUserChanged,
               ),
             if (widget.appIsInstalled)
-              const Divider(
-                height: 60,
-                thickness: 0.0,
+              Container(
+                height: 1,
+                margin: const EdgeInsets.symmetric(vertical: 30),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).dividerColor,
+                  borderRadius: BorderRadius.circular(1),
+                ),
               ),
             _ReviewsTrailer(
               userReviews: widget.userReviews,
