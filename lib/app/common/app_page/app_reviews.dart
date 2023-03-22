@@ -559,7 +559,7 @@ class _Review extends StatelessWidget {
         ),
         Container(
           height: 1,
-          margin: const EdgeInsets.symmetric(vertical: 30),
+          margin: const EdgeInsets.symmetric(vertical: 20),
           decoration: BoxDecoration(
             color: Theme.of(context).dividerColor,
             borderRadius: BorderRadius.circular(1),
