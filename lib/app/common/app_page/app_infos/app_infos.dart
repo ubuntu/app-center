@@ -48,7 +48,10 @@ class AppInfos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appInfos = [
-      RatingInfoFragment(averageRating: appData.appRating?.average ?? 0.0),
+      RatingInfoFragment(
+        averageRating: appData.appRating?.average ?? 0.0,
+        totalRatings: appData.appRating?.total ?? 0,
+      ),
       ConfinementInfoFragment(
         strict: appData.strict,
         confinementName: appData.confinementName,
@@ -74,9 +77,11 @@ class RatingInfoFragment extends StatelessWidget {
   const RatingInfoFragment({
     super.key,
     required this.averageRating,
+    required this.totalRatings,
   });
 
   final double averageRating;
+  final int totalRatings;
 
   @override
   Widget build(BuildContext context) {
@@ -102,11 +107,22 @@ class RatingInfoFragment extends StatelessWidget {
 
     return AppInfoFragment(
       header: context.l10n.rating,
-      child: Align(
-        alignment: Alignment.center,
-        child: Padding(
-          padding: const EdgeInsets.all(3.0),
-          child: bar,
+      child: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            bar,
+            const SizedBox(width: 5),
+            Flexible(
+              child: Text(
+                '($totalRatings)',
+                style: theme.textTheme.bodySmall,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ),
       ),
     );
