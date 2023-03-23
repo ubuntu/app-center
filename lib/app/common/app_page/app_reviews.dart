@@ -89,12 +89,10 @@ class _AppReviewsState extends State<AppReviews> {
               RatingChart(
                 appRating: widget.appRating!,
               ),
-            Container(
-              height: 1,
-              margin: const EdgeInsets.symmetric(vertical: 30),
-              decoration: BoxDecoration(
-                color: Theme.of(context).dividerColor,
-                borderRadius: BorderRadius.circular(1),
+            const Padding(
+              padding: EdgeInsets.only(top: 30, bottom: 30),
+              child: Divider(
+                height: 0,
               ),
             ),
             if (widget.appIsInstalled)
@@ -112,12 +110,10 @@ class _AppReviewsState extends State<AppReviews> {
                 onReviewUserChanged: widget.onReviewUserChanged,
               ),
             if (widget.appIsInstalled)
-              Container(
-                height: 1,
-                margin: const EdgeInsets.symmetric(vertical: 30),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).dividerColor,
-                  borderRadius: BorderRadius.circular(1),
+              const Padding(
+                padding: EdgeInsets.only(top: 30, bottom: 30),
+                child: Divider(
+                  height: 0,
                 ),
               ),
             _ReviewsTrailer(
@@ -565,12 +561,10 @@ class _Review extends StatelessWidget {
           onFlag: onFlag,
           onVote: onVote,
         ),
-        Container(
-          height: 1,
-          margin: const EdgeInsets.symmetric(vertical: 20),
-          decoration: BoxDecoration(
-            color: Theme.of(context).dividerColor,
-            borderRadius: BorderRadius.circular(1),
+        const Padding(
+          padding: EdgeInsets.only(top: 20, bottom: 20),
+          child: Divider(
+            height: 0,
           ),
         ),
       ],
