@@ -66,6 +66,7 @@ class _BackGestureState extends State<BackGesture>
   }
 
   void onPanStart(DragStartDetails details, BoxConstraints constraints) {
+    swipeBackController.reset();
     currentExtent = 0;
     xPosition = 0 - _kButtonSize;
     yPosition = (constraints.maxHeight - _kButtonSize) / 2;
