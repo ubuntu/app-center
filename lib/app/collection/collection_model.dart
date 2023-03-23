@@ -44,12 +44,7 @@ class CollectionModel extends SafeChangeNotifier {
 
       notifyListeners();
     }
-
-    if (_snapService.snapChanges.isEmpty) {
-      await loadSnaps();
-    } else {
-      checkingForSnapUpdates = false;
-    }
+    await loadSnaps();
   }
 
   @override
