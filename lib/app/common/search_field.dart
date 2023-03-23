@@ -91,6 +91,12 @@ class _SearchFieldState extends State<SearchField> {
             width: 280,
             height: 34,
             child: TextField(
+              style: theme.textTheme.bodyMedium,
+              strutStyle: const StrutStyle(
+                leading: 0.2,
+              ),
+              textAlignVertical: TextAlignVertical.center,
+              cursorWidth: 1,
               autofocus: widget.autofocus,
               controller: _controller,
               onChanged: onChanged,
@@ -100,10 +106,10 @@ class _SearchFieldState extends State<SearchField> {
                 hintText: widget.hintText,
                 prefixIcon: const Icon(
                   YaruIcons.search,
-                  size: 15,
+                  size: 16,
                 ),
                 prefixIconConstraints:
-                    const BoxConstraints(minWidth: 40, minHeight: 0),
+                    const BoxConstraints(minWidth: 34, minHeight: 30),
                 suffixIcon:
                     widget.searchQuery != null && widget.searchQuery!.isNotEmpty
                         ? SizedBox(
@@ -113,10 +119,9 @@ class _SearchFieldState extends State<SearchField> {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: _clear,
-                                child: Center(
+                                child: const Center(
                                   child: Icon(
                                     YaruIcons.edit_clear,
-                                    color: Theme.of(context).hintColor,
                                   ),
                                 ),
                               ),
@@ -126,7 +131,7 @@ class _SearchFieldState extends State<SearchField> {
                 suffixIconConstraints:
                     const BoxConstraints(maxWidth: 30, minHeight: 0),
                 isDense: true,
-                contentPadding: const EdgeInsets.all(8),
+                contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 18),
                 fillColor:
                     light ? Colors.white : Theme.of(context).dividerColor,
                 enabledBorder: OutlineInputBorder(
