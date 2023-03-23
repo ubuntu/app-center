@@ -34,6 +34,7 @@ class AdditionalInformation extends StatelessWidget {
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 200,
             mainAxisExtent: 100,
+            crossAxisSpacing: kYaruPagePadding,
           ),
           children: [
             PublisherInfoFragment(

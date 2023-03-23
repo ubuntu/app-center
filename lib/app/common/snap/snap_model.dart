@@ -145,7 +145,7 @@ class SnapModel extends SafeChangeNotifier {
 
   String get selectedChannelReleasedAt =>
       selectableChannels[channelToBeInstalled] != null
-          ? DateFormat.yMd(Platform.localeName)
+          ? DateFormat.yMMMd(Platform.localeName)
               .format(selectableChannels[channelToBeInstalled]!.releasedAt)
           : '';
 
