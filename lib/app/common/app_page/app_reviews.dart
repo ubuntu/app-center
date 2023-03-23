@@ -89,9 +89,11 @@ class _AppReviewsState extends State<AppReviews> {
               RatingChart(
                 appRating: widget.appRating!,
               ),
-            const Divider(
-              height: 60,
-              thickness: 0.0,
+            const Padding(
+              padding: EdgeInsets.only(top: 30, bottom: 30),
+              child: Divider(
+                height: 0,
+              ),
             ),
             if (widget.appIsInstalled)
               _ReviewPanel(
@@ -108,9 +110,11 @@ class _AppReviewsState extends State<AppReviews> {
                 onReviewUserChanged: widget.onReviewUserChanged,
               ),
             if (widget.appIsInstalled)
-              const Divider(
-                height: 60,
-                thickness: 0.0,
+              const Padding(
+                padding: EdgeInsets.only(top: 30, bottom: 30),
+                child: Divider(
+                  height: 0,
+                ),
               ),
             _ReviewsTrailer(
               userReviews: widget.userReviews,
@@ -557,9 +561,12 @@ class _Review extends StatelessWidget {
           onFlag: onFlag,
           onVote: onVote,
         ),
-        const Divider(
-          height: 40,
-        )
+        const Padding(
+          padding: EdgeInsets.only(top: 20, bottom: 20),
+          child: Divider(
+            height: 0,
+          ),
+        ),
       ],
     );
   }
