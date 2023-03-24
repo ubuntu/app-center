@@ -13,8 +13,9 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class PackageCollection extends StatelessWidget {
-  const PackageCollection({super.key, this.enabled = true});
+  const PackageCollection({super.key, this.enabled = true, this.amount = 40});
   final bool enabled;
+  final int amount;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,10 @@ class PackageCollection extends StatelessWidget {
       child: Column(
         children: [
           const PackageUpdatesPage(),
-          _InstalledPackagesList(enabled: enabled)
+          _InstalledPackagesList(
+            enabled: enabled,
+            amount: amount,
+          )
         ],
       ),
     );
@@ -30,9 +34,10 @@ class PackageCollection extends StatelessWidget {
 }
 
 class _InstalledPackagesList extends StatelessWidget {
-  const _InstalledPackagesList({required this.enabled});
+  const _InstalledPackagesList({required this.enabled, required this.amount});
 
   final bool enabled;
+  final int amount;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +55,7 @@ class _InstalledPackagesList extends StatelessWidget {
             child: ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: installedPackages.length,
+              itemCount: installedPackages.take(amount).length,
               itemBuilder: (context, index) {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
