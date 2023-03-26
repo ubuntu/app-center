@@ -67,12 +67,20 @@ class CollectionPage extends StatefulWidget {
 class _CollectionPageState extends State<CollectionPage> {
   late ScrollController _controller;
   bool _showFab = false;
+  late int _packageAmount;
 
   @override
   void initState() {
     super.initState();
+    _packageAmount = 30;
+
     _controller = ScrollController();
     _controller.addListener(() {
+      if (_controller.position.maxScrollExtent == _controller.offset) {
+        setState(() {
+          _packageAmount++;
+        });
+      }
       if (_controller.offset > 50.0) {
         setState(() => _showFab = true);
       } else {
@@ -223,6 +231,7 @@ class _CollectionPageState extends State<CollectionPage> {
                       ? const SnapCollection()
                       : PackageCollection(
                           enabled: !checkingForPackageUpdates,
+                          amount: _packageAmount,
                         ),
                 ),
                 if (_showFab)
