@@ -233,7 +233,7 @@ class _ReviewPanel extends StatelessWidget {
                   allowHalfRating: true,
                   itemCount: 5,
                   itemPadding: const EdgeInsets.only(right: 5),
-                  itemSize: 25,
+                  itemSize: 40,
                   itemBuilder: (context, _) => const MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: Icon(
