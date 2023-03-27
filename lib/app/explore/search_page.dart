@@ -22,7 +22,7 @@ import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/l10n/l10n.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   const SearchPage({
     super.key,
     required this.header,
@@ -37,8 +37,37 @@ class SearchPage extends StatelessWidget {
   final bool showPackageKit;
 
   @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  late ScrollController _controller;
+  late int _searchResultAmount;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchResultAmount = 30;
+
+    _controller = ScrollController();
+    _controller.addListener(() {
+      if (_controller.position.maxScrollExtent == _controller.offset) {
+        setState(() {
+          _searchResultAmount = _searchResultAmount + 5;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (searchResult == null) {
+    if (widget.searchResult == null) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
@@ -50,10 +79,11 @@ class SearchPage extends StatelessWidget {
 
     return Column(
       children: [
-        header,
-        if (searchResult!.isNotEmpty)
+        widget.header,
+        if (widget.searchResult!.isNotEmpty)
           Expanded(
             child: GridView.builder(
+              controller: _controller,
               padding: const EdgeInsets.only(
                 bottom: 15,
                 right: 15,
@@ -61,13 +91,15 @@ class SearchPage extends StatelessWidget {
               ),
               gridDelegate: kGridDelegate,
               shrinkWrap: true,
-              itemCount: searchResult!.length,
+              itemCount:
+                  widget.searchResult!.entries.take(_searchResultAmount).length,
               itemBuilder: (context, index) {
-                final appFinding = searchResult!.entries.elementAt(index);
+                final appFinding =
+                    widget.searchResult!.entries.elementAt(index);
                 return AppBanner(
                   appFinding: appFinding,
-                  showSnap: showSnap,
-                  showPackageKit: showPackageKit,
+                  showSnap: widget.showSnap,
+                  showPackageKit: widget.showPackageKit,
                 );
               },
             ),
