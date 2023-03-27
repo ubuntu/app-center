@@ -11,7 +11,6 @@ import 'package:software/app/common/rating_chart.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../expandable_title.dart';
 
