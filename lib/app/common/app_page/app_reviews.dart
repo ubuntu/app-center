@@ -220,7 +220,7 @@ class _ReviewPanel extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  '${context.l10n.clickToRate}:',
+                  '${context.l10n.rate}:',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(
@@ -232,7 +232,7 @@ class _ReviewPanel extends StatelessWidget {
                   direction: Axis.horizontal,
                   itemCount: 5,
                   itemPadding: const EdgeInsets.only(right: 5),
-                  itemSize: 25,
+                  itemSize: 40,
                   itemBuilder: (context, _) => const MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: Icon(
@@ -328,7 +328,7 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       title: YaruDialogTitleBar(
-        title: Text(context.l10n.yourReview),
+        title: Text(context.l10n.writeAreview),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -383,16 +383,17 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
             style: theme.textTheme.bodyMedium,
             decoration: InputDecoration(
               label: Text(
-                context.l10n.yourReviewTitle,
+                context.l10n.summary,
                 style: theme.textTheme.bodyMedium,
               ),
+              hintText: context.l10n.summeryHint,
             ),
           ),
           const SizedBox(
             height: kYaruPagePadding,
           ),
           SizedBox(
-            width: 500,
+            width: 600,
             child: TextField(
               controller: _reviewController,
               onChanged: widget.onReviewChanged,
@@ -405,6 +406,7 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
                   context.l10n.yourReview,
                   style: theme.textTheme.bodyMedium,
                 ),
+                hintText: context.l10n.whatDoYouThink,
                 floatingLabelAlignment: FloatingLabelAlignment.start,
                 alignLabelWithHint: true,
               ),
@@ -413,24 +415,40 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
         ],
       ),
       actions: [
-        OutlinedButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(context.l10n.cancel),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            if (widget.onReviewSend != null) {
-              widget.onReviewSend!();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(context.l10n.reviewSent),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              context.l10n.whatDataIsSend +
+                  context.l10n.privacyPolicy, // https://odrs.gnome.org/privacy
+              style: theme.textTheme.bodyMedium,
+            ),
+            Row(
+              children: [
+                OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(context.l10n.cancel),
                 ),
-              );
-            }
-            Navigator.of(context).pop();
-          },
-          child: Text(context.l10n.send),
-        )
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    if (widget.onReviewSend != null) {
+                      widget.onReviewSend!();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(context.l10n.reviewSent),
+                        ),
+                      );
+                    }
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(context.l10n.submit),
+                ),
+              ],
+            ),
+          ],
+        ),
       ],
     );
   }
