@@ -77,7 +77,7 @@ class _AppReviewsState extends State<AppReviews> {
       child: YaruExpandable(
         isExpanded: true,
         header: ExpandableContainerTitle(
-          context.l10n.reviewsAndRatings,
+          context.l10n.ratingsAndReviews,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +159,7 @@ class _ReviewDetailsDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleDialog(
       title: YaruDialogTitleBar(
-        title: Text(context.l10n.reviewsAndRatings),
+        title: Text(context.l10n.ratingsAndReviews),
       ),
       titlePadding: EdgeInsets.zero,
       contentPadding: const EdgeInsets.all(kYaruPagePadding),
