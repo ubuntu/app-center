@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:software/app/common/app_finding.dart';
-import 'package:software/app/common/base_plate.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/snapx.dart';
 import 'package:software/app/common/app_icon.dart';
+import 'package:software/app/common/base_plate.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/app/common/snap/snap_section.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/snapx.dart';
 import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -19,12 +20,16 @@ class SectionBanner extends StatelessWidget {
     required this.gradientColors,
   });
 
-  final List<AppFinding> apps;
+  final List<AppFinding?>? apps;
   final SnapSection section;
   final List<Color> gradientColors;
 
   @override
   Widget build(BuildContext context) {
+    if (apps == null || apps!.isEmpty || apps!.any((app) => app == null)) {
+      return const LoadingSectionBanner();
+    }
+
     final firstGradientColorIsBright = ThemeData.estimateBrightnessForColor(
           gradientColors.first,
         ) ==
@@ -117,10 +122,10 @@ class SectionBanner extends StatelessWidget {
               ),
               Wrap(
                 spacing: 10,
-                children: apps
+                children: apps!
                     .map(
                       (e) => _PlatedIcon(
-                        app: e,
+                        app: e!,
                       ),
                     )
                     .toList(),
@@ -176,6 +181,39 @@ class _PlatedIconState extends State<_PlatedIcon> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class LoadingSectionBanner extends StatelessWidget {
+  const LoadingSectionBanner({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    var light = theme.brightness == Brightness.light;
+    final shimmerBase =
+        light ? const Color.fromARGB(120, 228, 228, 228) : YaruColors.jet;
+    final shimmerHighLight =
+        light ? const Color.fromARGB(200, 247, 247, 247) : YaruColors.coolGrey;
+    return Shimmer.fromColors(
+      baseColor: shimmerBase,
+      highlightColor: shimmerHighLight,
+      child: Container(
+        margin: const EdgeInsets.only(
+          top: 5,
+          left: kPagePadding,
+          right: kPagePadding,
+          bottom: kPagePadding - 5,
+        ),
+
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(kYaruContainerRadius),
+          color: Theme.of(context).colorScheme.surface,
+        ),
+        height: 220,
+        // width: 800,
       ),
     );
   }

@@ -2,11 +2,11 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/collection/collection_model.dart';
+import 'package:software/app/collection/collection_toggle.dart';
 import 'package:software/app/collection/package_collection.dart';
 import 'package:software/app/collection/package_updates_model.dart';
 import 'package:software/app/collection/snap_collection.dart';
 import 'package:software/app/common/app_format.dart';
-import 'package:software/app/common/app_format_popup.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/indeterminate_circular_progress_icon.dart';
 import 'package:software/app/common/packagekit/packagekit_filter_button.dart';
@@ -67,12 +67,20 @@ class CollectionPage extends StatefulWidget {
 class _CollectionPageState extends State<CollectionPage> {
   late ScrollController _controller;
   bool _showFab = false;
+  late int _packageAmount;
 
   @override
   void initState() {
     super.initState();
+    _packageAmount = 30;
+
     _controller = ScrollController();
     _controller.addListener(() {
+      if (_controller.position.maxScrollExtent == _controller.offset) {
+        setState(() {
+          _packageAmount++;
+        });
+      }
       if (_controller.offset > 50.0) {
         setState(() => _showFab = true);
       } else {
@@ -198,7 +206,7 @@ class _CollectionPageState extends State<CollectionPage> {
               runAlignment: WrapAlignment.start,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                AppFormatPopup(
+                CollectionToggle(
                   onSelected: (appFormat) => setAppFormat(appFormat),
                   appFormat: appFormat ?? AppFormat.snap,
                   enabledAppFormats: enabledAppFormats,
@@ -223,6 +231,7 @@ class _CollectionPageState extends State<CollectionPage> {
                       ? const SnapCollection()
                       : PackageCollection(
                           enabled: !checkingForPackageUpdates,
+                          amount: _packageAmount,
                         ),
                 ),
                 if (_showFab)

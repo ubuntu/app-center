@@ -36,6 +36,7 @@ import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 import '../expandable_title.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 
 class AppPage extends StatefulWidget {
   const AppPage({
@@ -184,17 +185,27 @@ class _AppPageState extends State<AppPage> {
     );
 
     void onShare(AppData appData) {
+      final colorScheme = Theme.of(context).colorScheme;
+      final linkColorInvert = colorScheme.brightness == Brightness.light
+          ? YaruColors.blue[500]!
+          : YaruColors.blue[700]!;
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text('${context.l10n.copiedToClipboard}: '),
-              Link(url: appData.website, linkText: appData.website)
+              Link(
+                url: appData.website,
+                linkText: appData.website,
+                textStyle: TextStyle(color: linkColorInvert),
+              ),
             ],
           ),
         ),
       );
+
       Clipboard.setData(ClipboardData(text: appData.website));
     }
 

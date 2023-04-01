@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:software/app/common/app_banner.dart';
 import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/constants.dart';
+import 'package:software/app/common/loading_banner_grid.dart';
 
 class SectionGrid extends StatelessWidget {
   const SectionGrid({
@@ -32,7 +33,7 @@ class SectionGrid extends StatelessWidget {
     this.skip = 0,
   });
 
-  final List<AppFinding> apps;
+  final List<AppFinding?>? apps;
   final int take;
   final int skip;
   final bool animateBanners;
@@ -42,9 +43,12 @@ class SectionGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (apps.isEmpty) return const SizedBox();
+    if (apps == null ||
+        apps!.isEmpty ||
+        apps!.any((app) => app == null) ||
+        apps!.any((app) => app!.snap == null)) return const LoadingBannerGrid();
 
-    final appsMod = apps.take(take).toList().skip(skip);
+    final appsMod = apps!.take(take).toList().skip(skip);
 
     return GridView.builder(
       physics: ignoreScrolling ? const NeverScrollableScrollPhysics() : null,
@@ -62,7 +66,7 @@ class SectionGrid extends StatelessWidget {
 
         return AppBanner(
           appFinding: MapEntry<String, AppFinding>(
-            app.snap!.name,
+            app!.snap!.title ?? '',
             app,
           ),
           showSnap: true,

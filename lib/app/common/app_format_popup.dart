@@ -95,7 +95,9 @@ class AppFormatPopup extends StatelessWidget {
             )
         ],
         onSelected: onSelected,
-        child: Text(appFormat.localize(context.l10n)),
+        child: Text(
+          appFormat.localize(context.l10n),
+        ),
       ),
     );
   }
@@ -126,6 +128,7 @@ class MultiAppFormatPopup extends StatelessWidget {
               value: appFormat,
               checked: selectedAppFormats.contains(appFormat),
               child: Text(
+                style: Theme.of(context).textTheme.bodyMedium,
                 appFormat.localize(context.l10n),
               ),
             ),
