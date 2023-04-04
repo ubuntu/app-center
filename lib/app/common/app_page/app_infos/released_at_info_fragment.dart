@@ -11,7 +11,7 @@ class ReleasedAtInfoFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppInfoFragment(
       crossAxisAlignment: CrossAxisAlignment.start,
-      header: context.l10n.releasedAt,
+      header: context.l10n.lastUpdated,
       child: Text(
         releasedAt,
         textAlign: TextAlign.center,

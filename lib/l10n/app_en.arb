@@ -138,7 +138,9 @@
   "copyErrorMessage": "Copy error message",
   "madeBy": "Ubuntu Software is developed and designed by",
   "reviewsAndRatings": "Reviews and ratings",
+  "ratingsAndReviews": "Ratings and reviews",
   "rating": "Rating",
+  "ratings": "Ratings",
   "yourReview": "Your review",
   "writeAreview": "Write a review",
   "yourReviewTitle": "Review Title (optional)",
@@ -186,6 +188,7 @@
     "description": "List of 'grey-listed' words separated with ';'. Do not translate this list directly. Instead, provide a list of words in your language that people are likely to include in a search but that should normally be ignored in the search."
   },
   "releasedAt": "Released at",
+  "lastUpdated": "Last updated",
   "installed": "Installed",
   "configure": "Configure",
   "sourcesDescription": "Setup where your system and third-party Debian packages are updated from.",

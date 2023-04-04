@@ -120,7 +120,7 @@ class _Item extends StatelessWidget {
                       textAlign: TextAlign.end,
                     ),
                     Text(
-                      context.l10n.releasedAt,
+                      context.l10n.lastUpdated,
                       style: labelStyle,
                       maxLines: 1,
                       textAlign: TextAlign.end,
