@@ -343,9 +343,7 @@ class _AboutDialog extends StatelessWidget {
                                       .textTheme
                                       .bodyMedium
                                       ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
+                                        color: context.linkColor,
                                       ),
                                 ),
                                 const SizedBox(
@@ -353,7 +351,7 @@ class _AboutDialog extends StatelessWidget {
                                 ),
                                 Icon(
                                   YaruIcons.external_link,
-                                  color: Theme.of(context).primaryColor,
+                                  color: context.linkColor,
                                   size: 18,
                                 )
                               ],
@@ -375,6 +373,9 @@ class _AboutDialog extends StatelessWidget {
                         data: '${context.l10n.madeBy}:\n ${snapshot.data!}',
                         onTapLink: (text, href, title) =>
                             href != null ? launchUrl(Uri.parse(href)) : null,
+                        styleSheet: MarkdownStyleSheet(
+                          a: TextStyle(color: context.linkColor),
+                        ),
                       );
                     } else {
                       return const SizedBox();

@@ -41,11 +41,13 @@ class AppBanner extends StatelessWidget {
     required this.appFinding,
     required this.showSnap,
     required this.showPackageKit,
+    this.enableSearch = true,
   });
 
   final MapEntry<String, AppFinding> appFinding;
   final bool showSnap;
   final bool showPackageKit;
+  final bool enableSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,7 @@ class AppBanner extends StatelessWidget {
               context: context,
               snap: appFinding.value.snap!,
               appstream: appFinding.value.appstream,
+              enableSearch: enableSearch,
             )
         : () {
             if (appFinding.value.appstream != null && showPackageKit) {
@@ -64,6 +67,7 @@ class AppBanner extends StatelessWidget {
                 context,
                 appstream: appFinding.value.appstream!,
                 snap: appFinding.value.snap,
+                enableSearch: enableSearch,
               );
             }
             if (appFinding.value.snap != null && showSnap) {
@@ -71,6 +75,7 @@ class AppBanner extends StatelessWidget {
                 context: context,
                 snap: appFinding.value.snap!,
                 appstream: appFinding.value.appstream,
+                enableSearch: enableSearch,
               );
             }
           };
@@ -201,27 +206,17 @@ class SearchBannerSubtitle extends StatelessWidget {
     final theme = Theme.of(context);
     final light = theme.brightness == Brightness.light;
 
-    String? ratingId;
-    var publisherName = context.l10n.unknown;
-
-    if (appFinding.snap != null &&
-        appFinding.snap!.publisher != null &&
-        showSnap) {
-      publisherName = appFinding.snap!.publisher!.displayName;
-      ratingId = appFinding.snap!.ratingId;
-    }
-
-    if (appFinding.appstream != null && showPackageKit && !showSnap) {
-      publisherName = appFinding.appstream!.developerName[WidgetsBinding
-              .instance.window.locale.countryCode
-              ?.toLowerCase()] ??
-          appFinding.appstream!.developerName['C'] ??
-          appFinding.appstream!.localizedName();
-      ratingId = appFinding.appstream!.ratingId;
-    }
+    String? ratingId =
+        appFinding.snap?.ratingId ?? appFinding.appstream?.ratingId;
+    final publisherName = appFinding.snap?.publisher?.displayName ??
+        appFinding.appstream?.developerName[
+            WidgetsBinding.instance.window.locale.countryCode?.toLowerCase()] ??
+        appFinding.appstream?.developerName['C'] ??
+        appFinding.appstream?.localizedName() ??
+        context.l10n.unknown;
 
     final rating = ratingId != null
-        ? context.select((RatingModel m) => m.getRating(ratingId!))
+        ? context.select((RatingModel m) => m.getRating(ratingId))
         : null;
 
     return Column(
@@ -237,8 +232,7 @@ class SearchBannerSubtitle extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  color: theme.colorScheme.onSurface.withOpacity(0.5),
+                  color: theme.hintColor,
                 ),
               ),
             ),

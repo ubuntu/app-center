@@ -38,6 +38,7 @@ class ExploreModel extends SafeChangeNotifier {
   Future<void> init() async {
     _enabledAppFormats.add(AppFormat.snap);
     _selectedAppFormats.add(AppFormat.snap);
+    _loadStartPageSnaps(SnapSection.all);
     _sectionsChangedSub = _snapService.sectionsChanged.listen(
       (section) {
         _loadStartPageSnaps(section);
@@ -47,19 +48,16 @@ class ExploreModel extends SafeChangeNotifier {
 
     await _packageService.initialized;
     if (_packageService.isAvailable) {
-      _appstreamService
-          .init()
-          .then(
-            (_) => Future.forEach<SnapSection>(
-              startPageApps.keys,
-              _loadStartPageAppstreamComponents,
-            ),
-          )
-          .then((_) {
+      _appstreamService.init().then((_) {
         _enabledAppFormats.add(AppFormat.packageKit);
         _selectedAppFormats.add(AppFormat.packageKit);
         notifyListeners();
-      });
+      }).then(
+        (_) => Future.forEach<SnapSection>(
+          startPageApps.keys,
+          _loadStartPageAppstreamComponents,
+        ),
+      );
     }
   }
 
@@ -137,6 +135,15 @@ class ExploreModel extends SafeChangeNotifier {
     }
   }
 
+  Future<Snap?> _findSnapByName(String name) async {
+    try {
+      return await _snapService.findSnapByName(name);
+    } on SnapdException catch (e) {
+      errorMessage = e.message.toString();
+      return null;
+    }
+  }
+
   Future<List<AppstreamComponent>> _findAppstreamComponents(
     String searchQuery,
   ) async =>
@@ -183,6 +190,28 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> searchByPublisher(String username) async {
+    setSearchQuery(username);
+
+    searchResult = null;
+
+    final Map<String, AppFinding> appFindings = {};
+    if (searchQuery != null && searchQuery != '') {
+      final snaps = await _findSnapsByQuery(searchQuery!);
+      final publishersSnaps =
+          snaps.where((snap) => snap.publisher?.username == username);
+
+      for (final snap in publishersSnaps) {
+        appFindings.putIfAbsent(
+          snap.name,
+          () => AppFinding(snap: snap),
+        );
+      }
+
+      searchResult = appFindings;
+    }
+  }
+
   Future<void> search() async {
     searchResult = null;
 
@@ -191,6 +220,10 @@ class ExploreModel extends SafeChangeNotifier {
       if (selectedAppFormats
           .containsAll([AppFormat.snap, AppFormat.packageKit])) {
         final snaps = await _findSnapsByQuery(searchQuery!);
+        final exactMatch = await _findSnapByName(searchQuery!);
+        if (exactMatch != null) {
+          snaps.insert(0, exactMatch);
+        }
         for (final snap in snaps) {
           appFindings.putIfAbsent(
             snap.name,

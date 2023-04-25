@@ -37,6 +37,7 @@ class SnapChannelPopupButton extends StatelessWidget {
     final light = theme.brightness == Brightness.light;
 
     return YaruPopupMenuButton(
+      padding: const EdgeInsets.only(left: 15, right: 5),
       initialValue: model.channelToBeInstalled,
       tooltip: context.l10n.channel,
       itemBuilder: (v) => [
@@ -83,18 +84,18 @@ class _Item extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final labelStyle = TextStyle(
-      color: theme.disabledColor,
-      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: theme.hintColor,
     );
     const infoStyle = TextStyle(
       overflow: TextOverflow.ellipsis,
-      fontSize: 14,
+      fontWeight: FontWeight.normal,
     );
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(10.0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -119,7 +120,7 @@ class _Item extends StatelessWidget {
                       textAlign: TextAlign.end,
                     ),
                     Text(
-                      context.l10n.releasedAt,
+                      context.l10n.lastUpdated,
                       style: labelStyle,
                       maxLines: 1,
                       textAlign: TextAlign.end,

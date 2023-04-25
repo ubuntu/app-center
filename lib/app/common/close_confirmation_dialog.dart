@@ -72,7 +72,7 @@ class CloseWindowConfirmDialog extends StatelessWidget {
               Expanded(
                 child: DangerousDelayedButton(
                   duration: const Duration(seconds: 3),
-                  onPressed: onConfirm,
+                  onPressed: () => Navigator.of(context).pop(true),
                   child: Text(
                     context.l10n.quit,
                   ),

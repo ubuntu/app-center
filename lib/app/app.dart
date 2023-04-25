@@ -127,31 +127,20 @@ class __AppState extends State<_App> {
     gtkNotifier.addCommandLineListener(_commandLineListener);
 
     final model = context.read<AppModel>();
-    var closeConfirmDialogOpen = false;
 
-    model.init(
-      onAskForQuit: () {
-        if (closeConfirmDialogOpen) {
-          return;
-        }
+    model.init().then((_) {
+      setState(() => _initialized = true);
+    });
 
-        closeConfirmDialogOpen = true;
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (c) {
-            return CloseWindowConfirmDialog(
-              onConfirm: () {
-                model.quit();
-              },
-            );
-          },
-        ).then((_) => closeConfirmDialogOpen = false);
-      },
-    ).then((_) {
-      setState(() {
-        _initialized = true;
-      });
+    YaruWindow.onClose(context, () {
+      if (!context.mounted || model.readyToQuit) {
+        return true;
+      }
+      return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (c) => const CloseWindowConfirmDialog(),
+      ).then((result) => result ?? false);
     });
   }
 

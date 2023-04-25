@@ -26,10 +26,10 @@ import 'package:software/app/common/app_icon.dart';
 import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/app_page/app_page.dart';
 import 'package:software/app/common/app_rating.dart';
-import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/rating_model.dart';
 import 'package:software/app/common/review_model.dart';
+import 'package:software/app/common/snap/snap_channel_button.dart';
 import 'package:software/app/common/snap/snap_connections_button.dart';
 import 'package:software/app/common/snap/snap_connections_dialog.dart';
 import 'package:software/app/common/snap/snap_controls.dart';
@@ -38,19 +38,27 @@ import 'package:software/l10n/l10n.dart';
 import 'package:software/services/odrs_service.dart';
 import 'package:software/services/snap_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 class SnapPage extends StatefulWidget {
-  const SnapPage({super.key, this.appstream, required this.snap});
+  const SnapPage({
+    super.key,
+    this.appstream,
+    required this.snap,
+    this.enableSearch = true,
+  });
 
   /// Optional AppstreamComponent if found
   final AppstreamComponent? appstream;
   final Snap snap;
+  final bool enableSearch;
 
   static Widget create({
     required BuildContext context,
     required Snap snap,
     PackageKitPackageId? packageId,
     AppstreamComponent? appstream,
+    bool enableSearch = true,
   }) =>
       MultiProvider(
         providers: [
@@ -68,6 +76,7 @@ class SnapPage extends StatefulWidget {
         child: SnapPage(
           appstream: appstream,
           snap: snap,
+          enableSearch: enableSearch,
         ),
       );
 
@@ -76,6 +85,7 @@ class SnapPage extends StatefulWidget {
     required Snap snap,
     AppstreamComponent? appstream,
     bool replace = false,
+    bool enableSearch = true,
   }) {
     final route = MaterialPageRoute<void>(
       builder: (BuildContext context) {
@@ -83,6 +93,7 @@ class SnapPage extends StatefulWidget {
           context: context,
           snap: snap,
           appstream: appstream,
+          enableSearch: enableSearch,
         );
       },
     );
@@ -119,6 +130,7 @@ class _SnapPageState extends State<SnapPage> {
     final model = context.watch<SnapModel>();
     final rating = context.select((RatingModel m) => m.getRating(_ratingId));
     final userReviews = context.select((ReviewModel m) => m.userReviews);
+    final theme = Theme.of(context);
 
     final appData = AppData(
       releasedAt: model.selectedChannelReleasedAt,
@@ -131,6 +143,7 @@ class _SnapPageState extends State<SnapPage> {
       verified: model.verified,
       starredDeveloper: model.starredDeveloper,
       publisherName: model.publisher?.displayName ?? '',
+      publisherUsername: model.publisher?.username ?? '',
       website: model.storeUrl ?? '',
       summary: model.summary ?? '',
       title: model.title ?? '',
@@ -139,17 +152,55 @@ class _SnapPageState extends State<SnapPage> {
           model.version,
       screenShotUrls: model.screenshotUrls ?? [],
       description: model.description ?? '',
-      versionChanged:
-          model.selectableChannels[model.channelToBeInstalled]?.version !=
-              model.version,
+      versionChanged: model.isUpdateAvailable(),
       userReviews: userReviews ?? [],
-      averageRating: rating?.average ?? 0.0,
+      appRating: rating,
       appFormat: AppFormat.snap,
       contact: model.contact ?? context.l10n.unknown,
     );
 
     final controls = SnapControls(
       appstream: widget.appstream,
+    );
+
+    const snapLabel = SizedBox(
+      height: 39,
+      child: AppFormatLabel(
+        appFormat: AppFormat.snap,
+        isSelected: true,
+      ),
+    );
+
+    final snapLabelContainerCut = YaruBorderContainer(
+      color: theme.colorScheme.outline,
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(kYaruButtonRadius),
+        bottomLeft: Radius.circular(kYaruButtonRadius),
+      ),
+      child: snapLabel,
+    );
+
+    final snapLabelWithChannelButton = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        snapLabelContainerCut,
+        OutlinedButtonTheme(
+          data: OutlinedButtonThemeData(
+            style: OutlinedButtonTheme.of(context).style?.copyWith(
+                  shape: MaterialStateProperty.resolveWith(
+                    (states) => const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(kYaruButtonRadius),
+                        bottomRight: Radius.circular(kYaruButtonRadius),
+                      ),
+                    ),
+                  ),
+                ),
+          ),
+          child: const SnapChannelPopupButton(),
+        )
+      ],
     );
 
     final preControls = Wrap(
@@ -173,11 +224,7 @@ class _SnapPageState extends State<SnapPage> {
             },
           )
         else
-          const BorderContainer(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            borderRadius: 6,
-            child: SizedBox(height: 39, child: SnapLabel()),
-          ),
+          snapLabelWithChannelButton,
         if (model.snapIsInstalled && model.strict)
           SnapConnectionsButton(
             onPressed: () => showDialog(
@@ -193,6 +240,7 @@ class _SnapPageState extends State<SnapPage> {
 
     final review = context.read<ReviewModel>();
     return AppPage(
+      enableSearch: widget.enableSearch,
       initialized: initialized,
       appData: appData,
       appIsInstalled: model.snapIsInstalled,

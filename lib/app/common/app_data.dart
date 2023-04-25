@@ -16,6 +16,7 @@
  */
 
 import 'package:software/app/common/app_format.dart';
+import 'package:software/app/common/app_rating.dart';
 
 class AppData {
   final String title;
@@ -30,12 +31,13 @@ class AppData {
   final bool verified;
   final bool starredDeveloper;
   final String publisherName;
+  final String publisherUsername;
   final String website;
   final String contact;
   final List<String> screenShotUrls;
   final String description;
   final bool versionChanged;
-  final double averageRating;
+  final AppRating? appRating;
   final List<AppReview> userReviews;
   final AppFormat appFormat;
   final String appSize;
@@ -58,12 +60,13 @@ class AppData {
     required this.screenShotUrls,
     required this.description,
     required this.versionChanged,
-    required this.averageRating,
+    required this.appRating,
     required this.userReviews,
     required this.appFormat,
     required this.appSize,
     required this.releasedAt,
     required this.contact,
+    required this.publisherUsername,
   });
 }
 

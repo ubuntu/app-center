@@ -42,6 +42,7 @@ class PackageInstallerPage {
         path: debPath,
         appstream: appstream,
         packageId: packageId,
+        enableSearch: false,
       );
     }
     return FutureBuilder<Snap?>(

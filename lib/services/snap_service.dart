@@ -21,7 +21,6 @@ import 'package:collection/collection.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/snap/snap_section.dart';
-import 'package:software/app/common/snap/snap_utils.dart';
 import 'package:software/snapd_change_x.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -48,16 +47,18 @@ class SnapService {
       }
       if (newChange.ready) {
         removeChange(snap);
-        _notificationsClient.notify(
-          'Software',
-          body: '$doneString: ${newChange.summary}',
-          appName: snap.name,
-          appIcon: 'snap-store',
-          hints: [
-            NotificationHint.desktopEntry('software'),
-            NotificationHint.urgency(NotificationUrgency.normal)
-          ],
-        );
+        if (newChange.status == 'Done') {
+          _notificationsClient.notify(
+            'Software',
+            body: '$doneString: ${newChange.summary}',
+            appName: snap.name,
+            appIcon: 'snap-store',
+            hints: [
+              NotificationHint.desktopEntry('software'),
+              NotificationHint.urgency(NotificationUrgency.normal)
+            ],
+          );
+        }
         break;
       }
       await Future.delayed(
@@ -75,6 +76,12 @@ class SnapService {
 
   SnapdChange? getChange(Snap snap) {
     return _snapChanges[snap];
+  }
+
+  Future<void> abortChange(Snap snap) async {
+    final change = getChange(snap);
+    if (change == null) return;
+    await _snapDClient.abortChange(change.id);
   }
 
   final _snapChangesController = StreamController<bool>.broadcast();
@@ -121,15 +128,11 @@ class SnapService {
     }
   }
 
-  final List<Snap> _localSnaps = [];
-  List<Snap> get localSnaps => _localSnaps;
-  Future<List<Snap>> loadLocalSnaps() async {
-    final snaps = (await _snapDClient.getSnaps());
-    if (snaps.length != _localSnaps.length) {
-      _localSnaps.clear();
-      _localSnaps.addAll(snaps);
-    }
-    return _localSnaps;
+  List<Snap> _localSnaps = [];
+  UnmodifiableListView<Snap> get localSnaps =>
+      UnmodifiableListView(_localSnaps);
+  Future<void> loadLocalSnaps() async {
+    _localSnaps = (await _snapDClient.getSnaps());
   }
 
   Future<List<Snap>> findSnapsByQuery({
@@ -217,6 +220,8 @@ class SnapService {
           _refreshErrorController.add(
             '${snap.name} has running apps, close ${snap.name} to update.',
           );
+        } else if (e.kind == 'auth-cancelled') {
+          rethrow;
         }
       }
     }
@@ -306,39 +311,33 @@ class SnapService {
     _sectionsChangedController.add(section);
   }
 
-  final List<Snap> _snapsWithUpdate = [];
-  List<Snap> get snapsWithUpdate => _snapsWithUpdate;
-  Future<List<Snap>> loadSnapsWithUpdate() async {
-    List<Snap> localSnaps = await _snapDClient.getSnaps();
-
-    Map<Snap, Snap> localSnapsToStoreSnaps = {};
-    for (var snap in localSnaps) {
-      final storeSnap = await findSnapByName(snap.name) ?? snap;
-      localSnapsToStoreSnaps.putIfAbsent(snap, () => storeSnap);
-    }
-
-    final snapsWithUpdates = localSnaps.where((snap) {
-      if (localSnapsToStoreSnaps[snap] == null) return false;
-      return isSnapUpdateAvailable(
-        storeSnap: localSnapsToStoreSnaps[snap]!,
-        localSnap: snap,
-      );
-    }).toList();
-
-    if (_snapsWithUpdate.length != snapsWithUpdates.length) {
-      _snapsWithUpdate.clear();
-      _snapsWithUpdate.addAll(snapsWithUpdates);
-    }
-
-    return _snapsWithUpdate;
+  List<Snap> _snapsWithUpdate = [];
+  UnmodifiableListView<Snap> get snapsWithUpdate =>
+      UnmodifiableListView(_snapsWithUpdate);
+  Future<void> loadSnapsWithUpdate() async {
+    _snapsWithUpdate = await _snapDClient.find(filter: SnapFindFilter.refresh);
   }
 
   Future<void> refreshAll({
     required String doneMessage,
-    required List<Snap> snaps,
   }) async {
     await authorize();
-    for (var snap in snaps) {
+    if (snapsWithUpdate.isEmpty) return;
+
+    final firstSnap = snapsWithUpdate.first;
+    try {
+      await refresh(
+        snap: firstSnap,
+        message: doneMessage,
+        channel: firstSnap.channel,
+        confinement: firstSnap.confinement,
+      );
+    } on SnapdException catch (e) {
+      if (e.kind == 'auth-cancelled') {
+        return;
+      }
+    }
+    for (var snap in snapsWithUpdate.skip(1)) {
       await refresh(
         snap: snap,
         message: doneMessage,

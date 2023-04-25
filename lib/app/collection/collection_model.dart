@@ -44,12 +44,7 @@ class CollectionModel extends SafeChangeNotifier {
 
       notifyListeners();
     }
-
-    if (_snapService.snapChanges.isEmpty) {
-      await loadSnaps();
-    } else {
-      checkingForSnapUpdates = false;
-    }
+    await loadSnaps();
   }
 
   @override
@@ -86,8 +81,8 @@ class CollectionModel extends SafeChangeNotifier {
 
     return searchQuery == null || searchQuery?.isEmpty == true
         ? _installedSnaps
-        : _installedSnaps!
-            .where((snap) => snap.name.contains(searchQuery!))
+        : _installedSnaps
+            ?.where((snap) => snap.name.contains(searchQuery!))
             .toList();
   }
 
@@ -97,7 +92,7 @@ class CollectionModel extends SafeChangeNotifier {
     checkingForSnapUpdates = true;
     await _snapService.loadLocalSnaps();
     await _snapService.loadSnapsWithUpdate();
-    _installedSnaps = _snapService.localSnaps;
+    _installedSnaps = _snapService.localSnaps.toList();
     for (var update in snapsWithUpdate) {
       for (var snap in _installedSnaps!) {
         if (update.name == snap.name) {
@@ -126,33 +121,8 @@ class CollectionModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> refreshAllSnapsWithUpdates({
-    required String doneMessage,
-  }) async {
-    await _snapService.authorize();
-    if (snapsWithUpdate.isEmpty) return;
-
-    final firstSnap = snapsWithUpdate.first;
-    _snapService
-        .refresh(
-      snap: firstSnap,
-      message: doneMessage,
-      channel: firstSnap.channel,
-      confinement: firstSnap.confinement,
-    )
-        .then((_) {
-      notifyListeners();
-      for (var snap in snapsWithUpdate.skip(1)) {
-        _snapService.refresh(
-          snap: snap,
-          message: doneMessage,
-          confinement: snap.confinement,
-          channel: snap.channel,
-        );
-        notifyListeners();
-      }
-    });
-  }
+  Future<void> refreshAllSnapsWithUpdates({required String doneMessage}) =>
+      _snapService.refreshAll(doneMessage: doneMessage);
 
   SnapSort _snapSort = SnapSort.name;
   SnapSort get snapSort => _snapSort;

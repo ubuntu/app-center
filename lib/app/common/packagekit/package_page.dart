@@ -29,6 +29,7 @@ import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/app_page/app_page.dart';
 import 'package:software/app/common/app_rating.dart';
 import 'package:software/app/common/border_container.dart';
+import 'package:software/app/common/packagekit/dependency_dialogs.dart';
 import 'package:software/app/common/packagekit/package_controls.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/app/common/rating_model.dart';
@@ -41,16 +42,19 @@ import 'package:software/services/packagekit/package_service.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import '../expandable_title.dart';
 
 class PackagePage extends StatefulWidget {
   const PackagePage({
     super.key,
     this.appstream,
     this.snap,
+    this.enableSearch = true,
   });
 
   final AppstreamComponent? appstream;
   final Snap? snap;
+  final bool enableSearch;
 
   static Widget create({
     String? path,
@@ -58,6 +62,7 @@ class PackagePage extends StatefulWidget {
     PackageKitPackageId? packageId,
     AppstreamComponent? appstream,
     Snap? snap,
+    bool enableSearch = true,
   }) {
     return MultiProvider(
       providers: [
@@ -76,6 +81,7 @@ class PackagePage extends StatefulWidget {
       child: PackagePage(
         appstream: appstream,
         snap: snap,
+        enableSearch: enableSearch,
       ),
     );
   }
@@ -86,6 +92,7 @@ class PackagePage extends StatefulWidget {
     AppstreamComponent? appstream,
     Snap? snap,
     bool replace = false,
+    bool enableSearch = true,
   }) {
     assert(id != null || appstream != null);
     return (id == null ? appstream!.packageKitId : Future.value(id)).then(
@@ -99,6 +106,7 @@ class PackagePage extends StatefulWidget {
                     packageId: id,
                     appstream: appstream,
                     snap: snap,
+                    enableSearch: enableSearch,
                   );
                 },
               ),
@@ -112,6 +120,7 @@ class PackagePage extends StatefulWidget {
                     packageId: id,
                     appstream: appstream,
                     snap: snap,
+                    enableSearch: enableSearch,
                   );
                 },
               ),
@@ -135,7 +144,10 @@ class _PackagePageState extends State<PackagePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      context.read<PackageModel>().init().then((value) => initialized = true);
+      context
+          .read<PackageModel>()
+          .init()
+          .then((_) => setState(() => initialized = true));
       context.read<ReviewModel>().load(_ratingId, _ratingVersion);
     });
   }
@@ -149,6 +161,7 @@ class _PackagePageState extends State<PackagePage> {
 
     final appData = AppData(
       publisherName: model.developerName ?? context.l10n.unknown,
+      publisherUsername: model.developerName ?? context.l10n.unknown,
       releasedAt: model.releasedAt ?? context.l10n.unknown,
       appSize: model.getFormattedSize() ?? context.l10n.unknown,
       confinementName: context.l10n.classic,
@@ -164,7 +177,7 @@ class _PackagePageState extends State<PackagePage> {
       screenShotUrls: model.screenshotUrls,
       description: model.description,
       userReviews: userReviews ?? [],
-      averageRating: rating?.average ?? 0.0,
+      appRating: rating,
       appFormat: AppFormat.packageKit,
       versionChanged: model.versionChanged ?? false,
       contact: context.l10n.unknown,
@@ -173,10 +186,17 @@ class _PackagePageState extends State<PackagePage> {
     );
 
     final preControls = widget.snap == null
-        ? const BorderContainer(
-            padding: EdgeInsets.symmetric(horizontal: 5),
+        ? BorderContainer(
+            color: theme.dividerColor,
+            padding: const EdgeInsets.symmetric(horizontal: 5),
             borderRadius: 6,
-            child: SizedBox(height: 40, child: DebianLabel()),
+            child: const SizedBox(
+              height: 40,
+              child: AppFormatLabel(
+                appFormat: AppFormat.packageKit,
+                isSelected: true,
+              ),
+            ),
           )
         : AppFormatToggleButtons(
             isSelected: const [
@@ -190,18 +210,27 @@ class _PackagePageState extends State<PackagePage> {
                   appstream: widget.appstream,
                   snap: widget.snap!,
                   replace: true,
+                  enableSearch: widget.enableSearch,
                 );
               }
             },
           );
 
     var controls = PackageControls(
-      showDeps: () => showDialog(
+      showInstallDeps: () => showDialog(
         context: context,
-        builder: (context) => _ShowDepsDialog(
+        builder: (context) => InstallDepsDialog(
           packageName: model.title ?? context.l10n.unknown,
           onInstall: model.install,
-          dependencies: model.missingDependencies,
+          dependencies: model.dependencies,
+        ),
+      ),
+      showRemoveDeps: () => showDialog(
+        context: context,
+        builder: (context) => RemoveDepsDialog(
+          packageName: model.title ?? context.l10n.unknown,
+          onRemove: (autoremove) => model.remove(autoremove: autoremove),
+          dependencies: model.dependencies,
         ),
       ),
     );
@@ -209,20 +238,31 @@ class _PackagePageState extends State<PackagePage> {
     final dependencies = BorderContainer(
       initialized: initialized,
       child: YaruExpandable(
-        header: Text(
-          '${context.l10n.dependencies} (${model.missingDependencies.length})',
-          style: Theme.of(context).textTheme.titleLarge,
+        header: ExpandableContainerTitle(
+          '${context.l10n.dependencies} (${model.dependencies.length}) - '
+          '${model.dependencies.map((d) => d.size).sum.formatByteSize()}',
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Column(
-            children: model.missingDependencies
-                .map(
+            children: model.dependencies
+                .map<Widget>(
                   (e) => ListTile(
                     title: Text(e.id.name),
+                    subtitle: e.summary != null
+                        ? Text(
+                            e.summary!,
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                            ),
+                          )
+                        : null,
                     leading: Icon(
                       YaruIcons.package_deb,
                       color: theme.colorScheme.onSurface,
+                    ),
+                    trailing: Text(
+                      e.size.formatByteSize(),
                     ),
                   ),
                 )
@@ -234,15 +274,17 @@ class _PackagePageState extends State<PackagePage> {
 
     final review = context.read<ReviewModel>();
     return AppPage(
+      enableSearch: widget.enableSearch,
       initialized: initialized,
       appData: appData,
+      appIsInstalled: model.isInstalled ?? false,
       icon: AppIcon(
         iconUrl: model.iconUrl,
         size: 150,
       ),
       preControls: preControls,
       controls: controls,
-      subDescription: model.missingDependencies.isEmpty ? null : dependencies,
+      subDescription: model.dependencies.isEmpty ? null : dependencies,
       onReviewSend: () => review.submit(_ratingId, _ratingVersion),
       onRatingUpdate: (v) => review.rating = v,
       onReviewTitleChanged: (v) => review.title = v,
@@ -252,107 +294,6 @@ class _PackagePageState extends State<PackagePage> {
       review: review.review,
       reviewTitle: review.title,
       reviewUser: review.user,
-    );
-  }
-}
-
-class _ShowDepsDialog extends StatefulWidget {
-  final void Function() onInstall;
-  final String packageName;
-  final List<PackageDependecy> dependencies;
-
-  const _ShowDepsDialog({
-    required this.onInstall,
-    required this.dependencies,
-    required this.packageName,
-  });
-
-  @override
-  State<_ShowDepsDialog> createState() => _ShowDepsDialogState();
-}
-
-class _ShowDepsDialogState extends State<_ShowDepsDialog> {
-  bool _isExpanded = false;
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return AlertDialog(
-      title: SizedBox(
-        width: 500,
-        child: YaruDialogTitleBar(
-          title: Text(context.l10n.dependencies),
-        ),
-      ),
-      titlePadding: EdgeInsets.zero,
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: kYaruPagePadding / 2),
-              child: Text(
-                context.l10n.dependenciesListing(
-                  widget.dependencies.length,
-                  widget.dependencies.map((d) => d.size).sum.formatByteSize(),
-                  widget.packageName,
-                ),
-                style: theme.textTheme.bodyLarge,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: kYaruPagePadding / 2),
-              child: Text(
-                context.l10n.dependenciesQuestion,
-                style: theme.textTheme.bodyLarge!
-                    .copyWith(fontWeight: FontWeight.w500),
-              ),
-            ),
-            YaruExpandable(
-              expandButtonPosition: YaruExpandableButtonPosition.start,
-              onChange: (isExpanded) =>
-                  setState(() => _isExpanded = isExpanded),
-              header: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: Text(
-                  context.l10n.dependencies,
-                  style: TextStyle(
-                    color: _isExpanded ? null : theme.primaryColor,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              child: BorderContainer(
-                child: Column(
-                  children: [
-                    for (var d in widget.dependencies)
-                      ListTile(
-                        title: Text(d.id.name),
-                        subtitle: Text(d.size.formatByteSize()),
-                        leading: const Icon(
-                          YaruIcons.package_deb,
-                        ),
-                      )
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        OutlinedButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(context.l10n.cancel),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            widget.onInstall();
-            Navigator.of(context).pop();
-          },
-          child: Text(context.l10n.install),
-        )
-      ],
     );
   }
 }

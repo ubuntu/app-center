@@ -26,10 +26,12 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class PackageControls extends StatelessWidget {
   const PackageControls({
     super.key,
-    this.showDeps,
+    this.showInstallDeps,
+    this.showRemoveDeps,
   });
 
-  final VoidCallback? showDeps;
+  final VoidCallback? showInstallDeps;
+  final VoidCallback? showRemoveDeps;
 
   @override
   Widget build(BuildContext context) {
@@ -65,16 +67,18 @@ class PackageControls extends StatelessWidget {
                 OutlinedButton(
                   onPressed: model.packageState != PackageState.ready
                       ? null
-                      : model.remove,
+                      : model.dependencies.isNotEmpty
+                          ? showRemoveDeps
+                          : model.remove,
                   child: Text(context.l10n.remove),
                 ),
               if (model.isInstalled == false)
                 ElevatedButton(
                   onPressed: model.packageState != PackageState.ready
                       ? null
-                      : (model.missingDependencies.isNotEmpty
-                          ? showDeps
-                          : model.install),
+                      : model.dependencies.isNotEmpty
+                          ? showInstallDeps
+                          : model.install,
                   child: Text(context.l10n.install),
                 ),
               if (model.isInstalled == true && model.versionChanged == true)

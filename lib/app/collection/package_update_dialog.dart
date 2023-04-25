@@ -28,6 +28,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 import 'package:software/app/common/border_container.dart';
+import 'package:software/app/common/link.dart';
 
 class PackageUpdateDialog extends StatefulWidget {
   const PackageUpdateDialog({
@@ -100,6 +101,7 @@ class _PackageUpdateDialogState extends State<PackageUpdateDialog> {
         child: Padding(
           padding: const EdgeInsets.only(bottom: 16),
           child: BorderContainer(
+            width: double.infinity,
             child: MarkdownBody(
               data: model.changelog.length > 4000
                   ? '${model.changelog.substring(0, 4000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
@@ -108,6 +110,9 @@ class _PackageUpdateDialogState extends State<PackageUpdateDialog> {
               selectable: true,
               onTapLink: (text, href, title) =>
                   href != null ? launchUrl(Uri.parse(href)) : null,
+              styleSheet: MarkdownStyleSheet(
+                a: TextStyle(color: context.linkColor),
+              ),
             ),
           ),
         ),

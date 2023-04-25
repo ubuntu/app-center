@@ -17,7 +17,7 @@ class VersionInfoFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppInfoFragment(
       header: context.l10n.version,
-      tooltipMessage: version,
+      tooltipMessage: version.length > 12 ? version : null,
       child: Text(
         version,
         overflow: TextOverflow.ellipsis,

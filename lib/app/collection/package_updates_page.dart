@@ -24,8 +24,8 @@ import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/message_bar.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/updates_state.dart';
-import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import '../common/expandable_title.dart';
 
 class PackageUpdatesPage extends StatefulWidget {
   const PackageUpdatesPage({
@@ -64,7 +64,6 @@ class _PackageUpdatesPageState extends State<PackageUpdatesPage> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageUpdatesModel>();
-
     if (model.updatesState == UpdatesState.readyToUpdate) {
       return const _UpdatesListView();
     }
@@ -84,13 +83,14 @@ class _UpdatingPage extends StatefulWidget {
 }
 
 class _UpdatingPageState extends State<_UpdatingPage> {
-  //final terminalController = TerminalController();
-
   @override
   Widget build(BuildContext context) {
     final model = context.watch<PackageUpdatesModel>();
 
     final children = [
+      const SizedBox(
+        height: 50,
+      ),
       Text(
         model.info != null ? model.info!.name : '',
         style: Theme.of(context).textTheme.headlineMedium,
@@ -110,29 +110,6 @@ class _UpdatingPageState extends State<_UpdatingPage> {
       ),
       const SizedBox(
         height: 100,
-      ),
-      BorderContainer(
-        color: Colors.transparent,
-        child: YaruExpandable(
-          header: Text(
-            'Details',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          child: SizedBox(
-            height: 300,
-            width: 600,
-            child: LogView(
-              log: model.terminalOutput,
-              style: TextStyle(
-                inherit: false,
-                fontFamily: 'Ubuntu Mono',
-                color: Theme.of(context).colorScheme.onSurface,
-                fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
-                textBaseline: TextBaseline.alphabetic,
-              ),
-            ),
-          ),
-        ),
       ),
     ];
 
@@ -258,10 +235,8 @@ class _UpdatesListViewState extends State<_UpdatesListView> {
                   width: 10,
                 ),
                 Expanded(
-                  child: Text(
+                  child: ExpandableContainerTitle(
                     '${model.selectedUpdatesLength}/${model.updates.length} ${context.l10n.xSelected}',
-                    style: Theme.of(context).textTheme.titleLarge,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 )
               ],
