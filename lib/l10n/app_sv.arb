@@ -285,17 +285,6 @@
   "@dependenciesQuestion": {},
   "dependenciesFullList": "Se fullständig lista över beroenden",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} beroenden med en total storlek av {size} kommer att laddas ned när {packageName} installeras",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "gallery": "Galleri",
   "@gallery": {},
   "configure": "Konfigurera",

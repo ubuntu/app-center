@@ -293,17 +293,6 @@
   "@theme": {},
   "dependenciesFullList": "Siehe vollständige Liste der Abhängigkeiten",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} Abhängigkeiten mit einer Gesamtgröße von {size} werden bei der Installation von {packageName} heruntergeladen",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "gallery": "Galerie",
   "@gallery": {},
   "dependenciesQuestion": "Sind Sie sicher, dass Sie fortfahren möchten?",

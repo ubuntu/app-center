@@ -303,17 +303,6 @@
   "@dependenciesFullList": {},
   "gallery": "Galerie",
   "@gallery": {},
-  "dependenciesListing": "{length} dépendances d'une taille totale de {size} seront téléchargées lors de l'installation de {packageName}",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "noSnapsInstalled": "Aucune application Snap n'est installée sur votre système",
   "@noSnapsInstalled": {},
   "rating": "Note",

@@ -93,17 +93,6 @@
   "@reviewSent": {},
   "installed": "已安裝",
   "@installed": {},
-  "dependenciesListing": "安裝 {packageName} 也會下載 {length} 個依賴套件（佔用 {size} 的空間）",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "snapPackage": "Snap",
   "@snapPackage": {},
   "debianPackage": "Debian",

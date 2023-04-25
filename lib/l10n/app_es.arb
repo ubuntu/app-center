@@ -305,17 +305,6 @@
   "@gallery": {},
   "dependenciesFullList": "Ver la lista completa de las dependencias",
   "@dependenciesFullList": {},
-  "dependenciesListing": "Se descargarán {length} dependencias con un tamaño total de {size} al instalar {packageName}",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "dependencies": "Dependencias",
   "@dependencies": {},
   "dependenciesQuestion": "¿Estas seguro que deseas continuar?",
