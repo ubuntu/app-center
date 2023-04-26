@@ -342,5 +342,89 @@
   "collection": "Sammlung",
   "@collection": {},
   "upgrading": "Wird hochgestuft",
-  "@upgrading": {}
+  "@upgrading": {},
+  "removeAll": "Alle entfernen",
+  "@removeAll": {},
+  "confirmRemove": "Sind Sie sicher, dass Sie dieses Paket entfernen möchten?",
+  "@confirmRemove": {},
+  "rate": "Bewerten",
+  "@rate": {},
+  "whatDoYouThink": "Was halten Sie von der App? Versuchen Sie, eine Begründung für Ihre Ansicht zu nennen.",
+  "@whatDoYouThink": {},
+  "submit": "Absenden",
+  "@submit": {},
+  "reportReviewDialogBody": "Sie können eine Bewertung wegen beleidigendem, unhöflichem oder diskriminierendem Verhalten melden. Nach der Meldung wird die Bewertung ausgeblendet, bis sie von einem Administrator überprüft wurde.",
+  "@reportReviewDialogBody": {},
+  "dependenciesInstallListing": "{length} Abhängigkeiten mit einer Gesamtgröße von {size} werden bei der Installation von {packageName} heruntergeladen",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "removePackage": "{package} entfernen",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "packageType": "Pakettyp",
+  "@packageType": {},
+  "ratingsAndReviews": "Bewertungen und Rezensionen",
+  "@ratingsAndReviews": {},
+  "ratings": "Bewertungen",
+  "@ratings": {},
+  "writeAreview": "Eine Rezension schreiben",
+  "@writeAreview": {},
+  "summary": "Zusammenfassung",
+  "@summary": {},
+  "summeryHint": "Schreiben Sie eine kurze Zusammenfassung Ihrer Bewertung, zum Beispiel: Tolle App, würde ich empfehlen.",
+  "@summeryHint": {},
+  "helpful": "Hilfreich",
+  "@helpful": {},
+  "notHelpful": "Nicht hilfreich",
+  "@notHelpful": {},
+  "whatDataIsSend": "Finden Sie heraus, welche Daten gesendet werden in unserer ",
+  "@whatDataIsSend": {},
+  "privacyPolicy": "Datenschutzerklärung.",
+  "@privacyPolicy": {},
+  "dependenciesRemoveListing": "{length} Abhängigkeiten mit einer Gesamtgröße von {size} können beim Entfernen von {packageName} automatisch entfernt werden",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "dependenciesAutoremove": "Nicht mehr benötigte Abhängigkeiten entfernen",
+  "@dependenciesAutoremove": {},
+  "starDeveloper": "Entwickler einen Stern geben",
+  "@starDeveloper": {},
+  "manage": "Verwalten",
+  "@manage": {},
+  "copiedToClipboard": "In die Zwischenablage kopiert",
+  "@copiedToClipboard": {},
+  "share": "Teilen",
+  "@share": {},
+  "report": "Melden",
+  "@report": {},
+  "reportAbuse": "Missbrauch melden",
+  "@reportAbuse": {},
+  "reportReviewDialogTitle": "Bewertung melden",
+  "@reportReviewDialogTitle": {}
 }
