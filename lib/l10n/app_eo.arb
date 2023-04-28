@@ -420,5 +420,11 @@
   "reportAbuse": "Raporti misuzon",
   "@reportAbuse": {},
   "reportReviewDialogTitle": "Raporti recenzon",
-  "@reportReviewDialogTitle": {}
+  "@reportReviewDialogTitle": {},
+  "dependenciesAutoremove": "Malinstali ne plu necesajn dependaĵojn",
+  "@dependenciesAutoremove": {},
+  "share": "Kunhavigi",
+  "@share": {},
+  "reportReviewDialogBody": "Vi povas raporti recenzon pro misa, fia aŭ diskriminacia konduto. Raportita recenzo kaŝiĝos ĝis kontrolo de administranto.",
+  "@reportReviewDialogBody": {}
 }
