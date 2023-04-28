@@ -413,7 +413,7 @@
   },
   "dependenciesAutoremove": "Nicht mehr benötigte Abhängigkeiten entfernen",
   "@dependenciesAutoremove": {},
-  "starDeveloper": "Entwickler einen Stern geben",
+  "starDeveloper": "Star-Entwickler",
   "@starDeveloper": {},
   "manage": "Verwalten",
   "@manage": {},
