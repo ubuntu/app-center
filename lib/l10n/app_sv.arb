@@ -424,5 +424,7 @@
   "reportAbuse": "Rapportera missbruk",
   "@reportAbuse": {},
   "reportReviewDialogTitle": "Rapportera recension",
-  "@reportReviewDialogTitle": {}
+  "@reportReviewDialogTitle": {},
+  "starDeveloper": "Stjärnutvecklare",
+  "@starDeveloper": {}
 }
