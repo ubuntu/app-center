@@ -1,1 +1,12 @@
-{}
+{
+  "explorePageTitle": "探索",
+  "@explorePageTitle": {},
+  "myAppsPageTitle": "我的应用",
+  "@myAppsPageTitle": {},
+  "updatesPageTitle": "更新",
+  "@updatesPageTitle": {},
+  "settingsPageTitle": "设置",
+  "@settingsPageTitle": {},
+  "games": "游戏",
+  "@games": {}
+}
