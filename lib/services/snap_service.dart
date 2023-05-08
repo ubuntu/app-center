@@ -129,8 +129,7 @@ class SnapService {
   }
 
   List<Snap> _localSnaps = [];
-  UnmodifiableListView<Snap> get localSnaps =>
-      UnmodifiableListView(_localSnaps);
+  List<Snap> get localSnaps => List.from(_localSnaps);
   Future<void> loadLocalSnaps() async {
     _localSnaps = (await _snapDClient.getSnaps());
   }
@@ -312,8 +311,7 @@ class SnapService {
   }
 
   List<Snap> _snapsWithUpdate = [];
-  UnmodifiableListView<Snap> get snapsWithUpdate =>
-      UnmodifiableListView(_snapsWithUpdate);
+  List<Snap> get snapsWithUpdate => List.from(_snapsWithUpdate);
   Future<void> loadSnapsWithUpdate() async {
     _snapsWithUpdate = await _snapDClient.find(filter: SnapFindFilter.refresh);
   }
