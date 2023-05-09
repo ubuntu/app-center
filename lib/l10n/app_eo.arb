@@ -311,17 +311,6 @@
   "@publisher": {},
   "noSnapsInstalled": "Ekzistas neniuj Snap-programoj instalitaj sur via sistemo",
   "@noSnapsInstalled": {},
-  "dependenciesListing": "{length} dependaĵoj de totala grando {size} estas kuninstalotaj kune kun {packageName}",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "permissions": "Permesoj",
   "@permissions": {},
   "additionalInformation": "Pliaj informoj",
@@ -353,5 +342,89 @@
   "contributors": "Kontribuintoj",
   "@contributors": {},
   "collection": "Kolekto",
-  "@collection": {}
+  "@collection": {},
+  "summary": "Resumo",
+  "@summary": {},
+  "whatDoYouThink": "Kiel vi opinias pri la programo? Provu klarigi kialojn de via opinio.",
+  "@whatDoYouThink": {},
+  "removeAll": "Malinstali ĉion",
+  "@removeAll": {},
+  "removePackage": "Malinstali {package}",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmRemove": "Ĉu vi certe volas malinstali ĉi tiun pakon?",
+  "@confirmRemove": {},
+  "packageType": "Speco de pako",
+  "@packageType": {},
+  "ratings": "Taksoj",
+  "@ratings": {},
+  "writeAreview": "Verki recenzon",
+  "@writeAreview": {},
+  "ratingsAndReviews": "Taksoj kaj recenzoj",
+  "@ratingsAndReviews": {},
+  "submit": "Submeti",
+  "@submit": {},
+  "rate": "Taksi",
+  "@rate": {},
+  "summeryHint": "Koncize resumu vian recenzon, ekzemple: Bona programo, rekomendinda.",
+  "@summeryHint": {},
+  "privacyPolicy": "reguloj pri privateco.",
+  "@privacyPolicy": {},
+  "helpful": "Utila",
+  "@helpful": {},
+  "notHelpful": "Malutila",
+  "@notHelpful": {},
+  "whatDataIsSend": "Tiajn datenojn, kiaj sendiĝas, priskribas niaj ",
+  "@whatDataIsSend": {},
+  "dependenciesRemoveListing": "{length} dependaĵoj de totala grando {size} estas aŭtomate malinstaleblaj kune kun {packageName}",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "manage": "Administri",
+  "@manage": {},
+  "starDeveloper": "Stelula programisto",
+  "@starDeveloper": {},
+  "copiedToClipboard": "Kopiita en tondujon",
+  "@copiedToClipboard": {},
+  "dependenciesInstallListing": "{length} dependaĵoj de totala grando {size} estas kuninstalotaj kune kun {packageName}",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "report": "Raporti",
+  "@report": {},
+  "reportAbuse": "Raporti misuzon",
+  "@reportAbuse": {},
+  "reportReviewDialogTitle": "Raporti recenzon",
+  "@reportReviewDialogTitle": {},
+  "dependenciesAutoremove": "Malinstali ne plu necesajn dependaĵojn",
+  "@dependenciesAutoremove": {},
+  "share": "Kunhavigi",
+  "@share": {},
+  "reportReviewDialogBody": "Vi povas raporti recenzon pro misa, fia aŭ diskriminacia konduto. Raportita recenzo kaŝiĝos ĝis kontrolo de administranto.",
+  "@reportReviewDialogBody": {}
 }

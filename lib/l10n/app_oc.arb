@@ -311,17 +311,6 @@
   "@dependenciesQuestion": {},
   "dependenciesFullList": "Veire la lista complèta de las dependéncias",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} dependéncias amb una talha total de {size} seràn telecargadas en installant {packageName}",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "gallery": "Galariá",
   "@gallery": {},
   "additionalInformation": "Informacions complementàrias",

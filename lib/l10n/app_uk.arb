@@ -163,20 +163,6 @@
   "@configure": {},
   "sourcesDescription": "Налаштувати звідки ваша система та сторонні Debian пакети будуть оновлюватися.",
   "@sourcesDescription": {},
-  "dependenciesListing": "{length} залежностей розміром {size} будуть завантажені задля встановлення {packageName}",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "size": {
-        "type": "String"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "gallery": "Галерея",
   "@gallery": {},
   "appTitle": "Каталог програм Ubuntu",

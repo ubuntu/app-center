@@ -285,17 +285,6 @@
   "@dependenciesQuestion": {},
   "dependenciesFullList": "Se fullständig lista över beroenden",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} beroenden med en total storlek av {size} kommer att laddas ned när {packageName} installeras",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "gallery": "Galleri",
   "@gallery": {},
   "configure": "Konfigurera",
@@ -353,5 +342,89 @@
   "collection": "Samling",
   "@collection": {},
   "packagesUsed": "Paket som används",
-  "@packagesUsed": {}
+  "@packagesUsed": {},
+  "removeAll": "Ta bort alla",
+  "@removeAll": {},
+  "removePackage": "Ta bort {package}",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "submit": "Skicka in",
+  "@submit": {},
+  "manage": "Hantera",
+  "@manage": {},
+  "share": "Dela",
+  "@share": {},
+  "reportReviewDialogBody": "Du kan rapportera en recension för kränkande, oförskämt eller diskriminerande beteende. När den har rapporterats döljs en recension tills den har kontrollerats av en administratör.",
+  "@reportReviewDialogBody": {},
+  "confirmRemove": "Är du säker på att du vill ta bort detta paket?",
+  "@confirmRemove": {},
+  "packageType": "Pakettyp",
+  "@packageType": {},
+  "ratingsAndReviews": "Betyg och recensioner",
+  "@ratingsAndReviews": {},
+  "ratings": "Betyg",
+  "@ratings": {},
+  "writeAreview": "Skriv en recension",
+  "@writeAreview": {},
+  "summary": "Sammanfattning",
+  "@summary": {},
+  "rate": "Betygsätt",
+  "@rate": {},
+  "whatDoYouThink": "Vad tycker du detta program? Försök ge oss en bra anledning till varför du har din åsikt.",
+  "@whatDoYouThink": {},
+  "summeryHint": "Ge en kort sammanfattning av din recension, till exempel: Bra program, skulle rekommendera.",
+  "@summeryHint": {},
+  "helpful": "Hjälpsam",
+  "@helpful": {},
+  "notHelpful": "Inte hjälpsam",
+  "@notHelpful": {},
+  "whatDataIsSend": "Ta reda på vilken data som skickas i vår ",
+  "@whatDataIsSend": {},
+  "privacyPolicy": "integritetspolicy.",
+  "@privacyPolicy": {},
+  "dependenciesInstallListing": "{length} beroenden med en total storlek på {size} kommer att laddas ner då du installerar {packageName}",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "dependenciesRemoveListing": "{length} beroenden med en total storlek på {size} kan automatiskt tas bort när du tar bort {packageName}",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "dependenciesAutoremove": "Ta bort beroenden som inte längre behövs",
+  "@dependenciesAutoremove": {},
+  "copiedToClipboard": "Kopierades till urklipp",
+  "@copiedToClipboard": {},
+  "report": "Rapportera",
+  "@report": {},
+  "reportAbuse": "Rapportera missbruk",
+  "@reportAbuse": {},
+  "reportReviewDialogTitle": "Rapportera recension",
+  "@reportReviewDialogTitle": {},
+  "starDeveloper": "Stjärnutvecklare",
+  "@starDeveloper": {}
 }
