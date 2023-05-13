@@ -57,7 +57,7 @@
   "@entertainmentSlogan": {},
   "featuredSlogan": "Naše odporúčané aplikácie",
   "@featuredSlogan": {},
-  "gamesSlogan": "Hry a hranie sa",
+  "gamesSlogan": "Hry a hranie",
   "@gamesSlogan": {},
   "healthAndFitnessSlogan": "Zdravie a fitnes",
   "@healthAndFitnessSlogan": {},
@@ -153,7 +153,7 @@
   "@updatesAvailable": {},
   "media": "Médiá",
   "@media": {},
-  "done": "Dokončiť",
+  "done": "Hotovo",
   "@done": {},
   "allSelected": "Všetky aktualizácie vybraté",
   "@allSelected": {},
@@ -171,7 +171,7 @@
   "@multiUpdateButton": {},
   "updateButton": "Aktualizovať",
   "@updateButton": {},
-  "update": "Aktualizácie",
+  "update": "Aktualizácia",
   "@update": {},
   "filterSnaps": "Nastavte filter snapov",
   "@filterSnaps": {},
@@ -295,7 +295,7 @@
   },
   "ready": "Pripravené",
   "@ready": {},
-  "upgrading": "Inovovať",
+  "upgrading": "Inovuje sa",
   "@upgrading": {},
   "releasedAt": "Vydané v",
   "@releasedAt": {},
@@ -319,7 +319,7 @@
   "@dependencies": {},
   "dependenciesFullList": "Zobraziť úplný zoznam súčastí",
   "@dependenciesFullList": {},
-  "dependenciesRemoveListing": "{length} súčastí s celkovou veľkosťou {size} je možné automaticky odstrániť pri odstránení {packageName}",
+  "dependenciesRemoveListing": "{length} súčastí s celkovou veľkosťou {size} môžu byť automaticky odstránené pri odstraňovaní {packageName}",
   "@dependenciesRemoveListing": {
     "placeholders": {
       "length": {
@@ -425,6 +425,6 @@
   "@whatDataIsSend": {},
   "updateAvailable": "Dostupná aktualizácia",
   "@updateAvailable": {},
-  "enterRepoName": "Zadajte názov repozitára",
+  "enterRepoName": "Zadajte názov úložiska",
   "@enterRepoName": {}
 }
