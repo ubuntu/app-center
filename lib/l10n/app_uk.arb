@@ -342,5 +342,89 @@
   "dependenciesQuestion": "Ви впевнені, що хочете продовжити?",
   "@dependenciesQuestion": {},
   "dependenciesFullList": "Показати всі залежності",
-  "@dependenciesFullList": {}
+  "@dependenciesFullList": {},
+  "ratingsAndReviews": "",
+  "@ratingsAndReviews": {},
+  "reportReviewDialogBody": "",
+  "@reportReviewDialogBody": {},
+  "dependenciesAutoremove": "",
+  "@dependenciesAutoremove": {},
+  "summary": "",
+  "@summary": {},
+  "dependenciesInstallListing": "",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmRemove": "",
+  "@confirmRemove": {},
+  "helpful": "",
+  "@helpful": {},
+  "manage": "",
+  "@manage": {},
+  "reportReviewDialogTitle": "",
+  "@reportReviewDialogTitle": {},
+  "report": "",
+  "@report": {},
+  "privacyPolicy": "",
+  "@privacyPolicy": {},
+  "reportAbuse": "",
+  "@reportAbuse": {},
+  "ratings": "",
+  "@ratings": {},
+  "copiedToClipboard": "",
+  "@copiedToClipboard": {},
+  "removeAll": "",
+  "@removeAll": {},
+  "removePackage": "",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "packageType": "",
+  "@packageType": {},
+  "writeAreview": "",
+  "@writeAreview": {},
+  "rate": "",
+  "@rate": {},
+  "whatDoYouThink": "",
+  "@whatDoYouThink": {},
+  "summeryHint": "",
+  "@summeryHint": {},
+  "submit": "",
+  "@submit": {},
+  "notHelpful": "",
+  "@notHelpful": {},
+  "whatDataIsSend": "",
+  "@whatDataIsSend": {},
+  "dependenciesRemoveListing": "",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "starDeveloper": "",
+  "@starDeveloper": {},
+  "share": "",
+  "@share": {}
 }
