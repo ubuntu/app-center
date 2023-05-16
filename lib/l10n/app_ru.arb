@@ -342,5 +342,89 @@
   "contributors": "Участники",
   "@contributors": {},
   "collection": "Коллекция",
-  "@collection": {}
+  "@collection": {},
+  "reportReviewDialogBody": "",
+  "@reportReviewDialogBody": {},
+  "removePackage": "",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "removeAll": "",
+  "@removeAll": {},
+  "confirmRemove": "",
+  "@confirmRemove": {},
+  "packageType": "",
+  "@packageType": {},
+  "ratingsAndReviews": "",
+  "@ratingsAndReviews": {},
+  "ratings": "",
+  "@ratings": {},
+  "writeAreview": "",
+  "@writeAreview": {},
+  "summary": "",
+  "@summary": {},
+  "rate": "",
+  "@rate": {},
+  "whatDoYouThink": "",
+  "@whatDoYouThink": {},
+  "summeryHint": "",
+  "@summeryHint": {},
+  "submit": "",
+  "@submit": {},
+  "helpful": "",
+  "@helpful": {},
+  "notHelpful": "",
+  "@notHelpful": {},
+  "whatDataIsSend": "",
+  "@whatDataIsSend": {},
+  "privacyPolicy": "",
+  "@privacyPolicy": {},
+  "dependenciesInstallListing": "",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "dependenciesRemoveListing": "",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "dependenciesAutoremove": "",
+  "@dependenciesAutoremove": {},
+  "starDeveloper": "",
+  "@starDeveloper": {},
+  "manage": "",
+  "@manage": {},
+  "copiedToClipboard": "",
+  "@copiedToClipboard": {},
+  "share": "",
+  "@share": {},
+  "report": "",
+  "@report": {},
+  "reportAbuse": "",
+  "@reportAbuse": {},
+  "reportReviewDialogTitle": "",
+  "@reportReviewDialogTitle": {}
 }
