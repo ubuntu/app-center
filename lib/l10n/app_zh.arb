@@ -424,5 +424,7 @@
   "updatesComplete": "更新完毕",
   "@updatesComplete": {},
   "yourReviewName": "您的姓名（可选）",
-  "@yourReviewName": {}
+  "@yourReviewName": {},
+  "confinement": "",
+  "@confinement": {}
 }
