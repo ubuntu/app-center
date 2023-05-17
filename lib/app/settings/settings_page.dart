@@ -124,8 +124,8 @@ class _SettingsPage extends StatelessWidget {
               YaruSection(
                 headline: Text(context.l10n.sources),
                 margin: const EdgeInsets.all(kYaruPagePadding),
-                child: Column(
-                  children: const [
+                child: const Column(
+                  children: [
                     _RepoTile(),
                   ],
                 ),
@@ -134,8 +134,8 @@ class _SettingsPage extends StatelessWidget {
                 headline: Text(context.l10n.about),
                 margin:
                     const EdgeInsets.symmetric(horizontal: kYaruPagePadding),
-                child: Column(
-                  children: const [_AboutTile(), _LicenseTile()],
+                child: const Column(
+                  children: [_AboutTile(), _LicenseTile()],
                 ),
               ),
             ],

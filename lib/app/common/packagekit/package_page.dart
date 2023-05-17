@@ -160,8 +160,9 @@ class _PackagePageState extends State<PackagePage> {
     final userReviews = context.select((ReviewModel m) => m.userReviews);
 
     final appData = AppData(
-      publisherName: model.developerName ?? context.l10n.unknown,
-      publisherUsername: model.developerName ?? context.l10n.unknown,
+      publisherName: model.getDeveloperName(context) ?? context.l10n.unknown,
+      publisherUsername:
+          model.getDeveloperName(context) ?? context.l10n.unknown,
       releasedAt: model.releasedAt ?? context.l10n.unknown,
       appSize: model.getFormattedSize() ?? context.l10n.unknown,
       confinementName: context.l10n.classic,

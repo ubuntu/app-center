@@ -106,7 +106,7 @@ class RatingInfoFragment extends StatelessWidget {
     );
 
     return AppInfoFragment(
-      header: context.l10n.rating,
+      header: context.l10n.ratings,
       child: Padding(
         padding: const EdgeInsets.all(3.0),
         child: Row(

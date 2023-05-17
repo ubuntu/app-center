@@ -93,17 +93,6 @@
   "@reviewSent": {},
   "installed": "已安裝",
   "@installed": {},
-  "dependenciesListing": "安裝 {packageName} 也會下載 {length} 個依賴套件（佔用 {size} 的空間）",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "snapPackage": "Snap",
   "@snapPackage": {},
   "debianPackage": "Debian",
@@ -353,5 +342,89 @@
   "collection": "收藏庫",
   "@collection": {},
   "contributors": "協力者",
-  "@contributors": {}
+  "@contributors": {},
+  "submit": "",
+  "@submit": {},
+  "manage": "",
+  "@manage": {},
+  "reportReviewDialogTitle": "",
+  "@reportReviewDialogTitle": {},
+  "dependenciesRemoveListing": "",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmRemove": "",
+  "@confirmRemove": {},
+  "dependenciesInstallListing": "",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "copiedToClipboard": "",
+  "@copiedToClipboard": {},
+  "starDeveloper": "",
+  "@starDeveloper": {},
+  "privacyPolicy": "",
+  "@privacyPolicy": {},
+  "removeAll": "",
+  "@removeAll": {},
+  "removePackage": "",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "packageType": "",
+  "@packageType": {},
+  "ratingsAndReviews": "",
+  "@ratingsAndReviews": {},
+  "ratings": "",
+  "@ratings": {},
+  "writeAreview": "",
+  "@writeAreview": {},
+  "summary": "",
+  "@summary": {},
+  "rate": "",
+  "@rate": {},
+  "whatDoYouThink": "",
+  "@whatDoYouThink": {},
+  "summeryHint": "",
+  "@summeryHint": {},
+  "helpful": "",
+  "@helpful": {},
+  "notHelpful": "",
+  "@notHelpful": {},
+  "whatDataIsSend": "",
+  "@whatDataIsSend": {},
+  "dependenciesAutoremove": "",
+  "@dependenciesAutoremove": {},
+  "share": "",
+  "@share": {},
+  "report": "",
+  "@report": {},
+  "reportAbuse": "",
+  "@reportAbuse": {},
+  "reportReviewDialogBody": "",
+  "@reportReviewDialogBody": {}
 }

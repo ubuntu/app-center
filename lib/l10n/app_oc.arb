@@ -311,17 +311,6 @@
   "@dependenciesQuestion": {},
   "dependenciesFullList": "Veire la lista complèta de las dependéncias",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} dependéncias amb una talha total de {size} seràn telecargadas en installant {packageName}",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "gallery": "Galariá",
   "@gallery": {},
   "additionalInformation": "Informacions complementàrias",
@@ -331,5 +320,111 @@
   "searchHintAppStore": "Cercar d’aplicacions",
   "@searchHintAppStore": {},
   "searchHintInstalled": "Cercar dins las aplicacions installadas",
-  "@searchHintInstalled": {}
+  "@searchHintInstalled": {},
+  "removePackage": "",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "packageType": "",
+  "@packageType": {},
+  "confirmRemove": "",
+  "@confirmRemove": {},
+  "reportReviewDialogBody": "",
+  "@reportReviewDialogBody": {},
+  "summary": "",
+  "@summary": {},
+  "notHelpful": "",
+  "@notHelpful": {},
+  "ratings": "",
+  "@ratings": {},
+  "summeryHint": "",
+  "@summeryHint": {},
+  "multiUpdateButton": "",
+  "@multiUpdateButton": {},
+  "reportReviewDialogTitle": "",
+  "@reportReviewDialogTitle": {},
+  "whatDoYouThink": "",
+  "@whatDoYouThink": {},
+  "removeAll": "",
+  "@removeAll": {},
+  "contributors": "",
+  "@contributors": {},
+  "submit": "",
+  "@submit": {},
+  "ratingsAndReviews": "",
+  "@ratingsAndReviews": {},
+  "copiedToClipboard": "",
+  "@copiedToClipboard": {},
+  "writeAreview": "",
+  "@writeAreview": {},
+  "rate": "",
+  "@rate": {},
+  "helpful": "",
+  "@helpful": {},
+  "whatDataIsSend": "",
+  "@whatDataIsSend": {},
+  "privacyPolicy": "",
+  "@privacyPolicy": {},
+  "upgrading": "",
+  "@upgrading": {},
+  "dependenciesInstallListing": "",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "dependenciesRemoveListing": "",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "dependenciesAutoremove": "",
+  "@dependenciesAutoremove": {},
+  "starDeveloper": "",
+  "@starDeveloper": {},
+  "packagesUsed": "",
+  "@packagesUsed": {},
+  "collection": "",
+  "@collection": {},
+  "manage": "",
+  "@manage": {},
+  "share": "",
+  "@share": {},
+  "report": "",
+  "@report": {},
+  "reportAbuse": "",
+  "@reportAbuse": {},
+  "downloading": "",
+  "@downloading": {},
+  "downloadRemaining": "",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "ready": "",
+  "@ready": {}
 }
