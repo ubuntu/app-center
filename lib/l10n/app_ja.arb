@@ -316,5 +316,115 @@
   "links": "リンク",
   "@links": {},
   "additionalInformation": "追加情報",
-  "@additionalInformation": {}
+  "@additionalInformation": {},
+  "searchHintInstalled": "",
+  "@searchHintInstalled": {},
+  "downloading": "",
+  "@downloading": {},
+  "contributors": "",
+  "@contributors": {},
+  "starDeveloper": "",
+  "@starDeveloper": {},
+  "report": "",
+  "@report": {},
+  "summary": "",
+  "@summary": {},
+  "ratingsAndReviews": "",
+  "@ratingsAndReviews": {},
+  "privacyPolicy": "",
+  "@privacyPolicy": {},
+  "collection": "",
+  "@collection": {},
+  "upgrading": "",
+  "@upgrading": {},
+  "submit": "",
+  "@submit": {},
+  "manage": "",
+  "@manage": {},
+  "share": "",
+  "@share": {},
+  "ready": "",
+  "@ready": {},
+  "packagesUsed": "",
+  "@packagesUsed": {},
+  "packageType": "",
+  "@packageType": {},
+  "writeAreview": "",
+  "@writeAreview": {},
+  "searchHintAppStore": "",
+  "@searchHintAppStore": {},
+  "reportReviewDialogBody": "",
+  "@reportReviewDialogBody": {},
+  "rate": "",
+  "@rate": {},
+  "dependenciesAutoremove": "",
+  "@dependenciesAutoremove": {},
+  "dependenciesRemoveListing": "",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "ratings": "",
+  "@ratings": {},
+  "whatDataIsSend": "",
+  "@whatDataIsSend": {},
+  "whatDoYouThink": "",
+  "@whatDoYouThink": {},
+  "dependenciesInstallListing": "",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadRemaining": "",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "summeryHint": "",
+  "@summeryHint": {},
+  "notHelpful": "",
+  "@notHelpful": {},
+  "confirmRemove": "",
+  "@confirmRemove": {},
+  "multiUpdateButton": "",
+  "@multiUpdateButton": {},
+  "removeAll": "",
+  "@removeAll": {},
+  "removePackage": "",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "helpful": "",
+  "@helpful": {},
+  "copiedToClipboard": "",
+  "@copiedToClipboard": {},
+  "reportAbuse": "",
+  "@reportAbuse": {},
+  "reportReviewDialogTitle": "",
+  "@reportReviewDialogTitle": {}
 }
