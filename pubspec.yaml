@@ -7,8 +7,8 @@ publish_to: "none"
 version: 0.2.9-alpha
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
-  flutter: ">=3.0.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
 
 dependencies:
   appstream: ^0.2.8
@@ -33,14 +33,17 @@ dependencies:
   glib: 0.0.1
   gtk_application: ^0.0.3
   handy_window: ^0.3.0
-  intl: ^0.17.0
+  intl: ^0.18.0
   launcher_entry: ^0.1.0
-  liquid_progress_indicator: ^0.4.0
+  liquid_progress_indicator:
+    git:
+      url: https://github.com/ubuntu-flutter-community/liquid_progress_indicator
+      ref: fdeb8de
   meta: ^1.7.0
   odrs:
     git:
       url: https://github.com/ubuntu-flutter-community/odrs.dart
-  package_info_plus: ^1.4.2
+  package_info_plus: ^4.0.0
   packagekit: ^0.2.6
   palette_generator: ^0.3.3
   path: ^1.8.2

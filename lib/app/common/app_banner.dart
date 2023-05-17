@@ -209,8 +209,11 @@ class SearchBannerSubtitle extends StatelessWidget {
     String? ratingId =
         appFinding.snap?.ratingId ?? appFinding.appstream?.ratingId;
     final publisherName = appFinding.snap?.publisher?.displayName ??
-        appFinding.appstream?.developerName[
-            WidgetsBinding.instance.window.locale.countryCode?.toLowerCase()] ??
+        appFinding.appstream?.developerName[View.of(context)
+            .platformDispatcher
+            .locale
+            .countryCode
+            ?.toLowerCase()] ??
         appFinding.appstream?.developerName['C'] ??
         appFinding.appstream?.localizedName() ??
         context.l10n.unknown;
@@ -246,11 +249,11 @@ class SearchBannerSubtitle extends StatelessWidget {
                 ),
               ),
             if (appFinding.snap?.starredDeveloper == true)
-              Padding(
-                padding: const EdgeInsets.only(left: 5),
+              const Padding(
+                padding: EdgeInsets.only(left: 5),
                 child: Stack(
                   alignment: Alignment.center,
-                  children: const [
+                  children: [
                     Icon(
                       Icons.circle,
                       color: Colors.white,
