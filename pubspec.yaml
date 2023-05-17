@@ -8,6 +8,7 @@ version: 0.2.9-alpha
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
 
 dependencies:
   appstream: ^0.2.8
