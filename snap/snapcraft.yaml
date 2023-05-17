@@ -19,7 +19,7 @@ assumes:
 parts:
   flutter-git:
     source: https://github.com/flutter/flutter.git
-    source-tag: 3.7.0
+    source-tag: 3.10.0
     plugin: nil
     override-build: |
       set -eux

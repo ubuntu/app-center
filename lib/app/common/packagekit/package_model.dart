@@ -64,9 +64,12 @@ class PackageModel extends SafeChangeNotifier {
 
   String? get title => appstream?.localizedName() ?? packageId?.name;
 
-  String? get developerName {
-    final devName = appstream?.developerName[
-            WidgetsBinding.instance.window.locale.countryCode?.toLowerCase()] ??
+  String? getDeveloperName(BuildContext context) {
+    final devName = appstream?.developerName[View.of(context)
+            .platformDispatcher
+            .locale
+            .countryCode
+            ?.toLowerCase()] ??
         appstream?.developerName['C'];
 
     return devName ?? appstream?.localizedName();

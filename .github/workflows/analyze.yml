@@ -17,8 +17,6 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-          flutter-version: "3.7.x"
-
-      # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Analyze project source
-        run: flutter analyze
+          flutter-version: "3.10.x"
+      - run: dart pub get
+      - run: flutter analyze
