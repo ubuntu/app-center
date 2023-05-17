@@ -19,7 +19,4 @@ jobs:
           channel: "stable"
           flutter-version: "3.10.x"
       - run: dart pub get
-
-      # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Analyze project source
-        run: dart analyze
+      - run: dart analyze .
