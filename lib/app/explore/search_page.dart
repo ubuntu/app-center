@@ -68,9 +68,9 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     if (widget.searchResult == null) {
-      return Column(
+      return const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           LoadingExploreHeader(),
           Expanded(child: LoadingBannerGrid()),
         ],
