@@ -19,4 +19,4 @@ jobs:
           channel: "stable"
           flutter-version: "3.10.x"
       - run: dart pub get
-      - run: dart analyze .
+      - run: flutter analyze
