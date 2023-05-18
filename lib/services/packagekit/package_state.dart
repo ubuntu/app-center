@@ -25,20 +25,12 @@ enum PackageState {
   processing,
   ready;
 
-  String localize(AppLocalizations l10n) {
-    switch (this) {
-      case PackageState.installing:
-        return l10n.installing;
-      case PackageState.removing:
-        return l10n.removing;
-      case PackageState.upgrading:
-        return l10n.upgrading;
-      case PackageState.downloading:
-        return l10n.downloading;
-      case PackageState.processing:
-        return l10n.processing;
-      case PackageState.ready:
-        return l10n.ready;
-    }
-  }
+  String localize(AppLocalizations l10n) => switch (this) {
+        PackageState.installing => l10n.installing,
+        PackageState.removing => l10n.removing,
+        PackageState.upgrading => l10n.upgrading,
+        PackageState.downloading => l10n.downloading,
+        PackageState.processing => l10n.processing,
+        PackageState.ready => l10n.ready
+      };
 }
