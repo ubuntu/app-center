@@ -23,18 +23,10 @@ enum UpdatesState {
   checkingForUpdates,
   readyToUpdate;
 
-  String localize(AppLocalizations l10n) {
-    switch (this) {
-      case noUpdates:
-        return l10n.noUpdates;
-      case updating:
-        return l10n.updating;
-      case checkingForUpdates:
-        return l10n.checkingForUpdates;
-      case readyToUpdate:
-        return l10n.readyToUpdate;
-      default:
-        return '';
-    }
-  }
+  String localize(AppLocalizations l10n) => switch (this) {
+        noUpdates => l10n.noUpdates,
+        updating => l10n.updating,
+        checkingForUpdates => l10n.checkingForUpdates,
+        readyToUpdate => l10n.readyToUpdate,
+      };
 }
