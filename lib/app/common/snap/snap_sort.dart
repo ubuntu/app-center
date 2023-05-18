@@ -22,14 +22,9 @@ enum SnapSort {
   installDate,
   size;
 
-  String localize(AppLocalizations l10n) {
-    switch (this) {
-      case SnapSort.name:
-        return l10n.name;
-      case SnapSort.installDate:
-        return l10n.installDate;
-      case SnapSort.size:
-        return l10n.size;
-    }
-  }
+  String localize(AppLocalizations l10n) => switch (this) {
+        SnapSort.name => l10n.name,
+        SnapSort.installDate => l10n.installDate,
+        SnapSort.size => l10n.size
+      };
 }
