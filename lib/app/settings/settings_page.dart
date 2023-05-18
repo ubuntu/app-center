@@ -142,16 +142,8 @@ class ThemeSection extends StatefulWidget {
 }
 
 class _ThemeSectionState extends State<ThemeSection> {
-  void onChanged(int index) {
-    for (var themeMode in ThemeMode.values) {
-      if (themeMode.index == index) {
-        setState(() {
-          App.themeNotifier.value = themeMode;
-        });
-        break;
-      }
-    }
-  }
+  void _onChanged(int index) =>
+      setState(() => App.themeNotifier.value = ThemeMode.values[index]);
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +169,7 @@ class _ThemeSectionState extends State<ThemeSection> {
                       padding: const EdgeInsets.all(1),
                       borderRadius: BorderRadius.circular(12),
                       selected: App.themeNotifier.value == ThemeMode.values[i],
-                      onTap: () => onChanged(i),
+                      onTap: () => _onChanged(i),
                       child: ThemeTile(ThemeMode.values[i]),
                     ),
                     Padding(
