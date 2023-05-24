@@ -343,13 +343,13 @@
   "@collection": {},
   "contributors": "協力者",
   "@contributors": {},
-  "submit": "",
+  "submit": "送出",
   "@submit": {},
-  "manage": "",
+  "manage": "管理",
   "@manage": {},
-  "reportReviewDialogTitle": "",
+  "reportReviewDialogTitle": "回報評論",
   "@reportReviewDialogTitle": {},
-  "dependenciesRemoveListing": "",
+  "dependenciesRemoveListing": "移除 {packageName} 之後可以順便移除 {length} 個依賴套件，共清出 {size} 的空間",
   "@dependenciesRemoveListing": {
     "placeholders": {
       "length": {
@@ -363,9 +363,9 @@
       }
     }
   },
-  "confirmRemove": "",
+  "confirmRemove": "確定要刪除這個套件嗎？",
   "@confirmRemove": {},
-  "dependenciesInstallListing": "",
+  "dependenciesInstallListing": "安裝 {packageName} 需要下載 {length} 個依賴套件，共佔用 {size} 的空間",
   "@dependenciesInstallListing": {
     "placeholders": {
       "length": {
@@ -379,15 +379,15 @@
       }
     }
   },
-  "copiedToClipboard": "",
+  "copiedToClipboard": "複製到剪貼簿",
   "@copiedToClipboard": {},
   "starDeveloper": "",
   "@starDeveloper": {},
-  "privacyPolicy": "",
+  "privacyPolicy": "隱私政策。",
   "@privacyPolicy": {},
-  "removeAll": "",
+  "removeAll": "移除全部",
   "@removeAll": {},
-  "removePackage": "",
+  "removePackage": "移除 {package}",
   "@removePackage": {
     "placeholders": {
       "package": {
@@ -395,36 +395,36 @@
       }
     }
   },
-  "packageType": "",
+  "packageType": "套件類型",
   "@packageType": {},
-  "ratingsAndReviews": "",
+  "ratingsAndReviews": "評分與評論",
   "@ratingsAndReviews": {},
-  "ratings": "",
+  "ratings": "評分",
   "@ratings": {},
-  "writeAreview": "",
+  "writeAreview": "撰寫評論",
   "@writeAreview": {},
-  "summary": "",
+  "summary": "總結",
   "@summary": {},
-  "rate": "",
+  "rate": "評分",
   "@rate": {},
-  "whatDoYouThink": "",
+  "whatDoYouThink": "你對這個應用程式有什麼看法？請替你的看法寫下理由。",
   "@whatDoYouThink": {},
-  "summeryHint": "",
+  "summeryHint": "對你的評論作一個簡短的總結，例如：很棒的 app，非常推薦。",
   "@summeryHint": {},
-  "helpful": "",
+  "helpful": "很有用",
   "@helpful": {},
-  "notHelpful": "",
+  "notHelpful": "不太有用",
   "@notHelpful": {},
-  "whatDataIsSend": "",
+  "whatDataIsSend": "檢查你送出了哪些資料從我們的 ",
   "@whatDataIsSend": {},
-  "dependenciesAutoremove": "",
+  "dependenciesAutoremove": "移除不再被需要的依賴套件",
   "@dependenciesAutoremove": {},
-  "share": "",
+  "share": "分享",
   "@share": {},
-  "report": "",
+  "report": "回報",
   "@report": {},
-  "reportAbuse": "",
+  "reportAbuse": "回報謾罵",
   "@reportAbuse": {},
-  "reportReviewDialogBody": "",
+  "reportReviewDialogBody": "你可以回報謾罵、粗俗、或歧視性的評論。回報之後，在管理員審查完成之前該篇評論都會保持隱藏狀態。",
   "@reportReviewDialogBody": {}
 }
