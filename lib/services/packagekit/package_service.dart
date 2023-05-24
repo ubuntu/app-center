@@ -23,6 +23,7 @@ import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:intl/intl.dart';
+import 'package:meta/meta.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/services/packagekit/package_state.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
@@ -38,17 +39,40 @@ class MissingPackageIDException implements Exception {
 
 class PackageService {
   final PackageKitClient _client;
+  final DBusClient _dBusClient;
   final NotificationsClient _notificationsClient;
   bool _serviceAvailable = false;
-  PackageService()
+  PackageService([@visibleForTesting DBusClient? dbusClient])
       : _client = getService<PackageKitClient>(),
-        _notificationsClient = getService<NotificationsClient>() {
-    _initialized = _client.connect().then((_) {
-      _serviceAvailable = true;
-    }).onError(
-      (_, __) {},
-      test: (error) => error is DBusServiceUnknownException,
+        _notificationsClient = getService<NotificationsClient>(),
+        _dBusClient = dbusClient ?? DBusClient.system() {
+    _initialized = _activatePackageKit(_dBusClient).then(
+      (_) => _client.connect().then((_) {
+        _serviceAvailable = true;
+      }).onError(
+        (_, __) {},
+        test: (error) => error is DBusServiceUnknownException,
+      ),
     );
+  }
+
+  /// Explicitly activates the PackageKit service in case it is not running.
+  /// Prevents AppArmor denials when trying to call a well-known method while
+  /// the daemon is inactive.
+  /// See https://github.com/ubuntu-flutter-community/software/issues/1215
+  /// and https://forum.snapcraft.io/t/apparmor-denial-in-new-snap-store-despite-connected-packagekit-control-interface/35290
+  static Future<void> _activatePackageKit(DBusClient dBusClient) async {
+    final object = DBusRemoteObject(
+      dBusClient,
+      name: 'org.freedesktop.DBus',
+      path: DBusObjectPath('/org/freedesktop/DBus'),
+    );
+    await object.callMethod(
+      'org.freedesktop.DBus',
+      'StartServiceByName',
+      const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
+    );
+    await dBusClient.close();
   }
 
   late final Future<void> _initialized;
