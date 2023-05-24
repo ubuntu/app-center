@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dbus/dbus.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,9 +21,12 @@ class MockPackageKitClient extends Mock implements PackageKitClient {}
 
 class MockPackageKitTransaction extends Mock implements PackageKitTransaction {}
 
+class MockDBusClient extends Mock implements DBusClient {}
+
 void main() {
   late MockPackageKitClient mockPKClient;
   late MockNotificationsClient mockNotificationsClient;
+  late MockDBusClient mockDBusClient;
 
   late MemoryFileSystem testFS;
 
@@ -288,6 +292,23 @@ void main() {
         hints: any(named: 'hints'),
       ),
     ).thenAnswer((_) async => MockNotification());
+
+    mockDBusClient = MockDBusClient();
+    when(
+      () => mockDBusClient.callMethod(
+        path: DBusObjectPath('/org/freedesktop/DBus'),
+        name: 'StartServiceByName',
+        destination: 'org.freedesktop.DBus',
+        interface: 'org.freedesktop.DBus',
+        values: const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
+        allowInteractiveAuthorization:
+            any(named: 'allowInteractiveAuthorization'),
+        noReplyExpected: false,
+        noAutoStart: false,
+        replySignature: null,
+      ),
+    ).thenAnswer((_) async => DBusMethodSuccessResponse());
+    when(mockDBusClient.close).thenAnswer((_) async {});
   });
 
   tearDown(() {
@@ -295,14 +316,15 @@ void main() {
     unregisterMockService<PackageKitClient>();
   });
 
-  test('instantiate service', () {
-    PackageService();
+  test('instantiate service', () async {
+    final service = PackageService(mockDBusClient);
+    await service.initialized;
 
     verify(mockPKClient.connect).called(1);
   });
 
   test('init', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
 
     expect(service.isAvailable, isFalse);
 
@@ -314,7 +336,7 @@ void main() {
   });
 
   test('no updates', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     expect(service.updates, isEmpty);
 
     expectLater(
@@ -330,7 +352,7 @@ void main() {
   });
 
   test('get details', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     final model = createPackageModel(
       service: service,
       packageId: firefoxPackageId,
@@ -346,7 +368,7 @@ void main() {
   });
 
   test('is installed', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     final model = createPackageModel(
       service: service,
       packageId: firefoxPackageId,
@@ -370,7 +392,7 @@ void main() {
   });
 
   test('toggle repo', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
 
     expectLater(service.reposChanged, emitsInOrder([true, true]));
 
@@ -379,7 +401,7 @@ void main() {
   });
 
   test('send update notification', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
 
     const body = 'ho ho ho';
     expect(service.lastUpdatesState, isNull);
@@ -408,12 +430,12 @@ void main() {
   });
 
   test('resolve package id', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     expect(await service.resolve('firefox'), firefoxPackageId);
   });
 
   test('get details about local package', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     final tempFile = await createTempFile();
     final model = createPackageModel(service: service, path: tempFile.path);
 
@@ -431,7 +453,7 @@ void main() {
   });
 
   test('install package', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     final model = createPackageModel(
       service: service,
       packageId: firefoxPackageId,
@@ -462,7 +484,7 @@ void main() {
   });
 
   test('remove package', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     final model = createPackageModel(
       service: service,
       packageId: firefoxPackageId,
@@ -494,7 +516,7 @@ void main() {
   });
 
   test('install local file', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     final tempFile = await createTempFile();
     final model = createPackageModel(service: service, path: tempFile.path);
 
@@ -585,7 +607,7 @@ void main() {
     when(mockPKClient.createTransaction)
         .thenAnswer((_) async => updateTransaction);
 
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     await service.refreshUpdates();
     expect(service.updates.length, 1);
 
@@ -601,7 +623,7 @@ void main() {
     when(mockPKClient.createTransaction)
         .thenAnswer((_) async => updateTransaction);
 
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     await service.refreshUpdates();
     expect(service.isUpdateSelected(firefoxPackageId), isTrue);
     service.selectionChanged.listen(expectAsync1((_) {}, count: 3));
