@@ -43,12 +43,34 @@ class PackageService {
   PackageService()
       : _client = getService<PackageKitClient>(),
         _notificationsClient = getService<NotificationsClient>() {
-    _initialized = _client.connect().then((_) {
-      _serviceAvailable = true;
-    }).onError(
-      (_, __) {},
-      test: (error) => error is DBusServiceUnknownException,
+    _initialized = _activatePackageKit().then(
+      (_) => _client.connect().then((_) {
+        _serviceAvailable = true;
+      }).onError(
+        (_, __) {},
+        test: (error) => error is DBusServiceUnknownException,
+      ),
     );
+  }
+
+  /// Explicitly activates the PackageKit service in case it is not running.
+  /// Prevents AppArmor denials when trying to call a well-known method while
+  /// the daemon is inactive.
+  /// See https://github.com/ubuntu-flutter-community/software/issues/1215
+  /// and https://forum.snapcraft.io/t/apparmor-denial-in-new-snap-store-despite-connected-packagekit-control-interface/35290
+  static Future<void> _activatePackageKit() async {
+    final client = DBusClient.system();
+    final object = DBusRemoteObject(
+      client,
+      name: 'org.freedesktop.DBus',
+      path: DBusObjectPath('/org/freedesktop/DBus'),
+    );
+    await object.callMethod(
+      'org.freedesktop.DBus',
+      'StartServiceByName',
+      const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
+    );
+    await client.close();
   }
 
   late final Future<void> _initialized;
