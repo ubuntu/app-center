@@ -23,6 +23,7 @@ import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:intl/intl.dart';
+import 'package:meta/meta.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:software/services/packagekit/package_state.dart';
 import 'package:software/app/common/packagekit/package_model.dart';
@@ -38,12 +39,14 @@ class MissingPackageIDException implements Exception {
 
 class PackageService {
   final PackageKitClient _client;
+  final DBusClient _dBusClient;
   final NotificationsClient _notificationsClient;
   bool _serviceAvailable = false;
-  PackageService()
+  PackageService([@visibleForTesting DBusClient? dbusClient])
       : _client = getService<PackageKitClient>(),
-        _notificationsClient = getService<NotificationsClient>() {
-    _initialized = _activatePackageKit().then(
+        _notificationsClient = getService<NotificationsClient>(),
+        _dBusClient = dbusClient ?? DBusClient.system() {
+    _initialized = _activatePackageKit(_dBusClient).then(
       (_) => _client.connect().then((_) {
         _serviceAvailable = true;
       }).onError(
@@ -58,10 +61,9 @@ class PackageService {
   /// the daemon is inactive.
   /// See https://github.com/ubuntu-flutter-community/software/issues/1215
   /// and https://forum.snapcraft.io/t/apparmor-denial-in-new-snap-store-despite-connected-packagekit-control-interface/35290
-  static Future<void> _activatePackageKit() async {
-    final client = DBusClient.system();
+  static Future<void> _activatePackageKit(DBusClient dBusClient) async {
     final object = DBusRemoteObject(
-      client,
+      dBusClient,
       name: 'org.freedesktop.DBus',
       path: DBusObjectPath('/org/freedesktop/DBus'),
     );
@@ -70,7 +72,7 @@ class PackageService {
       'StartServiceByName',
       const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
     );
-    await client.close();
+    await dBusClient.close();
   }
 
   late final Future<void> _initialized;
