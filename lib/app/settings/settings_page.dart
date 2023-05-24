@@ -65,25 +65,13 @@ class _SettingsPageState extends State<SettingsPage> {
       key: Utils.settingsNav,
       initialRoute: '/settings',
       onGenerateRoute: (settings) {
-        Widget page;
-
-        switch (settings.name) {
-          case '/settings':
-            page = const _SettingsPage();
-            break;
-          case '/repoDialog':
-            page = RepoDialog.create(context);
-            break;
-          case '/about':
-            page = const _AboutDialog();
-            break;
-          case '/licenses':
-            page = const _LicensePage();
-            break;
-          default:
-            page = const _SettingsPage();
-            break;
-        }
+        Widget page = switch (settings.name) {
+          '/settings' => const _SettingsPage(),
+          '/repoDialog' => RepoDialog.create(context),
+          '/about' => const _AboutDialog(),
+          '/licenses' => const _LicensePage(),
+          _ => const _SettingsPage()
+        };
 
         return PageRouteBuilder(
           pageBuilder: (_, __, ___) => page,
@@ -154,29 +142,8 @@ class ThemeSection extends StatefulWidget {
 }
 
 class _ThemeSectionState extends State<ThemeSection> {
-  void onChanged(index) {
-    setState(() {
-      switch (index) {
-        case 0:
-          {
-            App.themeNotifier.value = ThemeMode.system;
-          }
-          break;
-
-        case 1:
-          {
-            App.themeNotifier.value = ThemeMode.light;
-          }
-          break;
-
-        case 2:
-          {
-            App.themeNotifier.value = ThemeMode.dark;
-          }
-          break;
-      }
-    });
-  }
+  void _onChanged(int index) =>
+      setState(() => App.themeNotifier.value = ThemeMode.values[index]);
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +169,7 @@ class _ThemeSectionState extends State<ThemeSection> {
                       padding: const EdgeInsets.all(1),
                       borderRadius: BorderRadius.circular(12),
                       selected: App.themeNotifier.value == ThemeMode.values[i],
-                      onTap: () => onChanged(i),
+                      onTap: () => _onChanged(i),
                       child: ThemeTile(ThemeMode.values[i]),
                     ),
                     Padding(

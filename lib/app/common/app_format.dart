@@ -24,14 +24,10 @@ enum AppFormat {
   packageKit;
 
   String localize(AppLocalizations l10n) {
-    switch (this) {
-      case AppFormat.snap:
-        return l10n.snapPackages;
-      case AppFormat.packageKit:
-        return l10n.debianPackages;
-      default:
-        return '';
-    }
+    return switch (this) {
+      AppFormat.snap => l10n.snapPackages,
+      AppFormat.packageKit => l10n.debianPackages,
+    };
   }
 }
 

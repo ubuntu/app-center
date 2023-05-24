@@ -351,9 +351,9 @@
   "@reportReviewDialogBody": {},
   "whatDataIsSend": "Découvrez quelles données sont envoyées dans notre ",
   "@whatDataIsSend": {},
-  "summeryHint": "Donnez un bref résumé de votre avis, par exemple : Super application, je le recommande.",
+  "summeryHint": "Donnez un bref résumé de votre avis, par exemple : Super application, je la recommande.",
   "@summeryHint": {},
-  "dependenciesRemoveListing": "{length} dépendances d’une taille totale de {size} peuvent être automatiquement supprimées lors de la suppression de {packageName}",
+  "dependenciesRemoveListing": "{length} dépendances d'une taille totale de {size} peuvent être automatiquement supprimées lors de la suppression de {packageName}",
   "@dependenciesRemoveListing": {
     "placeholders": {
       "length": {
@@ -413,7 +413,7 @@
   "@starDeveloper": {},
   "dependenciesAutoremove": "Supprimer les dépendances qui ne sont plus nécessaires",
   "@dependenciesAutoremove": {},
-  "dependenciesInstallListing": "{length} dépendances d’’une taille totale de {size} seront téléchargées lors de l’installation de {packageName}",
+  "dependenciesInstallListing": "{length} dépendances d'une taille totale de {size} seront téléchargées lors de l’installation de {packageName}",
   "@dependenciesInstallListing": {
     "placeholders": {
       "length": {
