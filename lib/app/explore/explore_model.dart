@@ -167,6 +167,11 @@ class ExploreModel extends SafeChangeNotifier {
   Future<AppstreamComponent?> _getAppstreamComponentFromSnap(Snap snap) =>
       _findAppstreamComponents(snap.name).then(
         (components) =>
+            components.firstWhereOrNull(
+              (e) =>
+                  e.package == snap.name &&
+                  e.type == AppstreamComponentType.desktopApplication,
+            ) ??
             components.firstWhereOrNull((e) => e.package == snap.name),
       );
 
