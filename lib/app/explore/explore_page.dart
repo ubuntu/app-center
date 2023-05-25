@@ -103,14 +103,8 @@ class _ExplorePageState extends State<ExplorePage> {
     final handleAppFormat =
         context.select((ExploreModel m) => m.handleAppFormat);
 
-    final showSnap = context.select(
-      (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.snap),
-    );
-    final showPackageKit = context.select(
-      (ExploreModel m) => m.selectedAppFormats.contains(AppFormat.packageKit),
-    );
-
-    final searchResult = context.select((ExploreModel m) => m.searchResult);
+    final filteredSearchResult =
+        context.select((ExploreModel m) => m.filteredSearchResult);
     final search = context.select((ExploreModel m) => m.search);
     final errorMessage = context.select((AppModel m) => m.errorMessage);
 
@@ -146,9 +140,8 @@ class _ExplorePageState extends State<ExplorePage> {
               ? const ExploreErrorPage()
               : (showSearchPage
                   ? SearchPage(
-                      searchResult: searchResult,
-                      showPackageKit: showPackageKit,
-                      showSnap: showSnap,
+                      searchResult: filteredSearchResult,
+                      preferSnap: selectedAppFormats.contains(AppFormat.snap),
                       header: ExploreHeader(
                         selectedSection: selectedSection,
                         enabledAppFormats: enabledAppFormats,
