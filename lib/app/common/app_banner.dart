@@ -42,12 +42,14 @@ class AppBanner extends StatelessWidget {
     required this.showSnap,
     required this.showPackageKit,
     this.enableSearch = true,
+    this.preferSnap = true,
   });
 
   final MapEntry<String, AppFinding> appFinding;
   final bool showSnap;
   final bool showPackageKit;
   final bool enableSearch;
+  final bool preferSnap;
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +57,19 @@ class AppBanner extends StatelessWidget {
             appFinding.value.appstream != null &&
             showSnap &&
             showPackageKit
-        ? () => SnapPage.push(
-              context: context,
-              snap: appFinding.value.snap!,
-              appstream: appFinding.value.appstream,
-              enableSearch: enableSearch,
-            )
+        ? () => preferSnap
+            ? SnapPage.push(
+                context: context,
+                snap: appFinding.value.snap!,
+                appstream: appFinding.value.appstream,
+                enableSearch: enableSearch,
+              )
+            : PackagePage.push(
+                context,
+                appstream: appFinding.value.appstream!,
+                snap: appFinding.value.snap,
+                enableSearch: enableSearch,
+              )
         : () {
             if (appFinding.value.appstream != null && showPackageKit) {
               PackagePage.push(

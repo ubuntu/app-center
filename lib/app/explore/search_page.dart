@@ -27,14 +27,12 @@ class SearchPage extends StatefulWidget {
     super.key,
     required this.header,
     this.searchResult,
-    required this.showSnap,
-    required this.showPackageKit,
+    this.preferSnap = true,
   });
 
   final Widget header;
   final Map<String, AppFinding>? searchResult;
-  final bool showSnap;
-  final bool showPackageKit;
+  final bool preferSnap;
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -98,8 +96,9 @@ class _SearchPageState extends State<SearchPage> {
                     widget.searchResult!.entries.elementAt(index);
                 return AppBanner(
                   appFinding: appFinding,
-                  showSnap: widget.showSnap,
-                  showPackageKit: widget.showPackageKit,
+                  showPackageKit: true,
+                  showSnap: true,
+                  preferSnap: widget.preferSnap,
                 );
               },
             ),
