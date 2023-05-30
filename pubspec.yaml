@@ -50,7 +50,7 @@ dependencies:
   safe_change_notifier: ^0.2.0
   shimmer: ^2.0.0
   snapcraft_launcher: ^0.1.0
-  snapd: ^0.4.7
+  snapd: 0.4.8
   snowball_stemmer: ^0.1.0
   synchronized: ^3.0.0+3
   ubuntu_service: ^0.2.0
