@@ -128,9 +128,8 @@ class SnapService {
     }
   }
 
-  List<Snap> _localSnaps = [];
-  UnmodifiableListView<Snap> get localSnaps =>
-      UnmodifiableListView(_localSnaps);
+  List<Snap>? _localSnaps;
+  List<Snap>? get localSnaps => _localSnaps;
   Future<void> loadLocalSnaps() async {
     _localSnaps = (await _snapDClient.getSnaps());
   }

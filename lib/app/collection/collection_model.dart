@@ -73,36 +73,24 @@ class CollectionModel extends SafeChangeNotifier {
 
   // SNAPS
 
-  List<Snap>? _installedSnaps;
   List<Snap>? get installedSnaps {
-    if (_installedSnaps != null) {
-      sortSnaps(snapSort: snapSort, snaps: _installedSnaps!);
+    final snaps = _snapService.localSnaps;
+    if (snaps != null) {
+      sortSnaps(snapSort: snapSort, snaps: snaps);
     }
-
-    return searchQuery == null || searchQuery?.isEmpty == true
-        ? _installedSnaps
-        : _installedSnaps
-            ?.where((snap) => snap.name.contains(searchQuery!))
-            .toList();
+    return searchQuery?.isEmpty == false
+        ? snaps?.where((s) => s.name.contains(searchQuery!)).toList()
+        : snaps;
   }
 
   List<Snap> get snapsWithUpdate => _snapService.snapsWithUpdate;
 
   Future<void> loadSnaps() async {
+    _snapService.loadLocalSnaps().then((_) => notifyListeners());
     checkingForSnapUpdates = true;
-    await _snapService.loadLocalSnaps();
-    await _snapService.loadSnapsWithUpdate();
-    _installedSnaps = _snapService.localSnaps.toList();
-    for (var update in snapsWithUpdate) {
-      for (var snap in _installedSnaps!) {
-        if (update.name == snap.name) {
-          _installedSnaps!.remove(snap);
-          notifyListeners();
-          break;
-        }
-      }
-    }
-    checkingForSnapUpdates = false;
+    _snapService
+        .loadSnapsWithUpdate()
+        .then((_) => checkingForSnapUpdates = false);
   }
 
   String? _searchQuery;
@@ -113,10 +101,10 @@ class CollectionModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  bool? _checkingForSnapUpdates;
-  bool? get checkingForSnapUpdates => _checkingForSnapUpdates;
-  set checkingForSnapUpdates(bool? value) {
-    if (value == null || value == _checkingForSnapUpdates) return;
+  bool _checkingForSnapUpdates = false;
+  bool get checkingForSnapUpdates => _checkingForSnapUpdates;
+  set checkingForSnapUpdates(bool value) {
+    if (value == _checkingForSnapUpdates) return;
     _checkingForSnapUpdates = value;
     notifyListeners();
   }
