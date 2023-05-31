@@ -115,7 +115,7 @@ class SnapCollection extends StatelessWidget {
                                 : (i == installedSnaps.length - 1
                                     ? CollectionTilePosition.bottom
                                     : CollectionTilePosition.middle)),
-                        enabled: checkingForSnapUpdates == false,
+                        enabled: true,
                         onTap: () => SnapPage.push(
                           context: context,
                           snap: snap,
@@ -125,7 +125,7 @@ class SnapCollection extends StatelessWidget {
                           context: context,
                           snap: snap,
                           hasUpdate: false,
-                          enabled: checkingForSnapUpdates == false,
+                          enabled: true,
                         ),
                       ),
                       if ((i == 0 && installedSnaps.length > 1) ||
