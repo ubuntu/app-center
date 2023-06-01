@@ -15,6 +15,7 @@
  *
  */
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:software/app/common/constants.dart';
@@ -54,19 +55,15 @@ class AppIcon extends StatelessWidget {
           : SizedBox(
               height: size,
               width: size,
-              child: Image.network(
-                iconUrl!,
-                filterQuality: FilterQuality.medium,
-                fit: BoxFit.fitHeight,
-                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                  return frame == null
-                      ? fallBackLoadingIcon
-                      : AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          child: child,
-                        );
-                },
-                errorBuilder: (context, error, stackTrace) => fallBackIcon,
+              child: CachedNetworkImage(
+                imageUrl: iconUrl!,
+                imageBuilder: (context, imageProvider) => Image(
+                  image: imageProvider,
+                  filterQuality: FilterQuality.medium,
+                  fit: BoxFit.fitHeight,
+                ),
+                placeholder: (context, url) => fallBackLoadingIcon,
+                errorWidget: (context, url, error) => fallBackIcon,
               ),
             ),
     );
