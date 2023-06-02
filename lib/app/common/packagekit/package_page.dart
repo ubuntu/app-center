@@ -157,6 +157,7 @@ class _PackagePageState extends State<PackagePage> {
     final model = context.watch<PackageModel>();
     final theme = Theme.of(context);
     final rating = context.select((RatingModel m) => m.getRating(_ratingId));
+    final ownReview = context.select((ReviewModel m) => m.ownReview);
     final userReviews = context.select((ReviewModel m) => m.userReviews);
 
     final appData = AppData(
@@ -177,6 +178,7 @@ class _PackagePageState extends State<PackagePage> {
       version: model.packageId?.version ?? '',
       screenShotUrls: model.screenshotUrls,
       description: model.description,
+      ownReview: ownReview,
       userReviews: userReviews ?? [],
       appRating: rating,
       appFormat: AppFormat.packageKit,
@@ -273,7 +275,6 @@ class _PackagePageState extends State<PackagePage> {
       ),
     );
 
-    final review = context.read<ReviewModel>();
     return AppPage(
       enableSearch: widget.enableSearch,
       initialized: initialized,
@@ -286,13 +287,6 @@ class _PackagePageState extends State<PackagePage> {
       preControls: preControls,
       controls: controls,
       subDescription: model.dependencies.isEmpty ? null : dependencies,
-      onReviewSend: () => review.submit(_ratingId, _ratingVersion),
-      onRatingUpdate: (v) => review.rating = v,
-      onReviewTitleChanged: (v) => review.title = v,
-      onReviewChanged: (v) => review.review = v,
-      reviewRating: review.rating,
-      review: review.review,
-      reviewTitle: review.title,
     );
   }
 }

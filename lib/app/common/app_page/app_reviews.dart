@@ -1,13 +1,16 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:software/app/common/app_data.dart';
 import 'package:software/app/common/app_rating.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/rating_chart.dart';
+import 'package:software/app/common/review_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -24,29 +27,17 @@ class AppReviews extends StatefulWidget {
   const AppReviews({
     super.key,
     this.appRating,
+    this.ownReview,
     this.userReviews,
-    this.onRatingUpdate,
-    this.onReviewSend,
     this.appIsInstalled = false,
-    this.review,
-    this.onReviewChanged,
-    this.onReviewTitleChanged,
-    this.reviewTitle,
-    this.reviewRating,
     this.onVote,
     this.onFlag,
     required this.initialized,
   });
 
   final AppRating? appRating;
-  final double? reviewRating;
-  final String? reviewTitle;
-  final String? review;
+  final AppReview? ownReview;
   final List<AppReview>? userReviews;
-  final void Function(double)? onRatingUpdate;
-  final void Function()? onReviewSend;
-  final void Function(String)? onReviewChanged;
-  final void Function(String)? onReviewTitleChanged;
   final Function(AppReview, bool)? onVote;
   final Function(AppReview)? onFlag;
 
@@ -97,25 +88,10 @@ class _AppReviewsState extends State<AppReviews> {
                 height: 0,
               ),
             ),
-            if (widget.review != null)
-              _Review(
-                userReview: AppReview(
-                  rating: widget.appRating?.average,
-                  review: widget.review,
-                  title: widget.reviewTitle,
-                ),
-              )
-            else if (widget.appIsInstalled)
-              _ReviewPanel(
-                reviewRating: widget.reviewRating,
-                review: widget.review,
-                reviewTitle: widget.reviewTitle,
-                onRatingUpdate: widget.onRatingUpdate,
-                onReviewSend: widget.onReviewSend,
-                onReviewChanged: widget.onReviewChanged,
-                onReviewTitleChanged: widget.onReviewTitleChanged,
-              ),
+            if (widget.appIsInstalled && widget.ownReview == null)
+              const _ReviewPanel(),
             _ReviewsTrailer(
+              ownReview: widget.ownReview,
               userReviews: widget.userReviews,
               controller: _controller,
               onVote: widget.onVote,
@@ -127,6 +103,7 @@ class _AppReviewsState extends State<AppReviews> {
                   onPressed: () => showDialog(
                     context: context,
                     builder: (context) => _ReviewDetailsDialog(
+                      ownReview: widget.ownReview,
                       userReviews: widget.userReviews,
                       onVote: widget.onVote,
                       onFlag: widget.onFlag,
@@ -145,11 +122,13 @@ class _AppReviewsState extends State<AppReviews> {
 
 class _ReviewDetailsDialog extends StatelessWidget {
   const _ReviewDetailsDialog({
+    required this.ownReview,
     required this.userReviews,
     this.onVote,
     this.onFlag,
   });
 
+  final AppReview? ownReview;
   final List<AppReview>? userReviews;
   final Function(AppReview, bool)? onVote;
   final Function(AppReview)? onFlag;
@@ -162,16 +141,15 @@ class _ReviewDetailsDialog extends StatelessWidget {
       ),
       titlePadding: EdgeInsets.zero,
       contentPadding: const EdgeInsets.all(kYaruPagePadding),
-      children: userReviews == null
-          ? []
-          : userReviews!
-              .map(
-                (e) => SizedBox(
-                  width: 500,
-                  child: _Review(userReview: e, onFlag: onFlag, onVote: onVote),
-                ),
-              )
-              .toList(),
+      children: [ownReview, ...?userReviews]
+          .whereNotNull()
+          .map(
+            (e) => SizedBox(
+              width: 500,
+              child: _Review(userReview: e, onFlag: onFlag, onVote: onVote),
+            ),
+          )
+          .toList(),
     );
   }
 }
@@ -180,23 +158,7 @@ class _ReviewPanel extends StatelessWidget {
   const _ReviewPanel({
     // ignore: unused_element
     super.key,
-    this.onRatingUpdate,
-    this.onReviewSend,
-    this.onReviewChanged,
-    this.onReviewTitleChanged,
-    this.review,
-    this.reviewTitle,
-    this.reviewRating,
   });
-
-  final double? reviewRating;
-  final String? review;
-  final String? reviewTitle;
-
-  final void Function(double)? onRatingUpdate;
-  final void Function()? onReviewSend;
-  final void Function(String)? onReviewChanged;
-  final void Function(String)? onReviewTitleChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -204,22 +166,7 @@ class _ReviewPanel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         ElevatedButton(
-          onPressed: () => showDialog(
-            context: context,
-            builder: (context) => _MyReviewDialog(
-              reviewRating: reviewRating,
-              review: review,
-              reviewTitle: reviewTitle,
-              onRatingUpdate: (rating) {
-                if (onRatingUpdate != null) {
-                  onRatingUpdate!(rating);
-                }
-              },
-              onReviewSend: onReviewSend,
-              onReviewChanged: onReviewChanged,
-              onReviewTitleChanged: onReviewTitleChanged,
-            ),
-          ),
+          onPressed: () => showReviewDialog(context),
           child: Text(context.l10n.yourReview),
         ),
         const Padding(
@@ -233,48 +180,58 @@ class _ReviewPanel extends StatelessWidget {
   }
 }
 
-class _MyReviewDialog extends StatefulWidget {
-  const _MyReviewDialog({
-    // ignore: unused_element
-    super.key,
-    this.reviewRating,
-    this.onRatingUpdate,
-    this.onReviewSend,
-    this.onReviewChanged,
-    this.onReviewTitleChanged,
-    this.review,
-    this.reviewTitle,
-  });
+Future<void> showReviewDialog(BuildContext context) async {
+  final l10n = context.l10n;
+  final messenger = ScaffoldMessenger.of(context);
+  final model = context.read<ReviewModel>();
 
-  final double? reviewRating;
-  final String? review;
-  final String? reviewTitle;
+  final review = await showDialog<AppReview?>(
+    context: context,
+    builder: (context) => const _ReviewDialog(),
+  );
 
-  final void Function(double)? onRatingUpdate;
-  final void Function()? onReviewSend;
-  final void Function(String)? onReviewChanged;
-  final void Function(String)? onReviewTitleChanged;
-
-  @override
-  State<_MyReviewDialog> createState() => _MyReviewDialogState();
+  if (review != null && context.mounted) {
+    final result = await model.submit(review);
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(result.localize(l10n)),
+      ),
+    );
+  }
 }
 
-class _MyReviewDialogState extends State<_MyReviewDialog> {
-  late double? _reviewRating;
-  late TextEditingController _reviewController, _reviewTitleController;
+class _ReviewDialog extends StatefulWidget {
+  // ignore: unused_element
+  const _ReviewDialog({super.key});
 
   @override
-  void initState() {
-    super.initState();
-    _reviewRating = widget.reviewRating;
-    _reviewController = TextEditingController(text: widget.review);
-    _reviewTitleController = TextEditingController(text: widget.reviewTitle);
-  }
+  State<_ReviewDialog> createState() => _ReviewDialogState();
+}
+
+class _ReviewDialogState extends State<_ReviewDialog> {
+  double? _reviewRating;
+  final _reviewController = TextEditingController();
+  final _reviewTitleController = TextEditingController();
 
   bool get _isReviewValid =>
       _reviewRating != null &&
       _reviewController.text.length >= _kMinReviewLength &&
       _reviewTitleController.text.length >= _kMinTitleLength;
+
+  AppReview _getReview() {
+    return AppReview(
+      rating: _reviewRating,
+      review: _reviewController.text,
+      title: _reviewTitleController.text,
+    );
+  }
+
+  @override
+  void dispose() {
+    _reviewController.dispose();
+    _reviewTitleController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -309,7 +266,6 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
                 unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
                 onRatingUpdate: (rating) {
                   setState(() => _reviewRating = rating);
-                  widget.onRatingUpdate?.call(rating);
                 },
               ),
             ],
@@ -320,7 +276,6 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
           TextField(
             maxLength: _kMaxTitleLength,
             controller: _reviewTitleController,
-            onChanged: widget.onReviewTitleChanged,
             style: theme.textTheme.bodyMedium,
             decoration: InputDecoration(
               label: Text(
@@ -338,7 +293,6 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
             child: TextField(
               maxLength: _kMaxReviewLength,
               controller: _reviewController,
-              onChanged: widget.onReviewChanged,
               keyboardType: TextInputType.multiline,
               minLines: 10,
               maxLines: 10,
@@ -381,17 +335,7 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
                   builder: (context, child) {
                     return ElevatedButton(
                       onPressed: _isReviewValid
-                          ? () {
-                              if (widget.onReviewSend != null) {
-                                widget.onReviewSend!();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(context.l10n.reviewSent),
-                                  ),
-                                );
-                              }
-                              Navigator.of(context).pop();
-                            }
+                          ? () => Navigator.of(context).pop(_getReview())
                           : null,
                       child: Text(context.l10n.submit),
                     );
@@ -410,12 +354,14 @@ class _ReviewsTrailer extends StatelessWidget {
   const _ReviewsTrailer({
     // ignore: unused_element
     super.key,
+    this.ownReview,
     this.userReviews,
     required this.controller,
     this.onVote,
     this.onFlag,
   });
 
+  final AppReview? ownReview;
   final List<AppReview>? userReviews;
   final YaruCarouselController controller;
   final Function(AppReview, bool)? onVote;
@@ -424,17 +370,17 @@ class _ReviewsTrailer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        if (userReviews != null)
-          for (var i = 0;
-              i < (userReviews!.length > 3 ? 3 : userReviews!.length);
-              i++)
-            _Review(
+      children: [ownReview, ...?userReviews]
+          .whereNotNull()
+          .take(3)
+          .map(
+            (userReview) => _Review(
               onFlag: onFlag,
               onVote: onVote,
-              userReview: userReviews![i],
-            )
-      ],
+              userReview: userReview,
+            ),
+          )
+          .toList(),
     );
   }
 }
@@ -521,7 +467,7 @@ class _Review extends StatelessWidget {
             ),
           ],
         ),
-        if (onFlag != null || onVote != null)
+        if (userReview.own != true)
           Padding(
             padding: const EdgeInsets.only(top: kYaruPagePadding),
             child: _ReviewRatingBar(
@@ -665,5 +611,16 @@ class _ReportReviewDialog extends StatelessWidget {
         )
       ],
     );
+  }
+}
+
+extension on ReviewResult {
+  String localize(AppLocalizations l10n) {
+    return switch (this) {
+      ReviewResult.ok => l10n.reviewSent,
+      ReviewResult.abuse => l10n.reviewAbuse,
+      ReviewResult.taboo => l10n.reviewTaboo,
+      ReviewResult.error => l10n.reviewError,
+    };
   }
 }
