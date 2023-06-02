@@ -14,6 +14,12 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '../expandable_title.dart';
 
+// https://github.com/GNOME/odrs-web/blob/master/odrs/views_api.py
+const _kMinReviewLength = 2;
+const _kMaxReviewLength = 3000;
+const _kMinTitleLength = 2;
+const _kMaxTitleLength = 70;
+
 class AppReviews extends StatefulWidget {
   const AppReviews({
     super.key,
@@ -310,6 +316,7 @@ class _MyReviewDialog extends StatefulWidget {
 }
 
 class _MyReviewDialogState extends State<_MyReviewDialog> {
+  late double? _reviewRating;
   late TextEditingController _reviewController,
       _reviewTitleController,
       _reviewUserController;
@@ -317,10 +324,17 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
   @override
   void initState() {
     super.initState();
+    _reviewRating = widget.reviewRating;
     _reviewController = TextEditingController(text: widget.review);
     _reviewTitleController = TextEditingController(text: widget.reviewTitle);
     _reviewUserController = TextEditingController(text: widget.reviewUser);
   }
+
+  bool get _isReviewValid =>
+      _reviewRating != null &&
+      _reviewController.text.length >= _kMinReviewLength &&
+      _reviewTitleController.text.length >= _kMinTitleLength &&
+      _reviewUserController.text.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -338,7 +352,7 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               RatingBar.builder(
-                initialRating: widget.reviewRating ?? 0,
+                initialRating: _reviewRating ?? 0,
                 minRating: 1,
                 direction: Axis.horizontal,
                 itemCount: 5,
@@ -354,8 +368,8 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
                 ),
                 unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
                 onRatingUpdate: (rating) {
-                  if (widget.onRatingUpdate == null) return;
-                  widget.onRatingUpdate!(rating);
+                  setState(() => _reviewRating = rating);
+                  widget.onRatingUpdate?.call(rating);
                 },
               ),
             ],
@@ -378,6 +392,7 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
             height: kYaruPagePadding,
           ),
           TextField(
+            maxLength: _kMaxTitleLength,
             controller: _reviewTitleController,
             onChanged: widget.onReviewTitleChanged,
             style: theme.textTheme.bodyMedium,
@@ -395,6 +410,7 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
           SizedBox(
             width: 600,
             child: TextField(
+              maxLength: _kMaxReviewLength,
               controller: _reviewController,
               onChanged: widget.onReviewChanged,
               keyboardType: TextInputType.multiline,
@@ -431,19 +447,30 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
                   child: Text(context.l10n.cancel),
                 ),
                 const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    if (widget.onReviewSend != null) {
-                      widget.onReviewSend!();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(context.l10n.reviewSent),
-                        ),
-                      );
-                    }
-                    Navigator.of(context).pop();
+                AnimatedBuilder(
+                  animation: Listenable.merge([
+                    _reviewController,
+                    _reviewTitleController,
+                    _reviewUserController,
+                  ]),
+                  builder: (context, child) {
+                    return ElevatedButton(
+                      onPressed: _isReviewValid
+                          ? () {
+                              if (widget.onReviewSend != null) {
+                                widget.onReviewSend!();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(context.l10n.reviewSent),
+                                  ),
+                                );
+                              }
+                              Navigator.of(context).pop();
+                            }
+                          : null,
+                      child: Text(context.l10n.submit),
+                    );
                   },
-                  child: Text(context.l10n.submit),
                 ),
               ],
             ),
