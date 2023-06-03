@@ -99,7 +99,7 @@
   "@allPackageTypes": {},
   "confirm": "确认",
   "@confirm": {},
-  "yourReviewTitle": "评论标题（可选）",
+  "yourReviewTitle": "评论标题",
   "@yourReviewTitle": {},
   "send": "发送",
   "@send": {},
@@ -423,7 +423,7 @@
   "@media": {},
   "updatesComplete": "更新完毕",
   "@updatesComplete": {},
-  "yourReviewName": "您的姓名（可选）",
+  "yourReviewName": "您的姓名",
   "@yourReviewName": {},
   "confinement": "",
   "@confinement": {}
