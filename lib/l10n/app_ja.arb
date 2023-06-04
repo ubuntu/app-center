@@ -219,7 +219,7 @@
   "@reviewSent": {},
   "changingPermissions": "権限を変更中",
   "@changingPermissions": {},
-  "yourReviewName": "お名前（任意）",
+  "yourReviewName": "お名前",
   "@yourReviewName": {},
   "scienceSlogan": "科学ツール",
   "@scienceSlogan": {},
@@ -257,7 +257,7 @@
   "@findOurRepository": {},
   "madeBy": "Ubuntu Softwareは、以下の人々によって開発・設計されました。",
   "@madeBy": {},
-  "yourReviewTitle": "タイトル（任意）",
+  "yourReviewTitle": "タイトル",
   "@yourReviewTitle": {},
   "serverAndCloudSlogan": "サーバー・クラウド",
   "@serverAndCloudSlogan": {},
@@ -299,17 +299,6 @@
   "@dependenciesFullList": {},
   "noSnapsInstalled": "システムにSnapアプリがインストールされていません",
   "@noSnapsInstalled": {},
-  "dependenciesListing": "{packageName}をインストールすると、{length}個の依存パッケージがダウンロードされます",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "socialSlogan": "一緒にソーシャルしましょう。",
   "@socialSlogan": {},
   "noPackageFound": "検索クエリーに該当するパッケージがありません",
@@ -327,5 +316,115 @@
   "links": "リンク",
   "@links": {},
   "additionalInformation": "追加情報",
-  "@additionalInformation": {}
+  "@additionalInformation": {},
+  "searchHintInstalled": "",
+  "@searchHintInstalled": {},
+  "downloading": "",
+  "@downloading": {},
+  "contributors": "",
+  "@contributors": {},
+  "starDeveloper": "",
+  "@starDeveloper": {},
+  "report": "",
+  "@report": {},
+  "summary": "",
+  "@summary": {},
+  "ratingsAndReviews": "",
+  "@ratingsAndReviews": {},
+  "privacyPolicy": "",
+  "@privacyPolicy": {},
+  "collection": "",
+  "@collection": {},
+  "upgrading": "",
+  "@upgrading": {},
+  "submit": "",
+  "@submit": {},
+  "manage": "",
+  "@manage": {},
+  "share": "",
+  "@share": {},
+  "ready": "",
+  "@ready": {},
+  "packagesUsed": "",
+  "@packagesUsed": {},
+  "packageType": "",
+  "@packageType": {},
+  "writeAreview": "",
+  "@writeAreview": {},
+  "searchHintAppStore": "",
+  "@searchHintAppStore": {},
+  "reportReviewDialogBody": "",
+  "@reportReviewDialogBody": {},
+  "rate": "",
+  "@rate": {},
+  "dependenciesAutoremove": "",
+  "@dependenciesAutoremove": {},
+  "dependenciesRemoveListing": "",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "ratings": "",
+  "@ratings": {},
+  "whatDataIsSend": "",
+  "@whatDataIsSend": {},
+  "whatDoYouThink": "",
+  "@whatDoYouThink": {},
+  "dependenciesInstallListing": "",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadRemaining": "",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "summeryHint": "",
+  "@summeryHint": {},
+  "notHelpful": "",
+  "@notHelpful": {},
+  "confirmRemove": "",
+  "@confirmRemove": {},
+  "multiUpdateButton": "",
+  "@multiUpdateButton": {},
+  "removeAll": "",
+  "@removeAll": {},
+  "removePackage": "",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "helpful": "",
+  "@helpful": {},
+  "copiedToClipboard": "",
+  "@copiedToClipboard": {},
+  "reportAbuse": "",
+  "@reportAbuse": {},
+  "reportReviewDialogTitle": "",
+  "@reportReviewDialogTitle": {}
 }

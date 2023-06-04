@@ -15,7 +15,10 @@
  *
  */
 
+import 'dart:io';
+
 import 'package:collection/collection.dart';
+import 'package:intl/intl.dart';
 import 'package:snapd/snapd.dart';
 
 extension SnapX on Snap {
@@ -26,4 +29,20 @@ extension SnapX on Snap {
       media.where((m) => m.type == 'screenshot').map((m) => m.url).toList();
   bool get verified => publisher?.validation == 'verified';
   bool get starredDeveloper => publisher?.validation == 'starred';
+  bool get strict => confinement == SnapConfinement.strict;
+
+  /// The localizedDate this snap was installed.
+  String get localizedDate {
+    if (installDate == null) return '';
+    return DateFormat.yMMMd(Platform.localeName).format(installDate!);
+  }
+
+  /// ISO normed [localizedDate]
+  String get installDateIsoNorm {
+    if (installDate == null) return '';
+
+    return DateFormat.yMd(Platform.localeName)
+        .add_jms()
+        .format(installDate!.toLocal());
+  }
 }

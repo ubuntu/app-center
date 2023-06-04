@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:snapd/snapd.dart';
-import 'package:software/app/common/base_plate.dart';
-import 'package:software/l10n/l10n.dart';
-import 'package:software/snapx.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:software/app/common/app_finding.dart';
 import 'package:software/app/common/app_icon.dart';
+import 'package:software/app/common/base_plate.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/app/common/snap/snap_section.dart';
+import 'package:software/l10n/l10n.dart';
+import 'package:software/snapx.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '../common/constants.dart';
@@ -13,75 +15,120 @@ import '../common/constants.dart';
 class SectionBanner extends StatelessWidget {
   const SectionBanner({
     super.key,
-    required this.snaps,
+    required this.apps,
     required this.section,
     required this.gradientColors,
   });
 
-  final List<Snap> snaps;
+  final List<AppFinding?>? apps;
   final SnapSection section;
   final List<Color> gradientColors;
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 230),
-      child: Padding(
-        padding: const EdgeInsets.only(
-          top: 5,
-          left: kPagePadding,
-          right: kPagePadding,
-          bottom: kPagePadding - 5,
-        ),
-        child: Container(
-          padding: const EdgeInsets.all(kYaruPagePadding),
-          width: 20000,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: LinearGradient(
-              colors: gradientColors,
-            ),
-          ),
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.spaceBetween,
-            runAlignment: WrapAlignment.start,
-            runSpacing: 20,
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints.loose(const Size(250, 1000)),
-                child: Text(
-                  section.slogan(context.l10n),
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    color: Colors.white,
-                    shadows: [
-                      Shadow(
-                        offset: const Offset(0, 1), //position of shadow
-                        blurRadius: 1.0, //blur intensity of shadow
-                        color: Colors.black
-                            .withOpacity(0.4), //color of shadow with opacity
-                      ),
-                    ],
-                  ),
-                ),
+    if (apps == null || apps!.isEmpty || apps!.any((app) => app == null)) {
+      return const LoadingSectionBanner();
+    }
+
+    final firstGradientColorIsBright = ThemeData.estimateBrightnessForColor(
+          gradientColors.first,
+        ) ==
+        Brightness.light;
+
+    final title = Text(
+      section.localize(context.l10n),
+      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+        color: firstGradientColorIsBright ? YaruColors.inkstone : Colors.white,
+        fontWeight: FontWeight.w500,
+        shadows: [
+          if (!firstGradientColorIsBright)
+            Shadow(
+              offset: const Offset(0, 1),
+              blurRadius: 1.0,
+              color: Colors.black.withOpacity(
+                0.4,
+              ), //color of shadow with opacity
+            )
+          else
+            Shadow(
+              offset: const Offset(0, 1),
+              blurRadius: 1.0,
+              color: Colors.white.withOpacity(
+                0.9,
               ),
-              const SizedBox(
-                width: 80,
+            )
+        ],
+      ),
+    );
+
+    final subSlogan = Text(
+      section.slogan(context.l10n),
+      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+        color: firstGradientColorIsBright ? YaruColors.inkstone : Colors.white,
+        fontWeight: FontWeight.w100,
+        shadows: [
+          if (!firstGradientColorIsBright)
+            Shadow(
+              offset: const Offset(0, 1),
+              blurRadius: 1.0,
+              color: Colors.black.withOpacity(
+                0.4,
+              ), //color of shadow with opacity
+            )
+          else
+            Shadow(
+              offset: const Offset(0, 1),
+              blurRadius: 1.0,
+              color: Colors.white.withOpacity(
+                0.9,
+              ),
+            )
+        ],
+      ),
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 5,
+        left: kPagePadding,
+        right: kPagePadding,
+        bottom: kPagePadding - 5,
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(30),
+        height: 220,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          gradient: LinearGradient(
+            colors: gradientColors,
+          ),
+        ),
+        child: SizedBox(
+          width: 800,
+          child: Wrap(
+            runSpacing: kYaruPagePadding,
+            runAlignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.start,
+            alignment: WrapAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  title,
+                  subSlogan,
+                ],
               ),
               Wrap(
-                alignment: WrapAlignment.spaceBetween,
-                spacing: kYaruPagePadding,
-                children: snaps
+                spacing: 10,
+                children: apps!
                     .map(
                       (e) => _PlatedIcon(
-                        snap: e,
+                        app: e!,
                       ),
                     )
                     .toList(),
-              ),
-              const SizedBox(
-                height: kYaruPagePadding,
               ),
             ],
           ),
@@ -95,10 +142,10 @@ class _PlatedIcon extends StatefulWidget {
   const _PlatedIcon({
     // ignore: unused_element
     super.key,
-    required this.snap,
+    required this.app,
   });
 
-  final Snap snap;
+  final AppFinding app;
 
   @override
   State<_PlatedIcon> createState() => _PlatedIconState();
@@ -111,25 +158,62 @@ class _PlatedIconState extends State<_PlatedIcon> {
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
     return Tooltip(
-      message: widget.snap.name,
+      message: widget.app.snap!.name,
       verticalOffset: 45.0,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => SnapPage.push(context: context, snap: widget.snap),
+          onTap: () => SnapPage.push(
+            context: context,
+            snap: widget.app.snap!,
+            appstream: widget.app.appstream,
+          ),
           onHover: (value) => setState(() => hovered = value),
           child: BasePlate(
             hovered: hovered,
             child: AppIcon(
-              iconUrl: widget.snap.iconUrl,
+              iconUrl: widget.app.snap!.iconUrl,
               loadingBaseColor:
                   dark ? const Color.fromARGB(255, 236, 236, 236) : null,
               loadingHighlight:
                   dark ? const Color.fromARGB(255, 211, 211, 211) : null,
-              size: 65,
+              size: 50,
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class LoadingSectionBanner extends StatelessWidget {
+  const LoadingSectionBanner({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    var light = theme.brightness == Brightness.light;
+    final shimmerBase =
+        light ? const Color.fromARGB(120, 228, 228, 228) : YaruColors.jet;
+    final shimmerHighLight =
+        light ? const Color.fromARGB(200, 247, 247, 247) : YaruColors.coolGrey;
+    return Shimmer.fromColors(
+      baseColor: shimmerBase,
+      highlightColor: shimmerHighLight,
+      child: Container(
+        margin: const EdgeInsets.only(
+          top: 5,
+          left: kPagePadding,
+          right: kPagePadding,
+          bottom: kPagePadding - 5,
+        ),
+
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(kYaruContainerRadius),
+          color: Theme.of(context).colorScheme.surface,
+        ),
+        height: 220,
+        // width: 800,
       ),
     );
   }

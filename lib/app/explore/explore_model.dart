@@ -19,6 +19,7 @@ import 'dart:async';
 
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_finding.dart';
@@ -33,13 +34,18 @@ class ExploreModel extends SafeChangeNotifier {
   final AppstreamService _appstreamService;
   final SnapService _snapService;
   final PackageService _packageService;
-  StreamSubscription<bool>? _sectionsChangedSub;
+  StreamSubscription<SnapSection>? _sectionsChangedSub;
 
   Future<void> init() async {
     _enabledAppFormats.add(AppFormat.snap);
     _selectedAppFormats.add(AppFormat.snap);
-    _sectionsChangedSub =
-        _snapService.sectionsChanged.listen((_) => notifyListeners());
+    _loadStartPageSnaps(SnapSection.all);
+    _sectionsChangedSub = _snapService.sectionsChanged.listen(
+      (section) {
+        _loadStartPageSnaps(section);
+        notifyListeners();
+      },
+    );
 
     await _packageService.initialized;
     if (_packageService.isAvailable) {
@@ -47,7 +53,12 @@ class ExploreModel extends SafeChangeNotifier {
         _enabledAppFormats.add(AppFormat.packageKit);
         _selectedAppFormats.add(AppFormat.packageKit);
         notifyListeners();
-      });
+      }).then(
+        (_) => Future.forEach<SnapSection>(
+          startPageApps.keys,
+          _loadStartPageAppstreamComponents,
+        ),
+      );
     }
   }
 
@@ -93,8 +104,8 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Map<SnapSection, List<Snap>> get sectionNameToSnapsMap =>
-      _snapService.sectionNameToSnapsMap;
+  final startPageApps = <SnapSection, List<AppFinding>>{};
+  var startPageAppsChanged = 0;
 
   final Set<AppFormat> _selectedAppFormats = {};
   Set<AppFormat> get selectedAppFormats => Set.from(_selectedAppFormats);
@@ -125,6 +136,15 @@ class ExploreModel extends SafeChangeNotifier {
     }
   }
 
+  Future<Snap?> _findSnapByName(String name) async {
+    try {
+      return await _snapService.findSnapByName(name);
+    } on SnapdException catch (e) {
+      errorMessage = e.message.toString();
+      return null;
+    }
+  }
+
   Future<List<AppstreamComponent>> _findAppstreamComponents(
     String searchQuery,
   ) async =>
@@ -137,56 +157,115 @@ class ExploreModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  Map<String, AppFinding>? get filteredSearchResult => _searchResult == null
+      ? null
+      : (Map.from(_searchResult!)
+        ..removeWhere(
+          (_, appFinding) {
+            if (setEquals(_selectedAppFormats, {AppFormat.snap})) {
+              return appFinding.snap == null;
+            } else if (setEquals(_selectedAppFormats, {AppFormat.packageKit})) {
+              return appFinding.appstream == null;
+            } else {
+              return false;
+            }
+          },
+        ));
+
+  void _loadStartPageSnaps(SnapSection section) {
+    if (!_snapService.sectionNameToSnapsMap.containsKey(section)) return;
+    startPageApps[section] = _snapService.sectionNameToSnapsMap[section]!
+        .map((s) => AppFinding(snap: s))
+        .toList();
+    startPageAppsChanged++;
+  }
+
+  Future<AppstreamComponent?> _getAppstreamComponentFromSnap(Snap snap) =>
+      _findAppstreamComponents(snap.name).then(
+        (components) =>
+            components.firstWhereOrNull(
+              (e) =>
+                  e.package == snap.name &&
+                  e.type == AppstreamComponentType.desktopApplication,
+            ) ??
+            components.firstWhereOrNull((e) => e.package == snap.name),
+      );
+
+  Future<void> _loadStartPageAppstreamComponents(
+    SnapSection section,
+  ) async {
+    if (!startPageApps.containsKey(section)) return;
+    for (var i = 0; i < startPageApps[section]!.length; i++) {
+      final appstreamComponent = await _getAppstreamComponentFromSnap(
+        startPageApps[section]![i].snap!,
+      );
+      await Future.delayed(const Duration(milliseconds: 2));
+      if (appstreamComponent != null) {
+        startPageApps[section]![i] = AppFinding(
+          snap: startPageApps[section]![i].snap,
+          appstream: appstreamComponent,
+        );
+      }
+    }
+    startPageAppsChanged++;
+    notifyListeners();
+  }
+
+  Future<void> searchByPublisher(String username) async {
+    setSearchQuery(username);
+
+    searchResult = null;
+
+    final Map<String, AppFinding> appFindings = {};
+    if (searchQuery != null && searchQuery != '') {
+      final snaps = await _findSnapsByQuery(searchQuery!);
+      final publishersSnaps =
+          snaps.where((snap) => snap.publisher?.username == username);
+
+      for (final snap in publishersSnaps) {
+        appFindings.putIfAbsent(
+          snap.name,
+          () => AppFinding(snap: snap),
+        );
+      }
+
+      searchResult = appFindings;
+    }
+  }
+
   Future<void> search() async {
     searchResult = null;
 
     final Map<String, AppFinding> appFindings = {};
     if (searchQuery != null && searchQuery != '') {
-      if (selectedAppFormats
-          .containsAll([AppFormat.snap, AppFormat.packageKit])) {
-        final snaps = await _findSnapsByQuery(searchQuery!);
-        for (final snap in snaps) {
-          appFindings.putIfAbsent(
-            snap.name,
-            () => AppFinding(snap: snap),
-          );
-        }
+      final snaps = await _findSnapsByQuery(searchQuery!);
+      final exactMatch = await _findSnapByName(searchQuery!);
+      if (exactMatch != null) {
+        snaps.insert(0, exactMatch);
+      }
+      for (final snap in snaps) {
+        appFindings.putIfAbsent(
+          snap.name,
+          () => AppFinding(snap: snap),
+        );
+      }
 
-        final components = await _findAppstreamComponents(searchQuery!);
-        for (final component in components) {
-          final snap =
-              snaps.firstWhereOrNull((snap) => snap.name == component.package);
-          if (snap == null) {
-            appFindings.putIfAbsent(
-              component.localizedName(),
-              () => AppFinding(appstream: component),
-            );
-          } else {
-            appFindings.update(
-              snap.name,
-              (value) => AppFinding(
-                snap: snap,
-                appstream: component,
-              ),
-            );
-          }
-        }
-      } else if (selectedAppFormats.contains(AppFormat.snap) &&
-          !(selectedAppFormats.contains(AppFormat.packageKit))) {
-        final snaps = await _findSnapsByQuery(searchQuery!);
-        for (final snap in snaps) {
-          appFindings.putIfAbsent(
-            snap.name,
-            () => AppFinding(snap: snap),
-          );
-        }
-      } else if (!selectedAppFormats.contains(AppFormat.snap) &&
-          (selectedAppFormats.contains(AppFormat.packageKit))) {
-        final components = await _findAppstreamComponents(searchQuery!);
-        for (final component in components) {
+      final components = await _findAppstreamComponents(searchQuery!);
+      for (final component in components) {
+        final snap =
+            snaps.firstWhereOrNull((snap) => snap.name == component.package);
+        if (snap == null) {
           appFindings.putIfAbsent(
             component.localizedName(),
             () => AppFinding(appstream: component),
+          );
+        } else {
+          appFindings.update(
+            snap.name,
+            (value) => AppFinding(
+              snap: snap,
+              appstream: component,
+            ),
           );
         }
       }

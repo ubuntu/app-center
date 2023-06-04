@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dbus/dbus.dart';
 import 'package:desktop_notifications/desktop_notifications.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,9 +21,12 @@ class MockPackageKitClient extends Mock implements PackageKitClient {}
 
 class MockPackageKitTransaction extends Mock implements PackageKitTransaction {}
 
+class MockDBusClient extends Mock implements DBusClient {}
+
 void main() {
   late MockPackageKitClient mockPKClient;
   late MockNotificationsClient mockNotificationsClient;
+  late MockDBusClient mockDBusClient;
 
   late MemoryFileSystem testFS;
 
@@ -133,8 +137,7 @@ void main() {
     });
 
     when(
-      () => transaction
-          .searchNames(['firefox'], filter: {PackageKitFilter.installed}),
+      () => transaction.searchNames(['firefox']),
     ).thenAnswer((_) {
       controller.add(
         const PackageKitPackageEvent(
@@ -190,14 +193,14 @@ void main() {
         const PackageKitItemProgressEvent(
           packageId: firefoxPackageId,
           status: PackageKitStatus.remove,
-          percentage: 27,
+          percentage: 33,
         ),
       );
       controller.add(
         const PackageKitItemProgressEvent(
           packageId: firefoxPackageId,
           status: PackageKitStatus.remove,
-          percentage: 72,
+          percentage: 67,
         ),
       );
       controller.add(
@@ -236,6 +239,11 @@ void main() {
       );
       return emitFinishedEvent(controller);
     });
+
+    var percentages = [33, 67, 100];
+    when(() => transaction.percentage)
+        .thenAnswer((_) => percentages.removeAt(0));
+    when(() => transaction.downloadSizeRemaining).thenReturn(0);
 
     return transaction;
   }
@@ -284,6 +292,23 @@ void main() {
         hints: any(named: 'hints'),
       ),
     ).thenAnswer((_) async => MockNotification());
+
+    mockDBusClient = MockDBusClient();
+    when(
+      () => mockDBusClient.callMethod(
+        path: DBusObjectPath('/org/freedesktop/DBus'),
+        name: 'StartServiceByName',
+        destination: 'org.freedesktop.DBus',
+        interface: 'org.freedesktop.DBus',
+        values: const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
+        allowInteractiveAuthorization:
+            any(named: 'allowInteractiveAuthorization'),
+        noReplyExpected: false,
+        noAutoStart: false,
+        replySignature: null,
+      ),
+    ).thenAnswer((_) async => DBusMethodSuccessResponse());
+    when(mockDBusClient.close).thenAnswer((_) async {});
   });
 
   tearDown(() {
@@ -291,14 +316,15 @@ void main() {
     unregisterMockService<PackageKitClient>();
   });
 
-  test('instantiate service', () {
-    PackageService();
+  test('instantiate service', () async {
+    final service = PackageService(mockDBusClient);
+    await service.initialized;
 
     verify(mockPKClient.connect).called(1);
   });
 
   test('init', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
 
     expect(service.isAvailable, isFalse);
 
@@ -310,7 +336,7 @@ void main() {
   });
 
   test('no updates', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     expect(service.updates, isEmpty);
 
     expectLater(
@@ -326,7 +352,7 @@ void main() {
   });
 
   test('get details', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     final model = createPackageModel(
       service: service,
       packageId: firefoxPackageId,
@@ -342,7 +368,7 @@ void main() {
   });
 
   test('is installed', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     final model = createPackageModel(
       service: service,
       packageId: firefoxPackageId,
@@ -366,7 +392,7 @@ void main() {
   });
 
   test('toggle repo', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
 
     expectLater(service.reposChanged, emitsInOrder([true, true]));
 
@@ -375,7 +401,7 @@ void main() {
   });
 
   test('send update notification', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
 
     const body = 'ho ho ho';
     expect(service.lastUpdatesState, isNull);
@@ -404,12 +430,12 @@ void main() {
   });
 
   test('resolve package id', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     expect(await service.resolve('firefox'), firefoxPackageId);
   });
 
   test('get details about local package', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     final tempFile = await createTempFile();
     final model = createPackageModel(service: service, path: tempFile.path);
 
@@ -427,7 +453,7 @@ void main() {
   });
 
   test('install package', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     final model = createPackageModel(
       service: service,
       packageId: firefoxPackageId,
@@ -443,26 +469,27 @@ void main() {
       }
     });
 
+    expectLater(service.installedPackagesChanged, emits(true));
     await service.install(model: model);
 
     expect(model.info, PackageKitInfo.installing);
     expect(model.isInstalled, isTrue);
     expect(packageStates, [
       PackageState.ready,
-      PackageState.processing,
+      PackageState.installing,
       PackageState.ready,
     ]);
     expect(percentages, [0, 33, 67, 100]);
+    expect(service.installedPackages.contains(model.packageId), isTrue);
   });
 
   test('remove package', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     final model = createPackageModel(
       service: service,
       packageId: firefoxPackageId,
     );
     model.isInstalled = true;
-    model.percentage = 100;
 
     final packageStates = [model.packageState];
     final percentages = [model.percentage];
@@ -474,20 +501,22 @@ void main() {
       }
     });
 
+    expectLater(service.installedPackagesChanged, emits(true));
     await service.remove(model: model);
 
     expect(model.info, PackageKitInfo.removing);
     expect(model.isInstalled, isFalse);
     expect(packageStates, [
       PackageState.ready,
-      PackageState.processing,
+      PackageState.removing,
       PackageState.ready,
     ]);
-    expect(percentages, [100, 73, 28, 0]);
+    expect(percentages, [0, 33, 67, 100]);
+    expect(service.installedPackages.contains(model.packageId), isFalse);
   });
 
   test('install local file', () async {
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     final tempFile = await createTempFile();
     final model = createPackageModel(service: service, path: tempFile.path);
 
@@ -498,6 +527,7 @@ void main() {
       }
     });
 
+    expectLater(service.installedPackagesChanged, emits(true));
     await service.installLocalFile(model: model, fileSystem: testFS);
 
     expect(model.packageId, firefoxPackageId);
@@ -505,9 +535,10 @@ void main() {
     expect(model.isInstalled, isTrue);
     expect(packageStates, [
       PackageState.ready,
-      PackageState.processing,
+      PackageState.installing,
       PackageState.ready,
     ]);
+    expect(service.installedPackages.contains(model.packageId), isTrue);
   });
 
   MockPackageKitTransaction createMockUpdateTransaction() {
@@ -564,6 +595,10 @@ void main() {
     when(
       () => updateTransaction.getDetails(any(that: contains(firefoxPackageId))),
     ).thenAnswer((_) => emitFinishedEvent(controller));
+    var percentages = [13, 37];
+    when(() => updateTransaction.percentage)
+        .thenAnswer((_) => percentages.removeAt(0));
+    when(() => updateTransaction.downloadSizeRemaining).thenReturn(0);
     return updateTransaction;
   }
 
@@ -572,7 +607,7 @@ void main() {
     when(mockPKClient.createTransaction)
         .thenAnswer((_) async => updateTransaction);
 
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     await service.refreshUpdates();
     expect(service.updates.length, 1);
 
@@ -588,7 +623,7 @@ void main() {
     when(mockPKClient.createTransaction)
         .thenAnswer((_) async => updateTransaction);
 
-    final service = PackageService();
+    final service = PackageService(mockDBusClient);
     await service.refreshUpdates();
     expect(service.isUpdateSelected(firefoxPackageId), isTrue);
     service.selectionChanged.listen(expectAsync1((_) {}, count: 3));

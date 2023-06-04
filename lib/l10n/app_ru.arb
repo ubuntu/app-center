@@ -271,7 +271,7 @@
   "@yourReviewTitle": {},
   "installing": "Установка",
   "@installing": {},
-  "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
+  "appstreamSearchGreylist": "приложение;програма;программа;программы;приложения;инструмент",
   "@appstreamSearchGreylist": {
     "description": "List of 'grey-listed' words separated with ';'. Do not translate this list directly. Instead, provide a list of words in your language that people are likely to include in a search but that should normally be ignored in the search."
   },
@@ -301,17 +301,6 @@
   "@dependenciesQuestion": {},
   "dependenciesFullList": "Посмотреть полный список зависимостей",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} зависимостей будет загружено в процессе установки {packageName}",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "publisher": "Издатель",
   "@publisher": {},
   "rating": "Рейтинг",
@@ -327,5 +316,115 @@
   "additionalInformation": "Дополнительная Информация",
   "@additionalInformation": {},
   "links": "Ссылки",
-  "@links": {}
+  "@links": {},
+  "searchHintInstalled": "Поиск установленных приложений",
+  "@searchHintInstalled": {},
+  "searchHintAppStore": "Поиск приложений",
+  "@searchHintAppStore": {},
+  "multiUpdateButton": "Обновить всё",
+  "@multiUpdateButton": {},
+  "downloading": "Загрузка",
+  "@downloading": {},
+  "downloadRemaining": "Загрузка... {bytes} осталось",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "ready": "Готово",
+  "@ready": {},
+  "upgrading": "Обновление",
+  "@upgrading": {},
+  "packagesUsed": "Использованных пакетов",
+  "@packagesUsed": {},
+  "contributors": "Участники",
+  "@contributors": {},
+  "collection": "Коллекция",
+  "@collection": {},
+  "reportReviewDialogBody": "",
+  "@reportReviewDialogBody": {},
+  "removePackage": "",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "removeAll": "",
+  "@removeAll": {},
+  "confirmRemove": "",
+  "@confirmRemove": {},
+  "packageType": "",
+  "@packageType": {},
+  "ratingsAndReviews": "",
+  "@ratingsAndReviews": {},
+  "ratings": "",
+  "@ratings": {},
+  "writeAreview": "",
+  "@writeAreview": {},
+  "summary": "",
+  "@summary": {},
+  "rate": "",
+  "@rate": {},
+  "whatDoYouThink": "",
+  "@whatDoYouThink": {},
+  "summeryHint": "",
+  "@summeryHint": {},
+  "submit": "",
+  "@submit": {},
+  "helpful": "",
+  "@helpful": {},
+  "notHelpful": "",
+  "@notHelpful": {},
+  "whatDataIsSend": "",
+  "@whatDataIsSend": {},
+  "privacyPolicy": "",
+  "@privacyPolicy": {},
+  "dependenciesInstallListing": "",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "dependenciesRemoveListing": "",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "dependenciesAutoremove": "",
+  "@dependenciesAutoremove": {},
+  "starDeveloper": "",
+  "@starDeveloper": {},
+  "manage": "",
+  "@manage": {},
+  "copiedToClipboard": "",
+  "@copiedToClipboard": {},
+  "share": "",
+  "@share": {},
+  "report": "",
+  "@report": {},
+  "reportAbuse": "",
+  "@reportAbuse": {},
+  "reportReviewDialogTitle": "",
+  "@reportReviewDialogTitle": {}
 }

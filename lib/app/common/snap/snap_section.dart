@@ -47,206 +47,161 @@ enum SnapSection {
 
   String get title => name.replaceAll('_', '-');
 
-  String localize(AppLocalizations l10n) {
+  String localize(AppLocalizations l10n) => switch (this) {
+        SnapSection.art_and_design => l10n.artAndDesign,
+        SnapSection.books_and_reference => l10n.booksAndReference,
+        SnapSection.development => l10n.development,
+        SnapSection.devices_and_iot => l10n.devicesAndIot,
+        SnapSection.education => l10n.education,
+        SnapSection.entertainment => l10n.entertainment,
+        SnapSection.featured => l10n.featured,
+        SnapSection.finance => l10n.finance,
+        SnapSection.games => l10n.games,
+        SnapSection.health_and_fitness => l10n.healthAndFitness,
+        SnapSection.music_and_audio => l10n.musicAndAudio,
+        SnapSection.news_and_weather => l10n.newsAndWeather,
+        SnapSection.personalisation => l10n.personalisation,
+        SnapSection.photo_and_video => l10n.photoAndVideo,
+        SnapSection.productivity => l10n.productivity,
+        SnapSection.science => l10n.science,
+        SnapSection.security => l10n.security,
+        SnapSection.server_and_cloud => l10n.serverAndCloud,
+        SnapSection.social => l10n.social,
+        SnapSection.utilities => l10n.utilities,
+        SnapSection.all => l10n.all,
+      };
+
+  String slogan(AppLocalizations l10n) => switch (this) {
+        SnapSection.art_and_design => l10n.artAndDesignSlogan,
+        SnapSection.books_and_reference => l10n.booksAndReferenceSlogan,
+        SnapSection.development => l10n.developmentSlogan,
+        SnapSection.devices_and_iot => l10n.devicesAndIotSlogan,
+        SnapSection.education => l10n.educationSlogan,
+        SnapSection.entertainment => l10n.entertainmentSlogan,
+        SnapSection.featured => l10n.featuredSlogan,
+        SnapSection.finance => l10n.financeSlogan,
+        SnapSection.games => l10n.gamesSlogan,
+        SnapSection.health_and_fitness => l10n.healthAndFitnessSlogan,
+        SnapSection.music_and_audio => l10n.musicAndAudioSlogan,
+        SnapSection.news_and_weather => l10n.newsAndWeatherSlogan,
+        SnapSection.personalisation => l10n.personalisationSlogan,
+        SnapSection.photo_and_video => l10n.photoAndVideoSlogan,
+        SnapSection.productivity => l10n.productivitySlogan,
+        SnapSection.science => l10n.scienceSlogan,
+        SnapSection.security => l10n.securitySlogan,
+        SnapSection.server_and_cloud => l10n.serverAndCloudSlogan,
+        SnapSection.social => l10n.socialSlogan,
+        SnapSection.utilities => l10n.utilitiesSlogan,
+        SnapSection.all => l10n.featuredSlogan
+      };
+
+  List<int> get colors => switch (this) {
+        SnapSection.art_and_design => [
+            const Color.fromARGB(255, 0, 5, 148).value,
+            const Color.fromARGB(255, 255, 155, 179).value
+          ],
+        SnapSection.books_and_reference => [
+            const Color.fromARGB(255, 59, 54, 54).value,
+            const Color.fromARGB(108, 0, 114, 229).value
+          ],
+        SnapSection.development => [
+            const Color.fromARGB(255, 54, 0, 80).value,
+            const Color.fromARGB(255, 225, 59, 149).value
+          ],
+        SnapSection.devices_and_iot => [
+            const Color.fromARGB(255, 71, 71, 71).value,
+            YaruColors.red.value
+          ],
+        SnapSection.education => [
+            const Color.fromARGB(255, 71, 71, 71).value,
+            YaruColors.magenta.value
+          ],
+        SnapSection.entertainment => [
+            const Color.fromARGB(255, 163, 98, 12).value,
+            const Color.fromARGB(255, 255, 137, 26).value
+          ],
+        SnapSection.featured => [
+            const Color.fromARGB(255, 167, 92, 22).value,
+            const Color.fromARGB(255, 133, 1, 122).value
+          ],
+        SnapSection.finance => [
+            const Color.fromARGB(255, 71, 71, 71).value,
+            YaruColors.purple.value
+          ],
+        SnapSection.games => [
+            const Color.fromARGB(255, 180, 22, 1).value,
+            const Color.fromARGB(255, 254, 172, 12).value
+          ],
+        SnapSection.health_and_fitness => [
+            const Color.fromARGB(255, 86, 23, 122).value,
+            YaruColors.warning.value
+          ],
+        SnapSection.music_and_audio => [
+            const Color.fromARGB(255, 119, 10, 43).value,
+            const Color.fromARGB(157, 233, 0, 58).value
+          ],
+        SnapSection.news_and_weather => [
+            const Color.fromARGB(255, 165, 115, 44).value,
+            const Color.fromARGB(255, 255, 219, 101).value
+          ],
+        SnapSection.personalisation => [
+            const Color.fromARGB(255, 35, 12, 139).value,
+            const Color.fromARGB(255, 25, 173, 166).value
+          ],
+        SnapSection.photo_and_video => [
+            const Color.fromARGB(255, 71, 71, 71).value,
+            const Color.fromARGB(255, 133, 133, 133).value
+          ],
+        SnapSection.productivity => [
+            const Color.fromARGB(255, 8, 36, 53).value,
+            const Color.fromARGB(255, 41, 112, 104).value
+          ],
+        SnapSection.science => [
+            const Color.fromARGB(255, 71, 71, 71).value,
+            YaruColors.orange.value
+          ],
+        SnapSection.security => [
+            const Color.fromARGB(255, 16, 40, 49).value,
+            const Color.fromARGB(255, 19, 131, 112).value
+          ],
+        SnapSection.server_and_cloud => [
+            const Color.fromARGB(255, 71, 28, 10).value,
+            YaruColors.orange.value
+          ],
+        SnapSection.social => [
+            const Color.fromARGB(255, 11, 73, 59).value,
+            const Color.fromARGB(255, 15, 122, 87).value
+          ],
+        SnapSection.utilities => [
+            const Color.fromARGB(136, 82, 74, 40).value,
+            const Color.fromARGB(155, 233, 203, 34).value
+          ],
+        SnapSection.all => [
+            const Color.fromARGB(255, 112, 0, 69).value,
+            const Color.fromARGB(255, 233, 84, 32).value
+          ]
+      };
+
+  IconData getIcon(bool selected) {
     switch (this) {
-      case SnapSection.art_and_design:
-        return l10n.artAndDesign;
-      case SnapSection.books_and_reference:
-        return l10n.booksAndReference;
-      case SnapSection.development:
-        return l10n.development;
-      case SnapSection.devices_and_iot:
-        return l10n.devicesAndIot;
-      case SnapSection.education:
-        return l10n.education;
-      case SnapSection.entertainment:
-        return l10n.entertainment;
-      case SnapSection.featured:
-        return l10n.featured;
-      case SnapSection.finance:
-        return l10n.finance;
-      case SnapSection.games:
-        return l10n.games;
-      case SnapSection.health_and_fitness:
-        return l10n.healthAndFitness;
-      case SnapSection.music_and_audio:
-        return l10n.musicAndAudio;
-      case SnapSection.news_and_weather:
-        return l10n.newsAndWeather;
-      case SnapSection.personalisation:
-        return l10n.personalisation;
-      case SnapSection.photo_and_video:
-        return l10n.photoAndVideo;
-      case SnapSection.productivity:
-        return l10n.productivity;
-      case SnapSection.science:
-        return l10n.science;
-      case SnapSection.security:
-        return l10n.security;
-      case SnapSection.server_and_cloud:
-        return l10n.serverAndCloud;
-      case SnapSection.social:
-        return l10n.social;
-      case SnapSection.utilities:
-        return l10n.utilities;
       case SnapSection.all:
-        return l10n.all;
+        return selected ? YaruIcons.compass_filled : YaruIcons.compass;
+      case SnapSection.development:
+        return YaruIcons.wrench;
+      case SnapSection.games:
+        return selected ? YaruIcons.games_filled : YaruIcons.games;
+      case SnapSection.art_and_design:
+        return selected
+            ? YaruIcons.rule_and_pen_filled
+            : YaruIcons.rule_and_pen;
+      case SnapSection.devices_and_iot:
+        return selected ? YaruIcons.chip_filled : YaruIcons.chip;
+      case SnapSection.server_and_cloud:
+        return selected ? YaruIcons.cloud_filled : YaruIcons.cloud;
+      case SnapSection.productivity:
+        return selected ? YaruIcons.send_filled : YaruIcons.send;
       default:
-        return title;
-    }
-  }
-
-  String slogan(AppLocalizations l10n) {
-    switch (this) {
-      case SnapSection.art_and_design:
-        return l10n.artAndDesignSlogan;
-      case SnapSection.books_and_reference:
-        return l10n.booksAndReferenceSlogan;
-      case SnapSection.development:
-        return l10n.developmentSlogan;
-      case SnapSection.devices_and_iot:
-        return l10n.devicesAndIotSlogan;
-      case SnapSection.education:
-        return l10n.educationSlogan;
-      case SnapSection.entertainment:
-        return l10n.entertainmentSlogan;
-      case SnapSection.featured:
-        return l10n.featuredSlogan;
-      case SnapSection.finance:
-        return l10n.financeSlogan;
-      case SnapSection.games:
-        return l10n.gamesSlogan;
-      case SnapSection.health_and_fitness:
-        return l10n.healthAndFitnessSlogan;
-      case SnapSection.music_and_audio:
-        return l10n.musicAndAudioSlogan;
-      case SnapSection.news_and_weather:
-        return l10n.newsAndWeatherSlogan;
-      case SnapSection.personalisation:
-        return l10n.personalisationSlogan;
-      case SnapSection.photo_and_video:
-        return l10n.photoAndVideoSlogan;
-      case SnapSection.productivity:
-        return l10n.productivitySlogan;
-      case SnapSection.science:
-        return l10n.scienceSlogan;
-      case SnapSection.security:
-        return l10n.securitySlogan;
-      case SnapSection.server_and_cloud:
-        return l10n.serverAndCloudSlogan;
-      case SnapSection.social:
-        return l10n.socialSlogan;
-      case SnapSection.utilities:
-        return l10n.utilitiesSlogan;
-      case SnapSection.all:
-        return l10n.featuredSlogan;
-    }
-  }
-
-  // TODO: @madsrh please add colors
-  // Those are normal hex plus the leading FF for alpha, just leave FF
-  // or take colors from YaruColors
-  List<int> get colors {
-    switch (this) {
-      case SnapSection.art_and_design:
-        return [0xFF12c2e9, 0xFFf64f59];
-      case SnapSection.books_and_reference:
-        return [
-          const Color.fromARGB(255, 59, 54, 54).value,
-          const Color.fromARGB(108, 0, 114, 229).value
-        ];
-      case SnapSection.development:
-        return [
-          const Color.fromARGB(255, 113, 80, 151).value,
-          const Color.fromARGB(255, 165, 26, 146).value
-        ];
-      case SnapSection.devices_and_iot:
-        return [
-          const Color.fromARGB(255, 71, 71, 71).value,
-          YaruColors.red.value
-        ];
-      case SnapSection.education:
-        return [
-          const Color.fromARGB(255, 71, 71, 71).value,
-          YaruColors.magenta.value
-        ];
-      case SnapSection.entertainment:
-        return [
-          const Color.fromARGB(255, 163, 98, 12).value,
-          const Color.fromARGB(255, 255, 137, 26).value
-        ];
-      case SnapSection.featured:
-        return [
-          const Color.fromARGB(255, 167, 92, 22).value,
-          const Color.fromARGB(255, 133, 1, 122).value
-        ];
-      case SnapSection.finance:
-        return [
-          const Color.fromARGB(255, 71, 71, 71).value,
-          YaruColors.purple.value
-        ];
-      case SnapSection.games:
-        return [
-          const Color.fromARGB(255, 25, 119, 96).value,
-          const Color.fromARGB(255, 135, 3, 124).value
-        ];
-      case SnapSection.health_and_fitness:
-        return [
-          const Color.fromARGB(255, 86, 23, 122).value,
-          YaruColors.warning.value
-        ];
-      case SnapSection.music_and_audio:
-        return [
-          const Color.fromARGB(255, 119, 10, 43).value,
-          const Color.fromARGB(157, 233, 0, 58).value
-        ];
-      case SnapSection.news_and_weather:
-        return [
-          const Color.fromARGB(255, 165, 115, 44).value,
-          const Color.fromARGB(255, 255, 219, 101).value
-        ];
-      case SnapSection.personalisation:
-        return [
-          const Color.fromARGB(255, 35, 12, 139).value,
-          const Color.fromARGB(255, 25, 173, 166).value
-        ];
-      case SnapSection.photo_and_video:
-        return [
-          const Color.fromARGB(255, 71, 71, 71).value,
-          const Color.fromARGB(255, 133, 133, 133).value
-        ];
-      case SnapSection.productivity:
-        return [const Color(0xFF712290).value, const Color(0xFFff5733).value];
-      case SnapSection.science:
-        return [
-          const Color.fromARGB(255, 71, 71, 71).value,
-          YaruColors.orange.value
-        ];
-      case SnapSection.security:
-        return [
-          const Color.fromARGB(255, 16, 40, 49).value,
-          const Color.fromARGB(255, 19, 131, 112).value
-        ];
-      case SnapSection.server_and_cloud:
-        return [
-          const Color.fromARGB(255, 71, 28, 10).value,
-          YaruColors.orange.value
-        ];
-      case SnapSection.social:
-        return [
-          const Color.fromARGB(255, 11, 73, 59).value,
-          const Color.fromARGB(255, 15, 122, 87).value
-        ];
-      case SnapSection.utilities:
-        return [
-          const Color.fromARGB(136, 82, 74, 40).value,
-          const Color.fromARGB(155, 233, 203, 34).value
-        ];
-      case SnapSection.all:
-        return [
-          const Color.fromARGB(255, 167, 92, 22).value,
-          const Color.fromARGB(255, 133, 1, 122).value
-        ];
+        return selected ? YaruIcons.compass_filled : YaruIcons.compass;
     }
   }
 }
@@ -272,5 +227,5 @@ Map<SnapSection, IconData> snapSectionToIcon = {
   SnapSection.server_and_cloud: YaruIcons.cloud,
   SnapSection.social: YaruIcons.subtitles,
   SnapSection.utilities: YaruIcons.swiss_knife,
-  SnapSection.all: YaruIcons.app_grid
+  SnapSection.all: YaruIcons.application
 };

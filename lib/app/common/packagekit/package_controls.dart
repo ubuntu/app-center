@@ -16,6 +16,9 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:packagekit/packagekit.dart';
+import 'package:provider/provider.dart';
+import 'package:software/app/common/packagekit/package_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/packagekit/package_state.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -23,61 +26,66 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 class PackageControls extends StatelessWidget {
   const PackageControls({
     super.key,
-    required this.isInstalled,
-    required this.install,
-    required this.remove,
-    required this.packageState,
-    required this.versionChanged,
-    this.hasDependencies,
-    this.showDeps,
+    this.showInstallDeps,
+    this.showRemoveDeps,
   });
 
-  final bool? isInstalled;
-  final VoidCallback install;
-  final VoidCallback remove;
-  final PackageState packageState;
-  final bool? versionChanged;
-  final bool? hasDependencies;
-  final VoidCallback? showDeps;
+  final VoidCallback? showInstallDeps;
+  final VoidCallback? showRemoveDeps;
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<PackageModel>();
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       alignment: WrapAlignment.start,
       runAlignment: WrapAlignment.start,
       spacing: 10,
       runSpacing: 10,
-      children: packageState == PackageState.processing
+      children: model.packageState != PackageState.ready
           ? [
-              const SizedBox(
+              SizedBox(
                 height: 40,
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: YaruCircularProgressIndicator(
                     strokeWidth: 3,
+                    value: model.percentage / 100.0,
                   ),
                 ),
               ),
-              Text(context.l10n.processing),
+              Text(model.packageState.localize(context.l10n)),
+              if (model.status == PackageKitStatus.download)
+                Text(
+                  '(${context.l10n.downloadRemaining(
+                    model.getFormattedDownloadSizeRemaining(),
+                  )})',
+                ),
             ]
           : [
-              if (isInstalled == true)
+              if (model.isInstalled == true)
                 OutlinedButton(
-                  onPressed: packageState != PackageState.ready ? null : remove,
+                  onPressed: model.packageState != PackageState.ready
+                      ? null
+                      : model.dependencies.isNotEmpty
+                          ? showRemoveDeps
+                          : model.remove,
                   child: Text(context.l10n.remove),
                 ),
-              if (isInstalled == false)
+              if (model.isInstalled == false)
                 ElevatedButton(
-                  onPressed: packageState != PackageState.ready
+                  onPressed: model.packageState != PackageState.ready
                       ? null
-                      : (hasDependencies == true ? showDeps : install),
+                      : model.dependencies.isNotEmpty
+                          ? showInstallDeps
+                          : model.install,
                   child: Text(context.l10n.install),
                 ),
-              if (isInstalled == true && versionChanged == true)
+              if (model.isInstalled == true && model.versionChanged == true)
                 ElevatedButton(
-                  onPressed:
-                      packageState != PackageState.ready ? null : install,
+                  onPressed: model.packageState != PackageState.ready
+                      ? null
+                      : model.install,
                   child: Text(context.l10n.update),
                 ),
               const SizedBox.shrink()

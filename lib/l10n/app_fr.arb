@@ -239,15 +239,15 @@
   "@socialSlogan": {},
   "allPackageTypes": "Tous types de paquets",
   "@allPackageTypes": {},
-  "yourReviewTitle": "Titre de l'avis (optionnel)",
+  "yourReviewTitle": "Titre de l’avis",
   "@yourReviewTitle": {},
-  "yourReviewName": "Votre nom (optionnel)",
+  "yourReviewName": "Votre nom",
   "@yourReviewName": {},
   "clickToRate": "Cliquer pour noter",
   "@clickToRate": {},
   "showAllReviews": "Montrer tous les avis",
   "@showAllReviews": {},
-  "installing": "En cours d'installation",
+  "installing": "En cours d’installation",
   "@installing": {},
   "removing": "En cours de suppression",
   "@removing": {},
@@ -265,7 +265,7 @@
   "@appstreamSearchGreylist": {
     "description": "List of 'grey-listed' words separated with ';'. Do not translate this list directly. Instead, provide a list of words in your language that people are likely to include in a search but that should normally be ignored in the search."
   },
-  "educationSlogan": "Utilitaires pour l'enseignement",
+  "educationSlogan": "Utilitaires pour l’enseignement",
   "@educationSlogan": {},
   "photoAndVideoSlogan": "Photo et vidéo",
   "@photoAndVideoSlogan": {},
@@ -297,24 +297,13 @@
   "@debianPackage": {},
   "dependencies": "Dépendances",
   "@dependencies": {},
-  "dependenciesQuestion": "Êtes-vous sûr de vouloir continuer ?",
+  "dependenciesQuestion": "Êtes-vous sûr de vouloir continuer ?",
   "@dependenciesQuestion": {},
   "dependenciesFullList": "Voir la liste complète des dépendances",
   "@dependenciesFullList": {},
   "gallery": "Galerie",
   "@gallery": {},
-  "dependenciesListing": "{length} dépendances seront téléchargées lors de l'installation de {packageName}",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
-  "noSnapsInstalled": "Aucune application Snap n'est installée sur votre système",
+  "noSnapsInstalled": "Aucune application Snap n’est installée sur votre système",
   "@noSnapsInstalled": {},
   "rating": "Note",
   "@rating": {},
@@ -327,5 +316,115 @@
   "links": "Liens",
   "@links": {},
   "additionalInformation": "Informations complémentaires",
-  "@additionalInformation": {}
+  "@additionalInformation": {},
+  "searchHintAppStore": "Rechercher des applications",
+  "@searchHintAppStore": {},
+  "searchHintInstalled": "Rechercher vos applications installées",
+  "@searchHintInstalled": {},
+  "multiUpdateButton": "Tout mettre à jour",
+  "@multiUpdateButton": {},
+  "packagesUsed": "Paquets utilisés",
+  "@packagesUsed": {},
+  "downloadRemaining": "En course de téléchargement… {bytes} restant",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "collection": "Collection",
+  "@collection": {},
+  "ready": "Prêt",
+  "@ready": {},
+  "upgrading": "En cours de mise à jour",
+  "@upgrading": {},
+  "contributors": "Contributeurs",
+  "@contributors": {},
+  "downloading": "En cours de téléchargement",
+  "@downloading": {},
+  "report": "Signaler",
+  "@report": {},
+  "manage": "Gérer",
+  "@manage": {},
+  "reportReviewDialogBody": "Vous pouvez signaler un avis pour comportement abusif, impoli ou discriminatoire. Une fois signalé, un avis sera masqué jusqu’à ce qu’il ait été vérifié par un administrateur.",
+  "@reportReviewDialogBody": {},
+  "whatDataIsSend": "Découvrez quelles données sont envoyées dans notre ",
+  "@whatDataIsSend": {},
+  "summeryHint": "Donnez un bref résumé de votre avis, par exemple : Super application, je la recommande.",
+  "@summeryHint": {},
+  "dependenciesRemoveListing": "{length} dépendances d'une taille totale de {size} peuvent être automatiquement supprimées lors de la suppression de {packageName}",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "removeAll": "Supprimer tout",
+  "@removeAll": {},
+  "removePackage": "Supprimer {package}",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmRemove": "Voulez-vous vraiment supprimer ce package ?",
+  "@confirmRemove": {},
+  "ratingsAndReviews": "Notes et avis",
+  "@ratingsAndReviews": {},
+  "ratings": "Notes",
+  "@ratings": {},
+  "summary": "Résumé",
+  "@summary": {},
+  "packageType": "Type de paquet",
+  "@packageType": {},
+  "rate": "Noter",
+  "@rate": {},
+  "writeAreview": "Écrire un avis",
+  "@writeAreview": {},
+  "whatDoYouThink": "Que pensez-vous de l’application ? Essayez de justifier votre opinion.",
+  "@whatDoYouThink": {},
+  "submit": "Soumettre",
+  "@submit": {},
+  "helpful": "Utile",
+  "@helpful": {},
+  "notHelpful": "Inutile",
+  "@notHelpful": {},
+  "copiedToClipboard": "Copié dans le presse-papiers",
+  "@copiedToClipboard": {},
+  "share": "Partager",
+  "@share": {},
+  "reportAbuse": "Signaler un abus",
+  "@reportAbuse": {},
+  "reportReviewDialogTitle": "Signaler un avis",
+  "@reportReviewDialogTitle": {},
+  "privacyPolicy": "politique de confidentialité.",
+  "@privacyPolicy": {},
+  "starDeveloper": "Développeur vedette",
+  "@starDeveloper": {},
+  "dependenciesAutoremove": "Supprimer les dépendances qui ne sont plus nécessaires",
+  "@dependenciesAutoremove": {},
+  "dependenciesInstallListing": "{length} dépendances d'une taille totale de {size} seront téléchargées lors de l’installation de {packageName}",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  }
 }

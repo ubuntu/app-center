@@ -38,6 +38,7 @@ class SnapModel extends SafeChangeNotifier {
     await _snapService.authorize();
     await _loadSnapChangeInProgress();
     await _loadChange();
+    await _snapService.loadSnapsWithUpdate();
 
     _localSnap = await _findLocalSnap(huskSnapName);
     if (online) {
@@ -144,7 +145,7 @@ class SnapModel extends SafeChangeNotifier {
 
   String get selectedChannelReleasedAt =>
       selectableChannels[channelToBeInstalled] != null
-          ? DateFormat.yMd(Platform.localeName)
+          ? DateFormat.yMMMd(Platform.localeName)
               .format(selectableChannels[channelToBeInstalled]!.releasedAt)
           : '';
 
@@ -297,6 +298,11 @@ class SnapModel extends SafeChangeNotifier {
   Future<void> _loadChange() async =>
       change = (await _snapService.getSnapChanges(name: huskSnapName));
 
+  Future<void> abortChange() async {
+    await _snapService.abortChange(_storeSnap!);
+    return _loadChange();
+  }
+
   Future<Snap?> _findLocalSnap(String huskSnapName) async =>
       _snapService.findLocalSnap(huskSnapName);
 
@@ -401,4 +407,9 @@ class SnapModel extends SafeChangeNotifier {
     }
     return '';
   }
+
+  bool isUpdateAvailable() =>
+      _snapService.snapsWithUpdate
+          .indexWhere((snap) => snap.name == huskSnapName) >=
+      0;
 }

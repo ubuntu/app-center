@@ -237,9 +237,9 @@
   "@utilitiesSlogan": {},
   "allPackageTypes": "Tutti i tipi di pacchetti",
   "@allPackageTypes": {},
-  "yourReviewTitle": "Titolo recensione (facoltativo)",
+  "yourReviewTitle": "Titolo recensione",
   "@yourReviewTitle": {},
-  "yourReviewName": "Il tuo nome (facoltativo)",
+  "yourReviewName": "Il tuo nome",
   "@yourReviewName": {},
   "clickToRate": "Fai clic per valutare",
   "@clickToRate": {},
@@ -311,21 +311,120 @@
   "@dependenciesQuestion": {},
   "dependenciesFullList": "Visualizza l'elenco completo delle dipendenze",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} le dipendenze verranno scaricate durante l'installazione {packageName}",
-  "@dependenciesListing": {
+  "gallery": "Galleria",
+  "@gallery": {},
+  "additionalInformation": "Informazioni aggiuntive",
+  "@additionalInformation": {},
+  "links": "Link",
+  "@links": {},
+  "searchHintAppStore": "Cerca app",
+  "@searchHintAppStore": {},
+  "copiedToClipboard": "Copiato negli appunti",
+  "@copiedToClipboard": {},
+  "confirmRemove": "Sei sicuro di voler rimuovere questo pacchetto?",
+  "@confirmRemove": {},
+  "share": "Condividi",
+  "@share": {},
+  "whatDoYouThink": "Cosa ne pensi dell'app? Prova a dare una ragione per la vederla.",
+  "@whatDoYouThink": {},
+  "dependenciesRemoveListing": "Le dipendenze {length} con una dimensione totale di {size} possono essere rimosse automaticamente durante la rimozione di {packageName}",
+  "@dependenciesRemoveListing": {
     "placeholders": {
       "length": {
         "type": "int"
+      },
+      "size": {
+        "type": "String"
       },
       "packageName": {
         "type": "String"
       }
     }
   },
-  "gallery": "Galleria",
-  "@gallery": {},
-  "additionalInformation": "Informazioni aggiuntive",
-  "@additionalInformation": {},
-  "links": "Link",
-  "@links": {}
+  "multiUpdateButton": "Aggiorna tutto",
+  "@multiUpdateButton": {},
+  "removeAll": "Rimuovi tutto",
+  "@removeAll": {},
+  "removePackage": "Rimuovere {package}",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "searchHintInstalled": "Cerca app installate",
+  "@searchHintInstalled": {},
+  "packageType": "Tipo di pacchetto",
+  "@packageType": {},
+  "ratingsAndReviews": "Valutazioni e recensioni",
+  "@ratingsAndReviews": {},
+  "ratings": "Valutazioni",
+  "@ratings": {},
+  "writeAreview": "Scrivi una recensione",
+  "@writeAreview": {},
+  "summary": "Riepilogo",
+  "@summary": {},
+  "rate": "Voto",
+  "@rate": {},
+  "summeryHint": "Fornisci un breve riassunto della tua recensione, ad esempio: Ottima app, la consiglierei.",
+  "@summeryHint": {},
+  "dependenciesAutoremove": "Rimuovi le dipendenze non più necessarie",
+  "@dependenciesAutoremove": {},
+  "packagesUsed": "Pacchetti utilizzati",
+  "@packagesUsed": {},
+  "contributors": "Contributori",
+  "@contributors": {},
+  "submit": "Invia",
+  "@submit": {},
+  "helpful": "Utile",
+  "@helpful": {},
+  "notHelpful": "Non utile",
+  "@notHelpful": {},
+  "whatDataIsSend": "Scopri quali dati vengono inviati nel nostro ",
+  "@whatDataIsSend": {},
+  "privacyPolicy": "informativa sulla privacy.",
+  "@privacyPolicy": {},
+  "downloading": "Scaricamento in corso",
+  "@downloading": {},
+  "downloadRemaining": "Download in corso... {bytes} rimanenti",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "ready": "Pronto",
+  "@ready": {},
+  "upgrading": "Aggiornamento in corso",
+  "@upgrading": {},
+  "dependenciesInstallListing": "Le dipendenze {length} con una dimensione totale di {size} verranno scaricate durante l'installazione di {packageName}",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "collection": "Collezione",
+  "@collection": {},
+  "manage": "Gestisci",
+  "@manage": {},
+  "starDeveloper": "Stelle sviluppatore",
+  "@starDeveloper": {},
+  "report": "Report",
+  "@report": {},
+  "reportAbuse": "Segnala un abuso",
+  "@reportAbuse": {},
+  "reportReviewDialogTitle": "Segnala revisione",
+  "@reportReviewDialogTitle": {},
+  "reportReviewDialogBody": "Puoi segnalare una recensione per comportamento offensivo, maleducato o discriminatorio. Una volta segnalata, una recensione verrà nascosta fino a quando non sarà verificata da un amministratore.",
+  "@reportReviewDialogBody": {}
 }

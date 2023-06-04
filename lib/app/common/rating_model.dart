@@ -24,5 +24,14 @@ class RatingModel extends SafeChangeNotifier {
 }
 
 extension on OdrsRating {
-  AppRating toAppRating() => AppRating(average: average, total: total);
+  AppRating toAppRating() => AppRating(
+        average: average,
+        total: total,
+        star0: star0,
+        star1: star1,
+        star2: star2,
+        star3: star3,
+        star4: star4,
+        star5: star5,
+      );
 }

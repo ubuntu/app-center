@@ -21,6 +21,8 @@ import 'package:software/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import '../expandable_title.dart';
+import 'package:software/app/common/link.dart';
 
 class AppDescription extends StatelessWidget {
   const AppDescription({super.key, required this.description});
@@ -32,12 +34,12 @@ class AppDescription extends StatelessWidget {
     return YaruExpandable(
       isExpanded: true,
       expandIcon: const Icon(YaruIcons.pan_end),
-      header: Text(
+      header: ExpandableContainerTitle(
         context.l10n.description,
-        style: Theme.of(context).textTheme.titleLarge,
       ),
-      child: Padding(
+      child: Container(
         padding: const EdgeInsets.only(top: 20),
+        width: double.infinity,
         child: MarkdownBody(
           data: description,
           shrinkWrap: true,
@@ -45,7 +47,8 @@ class AppDescription extends StatelessWidget {
           onTapLink: (text, href, title) =>
               href != null ? launchUrl(Uri.parse(href)) : null,
           styleSheet: MarkdownStyleSheet(
-            p: Theme.of(context).textTheme.bodyMedium,
+            a: TextStyle(color: context.linkColor),
+            textAlign: WrapAlignment.start,
           ),
         ),
       ),

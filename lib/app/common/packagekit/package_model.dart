@@ -16,7 +16,6 @@
  */
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
@@ -65,9 +64,12 @@ class PackageModel extends SafeChangeNotifier {
 
   String? get title => appstream?.localizedName() ?? packageId?.name;
 
-  String? get developerName {
-    final devName = appstream?.developerName[
-            WidgetsBinding.instance.window.locale.countryCode?.toLowerCase()] ??
+  String? getDeveloperName(BuildContext context) {
+    final devName = appstream?.developerName[View.of(context)
+            .platformDispatcher
+            .locale
+            .countryCode
+            ?.toLowerCase()] ??
         appstream?.developerName['C'];
 
     return devName ?? appstream?.localizedName();
@@ -79,9 +81,7 @@ class PackageModel extends SafeChangeNotifier {
       return null;
     }
 
-    return DateFormat.yMd(Platform.localeName)
-        .add_jms()
-        .format(appstream!.releases.first.date!.toLocal());
+    return DateFormat.yMd().format(appstream!.releases.first.date!.toLocal());
   }
 
   List<String> get screenshotUrls =>
@@ -93,20 +93,25 @@ class PackageModel extends SafeChangeNotifier {
 
   String? get iconUrl => appstream?.icon;
 
-  Future<void> init({bool getUpdateDetail = false}) async {
+  Future<void> init({
+    bool getUpdateDetail = false,
+    bool getDependencies = true,
+  }) async {
     await _service.cancelCurrentUpdatesRefresh();
     if (_packageId != null) {
+      await _service.isInstalled(model: this);
       await _updateDetails();
       if (getUpdateDetail) {
         await _service.getUpdateDetail(model: this);
       }
     } else if (_path != null) {
+      isInstalled = false;
       await _service.getDetailsAboutLocalPackage(model: this);
     }
     _info = null;
-    await checkDependencies();
-
-    return _service.isInstalled(model: this).then(_updatePercentage);
+    if (getDependencies) {
+      await checkDependencies();
+    }
   }
 
   PackageKitPackageId? _packageId;
@@ -130,6 +135,14 @@ class PackageModel extends SafeChangeNotifier {
   set packageState(PackageState value) {
     if (value == _packageState) return;
     _packageState = value;
+    notifyListeners();
+  }
+
+  PackageKitStatus _status = PackageKitStatus.unknown;
+  PackageKitStatus get status => _status;
+  set status(PackageKitStatus status) {
+    if (status == _status) return;
+    _status = status;
     notifyListeners();
   }
 
@@ -197,6 +210,16 @@ class PackageModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
+  String getFormattedDownloadSizeRemaining() =>
+      _downloadSizeRemaining.formatByteSize();
+  int _downloadSizeRemaining = 0;
+  int get downloadSizeRemaining => _downloadSizeRemaining;
+  set downloadSizeRemaining(int value) {
+    if (value == _downloadSizeRemaining) return;
+    _downloadSizeRemaining = value;
+    notifyListeners();
+  }
+
   String _changelog = '';
   String get changelog => _changelog;
   set changelog(String value) {
@@ -234,56 +257,73 @@ class PackageModel extends SafeChangeNotifier {
     return _service.getDetails(model: this);
   }
 
-  void _updatePercentage([void _]) {
-    if (isInstalled != null) {
-      percentage = isInstalled! ? 100 : 0;
-    }
-  }
-
   Future<void> install() async {
     if (_path != null) {
       return _service
           .installLocalFile(model: this)
           .then(_updateDetails)
-          .then(_updatePercentage);
+          .then((_) => checkDependencies());
     } else if (_packageId != null) {
       return _service
           .install(model: this)
           .then(_updateDetails)
-          .then(_updatePercentage);
+          .then((_) => checkDependencies());
     }
   }
 
-  Future<void> remove() async {
+  Future<void> remove({bool autoremove = false}) async {
     return _service
-        .remove(model: this)
+        .remove(model: this, autoremove: autoremove)
         .then(_updateDetails)
-        .then(_updatePercentage);
+        .then((_) => checkDependencies());
   }
 
-  Map<PackageKitPackageId, PackageKitInfo>? _dependencies;
-  Map<PackageKitPackageId, PackageKitInfo>? get dependencies => _dependencies;
-  set dependencies(Map<PackageKitPackageId, PackageKitInfo>? value) {
-    if (value == null) return;
-    _dependencies = value;
+  List<PackageDependecy> _dependencies = [];
+  UnmodifiableListView<PackageDependecy> get dependencies =>
+      UnmodifiableListView(_dependencies);
+  set dependencies(List<PackageDependecy> value) {
+    if (listEquals(_dependencies, value)) return;
+    _dependencies = value.toList();
     notifyListeners();
   }
 
-  List<String> get uninstalledDependencyNames => dependencies != null
-      ? dependencies!.entries
-          .where(
-            (element) => element.value == PackageKitInfo.available,
-          )
-          .map((e) => e.key.name)
-          .toList()
-      : [];
-
   Future<void> checkDependencies() async {
-    if (_packageId == null) return;
-    await _service.getDependencies(model: this);
+    if (_packageId == null || isInstalled == null) return;
+    if (isInstalled!) {
+      await _service.getInstalledDependencies(model: this);
+    } else {
+      await _service.getMissingDependencies(model: this);
+    }
   }
 
   @override
   String toString() =>
       'PackageModel($_packageId, $_path, ${describeEnum(_packageState)})';
+}
+
+@immutable
+class PackageDependecy {
+  const PackageDependecy({
+    required this.id,
+    required this.info,
+    required this.size,
+    this.summary,
+  });
+  final PackageKitPackageId id;
+  final PackageKitInfo info;
+  final int size;
+  final String? summary;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is PackageDependecy &&
+        other.id == id &&
+        other.info == info &&
+        other.size == size &&
+        other.summary == summary;
+  }
+
+  @override
+  int get hashCode => Object.hash(id, info, size, summary);
 }

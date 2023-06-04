@@ -28,9 +28,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 import 'package:software/app/common/border_container.dart';
+import 'package:software/app/common/link.dart';
 
-class UpdateDialog extends StatefulWidget {
-  const UpdateDialog({
+class PackageUpdateDialog extends StatefulWidget {
+  const PackageUpdateDialog({
     super.key,
     required this.id,
     required this.installedId,
@@ -48,7 +49,7 @@ class UpdateDialog extends StatefulWidget {
     return ChangeNotifierProvider(
       create: (context) =>
           PackageModel(service: getService<PackageService>(), packageId: id),
-      child: UpdateDialog(
+      child: PackageUpdateDialog(
         id: id,
         installedId: installedId,
       ),
@@ -56,16 +57,19 @@ class UpdateDialog extends StatefulWidget {
   }
 
   @override
-  State<UpdateDialog> createState() => _UpdateDialogState();
+  State<PackageUpdateDialog> createState() => _PackageUpdateDialogState();
 }
 
-class _UpdateDialogState extends State<UpdateDialog> {
+class _PackageUpdateDialogState extends State<PackageUpdateDialog> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      context.read<PackageModel>().init(getUpdateDetail: true);
+      context.read<PackageModel>().init(
+            getUpdateDetail: true,
+            getDependencies: false,
+          );
     });
   }
 
@@ -97,6 +101,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
         child: Padding(
           padding: const EdgeInsets.only(bottom: 16),
           child: BorderContainer(
+            width: double.infinity,
             child: MarkdownBody(
               data: model.changelog.length > 4000
                   ? '${model.changelog.substring(0, 4000)}\n\n ... ${context.l10n.changelogTooLong} ${model.url}'
@@ -105,6 +110,9 @@ class _UpdateDialogState extends State<UpdateDialog> {
               selectable: true,
               onTapLink: (text, href, title) =>
                   href != null ? launchUrl(Uri.parse(href)) : null,
+              styleSheet: MarkdownStyleSheet(
+                a: TextStyle(color: context.linkColor),
+              ),
             ),
           ),
         ),

@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:software/app/common/app_data.dart';
 import 'package:software/app/common/app_page/app_description.dart';
 import 'package:software/app/common/app_page/app_header.dart';
@@ -28,10 +29,14 @@ import 'package:software/app/common/app_page/media_tile.dart';
 import 'package:software/app/common/app_page/page_layouts.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/custom_back_button.dart';
+import 'package:software/app/common/link.dart';
 import 'package:software/app/common/safe_network_image.dart';
+import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import '../expandable_title.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 
 class AppPage extends StatefulWidget {
   const AppPage({
@@ -54,6 +59,7 @@ class AppPage extends StatefulWidget {
     this.onVote,
     this.onFlag,
     this.initialized = false,
+    this.enableSearch = true,
   });
 
   final bool initialized;
@@ -63,6 +69,7 @@ class AppPage extends StatefulWidget {
   final Widget? controls;
   final Widget? subDescription;
   final bool appIsInstalled;
+  final bool enableSearch;
 
   final double? reviewRating;
   final String? review;
@@ -101,19 +108,20 @@ class _AppPageState extends State<AppPage> {
   Widget build(BuildContext context) {
     final windowSize = MediaQuery.of(context).size;
     final windowWidth = windowSize.width;
-    final windowHeight = windowSize.height;
     final isWindowNormalSized = windowWidth > 800 && windowWidth < 1200;
     final isWindowWide = windowWidth > 1200;
 
     final icon = widget.icon;
 
+    final searchByPublisher =
+        context.select((ExploreModel m) => m.searchByPublisher);
+
     final media = BorderContainer(
       initialized: widget.initialized,
       child: YaruExpandable(
         isExpanded: true,
-        header: Text(
+        header: ExpandableContainerTitle(
           context.l10n.gallery,
-          style: Theme.of(context).textTheme.titleLarge,
         ),
         child: YaruCarousel(
           controller: controller,
@@ -129,9 +137,7 @@ class _AppPageState extends State<AppPage> {
                 onTap: () => showDialog(
                   context: context,
                   builder: (c) => _CarouselDialog(
-                    windowHeight: windowHeight,
                     appData: widget.appData,
-                    windowWidth: windowWidth,
                     initialIndex: i,
                   ),
                 ),
@@ -152,7 +158,7 @@ class _AppPageState extends State<AppPage> {
       review: widget.review,
       reviewTitle: widget.reviewTitle,
       reviewUser: widget.reviewUser,
-      averageRating: widget.appData.averageRating,
+      appRating: widget.appData.appRating,
       userReviews: widget.appData.userReviews,
       appIsInstalled: widget.appIsInstalled,
       onRatingUpdate: widget.onRatingUpdate,
@@ -178,14 +184,51 @@ class _AppPageState extends State<AppPage> {
       ),
     );
 
+    void onShare(AppData appData) {
+      final colorScheme = Theme.of(context).colorScheme;
+      final linkColorInvert = colorScheme.brightness == Brightness.light
+          ? YaruColors.blue[500]!
+          : YaruColors.blue[700]!;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('${context.l10n.copiedToClipboard}: '),
+              Link(
+                url: appData.website,
+                linkText: appData.website,
+                textStyle: TextStyle(color: linkColorInvert),
+              ),
+            ],
+          ),
+        ),
+      );
+
+      Clipboard.setData(ClipboardData(text: appData.website));
+    }
+
+    final onPublisherSearch =
+        widget.enableSearch == false || !widget.initialized
+            ? null
+            : () async {
+                await searchByPublisher(widget.appData.publisherUsername);
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              };
+
     final normalWindowAppHeader = BorderContainer(
       initialized: widget.initialized,
       child: BannerAppHeader(
+        onPublisherSearch: onPublisherSearch,
         windowSize: windowSize,
         appData: widget.appData,
         controls: widget.preControls,
         subControls: widget.controls,
         icon: icon,
+        onShare: () => onShare(widget.appData),
       ),
     );
 
@@ -193,10 +236,12 @@ class _AppPageState extends State<AppPage> {
       initialized: widget.initialized,
       width: 500,
       child: PageAppHeader(
+        onPublisherSearch: onPublisherSearch,
         appData: widget.appData,
         icon: icon,
         controls: widget.preControls,
         subControls: widget.controls,
+        onShare: () => onShare(widget.appData),
       ),
     );
 
@@ -204,10 +249,12 @@ class _AppPageState extends State<AppPage> {
       initialized: widget.initialized,
       height: 700,
       child: PageAppHeader(
+        onPublisherSearch: onPublisherSearch,
         appData: widget.appData,
         icon: icon,
         controls: widget.preControls,
         subControls: widget.controls,
+        onShare: () => onShare(widget.appData),
       ),
     );
 
@@ -259,8 +306,7 @@ class _AppPageState extends State<AppPage> {
 
     return Scaffold(
       appBar: YaruWindowTitleBar(
-        title: Text(widget.appData.title),
-        titleSpacing: 0,
+        title: Center(child: Text(widget.appData.title)),
         leading: const CustomBackButton(),
       ),
       body: BackGesture(
@@ -272,15 +318,11 @@ class _AppPageState extends State<AppPage> {
 
 class _CarouselDialog extends StatefulWidget {
   const _CarouselDialog({
-    required this.windowHeight,
     required this.appData,
-    required this.windowWidth,
     required this.initialIndex,
   });
 
-  final double windowHeight;
   final AppData appData;
-  final double windowWidth;
   final int initialIndex;
 
   @override
@@ -307,6 +349,7 @@ class _CarouselDialogState extends State<_CarouselDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return KeyboardListener(
       focusNode: FocusNode(),
       onKeyEvent: (value) {
@@ -317,24 +360,28 @@ class _CarouselDialogState extends State<_CarouselDialog> {
         }
       },
       child: SimpleDialog(
-        title: const YaruCloseButton(
-          alignment: Alignment.centerRight,
+        title: YaruDialogTitleBar(
+          title: Text(widget.appData.name),
         ),
-        contentPadding: const EdgeInsets.only(bottom: 20),
-        titlePadding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 6.0),
+        contentPadding: const EdgeInsets.only(bottom: 20, top: 20),
+        titlePadding: EdgeInsets.zero,
         children: [
           SizedBox(
-            height: widget.windowHeight - 150,
+            height: size.height - 150,
+            width: size.width,
             child: YaruCarousel(
               controller: controller,
               nextIcon: const Icon(YaruIcons.go_next),
               previousIcon: const Icon(YaruIcons.go_previous),
               navigationControls: widget.appData.screenShotUrls.length > 1,
-              width: widget.windowWidth,
+              width: size.width,
               placeIndicatorMarginTop: 20.0,
               children: [
                 for (final url in widget.appData.screenShotUrls)
-                  SafeNetworkImage(url: url)
+                  SafeNetworkImage(
+                    url: url,
+                    fit: BoxFit.fitWidth,
+                  )
               ],
             ),
           )

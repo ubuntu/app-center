@@ -77,8 +77,8 @@ class LoadingExploreHeader extends StatelessWidget {
     return Shimmer.fromColors(
       baseColor: shimmerBase,
       highlightColor: shimmerHighLight,
-      child: Padding(
-        padding: const EdgeInsets.only(
+      child: const Padding(
+        padding: EdgeInsets.only(
           top: kPagePadding,
           left: kPagePadding,
           bottom: kPagePadding - 5,
@@ -88,7 +88,7 @@ class LoadingExploreHeader extends StatelessWidget {
           runAlignment: WrapAlignment.start,
           crossAxisAlignment: WrapCrossAlignment.start,
           spacing: 10,
-          children: const [_LoadingButton(), _LoadingButton()],
+          children: [_LoadingButton(), _LoadingButton()],
         ),
       ),
     );

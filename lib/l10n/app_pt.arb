@@ -289,17 +289,6 @@
   "@debianPackage": {},
   "theme": "Tema",
   "@theme": {},
-  "dependenciesListing": "{length} as dependências serão descarregadas ao instalar {packageName}",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "publisher": "Editor",
   "@publisher": {},
   "rating": "Avaliação",
@@ -327,5 +316,115 @@
   "additionalInformation": "Informação adicional",
   "@additionalInformation": {},
   "links": "Ligações",
-  "@links": {}
+  "@links": {},
+  "dependenciesInstallListing": "",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "ratingsAndReviews": "",
+  "@ratingsAndReviews": {},
+  "collection": "",
+  "@collection": {},
+  "ratings": "",
+  "@ratings": {},
+  "writeAreview": "",
+  "@writeAreview": {},
+  "packageType": "",
+  "@packageType": {},
+  "searchHintAppStore": "",
+  "@searchHintAppStore": {},
+  "removePackage": "",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "rate": "",
+  "@rate": {},
+  "confirmRemove": "",
+  "@confirmRemove": {},
+  "starDeveloper": "",
+  "@starDeveloper": {},
+  "manage": "",
+  "@manage": {},
+  "dependenciesAutoremove": "",
+  "@dependenciesAutoremove": {},
+  "removeAll": "",
+  "@removeAll": {},
+  "share": "",
+  "@share": {},
+  "reportAbuse": "",
+  "@reportAbuse": {},
+  "summary": "",
+  "@summary": {},
+  "notHelpful": "",
+  "@notHelpful": {},
+  "helpful": "",
+  "@helpful": {},
+  "contributors": "",
+  "@contributors": {},
+  "upgrading": "",
+  "@upgrading": {},
+  "multiUpdateButton": "",
+  "@multiUpdateButton": {},
+  "searchHintInstalled": "",
+  "@searchHintInstalled": {},
+  "whatDoYouThink": "",
+  "@whatDoYouThink": {},
+  "summeryHint": "",
+  "@summeryHint": {},
+  "submit": "",
+  "@submit": {},
+  "whatDataIsSend": "",
+  "@whatDataIsSend": {},
+  "privacyPolicy": "",
+  "@privacyPolicy": {},
+  "downloading": "",
+  "@downloading": {},
+  "downloadRemaining": "",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "ready": "",
+  "@ready": {},
+  "dependenciesRemoveListing": "",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "packagesUsed": "",
+  "@packagesUsed": {},
+  "copiedToClipboard": "",
+  "@copiedToClipboard": {},
+  "report": "",
+  "@report": {},
+  "reportReviewDialogTitle": "",
+  "@reportReviewDialogTitle": {},
+  "reportReviewDialogBody": "",
+  "@reportReviewDialogBody": {}
 }

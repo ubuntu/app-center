@@ -97,7 +97,7 @@
   "@lastUpdated": {},
   "notInstalled": "Nicht installiert",
   "@notInstalled": {},
-  "confinement": "Confinement",
+  "confinement": "Einschränkung",
   "@confinement": {},
   "license": "Lizenz",
   "@license": {},
@@ -169,11 +169,11 @@
   "@update": {},
   "updateButton": "Aktualisieren",
   "@updateButton": {},
-  "noUpdates": "Alles auf dem neusten Stand!",
+  "noUpdates": "Alles ist auf dem neuesten Stand",
   "@noUpdates": {},
-  "updating": "Bitte habe etwas Geduld - wir aktualisieren dein System",
+  "updating": "Bleiben Sie dran - wir aktualisieren gerade Ihr System. Bitte schließen Sie diese App nicht, und fahren Sie Ihren Computer nicht herunter",
   "@updating": {},
-  "checkingForUpdates": "Wir suchen nach neuen Aktualisierungen",
+  "checkingForUpdates": "Wir prüfen auf Aktualisierungen",
   "@checkingForUpdates": {},
   "readyToUpdate": "Bereit zur Aktualisierung",
   "@readyToUpdate": {},
@@ -239,17 +239,17 @@
   "@copyErrorMessage": {},
   "madeBy": "Ubuntu Software wird entwickelt und designed von",
   "@madeBy": {},
-  "reviewsAndRatings": "Bewertungen und Rezensionen",
+  "reviewsAndRatings": "Rezensionen und Bewertungen",
   "@reviewsAndRatings": {},
   "yourReview": "Ihre Rezension",
   "@yourReview": {},
-  "yourReviewTitle": "Title (optional)",
+  "yourReviewTitle": "Titel der Rezension",
   "@yourReviewTitle": {},
-  "yourReviewName": "Ihr Name (optional)",
+  "yourReviewName": "Ihr Name",
   "@yourReviewName": {},
   "clickToRate": "Anklicken zum bewerten",
   "@clickToRate": {},
-  "showAllReviews": "All Rezensionen anzeigen",
+  "showAllReviews": "Alle Rezensionen anzeigen",
   "@showAllReviews": {},
   "send": "Senden",
   "@send": {},
@@ -259,13 +259,13 @@
   "@reviewSent": {},
   "multiAppFormatsFound": "Wir konnten verschiedene Formate für diese Anwendung finden.",
   "@multiAppFormatsFound": {},
-  "changingPermissions": "Ändere Berechtigungen",
+  "changingPermissions": "Berechtigungen ändern",
   "@changingPermissions": {},
-  "installing": "Installiere",
+  "installing": "Wird installiert",
   "@installing": {},
-  "removing": "Entferne",
+  "removing": "Wird entfernt",
   "@removing": {},
-  "refreshing": "Frische auf",
+  "refreshing": "Wird aufgefrischt",
   "@refreshing": {},
   "attention": "Achtung!",
   "@attention": {},
@@ -293,17 +293,6 @@
   "@theme": {},
   "dependenciesFullList": "Siehe vollständige Liste der Abhängigkeiten",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} Abhängigkeiten werden bei der Installation von {packageName} heruntergeladen",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "gallery": "Galerie",
   "@gallery": {},
   "dependenciesQuestion": "Sind Sie sicher, dass Sie fortfahren möchten?",
@@ -327,5 +316,115 @@
   "additionalInformation": "Zusätzliche Informationen",
   "@additionalInformation": {},
   "links": "Links",
-  "@links": {}
+  "@links": {},
+  "searchHintAppStore": "Nach Apps suchen",
+  "@searchHintAppStore": {},
+  "searchHintInstalled": "Durchsuchen Sie Ihre installierten Apps",
+  "@searchHintInstalled": {},
+  "multiUpdateButton": "Alle aktualisieren",
+  "@multiUpdateButton": {},
+  "downloading": "Wird heruntergeladen",
+  "@downloading": {},
+  "downloadRemaining": "Wird heruntergeladen... {bytes} verbleiben",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "ready": "Bereit",
+  "@ready": {},
+  "packagesUsed": "Verwendete Pakete",
+  "@packagesUsed": {},
+  "contributors": "Mitwirkende",
+  "@contributors": {},
+  "collection": "Sammlung",
+  "@collection": {},
+  "upgrading": "Wird hochgestuft",
+  "@upgrading": {},
+  "removeAll": "Alle entfernen",
+  "@removeAll": {},
+  "confirmRemove": "Sind Sie sicher, dass Sie dieses Paket entfernen möchten?",
+  "@confirmRemove": {},
+  "rate": "Bewerten",
+  "@rate": {},
+  "whatDoYouThink": "Was halten Sie von der App? Versuchen Sie, eine Begründung für Ihre Ansicht zu nennen.",
+  "@whatDoYouThink": {},
+  "submit": "Absenden",
+  "@submit": {},
+  "reportReviewDialogBody": "Sie können eine Bewertung wegen beleidigendem, unhöflichem oder diskriminierendem Verhalten melden. Nach der Meldung wird die Bewertung ausgeblendet, bis sie von einem Administrator überprüft wurde.",
+  "@reportReviewDialogBody": {},
+  "dependenciesInstallListing": "{length} Abhängigkeiten mit einer Gesamtgröße von {size} werden bei der Installation von {packageName} heruntergeladen",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "removePackage": "{package} entfernen",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "packageType": "Pakettyp",
+  "@packageType": {},
+  "ratingsAndReviews": "Bewertungen und Rezensionen",
+  "@ratingsAndReviews": {},
+  "ratings": "Bewertungen",
+  "@ratings": {},
+  "writeAreview": "Eine Rezension schreiben",
+  "@writeAreview": {},
+  "summary": "Zusammenfassung",
+  "@summary": {},
+  "summeryHint": "Schreiben Sie eine kurze Zusammenfassung Ihrer Bewertung, zum Beispiel: Tolle App, würde ich empfehlen.",
+  "@summeryHint": {},
+  "helpful": "Hilfreich",
+  "@helpful": {},
+  "notHelpful": "Nicht hilfreich",
+  "@notHelpful": {},
+  "whatDataIsSend": "Finden Sie heraus, welche Daten gesendet werden in unserer ",
+  "@whatDataIsSend": {},
+  "privacyPolicy": "Datenschutzerklärung.",
+  "@privacyPolicy": {},
+  "dependenciesRemoveListing": "{length} Abhängigkeiten mit einer Gesamtgröße von {size} können beim Entfernen von {packageName} automatisch entfernt werden",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "dependenciesAutoremove": "Nicht mehr benötigte Abhängigkeiten entfernen",
+  "@dependenciesAutoremove": {},
+  "starDeveloper": "Star-Entwickler",
+  "@starDeveloper": {},
+  "manage": "Verwalten",
+  "@manage": {},
+  "copiedToClipboard": "In die Zwischenablage kopiert",
+  "@copiedToClipboard": {},
+  "share": "Teilen",
+  "@share": {},
+  "report": "Melden",
+  "@report": {},
+  "reportAbuse": "Missbrauch melden",
+  "@reportAbuse": {},
+  "reportReviewDialogTitle": "Bewertung melden",
+  "@reportReviewDialogTitle": {}
 }

@@ -18,7 +18,9 @@
 import 'package:flutter/material.dart';
 import 'package:software/app/common/app_data.dart';
 import 'package:software/app/common/app_page/publisher_name.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+import 'package:software/l10n/l10n.dart';
 
 const headerStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 14);
 const iconSize = 108.0;
@@ -31,6 +33,8 @@ class BannerAppHeader extends StatelessWidget {
     required this.icon,
     required this.windowSize,
     this.subControls,
+    this.onShare,
+    this.onPublisherSearch,
   });
 
   final AppData appData;
@@ -39,12 +43,14 @@ class BannerAppHeader extends StatelessWidget {
 
   final Widget icon;
   final Size windowSize;
+  final Function()? onShare;
+  final void Function()? onPublisherSearch;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return SizedBox(
-      height: 170,
+      height: 174,
       child: Column(
         children: [
           Row(
@@ -65,13 +71,13 @@ class BannerAppHeader extends StatelessWidget {
                   children: [
                     Text(
                       appData.title,
-                      style: theme.textTheme.displaySmall!.copyWith(
-                        fontSize: 20,
-                        color: theme.colorScheme.onSurface,
-                      ),
+                      style: theme.textTheme.titleLarge!.copyWith(fontSize: 24),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     PublisherName(
-                      height: 18,
+                      onPublisherSearch: onPublisherSearch,
+                      height: 14,
                       publisherName: appData.publisherName,
                       website: appData.website,
                       verified: appData.verified,
@@ -91,6 +97,12 @@ class BannerAppHeader extends StatelessWidget {
                   ],
                 ),
               ),
+              if (onShare != null)
+                YaruIconButton(
+                  tooltip: context.l10n.share,
+                  icon: const Icon(YaruIcons.share),
+                  onPressed: onShare,
+                )
             ],
           ),
         ],
@@ -106,16 +118,19 @@ class PageAppHeader extends StatelessWidget {
     required this.controls,
     required this.icon,
     this.subControls,
+    this.onShare,
+    this.onPublisherSearch,
   });
 
   final AppData appData;
   final Widget controls;
   final Widget icon;
   final Widget? subControls;
+  final Function()? onShare;
+  final void Function()? onPublisherSearch;
 
   @override
   Widget build(BuildContext context) {
-    final scaledFontSize = (800 / appData.title.length.toDouble());
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,16 +155,15 @@ class PageAppHeader extends StatelessWidget {
                 children: [
                   Text(
                     appData.title,
-                    style: theme.textTheme.displaySmall!.copyWith(
-                      fontSize: scaledFontSize > 44 ? 44 : scaledFontSize,
-                      color: theme.colorScheme.onSurface,
+                    style: theme.textTheme.titleLarge!.copyWith(
+                      fontSize: 24,
                     ),
-                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                   ),
                   Center(
                     child: PublisherName(
-                      height: 20,
+                      onPublisherSearch: onPublisherSearch,
+                      height: 14,
                       publisherName: appData.publisherName,
                       website: appData.website,
                       verified: appData.verified,
@@ -161,6 +175,12 @@ class PageAppHeader extends StatelessWidget {
                 ],
               ),
             ),
+            if (onShare != null)
+              YaruIconButton(
+                tooltip: context.l10n.share,
+                icon: const Icon(YaruIcons.share),
+                onPressed: onShare,
+              )
           ],
         ),
         controls,

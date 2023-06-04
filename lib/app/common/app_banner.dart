@@ -15,6 +15,7 @@
  *
  */
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,6 @@ import 'package:software/app/common/app_rating.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/packagekit/package_page.dart';
 import 'package:software/app/common/rating_model.dart';
-import 'package:software/app/common/safe_network_image.dart';
 import 'package:software/app/common/snap/snap_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_utils.dart'
@@ -41,11 +41,15 @@ class AppBanner extends StatelessWidget {
     required this.appFinding,
     required this.showSnap,
     required this.showPackageKit,
+    this.enableSearch = true,
+    this.preferSnap = true,
   });
 
   final MapEntry<String, AppFinding> appFinding;
   final bool showSnap;
   final bool showPackageKit;
+  final bool enableSearch;
+  final bool preferSnap;
 
   @override
   Widget build(BuildContext context) {
@@ -53,17 +57,26 @@ class AppBanner extends StatelessWidget {
             appFinding.value.appstream != null &&
             showSnap &&
             showPackageKit
-        ? () => SnapPage.push(
-              context: context,
-              snap: appFinding.value.snap!,
-              appstream: appFinding.value.appstream,
-            )
+        ? () => preferSnap
+            ? SnapPage.push(
+                context: context,
+                snap: appFinding.value.snap!,
+                appstream: appFinding.value.appstream,
+                enableSearch: enableSearch,
+              )
+            : PackagePage.push(
+                context,
+                appstream: appFinding.value.appstream!,
+                snap: appFinding.value.snap,
+                enableSearch: enableSearch,
+              )
         : () {
             if (appFinding.value.appstream != null && showPackageKit) {
               PackagePage.push(
                 context,
                 appstream: appFinding.value.appstream!,
                 snap: appFinding.value.snap,
+                enableSearch: enableSearch,
               );
             }
             if (appFinding.value.snap != null && showSnap) {
@@ -71,6 +84,7 @@ class AppBanner extends StatelessWidget {
                 context: context,
                 snap: appFinding.value.snap!,
                 appstream: appFinding.value.appstream,
+                enableSearch: enableSearch,
               );
             }
           };
@@ -143,10 +157,11 @@ class AppImageBanner extends StatelessWidget {
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
               ),
-              child: SafeNetworkImage(
-                fallBackIcon: fallBackLoadingIcon,
-                url: snap.bannerUrl,
+              child: CachedNetworkImage(
+                imageUrl: snap.bannerUrl!,
                 fit: BoxFit.cover,
+                placeholder: (context, url) => fallBackLoadingIcon,
+                errorWidget: (context, url, error) => fallBackLoadingIcon,
               ),
             ),
           ),
@@ -155,6 +170,13 @@ class AppImageBanner extends StatelessWidget {
           ),
           Expanded(
             child: YaruTile(
+              leading: Padding(
+                padding: const EdgeInsets.only(bottom: 55, right: 5),
+                child: AppIcon(
+                  size: 40,
+                  iconUrl: snap.iconUrl,
+                ),
+              ),
               style: YaruTileStyle.banner,
               padding: const EdgeInsets.only(
                 left: 15,
@@ -194,27 +216,20 @@ class SearchBannerSubtitle extends StatelessWidget {
     final theme = Theme.of(context);
     final light = theme.brightness == Brightness.light;
 
-    String? ratingId;
-    var publisherName = context.l10n.unknown;
-
-    if (appFinding.snap != null &&
-        appFinding.snap!.publisher != null &&
-        showSnap) {
-      publisherName = appFinding.snap!.publisher!.displayName;
-      ratingId = appFinding.snap!.ratingId;
-    }
-
-    if (appFinding.appstream != null && showPackageKit && !showSnap) {
-      publisherName = appFinding.appstream!.developerName[WidgetsBinding
-              .instance.window.locale.countryCode
-              ?.toLowerCase()] ??
-          appFinding.appstream!.developerName['C'] ??
-          appFinding.appstream!.localizedName();
-      ratingId = appFinding.appstream!.ratingId;
-    }
+    String? ratingId =
+        appFinding.snap?.ratingId ?? appFinding.appstream?.ratingId;
+    final publisherName = appFinding.snap?.publisher?.displayName ??
+        appFinding.appstream?.developerName[View.of(context)
+            .platformDispatcher
+            .locale
+            .countryCode
+            ?.toLowerCase()] ??
+        appFinding.appstream?.developerName['C'] ??
+        appFinding.appstream?.localizedName() ??
+        context.l10n.unknown;
 
     final rating = ratingId != null
-        ? context.select((RatingModel m) => m.getRating(ratingId!))
+        ? context.select((RatingModel m) => m.getRating(ratingId))
         : null;
 
     return Column(
@@ -230,8 +245,7 @@ class SearchBannerSubtitle extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  color: theme.colorScheme.onSurface.withOpacity(0.5),
+                  color: theme.hintColor,
                 ),
               ),
             ),
@@ -245,11 +259,11 @@ class SearchBannerSubtitle extends StatelessWidget {
                 ),
               ),
             if (appFinding.snap?.starredDeveloper == true)
-              Padding(
-                padding: const EdgeInsets.only(left: 5),
+              const Padding(
+                padding: EdgeInsets.only(left: 5),
                 child: Stack(
                   alignment: Alignment.center,
-                  children: const [
+                  children: [
                     Icon(
                       Icons.circle,
                       color: Colors.white,

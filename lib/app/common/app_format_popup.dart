@@ -14,11 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/app/common/app_format.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import 'constants.dart';
 
 class AppFormatPopup extends StatelessWidget {
   const AppFormatPopup({
@@ -26,30 +28,77 @@ class AppFormatPopup extends StatelessWidget {
     required this.onSelected,
     required this.appFormat,
     required this.enabledAppFormats,
+    this.badgedAppFormats,
   });
 
   final void Function(AppFormat appFormat) onSelected;
   final AppFormat appFormat;
   final Set<AppFormat> enabledAppFormats;
+  final Map<AppFormat, int>? badgedAppFormats;
 
   @override
   Widget build(BuildContext context) {
-    return YaruPopupMenuButton(
-      initialValue: appFormat,
-      tooltip: context.l10n.appFormat,
-      itemBuilder: (v) => [
-        for (var appFormat in enabledAppFormats)
-          PopupMenuItem(
-            value: appFormat,
-            onTap: () => onSelected(appFormat),
-            child: Text(
-              appFormat.localize(context.l10n),
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          )
-      ],
-      onSelected: onSelected,
-      child: Text(appFormat.localize(context.l10n)),
+    final theme = Theme.of(context);
+
+    var isButtonBadged = false;
+    if (badgedAppFormats != null) {
+      for (var entry in badgedAppFormats!.entries) {
+        if (entry.key != appFormat && entry.value > 0) {
+          isButtonBadged = true;
+          break;
+        }
+      }
+    }
+
+    Widget maybeBuildItemBadge({
+      required AppFormat appFormat,
+      required Widget child,
+    }) {
+      final value = badgedAppFormats?[appFormat];
+
+      if (value == null || value <= 0) {
+        return child;
+      }
+
+      return badges.Badge(
+        animationDuration: Duration.zero,
+        badgeContent: Text(
+          value.toString(),
+          style: badgeTextStyle,
+        ),
+        position: badges.BadgePosition.topEnd(top: -2, end: -30),
+        badgeColor: theme.primaryColor,
+        alignment: AlignmentDirectional.centerEnd,
+        child: child,
+      );
+    }
+
+    return badges.Badge(
+      position: badges.BadgePosition.topEnd(top: -3, end: -3),
+      badgeColor: theme.primaryColor,
+      showBadge: isButtonBadged,
+      child: YaruPopupMenuButton(
+        initialValue: appFormat,
+        tooltip: context.l10n.appFormat,
+        itemBuilder: (v) => [
+          for (var appFormat in enabledAppFormats)
+            PopupMenuItem(
+              value: appFormat,
+              onTap: () => onSelected(appFormat),
+              child: maybeBuildItemBadge(
+                appFormat: appFormat,
+                child: Text(
+                  appFormat.localize(context.l10n),
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+            )
+        ],
+        onSelected: onSelected,
+        child: Text(
+          appFormat.localize(context.l10n),
+        ),
+      ),
     );
   }
 }
@@ -79,6 +128,7 @@ class MultiAppFormatPopup extends StatelessWidget {
               value: appFormat,
               checked: selectedAppFormats.contains(appFormat),
               child: Text(
+                style: Theme.of(context).textTheme.bodyMedium,
                 appFormat.localize(context.l10n),
               ),
             ),

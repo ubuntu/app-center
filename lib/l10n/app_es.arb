@@ -245,7 +245,7 @@
   "@productivitySlogan": {},
   "utilitiesSlogan": "Utilidades",
   "@utilitiesSlogan": {},
-  "yourReviewTitle": "Título de la reseña (opcional)",
+  "yourReviewTitle": "Título de la reseña",
   "@yourReviewTitle": {},
   "allPackageTypes": "Todos los tipos de paquetes",
   "@allPackageTypes": {},
@@ -255,7 +255,7 @@
   "@removing": {},
   "refreshing": "Actualizando",
   "@refreshing": {},
-  "yourReviewName": "Tu nombre (opcional)",
+  "yourReviewName": "Tu nombre",
   "@yourReviewName": {},
   "showAllReviews": "Mostrar todas las reseñas",
   "@showAllReviews": {},
@@ -305,17 +305,6 @@
   "@gallery": {},
   "dependenciesFullList": "Ver la lista completa de las dependencias",
   "@dependenciesFullList": {},
-  "dependenciesListing": "{length} dependencias se descargarán al instalar {packageName}",
-  "@dependenciesListing": {
-    "placeholders": {
-      "length": {
-        "type": "int"
-      },
-      "packageName": {
-        "type": "String"
-      }
-    }
-  },
   "dependencies": "Dependencias",
   "@dependencies": {},
   "dependenciesQuestion": "¿Estas seguro que deseas continuar?",
@@ -331,5 +320,111 @@
   "additionalInformation": "Información adicional",
   "@additionalInformation": {},
   "links": "Enlaces",
-  "@links": {}
+  "@links": {},
+  "packagesUsed": "Paquetes utilizados",
+  "@packagesUsed": {},
+  "contributors": "Colaboradores",
+  "@contributors": {},
+  "collection": "Colección",
+  "@collection": {},
+  "multiUpdateButton": "Actualizar todo",
+  "@multiUpdateButton": {},
+  "ready": "Listo",
+  "@ready": {},
+  "upgrading": "Actualizando",
+  "@upgrading": {},
+  "downloading": "Descargando",
+  "@downloading": {},
+  "downloadRemaining": "Descargando... {bytes} restantes",
+  "@downloadRemaining": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "dependenciesInstallListing": "Las dependencias de {length} con un tamaño total de {size} se descargarán al instalar {packageName}",
+  "@dependenciesInstallListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "reportReviewDialogTitle": "Informe de revisión",
+  "@reportReviewDialogTitle": {},
+  "reportReviewDialogBody": "Puedes denunciar una revisión por comportamiento abusivo, grosero o discriminatorio. Una vez informada, la reseña se ocultará hasta que un administrador la verifique.",
+  "@reportReviewDialogBody": {},
+  "removeAll": "Eliminar todo",
+  "@removeAll": {},
+  "confirmRemove": "¿Estás seguro de que quieres eliminar este paquete?",
+  "@confirmRemove": {},
+  "removePackage": "Eliminar {package}",
+  "@removePackage": {
+    "placeholders": {
+      "package": {
+        "type": "String"
+      }
+    }
+  },
+  "packageType": "Tipo de paquete",
+  "@packageType": {},
+  "ratingsAndReviews": "Valoraciones y reseñas",
+  "@ratingsAndReviews": {},
+  "ratings": "Valoraciones",
+  "@ratings": {},
+  "writeAreview": "Escribe una reseña",
+  "@writeAreview": {},
+  "summary": "Resumen",
+  "@summary": {},
+  "rate": "Tasa",
+  "@rate": {},
+  "whatDoYouThink": "¿Qué opinas de la aplicación? Trata de dar una razón desde tu punto de vista.",
+  "@whatDoYouThink": {},
+  "summeryHint": "Proporciona un breve resumen de tu reseña, por ejemplo: Excelente aplicación, la recomendaría.",
+  "@summeryHint": {},
+  "submit": "Entregar",
+  "@submit": {},
+  "helpful": "Útil",
+  "@helpful": {},
+  "notHelpful": "Inútil",
+  "@notHelpful": {},
+  "whatDataIsSend": "Averigua qué datos se están enviando en nuestro ",
+  "@whatDataIsSend": {},
+  "privacyPolicy": "política de privacidad.",
+  "@privacyPolicy": {},
+  "dependenciesRemoveListing": "Las dependencias de {length} con un tamaño total de {size} se pueden eliminar automáticamente al eliminar {packageName}",
+  "@dependenciesRemoveListing": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
+    }
+  },
+  "dependenciesAutoremove": "Eliminar las dependencias que ya no se necesitan",
+  "@dependenciesAutoremove": {},
+  "starDeveloper": "Desarrollador estrella",
+  "@starDeveloper": {},
+  "manage": "Administrar",
+  "@manage": {},
+  "copiedToClipboard": "Copiado al portapapeles",
+  "@copiedToClipboard": {},
+  "share": "Compartir",
+  "@share": {},
+  "report": "Informe",
+  "@report": {},
+  "reportAbuse": "Informar de un abuso",
+  "@reportAbuse": {}
 }

@@ -54,17 +54,24 @@ class SnapControls extends StatelessWidget {
                   value: model.change?.progress,
                 ),
               ),
-              if (model.change != null)
+              if (model.change != null) ...[
                 Text(
                   getChangeMessage(
                     context: context,
                     changeKind: model.change!.kind,
                   ),
                 ),
+                if (model.change!.kind != 'remove-snap')
+                  OutlinedButton(
+                    onPressed: model.abortChange,
+                    child: Text(context.l10n.cancel),
+                  ),
+              ]
             ]
           : [
               if (model.selectableChannels.isNotEmpty &&
-                  model.selectableChannels.length > 1)
+                  model.selectableChannels.length > 1 &&
+                  appstream != null)
                 const SnapChannelPopupButton(),
               if (model.snapIsInstalled)
                 OutlinedButton(
@@ -95,20 +102,13 @@ class SnapControls extends StatelessWidget {
   String getChangeMessage({
     required BuildContext context,
     required String? changeKind,
-  }) {
-    switch (changeKind) {
-      case 'install-snap':
-        return context.l10n.installing;
-      case 'remove-snap':
-        return context.l10n.removing;
-      case 'refresh-snap':
-        return context.l10n.refreshing;
-      case 'connect-snap':
-        return context.l10n.changingPermissions;
-      case 'disconnect-snap':
-        return context.l10n.changingPermissions;
-      default:
-        return '';
-    }
-  }
+  }) =>
+      switch (changeKind) {
+        'install-snap' => context.l10n.installing,
+        'remove-snap' => context.l10n.removing,
+        'refresh-snap' => context.l10n.refreshing,
+        'connect-snap' => context.l10n.changingPermissions,
+        'disconnect-snap' => context.l10n.changingPermissions,
+        _ => ''
+      };
 }

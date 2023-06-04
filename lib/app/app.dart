@@ -23,15 +23,16 @@ import 'package:launcher_entry/launcher_entry.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/app_model.dart';
 import 'package:software/app/app_splash_screen.dart';
+import 'package:software/app/collection/collection_page.dart';
 import 'package:software/app/common/close_confirmation_dialog.dart';
 import 'package:software/app/common/connectivity_notifier.dart';
 import 'package:software/app/common/page_item.dart';
 import 'package:software/app/common/rating_model.dart';
+import 'package:software/app/common/snap/snap_section.dart';
+import 'package:software/app/explore/explore_model.dart';
 import 'package:software/app/explore/explore_page.dart';
-import 'package:software/app/installed/installed_page.dart';
 import 'package:software/app/package_installer/package_installer_page.dart';
 import 'package:software/app/settings/settings_page.dart';
-import 'package:software/app/updates/updates_page.dart';
 import 'package:software/l10n/l10n.dart';
 import 'package:software/services/appstream/appstream_service.dart';
 import 'package:software/services/odrs_service.dart';
@@ -60,6 +61,13 @@ class App extends StatelessWidget {
           ChangeNotifierProvider(
             create: (_) => RatingModel(getService<OdrsService>()),
           ),
+          ChangeNotifierProvider(
+            create: (_) => ExploreModel(
+              getService<AppstreamService>(),
+              getService<SnapService>(),
+              getService<PackageService>(),
+            )..init(),
+          )
         ],
         child: const App(),
       );
@@ -119,31 +127,20 @@ class __AppState extends State<_App> {
     gtkNotifier.addCommandLineListener(_commandLineListener);
 
     final model = context.read<AppModel>();
-    var closeConfirmDialogOpen = false;
 
-    model.init(
-      onAskForQuit: () {
-        if (closeConfirmDialogOpen) {
-          return;
-        }
+    model.init().then((_) {
+      setState(() => _initialized = true);
+    });
 
-        closeConfirmDialogOpen = true;
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (c) {
-            return CloseWindowConfirmDialog(
-              onConfirm: () {
-                model.quit();
-              },
-            );
-          },
-        ).then((_) => closeConfirmDialogOpen = false);
-      },
-    ).then((_) {
-      setState(() {
-        _initialized = true;
-      });
+    YaruWindow.onClose(context, () {
+      if (!context.mounted || model.readyToQuit) {
+        return true;
+      }
+      return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (c) => const CloseWindowConfirmDialog(),
+      ).then((result) => result ?? false);
     });
   }
 
@@ -155,7 +152,7 @@ class __AppState extends State<_App> {
           .firstOrNull
           ?.substring(7);
       if (debPath != null || snapName != null) {
-        _initialIndex = 3;
+        _initialIndex = 6;
       }
     });
   }
@@ -169,39 +166,27 @@ class __AppState extends State<_App> {
         .setupNotifications(updatesAvailable: context.l10n.updateAvailable);
     final badgeCount = context.select((AppModel m) => m.snapChanges.length);
     final processing = context.select((AppModel m) => m.snapChanges.isNotEmpty);
-    final errorMessage = context.select((AppModel m) => m.errorMessage);
     final updateAmount = context.select((AppModel m) => m.updateAmount);
     final updatesProcessing =
         context.select((AppModel m) => m.updatesProcessing);
     final setSelectedIndex = context.select((AppModel m) => m.setSelectedIndex);
 
     final pageItems = [
+      _createExplorePageItem(SnapSection.all),
+      _createExplorePageItem(SnapSection.productivity),
+      _createExplorePageItem(SnapSection.development),
+      _createExplorePageItem(SnapSection.games),
+      _createExplorePageItem(SnapSection.art_and_design),
       PageItem(
-        titleBuilder: ExplorePage.createTitle,
-        builder: (context) => ExplorePage.create(context, errorMessage),
-        iconBuilder: ExplorePage.createIcon,
-      ),
-      PageItem(
-        titleBuilder: InstalledPage.createTitle,
-        builder: (context) => InstalledPage.create(context),
-        iconBuilder: (context, selected) => InstalledPage.createIcon(
+        titleBuilder: CollectionPage.createTitle,
+        builder: (context) => CollectionPage.create(context),
+        iconBuilder: (context, selected) => CollectionPage.createIcon(
           context: context,
           selected: selected,
           badgeCount: badgeCount,
           processing: processing,
-        ),
-      ),
-      PageItem(
-        titleBuilder: UpdatesPage.createTitle,
-        builder: (context) => UpdatesPage.create(
-          context: context,
-          windowWidth: width,
-        ),
-        iconBuilder: (context, selected) => UpdatesPage.createIcon(
-          context: context,
-          selected: selected,
-          badgeCount: updateAmount,
-          processing: updatesProcessing,
+          updateCount: updateAmount,
+          updateProcessing: updatesProcessing,
         ),
       ),
       if (debPath != null || snapName != null)
@@ -215,12 +200,6 @@ class __AppState extends State<_App> {
           iconBuilder: (context, selected) =>
               PackageInstallerPage.createIcon(context, selected),
         ),
-      PageItem(
-        titleBuilder: SettingsPage.createTitle,
-        builder: SettingsPage.create,
-        iconBuilder: (context, selected) =>
-            SettingsPage.createIcon(context, selected),
-      ),
     ];
 
     var normalWindowSize = width > 800 && width < 1200;
@@ -233,6 +212,18 @@ class __AppState extends State<_App> {
 
     return _initialized
         ? YaruNavigationPage(
+            trailing: Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: YaruNavigationRailItem(
+                icon: SettingsPage.createIcon(context, false),
+                label: SettingsPage.createTitle(context),
+                style: itemStyle,
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => SettingsPage.create(context),
+                ),
+              ),
+            ),
             leading: AnimatedContainer(
               width: normalWindowSize
                   ? 100
@@ -258,4 +249,15 @@ class __AppState extends State<_App> {
           )
         : const StoreSplashScreen();
   }
+
+  PageItem _createExplorePageItem(SnapSection snapSection) => PageItem(
+        titleBuilder: (context) =>
+            ExplorePage.createTitle(context, snapSection),
+        builder: (context) => ExplorePage(section: snapSection),
+        iconBuilder: (context, selected) => ExplorePage.createIcon(
+          context: context,
+          selected: selected,
+          snapSection: snapSection,
+        ),
+      );
 }
