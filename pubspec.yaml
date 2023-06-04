@@ -4,7 +4,7 @@ description: The Ubuntu Software Store made with Flutter.
 
 publish_to: "none"
 
-version: 0.2.9-alpha
+version: 0.3.0-alpha
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
