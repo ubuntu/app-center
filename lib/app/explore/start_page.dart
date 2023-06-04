@@ -31,10 +31,12 @@ class GenericStartPage extends StatefulWidget {
     super.key,
     required this.snapSection,
     this.apps,
+    required this.appstreamReady,
   });
 
   final SnapSection snapSection;
   final List<AppFinding>? apps;
+  final bool appstreamReady;
 
   @override
   State<GenericStartPage> createState() => _GenericStartPageState();
@@ -87,6 +89,7 @@ class _GenericStartPageState extends State<GenericStartPage> {
             apps: widget.apps,
             take: 20,
             skip: 3,
+            appstreamReady: widget.appstreamReady,
           ),
         ],
       ),
@@ -95,7 +98,9 @@ class _GenericStartPageState extends State<GenericStartPage> {
 }
 
 class ExploreAllPage extends StatefulWidget {
-  const ExploreAllPage({super.key});
+  const ExploreAllPage({super.key, required this.appstreamReady});
+
+  final bool appstreamReady;
 
   @override
   State<ExploreAllPage> createState() => _ExploreAllPageState();
@@ -151,6 +156,7 @@ class _ExploreAllPageState extends State<ExploreAllPage> {
             apps: apps,
             take: 20,
             skip: 3,
+            appstreamReady: widget.appstreamReady,
           ),
         ],
       ),

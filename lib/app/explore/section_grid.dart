@@ -31,6 +31,7 @@ class SectionGrid extends StatelessWidget {
     this.ignoreScrolling = true,
     this.take = 10,
     this.skip = 0,
+    required this.appstreamReady,
   });
 
   final List<AppFinding?>? apps;
@@ -40,6 +41,7 @@ class SectionGrid extends StatelessWidget {
   final EdgeInsets? padding;
   final bool initSection;
   final bool ignoreScrolling;
+  final bool appstreamReady;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +73,7 @@ class SectionGrid extends StatelessWidget {
           ),
           showSnap: true,
           showPackageKit: true,
+          appstreamReady: appstreamReady,
         );
       },
     );
