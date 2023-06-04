@@ -43,6 +43,7 @@ class AppBanner extends StatelessWidget {
     required this.showPackageKit,
     this.enableSearch = true,
     this.preferSnap = true,
+    this.appstreamReady = true,
   });
 
   final MapEntry<String, AppFinding> appFinding;
@@ -50,6 +51,7 @@ class AppBanner extends StatelessWidget {
   final bool showPackageKit;
   final bool enableSearch;
   final bool preferSnap;
+  final bool appstreamReady;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +98,7 @@ class AppBanner extends StatelessWidget {
       appFinding: appFinding.value,
       showSnap: showSnap,
       showPackageKit: showPackageKit,
+      appstreamReady: appstreamReady,
     );
 
     var appIcon = Padding(
@@ -206,10 +209,11 @@ class SearchBannerSubtitle extends StatelessWidget {
     required this.appFinding,
     this.showSnap = true,
     this.showPackageKit = true,
+    this.appstreamReady = true,
   });
 
   final AppFinding appFinding;
-  final bool showSnap, showPackageKit;
+  final bool showSnap, showPackageKit, appstreamReady;
 
   @override
   Widget build(BuildContext context) {
@@ -324,6 +328,7 @@ class SearchBannerSubtitle extends StatelessWidget {
                 appFinding: appFinding,
                 showSnap: showSnap,
                 showPackageKit: showPackageKit,
+                appstreamReady: appstreamReady,
               ),
             ],
           ),
@@ -339,32 +344,47 @@ class PackageIndicator extends StatelessWidget {
     required this.appFinding,
     this.showSnap = true,
     this.showPackageKit = true,
+    required this.appstreamReady,
   });
 
   final AppFinding appFinding;
   final bool showSnap;
   final bool showPackageKit;
+  final bool appstreamReady;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final debIcon = Icon(
+      YaruIcons.debian,
+      color: theme.disabledColor,
+      size: 20,
+    );
     return Row(
       children: [
+        if (!appstreamReady)
+          Padding(
+            padding: const EdgeInsets.only(right: 5),
+            child: Shimmer.fromColors(
+              baseColor: theme.colorScheme.onSurface,
+              highlightColor: theme.brightness == Brightness.light
+                  ? kShimmerHighLightLight
+                  : kShimmerHighLightDark,
+              child: debIcon,
+            ),
+          )
+        else if (appFinding.appstream != null && showPackageKit)
+          AnimatedContainer(
+            duration: const Duration(seconds: 1),
+            padding: const EdgeInsets.only(right: 5),
+            child: debIcon,
+          ),
         if (appFinding.snap != null && showSnap)
           Icon(
             YaruIcons.snapcraft,
             color: theme.disabledColor,
             size: 20,
           ),
-        if (appFinding.appstream != null && showPackageKit)
-          Padding(
-            padding: const EdgeInsets.only(left: 5),
-            child: Icon(
-              YaruIcons.debian,
-              color: theme.disabledColor,
-              size: 20,
-            ),
-          )
       ],
     );
   }
