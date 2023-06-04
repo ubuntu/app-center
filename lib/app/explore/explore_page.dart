@@ -35,9 +35,14 @@ import 'package:software/l10n/l10n.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({super.key, required this.section});
+  const ExplorePage({
+    super.key,
+    required this.section,
+    required this.appstreamReady,
+  });
 
   final SnapSection section;
+  final bool appstreamReady;
 
   static Widget createTitle(BuildContext context, SnapSection snapSection) =>
       Text(
@@ -110,10 +115,11 @@ class _ExplorePageState extends State<ExplorePage> {
 
     Widget page = switch (widget.section) {
       SnapSection.games => const GamesStartPage(),
-      SnapSection.all => const ExploreAllPage(),
+      SnapSection.all => ExploreAllPage(appstreamReady: widget.appstreamReady),
       _ => GenericStartPage(
           snapSection: widget.section,
           apps: startPageApps[widget.section],
+          appstreamReady: widget.appstreamReady,
         )
     };
 

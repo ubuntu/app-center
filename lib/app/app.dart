@@ -170,13 +170,29 @@ class __AppState extends State<_App> {
     final updatesProcessing =
         context.select((AppModel m) => m.updatesProcessing);
     final setSelectedIndex = context.select((AppModel m) => m.setSelectedIndex);
+    final appstreamReady = context.select((AppModel m) => m.appstreamReady);
 
     final pageItems = [
-      _createExplorePageItem(SnapSection.all),
-      _createExplorePageItem(SnapSection.productivity),
-      _createExplorePageItem(SnapSection.development),
-      _createExplorePageItem(SnapSection.games),
-      _createExplorePageItem(SnapSection.art_and_design),
+      _createExplorePageItem(
+        snapSection: SnapSection.all,
+        appstreamReady: appstreamReady,
+      ),
+      _createExplorePageItem(
+        snapSection: SnapSection.productivity,
+        appstreamReady: appstreamReady,
+      ),
+      _createExplorePageItem(
+        snapSection: SnapSection.development,
+        appstreamReady: appstreamReady,
+      ),
+      _createExplorePageItem(
+        snapSection: SnapSection.games,
+        appstreamReady: appstreamReady,
+      ),
+      _createExplorePageItem(
+        snapSection: SnapSection.art_and_design,
+        appstreamReady: appstreamReady,
+      ),
       PageItem(
         titleBuilder: CollectionPage.createTitle,
         builder: (context) => CollectionPage.create(context),
@@ -250,10 +266,15 @@ class __AppState extends State<_App> {
         : const StoreSplashScreen();
   }
 
-  PageItem _createExplorePageItem(SnapSection snapSection) => PageItem(
+  PageItem _createExplorePageItem({
+    required SnapSection snapSection,
+    required bool appstreamReady,
+  }) =>
+      PageItem(
         titleBuilder: (context) =>
             ExplorePage.createTitle(context, snapSection),
-        builder: (context) => ExplorePage(section: snapSection),
+        builder: (context) =>
+            ExplorePage(section: snapSection, appstreamReady: appstreamReady),
         iconBuilder: (context, selected) => ExplorePage.createIcon(
           context: context,
           selected: selected,

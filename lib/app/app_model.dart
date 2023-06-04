@@ -80,13 +80,20 @@ class AppModel extends SafeChangeNotifier {
       updatesState == UpdatesState.checkingForUpdates ||
       updatesState == UpdatesState.updating;
 
+  bool _appstreamReady = false;
+  bool get appstreamReady => _appstreamReady;
+  set appstreamReady(bool value) {
+    _appstreamReady = value;
+    notifyListeners();
+  }
+
   Future<void> init() async {
     try {
       _snapService.init();
     } on SnapdException catch (e) {
       errorMessage = e.message;
     }
-    _appstreamService.init();
+    _appstreamService.init().then((_) => appstreamReady = true);
 
     _snapChangesSub = _snapService.snapChangesInserted.listen((_) {
       notifyListeners();
