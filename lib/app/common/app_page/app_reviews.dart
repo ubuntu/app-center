@@ -31,9 +31,7 @@ class AppReviews extends StatefulWidget {
     this.review,
     this.onReviewChanged,
     this.onReviewTitleChanged,
-    this.onReviewUserChanged,
     this.reviewTitle,
-    this.reviewUser,
     this.reviewRating,
     this.onVote,
     this.onFlag,
@@ -44,13 +42,11 @@ class AppReviews extends StatefulWidget {
   final double? reviewRating;
   final String? reviewTitle;
   final String? review;
-  final String? reviewUser;
   final List<AppReview>? userReviews;
   final void Function(double)? onRatingUpdate;
   final void Function()? onReviewSend;
   final void Function(String)? onReviewChanged;
   final void Function(String)? onReviewTitleChanged;
-  final void Function(String)? onReviewUserChanged;
   final Function(AppReview, bool)? onVote;
   final Function(AppReview)? onFlag;
 
@@ -108,12 +104,10 @@ class _AppReviewsState extends State<AppReviews> {
                 reviewRating: widget.reviewRating,
                 review: widget.review,
                 reviewTitle: widget.reviewTitle,
-                reviewUser: widget.reviewUser,
                 onRatingUpdate: widget.onRatingUpdate,
                 onReviewSend: widget.onReviewSend,
                 onReviewChanged: widget.onReviewChanged,
                 onReviewTitleChanged: widget.onReviewTitleChanged,
-                onReviewUserChanged: widget.onReviewUserChanged,
               ),
             if (widget.appIsInstalled)
               const Padding(
@@ -192,10 +186,8 @@ class _ReviewPanel extends StatelessWidget {
     this.onReviewSend,
     this.onReviewChanged,
     this.onReviewTitleChanged,
-    this.onReviewUserChanged,
     this.review,
     this.reviewTitle,
-    this.reviewUser,
     this.reviewRating,
     this.appIsInstalled = false,
   });
@@ -204,14 +196,12 @@ class _ReviewPanel extends StatelessWidget {
   final double? reviewRating;
   final String? review;
   final String? reviewTitle;
-  final String? reviewUser;
   final bool appIsInstalled;
 
   final void Function(double)? onRatingUpdate;
   final void Function()? onReviewSend;
   final void Function(String)? onReviewChanged;
   final void Function(String)? onReviewTitleChanged;
-  final void Function(String)? onReviewUserChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +254,6 @@ class _ReviewPanel extends StatelessWidget {
                   reviewRating: reviewRating,
                   review: review,
                   reviewTitle: reviewTitle,
-                  reviewUser: reviewUser,
                   onRatingUpdate: (rating) {
                     if (onRatingUpdate != null) {
                       onRatingUpdate!(rating);
@@ -273,7 +262,6 @@ class _ReviewPanel extends StatelessWidget {
                   onReviewSend: onReviewSend,
                   onReviewChanged: onReviewChanged,
                   onReviewTitleChanged: onReviewTitleChanged,
-                  onReviewUserChanged: onReviewUserChanged,
                 ),
               ),
               child: Text(context.l10n.yourReview),
@@ -294,22 +282,18 @@ class _MyReviewDialog extends StatefulWidget {
     this.onReviewSend,
     this.onReviewChanged,
     this.onReviewTitleChanged,
-    this.onReviewUserChanged,
     this.review,
     this.reviewTitle,
-    this.reviewUser,
   });
 
   final double? reviewRating;
   final String? review;
   final String? reviewTitle;
-  final String? reviewUser;
 
   final void Function(double)? onRatingUpdate;
   final void Function()? onReviewSend;
   final void Function(String)? onReviewChanged;
   final void Function(String)? onReviewTitleChanged;
-  final void Function(String)? onReviewUserChanged;
 
   @override
   State<_MyReviewDialog> createState() => _MyReviewDialogState();
@@ -317,9 +301,7 @@ class _MyReviewDialog extends StatefulWidget {
 
 class _MyReviewDialogState extends State<_MyReviewDialog> {
   late double? _reviewRating;
-  late TextEditingController _reviewController,
-      _reviewTitleController,
-      _reviewUserController;
+  late TextEditingController _reviewController, _reviewTitleController;
 
   @override
   void initState() {
@@ -327,14 +309,12 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
     _reviewRating = widget.reviewRating;
     _reviewController = TextEditingController(text: widget.review);
     _reviewTitleController = TextEditingController(text: widget.reviewTitle);
-    _reviewUserController = TextEditingController(text: widget.reviewUser);
   }
 
   bool get _isReviewValid =>
       _reviewRating != null &&
       _reviewController.text.length >= _kMinReviewLength &&
-      _reviewTitleController.text.length >= _kMinTitleLength &&
-      _reviewUserController.text.isNotEmpty;
+      _reviewTitleController.text.length >= _kMinTitleLength;
 
   @override
   Widget build(BuildContext context) {
@@ -373,20 +353,6 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
                 },
               ),
             ],
-          ),
-          const SizedBox(
-            height: kYaruPagePadding,
-          ),
-          TextField(
-            controller: _reviewUserController,
-            onChanged: widget.onReviewUserChanged,
-            style: theme.textTheme.bodyMedium,
-            decoration: InputDecoration(
-              label: Text(
-                context.l10n.yourReviewName,
-                style: theme.textTheme.bodyMedium,
-              ),
-            ),
           ),
           const SizedBox(
             height: kYaruPagePadding,
@@ -451,7 +417,6 @@ class _MyReviewDialogState extends State<_MyReviewDialog> {
                   animation: Listenable.merge([
                     _reviewController,
                     _reviewTitleController,
-                    _reviewUserController,
                   ]),
                   builder: (context, child) {
                     return ElevatedButton(

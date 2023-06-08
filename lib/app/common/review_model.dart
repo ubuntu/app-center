@@ -43,14 +43,6 @@ class ReviewModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  String? _user;
-  String? get user => _user;
-  set user(String? value) {
-    if (value == null || value == _user) return;
-    _user = value;
-    notifyListeners();
-  }
-
   Future<void> submit(String appId, String version) async {}
 
   Future<void> vote(AppReview review, bool positive) async {}
