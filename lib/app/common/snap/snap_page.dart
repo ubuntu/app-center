@@ -253,12 +253,10 @@ class _SnapPageState extends State<SnapPage> {
       onReviewSend: () => review.submit(_ratingId, _ratingVersion),
       onRatingUpdate: (v) => review.rating = v,
       onReviewTitleChanged: (v) => review.title = v,
-      onReviewUserChanged: (v) => review.user = v,
       onReviewChanged: (v) => review.review = v,
       reviewRating: review.rating,
       review: review.review,
       reviewTitle: review.title,
-      reviewUser: review.user,
       onVote: review.vote,
       onFlag: review.flag,
     );
