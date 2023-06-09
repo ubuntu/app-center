@@ -129,6 +129,7 @@ class _SnapPageState extends State<SnapPage> {
   Widget build(BuildContext context) {
     final model = context.watch<SnapModel>();
     final rating = context.select((RatingModel m) => m.getRating(_ratingId));
+    final ownReview = context.select((ReviewModel m) => m.ownReview);
     final userReviews = context.select((ReviewModel m) => m.userReviews);
     final theme = Theme.of(context);
 
@@ -153,6 +154,7 @@ class _SnapPageState extends State<SnapPage> {
       screenShotUrls: model.screenshotUrls ?? [],
       description: model.description ?? '',
       versionChanged: model.isUpdateAvailable(),
+      ownReview: ownReview,
       userReviews: userReviews ?? [],
       appRating: rating,
       appFormat: AppFormat.snap,
@@ -250,13 +252,6 @@ class _SnapPageState extends State<SnapPage> {
         iconUrl: model.iconUrl,
         size: 150,
       ),
-      onReviewSend: () => review.submit(_ratingId, _ratingVersion),
-      onRatingUpdate: (v) => review.rating = v,
-      onReviewTitleChanged: (v) => review.title = v,
-      onReviewChanged: (v) => review.review = v,
-      reviewRating: review.rating,
-      review: review.review,
-      reviewTitle: review.title,
       onVote: review.vote,
       onFlag: review.flag,
     );

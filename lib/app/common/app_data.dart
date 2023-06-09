@@ -38,6 +38,7 @@ class AppData {
   final String description;
   final bool versionChanged;
   final AppRating? appRating;
+  final AppReview? ownReview;
   final List<AppReview> userReviews;
   final AppFormat appFormat;
   final String appSize;
@@ -61,6 +62,7 @@ class AppData {
     required this.description,
     required this.versionChanged,
     required this.appRating,
+    required this.ownReview,
     required this.userReviews,
     required this.appFormat,
     required this.appSize,
@@ -79,6 +81,7 @@ class AppReview {
   final String? username;
   final int? positiveVote;
   final int? negativeVote;
+  final bool? own;
 
   AppReview({
     this.id,
@@ -89,6 +92,7 @@ class AppReview {
     this.username,
     this.positiveVote,
     this.negativeVote,
+    this.own,
   });
 
   @override
@@ -102,7 +106,8 @@ class AppReview {
         other.dateTime == dateTime &&
         other.username == username &&
         other.positiveVote == positiveVote &&
-        other.negativeVote == negativeVote;
+        other.negativeVote == negativeVote &&
+        other.own == own;
   }
 
   @override
@@ -116,6 +121,7 @@ class AppReview {
       username,
       positiveVote,
       negativeVote,
+      own,
     );
   }
 }
