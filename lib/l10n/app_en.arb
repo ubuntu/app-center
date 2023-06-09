@@ -57,7 +57,7 @@
   "remove": "Remove",
   "removeAll": "Remove all",
   "confirmRemove": "Are you sure you want to remove this package?",
-    "removePackage": "Remove {package}",
+  "removePackage": "Remove {package}",
   "@removePackage": {
     "placeholders": {
       "package": {
@@ -182,9 +182,9 @@
   "system": "System",
   "light": "Light",
   "dark": "Dark",
-  "noSnapsInstalled" : "There are no Snap applications installed on your system",
-  "appstreamSearchGreylist" : "app;application;package;program;programme;suite;tool",
-  "@appstreamSearchGreylist" : {
+  "noSnapsInstalled": "There are no Snap applications installed on your system",
+  "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
+  "@appstreamSearchGreylist": {
     "description": "List of 'grey-listed' words separated with ';'. Do not translate this list directly. Instead, provide a list of words in your language that people are likely to include in a search but that should normally be ignored in the search."
   },
   "releasedAt": "Released at",
@@ -196,31 +196,31 @@
   "dependenciesQuestion": "Are you sure you want to proceed?",
   "dependenciesFullList": "See full list of dependencies",
   "dependenciesInstallListing": "{length} dependencies with a total size of {size} will be downloaded when installing {packageName}",
-  "@dependenciesInstallListing" : {
+  "@dependenciesInstallListing": {
     "placeholders": {
-        "length": {
-          "type": "int"
-        },
-        "size": {
-          "type": "String"
-        },
-        "packageName": {
-          "type": "String"
-        }
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
     }
   },
   "dependenciesRemoveListing": "{length} dependencies with a total size of {size} can be automatically removed when removing {packageName}",
-  "@dependenciesRemoveListing" : {
+  "@dependenciesRemoveListing": {
     "placeholders": {
-        "length": {
-          "type": "int"
-        },
-        "size": {
-          "type": "String"
-        },
-        "packageName": {
-          "type": "String"
-        }
+      "length": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      },
+      "packageName": {
+        "type": "String"
+      }
     }
   },
   "dependenciesAutoremove": "Remove no longer needed dependencies",
