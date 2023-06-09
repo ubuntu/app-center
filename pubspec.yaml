@@ -41,7 +41,7 @@ dependencies:
       url: https://github.com/ubuntu-flutter-community/liquid_progress_indicator
       ref: fdeb8de
   meta: ^1.7.0
-  odrs: ^0.0.1
+  odrs: ^0.0.3
   package_info_plus: ^4.0.0
   packagekit: ^0.2.6
   palette_generator: ^0.3.3

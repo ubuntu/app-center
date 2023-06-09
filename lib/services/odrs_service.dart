@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:glib/glib.dart';
-import 'package:meta/meta.dart';
 import 'package:odrs/odrs.dart';
 
 export 'package:odrs/odrs.dart' show OdrsRating;
@@ -30,7 +30,7 @@ class OdrsService {
   }
 
   Stream<Map<String, OdrsRating>> getRatings() async* {
-    final file = File(_cachePath('ratings.json'));
+    final file = _ratingCache();
     final exists = await file.exists();
     if (exists) {
       final ratings = await file.readRatings();
@@ -47,8 +47,10 @@ class OdrsService {
     }
   }
 
+  bool isOwnReview(OdrsReview review) => review.userHash == _client.userHash;
+
   Stream<List<OdrsReview>> getReviews(String appId, {String? version}) async* {
-    final file = File(_cachePath('$appId-$version.json'));
+    final file = _reviewCache(appId, version);
     final exists = await file.exists();
     if (exists) {
       final reviews = await file.readReviews();
@@ -66,6 +68,38 @@ class OdrsService {
     }
   }
 
+  Future<OdrsError?> submitReview({
+    required String appId,
+    required int rating,
+    String? locale,
+    required String version,
+    required String userDisplay,
+    required String summary,
+    required String description,
+  }) async {
+    try {
+      await _client.submitReview(
+        appId: appId,
+        rating: rating,
+        locale: locale,
+        version: version,
+        userDisplay: userDisplay,
+        summary: summary,
+        description: description,
+      );
+      await _reviewCache(appId, version).invalidate();
+    } on OdrsException catch (e) {
+      debugPrint('ODRS: ${e.message}');
+      return e.error;
+    }
+    return null;
+  }
+
+  File _ratingCache() => File(_cachePath('ratings.json'));
+  File _reviewCache(String appId, String? version) {
+    return File(_cachePath('$appId-$version.json'));
+  }
+
   String _cachePath(String fileName) {
     final cacheDir = glib.getUserCacheDir();
     final programName = glib.getProgramName();
@@ -80,6 +114,12 @@ extension _OdrsCacheFile on File {
     return lastModified().then((timestamp) {
       return timestamp.isBefore(DateTime.now().subtract(period));
     });
+  }
+
+  Future<void> invalidate() async {
+    if (await exists()) {
+      await delete();
+    }
   }
 
   Future<Map<String, OdrsRating>?> readRatings() async {

@@ -47,13 +47,6 @@ class AppPage extends StatefulWidget {
     this.controls,
     this.subDescription,
     this.appIsInstalled = false,
-    this.onRatingUpdate,
-    this.onReviewSend,
-    this.onReviewChanged,
-    this.onReviewTitleChanged,
-    this.review,
-    this.reviewTitle,
-    this.reviewRating,
     this.onVote,
     this.onFlag,
     this.initialized = false,
@@ -69,13 +62,6 @@ class AppPage extends StatefulWidget {
   final bool appIsInstalled;
   final bool enableSearch;
 
-  final double? reviewRating;
-  final String? review;
-  final String? reviewTitle;
-  final void Function(double)? onRatingUpdate;
-  final void Function()? onReviewSend;
-  final void Function(String)? onReviewChanged;
-  final void Function(String)? onReviewTitleChanged;
   final Function(AppReview, bool)? onVote;
   final Function(AppReview)? onFlag;
 
@@ -150,16 +136,10 @@ class _AppPageState extends State<AppPage> {
 
     final ratingsAndReviews = AppReviews(
       initialized: widget.initialized,
-      reviewRating: widget.reviewRating,
-      review: widget.review,
-      reviewTitle: widget.reviewTitle,
       appRating: widget.appData.appRating,
+      ownReview: widget.appData.ownReview,
       userReviews: widget.appData.userReviews,
       appIsInstalled: widget.appIsInstalled,
-      onRatingUpdate: widget.onRatingUpdate,
-      onReviewSend: widget.onReviewSend,
-      onReviewChanged: widget.onReviewChanged,
-      onReviewTitleChanged: widget.onReviewTitleChanged,
       onVote: widget.onVote,
       onFlag: widget.onFlag,
     );
