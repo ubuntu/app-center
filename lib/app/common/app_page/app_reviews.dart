@@ -92,15 +92,21 @@ class _AppReviewsState extends State<AppReviews> {
                 appRating: widget.appRating!,
               ),
             const Padding(
-              padding: EdgeInsets.only(top: 30, bottom: 30),
+              padding: EdgeInsets.only(top: 30, bottom: 20),
               child: Divider(
                 height: 0,
               ),
             ),
-            if (widget.appIsInstalled)
+            if (widget.review != null)
+              _Review(
+                userReview: AppReview(
+                  rating: widget.appRating?.average,
+                  review: widget.review,
+                  title: widget.reviewTitle,
+                ),
+              )
+            else if (widget.appIsInstalled)
               _ReviewPanel(
-                appIsInstalled: widget.appIsInstalled,
-                averageRating: widget.appRating?.average,
                 reviewRating: widget.reviewRating,
                 review: widget.review,
                 reviewTitle: widget.reviewTitle,
@@ -108,13 +114,6 @@ class _AppReviewsState extends State<AppReviews> {
                 onReviewSend: widget.onReviewSend,
                 onReviewChanged: widget.onReviewChanged,
                 onReviewTitleChanged: widget.onReviewTitleChanged,
-              ),
-            if (widget.appIsInstalled)
-              const Padding(
-                padding: EdgeInsets.only(top: 30, bottom: 30),
-                child: Divider(
-                  height: 0,
-                ),
               ),
             _ReviewsTrailer(
               userReviews: widget.userReviews,
@@ -181,7 +180,6 @@ class _ReviewPanel extends StatelessWidget {
   const _ReviewPanel({
     // ignore: unused_element
     super.key,
-    this.averageRating,
     this.onRatingUpdate,
     this.onReviewSend,
     this.onReviewChanged,
@@ -189,14 +187,11 @@ class _ReviewPanel extends StatelessWidget {
     this.review,
     this.reviewTitle,
     this.reviewRating,
-    this.appIsInstalled = false,
   });
 
-  final double? averageRating;
   final double? reviewRating;
   final String? review;
   final String? reviewTitle;
-  final bool appIsInstalled;
 
   final void Function(double)? onRatingUpdate;
   final void Function()? onReviewSend;
@@ -205,68 +200,33 @@ class _ReviewPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Text(
-                  '${context.l10n.rate}:',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                RatingBar.builder(
-                  initialRating: reviewRating ?? 0,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  itemCount: 5,
-                  itemPadding: const EdgeInsets.only(right: 5),
-                  itemSize: 40,
-                  itemBuilder: (context, _) => const MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: Icon(
-                      YaruIcons.star_filled,
-                      color: kStarColor,
-                      size: 2,
-                    ),
-                  ),
-                  unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
-                  onRatingUpdate: (rating) {
-                    if (onRatingUpdate != null) {
-                      onRatingUpdate!(rating);
-                    }
-                  },
-                  ignoreGestures: !appIsInstalled,
-                ),
-              ],
+        ElevatedButton(
+          onPressed: () => showDialog(
+            context: context,
+            builder: (context) => _MyReviewDialog(
+              reviewRating: reviewRating,
+              review: review,
+              reviewTitle: reviewTitle,
+              onRatingUpdate: (rating) {
+                if (onRatingUpdate != null) {
+                  onRatingUpdate!(rating);
+                }
+              },
+              onReviewSend: onReviewSend,
+              onReviewChanged: onReviewChanged,
+              onReviewTitleChanged: onReviewTitleChanged,
             ),
-            ElevatedButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (context) => _MyReviewDialog(
-                  reviewRating: reviewRating,
-                  review: review,
-                  reviewTitle: reviewTitle,
-                  onRatingUpdate: (rating) {
-                    if (onRatingUpdate != null) {
-                      onRatingUpdate!(rating);
-                    }
-                  },
-                  onReviewSend: onReviewSend,
-                  onReviewChanged: onReviewChanged,
-                  onReviewTitleChanged: onReviewTitleChanged,
-                ),
-              ),
-              child: Text(context.l10n.yourReview),
-            )
-          ],
+          ),
+          child: Text(context.l10n.yourReview),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(top: 20, bottom: 20),
+          child: Divider(
+            height: 0,
+          ),
         ),
       ],
     );
@@ -482,8 +442,8 @@ class _ReviewsTrailer extends StatelessWidget {
 class _Review extends StatelessWidget {
   const _Review({
     required this.userReview,
-    required this.onFlag,
-    required this.onVote,
+    this.onFlag,
+    this.onVote,
   });
 
   final AppReview userReview;
@@ -561,14 +521,15 @@ class _Review extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(
-          height: kYaruPagePadding,
-        ),
-        _ReviewRatingBar(
-          userReview: userReview,
-          onFlag: onFlag,
-          onVote: onVote,
-        ),
+        if (onFlag != null || onVote != null)
+          Padding(
+            padding: const EdgeInsets.only(top: kYaruPagePadding),
+            child: _ReviewRatingBar(
+              userReview: userReview,
+              onFlag: onFlag,
+              onVote: onVote,
+            ),
+          ),
         const Padding(
           padding: EdgeInsets.only(top: 20, bottom: 20),
           child: Divider(
