@@ -426,5 +426,11 @@
   "reportReviewDialogTitle": "Segnala revisione",
   "@reportReviewDialogTitle": {},
   "reportReviewDialogBody": "Puoi segnalare una recensione per comportamento offensivo, maleducato o discriminatorio. Una volta segnalata, una recensione verrà nascosta fino a quando non sarà verificata da un amministratore.",
-  "@reportReviewDialogBody": {}
+  "@reportReviewDialogBody": {},
+  "reviewTaboo": "La recensione contiene una parola tabù",
+  "@reviewTaboo": {},
+  "reviewError": "Qualcosa è andato storto",
+  "@reviewError": {},
+  "reviewAbuse": "Account disabilitato a causa di un abuso",
+  "@reviewAbuse": {}
 }
