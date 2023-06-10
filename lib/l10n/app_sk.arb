@@ -426,5 +426,11 @@
   "updateAvailable": "Dostupná aktualizácia",
   "@updateAvailable": {},
   "enterRepoName": "Zadajte názov úložiska",
-  "@enterRepoName": {}
+  "@enterRepoName": {},
+  "reviewError": "Niečo sa pokazilo",
+  "@reviewError": {},
+  "reviewAbuse": "Účet deaktivovaný z dôvodu zneužitia",
+  "@reviewAbuse": {},
+  "reviewTaboo": "Recenzia obsahuje zakázané slovo",
+  "@reviewTaboo": {}
 }
