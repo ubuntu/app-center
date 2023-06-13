@@ -426,5 +426,11 @@
   "appstreamSearchGreylist": "aplikace;balíček;program;sada;nástroj",
   "@appstreamSearchGreylist": {
     "description": "List of 'grey-listed' words separated with ';'. Do not translate this list directly. Instead, provide a list of words in your language that people are likely to include in a search but that should normally be ignored in the search."
-  }
+  },
+  "reviewAbuse": "Účet deaktivován z důvodu zneužití",
+  "@reviewAbuse": {},
+  "reviewError": "Někde došlo k chybě",
+  "@reviewError": {},
+  "reviewTaboo": "Recenze obsahuje tabuizované slovo",
+  "@reviewTaboo": {}
 }

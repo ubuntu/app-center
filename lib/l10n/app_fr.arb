@@ -426,5 +426,11 @@
         "type": "String"
       }
     }
-  }
+  },
+  "reviewTaboo": "L'avis contient un mot tabou",
+  "@reviewTaboo": {},
+  "reviewAbuse": "Compte désactivé pour cause d'abus",
+  "@reviewAbuse": {},
+  "reviewError": "Quelque chose s'est mal passé",
+  "@reviewError": {}
 }

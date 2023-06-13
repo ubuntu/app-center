@@ -426,5 +426,11 @@
   "share": "Kunhavigi",
   "@share": {},
   "reportReviewDialogBody": "Vi povas raporti recenzon pro misa, fia aŭ diskriminacia konduto. Raportita recenzo kaŝiĝos ĝis kontrolo de administranto.",
-  "@reportReviewDialogBody": {}
+  "@reportReviewDialogBody": {},
+  "reviewError": "Io fiaskis",
+  "@reviewError": {},
+  "reviewAbuse": "Konto malŝaltita pro misuzo",
+  "@reviewAbuse": {},
+  "reviewTaboo": "Recenzo enhavas tabuan vorton",
+  "@reviewTaboo": {}
 }

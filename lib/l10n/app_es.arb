@@ -426,5 +426,11 @@
   "report": "Informe",
   "@report": {},
   "reportAbuse": "Informar de un abuso",
-  "@reportAbuse": {}
+  "@reportAbuse": {},
+  "reviewAbuse": "Cuenta desactivada por abuso",
+  "@reviewAbuse": {},
+  "reviewTaboo": "La reseña contiene una palabra tabú",
+  "@reviewTaboo": {},
+  "reviewError": "Algo salió mal",
+  "@reviewError": {}
 }
