@@ -431,6 +431,6 @@
   "@reviewAbuse": {},
   "reviewError": "Někde došlo k chybě",
   "@reviewError": {},
-  "reviewTaboo": "Recenze obsahuje tabuizované slovo",
+  "reviewTaboo": "Recenze obsahuje zakázané slovo",
   "@reviewTaboo": {}
 }
