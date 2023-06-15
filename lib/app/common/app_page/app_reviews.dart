@@ -288,24 +288,21 @@ class _ReviewDialogState extends State<_ReviewDialog> {
           const SizedBox(
             height: kYaruPagePadding,
           ),
-          SizedBox(
-            width: 600,
-            child: TextField(
-              maxLength: _kMaxReviewLength,
-              controller: _reviewController,
-              keyboardType: TextInputType.multiline,
-              minLines: 10,
-              maxLines: 10,
-              style: theme.textTheme.bodyMedium,
-              decoration: InputDecoration(
-                label: Text(
-                  context.l10n.yourReview,
-                  style: theme.textTheme.bodyMedium,
-                ),
-                hintText: context.l10n.whatDoYouThink,
-                floatingLabelAlignment: FloatingLabelAlignment.start,
-                alignLabelWithHint: true,
+          TextField(
+            maxLength: _kMaxReviewLength,
+            controller: _reviewController,
+            keyboardType: TextInputType.multiline,
+            minLines: 10,
+            maxLines: 10,
+            style: theme.textTheme.bodyMedium,
+            decoration: InputDecoration(
+              label: Text(
+                context.l10n.yourReview,
+                style: theme.textTheme.bodyMedium,
               ),
+              hintText: context.l10n.whatDoYouThink,
+              floatingLabelAlignment: FloatingLabelAlignment.start,
+              alignLabelWithHint: true,
             ),
           ),
         ],
@@ -315,10 +312,13 @@ class _ReviewDialogState extends State<_ReviewDialog> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              context.l10n.whatDataIsSend +
-                  context.l10n.privacyPolicy, // https://odrs.gnome.org/privacy
-              style: theme.textTheme.bodyMedium,
+            Expanded(
+              child: Text(
+                context.l10n.whatDataIsSend +
+                    context
+                        .l10n.privacyPolicy, // https://odrs.gnome.org/privacy
+                style: theme.textTheme.bodyMedium,
+              ),
             ),
             Row(
               children: [
