@@ -426,5 +426,11 @@
   "reportReviewDialogTitle": "Rapportera recension",
   "@reportReviewDialogTitle": {},
   "starDeveloper": "Stjärnutvecklare",
-  "@starDeveloper": {}
+  "@starDeveloper": {},
+  "reviewAbuse": "Kontot har inaktiverats på grund av missbruk",
+  "@reviewAbuse": {},
+  "reviewTaboo": "Recensionen innehåller tabuord",
+  "@reviewTaboo": {},
+  "reviewError": "Något gick fel",
+  "@reviewError": {}
 }
