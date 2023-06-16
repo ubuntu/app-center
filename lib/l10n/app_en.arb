@@ -240,5 +240,9 @@
   "report": "Report",
   "reportAbuse": "Report abuse",
   "reportReviewDialogTitle": "Report review",
-  "reportReviewDialogBody": "You can report a review for abusive, rude, or discriminatory behavior. Once reported, a review will be hidden until it has been checked by an administrator."
+  "reportReviewDialogBody": "You can report a review for abusive, rude, or discriminatory behavior. Once reported, a review will be hidden until it has been checked by an administrator.",
+  "appReviewsMostRecent": "Most recent",
+  "appReviewsMostUseful": "Most useful",
+  "appReviewsHighestRating": "Highest Rating",
+  "appReviewsLowestRating": "Lowest Rating"
 }
