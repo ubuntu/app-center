@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/app_data.dart';
+import 'package:software/app/common/app_page/review_sort_by.dart';
 import 'package:software/app/common/app_rating.dart';
 import 'package:software/app/common/border_container.dart';
 import 'package:software/app/common/constants.dart';
@@ -100,15 +101,19 @@ class _AppReviewsState extends State<AppReviews> {
             Row(
               children: [
                 OutlinedButton(
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (context) => _ReviewDetailsDialog(
-                      ownReview: widget.ownReview,
-                      userReviews: widget.userReviews,
-                      onVote: widget.onVote,
-                      onFlag: widget.onFlag,
-                    ),
-                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return _ReviewDetailsDialog(
+                          ownReview: widget.ownReview,
+                          userReviews: widget.userReviews,
+                          onVote: widget.onVote,
+                          onFlag: widget.onFlag,
+                        );
+                      },
+                    );
+                  },
                   child: Text(context.l10n.showAllReviews),
                 ),
               ],
@@ -120,7 +125,7 @@ class _AppReviewsState extends State<AppReviews> {
   }
 }
 
-class _ReviewDetailsDialog extends StatelessWidget {
+class _ReviewDetailsDialog extends StatefulWidget {
   const _ReviewDetailsDialog({
     required this.ownReview,
     required this.userReviews,
@@ -134,23 +139,106 @@ class _ReviewDetailsDialog extends StatelessWidget {
   final Function(AppReview)? onFlag;
 
   @override
+  State<_ReviewDetailsDialog> createState() => _ReviewDetailsDialogState();
+}
+
+class _ReviewDetailsDialogState extends State<_ReviewDetailsDialog> {
+  ReviewSortBy _reviewSortBy = ReviewSortBy.mostRecent;
+  late List<AppReview>? _userReviews;
+
+  @override
+  void initState() {
+    super.initState();
+    _userReviews = widget.userReviews;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
+    if (_userReviews?.isNotEmpty == true) {
+      _userReviews!.sort(sortUserReviews);
+    }
+    return AlertDialog(
       title: YaruDialogTitleBar(
         title: Text(context.l10n.ratingsAndReviews),
       ),
       titlePadding: EdgeInsets.zero,
       contentPadding: const EdgeInsets.all(kYaruPagePadding),
-      children: [ownReview, ...?userReviews]
-          .whereNotNull()
-          .map(
-            (e) => SizedBox(
-              width: 500,
-              child: _Review(userReview: e, onFlag: onFlag, onVote: onVote),
-            ),
-          )
-          .toList(),
+      scrollable: true,
+      content: StatefulBuilder(
+        builder: (context, stateSetter) {
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: kYaruPagePadding),
+                child: Row(
+                  children: [
+                    YaruPopupMenuButton<ReviewSortBy>(
+                      initialValue: _reviewSortBy,
+                      onSelected: (value) {
+                        stateSetter(
+                          () {
+                            setState(
+                              () {
+                                _reviewSortBy = value;
+                              },
+                            );
+                          },
+                        );
+                      },
+                      itemBuilder: (v) {
+                        return ReviewSortBy.values
+                            .map(
+                              (e) => PopupMenuItem<ReviewSortBy>(
+                                value: e,
+                                child: Text(e.localize(context.l10n)),
+                              ),
+                            )
+                            .toList();
+                      },
+                      child: Text(_reviewSortBy.localize(context.l10n)),
+                    ),
+                  ],
+                ),
+              ),
+              ...[widget.ownReview, ...?_userReviews]
+                  .whereNotNull()
+                  .map(
+                    (e) => SizedBox(
+                      width: 500,
+                      child: _Review(
+                        userReview: e,
+                        onFlag: widget.onFlag,
+                        onVote: widget.onVote,
+                      ),
+                    ),
+                  )
+                  .toList()
+            ],
+          );
+        },
+      ),
     );
+  }
+
+  int sortUserReviews(a, b) {
+    switch (_reviewSortBy) {
+      case ReviewSortBy.mostRecent:
+        return a.dateTime != null && b.dateTime != null
+            ? b.dateTime!.compareTo(a.dateTime!)
+            : 0;
+      case ReviewSortBy.mostUseful:
+        return a.positiveVote != null && b.positiveVote != null
+            ? b.positiveVote!.compareTo(a.positiveVote!)
+            : 0;
+      case ReviewSortBy.highestRating:
+        return a.rating != null && b.rating != null
+            ? b.rating!.compareTo(a.rating!)
+            : 0;
+      case ReviewSortBy.lowestRating:
+        return a.rating != null && b.rating != null
+            ? a.rating!.compareTo(b.rating!)
+            : 0;
+    }
   }
 }
 

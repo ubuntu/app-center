@@ -33,10 +33,11 @@ import 'package:software/app/common/link.dart';
 import 'package:software/app/common/safe_network_image.dart';
 import 'package:software/app/explore/explore_model.dart';
 import 'package:software/l10n/l10n.dart';
+import 'package:yaru_colors/yaru_colors.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
 import '../expandable_title.dart';
-import 'package:yaru_colors/yaru_colors.dart';
 
 class AppPage extends StatefulWidget {
   const AppPage({
