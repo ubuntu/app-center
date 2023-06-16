@@ -432,5 +432,13 @@
   "reviewAbuse": "Konto malŝaltita pro misuzo",
   "@reviewAbuse": {},
   "reviewTaboo": "Recenzo enhavas tabuan vorton",
-  "@reviewTaboo": {}
+  "@reviewTaboo": {},
+  "appReviewsMostRecent": "Plej novaj",
+  "@appReviewsMostRecent": {},
+  "appReviewsHighestRating": "Plej favoraj taksoj",
+  "@appReviewsHighestRating": {},
+  "appReviewsMostUseful": "Plej utilaj",
+  "@appReviewsMostUseful": {},
+  "appReviewsLowestRating": "Plej malfavoraj taksoj",
+  "@appReviewsLowestRating": {}
 }
