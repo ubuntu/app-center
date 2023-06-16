@@ -432,5 +432,13 @@
   "reviewError": "Někde došlo k chybě",
   "@reviewError": {},
   "reviewTaboo": "Recenze obsahuje zakázané slovo",
-  "@reviewTaboo": {}
+  "@reviewTaboo": {},
+  "appReviewsMostRecent": "Nejnovější",
+  "@appReviewsMostRecent": {},
+  "appReviewsMostUseful": "Nejužitečnější",
+  "@appReviewsMostUseful": {},
+  "appReviewsLowestRating": "Nejnižší hodnocení",
+  "@appReviewsLowestRating": {},
+  "appReviewsHighestRating": "Nejvyšší hodnocení",
+  "@appReviewsHighestRating": {}
 }
