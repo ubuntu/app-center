@@ -426,5 +426,11 @@
   "reportAbuse": "Missbrauch melden",
   "@reportAbuse": {},
   "reportReviewDialogTitle": "Bewertung melden",
-  "@reportReviewDialogTitle": {}
+  "@reportReviewDialogTitle": {},
+  "reviewAbuse": "Konto aufgrund von Missbrauch deaktiviert",
+  "@reviewAbuse": {},
+  "reviewTaboo": "Rezension enthält Tabuwort",
+  "@reviewTaboo": {},
+  "reviewError": "Etwas ist schiefgelaufen",
+  "@reviewError": {}
 }

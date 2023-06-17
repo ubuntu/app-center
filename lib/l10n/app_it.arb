@@ -432,5 +432,13 @@
   "reviewError": "Qualcosa è andato storto",
   "@reviewError": {},
   "reviewAbuse": "Account disabilitato a causa di un abuso",
-  "@reviewAbuse": {}
+  "@reviewAbuse": {},
+  "appReviewsMostRecent": "Più recente",
+  "@appReviewsMostRecent": {},
+  "appReviewsMostUseful": "Molto utile",
+  "@appReviewsMostUseful": {},
+  "appReviewsHighestRating": "Valutazione più alta",
+  "@appReviewsHighestRating": {},
+  "appReviewsLowestRating": "Valutazione più bassa",
+  "@appReviewsLowestRating": {}
 }
