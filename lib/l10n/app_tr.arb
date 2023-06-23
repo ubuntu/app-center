@@ -426,5 +426,19 @@
   "socialSlogan": "",
   "@socialSlogan": {},
   "newsAndWeatherSlogan": "",
-  "@newsAndWeatherSlogan": {}
+  "@newsAndWeatherSlogan": {},
+  "appReviewsMostRecent": "",
+  "@appReviewsMostRecent": {},
+  "appReviewsMostUseful": "",
+  "@appReviewsMostUseful": {},
+  "appReviewsHighestRating": "",
+  "@appReviewsHighestRating": {},
+  "reviewAbuse": "",
+  "@reviewAbuse": {},
+  "reviewError": "",
+  "@reviewError": {},
+  "reviewTaboo": "",
+  "@reviewTaboo": {},
+  "appReviewsLowestRating": "",
+  "@appReviewsLowestRating": {}
 }
