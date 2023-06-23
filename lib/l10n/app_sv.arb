@@ -432,5 +432,13 @@
   "reviewTaboo": "Recensionen innehåller tabuord",
   "@reviewTaboo": {},
   "reviewError": "Något gick fel",
-  "@reviewError": {}
+  "@reviewError": {},
+  "appReviewsMostRecent": "Mest senaste",
+  "@appReviewsMostRecent": {},
+  "appReviewsMostUseful": "Mest användbar",
+  "@appReviewsMostUseful": {},
+  "appReviewsHighestRating": "Högsta Betyg",
+  "@appReviewsHighestRating": {},
+  "appReviewsLowestRating": "Lägsta Betyg",
+  "@appReviewsLowestRating": {}
 }
