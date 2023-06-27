@@ -1,3 +1,5 @@
 import 'package:snapd/snapd.dart';
 
-class SnapdService extends SnapdClient {}
+import 'snapd_watcher.dart';
+
+class SnapdService extends SnapdClient with SnapdWatcher {}
