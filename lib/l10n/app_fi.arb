@@ -426,5 +426,19 @@
   "devicesAndIotSlogan": "Laitteet ja IOT",
   "@devicesAndIotSlogan": {},
   "noSnapsInstalled": "Järjestelmään ei ole asennettu Snap-sovelluksia",
-  "@noSnapsInstalled": {}
+  "@noSnapsInstalled": {},
+  "appReviewsLowestRating": "",
+  "@appReviewsLowestRating": {},
+  "reviewTaboo": "",
+  "@reviewTaboo": {},
+  "reviewError": "",
+  "@reviewError": {},
+  "appReviewsMostUseful": "",
+  "@appReviewsMostUseful": {},
+  "appReviewsHighestRating": "",
+  "@appReviewsHighestRating": {},
+  "appReviewsMostRecent": "",
+  "@appReviewsMostRecent": {},
+  "reviewAbuse": "",
+  "@reviewAbuse": {}
 }

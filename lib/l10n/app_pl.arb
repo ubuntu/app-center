@@ -432,5 +432,13 @@
   "reviewTaboo": "Recenzja zawiera słowo tabu",
   "@reviewTaboo": {},
   "reviewError": "Coś poszło nie tak",
-  "@reviewError": {}
+  "@reviewError": {},
+  "appReviewsMostUseful": "",
+  "@appReviewsMostUseful": {},
+  "appReviewsLowestRating": "",
+  "@appReviewsLowestRating": {},
+  "appReviewsMostRecent": "",
+  "@appReviewsMostRecent": {},
+  "appReviewsHighestRating": "",
+  "@appReviewsHighestRating": {}
 }

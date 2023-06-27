@@ -426,5 +426,19 @@
   "reportAbuse": "",
   "@reportAbuse": {},
   "reportReviewDialogTitle": "",
-  "@reportReviewDialogTitle": {}
+  "@reportReviewDialogTitle": {},
+  "reviewAbuse": "",
+  "@reviewAbuse": {},
+  "reviewTaboo": "",
+  "@reviewTaboo": {},
+  "reviewError": "",
+  "@reviewError": {},
+  "appReviewsHighestRating": "",
+  "@appReviewsHighestRating": {},
+  "appReviewsLowestRating": "",
+  "@appReviewsLowestRating": {},
+  "appReviewsMostRecent": "",
+  "@appReviewsMostRecent": {},
+  "appReviewsMostUseful": "",
+  "@appReviewsMostUseful": {}
 }

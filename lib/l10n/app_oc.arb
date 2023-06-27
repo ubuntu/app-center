@@ -426,5 +426,19 @@
     }
   },
   "ready": "",
-  "@ready": {}
+  "@ready": {},
+  "appReviewsHighestRating": "",
+  "@appReviewsHighestRating": {},
+  "reviewTaboo": "",
+  "@reviewTaboo": {},
+  "appReviewsMostRecent": "",
+  "@appReviewsMostRecent": {},
+  "reviewError": "",
+  "@reviewError": {},
+  "reviewAbuse": "",
+  "@reviewAbuse": {},
+  "appReviewsLowestRating": "",
+  "@appReviewsLowestRating": {},
+  "appReviewsMostUseful": "",
+  "@appReviewsMostUseful": {}
 }

@@ -432,5 +432,13 @@
   "reviewTaboo": "La reseña contiene una palabra tabú",
   "@reviewTaboo": {},
   "reviewError": "Algo salió mal",
-  "@reviewError": {}
+  "@reviewError": {},
+  "appReviewsMostUseful": "Lo más útil",
+  "@appReviewsMostUseful": {},
+  "appReviewsLowestRating": "Clasificación más baja",
+  "@appReviewsLowestRating": {},
+  "appReviewsMostRecent": "Más recientes",
+  "@appReviewsMostRecent": {},
+  "appReviewsHighestRating": "Clasificación más alta",
+  "@appReviewsHighestRating": {}
 }

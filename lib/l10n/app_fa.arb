@@ -426,5 +426,19 @@
   "send": "",
   "@send": {},
   "socialSlogan": "",
-  "@socialSlogan": {}
+  "@socialSlogan": {},
+  "appReviewsHighestRating": "",
+  "@appReviewsHighestRating": {},
+  "appReviewsLowestRating": "",
+  "@appReviewsLowestRating": {},
+  "reviewAbuse": "",
+  "@reviewAbuse": {},
+  "reviewTaboo": "",
+  "@reviewTaboo": {},
+  "reviewError": "",
+  "@reviewError": {},
+  "appReviewsMostRecent": "",
+  "@appReviewsMostRecent": {},
+  "appReviewsMostUseful": "",
+  "@appReviewsMostUseful": {}
 }

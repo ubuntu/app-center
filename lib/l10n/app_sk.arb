@@ -432,5 +432,13 @@
   "reviewAbuse": "Účet deaktivovaný z dôvodu zneužitia",
   "@reviewAbuse": {},
   "reviewTaboo": "Recenzia obsahuje zakázané slovo",
-  "@reviewTaboo": {}
+  "@reviewTaboo": {},
+  "appReviewsMostUseful": "Najužitočnejšie",
+  "@appReviewsMostUseful": {},
+  "appReviewsMostRecent": "Najnovšie",
+  "@appReviewsMostRecent": {},
+  "appReviewsHighestRating": "Najvyššie hodnotenie",
+  "@appReviewsHighestRating": {},
+  "appReviewsLowestRating": "Najnižšie hodnotenie",
+  "@appReviewsLowestRating": {}
 }
