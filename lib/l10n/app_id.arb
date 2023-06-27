@@ -426,5 +426,19 @@
   "additionalInformation": "",
   "@additionalInformation": {},
   "links": "",
-  "@links": {}
+  "@links": {},
+  "appReviewsMostRecent": "",
+  "@appReviewsMostRecent": {},
+  "appReviewsMostUseful": "",
+  "@appReviewsMostUseful": {},
+  "appReviewsHighestRating": "",
+  "@appReviewsHighestRating": {},
+  "appReviewsLowestRating": "",
+  "@appReviewsLowestRating": {},
+  "reviewAbuse": "",
+  "@reviewAbuse": {},
+  "reviewTaboo": "",
+  "@reviewTaboo": {},
+  "reviewError": "",
+  "@reviewError": {}
 }

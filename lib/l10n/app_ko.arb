@@ -426,5 +426,19 @@
   "updatesAvailable": "",
   "@updatesAvailable": {},
   "installing": "",
-  "@installing": {}
+  "@installing": {},
+  "appReviewsLowestRating": "",
+  "@appReviewsLowestRating": {},
+  "appReviewsMostRecent": "",
+  "@appReviewsMostRecent": {},
+  "reviewError": "",
+  "@reviewError": {},
+  "reviewTaboo": "",
+  "@reviewTaboo": {},
+  "appReviewsHighestRating": "",
+  "@appReviewsHighestRating": {},
+  "reviewAbuse": "",
+  "@reviewAbuse": {},
+  "appReviewsMostUseful": "",
+  "@appReviewsMostUseful": {}
 }

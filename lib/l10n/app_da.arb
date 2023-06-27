@@ -426,5 +426,19 @@
   "processing": "Behandler",
   "@processing": {},
   "dark": "Mørkt",
-  "@dark": {}
+  "@dark": {},
+  "appReviewsMostRecent": "",
+  "@appReviewsMostRecent": {},
+  "reviewError": "",
+  "@reviewError": {},
+  "reviewTaboo": "",
+  "@reviewTaboo": {},
+  "reviewAbuse": "",
+  "@reviewAbuse": {},
+  "appReviewsMostUseful": "",
+  "@appReviewsMostUseful": {},
+  "appReviewsHighestRating": "",
+  "@appReviewsHighestRating": {},
+  "appReviewsLowestRating": "",
+  "@appReviewsLowestRating": {}
 }
