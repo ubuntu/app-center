@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+env:
+  FLUTTER_VERSION: '3.10.x'
+
+jobs:
+  analyze:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: ${{env.FLUTTER_VERSION}}
+      - run: flutter pub get
+      - run: flutter analyze
+
+  format:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: ${{env.FLUTTER_VERSION}}
+      - run: flutter pub get
+      - run: dart format . --set-exit-if-changed
+
+  l10n:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: ${{env.FLUTTER_VERSION}}
+      - run: flutter pub get
+      - run: flutter gen-l10n
+      - name: Check for outdated l10n
+        if: github.event_name == 'pull_request'
+        run: ./.github/scripts/check-outdated-files.sh
+      - name: Create PR
+        if: github.event_name == 'push'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          add-paths: '**/l10n/*.dart'
+          title: 'chore: regenerate l10n'
+          commit-message: 'chore: regenerate l10n'
+          branch: create-pull-request/l10n
+          delete-branch: true
+
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: ${{env.FLUTTER_VERSION}}
+      - run: flutter pub get
+      - run: flutter test  --coverage
+      - uses: codecov/codecov-action@v3
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
