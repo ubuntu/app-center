@@ -1,3 +1,4 @@
+import 'package:app_store/src/detail/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
@@ -36,6 +37,9 @@ class _CategoryView extends ConsumerWidget {
           key: ValueKey(snap.id),
           title: Text(snap.name),
           subtitle: Text(snap.summary),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => DetailPage(snap: snap)),
+          ),
         );
       },
     );
