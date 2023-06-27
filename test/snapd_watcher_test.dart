@@ -1,9 +1,13 @@
 import 'package:app_store/src/snapd/snapd_watcher.dart';
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
 
+import 'snapd_watcher_test.mocks.dart';
+
+@GenerateMocks([SnapdClient])
 class TestSnapdWatcher extends MockSnapdClient with SnapdWatcher {}
 
 void main() {
@@ -48,25 +52,4 @@ void main() {
       verify(watcher.getChanges(name: 'foo')).called(5);
     });
   });
-}
-
-class MockSnapdClient extends Mock implements SnapdClient {
-  @override
-  Future<SnapdChange> getChange(String id) {
-    return super.noSuchMethod(
-      Invocation.method(#getChange, [id]),
-      returnValue: Future.value(SnapdChange(spawnTime: DateTime(0))),
-    );
-  }
-
-  @override
-  Future<List<SnapdChange>> getChanges({
-    SnapdChangeFilter? filter,
-    String? name,
-  }) {
-    return super.noSuchMethod(
-      Invocation.method(#getChanges, [], {#filter: filter, #name: name}),
-      returnValue: Future.value(<SnapdChange>[]),
-    );
-  }
 }
