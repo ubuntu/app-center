@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -9,6 +10,7 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context);
     return Scaffold(
       appBar: const YaruWindowTitleBar(leading: YaruBackButton()),
       body: SingleChildScrollView(
@@ -21,19 +23,25 @@ class DetailPage extends StatelessWidget {
             Table(
               columnWidths: const {1: FlexColumnWidth(5)},
               children: [
-                TableRow(children: [const Text('Summary'), Text(snap.summary)]),
                 TableRow(children: [
-                  const Text('Description'),
+                  Text(lang.detailPageSummaryLabel),
+                  Text(snap.summary)
+                ]),
+                TableRow(children: [
+                  Text(lang.detailPageDescriptionLabel),
                   Text(snap.description),
                 ]),
-                TableRow(children: [const Text('Version'), Text(snap.version)]),
+                TableRow(children: [
+                  Text(lang.detailPageVersionLabel),
+                  Text(snap.version)
+                ]),
                 if (snap.publisher != null)
                   TableRow(children: [
-                    const Text('Publisher'),
+                    Text(lang.detailPagePublisherLabel),
                     Text(snap.publisher!.displayName)
                   ]),
                 TableRow(children: [
-                  const Text('Confinement'),
+                  Text(lang.detailPageConfinementLabel),
                   Text(snap.confinement.toString()),
                 ]),
               ],
