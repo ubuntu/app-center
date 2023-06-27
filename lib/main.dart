@@ -27,7 +27,7 @@ class StoreApp extends StatelessWidget {
         theme: yaru.theme,
         darkTheme: yaru.darkTheme,
         debugShowCheckedModeBanner: false,
-        builder: (context, child) => const Scaffold(
+        home: const Scaffold(
           appBar: YaruWindowTitleBar(),
           body: CategoryPage(category: 'featured'),
         ),
