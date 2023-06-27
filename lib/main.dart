@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
@@ -27,7 +28,9 @@ class StoreApp extends StatelessWidget {
         theme: yaru.theme,
         darkTheme: yaru.darkTheme,
         debugShowCheckedModeBanner: false,
-        builder: (context, child) => const Scaffold(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: const Scaffold(
           appBar: YaruWindowTitleBar(),
           body: CategoryPage(category: 'featured'),
         ),
