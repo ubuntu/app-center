@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import 'categories.dart';
+import 'snapd.dart';
 
 Future<void> main() async {
   await YaruWindowTitleBar.ensureInitialized();
 
-  runApp(const StoreApp());
+  final snapd = SnapdService();
+  await snapd.loadAuthorization();
+  registerServiceInstance(snapd);
+
+  runApp(const ProviderScope(child: StoreApp()));
 }
 
 class StoreApp extends StatelessWidget {
@@ -18,9 +27,9 @@ class StoreApp extends StatelessWidget {
         theme: yaru.theme,
         darkTheme: yaru.darkTheme,
         debugShowCheckedModeBanner: false,
-        builder: (context, child) => Scaffold(
-          appBar: const YaruWindowTitleBar(),
-          body: child,
+        builder: (context, child) => const Scaffold(
+          appBar: YaruWindowTitleBar(),
+          body: CategoryPage(category: 'featured'),
         ),
       ),
     );
