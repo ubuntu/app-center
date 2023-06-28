@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import 'categories.dart';
+import 'detail.dart';
+import 'routes.dart';
 import 'snapd.dart';
 
 Future<void> main() async {
@@ -34,6 +37,11 @@ class StoreApp extends StatelessWidget {
           appBar: YaruWindowTitleBar(),
           body: CategoryPage(category: 'featured'),
         ),
+        onGenerateRoute: (settings) => switch (settings.name) {
+          Routes.detail => MaterialPageRoute(
+              builder: (_) => DetailPage(snap: settings.arguments as Snap)),
+          _ => null,
+        },
       ),
     );
   }
