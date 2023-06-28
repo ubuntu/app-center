@@ -1,8 +1,9 @@
-import 'package:app_store/src/manage/manage_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import 'manage_provider.dart';
 
 class ManagePage extends ConsumerWidget {
   const ManagePage({super.key});
