@@ -46,19 +46,13 @@ class DetailNotifier extends StateNotifier<DetailState> {
 
   Future<void> install() async {
     state = const DetailState.loading();
-    final changeId = await snapd.install(storeSnap.name);
-    await for (final change in snapd.watchChange(changeId)) {
-      if (change.ready) break;
-    }
+    await snapd.install(storeSnap.name).then(snapd.waitChange);
     return _getLocalSnap();
   }
 
   Future<void> remove() async {
     state = const DetailState.loading();
-    final changeId = await snapd.remove(storeSnap.name);
-    await for (final change in snapd.watchChange(changeId)) {
-      if (change.ready) break;
-    }
+    await snapd.remove(storeSnap.name).then(snapd.waitChange);
     return _getLocalSnap();
   }
 }
