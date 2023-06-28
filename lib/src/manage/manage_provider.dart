@@ -3,8 +3,7 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '/snapd.dart';
 
-final categoryProvider =
-    FutureProvider.autoDispose.family((ref, String category) {
+final manageProvider = FutureProvider.autoDispose((ref) {
   final snapd = getService<SnapdService>();
-  return snapd.find(category: category);
+  return snapd.getSnaps();
 });
