@@ -1,53 +1,87 @@
+import 'package:app_store/src/detail/detail_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends ConsumerWidget {
   const DetailPage({super.key, required this.snap});
 
   final Snap snap;
 
   @override
-  Widget build(BuildContext context) {
-    final lang = AppLocalizations.of(context);
+  Widget build(context, ref) {
+    final state = ref.watch(detailModelProvider(snap));
     return Scaffold(
       appBar: const YaruWindowTitleBar(leading: YaruBackButton()),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(kYaruPagePadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(snap.name, style: Theme.of(context).textTheme.headlineMedium),
-            const SizedBox(height: kYaruPagePadding),
-            Table(
-              columnWidths: const {1: FlexColumnWidth(5)},
-              children: [
+      body: switch (state) {
+        LoadingState() => _SnapView(snap: snap, busy: true),
+        ErrorState() => _SnapView(snap: snap),
+        DataState(localSnap: final localSnap) =>
+          _SnapView(snap: snap, localSnap: localSnap),
+      },
+    );
+  }
+}
+
+class _SnapView extends ConsumerWidget {
+  const _SnapView({
+    required this.snap,
+    this.localSnap,
+    this.busy = false,
+  });
+
+  final Snap snap;
+  final Snap? localSnap;
+  final bool busy;
+  @override
+  Widget build(context, ref) {
+    final lang = AppLocalizations.of(context);
+    final model = ref.watch(detailModelProvider(snap).notifier);
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(kYaruPagePadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(snap.name, style: Theme.of(context).textTheme.headlineMedium),
+          if (localSnap != null) const Text('installed'),
+          const SizedBox(height: kYaruPagePadding),
+          !busy
+              ? ElevatedButton(
+                  onPressed: localSnap != null ? model.remove : model.install,
+                  child: Text(localSnap != null ? 'Remove' : 'Install'),
+                )
+              : const YaruCircularProgressIndicator(),
+          const SizedBox(height: kYaruPagePadding),
+          Table(
+            columnWidths: const {1: FlexColumnWidth(5)},
+            children: [
+              TableRow(children: [
+                Text(lang.detailPageSummaryLabel),
+                Text(snap.summary)
+              ]),
+              TableRow(children: [
+                Text(lang.detailPageDescriptionLabel),
+                Text(snap.description),
+              ]),
+              TableRow(children: [
+                Text(lang.detailPageVersionLabel),
+                Text(snap.version)
+              ]),
+              if (snap.publisher != null)
                 TableRow(children: [
-                  Text(lang.detailPageSummaryLabel),
-                  Text(snap.summary)
+                  Text(lang.detailPagePublisherLabel),
+                  Text(snap.publisher!.displayName)
                 ]),
-                TableRow(children: [
-                  Text(lang.detailPageDescriptionLabel),
-                  Text(snap.description),
-                ]),
-                TableRow(children: [
-                  Text(lang.detailPageVersionLabel),
-                  Text(snap.version)
-                ]),
-                if (snap.publisher != null)
-                  TableRow(children: [
-                    Text(lang.detailPagePublisherLabel),
-                    Text(snap.publisher!.displayName)
-                  ]),
-                TableRow(children: [
-                  Text(lang.detailPageConfinementLabel),
-                  Text(snap.confinement.toString()),
-                ]),
-              ],
-            ),
-          ],
-        ),
+              TableRow(children: [
+                Text(lang.detailPageConfinementLabel),
+                Text(snap.confinement.toString()),
+              ]),
+            ],
+          ),
+        ],
       ),
     );
   }
