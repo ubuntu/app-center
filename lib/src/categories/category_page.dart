@@ -1,9 +1,9 @@
-import 'package:app_store/src/detail/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/routes.dart';
 import 'category_provider.dart';
 
 class CategoryPage extends ConsumerWidget {
@@ -37,9 +37,8 @@ class _CategoryView extends ConsumerWidget {
           key: ValueKey(snap.id),
           title: Text(snap.name),
           subtitle: Text(snap.summary),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => DetailPage(snap: snap)),
-          ),
+          onTap: () =>
+              Navigator.pushNamed(context, Routes.detail, arguments: snap),
         );
       },
     );
