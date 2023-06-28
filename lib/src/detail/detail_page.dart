@@ -16,12 +16,11 @@ class DetailPage extends ConsumerWidget {
     final state = ref.watch(detailModelProvider(snap));
     return Scaffold(
       appBar: const YaruWindowTitleBar(leading: YaruBackButton()),
-      body: switch (state) {
-        LoadingState() => _SnapView(snap: snap, busy: true),
-        ErrorState() => _SnapView(snap: snap),
-        DataState(localSnap: final localSnap) =>
-          _SnapView(snap: snap, localSnap: localSnap),
-      },
+      body: state.when(
+        data: (localSnap) => _SnapView(snap: snap, localSnap: localSnap),
+        error: (_, __) => _SnapView(snap: snap),
+        loading: () => _SnapView(snap: snap, busy: true),
+      ),
     );
   }
 }

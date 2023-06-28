@@ -4,27 +4,13 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '/snapd.dart';
 
-sealed class DetailState {
-  const factory DetailState.loading() = LoadingState;
-  const factory DetailState.error(String message) = ErrorState;
-  const factory DetailState.data(Snap localSnap) = DataState;
-}
+final detailModelProvider = StateNotifierProvider.autoDispose
+    .family<DetailNotifier, DetailState, Snap>((ref, Snap storeSnap) {
+  final snapd = getService<SnapdService>();
+  return DetailNotifier(snapd, storeSnap)..init();
+});
 
-class LoadingState implements DetailState {
-  const LoadingState();
-}
-
-class ErrorState implements DetailState {
-  const ErrorState(this.message);
-
-  final String message;
-}
-
-class DataState implements DetailState {
-  const DataState(this.localSnap);
-
-  final Snap localSnap;
-}
+typedef DetailState = AsyncValue<Snap>;
 
 class DetailNotifier extends StateNotifier<DetailState> {
   DetailNotifier(this.snapd, this.storeSnap)
@@ -36,12 +22,7 @@ class DetailNotifier extends StateNotifier<DetailState> {
   Future<void> init() => _getLocalSnap();
 
   Future<void> _getLocalSnap() async {
-    try {
-      final localSnap = await snapd.getSnap(storeSnap.name);
-      state = DetailState.data(localSnap);
-    } on SnapdException catch (e) {
-      state = ErrorState(e.message);
-    }
+    state = await DetailState.guard(() => snapd.getSnap(storeSnap.name));
   }
 
   Future<void> install() async {
@@ -56,9 +37,3 @@ class DetailNotifier extends StateNotifier<DetailState> {
     return _getLocalSnap();
   }
 }
-
-final detailModelProvider = StateNotifierProvider.autoDispose
-    .family<DetailNotifier, DetailState, Snap>((ref, Snap storeSnap) {
-  final snapd = getService<SnapdService>();
-  return DetailNotifier(snapd, storeSnap)..init();
-});
