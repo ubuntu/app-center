@@ -1,9 +1,10 @@
-import 'package:app_store/src/detail/detail_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
+
+import 'detail_provider.dart';
 
 class DetailPage extends ConsumerWidget {
   const DetailPage({super.key, required this.snap});
