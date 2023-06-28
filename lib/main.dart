@@ -8,6 +8,7 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import 'categories.dart';
 import 'detail.dart';
+import 'manage.dart';
 import 'routes.dart';
 import 'snapd.dart';
 
@@ -33,13 +34,20 @@ class StoreApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        home: const Scaffold(
-          appBar: YaruWindowTitleBar(),
-          body: CategoryPage(category: 'featured'),
-        ),
+        // TODO: remove Builder and FAB when implementing proper navigation
+        home: Builder(builder: (context) {
+          return Scaffold(
+            appBar: const YaruWindowTitleBar(),
+            body: const CategoryPage(category: 'featured'),
+            floatingActionButton: FloatingActionButton(
+                onPressed: () => Navigator.pushNamed(context, Routes.manage)),
+          );
+        }),
         onGenerateRoute: (settings) => switch (settings.name) {
           Routes.detail => MaterialPageRoute(
               builder: (_) => DetailPage(snap: settings.arguments as Snap)),
+          Routes.manage =>
+            MaterialPageRoute(builder: (_) => const ManagePage()),
           _ => null,
         },
       ),
