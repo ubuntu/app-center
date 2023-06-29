@@ -12,7 +12,7 @@ class DetailPage extends ConsumerWidget {
   final Snap snap;
 
   @override
-  Widget build(context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(detailModelProvider(snap));
     return Scaffold(
       appBar: const YaruWindowTitleBar(leading: YaruBackButton()),
@@ -36,7 +36,7 @@ class _SnapView extends ConsumerWidget {
   final Snap? localSnap;
   final bool busy;
   @override
-  Widget build(context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final lang = AppLocalizations.of(context);
     final model = ref.watch(detailModelProvider(snap).notifier);
 

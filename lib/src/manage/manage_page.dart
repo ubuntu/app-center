@@ -9,7 +9,7 @@ class ManagePage extends ConsumerWidget {
   const ManagePage({super.key});
 
   @override
-  Widget build(context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final localSnaps = ref.watch(manageProvider);
     return Scaffold(
       appBar: const YaruWindowTitleBar(
@@ -31,7 +31,7 @@ class _ManageView extends ConsumerWidget {
   final List<Snap> snaps;
 
   @override
-  Widget build(context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListView.builder(
       itemCount: snaps.length,
       itemBuilder: (context, index) {
