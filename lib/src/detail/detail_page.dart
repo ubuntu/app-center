@@ -14,13 +14,10 @@ class DetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(detailModelProvider(snap));
-    return Scaffold(
-      appBar: const YaruWindowTitleBar(leading: YaruBackButton()),
-      body: state.when(
-        data: (localSnap) => _SnapView(snap: snap, localSnap: localSnap),
-        error: (_, __) => _SnapView(snap: snap),
-        loading: () => _SnapView(snap: snap, busy: true),
-      ),
+    return state.when(
+      data: (localSnap) => _SnapView(snap: snap, localSnap: localSnap),
+      error: (_, __) => _SnapView(snap: snap),
+      loading: () => _SnapView(snap: snap, busy: true),
     );
   }
 }
@@ -45,6 +42,7 @@ class _SnapView extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const YaruBackButton(),
           Text(snap.name, style: Theme.of(context).textTheme.headlineMedium),
           if (localSnap != null) const Text('installed'),
           const SizedBox(height: kYaruPagePadding),

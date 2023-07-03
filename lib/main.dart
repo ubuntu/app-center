@@ -25,6 +25,11 @@ Future<void> main() async {
 class StoreApp extends StatelessWidget {
   const StoreApp({super.key});
 
+  final pages = const [
+    CategoryPage(category: 'featured'),
+    ManagePage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return YaruTheme(
@@ -34,22 +39,24 @@ class StoreApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        // TODO: remove Builder and FAB when implementing proper navigation
-        home: Builder(builder: (context) {
-          return Scaffold(
-            appBar: const YaruWindowTitleBar(),
-            body: const CategoryPage(category: 'featured'),
-            floatingActionButton: FloatingActionButton(
-                onPressed: () => Navigator.pushNamed(context, Routes.manage)),
-          );
-        }),
-        onGenerateRoute: (settings) => switch (settings.name) {
-          Routes.detail => MaterialPageRoute(
-              builder: (_) => DetailPage(snap: settings.arguments as Snap)),
-          Routes.manage =>
-            MaterialPageRoute(builder: (_) => const ManagePage()),
-          _ => null,
-        },
+        home: Scaffold(
+          appBar: const YaruWindowTitleBar(),
+          body: YaruNavigationPage(
+            length: pages.length,
+            itemBuilder: (context, index, selected) =>
+                const YaruNavigationRailItem(
+              icon: SizedBox(width: 24, height: 24, child: Placeholder()),
+              style: YaruNavigationRailStyle.compact,
+            ),
+            pageBuilder: (context, index) => pages[index],
+            onGenerateRoute: (settings) => switch (settings.name) {
+              Routes.detail => MaterialPageRoute(
+                  builder: (_) => DetailPage(snap: settings.arguments as Snap),
+                ),
+              _ => null,
+            },
+          ),
+        ),
       ),
     );
   }
