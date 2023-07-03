@@ -3,5 +3,7 @@
     "detailPageConfinementLabel": "Confinement",
     "detailPageSummaryLabel": "Summary",
     "detailPageVersionLabel": "Version",
-    "detailPagePublisherLabel": "Publisher"
+    "detailPagePublisherLabel": "Publisher",
+    "explorePageLabel": "Explore",
+    "managePageLabel": "Manage"
 }
