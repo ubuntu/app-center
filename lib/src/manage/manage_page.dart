@@ -11,16 +11,10 @@ class ManagePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final localSnaps = ref.watch(manageProvider);
-    return Scaffold(
-      appBar: const YaruWindowTitleBar(
-        leading: YaruBackButton(),
-        title: Text('installed snaps'),
-      ),
-      body: localSnaps.when(
-        data: (data) => _ManageView(data),
-        error: (error, stack) => ErrorWidget(error),
-        loading: () => const Center(child: YaruCircularProgressIndicator()),
-      ),
+    return localSnaps.when(
+      data: (data) => _ManageView(data),
+      error: (error, stack) => ErrorWidget(error),
+      loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }
 }
