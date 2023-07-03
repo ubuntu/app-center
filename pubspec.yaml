@@ -27,6 +27,12 @@ dev_dependencies:
     sdk: flutter
   mockito: 5.4.2
 
+dependency_overrides:
+  yaru_widgets:
+    git:
+      url: https://github.com/ubuntu/yaru_widgets.dart
+      ref: navigation
+
 flutter:
   uses-material-design: true
   generate: true

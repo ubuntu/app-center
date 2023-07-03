@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -8,6 +9,11 @@ import 'category_provider.dart';
 
 class CategoryPage extends ConsumerWidget {
   const CategoryPage({super.key, required this.category});
+
+  // TODO: generalize
+  static IconData get icon => Icons.explore;
+  static String label(BuildContext context) =>
+      AppLocalizations.of(context).explorePageLabel;
 
   final String category;
 
