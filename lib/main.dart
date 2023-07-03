@@ -12,6 +12,12 @@ import 'manage.dart';
 import 'routes.dart';
 import 'snapd.dart';
 
+typedef StorePage = ({
+  IconData icon,
+  String Function(BuildContext) labelBuilder,
+  WidgetBuilder builder
+});
+
 Future<void> main() async {
   await YaruWindowTitleBar.ensureInitialized();
 
@@ -25,13 +31,20 @@ Future<void> main() async {
 class StoreApp extends StatelessWidget {
   const StoreApp({super.key});
 
-  final pages = const [
-    CategoryPage(category: 'featured'),
-    ManagePage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final pages = <StorePage>[
+      (
+        icon: CategoryPage.icon,
+        labelBuilder: CategoryPage.label,
+        builder: (_) => const CategoryPage(category: 'featured'),
+      ),
+      (
+        icon: ManagePage.icon,
+        labelBuilder: ManagePage.label,
+        builder: (_) => const ManagePage(),
+      ),
+    ];
     return YaruTheme(
       builder: (context, yaru, child) => MaterialApp(
         theme: yaru.theme,
@@ -43,12 +56,12 @@ class StoreApp extends StatelessWidget {
           appBar: const YaruWindowTitleBar(),
           body: YaruNavigationPage(
             length: pages.length,
-            itemBuilder: (context, index, selected) =>
-                const YaruNavigationRailItem(
-              icon: SizedBox(width: 24, height: 24, child: Placeholder()),
-              style: YaruNavigationRailStyle.compact,
+            itemBuilder: (context, index, selected) => YaruNavigationRailItem(
+              icon: Icon(pages[index].icon),
+              label: Text(pages[index].labelBuilder(context)),
+              style: YaruNavigationRailStyle.labelled,
             ),
-            pageBuilder: (context, index) => pages[index],
+            pageBuilder: (context, index) => pages[index].builder(context),
             onGenerateRoute: (settings) => switch (settings.name) {
               Routes.detail => MaterialPageRoute(
                   builder: (_) => DetailPage(snap: settings.arguments as Snap),
