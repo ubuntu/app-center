@@ -46,10 +46,11 @@ class _SnapView extends ConsumerWidget {
     final snapInfos = <SnapInfo>[
       (label: l10n.detailPageVersionLabel, value: snap.version),
       (label: l10n.detailPageConfinementLabel, value: snap.confinement.name),
-      (
-        label: l10n.detailPageDownloadSizeLabel,
-        value: snap.downloadSize.toString()
-      ),
+      if (snap.downloadSize != null)
+        (
+          label: l10n.detailPageDownloadSizeLabel,
+          value: context.formatByteSize(snap.downloadSize!)
+        ),
       (label: l10n.detailPageLicenseLabel, value: snap.license ?? ''),
       (label: l10n.detailPageWebsiteLabel, value: snap.website ?? ''),
     ];
