@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/routes.dart';
-import 'category_provider.dart';
+import 'explore_provider.dart';
 
-class CategoryPage extends ConsumerWidget {
-  const CategoryPage({super.key, required this.category});
+class ExplorePage extends ConsumerWidget {
+  const ExplorePage({super.key});
 
-  final String category;
+  static IconData get icon => Icons.explore;
+  static String label(BuildContext context) =>
+      AppLocalizations.of(context).explorePageLabel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final featured = ref.watch(categoryProvider(category));
+    final featured = ref.watch(featuredProvider);
     return featured.when(
-      data: (data) => _CategoryView(data),
+      data: (data) => _ExploreView(data),
       error: (error, stack) => ErrorWidget(error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }
 }
 
-class _CategoryView extends ConsumerWidget {
-  const _CategoryView(this.snaps);
+class _ExploreView extends ConsumerWidget {
+  const _ExploreView(this.snaps);
 
   final List<Snap> snaps;
 
