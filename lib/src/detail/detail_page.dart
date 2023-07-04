@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/l10n.dart';
 import '/snapx.dart';
 import '/widgets.dart';
 import 'detail_provider.dart';
@@ -46,10 +46,11 @@ class _SnapView extends ConsumerWidget {
     final snapInfos = <SnapInfo>[
       (label: l10n.detailPageVersionLabel, value: snap.version),
       (label: l10n.detailPageConfinementLabel, value: snap.confinement.name),
-      (
-        label: l10n.detailPageDownloadSizeLabel,
-        value: snap.downloadSize.toString()
-      ),
+      if (snap.downloadSize != null)
+        (
+          label: l10n.detailPageDownloadSizeLabel,
+          value: context.formatByteSize(snap.downloadSize!)
+        ),
       (label: l10n.detailPageLicenseLabel, value: snap.license ?? ''),
       (label: l10n.detailPageWebsiteLabel, value: snap.website ?? ''),
     ];
