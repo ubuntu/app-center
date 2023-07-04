@@ -6,6 +6,7 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import 'category.dart';
 import 'detail.dart';
+import 'explore.dart';
 import 'manage.dart';
 import 'routes.dart';
 import 'search.dart';
@@ -25,9 +26,24 @@ class StoreApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final pages = <StorePage>[
       (
-        icon: CategoryPage.icon,
-        labelBuilder: CategoryPage.label,
-        builder: (_) => const CategoryPage(category: 'featured'),
+        icon: ExplorePage.icon,
+        labelBuilder: ExplorePage.label,
+        builder: (_) => const ExplorePage(),
+      ),
+      (
+        icon: ProductivityPage.icon,
+        labelBuilder: ProductivityPage.label,
+        builder: (_) => const ProductivityPage(),
+      ),
+      (
+        icon: DevelopmentPage.icon,
+        labelBuilder: DevelopmentPage.label,
+        builder: (_) => const DevelopmentPage(),
+      ),
+      (
+        icon: GamesPage.icon,
+        labelBuilder: GamesPage.label,
+        builder: (_) => const GamesPage(),
       ),
       (
         icon: ManagePage.icon,

@@ -5,5 +5,8 @@
     "detailPageVersionLabel": "Version",
     "detailPagePublisherLabel": "Publisher",
     "explorePageLabel": "Explore",
-    "managePageLabel": "Manage"
+    "managePageLabel": "Manage",
+    "productivityPageLabel": "Productivity",
+    "developmentPageLabel": "Development",
+    "gamesPageLabel": "Games"
 }
