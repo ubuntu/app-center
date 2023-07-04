@@ -4,7 +4,6 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/snapx.dart';
 import '/widgets.dart';
-import 'snap_icon.dart';
 
 class SnapCard extends StatelessWidget {
   const SnapCard({super.key, required this.snap, this.onTap});
