@@ -8,5 +8,13 @@
     "managePageLabel": "Manage",
     "productivityPageLabel": "Productivity",
     "developmentPageLabel": "Development",
-    "gamesPageLabel": "Games"
+    "gamesPageLabel": "Games",
+    "searchPageTitle": "Results for \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    }
 }
