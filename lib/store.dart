@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -7,6 +6,7 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 import 'category.dart';
 import 'detail.dart';
 import 'explore.dart';
+import 'l10n.dart';
 import 'manage.dart';
 import 'routes.dart';
 import 'search.dart';
@@ -56,8 +56,8 @@ class StoreApp extends StatelessWidget {
         theme: yaru.theme,
         darkTheme: yaru.darkTheme,
         debugShowCheckedModeBanner: false,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: localizationsDelegates,
+        supportedLocales: supportedLocales,
         home: Scaffold(
           appBar: YaruWindowTitleBar(
             title: ConstrainedBox(
