@@ -9,6 +9,7 @@
     "productivityPageLabel": "Productivity",
     "developmentPageLabel": "Development",
     "gamesPageLabel": "Games",
+    "unknownPublisher": "Unknown Publisher",
     "searchPageTitle": "Results for \"{query}\"",
     "@searchPageTitle": {
         "placeholders": {
