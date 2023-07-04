@@ -1,14 +1,19 @@
 {
-    "detailPageDescriptionLabel": "Description",
     "detailPageConfinementLabel": "Confinement",
+    "detailPageDescriptionLabel": "Description",
+    "detailPageDownloadSizeLabel": "Download Size",
+    "detailPageLicenseLabel": "License",
+    "detailPagePublisherLabel": "Publisher",
+    "detailPageSelectChannelLabel": "Select Channel",
     "detailPageSummaryLabel": "Summary",
     "detailPageVersionLabel": "Version",
-    "detailPagePublisherLabel": "Publisher",
+    "detailPageWebsiteLabel": "Website",
     "explorePageLabel": "Explore",
     "managePageLabel": "Manage",
     "productivityPageLabel": "Productivity",
     "developmentPageLabel": "Development",
     "gamesPageLabel": "Games",
+    "unknownPublisher": "Unknown Publisher",
     "searchPageTitle": "Results for \"{query}\"",
     "@searchPageTitle": {
         "placeholders": {

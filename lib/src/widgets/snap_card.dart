@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
-import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/snapx.dart';
-import 'snap_icon.dart';
+import '/widgets.dart';
 
 class SnapCard extends StatelessWidget {
   const SnapCard({super.key, required this.snap, this.onTap});
@@ -25,29 +24,7 @@ class SnapCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(snap.name),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    Text(
-                      snap.publisher?.displayName ?? '?',
-                      style: TextStyle(color: Theme.of(context).hintColor),
-                      maxLines: 1,
-                    ),
-                    if (snap.verifiedPublisher || snap.starredPublisher)
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
-                        child: Icon(
-                          snap.verifiedPublisher ? Icons.verified : Icons.stars,
-                          size: 12,
-                          color: snap.verifiedPublisher
-                              ? Theme.of(context).colorScheme.success
-                              : Theme.of(context).colorScheme.warning,
-                        ),
-                      ),
-                  ],
-                ),
+                SnapTitle(snap: snap),
                 const SizedBox(height: 8),
                 Flexible(
                   child: Text(
