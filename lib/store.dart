@@ -4,7 +4,7 @@ import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import 'categories.dart';
+import 'category.dart';
 import 'detail.dart';
 import 'manage.dart';
 import 'routes.dart';
