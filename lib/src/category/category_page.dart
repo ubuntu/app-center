@@ -4,6 +4,7 @@ import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/routes.dart';
+import '/widgets.dart';
 import 'category_provider.dart';
 
 class CategoryPage extends ConsumerWidget {
@@ -29,14 +30,15 @@ class _CategoryView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView.builder(
+    return GridView.builder(
+      padding: const EdgeInsets.all(kYaruPagePadding),
+      gridDelegate: kGridDelegate,
       itemCount: snaps.length,
       itemBuilder: (context, index) {
         final snap = snaps[index];
-        return ListTile(
+        return SnapCard(
           key: ValueKey(snap.id),
-          title: Text(snap.name),
-          subtitle: Text(snap.summary),
+          snap: snap,
           onTap: () =>
               Navigator.pushNamed(context, Routes.detail, arguments: snap),
         );
