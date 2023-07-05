@@ -13,6 +13,8 @@ import 'test_utils.dart';
 @GenerateMocks([DetailNotifier])
 DetailNotifier buildDetailNotifier(DetailState state) {
   final mockDetailNotifier = MockDetailNotifier();
+  // Ensure that `StateNotifierProviderElement.create` correctly sets its initial state in
+  // https://github.com/rrousselGit/riverpod/blob/da4909ce73cb5420e48475113f365fc0a3368390/packages/riverpod/lib/src/state_notifier_provider/base.dart#L169
   when(mockDetailNotifier.addListener(any, fireImmediately: true))
       .thenAnswer((i) {
     i.positionalArguments.first.call(state);
