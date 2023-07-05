@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gtk/gtk.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -10,6 +12,7 @@ import 'l10n.dart';
 import 'manage.dart';
 import 'routes.dart';
 import 'search.dart';
+import 'snapd.dart';
 
 typedef StorePage = ({
   IconData icon,
@@ -17,10 +20,43 @@ typedef StorePage = ({
   WidgetBuilder builder
 });
 
-class StoreApp extends StatelessWidget {
-  StoreApp({super.key});
+class StoreApp extends StatefulWidget {
+  const StoreApp({super.key});
 
+  @override
+  State<StoreApp> createState() => _StoreAppState();
+}
+
+class _StoreAppState extends State<StoreApp> {
   final _navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+    final gtkApp = getService<GtkApplicationNotifier>();
+    gtkApp.addCommandLineListener(_handleCommandLine);
+    _handleCommandLine(gtkApp.commandLine!);
+  }
+
+  @override
+  void dispose() {
+    final gtkApp = getService<GtkApplicationNotifier>();
+    gtkApp.removeCommandLineListener(_handleCommandLine);
+    super.dispose();
+  }
+
+  Future<void> _handleCommandLine(List<String> args) async {
+    if (args.length == 1) {
+      final snapd = getService<SnapdService>();
+      final result = await snapd.find(name: args.single);
+      if (result.isNotEmpty) {
+        await _navigatorKey.currentState!.pushNamed(
+          Routes.detail,
+          arguments: result.first,
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
