@@ -88,7 +88,11 @@ class _SnapView extends ConsumerWidget {
                   ? ElevatedButton(
                       onPressed:
                           localSnap != null ? model.remove : model.install,
-                      child: Text(localSnap != null ? 'Remove' : 'Install'),
+                      child: Text(
+                        localSnap != null
+                            ? l10n.detailPageRemoveLabel
+                            : l10n.detailPageInstallLabel,
+                      ),
                     )
                   : const YaruCircularProgressIndicator(),
             ],
@@ -110,7 +114,7 @@ class _SnapView extends ConsumerWidget {
                 .toList(),
           ),
           _Section(
-            header: const Text('Description'),
+            header: Text(l10n.detailPageDescriptionLabel),
             child: SizedBox(
               width: double.infinity,
               child: MarkdownBody(
