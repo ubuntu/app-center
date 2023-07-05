@@ -1,3 +1,4 @@
+import 'package:app_store/l10n.dart';
 import 'package:app_store/src/detail/detail_page.dart';
 import 'package:app_store/src/detail/detail_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,6 +33,7 @@ const storeSnap = Snap(
   confinement: SnapConfinement.strict,
   license: 'MIT',
   description: 'this is the **description**',
+  downloadSize: 1337,
 );
 
 void expectSnapInfos(WidgetTester tester, Snap snap) {
@@ -47,6 +49,9 @@ void expectSnapInfos(WidgetTester tester, Snap snap) {
   expect(find.text(snap.license!), findsOneWidget);
   expect(find.text(tester.lang.detailPageDescriptionLabel), findsOneWidget);
   expect(find.markdownBody(snap.description), findsOneWidget);
+  expect(find.text(tester.lang.detailPageDownloadSizeLabel), findsOneWidget);
+  expect(find.text(tester.context.formatByteSize(snap.downloadSize!)),
+      findsOneWidget);
 }
 
 void main() {
