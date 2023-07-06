@@ -6,5 +6,7 @@ abstract class Routes {
 
   static bool isDetail(String route) => route.startsWith(detail);
   static bool isSearch(String route) => route.startsWith(search);
-  static String? argument(String route) => route.split('/').elementAtOrNull(2);
+  static String? argument(String route, String name) {
+    return Uri.parse(route).queryParameters[name];
+  }
 }
