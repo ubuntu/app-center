@@ -23,7 +23,7 @@ class SnapGrid extends StatelessWidget {
           key: ValueKey(snap.id),
           snap: snap,
           onTap: () =>
-              Navigator.pushNamed(context, Routes.detail, arguments: snap),
+              Navigator.pushNamed(context, Routes.detail, arguments: snap.name),
         );
       },
     );

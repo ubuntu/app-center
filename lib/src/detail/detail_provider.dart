@@ -4,36 +4,42 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '/snapd.dart';
 
-final detailModelProvider = StateNotifierProvider.autoDispose
-    .family<DetailNotifier, DetailState, Snap>((ref, Snap storeSnap) {
+final storeSnapProvider =
+    FutureProvider.autoDispose.family<Snap, String>((ref, String snapName) {
   final snapd = getService<SnapdService>();
-  return DetailNotifier(snapd, storeSnap)..init();
+  return snapd.find(name: snapName).then((r) => r.single);
+});
+
+final detailModelProvider = StateNotifierProvider.autoDispose
+    .family<DetailNotifier, DetailState, String>((ref, String snapName) {
+  final snapd = getService<SnapdService>();
+  return DetailNotifier(snapd, snapName)..init();
 });
 
 typedef DetailState = AsyncValue<Snap>;
 
 class DetailNotifier extends StateNotifier<DetailState> {
-  DetailNotifier(this.snapd, this.storeSnap)
+  DetailNotifier(this.snapd, this.snapName)
       : super(const DetailState.loading());
 
   final SnapdService snapd;
-  final Snap storeSnap;
+  final String snapName;
 
   Future<void> init() => _getLocalSnap();
 
   Future<void> _getLocalSnap() async {
-    state = await DetailState.guard(() => snapd.getSnap(storeSnap.name));
+    state = await DetailState.guard(() => snapd.getSnap(snapName));
   }
 
   Future<void> install() async {
     state = const DetailState.loading();
-    await snapd.install(storeSnap.name).then(snapd.waitChange);
+    await snapd.install(snapName).then(snapd.waitChange);
     return _getLocalSnap();
   }
 
   Future<void> remove() async {
     state = const DetailState.loading();
-    await snapd.remove(storeSnap.name).then(snapd.waitChange);
+    await snapd.remove(snapName).then(snapd.waitChange);
     return _getLocalSnap();
   }
 }

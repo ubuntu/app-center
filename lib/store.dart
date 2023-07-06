@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gtk/gtk.dart';
-import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -12,7 +11,6 @@ import 'l10n.dart';
 import 'manage.dart';
 import 'routes.dart';
 import 'search.dart';
-import 'snapd.dart';
 
 typedef StorePage = ({
   IconData icon,
@@ -30,12 +28,16 @@ class StoreApp extends StatefulWidget {
 class _StoreAppState extends State<StoreApp> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
+  NavigatorState get _navigator => _navigatorKey.currentState!;
+
   @override
   void initState() {
     super.initState();
     final gtkApp = getService<GtkApplicationNotifier>();
     gtkApp.addCommandLineListener(_handleCommandLine);
-    _handleCommandLine(gtkApp.commandLine!);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _handleCommandLine(gtkApp.commandLine!);
+    });
   }
 
   @override
@@ -47,14 +49,7 @@ class _StoreAppState extends State<StoreApp> {
 
   Future<void> _handleCommandLine(List<String> args) async {
     if (args.length == 1) {
-      final snapd = getService<SnapdService>();
-      final result = await snapd.find(name: args.single);
-      if (result.isNotEmpty) {
-        await _navigatorKey.currentState!.pushNamed(
-          Routes.detail,
-          arguments: result.first,
-        );
-      }
+      await _navigator.pushNamed(Routes.detail, arguments: args.single);
     }
   }
 
@@ -100,7 +95,7 @@ class _StoreAppState extends State<StoreApp> {
               constraints: const BoxConstraints(maxWidth: 400),
               child: SearchField(
                 onSearch: (query) {
-                  _navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                  _navigator.pushNamedAndRemoveUntil(
                     Routes.search,
                     (route) => route.settings.name != Routes.search,
                     arguments: query,
@@ -121,7 +116,8 @@ class _StoreAppState extends State<StoreApp> {
             onGenerateRoute: (settings) => switch (settings.name) {
               Routes.detail => MaterialPageRoute(
                   settings: settings,
-                  builder: (_) => DetailPage(snap: settings.arguments as Snap),
+                  builder: (_) =>
+                      DetailPage(snapName: settings.arguments as String),
                 ),
               Routes.search => MaterialPageRoute(
                   settings: settings,
