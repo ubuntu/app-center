@@ -13,9 +13,9 @@ final commandLineProvider = StateProvider((ref) {
 });
 
 final initialRouteProvider = Provider((ref) {
-  final commandLine = ref.watch(commandLineProvider)?.singleOrNull;
-  if (commandLine != null) {
-    return '${Routes.detail}/$commandLine';
+  final snap = ref.watch(commandLineProvider)?.singleOrNull;
+  if (snap != null) {
+    return Uri(path: Routes.detail, queryParameters: {'snap': snap}).toString();
   }
   return null;
 });
