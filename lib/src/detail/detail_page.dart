@@ -23,7 +23,7 @@ class DetailPage extends ConsumerWidget {
     final storeState = ref.watch(storeSnapProvider(snapName));
     return storeState.when(
       data: (storeSnap) {
-        final localState = ref.watch(detailModelProvider(snapName));
+        final localState = ref.watch(localSnapProvider(snapName));
         return localState.when(
           data: (localSnap) => _SnapView(snap: storeSnap, localSnap: localSnap),
           error: (error, __) => _SnapView(snap: storeSnap),
@@ -48,7 +48,7 @@ class _SnapView extends ConsumerWidget {
   final bool busy;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final model = ref.watch(detailModelProvider(snap.name).notifier);
+    final model = ref.watch(localSnapProvider(snap.name).notifier);
     final l10n = AppLocalizations.of(context);
     final snapInfos = <SnapInfo>[
       (label: l10n.detailPageVersionLabel, value: snap.version),

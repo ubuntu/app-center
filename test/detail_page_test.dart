@@ -12,17 +12,16 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 import 'detail_page_test.mocks.dart';
 import 'test_utils.dart';
 
-@GenerateMocks([DetailNotifier])
-DetailNotifier buildDetailNotifier(DetailState state) {
-  final mockDetailNotifier = MockDetailNotifier();
+@GenerateMocks([LocalSnapNotifier])
+LocalSnapNotifier mockLocalSnapNotifier(LocalSnap state) {
+  final mockNotifier = MockLocalSnapNotifier();
   // Ensure that `StateNotifierProviderElement.create` correctly sets its initial state in
   // https://github.com/rrousselGit/riverpod/blob/da4909ce73cb5420e48475113f365fc0a3368390/packages/riverpod/lib/src/state_notifier_provider/base.dart#L169
-  when(mockDetailNotifier.addListener(any, fireImmediately: true))
-      .thenAnswer((i) {
+  when(mockNotifier.addListener(any, fireImmediately: true)).thenAnswer((i) {
     i.positionalArguments.first.call(state);
     return () {};
   });
-  return mockDetailNotifier;
+  return mockNotifier;
 }
 
 const storeSnap = Snap(
@@ -59,13 +58,13 @@ void main() {
   testWidgets('locally installed snap', (tester) async {
     const localSnap = storeSnap;
 
-    final mockDetailNotifier =
-        buildDetailNotifier(const DetailState.data(localSnap));
+    final localSnapNotifier =
+        mockLocalSnapNotifier(const LocalSnap.data(localSnap));
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             storeSnapProvider.overrideWith((ref, arg) => storeSnap),
-            detailModelProvider.overrideWith((ref, arg) => mockDetailNotifier)
+            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier)
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
@@ -73,12 +72,12 @@ void main() {
     expect(find.text(tester.lang.detailPageInstallLabel), findsNothing);
 
     await tester.tap(find.text(tester.lang.detailPageRemoveLabel));
-    verify(mockDetailNotifier.remove()).called(1);
+    verify(localSnapNotifier.remove()).called(1);
   });
 
   testWidgets('not locally installed snap', (tester) async {
-    final mockDetailNotifier = buildDetailNotifier(
-      DetailState.error(
+    final localSnapNotifier = mockLocalSnapNotifier(
+      LocalSnap.error(
         SnapdException(message: 'snap not installed', kind: 'snap-not-found'),
         StackTrace.empty,
       ),
@@ -87,7 +86,7 @@ void main() {
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             storeSnapProvider.overrideWith((ref, arg) => storeSnap),
-            detailModelProvider.overrideWith((ref, arg) => mockDetailNotifier)
+            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier)
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
@@ -95,18 +94,18 @@ void main() {
     expect(find.text(tester.lang.detailPageRemoveLabel), findsNothing);
 
     await tester.tap(find.text(tester.lang.detailPageInstallLabel));
-    verify(mockDetailNotifier.install()).called(1);
+    verify(localSnapNotifier.install()).called(1);
   });
 
   testWidgets('loading', (tester) async {
-    final mockDetailNotifier = buildDetailNotifier(
-      const DetailState.loading(),
+    final localSnapNotifier = mockLocalSnapNotifier(
+      const LocalSnap.loading(),
     );
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             storeSnapProvider.overrideWith((ref, arg) => storeSnap),
-            detailModelProvider.overrideWith((ref, arg) => mockDetailNotifier)
+            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier)
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
