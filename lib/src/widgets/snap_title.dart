@@ -28,7 +28,7 @@ class SnapTitle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(snap.title ?? snap.name, style: titleTextStyle),
+        Text(snap.titleOrName, style: titleTextStyle),
         const SizedBox(height: 4),
         Row(
           children: [
