@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_test/ubuntu_test.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import 'detail_page_test.mocks.dart';
