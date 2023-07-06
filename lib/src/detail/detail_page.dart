@@ -14,17 +14,24 @@ import 'detail_provider.dart';
 typedef SnapInfo = ({String label, String value});
 
 class DetailPage extends ConsumerWidget {
-  const DetailPage({super.key, required this.snap});
+  const DetailPage({super.key, required this.snapName});
 
-  final Snap snap;
+  final String snapName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(detailModelProvider(snap));
-    return state.when(
-      data: (localSnap) => _SnapView(snap: snap, localSnap: localSnap),
-      error: (_, __) => _SnapView(snap: snap),
-      loading: () => _SnapView(snap: snap, busy: true),
+    final storeState = ref.watch(storeSnapProvider(snapName));
+    return storeState.when(
+      data: (storeSnap) {
+        final localState = ref.watch(detailModelProvider(snapName));
+        return localState.when(
+          data: (localSnap) => _SnapView(snap: storeSnap, localSnap: localSnap),
+          error: (error, __) => _SnapView(snap: storeSnap),
+          loading: () => _SnapView(snap: storeSnap, busy: true),
+        );
+      },
+      error: (error, stackTrace) => ErrorWidget(error),
+      loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }
 }
@@ -41,7 +48,7 @@ class _SnapView extends ConsumerWidget {
   final bool busy;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final model = ref.watch(detailModelProvider(snap).notifier);
+    final model = ref.watch(detailModelProvider(snap.name).notifier);
     final l10n = AppLocalizations.of(context);
     final snapInfos = <SnapInfo>[
       (label: l10n.detailPageVersionLabel, value: snap.version),

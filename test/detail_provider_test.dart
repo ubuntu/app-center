@@ -15,7 +15,7 @@ void main() {
       final snapdService = MockSnapdService();
       when(snapdService.getSnap(testSnap.name))
           .thenAnswer((_) async => testSnap);
-      final detailModelProvider = DetailNotifier(snapdService, testSnap);
+      final detailModelProvider = DetailNotifier(snapdService, testSnap.name);
 
       expect(
           detailModelProvider.debugState, equals(const DetailState.loading()));
@@ -32,7 +32,7 @@ void main() {
           SnapdException(message: 'snap not installed', kind: 'snap-not-found');
       when(snapdService.getSnap(testSnap.name)).thenAnswer(
           (_) => Error.throwWithStackTrace(exception, StackTrace.empty));
-      final detailModelProvider = DetailNotifier(snapdService, testSnap);
+      final detailModelProvider = DetailNotifier(snapdService, testSnap.name);
 
       expect(
           detailModelProvider.debugState, equals(const DetailState.loading()));
@@ -49,7 +49,7 @@ void main() {
     when(snapdService.getSnap(testSnap.name)).thenAnswer((_) async => testSnap);
     when(snapdService.install(testSnap.name))
         .thenAnswer((_) async => 'changeId');
-    final detailModelProvider = DetailNotifier(snapdService, testSnap);
+    final detailModelProvider = DetailNotifier(snapdService, testSnap.name);
 
     await detailModelProvider.init();
     expectLater(
@@ -70,7 +70,7 @@ void main() {
         (_) => Error.throwWithStackTrace(exception, StackTrace.empty));
     when(snapdService.remove(testSnap.name))
         .thenAnswer((_) async => 'changeId');
-    final detailModelProvider = DetailNotifier(snapdService, testSnap);
+    final detailModelProvider = DetailNotifier(snapdService, testSnap.name);
 
     await detailModelProvider.init();
     expectLater(
