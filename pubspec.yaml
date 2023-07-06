@@ -17,7 +17,7 @@ dependencies:
   gtk: ^2.1.0
   handy_window: ^0.3.1
   shimmer: ^3.0.0
-  snapd: ^0.4.9
+  snapd: ^0.4.10
   ubuntu_localizations: ^0.3.3
   ubuntu_service: ^0.2.2
   ubuntu_test: ^0.1.0-0

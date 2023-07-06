@@ -30,7 +30,7 @@ void main() {
       async.elapse(const Duration(milliseconds: 500));
       verify(watcher.getChange('c')).called(5);
     });
-  }, skip: true); // TODO: implement SnapdChange.hashCode and operator ==
+  });
 
   test('watch changes', () async {
     final changes = [
