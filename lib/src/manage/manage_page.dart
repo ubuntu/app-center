@@ -34,8 +34,6 @@ class _ManageView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    snaps.sort(((a, b) =>
-        a.titleOrName.toLowerCase().compareTo(b.titleOrName.toLowerCase())));
     return ListView.builder(
       padding: const EdgeInsets.all(kYaruPagePadding),
       itemCount: snaps.length,
