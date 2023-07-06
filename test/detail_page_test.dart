@@ -64,9 +64,10 @@ void main() {
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
+            storeSnapProvider.overrideWith((ref, arg) => storeSnap),
             detailModelProvider.overrideWith((ref, arg) => mockDetailNotifier)
           ],
-          child: const DetailPage(snap: storeSnap),
+          child: DetailPage(snapName: storeSnap.name),
         ));
     expectSnapInfos(tester, storeSnap);
     expect(find.text(tester.lang.detailPageInstallLabel), findsNothing);
@@ -85,9 +86,10 @@ void main() {
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
+            storeSnapProvider.overrideWith((ref, arg) => storeSnap),
             detailModelProvider.overrideWith((ref, arg) => mockDetailNotifier)
           ],
-          child: const DetailPage(snap: storeSnap),
+          child: DetailPage(snapName: storeSnap.name),
         ));
     expectSnapInfos(tester, storeSnap);
     expect(find.text(tester.lang.detailPageRemoveLabel), findsNothing);
@@ -103,9 +105,10 @@ void main() {
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
+            storeSnapProvider.overrideWith((ref, arg) => storeSnap),
             detailModelProvider.overrideWith((ref, arg) => mockDetailNotifier)
           ],
-          child: const DetailPage(snap: storeSnap),
+          child: DetailPage(snapName: storeSnap.name),
         ));
     expectSnapInfos(tester, storeSnap);
     expect(find.text(tester.lang.detailPageRemoveLabel), findsNothing);
