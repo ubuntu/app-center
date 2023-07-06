@@ -52,7 +52,7 @@ void main() {
     final detailModelProvider = DetailNotifier(snapdService, testSnap.name);
 
     await detailModelProvider.init();
-    expectLater(
+    expect(
         detailModelProvider.stream,
         emitsInOrder(
             const [DetailState.loading(), DetailState.data(testSnap)]));
@@ -73,7 +73,7 @@ void main() {
     final detailModelProvider = DetailNotifier(snapdService, testSnap.name);
 
     await detailModelProvider.init();
-    expectLater(
+    expect(
         detailModelProvider.stream,
         emitsInOrder([
           const DetailState.loading(),
