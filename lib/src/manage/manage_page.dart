@@ -4,6 +4,9 @@ import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
+import '/routes.dart';
+import '/snapx.dart';
+import '/widgets.dart';
 import 'manage_provider.dart';
 
 class ManagePage extends ConsumerWidget {
@@ -32,13 +35,17 @@ class _ManageView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListView.builder(
+      padding: const EdgeInsets.all(kYaruPagePadding),
       itemCount: snaps.length,
       itemBuilder: (context, index) {
         final snap = snaps[index];
         return ListTile(
           key: ValueKey(snap.id),
-          title: Text(snap.name),
+          leading: SnapIcon(iconUrl: snap.iconUrl),
+          title: Text(snap.titleOrName),
           subtitle: Text(snap.summary),
+          onTap: () =>
+              Navigator.pushNamed(context, Routes.detail, arguments: snap.name),
         );
       },
     );
