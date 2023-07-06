@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,7 +13,7 @@ import 'search_provider.dart';
 
 typedef SnapAutoCompleteOption = ({Snap? snap, String query});
 
-class SearchField extends ConsumerWidget {
+class SearchField extends ConsumerStatefulWidget {
   const SearchField({
     super.key,
     required this.onSearch,
@@ -23,12 +24,23 @@ class SearchField extends ConsumerWidget {
   final ValueChanged<String> onSelected;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SearchField> createState() => _SearchFieldState();
+}
+
+class _SearchFieldState extends ConsumerState<SearchField> {
+  CancelableOperation<List<Snap>>? previousQuery;
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return RawAutocomplete<SnapAutoCompleteOption>(
       optionsBuilder: (query) async {
         if (query.text.isEmpty) return [];
-        final options = await ref.watch(searchProvider(query.text).future);
+        if (previousQuery != null) {
+          await previousQuery!.cancel();
+        }
+        previousQuery = CancelableOperation.fromFuture(
+            ref.watch(searchProvider(query.text).future));
+        final options = await previousQuery!.value;
         return options
             .take(5)
             .map<SnapAutoCompleteOption>(
@@ -79,8 +91,8 @@ class SearchField extends ConsumerWidget {
         ),
       ),
       onSelected: (option) => option.snap != null
-          ? onSelected(option.snap!.name)
-          : onSearch(option.query),
+          ? widget.onSelected(option.snap!.name)
+          : widget.onSearch(option.query),
       fieldViewBuilder: (context, controller, node, onFieldSubmitted) {
         return TextField(
           focusNode: node,
