@@ -3,13 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
+import 'dart:async' as _i5;
 
 import 'package:app_store/snapd.dart' as _i2;
-import 'package:app_store/src/detail/detail_provider.dart' as _i5;
-import 'package:flutter_riverpod/flutter_riverpod.dart' as _i4;
+import 'package:app_store/src/detail/detail_provider.dart' as _i4;
+import 'package:flutter_riverpod/flutter_riverpod.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:snapd/snapd.dart' as _i3;
+import 'package:snapd/snapd.dart' as _i6;
 import 'package:state_notifier/state_notifier.dart' as _i7;
 
 // ignore_for_file: type=lint
@@ -33,18 +33,8 @@ class _FakeSnapdService_0 extends _i1.SmartFake implements _i2.SnapdService {
         );
 }
 
-class _FakeSnap_1 extends _i1.SmartFake implements _i3.Snap {
-  _FakeSnap_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeAsyncValue_2<T> extends _i1.SmartFake implements _i4.AsyncValue<T> {
-  _FakeAsyncValue_2(
+class _FakeAsyncValue_1<T> extends _i1.SmartFake implements _i3.AsyncValue<T> {
+  _FakeAsyncValue_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -56,7 +46,7 @@ class _FakeAsyncValue_2<T> extends _i1.SmartFake implements _i4.AsyncValue<T> {
 /// A class which mocks [DetailNotifier].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDetailNotifier extends _i1.Mock implements _i5.DetailNotifier {
+class MockDetailNotifier extends _i1.Mock implements _i4.DetailNotifier {
   MockDetailNotifier() {
     _i1.throwOnMissingStub(this);
   }
@@ -70,15 +60,12 @@ class MockDetailNotifier extends _i1.Mock implements _i5.DetailNotifier {
         ),
       ) as _i2.SnapdService);
   @override
-  _i3.Snap get storeSnap => (super.noSuchMethod(
-        Invocation.getter(#storeSnap),
-        returnValue: _FakeSnap_1(
-          this,
-          Invocation.getter(#storeSnap),
-        ),
-      ) as _i3.Snap);
+  String get snapName => (super.noSuchMethod(
+        Invocation.getter(#snapName),
+        returnValue: '',
+      ) as String);
   @override
-  set onError(_i4.ErrorListener? _onError) => super.noSuchMethod(
+  set onError(_i3.ErrorListener? _onError) => super.noSuchMethod(
         Invocation.setter(
           #onError,
           _onError,
@@ -91,20 +78,20 @@ class MockDetailNotifier extends _i1.Mock implements _i5.DetailNotifier {
         returnValue: false,
       ) as bool);
   @override
-  _i6.Stream<_i4.AsyncValue<_i3.Snap>> get stream => (super.noSuchMethod(
+  _i5.Stream<_i3.AsyncValue<_i6.Snap>> get stream => (super.noSuchMethod(
         Invocation.getter(#stream),
-        returnValue: _i6.Stream<_i4.AsyncValue<_i3.Snap>>.empty(),
-      ) as _i6.Stream<_i4.AsyncValue<_i3.Snap>>);
+        returnValue: _i5.Stream<_i3.AsyncValue<_i6.Snap>>.empty(),
+      ) as _i5.Stream<_i3.AsyncValue<_i6.Snap>>);
   @override
-  _i4.AsyncValue<_i3.Snap> get state => (super.noSuchMethod(
+  _i3.AsyncValue<_i6.Snap> get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _FakeAsyncValue_2<_i3.Snap>(
+        returnValue: _FakeAsyncValue_1<_i6.Snap>(
           this,
           Invocation.getter(#state),
         ),
-      ) as _i4.AsyncValue<_i3.Snap>);
+      ) as _i3.AsyncValue<_i6.Snap>);
   @override
-  set state(_i4.AsyncValue<_i3.Snap>? value) => super.noSuchMethod(
+  set state(_i3.AsyncValue<_i6.Snap>? value) => super.noSuchMethod(
         Invocation.setter(
           #state,
           value,
@@ -112,49 +99,49 @@ class MockDetailNotifier extends _i1.Mock implements _i5.DetailNotifier {
         returnValueForMissingStub: null,
       );
   @override
-  _i4.AsyncValue<_i3.Snap> get debugState => (super.noSuchMethod(
+  _i3.AsyncValue<_i6.Snap> get debugState => (super.noSuchMethod(
         Invocation.getter(#debugState),
-        returnValue: _FakeAsyncValue_2<_i3.Snap>(
+        returnValue: _FakeAsyncValue_1<_i6.Snap>(
           this,
           Invocation.getter(#debugState),
         ),
-      ) as _i4.AsyncValue<_i3.Snap>);
+      ) as _i3.AsyncValue<_i6.Snap>);
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
       ) as bool);
   @override
-  _i6.Future<void> init() => (super.noSuchMethod(
+  _i5.Future<void> init() => (super.noSuchMethod(
         Invocation.method(
           #init,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i6.Future<void> install() => (super.noSuchMethod(
+  _i5.Future<void> install() => (super.noSuchMethod(
         Invocation.method(
           #install,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i6.Future<void> remove() => (super.noSuchMethod(
+  _i5.Future<void> remove() => (super.noSuchMethod(
         Invocation.method(
           #remove,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
   bool updateShouldNotify(
-    _i4.AsyncValue<_i3.Snap>? old,
-    _i4.AsyncValue<_i3.Snap>? current,
+    _i3.AsyncValue<_i6.Snap>? old,
+    _i3.AsyncValue<_i6.Snap>? current,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -167,8 +154,8 @@ class MockDetailNotifier extends _i1.Mock implements _i5.DetailNotifier {
         returnValue: false,
       ) as bool);
   @override
-  _i4.RemoveListener addListener(
-    _i7.Listener<_i4.AsyncValue<_i3.Snap>>? listener, {
+  _i3.RemoveListener addListener(
+    _i7.Listener<_i3.AsyncValue<_i6.Snap>>? listener, {
     bool? fireImmediately = true,
   }) =>
       (super.noSuchMethod(
@@ -178,7 +165,7 @@ class MockDetailNotifier extends _i1.Mock implements _i5.DetailNotifier {
           {#fireImmediately: fireImmediately},
         ),
         returnValue: () {},
-      ) as _i4.RemoveListener);
+      ) as _i3.RemoveListener);
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
