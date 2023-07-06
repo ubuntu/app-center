@@ -48,6 +48,8 @@ class _StoreAppState extends ConsumerState<StoreApp> {
                     arguments: query,
                   );
                 },
+                onSelected: (name) =>
+                    _navigator.pushNamed(Routes.detail, arguments: name),
               ),
             ),
           ),
