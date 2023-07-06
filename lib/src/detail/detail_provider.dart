@@ -10,8 +10,9 @@ final storeSnapProvider =
   return snapd.find(name: snapName).then((r) => r.single);
 });
 
-final localSnapProvider = StateNotifierProvider.autoDispose
-    .family<LocalSnapNotifier, LocalSnap, String>((ref, String snapName) {
+final localSnapProvider =
+    StateNotifierProvider.family<LocalSnapNotifier, LocalSnap, String>(
+        (ref, String snapName) {
   final snapd = getService<SnapdService>();
   return LocalSnapNotifier(snapd, snapName)..init();
 });
