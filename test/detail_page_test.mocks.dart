@@ -43,11 +43,11 @@ class _FakeAsyncValue_1<T> extends _i1.SmartFake implements _i3.AsyncValue<T> {
         );
 }
 
-/// A class which mocks [DetailNotifier].
+/// A class which mocks [LocalSnapNotifier].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDetailNotifier extends _i1.Mock implements _i4.DetailNotifier {
-  MockDetailNotifier() {
+class MockLocalSnapNotifier extends _i1.Mock implements _i4.LocalSnapNotifier {
+  MockLocalSnapNotifier() {
     _i1.throwOnMissingStub(this);
   }
 

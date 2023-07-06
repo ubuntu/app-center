@@ -15,13 +15,12 @@ void main() {
       final snapdService = MockSnapdService();
       when(snapdService.getSnap(testSnap.name))
           .thenAnswer((_) async => testSnap);
-      final detailModelProvider = DetailNotifier(snapdService, testSnap.name);
+      final localSnapNotifier = LocalSnapNotifier(snapdService, testSnap.name);
 
+      expect(localSnapNotifier.debugState, equals(const LocalSnap.loading()));
+      await localSnapNotifier.init();
       expect(
-          detailModelProvider.debugState, equals(const DetailState.loading()));
-      await detailModelProvider.init();
-      expect(detailModelProvider.debugState,
-          equals(const DetailState.data(testSnap)));
+          localSnapNotifier.debugState, equals(const LocalSnap.data(testSnap)));
 
       verify(snapdService.getSnap(testSnap.name)).called(1);
     });
@@ -32,13 +31,12 @@ void main() {
           SnapdException(message: 'snap not installed', kind: 'snap-not-found');
       when(snapdService.getSnap(testSnap.name)).thenAnswer(
           (_) => Error.throwWithStackTrace(exception, StackTrace.empty));
-      final detailModelProvider = DetailNotifier(snapdService, testSnap.name);
+      final localSnapNotifier = LocalSnapNotifier(snapdService, testSnap.name);
 
-      expect(
-          detailModelProvider.debugState, equals(const DetailState.loading()));
-      await detailModelProvider.init();
-      expect(detailModelProvider.debugState,
-          equals(DetailState.error(exception, StackTrace.empty)));
+      expect(localSnapNotifier.debugState, equals(const LocalSnap.loading()));
+      await localSnapNotifier.init();
+      expect(localSnapNotifier.debugState,
+          equals(LocalSnap.error(exception, StackTrace.empty)));
 
       verify(snapdService.getSnap(testSnap.name)).called(1);
     });
@@ -49,14 +47,12 @@ void main() {
     when(snapdService.getSnap(testSnap.name)).thenAnswer((_) async => testSnap);
     when(snapdService.install(testSnap.name))
         .thenAnswer((_) async => 'changeId');
-    final detailModelProvider = DetailNotifier(snapdService, testSnap.name);
+    final localSnapNotifier = LocalSnapNotifier(snapdService, testSnap.name);
 
-    await detailModelProvider.init();
-    expect(
-        detailModelProvider.stream,
-        emitsInOrder(
-            const [DetailState.loading(), DetailState.data(testSnap)]));
-    await detailModelProvider.install();
+    await localSnapNotifier.init();
+    expect(localSnapNotifier.stream,
+        emitsInOrder(const [LocalSnap.loading(), LocalSnap.data(testSnap)]));
+    await localSnapNotifier.install();
     verify(snapdService.install(testSnap.name)).called(1);
     verify(snapdService.waitChange('changeId')).called(1);
     verify(snapdService.getSnap(testSnap.name)).called(2);
@@ -70,16 +66,16 @@ void main() {
         (_) => Error.throwWithStackTrace(exception, StackTrace.empty));
     when(snapdService.remove(testSnap.name))
         .thenAnswer((_) async => 'changeId');
-    final detailModelProvider = DetailNotifier(snapdService, testSnap.name);
+    final localSnapNotifier = LocalSnapNotifier(snapdService, testSnap.name);
 
-    await detailModelProvider.init();
+    await localSnapNotifier.init();
     expect(
-        detailModelProvider.stream,
+        localSnapNotifier.stream,
         emitsInOrder([
-          const DetailState.loading(),
-          DetailState.error(exception, StackTrace.empty),
+          const LocalSnap.loading(),
+          LocalSnap.error(exception, StackTrace.empty),
         ]));
-    await detailModelProvider.remove();
+    await localSnapNotifier.remove();
     verify(snapdService.remove(testSnap.name)).called(1);
     verify(snapdService.waitChange('changeId')).called(1);
     verify(snapdService.getSnap(testSnap.name)).called(2);
