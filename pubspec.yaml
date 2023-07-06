@@ -20,11 +20,7 @@ dependencies:
   snapd: ^0.4.9
   ubuntu_localizations: ^0.3.3
   ubuntu_service: ^0.2.2
-  ubuntu_test:
-    git:
-      url: https://github.com/canonical/ubuntu-flutter-plugins.git
-      path: packages/ubuntu_test
-      ref: d8490a876e0e499220930f0d7e8b4a20ae623629
+  ubuntu_test: ^0.1.0-0
   yaru: ^0.9.0
   yaru_icons: ^1.0.4
   yaru_widgets: ^2.5.0
