@@ -23,5 +23,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "aboutDialogLabel": "About",
+    "aboutDialogTitle": "About App Store"
 }

@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide AboutDialog, showAboutDialog;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/about.dart';
 import '/detail.dart';
 import '/l10n.dart';
 import '/routes.dart';
@@ -81,6 +82,14 @@ class _StoreAppState extends ConsumerState<StoreApp> {
                 ),
               _ => null,
             },
+            trailing: Builder(
+              builder: (context) => YaruNavigationRailItem(
+                icon: Icon(AboutDialog.icon),
+                label: Text(AboutDialog.label(context)),
+                style: YaruNavigationRailStyle.labelled,
+                onTap: () => showAboutDialog(context),
+              ),
+            ),
           ),
         ),
       ),
