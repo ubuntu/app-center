@@ -2,6 +2,8 @@
     "detailPageConfinementLabel": "Confinement",
     "detailPageDescriptionLabel": "Description",
     "detailPageDownloadSizeLabel": "Download Size",
+    "detailPageInstallLabel": "Install",
+    "detailPageRemoveLabel": "Remove",
     "detailPageLicenseLabel": "License",
     "detailPagePublisherLabel": "Publisher",
     "detailPageSelectChannelLabel": "Select Channel",
