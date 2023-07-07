@@ -29,6 +29,19 @@ class SearchField extends ConsumerStatefulWidget {
 
 class _SearchFieldState extends ConsumerState<SearchField> {
   CancelableOperation<List<Snap>>? previousQuery;
+  double? _optionsWidth;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final width = (context.findRenderObject() as RenderBox?)?.size.width;
+      if (_optionsWidth != width) {
+        setState(() => _optionsWidth = width);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -53,7 +66,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         child: Material(
           elevation: 4.0,
           child: SizedBox(
-            width: 500,
+            width: _optionsWidth,
             child: ListView.builder(
               padding: EdgeInsets.zero,
               shrinkWrap: true,
