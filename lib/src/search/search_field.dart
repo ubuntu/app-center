@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,7 +27,6 @@ class SearchField extends ConsumerStatefulWidget {
 }
 
 class _SearchFieldState extends ConsumerState<SearchField> {
-  CancelableOperation<List<Snap>>? previousQuery;
   double? _optionsWidth;
 
   @override
@@ -47,13 +45,9 @@ class _SearchFieldState extends ConsumerState<SearchField> {
     final l10n = AppLocalizations.of(context);
     return RawAutocomplete<SnapAutoCompleteOption>(
       optionsBuilder: (query) async {
-        if (query.text.isEmpty) return [];
-        if (previousQuery != null) {
-          await previousQuery!.cancel();
-        }
-        previousQuery = CancelableOperation.fromFuture(
-            ref.watch(searchProvider(query.text).future));
-        final options = await previousQuery!.value;
+        ref.read(queryProvider.notifier).state = query.text;
+        final options = await ref.watch(autoCompleteProvider.future);
+        if (options.isEmpty) return [];
         return options
             .take(5)
             .map<SnapAutoCompleteOption>(
@@ -93,7 +87,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                           )
                         : ListTile(
                             title: Text(
-                                l10n.searchFieldsearchForLabel(option.query)),
+                                l10n.searchFieldSearchForLabel(option.query)),
                             selected: highlight,
                           );
                   }),
@@ -110,10 +104,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         return TextField(
           focusNode: node,
           controller: controller,
-          onSubmitted: (_) {
-            onFieldSubmitted();
-            controller.clear();
-          },
+          onSubmitted: (_) => onFieldSubmitted(),
           decoration: InputDecoration(
             suffixIcon: AnimatedBuilder(
               animation: controller,
