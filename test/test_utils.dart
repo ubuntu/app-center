@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 extension WidgetTesterX on WidgetTester {
   BuildContext get context => element(find.byType(Scaffold).first);
-  AppLocalizations get lang => AppLocalizations.of(context);
+  AppLocalizations get l10n => AppLocalizations.of(context);
   Future<void> pumpApp(WidgetBuilder builder) {
     return pumpWidget(MaterialApp(
       localizationsDelegates: localizationsDelegates,

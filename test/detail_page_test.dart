@@ -39,17 +39,17 @@ const storeSnap = Snap(
 void expectSnapInfos(WidgetTester tester, Snap snap) {
   expect(find.text(snap.title!), findsOneWidget);
   expect(find.text(snap.publisher!.displayName), findsOneWidget);
-  expect(find.text(tester.lang.detailPageVersionLabel), findsOneWidget);
+  expect(find.text(tester.l10n.detailPageVersionLabel), findsOneWidget);
   expect(find.text(snap.version), findsOneWidget);
-  expect(find.text(tester.lang.detailPageWebsiteLabel), findsOneWidget);
+  expect(find.text(tester.l10n.detailPageWebsiteLabel), findsOneWidget);
   expect(find.text(snap.version), findsOneWidget);
-  expect(find.text(tester.lang.detailPageConfinementLabel), findsOneWidget);
+  expect(find.text(tester.l10n.detailPageConfinementLabel), findsOneWidget);
   expect(find.text(snap.confinement.name), findsOneWidget);
-  expect(find.text(tester.lang.detailPageLicenseLabel), findsOneWidget);
+  expect(find.text(tester.l10n.detailPageLicenseLabel), findsOneWidget);
   expect(find.text(snap.license!), findsOneWidget);
-  expect(find.text(tester.lang.detailPageDescriptionLabel), findsOneWidget);
+  expect(find.text(tester.l10n.detailPageDescriptionLabel), findsOneWidget);
   expect(find.markdownBody(snap.description), findsOneWidget);
-  expect(find.text(tester.lang.detailPageDownloadSizeLabel), findsOneWidget);
+  expect(find.text(tester.l10n.detailPageDownloadSizeLabel), findsOneWidget);
   expect(find.text(tester.context.formatByteSize(snap.downloadSize!)),
       findsOneWidget);
 }
@@ -69,9 +69,9 @@ void main() {
           child: DetailPage(snapName: storeSnap.name),
         ));
     expectSnapInfos(tester, storeSnap);
-    expect(find.text(tester.lang.detailPageInstallLabel), findsNothing);
+    expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
 
-    await tester.tap(find.text(tester.lang.detailPageRemoveLabel));
+    await tester.tap(find.text(tester.l10n.detailPageRemoveLabel));
     verify(localSnapNotifier.remove()).called(1);
   });
 
@@ -91,9 +91,9 @@ void main() {
           child: DetailPage(snapName: storeSnap.name),
         ));
     expectSnapInfos(tester, storeSnap);
-    expect(find.text(tester.lang.detailPageRemoveLabel), findsNothing);
+    expect(find.text(tester.l10n.detailPageRemoveLabel), findsNothing);
 
-    await tester.tap(find.text(tester.lang.detailPageInstallLabel));
+    await tester.tap(find.text(tester.l10n.detailPageInstallLabel));
     verify(localSnapNotifier.install()).called(1);
   });
 
@@ -110,8 +110,8 @@ void main() {
           child: DetailPage(snapName: storeSnap.name),
         ));
     expectSnapInfos(tester, storeSnap);
-    expect(find.text(tester.lang.detailPageRemoveLabel), findsNothing);
-    expect(find.text(tester.lang.detailPageInstallLabel), findsNothing);
+    expect(find.text(tester.l10n.detailPageRemoveLabel), findsNothing);
+    expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
     expect(find.byType(YaruCircularProgressIndicator), findsOneWidget);
   });
 }
