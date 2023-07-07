@@ -16,6 +16,14 @@
     "developmentPageLabel": "Development",
     "gamesPageLabel": "Games",
     "unknownPublisher": "Unknown Publisher",
+    "searchFieldSearchForLabel": "Search for \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
     "searchPageTitle": "Results for \"{query}\"",
     "@searchPageTitle": {
         "placeholders": {
