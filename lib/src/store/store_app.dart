@@ -25,10 +25,8 @@ class _StoreAppState extends ConsumerState<StoreApp> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(commandLineProvider, (prev, args) {
-      if (args?.length == 1) {
-        _navigator.pushNamed(Routes.detail, arguments: args!.single);
-      }
+    ref.listen(routeStreamProvider, (prev, next) {
+      next.whenData((route) => _navigator.pushNamed(route));
     });
 
     return YaruTheme(
@@ -68,7 +66,7 @@ class _StoreAppState extends ConsumerState<StoreApp> {
                 MaterialPageRoute(
                   settings: settings,
                   builder: (_) => DetailPage(
-                    snapName: Routes.argument(route, 'snap') ??
+                    snapName: Routes.getArgument(route, 'snap') ??
                         settings.arguments as String,
                   ),
                 ),
@@ -76,7 +74,7 @@ class _StoreAppState extends ConsumerState<StoreApp> {
                 MaterialPageRoute(
                   settings: settings,
                   builder: (_) => SearchPage(
-                    query: Routes.argument(route, 'query') ??
+                    query: Routes.getArgument(route, 'query') ??
                         settings.arguments as String,
                   ),
                 ),
