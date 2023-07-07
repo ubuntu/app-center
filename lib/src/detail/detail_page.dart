@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -24,9 +25,17 @@ class DetailPage extends ConsumerWidget {
     return storeState.when(
       data: (storeSnap) {
         final localState = ref.watch(localSnapProvider(snapName));
+        final localNotifier = ref.watch(localSnapProvider(snapName).notifier);
         return localState.when(
-          data: (localSnap) => _SnapView(snap: storeSnap, localSnap: localSnap),
-          error: (error, __) => _SnapView(snap: storeSnap),
+          data: (localSnap) => _SnapView(
+            snap: storeSnap,
+            localSnap: localSnap,
+            onRemove: localNotifier.remove,
+          ),
+          error: (error, __) => _SnapView(
+            snap: storeSnap,
+            onInstall: localNotifier.install,
+          ),
           loading: () => _SnapView(snap: storeSnap, busy: true),
         );
       },
@@ -41,14 +50,18 @@ class _SnapView extends ConsumerWidget {
     required this.snap,
     this.localSnap,
     this.busy = false,
+    this.onInstall,
+    this.onRemove,
   });
 
   final Snap snap;
   final Snap? localSnap;
   final bool busy;
+  final VoidCallback? onInstall;
+  final VoidCallback? onRemove;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final model = ref.watch(localSnapProvider(snap.name).notifier);
     final l10n = AppLocalizations.of(context);
     final snapInfos = <SnapInfo>[
       (label: l10n.detailPageVersionLabel, value: snap.version),
@@ -91,17 +104,27 @@ class _SnapView extends ConsumerWidget {
                     .toList(),
               ),
               const SizedBox(width: 16),
-              !busy
-                  ? ElevatedButton(
-                      onPressed:
-                          localSnap != null ? model.remove : model.install,
-                      child: Text(
+              PushButton.elevated(
+                onPressed: busy
+                    ? null
+                    : localSnap != null
+                        ? onRemove
+                        : onInstall,
+                child: busy
+                    ? Center(
+                        child: SizedBox.square(
+                          dimension: IconTheme.of(context).size,
+                          child: const YaruCircularProgressIndicator(
+                            strokeWidth: 3,
+                          ),
+                        ),
+                      )
+                    : Text(
                         localSnap != null
                             ? l10n.detailPageRemoveLabel
                             : l10n.detailPageInstallLabel,
                       ),
-                    )
-                  : const YaruCircularProgressIndicator(),
+              ),
             ],
           ),
           const SizedBox(height: kYaruPagePadding),
