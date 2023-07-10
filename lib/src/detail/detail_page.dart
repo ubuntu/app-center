@@ -152,6 +152,10 @@ class _SnapView extends ConsumerWidget {
               ),
             ),
           ),
+          _Section(
+            header: const Text('Gallery'),
+            child: SnapScreenshotGallery(snap: snap),
+          ),
         ],
       ),
     );
