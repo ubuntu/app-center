@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
@@ -33,20 +34,19 @@ class SearchPage extends StatelessWidget {
                 children: [
                   Text(l10n.searchPageSortByLabel),
                   const SizedBox(width: 8),
-                  Consumer(builder: (context, ref, child) {
-                    final sortOrder = ref.watch(sortOrderProvider);
-                    return YaruPopupMenuButton<SnapSortOrder>(
-                      itemBuilder: (_) => SnapSortOrder.values
-                          .map((e) => PopupMenuItem(
-                                value: e,
-                                child: Text(e.localize(l10n)),
-                              ))
-                          .toList(),
-                      onSelected: (value) =>
-                          ref.read(sortOrderProvider.notifier).state = value,
-                      child: Text(sortOrder.localize(l10n)),
-                    );
-                  }),
+                  Expanded(
+                    child: Consumer(builder: (context, ref, child) {
+                      final sortOrder = ref.watch(sortOrderProvider);
+                      return MenuButtonBuilder<SnapSortOrder>(
+                        values: SnapSortOrder.values,
+                        itemBuilder: (context, sortOrder, child) =>
+                            Text(sortOrder.localize(l10n)),
+                        onSelected: (value) =>
+                            ref.read(sortOrderProvider.notifier).state = value,
+                        child: Text(sortOrder.localize(l10n)),
+                      );
+                    }),
+                  ),
                 ],
               )
             ],
