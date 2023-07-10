@@ -15,14 +15,12 @@ abstract class StringCallback {
 class MockStringCallback extends Mock implements StringCallback {}
 
 void main() {
-  List<Snap> mockSearchProvider(String query) {
-    return 'testsnap'.contains(query)
-        ? [
-            const Snap(name: 'testsnap', title: 'Test Snap'),
-            const Snap(name: 'testsnap2', title: 'Another Test Snap'),
-          ]
-        : [];
-  }
+  final mockSearchProvider = createMockSearchProvider({
+    'testsnap': const [
+      Snap(name: 'testsnap', title: 'Test Snap'),
+      Snap(name: 'testsnap2', title: 'Another Test Snap'),
+    ]
+  });
 
   testWidgets('autocomplete options', (tester) async {
     await tester.pumpApp(
