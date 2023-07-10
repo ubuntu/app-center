@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
@@ -34,16 +35,36 @@ class _ManageView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     return ListView.builder(
       padding: const EdgeInsets.all(kYaruPagePadding),
       itemCount: snaps.length,
       itemBuilder: (context, index) {
         final snap = snaps[index];
+        final snapLauncher = ref.watch(launchProvider(snap));
         return ListTile(
           key: ValueKey(snap.id),
           leading: SnapIcon(iconUrl: snap.iconUrl),
           title: Text(snap.titleOrName),
-          subtitle: Text(snap.summary),
+          subtitle: Row(
+            children: [
+              Text(snap.channel),
+              const SizedBox(width: 4),
+              Text(snap.version),
+            ],
+          ),
+          trailing: ButtonBar(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              snapLauncher.whenOrNull(
+                    data: (data) => OutlinedButton(
+                      onPressed: data.open,
+                      child: Text(l10n.managePageOpenLabel),
+                    ),
+                  ) ??
+                  const SizedBox.shrink(),
+            ],
+          ),
           onTap: () =>
               Navigator.pushNamed(context, Routes.detail, arguments: snap.name),
         );
