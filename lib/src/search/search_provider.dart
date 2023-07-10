@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -42,8 +43,7 @@ final sortedSearchProvider =
       return snaps;
     }
 
-    final sortedSnaps = snaps.toList();
-    sortedSnaps.sort(((a, b) => switch (sortOrder) {
+    return snaps.sorted(((a, b) => switch (sortOrder) {
           SnapSortOrder.alphabetical => a.titleOrName.compareTo(b.titleOrName),
           SnapSortOrder.downloadSize =>
             a.downloadSize != null && b.downloadSize != null
@@ -51,6 +51,5 @@ final sortedSearchProvider =
                 : 0,
           _ => 0,
         }));
-    return sortedSnaps;
   });
 });
