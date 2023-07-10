@@ -14,24 +14,25 @@ class SnapScreenshotGallery extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruCarousel(
-        height: 350,
-        nextIcon: const Icon(YaruIcons.go_next),
-        previousIcon: const Icon(YaruIcons.go_previous),
-        navigationControls: snap.screenshotUrls.length > 1,
-        children: [
-          for (int i = 0; i < snap.screenshotUrls.length; i++)
-            MediaTile(
-              url: snap.screenshotUrls[i],
-              onTap: () => showDialog(
-                context: context,
-                builder: (_) => _CarouselDialog(
-                  title: snap.titleOrName,
-                  urls: snap.screenshotUrls,
-                  initialIndex: i,
-                ),
+      height: 350,
+      nextIcon: const Icon(YaruIcons.go_next),
+      previousIcon: const Icon(YaruIcons.go_previous),
+      navigationControls: snap.screenshotUrls.length > 1,
+      children: [
+        for (int i = 0; i < snap.screenshotUrls.length; i++)
+          MediaTile(
+            url: snap.screenshotUrls[i],
+            onTap: () => showDialog(
+              context: context,
+              builder: (_) => _CarouselDialog(
+                title: snap.titleOrName,
+                urls: snap.screenshotUrls,
+                initialIndex: i,
               ),
             ),
-        ]);
+          ),
+      ],
+    );
   }
 }
 
