@@ -24,6 +24,10 @@
             }
         }
     },
+    "searchPageAlphabeticalLabel": "Alphabetical",
+    "searchPageDownloadSizeLabel": "Download Size",
+    "searchPageSortByLabel": "Sort by",
+    "searchPageRelevanceLabel": "Relevance",
     "searchPageTitle": "Results for \"{query}\"",
     "@searchPageTitle": {
         "placeholders": {
