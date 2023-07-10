@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-import '/l10n.dart';
 import '/snapd.dart';
 import '/snapx.dart';
 
@@ -29,14 +28,6 @@ enum SnapSortOrder {
   alphabetical,
   downloadSize,
   relevance;
-
-  String localize(AppLocalizations l10n) {
-    return switch (this) {
-      alphabetical => l10n.searchPageAlphabeticalLabel,
-      downloadSize => l10n.searchPageDownloadSizeLabel,
-      relevance => l10n.searchPageRelevanceLabel,
-    };
-  }
 }
 
 final sortOrderProvider = StateProvider.autoDispose((ref) {

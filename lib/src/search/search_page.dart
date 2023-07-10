@@ -64,3 +64,13 @@ class SearchPage extends StatelessWidget {
     );
   }
 }
+
+extension SnapSortOrderL10n on SnapSortOrder {
+  String localize(AppLocalizations l10n) {
+    return switch (this) {
+      SnapSortOrder.alphabetical => l10n.searchPageAlphabeticalLabel,
+      SnapSortOrder.downloadSize => l10n.searchPageDownloadSizeLabel,
+      SnapSortOrder.relevance => l10n.searchPageRelevanceLabel,
+    };
+  }
+}
