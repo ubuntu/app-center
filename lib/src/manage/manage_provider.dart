@@ -6,7 +6,6 @@ import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '/snapd.dart';
-import '/snapx.dart';
 
 final manageProvider = FutureProvider.autoDispose((ref) async {
   final snaps = await getService<SnapdService>().getSnaps();

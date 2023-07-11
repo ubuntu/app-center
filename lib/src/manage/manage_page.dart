@@ -7,7 +7,7 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
 import '/routes.dart';
-import '/snapx.dart';
+import '/snapd.dart';
 import '/widgets.dart';
 import 'manage_provider.dart';
 

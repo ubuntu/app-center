@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/snapx.dart';
+import '/snapd.dart';
 import '/widgets.dart';
 
 class SnapCard extends StatelessWidget {

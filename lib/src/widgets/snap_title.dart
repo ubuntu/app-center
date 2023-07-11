@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 
-import '/snapx.dart';
+import '/snapd.dart';
 
 class SnapTitle extends StatelessWidget {
   const SnapTitle({

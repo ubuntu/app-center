@@ -4,7 +4,7 @@ import 'package:snapd/snapd.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/snapx.dart';
+import '/snapd.dart';
 
 class SnapScreenshotGallery extends StatelessWidget {
   const SnapScreenshotGallery({super.key, required this.snap});
