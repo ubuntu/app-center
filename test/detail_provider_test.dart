@@ -1,5 +1,4 @@
 import 'package:app_store/snapd.dart';
-import 'package:app_store/src/detail/detail_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

@@ -10,7 +10,6 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 import '/l10n.dart';
 import '/snapd.dart';
 import '/widgets.dart';
-import 'detail_provider.dart';
 
 typedef SnapInfo = ({String label, String value});
 
