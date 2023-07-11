@@ -31,6 +31,5 @@ class SnapLauncher {
   bool get isLaunchable =>
       snap.type == 'app' && desktopFile != null && launcher.isAvailable;
 
-  void _open() => launcher.openDesktopEntry(basename(desktopFile!));
-  void Function()? get open => isLaunchable ? _open : null;
+  void open() => launcher.openDesktopEntry(basename(desktopFile!));
 }
