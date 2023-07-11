@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
@@ -56,10 +57,11 @@ class _ManageView extends ConsumerWidget {
           trailing: ButtonBar(
             mainAxisSize: MainAxisSize.min,
             children: [
-              OutlinedButton(
-                onPressed: snapLauncher.open,
-                child: Text(l10n.managePageOpenLabel),
-              ),
+              if (snapLauncher.isLaunchable)
+                PushButton.outlined(
+                  onPressed: snapLauncher.open,
+                  child: Text(l10n.managePageOpenLabel),
+                ),
             ],
           ),
           onTap: () =>

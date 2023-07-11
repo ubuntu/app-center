@@ -94,10 +94,9 @@ void main() {
     );
 
     expect(openButton, findsOneWidget);
-    expect(openButton2, findsOneWidget);
+    expect(openButton2, findsNothing);
 
     expect(tester.widget<ButtonStyleButton>(openButton).enabled, isTrue);
-    expect(tester.widget<ButtonStyleButton>(openButton2).enabled, isFalse);
 
     await tester.tap(openButton);
     verify(mockLauncher.openDesktopEntry('testsnapapp.desktop')).called(1);
