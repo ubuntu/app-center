@@ -42,8 +42,8 @@ parts:
 
 apps:
   snap-store:
-    command: bin/app-store
-    desktop: bin/data/flutter_assets/assets/app-store.desktop
+    command: bin/snap-store
+    desktop: bin/data/flutter_assets/assets/snap-store.desktop
     extensions: [gnome]
     plugs:
       - desktop
