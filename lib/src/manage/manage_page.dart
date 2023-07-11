@@ -56,13 +56,10 @@ class _ManageView extends ConsumerWidget {
           trailing: ButtonBar(
             mainAxisSize: MainAxisSize.min,
             children: [
-              snapLauncher.whenOrNull(
-                    data: (data) => OutlinedButton(
-                      onPressed: data.open,
-                      child: Text(l10n.managePageOpenLabel),
-                    ),
-                  ) ??
-                  const SizedBox.shrink(),
+              OutlinedButton(
+                onPressed: snapLauncher.open,
+                child: Text(l10n.managePageOpenLabel),
+              ),
             ],
           ),
           onTap: () =>
