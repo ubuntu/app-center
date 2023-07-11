@@ -1,5 +1,5 @@
 import 'package:app_store/search.dart';
-import 'package:app_store/snapx.dart';
+import 'package:app_store/snapd.dart';
 import 'package:app_store/src/search/search_provider.dart';
 import 'package:app_store/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
