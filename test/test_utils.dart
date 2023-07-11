@@ -1,8 +1,13 @@
 import 'package:app_store/l10n.dart';
+import 'package:app_store/snapd.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
+
+import 'test_utils.mocks.dart';
 
 extension WidgetTesterX on WidgetTester {
   BuildContext get context => element(find.byType(Scaffold).first);
@@ -20,4 +25,13 @@ List<Snap> Function(String) createMockSearchProvider(
   return (String query) =>
       queries.entries.firstWhereOrNull((e) => e.key.contains(query))?.value ??
       [];
+}
+
+@GenerateMocks([SnapLauncher])
+SnapLauncher createMockSnapLauncher({
+  bool isLaunchable = false,
+}) {
+  final launcher = MockSnapLauncher();
+  when(launcher.isLaunchable).thenReturn(isLaunchable);
+  return launcher;
 }
