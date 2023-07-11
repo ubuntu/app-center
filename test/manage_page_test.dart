@@ -1,33 +1,22 @@
 import 'package:app_store/manage.dart';
+import 'package:app_store/snapd.dart';
 import 'package:app_store/src/manage/manage_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:snapcraft_launcher/snapcraft_launcher.dart';
 import 'package:snapd/snapd.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 
-import 'manage_page_test.mocks.dart';
 import 'test_utils.dart';
 
-@GenerateMocks([PrivilegedDesktopLauncher])
 void main() {
   const mockManageProvider = [
     Snap(
-        name: 'testsnap',
-        title: 'Test Snap',
-        version: '1.0',
-        channel: 'latest/stable',
-        type: 'app',
-        apps: [
-          SnapApp(
-            snap: 'testsnap',
-            name: 'testsnapapp',
-            desktopFile: '/foo/bar/testsnapapp.desktop',
-          )
-        ]),
+      name: 'testsnap',
+      title: 'Test Snap',
+      version: '1.0',
+      channel: 'latest/stable',
+    ),
     Snap(
       name: 'testsnap2',
       title: 'Another Test Snap',
@@ -36,13 +25,10 @@ void main() {
     ),
   ];
   testWidgets('list installed snaps', (tester) async {
-    final mockLauncher = MockPrivilegedDesktopLauncher();
-    when(mockLauncher.isAvailable).thenReturn(true);
-    registerMockService<PrivilegedDesktopLauncher>(mockLauncher);
-
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           manageProvider.overrideWith((_) => mockManageProvider),
         ],
         child: const ManagePage(),
@@ -66,13 +52,14 @@ void main() {
   });
 
   testWidgets('launch desktop snap', (tester) async {
-    final mockLauncher = MockPrivilegedDesktopLauncher();
-    when(mockLauncher.isAvailable).thenReturn(true);
-    registerMockService<PrivilegedDesktopLauncher>(mockLauncher);
-
+    final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
+          launchProvider.overrideWith((_, snap) => switch (snap.name) {
+                'testsnap' => snapLauncher,
+                _ => createMockSnapLauncher(),
+              }),
           manageProvider.overrideWith((_) => mockManageProvider),
         ],
         child: const ManagePage(),
@@ -99,7 +86,7 @@ void main() {
     expect(tester.widget<ButtonStyleButton>(openButton).enabled, isTrue);
 
     await tester.tap(openButton);
-    verify(mockLauncher.openDesktopEntry('testsnapapp.desktop')).called(1);
+    verify(snapLauncher.open()).called(1);
   });
 }
 
