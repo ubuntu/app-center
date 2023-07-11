@@ -35,3 +35,15 @@ SnapLauncher createMockSnapLauncher({
   when(launcher.isLaunchable).thenReturn(isLaunchable);
   return launcher;
 }
+
+@GenerateMocks([LocalSnapNotifier])
+LocalSnapNotifier createMockLocalSnapNotifier(LocalSnap state) {
+  final mockNotifier = MockLocalSnapNotifier();
+  // Ensure that `StateNotifierProviderElement.create` correctly sets its initial state in
+  // https://github.com/rrousselGit/riverpod/blob/da4909ce73cb5420e48475113f365fc0a3368390/packages/riverpod/lib/src/state_notifier_provider/base.dart#L169
+  when(mockNotifier.addListener(any, fireImmediately: true)).thenAnswer((i) {
+    i.positionalArguments.first.call(state);
+    return () {};
+  });
+  return mockNotifier;
+}

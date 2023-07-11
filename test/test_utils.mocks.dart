@@ -3,10 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:app_store/src/snapd/snap_launcher.dart' as _i4;
+import 'dart:async' as _i6;
+
+import 'package:app_store/snapd.dart' as _i4;
+import 'package:flutter_riverpod/flutter_riverpod.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:snapcraft_launcher/snapcraft_launcher.dart' as _i3;
 import 'package:snapd/snapd.dart' as _i2;
+import 'package:state_notifier/state_notifier.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -32,6 +36,26 @@ class _FakeSnap_0 extends _i1.SmartFake implements _i2.Snap {
 class _FakePrivilegedDesktopLauncher_1 extends _i1.SmartFake
     implements _i3.PrivilegedDesktopLauncher {
   _FakePrivilegedDesktopLauncher_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeSnapdService_2 extends _i1.SmartFake implements _i4.SnapdService {
+  _FakeSnapdService_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeAsyncValue_3<T> extends _i1.SmartFake implements _i5.AsyncValue<T> {
+  _FakeAsyncValue_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -73,6 +97,139 @@ class MockSnapLauncher extends _i1.Mock implements _i4.SnapLauncher {
   void open() => super.noSuchMethod(
         Invocation.method(
           #open,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [LocalSnapNotifier].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLocalSnapNotifier extends _i1.Mock implements _i4.LocalSnapNotifier {
+  MockLocalSnapNotifier() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.SnapdService get snapd => (super.noSuchMethod(
+        Invocation.getter(#snapd),
+        returnValue: _FakeSnapdService_2(
+          this,
+          Invocation.getter(#snapd),
+        ),
+      ) as _i4.SnapdService);
+  @override
+  String get snapName => (super.noSuchMethod(
+        Invocation.getter(#snapName),
+        returnValue: '',
+      ) as String);
+  @override
+  set onError(_i5.ErrorListener? _onError) => super.noSuchMethod(
+        Invocation.setter(
+          #onError,
+          _onError,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  bool get mounted => (super.noSuchMethod(
+        Invocation.getter(#mounted),
+        returnValue: false,
+      ) as bool);
+  @override
+  _i6.Stream<_i5.AsyncValue<_i2.Snap>> get stream => (super.noSuchMethod(
+        Invocation.getter(#stream),
+        returnValue: _i6.Stream<_i5.AsyncValue<_i2.Snap>>.empty(),
+      ) as _i6.Stream<_i5.AsyncValue<_i2.Snap>>);
+  @override
+  _i5.AsyncValue<_i2.Snap> get state => (super.noSuchMethod(
+        Invocation.getter(#state),
+        returnValue: _FakeAsyncValue_3<_i2.Snap>(
+          this,
+          Invocation.getter(#state),
+        ),
+      ) as _i5.AsyncValue<_i2.Snap>);
+  @override
+  set state(_i5.AsyncValue<_i2.Snap>? value) => super.noSuchMethod(
+        Invocation.setter(
+          #state,
+          value,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i5.AsyncValue<_i2.Snap> get debugState => (super.noSuchMethod(
+        Invocation.getter(#debugState),
+        returnValue: _FakeAsyncValue_3<_i2.Snap>(
+          this,
+          Invocation.getter(#debugState),
+        ),
+      ) as _i5.AsyncValue<_i2.Snap>);
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+      ) as bool);
+  @override
+  _i6.Future<void> init() => (super.noSuchMethod(
+        Invocation.method(
+          #init,
+          [],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
+  _i6.Future<void> install() => (super.noSuchMethod(
+        Invocation.method(
+          #install,
+          [],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
+  _i6.Future<void> remove() => (super.noSuchMethod(
+        Invocation.method(
+          #remove,
+          [],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
+  bool updateShouldNotify(
+    _i5.AsyncValue<_i2.Snap>? old,
+    _i5.AsyncValue<_i2.Snap>? current,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateShouldNotify,
+          [
+            old,
+            current,
+          ],
+        ),
+        returnValue: false,
+      ) as bool);
+  @override
+  _i5.RemoveListener addListener(
+    _i7.Listener<_i5.AsyncValue<_i2.Snap>>? listener, {
+    bool? fireImmediately = true,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+          {#fireImmediately: fireImmediately},
+        ),
+        returnValue: () {},
+      ) as _i5.RemoveListener);
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
           [],
         ),
         returnValueForMissingStub: null,

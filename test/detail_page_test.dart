@@ -3,26 +3,12 @@ import 'package:app_store/snapd.dart';
 import 'package:app_store/src/detail/detail_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_test/ubuntu_test.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import 'detail_page_test.mocks.dart';
 import 'test_utils.dart';
-
-@GenerateMocks([LocalSnapNotifier])
-LocalSnapNotifier mockLocalSnapNotifier(LocalSnap state) {
-  final mockNotifier = MockLocalSnapNotifier();
-  // Ensure that `StateNotifierProviderElement.create` correctly sets its initial state in
-  // https://github.com/rrousselGit/riverpod/blob/da4909ce73cb5420e48475113f365fc0a3368390/packages/riverpod/lib/src/state_notifier_provider/base.dart#L169
-  when(mockNotifier.addListener(any, fireImmediately: true)).thenAnswer((i) {
-    i.positionalArguments.first.call(state);
-    return () {};
-  });
-  return mockNotifier;
-}
 
 const storeSnap = Snap(
   name: 'testsnap',
@@ -59,7 +45,7 @@ void main() {
     const localSnap = storeSnap;
 
     final localSnapNotifier =
-        mockLocalSnapNotifier(const LocalSnap.data(localSnap));
+        createMockLocalSnapNotifier(const LocalSnap.data(localSnap));
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
@@ -76,7 +62,7 @@ void main() {
   });
 
   testWidgets('not locally installed snap', (tester) async {
-    final localSnapNotifier = mockLocalSnapNotifier(
+    final localSnapNotifier = createMockLocalSnapNotifier(
       LocalSnap.error(
         SnapdException(message: 'snap not installed', kind: 'snap-not-found'),
         StackTrace.empty,
@@ -98,7 +84,7 @@ void main() {
   });
 
   testWidgets('loading', (tester) async {
-    final localSnapNotifier = mockLocalSnapNotifier(
+    final localSnapNotifier = createMockLocalSnapNotifier(
       const LocalSnap.loading(),
     );
 
