@@ -8,7 +8,7 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
-import '/snapx.dart';
+import '/snapd.dart';
 import '/widgets.dart';
 import 'detail_provider.dart';
 
