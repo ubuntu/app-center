@@ -1,6 +1,6 @@
 import 'package:app_store/l10n.dart';
+import 'package:app_store/snapd.dart';
 import 'package:app_store/src/detail/detail_page.dart';
-import 'package:app_store/src/detail/detail_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
