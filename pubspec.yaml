@@ -49,4 +49,4 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/app-store.desktop
+    - assets/snap-store.desktop
