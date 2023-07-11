@@ -7,6 +7,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapcraft_launcher/snapcraft_launcher.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'manage_page_test.mocks.dart';
 import 'test_utils.dart';
@@ -35,11 +36,14 @@ void main() {
     ),
   ];
   testWidgets('list installed snaps', (tester) async {
+    final mockLauncher = MockPrivilegedDesktopLauncher();
+    when(mockLauncher.isAvailable).thenReturn(true);
+    registerMockService<PrivilegedDesktopLauncher>(mockLauncher);
+
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           manageProvider.overrideWith((_) => mockManageProvider),
-          launcherProvider.overrideWith((_) => MockPrivilegedDesktopLauncher())
         ],
         child: const ManagePage(),
       ),
@@ -64,12 +68,12 @@ void main() {
   testWidgets('launch desktop snap', (tester) async {
     final mockLauncher = MockPrivilegedDesktopLauncher();
     when(mockLauncher.isAvailable).thenReturn(true);
+    registerMockService<PrivilegedDesktopLauncher>(mockLauncher);
 
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           manageProvider.overrideWith((_) => mockManageProvider),
-          launcherProvider.overrideWith((_) => mockLauncher)
         ],
         child: const ManagePage(),
       ),
