@@ -15,16 +15,8 @@ final manageProvider = FutureProvider.autoDispose((ref) async {
   return snaps;
 });
 
-final launcherProvider = FutureProvider((ref) async {
-  final launcher = PrivilegedDesktopLauncher();
-  await launcher.connect();
-  ref.onDispose(launcher.close);
-  return launcher;
-});
-
-final launchProvider =
-    FutureProvider.family.autoDispose((ref, Snap snap) async {
-  final launcher = await ref.watch(launcherProvider.future);
+final launchProvider = Provider.family.autoDispose((ref, Snap snap) {
+  final launcher = getService<PrivilegedDesktopLauncher>();
   return SnapLauncher(snap: snap, launcher: launcher);
 });
 
