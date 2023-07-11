@@ -18,7 +18,9 @@ dependencies:
   github: ^9.15.1
   gtk: ^2.1.0
   handy_window: ^0.3.1
+  path: ^1.8.3
   shimmer: ^3.0.0
+  snapcraft_launcher: ^0.1.0
   snapd: ^0.4.10
   ubuntu_localizations: ^0.3.3
   ubuntu_service: ^0.2.2
