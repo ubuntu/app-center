@@ -46,11 +46,13 @@ void main() {
 
     final localSnapNotifier =
         createMockLocalSnapNotifier(const LocalSnap.data(localSnap));
+    final snapLauncher = createMockSnapLauncher(isLaunchable: true);
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             storeSnapProvider.overrideWith((ref, arg) => storeSnap),
-            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier)
+            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
+            launchProvider.overrideWith((ref, arg) => snapLauncher),
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
@@ -59,6 +61,9 @@ void main() {
 
     await tester.tap(find.text(tester.l10n.detailPageRemoveLabel));
     verify(localSnapNotifier.remove()).called(1);
+
+    await tester.tap(find.text(tester.l10n.managePageOpenLabel));
+    verify(snapLauncher.open()).called(1);
   });
 
   testWidgets('not locally installed snap', (tester) async {
@@ -78,6 +83,7 @@ void main() {
         ));
     expectSnapInfos(tester, storeSnap);
     expect(find.text(tester.l10n.detailPageRemoveLabel), findsNothing);
+    expect(find.text(tester.l10n.managePageOpenLabel), findsNothing);
 
     await tester.tap(find.text(tester.l10n.detailPageInstallLabel));
     verify(localSnapNotifier.install()).called(1);

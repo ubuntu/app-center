@@ -81,6 +81,9 @@ class _SnapView extends ConsumerWidget {
       'lastest/edge',
     ];
 
+    final snapLauncher =
+        localSnap != null ? ref.watch(launchProvider(localSnap!)) : null;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(kYaruPagePadding),
       child: Column(
@@ -124,6 +127,13 @@ class _SnapView extends ConsumerWidget {
                             : l10n.detailPageInstallLabel,
                       ),
               ),
+              if (snapLauncher?.isLaunchable ?? false) ...[
+                const SizedBox(width: 16),
+                PushButton.outlined(
+                  onPressed: snapLauncher!.open,
+                  child: Text(l10n.managePageOpenLabel),
+                ),
+              ]
             ],
           ),
           const SizedBox(height: kYaruPagePadding),
