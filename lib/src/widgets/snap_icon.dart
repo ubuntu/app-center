@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 import '/widgets.dart';
+import '/xdg_cache_manager.dart';
 
 class SnapIcon extends StatelessWidget {
   const SnapIcon({
@@ -37,17 +39,17 @@ class SnapIcon extends StatelessWidget {
           : SizedBox(
               height: size,
               width: size,
-              child: Image.network(
-                iconUrl!,
-                filterQuality: FilterQuality.medium,
-                fit: BoxFit.fitHeight,
-                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                  return AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 500),
-                    child: frame == null ? fallBackLoadingIcon : child,
-                  );
-                },
-                errorBuilder: (context, url, error) => fallBackIcon,
+              child: CachedNetworkImage(
+                cacheManager: XdgCacheManager(),
+                fadeInDuration: const Duration(milliseconds: 100),
+                imageUrl: iconUrl!,
+                imageBuilder: (context, imageProvider) => Image(
+                  image: imageProvider,
+                  filterQuality: FilterQuality.medium,
+                  fit: BoxFit.fitHeight,
+                ),
+                placeholder: (context, url) => fallBackLoadingIcon,
+                errorWidget: (context, url, error) => fallBackIcon,
               ),
             ),
     );
