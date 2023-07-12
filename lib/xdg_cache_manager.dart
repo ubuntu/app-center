@@ -11,7 +11,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 // ignore: implementation_imports
 import 'package:flutter_cache_manager/src/storage/file_system/file_system.dart';
 import 'package:path/path.dart' as p;
-import 'package:xdg_directories/xdg_directories.dart';
+import 'package:xdg_directories/xdg_directories.dart' as xdg;
 
 class _XdgFileSystem implements FileSystem {
   final Future<Directory> _fileDir;
@@ -20,7 +20,7 @@ class _XdgFileSystem implements FileSystem {
   _XdgFileSystem(this._cacheKey) : _fileDir = createDirectory(_cacheKey);
 
   static Future<Directory> createDirectory(String key) async {
-    final baseDir = cacheHome;
+    final baseDir = xdg.cacheHome;
     final path = p.join(baseDir.path, key, 'images');
 
     const fs = LocalFileSystem();
