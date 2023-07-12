@@ -1,17 +1,19 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:isolate';
 
 import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:flutter/services.dart';
-import 'package:glib/glib.dart';
 import 'package:meta/meta.dart';
 import 'package:snapd/snapd.dart';
+import 'package:path/path.dart' as p;
+import 'package:xdg_directories/xdg_directories.dart' as xdg;
 
 mixin SnapdCache on SnapdClient {
   @visibleForTesting
   static final cachePath =
-      '${glib.getUserCacheDir()}/${glib.getProgramName()}/snapd';
+      '${xdg.cacheHome.path}/${p.basename(Platform.resolvedExecutable)}/snapd';
 
   @visibleForTesting
   static CacheFile cacheFile(
