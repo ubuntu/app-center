@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:snapd/snapd.dart';
@@ -5,6 +6,7 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/snapd.dart';
+import '/xdg_cache_manager.dart';
 
 class SnapScreenshotGallery extends StatelessWidget {
   const SnapScreenshotGallery({super.key, required this.snap});
@@ -175,14 +177,17 @@ class SafeNetworkImage extends StatelessWidget {
           color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
         );
     if (url == null) return fallBack;
-    return Image.network(
-      url!,
-      filterQuality: filterQuality,
-      fit: fit,
-      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-        return frame == null ? fallBack : child;
-      },
-      errorBuilder: (context, error, stackTrace) => fallBack,
+    return CachedNetworkImage(
+      cacheManager: XdgCacheManager(),
+      fadeInDuration: const Duration(milliseconds: 100),
+      imageUrl: url!,
+      imageBuilder: (context, imageProvider) => Image(
+        image: imageProvider,
+        filterQuality: FilterQuality.medium,
+        fit: BoxFit.fitHeight,
+      ),
+      placeholder: (context, url) => fallBack,
+      errorWidget: (context, url, error) => fallBack,
     );
   }
 }
