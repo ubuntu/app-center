@@ -1,0 +1,396 @@
+import 'dart:io';
+
+import 'package:app_store/src/snapd/snapd_cache.dart';
+import 'package:file/memory.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:snapd/snapd.dart';
+
+import 'snapd_cache_test.mocks.dart';
+
+@GenerateMocks([SnapdClient])
+class TestSnapdCache extends MockSnapdClient with SnapdCache {}
+
+void main() {
+  test('path', () {
+    final cacheHome = Platform.environment['XDG_CACHE_HOME'] ??
+        '${Platform.environment['HOME']}/.cache';
+    expect(SnapdCache.cachePath, startsWith(cacheHome));
+    expect(SnapdCache.cachePath, endsWith('/snapd'));
+
+    final file = SnapdCache.cacheFile('test');
+    expect(file.path, startsWith(SnapdCache.cachePath));
+    expect(file.path, endsWith('/test.smc'));
+  });
+
+  test('expiry', () async {
+    final fs = MemoryFileSystem();
+    final cache = CacheFile(
+      'foo.cache',
+      expiry: const Duration(seconds: 1),
+      fs: fs,
+    );
+
+    final file = fs.file('foo.cache');
+    expect(file.existsSync(), isFalse);
+    expect(cache.existsSync(), isFalse);
+    expect(cache.isValidSync(), isFalse);
+
+    await cache.write(123);
+    expect(file.existsSync(), isTrue);
+    expect(cache.existsSync(), isTrue);
+    expect(cache.isValidSync(), isTrue);
+
+    final expired = file.lastModifiedSync().add(const Duration(seconds: 2));
+    expect(cache.isValidSync(expired), isFalse);
+  });
+
+  test('read-write json', () async {
+    final fs = MemoryFileSystem();
+    const json = JSONMessageCodec();
+    final cache = CacheFile(
+      '/foo/${localSnap.name}.json',
+      fs: fs,
+      codec: json,
+    );
+    final file = fs.file('foo/${localSnap.name}.json');
+    expect(file.existsSync(), isFalse);
+    expect(cache.existsSync(), isFalse);
+    expect(await cache.readSnap(), isNull);
+
+    await cache.writeSnap(localSnap);
+    expect(file.existsSync(), isTrue);
+    expect(cache.existsSync(), isTrue);
+    expect(await cache.readSnap(), equals(localSnap));
+    expect(file.readAsBytesSync(), equals(localSnap.encodeCache(json)));
+  });
+
+  test('read-write smc', () async {
+    final fs = MemoryFileSystem();
+    const smc = StandardMessageCodec();
+    final cache = CacheFile(
+      '/foo/${localSnap.name}.smc',
+      fs: fs,
+      codec: smc,
+    );
+    final file = fs.file('foo/${localSnap.name}.smc');
+    expect(file.existsSync(), isFalse);
+    expect(cache.existsSync(), isFalse);
+    expect(await cache.readSnap(), isNull);
+
+    await cache.writeSnap(localSnap);
+    expect(file.existsSync(), isTrue);
+    expect(cache.existsSync(), isTrue);
+    expect(await cache.readSnap(), equals(localSnap));
+    expect(file.readAsBytesSync(), equals(localSnap.encodeCache(smc)));
+  });
+
+  test('uncached category', () async {
+    final fs = MemoryFileSystem();
+
+    final snapd = TestSnapdCache();
+    when(snapd.find(category: 'foo')).thenAnswer((_) async => [storeSnap]);
+
+    await expectLater(
+      snapd.getCategory('foo', fs: fs),
+      emitsInOrder([
+        emits([storeSnap]),
+        emitsDone
+      ]),
+    );
+    verify(snapd.find(category: 'foo')).called(1);
+  });
+
+  test('cached category', () async {
+    final fs = MemoryFileSystem();
+    const smc = StandardMessageCodec();
+
+    final file = fs.file('${SnapdCache.cachePath}/category-foo.smc');
+    file.createSync(recursive: true);
+    file.writeAsBytesSync([localSnap.toJson()].encodeCache(smc));
+
+    final snapd = TestSnapdCache();
+    expect(
+      snapd.getCategory('foo', fs: fs),
+      emitsInOrder([
+        [localSnap],
+        emitsDone
+      ]),
+    );
+    verifyNever(snapd.find(category: anyNamed('category')));
+  });
+
+  test('expired category', () async {
+    final fs = MemoryFileSystem();
+    const smc = StandardMessageCodec();
+
+    final file = fs.file('${SnapdCache.cachePath}/category-foo.smc');
+    file.createSync(recursive: true);
+    file.writeAsBytesSync([localSnap.toJson()].encodeCache(smc));
+    file.setLastModifiedSync(DateTime.now().subtract(const Duration(days: 2)));
+
+    final snapd = TestSnapdCache();
+    when(snapd.find(category: 'foo')).thenAnswer((_) async => [storeSnap]);
+
+    await expectLater(
+      snapd.getCategory('foo', fs: fs),
+      emitsInOrder([
+        [localSnap],
+        [storeSnap],
+        emitsDone
+      ]),
+    );
+    verify(snapd.find(category: 'foo')).called(1);
+  });
+
+  test('uncached store snap', () async {
+    final fs = MemoryFileSystem();
+
+    final snapd = TestSnapdCache();
+    when(snapd.find(name: 'foo')).thenAnswer((_) async => [storeSnap]);
+
+    await expectLater(
+      snapd.getStoreSnap('foo', fs: fs),
+      emitsInOrder([storeSnap, emitsDone]),
+    );
+    verify(snapd.find(name: 'foo')).called(1);
+  });
+
+  test('cached store snap', () async {
+    final fs = MemoryFileSystem();
+    const smc = StandardMessageCodec();
+
+    final file = fs.file('${SnapdCache.cachePath}/snap-foo.smc');
+    file.createSync(recursive: true);
+    file.writeAsBytesSync(storeSnap.encodeCache(smc));
+
+    final snapd = TestSnapdCache();
+    expect(
+      snapd.getStoreSnap('foo', fs: fs),
+      emitsInOrder([storeSnap, emitsDone]),
+    );
+    verifyNever(snapd.find(name: anyNamed('name')));
+  });
+
+  test('store snap channels', () async {
+    final fs = MemoryFileSystem();
+    const smc = StandardMessageCodec();
+
+    final file = fs.file('${SnapdCache.cachePath}/snap-foo.smc');
+    file.createSync(recursive: true);
+    file.writeAsBytesSync(localSnap.encodeCache(smc));
+
+    final snapd = TestSnapdCache();
+    when(snapd.find(name: 'foo')).thenAnswer((_) async => [storeSnap]);
+
+    await expectLater(
+      snapd.getStoreSnap('foo', fs: fs),
+      emitsInOrder([localSnap, storeSnap, emitsDone]),
+    );
+    verify(snapd.find(name: 'foo')).called(1);
+  });
+}
+
+final localSnap = Snap.fromJson(const {
+  'id': '3wdHCAVyZEmYsCMFDE9qt92UV8rC8Wdk',
+  'title': 'firefox',
+  'summary': 'Mozilla Firefox web browser',
+  'description':
+      'Firefox is a powerful, extensible web browser with support for modern web application technologies.',
+  'icon':
+      'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
+  'installed-size': 256897024,
+  'install-date': '2023-07-11T14:35:58.527931133+02:00',
+  'name': 'firefox',
+  'publisher': {
+    'id': 'OgeoZuqQpVvSr9eGKJzNCrFGSaKXpkey',
+    'username': 'mozilla',
+    'display-name': 'Mozilla',
+    'validation': 'verified'
+  },
+  'developer': 'mozilla',
+  'status': 'active',
+  'type': 'app',
+  'base': 'core20',
+  'version': '115.0.1-1',
+  'channel': 'latest/stable',
+  'tracking-channel': 'latest/stable',
+  'ignore-validation': false,
+  'revision': '2880',
+  'confinement': 'strict',
+  'private': false,
+  'devmode': false,
+  'jailmode': false,
+  'apps': [
+    {
+      'snap': 'firefox',
+      'name': 'firefox',
+      'desktop-file':
+          '/var/lib/snapd/desktop/applications/firefox_firefox.desktop'
+    },
+    {'snap': 'firefox', 'name': 'geckodriver'}
+  ],
+  'mounted-from': '/var/lib/snapd/snaps/firefox_2880.snap',
+  'links': {
+    'contact': [
+      'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla'
+    ],
+    'website': ['https://www.mozilla.org/firefox/']
+  },
+  'contact':
+      'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla',
+  'website': 'https://www.mozilla.org/firefox/',
+  'media': [
+    {
+      'type': 'icon',
+      'url':
+          'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
+      'width': 196,
+      'height': 196
+    },
+    {
+      'type': 'screenshot',
+      'url':
+          'https://dashboard.snapcraft.io/site_media/appmedia/2021/09/Screenshot_from_2021-09-30_08-01-50.png',
+      'width': 1850,
+      'height': 1415
+    }
+  ]
+});
+
+final storeSnap = Snap.fromJson(const {
+  'id': '3wdHCAVyZEmYsCMFDE9qt92UV8rC8Wdk',
+  'title': 'firefox',
+  'summary': 'Mozilla Firefox web browser',
+  'description':
+      'Firefox is a powerful, extensible web browser with support for modern web application technologies.',
+  'download-size': 256905216,
+  'icon':
+      'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
+  'name': 'firefox',
+  'publisher': {
+    'id': 'OgeoZuqQpVvSr9eGKJzNCrFGSaKXpkey',
+    'username': 'mozilla',
+    'display-name': 'Mozilla',
+    'validation': 'verified'
+  },
+  'store-url': 'https://snapcraft.io/firefox',
+  'developer': 'mozilla',
+  'status': 'available',
+  'type': 'app',
+  'base': 'core20',
+  'version': '115.0.2-1',
+  'channel': 'stable',
+  'ignore-validation': false,
+  'revision': '2908',
+  'confinement': 'strict',
+  'private': false,
+  'devmode': false,
+  'jailmode': false,
+  'license': 'MPL-2.0',
+  'links': {
+    'contact': [
+      'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla'
+    ],
+    'website': ['https://www.mozilla.org/firefox/']
+  },
+  'contact':
+      'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla',
+  'website': 'https://www.mozilla.org/firefox/',
+  'media': [
+    {
+      'type': 'icon',
+      'url':
+          'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
+      'width': 196,
+      'height': 196
+    },
+    {
+      'type': 'screenshot',
+      'url':
+          'https://dashboard.snapcraft.io/site_media/appmedia/2021/09/Screenshot_from_2021-09-30_08-01-50.png',
+      'width': 1850,
+      'height': 1415
+    }
+  ],
+  'categories': [
+    {'name': 'productivity', 'featured': true}
+  ],
+  'channels': {
+    'esr/candidate': {
+      'revision': '2909',
+      'confinement': 'strict',
+      'version': '115.0.2esr-1',
+      'channel': 'esr/candidate',
+      'epoch': {
+        'read': [0],
+        'write': [0]
+      },
+      'size': 256901120,
+      'released-at': '2023-07-11T00:34:34.677868Z'
+    },
+    'esr/stable': {
+      'revision': '2909',
+      'confinement': 'strict',
+      'version': '115.0.2esr-1',
+      'channel': 'esr/stable',
+      'epoch': {
+        'read': [0],
+        'write': [0]
+      },
+      'size': 256901120,
+      'released-at': '2023-07-11T13:44:16.710497Z'
+    },
+    'latest/beta': {
+      'revision': '2922',
+      'confinement': 'strict',
+      'version': '116.0b4-1',
+      'channel': 'latest/beta',
+      'epoch': {
+        'read': [0],
+        'write': [0]
+      },
+      'size': 249405440,
+      'released-at': '2023-07-12T01:37:32.508198Z'
+    },
+    'latest/candidate': {
+      'revision': '2908',
+      'confinement': 'strict',
+      'version': '115.0.2-1',
+      'channel': 'latest/candidate',
+      'epoch': {
+        'read': [0],
+        'write': [0]
+      },
+      'size': 256905216,
+      'released-at': '2023-07-10T23:39:43.485418Z'
+    },
+    'latest/edge': {
+      'revision': '2924',
+      'confinement': 'strict',
+      'version': '117.0a1',
+      'channel': 'latest/edge',
+      'epoch': {
+        'read': [0],
+        'write': [0]
+      },
+      'size': 258400256,
+      'released-at': '2023-07-12T04:02:41.300927Z'
+    },
+    'latest/stable': {
+      'revision': '2908',
+      'confinement': 'strict',
+      'version': '115.0.2-1',
+      'channel': 'latest/stable',
+      'epoch': {
+        'read': [0],
+        'write': [0]
+      },
+      'size': 256905216,
+      'released-at': '2023-07-11T13:43:59.436506Z'
+    }
+  },
+  'tracks': ['latest', 'esr']
+});

@@ -50,12 +50,14 @@ void main() {
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
-            storeSnapProvider.overrideWith((ref, arg) => storeSnap),
+            storeSnapProvider
+                .overrideWith((ref, arg) => Stream.value(storeSnap)),
             localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
+    await tester.pump();
     expectSnapInfos(tester, storeSnap);
     expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
 
@@ -76,11 +78,13 @@ void main() {
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
-            storeSnapProvider.overrideWith((ref, arg) => storeSnap),
+            storeSnapProvider
+                .overrideWith((ref, arg) => Stream.value(storeSnap)),
             localSnapProvider.overrideWith((ref, arg) => localSnapNotifier)
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
+    await tester.pump();
     expectSnapInfos(tester, storeSnap);
     expect(find.text(tester.l10n.detailPageRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.managePageOpenLabel), findsNothing);
@@ -96,11 +100,13 @@ void main() {
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
-            storeSnapProvider.overrideWith((ref, arg) => storeSnap),
+            storeSnapProvider
+                .overrideWith((ref, arg) => Stream.value(storeSnap)),
             localSnapProvider.overrideWith((ref, arg) => localSnapNotifier)
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
+    await tester.pump();
     expectSnapInfos(tester, storeSnap);
     expect(find.text(tester.l10n.detailPageRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);

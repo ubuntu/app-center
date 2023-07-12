@@ -5,9 +5,9 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import '/snapd.dart';
 
 final storeSnapProvider =
-    FutureProvider.autoDispose.family<Snap, String>((ref, String snapName) {
+    StreamProvider.autoDispose.family<Snap, String>((ref, String snapName) {
   final snapd = getService<SnapdService>();
-  return snapd.find(name: snapName).then((r) => r.single);
+  return snapd.getStoreSnap(snapName);
 });
 
 final localSnapProvider =
