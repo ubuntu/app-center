@@ -9,6 +9,7 @@ environment:
 dependencies:
   args: ^2.4.2
   collection: ^1.17.0
+  file: ^6.1.0
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -16,8 +17,10 @@ dependencies:
   flutter_markdown: ^0.6.15+1
   flutter_riverpod: ^2.3.6
   github: ^9.15.1
+  glib: ^0.0.1
   gtk: ^2.1.0
   handy_window: ^0.3.1
+  meta: ^1.9.1
   path: ^1.8.3
   shimmer: ^3.0.0
   snapcraft_launcher: ^0.1.0
@@ -40,6 +43,10 @@ dev_dependencies:
   mockito: 5.4.2
 
 dependency_overrides:
+  snapd:
+    git:
+      url: https://github.com/canonical/snapd.dart
+      ref: json
   yaru_widgets:
     git:
       url: https://github.com/ubuntu/yaru_widgets.dart
