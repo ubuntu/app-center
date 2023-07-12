@@ -8,10 +8,12 @@ environment:
 
 dependencies:
   args: ^2.4.2
+  cached_network_image: ^3.2.3
   collection: ^1.17.0
   file: ^6.1.0
   flutter:
     sdk: flutter
+  flutter_cache_manager: ^3.3.1
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.6.15+1
