@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/constants.dart';
 
-import '/routes.dart';
 import 'constants.dart';
 import 'snap_card.dart';
 
 class SnapGrid extends StatelessWidget {
-  const SnapGrid({super.key, required this.snaps});
+  const SnapGrid({super.key, required this.snaps, required this.onTap});
 
   final List<Snap> snaps;
+  final ValueChanged<Snap> onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,7 @@ class SnapGrid extends StatelessWidget {
         return SnapCard(
           key: ValueKey(snap.id),
           snap: snap,
-          onTap: () =>
-              Navigator.pushNamed(context, Routes.detail, arguments: snap.name),
+          onTap: () => onTap(snap),
         );
       },
     );

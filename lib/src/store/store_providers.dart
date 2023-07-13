@@ -32,12 +32,12 @@ String? _parseRoute(List<String>? args) {
 
     final query = result['search'] as String?;
     if (query != null) {
-      return Routes.withArgument(Routes.search, 'query', query);
+      return Routes.asSearch(query);
     }
 
     final snap = result['snap'] as String? ?? result.rest.singleOrNull;
     if (snap != null) {
-      return Routes.withArgument(Routes.detail, 'snap', snap);
+      return Routes.asDetail(snap);
     }
   } on FormatException {
     // TODO: print usage

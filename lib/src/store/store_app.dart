@@ -8,6 +8,7 @@ import '/detail.dart';
 import '/l10n.dart';
 import '/routes.dart';
 import '/search.dart';
+import 'store_observer.dart';
 import 'store_pages.dart';
 import 'store_providers.dart';
 
@@ -43,18 +44,17 @@ class _StoreAppState extends ConsumerState<StoreApp> {
               child: SearchField(
                 onSearch: (query) {
                   _navigator.pushNamedAndRemoveUntil(
-                    Routes.search,
-                    (route) => route.settings.name != Routes.search,
-                    arguments: query,
+                    Routes.asSearch(query),
+                    (route) => !Routes.isSearch(route.settings),
                   );
                 },
-                onSelected: (name) =>
-                    _navigator.pushNamed(Routes.detail, arguments: name),
+                onSelected: (name) => Routes.pushDetail(context, name),
               ),
             ),
           ),
           body: YaruNavigationPage(
             navigatorKey: _navigatorKey,
+            navigatorObservers: [StoreObserver(ref)],
             initialRoute: ref.watch(initialRouteProvider),
             length: pages.length,
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(
@@ -63,21 +63,17 @@ class _StoreAppState extends ConsumerState<StoreApp> {
               style: YaruNavigationRailStyle.labelled,
             ),
             pageBuilder: (context, index) => pages[index].builder(context),
-            onGenerateRoute: (settings) => switch (settings.name) {
-              final String route when Routes.isDetail(route) =>
-                MaterialPageRoute(
+            onGenerateRoute: (settings) => switch (settings) {
+              _ when Routes.isDetail(settings) => MaterialPageRoute(
                   settings: settings,
                   builder: (_) => DetailPage(
-                    snapName: Routes.getArgument(route, 'snap') ??
-                        settings.arguments as String,
+                    snapName: Routes.detailOf(settings)!,
                   ),
                 ),
-              final String route when Routes.isSearch(route) =>
-                MaterialPageRoute(
+              _ when Routes.isSearch(settings) => MaterialPageRoute(
                   settings: settings,
                   builder: (_) => SearchPage(
-                    query: Routes.getArgument(route, 'query') ??
-                        settings.arguments as String,
+                    query: Routes.searchOf(settings)!,
                   ),
                 ),
               _ => null,
