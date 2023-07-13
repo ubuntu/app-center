@@ -7,7 +7,7 @@ import 'category_page.dart';
 class ProductivityPage extends CategoryPage {
   const ProductivityPage({super.key}) : super(category: 'productivity');
 
-  static IconData get icon => YaruIcons.send;
+  static IconData get icon => YaruIcons.send_filled;
   static String label(BuildContext context) =>
       AppLocalizations.of(context).productivityPageLabel;
 }
