@@ -5,7 +5,7 @@ import '/explore.dart';
 import '/manage.dart';
 
 typedef StorePage = ({
-  IconData icon,
+  IconData Function(bool) icon,
   String Function(BuildContext) labelBuilder,
   WidgetBuilder builder
 });

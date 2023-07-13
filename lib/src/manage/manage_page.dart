@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
@@ -14,7 +15,7 @@ import 'manage_provider.dart';
 class ManagePage extends ConsumerWidget {
   const ManagePage({super.key});
 
-  static IconData get icon => Icons.apps;
+  static IconData icon(bool selected) => YaruIcons.app_grid;
   static String label(BuildContext context) =>
       AppLocalizations.of(context).managePageLabel;
 

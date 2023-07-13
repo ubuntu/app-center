@@ -7,7 +7,7 @@ import 'category_page.dart';
 class DevelopmentPage extends CategoryPage {
   const DevelopmentPage({super.key}) : super(category: 'development');
 
-  static IconData get icon => YaruIcons.send;
+  static IconData icon(bool selected) => YaruIcons.wrench;
   static String label(BuildContext context) =>
       AppLocalizations.of(context).developmentPageLabel;
 }
