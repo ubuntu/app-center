@@ -49,7 +49,8 @@ class _StoreAppState extends ConsumerState<StoreApp> {
                     (route) => !StoreRoutes.isSearch(route.settings),
                   );
                 },
-                onSelected: (name) => StoreRouter.pushDetail(context, name),
+                onSelected: (name) =>
+                    _navigator.pushNamed(StoreRouter.detailRoute(name)),
               ),
             ),
           ),
