@@ -6,11 +6,11 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 import '/about.dart';
 import '/detail.dart';
 import '/l10n.dart';
-import 'store_router.dart';
 import '/search.dart';
 import 'store_observer.dart';
 import 'store_pages.dart';
 import 'store_providers.dart';
+import 'store_navigator.dart';
 import 'store_routes.dart';
 
 class StoreApp extends ConsumerStatefulWidget {
@@ -43,14 +43,8 @@ class _StoreAppState extends ConsumerState<StoreApp> {
             title: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 400),
               child: SearchField(
-                onSearch: (query) {
-                  _navigator.pushNamedAndRemoveUntil(
-                    StoreRouter.searchRoute(query),
-                    (route) => !StoreRoutes.isSearch(route.settings),
-                  );
-                },
-                onSelected: (name) =>
-                    _navigator.pushNamed(StoreRouter.detailRoute(name)),
+                onSearch: (query) => _navigator.pushAndRemoveSearch(query),
+                onSelected: (name) => _navigator.pushDetail(name),
               ),
             ),
           ),

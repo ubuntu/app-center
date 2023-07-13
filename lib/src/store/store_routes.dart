@@ -18,4 +18,20 @@ abstract class StoreRoutes {
 
   static String? queryOf(RouteSettings route) =>
       Uri.parse(route.name ?? '').queryParameters['query'];
+
+  static String namedRoute(String path, [Map<String, dynamic>? params]) {
+    return Uri(path: path, queryParameters: params).toString();
+  }
+
+  static String namedDetail(String name) {
+    return namedRoute(StoreRoutes.detail, {'snap': name});
+  }
+
+  static String namedSearch(String query) {
+    return namedRoute(StoreRoutes.search, {'query': query});
+  }
+
+  static String namedSearchDetail(String query, String name) {
+    return namedRoute(StoreRoutes.detail, {'snap': name, 'query': query});
+  }
 }

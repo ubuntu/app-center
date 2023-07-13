@@ -20,7 +20,7 @@ class ExplorePage extends ConsumerWidget {
     return featured.when(
       data: (data) => SnapGrid(
         snaps: data,
-        onTap: (snap) => StoreRouter.pushDetail(context, snap.name),
+        onTap: (snap) => StoreNavigator.pushDetail(context, snap.name),
       ),
       error: (error, stack) => ErrorWidget(error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
