@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '/routes.dart';
 import '/search.dart';
+import 'store_routes.dart';
 
 class StoreObserver extends NavigatorObserver {
   StoreObserver(this.ref);
@@ -11,8 +11,9 @@ class StoreObserver extends NavigatorObserver {
 
   @override
   void didPop(Route route, Route? previousRoute) {
-    final search =
-        previousRoute != null ? Routes.searchOf(previousRoute.settings) : null;
-    ref.read(queryProvider.notifier).state = search ?? '';
+    final query = previousRoute != null
+        ? StoreRoutes.queryOf(previousRoute.settings)
+        : null;
+    ref.read(queryProvider.notifier).state = query ?? '';
   }
 }

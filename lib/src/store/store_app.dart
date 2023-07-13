@@ -6,11 +6,12 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 import '/about.dart';
 import '/detail.dart';
 import '/l10n.dart';
-import '/routes.dart';
+import 'store_router.dart';
 import '/search.dart';
 import 'store_observer.dart';
 import 'store_pages.dart';
 import 'store_providers.dart';
+import 'store_routes.dart';
 
 class StoreApp extends ConsumerStatefulWidget {
   const StoreApp({super.key});
@@ -44,11 +45,11 @@ class _StoreAppState extends ConsumerState<StoreApp> {
               child: SearchField(
                 onSearch: (query) {
                   _navigator.pushNamedAndRemoveUntil(
-                    Routes.asSearch(query),
-                    (route) => !Routes.isSearch(route.settings),
+                    StoreRouter.searchRoute(query),
+                    (route) => !StoreRoutes.isSearch(route.settings),
                   );
                 },
-                onSelected: (name) => Routes.pushDetail(context, name),
+                onSelected: (name) => StoreRouter.pushDetail(context, name),
               ),
             ),
           ),
@@ -63,17 +64,18 @@ class _StoreAppState extends ConsumerState<StoreApp> {
               style: YaruNavigationRailStyle.labelled,
             ),
             pageBuilder: (context, index) => pages[index].builder(context),
-            onGenerateRoute: (settings) => switch (settings) {
-              _ when Routes.isDetail(settings) => MaterialPageRoute(
+            onGenerateRoute: (settings) =>
+                switch (StoreRoutes.routeOf(settings)) {
+              StoreRoutes.detail => MaterialPageRoute(
                   settings: settings,
                   builder: (_) => DetailPage(
-                    snapName: Routes.detailOf(settings)!,
+                    snapName: StoreRoutes.detailOf(settings)!,
                   ),
                 ),
-              _ when Routes.isSearch(settings) => MaterialPageRoute(
+              StoreRoutes.search => MaterialPageRoute(
                   settings: settings,
                   builder: (_) => SearchPage(
-                    query: Routes.searchOf(settings)!,
+                    query: StoreRoutes.queryOf(settings)!,
                   ),
                 ),
               _ => null,

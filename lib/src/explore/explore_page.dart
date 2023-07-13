@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/routes.dart';
 import '/l10n.dart';
+import '/store.dart';
 import '/widgets.dart';
 import 'explore_provider.dart';
 
@@ -20,7 +20,7 @@ class ExplorePage extends ConsumerWidget {
     return featured.when(
       data: (data) => SnapGrid(
         snaps: data,
-        onTap: (snap) => Routes.pushDetail(context, snap.name),
+        onTap: (snap) => StoreRouter.pushDetail(context, snap.name),
       ),
       error: (error, stack) => ErrorWidget(error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
