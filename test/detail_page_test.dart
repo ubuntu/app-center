@@ -10,6 +10,17 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import 'test_utils.dart';
 
+const localSnap = Snap(
+  name: 'testsnap',
+  title: 'Testsnap',
+  publisher: SnapPublisher(displayName: 'testPublisher'),
+  version: '1.0.0',
+  website: 'https://example.com',
+  confinement: SnapConfinement.strict,
+  license: 'MIT',
+  description: 'this is the **description**',
+);
+
 const storeSnap = Snap(
   name: 'testsnap',
   title: 'Testsnap',
@@ -35,15 +46,15 @@ void expectSnapInfos(WidgetTester tester, Snap snap) {
   expect(find.text(snap.license!), findsOneWidget);
   expect(find.text(tester.l10n.detailPageDescriptionLabel), findsOneWidget);
   expect(find.markdownBody(snap.description), findsOneWidget);
-  expect(find.text(tester.l10n.detailPageDownloadSizeLabel), findsOneWidget);
-  expect(find.text(tester.context.formatByteSize(snap.downloadSize!)),
-      findsOneWidget);
+  if (snap.downloadSize != null) {
+    expect(find.text(tester.l10n.detailPageDownloadSizeLabel), findsOneWidget);
+    expect(find.text(tester.context.formatByteSize(snap.downloadSize!)),
+        findsOneWidget);
+  }
 }
 
 void main() {
   testWidgets('locally installed snap', (tester) async {
-    const localSnap = storeSnap;
-
     final localSnapNotifier =
         createMockLocalSnapNotifier(const LocalSnap.data(localSnap));
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
@@ -91,6 +102,30 @@ void main() {
 
     await tester.tap(find.text(tester.l10n.detailPageInstallLabel));
     verify(localSnapNotifier.install()).called(1);
+  });
+
+  testWidgets('local-only snap', (tester) async {
+    final localSnapNotifier =
+        createMockLocalSnapNotifier(const LocalSnap.data(localSnap));
+    final snapLauncher = createMockSnapLauncher(isLaunchable: true);
+
+    await tester.pumpApp((_) => ProviderScope(
+          overrides: [
+            storeSnapProvider.overrideWith((ref, arg) => Stream.value(null)),
+            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
+            launchProvider.overrideWith((ref, arg) => snapLauncher),
+          ],
+          child: DetailPage(snapName: localSnap.name),
+        ));
+    await tester.pump();
+    expectSnapInfos(tester, localSnap);
+    expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
+
+    await tester.tap(find.text(tester.l10n.detailPageRemoveLabel));
+    verify(localSnapNotifier.remove()).called(1);
+
+    await tester.tap(find.text(tester.l10n.managePageOpenLabel));
+    verify(snapLauncher.open()).called(1);
   });
 
   testWidgets('loading', (tester) async {
