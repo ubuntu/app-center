@@ -64,7 +64,7 @@ class _ManageView extends ConsumerWidget {
                 ),
             ],
           ),
-          onTap: () => StoreRouter.pushDetail(context, snap.name),
+          onTap: () => StoreNavigator.pushDetail(context, snap.name),
         );
       },
     );
