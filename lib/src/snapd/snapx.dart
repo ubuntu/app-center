@@ -7,5 +7,9 @@ extension SnapX on Snap {
   List<String> get screenshotUrls =>
       media.where((m) => m.type == 'screenshot').map((m) => m.url).toList();
   bool get starredPublisher => publisher?.validation == 'starred';
-  String get titleOrName => title ?? name;
+  String get titleOrName => title?.orIfEmpty(name) ?? name;
+}
+
+extension on String {
+  String orIfEmpty(String other) => isEmpty ? other : this;
 }
