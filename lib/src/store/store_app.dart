@@ -7,10 +7,10 @@ import '/about.dart';
 import '/detail.dart';
 import '/l10n.dart';
 import '/search.dart';
+import 'store_navigator.dart';
 import 'store_observer.dart';
 import 'store_pages.dart';
 import 'store_providers.dart';
-import 'store_navigator.dart';
 import 'store_routes.dart';
 
 class StoreApp extends ConsumerStatefulWidget {
@@ -54,7 +54,7 @@ class _StoreAppState extends ConsumerState<StoreApp> {
             initialRoute: ref.watch(initialRouteProvider),
             length: pages.length,
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(
-              icon: Icon(pages[index].icon),
+              icon: Icon(pages[index].icon(selected)),
               label: Text(pages[index].labelBuilder(context)),
               style: YaruNavigationRailStyle.labelled,
             ),

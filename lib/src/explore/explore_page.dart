@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
@@ -10,7 +11,8 @@ import 'explore_provider.dart';
 class ExplorePage extends ConsumerWidget {
   const ExplorePage({super.key});
 
-  static IconData get icon => Icons.explore;
+  static IconData icon(bool selected) =>
+      selected ? YaruIcons.compass_filled : YaruIcons.compass;
   static String label(BuildContext context) =>
       AppLocalizations.of(context).explorePageLabel;
 
