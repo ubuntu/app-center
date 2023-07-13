@@ -52,7 +52,7 @@ dependency_overrides:
   yaru_widgets:
     git:
       url: https://github.com/ubuntu/yaru_widgets.dart
-      ref: 0bee47abc32d4fdf392de9cea8a19d113a1665c8
+      ref: 412dd638fa44c8cde9986646fa0130e79285761c
 
 flutter:
   uses-material-design: true

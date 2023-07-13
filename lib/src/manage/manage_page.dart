@@ -64,8 +64,7 @@ class _ManageView extends ConsumerWidget {
                 ),
             ],
           ),
-          onTap: () =>
-              Navigator.pushNamed(context, Routes.detail, arguments: snap.name),
+          onTap: () => Routes.pushDetail(context, snap.name),
         );
       },
     );
