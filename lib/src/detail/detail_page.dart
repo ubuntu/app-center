@@ -27,15 +27,15 @@ class DetailPage extends ConsumerWidget {
         final localNotifier = ref.watch(localSnapProvider(snapName).notifier);
         return localState.when(
           data: (localSnap) => _SnapView(
-            snap: storeSnap,
+            storeSnap: storeSnap,
             localSnap: localSnap,
             onRemove: localNotifier.remove,
           ),
           error: (error, __) => _SnapView(
-            snap: storeSnap,
+            storeSnap: storeSnap,
             onInstall: localNotifier.install,
           ),
-          loading: () => _SnapView(snap: storeSnap, busy: true),
+          loading: () => _SnapView(storeSnap: storeSnap, busy: true),
         );
       },
       error: (error, stackTrace) => ErrorWidget(error),
@@ -46,14 +46,14 @@ class DetailPage extends ConsumerWidget {
 
 class _SnapView extends ConsumerWidget {
   const _SnapView({
-    required this.snap,
+    this.storeSnap,
     this.localSnap,
     this.busy = false,
     this.onInstall,
     this.onRemove,
   });
 
-  final Snap snap;
+  final Snap? storeSnap;
   final Snap? localSnap;
   final bool busy;
   final VoidCallback? onInstall;
@@ -63,15 +63,27 @@ class _SnapView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final snapInfos = <SnapInfo>[
-      (label: l10n.detailPageVersionLabel, value: snap.version),
-      (label: l10n.detailPageConfinementLabel, value: snap.confinement.name),
-      if (snap.downloadSize != null)
+      (
+        label: l10n.detailPageVersionLabel,
+        value: storeSnap?.version ?? localSnap?.version ?? '',
+      ),
+      (
+        label: l10n.detailPageConfinementLabel,
+        value: storeSnap?.confinement.name ?? localSnap?.confinement.name ?? '',
+      ),
+      if (storeSnap?.downloadSize != null)
         (
           label: l10n.detailPageDownloadSizeLabel,
-          value: context.formatByteSize(snap.downloadSize!)
+          value: context.formatByteSize(storeSnap!.downloadSize!)
         ),
-      (label: l10n.detailPageLicenseLabel, value: snap.license ?? ''),
-      (label: l10n.detailPageWebsiteLabel, value: snap.website ?? ''),
+      (
+        label: l10n.detailPageLicenseLabel,
+        value: storeSnap?.license ?? localSnap?.license ?? '',
+      ),
+      (
+        label: l10n.detailPageWebsiteLabel,
+        value: storeSnap?.website ?? localSnap?.website ?? '',
+      ),
     ];
 
     final dummyChannels = [
@@ -90,7 +102,7 @@ class _SnapView extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const YaruBackButton(),
-          _Header(snap: snap),
+          _Header(snap: storeSnap ?? localSnap),
           const SizedBox(height: kYaruPagePadding),
           Row(
             children: [
@@ -157,14 +169,15 @@ class _SnapView extends ConsumerWidget {
             child: SizedBox(
               width: double.infinity,
               child: MarkdownBody(
-                data: snap.description,
+                data: storeSnap?.description ?? localSnap?.description ?? '',
               ),
             ),
           ),
-          _Section(
-            header: const Text('Gallery'),
-            child: SnapScreenshotGallery(snap: snap),
-          ),
+          if (storeSnap != null)
+            _Section(
+              header: const Text('Gallery'),
+              child: SnapScreenshotGallery(snap: storeSnap!),
+            ),
         ],
       ),
     );
@@ -179,22 +192,26 @@ class _Section extends YaruExpandable {
 class _Header extends StatelessWidget {
   const _Header({required this.snap});
 
-  final Snap snap;
+  final Snap? snap;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SnapIcon(iconUrl: snap.iconUrl, size: 96),
+        SnapIcon(iconUrl: snap?.iconUrl, size: 96),
         const SizedBox(width: 16),
-        Expanded(child: SnapTitle.large(snap: snap)),
-        if (snap.website != null)
+        Expanded(
+          child: snap != null
+              ? SnapTitle.large(snap: snap!)
+              : const SizedBox.shrink(),
+        ),
+        if (snap?.website != null)
           YaruIconButton(
             icon: const Icon(YaruIcons.share),
             onPressed: () {
               // TODO show snackbar
-              Clipboard.setData(ClipboardData(text: snap.website!));
+              Clipboard.setData(ClipboardData(text: snap!.website!));
             },
           ),
       ],

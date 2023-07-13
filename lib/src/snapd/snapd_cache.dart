@@ -49,7 +49,7 @@ mixin SnapdCache on SnapdClient {
     }
   }
 
-  Stream<Snap> getStoreSnap(
+  Stream<Snap?> getStoreSnap(
     String name, {
     Duration expiry = const Duration(minutes: 1),
     @visibleForTesting FileSystem? fs,
@@ -64,10 +64,17 @@ mixin SnapdCache on SnapdClient {
       }
     }
     if (!hasChannels || !file.isValidSync()) {
-      // TODO: null if the snap doesn't exist
-      final snap = await find(name: name).then((r) => r.single);
-      yield snap;
-      await file.writeSnap(snap);
+      try {
+        final snap = await find(name: name).then((r) => r.single);
+        yield snap;
+        await file.writeSnap(snap);
+      } on SnapdException catch (e) {
+        if (e.kind == 'snap-not-found') {
+          yield null;
+        } else {
+          rethrow;
+        }
+      }
     }
   }
 }
