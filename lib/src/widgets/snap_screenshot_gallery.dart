@@ -180,6 +180,7 @@ class SafeNetworkImage extends StatelessWidget {
     return CachedNetworkImage(
       cacheManager: XdgCacheManager(),
       fadeInDuration: const Duration(milliseconds: 100),
+      fadeOutDuration: const Duration(milliseconds: 200),
       imageUrl: url!,
       imageBuilder: (context, imageProvider) => Image(
         image: imageProvider,

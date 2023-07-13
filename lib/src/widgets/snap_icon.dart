@@ -42,6 +42,7 @@ class SnapIcon extends StatelessWidget {
               child: CachedNetworkImage(
                 cacheManager: XdgCacheManager(),
                 fadeInDuration: const Duration(milliseconds: 100),
+                fadeOutDuration: const Duration(milliseconds: 200),
                 imageUrl: iconUrl!,
                 imageBuilder: (context, imageProvider) => Image(
                   image: imageProvider,
