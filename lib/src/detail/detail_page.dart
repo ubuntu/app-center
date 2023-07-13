@@ -188,8 +188,7 @@ class _Header extends StatelessWidget {
       children: [
         SnapIcon(iconUrl: snap.iconUrl, size: 96),
         const SizedBox(width: 16),
-        SnapTitle.large(snap: snap),
-        const Spacer(),
+        Expanded(child: SnapTitle.large(snap: snap)),
         if (snap.website != null)
           YaruIconButton(
             icon: const Icon(YaruIcons.share),

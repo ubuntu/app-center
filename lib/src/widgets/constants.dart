@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const kGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
   maxCrossAxisExtent: 550,
-  childAspectRatio: 2.7,
+  mainAxisExtent: 120,
   mainAxisSpacing: 12,
   crossAxisSpacing: 12,
 );
