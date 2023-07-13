@@ -28,15 +28,22 @@ class SnapTitle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(snap.titleOrName, style: titleTextStyle),
+        Text(
+          snap.titleOrName,
+          style: titleTextStyle,
+          overflow: TextOverflow.ellipsis,
+        ),
         const SizedBox(height: 4),
         Row(
           children: [
-            Text(
-              snap.publisher?.displayName ?? l10n.unknownPublisher,
-              style: publisherTextStyle.copyWith(
-                  color: Theme.of(context).hintColor),
-              maxLines: 1,
+            Flexible(
+              child: Text(
+                snap.publisher?.displayName ?? l10n.unknownPublisher,
+                style: publisherTextStyle.copyWith(
+                    color: Theme.of(context).hintColor),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             if (snap.verifiedPublisher || snap.starredPublisher)
               Padding(
