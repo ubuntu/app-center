@@ -3,20 +3,20 @@ import 'package:flutter/widgets.dart';
 import 'store_routes.dart';
 
 class StoreNavigator {
-  static Future<void> pushDetail<T>(BuildContext context, String name) {
+  static Future<void> pushDetail(BuildContext context, String name) {
     return Navigator.of(context).pushDetail(name);
   }
 
-  static Future<void> pushSearch<T>(BuildContext context, String query) {
+  static Future<void> pushSearch(BuildContext context, String query) {
     return Navigator.of(context).pushSearch(query);
   }
 
-  static Future<void> pushSearchDetail<T>(
+  static Future<void> pushSearchDetail(
     BuildContext context,
     String query,
     String name,
   ) {
-    return Navigator.of(context).pushSearchDetail(context, query, name);
+    return Navigator.of(context).pushSearchDetail(query, name);
   }
 }
 
@@ -36,11 +36,7 @@ extension StoreNavigatorState on NavigatorState {
     );
   }
 
-  Future<void> pushSearchDetail(
-    BuildContext context,
-    String query,
-    String name,
-  ) {
+  Future<void> pushSearchDetail(String query, String name) {
     return pushNamed(StoreRoutes.namedSearchDetail(query, name));
   }
 }
