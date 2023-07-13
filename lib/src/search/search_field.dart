@@ -28,6 +28,7 @@ class SearchField extends ConsumerStatefulWidget {
 
 class _SearchFieldState extends ConsumerState<SearchField> {
   double? _optionsWidth;
+  bool _optionsAvailable = false;
 
   @override
   void initState() {
@@ -67,6 +68,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
               itemCount: options.length,
               itemBuilder: (context, index) {
                 final option = options.elementAt(index);
+                _optionsAvailable = options.isNotEmpty;
                 return InkWell(
                   onTap: () => onSelected(option),
                   child: Builder(builder: (context) {
@@ -104,7 +106,9 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         return TextField(
           focusNode: node,
           controller: controller,
-          onSubmitted: (_) => onFieldSubmitted(),
+          onChanged: (_) => _optionsAvailable = false,
+          onSubmitted: (query) =>
+              _optionsAvailable ? onFieldSubmitted() : widget.onSearch(query),
           decoration: InputDecoration(
             suffixIcon: AnimatedBuilder(
               animation: controller,

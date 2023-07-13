@@ -78,7 +78,7 @@ void main() {
       verify(mockSelectedCallback('testsnap2')).called(1);
       verifyNever(mockSearchCallback(any));
     });
-    testWidgets('onSearch', (tester) async {
+    testWidgets('onSearch from dropdown', (tester) async {
       final mockSearchCallback = MockStringCallback();
       final mockSelectedCallback = MockStringCallback();
 
@@ -103,6 +103,31 @@ void main() {
           find.text(tester.l10n.searchFieldSearchForLabel('testsn'));
       await tester.tap(searchForQueryFinder);
       await tester.pumpAndSettle();
+      verify(mockSearchCallback('testsn')).called(1);
+      verifyNever(mockSelectedCallback(any));
+    });
+    testWidgets('onSearch fallback', (tester) async {
+      final mockSearchCallback = MockStringCallback();
+      final mockSelectedCallback = MockStringCallback();
+
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            searchProvider
+                .overrideWith((ref, query) => mockSearchProvider(query))
+          ],
+          child: SearchField(
+            onSearch: mockSearchCallback,
+            onSelected: mockSelectedCallback,
+          ),
+        ),
+      );
+
+      final textField = find.byType(TextField);
+      await tester.enterText(textField, 'testsn');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pumpAndSettle();
+
       verify(mockSearchCallback('testsn')).called(1);
       verifyNever(mockSelectedCallback(any));
     });
