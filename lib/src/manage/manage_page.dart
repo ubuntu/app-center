@@ -6,8 +6,8 @@ import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
-import '/routes.dart';
 import '/snapd.dart';
+import '/store.dart';
 import '/widgets.dart';
 import 'manage_provider.dart';
 
@@ -64,8 +64,7 @@ class _ManageView extends ConsumerWidget {
                 ),
             ],
           ),
-          onTap: () =>
-              Navigator.pushNamed(context, Routes.detail, arguments: snap.name),
+          onTap: () => StoreNavigator.pushDetail(context, snap.name),
         );
       },
     );

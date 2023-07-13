@@ -103,24 +103,30 @@ class _SearchFieldState extends ConsumerState<SearchField> {
           ? widget.onSelected(option.snap!.name)
           : widget.onSearch(option.query),
       fieldViewBuilder: (context, controller, node, onFieldSubmitted) {
-        return TextField(
-          focusNode: node,
-          controller: controller,
-          onChanged: (_) => _optionsAvailable = false,
-          onSubmitted: (query) =>
-              _optionsAvailable ? onFieldSubmitted() : widget.onSearch(query),
-          decoration: InputDecoration(
-            suffixIcon: AnimatedBuilder(
-              animation: controller,
-              builder: (context, child) {
-                return YaruIconButton(
-                  icon: const Icon(YaruIcons.edit_clear),
-                  onPressed: controller.text.isEmpty ? null : controller.clear,
-                );
-              },
+        return Consumer(builder: (context, ref, child) {
+          ref.listen(queryProvider, (prev, next) {
+            if (!node.hasPrimaryFocus) controller.text = next;
+          });
+          return TextField(
+            focusNode: node,
+            controller: controller,
+            onChanged: (_) => _optionsAvailable = false,
+            onSubmitted: (query) =>
+                _optionsAvailable ? onFieldSubmitted() : widget.onSearch(query),
+            decoration: InputDecoration(
+              suffixIcon: AnimatedBuilder(
+                animation: controller,
+                builder: (context, child) {
+                  return YaruIconButton(
+                    icon: const Icon(YaruIcons.edit_clear),
+                    onPressed:
+                        controller.text.isEmpty ? null : controller.clear,
+                  );
+                },
+              ),
             ),
-          ),
-        );
+          );
+        });
       },
     );
   }

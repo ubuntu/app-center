@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '../store/store_navigator.dart';
 import '/l10n.dart';
 import '/widgets.dart';
 import 'search_provider.dart';
@@ -55,7 +56,11 @@ class SearchPage extends StatelessWidget {
         Expanded(child: Consumer(builder: (context, ref, child) {
           final results = ref.watch(sortedSearchProvider(query));
           return results.when(
-            data: (data) => SnapGrid(snaps: data),
+            data: (data) => SnapGrid(
+              snaps: data,
+              onTap: (snap) =>
+                  StoreNavigator.pushSearchDetail(context, query, snap.name),
+            ),
             error: (error, stack) => ErrorWidget(error),
             loading: () => const Center(child: YaruCircularProgressIndicator()),
           );

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gtk/gtk.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-import '/routes.dart';
+import 'store_routes.dart';
 
 final commandLineProvider = Provider.autoDispose((ref) {
   final app = getService<GtkApplicationNotifier>();
@@ -32,12 +32,12 @@ String? _parseRoute(List<String>? args) {
 
     final query = result['search'] as String?;
     if (query != null) {
-      return Routes.withArgument(Routes.search, 'query', query);
+      return StoreRoutes.namedSearch(query);
     }
 
     final snap = result['snap'] as String? ?? result.rest.singleOrNull;
     if (snap != null) {
-      return Routes.withArgument(Routes.detail, 'snap', snap);
+      return StoreRoutes.namedDetail(snap);
     }
   } on FormatException {
     // TODO: print usage
