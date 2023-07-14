@@ -9,6 +9,7 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/constants.dart';
 import '/l10n.dart';
+import '/widgets.dart';
 import 'about_providers.dart';
 
 class AboutPage extends StatelessWidget {
@@ -151,11 +152,12 @@ class _ContributorWrap extends StatelessWidget {
               onTap: contributor?.htmlUrl != null
                   ? () => launchUrlString(contributor?.htmlUrl ?? '')
                   : null,
-              child: CircleAvatar(
-                radius: 16,
-                backgroundImage: contributor?.avatarUrl != null
-                    ? NetworkImage(contributor!.avatarUrl!)
-                    : null,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: SnapIcon(
+                  iconUrl: contributor?.avatarUrl,
+                  size: 32,
+                ),
               ),
             ),
           ),
