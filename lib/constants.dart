@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+const kAppName = 'App Store';
+const kGitHubRepo = 'ubuntu/software';
+
 const kNaviRailWidth = 205.0;
 
 const kGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(

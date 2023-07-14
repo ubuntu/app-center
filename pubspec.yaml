@@ -1,5 +1,6 @@
 name: app_store
 description: App Store
+version: 0.0.0-dev
 publish_to: 'none'
 
 environment:
@@ -22,6 +23,7 @@ dependencies:
   gtk: ^2.1.0
   handy_window: ^0.3.1
   meta: ^1.9.1
+  package_info_plus: ^4.0.2
   path: ^1.8.3
   shimmer: ^3.0.0
   snapcraft_launcher: ^0.1.0
@@ -30,6 +32,7 @@ dependencies:
   ubuntu_service: ^0.2.2
   ubuntu_test: ^0.1.0-0
   ubuntu_widgets: ^0.1.2
+  url_launcher: ^6.1.12
   xdg_directories: ^1.0.0
   yaru: ^0.9.0
   yaru_icons: ^1.0.4
@@ -58,4 +61,4 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/snap-store.desktop
+    - assets/
