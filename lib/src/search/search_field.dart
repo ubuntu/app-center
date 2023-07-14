@@ -114,6 +114,8 @@ class _SearchFieldState extends ConsumerState<SearchField> {
             onSubmitted: (query) =>
                 _optionsAvailable ? onFieldSubmitted() : widget.onSearch(query),
             decoration: InputDecoration(
+              prefixIcon: const Icon(YaruIcons.search),
+              hintText: l10n.searchFieldSearchHint,
               suffixIcon: AnimatedBuilder(
                 animation: controller,
                 builder: (context, child) {
