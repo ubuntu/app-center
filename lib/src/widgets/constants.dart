@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const kNaviRailWidth = 205.0;
+
 const kGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
   maxCrossAxisExtent: 550,
   mainAxisExtent: 120,
