@@ -17,6 +17,7 @@
     "developmentPageLabel": "Development",
     "gamesPageLabel": "Games",
     "unknownPublisher": "Unknown Publisher",
+    "searchFieldSearchHint": "Search for apps",
     "searchFieldSearchForLabel": "Search for \"{query}\"",
     "@searchFieldSearchForLabel": {
         "placeholders": {
