@@ -7,6 +7,7 @@ import '/about.dart';
 import '/detail.dart';
 import '/l10n.dart';
 import '/search.dart';
+import '/widgets.dart';
 import 'store_navigator.dart';
 import 'store_observer.dart';
 import 'store_pages.dart';
@@ -56,7 +57,8 @@ class _StoreAppState extends ConsumerState<StoreApp> {
             itemBuilder: (context, index, selected) => YaruNavigationRailItem(
               icon: Icon(pages[index].icon(selected)),
               label: Text(pages[index].labelBuilder(context)),
-              style: YaruNavigationRailStyle.labelled,
+              style: YaruNavigationRailStyle.labelledExtended,
+              width: kNaviRailWidth,
             ),
             pageBuilder: (context, index) => pages[index].builder(context),
             onGenerateRoute: (settings) =>
@@ -79,8 +81,9 @@ class _StoreAppState extends ConsumerState<StoreApp> {
               builder: (context) => YaruNavigationRailItem(
                 icon: Icon(AboutDialog.icon),
                 label: Text(AboutDialog.label(context)),
-                style: YaruNavigationRailStyle.labelled,
+                style: YaruNavigationRailStyle.labelledExtended,
                 onTap: () => showAboutDialog(context),
+                width: kNaviRailWidth,
               ),
             ),
           ),
