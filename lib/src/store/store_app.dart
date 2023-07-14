@@ -3,11 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/about.dart';
+import '/constants.dart';
 import '/detail.dart';
 import '/l10n.dart';
 import '/search.dart';
-import '/widgets.dart';
 import 'store_navigator.dart';
 import 'store_observer.dart';
 import 'store_pages.dart';
@@ -77,15 +76,6 @@ class _StoreAppState extends ConsumerState<StoreApp> {
                 ),
               _ => null,
             },
-            trailing: Builder(
-              builder: (context) => YaruNavigationRailItem(
-                icon: Icon(AboutDialog.icon),
-                label: Text(AboutDialog.label(context)),
-                style: YaruNavigationRailStyle.labelledExtended,
-                onTap: () => showAboutDialog(context),
-                width: kNaviRailWidth,
-              ),
-            ),
           ),
         ),
       ),

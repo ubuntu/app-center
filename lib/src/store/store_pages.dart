@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '/about.dart';
 import '/category.dart';
 import '/explore.dart';
 import '/manage.dart';
@@ -35,5 +36,10 @@ final pages = <StorePage>[
     icon: ManagePage.icon,
     labelBuilder: ManagePage.label,
     builder: (_) => const ManagePage(),
+  ),
+  (
+    icon: AboutPage.icon,
+    labelBuilder: AboutPage.label,
+    builder: (_) => const AboutPage(),
   ),
 ];
