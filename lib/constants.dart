@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const kAppName = 'App Store';
-const kGitHubRepo = 'ubuntu/software';
+const kGitHubRepo = 'ubuntu/app-store';
 
 const kNaviRailWidth = 205.0;
 
