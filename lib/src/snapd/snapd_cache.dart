@@ -6,8 +6,8 @@ import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
-import 'package:snapd/snapd.dart';
 import 'package:path/path.dart' as p;
+import 'package:snapd/snapd.dart';
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
 
 mixin SnapdCache on SnapdClient {
