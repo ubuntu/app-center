@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart' hide RatingWidget;
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:software/app/common/app_data.dart';
@@ -298,6 +299,20 @@ class _ReviewDialog extends StatefulWidget {
 
 class _ReviewDialogState extends State<_ReviewDialog> {
   double? _reviewRating;
+  double? _hoverRating;
+
+  void updateRating(double value) {
+    setState(() {
+      _hoverRating = value;
+    });
+  }
+
+  void setRating(double value) {
+    setState(() {
+      _reviewRating = value;
+    });
+  }
+
   final _reviewController = TextEditingController();
   final _reviewTitleController = TextEditingController();
 
@@ -336,26 +351,44 @@ class _ReviewDialogState extends State<_ReviewDialog> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RatingBar.builder(
-                initialRating: _reviewRating ?? 0,
-                minRating: 1,
-                direction: Axis.horizontal,
-                itemCount: 5,
-                itemPadding: const EdgeInsets.only(right: 5),
-                itemSize: 40,
-                itemBuilder: (context, _) => const MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: Icon(
-                    YaruIcons.star_filled,
-                    color: kStarColor,
-                    size: 2,
+              PannableRatingBar(
+                rate: _hoverRating ?? 0,
+                spacing: 5,
+                onChanged: setRating,
+                onHover: updateRating,
+                items: List.generate(
+                  5,
+                  (_) => const RatingWidget(
+                    selectedColor: kStarColor,
+                    unSelectedColor: Colors.grey,
+                    child: Icon(
+                      YaruIcons.star_filled,
+                      // color: kStarColor,
+                      size: 40,
+                    ),
                   ),
                 ),
-                unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
-                onRatingUpdate: (rating) {
-                  setState(() => _reviewRating = rating);
-                },
               ),
+              // RatingBar.builder(
+              //   initialRating: _reviewRating ?? 0,
+              //   minRating: 1,
+              //   direction: Axis.horizontal,
+              //   itemCount: 5,
+              //   itemPadding: const EdgeInsets.only(right: 5),
+              //   itemSize: 40,
+              //   itemBuilder: (context, _) => const MouseRegion(
+              //     cursor: SystemMouseCursors.click,
+              //     child: Icon(
+              //       YaruIcons.star_filled,
+              //       color: kStarColor,
+              //       size: 2,
+              //     ),
+              //   ),
+              //   unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
+              //   onRatingUpdate: (rating) {
+              //     setState(() => _reviewRating = rating);
+              //   },
+              // ),
             ],
           ),
           const SizedBox(
