@@ -38,6 +38,19 @@
             }
         }
     },
-    "aboutDialogLabel": "About",
-    "aboutDialogTitle": "About App Store"
+    "aboutPageLabel": "About",
+    "aboutPageVersionLabel": "Version {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "Designed and developed by:",
+    "aboutPageCommunityTitle": "Be part of the community:",
+    "aboutPageContributeLabel": "Contribute or report bug",
+    "aboutPageGitHubLabel": "Find us on GitHub",
+    "aboutPagePublishLabel": "Publish to the Snap Store",
+    "aboutPageLearnMoreLabel": "Learn more"
 }

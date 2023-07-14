@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/constants.dart';
 
-import 'constants.dart';
+import '/constants.dart';
 import 'snap_card.dart';
 
 class SnapGrid extends StatelessWidget {

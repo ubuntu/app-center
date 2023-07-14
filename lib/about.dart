@@ -1,1 +1,1 @@
-export 'src/about/about_dialog.dart';
+export 'src/about/about_page.dart';

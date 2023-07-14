@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
-import '/widgets.dart';
+import '/constants.dart';
 import '/xdg_cache_manager.dart';
 
 class SnapIcon extends StatelessWidget {
