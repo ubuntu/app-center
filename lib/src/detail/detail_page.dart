@@ -197,16 +197,18 @@ class _SnapActionButtons extends ConsumerWidget {
                   : l10n.detailPageInstallLabel,
             ),
     );
-    final refreshButton = refreshableSnaps.whenOrNull(
-      data: (snaps) =>
-          snaps.singleWhereOrNull((snap) => snap.name == localSnap!.name) !=
-                  null
-              ? PushButton.elevated(
-                  onPressed: localSnapNotifier.refresh,
-                  child: Text(l10n.detailPageUpdateLabel),
-                )
-              : null,
-    );
+    final refreshButton = localSnap != null
+        ? refreshableSnaps.whenOrNull(
+            data: (snaps) => snaps.singleWhereOrNull(
+                        (snap) => snap.name == localSnap!.name) !=
+                    null
+                ? PushButton.elevated(
+                    onPressed: localSnapNotifier.refresh,
+                    child: Text(l10n.detailPageUpdateLabel),
+                  )
+                : null,
+          )
+        : null;
     final launchButton = snapLauncher?.isLaunchable ?? false
         ? PushButton.outlined(
             onPressed: snapLauncher!.open,
