@@ -1,4 +1,5 @@
 import 'package:app_store/l10n.dart';
+import 'package:app_store/search.dart';
 import 'package:app_store/snapd.dart';
 import 'package:app_store/src/detail/detail_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,15 +66,47 @@ void main() {
                 .overrideWith((ref, arg) => Stream.value(storeSnap)),
             localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
+            refreshProvider.overrideWith((ref) => []),
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
     await tester.pump();
     expectSnapInfos(tester, storeSnap);
     expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
+    expect(find.text(tester.l10n.detailPageUpdateLabel), findsNothing);
 
     await tester.tap(find.text(tester.l10n.detailPageRemoveLabel));
     verify(localSnapNotifier.remove()).called(1);
+
+    await tester.tap(find.text(tester.l10n.managePageOpenLabel));
+    verify(snapLauncher.open()).called(1);
+  });
+
+  testWidgets('locally installed snap with update', (tester) async {
+    final localSnapNotifier =
+        createMockLocalSnapNotifier(const LocalSnap.data(localSnap));
+    final snapLauncher = createMockSnapLauncher(isLaunchable: true);
+
+    await tester.pumpApp((_) => ProviderScope(
+          overrides: [
+            storeSnapProvider
+                .overrideWith((ref, arg) => Stream.value(storeSnap)),
+            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
+            launchProvider.overrideWith((ref, arg) => snapLauncher),
+            refreshProvider.overrideWith((ref) => [storeSnap]),
+          ],
+          child: DetailPage(snapName: storeSnap.name),
+        ));
+    await tester.pump();
+    expectSnapInfos(tester, storeSnap);
+    expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
+    expect(find.text(tester.l10n.detailPageUpdateLabel), findsOneWidget);
+
+    await tester.tap(find.text(tester.l10n.detailPageRemoveLabel));
+    verify(localSnapNotifier.remove()).called(1);
+
+    await tester.tap(find.text(tester.l10n.detailPageUpdateLabel));
+    verify(localSnapNotifier.refresh()).called(1);
 
     await tester.tap(find.text(tester.l10n.managePageOpenLabel));
     verify(snapLauncher.open()).called(1);
@@ -91,7 +124,9 @@ void main() {
           overrides: [
             storeSnapProvider
                 .overrideWith((ref, arg) => Stream.value(storeSnap)),
-            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier)
+            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
+            refreshProvider
+                .overrideWith((ref) => [const Snap(name: 'othersnap')]),
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
@@ -99,6 +134,7 @@ void main() {
     expectSnapInfos(tester, storeSnap);
     expect(find.text(tester.l10n.detailPageRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.managePageOpenLabel), findsNothing);
+    expect(find.text(tester.l10n.detailPageUpdateLabel), findsNothing);
 
     await tester.tap(find.text(tester.l10n.detailPageInstallLabel));
     verify(localSnapNotifier.install()).called(1);
@@ -114,6 +150,7 @@ void main() {
             storeSnapProvider.overrideWith((ref, arg) => Stream.value(null)),
             localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
+            refreshProvider.overrideWith((ref) => []),
           ],
           child: DetailPage(snapName: localSnap.name),
         ));
@@ -137,7 +174,8 @@ void main() {
           overrides: [
             storeSnapProvider
                 .overrideWith((ref, arg) => Stream.value(storeSnap)),
-            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier)
+            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
+            refreshProvider.overrideWith((ref) => []),
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
