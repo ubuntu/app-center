@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '/snapd.dart';
@@ -51,4 +52,9 @@ final sortedSearchProvider =
           _ => 0,
         }));
   });
+});
+
+final refreshProvider = FutureProvider((ref) {
+  final snapd = getService<SnapdService>();
+  return snapd.find(filter: SnapFindFilter.refresh);
 });
