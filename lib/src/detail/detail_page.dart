@@ -24,16 +24,13 @@ class DetailPage extends ConsumerWidget {
     return storeState.when(
       data: (storeSnap) {
         final localState = ref.watch(localSnapProvider(snapName));
-        final localNotifier = ref.watch(localSnapProvider(snapName).notifier);
         return localState.when(
           data: (localSnap) => _SnapView(
             storeSnap: storeSnap,
             localSnap: localSnap,
-            onRemove: localNotifier.remove,
           ),
           error: (error, __) => _SnapView(
             storeSnap: storeSnap,
-            onInstall: localNotifier.install,
           ),
           loading: () => _SnapView(storeSnap: storeSnap, busy: true),
         );
@@ -49,15 +46,11 @@ class _SnapView extends ConsumerWidget {
     this.storeSnap,
     this.localSnap,
     this.busy = false,
-    this.onInstall,
-    this.onRemove,
   });
 
   final Snap? storeSnap;
   final Snap? localSnap;
   final bool busy;
-  final VoidCallback? onInstall;
-  final VoidCallback? onRemove;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -93,9 +86,6 @@ class _SnapView extends ConsumerWidget {
       'lastest/edge',
     ];
 
-    final snapLauncher =
-        localSnap != null ? ref.watch(launchProvider(localSnap!)) : null;
-
     return SingleChildScrollView(
       padding: const EdgeInsets.all(kYaruPagePadding),
       child: Column(
@@ -118,34 +108,11 @@ class _SnapView extends ConsumerWidget {
                     .toList(),
               ),
               const SizedBox(width: 16),
-              PushButton.elevated(
-                onPressed: busy
-                    ? null
-                    : localSnap != null
-                        ? onRemove
-                        : onInstall,
-                child: busy
-                    ? Center(
-                        child: SizedBox.square(
-                          dimension: IconTheme.of(context).size,
-                          child: const YaruCircularProgressIndicator(
-                            strokeWidth: 3,
-                          ),
-                        ),
-                      )
-                    : Text(
-                        localSnap != null
-                            ? l10n.detailPageRemoveLabel
-                            : l10n.detailPageInstallLabel,
-                      ),
-              ),
-              if (snapLauncher?.isLaunchable ?? false) ...[
-                const SizedBox(width: 16),
-                PushButton.outlined(
-                  onPressed: snapLauncher!.open,
-                  child: Text(l10n.managePageOpenLabel),
-                ),
-              ]
+              _SnapActionButtons(
+                busy: busy,
+                localSnap: localSnap,
+                storeSnap: storeSnap,
+              )
             ],
           ),
           const SizedBox(height: kYaruPagePadding),
@@ -180,6 +147,61 @@ class _SnapView extends ConsumerWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+class _SnapActionButtons extends ConsumerWidget {
+  const _SnapActionButtons({
+    required this.busy,
+    this.localSnap,
+    this.storeSnap,
+  }) : assert(localSnap != null || storeSnap != null);
+
+  final bool busy;
+  final Snap? localSnap;
+  final Snap? storeSnap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+
+    final localSnapNotifier = ref
+        .read(localSnapProvider(storeSnap?.name ?? localSnap!.name).notifier);
+    final snapLauncher =
+        localSnap != null ? ref.watch(launchProvider(localSnap!)) : null;
+
+    return ButtonBar(
+      children: [
+        PushButton.elevated(
+          onPressed: busy
+              ? null
+              : localSnap != null
+                  ? localSnapNotifier.remove
+                  : localSnapNotifier.install,
+          child: busy
+              ? Center(
+                  child: SizedBox.square(
+                    dimension: IconTheme.of(context).size,
+                    child: const YaruCircularProgressIndicator(
+                      strokeWidth: 3,
+                    ),
+                  ),
+                )
+              : Text(
+                  localSnap != null
+                      ? l10n.detailPageRemoveLabel
+                      : l10n.detailPageInstallLabel,
+                ),
+        ),
+        if (snapLauncher?.isLaunchable ?? false) ...[
+          const SizedBox(width: 16),
+          PushButton.outlined(
+            onPressed: snapLauncher!.open,
+            child: Text(l10n.managePageOpenLabel),
+          ),
+        ]
+      ],
     );
   }
 }
