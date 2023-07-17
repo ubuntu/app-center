@@ -351,44 +351,34 @@ class _ReviewDialogState extends State<_ReviewDialog> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PannableRatingBar(
-                rate: _hoverRating ?? 0,
-                spacing: 5,
-                onChanged: setRating,
-                onHover: updateRating,
-                items: List.generate(
-                  5,
-                  (_) => const RatingWidget(
-                    selectedColor: kStarColor,
-                    unSelectedColor: Colors.grey,
-                    child: Icon(
-                      YaruIcons.star_filled,
-                      // color: kStarColor,
-                      size: 40,
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                onExit: (event) => setState(() {
+                  _hoverRating = _reviewRating;
+                }),
+                child: PannableRatingBar(
+                  rate: _hoverRating ?? 0,
+                  minRating: 1,
+                  maxRating: 5,
+                  spacing: 5,
+                  onChanged: setRating,
+                  onHover: updateRating,
+                  valueTransformer: (value) => value.ceilToDouble(),
+                  items: List.generate(
+                    5,
+                    (_) => RatingWidget(
+                      selectedColor: kStarColor,
+                      unSelectedColor: theme.brightness == Brightness.light
+                          ? const Color(0xffd4d4d4)
+                          : const Color(0xff545454),
+                      child: const Icon(
+                        YaruIcons.star_filled,
+                        size: 40,
+                      ),
                     ),
                   ),
                 ),
               ),
-              // RatingBar.builder(
-              //   initialRating: _reviewRating ?? 0,
-              //   minRating: 1,
-              //   direction: Axis.horizontal,
-              //   itemCount: 5,
-              //   itemPadding: const EdgeInsets.only(right: 5),
-              //   itemSize: 40,
-              //   itemBuilder: (context, _) => const MouseRegion(
-              //     cursor: SystemMouseCursors.click,
-              //     child: Icon(
-              //       YaruIcons.star_filled,
-              //       color: kStarColor,
-              //       size: 2,
-              //     ),
-              //   ),
-              //   unratedColor: theme.colorScheme.onSurface.withOpacity(0.2),
-              //   onRatingUpdate: (rating) {
-              //     setState(() => _reviewRating = rating);
-              //   },
-              // ),
             ],
           ),
           const SizedBox(
