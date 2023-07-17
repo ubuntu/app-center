@@ -38,6 +38,12 @@ class LocalSnapNotifier extends StateNotifier<LocalSnap> {
     return _getLocalSnap();
   }
 
+  Future<void> refresh() async {
+    state = const LocalSnap.loading();
+    await snapd.refresh(snapName).then(snapd.waitChange);
+    return _getLocalSnap();
+  }
+
   Future<void> remove() async {
     state = const LocalSnap.loading();
     await snapd.remove(snapName).then(snapd.waitChange);

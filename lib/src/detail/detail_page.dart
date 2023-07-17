@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -8,6 +9,7 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
+import '/search.dart';
 import '/snapd.dart';
 import '/widgets.dart';
 
@@ -108,10 +110,12 @@ class _SnapView extends ConsumerWidget {
                     .toList(),
               ),
               const SizedBox(width: 16),
-              _SnapActionButtons(
-                busy: busy,
-                localSnap: localSnap,
-                storeSnap: storeSnap,
+              Flexible(
+                child: _SnapActionButtons(
+                  busy: busy,
+                  localSnap: localSnap,
+                  storeSnap: storeSnap,
+                ),
               )
             ],
           ),
@@ -170,38 +174,53 @@ class _SnapActionButtons extends ConsumerWidget {
         .read(localSnapProvider(storeSnap?.name ?? localSnap!.name).notifier);
     final snapLauncher =
         localSnap != null ? ref.watch(launchProvider(localSnap!)) : null;
+    final refreshableSnaps = ref.watch(refreshProvider);
 
-    return ButtonBar(
-      children: [
-        PushButton.elevated(
-          onPressed: busy
-              ? null
-              : localSnap != null
-                  ? localSnapNotifier.remove
-                  : localSnapNotifier.install,
-          child: busy
-              ? Center(
-                  child: SizedBox.square(
-                    dimension: IconTheme.of(context).size,
-                    child: const YaruCircularProgressIndicator(
-                      strokeWidth: 3,
-                    ),
-                  ),
-                )
-              : Text(
-                  localSnap != null
-                      ? l10n.detailPageRemoveLabel
-                      : l10n.detailPageInstallLabel,
+    final installRemoveButton = PushButton.elevated(
+      onPressed: busy
+          ? null
+          : localSnap != null
+              ? localSnapNotifier.remove
+              : localSnapNotifier.install,
+      child: busy
+          ? Center(
+              child: SizedBox.square(
+                dimension: IconTheme.of(context).size,
+                child: const YaruCircularProgressIndicator(
+                  strokeWidth: 3,
                 ),
-        ),
-        if (snapLauncher?.isLaunchable ?? false) ...[
-          const SizedBox(width: 16),
-          PushButton.outlined(
+              ),
+            )
+          : Text(
+              localSnap != null
+                  ? l10n.detailPageRemoveLabel
+                  : l10n.detailPageInstallLabel,
+            ),
+    );
+    final refreshButton = refreshableSnaps.whenOrNull(
+      data: (snaps) =>
+          snaps.singleWhereOrNull((snap) => snap.name == localSnap!.name) !=
+                  null
+              ? PushButton.elevated(
+                  onPressed: localSnapNotifier.refresh,
+                  child: Text(l10n.detailPageUpdateLabel),
+                )
+              : null,
+    );
+    final launchButton = snapLauncher?.isLaunchable ?? false
+        ? PushButton.outlined(
             onPressed: snapLauncher!.open,
             child: Text(l10n.managePageOpenLabel),
-          ),
-        ]
-      ],
+          )
+        : null;
+
+    return ButtonBar(
+      overflowButtonSpacing: 8,
+      children: [
+        installRemoveButton,
+        refreshButton,
+        launchButton,
+      ].whereNotNull().toList(),
     );
   }
 }
