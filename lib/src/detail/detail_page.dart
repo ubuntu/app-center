@@ -57,19 +57,35 @@ class _SnapView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+
+    final channels = storeSnap?.channels.keys;
+    final selectedChannel = storeSnap != null
+        ? ref.watch(selectedChannelProvider(storeSnap!.name))
+        : null;
+
+    final channelInfo =
+        selectedChannel != null ? storeSnap?.channels[selectedChannel] : null;
+
     final snapInfos = <SnapInfo>[
       (
         label: l10n.detailPageVersionLabel,
-        value: storeSnap?.version ?? localSnap?.version ?? '',
+        value: channelInfo?.version ??
+            storeSnap?.version ??
+            localSnap?.version ??
+            '',
       ),
       (
         label: l10n.detailPageConfinementLabel,
-        value: storeSnap?.confinement.name ?? localSnap?.confinement.name ?? '',
+        value: channelInfo?.confinement.name ??
+            storeSnap?.confinement.name ??
+            localSnap?.confinement.name ??
+            '',
       ),
       if (storeSnap?.downloadSize != null)
         (
           label: l10n.detailPageDownloadSizeLabel,
-          value: context.formatByteSize(storeSnap!.downloadSize!)
+          value: context
+              .formatByteSize(channelInfo?.size ?? storeSnap!.downloadSize!)
         ),
       (
         label: l10n.detailPageLicenseLabel,
@@ -79,13 +95,6 @@ class _SnapView extends ConsumerWidget {
         label: l10n.detailPageWebsiteLabel,
         value: storeSnap?.website ?? localSnap?.website ?? '',
       ),
-    ];
-
-    final dummyChannels = [
-      'latest/stable',
-      'latest/candidate',
-      'lastest/beta',
-      'lastest/edge',
     ];
 
     return SingleChildScrollView(
@@ -103,12 +112,17 @@ class _SnapView extends ConsumerWidget {
                 style: Theme.of(context).textTheme.labelLarge,
               ),
               const SizedBox(width: 16),
-              YaruPopupMenuButton(
-                child: Text(dummyChannels.first),
-                itemBuilder: (_) => dummyChannels
-                    .map((e) => PopupMenuItem(value: e, child: Text(e)))
-                    .toList(),
-              ),
+              if (channels != null && selectedChannel != null)
+                YaruPopupMenuButton(
+                  itemBuilder: (_) => channels
+                      .map((e) => PopupMenuItem(value: e, child: Text(e)))
+                      .toList(),
+                  onSelected: (value) => ref
+                      .read(selectedChannelProvider(storeSnap!.name).notifier)
+                      .state = value,
+                  enabled: !busy,
+                  child: Text(selectedChannel),
+                ),
               const SizedBox(width: 16),
               Flexible(
                 child: _SnapActionButtons(
@@ -175,13 +189,23 @@ class _SnapActionButtons extends ConsumerWidget {
     final snapLauncher =
         localSnap != null ? ref.watch(launchProvider(localSnap!)) : null;
     final refreshableSnaps = ref.watch(refreshProvider);
+    final selectedChannel = storeSnap != null
+        ? ref.watch(selectedChannelProvider(storeSnap!.name))
+        : null;
+    final canRefresh = localSnap == null
+        ? false
+        : refreshableSnaps.whenOrNull(
+                    data: (snaps) => snaps.singleWhereOrNull(
+                        (snap) => snap.name == localSnap!.name)) !=
+                null ||
+            selectedChannel != localSnap!.trackingChannel;
 
     final installRemoveButton = PushButton.elevated(
       onPressed: busy
           ? null
           : localSnap != null
               ? localSnapNotifier.remove
-              : localSnapNotifier.install,
+              : () => localSnapNotifier.install(channel: selectedChannel),
       child: busy
           ? Center(
               child: SizedBox.square(
@@ -197,16 +221,11 @@ class _SnapActionButtons extends ConsumerWidget {
                   : l10n.detailPageInstallLabel,
             ),
     );
-    final refreshButton = localSnap != null
-        ? refreshableSnaps.whenOrNull(
-            data: (snaps) => snaps.singleWhereOrNull(
-                        (snap) => snap.name == localSnap!.name) !=
-                    null
-                ? PushButton.elevated(
-                    onPressed: localSnapNotifier.refresh,
-                    child: Text(l10n.detailPageUpdateLabel),
-                  )
-                : null,
+    final refreshButton = canRefresh
+        ? PushButton.elevated(
+            onPressed: () =>
+                localSnapNotifier.refresh(channel: selectedChannel),
+            child: Text(l10n.detailPageUpdateLabel),
           )
         : null;
     final launchButton = snapLauncher?.isLaunchable ?? false
