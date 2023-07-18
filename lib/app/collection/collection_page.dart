@@ -138,13 +138,17 @@ class _CollectionPageState extends State<CollectionPage> {
         value: snapSort,
         onSelected: (value) => setSnapSort(value),
       ),
-      OutlinedButton(
+      OutlinedButton.icon(
         onPressed: checkingForSnapUpdates == true ? null : () => loadSnaps(),
-        child: Text(context.l10n.refreshButton),
+        icon: checkingForSnapUpdates
+            ? const _ProgressIndicator()
+            : const Icon(
+                YaruIcons.refresh,
+                size: 18,
+              ),
+        label: Text(context.l10n.refreshButton),
       ),
-      if (checkingForSnapUpdates == true)
-        const _ProgressIndicator()
-      else if (snapsWithUpdate.isNotEmpty)
+      if (!checkingForSnapUpdates && snapsWithUpdate.isNotEmpty)
         ElevatedButton(
           onPressed: () => refreshAllSnapsWithUpdates(
             doneMessage: context.l10n.done,
@@ -160,14 +164,18 @@ class _CollectionPageState extends State<CollectionPage> {
         onTap: handleFilter,
         filters: packageKitFilters,
       ),
-      OutlinedButton(
+      OutlinedButton.icon(
         onPressed:
             checkingForPackageUpdates ? null : () => checkForPackageUpdates(),
-        child: Text(context.l10n.refreshButton),
+        label: Text(context.l10n.refreshButton),
+        icon: checkingForPackageUpdates
+            ? const _ProgressIndicator()
+            : const Icon(
+                YaruIcons.refresh,
+                size: 18,
+              ),
       ),
-      if (checkingForPackageUpdates)
-        const _ProgressIndicator()
-      else
+      if (!checkingForPackageUpdates && selectedUpdatesLength > 0)
         ElevatedButton(
           onPressed: selectedUpdatesLength == 0
               ? null
@@ -269,8 +277,8 @@ class _ProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SizedBox(
-      height: 25,
-      width: 25,
+      height: 18,
+      width: 18,
       child: Center(
         child: YaruCircularProgressIndicator(strokeWidth: 3),
       ),
