@@ -25,11 +25,11 @@ class AboutPage extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         const SliverPadding(
-          padding: EdgeInsets.all(kYaruPagePadding),
+          padding: EdgeInsets.all(kPagePadding),
           sliver: SliverToBoxAdapter(child: _AboutHeader()),
         ),
         SliverPadding(
-          padding: const EdgeInsets.all(kYaruPagePadding),
+          padding: const EdgeInsets.all(kPagePadding),
           sliver: SliverToBoxAdapter(
             child: Align(
               alignment: AlignmentDirectional.topStart,
@@ -41,13 +41,13 @@ class AboutPage extends StatelessWidget {
           ),
         ),
         const SliverPadding(
-          padding: EdgeInsets.all(kYaruPagePadding),
+          padding: EdgeInsets.all(kPagePadding),
           sliver: SliverToBoxAdapter(child: _CommunityView()),
         ),
         const SliverFillRemaining(
           hasScrollBody: false,
           child: Padding(
-            padding: EdgeInsets.all(kYaruPagePadding),
+            padding: EdgeInsets.all(kPagePadding),
             child: _AboutFooter(),
           ),
         ),

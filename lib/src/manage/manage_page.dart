@@ -6,6 +6,7 @@ import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/constants.dart';
 import '/l10n.dart';
 import '/snapd.dart';
 import '/store.dart';
@@ -39,7 +40,7 @@ class _ManageView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     return ListView.builder(
-      padding: const EdgeInsets.all(kYaruPagePadding),
+      padding: const EdgeInsets.all(kPagePadding),
       itemCount: snaps.length,
       itemBuilder: (context, index) {
         final snap = snaps[index];

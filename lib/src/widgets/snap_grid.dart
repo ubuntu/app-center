@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
-import 'package:yaru_widgets/constants.dart';
 
 import '/constants.dart';
 import 'snap_card.dart';
@@ -14,7 +13,7 @@ class SnapGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.all(kYaruPagePadding),
+      padding: const EdgeInsets.all(kPagePadding) - const EdgeInsets.all(4),
       gridDelegate: kGridDelegate,
       itemCount: snaps.length,
       itemBuilder: (context, index) {
