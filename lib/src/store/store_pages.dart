@@ -1,45 +1,81 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/about.dart';
 import '/category.dart';
+import '/constants.dart';
 import '/explore.dart';
 import '/manage.dart';
 
 typedef StorePage = ({
-  IconData Function(bool) icon,
-  String Function(BuildContext) labelBuilder,
-  WidgetBuilder builder
+  Widget Function(BuildContext context, bool selected) itemBuilder,
+  WidgetBuilder pageBuilder,
 });
+
+Widget buildNaviRailItem({required IconData icon, required String label}) {
+  return YaruNavigationRailItem(
+    icon: Icon(icon),
+    label: Text(label),
+    style: YaruNavigationRailStyle.labelledExtended,
+    width: kNaviRailWidth,
+  );
+}
 
 final pages = <StorePage>[
   (
-    icon: ExplorePage.icon,
-    labelBuilder: ExplorePage.label,
-    builder: (_) => const ExplorePage(),
+    itemBuilder: (context, selected) => buildNaviRailItem(
+          icon: ExplorePage.icon(selected),
+          label: ExplorePage.label(context),
+        ),
+    pageBuilder: (_) => const ExplorePage(),
   ),
   (
-    icon: ProductivityPage.icon,
-    labelBuilder: ProductivityPage.label,
-    builder: (_) => const ProductivityPage(),
+    itemBuilder: (context, selected) => buildNaviRailItem(
+          icon: ProductivityPage.icon(selected),
+          label: ProductivityPage.label(context),
+        ),
+    pageBuilder: (_) => const ProductivityPage(),
   ),
   (
-    icon: DevelopmentPage.icon,
-    labelBuilder: DevelopmentPage.label,
-    builder: (_) => const DevelopmentPage(),
+    itemBuilder: (context, selected) => buildNaviRailItem(
+          icon: DevelopmentPage.icon(selected),
+          label: DevelopmentPage.label(context),
+        ),
+    pageBuilder: (_) => const DevelopmentPage(),
   ),
   (
-    icon: GamesPage.icon,
-    labelBuilder: GamesPage.label,
-    builder: (_) => const GamesPage(),
+    itemBuilder: (context, selected) => buildNaviRailItem(
+          icon: GamesPage.icon(selected),
+          label: GamesPage.label(context),
+        ),
+    pageBuilder: (_) => const GamesPage(),
   ),
   (
-    icon: ManagePage.icon,
-    labelBuilder: ManagePage.label,
-    builder: (_) => const ManagePage(),
+    // TODO: this is a counter-spacer for YaruNavigationRail's spacer (with
+    // default flex = 1) after the last item. we should add proper support for
+    // spacers and dividers in YaruNavigationRail.
+    itemBuilder: (context, selected) => const Spacer(flex: 1 << 53),
+    pageBuilder: (_) => const SizedBox.shrink(),
   ),
   (
-    icon: AboutPage.icon,
-    labelBuilder: AboutPage.label,
-    builder: (_) => const AboutPage(),
+    itemBuilder: (context, selected) => const SizedBox(
+          width: kNaviRailWidth,
+          child: Divider(height: 1),
+        ),
+    pageBuilder: (_) => const SizedBox.shrink(),
+  ),
+  (
+    itemBuilder: (context, selected) => buildNaviRailItem(
+          icon: ManagePage.icon(selected),
+          label: ManagePage.label(context),
+        ),
+    pageBuilder: (_) => const ManagePage(),
+  ),
+  (
+    itemBuilder: (context, selected) => buildNaviRailItem(
+          icon: AboutPage.icon(selected),
+          label: AboutPage.label(context),
+        ),
+    pageBuilder: (_) => const AboutPage(),
   ),
 ];
