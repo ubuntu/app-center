@@ -54,7 +54,7 @@ final pages = <StorePage>[
     // TODO: this is a counter-spacer for YaruNavigationRail's spacer (with
     // default flex = 1) after the last item. we should add proper support for
     // spacers and dividers in YaruNavigationRail.
-    itemBuilder: (context, selected) => const Spacer(flex: 2 << 53),
+    itemBuilder: (context, selected) => const Spacer(flex: 1 << 53),
     pageBuilder: (_) => const SizedBox.shrink(),
   ),
   (
