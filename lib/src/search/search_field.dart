@@ -107,6 +107,12 @@ class _SearchFieldState extends ConsumerState<SearchField> {
           ref.listen(queryProvider, (prev, next) {
             if (!node.hasPrimaryFocus) controller.text = next;
           });
+          const iconConstraints = BoxConstraints(
+            minWidth: 32,
+            minHeight: 32,
+            maxWidth: 32,
+            maxHeight: 32,
+          );
           return TextField(
             focusNode: node,
             controller: controller,
@@ -114,7 +120,10 @@ class _SearchFieldState extends ConsumerState<SearchField> {
             onSubmitted: (query) =>
                 _optionsAvailable ? onFieldSubmitted() : widget.onSearch(query),
             decoration: InputDecoration(
+              contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+              fillColor: Theme.of(context).dividerColor,
               prefixIcon: const Icon(YaruIcons.search),
+              prefixIconConstraints: iconConstraints,
               hintText: l10n.searchFieldSearchHint,
               suffixIcon: AnimatedBuilder(
                 animation: controller,
@@ -126,6 +135,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                   );
                 },
               ),
+              suffixIconConstraints: iconConstraints,
             ),
           );
         });
