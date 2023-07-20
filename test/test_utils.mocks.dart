@@ -181,19 +181,21 @@ class MockLocalSnapNotifier extends _i1.Mock implements _i4.LocalSnapNotifier {
         returnValueForMissingStub: _i6.Future<void>.value(),
       ) as _i6.Future<void>);
   @override
-  _i6.Future<void> install() => (super.noSuchMethod(
+  _i6.Future<void> install({String? channel}) => (super.noSuchMethod(
         Invocation.method(
           #install,
           [],
+          {#channel: channel},
         ),
         returnValue: _i6.Future<void>.value(),
         returnValueForMissingStub: _i6.Future<void>.value(),
       ) as _i6.Future<void>);
   @override
-  _i6.Future<void> refresh() => (super.noSuchMethod(
+  _i6.Future<void> refresh({String? channel}) => (super.noSuchMethod(
         Invocation.method(
           #refresh,
           [],
+          {#channel: channel},
         ),
         returnValue: _i6.Future<void>.value(),
         returnValueForMissingStub: _i6.Future<void>.value(),
