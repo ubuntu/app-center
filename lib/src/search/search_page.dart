@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/constants.dart';
 import '/l10n.dart';
 import '/store.dart';
 import '/widgets.dart';
@@ -21,7 +22,7 @@ class SearchPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(kYaruPagePadding),
+          padding: const EdgeInsets.all(kPagePadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

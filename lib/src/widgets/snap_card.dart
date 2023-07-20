@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/constants.dart';
 import '/snapd.dart';
 import '/widgets.dart';
 
@@ -14,6 +15,7 @@ class SnapCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruBanner(
+      padding: const EdgeInsets.all(kPagePadding),
       onTap: onTap,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

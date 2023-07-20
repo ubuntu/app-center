@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/constants.dart';
 import '/detail.dart';
 import '/l10n.dart';
 import '/search.dart';
@@ -40,7 +41,7 @@ class _StoreAppState extends ConsumerState<StoreApp> {
         home: Scaffold(
           appBar: YaruWindowTitleBar(
             title: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 400),
+              constraints: const BoxConstraints(maxWidth: kSearchBarWidth),
               child: SearchField(
                 onSearch: (query) => _navigator.pushAndRemoveSearch(query),
                 onSelected: (name) => _navigator.pushDetail(name),

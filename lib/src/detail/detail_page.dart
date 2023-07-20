@@ -8,6 +8,7 @@ import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/constants.dart';
 import '/l10n.dart';
 import '/search.dart';
 import '/snapd.dart';
@@ -98,13 +99,13 @@ class _SnapView extends ConsumerWidget {
     ];
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(kYaruPagePadding),
+      padding: const EdgeInsets.all(kPagePadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const YaruBackButton(),
           _Header(snap: storeSnap ?? localSnap),
-          const SizedBox(height: kYaruPagePadding),
+          const SizedBox(height: kPagePadding),
           Row(
             children: [
               Text(
@@ -133,7 +134,7 @@ class _SnapView extends ConsumerWidget {
               )
             ],
           ),
-          const SizedBox(height: kYaruPagePadding),
+          const SizedBox(height: kPagePadding),
           Wrap(
             spacing: 48,
             runSpacing: 8,
