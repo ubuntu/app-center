@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/constants.dart';
 import '/detail.dart';
 import '/l10n.dart';
 import '/search.dart';
@@ -53,13 +52,9 @@ class _StoreAppState extends ConsumerState<StoreApp> {
             navigatorObservers: [StoreObserver(ref)],
             initialRoute: ref.watch(initialRouteProvider),
             length: pages.length,
-            itemBuilder: (context, index, selected) => YaruNavigationRailItem(
-              icon: Icon(pages[index].icon(selected)),
-              label: Text(pages[index].labelBuilder(context)),
-              style: YaruNavigationRailStyle.labelledExtended,
-              width: kNaviRailWidth,
-            ),
-            pageBuilder: (context, index) => pages[index].builder(context),
+            itemBuilder: (context, index, selected) =>
+                pages[index].itemBuilder(context, selected),
+            pageBuilder: (context, index) => pages[index].pageBuilder(context),
             onGenerateRoute: (settings) =>
                 switch (StoreRoutes.routeOf(settings)) {
               StoreRoutes.detail => MaterialPageRoute(
