@@ -122,14 +122,14 @@ class _SearchFieldState extends ConsumerState<SearchField> {
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
               fillColor: Theme.of(context).dividerColor,
-              prefixIcon: const Icon(YaruIcons.search),
+              prefixIcon: const Icon(YaruIcons.search, size: 16),
               prefixIconConstraints: iconConstraints,
               hintText: l10n.searchFieldSearchHint,
               suffixIcon: AnimatedBuilder(
                 animation: controller,
                 builder: (context, child) {
                   return YaruIconButton(
-                    icon: const Icon(YaruIcons.edit_clear),
+                    icon: const Icon(YaruIcons.edit_clear, size: 16),
                     onPressed:
                         controller.text.isEmpty ? null : controller.clear,
                   );
