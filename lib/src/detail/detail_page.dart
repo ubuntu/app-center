@@ -23,21 +23,9 @@ class DetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final storeState = ref.watch(storeSnapProvider(snapName));
-    return storeState.when(
-      data: (storeSnap) {
-        final localState = ref.watch(localSnapProvider(snapName));
-        return localState.when(
-          data: (localSnap) => _SnapView(
-            storeSnap: storeSnap,
-            localSnap: localSnap,
-          ),
-          error: (error, __) => _SnapView(
-            storeSnap: storeSnap,
-          ),
-          loading: () => _SnapView(storeSnap: storeSnap, busy: true),
-        );
-      },
+    final model = ref.watch(snapModelProvider(snapName));
+    return model.state.when(
+      data: (_) => _SnapView(model: model),
       error: (error, stackTrace) => ErrorWidget(error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
@@ -45,56 +33,50 @@ class DetailPage extends ConsumerWidget {
 }
 
 class _SnapView extends ConsumerWidget {
-  const _SnapView({
-    this.storeSnap,
-    this.localSnap,
-    this.busy = false,
-  });
+  const _SnapView({required this.model});
 
-  final Snap? storeSnap;
-  final Snap? localSnap;
-  final bool busy;
+  final SnapModel model;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
 
-    final channels = storeSnap?.channels.keys;
-    final selectedChannel = storeSnap != null
-        ? ref.watch(selectedChannelProvider(storeSnap!.name))
+    final channels = model.availableChannels;
+    final selectedChannel = model.selectedChannel;
+
+    final channelInfo = selectedChannel != null
+        ? model.storeSnap?.channels[selectedChannel]
         : null;
 
-    final channelInfo =
-        selectedChannel != null ? storeSnap?.channels[selectedChannel] : null;
-
+    // TODO: move logic into view model, once app page UI is settled
     final snapInfos = <SnapInfo>[
       (
         label: l10n.detailPageVersionLabel,
         value: channelInfo?.version ??
-            storeSnap?.version ??
-            localSnap?.version ??
+            model.storeSnap?.version ??
+            model.localSnap?.version ??
             '',
       ),
       (
         label: l10n.detailPageConfinementLabel,
         value: channelInfo?.confinement.name ??
-            storeSnap?.confinement.name ??
-            localSnap?.confinement.name ??
+            model.storeSnap?.confinement.name ??
+            model.localSnap?.confinement.name ??
             '',
       ),
-      if (storeSnap?.downloadSize != null)
+      if (model.storeSnap?.downloadSize != null)
         (
           label: l10n.detailPageDownloadSizeLabel,
-          value: context
-              .formatByteSize(channelInfo?.size ?? storeSnap!.downloadSize!)
+          value: context.formatByteSize(
+              channelInfo?.size ?? model.storeSnap!.downloadSize!)
         ),
       (
         label: l10n.detailPageLicenseLabel,
-        value: storeSnap?.license ?? localSnap?.license ?? '',
+        value: model.storeSnap?.license ?? model.localSnap?.license ?? '',
       ),
       (
         label: l10n.detailPageWebsiteLabel,
-        value: storeSnap?.website ?? localSnap?.website ?? '',
+        value: model.storeSnap?.website ?? model.localSnap?.website ?? '',
       ),
     ];
 
@@ -104,7 +86,7 @@ class _SnapView extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const YaruBackButton(),
-          _Header(snap: storeSnap ?? localSnap),
+          _Header(snap: model.storeSnap ?? model.localSnap),
           const SizedBox(height: kPagePadding),
           Row(
             children: [
@@ -118,19 +100,13 @@ class _SnapView extends ConsumerWidget {
                   itemBuilder: (_) => channels
                       .map((e) => PopupMenuItem(value: e, child: Text(e)))
                       .toList(),
-                  onSelected: (value) => ref
-                      .read(selectedChannelProvider(storeSnap!.name).notifier)
-                      .state = value,
-                  enabled: !busy,
+                  onSelected: (value) => model.selectedChannel = value,
+                  enabled: model.activeChanges.isEmpty,
                   child: Text(selectedChannel),
                 ),
               const SizedBox(width: 16),
               Flexible(
-                child: _SnapActionButtons(
-                  busy: busy,
-                  localSnap: localSnap,
-                  storeSnap: storeSnap,
-                ),
+                child: _SnapActionButtons(model: model),
               )
             ],
           ),
@@ -155,14 +131,16 @@ class _SnapView extends ConsumerWidget {
             child: SizedBox(
               width: double.infinity,
               child: MarkdownBody(
-                data: storeSnap?.description ?? localSnap?.description ?? '',
+                data: model.storeSnap?.description ??
+                    model.localSnap?.description ??
+                    '',
               ),
             ),
           ),
-          if (storeSnap != null)
+          if (model.storeSnap != null)
             _Section(
               header: const Text('Gallery'),
-              child: SnapScreenshotGallery(snap: storeSnap!),
+              child: SnapScreenshotGallery(snap: model.storeSnap!),
             ),
         ],
       ),
@@ -172,42 +150,33 @@ class _SnapView extends ConsumerWidget {
 
 class _SnapActionButtons extends ConsumerWidget {
   const _SnapActionButtons({
-    required this.busy,
-    this.localSnap,
-    this.storeSnap,
-  }) : assert(localSnap != null || storeSnap != null);
+    required this.model,
+  });
 
-  final bool busy;
-  final Snap? localSnap;
-  final Snap? storeSnap;
+  final SnapModel model;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-
-    final localSnapNotifier = ref
-        .read(localSnapProvider(storeSnap?.name ?? localSnap!.name).notifier);
-    final snapLauncher =
-        localSnap != null ? ref.watch(launchProvider(localSnap!)) : null;
-    final refreshableSnaps = ref.watch(refreshProvider);
-    final selectedChannel = storeSnap != null
-        ? ref.watch(selectedChannelProvider(storeSnap!.name))
+    final snapLauncher = model.localSnap != null
+        ? ref.watch(launchProvider(model.localSnap!))
         : null;
-    final canRefresh = localSnap == null
+    final refreshableSnaps = ref.watch(refreshProvider);
+    final canRefresh = model.localSnap == null
         ? false
         : refreshableSnaps.whenOrNull(
                     data: (snaps) => snaps.singleWhereOrNull(
-                        (snap) => snap.name == localSnap!.name)) !=
+                        (snap) => snap.name == model.localSnap!.name)) !=
                 null ||
-            selectedChannel != localSnap!.trackingChannel;
+            model.selectedChannel != model.localSnap!.trackingChannel;
 
     final installRemoveButton = PushButton.elevated(
-      onPressed: busy
+      onPressed: model.activeChanges.isNotEmpty
           ? null
-          : localSnap != null
-              ? localSnapNotifier.remove
-              : () => localSnapNotifier.install(channel: selectedChannel),
-      child: busy
+          : model.localSnap != null
+              ? model.remove
+              : () => model.install(),
+      child: model.activeChanges.isNotEmpty
           ? Center(
               child: SizedBox.square(
                 dimension: IconTheme.of(context).size,
@@ -217,15 +186,14 @@ class _SnapActionButtons extends ConsumerWidget {
               ),
             )
           : Text(
-              localSnap != null
+              model.localSnap != null
                   ? l10n.detailPageRemoveLabel
                   : l10n.detailPageInstallLabel,
             ),
     );
     final refreshButton = canRefresh
         ? PushButton.elevated(
-            onPressed: () =>
-                localSnapNotifier.refresh(channel: selectedChannel),
+            onPressed: () => model.refresh(),
             child: Text(l10n.detailPageUpdateLabel),
           )
         : null;
