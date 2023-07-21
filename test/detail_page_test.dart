@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_test/ubuntu_test.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
+import 'package:yaru_widgets/widgets.dart';
 
 import 'test_utils.dart';
 
@@ -15,13 +15,13 @@ const localSnap = Snap(
   name: 'testsnap',
   title: 'Testsnap',
   publisher: SnapPublisher(displayName: 'testPublisher'),
-  version: '1.0.0',
+  version: '2.0.0',
   website: 'https://example.com',
-  confinement: SnapConfinement.strict,
+  confinement: SnapConfinement.classic,
   license: 'MIT',
   description: 'this is the **description**',
-  trackingChannel: 'latest/stable',
-  channel: 'latest/stable',
+  trackingChannel: 'latest/edge',
+  channel: 'latest/edge',
 );
 
 final storeSnap = Snap(
@@ -80,77 +80,48 @@ void expectSnapInfos(WidgetTester tester, Snap snap, [String? channel]) {
   }
 }
 
+// TODO agree with design team on what snap metadata should be shown depending on:
+// - whether a snap is installed locally
+// - whether a snap is available in the store
+// - which channel is currently selected
+// - any combination of the above
 void main() {
-  testWidgets('locally installed snap', (tester) async {
-    final localSnapNotifier =
-        createMockLocalSnapNotifier(const LocalSnap.data(localSnap));
+  testWidgets('local + store', (tester) async {
+    final snapModel =
+        createMockSnapModel(localSnap: localSnap, storeSnap: storeSnap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
-            storeSnapProvider
-                .overrideWith((ref, arg) => Stream.value(storeSnap)),
-            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
+            snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
             refreshProvider.overrideWith((ref) => []),
           ],
-          child: DetailPage(snapName: storeSnap.name),
+          child: const DetailPage(snapName: 'testsnap'),
         ));
     await tester.pump();
-    expectSnapInfos(tester, storeSnap);
+    expectSnapInfos(tester, localSnap);
     expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
     expect(find.text(tester.l10n.detailPageUpdateLabel), findsNothing);
 
     await tester.tap(find.text(tester.l10n.detailPageRemoveLabel));
-    verify(localSnapNotifier.remove()).called(1);
+    verify(snapModel.remove()).called(1);
 
     await tester.tap(find.text(tester.l10n.managePageOpenLabel));
     verify(snapLauncher.open()).called(1);
   });
 
-  testWidgets('locally installed snap - switch channel', (tester) async {
-    final localSnapNotifier =
-        createMockLocalSnapNotifier(const LocalSnap.data(localSnap));
+  testWidgets('local + store with update', (tester) async {
+    final snapModel = createMockSnapModel(
+      localSnap: localSnap,
+      storeSnap: storeSnap,
+      selectedChannel: 'latest/stable',
+    );
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
-            storeSnapProvider
-                .overrideWith((ref, arg) => Stream.value(storeSnap)),
-            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
-            launchProvider.overrideWith((ref, arg) => snapLauncher),
-            refreshProvider.overrideWith((ref) => []),
-          ],
-          child: DetailPage(snapName: storeSnap.name),
-        ));
-    await tester.pump();
-    expectSnapInfos(tester, storeSnap);
-    expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
-    expect(find.text(tester.l10n.detailPageUpdateLabel), findsNothing);
-
-    await tester.tap(find.text('latest/stable'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('latest/edge'));
-    await tester.pumpAndSettle();
-
-    expectSnapInfos(tester, storeSnap, 'latest/edge');
-    expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
-    expect(find.text(tester.l10n.detailPageUpdateLabel), findsOneWidget);
-
-    await tester.tap(find.text(tester.l10n.detailPageUpdateLabel));
-    verify(localSnapNotifier.refresh(channel: 'latest/edge')).called(1);
-  });
-
-  testWidgets('locally installed snap with update', (tester) async {
-    final localSnapNotifier =
-        createMockLocalSnapNotifier(const LocalSnap.data(localSnap));
-    final snapLauncher = createMockSnapLauncher(isLaunchable: true);
-
-    await tester.pumpApp((_) => ProviderScope(
-          overrides: [
-            storeSnapProvider
-                .overrideWith((ref, arg) => Stream.value(storeSnap)),
-            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
+            snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
             refreshProvider.overrideWith((ref) => [storeSnap]),
           ],
@@ -162,29 +133,20 @@ void main() {
     expect(find.text(tester.l10n.detailPageUpdateLabel), findsOneWidget);
 
     await tester.tap(find.text(tester.l10n.detailPageRemoveLabel));
-    verify(localSnapNotifier.remove()).called(1);
+    verify(snapModel.remove()).called(1);
 
     await tester.tap(find.text(tester.l10n.detailPageUpdateLabel));
-    verify(localSnapNotifier.refresh(channel: localSnap.trackingChannel))
-        .called(1);
+    verify(snapModel.refresh()).called(1);
 
     await tester.tap(find.text(tester.l10n.managePageOpenLabel));
     verify(snapLauncher.open()).called(1);
   });
 
-  testWidgets('not locally installed snap', (tester) async {
-    final localSnapNotifier = createMockLocalSnapNotifier(
-      LocalSnap.error(
-        SnapdException(message: 'snap not installed', kind: 'snap-not-found'),
-        StackTrace.empty,
-      ),
-    );
-
+  testWidgets('store-only', (tester) async {
+    final snapModel = createMockSnapModel(storeSnap: storeSnap);
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
-            storeSnapProvider
-                .overrideWith((ref, arg) => Stream.value(storeSnap)),
-            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
+            snapModelProvider.overrideWith((ref, arg) => snapModel),
             refreshProvider
                 .overrideWith((ref) => [const Snap(name: 'othersnap')]),
           ],
@@ -197,18 +159,16 @@ void main() {
     expect(find.text(tester.l10n.detailPageUpdateLabel), findsNothing);
 
     await tester.tap(find.text(tester.l10n.detailPageInstallLabel));
-    verify(localSnapNotifier.install(channel: 'latest/stable')).called(1);
+    verify(snapModel.install()).called(1);
   });
 
-  testWidgets('local-only snap', (tester) async {
-    final localSnapNotifier =
-        createMockLocalSnapNotifier(const LocalSnap.data(localSnap));
+  testWidgets('local-only', (tester) async {
+    final snapModel = createMockSnapModel(localSnap: localSnap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
-            storeSnapProvider.overrideWith((ref, arg) => Stream.value(null)),
-            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
+            snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
             refreshProvider.overrideWith((ref) => []),
           ],
@@ -219,28 +179,25 @@ void main() {
     expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
 
     await tester.tap(find.text(tester.l10n.detailPageRemoveLabel));
-    verify(localSnapNotifier.remove()).called(1);
+    verify(snapModel.remove()).called(1);
 
     await tester.tap(find.text(tester.l10n.managePageOpenLabel));
     verify(snapLauncher.open()).called(1);
   });
 
   testWidgets('loading', (tester) async {
-    final localSnapNotifier = createMockLocalSnapNotifier(
-      const LocalSnap.loading(),
-    );
+    final snapModel = createMockSnapModel(state: const AsyncValue.loading());
+    final snapLauncher = createMockSnapLauncher(isLaunchable: true);
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
-            storeSnapProvider
-                .overrideWith((ref, arg) => Stream.value(storeSnap)),
-            localSnapProvider.overrideWith((ref, arg) => localSnapNotifier),
+            snapModelProvider.overrideWith((ref, arg) => snapModel),
+            launchProvider.overrideWith((ref, arg) => snapLauncher),
             refreshProvider.overrideWith((ref) => []),
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
     await tester.pump();
-    expectSnapInfos(tester, storeSnap);
     expect(find.text(tester.l10n.detailPageRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
     expect(find.byType(YaruCircularProgressIndicator), findsOneWidget);
