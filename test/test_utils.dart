@@ -2,6 +2,7 @@ import 'package:app_store/l10n.dart';
 import 'package:app_store/snapd.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -36,14 +37,43 @@ SnapLauncher createMockSnapLauncher({
   return launcher;
 }
 
-@GenerateMocks([LocalSnapNotifier])
-LocalSnapNotifier createMockLocalSnapNotifier(LocalSnap state) {
-  final mockNotifier = MockLocalSnapNotifier();
-  // Ensure that `StateNotifierProviderElement.create` correctly sets its initial state in
-  // https://github.com/rrousselGit/riverpod/blob/da4909ce73cb5420e48475113f365fc0a3368390/packages/riverpod/lib/src/state_notifier_provider/base.dart#L169
-  when(mockNotifier.addListener(any, fireImmediately: true)).thenAnswer((i) {
-    i.positionalArguments.first.call(state);
-    return () {};
-  });
-  return mockNotifier;
+@GenerateMocks([SnapModel])
+SnapModel createMockSnapModel({
+  Snap? localSnap,
+  Snap? storeSnap,
+  String? selectedChannel,
+  AsyncValue<void>? state,
+}) {
+  final model = MockSnapModel();
+  when(model.localSnap).thenReturn(localSnap);
+  when(model.storeSnap).thenReturn(storeSnap);
+  when(model.state).thenReturn(state ?? AsyncValue.data(() {}()));
+  when(model.availableChannels).thenReturn(storeSnap?.channels.keys.toList());
+  when(model.selectedChannel).thenReturn(
+      selectedChannel ?? localSnap?.trackingChannel ?? 'latest/stable');
+  when(model.activeChanges).thenReturn([]);
+  return model;
+}
+
+@GenerateMocks([SnapdService])
+SnapdService createMockSnapdService({
+  Snap? localSnap,
+  Snap? storeSnap,
+}) {
+  final service = MockSnapdService();
+  when(service.getStoreSnap(any)).thenAnswer((_) => Stream.value(storeSnap));
+  if (localSnap != null) {
+    when(service.getSnap(any)).thenAnswer((_) async => localSnap);
+  } else {
+    when(service.getSnap(any)).thenThrow(SnapdException(
+      message: 'snap not installed',
+      kind: 'snap-not-found',
+    ));
+  }
+  when(service.install(any, channel: anyNamed('channel')))
+      .thenAnswer((_) async => 'id');
+  when(service.refresh(any, channel: anyNamed('channel')))
+      .thenAnswer((_) async => 'id');
+  when(service.remove(any)).thenAnswer((_) async => 'id');
+  return service;
 }
