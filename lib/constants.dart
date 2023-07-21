@@ -4,16 +4,14 @@ const kAppName = 'App Store';
 const kGitHubRepo = 'ubuntu/app-store';
 
 const kCardMargin = 4.0;
-const kNaviRailWidth = 205.0;
+const kNaviRailWidth = 204.0;
 const kPagePadding = 16.0;
 const kSearchBarWidth = 424.0 - 2 * kCardMargin;
+const kIconSize = 56.0;
 
-const kGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
-  maxCrossAxisExtent: 550,
-  mainAxisExtent: 120,
-  mainAxisSpacing: 16 - 2 * kCardMargin,
-  crossAxisSpacing: 16 - 2 * kCardMargin,
-);
+const kCardSizeSmall = Size(266.0, 226.0);
+const kCardSizeMedium = Size(332.0, 170.0);
+const kCardSizeLarge = Size(416.0, 170.0);
 
 // TODO: add proper neutral colors to yaru
 const kShimmerBaseLight = Color.fromARGB(120, 228, 228, 228);

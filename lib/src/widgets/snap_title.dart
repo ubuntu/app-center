@@ -22,11 +22,12 @@ class SnapTitle extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
     final titleTextStyle =
-        large ? textTheme.headlineLarge! : textTheme.bodyMedium!;
+        large ? textTheme.headlineLarge! : textTheme.titleMedium!;
     final publisherTextStyle =
         large ? textTheme.headlineSmall! : textTheme.bodyMedium!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           snap.titleOrName,
