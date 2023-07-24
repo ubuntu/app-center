@@ -135,7 +135,11 @@ class _ExplorePageState extends State<ExplorePage> {
           searchQuery: searchQuery,
           onChanged: (value) {
             setSearchQuery(value);
-            searchSnaps();
+            if (appFormat == AppFormat.snap) {
+              searchSnaps();
+            } else {
+              searchAppStream();
+            }
           },
           hintText: widget.section == SnapSection.all
               ? context.l10n.searchHintAppStore
