@@ -10,7 +10,7 @@ class SnapIcon extends StatelessWidget {
   const SnapIcon({
     super.key,
     required this.iconUrl,
-    this.size = 48,
+    this.size = kIconSize,
     this.loadingHighlight,
     this.loadingBaseColor,
   });
