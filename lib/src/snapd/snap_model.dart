@@ -32,7 +32,7 @@ class SnapModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<String>? get availableChannels => storeSnap?.channels.keys.toList();
+  Map<String, SnapChannel>? get availableChannels => storeSnap?.channels;
 
   StreamSubscription? storeSnapSubscription;
 

@@ -96,13 +96,11 @@ class _SnapView extends ConsumerWidget {
               ),
               const SizedBox(width: 16),
               if (channels != null && selectedChannel != null)
-                YaruPopupMenuButton(
-                  itemBuilder: (_) => channels
-                      .map((e) => PopupMenuItem(value: e, child: Text(e)))
-                      .toList(),
+                _ChannelDropdown(
+                  selectedChannel: selectedChannel,
+                  channels: channels,
                   onSelected: (value) => model.selectedChannel = value,
                   enabled: model.activeChanges.isEmpty,
-                  child: Text(selectedChannel),
                 ),
               const SizedBox(width: 16),
               Flexible(
@@ -213,6 +211,23 @@ class _SnapActionButtons extends ConsumerWidget {
       ].whereNotNull().toList(),
     );
   }
+}
+
+class _ChannelDropdown extends YaruPopupMenuButton {
+  _ChannelDropdown({
+    super.enabled,
+    super.onSelected,
+    required Map<String, SnapChannel> channels,
+    required String selectedChannel,
+  }) : super(
+          itemBuilder: (_) => channels.entries
+              .map((e) => PopupMenuItem(
+                    value: e.key,
+                    child: Text("${e.key} ${e.value.version}"),
+                  ))
+              .toList(),
+          child: Text("$selectedChannel ${channels[selectedChannel]!.version}"),
+        );
 }
 
 class _Section extends YaruExpandable {
