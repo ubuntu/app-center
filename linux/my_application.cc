@@ -35,7 +35,9 @@ static void my_application_activate(GApplication* application) {
   gtk_window_set_application(window, GTK_APPLICATION(application));
 
   GdkGeometry geometry;
-  geometry.min_width = 800;
+
+  // TODO: find better solution; set default window size based on available space
+  geometry.min_width = 852; // account for shadow from libhandy
   geometry.min_height = 600;
   gtk_window_set_geometry_hints(window, nullptr, &geometry, GDK_HINT_MIN_SIZE);
 
