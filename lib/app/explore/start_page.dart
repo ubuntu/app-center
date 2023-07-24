@@ -89,7 +89,7 @@ class _GenericStartPageState extends State<GenericStartPage> {
             apps: widget.apps,
             take: 20,
             skip: 3,
-            appstreamReady: widget.appstreamReady,
+            appstreamReady: true,
           ),
         ],
       ),

@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:software/app/common/app_banner.dart';
 import 'package:software/app/common/app_finding.dart';
+import 'package:software/app/common/app_format.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/loading_banner_grid.dart';
 import 'package:software/l10n/l10n.dart';
@@ -26,13 +27,18 @@ class SearchPage extends StatefulWidget {
   const SearchPage({
     super.key,
     required this.header,
-    this.searchResult,
+    this.snapSearchResult,
     this.preferSnap = true,
+    required this.appFormat,
+    this.appStreamSearchResult,
   });
 
   final Widget header;
-  final Map<String, AppFinding>? searchResult;
+  final Map<String, AppFinding>? snapSearchResult;
+  final Map<String, AppFinding>? appStreamSearchResult;
+
   final bool preferSnap;
+  final AppFormat appFormat;
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -65,50 +71,97 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.searchResult == null) {
-      return const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    if (widget.appFormat == AppFormat.snap) {
+      if (widget.snapSearchResult == null) {
+        return const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            LoadingExploreHeader(),
+            Expanded(child: LoadingBannerGrid()),
+          ],
+        );
+      }
+
+      return Column(
         children: [
-          LoadingExploreHeader(),
-          Expanded(child: LoadingBannerGrid()),
+          widget.header,
+          if (widget.snapSearchResult!.isNotEmpty)
+            Expanded(
+              child: GridView.builder(
+                controller: _controller,
+                padding: const EdgeInsets.only(
+                  bottom: 15,
+                  right: 15,
+                  left: 15,
+                ),
+                gridDelegate: kGridDelegate,
+                shrinkWrap: true,
+                itemCount: widget.snapSearchResult!.entries
+                    .take(_searchResultAmount)
+                    .length,
+                itemBuilder: (context, index) {
+                  final appFinding =
+                      widget.snapSearchResult!.entries.elementAt(index);
+                  return AppBanner(
+                    appFinding: appFinding,
+                    showPackageKit: true,
+                    showSnap: true,
+                    preferSnap: widget.preferSnap,
+                  );
+                },
+              ),
+            )
+          else
+            Expanded(
+              child: _NoSearchResultPage(message: context.l10n.noPackageFound),
+            ),
+        ],
+      );
+    } else {
+      if (widget.appStreamSearchResult == null) {
+        return const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            LoadingExploreHeader(),
+            Expanded(child: LoadingBannerGrid()),
+          ],
+        );
+      }
+
+      return Column(
+        children: [
+          widget.header,
+          if (widget.appStreamSearchResult!.isNotEmpty)
+            Expanded(
+              child: GridView.builder(
+                controller: _controller,
+                padding: const EdgeInsets.only(
+                  bottom: 15,
+                  right: 15,
+                  left: 15,
+                ),
+                gridDelegate: kGridDelegate,
+                shrinkWrap: true,
+                itemCount: widget.appStreamSearchResult!.entries.length,
+                itemBuilder: (context, index) {
+                  final appFinding =
+                      widget.appStreamSearchResult!.entries.elementAt(index);
+                  return AppBanner(
+                    appFinding: appFinding,
+                    showPackageKit: true,
+                    showSnap: true,
+                    preferSnap: false,
+                  );
+                },
+              ),
+            )
+          else
+            Expanded(
+              child: _NoSearchResultPage(message: context.l10n.noPackageFound),
+            ),
         ],
       );
     }
-
-    return Column(
-      children: [
-        widget.header,
-        if (widget.searchResult!.isNotEmpty)
-          Expanded(
-            child: GridView.builder(
-              controller: _controller,
-              padding: const EdgeInsets.only(
-                bottom: 15,
-                right: 15,
-                left: 15,
-              ),
-              gridDelegate: kGridDelegate,
-              shrinkWrap: true,
-              itemCount:
-                  widget.searchResult!.entries.take(_searchResultAmount).length,
-              itemBuilder: (context, index) {
-                final appFinding =
-                    widget.searchResult!.entries.elementAt(index);
-                return AppBanner(
-                  appFinding: appFinding,
-                  showPackageKit: true,
-                  showSnap: true,
-                  preferSnap: widget.preferSnap,
-                );
-              },
-            ),
-          )
-        else
-          Expanded(
-            child: _NoSearchResultPage(message: context.l10n.noPackageFound),
-          ),
-      ],
-    );
   }
 }
 
