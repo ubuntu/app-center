@@ -73,7 +73,7 @@ class SectionGrid extends StatelessWidget {
           ),
           showSnap: true,
           showPackageKit: true,
-          appstreamReady: appstreamReady,
+          appstreamReady: true,
         );
       },
     );

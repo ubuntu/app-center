@@ -18,8 +18,6 @@
 import 'dart:async';
 
 import 'package:appstream/appstream.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 import 'package:snapd/snapd.dart';
 import 'package:software/app/common/app_finding.dart';
@@ -38,7 +36,6 @@ class ExploreModel extends SafeChangeNotifier {
 
   Future<void> init() async {
     _enabledAppFormats.add(AppFormat.snap);
-    _selectedAppFormats.add(AppFormat.snap);
     _loadStartPageSnaps(SnapSection.all);
     _sectionsChangedSub = _snapService.sectionsChanged.listen(
       (section) {
@@ -51,14 +48,8 @@ class ExploreModel extends SafeChangeNotifier {
     if (_packageService.isAvailable) {
       _appstreamService.init().then((_) {
         _enabledAppFormats.add(AppFormat.packageKit);
-        _selectedAppFormats.add(AppFormat.packageKit);
         notifyListeners();
-      }).then(
-        (_) => Future.forEach<SnapSection>(
-          startPageApps.keys,
-          _loadStartPageAppstreamComponents,
-        ),
-      );
+      });
     }
   }
 
@@ -107,19 +98,16 @@ class ExploreModel extends SafeChangeNotifier {
   final startPageApps = <SnapSection, List<AppFinding>>{};
   var startPageAppsChanged = 0;
 
-  final Set<AppFormat> _selectedAppFormats = {};
-  Set<AppFormat> get selectedAppFormats => Set.from(_selectedAppFormats);
-  final Set<AppFormat> _enabledAppFormats = {};
-  Set<AppFormat> get enabledAppFormats => Set.from(_enabledAppFormats);
-  void handleAppFormat(AppFormat appFormat) {
-    if (!_selectedAppFormats.contains(appFormat)) {
-      _selectedAppFormats.add(appFormat);
-    } else {
-      if (_selectedAppFormats.length < 2) return;
-      _selectedAppFormats.remove(appFormat);
-    }
+  AppFormat _appFormat = AppFormat.snap;
+  AppFormat get appFormat => _appFormat;
+  void setAppFormat(AppFormat value) {
+    if (_appFormat == value) return;
+    _appFormat = value;
     notifyListeners();
   }
+
+  final Set<AppFormat> _enabledAppFormats = {};
+  Set<AppFormat> get enabledAppFormats => Set.from(_enabledAppFormats);
 
   Future<List<Snap>> _findSnapsByQuery(String searchQuery) async {
     try {
@@ -150,27 +138,19 @@ class ExploreModel extends SafeChangeNotifier {
   ) async =>
       _appstreamService.search(searchQuery);
 
-  Map<String, AppFinding>? _searchResult;
-  Map<String, AppFinding>? get searchResult => _searchResult;
-  set searchResult(Map<String, AppFinding>? value) {
-    _searchResult = value;
+  Map<String, AppFinding>? _snapSearchResult;
+  Map<String, AppFinding>? get snapSearchResult => _snapSearchResult;
+  set snapSearchResult(Map<String, AppFinding>? value) {
+    _snapSearchResult = value;
     notifyListeners();
   }
 
-  Map<String, AppFinding>? get filteredSearchResult => _searchResult == null
-      ? null
-      : (Map.from(_searchResult!)
-        ..removeWhere(
-          (_, appFinding) {
-            if (setEquals(_selectedAppFormats, {AppFormat.snap})) {
-              return appFinding.snap == null;
-            } else if (setEquals(_selectedAppFormats, {AppFormat.packageKit})) {
-              return appFinding.appstream == null;
-            } else {
-              return false;
-            }
-          },
-        ));
+  Map<String, AppFinding>? _appStreamSearchResult;
+  Map<String, AppFinding>? get appStreamSearchResult => _appStreamSearchResult;
+  set appStreamSearchResult(Map<String, AppFinding>? value) {
+    _appStreamSearchResult = value;
+    notifyListeners();
+  }
 
   void _loadStartPageSnaps(SnapSection section) {
     if (!_snapService.sectionNameToSnapsMap.containsKey(section)) return;
@@ -180,41 +160,10 @@ class ExploreModel extends SafeChangeNotifier {
     startPageAppsChanged++;
   }
 
-  Future<AppstreamComponent?> _getAppstreamComponentFromSnap(Snap snap) =>
-      _findAppstreamComponents(snap.name).then(
-        (components) =>
-            components.firstWhereOrNull(
-              (e) =>
-                  e.package == snap.name &&
-                  e.type == AppstreamComponentType.desktopApplication,
-            ) ??
-            components.firstWhereOrNull((e) => e.package == snap.name),
-      );
-
-  Future<void> _loadStartPageAppstreamComponents(
-    SnapSection section,
-  ) async {
-    if (!startPageApps.containsKey(section)) return;
-    for (var i = 0; i < startPageApps[section]!.length; i++) {
-      final appstreamComponent = await _getAppstreamComponentFromSnap(
-        startPageApps[section]![i].snap!,
-      );
-      await Future.delayed(const Duration(milliseconds: 2));
-      if (appstreamComponent != null) {
-        startPageApps[section]![i] = AppFinding(
-          snap: startPageApps[section]![i].snap,
-          appstream: appstreamComponent,
-        );
-      }
-    }
-    startPageAppsChanged++;
-    notifyListeners();
-  }
-
   Future<void> searchByPublisher(String username) async {
     setSearchQuery(username);
 
-    searchResult = null;
+    snapSearchResult = null;
 
     final Map<String, AppFinding> appFindings = {};
     if (searchQuery != null && searchQuery != '') {
@@ -229,12 +178,12 @@ class ExploreModel extends SafeChangeNotifier {
         );
       }
 
-      searchResult = appFindings;
+      snapSearchResult = appFindings;
     }
   }
 
-  Future<void> search() async {
-    searchResult = null;
+  Future<void> searchSnaps() async {
+    snapSearchResult = null;
 
     final Map<String, AppFinding> appFindings = {};
     if (searchQuery != null && searchQuery != '') {
@@ -250,27 +199,25 @@ class ExploreModel extends SafeChangeNotifier {
         );
       }
 
+      snapSearchResult = appFindings;
+    }
+  }
+
+  Future<void> searchAppStream() async {
+    appStreamSearchResult = null;
+
+    final Map<String, AppFinding> appFindings = {};
+
+    if ((searchQuery != null && searchQuery != '')) {
       final components = await _findAppstreamComponents(searchQuery!);
       for (final component in components) {
-        final snap =
-            snaps.firstWhereOrNull((snap) => snap.name == component.package);
-        if (snap == null) {
-          appFindings.putIfAbsent(
-            component.localizedName(),
-            () => AppFinding(appstream: component),
-          );
-        } else {
-          appFindings.update(
-            snap.name,
-            (value) => AppFinding(
-              snap: snap,
-              appstream: component,
-            ),
-          );
-        }
+        appFindings.putIfAbsent(
+          component.localizedName(),
+          () => AppFinding(appstream: component),
+        );
       }
 
-      searchResult = appFindings;
+      appStreamSearchResult = appFindings;
     }
   }
 }

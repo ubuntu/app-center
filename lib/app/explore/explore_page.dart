@@ -97,20 +97,22 @@ class _ExplorePageState extends State<ExplorePage> {
     final setSearchQuery = context.read<ExploreModel>().setSearchQuery;
     final startPageApps = context.read<ExploreModel>().startPageApps;
     context.select((ExploreModel m) => m.startPageAppsChanged);
-    final selectedAppFormats =
-        context.select((ExploreModel m) => m.selectedAppFormats);
+    final appFormat = context.select((ExploreModel m) => m.appFormat);
+    final setAppFormat = context.read<ExploreModel>().setAppFormat;
     final enabledAppFormats =
         context.select((ExploreModel m) => m.enabledAppFormats);
     final selectedSection =
         context.select((ExploreModel m) => m.selectedSection);
     final setSelectedSection =
         context.select((ExploreModel m) => m.setSelectedSection);
-    final handleAppFormat =
-        context.select((ExploreModel m) => m.handleAppFormat);
 
-    final filteredSearchResult =
-        context.select((ExploreModel m) => m.filteredSearchResult);
-    final search = context.select((ExploreModel m) => m.search);
+    final snapSearchResult =
+        context.select((ExploreModel m) => m.snapSearchResult);
+    final appStreamSearchResult =
+        context.select((ExploreModel m) => m.appStreamSearchResult);
+    final searchSnaps = context.read<ExploreModel>().searchSnaps;
+    final searchAppStream = context.read<ExploreModel>().searchAppStream;
+
     final errorMessage = context.select((AppModel m) => m.errorMessage);
 
     Widget page = switch (widget.section) {
@@ -133,7 +135,7 @@ class _ExplorePageState extends State<ExplorePage> {
           searchQuery: searchQuery,
           onChanged: (value) {
             setSearchQuery(value);
-            search();
+            searchSnaps();
           },
           hintText: widget.section == SnapSection.all
               ? context.l10n.searchHintAppStore
@@ -146,19 +148,25 @@ class _ExplorePageState extends State<ExplorePage> {
               ? const ExploreErrorPage()
               : (showSearchPage
                   ? SearchPage(
-                      searchResult: filteredSearchResult,
-                      preferSnap: selectedAppFormats.contains(AppFormat.snap),
+                      appFormat: appFormat,
+                      snapSearchResult: snapSearchResult,
+                      appStreamSearchResult: appStreamSearchResult,
+                      preferSnap: true,
                       header: ExploreHeader(
                         selectedSection: selectedSection,
                         enabledAppFormats: enabledAppFormats,
-                        selectedAppFormats: selectedAppFormats,
+                        appFormat: appFormat,
                         handleAppFormat: (appFormat) {
-                          handleAppFormat(appFormat);
-                          search();
+                          setAppFormat(appFormat);
+                          if (appFormat == AppFormat.snap) {
+                            searchSnaps();
+                          } else {
+                            searchAppStream();
+                          }
                         },
                         setSelectedSection: (value) {
                           setSelectedSection(value);
-                          search();
+                          searchSnaps();
                         },
                       ),
                     )
