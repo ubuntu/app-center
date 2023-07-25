@@ -4,7 +4,7 @@ const kAppName = 'App Store';
 const kGitHubRepo = 'ubuntu/app-store';
 
 const kCardMargin = 4.0;
-const kNaviRailWidth = 204.0;
+const kPaneWidth = 204.0;
 const kPagePadding = 16.0;
 const kSearchBarWidth = 424.0 - 2 * kCardMargin;
 const kIconSize = 56.0;
