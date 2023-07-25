@@ -6,6 +6,7 @@ import 'package:snapcraft_launcher/snapcraft_launcher.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import 'l10n.dart';
 import 'snapd.dart';
 import 'store.dart';
 
@@ -22,6 +23,8 @@ Future<void> main(List<String> args) async {
 
   registerService(() => GitHub());
   registerService(() => GtkApplicationNotifier(args));
+
+  await initDefaultLocale();
 
   runApp(const ProviderScope(child: StoreApp()));
 }
