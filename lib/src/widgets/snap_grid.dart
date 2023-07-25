@@ -20,8 +20,9 @@ class SnapGrid extends StatelessWidget {
         < 1680 => (2, kCardSizeNormal),
         _ => (3, kCardSizeNormal),
       };
-      final columnWidth = columnCount * (cardSize.width + 2 * kCardMargin) +
-          (columnCount - 1) * kPagePadding;
+      final columnWidth = columnCount * cardSize.width +
+          (columnCount - 1) * (kPagePadding - kCardMargin) +
+          2 * kCardMargin;
       return GridView.builder(
         padding: EdgeInsets.symmetric(
             horizontal: (constraints.maxWidth - columnWidth) / 2.0,
@@ -29,8 +30,8 @@ class SnapGrid extends StatelessWidget {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: columnCount,
           childAspectRatio: cardSize.aspectRatio,
-          mainAxisSpacing: kPagePadding,
-          crossAxisSpacing: kPagePadding,
+          mainAxisSpacing: kPagePadding - kCardMargin,
+          crossAxisSpacing: kPagePadding - kCardMargin,
         ),
         itemCount: snaps.length,
         itemBuilder: (context, index) {
