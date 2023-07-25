@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -67,6 +68,11 @@ class _SnapView extends ConsumerWidget {
           value: context.formatByteSize(
               channelInfo?.size ?? model.storeSnap!.downloadSize!)
         ),
+      (
+        label: l10n.detailPageLastUpdatedLabel,
+        value: DateFormat.yMd()
+            .format(model.localSnap?.installDate ?? channelInfo!.releasedAt)
+      ),
       (
         label: l10n.detailPageLicenseLabel,
         value: model.storeSnap?.license ?? model.localSnap?.license ?? '',
