@@ -16,22 +16,22 @@ class SnapGrid extends StatelessWidget {
       final (columnCount, cardSize) =
           switch (constraints.maxWidth + kPaneWidth + 1) {
         // 1px for YaruNavigationRail's separator
-        < 1280 => (2, kCardSizeSmall),
-        < 1680 => (3, kCardSizeMedium),
-        _ => (3, kCardSizeLarge),
+        < 1280 => (1, kCardSizeWide),
+        < 1680 => (2, kCardSizeNormal),
+        _ => (3, kCardSizeNormal),
       };
-      final columnWidth = columnCount * (cardSize.width + 2 * kCardMargin) +
-          (columnCount - 1) * kPagePadding;
+      final columnWidth = columnCount * cardSize.width +
+          (columnCount - 1) * (kPagePadding - kCardMargin) +
+          2 * kCardMargin;
       return GridView.builder(
-        padding: const EdgeInsets.all(kPagePadding) -
-            const EdgeInsets.all(4) +
-            EdgeInsets.symmetric(
-                horizontal: (constraints.maxWidth - columnWidth) / 2.0),
+        padding: EdgeInsets.symmetric(
+            horizontal: (constraints.maxWidth - columnWidth) / 2.0,
+            vertical: kPagePadding + 4),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: columnCount,
           childAspectRatio: cardSize.aspectRatio,
-          mainAxisSpacing: kPagePadding,
-          crossAxisSpacing: kPagePadding,
+          mainAxisSpacing: kPagePadding - kCardMargin,
+          crossAxisSpacing: kPagePadding - kCardMargin,
         ),
         itemCount: snaps.length,
         itemBuilder: (context, index) {
@@ -40,7 +40,6 @@ class SnapGrid extends StatelessWidget {
             key: ValueKey(snap.id),
             snap: snap,
             onTap: () => onTap(snap),
-            compact: cardSize == kCardSizeSmall,
           );
         },
       );
