@@ -29,6 +29,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.6.10+3
+  flutter_pannable_rating_bar: ^2.7.2+1
   flutter_rating_bar: ^4.0.1
   flutter_svg: ^1.1.0
   glib: 0.0.1

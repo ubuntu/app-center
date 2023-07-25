@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:software/app/common/app_format.dart';
-import 'package:software/app/common/app_format_popup.dart';
+import 'package:software/app/common/app_page/app_format_toggle_buttons.dart';
 import 'package:software/app/common/constants.dart';
 import 'package:software/app/common/snap/snap_section.dart';
 import 'package:software/app/common/snap/snap_section_popup.dart';
@@ -8,15 +8,15 @@ import 'package:software/app/common/snap/snap_section_popup.dart';
 class ExploreHeader extends StatelessWidget {
   const ExploreHeader({
     super.key,
-    required this.selectedAppFormats,
     required this.enabledAppFormats,
+    required this.appFormat,
     this.selectedSection,
     required this.setSelectedSection,
     required this.handleAppFormat,
   });
 
-  final Set<AppFormat> selectedAppFormats;
   final Set<AppFormat> enabledAppFormats;
+  final AppFormat appFormat;
   final SnapSection? selectedSection;
   final void Function(SnapSection? value) setSelectedSection;
   final void Function(AppFormat appFormat) handleAppFormat;
@@ -38,12 +38,15 @@ class ExploreHeader extends StatelessWidget {
           spacing: 10,
           runSpacing: 10,
           children: [
-            MultiAppFormatPopup(
-              selectedAppFormats: selectedAppFormats,
-              enabledAppFormats: enabledAppFormats,
-              onTap: handleAppFormat,
-            ),
-            if (selectedAppFormats.contains(AppFormat.snap))
+            if (enabledAppFormats.contains(AppFormat.packageKit))
+              AppFormatToggleButtons(
+                isSelected: [
+                  appFormat == AppFormat.snap,
+                  appFormat == AppFormat.packageKit
+                ],
+                onPressed: (index) => handleAppFormat(AppFormat.values[index]),
+              ),
+            if (appFormat == AppFormat.snap)
               SnapSectionPopup(
                 value: selectedSection,
                 onSelected: setSelectedSection,
