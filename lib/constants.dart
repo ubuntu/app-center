@@ -9,9 +9,8 @@ const kPagePadding = 16.0;
 const kSearchBarWidth = 424.0 - 2 * kCardMargin;
 const kIconSize = 56.0;
 
-const kCardSizeSmall = Size(266.0, 226.0);
-const kCardSizeMedium = Size(332.0, 170.0);
-const kCardSizeLarge = Size(416.0, 170.0);
+const kCardSizeNormal = Size(416.0, 170.0);
+const kCardSizeWide = Size(548.0, 170.0);
 
 // TODO: add proper neutral colors to yaru
 const kShimmerBaseLight = Color.fromARGB(120, 228, 228, 228);
