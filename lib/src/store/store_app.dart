@@ -48,14 +48,18 @@ class _StoreAppState extends ConsumerState<StoreApp> {
               ),
             ),
           ),
-          body: YaruNavigationPage(
+          body: YaruMasterDetailPage(
             navigatorKey: _navigatorKey,
             navigatorObservers: [StoreObserver(ref)],
             initialRoute: ref.watch(initialRouteProvider),
             length: pages.length,
-            itemBuilder: (context, index, selected) =>
-                pages[index].itemBuilder(context, selected),
+            tileBuilder: (context, index, selected, availableWidth) =>
+                pages[index].tileBuilder(context, selected),
             pageBuilder: (context, index) => pages[index].pageBuilder(context),
+            layoutDelegate: const YaruMasterFixedPaneDelegate(
+              paneWidth: kPaneWidth,
+            ),
+            breakpoint: 0, // always landscape
             onGenerateRoute: (settings) =>
                 switch (StoreRoutes.routeOf(settings)) {
               StoreRoutes.detail => MaterialPageRoute(

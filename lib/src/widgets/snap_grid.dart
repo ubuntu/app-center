@@ -14,7 +14,7 @@ class SnapGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       final (columnCount, cardSize) =
-          switch (constraints.maxWidth + kNaviRailWidth + 1) {
+          switch (constraints.maxWidth + kPaneWidth + 1) {
         // 1px for YaruNavigationRail's separator
         < 1280 => (2, kCardSizeSmall),
         < 1680 => (3, kCardSizeMedium),
