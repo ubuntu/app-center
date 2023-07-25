@@ -11,10 +11,10 @@ import 'package:yaru_widgets/widgets.dart';
 
 import 'test_utils.dart';
 
-const localSnap = Snap(
+final localSnap = Snap(
   name: 'testsnap',
   title: 'Testsnap',
-  publisher: SnapPublisher(displayName: 'testPublisher'),
+  publisher: const SnapPublisher(displayName: 'testPublisher'),
   version: '2.0.0',
   website: 'https://example.com',
   confinement: SnapConfinement.classic,
@@ -22,6 +22,7 @@ const localSnap = Snap(
   description: 'this is the **description**',
   trackingChannel: 'latest/edge',
   channel: 'latest/edge',
+  installDate: DateTime(1970),
 );
 
 final storeSnap = Snap(
