@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/constants.dart';
 import '/l10n.dart';
+import '/layout.dart';
 import '/store.dart';
 import '/widgets.dart';
 import 'search_provider.dart';
