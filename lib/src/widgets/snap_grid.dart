@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
 
-import '/constants.dart';
+import '/layout.dart';
 import 'snap_card.dart';
 
 class SnapGrid extends StatelessWidget {
@@ -12,26 +12,16 @@ class SnapGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      final (columnCount, cardSize) =
-          switch (constraints.maxWidth + kPaneWidth + 1) {
-        // 1px for YaruNavigationRail's separator
-        < 1280 => (1, kCardSizeWide),
-        < 1680 => (2, kCardSizeNormal),
-        _ => (3, kCardSizeNormal),
-      };
-      final columnWidth = columnCount * cardSize.width +
-          (columnCount - 1) * (kPagePadding - kCardMargin) +
-          2 * kCardMargin;
+    return ResponsiveLayoutBuilder(builder: (context, layout) {
       return GridView.builder(
         padding: EdgeInsets.symmetric(
-            horizontal: (constraints.maxWidth - columnWidth) / 2.0,
+            horizontal: (layout.constraints.maxWidth - layout.totalWidth) / 2.0,
             vertical: kPagePadding + 4),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: columnCount,
-          childAspectRatio: cardSize.aspectRatio,
-          mainAxisSpacing: kPagePadding - kCardMargin,
-          crossAxisSpacing: kPagePadding - kCardMargin,
+          crossAxisCount: layout.cardColumnCount,
+          childAspectRatio: layout.cardSize.aspectRatio,
+          mainAxisSpacing: kPagePadding - 2 * kCardMargin,
+          crossAxisSpacing: kPagePadding - 2 * kCardMargin,
         ),
         itemCount: snaps.length,
         itemBuilder: (context, index) {

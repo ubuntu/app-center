@@ -9,14 +9,16 @@ import '/snapd.dart';
 import '/xdg_cache_manager.dart';
 
 class SnapScreenshotGallery extends StatelessWidget {
-  const SnapScreenshotGallery({super.key, required this.snap});
+  const SnapScreenshotGallery({super.key, required this.snap, this.height});
 
   final Snap snap;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     return YaruCarousel(
-      height: 350,
+      height: height ?? 500,
+      width: double.infinity,
       nextIcon: const Icon(YaruIcons.go_next),
       previousIcon: const Icon(YaruIcons.go_previous),
       navigationControls: snap.screenshotUrls.length > 1,

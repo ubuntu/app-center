@@ -3,7 +3,7 @@ import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/constants.dart';
+import '/layout.dart';
 import '/snapd.dart';
 import '/widgets.dart';
 

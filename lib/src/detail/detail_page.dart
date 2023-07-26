@@ -9,8 +9,8 @@ import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/constants.dart';
 import '/l10n.dart';
+import '/layout.dart';
 import '/search.dart';
 import '/snapd.dart';
 import '/widgets.dart';
@@ -70,8 +70,9 @@ class _SnapView extends ConsumerWidget {
         ),
       (
         label: l10n.detailPageLastUpdatedLabel,
-        value: DateFormat.yMd()
-            .format(model.localSnap?.installDate ?? channelInfo!.releasedAt)
+        value: channelInfo != null
+            ? DateFormat.yMd().format(channelInfo.releasedAt)
+            : '',
       ),
       (
         label: l10n.detailPageLicenseLabel,
@@ -83,59 +84,88 @@ class _SnapView extends ConsumerWidget {
       ),
     ];
 
-    return Column(
-      children: [
-        _Header(
-          model: model,
-          padding: const EdgeInsets.only(
-            left: kPagePadding,
-            right: kPagePadding,
-            top: kPagePadding,
-          ),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: kPagePadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Wrap(
-                  spacing: 48,
-                  runSpacing: 8,
-                  children: snapInfos
-                      .map((info) => Column(
-                            children: [
-                              Text(
-                                info.label,
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
-                              Text(info.value),
-                            ],
-                          ))
-                      .toList(),
-                ),
-                const Divider(),
-                if (model.storeSnap != null)
-                  _Section(
-                    header: Text(l10n.detailPageGalleryLabel),
-                    child: SnapScreenshotGallery(snap: model.storeSnap!),
-                  ),
-                _Section(
-                  header: Text(l10n.detailPageDescriptionLabel),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      child: ResponsiveLayoutBuilder(builder: (context, layout) {
+        return Column(
+          children: [
+            SizedBox(
+              width: layout.totalWidth,
+              child: _Header(model: model),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Center(
                   child: SizedBox(
-                    width: double.infinity,
-                    child: MarkdownBody(
-                      data: model.storeSnap?.description ??
-                          model.localSnap?.description ??
-                          '',
+                    width: layout.totalWidth,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _SnapInfos(snapInfos: snapInfos, layout: layout),
+                        const Divider(),
+                        if (model.storeSnap != null)
+                          _Section(
+                            header: Text(l10n.detailPageGalleryLabel),
+                            child: SnapScreenshotGallery(
+                              snap: model.storeSnap!,
+                              height: layout.totalWidth / 2,
+                            ),
+                          ),
+                        _Section(
+                          header: Text(l10n.detailPageDescriptionLabel),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: MarkdownBody(
+                              data: model.storeSnap?.description ??
+                                  model.localSnap?.description ??
+                                  '',
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      }),
+    );
+  }
+}
+
+class _SnapInfos extends StatelessWidget {
+  const _SnapInfos({
+    required this.snapInfos,
+    required this.layout,
+  });
+
+  final List<SnapInfo> snapInfos;
+  final ResponsiveLayout layout;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: kPagePadding,
+      runSpacing: 8,
+      children: snapInfos
+          .map((info) => SizedBox(
+                width: (layout.totalWidth -
+                        (layout.snapInfoColumnCount - 1) * kPagePadding) /
+                    layout.snapInfoColumnCount,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      info.label,
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    Text(info.value),
+                  ],
+                ),
+              ))
+          .toList(),
     );
   }
 }
@@ -220,7 +250,13 @@ class _ChannelDropdown extends YaruPopupMenuButton {
                     child: Text("${e.key} ${e.value.version}"),
                   ))
               .toList(),
-          child: Text("$selectedChannel ${channels[selectedChannel]!.version}"),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 200),
+            child: Text(
+              "$selectedChannel ${channels[selectedChannel]!.version}",
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         );
 }
 
@@ -233,67 +269,66 @@ class _Section extends YaruExpandable {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({required this.model, this.padding});
+  const _Header({required this.model});
 
   final SnapModel model;
-  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final snap = model.storeSnap ?? model.localSnap!;
-    return Padding(
-      padding: padding ?? EdgeInsets.zero,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const YaruBackButton(),
-              if (snap.website != null)
-                YaruIconButton(
-                  icon: const Icon(YaruIcons.share),
-                  onPressed: () {
-                    // TODO show snackbar
-                    Clipboard.setData(ClipboardData(text: snap.website!));
-                  },
-                ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SnapIcon(iconUrl: snap.iconUrl, size: 96),
-              const SizedBox(width: 16),
-              Expanded(child: SnapTitle.large(snap: snap)),
-            ],
-          ),
-          const SizedBox(height: kPagePadding),
-          Row(
-            children: [
-              Text(
-                l10n.detailPageSelectChannelLabel,
-                style: Theme.of(context).textTheme.labelLarge,
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const YaruBackButton(),
+            if (snap.website != null)
+              YaruIconButton(
+                icon: const Icon(YaruIcons.share),
+                onPressed: () {
+                  // TODO show snackbar
+                  Clipboard.setData(ClipboardData(text: snap.website!));
+                },
               ),
-              const SizedBox(width: 16),
-              if (model.availableChannels != null &&
-                  model.selectedChannel != null)
-                _ChannelDropdown(
-                  selectedChannel: model.selectedChannel!,
-                  channels: model.availableChannels!,
-                  onSelected: (value) => model.selectedChannel = value,
-                  enabled: model.activeChanges.isEmpty,
-                ),
-              const SizedBox(width: 16),
-              Flexible(
-                child: _SnapActionButtons(model: model),
-              )
-            ],
-          ),
-          const SizedBox(height: 42),
-          const Divider(),
-        ],
-      ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SnapIcon(iconUrl: snap.iconUrl, size: 96),
+            const SizedBox(width: 16),
+            Expanded(child: SnapTitle.large(snap: snap)),
+          ],
+        ),
+        const SizedBox(height: kPagePadding),
+        Row(
+          children: [
+            if (model.availableChannels != null &&
+                model.selectedChannel != null)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    l10n.detailPageSelectChannelLabel,
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  const SizedBox(width: 16),
+                  _ChannelDropdown(
+                    selectedChannel: model.selectedChannel!,
+                    channels: model.availableChannels!,
+                    onSelected: (value) => model.selectedChannel = value,
+                    enabled: model.activeChanges.isEmpty,
+                  ),
+                ],
+              ),
+            Flexible(child: _SnapActionButtons(model: model))
+          ],
+        ),
+        const SizedBox(height: 42),
+        const Divider(),
+      ],
     );
   }
 }
