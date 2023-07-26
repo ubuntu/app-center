@@ -12,11 +12,10 @@ class SnapGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      final layout = ResponsiveLayout.fromConstraints(constraints);
+    return ResponsiveLayoutBuilder(builder: (context, layout) {
       return GridView.builder(
         padding: EdgeInsets.symmetric(
-            horizontal: (constraints.maxWidth - layout.totalWidth) / 2.0,
+            horizontal: (layout.constraints.maxWidth - layout.totalWidth) / 2.0,
             vertical: kPagePadding + 4),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: layout.cardColumnCount,

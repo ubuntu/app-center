@@ -86,8 +86,7 @@ class _SnapView extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
-      child: LayoutBuilder(builder: (context, constraints) {
-        final layout = ResponsiveLayout.fromConstraints(constraints);
+      child: ResponsiveLayoutBuilder(builder: (context, layout) {
         return Column(
           children: [
             SizedBox(

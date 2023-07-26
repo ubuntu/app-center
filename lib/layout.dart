@@ -16,14 +16,19 @@ class ResponsiveLayout {
   const ResponsiveLayout({
     required this.cardColumnCount,
     required this.cardSize,
+    required this.constraints,
     required this.snapInfoColumnCount,
-    required this.totalWidth,
   });
 
   final int cardColumnCount;
   final Size cardSize;
+  final BoxConstraints constraints;
   final int snapInfoColumnCount;
-  final double totalWidth;
+
+  double get totalWidth =>
+      cardColumnCount * cardSize.width + // cards
+      (cardColumnCount - 1) * (kPagePadding - 2 * kCardMargin) + // spacing
+      2 * kCardMargin; // left+right margin of outermost cards
 
   factory ResponsiveLayout.fromConstraints(BoxConstraints constraints) {
     final (cardColumnCount, cardSize, snapInfoColumnCount) =
@@ -33,14 +38,27 @@ class ResponsiveLayout {
       < kBreakPointLarge => (2, kCardSizeNormal, 4),
       _ => (3, kCardSizeNormal, 6),
     };
-    final totalWidth = cardColumnCount * cardSize.width + // cards
-        (cardColumnCount - 1) * (kPagePadding - 2 * kCardMargin) + // spacing
-        2 * kCardMargin; // left+right margin of outermost cards
+
     return ResponsiveLayout(
       cardColumnCount: cardColumnCount,
       cardSize: cardSize,
+      constraints: constraints,
       snapInfoColumnCount: snapInfoColumnCount,
-      totalWidth: totalWidth,
     );
   }
+}
+
+class ResponsiveLayoutBuilder extends LayoutBuilder {
+  ResponsiveLayoutBuilder({
+    super.key,
+    required Widget Function(
+      BuildContext context,
+      ResponsiveLayout layout,
+    ) builder,
+  }) : super(
+          builder: (context, constraints) => builder(
+            context,
+            ResponsiveLayout.fromConstraints(constraints),
+          ),
+        );
 }
