@@ -6,8 +6,8 @@ import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/constants.dart';
 import '/l10n.dart';
+import '/layout.dart';
 import '/snapd.dart';
 import '/store.dart';
 import '/widgets.dart';
