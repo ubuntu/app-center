@@ -11,6 +11,28 @@ import '/snapd.dart';
 final snapModelProvider = ChangeNotifierProvider.family<SnapModel, String>(
     (ref, snapName) => SnapModel(getService<SnapdService>(), snapName)..init());
 
+final progressProvider =
+    StreamProvider.family.autoDispose<double, List<String>>((ref, ids) {
+  final snapd = getService<SnapdService>();
+
+  final streamController = StreamController<double>.broadcast();
+  final subProgresses = <String, double>{for (final id in ids) id: 0.0};
+  final subscriptions = <String, StreamSubscription>{
+    for (final id in ids)
+      id: snapd.watchChange(id).listen((change) {
+        subProgresses[id] = change.progress;
+        streamController.add(subProgresses.values.sum / subProgresses.length);
+      })
+  };
+  ref.onDispose(() {
+    for (final subscription in subscriptions.values) {
+      subscription.cancel();
+    }
+    streamController.close();
+  });
+  return streamController.stream;
+});
+
 class SnapModel extends ChangeNotifier {
   SnapModel(this.snapd, this.snapName) : _state = const AsyncValue.loading();
   final SnapdService snapd;
@@ -101,4 +123,17 @@ class SnapModel extends ChangeNotifier {
       _snapAction(() => snapd.refresh(snapName, channel: selectedChannel));
 
   Future<void> remove() => _snapAction(() => snapd.remove(snapName));
+}
+
+extension SnapdChangeX on SnapdChange {
+  double get progress {
+    var done = 0.0;
+    var total = 0.0;
+    for (final task in tasks) {
+      done += task.progress.done;
+      total += task.progress.total;
+    }
+
+    return done / total;
+  }
 }

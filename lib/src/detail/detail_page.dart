@@ -202,9 +202,15 @@ class _SnapActionButtons extends ConsumerWidget {
           ? Center(
               child: SizedBox.square(
                 dimension: IconTheme.of(context).size,
-                child: const YaruCircularProgressIndicator(
-                  strokeWidth: 3,
-                ),
+                child: Consumer(builder: (context, ref, child) {
+                  final progress = ref
+                      .watch(progressProvider(model.activeChanges))
+                      .whenOrNull(data: (data) => data);
+                  return YaruCircularProgressIndicator(
+                    value: progress,
+                    strokeWidth: 3,
+                  );
+                }),
               ),
             )
           : Text(
