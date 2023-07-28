@@ -56,7 +56,7 @@ SnapModel createMockSnapModel({
 }
 
 @GenerateMocks([SnapdService])
-SnapdService createMockSnapdService({
+MockSnapdService createMockSnapdService({
   Snap? localSnap,
   Snap? storeSnap,
 }) {
