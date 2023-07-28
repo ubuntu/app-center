@@ -59,13 +59,18 @@ class SnapModel extends ChangeNotifier {
   StreamSubscription? storeSnapSubscription;
 
   Future<void> init() async {
+    final storeSnapCompleter = Completer();
     storeSnapSubscription = snapd.getStoreSnap(snapName).listen((snap) {
       _setStoreSnap(snap);
+      if (!storeSnapCompleter.isCompleted) storeSnapCompleter.complete();
       _setDefaultSelectedChannel();
       notifyListeners();
     });
     _state = await AsyncValue.guard(() async {
       await _getLocalSnap();
+      if (storeSnap == null && localSnap == null) {
+        await storeSnapCompleter.future;
+      }
       _setDefaultSelectedChannel();
       notifyListeners();
     });
