@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_store/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -152,5 +154,38 @@ void main() {
     await model.remove();
 
     verify(service.remove('testsnap')).called(1);
+  });
+
+  test('cancel active change', () async {
+    final service = createMockSnapdService(
+      localSnap: localSnap,
+      storeSnap: storeSnap,
+    );
+    final changeCompleter = Completer();
+    final notifyCompleter = Completer();
+
+    when(service.install(any, channel: anyNamed('channel')))
+        .thenAnswer((_) async => 'changeId');
+    when(service.waitChange('changeId'))
+        .thenAnswer((_) async => await changeCompleter.future);
+    when(service.abortChange('changeId')).thenAnswer((_) async {
+      changeCompleter.complete();
+      return SnapdChange(spawnTime: DateTime.now());
+    });
+
+    final model = SnapModel(service, 'testsnap');
+    await model.init();
+
+    expect(model.activeChangeId, isNull);
+    model.addListener(() {
+      if (!notifyCompleter.isCompleted) notifyCompleter.complete();
+    });
+    unawaited(model.install());
+    await notifyCompleter.future;
+    expect(model.activeChangeId, equals('changeId'));
+
+    await model.cancel();
+    verify(service.abortChange('changeId')).called(1);
+    expect(model.activeChangeId, isNull);
   });
 }

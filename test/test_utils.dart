@@ -51,12 +51,12 @@ SnapModel createMockSnapModel({
   when(model.availableChannels).thenReturn(storeSnap?.channels);
   when(model.selectedChannel).thenReturn(
       selectedChannel ?? localSnap?.trackingChannel ?? 'latest/stable');
-  when(model.activeChanges).thenReturn([]);
+  when(model.activeChangeId).thenReturn(null);
   return model;
 }
 
 @GenerateMocks([SnapdService])
-SnapdService createMockSnapdService({
+MockSnapdService createMockSnapdService({
   Snap? localSnap,
   Snap? storeSnap,
 }) {

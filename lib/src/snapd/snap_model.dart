@@ -38,7 +38,8 @@ class SnapModel extends ChangeNotifier {
   final SnapdService snapd;
   final String snapName;
 
-  final List<String> activeChanges = [];
+  String? get activeChangeId => _activeChangeId;
+  String? _activeChangeId;
 
   AsyncValue<void> get state => _state;
   AsyncValue<void> _state;
@@ -113,12 +114,17 @@ class SnapModel extends ChangeNotifier {
 
   Future<void> _snapAction(Future<String> Function() action) async {
     final changeId = await action.call();
-    activeChanges.add(changeId);
+    _activeChangeId = changeId;
     notifyListeners();
     await snapd.waitChange(changeId);
-    activeChanges.removeWhere((id) => id == changeId);
+    _activeChangeId = null;
     await _getLocalSnap();
     notifyListeners();
+  }
+
+  Future<void> cancel() async {
+    if (activeChangeId == null) return;
+    await snapd.abortChange(activeChangeId!);
   }
 
   Future<void> install() =>
