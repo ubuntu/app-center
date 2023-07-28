@@ -28,7 +28,7 @@ dependencies:
   path: ^1.8.3
   shimmer: ^3.0.0
   snapcraft_launcher: ^0.1.0
-  snapd: ^0.4.10
+  snapd: ^0.4.11
   ubuntu_localizations: ^0.3.3
   ubuntu_service: ^0.2.2
   ubuntu_test: ^0.1.0-0
@@ -47,12 +47,6 @@ dev_dependencies:
     sdk: flutter
   melos: ^3.0.0
   mockito: 5.4.2
-
-dependency_overrides:
-  snapd:
-    git:
-      url: https://github.com/canonical/snapd.dart
-      ref: json
 
 flutter:
   uses-material-design: true
