@@ -193,18 +193,18 @@ class _SnapActionButtons extends ConsumerWidget {
             model.selectedChannel != model.localSnap!.trackingChannel;
 
     final installRemoveButton = PushButton.elevated(
-      onPressed: model.activeChanges.isNotEmpty
+      onPressed: model.activeChangeId != null
           ? null
           : model.localSnap != null
               ? model.remove
               : () => model.install(),
-      child: model.activeChanges.isNotEmpty
+      child: model.activeChangeId != null
           ? Center(
               child: SizedBox.square(
                 dimension: IconTheme.of(context).size,
                 child: Consumer(builder: (context, ref, child) {
                   final progress = ref
-                      .watch(progressProvider(model.activeChanges))
+                      .watch(progressProvider([model.activeChangeId!]))
                       .whenOrNull(data: (data) => data);
                   return YaruCircularProgressIndicator(
                     value: progress,
@@ -325,7 +325,7 @@ class _Header extends StatelessWidget {
                     selectedChannel: model.selectedChannel!,
                     channels: model.availableChannels!,
                     onSelected: (value) => model.selectedChannel = value,
-                    enabled: model.activeChanges.isEmpty,
+                    enabled: model.activeChangeId == null,
                   ),
                 ],
               ),

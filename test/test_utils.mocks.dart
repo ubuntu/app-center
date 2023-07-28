@@ -169,11 +169,6 @@ class MockSnapModel extends _i1.Mock implements _i4.SnapModel {
         returnValue: '',
       ) as String);
   @override
-  List<String> get activeChanges => (super.noSuchMethod(
-        Invocation.getter(#activeChanges),
-        returnValue: <String>[],
-      ) as List<String>);
-  @override
   set localSnap(_i2.Snap? _localSnap) => super.noSuchMethod(
         Invocation.setter(
           #localSnap,
@@ -233,6 +228,15 @@ class MockSnapModel extends _i1.Mock implements _i4.SnapModel {
   _i6.Future<void> dispose() => (super.noSuchMethod(
         Invocation.method(
           #dispose,
+          [],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
+  _i6.Future<void> cancel() => (super.noSuchMethod(
+        Invocation.method(
+          #cancel,
           [],
         ),
         returnValue: _i6.Future<void>.value(),
