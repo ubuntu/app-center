@@ -37,7 +37,7 @@ dependencies:
   xdg_directories: ^1.0.0
   yaru: ^0.9.0
   yaru_icons: ^1.0.4
-  yaru_widgets: ^2.5.0
+  yaru_widgets: ^2.6.0
 
 dev_dependencies:
   build_runner: ^2.4.5
@@ -53,10 +53,6 @@ dependency_overrides:
     git:
       url: https://github.com/canonical/snapd.dart
       ref: json
-  yaru_widgets:
-    git:
-      url: https://github.com/ubuntu/yaru_widgets.dart
-      ref: dc4b20cdc5a4d8563bea34b3d066c59b0865dc35
 
 flutter:
   uses-material-design: true
