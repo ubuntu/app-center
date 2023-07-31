@@ -1,11 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -15,7 +18,7 @@ import '/search.dart';
 import '/snapd.dart';
 import '/widgets.dart';
 
-typedef SnapInfo = ({String label, String value});
+typedef SnapInfo = ({String label, Widget value});
 
 class DetailPage extends ConsumerWidget {
   const DetailPage({super.key, required this.snapName});
@@ -42,45 +45,57 @@ class _SnapView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
 
-    final channelInfo = model.selectedChannel != null
-        ? model.storeSnap?.channels[model.selectedChannel]
-        : null;
-
-    // TODO: move logic into view model, once app page UI is settled
     final snapInfos = <SnapInfo>[
       (
-        label: l10n.detailPageVersionLabel,
-        value: channelInfo?.version ??
-            model.storeSnap?.version ??
-            model.localSnap?.version ??
-            '',
-      ),
+        label: '123 Ratings',
+        value: Text(
+          'Positive',
+          style: TextStyle(color: Theme.of(context).colorScheme.success),
+        )
+      ), // Placeholder
       (
         label: l10n.detailPageConfinementLabel,
-        value: channelInfo?.confinement.name ??
-            model.storeSnap?.confinement.name ??
-            model.localSnap?.confinement.name ??
-            '',
-      ),
-      if (model.storeSnap?.downloadSize != null)
-        (
-          label: l10n.detailPageDownloadSizeLabel,
-          value: context.formatByteSize(
-              channelInfo?.size ?? model.storeSnap!.downloadSize!)
+        value: Text(
+          model.channelInfo?.confinement.name ?? model.snap.confinement.name,
         ),
+      ),
       (
-        label: l10n.detailPageLastUpdatedLabel,
-        value: channelInfo != null
-            ? DateFormat.yMd().format(channelInfo.releasedAt)
-            : '',
+        label: l10n.detailPageDownloadSizeLabel,
+        value: Text(
+          model.channelInfo != null
+              ? context.formatByteSize(model.channelInfo!.size)
+              : '',
+        )
+      ),
+      (
+        label: l10n.detailPageReleasedAtLabel,
+        value: Text(
+          model.channelInfo != null
+              ? DateFormat.yMd().format(model.channelInfo!.releasedAt)
+              : '',
+        ),
       ),
       (
         label: l10n.detailPageLicenseLabel,
-        value: model.storeSnap?.license ?? model.localSnap?.license ?? '',
+        value: Text(model.snap.license ?? ''),
       ),
       (
-        label: l10n.detailPageWebsiteLabel,
-        value: model.storeSnap?.website ?? model.localSnap?.website ?? '',
+        label: l10n.detailPageLinksLabel,
+        value: Column(
+          children: [
+            if (model.snap.website != null)
+              '<a href="${model.snap.website}">${l10n.detailPageDeveloperWebsiteLabel}</a>',
+            if (model.snap.contact != null && model.snap.publisher != null)
+              '<a href="${model.snap.contact}">${l10n.detailPageContactPublisherLabel(model.snap.publisher!.displayName)}</a>'
+          ]
+              .map((link) => Html(
+                    data: link,
+                    style: {'body': Style(margin: Margins.zero)},
+                    onLinkTap: (url, attributes, element) =>
+                        launchUrlString(url!),
+                  ))
+              .toList(),
+        ),
       ),
     ];
 
@@ -157,11 +172,11 @@ class _SnapInfos extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      info.label,
-                      style: Theme.of(context).textTheme.labelLarge,
+                    Text(info.label),
+                    DefaultTextStyle.merge(
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                      child: info.value,
                     ),
-                    Text(info.value),
                   ],
                 ),
               ))
