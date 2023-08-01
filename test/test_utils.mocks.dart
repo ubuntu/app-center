@@ -203,6 +203,14 @@ class MockSnapModel extends _i1.Mock implements _i4.SnapModel {
         ),
       ) as _i5.AsyncValue<void>);
   @override
+  _i2.Snap get snap => (super.noSuchMethod(
+        Invocation.getter(#snap),
+        returnValue: _FakeSnap_0(
+          this,
+          Invocation.getter(#snap),
+        ),
+      ) as _i2.Snap);
+  @override
   set selectedChannel(String? channel) => super.noSuchMethod(
         Invocation.setter(
           #selectedChannel,

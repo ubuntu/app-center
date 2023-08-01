@@ -51,7 +51,11 @@ final storeSnap = Snap(
   },
 );
 
-void expectSnapInfos(WidgetTester tester, Snap snap, [String? channel]) {
+void expectSnapInfos(
+  WidgetTester tester,
+  Snap snap, [
+  String? channel = 'latest/stable',
+]) {
   expect(find.text(snap.title!), findsOneWidget);
   expect(find.text(snap.publisher!.displayName), findsOneWidget);
   expect(find.markdownBody(snap.description), findsOneWidget);
@@ -60,24 +64,13 @@ void expectSnapInfos(WidgetTester tester, Snap snap, [String? channel]) {
   expect(find.text(tester.l10n.detailPageConfinementLabel), findsOneWidget);
   expect(find.text(tester.l10n.detailPageDescriptionLabel), findsOneWidget);
   expect(find.text(tester.l10n.detailPageLicenseLabel), findsOneWidget);
-  expect(find.text(tester.l10n.detailPageVersionLabel), findsOneWidget);
 
-  if (channel != null) {
-    final snapChannel = snap.channels[channel]!;
-    expect(find.text(snapChannel.version), findsOneWidget);
+  final snapChannel = snap.channels[channel];
+  if (snapChannel != null) {
     expect(find.text(snapChannel.confinement.name), findsOneWidget);
     expect(find.text(tester.l10n.detailPageDownloadSizeLabel), findsOneWidget);
     expect(find.text(tester.context.formatByteSize(snapChannel.size)),
         findsOneWidget);
-  } else {
-    expect(find.text(snap.version), findsOneWidget);
-    expect(find.text(snap.confinement.name), findsOneWidget);
-    if (snap.downloadSize != null) {
-      expect(
-          find.text(tester.l10n.detailPageDownloadSizeLabel), findsOneWidget);
-      expect(find.text(tester.context.formatByteSize(snap.downloadSize!)),
-          findsOneWidget);
-    }
   }
 }
 
@@ -101,7 +94,7 @@ void main() {
           child: const DetailPage(snapName: 'testsnap'),
         ));
     await tester.pump();
-    expectSnapInfos(tester, localSnap);
+    expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
     expect(find.text(tester.l10n.detailPageUpdateLabel), findsNothing);
 
@@ -116,7 +109,6 @@ void main() {
     final snapModel = createMockSnapModel(
       localSnap: localSnap,
       storeSnap: storeSnap,
-      selectedChannel: 'latest/stable',
     );
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
 
@@ -129,7 +121,7 @@ void main() {
           child: DetailPage(snapName: storeSnap.name),
         ));
     await tester.pump();
-    expectSnapInfos(tester, storeSnap);
+    expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.text(tester.l10n.detailPageInstallLabel), findsNothing);
     expect(find.text(tester.l10n.detailPageUpdateLabel), findsOneWidget);
 
@@ -187,7 +179,10 @@ void main() {
   });
 
   testWidgets('loading', (tester) async {
-    final snapModel = createMockSnapModel(state: const AsyncValue.loading());
+    final snapModel = createMockSnapModel(
+      state: const AsyncValue.loading(),
+      storeSnap: storeSnap,
+    );
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
 
     await tester.pumpApp((_) => ProviderScope(

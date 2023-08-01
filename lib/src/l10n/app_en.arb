@@ -1,18 +1,27 @@
 {
     "detailPageConfinementLabel": "Confinement",
+    "detailPageContactPublisherLabel": "Contact {publisher}",
+    "@detailPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
     "detailPageDescriptionLabel": "Description",
+    "detailPageDeveloperWebsiteLabel": "Developer Website",
     "detailPageDownloadSizeLabel": "Download Size",
     "detailPageGalleryLabel": "Gallery",
     "detailPageInstallLabel": "Install",
-    "detailPageLastUpdatedLabel": "Last Updated",
     "detailPageLicenseLabel": "License",
+    "detailPageLinksLabel": "Links",
     "detailPagePublisherLabel": "Publisher",
     "detailPageRemoveLabel": "Remove",
+    "detailPageReleasedAtLabel": "Published on",
     "detailPageSelectChannelLabel": "Select Channel",
     "detailPageSummaryLabel": "Summary",
     "detailPageUpdateLabel": "Update",
     "detailPageVersionLabel": "Version",
-    "detailPageWebsiteLabel": "Website",
     "explorePageLabel": "Explore",
     "managePageLabel": "Manage",
     "managePageOpenLabel": "Open",
