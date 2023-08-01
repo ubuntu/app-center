@@ -33,6 +33,12 @@ final progressProvider =
   return streamController.stream;
 });
 
+final changeProvider =
+    StreamProvider.family.autoDispose<SnapdChange, String?>((ref, id) {
+  if (id == null) return const Stream.empty();
+  return getService<SnapdService>().watchChange(id);
+});
+
 class SnapModel extends ChangeNotifier {
   SnapModel(this.snapd, this.snapName) : _state = const AsyncValue.loading();
   final SnapdService snapd;
