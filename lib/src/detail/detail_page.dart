@@ -195,67 +195,149 @@ class _SnapActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final snapLauncher = model.localSnap != null
-        ? ref.watch(launchProvider(model.localSnap!))
-        : null;
+    final snapLauncher =
+        model.isInstalled ? ref.watch(launchProvider(model.localSnap!)) : null;
     final refreshableSnaps = ref.watch(refreshProvider);
-    final canRefresh = model.localSnap == null
+    final hasUpdate = model.localSnap == null
         ? false
         : refreshableSnaps.whenOrNull(
-                    data: (snaps) => snaps.singleWhereOrNull(
-                        (snap) => snap.name == model.localSnap!.name)) !=
-                null ||
-            model.selectedChannel != model.localSnap!.trackingChannel;
+                data: (snaps) => snaps.singleWhereOrNull(
+                    (snap) => snap.name == model.localSnap!.name)) !=
+            null;
 
-    final installRemoveButton = PushButton.elevated(
-      onPressed: model.activeChangeId != null
-          ? null
-          : model.localSnap != null
-              ? model.remove
-              : () => model.install(),
-      child: model.activeChangeId != null
-          ? Center(
-              child: SizedBox.square(
-                dimension: IconTheme.of(context).size,
-                child: Consumer(builder: (context, ref, child) {
-                  final progress = ref
-                      .watch(progressProvider([model.activeChangeId!]))
+    final primaryAction = model.isInstalled
+        ? model.selectedChannel == model.localSnap!.trackingChannel
+            ? SnapAction.open
+            : SnapAction.switchChannel
+        : SnapAction.install;
+    final primaryActionButton = SizedBox(
+      width: kPrimaryActionButtonWidth,
+      child: PushButton.elevated(
+        onPressed: model.activeChangeId != null
+            ? null
+            : primaryAction.callback(model, snapLauncher),
+        child: model.activeChangeId != null
+            ? Consumer(
+                builder: (context, ref, child) {
+                  final change = ref
+                      .watch(changeProvider(model.activeChangeId))
                       .whenOrNull(data: (data) => data);
-                  return YaruCircularProgressIndicator(
-                    value: progress,
-                    strokeWidth: 3,
+                  return Row(
+                    children: [
+                      SizedBox.square(
+                        dimension: 16,
+                        child: YaruCircularProgressIndicator(
+                          value: change?.progress,
+                          strokeWidth: 2,
+                        ),
+                      ),
+                      if (change != null) ...[
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            change.localize(l10n) ?? '',
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ]
+                    ],
                   );
-                }),
-              ),
-            )
-          : Text(
-              model.localSnap != null
-                  ? l10n.detailPageRemoveLabel
-                  : l10n.detailPageInstallLabel,
-            ),
+                },
+              )
+            : Text(primaryAction.label(l10n)),
+      ),
     );
-    final refreshButton = canRefresh
-        ? PushButton.elevated(
-            onPressed: () => model.refresh(),
-            child: Text(l10n.detailPageUpdateLabel),
-          )
-        : null;
-    final launchButton = snapLauncher?.isLaunchable ?? false
-        ? PushButton.outlined(
-            onPressed: snapLauncher!.open,
-            child: Text(l10n.managePageOpenLabel),
-          )
-        : null;
+
+    final secondaryActions = [
+      if (hasUpdate) SnapAction.update,
+      SnapAction.remove,
+    ];
+    final secondaryActionsButton = MenuAnchor(
+      menuChildren: secondaryActions.map((action) {
+        final color = action == SnapAction.remove
+            ? Theme.of(context).colorScheme.error
+            : null;
+        return MenuItemButton(
+          child: IntrinsicWidth(
+            child: ListTile(
+              leading: action.icon != null
+                  ? Icon(
+                      action.icon,
+                      color: color,
+                    )
+                  : null,
+              title: Text(
+                action.label(l10n),
+                style: TextStyle(color: color),
+              ),
+            ),
+          ),
+          onPressed: () => action.callback(model)?.call(),
+        );
+      }).toList(),
+      builder: (context, controller, child) => YaruOptionButton(
+        onPressed: () {
+          if (controller.isOpen) {
+            controller.close();
+          } else {
+            controller.open();
+          }
+        },
+        child: const Icon(YaruIcons.view_more_horizontal),
+      ),
+    );
+
+    final cancelButton = PushButton.outlined(
+      onPressed: SnapAction.cancel.callback(model),
+      child: Text(SnapAction.cancel.label(l10n)),
+    );
 
     return ButtonBar(
+      mainAxisSize: MainAxisSize.min,
       overflowButtonSpacing: 8,
       children: [
-        installRemoveButton,
-        refreshButton,
-        launchButton,
+        primaryActionButton,
+        if (model.activeChangeId != null)
+          cancelButton
+        else if (model.isInstalled)
+          secondaryActionsButton,
       ].whereNotNull().toList(),
     );
   }
+}
+
+enum SnapAction {
+  cancel,
+  install,
+  open,
+  remove,
+  switchChannel,
+  update;
+
+  String label(AppLocalizations l10n) => switch (this) {
+        cancel => l10n.snapActionCancelLabel,
+        install => l10n.snapActionInstallLabel,
+        open => l10n.snapActionOpenLabel,
+        remove => l10n.snapActionRemoveLabel,
+        switchChannel => l10n.snapActionSwitchChannelLabel,
+        update => l10n.snapActionUpdateLabel,
+      };
+
+  IconData? get icon => switch (this) {
+        update => YaruIcons.refresh,
+        remove => YaruIcons.trash,
+        _ => null,
+      };
+
+  VoidCallback? callback(SnapModel model, [SnapLauncher? launcher]) =>
+      switch (this) {
+        cancel => model.cancel,
+        install => model.install,
+        open => launcher?.isLaunchable ?? false ? launcher!.open : null,
+        remove => model.remove,
+        switchChannel => model.refresh,
+        update => model.refresh,
+      };
 }
 
 class _ChannelDropdown extends YaruPopupMenuButton {
@@ -344,6 +426,7 @@ class _Header extends StatelessWidget {
                   ),
                 ],
               ),
+            const SizedBox(width: 32),
             Flexible(child: _SnapActionButtons(model: model))
           ],
         ),
@@ -352,4 +435,12 @@ class _Header extends StatelessWidget {
       ],
     );
   }
+}
+
+extension SnapdChangeL10n on SnapdChange {
+  String? localize(AppLocalizations l10n) => switch (kind) {
+        'install-snap' => 'Installing',
+        'remove-snap' => 'Uninstalling',
+        _ => null,
+      };
 }
