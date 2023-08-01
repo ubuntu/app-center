@@ -52,6 +52,10 @@ SnapModel createMockSnapModel({
   when(model.selectedChannel).thenReturn(
       selectedChannel ?? localSnap?.trackingChannel ?? 'latest/stable');
   when(model.activeChangeId).thenReturn(null);
+  when(model.snap).thenReturn(storeSnap ?? localSnap!);
+  when(model.channelInfo).thenReturn(model.selectedChannel != null
+      ? storeSnap?.channels[model.selectedChannel]
+      : null);
   return model;
 }
 

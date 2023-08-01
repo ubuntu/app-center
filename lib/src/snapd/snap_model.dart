@@ -47,6 +47,10 @@ class SnapModel extends ChangeNotifier {
   Snap? localSnap;
   Snap? storeSnap;
 
+  Snap get snap => storeSnap ?? localSnap!;
+  SnapChannel? get channelInfo =>
+      selectedChannel != null ? storeSnap?.channels[selectedChannel] : null;
+
   String? get selectedChannel => _selectedChannel;
   String? _selectedChannel;
   set selectedChannel(String? channel) {
