@@ -121,7 +121,7 @@ class _SnapView extends ConsumerWidget {
                       children: [
                         _SnapInfos(snapInfos: snapInfos, layout: layout),
                         const Divider(),
-                        if (model.storeSnap != null)
+                        if (model.hasGallery)
                           _Section(
                             header: Text(l10n.detailPageGalleryLabel),
                             child: SnapScreenshotGallery(

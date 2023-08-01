@@ -57,6 +57,8 @@ class SnapModel extends ChangeNotifier {
   SnapChannel? get channelInfo =>
       selectedChannel != null ? storeSnap?.channels[selectedChannel] : null;
   bool get isInstalled => localSnap != null;
+  bool get hasGallery =>
+      storeSnap != null && storeSnap!.screenshotUrls.isNotEmpty;
 
   String? get selectedChannel => _selectedChannel;
   String? _selectedChannel;
