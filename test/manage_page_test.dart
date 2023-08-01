@@ -73,11 +73,11 @@ void main() {
 
     final openButton = find.descendant(
       of: testTile,
-      matching: find.buttonWithText(tester.l10n.managePageOpenLabel),
+      matching: find.buttonWithText(tester.l10n.snapActionOpenLabel),
     );
     final openButton2 = find.descendant(
       of: testTile2,
-      matching: find.buttonWithText(tester.l10n.managePageOpenLabel),
+      matching: find.buttonWithText(tester.l10n.snapActionOpenLabel),
     );
 
     expect(openButton, findsOneWidget);
