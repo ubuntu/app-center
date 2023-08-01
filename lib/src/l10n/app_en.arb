@@ -1,4 +1,5 @@
 {
+    "detailPageChannelLabel": "Channel",
     "detailPageConfinementLabel": "Confinement",
     "detailPageContactPublisherLabel": "Contact {publisher}",
     "@detailPageContactPublisherLabel": {
@@ -15,8 +16,8 @@
     "detailPageLicenseLabel": "License",
     "detailPageLinksLabel": "Links",
     "detailPagePublisherLabel": "Publisher",
+    "detailPagePublishedLabel": "Published",
     "detailPageReleasedAtLabel": "Published on",
-    "detailPageSelectChannelLabel": "Channel",
     "detailPageSummaryLabel": "Summary",
     "detailPageVersionLabel": "Version",
     "explorePageLabel": "Explore",
