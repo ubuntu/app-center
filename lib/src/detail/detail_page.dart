@@ -210,42 +210,39 @@ class _SnapActionButtons extends ConsumerWidget {
             ? SnapAction.open
             : SnapAction.switchChannel
         : SnapAction.install;
-    final primaryActionButton = SizedBox(
-      width: kPrimaryActionButtonWidth,
-      child: PushButton.elevated(
-        onPressed: model.activeChangeId != null
-            ? null
-            : primaryAction.callback(model, snapLauncher),
-        child: model.activeChangeId != null
-            ? Consumer(
-                builder: (context, ref, child) {
-                  final change = ref
-                      .watch(changeProvider(model.activeChangeId))
-                      .whenOrNull(data: (data) => data);
-                  return Row(
-                    children: [
-                      SizedBox.square(
-                        dimension: 16,
-                        child: YaruCircularProgressIndicator(
-                          value: change?.progress,
-                          strokeWidth: 2,
+    final primaryActionButton = PushButton.elevated(
+      onPressed: model.activeChangeId != null
+          ? null
+          : primaryAction.callback(model, snapLauncher),
+      child: model.activeChangeId != null
+          ? Consumer(
+              builder: (context, ref, child) {
+                final change = ref
+                    .watch(changeProvider(model.activeChangeId))
+                    .whenOrNull(data: (data) => data);
+                return Row(
+                  children: [
+                    SizedBox.square(
+                      dimension: 16,
+                      child: YaruCircularProgressIndicator(
+                        value: change?.progress,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                    if (change != null) ...[
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          change.localize(l10n) ?? '',
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      if (change != null) ...[
-                        const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(
-                            change.localize(l10n) ?? '',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ]
-                    ],
-                  );
-                },
-              )
-            : Text(primaryAction.label(l10n)),
-      ),
+                    ]
+                  ],
+                );
+              },
+            )
+          : Text(primaryAction.label(l10n)),
     );
 
     final secondaryActions = [
