@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_test/ubuntu_test.dart';
+import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/widgets.dart';
 
 import 'test_utils.dart';
@@ -96,13 +97,17 @@ void main() {
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
-    expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
+
+    await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
+    verify(snapLauncher.open()).called(1);
+
+    await tester.tap(find.byIcon(YaruIcons.view_more_horizontal));
+    await tester.pump();
 
     await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
     verify(snapModel.remove()).called(1);
 
-    await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
-    verify(snapLauncher.open()).called(1);
+    expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
   });
 
   testWidgets('local + store with update', (tester) async {
@@ -123,16 +128,17 @@ void main() {
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
-    expect(find.text(tester.l10n.snapActionUpdateLabel), findsOneWidget);
+
+    await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
+    verify(snapLauncher.open()).called(1);
+
+    await tester.tap(find.byIcon(YaruIcons.view_more_horizontal));
+    await tester.pump();
 
     await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
     verify(snapModel.remove()).called(1);
 
-    await tester.tap(find.text(tester.l10n.snapActionUpdateLabel));
-    verify(snapModel.refresh()).called(1);
-
-    await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
-    verify(snapLauncher.open()).called(1);
+    expect(find.text(tester.l10n.snapActionUpdateLabel), findsOneWidget);
   });
 
   testWidgets('store-only', (tester) async {
@@ -171,11 +177,16 @@ void main() {
     expectSnapInfos(tester, localSnap);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
 
+    await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
+    verify(snapLauncher.open()).called(1);
+
+    await tester.tap(find.byIcon(YaruIcons.view_more_horizontal));
+    await tester.pump();
+
     await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
     verify(snapModel.remove()).called(1);
 
-    await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
-    verify(snapLauncher.open()).called(1);
+    expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
   });
 
   testWidgets('loading', (tester) async {

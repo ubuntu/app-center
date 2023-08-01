@@ -56,6 +56,7 @@ SnapModel createMockSnapModel({
   when(model.channelInfo).thenReturn(model.selectedChannel != null
       ? storeSnap?.channels[model.selectedChannel]
       : null);
+  when(model.isInstalled).thenReturn(model.localSnap != null);
   return model;
 }
 
