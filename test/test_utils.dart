@@ -57,6 +57,8 @@ SnapModel createMockSnapModel({
       ? storeSnap?.channels[model.selectedChannel]
       : null);
   when(model.isInstalled).thenReturn(model.localSnap != null);
+  when(model.hasGallery).thenReturn(
+      model.storeSnap != null && model.storeSnap!.screenshotUrls.isNotEmpty);
   return model;
 }
 
