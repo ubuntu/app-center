@@ -216,6 +216,11 @@ class MockSnapModel extends _i1.Mock implements _i4.SnapModel {
         returnValue: false,
       ) as bool);
   @override
+  bool get hasGallery => (super.noSuchMethod(
+        Invocation.getter(#hasGallery),
+        returnValue: false,
+      ) as bool);
+  @override
   set selectedChannel(String? channel) => super.noSuchMethod(
         Invocation.setter(
           #selectedChannel,

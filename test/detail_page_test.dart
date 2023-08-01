@@ -2,6 +2,7 @@ import 'package:app_store/l10n.dart';
 import 'package:app_store/search.dart';
 import 'package:app_store/snapd.dart';
 import 'package:app_store/src/detail/detail_page.dart';
+import 'package:app_store/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -50,6 +51,9 @@ final storeSnap = Snap(
       version: '2.0.0',
     ),
   },
+  media: const [
+    SnapMedia(type: 'screenshot', url: 'http://example.com/example.jpg')
+  ],
 );
 
 void expectSnapInfos(
@@ -96,6 +100,7 @@ void main() {
         ));
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
+    expect(find.byType(SnapScreenshotGallery), findsOneWidget);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
 
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
@@ -127,6 +132,7 @@ void main() {
         ));
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
+    expect(find.byType(SnapScreenshotGallery), findsOneWidget);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
 
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
@@ -153,6 +159,7 @@ void main() {
         ));
     await tester.pump();
     expectSnapInfos(tester, storeSnap);
+    expect(find.byType(SnapScreenshotGallery), findsOneWidget);
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionOpenLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
@@ -175,6 +182,7 @@ void main() {
         ));
     await tester.pump();
     expectSnapInfos(tester, localSnap);
+    expect(find.byType(SnapScreenshotGallery), findsNothing);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
 
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
