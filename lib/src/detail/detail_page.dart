@@ -18,6 +18,9 @@ import '/search.dart';
 import '/snapd.dart';
 import '/widgets.dart';
 
+const _kPrimaryButtonMaxWidth = 136.0;
+const _kChannelDropdownWidth = 220.0;
+
 typedef SnapInfo = ({String label, Widget value});
 
 class DetailPage extends ConsumerWidget {
@@ -210,39 +213,43 @@ class _SnapActionButtons extends ConsumerWidget {
             ? SnapAction.open
             : SnapAction.switchChannel
         : SnapAction.install;
-    final primaryActionButton = PushButton.elevated(
-      onPressed: model.activeChangeId != null
-          ? null
-          : primaryAction.callback(model, snapLauncher),
-      child: model.activeChangeId != null
-          ? Consumer(
-              builder: (context, ref, child) {
-                final change = ref
-                    .watch(changeProvider(model.activeChangeId))
-                    .whenOrNull(data: (data) => data);
-                return Row(
-                  children: [
-                    SizedBox.square(
-                      dimension: 16,
-                      child: YaruCircularProgressIndicator(
-                        value: change?.progress,
-                        strokeWidth: 2,
-                      ),
-                    ),
-                    if (change != null) ...[
-                      const SizedBox(width: 8),
-                      Flexible(
-                        child: Text(
-                          change.localize(l10n) ?? '',
-                          overflow: TextOverflow.ellipsis,
+    final primaryActionButton = SizedBox(
+      width: _kPrimaryButtonMaxWidth,
+      child: PushButton.elevated(
+        onPressed: model.activeChangeId != null
+            ? null
+            : primaryAction.callback(model, snapLauncher),
+        child: model.activeChangeId != null
+            ? Consumer(
+                builder: (context, ref, child) {
+                  final change = ref
+                      .watch(changeProvider(model.activeChangeId))
+                      .whenOrNull(data: (data) => data);
+                  return Row(
+                    children: [
+                      SizedBox.square(
+                        dimension: 16,
+                        child: YaruCircularProgressIndicator(
+                          value: change?.progress,
+                          strokeWidth: 2,
                         ),
                       ),
-                    ]
-                  ],
-                );
-              },
-            )
-          : Text(primaryAction.label(l10n)),
+                      if (change != null) ...[
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            change.localize(l10n) ?? '',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ]
+                    ],
+                  );
+                },
+              )
+            : Text(primaryAction.label(l10n)),
+      ),
     );
 
     final secondaryActions = [
@@ -284,7 +291,7 @@ class _SnapActionButtons extends ConsumerWidget {
       ),
     );
 
-    final cancelButton = PushButton.outlined(
+    final cancelButton = OutlinedButton(
       onPressed: SnapAction.cancel.callback(model),
       child: Text(SnapAction.cancel.label(l10n)),
     );
@@ -337,29 +344,6 @@ enum SnapAction {
       };
 }
 
-class _ChannelDropdown extends YaruPopupMenuButton {
-  _ChannelDropdown({
-    super.enabled,
-    super.onSelected,
-    required Map<String, SnapChannel> channels,
-    required String selectedChannel,
-  }) : super(
-          itemBuilder: (_) => channels.entries
-              .map((e) => PopupMenuItem(
-                    value: e.key,
-                    child: Text("${e.key} ${e.value.version}"),
-                  ))
-              .toList(),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 200),
-            child: Text(
-              "$selectedChannel ${channels[selectedChannel]!.version}",
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        );
-}
-
 class _Section extends YaruExpandable {
   const _Section({required super.header, required super.child})
       : super(
@@ -375,7 +359,6 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final snap = model.storeSnap ?? model.localSnap!;
     return Column(
       children: [
@@ -406,24 +389,10 @@ class _Header extends StatelessWidget {
         Row(
           children: [
             if (model.availableChannels != null &&
-                model.selectedChannel != null)
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    l10n.detailPageSelectChannelLabel,
-                    style: Theme.of(context).textTheme.labelLarge,
-                  ),
-                  const SizedBox(width: 16),
-                  _ChannelDropdown(
-                    selectedChannel: model.selectedChannel!,
-                    channels: model.availableChannels!,
-                    onSelected: (value) => model.selectedChannel = value,
-                    enabled: model.activeChangeId == null,
-                  ),
-                ],
-              ),
-            const SizedBox(width: 32),
+                model.selectedChannel != null) ...[
+              _ChannelDropdown(model: model),
+              const SizedBox(width: 16),
+            ],
             Flexible(child: _SnapActionButtons(model: model))
           ],
         ),
@@ -434,10 +403,111 @@ class _Header extends StatelessWidget {
   }
 }
 
+class _ChannelDropdown extends StatelessWidget {
+  const _ChannelDropdown({required this.model});
+
+  final SnapModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          l10n.detailPageChannelLabel,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        const SizedBox(width: 16),
+        SizedBox(
+          width: _kChannelDropdownWidth,
+          child: MenuButtonBuilder(
+            entries: model.availableChannels!.entries
+                .map(
+              (channelEntry) => MenuButtonEntry(
+                value: channelEntry.key,
+                child: _ChannelDropdownEntry(channelEntry: channelEntry),
+              ),
+            )
+                .fold(
+              <MenuButtonEntry<String>>[],
+              (p, e) =>
+                  [...p, e, const MenuButtonEntry(value: '', isDivider: true)],
+            )..removeLast(),
+            itemBuilder: (context, value, child) => Text(value),
+            selected: model.selectedChannel,
+            onSelected: (value) => model.selectedChannel = value,
+            menuPosition: PopupMenuPosition.under,
+            menuStyle: const MenuStyle(
+              minimumSize:
+                  MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 0)),
+              maximumSize:
+                  MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
+              visualDensity: VisualDensity(horizontal: 0, vertical: 0),
+            ),
+            itemStyle: MenuItemButton.styleFrom(),
+            child: Text(
+              "${model.selectedChannel} ${model.availableChannels![model.selectedChannel]!.version}",
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ChannelDropdownEntry extends StatelessWidget {
+  const _ChannelDropdownEntry({required this.channelEntry});
+
+  final MapEntry<String, SnapChannel> channelEntry;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return DefaultTextStyle(
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            overflow: TextOverflow.ellipsis,
+          ),
+      child: SizedBox(
+        width: _kChannelDropdownWidth - 24,
+        child: Row(
+          children: [
+            DefaultTextStyle.merge(
+              style: TextStyle(
+                color: Theme.of(context).hintColor,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(l10n.detailPageChannelLabel),
+                  Text(l10n.detailPageVersionLabel),
+                  Text(l10n.detailPagePublishedLabel),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  channelEntry.key,
+                  channelEntry.value.version,
+                  DateFormat.yMd().format(channelEntry.value.releasedAt),
+                ].map((e) => Text(e, maxLines: 1)).toList(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 extension SnapdChangeL10n on SnapdChange {
   String? localize(AppLocalizations l10n) => switch (kind) {
-        'install-snap' => 'Installing',
-        'remove-snap' => 'Uninstalling',
+        'install-snap' => l10n.snapActionInstallingLabel,
+        'remove-snap' => l10n.snapActionRemovingLabel,
         _ => null,
       };
 }
