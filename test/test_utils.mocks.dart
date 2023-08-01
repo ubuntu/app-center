@@ -211,6 +211,11 @@ class MockSnapModel extends _i1.Mock implements _i4.SnapModel {
         ),
       ) as _i2.Snap);
   @override
+  bool get isInstalled => (super.noSuchMethod(
+        Invocation.getter(#isInstalled),
+        returnValue: false,
+      ) as bool);
+  @override
   set selectedChannel(String? channel) => super.noSuchMethod(
         Invocation.setter(
           #selectedChannel,

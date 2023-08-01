@@ -62,7 +62,7 @@ class _ManageView extends ConsumerWidget {
               if (snapLauncher.isLaunchable)
                 PushButton.outlined(
                   onPressed: snapLauncher.open,
-                  child: Text(l10n.managePageOpenLabel),
+                  child: Text(l10n.snapActionOpenLabel),
                 ),
             ],
           ),
