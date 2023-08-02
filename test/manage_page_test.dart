@@ -1,6 +1,6 @@
 import 'package:app_store/manage.dart';
 import 'package:app_store/snapd.dart';
-import 'package:app_store/src/manage/manage_provider.dart';
+import 'package:app_store/src/manage/manage_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,7 +10,7 @@ import 'package:snapd/snapd.dart';
 import 'test_utils.dart';
 
 void main() {
-  const mockManageProvider = [
+  const nonRefreshableSnaps = [
     Snap(
       name: 'testsnap',
       title: 'Test Snap',
@@ -29,7 +29,9 @@ void main() {
       (_) => ProviderScope(
         overrides: [
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          manageProvider.overrideWith((_) => mockManageProvider),
+          manageModelProvider.overrideWith((_) => createMockManageModel(
+                nonRefreshableSnaps: nonRefreshableSnaps,
+              )),
         ],
         child: const ManagePage(),
       ),
@@ -60,7 +62,9 @@ void main() {
                 'testsnap' => snapLauncher,
                 _ => createMockSnapLauncher(),
               }),
-          manageProvider.overrideWith((_) => mockManageProvider),
+          manageModelProvider.overrideWith((_) => createMockManageModel(
+                nonRefreshableSnaps: nonRefreshableSnaps,
+              )),
         ],
         child: const ManagePage(),
       ),

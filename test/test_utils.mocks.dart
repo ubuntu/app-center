@@ -7,7 +7,8 @@ import 'dart:async' as _i6;
 import 'dart:ui' as _i7;
 
 import 'package:app_store/snapd.dart' as _i4;
-import 'package:file/file.dart' as _i8;
+import 'package:app_store/src/manage/manage_model.dart' as _i8;
+import 'package:file/file.dart' as _i9;
 import 'package:flutter_riverpod/flutter_riverpod.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:snapcraft_launcher/snapcraft_launcher.dart' as _i3;
@@ -300,6 +301,97 @@ class MockSnapModel extends _i1.Mock implements _i4.SnapModel {
         Invocation.method(
           #removeListener,
           [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [ManageModel].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockManageModel extends _i1.Mock implements _i8.ManageModel {
+  MockManageModel() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.SnapdService get snapd => (super.noSuchMethod(
+        Invocation.getter(#snapd),
+        returnValue: _FakeSnapdService_2(
+          this,
+          Invocation.getter(#snapd),
+        ),
+      ) as _i4.SnapdService);
+  @override
+  _i5.AsyncValue<void> get state => (super.noSuchMethod(
+        Invocation.getter(#state),
+        returnValue: _FakeAsyncValue_3<void>(
+          this,
+          Invocation.getter(#state),
+        ),
+      ) as _i5.AsyncValue<void>);
+  @override
+  Iterable<_i2.Snap> get refreshableSnaps => (super.noSuchMethod(
+        Invocation.getter(#refreshableSnaps),
+        returnValue: <_i2.Snap>[],
+      ) as Iterable<_i2.Snap>);
+  @override
+  Iterable<_i2.Snap> get nonRefreshableSnaps => (super.noSuchMethod(
+        Invocation.getter(#nonRefreshableSnaps),
+        returnValue: <_i2.Snap>[],
+      ) as Iterable<_i2.Snap>);
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+      ) as bool);
+  @override
+  _i6.Future<void> init() => (super.noSuchMethod(
+        Invocation.method(
+          #init,
+          [],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
+  _i6.Future<void> updateAll() => (super.noSuchMethod(
+        Invocation.method(
+          #updateAll,
+          [],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
+  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
         ),
         returnValueForMissingStub: null,
       );
@@ -701,7 +793,7 @@ class MockSnapdService extends _i1.Mock implements _i4.SnapdService {
   _i6.Stream<List<_i2.Snap>> getCategory(
     String? name, {
     Duration? expiry = const Duration(days: 1),
-    _i8.FileSystem? fs,
+    _i9.FileSystem? fs,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -718,7 +810,7 @@ class MockSnapdService extends _i1.Mock implements _i4.SnapdService {
   _i6.Stream<_i2.Snap?> getStoreSnap(
     String? name, {
     Duration? expiry = const Duration(minutes: 1),
-    _i8.FileSystem? fs,
+    _i9.FileSystem? fs,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
