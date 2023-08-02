@@ -1,5 +1,6 @@
 import 'package:app_store/l10n.dart';
 import 'package:app_store/snapd.dart';
+import 'package:app_store/src/manage/manage_model.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,6 +60,21 @@ SnapModel createMockSnapModel({
   when(model.isInstalled).thenReturn(model.localSnap != null);
   when(model.hasGallery).thenReturn(
       model.storeSnap != null && model.storeSnap!.screenshotUrls.isNotEmpty);
+  return model;
+}
+
+@GenerateMocks([ManageModel])
+ManageModel createMockManageModel({
+  Iterable<Snap>? refreshableSnaps,
+  Iterable<Snap>? nonRefreshableSnaps,
+  AsyncValue<void>? state,
+}) {
+  final model = MockManageModel();
+  when(model.state).thenReturn(state ?? AsyncValue.data(() {}()));
+  when(model.refreshableSnaps)
+      .thenReturn(refreshableSnaps ?? const Iterable.empty());
+  when(model.nonRefreshableSnaps)
+      .thenReturn(nonRefreshableSnaps ?? const Iterable.empty());
   return model;
 }
 
