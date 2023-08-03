@@ -57,8 +57,8 @@ class _FakeSnapdService_2 extends _i1.SmartFake implements _i4.SnapdService {
         );
 }
 
-class _FakeUpdatesModel_3 extends _i1.SmartFake implements _i4.UpdatesModel {
-  _FakeUpdatesModel_3(
+class _FakeAsyncValue_3<T> extends _i1.SmartFake implements _i5.AsyncValue<T> {
+  _FakeAsyncValue_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -67,8 +67,8 @@ class _FakeUpdatesModel_3 extends _i1.SmartFake implements _i4.UpdatesModel {
         );
 }
 
-class _FakeAsyncValue_4<T> extends _i1.SmartFake implements _i5.AsyncValue<T> {
-  _FakeAsyncValue_4(
+class _FakeUpdatesModel_4 extends _i1.SmartFake implements _i4.UpdatesModel {
+  _FakeUpdatesModel_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -176,14 +176,6 @@ class MockSnapModel extends _i1.Mock implements _i4.SnapModel {
         ),
       ) as _i4.SnapdService);
   @override
-  _i4.UpdatesModel get updatesModel => (super.noSuchMethod(
-        Invocation.getter(#updatesModel),
-        returnValue: _FakeUpdatesModel_3(
-          this,
-          Invocation.getter(#updatesModel),
-        ),
-      ) as _i4.UpdatesModel);
-  @override
   String get snapName => (super.noSuchMethod(
         Invocation.getter(#snapName),
         returnValue: '',
@@ -207,16 +199,11 @@ class MockSnapModel extends _i1.Mock implements _i4.SnapModel {
   @override
   _i5.AsyncValue<void> get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _FakeAsyncValue_4<void>(
+        returnValue: _FakeAsyncValue_3<void>(
           this,
           Invocation.getter(#state),
         ),
       ) as _i5.AsyncValue<void>);
-  @override
-  bool get hasUpdate => (super.noSuchMethod(
-        Invocation.getter(#hasUpdate),
-        returnValue: false,
-      ) as bool);
   @override
   _i2.Snap get snap => (super.noSuchMethod(
         Invocation.getter(#snap),
@@ -345,9 +332,17 @@ class MockManageModel extends _i1.Mock implements _i8.ManageModel {
         ),
       ) as _i4.SnapdService);
   @override
+  _i4.UpdatesModel get updatesModel => (super.noSuchMethod(
+        Invocation.getter(#updatesModel),
+        returnValue: _FakeUpdatesModel_4(
+          this,
+          Invocation.getter(#updatesModel),
+        ),
+      ) as _i4.UpdatesModel);
+  @override
   _i5.AsyncValue<void> get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _FakeAsyncValue_4<void>(
+        returnValue: _FakeAsyncValue_3<void>(
           this,
           Invocation.getter(#state),
         ),
@@ -377,14 +372,13 @@ class MockManageModel extends _i1.Mock implements _i8.ManageModel {
         returnValueForMissingStub: _i6.Future<void>.value(),
       ) as _i6.Future<void>);
   @override
-  _i6.Future<void> updateAll() => (super.noSuchMethod(
+  void dispose() => super.noSuchMethod(
         Invocation.method(
-          #updateAll,
+          #dispose,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValueForMissingStub: null,
+      );
   @override
   void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -398,14 +392,6 @@ class MockManageModel extends _i1.Mock implements _i8.ManageModel {
         Invocation.method(
           #removeListener,
           [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
         ),
         returnValueForMissingStub: null,
       );
@@ -898,6 +884,23 @@ class MockUpdatesModel extends _i1.Mock implements _i4.UpdatesModel {
   _i6.Future<void> refresh() => (super.noSuchMethod(
         Invocation.method(
           #refresh,
+          [],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
+  bool hasUpdate(String? snapName) => (super.noSuchMethod(
+        Invocation.method(
+          #hasUpdate,
+          [snapName],
+        ),
+        returnValue: false,
+      ) as bool);
+  @override
+  _i6.Future<void> updateAll() => (super.noSuchMethod(
+        Invocation.method(
+          #updateAll,
           [],
         ),
         returnValue: _i6.Future<void>.value(),

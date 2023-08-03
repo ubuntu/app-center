@@ -88,11 +88,13 @@ void main() {
     final snapModel =
         createMockSnapModel(localSnap: localSnap, storeSnap: storeSnap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
+    final updatesModel = createMockUpdatesModel();
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
+            updatesModelProvider.overrideWith((ref) => updatesModel)
           ],
           child: const DetailPage(snapName: 'testsnap'),
         ));
@@ -120,11 +122,14 @@ void main() {
       storeSnap: storeSnap,
     );
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
+    final updatesModel =
+        createMockUpdatesModel(refreshableSnapNames: [localSnap.name]);
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
+            updatesModelProvider.overrideWith((ref) => updatesModel)
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
@@ -147,9 +152,12 @@ void main() {
 
   testWidgets('store-only', (tester) async {
     final snapModel = createMockSnapModel(storeSnap: storeSnap);
+    final updatesModel = createMockUpdatesModel();
+
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
+            updatesModelProvider.overrideWith((ref) => updatesModel)
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
@@ -167,11 +175,13 @@ void main() {
   testWidgets('local-only', (tester) async {
     final snapModel = createMockSnapModel(localSnap: localSnap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
+    final updatesModel = createMockUpdatesModel();
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
+            updatesModelProvider.overrideWith((ref) => updatesModel)
           ],
           child: DetailPage(snapName: localSnap.name),
         ));
@@ -198,11 +208,13 @@ void main() {
       storeSnap: storeSnap,
     );
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
+    final updatesModel = createMockUpdatesModel();
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
+            updatesModelProvider.overrideWith((ref) => updatesModel)
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));

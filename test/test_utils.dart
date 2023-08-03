@@ -45,6 +45,7 @@ SnapModel createMockSnapModel({
   Snap? localSnap,
   Snap? storeSnap,
   String? selectedChannel,
+  String? snapName,
   AsyncValue<void>? state,
 }) {
   final model = MockSnapModel();
@@ -62,7 +63,8 @@ SnapModel createMockSnapModel({
   when(model.isInstalled).thenReturn(model.localSnap != null);
   when(model.hasGallery).thenReturn(
       model.storeSnap != null && model.storeSnap!.screenshotUrls.isNotEmpty);
-  when(model.hasUpdate).thenReturn(hasUpdate ?? false);
+  when(model.snapName)
+      .thenReturn(snapName ?? localSnap?.name ?? storeSnap?.name ?? '');
   return model;
 }
 
@@ -113,6 +115,8 @@ MockUpdatesModel createMockUpdatesModel(
   final model = MockUpdatesModel();
   when(model.refreshableSnapNames)
       .thenReturn(refreshableSnapNames ?? const Iterable.empty());
+  when(model.hasUpdate(any)).thenAnswer((i) =>
+      refreshableSnapNames?.contains(i.positionalArguments.single) ?? false);
   return model;
 }
 
