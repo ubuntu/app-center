@@ -88,6 +88,7 @@ MockSnapdService createMockSnapdService({
   Snap? localSnap,
   Snap? storeSnap,
   List<Snap>? refreshableSnaps,
+  List<Snap>? installedSnaps,
 }) {
   final service = MockSnapdService();
   when(service.getStoreSnap(any)).thenAnswer((_) => Stream.value(storeSnap));
@@ -106,6 +107,7 @@ MockSnapdService createMockSnapdService({
   when(service.remove(any)).thenAnswer((_) async => 'id');
   when(service.find(filter: SnapFindFilter.refresh))
       .thenAnswer((_) async => refreshableSnaps ?? []);
+  when(service.getSnaps()).thenAnswer((_) async => installedSnaps ?? []);
   return service;
 }
 
