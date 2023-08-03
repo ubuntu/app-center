@@ -14,7 +14,6 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
 import '/layout.dart';
-import '/search.dart';
 import '/snapd.dart';
 import '/widgets.dart';
 
@@ -200,13 +199,6 @@ class _SnapActionButtons extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final snapLauncher =
         model.isInstalled ? ref.watch(launchProvider(model.localSnap!)) : null;
-    final refreshableSnaps = ref.watch(refreshProvider);
-    final hasUpdate = model.localSnap == null
-        ? false
-        : refreshableSnaps.whenOrNull(
-                data: (snaps) => snaps.singleWhereOrNull(
-                    (snap) => snap.name == model.localSnap!.name)) !=
-            null;
 
     final primaryAction = model.isInstalled
         ? model.selectedChannel == model.localSnap!.trackingChannel
@@ -253,7 +245,7 @@ class _SnapActionButtons extends ConsumerWidget {
     );
 
     final secondaryActions = [
-      if (hasUpdate) SnapAction.update,
+      if (model.hasUpdate) SnapAction.update,
       SnapAction.remove,
     ];
     final secondaryActionsButton = MenuAnchor(
