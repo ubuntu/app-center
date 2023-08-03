@@ -5,7 +5,7 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '/snapd.dart';
 
-final updatesProvider = ChangeNotifierProvider(
+final updatesModelProvider = ChangeNotifierProvider(
   (ref) => UpdatesModel(getService<SnapdService>())..refresh(),
 );
 
@@ -17,8 +17,24 @@ class UpdatesModel extends ChangeNotifier {
 
   Iterable<Snap>? _refreshableSnaps;
 
+  String? get activeChangeId => _activeChangeId;
+  String? _activeChangeId;
+
   Future<void> refresh() async {
     _refreshableSnaps = await snapd.find(filter: SnapFindFilter.refresh);
+    notifyListeners();
+  }
+
+  bool hasUpdate(String snapName) => refreshableSnapNames.contains(snapName);
+
+  Future<void> updateAll() async {
+    if (_refreshableSnaps == null) return;
+    final changeId = await snapd.refreshMany(refreshableSnapNames.toList());
+    _activeChangeId = changeId;
+    notifyListeners();
+    await snapd.waitChange(changeId);
+    _activeChangeId = null;
+    await refresh();
     notifyListeners();
   }
 }

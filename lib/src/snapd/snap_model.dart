@@ -12,7 +12,6 @@ final snapModelProvider =
     ChangeNotifierProvider.family.autoDispose<SnapModel, String>(
   (ref, snapName) => SnapModel(
     snapd: getService<SnapdService>(),
-    updatesModel: ref.read(updatesProvider),
     snapName: snapName,
   )..init(),
 );
@@ -48,12 +47,9 @@ final changeProvider =
 class SnapModel extends ChangeNotifier {
   SnapModel({
     required this.snapd,
-    required this.updatesModel,
     required this.snapName,
-  })  : _state = const AsyncValue.loading(),
-        _hasUpdate = updatesModel.refreshableSnapNames.contains(snapName);
+  }) : _state = const AsyncValue.loading();
   final SnapdService snapd;
-  final UpdatesModel updatesModel;
   final String snapName;
 
   String? get activeChangeId => _activeChangeId;
@@ -64,9 +60,6 @@ class SnapModel extends ChangeNotifier {
 
   Snap? localSnap;
   Snap? storeSnap;
-
-  bool get hasUpdate => _hasUpdate;
-  bool _hasUpdate;
 
   Snap get snap => storeSnap ?? localSnap!;
   SnapChannel? get channelInfo =>
@@ -96,8 +89,6 @@ class SnapModel extends ChangeNotifier {
       notifyListeners();
     });
 
-    updatesModel.addListener(_updatesModelListener);
-
     _state = await AsyncValue.guard(() async {
       await _getLocalSnap();
       if (storeSnap == null && localSnap == null) {
@@ -108,20 +99,10 @@ class SnapModel extends ChangeNotifier {
     });
   }
 
-  void _updatesModelListener() {
-    final hasUpdate = updatesModel.refreshableSnapNames.contains(snapName);
-    if (hasUpdate != _hasUpdate) {
-      _hasUpdate = hasUpdate;
-      notifyListeners();
-    }
-  }
-
   @override
   Future<void> dispose() async {
     await _storeSnapSubscription?.cancel();
     _storeSnapSubscription = null;
-
-    updatesModel.removeListener(_updatesModelListener);
     super.dispose();
   }
 

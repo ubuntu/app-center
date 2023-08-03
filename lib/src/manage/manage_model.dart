@@ -7,57 +7,48 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import '/snapd.dart';
 
 final manageModelProvider = ChangeNotifierProvider(
-    (ref) => ManageModel(getService<SnapdService>())..init());
+  (ref) => ManageModel(
+    snapd: getService<SnapdService>(),
+    updatesModel: ref.read(updatesModelProvider),
+  )..init(),
+);
 
 class ManageModel extends ChangeNotifier {
-  ManageModel(this.snapd) : _state = const AsyncValue.loading();
+  ManageModel({
+    required this.snapd,
+    required this.updatesModel,
+  }) : _state = const AsyncValue.loading();
   final SnapdService snapd;
+  final UpdatesModel updatesModel;
 
   AsyncValue<void> get state => _state;
   AsyncValue<void> _state;
 
-  String? get activeChangeId => _activeChangeId;
-  String? _activeChangeId;
-
   List<Snap>? _installedSnaps;
-  List<String>? _refreshableSnapNames;
 
-  bool _isRefreshable(Snap snap) =>
-      _refreshableSnapNames?.contains(snap.name) ?? false;
+  bool _isRefreshable(Snap snap) => updatesModel.hasUpdate(snap.name);
   Iterable<Snap> get refreshableSnaps =>
       _installedSnaps?.where(_isRefreshable) ?? const Iterable.empty();
   Iterable<Snap> get nonRefreshableSnaps =>
       _installedSnaps?.whereNot(_isRefreshable) ?? const Iterable.empty();
 
-  // TODO: separate loading local snaps and updates; cache local snaps
+  // TODO: cache local snaps
   Future<void> init() async {
+    updatesModel.addListener(notifyListeners);
     _state = await AsyncValue.guard(() async {
       await _getInstalledSnaps();
-      await _getRefreshableSnaps();
       notifyListeners();
     });
+  }
+
+  @override
+  void dispose() {
+    updatesModel.removeListener(notifyListeners);
+    super.dispose();
   }
 
   Future<void> _getInstalledSnaps() async {
     _installedSnaps = await snapd.getSnaps().then(
         (snaps) => snaps.sortedBy((snap) => snap.titleOrName.toLowerCase()));
-  }
-
-  Future<void> _getRefreshableSnaps() async {
-    _refreshableSnapNames = await snapd
-        .find(filter: SnapFindFilter.refresh)
-        .then((snaps) => snaps.map((snap) => snap.name).toList());
-  }
-
-  Future<void> updateAll() async {
-    if (_refreshableSnapNames == null) return;
-    final changeId = await snapd.refreshMany(_refreshableSnapNames!);
-    _activeChangeId = changeId;
-    notifyListeners();
-    await snapd.waitChange(changeId);
-    _activeChangeId = null;
-    await _getInstalledSnaps();
-    await _getRefreshableSnaps();
-    notifyListeners();
   }
 }
