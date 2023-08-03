@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gtk/gtk.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
@@ -40,9 +41,11 @@ SnapLauncher createMockSnapLauncher({
 
 @GenerateMocks([SnapModel])
 SnapModel createMockSnapModel({
+  bool? hasUpdate,
   Snap? localSnap,
   Snap? storeSnap,
   String? selectedChannel,
+  String? snapName,
   AsyncValue<void>? state,
 }) {
   final model = MockSnapModel();
@@ -60,6 +63,8 @@ SnapModel createMockSnapModel({
   when(model.isInstalled).thenReturn(model.localSnap != null);
   when(model.hasGallery).thenReturn(
       model.storeSnap != null && model.storeSnap!.screenshotUrls.isNotEmpty);
+  when(model.snapName)
+      .thenReturn(snapName ?? localSnap?.name ?? storeSnap?.name ?? '');
   return model;
 }
 
@@ -82,6 +87,7 @@ ManageModel createMockManageModel({
 MockSnapdService createMockSnapdService({
   Snap? localSnap,
   Snap? storeSnap,
+  List<Snap>? refreshableSnaps,
 }) {
   final service = MockSnapdService();
   when(service.getStoreSnap(any)).thenAnswer((_) => Stream.value(storeSnap));
@@ -98,5 +104,25 @@ MockSnapdService createMockSnapdService({
   when(service.refresh(any, channel: anyNamed('channel')))
       .thenAnswer((_) async => 'id');
   when(service.remove(any)).thenAnswer((_) async => 'id');
+  when(service.find(filter: SnapFindFilter.refresh))
+      .thenAnswer((_) async => refreshableSnaps ?? []);
   return service;
+}
+
+@GenerateMocks([UpdatesModel])
+MockUpdatesModel createMockUpdatesModel(
+    {Iterable<String>? refreshableSnapNames}) {
+  final model = MockUpdatesModel();
+  when(model.refreshableSnapNames)
+      .thenReturn(refreshableSnapNames ?? const Iterable.empty());
+  when(model.hasUpdate(any)).thenAnswer((i) =>
+      refreshableSnapNames?.contains(i.positionalArguments.single) ?? false);
+  return model;
+}
+
+@GenerateMocks([GtkApplicationNotifier])
+MockGtkApplicationNotifier createMockGtkApplicationNotifier() {
+  final notifier = MockGtkApplicationNotifier();
+  when(notifier.commandLine).thenReturn(null);
+  return notifier;
 }

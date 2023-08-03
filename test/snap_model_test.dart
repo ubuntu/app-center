@@ -53,7 +53,7 @@ void main() {
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final model = SnapModel(snapd: service, snapName: 'testsnap');
       await model.init();
 
       expect(model.state.hasValue, isTrue);
@@ -66,7 +66,7 @@ void main() {
       final service = createMockSnapdService(
         storeSnap: storeSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final model = SnapModel(snapd: service, snapName: 'testsnap');
       await model.init();
 
       expect(model.state.hasValue, isTrue);
@@ -79,7 +79,7 @@ void main() {
       final service = createMockSnapdService(
         localSnap: localSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final model = SnapModel(snapd: service, snapName: 'testsnap');
       await model.init();
 
       expect(model.state.hasValue, isTrue);
@@ -94,7 +94,7 @@ void main() {
       final service = createMockSnapdService(
         storeSnap: storeSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final model = SnapModel(snapd: service, snapName: 'testsnap');
       await model.init();
 
       await model.install();
@@ -105,7 +105,7 @@ void main() {
       final service = createMockSnapdService(
         storeSnap: storeSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final model = SnapModel(snapd: service, snapName: 'testsnap');
       await model.init();
 
       model.selectedChannel = 'latest/edge';
@@ -121,7 +121,7 @@ void main() {
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final model = SnapModel(snapd: service, snapName: 'testsnap');
       await model.init();
 
       await model.refresh();
@@ -133,7 +133,7 @@ void main() {
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final model = SnapModel(snapd: service, snapName: 'testsnap');
       await model.init();
 
       model.selectedChannel = 'latest/stable';
@@ -148,7 +148,7 @@ void main() {
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
-    final model = SnapModel(service, 'testsnap');
+    final model = SnapModel(snapd: service, snapName: 'testsnap');
     await model.init();
 
     await model.remove();
@@ -173,7 +173,7 @@ void main() {
       return SnapdChange(spawnTime: DateTime.now());
     });
 
-    final model = SnapModel(service, 'testsnap');
+    final model = SnapModel(snapd: service, snapName: 'testsnap');
     await model.init();
 
     expect(model.activeChangeId, isNull);

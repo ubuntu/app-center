@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/about.dart';
 import '/category.dart';
 import '/explore.dart';
 import '/manage.dart';
+import '/snapd.dart';
 
 typedef StorePage = ({
   Widget Function(BuildContext context, bool selected) tileBuilder,
@@ -52,6 +54,15 @@ final pages = <StorePage>[
     tileBuilder: (context, selected) => YaruMasterTile(
           leading: Icon(ManagePage.icon(selected)),
           title: Text(ManagePage.label(context)),
+          trailing: Consumer(
+            builder: (context, ref, child) {
+              final availableUpdates =
+                  ref.watch(updatesModelProvider).refreshableSnapNames.length;
+              return availableUpdates > 0
+                  ? Badge(label: Text('$availableUpdates'))
+                  : const SizedBox.shrink();
+            },
+          ),
         ),
     pageBuilder: (_) => const ManagePage(),
   ),

@@ -8,8 +8,13 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '/snapd.dart';
 
-final snapModelProvider = ChangeNotifierProvider.family<SnapModel, String>(
-    (ref, snapName) => SnapModel(getService<SnapdService>(), snapName)..init());
+final snapModelProvider =
+    ChangeNotifierProvider.family.autoDispose<SnapModel, String>(
+  (ref, snapName) => SnapModel(
+    snapd: getService<SnapdService>(),
+    snapName: snapName,
+  )..init(),
+);
 
 final progressProvider =
     StreamProvider.family.autoDispose<double, List<String>>((ref, ids) {
@@ -40,7 +45,10 @@ final changeProvider =
 });
 
 class SnapModel extends ChangeNotifier {
-  SnapModel(this.snapd, this.snapName) : _state = const AsyncValue.loading();
+  SnapModel({
+    required this.snapd,
+    required this.snapName,
+  }) : _state = const AsyncValue.loading();
   final SnapdService snapd;
   final String snapName;
 
@@ -70,16 +78,17 @@ class SnapModel extends ChangeNotifier {
 
   Map<String, SnapChannel>? get availableChannels => storeSnap?.channels;
 
-  StreamSubscription? storeSnapSubscription;
+  StreamSubscription? _storeSnapSubscription;
 
   Future<void> init() async {
     final storeSnapCompleter = Completer();
-    storeSnapSubscription = snapd.getStoreSnap(snapName).listen((snap) {
+    _storeSnapSubscription = snapd.getStoreSnap(snapName).listen((snap) {
       _setStoreSnap(snap);
       if (!storeSnapCompleter.isCompleted) storeSnapCompleter.complete();
       _setDefaultSelectedChannel();
       notifyListeners();
     });
+
     _state = await AsyncValue.guard(() async {
       await _getLocalSnap();
       if (storeSnap == null && localSnap == null) {
@@ -92,8 +101,8 @@ class SnapModel extends ChangeNotifier {
 
   @override
   Future<void> dispose() async {
-    await storeSnapSubscription?.cancel();
-    storeSnapSubscription = null;
+    await _storeSnapSubscription?.cancel();
+    _storeSnapSubscription = null;
     super.dispose();
   }
 
