@@ -29,9 +29,11 @@ void main() {
       (_) => ProviderScope(
         overrides: [
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          manageModelProvider.overrideWith((_) => createMockManageModel(
-                nonRefreshableSnaps: nonRefreshableSnaps,
-              )),
+          manageModelProvider.overrideWith(
+            (_) =>
+                createMockManageModel(nonRefreshableSnaps: nonRefreshableSnaps),
+          ),
+          updatesModelProvider.overrideWith((_) => createMockUpdatesModel())
         ],
         child: const ManagePage(),
       ),
@@ -65,6 +67,7 @@ void main() {
           manageModelProvider.overrideWith((_) => createMockManageModel(
                 nonRefreshableSnaps: nonRefreshableSnaps,
               )),
+          updatesModelProvider.overrideWith((_) => createMockUpdatesModel())
         ],
         child: const ManagePage(),
       ),

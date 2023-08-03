@@ -21,9 +21,13 @@ class ManagePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final model = ref.watch(manageModelProvider);
-    return model.state.when(
-      data: (_) => _ManageView(model),
+    final manageModel = ref.watch(manageModelProvider);
+    final updatesModel = ref.watch(updatesModelProvider);
+    return manageModel.state.when(
+      data: (_) => _ManageView(
+        manageModel: manageModel,
+        updatesModel: updatesModel,
+      ),
       error: (error, stack) => ErrorWidget(error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
@@ -31,35 +35,37 @@ class ManagePage extends ConsumerWidget {
 }
 
 class _ManageView extends ConsumerWidget {
-  const _ManageView(this.model);
-  final ManageModel model;
+  const _ManageView({required this.manageModel, required this.updatesModel});
+  final ManageModel manageModel;
+  final UpdatesModel updatesModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     return Column(
       children: [
-        if (model.refreshableSnaps.isNotEmpty)
+        if (manageModel.refreshableSnaps.isNotEmpty)
           PushButton.elevated(
-            onPressed: model.updateAll,
+            onPressed: updatesModel.updateAll,
             child: Text(l10n.managePageUpdateAllLabel),
           ),
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.all(kPagePadding),
-            itemCount: model.refreshableSnaps.length +
-                model.nonRefreshableSnaps.length +
-                (model.refreshableSnaps.isNotEmpty ? 1 : 0),
+            itemCount: manageModel.refreshableSnaps.length +
+                manageModel.nonRefreshableSnaps.length +
+                (manageModel.refreshableSnaps.isNotEmpty ? 1 : 0),
             itemBuilder: (context, index) {
-              if (index == model.refreshableSnaps.length && index > 0) {
+              if (index == manageModel.refreshableSnaps.length && index > 0) {
                 return const Divider();
               }
-              final refreshableSnapsOffset = model.refreshableSnaps.isNotEmpty
-                  ? model.refreshableSnaps.length + 1
-                  : 0;
-              final snap = index < model.refreshableSnaps.length
-                  ? model.refreshableSnaps.elementAt(index)
-                  : model.nonRefreshableSnaps
+              final refreshableSnapsOffset =
+                  manageModel.refreshableSnaps.isNotEmpty
+                      ? manageModel.refreshableSnaps.length + 1
+                      : 0;
+              final snap = index < manageModel.refreshableSnaps.length
+                  ? manageModel.refreshableSnaps.elementAt(index)
+                  : manageModel.nonRefreshableSnaps
                       .elementAt(index - refreshableSnapsOffset);
               final snapLauncher = ref.watch(launchProvider(snap));
               return ListTile(

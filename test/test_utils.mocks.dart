@@ -10,6 +10,7 @@ import 'package:app_store/snapd.dart' as _i4;
 import 'package:app_store/src/manage/manage_model.dart' as _i8;
 import 'package:file/file.dart' as _i9;
 import 'package:flutter_riverpod/flutter_riverpod.dart' as _i5;
+import 'package:gtk/src/gtk_application_notifier.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:snapcraft_launcher/snapcraft_launcher.dart' as _i3;
 import 'package:snapd/snapd.dart' as _i2;
@@ -66,9 +67,19 @@ class _FakeAsyncValue_3<T> extends _i1.SmartFake implements _i5.AsyncValue<T> {
         );
 }
 
-class _FakeSnapdSystemInfoResponse_4 extends _i1.SmartFake
+class _FakeUpdatesModel_4 extends _i1.SmartFake implements _i4.UpdatesModel {
+  _FakeUpdatesModel_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeSnapdSystemInfoResponse_5 extends _i1.SmartFake
     implements _i2.SnapdSystemInfoResponse {
-  _FakeSnapdSystemInfoResponse_4(
+  _FakeSnapdSystemInfoResponse_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -77,9 +88,9 @@ class _FakeSnapdSystemInfoResponse_4 extends _i1.SmartFake
         );
 }
 
-class _FakeSnapdConnectionsResponse_5 extends _i1.SmartFake
+class _FakeSnapdConnectionsResponse_6 extends _i1.SmartFake
     implements _i2.SnapdConnectionsResponse {
-  _FakeSnapdConnectionsResponse_5(
+  _FakeSnapdConnectionsResponse_6(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -88,9 +99,9 @@ class _FakeSnapdConnectionsResponse_5 extends _i1.SmartFake
         );
 }
 
-class _FakeSnapdLoginResponse_6 extends _i1.SmartFake
+class _FakeSnapdLoginResponse_7 extends _i1.SmartFake
     implements _i2.SnapdLoginResponse {
-  _FakeSnapdLoginResponse_6(
+  _FakeSnapdLoginResponse_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -99,8 +110,8 @@ class _FakeSnapdLoginResponse_6 extends _i1.SmartFake
         );
 }
 
-class _FakeSnapdChange_7 extends _i1.SmartFake implements _i2.SnapdChange {
-  _FakeSnapdChange_7(
+class _FakeSnapdChange_8 extends _i1.SmartFake implements _i2.SnapdChange {
+  _FakeSnapdChange_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -182,16 +193,6 @@ class MockSnapModel extends _i1.Mock implements _i4.SnapModel {
         Invocation.setter(
           #storeSnap,
           _storeSnap,
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  set storeSnapSubscription(
-          _i6.StreamSubscription<dynamic>? _storeSnapSubscription) =>
-      super.noSuchMethod(
-        Invocation.setter(
-          #storeSnapSubscription,
-          _storeSnapSubscription,
         ),
         returnValueForMissingStub: null,
       );
@@ -331,6 +332,14 @@ class MockManageModel extends _i1.Mock implements _i8.ManageModel {
         ),
       ) as _i4.SnapdService);
   @override
+  _i4.UpdatesModel get updatesModel => (super.noSuchMethod(
+        Invocation.getter(#updatesModel),
+        returnValue: _FakeUpdatesModel_4(
+          this,
+          Invocation.getter(#updatesModel),
+        ),
+      ) as _i4.UpdatesModel);
+  @override
   _i5.AsyncValue<void> get state => (super.noSuchMethod(
         Invocation.getter(#state),
         returnValue: _FakeAsyncValue_3<void>(
@@ -363,14 +372,13 @@ class MockManageModel extends _i1.Mock implements _i8.ManageModel {
         returnValueForMissingStub: _i6.Future<void>.value(),
       ) as _i6.Future<void>);
   @override
-  _i6.Future<void> updateAll() => (super.noSuchMethod(
+  void dispose() => super.noSuchMethod(
         Invocation.method(
-          #updateAll,
+          #dispose,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValueForMissingStub: null,
+      );
   @override
   void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -384,14 +392,6 @@ class MockManageModel extends _i1.Mock implements _i8.ManageModel {
         Invocation.method(
           #removeListener,
           [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
         ),
         returnValueForMissingStub: null,
       );
@@ -475,7 +475,7 @@ class MockSnapdService extends _i1.Mock implements _i4.SnapdService {
           [],
         ),
         returnValue: _i6.Future<_i2.SnapdSystemInfoResponse>.value(
-            _FakeSnapdSystemInfoResponse_4(
+            _FakeSnapdSystemInfoResponse_5(
           this,
           Invocation.method(
             #systemInfo,
@@ -548,7 +548,7 @@ class MockSnapdService extends _i1.Mock implements _i4.SnapdService {
           },
         ),
         returnValue: _i6.Future<_i2.SnapdConnectionsResponse>.value(
-            _FakeSnapdConnectionsResponse_5(
+            _FakeSnapdConnectionsResponse_6(
           this,
           Invocation.method(
             #getConnections,
@@ -645,7 +645,7 @@ class MockSnapdService extends _i1.Mock implements _i4.SnapdService {
           {#otp: otp},
         ),
         returnValue:
-            _i6.Future<_i2.SnapdLoginResponse>.value(_FakeSnapdLoginResponse_6(
+            _i6.Future<_i2.SnapdLoginResponse>.value(_FakeSnapdLoginResponse_7(
           this,
           Invocation.method(
             #login,
@@ -742,7 +742,7 @@ class MockSnapdService extends _i1.Mock implements _i4.SnapdService {
           #getChange,
           [id],
         ),
-        returnValue: _i6.Future<_i2.SnapdChange>.value(_FakeSnapdChange_7(
+        returnValue: _i6.Future<_i2.SnapdChange>.value(_FakeSnapdChange_8(
           this,
           Invocation.method(
             #getChange,
@@ -773,7 +773,7 @@ class MockSnapdService extends _i1.Mock implements _i4.SnapdService {
           #abortChange,
           [id],
         ),
-        returnValue: _i6.Future<_i2.SnapdChange>.value(_FakeSnapdChange_7(
+        returnValue: _i6.Future<_i2.SnapdChange>.value(_FakeSnapdChange_8(
           this,
           Invocation.method(
             #abortChange,
@@ -852,4 +852,167 @@ class MockSnapdService extends _i1.Mock implements _i4.SnapdService {
         ),
         returnValue: _i6.Stream<List<String>>.empty(),
       ) as _i6.Stream<List<String>>);
+}
+
+/// A class which mocks [UpdatesModel].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUpdatesModel extends _i1.Mock implements _i4.UpdatesModel {
+  MockUpdatesModel() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.SnapdService get snapd => (super.noSuchMethod(
+        Invocation.getter(#snapd),
+        returnValue: _FakeSnapdService_2(
+          this,
+          Invocation.getter(#snapd),
+        ),
+      ) as _i4.SnapdService);
+  @override
+  Iterable<String> get refreshableSnapNames => (super.noSuchMethod(
+        Invocation.getter(#refreshableSnapNames),
+        returnValue: <String>[],
+      ) as Iterable<String>);
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+      ) as bool);
+  @override
+  _i6.Future<void> refresh() => (super.noSuchMethod(
+        Invocation.method(
+          #refresh,
+          [],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
+  bool hasUpdate(String? snapName) => (super.noSuchMethod(
+        Invocation.method(
+          #hasUpdate,
+          [snapName],
+        ),
+        returnValue: false,
+      ) as bool);
+  @override
+  _i6.Future<void> updateAll() => (super.noSuchMethod(
+        Invocation.method(
+          #updateAll,
+          [],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+  @override
+  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [GtkApplicationNotifier].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGtkApplicationNotifier extends _i1.Mock
+    implements _i10.GtkApplicationNotifier {
+  MockGtkApplicationNotifier() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  void addCommandLineListener(_i10.GtkCommandLineListener? listener) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #addCommandLineListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void removeCommandLineListener(_i10.GtkCommandLineListener? listener) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #removeCommandLineListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void addOpenListener(_i10.GtkOpenListener? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addOpenListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void removeOpenListener(_i10.GtkOpenListener? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeOpenListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void notifyCommandLine(List<String>? args) => super.noSuchMethod(
+        Invocation.method(
+          #notifyCommandLine,
+          [args],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void notifyOpen({
+    required List<String>? files,
+    required String? hint,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #notifyOpen,
+          [],
+          {
+            #files: files,
+            #hint: hint,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
 }
