@@ -53,7 +53,9 @@ void main() {
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final updatesModel = createMockUpdatesModel();
+      final model = SnapModel(
+          snapd: service, updatesModel: updatesModel, snapName: 'testsnap');
       await model.init();
 
       expect(model.state.hasValue, isTrue);
@@ -66,7 +68,9 @@ void main() {
       final service = createMockSnapdService(
         storeSnap: storeSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final updatesModel = createMockUpdatesModel();
+      final model = SnapModel(
+          snapd: service, updatesModel: updatesModel, snapName: 'testsnap');
       await model.init();
 
       expect(model.state.hasValue, isTrue);
@@ -79,7 +83,9 @@ void main() {
       final service = createMockSnapdService(
         localSnap: localSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final updatesModel = createMockUpdatesModel();
+      final model = SnapModel(
+          snapd: service, updatesModel: updatesModel, snapName: 'testsnap');
       await model.init();
 
       expect(model.state.hasValue, isTrue);
@@ -94,7 +100,9 @@ void main() {
       final service = createMockSnapdService(
         storeSnap: storeSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final updatesModel = createMockUpdatesModel();
+      final model = SnapModel(
+          snapd: service, updatesModel: updatesModel, snapName: 'testsnap');
       await model.init();
 
       await model.install();
@@ -105,7 +113,9 @@ void main() {
       final service = createMockSnapdService(
         storeSnap: storeSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final updatesModel = createMockUpdatesModel();
+      final model = SnapModel(
+          snapd: service, updatesModel: updatesModel, snapName: 'testsnap');
       await model.init();
 
       model.selectedChannel = 'latest/edge';
@@ -121,7 +131,10 @@ void main() {
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final updatesModel =
+          createMockUpdatesModel(refreshableSnapNames: [storeSnap.name]);
+      final model = SnapModel(
+          snapd: service, updatesModel: updatesModel, snapName: 'testsnap');
       await model.init();
 
       await model.refresh();
@@ -133,7 +146,9 @@ void main() {
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
-      final model = SnapModel(service, 'testsnap');
+      final updatesModel = createMockUpdatesModel();
+      final model = SnapModel(
+          snapd: service, updatesModel: updatesModel, snapName: 'testsnap');
       await model.init();
 
       model.selectedChannel = 'latest/stable';
@@ -148,7 +163,9 @@ void main() {
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
-    final model = SnapModel(service, 'testsnap');
+    final updatesModel = createMockUpdatesModel();
+    final model = SnapModel(
+        snapd: service, updatesModel: updatesModel, snapName: 'testsnap');
     await model.init();
 
     await model.remove();
@@ -173,7 +190,9 @@ void main() {
       return SnapdChange(spawnTime: DateTime.now());
     });
 
-    final model = SnapModel(service, 'testsnap');
+    final updatesModel = createMockUpdatesModel();
+    final model = SnapModel(
+        snapd: service, updatesModel: updatesModel, snapName: 'testsnap');
     await model.init();
 
     expect(model.activeChangeId, isNull);
@@ -187,5 +206,35 @@ void main() {
     await model.cancel();
     verify(service.abortChange('changeId')).called(1);
     expect(model.activeChangeId, isNull);
+  });
+
+  group('hasUpdate', () {
+    test('update available', () async {
+      final service = createMockSnapdService(
+        localSnap: localSnap,
+        storeSnap: storeSnap,
+      );
+      final updatesModel = createMockUpdatesModel(
+          refreshableSnapNames: ['testsnap', 'otherapp']);
+      final model = SnapModel(
+          snapd: service, updatesModel: updatesModel, snapName: 'testsnap');
+      await model.init();
+
+      expect(model.hasUpdate, isTrue);
+    });
+
+    test('no update available', () async {
+      final service = createMockSnapdService(
+        localSnap: localSnap,
+        storeSnap: storeSnap,
+      );
+      final updatesModel =
+          createMockUpdatesModel(refreshableSnapNames: ['otherapp']);
+      final model = SnapModel(
+          snapd: service, updatesModel: updatesModel, snapName: 'testsnap');
+      await model.init();
+
+      expect(model.hasUpdate, isFalse);
+    });
   });
 }

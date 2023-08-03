@@ -1,5 +1,4 @@
 import 'package:app_store/l10n.dart';
-import 'package:app_store/search.dart';
 import 'package:app_store/snapd.dart';
 import 'package:app_store/src/detail/detail_page.dart';
 import 'package:app_store/widgets.dart';
@@ -94,7 +93,6 @@ void main() {
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
-            refreshProvider.overrideWith((ref) => []),
           ],
           child: const DetailPage(snapName: 'testsnap'),
         ));
@@ -117,6 +115,7 @@ void main() {
 
   testWidgets('local + store with update', (tester) async {
     final snapModel = createMockSnapModel(
+      hasUpdate: true,
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
@@ -126,7 +125,6 @@ void main() {
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
-            refreshProvider.overrideWith((ref) => [storeSnap]),
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
@@ -152,8 +150,6 @@ void main() {
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
-            refreshProvider
-                .overrideWith((ref) => [const Snap(name: 'othersnap')]),
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
@@ -176,7 +172,6 @@ void main() {
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
-            refreshProvider.overrideWith((ref) => []),
           ],
           child: DetailPage(snapName: localSnap.name),
         ));
@@ -208,7 +203,6 @@ void main() {
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
-            refreshProvider.overrideWith((ref) => []),
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
