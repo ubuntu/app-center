@@ -65,7 +65,7 @@ class SnapTitle extends StatelessWidget {
           Row(
             children: snap.categories
                 .whereNot((c) => c.name == 'featured')
-                .map((c) => Text(c.localize(l10n)))
+                .map((c) => Text(c.categoryEnum.localize(l10n)))
                 .separatedBy(const Text(', ')),
           )
         ]
@@ -81,32 +81,4 @@ extension on Iterable<Widget> {
           if (i < length - 1) separator,
         ]
       ];
-}
-
-extension SnapCategoryL10n on SnapCategory {
-  String localize(AppLocalizations l10n) {
-    return switch (name) {
-      'art-and-design' => l10n.snapCategoryArtAndDesign,
-      'books-and-reference' => l10n.snapCategoryBooksAndReference,
-      'development' => l10n.snapCategoryDevelopment,
-      'devices-and-iot' => l10n.snapCategoryDevicesAndIot,
-      'education' => l10n.snapCategoryEducation,
-      'entertainment' => l10n.snapCategoryEntertainment,
-      'featured' => l10n.snapCategoryFeatured,
-      'finance' => l10n.snapCategoryFinance,
-      'games' => l10n.snapCategoryGames,
-      'health-and-fitness' => l10n.snapCategoryHealthAndFitness,
-      'music-and-audio' => l10n.snapCategoryMusicAndAudio,
-      'news-and-weather' => l10n.snapCategoryNewsAndWeather,
-      'personalisation' => l10n.snapCategoryPersonalisation,
-      'photo-and-video' => l10n.snapCategoryPhotoAndVideo,
-      'productivity' => l10n.snapCategoryProductivity,
-      'science' => l10n.snapCategoryScience,
-      'security' => l10n.snapCategorySecurity,
-      'server-and-cloud' => l10n.snapCategoryServerAndCloud,
-      'social' => l10n.snapCategorySocial,
-      'utilities' => l10n.snapCategoryUtilities,
-      _ => name
-    };
-  }
 }
