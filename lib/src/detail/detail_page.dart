@@ -73,10 +73,10 @@ class _SnapView extends ConsumerWidget {
         )
       ),
       (
-        label: l10n.detailPageReleasedAtLabel,
+        label: l10n.detailPagePublishedLabel,
         value: Text(
           snapModel.channelInfo != null
-              ? DateFormat.yMd().format(snapModel.channelInfo!.releasedAt)
+              ? DateFormat.yMMMd().format(snapModel.channelInfo!.releasedAt)
               : '',
         ),
       ),

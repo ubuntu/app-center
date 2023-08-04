@@ -4,6 +4,7 @@ import 'package:app_store/src/detail/detail_page.dart';
 import 'package:app_store/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_test/ubuntu_test.dart';
@@ -68,12 +69,15 @@ void expectSnapInfos(
   expect(find.text(tester.l10n.detailPageConfinementLabel), findsOneWidget);
   expect(find.text(tester.l10n.detailPageDescriptionLabel), findsOneWidget);
   expect(find.text(tester.l10n.detailPageLicenseLabel), findsOneWidget);
+  expect(find.text(tester.l10n.detailPagePublishedLabel), findsOneWidget);
 
   final snapChannel = snap.channels[channel];
   if (snapChannel != null) {
     expect(find.text(snapChannel.confinement.name), findsOneWidget);
     expect(find.text(tester.l10n.detailPageDownloadSizeLabel), findsOneWidget);
     expect(find.text(tester.context.formatByteSize(snapChannel.size)),
+        findsOneWidget);
+    expect(find.text(DateFormat.yMMMd().format(snapChannel.releasedAt)),
         findsOneWidget);
   }
 }
