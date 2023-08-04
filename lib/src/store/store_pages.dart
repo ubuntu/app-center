@@ -5,6 +5,7 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 import '/about.dart';
 import '/category.dart';
 import '/explore.dart';
+import '/l10n.dart';
 import '/manage.dart';
 import '/snapd.dart';
 
@@ -21,27 +22,18 @@ final pages = <StorePage>[
         ),
     pageBuilder: (_) => const ExplorePage(),
   ),
-  (
-    tileBuilder: (context, selected) => YaruMasterTile(
-          leading: Icon(ProductivityPage.icon(selected)),
-          title: Text(ProductivityPage.label(context)),
-        ),
-    pageBuilder: (_) => const ProductivityPage(),
-  ),
-  (
-    tileBuilder: (context, selected) => YaruMasterTile(
-          leading: Icon(DevelopmentPage.icon(selected)),
-          title: Text(DevelopmentPage.label(context)),
-        ),
-    pageBuilder: (_) => const DevelopmentPage(),
-  ),
-  (
-    tileBuilder: (context, selected) => YaruMasterTile(
-          leading: Icon(GamesPage.icon(selected)),
-          title: Text(GamesPage.label(context)),
-        ),
-    pageBuilder: (_) => const GamesPage(),
-  ),
+  for (final category in [
+    SnapCategoryEnum.productivity,
+    SnapCategoryEnum.development,
+    SnapCategoryEnum.games,
+  ])
+    (
+      tileBuilder: (context, selected) => YaruMasterTile(
+            leading: Icon(category.getIcon(selected)),
+            title: Text(category.localize(AppLocalizations.of(context))),
+          ),
+      pageBuilder: (_) => CategoryPage(category: category),
+    ),
   (
     tileBuilder: (context, selected) => const Spacer(),
     pageBuilder: (_) => const SizedBox.shrink(),
