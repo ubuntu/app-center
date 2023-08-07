@@ -32,7 +32,12 @@ class DetailPage extends ConsumerWidget {
     final snapModel = ref.watch(snapModelProvider(snapName));
     final updatesModel = ref.watch(updatesModelProvider);
     return snapModel.state.when(
-      data: (_) => _SnapView(snapModel: snapModel, updatesModel: updatesModel),
+      data: (_) => ResponsiveLayoutBuilder(
+        builder: (_) => _SnapView(
+          snapModel: snapModel,
+          updatesModel: updatesModel,
+        ),
+      ),
       error: (error, stackTrace) => ErrorWidget(error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
@@ -105,53 +110,53 @@ class _SnapView extends ConsumerWidget {
       ),
     ];
 
+    final layout = ResponsiveLayout.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
-      child: ResponsiveLayoutBuilder(builder: (context, layout) {
-        return Column(
-          children: [
-            SizedBox(
-              width: layout.totalWidth,
-              child: _Header(snapModel: snapModel),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Center(
-                  child: SizedBox(
-                    width: layout.totalWidth,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _SnapInfos(snapInfos: snapInfos, layout: layout),
-                        const Divider(),
-                        if (snapModel.hasGallery)
-                          _Section(
-                            header: Text(l10n.detailPageGalleryLabel),
-                            child: SnapScreenshotGallery(
-                              snap: snapModel.storeSnap!,
-                              height: layout.totalWidth / 2,
-                            ),
-                          ),
+      child: Column(
+        children: [
+          SizedBox(
+            width: layout.totalWidth,
+            child: _Header(snapModel: snapModel),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Center(
+                child: SizedBox(
+                  width: layout.totalWidth,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _SnapInfos(snapInfos: snapInfos, layout: layout),
+                      const Divider(),
+                      if (snapModel.hasGallery)
                         _Section(
-                          header: Text(l10n.detailPageDescriptionLabel),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: MarkdownBody(
-                              data: snapModel.storeSnap?.description ??
-                                  snapModel.localSnap?.description ??
-                                  '',
-                            ),
+                          header: Text(l10n.detailPageGalleryLabel),
+                          child: SnapScreenshotGallery(
+                            snap: snapModel.storeSnap!,
+                            height: layout.totalWidth / 2,
                           ),
                         ),
-                      ],
-                    ),
+                      _Section(
+                        header: Text(l10n.detailPageDescriptionLabel),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: MarkdownBody(
+                            data: snapModel.storeSnap?.description ??
+                                snapModel.localSnap?.description ??
+                                '',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-          ],
-        );
-      }),
+          ),
+        ],
+      ),
     );
   }
 }

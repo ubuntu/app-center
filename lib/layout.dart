@@ -12,25 +12,12 @@ const kCardSizeWide = Size(548.0, 170.0);
 const kBreakPointSmall = 1280.0;
 const kBreakPointLarge = 1680.0;
 
-class ResponsiveLayout {
-  const ResponsiveLayout({
-    required this.cardColumnCount,
-    required this.cardSize,
+class ResponsiveLayout extends InheritedWidget {
+  ResponsiveLayout({
+    super.key,
     required this.constraints,
-    required this.snapInfoColumnCount,
-  });
-
-  final int cardColumnCount;
-  final Size cardSize;
-  final BoxConstraints constraints;
-  final int snapInfoColumnCount;
-
-  double get totalWidth =>
-      cardColumnCount * cardSize.width + // cards
-      (cardColumnCount - 1) * (kPagePadding - 2 * kCardMargin) + // spacing
-      2 * kCardMargin; // left+right margin of outermost cards
-
-  factory ResponsiveLayout.fromConstraints(BoxConstraints constraints) {
+    required super.child,
+  }) {
     final (cardColumnCount, cardSize, snapInfoColumnCount) =
         switch (constraints.maxWidth + kPaneWidth + 1) {
       // 1px for YaruNavigationRail's separator
@@ -38,27 +25,66 @@ class ResponsiveLayout {
       < kBreakPointLarge => (2, kCardSizeNormal, 4),
       _ => (3, kCardSizeNormal, 6),
     };
+    this.cardColumnCount = cardColumnCount;
+    this.cardSize = cardSize;
+    this.snapInfoColumnCount = snapInfoColumnCount;
+  }
 
-    return ResponsiveLayout(
-      cardColumnCount: cardColumnCount,
-      cardSize: cardSize,
-      constraints: constraints,
-      snapInfoColumnCount: snapInfoColumnCount,
-    );
+  final BoxConstraints constraints;
+
+  late final int cardColumnCount;
+  late final Size cardSize;
+  late final int snapInfoColumnCount;
+
+  double get totalWidth =>
+      cardColumnCount * cardSize.width + // cards
+      (cardColumnCount - 1) * (kPagePadding - 2 * kCardMargin) + // spacing
+      2 * kCardMargin; // left+right margin of outermost cards
+
+  EdgeInsets get padding => EdgeInsets.symmetric(
+      horizontal: (constraints.maxWidth - totalWidth) / 2.0);
+
+  static ResponsiveLayout? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ResponsiveLayout>();
+
+  static ResponsiveLayout of(BuildContext context) {
+    final layout = ResponsiveLayout.maybeOf(context);
+    assert(layout != null, 'No ResponsiveLayout found in this context');
+    return layout!;
+  }
+
+  @override
+  bool updateShouldNotify(covariant ResponsiveLayout oldWidget) {
+    return oldWidget.constraints != constraints;
   }
 }
 
 class ResponsiveLayoutBuilder extends LayoutBuilder {
-  ResponsiveLayoutBuilder({
-    super.key,
-    required Widget Function(
-      BuildContext context,
-      ResponsiveLayout layout,
-    ) builder,
-  }) : super(
-          builder: (context, constraints) => builder(
-            context,
-            ResponsiveLayout.fromConstraints(constraints),
+  ResponsiveLayoutBuilder({super.key, required WidgetBuilder builder})
+      : super(
+          builder: (context, constraints) => ResponsiveLayout(
+            constraints: constraints,
+            child: Builder(builder: builder),
           ),
         );
+}
+
+class ResponsiveLayoutScrollView extends StatelessWidget {
+  const ResponsiveLayoutScrollView({super.key, this.slivers = const []});
+
+  final List<Widget> slivers;
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveLayoutBuilder(builder: (context) {
+      return CustomScrollView(
+        slivers: slivers
+            .map((s) => SliverPadding(
+                  padding: ResponsiveLayout.of(context).padding,
+                  sliver: s,
+                ))
+            .toList(),
+      );
+    });
+  }
 }

@@ -24,20 +24,18 @@ class ExplorePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final featured = ref.watch(featuredProvider);
     return featured.when(
-      // TODO: Use `CustomScrollView` + `SliverGrid` to allow for lazy loading
-      data: (data) => SingleChildScrollView(
-        child: Column(
-          children: [
-            const _CategoryBanner(category: SnapCategoryEnum.development),
-            const SizedBox(height: 16),
-            const _GridTitle(text: 'Featured Snaps'),
-            SnapGrid(
-              isScrollable: false,
-              snaps: data,
-              onTap: (snap) => StoreNavigator.pushDetail(context, snap.name),
-            ),
-          ],
-        ),
+      data: (data) => ResponsiveLayoutScrollView(
+        slivers: [
+          SliverList.list(children: const [
+            _CategoryBanner(category: SnapCategoryEnum.development),
+            SizedBox(height: 16),
+            _GridTitle(text: 'Featured Snaps'),
+          ]),
+          SnapGrid(
+            snaps: data.take(6).toList(),
+            onTap: (snap) => StoreNavigator.pushDetail(context, snap.name),
+          ),
+        ],
       ),
       error: (error, stack) => ErrorWidget(error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
@@ -52,14 +50,7 @@ class _GridTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayoutBuilder(
-      builder: (context, layout) {
-        return SizedBox(
-          width: layout.totalWidth - 2 * kCardMargin,
-          child: Text(text, style: Theme.of(context).textTheme.headlineSmall),
-        );
-      },
-    );
+    return Text(text, style: Theme.of(context).textTheme.headlineSmall);
   }
 }
 
@@ -89,43 +80,40 @@ class _Banner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayoutBuilder(builder: (context, layout) {
-      return Container(
-        margin: const EdgeInsets.symmetric(vertical: 24),
-        padding: const EdgeInsets.all(48),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          gradient: const LinearGradient(
-            colors: [
-              Color.fromARGB(255, 0, 5, 148),
-              Color.fromARGB(255, 255, 155, 179)
-            ],
-          ),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 24),
+      padding: const EdgeInsets.all(48),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        gradient: const LinearGradient(
+          colors: [
+            Color.fromARGB(255, 0, 5, 148),
+            Color.fromARGB(255, 255, 155, 179)
+          ],
         ),
-        width: layout.totalWidth - 2 * kCardMargin,
-        height: 240,
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  slogan,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall!
-                      .copyWith(color: Colors.white),
-                ),
+      ),
+      height: 240,
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text(
+                slogan,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(color: Colors.white),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: snaps.map((snap) => _BannerIcon(snap: snap)).toList(),
-              ),
-            ],
-          ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: snaps.map((snap) => _BannerIcon(snap: snap)).toList(),
+            ),
+          ],
         ),
-      );
-    });
+      ),
+    );
   }
 }
 
