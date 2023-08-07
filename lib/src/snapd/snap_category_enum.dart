@@ -69,9 +69,34 @@ enum SnapCategoryEnum {
       };
 
   IconData getIcon(bool selected) => switch (this) {
+        artAndDesign =>
+          selected ? YaruIcons.rule_and_pen_filled : YaruIcons.rule_and_pen,
+        booksAndReference => selected ? YaruIcons.book_filled : YaruIcons.book,
         development => YaruIcons.wrench,
+        devicesAndIot => selected ? YaruIcons.chip_filled : YaruIcons.chip,
+        education =>
+          selected ? YaruIcons.education_filled : YaruIcons.education,
+        entertainment =>
+          selected ? YaruIcons.television_filled : YaruIcons.television,
+        featured => selected ? YaruIcons.star_filled : YaruIcons.star,
+        finance => YaruIcons.calculator,
         games => selected ? YaruIcons.games_filled : YaruIcons.games,
-        productivity => selected ? YaruIcons.send_filled : YaruIcons.send,
+        healthAndFitness =>
+          selected ? YaruIcons.health_filled : YaruIcons.health,
+        musicAndAudio => YaruIcons.headphones,
+        newsAndWeather => selected ? YaruIcons.storm_filled : YaruIcons.storm,
+        personalisation => selected
+            ? YaruIcons.desktop_appearance_filled
+            : YaruIcons.desktop_appearance,
+        photoAndVideo =>
+          selected ? YaruIcons.camera_photo_filed : YaruIcons.camera_photo,
+        productivity => selected ? YaruIcons.clock_filled : YaruIcons.clock,
+        science => selected ? YaruIcons.beaker_filled : YaruIcons.beaker,
+        security => selected ? YaruIcons.shield_filled : YaruIcons.shield,
+        serverAndCloud => selected ? YaruIcons.cloud_filled : YaruIcons.cloud,
+        social => selected ? YaruIcons.chat_text_filled : YaruIcons.chat_text,
+        utilities =>
+          selected ? YaruIcons.swiss_knife_filled : YaruIcons.swiss_knife,
         _ => YaruIcons.application,
       };
 }
