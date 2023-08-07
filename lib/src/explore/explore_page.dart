@@ -28,13 +28,20 @@ class ExplorePage extends ConsumerWidget {
         slivers: [
           SliverList.list(children: const [
             _CategoryBanner(category: SnapCategoryEnum.development),
-            SizedBox(height: 16),
-            _GridTitle(text: 'Featured Snaps'),
+            SizedBox(height: 56),
+            _Title(text: 'Featured Snaps'),
+            SizedBox(height: 24),
           ]),
           SnapGrid(
             snaps: data.take(6).toList(),
             onTap: (snap) => StoreNavigator.pushDetail(context, snap.name),
           ),
+          SliverList.list(children: const [
+            SizedBox(height: 56),
+            _Title(text: 'Categories'),
+            SizedBox(height: 24),
+          ]),
+          const _CategoryList(),
         ],
       ),
       error: (error, stack) => ErrorWidget(error),
@@ -43,8 +50,8 @@ class ExplorePage extends ConsumerWidget {
   }
 }
 
-class _GridTitle extends StatelessWidget {
-  const _GridTitle({required this.text});
+class _Title extends StatelessWidget {
+  const _Title({required this.text});
 
   final String text;
 
