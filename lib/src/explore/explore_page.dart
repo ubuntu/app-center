@@ -28,13 +28,20 @@ class ExplorePage extends ConsumerWidget {
         slivers: [
           SliverList.list(children: const [
             _CategoryBanner(category: SnapCategoryEnum.development),
-            SizedBox(height: 16),
-            _GridTitle(text: 'Featured Snaps'),
+            SizedBox(height: 56),
+            _Title(text: 'Featured Snaps'),
+            SizedBox(height: 24),
           ]),
           SnapGrid(
             snaps: data.take(6).toList(),
             onTap: (snap) => StoreNavigator.pushDetail(context, snap.name),
           ),
+          SliverList.list(children: const [
+            SizedBox(height: 56),
+            _Title(text: 'Categories'),
+            SizedBox(height: 24),
+          ]),
+          const _CategoryList(),
         ],
       ),
       error: (error, stack) => ErrorWidget(error),
@@ -43,8 +50,8 @@ class ExplorePage extends ConsumerWidget {
   }
 }
 
-class _GridTitle extends StatelessWidget {
-  const _GridTitle({required this.text});
+class _Title extends StatelessWidget {
+  const _Title({required this.text});
 
   final String text;
 
@@ -175,6 +182,34 @@ class _BannerIconState extends State<_BannerIcon> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _CategoryList extends StatelessWidget {
+  const _CategoryList();
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverGrid.count(
+      mainAxisSpacing: kCardSpacing,
+      crossAxisSpacing: kCardSpacing,
+      childAspectRatio: 6,
+      crossAxisCount: ResponsiveLayout.of(context).snapInfoColumnCount,
+      children: SnapCategoryEnum.values
+          .where((category) => category != SnapCategoryEnum.unknown)
+          .map((category) => InkWell(
+                // TODO: push search/category page
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(category.getIcon(false)),
+                    const SizedBox(width: 8),
+                    Text(category.localize(AppLocalizations.of(context)))
+                  ],
+                ),
+              ))
+          .toList(),
     );
   }
 }
