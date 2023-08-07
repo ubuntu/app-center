@@ -24,6 +24,7 @@ class ExplorePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final featured = ref.watch(featuredProvider);
     return featured.when(
+      // TODO: Use `CustomScrollView` + `SliverGrid` to allow for lazy loading
       data: (data) => SingleChildScrollView(
         child: Column(
           children: [
