@@ -21,8 +21,8 @@ class SnapGrid extends StatelessWidget {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: layout.cardColumnCount,
         childAspectRatio: layout.cardSize.aspectRatio,
-        mainAxisSpacing: kPagePadding - 2 * kCardMargin,
-        crossAxisSpacing: kPagePadding - 2 * kCardMargin,
+        mainAxisSpacing: kCardSpacing - 2 * kCardMargin,
+        crossAxisSpacing: kCardSpacing - 2 * kCardMargin,
       ),
       itemCount: snaps.length,
       itemBuilder: (context, index) {

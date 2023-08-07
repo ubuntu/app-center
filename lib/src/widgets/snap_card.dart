@@ -22,7 +22,7 @@ class SnapCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruBanner(
-      padding: const EdgeInsets.all(kPagePadding),
+      padding: const EdgeInsets.all(kCardSpacing),
       onTap: onTap,
       child: Flex(
         direction: compact ? Axis.vertical : Axis.horizontal,

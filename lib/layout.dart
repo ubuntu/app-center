@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const kCardMargin = 4.0;
 const kPaneWidth = 204.0;
 const kPagePadding = 24.0;
+const kCardSpacing = 16.0;
 const kSearchBarWidth = 424.0 - 2 * kCardMargin;
 const kIconSize = 56.0;
 
@@ -38,7 +39,7 @@ class ResponsiveLayout extends InheritedWidget {
 
   double get totalWidth =>
       cardColumnCount * cardSize.width + // cards
-      (cardColumnCount - 1) * (kPagePadding - 2 * kCardMargin) + // spacing
+      (cardColumnCount - 1) * (kCardSpacing - 2 * kCardMargin) + // spacing
       2 * kCardMargin; // left+right margin of outermost cards
 
   EdgeInsets get padding => EdgeInsets.symmetric(
