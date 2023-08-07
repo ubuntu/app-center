@@ -17,56 +17,66 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(kPagePadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const YaruBackButton(),
-              Text(
-                l10n.searchPageTitle(query),
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Text(l10n.searchPageSortByLabel),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Consumer(builder: (context, ref, child) {
-                      final sortOrder = ref.watch(sortOrderProvider);
-                      return MenuButtonBuilder<SnapSortOrder>(
-                        values: SnapSortOrder.values,
-                        itemBuilder: (context, sortOrder, child) =>
-                            Text(sortOrder.localize(l10n)),
-                        onSelected: (value) =>
-                            ref.read(sortOrderProvider.notifier).state = value,
-                        child: Text(sortOrder.localize(l10n)),
-                      );
-                    }),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-        Expanded(child: Consumer(builder: (context, ref, child) {
-          final results = ref.watch(sortedSearchProvider(query));
-          return results.when(
-            data: (data) => SnapGrid(
-              snaps: data,
-              onTap: (snap) =>
-                  StoreNavigator.pushSearchDetail(context, query, snap.name),
+    return ResponsiveLayoutBuilder(
+      builder: (context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: kPagePadding) +
+                ResponsiveLayout.of(context).padding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const YaruBackButton(),
+                Text(
+                  l10n.searchPageTitle(query),
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Text(l10n.searchPageSortByLabel),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Consumer(builder: (context, ref, child) {
+                        final sortOrder = ref.watch(sortOrderProvider);
+                        return MenuButtonBuilder<SnapSortOrder>(
+                          values: SnapSortOrder.values,
+                          itemBuilder: (context, sortOrder, child) =>
+                              Text(sortOrder.localize(l10n)),
+                          onSelected: (value) => ref
+                              .read(sortOrderProvider.notifier)
+                              .state = value,
+                          child: Text(sortOrder.localize(l10n)),
+                        );
+                      }),
+                    ),
+                  ],
+                )
+              ],
             ),
-            error: (error, stack) => ErrorWidget(error),
-            loading: () => const Center(child: YaruCircularProgressIndicator()),
-          );
-        })),
-      ],
+          ),
+          Expanded(
+            child: Consumer(builder: (context, ref, child) {
+              final results = ref.watch(sortedSearchProvider(query));
+              return results.when(
+                data: (data) => ResponsiveLayoutScrollView(
+                  slivers: [
+                    SnapGrid(
+                      snaps: data,
+                      onTap: (snap) => StoreNavigator.pushSearchDetail(
+                          context, query, snap.name),
+                    ),
+                  ],
+                ),
+                error: (error, stack) => ErrorWidget(error),
+                loading: () =>
+                    const Center(child: YaruCircularProgressIndicator()),
+              );
+            }),
+          ),
+        ],
+      ),
     );
   }
 }
