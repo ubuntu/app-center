@@ -33,11 +33,7 @@ dependencies:
   ubuntu_localizations: ^0.3.3
   ubuntu_service: ^0.2.2
   ubuntu_test: ^0.1.0-0
-  ubuntu_widgets:
-    git:
-      url: https://github.com/canonical/ubuntu-flutter-plugins.git
-      ref: 354338ecd8c49d3c786b04ce859c0f755d69da36
-      path: packages/ubuntu_widgets
+  ubuntu_widgets: ^0.2.0
   url_launcher: ^6.1.12
   xdg_directories: ^1.0.0
   yaru: ^0.9.0
