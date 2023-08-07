@@ -178,3 +178,31 @@ class _BannerIconState extends State<_BannerIcon> {
     );
   }
 }
+
+class _CategoryList extends StatelessWidget {
+  const _CategoryList();
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverGrid.count(
+      mainAxisSpacing: kCardSpacing,
+      crossAxisSpacing: kCardSpacing,
+      childAspectRatio: 6,
+      crossAxisCount: ResponsiveLayout.of(context).snapInfoColumnCount,
+      children: SnapCategoryEnum.values
+          .where((category) => category != SnapCategoryEnum.unknown)
+          .map((category) => InkWell(
+                // TODO: push search/category page
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(category.getIcon(false)),
+                    const SizedBox(width: 8),
+                    Text(category.localize(AppLocalizations.of(context)))
+                  ],
+                ),
+              ))
+          .toList(),
+    );
+  }
+}
