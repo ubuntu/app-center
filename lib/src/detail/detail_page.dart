@@ -113,7 +113,7 @@ class _SnapView extends ConsumerWidget {
     final layout = ResponsiveLayout.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24),
+      padding: const EdgeInsets.symmetric(vertical: kPagePadding),
       child: Column(
         children: [
           SizedBox(
@@ -377,7 +377,7 @@ class _Header extends StatelessWidget {
               ),
           ],
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: kPagePadding),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

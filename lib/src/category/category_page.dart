@@ -17,13 +17,16 @@ class CategoryPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final featured = ref.watch(categoryProvider(category));
     return featured.when(
-      data: (data) => ResponsiveLayoutScrollView(
-        slivers: [
-          SnapGrid(
-            snaps: data,
-            onTap: (snap) => StoreNavigator.pushDetail(context, snap.name),
-          ),
-        ],
+      data: (data) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: kPagePadding),
+        child: ResponsiveLayoutScrollView(
+          slivers: [
+            SnapGrid(
+              snaps: data,
+              onTap: (snap) => StoreNavigator.pushDetail(context, snap.name),
+            ),
+          ],
+        ),
       ),
       error: (error, stack) => ErrorWidget(error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),

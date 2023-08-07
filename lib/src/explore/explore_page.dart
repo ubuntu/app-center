@@ -81,7 +81,7 @@ class _Banner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 24),
+      margin: const EdgeInsets.symmetric(vertical: kPagePadding),
       padding: const EdgeInsets.all(48),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
