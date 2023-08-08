@@ -73,7 +73,8 @@ void expectSnapInfos(
 
   final snapChannel = snap.channels[channel];
   if (snapChannel != null) {
-    expect(find.text(snapChannel.confinement.name), findsOneWidget);
+    expect(find.text(snapChannel.confinement.localize(tester.l10n)),
+        findsOneWidget);
     expect(find.text(tester.l10n.detailPageDownloadSizeLabel), findsOneWidget);
     expect(find.text(tester.context.formatByteSize(snapChannel.size)),
         findsOneWidget);

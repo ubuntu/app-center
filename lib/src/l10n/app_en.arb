@@ -90,5 +90,8 @@
     "snapCategorySecurity": "Security",
     "snapCategoryServerAndCloud": "Server and Cloud",
     "snapCategorySocial": "Social",
-    "snapCategoryUtilities": "Utilities"
+    "snapCategoryUtilities": "Utilities",
+    "snapConfinementClassic": "Classic",
+    "snapConfinementDevmode": "Devmode",
+    "snapConfinementStrict": "Strict"
 }
