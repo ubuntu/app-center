@@ -64,9 +64,20 @@ class _SnapView extends ConsumerWidget {
       ), // Placeholder
       (
         label: l10n.detailPageConfinementLabel,
-        value: Text(
-          snapModel.channelInfo?.confinement.name ??
-              snapModel.snap.confinement.name,
+        value: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              snapModel.channelInfo?.confinement.localize(l10n) ??
+                  snapModel.snap.confinement.localize(l10n),
+            ),
+            if ((snapModel.channelInfo?.confinement ??
+                    snapModel.snap.confinement) ==
+                SnapConfinement.strict) ...const [
+              SizedBox(width: 2),
+              Icon(YaruIcons.shield, size: 12),
+            ],
+          ],
         ),
       ),
       (
@@ -510,5 +521,14 @@ extension SnapdChangeL10n on SnapdChange {
         'install-snap' => l10n.snapActionInstallingLabel,
         'remove-snap' => l10n.snapActionRemovingLabel,
         _ => null,
+      };
+}
+
+extension SnapConfinementL10n on SnapConfinement {
+  String localize(AppLocalizations l10n) => switch (this) {
+        SnapConfinement.classic => l10n.snapConfinementClassic,
+        SnapConfinement.devmode => l10n.snapConfinementDevmode,
+        SnapConfinement.strict => l10n.snapConfinementStrict,
+        _ => name,
       };
 }
