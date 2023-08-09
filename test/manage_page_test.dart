@@ -78,14 +78,18 @@ void main() {
     final testTile = find.snapTile('Test Snap');
     final testTile2 = find.snapTile('Another Test Snap');
 
-    final openButton = find.descendant(
-      of: testTile,
-      matching: find.buttonWithText(tester.l10n.snapActionOpenLabel),
-    );
-    final openButton2 = find.descendant(
-      of: testTile2,
-      matching: find.buttonWithText(tester.l10n.snapActionOpenLabel),
-    );
+    final openButton = find
+        .descendant(
+          of: testTile,
+          matching: find.buttonWithText(tester.l10n.snapActionOpenLabel),
+        )
+        .hitTestable();
+    final openButton2 = find
+        .descendant(
+          of: testTile2,
+          matching: find.buttonWithText(tester.l10n.snapActionOpenLabel),
+        )
+        .hitTestable();
 
     expect(openButton, findsOneWidget);
     expect(openButton2, findsNothing);

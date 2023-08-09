@@ -10,7 +10,7 @@ final updatesModelProvider = ChangeNotifierProvider(
 );
 
 class UpdatesModel extends ChangeNotifier {
-  UpdatesModel(this.snapd);
+  UpdatesModel(this.snapd) : _state = const AsyncValue.loading();
   final SnapdService snapd;
   Iterable<String> get refreshableSnapNames =>
       _refreshableSnaps?.map((snap) => snap.name) ?? const Iterable.empty();
@@ -20,9 +20,16 @@ class UpdatesModel extends ChangeNotifier {
   String? get activeChangeId => _activeChangeId;
   String? _activeChangeId;
 
+  AsyncValue<void> get state => _state;
+  AsyncValue<void> _state;
+
   Future<void> refresh() async {
-    _refreshableSnaps = await snapd.find(filter: SnapFindFilter.refresh);
+    _state = const AsyncValue.loading();
     notifyListeners();
+    _state = await AsyncValue.guard(() async {
+      _refreshableSnaps = await snapd.find(filter: SnapFindFilter.refresh);
+      notifyListeners();
+    });
   }
 
   bool hasUpdate(String snapName) => refreshableSnapNames.contains(snapName);
@@ -35,6 +42,5 @@ class UpdatesModel extends ChangeNotifier {
     await snapd.waitChange(changeId);
     _activeChangeId = null;
     await refresh();
-    notifyListeners();
   }
 }
