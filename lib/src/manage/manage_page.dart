@@ -182,15 +182,24 @@ class _ManageSnapTile extends ConsumerWidget {
             side: border,
           ),
       },
-      leading: SnapIcon(iconUrl: snap.iconUrl, size: 40),
+      leading: Clickable(
+        onTap: () => StoreNavigator.pushDetail(context, snap.name),
+        child: SnapIcon(iconUrl: snap.iconUrl, size: 40),
+      ),
       title: Row(
         children: [
           Expanded(
             flex: 2,
-            child: Text(
-              snap.titleOrName,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Clickable(
+                onTap: () => StoreNavigator.pushDetail(context, snap.name),
+                child: Text(
+                  snap.titleOrName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ),
           ),
           Expanded(
@@ -244,7 +253,6 @@ class _ManageSnapTile extends ConsumerWidget {
           )
         ],
       ),
-      onTap: () => StoreNavigator.pushDetail(context, snap.name),
     );
   }
 }
