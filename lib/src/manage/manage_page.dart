@@ -52,20 +52,30 @@ class _ManageView extends ConsumerWidget {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 48),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    l10n.managePageUpdatesAvailable(
-                        manageModel.refreshableSnaps.length),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(fontWeight: FontWeight.w500),
-                  ),
-                  const Flexible(child: _ActionButtons()),
-                ],
-              ),
+              Builder(builder: (context) {
+                final compact = ResponsiveLayout.of(context).type ==
+                    ResponsiveLayoutType.small;
+                return Flex(
+                  direction: compact ? Axis.vertical : Axis.horizontal,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: compact
+                      ? CrossAxisAlignment.start
+                      : CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      l10n.managePageUpdatesAvailable(
+                          manageModel.refreshableSnaps.length),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(fontWeight: FontWeight.w500),
+                    ),
+                    if (compact) const SizedBox(height: 16),
+                    const Flexible(child: _ActionButtons()),
+                  ],
+                );
+              }),
               const SizedBox(height: 24),
               if (manageModel.refreshableSnaps.isEmpty)
                 Text(
@@ -138,7 +148,8 @@ class _ActionButtons extends ConsumerWidget {
       error: (_, __) => ('', const SizedBox.shrink()),
     );
 
-    return ButtonBar(
+    return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         PushButton.outlined(
           onPressed: ref.read(updatesModelProvider).refresh,
@@ -157,6 +168,7 @@ class _ActionButtons extends ConsumerWidget {
             ],
           ),
         ),
+        const SizedBox(width: 8),
         PushButton.elevated(
           onPressed: updatesModel.refreshableSnapNames.isNotEmpty
               ? ref.read(updatesModelProvider).updateAll
@@ -248,35 +260,68 @@ class _ManageSnapTile extends ConsumerWidget {
               ),
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: daysSinceUpdate != null
-                ? Text(
-                    l10n.managePageUpdatedDaysAgo(daysSinceUpdate),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  )
-                : const SizedBox(),
-          ),
-          Expanded(
-            child: snap.installedSize != null
-                ? Text(
-                    context.formatByteSize(
-                      snap.installedSize!,
-                      precision: 0,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  )
-                : const SizedBox(),
-          ),
+          if (ResponsiveLayout.of(context).type !=
+              ResponsiveLayoutType.small) ...[
+            Expanded(
+              flex: 2,
+              child: daysSinceUpdate != null
+                  ? Text(
+                      l10n.managePageUpdatedDaysAgo(daysSinceUpdate),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  : const SizedBox(),
+            ),
+            Expanded(
+              child: snap.installedSize != null
+                  ? Text(
+                      context.formatByteSize(
+                        snap.installedSize!,
+                        precision: 0,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  : const SizedBox(),
+            ),
+          ],
         ],
       ),
-      subtitle: Row(
+      subtitle: Column(
         children: [
-          Text(snap.channel),
-          const SizedBox(width: 4),
-          Text(snap.version),
+          Row(
+            children: [
+              Text(snap.channel),
+              const SizedBox(width: 4),
+              Text(snap.version),
+            ],
+          ),
+          if (ResponsiveLayout.of(context).type == ResponsiveLayoutType.small)
+            Row(
+              children: [
+                Expanded(
+                  child: daysSinceUpdate != null
+                      ? Text(
+                          l10n.managePageUpdatedDaysAgo(daysSinceUpdate),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      : const SizedBox(),
+                ),
+                Expanded(
+                  child: snap.installedSize != null
+                      ? Text(
+                          context.formatByteSize(
+                            snap.installedSize!,
+                            precision: 0,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      : const SizedBox(),
+                ),
+              ],
+            )
         ],
       ),
       trailing: ButtonBar(
