@@ -292,10 +292,26 @@ class _ManageSnapTile extends ConsumerWidget {
               child: Text(l10n.snapActionOpenLabel),
             ),
           ),
-          // TODO: seconday actions
-          YaruOptionButton(
-            onPressed: () {},
-            child: const Icon(YaruIcons.view_more_horizontal),
+          MenuAnchor(
+            menuChildren: [
+              MenuItemButton(
+                onPressed: () => StoreNavigator.pushDetail(context, snap.name),
+                child: Text(
+                  l10n.managePageShowDetailsLabel,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              )
+            ],
+            builder: (context, controller, child) => YaruOptionButton(
+              onPressed: () {
+                if (controller.isOpen) {
+                  controller.close();
+                } else {
+                  controller.open();
+                }
+              },
+              child: const Icon(YaruIcons.view_more_horizontal),
+            ),
           )
         ],
       ),
