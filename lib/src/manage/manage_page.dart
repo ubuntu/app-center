@@ -22,12 +22,8 @@ class ManagePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final manageModel = ref.watch(manageModelProvider);
-    final updatesModel = ref.watch(updatesModelProvider);
     return manageModel.state.when(
-      data: (_) => _ManageView(
-        manageModel: manageModel,
-        updatesModel: updatesModel,
-      ),
+      data: (_) => _ManageView(manageModel: manageModel),
       error: (error, stack) => ErrorWidget(error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
@@ -35,9 +31,8 @@ class ManagePage extends ConsumerWidget {
 }
 
 class _ManageView extends ConsumerWidget {
-  const _ManageView({required this.manageModel, required this.updatesModel});
+  const _ManageView({required this.manageModel});
   final ManageModel manageModel;
-  final UpdatesModel updatesModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -68,20 +63,7 @@ class _ManageView extends ConsumerWidget {
                         .titleMedium!
                         .copyWith(fontWeight: FontWeight.w500),
                   ),
-                  ButtonBar(
-                    children: [
-                      if (manageModel.refreshableSnaps.isNotEmpty)
-                        PushButton.elevated(
-                          onPressed: updatesModel.updateAll,
-                          child: Row(
-                            children: [
-                              const Icon(YaruIcons.download),
-                              Text(l10n.managePageUpdateAllLabel),
-                            ],
-                          ),
-                        ),
-                    ],
-                  ),
+                  const Flexible(child: _ActionButtons()),
                 ],
               ),
               const SizedBox(height: 24),
@@ -131,6 +113,70 @@ class _ManageView extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ActionButtons extends ConsumerWidget {
+  const _ActionButtons();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final updatesModel = ref.watch(updatesModelProvider);
+    final (label, icon) = updatesModel.state.when(
+      data: (_) => (l10n.managePageCheckForUpdates, const Icon(YaruIcons.sync)),
+      loading: () => (
+        l10n.managePageCheckingForUpdates,
+        const SizedBox(
+          height: 24,
+          child: YaruCircularProgressIndicator(
+            strokeWidth: 4,
+          ),
+        ),
+      ),
+      error: (_, __) => ('', const SizedBox.shrink()),
+    );
+
+    return ButtonBar(
+      children: [
+        PushButton.outlined(
+          onPressed: ref.read(updatesModelProvider).refresh,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              icon,
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+        PushButton.elevated(
+          onPressed: updatesModel.refreshableSnapNames.isNotEmpty
+              ? ref.read(updatesModelProvider).updateAll
+              : null,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(YaruIcons.download),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  l10n.managePageUpdateAllLabel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
