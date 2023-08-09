@@ -119,6 +119,7 @@ MockUpdatesModel createMockUpdatesModel(
       .thenReturn(refreshableSnapNames ?? const Iterable.empty());
   when(model.hasUpdate(any)).thenAnswer((i) =>
       refreshableSnapNames?.contains(i.positionalArguments.single) ?? false);
+  when(model.state).thenReturn(AsyncValue.data(() {}()));
   return model;
 }
 

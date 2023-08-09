@@ -876,6 +876,14 @@ class MockUpdatesModel extends _i1.Mock implements _i4.UpdatesModel {
         returnValue: <String>[],
       ) as Iterable<String>);
   @override
+  _i5.AsyncValue<void> get state => (super.noSuchMethod(
+        Invocation.getter(#state),
+        returnValue: _FakeAsyncValue_3<void>(
+          this,
+          Invocation.getter(#state),
+        ),
+      ) as _i5.AsyncValue<void>);
+  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
