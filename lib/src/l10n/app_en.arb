@@ -20,8 +20,29 @@
     "detailPageSummaryLabel": "Summary",
     "detailPageVersionLabel": "Version",
     "explorePageLabel": "Explore",
+    "managePageCheckForUpdates": "Check for updates",
+    "managePageCheckingForUpdates": "Checking for updates",
+    "managePageDescription": "Check for available updates, update your apps, and manage the status of all your apps.",
+    "managePageInstalledAndUpdatedLabel": "Installed and updated",
     "managePageLabel": "Manage",
+    "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
     "managePageUpdateAllLabel": "Update All",
+    "managePageUpdatedDaysAgo": "Updated {n} days ago",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "Updates Available ({n})",
+    "@managePageUpdatesAvaialble": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
     "productivityPageLabel": "Productivity",
     "developmentPageLabel": "Development",
     "gamesPageLabel": "Games",
