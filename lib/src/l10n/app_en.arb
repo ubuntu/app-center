@@ -20,6 +20,8 @@
     "detailPageSummaryLabel": "Summary",
     "detailPageVersionLabel": "Version",
     "explorePageLabel": "Explore",
+    "managePageCheckForUpdates": "Check for updates",
+    "managePageCheckingForUpdates": "Checking for updates",
     "managePageDescription": "Check for available updates, update your apps, and manage the status of all your apps.",
     "managePageInstalledAndUpdatedLabel": "Installed and updated",
     "managePageLabel": "Manage",
