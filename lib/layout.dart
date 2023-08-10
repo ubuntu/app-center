@@ -13,22 +13,34 @@ const kCardSizeWide = Size(548.0, 170.0);
 const kBreakPointSmall = 1280.0;
 const kBreakPointLarge = 1680.0;
 
+enum ResponsiveLayoutType {
+  small,
+  medium,
+  large,
+}
+
 class ResponsiveLayout extends InheritedWidget {
   ResponsiveLayout({
     super.key,
     required this.constraints,
     required super.child,
   }) {
-    final (cardColumnCount, cardSize, snapInfoColumnCount) =
+    final (cardColumnCount, cardSize, snapInfoColumnCount, type) =
         switch (constraints.maxWidth + kPaneWidth + 1) {
       // 1px for YaruNavigationRail's separator
-      < kBreakPointSmall => (1, kCardSizeWide, 3),
-      < kBreakPointLarge => (2, kCardSizeNormal, 4),
-      _ => (3, kCardSizeNormal, 6),
+      < kBreakPointSmall => (1, kCardSizeWide, 3, ResponsiveLayoutType.small),
+      < kBreakPointLarge => (
+          2,
+          kCardSizeNormal,
+          4,
+          ResponsiveLayoutType.medium
+        ),
+      _ => (3, kCardSizeNormal, 6, ResponsiveLayoutType.large),
     };
     this.cardColumnCount = cardColumnCount;
     this.cardSize = cardSize;
     this.snapInfoColumnCount = snapInfoColumnCount;
+    this.type = type;
   }
 
   final BoxConstraints constraints;
@@ -36,6 +48,7 @@ class ResponsiveLayout extends InheritedWidget {
   late final int cardColumnCount;
   late final Size cardSize;
   late final int snapInfoColumnCount;
+  late final ResponsiveLayoutType type;
 
   double get totalWidth =>
       cardColumnCount * cardSize.width + // cards
