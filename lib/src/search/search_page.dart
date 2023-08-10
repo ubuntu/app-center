@@ -58,7 +58,8 @@ class SearchPage extends StatelessWidget {
           ),
           Expanded(
             child: Consumer(builder: (context, ref, child) {
-              final results = ref.watch(sortedSearchProvider(query));
+              final results = ref.watch(
+                  sortedSearchProvider(SnapSearchParameters(query: query)));
               return results.when(
                 data: (data) => ResponsiveLayoutScrollView(
                   slivers: [

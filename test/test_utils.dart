@@ -1,4 +1,5 @@
 import 'package:app_store/l10n.dart';
+import 'package:app_store/search.dart';
 import 'package:app_store/snapd.dart';
 import 'package:app_store/src/manage/manage_model.dart';
 import 'package:collection/collection.dart';
@@ -23,10 +24,14 @@ extension WidgetTesterX on WidgetTester {
   }
 }
 
-List<Snap> Function(String) createMockSearchProvider(
+List<Snap> Function(SnapSearchParameters) createMockSearchProvider(
     Map<String, List<Snap>> queries) {
-  return (String query) =>
-      queries.entries.firstWhereOrNull((e) => e.key.contains(query))?.value ??
+  return (SnapSearchParameters searchParameters) =>
+      queries.entries
+          .firstWhereOrNull((e) => searchParameters.query != null
+              ? e.key.contains(searchParameters.query!)
+              : false)
+          ?.value ??
       [];
 }
 
