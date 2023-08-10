@@ -23,7 +23,8 @@ class CategoryPage extends ConsumerWidget {
           slivers: [
             SnapGrid(
               snaps: data,
-              onTap: (snap) => StoreNavigator.pushDetail(context, snap.name),
+              onTap: (snap) =>
+                  StoreNavigator.pushDetail(context, name: snap.name),
             ),
           ],
         ),

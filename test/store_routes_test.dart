@@ -39,9 +39,9 @@ void main() {
     expect(
         StoreRoutes.namedRoute('/foo', {'bar': 'baz'}), equals('/foo?bar=baz'));
 
-    expect(StoreRoutes.namedDetail('foo'), equals('/detail?snap=foo'));
-    expect(StoreRoutes.namedSearch('bar'), equals('/search?query=bar'));
-    expect(StoreRoutes.namedSearchDetail('bar', 'foo'),
+    expect(StoreRoutes.namedDetail(name: 'foo'), equals('/detail?snap=foo'));
+    expect(StoreRoutes.namedSearch(query: 'bar'), equals('/search?query=bar'));
+    expect(StoreRoutes.namedSearchDetail(query: 'bar', name: 'foo'),
         equals('/detail?snap=foo&query=bar'));
   });
 }

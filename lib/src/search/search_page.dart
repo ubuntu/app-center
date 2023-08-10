@@ -5,14 +5,17 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
 import '/layout.dart';
+import '/snapd.dart';
 import '/store.dart';
 import '/widgets.dart';
 import 'search_provider.dart';
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({super.key, required this.query});
+  const SearchPage({super.key, this.query, String? category})
+      : initialCategory = category;
 
-  final String query;
+  final String? query;
+  final String? initialCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +31,16 @@ class SearchPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const YaruBackButton(),
-                Text(
-                  l10n.searchPageTitle(query),
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
+                if (query != null)
+                  Text(
+                    l10n.searchPageTitle(query!),
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                if (initialCategory != null)
+                  Text(
+                    initialCategory!.toSnapCategoryEnum().localize(l10n),
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -58,15 +67,26 @@ class SearchPage extends StatelessWidget {
           ),
           Expanded(
             child: Consumer(builder: (context, ref, child) {
+              final category = ref.watch(
+                  categoryProvider(initialCategory?.toSnapCategoryEnum()));
               final results = ref.watch(
-                  sortedSearchProvider(SnapSearchParameters(query: query)));
+                sortedSearchProvider(
+                  SnapSearchParameters(
+                    query: query,
+                    category: category,
+                  ),
+                ),
+              );
               return results.when(
                 data: (data) => ResponsiveLayoutScrollView(
                   slivers: [
                     SnapGrid(
                       snaps: data,
                       onTap: (snap) => StoreNavigator.pushSearchDetail(
-                          context, query, snap.name),
+                        context,
+                        name: snap.name,
+                        query: query,
+                      ),
                     ),
                   ],
                 ),

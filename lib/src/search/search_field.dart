@@ -105,7 +105,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
       fieldViewBuilder: (context, controller, node, onFieldSubmitted) {
         return Consumer(builder: (context, ref, child) {
           ref.listen(queryProvider, (prev, next) {
-            if (!node.hasPrimaryFocus) controller.text = next;
+            if (!node.hasPrimaryFocus) controller.text = next ?? '';
           });
           const iconConstraints = BoxConstraints(
             minWidth: 32,

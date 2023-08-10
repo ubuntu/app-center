@@ -22,24 +22,47 @@ void main() {
     ));
 
     final context = tester.element(find.byType(Scaffold));
-    unawaited(StoreNavigator.pushDetail(context, 'foo'));
+    unawaited(StoreNavigator.pushDetail(context, name: 'foo'));
     await tester.pump();
     expect(
-        generatedRoutes, expectedRoutes..add(StoreRoutes.namedDetail('foo')));
+      generatedRoutes,
+      expectedRoutes..add(StoreRoutes.namedDetail(name: 'foo')),
+    );
 
-    unawaited(StoreNavigator.pushSearch(context, 'bar'));
+    unawaited(
+      StoreNavigator.pushSearch(context, query: 'bar', category: 'baz'),
+    );
     await tester.pump();
     expect(
-        generatedRoutes, expectedRoutes..add(StoreRoutes.namedSearch('bar')));
+      generatedRoutes,
+      expectedRoutes
+        ..add(StoreRoutes.namedSearch(query: 'bar', category: 'baz')),
+    );
 
-    unawaited(Navigator.of(context).pushAndRemoveSearch('bar'));
+    unawaited(
+      Navigator.of(context).pushAndRemoveSearch(query: 'bar', category: 'baz'),
+    );
     await tester.pump();
     expect(
-        generatedRoutes, expectedRoutes..add(StoreRoutes.namedSearch('bar')));
+      generatedRoutes,
+      expectedRoutes
+        ..add(StoreRoutes.namedSearch(query: 'bar', category: 'baz')),
+    );
 
-    unawaited(StoreNavigator.pushSearchDetail(context, 'bar', 'foo'));
+    unawaited(
+      StoreNavigator.pushSearchDetail(
+        context,
+        name: 'foo',
+        query: 'bar',
+        category: 'baz',
+      ),
+    );
     await tester.pump();
-    expect(generatedRoutes,
-        expectedRoutes..add(StoreRoutes.namedSearchDetail('bar', 'foo')));
+    expect(
+      generatedRoutes,
+      expectedRoutes
+        ..add(StoreRoutes.namedSearchDetail(
+            name: 'foo', query: 'bar', category: 'baz')),
+    );
   });
 }
