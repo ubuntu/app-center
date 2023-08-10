@@ -64,7 +64,7 @@ class SnapTitle extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: snap.categories
-                .whereNot((c) => c.name == 'featured')
+                .whereNot((c) => c.categoryEnum == SnapCategoryEnum.featured)
                 .map((c) => Text(c.categoryEnum.localize(l10n)))
                 .separatedBy(const Text(', ')),
           )

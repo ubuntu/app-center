@@ -32,12 +32,12 @@ String? _parseRoute(List<String>? args) {
 
     final query = result['search'] as String?;
     if (query != null) {
-      return StoreRoutes.namedSearch(query);
+      return StoreRoutes.namedSearch(query: query);
     }
 
     final snap = result['snap'] as String? ?? result.rest.singleOrNull;
     if (snap != null) {
-      return StoreRoutes.namedDetail(snap);
+      return StoreRoutes.namedDetail(name: snap);
     }
   } on FormatException {
     // TODO: print usage

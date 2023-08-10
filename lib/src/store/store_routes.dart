@@ -13,6 +13,9 @@ abstract class StoreRoutes {
   static String routeOf(RouteSettings route) =>
       Uri.parse(route.name ?? '').path;
 
+  static String? categoryOf(RouteSettings route) =>
+      Uri.parse(route.name ?? '').queryParameters['category'];
+
   static String? detailOf(RouteSettings route) =>
       Uri.parse(route.name ?? '').queryParameters['snap'];
 
@@ -23,15 +26,26 @@ abstract class StoreRoutes {
     return Uri(path: path, queryParameters: params).toString();
   }
 
-  static String namedDetail(String name) {
+  static String namedDetail({required String name}) {
     return namedRoute(StoreRoutes.detail, {'snap': name});
   }
 
-  static String namedSearch(String query) {
-    return namedRoute(StoreRoutes.search, {'query': query});
+  static String namedSearch({String? query, String? category}) {
+    return namedRoute(StoreRoutes.search, {
+      if (query != null) 'query': query,
+      if (category != null) 'category': category,
+    });
   }
 
-  static String namedSearchDetail(String query, String name) {
-    return namedRoute(StoreRoutes.detail, {'snap': name, 'query': query});
+  static String namedSearchDetail({
+    required String name,
+    String? query,
+    String? category,
+  }) {
+    return namedRoute(StoreRoutes.detail, {
+      'snap': name,
+      if (query != null) 'query': query,
+      if (category != null) 'category': category,
+    });
   }
 }
