@@ -72,7 +72,8 @@ class _StoreAppState extends ConsumerState<StoreApp> {
               StoreRoutes.search => MaterialPageRoute(
                   settings: settings,
                   builder: (_) => SearchPage(
-                    query: StoreRoutes.queryOf(settings)!,
+                    query: StoreRoutes.queryOf(settings),
+                    category: StoreRoutes.categoryOf(settings),
                   ),
                 ),
               _ => null,

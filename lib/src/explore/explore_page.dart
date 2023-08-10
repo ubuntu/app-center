@@ -200,7 +200,8 @@ class _CategoryList extends StatelessWidget {
       children: SnapCategoryEnum.values
           .where((category) => category != SnapCategoryEnum.unknown)
           .map((category) => InkWell(
-                // TODO: push search/category page
+                onTap: () => StoreNavigator.pushSearch(context,
+                    category: category.categoryName),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
