@@ -26,6 +26,7 @@
     "managePageInstalledAndUpdatedLabel": "Installed and updated",
     "managePageLabel": "Manage",
     "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
+    "managePageShowDetailsLabel": "Show details",
     "managePageUpdateAllLabel": "Update All",
     "managePageUpdatedDaysAgo": "Updated {n} days ago",
     "@managePageUpdatedDaysAgo": {
