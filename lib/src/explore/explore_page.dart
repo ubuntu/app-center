@@ -34,7 +34,8 @@ class ExplorePage extends ConsumerWidget {
           ]),
           SnapGrid(
             snaps: data.take(6).toList(),
-            onTap: (snap) => StoreNavigator.pushDetail(context, snap.name),
+            onTap: (snap) =>
+                StoreNavigator.pushDetail(context, name: snap.name),
           ),
           SliverList.list(children: const [
             SizedBox(height: 56),
@@ -149,7 +150,7 @@ class _BannerIconState extends State<_BannerIcon> {
       verticalOffset: _kMaxSize / 2,
       message: widget.snap.titleOrName,
       child: InkWell(
-        onTap: () => StoreNavigator.pushDetail(context, widget.snap.name),
+        onTap: () => StoreNavigator.pushDetail(context, name: widget.snap.name),
         onHover: (hover) {
           setState(() => scale = hover ? _kScaleLarge : 1.0);
         },

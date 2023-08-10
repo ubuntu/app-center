@@ -24,17 +24,24 @@ class SnapSearchParameters {
 final searchProvider =
     FutureProvider.family((ref, SnapSearchParameters searchParameters) {
   final snapd = getService<SnapdService>();
-  return snapd.find(query: searchParameters.query);
+  return snapd.find(
+    query: searchParameters.query,
+    category: searchParameters.category?.categoryName,
+  );
 });
 
-final queryProvider = StateProvider<String>((_) => '');
+final queryProvider = StateProvider<String?>((_) => null);
+
+final categoryProvider = StateProvider.family
+    .autoDispose<SnapCategoryEnum?, SnapCategoryEnum?>(
+        (ref, initialValue) => initialValue);
 
 final autoCompleteProvider = FutureProvider((ref) async {
   final query = ref.watch(queryProvider);
   final completer = Completer();
   ref.onDispose(completer.complete);
   await Future.delayed(const Duration(milliseconds: 100));
-  if (query.isNotEmpty && !completer.isCompleted) {
+  if ((query?.isNotEmpty ?? true) && !completer.isCompleted) {
     return ref.watch(searchProvider(SnapSearchParameters(query: query)).future);
   }
   return [];

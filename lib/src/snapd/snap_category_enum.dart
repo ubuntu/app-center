@@ -5,8 +5,12 @@ import 'package:yaru_icons/yaru_icons.dart';
 import '/l10n.dart';
 
 extension SnapCategoryX on SnapCategory {
-  SnapCategoryEnum get categoryEnum => SnapCategoryEnum.values.byName(
-        name.replaceAllMapped(
+  SnapCategoryEnum get categoryEnum => name.toSnapCategoryEnum();
+}
+
+extension StringX on String {
+  SnapCategoryEnum toSnapCategoryEnum() => SnapCategoryEnum.values.byName(
+        replaceAllMapped(
           RegExp(r'-(.)'),
           (match) => match[1]!.toUpperCase(),
         ),

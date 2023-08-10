@@ -43,8 +43,9 @@ class _StoreAppState extends ConsumerState<StoreApp> {
             title: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: kSearchBarWidth),
               child: SearchField(
-                onSearch: (query) => _navigator.pushAndRemoveSearch(query),
-                onSelected: (name) => _navigator.pushDetail(name),
+                onSearch: (query) =>
+                    _navigator.pushAndRemoveSearch(query: query),
+                onSelected: (name) => _navigator.pushDetail(name: name),
               ),
             ),
           ),
