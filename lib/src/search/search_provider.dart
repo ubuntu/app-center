@@ -21,15 +21,15 @@ class SnapSearchParameters {
   int get hashCode => Object.hash(query, category);
 }
 
-final searchProvider = FutureProvider.family
-    .autoDispose((ref, SnapSearchParameters searchParameters) {
+final searchProvider =
+    FutureProvider.family((ref, SnapSearchParameters searchParameters) {
   final snapd = getService<SnapdService>();
   return snapd.find(query: searchParameters.query);
 });
 
 final queryProvider = StateProvider<String>((_) => '');
 
-final autoCompleteProvider = FutureProvider.autoDispose((ref) async {
+final autoCompleteProvider = FutureProvider((ref) async {
   final query = ref.watch(queryProvider);
   final completer = Completer();
   ref.onDispose(completer.complete);
