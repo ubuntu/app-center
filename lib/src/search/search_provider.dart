@@ -6,20 +6,36 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '/snapd.dart';
 
-final searchProvider = FutureProvider.family((ref, String query) {
+class SnapSearchParameters {
+  const SnapSearchParameters({this.query, this.category});
+  final String? query;
+  final SnapCategoryEnum? category;
+
+  @override
+  bool operator ==(Object other) =>
+      other is SnapSearchParameters &&
+      other.query == query &&
+      other.category == category;
+
+  @override
+  int get hashCode => Object.hash(query, category);
+}
+
+final searchProvider = FutureProvider.family
+    .autoDispose((ref, SnapSearchParameters searchParameters) {
   final snapd = getService<SnapdService>();
-  return snapd.find(query: query);
+  return snapd.find(query: searchParameters.query);
 });
 
 final queryProvider = StateProvider<String>((_) => '');
 
-final autoCompleteProvider = FutureProvider((ref) async {
+final autoCompleteProvider = FutureProvider.autoDispose((ref) async {
   final query = ref.watch(queryProvider);
   final completer = Completer();
   ref.onDispose(completer.complete);
   await Future.delayed(const Duration(milliseconds: 100));
   if (query.isNotEmpty && !completer.isCompleted) {
-    return ref.watch(searchProvider(query).future);
+    return ref.watch(searchProvider(SnapSearchParameters(query: query)).future);
   }
   return [];
 });
@@ -34,9 +50,9 @@ final sortOrderProvider = StateProvider.autoDispose((ref) {
   return SnapSortOrder.relevance;
 });
 
-final sortedSearchProvider =
-    FutureProvider.family.autoDispose((ref, String query) {
-  return ref.watch(searchProvider(query).future).then((snaps) {
+final sortedSearchProvider = FutureProvider.family
+    .autoDispose((ref, SnapSearchParameters searchParameters) {
+  return ref.watch(searchProvider(searchParameters).future).then((snaps) {
     final sortOrder = ref.watch(sortOrderProvider);
     if (sortOrder == SnapSortOrder.relevance) {
       return snaps;
