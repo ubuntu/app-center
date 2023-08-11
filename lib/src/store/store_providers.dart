@@ -5,6 +5,8 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'store_routes.dart';
 
+const _kUrlPrefix = 'snap://';
+
 final commandLineProvider = Provider.autoDispose((ref) {
   final app = getService<GtkApplicationNotifier>();
   void handleCommandLine(List<String> args) => ref.invalidateSelf();
@@ -28,6 +30,12 @@ String? _parseRoute(List<String>? args) {
   parser.addOption('search', valueHelp: 'query', help: 'Search for snaps');
 
   try {
+    if ((args?.isNotEmpty ?? false) && args![0].startsWith(_kUrlPrefix)) {
+      final snap = args[0].split(_kUrlPrefix)[1];
+      if (snap.isNotEmpty) {
+        return StoreRoutes.namedDetail(name: snap);
+      }
+    }
     final result = parser.parse(args ?? []);
 
     final query = result['search'] as String?;
