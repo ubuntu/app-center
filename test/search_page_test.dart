@@ -48,7 +48,8 @@ void main() {
       expect(find.text(tester.l10n.searchPageSortByLabel), findsOneWidget);
       expect(find.text(tester.l10n.searchPageRelevanceLabel), findsOneWidget);
 
-      final resultSnaps = tester.widget<SnapGrid>(find.byType(SnapGrid)).snaps;
+      final resultSnaps =
+          tester.widget<SnapCardGrid>(find.byType(SnapCardGrid)).snaps;
       expect(
           resultSnaps.map((snap) => snap.titleOrName).toList(),
           equals([
@@ -75,7 +76,8 @@ void main() {
       await tester.tap(find.text(tester.l10n.searchPageDownloadSizeLabel));
       await tester.pumpAndSettle();
 
-      final resultSnaps = tester.widget<SnapGrid>(find.byType(SnapGrid)).snaps;
+      final resultSnaps =
+          tester.widget<SnapCardGrid>(find.byType(SnapCardGrid)).snaps;
       expect(
           resultSnaps.map((snap) => snap.titleOrName).toList(),
           equals([
@@ -102,7 +104,8 @@ void main() {
       await tester.tap(find.text(tester.l10n.searchPageAlphabeticalLabel));
       await tester.pumpAndSettle();
 
-      final resultSnaps = tester.widget<SnapGrid>(find.byType(SnapGrid)).snaps;
+      final resultSnaps =
+          tester.widget<SnapCardGrid>(find.byType(SnapCardGrid)).snaps;
       expect(
           resultSnaps.map((snap) => snap.titleOrName).toList(),
           equals([

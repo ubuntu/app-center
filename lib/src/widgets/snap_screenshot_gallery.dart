@@ -186,8 +186,8 @@ class SafeNetworkImage extends StatelessWidget {
       imageUrl: url!,
       imageBuilder: (context, imageProvider) => Image(
         image: imageProvider,
-        filterQuality: FilterQuality.medium,
-        fit: BoxFit.fitHeight,
+        filterQuality: filterQuality,
+        fit: fit,
       ),
       placeholder: (context, url) => fallBack,
       errorWidget: (context, url, error) => fallBack,
