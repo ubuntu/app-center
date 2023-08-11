@@ -69,6 +69,8 @@ enum SnapCategoryEnum {
 
   String slogan(AppLocalizations l10n) => switch (this) {
         development => l10n.snapCategoryDevelopmentSlogan,
+        featured => l10n.snapCategoryFeaturedSlogan,
+        games => l10n.snapCategoryGamesSlogan,
         _ => '',
       };
 

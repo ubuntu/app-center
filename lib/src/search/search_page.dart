@@ -80,7 +80,7 @@ class SearchPage extends StatelessWidget {
               return results.when(
                 data: (data) => ResponsiveLayoutScrollView(
                   slivers: [
-                    SnapGrid(
+                    SnapCardGrid(
                       snaps: data,
                       onTap: (snap) => StoreNavigator.pushSearchDetail(
                         context,
