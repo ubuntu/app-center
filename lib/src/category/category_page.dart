@@ -21,7 +21,7 @@ class CategoryPage extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(vertical: kPagePadding),
         child: ResponsiveLayoutScrollView(
           slivers: [
-            SnapGrid(
+            SnapCardGrid(
               snaps: data,
               onTap: (snap) =>
                   StoreNavigator.pushDetail(context, name: snap.name),

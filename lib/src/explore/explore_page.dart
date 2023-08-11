@@ -32,7 +32,7 @@ class ExplorePage extends ConsumerWidget {
             _Title(text: 'Featured Snaps'),
             SizedBox(height: 24),
           ]),
-          SnapGrid(
+          SnapCardGrid(
             snaps: data.take(6).toList(),
             onTap: (snap) =>
                 StoreNavigator.pushDetail(context, name: snap.name),
