@@ -30,8 +30,8 @@ String? _parseRoute(List<String>? args) {
   parser.addOption('search', valueHelp: 'query', help: 'Search for snaps');
 
   try {
-    if ((args?.isNotEmpty ?? false) && args![0].startsWith(_kUrlPrefix)) {
-      final snap = args[0].split(_kUrlPrefix)[1];
+    if (args?.firstOrNull?.startsWith(_kUrlPrefix) ?? false) {
+      final snap = args!.first.split(_kUrlPrefix)[1];
       if (snap.isNotEmpty) {
         return StoreRoutes.namedDetail(name: snap);
       }
