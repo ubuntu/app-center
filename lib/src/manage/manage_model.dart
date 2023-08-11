@@ -6,7 +6,7 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '/snapd.dart';
 
-final manageModelProvider = ChangeNotifierProvider(
+final manageModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) => ManageModel(
     snapd: getService<SnapdService>(),
     updatesModel: ref.read(updatesModelProvider),
