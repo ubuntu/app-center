@@ -279,7 +279,7 @@
   "@attention": {},
   "refreshing": "リフレッシュ中",
   "@refreshing": {},
-  "appstreamSearchGreylist": "アプリ;アプリケーション;プログラム;パッケージ;ソフトウェア;ソフト;ソフトウェアスイート;ツール",
+  "appstreamSearchGreylist": "アプリ;アプリケーション;プログラム;パッケージ;ソフトウェア;ソフト;ソフトウェアスイート;ツール;ストア;インストール;アップデート;app;application;package;program;programme;suite;tool",
   "@appstreamSearchGreylist": {
     "description": "List of 'grey-listed' words separated with ';'. Do not translate this list directly. Instead, provide a list of words in your language that people are likely to include in a search but that should normally be ignored in the search."
   },
@@ -409,7 +409,7 @@
   "@confirmRemove": {},
   "multiUpdateButton": "すべてアップデート",
   "@multiUpdateButton": {},
-  "removeAll": "",
+  "removeAll": "全て削除",
   "@removeAll": {},
   "removePackage": "",
   "@removePackage": {
@@ -439,6 +439,6 @@
   "@appReviewsLowestRating": {},
   "appReviewsMostRecent": "新しい順",
   "@appReviewsMostRecent": {},
-  "appReviewsMostUseful": "",
+  "appReviewsMostUseful": "参考になる順",
   "@appReviewsMostUseful": {}
 }
