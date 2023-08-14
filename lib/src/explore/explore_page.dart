@@ -78,6 +78,8 @@ class ExplorePage extends ConsumerWidget {
   }
 }
 
+// TODO: promote private widgets to customizable stand-alone widgets
+
 class _Title extends StatelessWidget {
   const _Title({required this.text});
 
@@ -174,6 +176,7 @@ class _Banner extends StatelessWidget {
                 ],
               ),
             ),
+            // TODO: add smooth transition
             if (ResponsiveLayout.of(context).type != ResponsiveLayoutType.small)
               Row(
                 mainAxisSize: MainAxisSize.min,
