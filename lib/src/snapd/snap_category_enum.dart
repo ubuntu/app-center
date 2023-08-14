@@ -106,6 +106,7 @@ enum SnapCategoryEnum {
         _ => YaruIcons.application,
       };
 
+// TODO: map remaining categories to colors once the design is ready
   List<Color> get bannerColors => switch (this) {
         development => _kBannerColors[9],
         productivity => _kBannerColors[4],
