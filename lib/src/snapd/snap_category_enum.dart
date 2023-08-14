@@ -71,7 +71,13 @@ enum SnapCategoryEnum {
         development => l10n.snapCategoryDevelopmentSlogan,
         featured => l10n.snapCategoryFeaturedSlogan,
         games => l10n.snapCategoryGamesSlogan,
+        productivity => l10n.snapCategoryProductivitySlogan,
         _ => '',
+      };
+
+  String buttonLabel(AppLocalizations l10n) => switch (this) {
+        productivity => l10n.snapCategoryProductivityButtonLabel,
+        _ => l10n.snapCategoryDefaultButtonLabel,
       };
 
   IconData getIcon(bool selected) => switch (this) {
