@@ -105,4 +105,53 @@ enum SnapCategoryEnum {
           selected ? YaruIcons.swiss_knife_filled : YaruIcons.swiss_knife,
         _ => YaruIcons.application,
       };
+
+  List<Color> get bannerColors => switch (this) {
+        development => _kBannerColors[9],
+        productivity => _kBannerColors[4],
+        _ => _kBannerColors[0]
+      };
 }
+
+const _kBannerColors = [
+  [
+    Color(0xff320a39),
+    Color(0xff0a737e),
+  ],
+  [
+    Color(0xff280684),
+    Color(0xff21bdb8),
+  ],
+  [
+    Color(0xff082435),
+    Color(0xff297068),
+  ],
+  [
+    Color(0xff271658),
+    Color(0xff3be173),
+  ],
+  [
+    Color(0xff12224b),
+    Color(0xffd27ed9),
+  ],
+  [
+    Color(0xff000594),
+    Color(0xffff9bb3),
+  ],
+  [
+    Color(0xff360050),
+    Color(0xffe13b95),
+  ],
+  [
+    Color(0xff30001a),
+    Color(0xfff90c71),
+  ],
+  [
+    Color(0xff700045),
+    Color(0xffe95420),
+  ],
+  [
+    Color(0xffb41601),
+    Color(0xfffeac0c),
+  ],
+];

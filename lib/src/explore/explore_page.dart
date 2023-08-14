@@ -103,15 +103,21 @@ class _CategoryBanner extends ConsumerWidget {
     return _Banner(
       snaps: snaps,
       slogan: category.slogan(AppLocalizations.of(context)),
+      colors: category.bannerColors,
     );
   }
 }
 
 class _Banner extends StatelessWidget {
-  const _Banner({required this.snaps, required this.slogan});
+  const _Banner({
+    required this.snaps,
+    required this.slogan,
+    required this.colors,
+  });
 
   final Iterable<Snap> snaps;
   final String slogan;
+  final List<Color> colors;
 
   @override
   Widget build(BuildContext context) {
@@ -119,11 +125,8 @@ class _Banner extends StatelessWidget {
       padding: const EdgeInsets.all(48),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        gradient: const LinearGradient(
-          colors: [
-            Color.fromARGB(255, 0, 5, 148),
-            Color.fromARGB(255, 255, 155, 179)
-          ],
+        gradient: LinearGradient(
+          colors: colors,
         ),
       ),
       height: 240,
