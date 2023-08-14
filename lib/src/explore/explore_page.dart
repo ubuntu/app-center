@@ -78,6 +78,8 @@ class ExplorePage extends ConsumerWidget {
   }
 }
 
+// TODO: promote private widgets to customizable stand-alone widgets
+
 class _Title extends StatelessWidget {
   const _Title({required this.text});
 
@@ -100,9 +102,13 @@ class _CategoryBanner extends ConsumerWidget {
             .whenOrNull(data: (data) => data)
             ?.take(3) ??
         const Iterable.empty();
+    final l10n = AppLocalizations.of(context);
     return _Banner(
       snaps: snaps,
-      slogan: category.slogan(AppLocalizations.of(context)),
+      slogan: category.slogan(l10n),
+      buttonLabel: category.buttonLabel(l10n),
+      onPressed: () =>
+          StoreNavigator.pushSearch(context, category: category.categoryName),
       colors: category.bannerColors,
     );
   }
@@ -112,11 +118,17 @@ class _Banner extends StatelessWidget {
   const _Banner({
     required this.snaps,
     required this.slogan,
+    this.buttonLabel,
+    this.onPressed,
     required this.colors,
   });
 
   final Iterable<Snap> snaps;
   final String slogan;
+  final String? buttonLabel;
+  final VoidCallback? onPressed;
+
+  static const _kForegroundColor = Colors.white;
   final List<Color> colors;
 
   @override
@@ -135,18 +147,41 @@ class _Banner extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text(
-                slogan,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall!
-                    .copyWith(color: Colors.white),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    slogan,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(color: _kForegroundColor),
+                  ),
+                  if (buttonLabel != null) ...[
+                    const SizedBox(height: 24),
+                    OutlinedButton(
+                      onPressed: onPressed,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: _kForegroundColor,
+                        side: const BorderSide(color: _kForegroundColor),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                      ),
+                      child: Text(buttonLabel!),
+                    ),
+                  ],
+                ],
               ),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: snaps.map((snap) => _BannerIcon(snap: snap)).toList(),
-            ),
+            // TODO: add smooth transition
+            if (ResponsiveLayout.of(context).type != ResponsiveLayoutType.small)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: snaps.map((snap) => _BannerIcon(snap: snap)).toList(),
+              ),
           ],
         ),
       ),
