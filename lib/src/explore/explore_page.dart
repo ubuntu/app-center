@@ -174,10 +174,11 @@ class _Banner extends StatelessWidget {
                 ],
               ),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: snaps.map((snap) => _BannerIcon(snap: snap)).toList(),
-            ),
+            if (ResponsiveLayout.of(context).type != ResponsiveLayoutType.small)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: snaps.map((snap) => _BannerIcon(snap: snap)).toList(),
+              ),
           ],
         ),
       ),
