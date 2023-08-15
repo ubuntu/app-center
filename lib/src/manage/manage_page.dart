@@ -153,9 +153,8 @@ class _ActionButtons extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         PushButton.outlined(
-          onPressed: updatesModel.activeChangeId != null
-              ? null
-              : ref.read(updatesModelProvider).refresh,
+          onPressed:
+              updatesModel.activeChangeId != null ? null : updatesModel.refresh,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
