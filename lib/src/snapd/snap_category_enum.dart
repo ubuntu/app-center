@@ -38,9 +38,10 @@ enum SnapCategoryEnum {
   serverAndCloud,
   social,
   utilities,
-  unknown;
+  unknown,
+  ubuntuDesktop;
 
-  bool get hidden => [unknown].contains(this);
+  bool get hidden => [unknown, ubuntuDesktop].contains(this);
 
   String get categoryName => name.replaceAllMapped(
       RegExp(r'[A-Z]'), (match) => '-${match[0]!.toLowerCase()}');
@@ -65,6 +66,7 @@ enum SnapCategoryEnum {
         security => l10n.snapCategorySecurity,
         serverAndCloud => l10n.snapCategoryServerAndCloud,
         social => l10n.snapCategorySocial,
+        ubuntuDesktop => l10n.snapCategoryUbuntuDesktop,
         utilities => l10n.snapCategoryUtilities,
         _ => name
       };
@@ -74,6 +76,7 @@ enum SnapCategoryEnum {
         featured => l10n.snapCategoryFeaturedSlogan,
         games => l10n.snapCategoryGamesSlogan,
         productivity => l10n.snapCategoryProductivitySlogan,
+        ubuntuDesktop => l10n.snapCategoryUbuntuDesktopSlogan,
         _ => '',
       };
 
