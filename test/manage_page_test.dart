@@ -99,6 +99,8 @@ void main() {
     await tester.tap(openButton);
     verify(snapLauncher.open()).called(1);
   });
+
+  // TODO: test loading states with snap change in progress
 }
 
 extension on CommonFinders {

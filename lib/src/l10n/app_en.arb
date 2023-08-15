@@ -92,6 +92,7 @@
     "snapActionRemovingLabel": "Uninstalling",
     "snapActionSwitchChannelLabel": "Switch Channel",
     "snapActionUpdateLabel": "Update",
+    "snapActionUpdatingLabel": "Updating",
     "snapCategoryArtAndDesign": "Art and Design",
     "snapCategoryBooksAndReference": "Books and Reference",
     "snapCategoryDefaultButtonLabel": "Discover more",

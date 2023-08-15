@@ -228,4 +228,6 @@ void main() {
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
     expect(find.byType(YaruCircularProgressIndicator), findsOneWidget);
   });
+
+  // TODO: test loading states with snap change in progress
 }
