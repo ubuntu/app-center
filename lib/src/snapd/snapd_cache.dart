@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:collection/collection.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:flutter/services.dart';
@@ -75,6 +76,57 @@ mixin SnapdCache on SnapdClient {
           rethrow;
         }
       }
+    }
+  }
+
+  Stream<List<Snap>> getStoreSnaps(
+    List<String> names, {
+    Duration expiry = const Duration(minutes: 1),
+    @visibleForTesting FileSystem? fs,
+  }) async* {
+    final cacheFiles = {
+      for (final name in names)
+        name: cacheFile('snap-$name', expiry: expiry, fs: fs)
+    };
+    final cachedSnaps = Map.fromEntries(
+      await Future.wait(
+        cacheFiles.entries.map(
+          (e) async => MapEntry(
+            e.key,
+            e.value.existsSync() ? await e.value.readSnap() : null,
+          ),
+        ),
+      ),
+    );
+    yield cachedSnaps.values.whereNotNull().toList();
+
+    final writeToCache = <String, Snap>{};
+    final storeSnaps = await Future.wait(
+      cachedSnaps.entries.map(
+        (e) async {
+          if ((e.value?.channels.isEmpty ?? true) ||
+              !cacheFiles[e.key]!.isValidSync()) {
+            try {
+              final snap = await find(name: e.key).then((r) => r.single);
+              writeToCache[e.key] = snap;
+              return snap;
+            } on SnapdException catch (e) {
+              if (e.kind == 'snap-not-found') {
+                return null;
+              } else {
+                rethrow;
+              }
+            }
+          } else {
+            return e.value;
+          }
+        },
+      ),
+    );
+    yield storeSnaps.whereNotNull().toList();
+
+    for (final e in writeToCache.entries) {
+      await cacheFiles[e.key]!.write(e.value);
     }
   }
 }
