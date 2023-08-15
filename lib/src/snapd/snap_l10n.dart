@@ -5,6 +5,7 @@ import '/l10n.dart';
 extension SnapdChangeL10n on SnapdChange {
   String? localize(AppLocalizations l10n) => switch (kind) {
         'install-snap' => l10n.snapActionInstallingLabel,
+        'refresh-snap' => l10n.snapActionUpdatingLabel,
         'remove-snap' => l10n.snapActionRemovingLabel,
         _ => null,
       };
