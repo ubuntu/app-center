@@ -125,6 +125,7 @@ MockUpdatesModel createMockUpdatesModel(
   when(model.hasUpdate(any)).thenAnswer((i) =>
       refreshableSnapNames?.contains(i.positionalArguments.single) ?? false);
   when(model.state).thenReturn(AsyncValue.data(() {}()));
+  when(model.activeChangeId).thenReturn(null);
   return model;
 }
 
