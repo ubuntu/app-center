@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
@@ -12,14 +13,15 @@ import 'search_provider.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key, this.query, String? category})
-      : initialCategory = category;
+      : initialCategoryName = category;
 
   final String? query;
-  final String? initialCategory;
+  final String? initialCategoryName;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final initialCategory = initialCategoryName?.toSnapCategoryEnum();
     return ResponsiveLayoutBuilder(
       builder: (context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,37 +40,62 @@ class SearchPage extends StatelessWidget {
                   ),
                 if (initialCategory != null)
                   Text(
-                    initialCategory!.toSnapCategoryEnum().localize(l10n),
+                    initialCategory.localize(l10n),
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Text(l10n.searchPageSortByLabel),
+                Row(children: [
+                  Text(l10n.searchPageSortByLabel),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Consumer(builder: (context, ref, child) {
+                      final sortOrder = ref.watch(sortOrderProvider);
+                      return MenuButtonBuilder<SnapSortOrder>(
+                        values: SnapSortOrder.values,
+                        itemBuilder: (context, sortOrder, child) =>
+                            Text(sortOrder.localize(l10n)),
+                        onSelected: (value) =>
+                            ref.read(sortOrderProvider.notifier).state = value,
+                        child: Text(sortOrder.localize(l10n)),
+                      );
+                    }),
+                  ),
+                  if (query != null) ...[
+                    const SizedBox(width: 24),
+                    Text(l10n.searchPageFilterByLabel),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: Consumer(builder: (context, ref, child) {
-                        final sortOrder = ref.watch(sortOrderProvider);
-                        return MenuButtonBuilder<SnapSortOrder>(
-                          values: SnapSortOrder.values,
-                          itemBuilder: (context, sortOrder, child) =>
-                              Text(sortOrder.localize(l10n)),
-                          onSelected: (value) => ref
-                              .read(sortOrderProvider.notifier)
-                              .state = value,
-                          child: Text(sortOrder.localize(l10n)),
-                        );
-                      }),
-                    ),
+                      child: Consumer(
+                        builder: (context, ref, child) {
+                          return MenuButtonBuilder<SnapCategoryEnum?>(
+                            values: <SnapCategoryEnum?>[null] +
+                                SnapCategoryEnum.values
+                                    .whereNot((c) => c.hidden)
+                                    .toList(),
+                            itemBuilder: (context, category, child) => Text(
+                                category?.localize(l10n) ??
+                                    l10n.snapCategoryAll),
+                            onSelected: (value) => ref
+                                .read(
+                                    categoryProvider(initialCategory).notifier)
+                                .state = value,
+                            child: Text(ref
+                                    .watch(categoryProvider(initialCategory))
+                                    ?.localize(l10n) ??
+                                l10n.snapCategoryAll),
+                          );
+                        },
+                      ),
+                    )
                   ],
-                )
+                ])
               ],
             ),
           ),
           Expanded(
             child: Consumer(builder: (context, ref, child) {
               final category = ref.watch(
-                  categoryProvider(initialCategory?.toSnapCategoryEnum()));
+                  categoryProvider(initialCategoryName?.toSnapCategoryEnum()));
               final results = ref.watch(
                 sortedSearchProvider(
                   SnapSearchParameters(
