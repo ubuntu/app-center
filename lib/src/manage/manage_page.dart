@@ -127,6 +127,7 @@ class _ManageView extends ConsumerWidget {
   }
 }
 
+// TODO: refactor/generalize - similar to `_SnapActionButtons`
 class _ActionButtons extends ConsumerWidget {
   const _ActionButtons();
 
@@ -152,7 +153,9 @@ class _ActionButtons extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         PushButton.outlined(
-          onPressed: ref.read(updatesModelProvider).refresh,
+          onPressed: updatesModel.activeChangeId != null
+              ? null
+              : ref.read(updatesModelProvider).refresh,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -170,23 +173,53 @@ class _ActionButtons extends ConsumerWidget {
         ),
         const SizedBox(width: 8),
         PushButton.elevated(
-          onPressed: updatesModel.refreshableSnapNames.isNotEmpty
+          onPressed: updatesModel.refreshableSnapNames.isNotEmpty &&
+                  !updatesModel.state.isLoading
               ? ref.read(updatesModelProvider).updateAll
               : null,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(YaruIcons.download),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  l10n.managePageUpdateAllLabel,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+          child: updatesModel.activeChangeId != null
+              ? Consumer(
+                  builder: (context, ref, child) {
+                    final change = ref
+                        .watch(changeProvider(updatesModel.activeChangeId))
+                        .whenOrNull(data: (data) => data);
+                    return Row(
+                      children: [
+                        SizedBox.square(
+                          dimension: 16,
+                          child: YaruCircularProgressIndicator(
+                            value: change?.progress,
+                            strokeWidth: 2,
+                          ),
+                        ),
+                        if (change != null) ...[
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: Text(
+                              change.localize(l10n) ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ]
+                      ],
+                    );
+                  },
+                )
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(YaruIcons.download),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        l10n.managePageUpdateAllLabel,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ],
     );
