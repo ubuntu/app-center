@@ -46,6 +46,25 @@ enum SnapCategoryEnum {
   String get categoryName => name.replaceAllMapped(
       RegExp(r'[A-Z]'), (match) => '-${match[0]!.toLowerCase()}');
 
+  List<String>? get featuredSnapNames => switch (this) {
+        development => ['code', 'postman', 'phpstorm'],
+        games => ['steam', 'discord', 'mc-installer', '0ad'],
+        productivity => ['chrome', 'wekan', 'firefox'],
+        ubuntuDesktop => [
+            'libreoffice',
+            'thunderbird',
+            'shotwell',
+            'transmission',
+            'cheese',
+            'remmina',
+            'gnome-calendar',
+            'gnome-mahjongg',
+            'gnome-mines',
+            'gnome-sudoku',
+          ],
+        _ => null,
+      };
+
   String localize(AppLocalizations l10n) => switch (this) {
         artAndDesign => l10n.snapCategoryArtAndDesign,
         booksAndReference => l10n.snapCategoryBooksAndReference,
