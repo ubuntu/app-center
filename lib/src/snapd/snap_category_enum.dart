@@ -40,6 +40,8 @@ enum SnapCategoryEnum {
   utilities,
   unknown;
 
+  bool get hidden => [unknown].contains(this);
+
   String get categoryName => name.replaceAllMapped(
       RegExp(r'[A-Z]'), (match) => '-${match[0]!.toLowerCase()}');
 
