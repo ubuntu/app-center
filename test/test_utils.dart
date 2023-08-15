@@ -25,12 +25,10 @@ extension WidgetTesterX on WidgetTester {
 }
 
 List<Snap> Function(SnapSearchParameters) createMockSearchProvider(
-    Map<String, List<Snap>> queries) {
+    Map<SnapSearchParameters, List<Snap>> searchResults) {
   return (SnapSearchParameters searchParameters) =>
-      queries.entries
-          .firstWhereOrNull((e) => searchParameters.query != null
-              ? e.key.contains(searchParameters.query!)
-              : false)
+      searchResults.entries
+          .firstWhereOrNull((e) => e.key == searchParameters)
           ?.value ??
       [];
 }

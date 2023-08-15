@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
@@ -262,7 +263,7 @@ class _CategoryList extends StatelessWidget {
       childAspectRatio: 6,
       crossAxisCount: ResponsiveLayout.of(context).snapInfoColumnCount,
       children: SnapCategoryEnum.values
-          .where((category) => category != SnapCategoryEnum.unknown)
+          .whereNot((category) => category.hidden)
           .map((category) => InkWell(
                 onTap: () => StoreNavigator.pushSearch(context,
                     category: category.categoryName),

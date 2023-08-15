@@ -15,7 +15,7 @@ class MockStringCallback extends Mock implements StringCallback {}
 
 void main() {
   final mockSearchProvider = createMockSearchProvider({
-    'testsnap': const [
+    const SnapSearchParameters(query: 'testsn'): const [
       Snap(name: 'testsnap', title: 'Test Snap'),
       Snap(name: 'testsnap2', title: 'Another Test Snap'),
     ]
