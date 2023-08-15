@@ -9,7 +9,7 @@ import 'test_utils.dart';
 
 void main() {
   final mockSearchProvider = createMockSearchProvider({
-    'testsnap': const [
+    const SnapSearchParameters(query: 'testsn'): const [
       Snap(name: 'testsnap', title: 'Test Snap', downloadSize: 3),
       Snap(name: 'testsnap2', title: 'Another Test Snap', downloadSize: 1),
       Snap(name: 'testsnap3', title: 'Yet Another Test Snap', downloadSize: 2),
