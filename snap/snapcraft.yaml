@@ -17,6 +17,7 @@ parts:
       mkdir -p $CRAFT_PART_INSTALL/usr/libexec
       cp -r $CRAFT_PART_SRC $CRAFT_PART_INSTALL/usr/libexec/flutter
       ln -s $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/flutter $CRAFT_PART_INSTALL/usr/bin/flutter
+      ln -s $SNAPCRAFT_PART_INSTALL/usr/libexec/flutter/bin/dart $SNAPCRAFT_PART_INSTALL/usr/bin/dart
       $CRAFT_PART_INSTALL/usr/bin/flutter doctor
     build-packages:
       - clang
@@ -34,8 +35,9 @@ parts:
     source: .
     plugin: nil
     override-build: |
-      set -eux
-      flutter pub get
+      # work around pub get stack overflow # https://github.com/dart-lang/sdk/issues/51068#issuecomment-1396588253
+      set +e
+      dart pub get
       flutter build linux --release -v
       mkdir -p $CRAFT_PART_INSTALL/bin/
       cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/bin/
