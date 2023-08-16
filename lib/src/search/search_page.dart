@@ -11,6 +11,7 @@ import '/store.dart';
 import '/widgets.dart';
 import 'search_provider.dart';
 
+// TODO: break down into smaller widgets
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key, this.query, String? category})
       : initialCategoryName = category;
@@ -24,7 +25,7 @@ class SearchPage extends StatelessWidget {
     final initialCategory = initialCategoryName?.toSnapCategoryEnum();
     return ResponsiveLayoutBuilder(
       builder: (context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: kPagePadding) +
@@ -105,18 +106,38 @@ class SearchPage extends StatelessWidget {
                 ),
               );
               return results.when(
-                data: (data) => ResponsiveLayoutScrollView(
-                  slivers: [
-                    SnapCardGrid(
-                      snaps: data,
-                      onTap: (snap) => StoreNavigator.pushSearchDetail(
-                        context,
-                        name: snap.name,
-                        query: query,
+                data: (data) => data.isNotEmpty
+                    ? ResponsiveLayoutScrollView(
+                        slivers: [
+                          SnapCardGrid(
+                            snaps: data,
+                            onTap: (snap) => StoreNavigator.pushSearchDetail(
+                              context,
+                              name: snap.name,
+                              query: query,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Padding(
+                        padding: ResponsiveLayout.of(context).padding,
+                        child: Column(
+                          children: [
+                            const Spacer(flex: 1),
+                            Text(
+                              query != null
+                                  ? l10n.searchPageNoResults(query!)
+                                  : l10n.searchPageNoResultsCategory,
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            Text(
+                              l10n.searchPageNoResultsHint,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            const Spacer(flex: 3),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
                 error: (error, stack) => ErrorWidget(error),
                 loading: () =>
                     const Center(child: YaruCircularProgressIndicator()),
