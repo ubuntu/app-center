@@ -824,6 +824,23 @@ class MockSnapdService extends _i1.Mock implements _i4.SnapdService {
         returnValue: _i6.Stream<_i2.Snap?>.empty(),
       ) as _i6.Stream<_i2.Snap?>);
   @override
+  _i6.Stream<List<_i2.Snap>> getStoreSnaps(
+    List<String>? names, {
+    Duration? expiry = const Duration(minutes: 1),
+    _i9.FileSystem? fs,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getStoreSnaps,
+          [names],
+          {
+            #expiry: expiry,
+            #fs: fs,
+          },
+        ),
+        returnValue: _i6.Stream<List<_i2.Snap>>.empty(),
+      ) as _i6.Stream<List<_i2.Snap>>);
+  @override
   _i6.Stream<_i2.SnapdChange> watchChange(
     String? id, {
     Duration? interval = const Duration(milliseconds: 100),

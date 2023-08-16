@@ -120,6 +120,8 @@
     "snapCategorySecurity": "Security",
     "snapCategoryServerAndCloud": "Server and Cloud",
     "snapCategorySocial": "Social",
+    "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
+    "snapCategoryUbuntuDesktopSlogan": "Jump start your desktop",
     "snapCategoryUtilities": "Utilities",
     "snapConfinementClassic": "Classic",
     "snapConfinementDevmode": "Devmode",

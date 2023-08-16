@@ -22,12 +22,19 @@ class SnapSearchParameters {
 }
 
 final searchProvider =
-    FutureProvider.family((ref, SnapSearchParameters searchParameters) {
+    StreamProvider.family((ref, SnapSearchParameters searchParameters) async* {
   final snapd = getService<SnapdService>();
-  return snapd.find(
-    query: searchParameters.query,
-    category: searchParameters.category?.categoryName,
-  );
+  if (searchParameters.category == SnapCategoryEnum.ubuntuDesktop) {
+    yield* snapd.getStoreSnaps(searchParameters.category!.featuredSnapNames
+            ?.where((name) => name.contains(searchParameters.query ?? ''))
+            .toList() ??
+        []);
+  } else {
+    yield await snapd.find(
+      query: searchParameters.query,
+      category: searchParameters.category?.categoryName,
+    );
+  }
 });
 
 final queryProvider = StateProvider<String?>((_) => null);

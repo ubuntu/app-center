@@ -38,12 +38,32 @@ enum SnapCategoryEnum {
   serverAndCloud,
   social,
   utilities,
-  unknown;
+  unknown,
+  ubuntuDesktop;
 
-  bool get hidden => [unknown].contains(this);
+  bool get hidden => [unknown, ubuntuDesktop].contains(this);
 
   String get categoryName => name.replaceAllMapped(
       RegExp(r'[A-Z]'), (match) => '-${match[0]!.toLowerCase()}');
+
+  List<String>? get featuredSnapNames => switch (this) {
+        development => ['code', 'postman', 'phpstorm'],
+        games => ['steam', 'discord', 'mc-installer', '0ad'],
+        productivity => ['chrome', 'wekan', 'firefox'],
+        ubuntuDesktop => [
+            'libreoffice',
+            'thunderbird',
+            'shotwell',
+            'transmission',
+            'cheese',
+            'remmina',
+            'gnome-calendar',
+            'gnome-mahjongg',
+            'gnome-mines',
+            'gnome-sudoku',
+          ],
+        _ => null,
+      };
 
   String localize(AppLocalizations l10n) => switch (this) {
         artAndDesign => l10n.snapCategoryArtAndDesign,
@@ -65,6 +85,7 @@ enum SnapCategoryEnum {
         security => l10n.snapCategorySecurity,
         serverAndCloud => l10n.snapCategoryServerAndCloud,
         social => l10n.snapCategorySocial,
+        ubuntuDesktop => l10n.snapCategoryUbuntuDesktop,
         utilities => l10n.snapCategoryUtilities,
         _ => name
       };
@@ -74,6 +95,7 @@ enum SnapCategoryEnum {
         featured => l10n.snapCategoryFeaturedSlogan,
         games => l10n.snapCategoryGamesSlogan,
         productivity => l10n.snapCategoryProductivitySlogan,
+        ubuntuDesktop => l10n.snapCategoryUbuntuDesktopSlogan,
         _ => '',
       };
 

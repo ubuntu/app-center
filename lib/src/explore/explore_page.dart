@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
-import '/category.dart';
 import '/l10n.dart';
 import '/layout.dart';
+import '/search.dart';
 import '/snapd.dart';
 import '/store.dart';
 import '/widgets.dart';
@@ -28,7 +28,7 @@ class ExplorePage extends ConsumerWidget {
       child: ResponsiveLayoutScrollView(
         slivers: [
           SliverList.list(children: [
-            const _CategoryBanner(category: SnapCategoryEnum.development),
+            const _CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
             const SizedBox(height: 56),
             _Title(text: SnapCategoryEnum.featured.slogan(l10n)),
             const SizedBox(height: 24),
@@ -53,15 +53,17 @@ class ExplorePage extends ConsumerWidget {
           ]),
           Consumer(
             builder: (context, ref, child) {
-              const gamingSnaps = ['steam', 'discord', 'mc-installer', '0ad'];
               final snaps = ref
-                      .watch(categoryProvider(SnapCategoryEnum.games))
-                      .whenOrNull(data: (data) => data)
-                      ?.where((snap) => gamingSnaps.contains(snap.name))
-                      .toList() ??
-                  [];
+                  .watch(searchProvider(const SnapSearchParameters(
+                      category: SnapCategoryEnum.games)))
+                  .whenOrNull(data: (data) => data);
+              final featuredSnaps = SnapCategoryEnum.games.featuredSnapNames!
+                  .map((name) =>
+                      snaps?.singleWhereOrNull(((snap) => snap.name == name)))
+                  .whereNotNull()
+                  .toList();
               return SnapImageCardGrid(
-                snaps: snaps,
+                snaps: featuredSnaps,
                 onTap: (snap) =>
                     StoreNavigator.pushDetail(context, name: snap.name),
               );
@@ -99,13 +101,17 @@ class _CategoryBanner extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final snaps = ref
-            .watch(categoryProvider(category))
-            .whenOrNull(data: (data) => data)
-            ?.take(3) ??
-        const Iterable.empty();
+        .watch(searchProvider(SnapSearchParameters(category: category)))
+        .whenOrNull(data: (data) => data);
+    final featuredSnaps = category.featuredSnapNames != null
+        ? category.featuredSnapNames!
+            .map((name) =>
+                snaps?.singleWhereOrNull(((snap) => snap.name == name)))
+            .whereNotNull()
+        : snaps;
     final l10n = AppLocalizations.of(context);
     return _Banner(
-      snaps: snaps,
+      snaps: featuredSnaps?.take(3).toList() ?? [],
       slogan: category.slogan(l10n),
       buttonLabel: category.buttonLabel(l10n),
       onPressed: () =>
