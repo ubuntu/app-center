@@ -60,6 +60,16 @@
     "searchPageAlphabeticalLabel": "Alphabetical",
     "searchPageDownloadSizeLabel": "Download Size",
     "searchPageFilterByLabel": "Filter by",
+    "searchPageNoResults": "No results found for \"{query}\"",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsCategory": "Sorry, we couldn’t find any packages in this category",
+    "searchPageNoResultsHint": "Try a different category or use more general keywords",
     "searchPageSortByLabel": "Sort by",
     "searchPageRelevanceLabel": "Relevance",
     "searchPageTitle": "Results for \"{query}\"",
