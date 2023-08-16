@@ -292,7 +292,13 @@ class _SnapActionButtons extends ConsumerWidget {
         );
       }).toList(),
       builder: (context, controller, child) => YaruOptionButton(
-        onPressed: controller.isOpen ? controller.close : controller.open,
+        onPressed: () {
+          if (controller.isOpen) {
+            controller.close();
+          } else {
+            controller.open();
+          }
+        },
         child: const Icon(YaruIcons.view_more_horizontal),
       ),
     );
