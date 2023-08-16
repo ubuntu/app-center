@@ -79,11 +79,16 @@ mixin SnapdCache on SnapdClient {
     }
   }
 
+  /// Fetches the snaps given by [names] from the store. First yields a list of
+  /// cached snaps, where available, and continues to fetch them from the store in
+  /// case the cached files are missing/expired or the channel information is
+  /// missing.
   Stream<List<Snap>> getStoreSnaps(
     List<String> names, {
     Duration expiry = const Duration(minutes: 1),
     @visibleForTesting FileSystem? fs,
   }) async* {
+    // Read and yield cached snaps
     final cacheFiles = {
       for (final name in names)
         name: cacheFile('snap-$name', expiry: expiry, fs: fs)
@@ -100,6 +105,7 @@ mixin SnapdCache on SnapdClient {
     );
     yield cachedSnaps.values.whereNotNull().toList();
 
+    // Fetch and yield snaps from the store if necessary
     final writeToCache = <String, Snap>{};
     final storeSnaps = await Future.wait(
       cachedSnaps.entries.map(
@@ -125,6 +131,7 @@ mixin SnapdCache on SnapdClient {
     );
     yield storeSnaps.whereNotNull().toList();
 
+    // Save fetched snaps in the cache
     for (final e in writeToCache.entries) {
       await cacheFiles[e.key]!.write(e.value);
     }
