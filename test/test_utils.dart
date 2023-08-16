@@ -24,13 +24,14 @@ extension WidgetTesterX on WidgetTester {
   }
 }
 
-List<Snap> Function(SnapSearchParameters) createMockSearchProvider(
+Stream<List<Snap>> Function(SnapSearchParameters) createMockSearchProvider(
     Map<SnapSearchParameters, List<Snap>> searchResults) {
-  return (SnapSearchParameters searchParameters) =>
-      searchResults.entries
-          .firstWhereOrNull((e) => e.key == searchParameters)
-          ?.value ??
-      [];
+  return (SnapSearchParameters searchParameters) => Stream.value(
+        searchResults.entries
+                .firstWhereOrNull((e) => e.key == searchParameters)
+                ?.value ??
+            [],
+      );
 }
 
 @GenerateMocks([SnapLauncher])

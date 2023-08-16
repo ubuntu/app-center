@@ -87,109 +87,182 @@ void main() {
     expect(file.readAsBytesSync(), equals(localSnap.encodeCache(smc)));
   });
 
-  test('uncached category', () async {
-    final fs = MemoryFileSystem();
+  group('category', () {
+    test('uncached category', () async {
+      final fs = MemoryFileSystem();
 
-    final snapd = TestSnapdCache();
-    when(snapd.find(category: 'foo')).thenAnswer((_) async => [storeSnap]);
+      final snapd = TestSnapdCache();
+      when(snapd.find(category: 'foo')).thenAnswer((_) async => [storeSnap]);
 
-    await expectLater(
-      snapd.getCategory('foo', fs: fs),
-      emitsInOrder([
-        emits([storeSnap]),
-        emitsDone
-      ]),
-    );
-    verify(snapd.find(category: 'foo')).called(1);
+      await expectLater(
+        snapd.getCategory('foo', fs: fs),
+        emitsInOrder([
+          emits([storeSnap]),
+          emitsDone
+        ]),
+      );
+      verify(snapd.find(category: 'foo')).called(1);
+    });
+
+    test('cached category', () async {
+      final fs = MemoryFileSystem();
+      const smc = StandardMessageCodec();
+
+      final file = fs.file('${SnapdCache.cachePath}/category-foo.smc');
+      file.createSync(recursive: true);
+      file.writeAsBytesSync([localSnap.toJson()].encodeCache(smc));
+
+      final snapd = TestSnapdCache();
+      expect(
+        snapd.getCategory('foo', fs: fs),
+        emitsInOrder([
+          [localSnap],
+          emitsDone
+        ]),
+      );
+      verifyNever(snapd.find(category: anyNamed('category')));
+    });
+
+    test('expired category', () async {
+      final fs = MemoryFileSystem();
+      const smc = StandardMessageCodec();
+
+      final file = fs.file('${SnapdCache.cachePath}/category-foo.smc');
+      file.createSync(recursive: true);
+      file.writeAsBytesSync([localSnap.toJson()].encodeCache(smc));
+      file.setLastModifiedSync(
+          DateTime.now().subtract(const Duration(days: 2)));
+
+      final snapd = TestSnapdCache();
+      when(snapd.find(category: 'foo')).thenAnswer((_) async => [storeSnap]);
+
+      await expectLater(
+        snapd.getCategory('foo', fs: fs),
+        emitsInOrder([
+          [localSnap],
+          [storeSnap],
+          emitsDone
+        ]),
+      );
+      verify(snapd.find(category: 'foo')).called(1);
+    });
   });
 
-  test('cached category', () async {
-    final fs = MemoryFileSystem();
-    const smc = StandardMessageCodec();
+  group('single snap', () {
+    test('uncached store snap', () async {
+      final fs = MemoryFileSystem();
 
-    final file = fs.file('${SnapdCache.cachePath}/category-foo.smc');
-    file.createSync(recursive: true);
-    file.writeAsBytesSync([localSnap.toJson()].encodeCache(smc));
+      final snapd = TestSnapdCache();
+      when(snapd.find(name: 'foo')).thenAnswer((_) async => [storeSnap]);
 
-    final snapd = TestSnapdCache();
-    expect(
-      snapd.getCategory('foo', fs: fs),
-      emitsInOrder([
-        [localSnap],
-        emitsDone
-      ]),
-    );
-    verifyNever(snapd.find(category: anyNamed('category')));
+      await expectLater(
+        snapd.getStoreSnap('foo', fs: fs),
+        emitsInOrder([storeSnap, emitsDone]),
+      );
+      verify(snapd.find(name: 'foo')).called(1);
+    });
+
+    test('cached store snap', () async {
+      final fs = MemoryFileSystem();
+      const smc = StandardMessageCodec();
+
+      final file = fs.file('${SnapdCache.cachePath}/snap-foo.smc');
+      file.createSync(recursive: true);
+      file.writeAsBytesSync(storeSnap.encodeCache(smc));
+
+      final snapd = TestSnapdCache();
+      expect(
+        snapd.getStoreSnap('foo', fs: fs),
+        emitsInOrder([storeSnap, emitsDone]),
+      );
+      verifyNever(snapd.find(name: anyNamed('name')));
+    });
+
+    test('store snap channels', () async {
+      final fs = MemoryFileSystem();
+      const smc = StandardMessageCodec();
+
+      final file = fs.file('${SnapdCache.cachePath}/snap-foo.smc');
+      file.createSync(recursive: true);
+      file.writeAsBytesSync(localSnap.encodeCache(smc));
+
+      final snapd = TestSnapdCache();
+      when(snapd.find(name: 'foo')).thenAnswer((_) async => [storeSnap]);
+
+      await expectLater(
+        snapd.getStoreSnap('foo', fs: fs),
+        emitsInOrder([localSnap, storeSnap, emitsDone]),
+      );
+      verify(snapd.find(name: 'foo')).called(1);
+    });
   });
 
-  test('expired category', () async {
-    final fs = MemoryFileSystem();
-    const smc = StandardMessageCodec();
+  group('multiple snaps', () {
+    test('uncached store snaps', () async {
+      final fs = MemoryFileSystem();
 
-    final file = fs.file('${SnapdCache.cachePath}/category-foo.smc');
-    file.createSync(recursive: true);
-    file.writeAsBytesSync([localSnap.toJson()].encodeCache(smc));
-    file.setLastModifiedSync(DateTime.now().subtract(const Duration(days: 2)));
+      final snapd = TestSnapdCache();
+      when(snapd.find(name: 'foo')).thenAnswer((_) async => [storeSnap]);
+      when(snapd.find(name: 'bar')).thenAnswer((_) async => [storeSnap2]);
 
-    final snapd = TestSnapdCache();
-    when(snapd.find(category: 'foo')).thenAnswer((_) async => [storeSnap]);
+      await expectLater(
+        snapd.getStoreSnaps(['foo', 'bar'], fs: fs),
+        emitsInOrder([
+          [],
+          [storeSnap, storeSnap2],
+          emitsDone
+        ]),
+      );
+      verify(snapd.find(name: 'foo')).called(1);
+      verify(snapd.find(name: 'bar')).called(1);
+    });
 
-    await expectLater(
-      snapd.getCategory('foo', fs: fs),
-      emitsInOrder([
-        [localSnap],
-        [storeSnap],
-        emitsDone
-      ]),
-    );
-    verify(snapd.find(category: 'foo')).called(1);
-  });
+    test('mixed cached and uncached store snaps', () async {
+      final fs = MemoryFileSystem();
+      const smc = StandardMessageCodec();
 
-  test('uncached store snap', () async {
-    final fs = MemoryFileSystem();
+      final file = fs.file('${SnapdCache.cachePath}/snap-foo.smc');
+      file.createSync(recursive: true);
+      file.writeAsBytesSync(storeSnap.encodeCache(smc));
 
-    final snapd = TestSnapdCache();
-    when(snapd.find(name: 'foo')).thenAnswer((_) async => [storeSnap]);
+      final snapd = TestSnapdCache();
+      when(snapd.find(name: 'bar')).thenAnswer((_) async => [storeSnap2]);
 
-    await expectLater(
-      snapd.getStoreSnap('foo', fs: fs),
-      emitsInOrder([storeSnap, emitsDone]),
-    );
-    verify(snapd.find(name: 'foo')).called(1);
-  });
+      await expectLater(
+        snapd.getStoreSnaps(['foo', 'bar'], fs: fs),
+        emitsInOrder([
+          [storeSnap],
+          [storeSnap, storeSnap2],
+          emitsDone
+        ]),
+      );
+      verifyNever(snapd.find(name: 'foo'));
+      verify(snapd.find(name: 'bar')).called(1);
+    });
 
-  test('cached store snap', () async {
-    final fs = MemoryFileSystem();
-    const smc = StandardMessageCodec();
+    test('store snap channels', () async {
+      final fs = MemoryFileSystem();
+      const smc = StandardMessageCodec();
 
-    final file = fs.file('${SnapdCache.cachePath}/snap-foo.smc');
-    file.createSync(recursive: true);
-    file.writeAsBytesSync(storeSnap.encodeCache(smc));
+      final file = fs.file('${SnapdCache.cachePath}/snap-foo.smc');
+      file.createSync(recursive: true);
+      file.writeAsBytesSync(localSnap.encodeCache(smc));
 
-    final snapd = TestSnapdCache();
-    expect(
-      snapd.getStoreSnap('foo', fs: fs),
-      emitsInOrder([storeSnap, emitsDone]),
-    );
-    verifyNever(snapd.find(name: anyNamed('name')));
-  });
+      final snapd = TestSnapdCache();
+      when(snapd.find(name: 'foo')).thenAnswer((_) async => [storeSnap]);
+      when(snapd.find(name: 'bar')).thenAnswer((_) async => [storeSnap2]);
 
-  test('store snap channels', () async {
-    final fs = MemoryFileSystem();
-    const smc = StandardMessageCodec();
-
-    final file = fs.file('${SnapdCache.cachePath}/snap-foo.smc');
-    file.createSync(recursive: true);
-    file.writeAsBytesSync(localSnap.encodeCache(smc));
-
-    final snapd = TestSnapdCache();
-    when(snapd.find(name: 'foo')).thenAnswer((_) async => [storeSnap]);
-
-    await expectLater(
-      snapd.getStoreSnap('foo', fs: fs),
-      emitsInOrder([localSnap, storeSnap, emitsDone]),
-    );
-    verify(snapd.find(name: 'foo')).called(1);
+      await expectLater(
+        snapd.getStoreSnaps(['foo', 'bar'], fs: fs),
+        emitsInOrder([
+          [localSnap],
+          [storeSnap, storeSnap2],
+          emitsDone
+        ]),
+      );
+      verify(snapd.find(name: 'foo')).called(1);
+      verify(snapd.find(name: 'bar')).called(1);
+    });
   });
 }
 
@@ -393,4 +466,128 @@ final storeSnap = Snap.fromJson(const {
     }
   },
   'tracks': ['latest', 'esr']
+});
+
+final localSnap2 = Snap.fromJson(const {
+  'id': 'mVyGrEwiqSi5PugCwyH7WgpoQLemtTd6',
+  'title': 'hello',
+  'summary': 'GNU Hello, the \'hello world\' snap',
+  'description':
+      'GNU hello prints a friendly greeting. This is part of the snapcraft tour at https://snapcraft.io/',
+  'installed-size': 131072,
+  'install-date': '2023-08-16T10:48:45.920574061+02:00',
+  'name': 'hello',
+  'publisher': {
+    'id': 'canonical',
+    'username': 'canonical',
+    'display-name': 'Canonical',
+    'validation': 'verified'
+  },
+  'developer': 'canonical',
+  'status': 'active',
+  'type': 'app',
+  'base': 'core20',
+  'version': '2.12',
+  'channel': 'latest/edge',
+  'tracking-channel': 'latest/edge',
+  'ignore-validation': false,
+  'revision': '52',
+  'confinement': 'strict',
+  'private': false,
+  'devmode': false,
+  'jailmode': false,
+  'apps': [
+    {'snap': 'hello', 'name': 'hello'},
+    {'snap': 'hello', 'name': 'universe'}
+  ],
+  'mounted-from': '/var/lib/snapd/snaps/hello_52.snap',
+  'links': {
+    'contact': ['mailto:snaps@canonical.com']
+  },
+  'contact': 'mailto:snaps@canonical.com'
+});
+
+final storeSnap2 = Snap.fromJson(const {
+  'id': 'mVyGrEwiqSi5PugCwyH7WgpoQLemtTd6',
+  'title': 'hello',
+  'summary': 'GNU Hello, the \'hello world\' snap',
+  'description':
+      'GNU hello prints a friendly greeting. This is part of the snapcraft tour at https://snapcraft.io/',
+  'download-size': 106496,
+  'name': 'hello',
+  'publisher': {
+    'id': 'canonical',
+    'username': 'canonical',
+    'display-name': 'Canonical',
+    'validation': 'verified'
+  },
+  'store-url': 'https://snapcraft.io/hello',
+  'developer': 'canonical',
+  'status': 'available',
+  'type': 'app',
+  'base': 'core20',
+  'version': '2.10',
+  'channel': 'stable',
+  'ignore-validation': false,
+  'revision': '42',
+  'confinement': 'strict',
+  'private': false,
+  'devmode': false,
+  'jailmode': false,
+  'license': 'GPL-3.0',
+  'links': {
+    'contact': ['mailto:snaps@canonical.com']
+  },
+  'contact': 'mailto:snaps@canonical.com',
+  'channels': {
+    'latest/beta': {
+      'revision': '29',
+      'confinement': 'strict',
+      'version': '2.10.1',
+      'channel': 'latest/beta',
+      'epoch': {
+        'read': [0],
+        'write': [0]
+      },
+      'size': 65536,
+      'released-at': '2017-05-17T21:17:00.205019Z'
+    },
+    'latest/candidate': {
+      'revision': '42',
+      'confinement': 'strict',
+      'version': '2.10',
+      'channel': 'latest/candidate',
+      'epoch': {
+        'read': [0],
+        'write': [0]
+      },
+      'size': 106496,
+      'released-at': '2022-01-14T01:57:40.028647Z'
+    },
+    'latest/edge': {
+      'revision': '52',
+      'confinement': 'strict',
+      'version': '2.12',
+      'channel': 'latest/edge',
+      'epoch': {
+        'read': [0],
+        'write': [0]
+      },
+      'size': 131072,
+      'released-at': '2022-03-15T17:16:17.517293Z'
+    },
+    'latest/stable': {
+      'revision': '42',
+      'confinement': 'strict',
+      'version': '2.10',
+      'channel': 'latest/stable',
+      'epoch': {
+        'read': [0],
+        'write': [0]
+      },
+      'size': 106496,
+      'released-at': '2022-01-14T02:01:54.911048Z'
+    }
+  },
+  'tracks': ['latest']
 });
