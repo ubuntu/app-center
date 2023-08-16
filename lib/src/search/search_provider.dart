@@ -24,7 +24,7 @@ class SnapSearchParameters {
 final searchProvider =
     StreamProvider.family((ref, SnapSearchParameters searchParameters) async* {
   final snapd = getService<SnapdService>();
-  if (searchParameters.category?.hidden ?? false) {
+  if (searchParameters.category == SnapCategoryEnum.ubuntuDesktop) {
     yield* snapd.getStoreSnaps(searchParameters.category!.featuredSnapNames
             ?.where((name) => name.contains(searchParameters.query ?? ''))
             .toList() ??
