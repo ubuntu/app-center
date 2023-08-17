@@ -179,4 +179,42 @@ void main() {
           ]));
     });
   });
+
+  group('no results', () {
+    testWidgets('query', (tester) async {
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            searchProvider
+                .overrideWith((ref, query) => mockSearchProvider(query))
+          ],
+          child: const SearchPage(query: 'foo'),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+      expect(find.text(tester.l10n.searchPageNoResults('foo')), findsOneWidget);
+      expect(find.text(tester.l10n.searchPageNoResultsHint), findsOneWidget);
+      expect(find.byType(SnapCardGrid), findsNothing);
+    });
+
+    testWidgets('empty category', (tester) async {
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            searchProvider
+                .overrideWith((ref, query) => mockSearchProvider(query))
+          ],
+          child: const SearchPage(query: 'foo', category: 'social'),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+      expect(
+          find.text(tester.l10n.searchPageNoResultsCategory), findsOneWidget);
+      expect(find.text(tester.l10n.searchPageNoResultsCategoryHint),
+          findsOneWidget);
+      expect(find.byType(SnapCardGrid), findsNothing);
+    });
+  });
 }
