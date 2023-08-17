@@ -187,14 +187,6 @@ class _CommunityView extends StatelessWidget {
                 href: 'https://github.com/$kGitHubRepo',
               ),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _CommunityTile(
-                title: l10n.aboutPagePublishLabel,
-                subtitle: l10n.aboutPageLearnMoreLabel,
-                href: 'https://snapcraft.io/docs/snapcraft',
-              ),
-            ),
           ],
         ),
       ],
@@ -217,7 +209,6 @@ class _CommunityTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return YaruTile(
       // TODO: icon
-      leading: const Placeholder(fallbackWidth: 28, fallbackHeight: 28),
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
