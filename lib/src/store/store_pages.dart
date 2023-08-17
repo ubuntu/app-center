@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/about.dart';
-import '/category.dart';
 import '/explore.dart';
 import '/l10n.dart';
 import '/manage.dart';
+import '/search.dart';
 import '/snapd.dart';
 
 typedef StorePage = ({
@@ -32,7 +32,7 @@ final pages = <StorePage>[
             leading: Icon(category.getIcon(selected)),
             title: Text(category.localize(AppLocalizations.of(context))),
           ),
-      pageBuilder: (_) => CategoryPage(category: category),
+      pageBuilder: (_) => SearchPage(category: category.categoryName),
     ),
   (
     tileBuilder: (context, selected) => const Spacer(),
