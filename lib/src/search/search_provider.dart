@@ -29,6 +29,9 @@ final searchProvider =
             ?.where((name) => name.contains(searchParameters.query ?? ''))
             .toList() ??
         []);
+  } else if (searchParameters.query == null &&
+      searchParameters.category != null) {
+    yield* snapd.getCategory(searchParameters.category!.categoryName);
   } else {
     yield await snapd.find(
       query: searchParameters.query,
