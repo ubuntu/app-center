@@ -68,7 +68,7 @@
             }
         }
     },
-    "searchPageNoResultsHint": "Try a using different or more general keywords",
+    "searchPageNoResultsHint": "Try using different or more general keywords",
     "searchPageNoResultsCategory": "Sorry, we couldn’t find any packages in this category",
     "searchPageNoResultsCategoryHint": "Try a different category or use more general keywords",
     "searchPageSortByLabel": "Sort by",
