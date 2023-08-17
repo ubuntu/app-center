@@ -125,13 +125,15 @@ class SearchPage extends StatelessWidget {
                           children: [
                             const Spacer(flex: 1),
                             Text(
-                              query != null
+                              category == null
                                   ? l10n.searchPageNoResults(query!)
                                   : l10n.searchPageNoResultsCategory,
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             Text(
-                              l10n.searchPageNoResultsHint,
+                              category == null
+                                  ? l10n.searchPageNoResultsHint
+                                  : l10n.searchPageNoResultsCategoryHint,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             const Spacer(flex: 3),

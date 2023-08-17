@@ -205,14 +205,15 @@ void main() {
             searchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query))
           ],
-          child: const SearchPage(category: 'social'),
+          child: const SearchPage(query: 'foo', category: 'social'),
         ),
       );
 
       await tester.pumpAndSettle();
       expect(
           find.text(tester.l10n.searchPageNoResultsCategory), findsOneWidget);
-      expect(find.text(tester.l10n.searchPageNoResultsHint), findsOneWidget);
+      expect(find.text(tester.l10n.searchPageNoResultsCategoryHint),
+          findsOneWidget);
       expect(find.byType(SnapCardGrid), findsNothing);
     });
   });
