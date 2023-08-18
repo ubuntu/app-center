@@ -1,5 +1,6 @@
 import 'package:app_store/manage.dart';
 import 'package:app_store/snapd.dart';
+import 'package:app_store/src/manage/local_snap_providers.dart';
 import 'package:app_store/src/manage/manage_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,6 +34,7 @@ void main() {
             (_) =>
                 createMockManageModel(nonRefreshableSnaps: nonRefreshableSnaps),
           ),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
           updatesModelProvider.overrideWith((_) => createMockUpdatesModel())
         ],
         child: const ManagePage(),
@@ -67,6 +69,7 @@ void main() {
           manageModelProvider.overrideWith((_) => createMockManageModel(
                 nonRefreshableSnaps: nonRefreshableSnaps,
               )),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
           updatesModelProvider.overrideWith((_) => createMockUpdatesModel())
         ],
         child: const ManagePage(),
@@ -101,6 +104,7 @@ void main() {
   });
 
   // TODO: test loading states with snap change in progress
+  // TODO: test sorting and filtering
 }
 
 extension on CommonFinders {
