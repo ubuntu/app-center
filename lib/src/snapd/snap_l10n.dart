@@ -1,6 +1,7 @@
 import 'package:snapd/snapd.dart';
 
 import '/l10n.dart';
+import 'snap_sort.dart';
 
 extension SnapdChangeL10n on SnapdChange {
   String? localize(AppLocalizations l10n) => switch (kind) {
@@ -18,4 +19,19 @@ extension SnapConfinementL10n on SnapConfinement {
         SnapConfinement.strict => l10n.snapConfinementStrict,
         _ => name,
       };
+}
+
+extension SnapSortOrderL10n on SnapSortOrder {
+  String localize(AppLocalizations l10n) {
+    return switch (this) {
+      SnapSortOrder.alphabeticalAsc => l10n.snapSortOrderAlphabeticalAsc,
+      SnapSortOrder.alphabeticalDesc => l10n.snapSortOrderAlphabeticalDesc,
+      SnapSortOrder.downloadSizeAsc => l10n.snapSortOrderDownloadSizeAsc,
+      SnapSortOrder.downloadSizeDesc => l10n.snapSortOrderDownloadSizeDesc,
+      SnapSortOrder.installedDateAsc => l10n.snapSortOrderInstalledDateAsc,
+      SnapSortOrder.installedDateDesc => l10n.snapSortOrderInstalledDateDesc,
+      SnapSortOrder.installedSizeAsc => l10n.snapSortOrderInstalledSizeAsc,
+      SnapSortOrder.installedSizeDesc => l10n.snapSortOrderInstalledSizeDesc,
+    };
+  }
 }

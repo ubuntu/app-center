@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -57,31 +56,11 @@ final autoCompleteProvider = FutureProvider((ref) async {
   return [];
 });
 
-enum SnapSortOrder {
-  alphabetical,
-  downloadSize,
-  relevance;
-}
-
-final sortOrderProvider = StateProvider.autoDispose((ref) {
-  return SnapSortOrder.relevance;
-});
+final sortOrderProvider =
+    StateProvider.autoDispose<SnapSortOrder?>((_) => null);
 
 final sortedSearchProvider = FutureProvider.family
     .autoDispose((ref, SnapSearchParameters searchParameters) {
-  return ref.watch(searchProvider(searchParameters).future).then((snaps) {
-    final sortOrder = ref.watch(sortOrderProvider);
-    if (sortOrder == SnapSortOrder.relevance) {
-      return snaps;
-    }
-
-    return snaps.sorted(((a, b) => switch (sortOrder) {
-          SnapSortOrder.alphabetical => a.titleOrName.compareTo(b.titleOrName),
-          SnapSortOrder.downloadSize =>
-            a.downloadSize != null && b.downloadSize != null
-                ? a.downloadSize!.compareTo(b.downloadSize!)
-                : 0,
-          _ => 0,
-        }));
-  });
+  return ref.watch(searchProvider(searchParameters).future).then(
+      (snaps) => snaps.sortedSnaps(ref.watch(sortOrderProvider)).toList());
 });

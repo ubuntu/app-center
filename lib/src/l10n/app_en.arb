@@ -57,8 +57,6 @@
             }
         }
     },
-    "searchPageAlphabeticalLabel": "Alphabetical",
-    "searchPageDownloadSizeLabel": "Download Size",
     "searchPageFilterByLabel": "Filter by",
     "searchPageNoResults": "No results found for \"{query}\"",
     "@searchPageNoResults": {
@@ -136,5 +134,14 @@
     "snapCategoryUtilities": "Utilities",
     "snapConfinementClassic": "Classic",
     "snapConfinementDevmode": "Devmode",
-    "snapConfinementStrict": "Strict"
+    "snapConfinementStrict": "Strict",
+    "snapSortOrderAlphabeticalAsc": "Alphabetical (A to Z)",
+    "snapSortOrderAlphabeticalDesc": "Alphabetical (Z to A)",
+    "snapSortOrderDownloadSizeAsc": "Size (Smallest to largest)",
+    "snapSortOrderDownloadSizeDesc": "Size (Largest to smallest)",
+    "snapSortOrderInstalledSizeAsc": "Size (Smallest to largest)",
+    "snapSortOrderInstalledSizeDesc": "Size (Largest to smallest)",
+    "snapSortOrderInstalledDateAsc": "Least recently updated",
+    "snapSortOrderInstalledDateDesc": "Most recently updated",
+    "snapSortOrderRelevance": "Relevance"
 }
