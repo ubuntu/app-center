@@ -10,7 +10,8 @@ import '/search.dart';
 import '/snapd.dart';
 import '/store.dart';
 import '/widgets.dart';
-import 'explore_provider.dart';
+
+const kNumberOfBannerSnaps = 3;
 
 class ExplorePage extends ConsumerWidget {
   const ExplorePage({super.key});
@@ -27,54 +28,49 @@ class ExplorePage extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: kPagePadding),
       child: ResponsiveLayoutScrollView(
         slivers: [
-          SliverList.list(children: [
-            const _CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
-            const SizedBox(height: 56),
-            _Title(text: SnapCategoryEnum.featured.slogan(l10n)),
-            const SizedBox(height: 24),
+          SliverList.list(children: const [
+            _CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
+            SizedBox(height: 24),
           ]),
-          Consumer(builder: (context, ref, child) {
-            final featuredSnaps = ref
-                    .watch(featuredProvider)
-                    .whenOrNull(data: (data) => data)
-                    ?.take(6)
-                    .toList() ??
-                [];
-            return SnapCardGrid(
-              snaps: featuredSnaps,
-              onTap: (snap) =>
-                  StoreNavigator.pushDetail(context, name: snap.name),
-            );
-          }),
+          const _CategorySnapList(
+            category: SnapCategoryEnum.ubuntuDesktop,
+            hideBannerSnaps: true,
+          ),
           SliverList.list(children: [
             const SizedBox(height: 56),
             _Title(text: SnapCategoryEnum.games.slogan(l10n)),
             const SizedBox(height: 24),
           ]),
-          Consumer(
-            builder: (context, ref, child) {
-              final snaps = ref
-                  .watch(searchProvider(const SnapSearchParameters(
-                      category: SnapCategoryEnum.games)))
-                  .whenOrNull(data: (data) => data);
-              final featuredSnaps = SnapCategoryEnum.games.featuredSnapNames!
-                  .map((name) =>
-                      snaps?.singleWhereOrNull(((snap) => snap.name == name)))
-                  .whereNotNull()
-                  .toList();
-              return SnapImageCardGrid(
-                snaps: featuredSnaps,
-                onTap: (snap) =>
-                    StoreNavigator.pushDetail(context, name: snap.name),
-              );
-            },
+          const _CategorySnapList(
+            category: SnapCategoryEnum.games,
+            numberOfSnaps: 4,
+            showScreenshots: true,
+            onlyFeatured: true,
+          ),
+          SliverList.list(children: [
+            const SizedBox(height: 56),
+            _Title(text: l10n.explorePageCategoriesLabel),
+            const SizedBox(height: 24),
+          ]),
+          const _CategoryList(),
+          SliverList.list(children: const [
+            SizedBox(height: 56),
+            _CategoryBanner(category: SnapCategoryEnum.development),
+            SizedBox(height: 24),
+          ]),
+          const _CategorySnapList(
+            category: SnapCategoryEnum.development,
+            hideBannerSnaps: true,
           ),
           SliverList.list(children: const [
             SizedBox(height: 56),
-            _Title(text: 'Categories'),
+            _CategoryBanner(category: SnapCategoryEnum.productivity),
             SizedBox(height: 24),
           ]),
-          const _CategoryList(),
+          const _CategorySnapList(
+            category: SnapCategoryEnum.productivity,
+            hideBannerSnaps: true,
+          ),
         ],
       ),
     );
@@ -91,6 +87,54 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text, style: Theme.of(context).textTheme.headlineSmall);
+  }
+}
+
+class _CategorySnapList extends ConsumerWidget {
+  const _CategorySnapList({
+    required this.category,
+    this.numberOfSnaps = 6,
+    this.showScreenshots = false,
+    this.onlyFeatured = false,
+    this.hideBannerSnaps = false,
+  });
+
+  final SnapCategoryEnum category;
+  final int numberOfSnaps;
+  final bool showScreenshots;
+  final bool onlyFeatured;
+  final bool hideBannerSnaps;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final categorySnaps = ref
+        .watch(searchProvider(SnapSearchParameters(category: category)))
+        .whenOrNull(data: (data) => data)
+        ?.where(
+          (snap) => hideBannerSnaps
+              ? !(category.featuredSnapNames?.take(kNumberOfBannerSnaps) ?? [])
+                  .contains(snap.name)
+              : true,
+        );
+    final featuredSnaps = category.featuredSnapNames
+        ?.map((name) =>
+            categorySnaps?.singleWhereOrNull(((snap) => snap.name == name)))
+        .whereNotNull();
+    final snaps = (onlyFeatured ? featuredSnaps : categorySnaps)
+            ?.take(numberOfSnaps)
+            .toList() ??
+        [];
+    return showScreenshots
+        ? SnapImageCardGrid(
+            snaps: snaps,
+            onTap: (snap) =>
+                StoreNavigator.pushDetail(context, name: snap.name),
+          )
+        : SnapCardGrid(
+            snaps: snaps,
+            onTap: (snap) =>
+                StoreNavigator.pushDetail(context, name: snap.name),
+          );
   }
 }
 
@@ -111,7 +155,7 @@ class _CategoryBanner extends ConsumerWidget {
         : snaps;
     final l10n = AppLocalizations.of(context);
     return _Banner(
-      snaps: featuredSnaps?.take(3).toList() ?? [],
+      snaps: featuredSnaps?.take(kNumberOfBannerSnaps).toList() ?? [],
       slogan: category.slogan(l10n),
       buttonLabel: category.buttonLabel(l10n),
       onPressed: () =>
