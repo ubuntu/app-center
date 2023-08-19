@@ -51,13 +51,24 @@ class SearchPage extends StatelessWidget {
                   Expanded(
                     child: Consumer(builder: (context, ref, child) {
                       final sortOrder = ref.watch(sortOrderProvider);
-                      return MenuButtonBuilder<SnapSortOrder>(
-                        values: SnapSortOrder.values,
-                        itemBuilder: (context, sortOrder, child) =>
-                            Text(sortOrder.localize(l10n)),
+                      return MenuButtonBuilder<SnapSortOrder?>(
+                        values: const [
+                          null,
+                          SnapSortOrder.alphabeticalAsc,
+                          SnapSortOrder.alphabeticalDesc,
+                          SnapSortOrder.downloadSizeAsc,
+                          SnapSortOrder.downloadSizeDesc,
+                        ],
+                        itemBuilder: (context, sortOrder, child) => Text(
+                          sortOrder?.localize(l10n) ??
+                              l10n.snapSortOrderRelevance,
+                        ),
                         onSelected: (value) =>
                             ref.read(sortOrderProvider.notifier).state = value,
-                        child: Text(sortOrder.localize(l10n)),
+                        child: Text(
+                          sortOrder?.localize(l10n) ??
+                              l10n.snapSortOrderRelevance,
+                        ),
                       );
                     }),
                   ),
@@ -149,15 +160,5 @@ class SearchPage extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-extension SnapSortOrderL10n on SnapSortOrder {
-  String localize(AppLocalizations l10n) {
-    return switch (this) {
-      SnapSortOrder.alphabetical => l10n.searchPageAlphabeticalLabel,
-      SnapSortOrder.downloadSize => l10n.searchPageDownloadSizeLabel,
-      SnapSortOrder.relevance => l10n.searchPageRelevanceLabel,
-    };
   }
 }
