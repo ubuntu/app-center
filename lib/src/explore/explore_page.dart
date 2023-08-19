@@ -108,18 +108,23 @@ class _CategorySnapList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final categorySnaps = ref
+        // get snaps from `category`
         .watch(searchProvider(SnapSearchParameters(category: category)))
         .whenOrNull(data: (data) => data)
+        // .. without the banner snaps, if we don't want them
         ?.where(
           (snap) => hideBannerSnaps
               ? !(category.featuredSnapNames?.take(kNumberOfBannerSnaps) ?? [])
                   .contains(snap.name)
               : true,
         );
+
+    // pick hand-selected featured snaps
     final featuredSnaps = category.featuredSnapNames
         ?.map((name) =>
-            categorySnaps?.singleWhereOrNull(((snap) => snap.name == name)))
+            categorySnaps?.singleWhereOrNull((snap) => snap.name == name))
         .whereNotNull();
+
     final snaps = (onlyFeatured ? featuredSnaps : categorySnaps)
             ?.take(numberOfSnaps)
             .toList() ??
