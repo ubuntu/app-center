@@ -49,7 +49,7 @@ enum SnapCategoryEnum {
   List<String>? get featuredSnapNames => switch (this) {
         development => ['code', 'postman', 'phpstorm'],
         games => ['steam', 'discord', 'mc-installer', '0ad'],
-        productivity => ['chrome', 'wekan', 'firefox'],
+        productivity => ['chromium', 'wekan', 'firefox'],
         ubuntuDesktop => [
             'libreoffice',
             'thunderbird',
