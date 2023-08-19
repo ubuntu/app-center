@@ -137,7 +137,7 @@ void main() {
       expect(find.text(tester.l10n.searchPageSortByLabel), findsOneWidget);
       await tester.tap(find.text(tester.l10n.searchPageRelevanceLabel));
       await tester.pumpAndSettle();
-      await tester.tap(find.text(tester.l10n.searchPageDownloadSizeLabel));
+      await tester.tap(find.text(tester.l10n.snapSortOrderDownloadSizeAsc));
       await tester.pumpAndSettle();
 
       final resultSnaps =
@@ -165,7 +165,7 @@ void main() {
       expect(find.text(tester.l10n.searchPageSortByLabel), findsOneWidget);
       await tester.tap(find.text(tester.l10n.searchPageRelevanceLabel));
       await tester.pumpAndSettle();
-      await tester.tap(find.text(tester.l10n.searchPageAlphabeticalLabel));
+      await tester.tap(find.text(tester.l10n.snapSortOrderAlphabeticalAsc));
       await tester.pumpAndSettle();
 
       final resultSnaps =

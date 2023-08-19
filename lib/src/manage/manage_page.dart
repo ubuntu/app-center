@@ -10,6 +10,7 @@ import '/layout.dart';
 import '/snapd.dart';
 import '/store.dart';
 import '/widgets.dart';
+import 'local_snap_providers.dart';
 import 'manage_model.dart';
 
 class ManagePage extends ConsumerWidget {
@@ -36,6 +37,7 @@ class _ManageView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final filteredLocalSnaps = ref.watch(localSnapsProvider);
     final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: kPagePadding),
@@ -106,13 +108,66 @@ class _ManageView extends ConsumerWidget {
                   .titleMedium!
                   .copyWith(fontWeight: FontWeight.w500),
             ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  // TODO: refactor - extract common text field decoration from
+                  // here and the `SearchField` widget
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(YaruIcons.search, size: 16),
+                      hintText: l10n.managePageSearchFieldSearchHint,
+                    ),
+                    initialValue: ref.watch(localSnapFilterProvider),
+                    onChanged: (value) => ref
+                        .read(localSnapFilterProvider.notifier)
+                        .state = value,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Text(l10n.searchPageSortByLabel),
+                const SizedBox(width: 8),
+                // TODO: refactor - create proper widget
+                Expanded(
+                  child: Consumer(builder: (context, ref, child) {
+                    final sortOrder = ref.watch(localSnapSortOrderProvider);
+                    return MenuButtonBuilder<SnapSortOrder>(
+                      values: const [
+                        SnapSortOrder.alphabeticalAsc,
+                        SnapSortOrder.alphabeticalDesc,
+                        SnapSortOrder.installedDateAsc,
+                        SnapSortOrder.installedDateDesc,
+                        SnapSortOrder.installedSizeAsc,
+                        SnapSortOrder.installedSizeDesc,
+                      ],
+                      itemBuilder: (context, sortOrder, child) =>
+                          Text(sortOrder.localize(l10n)),
+                      onSelected: (value) => ref
+                          .read(localSnapSortOrderProvider.notifier)
+                          .state = value,
+                      child: Text(sortOrder.localize(l10n)),
+                    );
+                  }),
+                ),
+                const SizedBox(width: 16),
+                Text(l10n.managePageShowSystemSnapsLabel),
+                const SizedBox(width: 8),
+                YaruCheckbox(
+                  value: ref.watch(showLocalSystemAppsProvider),
+                  onChanged: (value) => ref
+                      .read(showLocalSystemAppsProvider.notifier)
+                      .state = value ?? false,
+                )
+              ],
+            ),
             const SizedBox(height: 24),
           ]),
           SliverList.builder(
-            itemCount: manageModel.nonRefreshableSnaps.length,
+            itemCount: filteredLocalSnaps.length,
             itemBuilder: (context, index) => _ManageSnapTile(
-              snap: manageModel.nonRefreshableSnaps.elementAt(index),
-              position: index == (manageModel.nonRefreshableSnaps.length - 1)
+              snap: filteredLocalSnaps.elementAt(index),
+              position: index == (filteredLocalSnaps.length - 1)
                   ? index == 0
                       ? ManageTilePosition.single
                       : ManageTilePosition.last
