@@ -1,6 +1,6 @@
 name: snap-store
-summary: Snap Store
-description: Snap Store
+summary: App Center
+description: App Center
 confinement: strict
 base: core22
 grade: stable
@@ -46,7 +46,7 @@ parts:
 apps:
   snap-store:
     command: bin/snap-store
-    desktop: bin/data/flutter_assets/assets/snap-store.desktop
+    desktop: bin/data/flutter_assets/assets/app-center.desktop
     extensions: [gnome]
     plugs:
       - desktop

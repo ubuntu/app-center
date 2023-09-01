@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-const kAppName = 'App Store';
-const kGitHubRepo = 'ubuntu/app-store';
+const kAppName = 'App Center';
+const kGitHubRepo = 'ubuntu/app-center';
 
 // TODO: add proper neutral colors to yaru
 const kShimmerBaseLight = Color.fromARGB(120, 228, 228, 228);

@@ -66,7 +66,7 @@ class _AboutHeader extends ConsumerWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset('assets/app-store.png'),
+        Image.asset('assets/app-center.png'),
         const SizedBox(width: 32),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

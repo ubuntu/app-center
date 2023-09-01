@@ -1,6 +1,6 @@
-name: app_store
-description: App Store
-version: 0.0.0-dev
+name: app_center
+description: App Center
+version: 1.0.0-alpha
 publish_to: 'none'
 
 environment:

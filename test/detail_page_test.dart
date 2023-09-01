@@ -1,7 +1,7 @@
-import 'package:app_store/l10n.dart';
-import 'package:app_store/snapd.dart';
-import 'package:app_store/src/detail/detail_page.dart';
-import 'package:app_store/widgets.dart';
+import 'package:app_center/l10n.dart';
+import 'package:app_center/snapd.dart';
+import 'package:app_center/src/detail/detail_page.dart';
+import 'package:app_center/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';

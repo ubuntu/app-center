@@ -1,5 +1,5 @@
-import 'package:app_store/src/store/store_providers.dart';
-import 'package:app_store/src/store/store_routes.dart';
+import 'package:app_center/src/store/store_providers.dart';
+import 'package:app_center/src/store/store_routes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

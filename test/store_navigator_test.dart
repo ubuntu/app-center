@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app_store/store.dart';
+import 'package:app_center/store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

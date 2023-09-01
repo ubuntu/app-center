@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app_store/snapd.dart';
+import 'package:app_center/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';

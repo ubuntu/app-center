@@ -1,0 +1,20 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Exec=snap-store %U
+Icon=app-centre
+Terminal=false
+Categories=System;Utility;PackageManager;SoftwareManagement;Network;Settings;
+Keywords=Ubuntu;Applications;Apps;Store;Software;Snaps;
+Name=App Center
+Name[ar]=مركز التطبيقات
+Name[de]=Anwendungszentrum
+Name[en_CA]=App Center
+Name[en_GB]=App Center
+Name[es]=Centro de aplicaciones
+Name[fr]=Centre d'applications
+Name[hi]=ऐप सेंटर
+Name[ja]=アプリセンター
+Name[pt_BR]=Centro de Aplicações
+Name[ru]=Центр приложений
+Name[zh_CN]=应用中心

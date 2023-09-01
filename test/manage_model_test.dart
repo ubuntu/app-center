@@ -1,4 +1,4 @@
-import 'package:app_store/src/manage/manage_model.dart';
+import 'package:app_center/src/manage/manage_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:snapd/snapd.dart';
 

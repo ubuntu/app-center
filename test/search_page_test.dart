@@ -1,6 +1,6 @@
-import 'package:app_store/search.dart';
-import 'package:app_store/snapd.dart';
-import 'package:app_store/widgets.dart';
+import 'package:app_center/search.dart';
+import 'package:app_center/snapd.dart';
+import 'package:app_center/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:snapd/snapd.dart';

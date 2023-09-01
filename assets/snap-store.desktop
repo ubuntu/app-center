@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=App Store
-Exec=snap-store %U
-Icon=software-store
-Terminal=false
-Categories=System;
