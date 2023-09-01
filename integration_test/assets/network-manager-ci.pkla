@@ -1,4 +1,0 @@
-[Allow access to network-manager in CI, for use in integration tests in destructive CI environments only]
-Identity=unix-user:*
-Action=org.freedesktop.NetworkManager.*
-ResultAny=yes
