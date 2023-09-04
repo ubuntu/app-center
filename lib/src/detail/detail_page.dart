@@ -348,11 +348,11 @@ enum SnapAction {
   VoidCallback? callback(SnapModel model, [SnapLauncher? launcher]) =>
       switch (this) {
         cancel => model.cancel,
-        install => model.install,
+        install => model.storeSnap != null ? model.install : null,
         open => launcher?.isLaunchable ?? false ? launcher!.open : null,
         remove => model.remove,
-        switchChannel => model.refresh,
-        update => model.refresh,
+        switchChannel => model.storeSnap != null ? model.refresh : null,
+        update => model.storeSnap != null ? model.refresh : null,
       };
 }
 
