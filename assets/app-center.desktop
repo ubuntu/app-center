@@ -2,7 +2,7 @@
 Type=Application
 Version=1.0
 Exec=snap-store %U
-Icon=app-centre
+Icon=software-store
 Terminal=false
 Categories=System;Utility;PackageManager;SoftwareManagement;Network;Settings;
 Keywords=Ubuntu;Applications;Apps;Store;Software;Snaps;
