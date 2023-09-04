@@ -149,11 +149,27 @@ class SnapModel extends ChangeNotifier {
     await snapd.abortChange(activeChangeId!);
   }
 
-  Future<void> install() =>
-      _snapAction(() => snapd.install(snapName, channel: selectedChannel));
+  Future<void> install() {
+    assert(storeSnap?.channels[selectedChannel] != null,
+        'install() should not be called before the store snap is available');
+    return _snapAction(() => snapd.install(
+          snapName,
+          channel: selectedChannel,
+          classic: storeSnap!.channels[selectedChannel]!.confinement ==
+              SnapConfinement.classic,
+        ));
+  }
 
-  Future<void> refresh() =>
-      _snapAction(() => snapd.refresh(snapName, channel: selectedChannel));
+  Future<void> refresh() {
+    assert(storeSnap?.channels[selectedChannel] != null,
+        'remove() should not be called before the store snap is available');
+    return _snapAction(() => snapd.refresh(
+          snapName,
+          channel: selectedChannel,
+          classic: storeSnap!.channels[selectedChannel]!.confinement ==
+              SnapConfinement.classic,
+        ));
+  }
 
   Future<void> remove() => _snapAction(() => snapd.remove(snapName));
 }

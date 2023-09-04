@@ -104,10 +104,16 @@ MockSnapdService createMockSnapdService({
       kind: 'snap-not-found',
     ));
   }
-  when(service.install(any, channel: anyNamed('channel')))
-      .thenAnswer((_) async => 'id');
-  when(service.refresh(any, channel: anyNamed('channel')))
-      .thenAnswer((_) async => 'id');
+  when(service.install(
+    any,
+    channel: anyNamed('channel'),
+    classic: anyNamed('classic'),
+  )).thenAnswer((_) async => 'id');
+  when(service.refresh(
+    any,
+    channel: anyNamed('channel'),
+    classic: anyNamed('classic'),
+  )).thenAnswer((_) async => 'id');
   when(service.remove(any)).thenAnswer((_) async => 'id');
   when(service.find(filter: SnapFindFilter.refresh))
       .thenAnswer((_) async => refreshableSnaps ?? []);
