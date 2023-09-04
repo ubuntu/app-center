@@ -99,7 +99,11 @@ void main() {
 
       await model.install();
 
-      verify(service.install('testsnap', channel: 'latest/stable')).called(1);
+      verify(service.install(
+        'testsnap',
+        channel: 'latest/stable',
+        classic: false,
+      )).called(1);
     });
     test('non-default channel', () async {
       final service = createMockSnapdService(
@@ -111,7 +115,11 @@ void main() {
       model.selectedChannel = 'latest/edge';
       await model.install();
 
-      verify(service.install('testsnap', channel: 'latest/edge')).called(1);
+      verify(service.install(
+        'testsnap',
+        channel: 'latest/edge',
+        classic: true,
+      )).called(1);
     });
   });
 
@@ -126,7 +134,11 @@ void main() {
 
       await model.refresh();
 
-      verify(service.refresh('testsnap', channel: 'latest/edge')).called(1);
+      verify(service.refresh(
+        'testsnap',
+        channel: 'latest/edge',
+        classic: true,
+      )).called(1);
     });
     test('switch channel', () async {
       final service = createMockSnapdService(
@@ -139,7 +151,11 @@ void main() {
       model.selectedChannel = 'latest/stable';
       await model.refresh();
 
-      verify(service.refresh('testsnap', channel: 'latest/stable')).called(1);
+      verify(service.refresh(
+        'testsnap',
+        channel: 'latest/stable',
+        classic: false,
+      )).called(1);
     });
   });
 
@@ -164,8 +180,11 @@ void main() {
     final changeCompleter = Completer();
     final notifyCompleter = Completer();
 
-    when(service.install(any, channel: anyNamed('channel')))
-        .thenAnswer((_) async => 'changeId');
+    when(service.install(
+      any,
+      channel: anyNamed('channel'),
+      classic: anyNamed('classic'),
+    )).thenAnswer((_) async => 'changeId');
     when(service.waitChange('changeId'))
         .thenAnswer((_) async => await changeCompleter.future);
     when(service.abortChange('changeId')).thenAnswer((_) async {
