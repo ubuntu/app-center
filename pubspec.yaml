@@ -37,7 +37,7 @@ dependencies:
   url_launcher: ^6.1.12
   xdg_directories: ^1.0.0
   yaru: ^0.9.0
-  yaru_icons: ^1.0.4
+  yaru_icons: ^2.2.1
   yaru_widgets: ^2.6.0
 
 dev_dependencies:
