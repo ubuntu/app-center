@@ -8,6 +8,7 @@ environment:
   flutter: '^3.10.6'
 
 dependencies:
+  appstream: ^0.2.8
   args: ^2.4.2
   cached_network_image: ^3.2.3
   collection: ^1.17.0
@@ -30,6 +31,7 @@ dependencies:
   shimmer: ^3.0.0
   snapcraft_launcher: ^0.1.0
   snapd: ^0.4.11
+  snowball_stemmer: ^0.1.0
   ubuntu_localizations: ^0.3.3
   ubuntu_service: ^0.2.2
   ubuntu_test: ^0.1.0-0

@@ -1,4 +1,5 @@
 {
+    "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
     "detailPageChannelLabel": "Channel",
     "detailPageConfinementLabel": "Confinement",
     "detailPageContactPublisherLabel": "Contact {publisher}",
