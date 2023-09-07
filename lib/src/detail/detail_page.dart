@@ -459,7 +459,7 @@ class _ChannelDropdown extends StatelessWidget {
             ),
             itemStyle: MenuItemButton.styleFrom(),
             child: Text(
-              "${model.selectedChannel} ${model.availableChannels![model.selectedChannel]!.version}",
+              '${model.selectedChannel} ${model.availableChannels![model.selectedChannel]!.version}',
             ),
           ),
         ),

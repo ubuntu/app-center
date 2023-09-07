@@ -7,55 +7,61 @@ import 'package:snowball_stemmer/snowball_stemmer.dart';
 import '/l10n.dart';
 import 'appstream_utils.dart';
 
-extension _Tokenizer on String {
-  List<String> tokenize() => split(RegExp('\\W'));
-}
-
 class _CachedComponent {
   final AppstreamComponent component;
   final String id;
-  late String name;
-  late List<String> keywords;
-  late List<String> summary;
-  late List<String> description;
-  late String origin;
-  late String package;
-  late List<String> mediaTypes;
+  final String name;
+  final List<String> keywords;
+  final List<String> summary;
+  final List<String> description;
+  final String origin;
+  final String package;
+  final List<String> mediaTypes;
 
-  _CachedComponent(this.component) : id = component.id.toLowerCase() {
-    name = _getLocalizedComponentAttribute(component.name)?.toLowerCase() ?? '';
-    keywords = _getLocalizedComponentAttribute(component.keywords)
-            ?.map((e) => e.toLowerCase())
-            .toList() ??
-        [];
-    summary = _getLocalizedComponentAttribute(component.summary)
-            ?.toLowerCase()
-            .tokenize() ??
-        [];
-    description = _getLocalizedComponentAttribute(component.description)
-            ?.toLowerCase()
-            .tokenize() ??
-        [];
-    origin = ''; // XXX: https://github.com/canonical/appstream.dart/issues/25
-    package = component.package?.toLowerCase() ?? '';
-    mediaTypes = [];
-    for (final provider in component.provides) {
-      if (provider is AppstreamProvidesMediatype) {
-        mediaTypes.add(provider.mediaType.toLowerCase());
-      }
-    }
-  }
+  _CachedComponent(
+      this.component,
+      this.id,
+      this.name,
+      this.keywords,
+      this.summary,
+      this.description,
+      this.origin,
+      this.package,
+      this.mediaTypes);
 
-  static T? _getLocalizedComponentAttribute<T>(Map<String, T> attribute) {
-    final languageKey = bestLanguageKey(attribute.keys);
-    if (languageKey == null) return null;
-    return attribute[languageKey];
+  factory _CachedComponent.fromAppstream(AppstreamComponent component) {
+    final id = component.getId();
+    final name = component.getLocalizedName().toLowerCase();
+    const origin = '';
+    final package = component.getPackage();
+    final mediaTypes = component.getLocalizedMediaTypes();
+
+    final keywords =
+        component.getLocalizedKeywords().map((e) => e.toLowerCase()).toList();
+
+    final nonWordCharacters = RegExp('\\W');
+
+    final summary = component
+        .getLocalizedSummary()
+        .toLowerCase()
+        .split(nonWordCharacters)
+        .toList();
+
+    final description = component
+        .getLocalizedDescription()
+        .toLowerCase()
+        .split(nonWordCharacters)
+        .toList();
+
+    return _CachedComponent(component, id, name, keywords, summary, description,
+        origin, package, mediaTypes);
   }
 
   int match(List<String> tokens) {
     int score = _MatchScore.none.value;
+
     for (final token in tokens) {
-      if (id.toLowerCase().contains(token)) {
+      if (id.contains(token)) {
         score |= _MatchScore.id.value;
       }
       if (name.contains(token)) {
@@ -105,12 +111,14 @@ enum _MatchScore {
   all(1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7);
 
   final int value;
+
   const _MatchScore(this.value);
 }
 
 class _ScoredComponent {
   final int score;
   final AppstreamComponent component;
+
   const _ScoredComponent(this.score, this.component);
 }
 
@@ -128,17 +136,18 @@ class AppstreamService {
   }
 
   final HashSet<_CachedComponent> _cache = HashSet<_CachedComponent>();
+
   @visibleForTesting
   int get cacheSize => _cache.length;
 
   void _populateCache() {
     _cache.clear();
     for (final component in _pool.components) {
-      _cache.add(_CachedComponent(component));
+      _cache.add(_CachedComponent.fromAppstream(component));
     }
   }
 
-  List<String> get _greylist =>
+  List<String> get _greyList =>
       lookupAppLocalizations(PlatformDispatcher.instance.locale)
           .appstreamSearchGreylist
           .split(';');
@@ -181,7 +190,7 @@ class AppstreamService {
   List<String> _buildSearchTokens(String search) {
     final words = search.toLowerCase().split(RegExp(r'\s'));
     // Filter out too generic search terms
-    words.removeWhere((element) => _greylist.contains(element));
+    words.removeWhere((element) => _greyList.contains(element));
     if (words.isEmpty) {
       words.addAll(search.toLowerCase().split(RegExp(r'\s')));
     }
