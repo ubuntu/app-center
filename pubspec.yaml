@@ -12,6 +12,7 @@ dependencies:
   args: ^2.4.2
   cached_network_image: ^3.2.3
   collection: ^1.17.0
+  dbus: ^0.7.8
   file: ^6.1.0
   flutter:
     sdk: flutter
@@ -27,6 +28,7 @@ dependencies:
   intl: ^0.18.0
   meta: ^1.9.1
   package_info_plus: ^4.0.2
+  packagekit: ^0.2.6
   path: ^1.8.3
   shimmer: ^3.0.0
   snapcraft_launcher: ^0.1.0

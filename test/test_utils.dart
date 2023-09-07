@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/l10n.dart';
 import 'package:app_center/search.dart';
 import 'package:app_center/snapd.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk/gtk.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
 
 import 'test_utils.mocks.dart';
@@ -139,4 +142,60 @@ MockGtkApplicationNotifier createMockGtkApplicationNotifier() {
   final notifier = MockGtkApplicationNotifier();
   when(notifier.commandLine).thenReturn(null);
   return notifier;
+}
+
+/// Assumes that only a single `PackageKitTransaction` is used in a test. Needs
+/// to be generalized in order to test methods that use multiple transactions.
+@GenerateMocks([PackageKitClient])
+MockPackageKitClient createMockPackageKitClient(
+    {PackageKitTransaction? transaction}) {
+  final client = MockPackageKitClient();
+  when(client.createTransaction()).thenAnswer(
+      (_) async => transaction ?? createMockPackageKitTransaction());
+  return client;
+}
+
+/// Creates a mock transaction that emits a series of `events` when any action
+/// listed below is performed. Make sure to independently verify that the desired
+/// action has been called.
+/// Awaits the optional `start` and `end` futures before and after emitting the
+/// provided `events`, respectively.
+/// Emits 'finished' and 'destroy' events before closing the stream.
+@GenerateMocks([PackageKitTransaction])
+MockPackageKitTransaction createMockPackageKitTransaction({
+  Iterable<PackageKitEvent>? events,
+  PackageKitExit? exit,
+  int? runtime,
+  Future? start,
+  Future? end,
+}) {
+  final transaction = MockPackageKitTransaction();
+  final controller = StreamController<PackageKitEvent>.broadcast();
+  when(transaction.events).thenAnswer((_) => controller.stream);
+
+  Future<void> emitEvents() async {
+    if (start != null) await start;
+    for (final event in events ?? <PackageKitEvent>[]) {
+      controller.add(event);
+    }
+    if (end != null) await end;
+
+    controller.add(
+      PackageKitFinishedEvent(
+        exit: exit ?? PackageKitExit.success,
+        runtime: runtime ?? 0,
+      ),
+    );
+    controller.add(const PackageKitDestroyEvent());
+    await controller.close();
+  }
+
+  // Add similar statements for further methods as needed.
+  when(transaction.installPackages(any))
+      .thenAnswer((_) async => unawaited(emitEvents()));
+  when(transaction.removePackages(any))
+      .thenAnswer((_) async => unawaited(emitEvents()));
+  when(transaction.resolve(any))
+      .thenAnswer((_) async => unawaited(emitEvents()));
+  return transaction;
 }
