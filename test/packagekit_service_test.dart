@@ -10,6 +10,11 @@ import 'package:packagekit/packagekit.dart';
 import 'packagekit_service_test.mocks.dart';
 import 'test_utils.dart';
 
+const _dBusName = 'org.freedesktop.DBus';
+const _dBusInterface = 'org.freedesktop.DBus';
+const _dBusObjectPath = '/org/freedesktop/DBus';
+const _packageKitDBusName = 'org.freedesktop.PackageKit';
+
 void main() {
   group('activate service', () {
     test('service available', () async {
@@ -19,21 +24,21 @@ void main() {
       expect(packageKit.isAvailable, isFalse);
       await packageKit.activateService();
       verify(dbus.callMethod(
-        path: DBusObjectPath('/org/freedesktop/DBus'),
-        destination: 'org.freedesktop.DBus',
+        path: DBusObjectPath(_dBusObjectPath),
+        destination: _dBusName,
         name: 'StartServiceByName',
-        interface: 'org.freedesktop.DBus',
-        values: const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
+        interface: _dBusInterface,
+        values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
       )).called(1);
       expect(packageKit.isAvailable, isTrue);
 
       await packageKit.activateService();
       verifyNever(dbus.callMethod(
-        path: DBusObjectPath('/org/freedesktop/DBus'),
-        destination: 'org.freedesktop.DBus',
+        path: DBusObjectPath(_dBusObjectPath),
+        destination: _dBusName,
         name: 'StartServiceByName',
-        interface: 'org.freedesktop.DBus',
-        values: const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
+        interface: _dBusInterface,
+        values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
       ));
     });
 
@@ -49,11 +54,11 @@ void main() {
       expect(packageKit.isAvailable, isFalse);
       await packageKit.activateService();
       verify(dbus.callMethod(
-        path: DBusObjectPath('/org/freedesktop/DBus'),
-        destination: 'org.freedesktop.DBus',
+        path: DBusObjectPath(_dBusObjectPath),
+        destination: _dBusName,
         name: 'StartServiceByName',
-        interface: 'org.freedesktop.DBus',
-        values: const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
+        interface: _dBusInterface,
+        values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
       )).called(1);
       expect(packageKit.isAvailable, isFalse);
     });
@@ -122,11 +127,11 @@ void main() {
 MockDBusClient createMockDbusClient() {
   final dbus = MockDBusClient();
   when(dbus.callMethod(
-    path: DBusObjectPath('/org/freedesktop/DBus'),
-    destination: 'org.freedesktop.DBus',
+    path: DBusObjectPath(_dBusObjectPath),
+    destination: _dBusName,
     name: 'StartServiceByName',
-    interface: 'org.freedesktop.DBus',
-    values: const [DBusString('org.freedesktop.PackageKit'), DBusUint32(0)],
+    interface: _dBusInterface,
+    values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
   )).thenAnswer((_) async => DBusMethodSuccessResponse());
   return dbus;
 }
