@@ -124,7 +124,13 @@ class _ScoredComponent {
 
 class AppstreamService {
   final AppstreamPool _pool;
-  late final Future<void> _loader = _pool.load().then((_) => _populateCache());
+  late final Future<void> _loader = _pool.load().then((_) {
+    _populateCache();
+    _initialized = true;
+  });
+
+  bool get initialized => _initialized;
+  bool _initialized = false;
 
   // TODO: cache AppstreamPool
   AppstreamService({@visibleForTesting AppstreamPool? pool})

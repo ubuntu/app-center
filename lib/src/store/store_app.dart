@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart' hide AboutDialog, showAboutDialog;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meta/meta.dart';
+import 'package:ubuntu_logger/ubuntu_logger.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -12,6 +14,9 @@ import 'store_observer.dart';
 import 'store_pages.dart';
 import 'store_providers.dart';
 import 'store_routes.dart';
+
+@internal
+final log = Logger('store_app');
 
 class StoreApp extends ConsumerStatefulWidget {
   const StoreApp({super.key});
@@ -45,7 +50,10 @@ class _StoreAppState extends ConsumerState<StoreApp> {
               child: SearchField(
                 onSearch: (query) =>
                     _navigator.pushAndRemoveSearch(query: query),
-                onSelected: (name) => _navigator.pushDetail(name: name),
+                onSnapSelected: (name) => _navigator.pushDetail(name: name),
+                onDebSelected: (_) {
+                  log.debug('Detail page for debs not implemented yet!');
+                }, // TODO: push detail page
               ),
             ),
           ),

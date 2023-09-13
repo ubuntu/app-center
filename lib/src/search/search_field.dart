@@ -1,3 +1,4 @@
+import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,21 +7,58 @@ import 'package:snapd/snapd.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/appstream.dart';
 import '/snapd.dart';
 import '/widgets.dart';
 import 'search_provider.dart';
 
-typedef SnapAutoCompleteOption = ({Snap? snap, String query});
+sealed class AutoCompleteOption {
+  String get title => switch (this) {
+        AutoCompleteSnapOption(snap: final snap) => snap.titleOrName,
+        AutoCompleteDebOption(deb: final deb) => deb.getLocalizedName(),
+        AutoCompleteSectionOption(section: final section) => section,
+        AutoCompleteSearchOption(query: final query) => query,
+        AutoCompleteDividerOption() => '',
+      };
+  bool get selectable => switch (this) {
+        AutoCompleteSectionOption() || AutoCompleteDividerOption() => false,
+        _ => true,
+      };
+}
+
+class AutoCompleteSnapOption extends AutoCompleteOption {
+  final Snap snap;
+  AutoCompleteSnapOption(this.snap);
+}
+
+class AutoCompleteDebOption extends AutoCompleteOption {
+  final AppstreamComponent deb;
+  AutoCompleteDebOption(this.deb);
+}
+
+class AutoCompleteSectionOption extends AutoCompleteOption {
+  final String section;
+  AutoCompleteSectionOption(this.section);
+}
+
+class AutoCompleteSearchOption extends AutoCompleteOption {
+  final String query;
+  AutoCompleteSearchOption(this.query);
+}
+
+class AutoCompleteDividerOption extends AutoCompleteOption {}
 
 class SearchField extends ConsumerStatefulWidget {
   const SearchField({
     super.key,
     required this.onSearch,
-    required this.onSelected,
+    required this.onSnapSelected,
+    required this.onDebSelected,
   });
 
   final ValueChanged<String> onSearch;
-  final ValueChanged<String> onSelected;
+  final ValueChanged<String> onSnapSelected;
+  final ValueChanged<AppstreamComponent> onDebSelected;
 
   @override
   ConsumerState<SearchField> createState() => _SearchFieldState();
@@ -44,18 +82,34 @@ class _SearchFieldState extends ConsumerState<SearchField> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return RawAutocomplete<SnapAutoCompleteOption>(
+    return RawAutocomplete<AutoCompleteOption>(
       optionsBuilder: (query) async {
         ref.read(queryProvider.notifier).state = query.text;
         final options = await ref.watch(autoCompleteProvider.future);
-        if (options.isEmpty) return [];
-        return options
-            .take(5)
-            .map<SnapAutoCompleteOption>(
-                (snap) => (snap: snap, query: query.text))
-            .followedBy([(snap: null, query: query.text)]);
+        if (options.snaps.isEmpty && options.debs.isEmpty) return [];
+        final snapOptions = options.snaps
+            .take(3)
+            .map<AutoCompleteOption>(AutoCompleteSnapOption.new)
+            .toList();
+        final debOptions = options.debs
+            .take(3)
+            .map<AutoCompleteOption>(AutoCompleteDebOption.new)
+            .toList();
+        return <AutoCompleteOption>[
+          if (snapOptions.isNotEmpty) ...[
+            AutoCompleteSectionOption(l10n.searchFieldSnapSection),
+            ...snapOptions,
+            AutoCompleteDividerOption()
+          ],
+          if (debOptions.isNotEmpty) ...[
+            AutoCompleteSectionOption(l10n.searchFieldDebSection),
+            ...debOptions,
+            AutoCompleteDividerOption(),
+          ],
+          AutoCompleteSearchOption(query.text),
+        ];
       },
-      displayStringForOption: (option) => option.snap?.name ?? option.query,
+      displayStringForOption: (option) => option.title,
       optionsViewBuilder: (context, onSelected, options) => Align(
         alignment: Alignment.topLeft,
         child: Material(
@@ -70,28 +124,20 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                 final option = options.elementAt(index);
                 _optionsAvailable = options.isNotEmpty;
                 return InkWell(
-                  onTap: () => onSelected(option),
+                  onTap: option.selectable ? () => onSelected(option) : null,
                   child: Builder(builder: (context) {
-                    final bool highlight =
+                    final bool selected =
                         AutocompleteHighlightedOption.of(context) == index;
-                    if (highlight) {
+                    if (selected) {
                       SchedulerBinding.instance
                           .addPostFrameCallback((Duration timeStamp) {
                         Scrollable.ensureVisible(context, alignment: 0.5);
                       });
                     }
-                    return option.snap != null
-                        ? ListTile(
-                            selected: highlight,
-                            contentPadding: const EdgeInsets.all(8),
-                            leading: SnapIcon(iconUrl: option.snap!.iconUrl),
-                            title: Text(option.snap!.titleOrName),
-                          )
-                        : ListTile(
-                            title: Text(
-                                l10n.searchFieldSearchForLabel(option.query)),
-                            selected: highlight,
-                          );
+                    return _AutoCompleteTile(
+                      option: option,
+                      selected: selected,
+                    );
                   }),
                 );
               },
@@ -99,9 +145,13 @@ class _SearchFieldState extends ConsumerState<SearchField> {
           ),
         ),
       ),
-      onSelected: (option) => option.snap != null
-          ? widget.onSelected(option.snap!.name)
-          : widget.onSearch(option.query),
+      onSelected: (option) => switch (option) {
+        AutoCompleteSnapOption(snap: final snap) =>
+          widget.onSnapSelected(snap.name),
+        AutoCompleteDebOption(deb: final deb) => widget.onDebSelected(deb),
+        AutoCompleteSearchOption(query: final query) => widget.onSearch(query),
+        _ => () {}
+      },
       fieldViewBuilder: (context, controller, node, onFieldSubmitted) {
         return Consumer(builder: (context, ref, child) {
           ref.listen(queryProvider, (prev, next) {
@@ -141,5 +191,51 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         });
       },
     );
+  }
+}
+
+class _AutoCompleteTile extends StatelessWidget {
+  const _AutoCompleteTile({required this.option, required this.selected});
+
+  static const _iconSize = 32.0;
+
+  final AutoCompleteOption option;
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return switch (option) {
+      AutoCompleteSnapOption(snap: final snap) => ListTile(
+          selected: selected,
+          title: Text(snap.titleOrName),
+          leading: SnapIcon(
+            size: _iconSize,
+            iconUrl: snap.iconUrl,
+          ),
+        ),
+      AutoCompleteDebOption(deb: final deb) => ListTile(
+          selected: selected,
+          title: Text(deb.getLocalizedName()),
+          leading: SnapIcon(
+            size: _iconSize,
+            iconUrl:
+                deb.icons.whereType<AppstreamRemoteIcon>().firstOrNull?.url,
+          ),
+        ),
+      AutoCompleteSearchOption(query: final query) => ListTile(
+          selected: selected,
+          title: Text(
+            l10n.searchFieldSearchForLabel(query),
+          ),
+        ),
+      AutoCompleteSectionOption(section: final section) => ListTile(
+          title: Text(
+            section,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ),
+      AutoCompleteDividerOption() => const Divider(),
+    };
   }
 }

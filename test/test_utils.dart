@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:app_center/l10n.dart';
-import 'package:app_center/search.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/manage/manage_model.dart';
+import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,12 +27,20 @@ extension WidgetTesterX on WidgetTester {
   }
 }
 
-Stream<List<Snap>> Function(SnapSearchParameters) createMockSearchProvider(
+Stream<List<Snap>> Function(SnapSearchParameters) createMockSnapSearchProvider(
     Map<SnapSearchParameters, List<Snap>> searchResults) {
   return (SnapSearchParameters searchParameters) => Stream.value(
         searchResults.entries
                 .firstWhereOrNull((e) => e.key == searchParameters)
                 ?.value ??
+            [],
+      );
+}
+
+Stream<List<AppstreamComponent>> Function(String) createMockDebSearchProvider(
+    Map<String, List<AppstreamComponent>> searchResults) {
+  return (String query) => Stream.value(
+        searchResults.entries.firstWhereOrNull((e) => e.key == query)?.value ??
             [],
       );
 }

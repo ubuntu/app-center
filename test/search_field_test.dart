@@ -1,4 +1,7 @@
+import 'package:app_center/appstream.dart';
 import 'package:app_center/search.dart';
+import 'package:app_center/snapd.dart';
+import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,39 +17,104 @@ abstract class StringCallback {
 class MockStringCallback extends Mock implements StringCallback {}
 
 void main() {
-  final mockSearchProvider = createMockSearchProvider({
+  final mockSnapSearchProvider = createMockSnapSearchProvider({
     const SnapSearchParameters(query: 'testsn'): const [
       Snap(name: 'testsnap', title: 'Test Snap'),
       Snap(name: 'testsnap2', title: 'Another Test Snap'),
     ]
   });
 
-  testWidgets('autocomplete options', (tester) async {
-    await tester.pumpApp(
-      (_) => ProviderScope(
-        overrides: [
-          searchProvider.overrideWith((ref, query) => mockSearchProvider(query))
-        ],
-        child: SearchField(onSearch: (_) {}, onSelected: (_) {}),
-      ),
-    );
+  final mockDebSearchProvider = createMockDebSearchProvider({
+    'testsn': const [
+      AppstreamComponent(
+        id: 'testsnImeanDeb.desktop',
+        type: AppstreamComponentType.desktopApplication,
+        package: 'testsn',
+        name: {'C': 'Test Sn..I mean deb'},
+        summary: {'C': 'The infamous Test snap as a debian package!'},
+      )
+    ]
+  });
 
-    final testSnapFinder = find.text('Test Snap');
-    final anotherTestSnapFinder = find.text('Another Test Snap');
-    final searchForQueryFinder =
-        find.text(tester.l10n.searchFieldSearchForLabel('testsn'));
+  group('autocomplete options', () {
+    testWidgets('only snap results', (tester) async {
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            snapSearchProvider.overrideWith((ref, searchParameters) =>
+                mockSnapSearchProvider(searchParameters)),
+            appstreamSearchProvider
+                .overrideWith((ref, query) => Stream.value([]))
+          ],
+          child: SearchField(
+            onSearch: (_) {},
+            onSnapSelected: (_) {},
+            onDebSelected: (_) {},
+          ),
+        ),
+      );
 
-    expect(testSnapFinder, findsNothing);
-    expect(anotherTestSnapFinder, findsNothing);
-    expect(searchForQueryFinder, findsNothing);
+      final testSnapFinder = find.text('Test Snap');
+      final anotherTestSnapFinder = find.text('Another Test Snap');
+      final searchForQueryFinder =
+          find.text(tester.l10n.searchFieldSearchForLabel('testsn'));
 
-    final textField = find.byType(TextField);
-    await tester.enterText(textField, 'testsn');
-    await tester.pumpAndSettle();
+      expect(testSnapFinder, findsNothing);
+      expect(anotherTestSnapFinder, findsNothing);
+      expect(searchForQueryFinder, findsNothing);
 
-    expect(testSnapFinder, findsOneWidget);
-    expect(anotherTestSnapFinder, findsOneWidget);
-    expect(searchForQueryFinder, findsOneWidget);
+      final textField = find.byType(TextField);
+      await tester.enterText(textField, 'testsn');
+      await tester.pumpAndSettle();
+
+      expect(testSnapFinder, findsOneWidget);
+      expect(anotherTestSnapFinder, findsOneWidget);
+      expect(searchForQueryFinder, findsOneWidget);
+
+      expect(find.text(tester.l10n.searchFieldSnapSection), findsOneWidget);
+      expect(find.text(tester.l10n.searchFieldDebSection), findsNothing);
+    });
+
+    testWidgets('snap and deb results', (tester) async {
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            snapSearchProvider.overrideWith((ref, searchParameters) =>
+                mockSnapSearchProvider(searchParameters)),
+            appstreamSearchProvider
+                .overrideWith((ref, query) => mockDebSearchProvider(query))
+          ],
+          child: SearchField(
+            onSearch: (_) {},
+            onSnapSelected: (_) {},
+            onDebSelected: (_) {},
+          ),
+        ),
+      );
+
+      final testSnapFinder = find.text('Test Snap');
+      final anotherTestSnapFinder = find.text('Another Test Snap');
+      final testDebFinder = find.text('Test Sn..I mean deb');
+      final searchForQueryFinder =
+          find.text(tester.l10n.searchFieldSearchForLabel('testsn'));
+
+      expect(testSnapFinder, findsNothing);
+      expect(anotherTestSnapFinder, findsNothing);
+      expect(testDebFinder, findsNothing);
+      expect(searchForQueryFinder, findsNothing);
+
+      final textField = find.byType(TextField);
+      await tester.enterText(textField, 'testsn');
+      await tester.pumpAndSettle();
+
+      expect(testSnapFinder, findsOneWidget);
+      expect(testDebFinder, findsOneWidget);
+      expect(anotherTestSnapFinder, findsOneWidget);
+      expect(searchForQueryFinder, findsOneWidget);
+
+      expect(find.text(tester.l10n.searchFieldSnapSection), findsOneWidget);
+      expect(find.text(tester.l10n.searchFieldDebSection), findsOneWidget);
+    });
   });
 
   group('callbacks', () {
@@ -57,12 +125,15 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            searchProvider
-                .overrideWith((ref, query) => mockSearchProvider(query))
+            snapSearchProvider.overrideWith((ref, searchParameters) =>
+                mockSnapSearchProvider(searchParameters)),
+            appstreamSearchProvider
+                .overrideWith((ref, query) => Stream.value([]))
           ],
           child: SearchField(
             onSearch: mockSearchCallback,
-            onSelected: mockSelectedCallback,
+            onSnapSelected: mockSelectedCallback,
+            onDebSelected: (_) {},
           ),
         ),
       );
@@ -84,12 +155,15 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            searchProvider
-                .overrideWith((ref, query) => mockSearchProvider(query))
+            snapSearchProvider.overrideWith((ref, searchParameters) =>
+                mockSnapSearchProvider(searchParameters)),
+            appstreamSearchProvider
+                .overrideWith((ref, query) => Stream.value([]))
           ],
           child: SearchField(
             onSearch: mockSearchCallback,
-            onSelected: mockSelectedCallback,
+            onSnapSelected: mockSelectedCallback,
+            onDebSelected: (_) {},
           ),
         ),
       );
@@ -112,12 +186,15 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            searchProvider
-                .overrideWith((ref, query) => mockSearchProvider(query))
+            snapSearchProvider.overrideWith((ref, searchParameters) =>
+                mockSnapSearchProvider(searchParameters)),
+            appstreamSearchProvider
+                .overrideWith((ref, query) => Stream.value([]))
           ],
           child: SearchField(
             onSearch: mockSearchCallback,
-            onSelected: mockSelectedCallback,
+            onSnapSelected: mockSelectedCallback,
+            onDebSelected: (_) {},
           ),
         ),
       );

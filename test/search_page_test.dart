@@ -9,7 +9,7 @@ import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'test_utils.dart';
 
 void main() {
-  final mockSearchProvider = createMockSearchProvider({
+  final mockSearchProvider = createMockSnapSearchProvider({
     const SnapSearchParameters(query: 'testsn'): const [
       Snap(name: 'testsnap', title: 'Test Snap', downloadSize: 3),
       Snap(name: 'testsnap2', title: 'Another Test Snap', downloadSize: 1),
@@ -29,7 +29,8 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          searchProvider.overrideWith((ref, query) => mockSearchProvider(query))
+          snapSearchProvider
+              .overrideWith((ref, query) => mockSearchProvider(query))
         ],
         child: const SearchPage(query: 'testsn'),
       ),
@@ -52,7 +53,8 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          searchProvider.overrideWith((ref, query) => mockSearchProvider(query))
+          snapSearchProvider
+              .overrideWith((ref, query) => mockSearchProvider(query))
         ],
         child: const SearchPage(
           query: 'testsn',
@@ -78,7 +80,8 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          searchProvider.overrideWith((ref, query) => mockSearchProvider(query))
+          snapSearchProvider
+              .overrideWith((ref, query) => mockSearchProvider(query))
         ],
         child: const SearchPage(
           category: 'education',
@@ -101,7 +104,7 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            searchProvider
+            snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query))
           ],
           child: const SearchPage(query: 'testsn'),
@@ -126,7 +129,7 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            searchProvider
+            snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query))
           ],
           child: const SearchPage(query: 'testsn'),
@@ -154,7 +157,7 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            searchProvider
+            snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query))
           ],
           child: const SearchPage(query: 'testsn'),
@@ -185,7 +188,7 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            searchProvider
+            snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query))
           ],
           child: const SearchPage(query: 'foo'),
@@ -202,7 +205,7 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            searchProvider
+            snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query))
           ],
           child: const SearchPage(query: 'foo', category: 'social'),
