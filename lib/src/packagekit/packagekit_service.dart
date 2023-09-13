@@ -19,6 +19,8 @@ class PackageKitService {
   bool get isAvailable => _isAvailable;
   bool _isAvailable = false;
 
+  // Keep track of active transactions.
+  // TODO: Implement `GetTransactionList` in packagekit.dart instead.
   int _nextId = 0;
   final Map<int, PackageKitTransaction> _transactions = {};
 
@@ -49,7 +51,9 @@ class PackageKitService {
     try {
       await _client.connect();
       _isAvailable = true;
-    } on DBusServiceUnknownException catch (_) {}
+    } on DBusServiceUnknownException catch (_) {
+      // Service isn't available
+    }
   }
 
   /// Creates a new `PackageKitTransaction` and invokes `action` on it, if
