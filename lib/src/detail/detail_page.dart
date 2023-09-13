@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -16,6 +15,8 @@ import '/l10n.dart';
 import '/layout.dart';
 import '/snapd.dart';
 import '/widgets.dart';
+import '../ratings/ratings_l10n.dart';
+import '../ratings/ratings_model.dart';
 
 const _kPrimaryButtonMaxWidth = 136.0;
 const _kChannelDropdownWidth = 220.0;
@@ -31,13 +32,24 @@ class DetailPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final snapModel = ref.watch(snapModelProvider(snapName));
     final updatesModel = ref.watch(updatesModelProvider);
+
     return snapModel.state.when(
-      data: (_) => ResponsiveLayoutBuilder(
-        builder: (_) => _SnapView(
-          snapModel: snapModel,
-          updatesModel: updatesModel,
-        ),
-      ),
+      data: (snapData) {
+        final snapId = snapModel.snap.id; // Replace with actual field name
+        final ratingsModel = ref.watch(ratingsModelProvider(snapId));
+
+        return ratingsModel.state.when(
+          data: (_) => ResponsiveLayoutBuilder(
+            builder: (_) => _SnapView(
+              snapModel: snapModel,
+              updatesModel: updatesModel,
+              ratingsModel: ratingsModel,
+            ),
+          ),
+          error: (error, stackTrace) => ErrorWidget(error),
+          loading: () => const Center(child: YaruCircularProgressIndicator()),
+        );
+      },
       error: (error, stackTrace) => ErrorWidget(error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
@@ -45,21 +57,27 @@ class DetailPage extends ConsumerWidget {
 }
 
 class _SnapView extends ConsumerWidget {
-  const _SnapView({required this.snapModel, required this.updatesModel});
+  const _SnapView({
+    required this.snapModel,
+    required this.updatesModel,
+    required this.ratingsModel,
+  });
 
   final SnapModel snapModel;
   final UpdatesModel updatesModel;
+  final RatingsModel ratingsModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-
     final snapInfos = <SnapInfo>[
       (
-        label: '123 Ratings',
+        label:
+            '${ratingsModel.snapRating?.totalVotes ?? 0} ${l10n.snapRatingsVotes}',
         value: Text(
-          'Positive',
-          style: TextStyle(color: Theme.of(context).colorScheme.success),
+          ratingsModel.snapRating?.ratingsBand.localize(l10n) ?? ' ',
+          style: TextStyle(
+              color: ratingsModel.snapRating!.ratingsBand.getColor(context)),
         )
       ), // Placeholder
       (

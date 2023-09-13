@@ -13,6 +13,11 @@ dependencies:
   cached_network_image: ^3.2.3
   collection: ^1.17.0
   dbus: ^0.7.8
+  app_center_ratings_client:
+    git: 
+      url: https://github.com/matthew-hagemann/app_center_ratings_client.dart.git
+      ref: register-auth-merge
+  crypto: ^3.0.3
   file: ^6.1.0
   flutter:
     sdk: flutter
@@ -23,9 +28,11 @@ dependencies:
   flutter_markdown: ^0.6.15+1
   flutter_riverpod: ^2.3.6
   github: ^9.15.1
+  glib: ^0.0.1
   gtk: ^2.1.0
   handy_window: ^0.3.1
   intl: ^0.18.0
+  jwt_decode: ^0.3.1
   meta: ^1.9.1
   package_info_plus: ^4.0.2
   packagekit: ^0.2.6
