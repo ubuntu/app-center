@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -121,6 +122,7 @@ class _SnapCardBody extends StatelessWidget {
               rating?.ratingsBand.localize(l10n) ?? ' ',
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: rating?.ratingsBand.getColor(context),
+                    fontSize: 12,
                   ),
             ),
             const SizedBox(width: 2),

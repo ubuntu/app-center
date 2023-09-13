@@ -77,7 +77,8 @@ class _SnapView extends ConsumerWidget {
         value: Text(
           ratingsModel.snapRating?.ratingsBand.localize(l10n) ?? ' ',
           style: TextStyle(
-              color: ratingsModel.snapRating!.ratingsBand.getColor(context)),
+              color: ratingsModel.snapRating!.ratingsBand.getColor(context),
+              fontSize: 12),
         )
       ), // Placeholder
       (
