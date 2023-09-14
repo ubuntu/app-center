@@ -2,6 +2,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/detail/detail_page.dart';
 import 'package:app_center/src/ratings/exports.dart';
+import 'package:app_center/src/ratings/ratings_l10n.dart';
 import 'package:app_center/src/ratings/ratings_model.dart';
 import 'package:app_center/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -132,6 +133,10 @@ void main() {
     verify(snapModel.remove()).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
+    final l10n = tester.l10n;
+    expect(find.text('${snapRating.totalVotes} ${l10n.snapRatingsVotes}'),
+        findsOneWidget);
+    expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
   testWidgets('local + store with update', (tester) async {
@@ -172,6 +177,10 @@ void main() {
     verify(snapModel.remove()).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsOneWidget);
+    final l10n = tester.l10n;
+    expect(find.text('${snapRating.totalVotes} ${l10n.snapRatingsVotes}'),
+        findsOneWidget);
+    expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
   testWidgets('store-only', (tester) async {
@@ -199,6 +208,10 @@ void main() {
 
     await tester.tap(find.text(tester.l10n.snapActionInstallLabel));
     verify(snapModel.install()).called(1);
+    final l10n = tester.l10n;
+    expect(find.text('${snapRating.totalVotes} ${l10n.snapRatingsVotes}'),
+        findsOneWidget);
+    expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
   testWidgets('local-only', (tester) async {
@@ -234,6 +247,10 @@ void main() {
     verify(snapModel.remove()).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
+    final l10n = tester.l10n;
+    expect(find.text('${snapRating.totalVotes} ${l10n.snapRatingsVotes}'),
+        findsOneWidget);
+    expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
   testWidgets('loading', (tester) async {
@@ -256,6 +273,10 @@ void main() {
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
     expect(find.byType(YaruCircularProgressIndicator), findsOneWidget);
+    final l10n = tester.l10n;
+    expect(find.text('${snapRating.totalVotes} ${l10n.snapRatingsVotes}'),
+        findsNothing);
+    expect(find.text(snapRating.ratingsBand.localize(l10n)), findsNothing);
   });
 
   // TODO: test loading states with snap change in progress
