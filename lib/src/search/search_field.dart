@@ -58,7 +58,7 @@ class SearchField extends ConsumerStatefulWidget {
 
   final ValueChanged<String> onSearch;
   final ValueChanged<String> onSnapSelected;
-  final ValueChanged<AppstreamComponent> onDebSelected;
+  final ValueChanged<String> onDebSelected;
 
   @override
   ConsumerState<SearchField> createState() => _SearchFieldState();
@@ -148,7 +148,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
       onSelected: (option) => switch (option) {
         AutoCompleteSnapOption(snap: final snap) =>
           widget.onSnapSelected(snap.name),
-        AutoCompleteDebOption(deb: final deb) => widget.onDebSelected(deb),
+        AutoCompleteDebOption(deb: final deb) => widget.onDebSelected(deb.id),
         AutoCompleteSearchOption(query: final query) => widget.onSearch(query),
         _ => () {}
       },
