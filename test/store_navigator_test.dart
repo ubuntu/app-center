@@ -22,11 +22,11 @@ void main() {
     ));
 
     final context = tester.element(find.byType(Scaffold));
-    unawaited(StoreNavigator.pushDetail(context, name: 'foo'));
+    unawaited(StoreNavigator.pushSnap(context, name: 'foo'));
     await tester.pump();
     expect(
       generatedRoutes,
-      expectedRoutes..add(StoreRoutes.namedDetail(name: 'foo')),
+      expectedRoutes..add(StoreRoutes.namedSnap(name: 'foo')),
     );
 
     unawaited(
@@ -50,7 +50,7 @@ void main() {
     );
 
     unawaited(
-      StoreNavigator.pushSearchDetail(
+      StoreNavigator.pushSearchSnap(
         context,
         name: 'foo',
         query: 'bar',
@@ -61,7 +61,7 @@ void main() {
     expect(
       generatedRoutes,
       expectedRoutes
-        ..add(StoreRoutes.namedSearchDetail(
+        ..add(StoreRoutes.namedSearchSnap(
             name: 'foo', query: 'bar', category: 'baz')),
     );
   });

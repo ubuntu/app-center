@@ -22,8 +22,8 @@ const _kChannelDropdownWidth = 220.0;
 
 typedef SnapInfo = ({String label, Widget value});
 
-class DetailPage extends ConsumerWidget {
-  const DetailPage({super.key, required this.snapName});
+class SnapPage extends ConsumerWidget {
+  const SnapPage({super.key, required this.snapName});
 
   final String snapName;
 
@@ -56,7 +56,7 @@ class _SnapView extends ConsumerWidget {
 
     final snapInfos = <SnapInfo>[
       (
-        label: l10n.detailPageConfinementLabel,
+        label: l10n.snapPageConfinementLabel,
         value: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -74,7 +74,7 @@ class _SnapView extends ConsumerWidget {
         ),
       ),
       (
-        label: l10n.detailPageDownloadSizeLabel,
+        label: l10n.snapPageDownloadSizeLabel,
         value: Text(
           snapModel.channelInfo != null
               ? context.formatByteSize(snapModel.channelInfo!.size)
@@ -82,7 +82,7 @@ class _SnapView extends ConsumerWidget {
         ),
       ),
       (
-        label: l10n.detailPagePublishedLabel,
+        label: l10n.snapPagePublishedLabel,
         value: Text(
           snapModel.channelInfo != null
               ? DateFormat.yMMMd().format(snapModel.channelInfo!.releasedAt)
@@ -90,18 +90,18 @@ class _SnapView extends ConsumerWidget {
         ),
       ),
       (
-        label: l10n.detailPageLicenseLabel,
+        label: l10n.snapPageLicenseLabel,
         value: Text(snapModel.snap.license ?? ''),
       ),
       (
-        label: l10n.detailPageLinksLabel,
+        label: l10n.snapPageLinksLabel,
         value: Column(
           children: [
             if (snapModel.snap.website != null)
-              '<a href="${snapModel.snap.website}">${l10n.detailPageDeveloperWebsiteLabel}</a>',
+              '<a href="${snapModel.snap.website}">${l10n.snapPageDeveloperWebsiteLabel}</a>',
             if (snapModel.snap.contact != null &&
                 snapModel.snap.publisher != null)
-              '<a href="${snapModel.snap.contact}">${l10n.detailPageContactPublisherLabel(snapModel.snap.publisher!.displayName)}</a>'
+              '<a href="${snapModel.snap.contact}">${l10n.snapPageContactPublisherLabel(snapModel.snap.publisher!.displayName)}</a>'
           ]
               .map((link) => Html(
                     data: link,
@@ -140,14 +140,14 @@ class _SnapView extends ConsumerWidget {
                       const Divider(),
                       if (snapModel.hasGallery)
                         _Section(
-                          header: Text(l10n.detailPageGalleryLabel),
+                          header: Text(l10n.snapPageGalleryLabel),
                           child: SnapScreenshotGallery(
                             snap: snapModel.storeSnap!,
                             height: layout.totalWidth / 2,
                           ),
                         ),
                       _Section(
-                        header: Text(l10n.detailPageDescriptionLabel),
+                        header: Text(l10n.snapPageDescriptionLabel),
                         child: SizedBox(
                           width: double.infinity,
                           child: MarkdownBody(
@@ -445,7 +445,7 @@ class _ChannelDropdown extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          l10n.detailPageChannelLabel,
+          l10n.snapPageChannelLabel,
           style: Theme.of(context).textTheme.labelLarge,
         ),
         const SizedBox(width: 16),
@@ -510,9 +510,9 @@ class _ChannelDropdownEntry extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(l10n.detailPageChannelLabel),
-                  Text(l10n.detailPageVersionLabel),
-                  Text(l10n.detailPagePublishedLabel),
+                  Text(l10n.snapPageChannelLabel),
+                  Text(l10n.snapPageVersionLabel),
+                  Text(l10n.snapPagePublishedLabel),
                 ],
               ),
             ),

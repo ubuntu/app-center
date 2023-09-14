@@ -1,13 +1,12 @@
 import 'package:flutter/widgets.dart';
 
-// TODO: sort out "snap" vs. "detail"
 abstract class StoreRoutes {
   static const explore = '/explore';
-  static const detail = '/detail';
+  static const snap = '/snap';
   static const manage = '/manage';
   static const search = '/search';
 
-  static bool isDetail(RouteSettings route) => routeOf(route) == detail;
+  static bool isSnap(RouteSettings route) => routeOf(route) == snap;
   static bool isSearch(RouteSettings route) => routeOf(route) == search;
 
   static String routeOf(RouteSettings route) =>
@@ -16,7 +15,7 @@ abstract class StoreRoutes {
   static String? categoryOf(RouteSettings route) =>
       Uri.parse(route.name ?? '').queryParameters['category'];
 
-  static String? detailOf(RouteSettings route) =>
+  static String? snapOf(RouteSettings route) =>
       Uri.parse(route.name ?? '').queryParameters['snap'];
 
   static String? queryOf(RouteSettings route) =>
@@ -26,8 +25,8 @@ abstract class StoreRoutes {
     return Uri(path: path, queryParameters: params).toString();
   }
 
-  static String namedDetail({required String name}) {
-    return namedRoute(StoreRoutes.detail, {'snap': name});
+  static String namedSnap({required String name}) {
+    return namedRoute(StoreRoutes.snap, {'snap': name});
   }
 
   static String namedSearch({String? query, String? category}) {
@@ -37,12 +36,12 @@ abstract class StoreRoutes {
     });
   }
 
-  static String namedSearchDetail({
+  static String namedSearchSnap({
     required String name,
     String? query,
     String? category,
   }) {
-    return namedRoute(StoreRoutes.detail, {
+    return namedRoute(StoreRoutes.snap, {
       'snap': name,
       if (query != null) 'query': query,
       if (category != null) 'category': category,

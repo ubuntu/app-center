@@ -328,7 +328,7 @@ class _ManageSnapTile extends ConsumerWidget {
           ),
       },
       leading: Clickable(
-        onTap: () => StoreNavigator.pushDetail(context, name: snap.name),
+        onTap: () => StoreNavigator.pushSnap(context, name: snap.name),
         child: AppIcon(iconUrl: snap.iconUrl, size: 40),
       ),
       title: Row(
@@ -338,8 +338,7 @@ class _ManageSnapTile extends ConsumerWidget {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Clickable(
-                onTap: () =>
-                    StoreNavigator.pushDetail(context, name: snap.name),
+                onTap: () => StoreNavigator.pushSnap(context, name: snap.name),
                 child: Text(
                   snap.titleOrName,
                   maxLines: 1,
@@ -429,7 +428,7 @@ class _ManageSnapTile extends ConsumerWidget {
             menuChildren: [
               MenuItemButton(
                 onPressed: () =>
-                    StoreNavigator.pushDetail(context, name: snap.name),
+                    StoreNavigator.pushSnap(context, name: snap.name),
                 child: Text(
                   l10n.managePageShowDetailsLabel,
                   style: Theme.of(context).textTheme.bodyMedium,

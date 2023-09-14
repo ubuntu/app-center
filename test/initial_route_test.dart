@@ -38,7 +38,7 @@ void main() {
       fireImmediately: true,
     );
 
-    verify(listener(null, StoreRoutes.namedDetail(name: 'bar'))).called(1);
+    verify(listener(null, StoreRoutes.namedSnap(name: 'bar'))).called(1);
   });
 
   test('snap url', () {
@@ -54,7 +54,7 @@ void main() {
       fireImmediately: true,
     );
 
-    verify(listener(null, StoreRoutes.namedDetail(name: 'bar'))).called(1);
+    verify(listener(null, StoreRoutes.namedSnap(name: 'bar'))).called(1);
   });
 
   test('no arguments', () {
