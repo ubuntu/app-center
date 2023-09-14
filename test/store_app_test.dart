@@ -1,5 +1,4 @@
 import 'package:app_center/snapd.dart';
-import 'package:app_center/src/ratings/exports.dart';
 import 'package:app_center/src/ratings/ratings_service.dart';
 import 'package:app_center/src/store/store_app.dart';
 import 'package:flutter/material.dart';

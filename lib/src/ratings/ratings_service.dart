@@ -31,12 +31,8 @@ class RatingsService {
   }
 
   Future<Rating?> getRating(String snapId) async {
-    try {
-      await _ensureValidToken();
-      return _client.getRating(snapId, _jwt!);
-    } catch (e) {
-      return null;
-    }
+    await _ensureValidToken();
+    return _client.getRating(snapId, _jwt!);
   }
 
   Future<void> vote(Vote vote) async {
@@ -52,24 +48,5 @@ class RatingsService {
   Future<List<Vote>> listMyVotes(String snapFilter) async {
     await _ensureValidToken();
     return await _client.listMyVotes(snapFilter, _jwt!);
-  }
-
-  Future<Map<String, Rating?>> getRatings(List<String> snapIds) async {
-    await _ensureValidToken();
-
-    final Map<String, Rating?> resultMap = {};
-    final List<Future<void>> futures = [];
-
-    for (final String snapId in snapIds) {
-      final future = getRating(snapId).then((rating) {
-        resultMap[snapId] = rating;
-      }).catchError((error) {
-        resultMap[snapId] = null;
-      });
-      futures.add(future);
-    }
-
-    await Future.wait(futures);
-    return resultMap;
   }
 }

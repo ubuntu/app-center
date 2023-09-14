@@ -1,20 +1,19 @@
+import 'package:app_center/l10n.dart';
+import 'package:app_center/src/ratings/ratings_l10n.dart';
+import 'package:app_center/src/ratings/ratings_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/layout.dart';
 import '/snapd.dart';
 import '/widgets.dart';
-import '../../l10n.dart';
-import '../ratings/exports.dart';
-import '../ratings/ratings_l10n.dart';
 
 class SnapCard extends StatelessWidget {
   SnapCard({
     super.key,
     required this.snap,
-    required this.rating,
     this.onTap,
     this.compact = false,
   });
@@ -22,7 +21,6 @@ class SnapCard extends StatelessWidget {
   final Snap snap;
   final VoidCallback? onTap;
   final bool compact;
-  Rating? rating;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,7 @@ class SnapCard extends StatelessWidget {
         children: [
           SnapIcon(iconUrl: snap.iconUrl),
           const SizedBox(width: 16, height: 16),
-          Expanded(child: _SnapCardBody(snap: snap, rating: rating)),
+          Expanded(child: _SnapCardBody(snap: snap)),
         ],
       ),
     );
@@ -43,12 +41,10 @@ class SnapCard extends StatelessWidget {
 }
 
 class SnapImageCard extends StatelessWidget {
-  SnapImageCard(
-      {super.key, required this.snap, this.onTap, required this.rating});
+  SnapImageCard({super.key, required this.snap, this.onTap});
 
   final Snap snap;
   final VoidCallback? onTap;
-  Rating? rating;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +73,6 @@ class SnapImageCard extends StatelessWidget {
               child: _SnapCardBody(
                 snap: snap,
                 maxlines: 1,
-                rating: rating,
               ),
             ),
           ),
@@ -88,15 +83,13 @@ class SnapImageCard extends StatelessWidget {
 }
 
 class _SnapCardBody extends StatelessWidget {
-  _SnapCardBody({required this.snap, this.maxlines = 2, required this.rating});
+  _SnapCardBody({required this.snap, this.maxlines = 2});
 
   final Snap snap;
   final int maxlines;
-  Rating? rating;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -116,7 +109,26 @@ class _SnapCardBody extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Wrap(
+        _RatingsInfo(snapId: snap.id),
+      ],
+    );
+  }
+}
+
+class _RatingsInfo extends ConsumerWidget {
+  const _RatingsInfo({required this.snapId});
+
+  final String snapId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ratingsModel = ref.watch(ratingsModelProvider(snapId));
+    final l10n = AppLocalizations.of(context);
+
+    return ratingsModel.state.when(
+      data: (ratingsData) {
+        final rating = ratingsModel.snapRating;
+        return Wrap(
           children: [
             Text(
               rating?.ratingsBand.localize(l10n) ?? ' ',
@@ -134,8 +146,10 @@ class _SnapCardBody extends StatelessWidget {
               ),
             ],
           ],
-        ),
-      ],
+        );
+      },
+      error: (error, stackTrace) => const Text(""),
+      loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }
 }

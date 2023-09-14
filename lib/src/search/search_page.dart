@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '../ratings/ratings_list_model.dart';
 import '/l10n.dart';
 import '/layout.dart';
 import '/snapd.dart';
@@ -119,58 +118,40 @@ class SearchPage extends StatelessWidget {
                 ),
               );
               return results.when(
-                data: (data) {
-                  if (data.isNotEmpty) {
-                    final snapIds = data.map((snap) => snap.id).toList();
-                    return Consumer(
-                      builder: (context, ref, child) {
-                        final ratingsList =
-                            ref.watch(ratingsListModelProvider(snapIds));
-                        return ratingsList.state.when(
-                          data: (ratings) => ResponsiveLayoutScrollView(
-                            slivers: [
-                              SnapCardGrid(
-                                snaps: data,
-                                ratings: ratingsList.snapRatings!,
-                                onTap: (snap) =>
-                                    StoreNavigator.pushSearchDetail(
-                                  context,
-                                  name: snap.name,
-                                  query: query,
-                                ),
-                              ),
-                            ],
+                data: (data) => data.isNotEmpty
+                    ? ResponsiveLayoutScrollView(
+                        slivers: [
+                          SnapCardGrid(
+                            snaps: data,
+                            onTap: (snap) => StoreNavigator.pushSearchDetail(
+                              context,
+                              name: snap.name,
+                              query: query,
+                            ),
                           ),
-                          error: (error, stack) => ErrorWidget(error),
-                          loading: () => const Center(
-                              child: YaruCircularProgressIndicator()),
-                        );
-                      },
-                    );
-                  } else {
-                    return Padding(
-                      padding: ResponsiveLayout.of(context).padding,
-                      child: Column(
-                        children: [
-                          const Spacer(flex: 1),
-                          Text(
-                            category == null
-                                ? l10n.searchPageNoResults(query!)
-                                : l10n.searchPageNoResultsCategory,
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                          Text(
-                            category == null
-                                ? l10n.searchPageNoResultsHint
-                                : l10n.searchPageNoResultsCategoryHint,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          const Spacer(flex: 3),
                         ],
+                      )
+                    : Padding(
+                        padding: ResponsiveLayout.of(context).padding,
+                        child: Column(
+                          children: [
+                            const Spacer(flex: 1),
+                            Text(
+                              category == null
+                                  ? l10n.searchPageNoResults(query!)
+                                  : l10n.searchPageNoResultsCategory,
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            Text(
+                              category == null
+                                  ? l10n.searchPageNoResultsHint
+                                  : l10n.searchPageNoResultsCategoryHint,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            const Spacer(flex: 3),
+                          ],
+                        ),
                       ),
-                    );
-                  }
-                },
                 error: (error, stack) => ErrorWidget(error),
                 loading: () =>
                     const Center(child: YaruCircularProgressIndicator()),

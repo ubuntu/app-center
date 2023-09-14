@@ -1,3 +1,5 @@
+import 'package:app_center/src/ratings/ratings_l10n.dart';
+import 'package:app_center/src/ratings/ratings_model.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,13 +17,16 @@ import '/l10n.dart';
 import '/layout.dart';
 import '/snapd.dart';
 import '/widgets.dart';
-import '../ratings/ratings_l10n.dart';
-import '../ratings/ratings_model.dart';
 
 const _kPrimaryButtonMaxWidth = 136.0;
 const _kChannelDropdownWidth = 220.0;
 
-typedef SnapInfo = ({String label, Widget value});
+class SnapInfo {
+  final String label;
+  final Widget value;
+
+  SnapInfo({required this.label, required this.value});
+}
 
 class DetailPage extends ConsumerWidget {
   const DetailPage({super.key, required this.snapName});
@@ -34,22 +39,12 @@ class DetailPage extends ConsumerWidget {
     final updatesModel = ref.watch(updatesModelProvider);
 
     return snapModel.state.when(
-      data: (snapData) {
-        final snapId = snapModel.snap.id; // Replace with actual field name
-        final ratingsModel = ref.watch(ratingsModelProvider(snapId));
-
-        return ratingsModel.state.when(
-          data: (_) => ResponsiveLayoutBuilder(
-            builder: (_) => _SnapView(
-              snapModel: snapModel,
-              updatesModel: updatesModel,
-              ratingsModel: ratingsModel,
-            ),
-          ),
-          error: (error, stackTrace) => ErrorWidget(error),
-          loading: () => const Center(child: YaruCircularProgressIndicator()),
-        );
-      },
+      data: (snapData) => ResponsiveLayoutBuilder(
+        builder: (_) => _SnapView(
+          snapModel: snapModel,
+          updatesModel: updatesModel,
+        ),
+      ),
       error: (error, stackTrace) => ErrorWidget(error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
@@ -60,28 +55,17 @@ class _SnapView extends ConsumerWidget {
   const _SnapView({
     required this.snapModel,
     required this.updatesModel,
-    required this.ratingsModel,
   });
 
   final SnapModel snapModel;
   final UpdatesModel updatesModel;
-  final RatingsModel ratingsModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+
     final snapInfos = <SnapInfo>[
-      (
-        label:
-            '${ratingsModel.snapRating?.totalVotes ?? 0} ${l10n.snapRatingsVotes}',
-        value: Text(
-          ratingsModel.snapRating?.ratingsBand.localize(l10n) ?? ' ',
-          style: TextStyle(
-              color: ratingsModel.snapRating!.ratingsBand.getColor(context),
-              fontSize: 12),
-        )
-      ), // Placeholder
-      (
+      SnapInfo(
         label: l10n.detailPageConfinementLabel,
         value: Row(
           mainAxisSize: MainAxisSize.min,
@@ -99,15 +83,15 @@ class _SnapView extends ConsumerWidget {
           ],
         ),
       ),
-      (
+      SnapInfo(
         label: l10n.detailPageDownloadSizeLabel,
         value: Text(
           snapModel.channelInfo != null
               ? context.formatByteSize(snapModel.channelInfo!.size)
               : '',
-        )
+        ),
       ),
-      (
+      SnapInfo(
         label: l10n.detailPagePublishedLabel,
         value: Text(
           snapModel.channelInfo != null
@@ -115,11 +99,11 @@ class _SnapView extends ConsumerWidget {
               : '',
         ),
       ),
-      (
+      SnapInfo(
         label: l10n.detailPageLicenseLabel,
         value: Text(snapModel.snap.license ?? ''),
       ),
-      (
+      SnapInfo(
         label: l10n.detailPageLinksLabel,
         value: Column(
           children: [
@@ -158,7 +142,11 @@ class _SnapView extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _SnapInfos(snapInfos: snapInfos, layout: layout),
+                      _SnapInfos(
+                        snapInfos: snapInfos,
+                        snapId: snapModel.snap.id,
+                        layout: layout,
+                      ),
                       const Divider(),
                       if (snapModel.hasGallery)
                         _Section(
@@ -191,36 +179,58 @@ class _SnapView extends ConsumerWidget {
   }
 }
 
-class _SnapInfos extends StatelessWidget {
+class _SnapInfos extends ConsumerWidget {
   const _SnapInfos({
     required this.snapInfos,
+    required this.snapId,
     required this.layout,
   });
 
   final List<SnapInfo> snapInfos;
   final ResponsiveLayout layout;
+  final String snapId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final ratingsModel = ref.watch(ratingsModelProvider(snapId));
+
+    final ratings = ratingsModel.state.whenOrNull(
+      data: (_) => SnapInfo(
+        label:
+            '${ratingsModel.snapRating?.totalVotes ?? 0} ${l10n.snapRatingsVotes}',
+        value: Text(
+          ratingsModel.snapRating?.ratingsBand.localize(l10n) ?? '',
+          style: TextStyle(
+              color: ratingsModel.snapRating?.ratingsBand.getColor(context)),
+        ),
+      ),
+    );
+
     return Wrap(
       spacing: kPagePadding,
       runSpacing: 8,
-      children: snapInfos
-          .map((info) => SizedBox(
-                width: (layout.totalWidth -
-                        (layout.snapInfoColumnCount - 1) * kPagePadding) /
-                    layout.snapInfoColumnCount,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(info.label),
-                    DefaultTextStyle.merge(
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                      child: info.value,
-                    ),
-                  ],
-                ),
-              ))
+      children: [
+        if (ratings != null) ratings,
+        ...snapInfos,
+      ]
+          .map(
+            (info) => SizedBox(
+              width: (layout.totalWidth -
+                      (layout.snapInfoColumnCount - 1) * kPagePadding) /
+                  layout.snapInfoColumnCount,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(info.label),
+                  DefaultTextStyle.merge(
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                    child: info.value,
+                  ),
+                ],
+              ),
+            ),
+          )
           .toList(),
     );
   }

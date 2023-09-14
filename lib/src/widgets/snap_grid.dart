@@ -2,20 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
 
 import '/layout.dart';
-import '../ratings/exports.dart';
 import 'snap_card.dart';
 
 class SnapCardGrid extends StatelessWidget {
   const SnapCardGrid({
     super.key,
     required this.snaps,
-    required this.ratings,
     required this.onTap,
   });
 
   final List<Snap> snaps;
   final ValueChanged<Snap> onTap;
-  final Map<String, Rating?> ratings;
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +27,9 @@ class SnapCardGrid extends StatelessWidget {
       itemCount: snaps.length,
       itemBuilder: (context, index) {
         final snap = snaps[index];
-        final rating = ratings[snap.id];
         return SnapCard(
           key: ValueKey(snap.id),
           snap: snap,
-          rating: rating,
           onTap: () => onTap(snap),
         );
       },
@@ -47,12 +42,10 @@ class SnapImageCardGrid extends StatelessWidget {
     super.key,
     required this.snaps,
     required this.onTap,
-    required this.ratings,
   });
 
   final List<Snap> snaps;
   final ValueChanged<Snap> onTap;
-  final Map<String, Rating?> ratings;
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +68,10 @@ class SnapImageCardGrid extends StatelessWidget {
       itemCount: snaps.length,
       itemBuilder: (context, index) {
         final snap = snaps[index];
-        final rating = ratings[snap.id];
         return SnapImageCard(
           key: ValueKey(snap.id),
           snap: snap,
           onTap: () => onTap(snap),
-          rating: rating,
         );
       },
     );

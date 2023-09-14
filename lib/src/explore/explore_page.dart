@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_icons/yaru_icons.dart';
-import 'package:yaru_widgets/widgets.dart';
 
-import '../ratings/ratings_list_model.dart';
 import '/l10n.dart';
 import '/layout.dart';
 import '/snapd.dart';
@@ -129,33 +127,17 @@ class _CategorySnapList extends ConsumerWidget {
             .toList() ??
         [];
 
-    final snapIds = snaps.map((snap) => snap.id).toList();
-
-    return Consumer(
-      builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        final ratingsList = ref.watch(ratingsListModelProvider(snapIds));
-
-        return ratingsList.state.when(
-          data: (ratings) => showScreenshots
-              ? SnapImageCardGrid(
-                  snaps: snaps,
-                  ratings: ratingsList.snapRatings!,
-                  onTap: (snap) =>
-                      StoreNavigator.pushDetail(context, name: snap.name),
-                )
-              : SnapCardGrid(
-                  snaps: snaps,
-                  ratings: ratingsList.snapRatings!,
-                  onTap: (snap) =>
-                      StoreNavigator.pushDetail(context, name: snap.name),
-                ),
-          error: (error, stack) =>
-              SliverToBoxAdapter(child: ErrorWidget(error)),
-          loading: () => const SliverToBoxAdapter(
-              child: Center(child: YaruCircularProgressIndicator())),
-        );
-      },
-    );
+    return showScreenshots
+        ? SnapImageCardGrid(
+            snaps: snaps,
+            onTap: (snap) =>
+                StoreNavigator.pushDetail(context, name: snap.name),
+          )
+        : SnapCardGrid(
+            snaps: snaps,
+            onTap: (snap) =>
+                StoreNavigator.pushDetail(context, name: snap.name),
+          );
   }
 }
 
