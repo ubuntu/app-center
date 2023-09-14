@@ -410,7 +410,7 @@ class _Header extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SnapIcon(iconUrl: snap.iconUrl, size: 96),
+            AppIcon(iconUrl: snap.iconUrl, size: 96),
             const SizedBox(width: 16),
             Expanded(child: SnapTitle.large(snap: snap)),
           ],

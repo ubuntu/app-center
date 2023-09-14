@@ -30,7 +30,7 @@ class SnapCard extends StatelessWidget {
         direction: compact ? Axis.vertical : Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SnapIcon(iconUrl: snap.iconUrl),
+          AppIcon(iconUrl: snap.iconUrl),
           const SizedBox(width: 16, height: 16),
           Expanded(child: _SnapCardBody(snap: snap)),
         ],

@@ -329,7 +329,7 @@ class _ManageSnapTile extends ConsumerWidget {
       },
       leading: Clickable(
         onTap: () => StoreNavigator.pushDetail(context, name: snap.name),
-        child: SnapIcon(iconUrl: snap.iconUrl, size: 40),
+        child: AppIcon(iconUrl: snap.iconUrl, size: 40),
       ),
       title: Row(
         children: [

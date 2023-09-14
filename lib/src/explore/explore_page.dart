@@ -293,7 +293,7 @@ class _BannerIconState extends State<_BannerIcon> {
                     )
                   ],
                 ),
-                child: SnapIcon(
+                child: AppIcon(
                   iconUrl: widget.snap.iconUrl,
                   size: _kIconSize * scale,
                 ),
