@@ -133,7 +133,7 @@ class _CategorySnapList extends ConsumerWidget {
             snaps: snaps,
             onTap: (snap) => StoreNavigator.pushSnap(context, name: snap.name),
           )
-        : SnapCardGrid(
+        : AppCardGrid.fromSnaps(
             snaps: snaps,
             onTap: (snap) => StoreNavigator.pushSnap(context, name: snap.name),
           );

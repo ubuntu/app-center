@@ -118,7 +118,7 @@ void main() {
         ));
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
-    expect(find.byType(SnapScreenshotGallery), findsOneWidget);
+    expect(find.byType(ScreenshotGallery), findsOneWidget);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
 
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
@@ -162,7 +162,7 @@ void main() {
         ));
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
-    expect(find.byType(SnapScreenshotGallery), findsOneWidget);
+    expect(find.byType(ScreenshotGallery), findsOneWidget);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
 
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
@@ -199,7 +199,7 @@ void main() {
         ));
     await tester.pump();
     expectSnapInfos(tester, storeSnap);
-    expect(find.byType(SnapScreenshotGallery), findsOneWidget);
+    expect(find.byType(ScreenshotGallery), findsOneWidget);
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionOpenLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
@@ -232,7 +232,7 @@ void main() {
         ));
     await tester.pump();
     expectSnapInfos(tester, localSnap);
-    expect(find.byType(SnapScreenshotGallery), findsNothing);
+    expect(find.byType(ScreenshotGallery), findsNothing);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
 
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));

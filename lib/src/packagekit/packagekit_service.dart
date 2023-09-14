@@ -98,6 +98,11 @@ class PackageKitService {
     await subscription.cancel();
   }
 
+  Future<void> cancelTransaction(int id) async {
+    if (!_transactions.keys.contains(id)) return;
+    return _transactions[id]!.cancel();
+  }
+
   /// Creates a transaction that installs the package given by `packageId` and
   /// returns the transaction ID.
   Future<int> install(PackageKitPackageId packageId) async =>

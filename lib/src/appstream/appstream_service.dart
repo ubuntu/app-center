@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:appstream/appstream.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:snowball_stemmer/snowball_stemmer.dart';
 
@@ -238,5 +239,17 @@ class AppstreamService {
     }
     scored.sort((a, b) => b.score.compareTo(a.score));
     return scored.map((e) => e.component).toList();
+  }
+
+  AppstreamComponent getFromId(String id) {
+    // Even though appstream IDs are unique, we can have multiple entries with
+    // the same ID in the pool, since we're loading the metadata from multiple
+    // sources. Thus, we're using `firstWhereOrNull` instead of `singleWhereOrNull`
+    // for now.
+    // TODO: Remove duplicate appstream components.
+    final component =
+        _pool.components.firstWhereOrNull((component) => component.id == id);
+    assert(component != null, 'Component not found');
+    return component!;
   }
 }

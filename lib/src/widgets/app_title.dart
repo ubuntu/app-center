@@ -1,21 +1,45 @@
+import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 
+import '/appstream.dart';
 import '/snapd.dart';
 
-class SnapTitle extends StatelessWidget {
-  const SnapTitle({
+class AppTitle extends StatelessWidget {
+  const AppTitle({
     super.key,
-    required this.snap,
+    required this.title,
+    this.publisher,
+    this.verifiedPublisher = false,
+    this.starredPublisher = false,
+    this.snapCategories,
     this.large = false,
   });
 
-  const SnapTitle.large({super.key, required this.snap}) : large = true;
+  factory AppTitle.fromSnap(Snap snap, {large = false}) => AppTitle(
+        title: snap.titleOrName,
+        publisher: snap.publisher?.displayName,
+        verifiedPublisher: snap.verifiedPublisher,
+        starredPublisher: snap.starredPublisher,
+        snapCategories: snap.categories,
+        large: large,
+      );
 
-  final Snap snap;
+  factory AppTitle.fromDeb(AppstreamComponent component, {large = false}) =>
+      AppTitle(
+        title: component.getLocalizedName(),
+        publisher: component.getLocalizedDeveloperName(),
+        large: large,
+      );
+
+  final String title;
+  final String? publisher;
+  final bool verifiedPublisher;
+  final bool starredPublisher;
+  final List<SnapCategory>? snapCategories;
   final bool large;
 
   @override
@@ -31,7 +55,7 @@ class SnapTitle extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          snap.titleOrName,
+          title,
           style: titleTextStyle,
           overflow: TextOverflow.ellipsis,
         ),
@@ -40,30 +64,30 @@ class SnapTitle extends StatelessWidget {
           children: [
             Flexible(
               child: Text(
-                snap.publisher?.displayName ?? l10n.unknownPublisher,
+                publisher ?? l10n.unknownPublisher,
                 style: publisherTextStyle.copyWith(
                     color: Theme.of(context).hintColor),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            if (snap.verifiedPublisher || snap.starredPublisher)
+            if (verifiedPublisher || starredPublisher)
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
                 child: Icon(
-                  snap.verifiedPublisher ? Icons.verified : Icons.stars,
+                  verifiedPublisher ? Icons.verified : Icons.stars,
                   size: publisherTextStyle.fontSize,
-                  color: snap.verifiedPublisher
+                  color: verifiedPublisher
                       ? Theme.of(context).colorScheme.success
                       : Theme.of(context).colorScheme.warning,
                 ),
               ),
           ],
         ),
-        if (large) ...[
+        if (large && snapCategories != null) ...[
           const SizedBox(height: 8),
           Row(
-            children: snap.categories
+            children: snapCategories!
                 .whereNot((c) => c.categoryEnum == SnapCategoryEnum.featured)
                 .map((c) => Text(c.categoryEnum.localize(l10n)))
                 .separatedBy(const Text(', ')),

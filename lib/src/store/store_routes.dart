@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 abstract class StoreRoutes {
   static const explore = '/explore';
+  static const deb = '/deb';
   static const snap = '/snap';
   static const manage = '/manage';
   static const search = '/search';
@@ -15,6 +16,9 @@ abstract class StoreRoutes {
   static String? categoryOf(RouteSettings route) =>
       Uri.parse(route.name ?? '').queryParameters['category'];
 
+  static String? debOf(RouteSettings route) =>
+      Uri.parse(route.name ?? '').queryParameters['deb'];
+
   static String? snapOf(RouteSettings route) =>
       Uri.parse(route.name ?? '').queryParameters['snap'];
 
@@ -23,6 +27,10 @@ abstract class StoreRoutes {
 
   static String namedRoute(String path, [Map<String, dynamic>? params]) {
     return Uri(path: path, queryParameters: params).toString();
+  }
+
+  static String namedDeb({required String id}) {
+    return namedRoute(StoreRoutes.deb, {'deb': id});
   }
 
   static String namedSnap({required String name}) {

@@ -30,7 +30,7 @@ void main() {
         overrides: [
           ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         ],
-        child: const SnapCard(snap: snap),
+        child: AppCard.fromSnap(snap: snap),
       ),
     );
 
