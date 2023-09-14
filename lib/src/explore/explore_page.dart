@@ -6,7 +6,6 @@ import 'package:yaru_icons/yaru_icons.dart';
 
 import '/l10n.dart';
 import '/layout.dart';
-import '/search.dart';
 import '/snapd.dart';
 import '/store.dart';
 import '/widgets.dart';
@@ -109,7 +108,7 @@ class _CategorySnapList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final categorySnaps = ref
         // get snaps from `category`
-        .watch(searchProvider(SnapSearchParameters(category: category)))
+        .watch(snapSearchProvider(SnapSearchParameters(category: category)))
         .whenOrNull(data: (data) => data)
         // .. without the banner snaps, if we don't want them
         ?.where(
@@ -150,7 +149,7 @@ class _CategoryBanner extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final snaps = ref
-        .watch(searchProvider(SnapSearchParameters(category: category)))
+        .watch(snapSearchProvider(SnapSearchParameters(category: category)))
         .whenOrNull(data: (data) => data);
     final featuredSnaps = category.featuredSnapNames != null
         ? category.featuredSnapNames!

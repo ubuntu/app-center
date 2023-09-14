@@ -9,7 +9,6 @@ import '/layout.dart';
 import '/snapd.dart';
 import '/store.dart';
 import '/widgets.dart';
-import 'search_provider.dart';
 
 // TODO: break down into smaller widgets
 class SearchPage extends StatelessWidget {
@@ -50,7 +49,7 @@ class SearchPage extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Consumer(builder: (context, ref, child) {
-                      final sortOrder = ref.watch(sortOrderProvider);
+                      final sortOrder = ref.watch(snapSortOrderProvider);
                       return MenuButtonBuilder<SnapSortOrder?>(
                         values: const [
                           null,
@@ -63,8 +62,9 @@ class SearchPage extends StatelessWidget {
                           sortOrder?.localize(l10n) ??
                               l10n.snapSortOrderRelevance,
                         ),
-                        onSelected: (value) =>
-                            ref.read(sortOrderProvider.notifier).state = value,
+                        onSelected: (value) => ref
+                            .read(snapSortOrderProvider.notifier)
+                            .state = value,
                         child: Text(
                           sortOrder?.localize(l10n) ??
                               l10n.snapSortOrderRelevance,
@@ -88,11 +88,12 @@ class SearchPage extends StatelessWidget {
                                 category?.localize(l10n) ??
                                     l10n.snapCategoryAll),
                             onSelected: (value) => ref
-                                .read(
-                                    categoryProvider(initialCategory).notifier)
+                                .read(snapCategoryProvider(initialCategory)
+                                    .notifier)
                                 .state = value,
                             child: Text(ref
-                                    .watch(categoryProvider(initialCategory))
+                                    .watch(
+                                        snapCategoryProvider(initialCategory))
                                     ?.localize(l10n) ??
                                 l10n.snapCategoryAll),
                           );
@@ -106,10 +107,10 @@ class SearchPage extends StatelessWidget {
           ),
           Expanded(
             child: Consumer(builder: (context, ref, child) {
-              final category = ref.watch(
-                  categoryProvider(initialCategoryName?.toSnapCategoryEnum()));
+              final category = ref.watch(snapCategoryProvider(
+                  initialCategoryName?.toSnapCategoryEnum()));
               final results = ref.watch(
-                sortedSearchProvider(
+                sortedSnapSearchProvider(
                   SnapSearchParameters(
                     query: query,
                     category: category,

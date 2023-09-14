@@ -52,8 +52,9 @@
     "developmentPageLabel": "Development",
     "gamesPageLabel": "Games",
     "unknownPublisher": "Unknown Publisher",
+    "searchFieldDebSection": "Debian packages",
     "searchFieldSearchHint": "Search for apps",
-    "searchFieldSearchForLabel": "Search for \"{query}\"",
+    "searchFieldSearchForLabel": "See all results for \"{query}\"",
     "@searchFieldSearchForLabel": {
         "placeholders": {
             "query": {
@@ -61,6 +62,7 @@
             }
         }
     },
+    "searchFieldSnapSection": "Snap packages",
     "searchPageFilterByLabel": "Filter by",
     "searchPageNoResults": "No results found for \"{query}\"",
     "@searchPageNoResults": {

@@ -64,9 +64,11 @@ void main() {
 
   test('initialize service', () async {
     verifyNever(pool.load());
+    expect(service.initialized, isFalse);
     await service.init();
     verify(pool.load()).called(1);
     expect(service.cacheSize, 0);
+    expect(service.initialized, isTrue);
   });
 
   test('load and cache components', () async {
