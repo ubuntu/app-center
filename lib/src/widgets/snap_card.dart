@@ -1,9 +1,9 @@
-import 'package:app_center/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/l10n.dart';
 import '/layout.dart';
 import '/ratings.dart';
 import '/snapd.dart';

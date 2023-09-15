@@ -1,6 +1,6 @@
-import 'package:app_center/l10n.dart';
 import 'package:flutter/material.dart';
 
+import '/l10n.dart';
 import 'exports.dart';
 
 extension RatingsBandL10n on RatingsBand {
