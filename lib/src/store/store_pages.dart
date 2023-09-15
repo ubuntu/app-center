@@ -23,6 +23,7 @@ final pages = <StorePage>[
     pageBuilder: (_) => const ExplorePage(),
   ),
   for (final category in [
+    SnapCategoryEnum.featured,
     SnapCategoryEnum.productivity,
     SnapCategoryEnum.development,
     SnapCategoryEnum.games,
