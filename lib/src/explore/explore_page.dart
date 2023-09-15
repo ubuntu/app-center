@@ -35,6 +35,15 @@ class ExplorePage extends ConsumerWidget {
             category: SnapCategoryEnum.ubuntuDesktop,
             hideBannerSnaps: true,
           ),
+          SliverList.list(children: const [
+            SizedBox(height: 56),
+            _CategoryBanner(category: SnapCategoryEnum.featured),
+            SizedBox(height: 24),
+          ]),
+          const _CategorySnapList(
+            category: SnapCategoryEnum.featured,
+            hideBannerSnaps: true,
+          ),
           SliverList.list(children: [
             const SizedBox(height: 56),
             _Title(text: SnapCategoryEnum.games.slogan(l10n)),
@@ -106,25 +115,28 @@ class _CategorySnapList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // get snaps from `category`
     final categorySnaps = ref
-        // get snaps from `category`
         .watch(snapSearchProvider(SnapSearchParameters(category: category)))
-        .whenOrNull(data: (data) => data)
-        // .. without the banner snaps, if we don't want them
-        ?.where(
-          (snap) => hideBannerSnaps
-              ? !(category.featuredSnapNames?.take(kNumberOfBannerSnaps) ?? [])
-                  .contains(snap.name)
-              : true,
-        );
+        .whenOrNull(data: (data) => data);
+
+    final bannerSnaps =
+        category.featuredSnapNames?.take(kNumberOfBannerSnaps) ??
+            categorySnaps?.take(kNumberOfBannerSnaps).map((snap) => snap.name);
+
+    // .. without the banner snaps, if we don't want them
+    final filteredSnaps = categorySnaps?.where(
+      (snap) =>
+          hideBannerSnaps ? !(bannerSnaps ?? []).contains(snap.name) : true,
+    );
 
     // pick hand-selected featured snaps
     final featuredSnaps = category.featuredSnapNames
         ?.map((name) =>
-            categorySnaps?.singleWhereOrNull((snap) => snap.name == name))
+            filteredSnaps?.singleWhereOrNull((snap) => snap.name == name))
         .whereNotNull();
 
-    final snaps = (onlyFeatured ? featuredSnaps : categorySnaps)
+    final snaps = (onlyFeatured ? featuredSnaps : filteredSnaps)
             ?.take(numberOfSnaps)
             .toList() ??
         [];
