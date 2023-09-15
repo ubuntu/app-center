@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:app_center/appstream.dart';
 import 'package:app_center/l10n.dart';
+import 'package:app_center/packagekit.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/manage/manage_model.dart';
@@ -228,4 +230,37 @@ MockPackageKitTransaction createMockPackageKitTransaction({
 MockRatingsService createMockRatingsService() {
   final service = MockRatingsService();
   return service;
+}
+
+@GenerateMocks([AppstreamService])
+MockAppstreamService createMockAppstreamService({
+  AppstreamComponent? component,
+  bool initialized = true,
+}) {
+  final appstream = MockAppstreamService();
+  when(appstream.initialized).thenReturn(initialized);
+  when(appstream.getFromId(any)).thenAnswer(
+    (_) =>
+        component ??
+        const AppstreamComponent(
+          id: '',
+          type: AppstreamComponentType.unknown,
+          package: '',
+          name: {},
+          summary: {},
+        ),
+  );
+  return appstream;
+}
+
+@GenerateMocks([PackageKitService])
+MockPackageKitService createMockPackageKitService({
+  PackageKitPackageInfo? packageInfo,
+  int transactionId = 0,
+}) {
+  final packageKit = MockPackageKitService();
+  when(packageKit.resolve(any)).thenAnswer((_) async => packageInfo);
+  when(packageKit.install(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
+  return packageKit;
 }
