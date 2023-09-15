@@ -121,6 +121,28 @@ void main() {
     verify(mockTransaction.resolve(['foo'])).called(1);
     expect(info, equals(mockInfo));
   });
+
+  test('cancel', () async {
+    final completer = Completer();
+    final mockTransaction = createMockPackageKitTransaction(
+      start: completer.future,
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit =
+        PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+    await packageKit.activateService();
+    final id = await packageKit
+        .install(const PackageKitPackageId(name: 'foo', version: '1.0'));
+    verify(mockTransaction.installPackages(
+        [const PackageKitPackageId(name: 'foo', version: '1.0')])).called(1);
+    final transaction = packageKit.getTransaction(id);
+    expect(transaction, isNotNull);
+    await packageKit.cancelTransaction(id);
+    verify(mockTransaction.cancel()).called(1);
+    completer.complete();
+    await packageKit.waitTransaction(id);
+    expect(packageKit.getTransaction(id), isNull);
+  });
 }
 
 @GenerateMocks([DBusClient])
