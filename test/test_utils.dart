@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:app_center/l10n.dart';
+import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/manage/manage_model.dart';
-import 'package:app_center/src/ratings/exports.dart';
-import 'package:app_center/src/ratings/ratings_model.dart';
-import 'package:app_center/src/ratings/ratings_service.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';

@@ -110,6 +110,7 @@ class _CategorySnapList extends ConsumerWidget {
         // get snaps from `category`
         .watch(snapSearchProvider(SnapSearchParameters(category: category)))
         .whenOrNull(data: (data) => data)
+        // .. without the banner snaps, if we don't want them
         ?.where(
           (snap) => hideBannerSnaps
               ? !(category.featuredSnapNames?.take(kNumberOfBannerSnaps) ?? [])
@@ -117,6 +118,7 @@ class _CategorySnapList extends ConsumerWidget {
               : true,
         );
 
+    // pick hand-selected featured snaps
     final featuredSnaps = category.featuredSnapNames
         ?.map((name) =>
             categorySnaps?.singleWhereOrNull((snap) => snap.name == name))
@@ -126,7 +128,6 @@ class _CategorySnapList extends ConsumerWidget {
             ?.take(numberOfSnaps)
             .toList() ??
         [];
-
     return showScreenshots
         ? SnapImageCardGrid(
             snaps: snaps,

@@ -1,5 +1,4 @@
-import 'package:app_center/src/ratings/exports.dart';
-import 'package:app_center/src/ratings/ratings_model.dart';
+import 'package:app_center/ratings.dart';
 import 'package:app_center/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -7,7 +6,7 @@ import 'package:snapd/snapd.dart';
 
 import 'test_utils.dart';
 
-const snapId = "r4LxMVp7zWramXsJQAKdamxy6TAWlaDD";
+const snapId = 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD';
 const snapRating = Rating(
   snapId: snapId,
   totalVotes: 123,
@@ -31,14 +30,15 @@ void main() {
         overrides: [
           ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         ],
-        child: SnapCard(snap: snap),
+        child: const SnapCard(snap: snap),
       ),
     );
 
     await tester.pumpAndSettle();
 
     expect(find.text('testsnap'), findsOneWidget);
-    expect(find.text('Good'), findsOneWidget);
-    expect(find.text(' | 123 votes'), findsOneWidget);
+    expect(find.text(tester.l10n.snapRatingsBandGood), findsOneWidget);
+    expect(
+        find.text(' | ${tester.l10n.snapRatingsVotes(123)}'), findsOneWidget);
   });
 }

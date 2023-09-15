@@ -1,5 +1,5 @@
+import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
-import 'package:app_center/src/ratings/ratings_service.dart';
 import 'package:app_center/src/store/store_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

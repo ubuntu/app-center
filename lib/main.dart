@@ -11,8 +11,8 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import 'appstream.dart';
 import 'l10n.dart';
+import 'ratings.dart';
 import 'snapd.dart';
-import 'src/ratings/ratings_service.dart';
 import 'store.dart';
 
 Future<void> main(List<String> args) async {
@@ -27,7 +27,7 @@ Future<void> main(List<String> args) async {
   registerServiceInstance(launcher);
 
   // TODO: Dev/prod url's, determine on .env var
-  final ratings = RatingsService("localhost", 8080);
+  final ratings = RatingsService('localhost', 8080);
   registerServiceInstance(ratings);
 
   registerService(() => GitHub());

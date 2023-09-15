@@ -1,17 +1,16 @@
 import 'package:app_center/l10n.dart';
-import 'package:app_center/src/ratings/ratings_l10n.dart';
-import 'package:app_center/src/ratings/ratings_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/layout.dart';
+import '/ratings.dart';
 import '/snapd.dart';
 import '/widgets.dart';
 
 class SnapCard extends StatelessWidget {
-  SnapCard({
+  const SnapCard({
     super.key,
     required this.snap,
     this.onTap,
@@ -41,7 +40,7 @@ class SnapCard extends StatelessWidget {
 }
 
 class SnapImageCard extends StatelessWidget {
-  SnapImageCard({super.key, required this.snap, this.onTap});
+  const SnapImageCard({super.key, required this.snap, this.onTap});
 
   final Snap snap;
   final VoidCallback? onTap;
@@ -70,10 +69,7 @@ class SnapImageCard extends StatelessWidget {
             flex: 306 - 160, // based on mockups
             child: Padding(
               padding: const EdgeInsets.all(kCardSpacing),
-              child: _SnapCardBody(
-                snap: snap,
-                maxlines: 1,
-              ),
+              child: _SnapCardBody(snap: snap, maxlines: 1),
             ),
           ),
         ],
@@ -83,7 +79,7 @@ class SnapImageCard extends StatelessWidget {
 }
 
 class _SnapCardBody extends StatelessWidget {
-  _SnapCardBody({required this.snap, this.maxlines = 2});
+  const _SnapCardBody({required this.snap, this.maxlines = 2});
 
   final Snap snap;
   final int maxlines;
@@ -141,14 +137,14 @@ class _RatingsInfo extends ConsumerWidget {
             if (rating?.totalVotes != null) ...[
               const SizedBox(width: 2),
               Text(
-                ' | ${rating?.totalVotes} ${l10n.snapRatingsVotes}',
+                ' | ${l10n.snapRatingsVotes(rating?.totalVotes ?? 0)}',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ],
         );
       },
-      error: (error, stackTrace) => const Text(""),
+      error: (error, stackTrace) => const Text(''),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }

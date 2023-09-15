@@ -1,9 +1,7 @@
 import 'package:app_center/l10n.dart';
+import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/detail/detail_page.dart';
-import 'package:app_center/src/ratings/exports.dart';
-import 'package:app_center/src/ratings/ratings_l10n.dart';
-import 'package:app_center/src/ratings/ratings_model.dart';
 import 'package:app_center/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,7 +14,7 @@ import 'package:yaru_widgets/widgets.dart';
 
 import 'test_utils.dart';
 
-const snapId = "r4LxMVp7zWramXsJQAKdamxy6TAWlaDD";
+const snapId = 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD';
 const snapRating = Rating(
   snapId: snapId,
   totalVotes: 123,
@@ -24,18 +22,19 @@ const snapRating = Rating(
 );
 
 final localSnap = Snap(
-    name: 'testsnap',
-    title: 'Testsnap',
-    publisher: const SnapPublisher(displayName: 'testPublisher'),
-    version: '2.0.0',
-    website: 'https://example.com',
-    confinement: SnapConfinement.classic,
-    license: 'MIT',
-    description: 'this is the **description**',
-    trackingChannel: 'latest/edge',
-    channel: 'latest/edge',
-    installDate: DateTime(1970),
-    id: "r4LxMVp7zWramXsJQAKdamxy6TAWlaDD");
+  name: 'testsnap',
+  title: 'Testsnap',
+  publisher: const SnapPublisher(displayName: 'testPublisher'),
+  version: '2.0.0',
+  website: 'https://example.com',
+  confinement: SnapConfinement.classic,
+  license: 'MIT',
+  description: 'this is the **description**',
+  trackingChannel: 'latest/edge',
+  channel: 'latest/edge',
+  installDate: DateTime(1970),
+  id: 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD',
+);
 
 final storeSnap = Snap(
   name: 'testsnap',
@@ -134,7 +133,7 @@ void main() {
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
     final l10n = tester.l10n;
-    expect(find.text('${snapRating.totalVotes} ${l10n.snapRatingsVotes}'),
+    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
         findsOneWidget);
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
@@ -178,7 +177,7 @@ void main() {
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsOneWidget);
     final l10n = tester.l10n;
-    expect(find.text('${snapRating.totalVotes} ${l10n.snapRatingsVotes}'),
+    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
         findsOneWidget);
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
@@ -209,7 +208,7 @@ void main() {
     await tester.tap(find.text(tester.l10n.snapActionInstallLabel));
     verify(snapModel.install()).called(1);
     final l10n = tester.l10n;
-    expect(find.text('${snapRating.totalVotes} ${l10n.snapRatingsVotes}'),
+    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
         findsOneWidget);
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
@@ -248,7 +247,7 @@ void main() {
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
     final l10n = tester.l10n;
-    expect(find.text('${snapRating.totalVotes} ${l10n.snapRatingsVotes}'),
+    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
         findsOneWidget);
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
@@ -274,7 +273,7 @@ void main() {
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
     expect(find.byType(YaruCircularProgressIndicator), findsOneWidget);
     final l10n = tester.l10n;
-    expect(find.text('${snapRating.totalVotes} ${l10n.snapRatingsVotes}'),
+    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
         findsNothing);
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsNothing);
   });

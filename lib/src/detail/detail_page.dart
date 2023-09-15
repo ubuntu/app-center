@@ -1,5 +1,3 @@
-import 'package:app_center/src/ratings/ratings_l10n.dart';
-import 'package:app_center/src/ratings/ratings_model.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,18 +13,14 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
 import '/layout.dart';
+import '/ratings.dart';
 import '/snapd.dart';
 import '/widgets.dart';
 
 const _kPrimaryButtonMaxWidth = 136.0;
 const _kChannelDropdownWidth = 220.0;
 
-class SnapInfo {
-  final String label;
-  final Widget value;
-
-  SnapInfo({required this.label, required this.value});
-}
+typedef SnapInfo = ({String label, Widget value});
 
 class DetailPage extends ConsumerWidget {
   const DetailPage({super.key, required this.snapName});
@@ -37,9 +31,8 @@ class DetailPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final snapModel = ref.watch(snapModelProvider(snapName));
     final updatesModel = ref.watch(updatesModelProvider);
-
     return snapModel.state.when(
-      data: (snapData) => ResponsiveLayoutBuilder(
+      data: (_) => ResponsiveLayoutBuilder(
         builder: (_) => _SnapView(
           snapModel: snapModel,
           updatesModel: updatesModel,
@@ -52,10 +45,7 @@ class DetailPage extends ConsumerWidget {
 }
 
 class _SnapView extends ConsumerWidget {
-  const _SnapView({
-    required this.snapModel,
-    required this.updatesModel,
-  });
+  const _SnapView({required this.snapModel, required this.updatesModel});
 
   final SnapModel snapModel;
   final UpdatesModel updatesModel;
@@ -65,7 +55,7 @@ class _SnapView extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     final snapInfos = <SnapInfo>[
-      SnapInfo(
+      (
         label: l10n.detailPageConfinementLabel,
         value: Row(
           mainAxisSize: MainAxisSize.min,
@@ -83,7 +73,7 @@ class _SnapView extends ConsumerWidget {
           ],
         ),
       ),
-      SnapInfo(
+      (
         label: l10n.detailPageDownloadSizeLabel,
         value: Text(
           snapModel.channelInfo != null
@@ -91,7 +81,7 @@ class _SnapView extends ConsumerWidget {
               : '',
         ),
       ),
-      SnapInfo(
+      (
         label: l10n.detailPagePublishedLabel,
         value: Text(
           snapModel.channelInfo != null
@@ -99,11 +89,11 @@ class _SnapView extends ConsumerWidget {
               : '',
         ),
       ),
-      SnapInfo(
+      (
         label: l10n.detailPageLicenseLabel,
         value: Text(snapModel.snap.license ?? ''),
       ),
-      SnapInfo(
+      (
         label: l10n.detailPageLinksLabel,
         value: Column(
           children: [
@@ -196,9 +186,8 @@ class _SnapInfos extends ConsumerWidget {
     final ratingsModel = ref.watch(ratingsModelProvider(snapId));
 
     final ratings = ratingsModel.state.whenOrNull(
-      data: (_) => SnapInfo(
-        label:
-            '${ratingsModel.snapRating?.totalVotes ?? 0} ${l10n.snapRatingsVotes}',
+      data: (_) => (
+        label: l10n.snapRatingsVotes(ratingsModel.snapRating?.totalVotes ?? 0),
         value: Text(
           ratingsModel.snapRating?.ratingsBand.localize(l10n) ?? '',
           style: TextStyle(

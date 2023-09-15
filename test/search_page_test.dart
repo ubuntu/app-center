@@ -1,7 +1,6 @@
+import 'package:app_center/ratings.dart';
 import 'package:app_center/search.dart';
 import 'package:app_center/snapd.dart';
-import 'package:app_center/src/ratings/exports.dart';
-import 'package:app_center/src/ratings/ratings_model.dart';
 import 'package:app_center/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,7 +9,7 @@ import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
 import 'test_utils.dart';
 
-const snapId = "r4LxMVp7zWramXsJQAKdamxy6TAWlaDD";
+const snapId = 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD';
 const snapRating = Rating(
   snapId: snapId,
   totalVotes: 123,

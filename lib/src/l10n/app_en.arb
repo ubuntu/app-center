@@ -156,6 +156,14 @@
     "snapRatingsBandPoor": "Poor",
     "snapRatingsBandVeryPoor": "Very Poor",
     "snapRatingsBandInsufficientVotes": "Insufficient Votes",
-    "snapRatingsVotes": "votes"
+    "snapRatingsVotes": "{n} votes",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    }
+
 
 }
