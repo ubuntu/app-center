@@ -1,25 +1,25 @@
 {
     "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
-    "detailPageChannelLabel": "Channel",
-    "detailPageConfinementLabel": "Confinement",
-    "detailPageContactPublisherLabel": "Contact {publisher}",
-    "@detailPageContactPublisherLabel": {
+    "snapPageChannelLabel": "Channel",
+    "snapPageConfinementLabel": "Confinement",
+    "snapPageContactPublisherLabel": "Contact {publisher}",
+    "@snapPageContactPublisherLabel": {
         "placeholders": {
             "publisher": {
                 "type": "String"
             }
         }
     },
-    "detailPageDescriptionLabel": "Description",
-    "detailPageDeveloperWebsiteLabel": "Developer Website",
-    "detailPageDownloadSizeLabel": "Download Size",
-    "detailPageGalleryLabel": "Gallery",
-    "detailPageLicenseLabel": "License",
-    "detailPageLinksLabel": "Links",
-    "detailPagePublisherLabel": "Publisher",
-    "detailPagePublishedLabel": "Published",
-    "detailPageSummaryLabel": "Summary",
-    "detailPageVersionLabel": "Version",
+    "snapPageDescriptionLabel": "Description",
+    "snapPageDeveloperWebsiteLabel": "Developer Website",
+    "snapPageDownloadSizeLabel": "Download Size",
+    "snapPageGalleryLabel": "Gallery",
+    "snapPageLicenseLabel": "License",
+    "snapPageLinksLabel": "Links",
+    "snapPagePublisherLabel": "Publisher",
+    "snapPagePublishedLabel": "Published",
+    "snapPageSummaryLabel": "Summary",
+    "snapPageVersionLabel": "Version",
     "explorePageLabel": "Explore",
     "explorePageCategoriesLabel": "Categories",
     "managePageCheckForUpdates": "Check for updates",

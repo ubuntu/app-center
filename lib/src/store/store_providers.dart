@@ -33,7 +33,7 @@ String? _parseRoute(List<String>? args) {
     if (args?.firstOrNull?.startsWith(_kUrlPrefix) ?? false) {
       final snap = args!.first.split(_kUrlPrefix)[1];
       if (snap.isNotEmpty) {
-        return StoreRoutes.namedDetail(name: snap);
+        return StoreRoutes.namedSnap(name: snap);
       }
     }
     final result = parser.parse(args ?? []);
@@ -45,7 +45,7 @@ String? _parseRoute(List<String>? args) {
 
     final snap = result['snap'] as String? ?? result.rest.singleOrNull;
     if (snap != null) {
-      return StoreRoutes.namedDetail(name: snap);
+      return StoreRoutes.namedSnap(name: snap);
     }
   } on FormatException {
     // TODO: print usage

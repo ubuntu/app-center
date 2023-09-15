@@ -155,7 +155,7 @@ class _ContributorWrap extends StatelessWidget {
                   : null,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: SnapIcon(
+                child: AppIcon(
                   iconUrl: contributor?.avatarUrl,
                   size: 32,
                 ),
