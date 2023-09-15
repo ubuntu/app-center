@@ -47,7 +47,7 @@ class AppCard extends StatelessWidget {
         onTap: onTap,
       );
 
-  final Widget title;
+  final AppTitle title;
   final String summary;
   final VoidCallback? onTap;
   final bool compact;

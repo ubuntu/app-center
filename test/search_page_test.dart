@@ -131,10 +131,10 @@ void main() {
       expect(find.text(tester.l10n.searchPageSortByLabel), findsOneWidget);
       expect(find.text(tester.l10n.searchPageRelevanceLabel), findsOneWidget);
 
-      final resultSnaps =
-          tester.widget<AppCardGrid>(find.byType(AppCardGrid)).snaps;
+      final resultCards =
+          tester.widget<AppCardGrid>(find.byType(AppCardGrid)).appCards;
       expect(
-          resultSnaps.map((snap) => snap.titleOrName).toList(),
+          resultCards.map((card) => card.title.title).toList(),
           equals([
             'Test Snap',
             'Another Test Snap',
@@ -160,10 +160,10 @@ void main() {
       await tester.tap(find.text(tester.l10n.snapSortOrderDownloadSizeAsc));
       await tester.pumpAndSettle();
 
-      final resultSnaps =
-          tester.widget<AppCardGrid>(find.byType(AppCardGrid)).snaps;
+      final resultCards =
+          tester.widget<AppCardGrid>(find.byType(AppCardGrid)).appCards;
       expect(
-          resultSnaps.map((snap) => snap.titleOrName).toList(),
+          resultCards.map((card) => card.title.title).toList(),
           equals([
             'Another Test Snap',
             'Yet Another Test Snap',
@@ -189,10 +189,10 @@ void main() {
       await tester.tap(find.text(tester.l10n.snapSortOrderAlphabeticalAsc));
       await tester.pumpAndSettle();
 
-      final resultSnaps =
-          tester.widget<AppCardGrid>(find.byType(AppCardGrid)).snaps;
+      final resultCards =
+          tester.widget<AppCardGrid>(find.byType(AppCardGrid)).appCards;
       expect(
-          resultSnaps.map((snap) => snap.titleOrName).toList(),
+          resultCards.map((card) => card.title.title).toList(),
           equals([
             'Another Test Snap',
             'Test Snap',
