@@ -49,12 +49,18 @@ apps:
     desktop: bin/data/flutter_assets/assets/app-center.desktop
     extensions: [gnome]
     plugs:
+      - appstream-metadata
       - desktop
       - desktop-launch
       - network
       - snapd-control
+      - packagekit-control
 
 slots:
+  packagekit-svc:
+    interface: dbus
+    bus: session
+    name: org.freedesktop.PackageKit
   dbus-name:
     interface: dbus
     bus: session
