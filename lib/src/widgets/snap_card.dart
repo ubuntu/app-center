@@ -144,8 +144,8 @@ class _RatingsInfo extends ConsumerWidget {
           ],
         );
       },
-      error: (error, stackTrace) => const Text(''),
-      loading: () => const Center(child: YaruCircularProgressIndicator()),
+      error: (error, stackTrace) => const SizedBox.shrink(),
+      loading: () => const SizedBox.shrink(),
     );
   }
 }
