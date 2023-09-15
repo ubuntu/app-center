@@ -5,6 +5,7 @@ import 'package:ubuntu_logger/ubuntu_logger.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/deb.dart';
 import '/l10n.dart';
 import '/layout.dart';
 import '/search.dart';
@@ -51,9 +52,7 @@ class _StoreAppState extends ConsumerState<StoreApp> {
                 onSearch: (query) =>
                     _navigator.pushAndRemoveSearch(query: query),
                 onSnapSelected: (name) => _navigator.pushSnap(name: name),
-                onDebSelected: (_) {
-                  log.debug('Detail page for debs not implemented yet!');
-                }, // TODO: push detail page
+                onDebSelected: (id) => _navigator.pushDeb(id: id),
               ),
             ),
           ),
@@ -71,6 +70,11 @@ class _StoreAppState extends ConsumerState<StoreApp> {
             breakpoint: 0, // always landscape
             onGenerateRoute: (settings) =>
                 switch (StoreRoutes.routeOf(settings)) {
+              StoreRoutes.deb => MaterialPageRoute(
+                  settings: settings,
+                  builder: (_) => DebPage(
+                        id: StoreRoutes.debOf(settings)!,
+                      )),
               StoreRoutes.snap => MaterialPageRoute(
                   settings: settings,
                   builder: (_) => SnapPage(
