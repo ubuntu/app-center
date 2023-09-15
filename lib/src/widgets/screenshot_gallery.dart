@@ -1,17 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:snapd/snapd.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/snapd.dart';
 import '/xdg_cache_manager.dart';
 
-class SnapScreenshotGallery extends StatelessWidget {
-  const SnapScreenshotGallery({super.key, required this.snap, this.height});
+class ScreenshotGallery extends StatelessWidget {
+  const ScreenshotGallery({
+    super.key,
+    required this.title,
+    required this.urls,
+    this.height,
+  });
 
-  final Snap snap;
+  final String title;
+  final List<String> urls;
   final double? height;
 
   @override
@@ -21,16 +25,16 @@ class SnapScreenshotGallery extends StatelessWidget {
       width: double.infinity,
       nextIcon: const Icon(YaruIcons.go_next),
       previousIcon: const Icon(YaruIcons.go_previous),
-      navigationControls: snap.screenshotUrls.length > 1,
+      navigationControls: urls.length > 1,
       children: [
-        for (int i = 0; i < snap.screenshotUrls.length; i++)
+        for (int i = 0; i < urls.length; i++)
           MediaTile(
-            url: snap.screenshotUrls[i],
+            url: urls[i],
             onTap: () => showDialog(
               context: context,
               builder: (_) => _CarouselDialog(
-                title: snap.titleOrName,
-                urls: snap.screenshotUrls,
+                title: title,
+                urls: urls,
                 initialIndex: i,
               ),
             ),

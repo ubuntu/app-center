@@ -141,8 +141,9 @@ class _SnapView extends ConsumerWidget {
                       if (snapModel.hasGallery)
                         _Section(
                           header: Text(l10n.snapPageGalleryLabel),
-                          child: SnapScreenshotGallery(
-                            snap: snapModel.storeSnap!,
+                          child: ScreenshotGallery(
+                            title: snapModel.storeSnap!.titleOrName,
+                            urls: snapModel.storeSnap!.screenshotUrls,
                             height: layout.totalWidth / 2,
                           ),
                         ),
