@@ -1,4 +1,5 @@
 import 'package:app_center/l10n.dart';
+import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/detail/detail_page.dart';
 import 'package:app_center/widgets.dart';
@@ -13,6 +14,13 @@ import 'package:yaru_widgets/widgets.dart';
 
 import 'test_utils.dart';
 
+const snapId = 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD';
+const snapRating = Rating(
+  snapId: snapId,
+  totalVotes: 123,
+  ratingsBand: RatingsBand.good,
+);
+
 final localSnap = Snap(
   name: 'testsnap',
   title: 'Testsnap',
@@ -25,6 +33,7 @@ final localSnap = Snap(
   trackingChannel: 'latest/edge',
   channel: 'latest/edge',
   installDate: DateTime(1970),
+  id: 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD',
 );
 
 final storeSnap = Snap(
@@ -94,12 +103,17 @@ void main() {
         createMockSnapModel(localSnap: localSnap, storeSnap: storeSnap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel = createMockUpdatesModel();
+    final ratingsModel = createMockRatingsModel(
+      snapId: snapId,
+      snapRating: snapRating,
+    );
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
-            updatesModelProvider.overrideWith((ref) => updatesModel)
+            updatesModelProvider.overrideWith((ref) => updatesModel),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const DetailPage(snapName: 'testsnap'),
         ));
@@ -118,6 +132,10 @@ void main() {
     verify(snapModel.remove()).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
+    final l10n = tester.l10n;
+    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
+        findsOneWidget);
+    expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
   testWidgets('local + store with update', (tester) async {
@@ -129,12 +147,17 @@ void main() {
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel =
         createMockUpdatesModel(refreshableSnapNames: [localSnap.name]);
+    final ratingsModel = createMockRatingsModel(
+      snapId: snapId,
+      snapRating: snapRating,
+    );
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
-            updatesModelProvider.overrideWith((ref) => updatesModel)
+            updatesModelProvider.overrideWith((ref) => updatesModel),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
@@ -153,16 +176,25 @@ void main() {
     verify(snapModel.remove()).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsOneWidget);
+    final l10n = tester.l10n;
+    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
+        findsOneWidget);
+    expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
   testWidgets('store-only', (tester) async {
     final snapModel = createMockSnapModel(storeSnap: storeSnap);
     final updatesModel = createMockUpdatesModel();
+    final ratingsModel = createMockRatingsModel(
+      snapId: snapId,
+      snapRating: snapRating,
+    );
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
-            updatesModelProvider.overrideWith((ref) => updatesModel)
+            updatesModelProvider.overrideWith((ref) => updatesModel),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: DetailPage(snapName: storeSnap.name),
         ));
@@ -175,18 +207,27 @@ void main() {
 
     await tester.tap(find.text(tester.l10n.snapActionInstallLabel));
     verify(snapModel.install()).called(1);
+    final l10n = tester.l10n;
+    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
+        findsOneWidget);
+    expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
   testWidgets('local-only', (tester) async {
     final snapModel = createMockSnapModel(localSnap: localSnap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel = createMockUpdatesModel();
+    final ratingsModel = createMockRatingsModel(
+      snapId: snapId,
+      snapRating: snapRating,
+    );
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
-            updatesModelProvider.overrideWith((ref) => updatesModel)
+            updatesModelProvider.overrideWith((ref) => updatesModel),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: DetailPage(snapName: localSnap.name),
         ));
@@ -205,6 +246,10 @@ void main() {
     verify(snapModel.remove()).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
+    final l10n = tester.l10n;
+    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
+        findsOneWidget);
+    expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
   testWidgets('loading', (tester) async {
@@ -227,6 +272,10 @@ void main() {
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
     expect(find.byType(YaruCircularProgressIndicator), findsOneWidget);
+    final l10n = tester.l10n;
+    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
+        findsNothing);
+    expect(find.text(snapRating.ratingsBand.localize(l10n)), findsNothing);
   });
 
   // TODO: test loading states with snap change in progress

@@ -149,5 +149,21 @@
     "snapSortOrderInstalledSizeDesc": "Size (Largest to smallest)",
     "snapSortOrderInstalledDateAsc": "Least recently updated",
     "snapSortOrderInstalledDateDesc": "Most recently updated",
-    "snapSortOrderRelevance": "Relevance"
+    "snapSortOrderRelevance": "Relevance",
+    "snapRatingsBandVeryGood": "Very Good",
+    "snapRatingsBandGood": "Good",
+    "snapRatingsBandNeutral": "Neutral",
+    "snapRatingsBandPoor": "Poor",
+    "snapRatingsBandVeryPoor": "Very Poor",
+    "snapRatingsBandInsufficientVotes": "Insufficient Votes",
+    "snapRatingsVotes": "{n} votes",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    }
+
+
 }

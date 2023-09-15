@@ -1,3 +1,4 @@
+import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/store/store_app.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ void main() {
     testWidgets('no updates available', (tester) async {
       registerMockService<GtkApplicationNotifier>(
           createMockGtkApplicationNotifier());
+      registerMockService<RatingsService>(createMockRatingsService());
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
@@ -34,6 +36,7 @@ void main() {
     testWidgets('updates available', (tester) async {
       registerMockService<GtkApplicationNotifier>(
           createMockGtkApplicationNotifier());
+      registerMockService<RatingsService>(createMockRatingsService());
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [

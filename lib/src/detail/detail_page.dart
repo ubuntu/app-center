@@ -8,12 +8,12 @@ import 'package:intl/intl.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:yaru/yaru.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import '/l10n.dart';
 import '/layout.dart';
+import '/ratings.dart';
 import '/snapd.dart';
 import '/widgets.dart';
 
@@ -56,13 +56,6 @@ class _SnapView extends ConsumerWidget {
 
     final snapInfos = <SnapInfo>[
       (
-        label: '123 Ratings',
-        value: Text(
-          'Positive',
-          style: TextStyle(color: Theme.of(context).colorScheme.success),
-        )
-      ), // Placeholder
-      (
         label: l10n.detailPageConfinementLabel,
         value: Row(
           mainAxisSize: MainAxisSize.min,
@@ -86,7 +79,7 @@ class _SnapView extends ConsumerWidget {
           snapModel.channelInfo != null
               ? context.formatByteSize(snapModel.channelInfo!.size)
               : '',
-        )
+        ),
       ),
       (
         label: l10n.detailPagePublishedLabel,
@@ -139,7 +132,11 @@ class _SnapView extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _SnapInfos(snapInfos: snapInfos, layout: layout),
+                      _SnapInfos(
+                        snapInfos: snapInfos,
+                        snapId: snapModel.snap.id,
+                        layout: layout,
+                      ),
                       const Divider(),
                       if (snapModel.hasGallery)
                         _Section(
@@ -172,36 +169,57 @@ class _SnapView extends ConsumerWidget {
   }
 }
 
-class _SnapInfos extends StatelessWidget {
+class _SnapInfos extends ConsumerWidget {
   const _SnapInfos({
     required this.snapInfos,
+    required this.snapId,
     required this.layout,
   });
 
   final List<SnapInfo> snapInfos;
   final ResponsiveLayout layout;
+  final String snapId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final ratingsModel = ref.watch(ratingsModelProvider(snapId));
+
+    final ratings = ratingsModel.state.whenOrNull(
+      data: (_) => (
+        label: l10n.snapRatingsVotes(ratingsModel.snapRating?.totalVotes ?? 0),
+        value: Text(
+          ratingsModel.snapRating?.ratingsBand.localize(l10n) ?? '',
+          style: TextStyle(
+              color: ratingsModel.snapRating?.ratingsBand.getColor(context)),
+        ),
+      ),
+    );
+
     return Wrap(
       spacing: kPagePadding,
       runSpacing: 8,
-      children: snapInfos
-          .map((info) => SizedBox(
-                width: (layout.totalWidth -
-                        (layout.snapInfoColumnCount - 1) * kPagePadding) /
-                    layout.snapInfoColumnCount,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(info.label),
-                    DefaultTextStyle.merge(
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                      child: info.value,
-                    ),
-                  ],
-                ),
-              ))
+      children: [
+        if (ratings != null) ratings,
+        ...snapInfos,
+      ]
+          .map(
+            (info) => SizedBox(
+              width: (layout.totalWidth -
+                      (layout.snapInfoColumnCount - 1) * kPagePadding) /
+                  layout.snapInfoColumnCount,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(info.label),
+                  DefaultTextStyle.merge(
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                    child: info.value,
+                  ),
+                ],
+              ),
+            ),
+          )
           .toList(),
     );
   }
