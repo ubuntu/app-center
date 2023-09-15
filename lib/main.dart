@@ -11,6 +11,7 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import 'appstream.dart';
 import 'l10n.dart';
+import 'ratings.dart';
 import 'snapd.dart';
 import 'store.dart';
 
@@ -24,6 +25,10 @@ Future<void> main(List<String> args) async {
   final launcher = PrivilegedDesktopLauncher();
   await launcher.connect();
   registerServiceInstance(launcher);
+
+  // TODO: Dev/prod url's, determine on .env var
+  final ratings = RatingsService('localhost', 8080);
+  registerServiceInstance(ratings);
 
   registerService(() => GitHub());
   registerService(() => GtkApplicationNotifier(args));

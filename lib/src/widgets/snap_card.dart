@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
-import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/l10n.dart';
 import '/layout.dart';
+import '/ratings.dart';
 import '/snapd.dart';
 import '/widgets.dart';
 
@@ -103,25 +105,47 @@ class _SnapCardBody extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        // TODO: ratings
-        Wrap(
+        _RatingsInfo(snapId: snap.id),
+      ],
+    );
+  }
+}
+
+class _RatingsInfo extends ConsumerWidget {
+  const _RatingsInfo({required this.snapId});
+
+  final String snapId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ratingsModel = ref.watch(ratingsModelProvider(snapId));
+    final l10n = AppLocalizations.of(context);
+
+    return ratingsModel.state.when(
+      data: (ratingsData) {
+        final rating = ratingsModel.snapRating;
+        return Wrap(
           children: [
             Text(
-              'Positive',
+              rating?.ratingsBand.localize(l10n) ?? ' ',
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: Theme.of(context).colorScheme.success,
+                    color: rating?.ratingsBand.getColor(context),
+                    fontSize: 12,
                   ),
             ),
             const SizedBox(width: 2),
-            Text('|', style: Theme.of(context).textTheme.bodySmall),
-            const SizedBox(width: 2),
-            Text(
-              '200 Ratings',
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+            if (rating?.totalVotes != null) ...[
+              const SizedBox(width: 2),
+              Text(
+                ' | ${l10n.snapRatingsVotes(rating?.totalVotes ?? 0)}',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
           ],
-        ),
-      ],
+        );
+      },
+      error: (error, stackTrace) => const SizedBox.shrink(),
+      loading: () => const SizedBox.shrink(),
     );
   }
 }

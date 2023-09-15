@@ -1,3 +1,4 @@
+import 'package:app_center/ratings.dart';
 import 'package:app_center/search.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/widgets.dart';
@@ -8,7 +9,18 @@ import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
 import 'test_utils.dart';
 
+const snapId = 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD';
+const snapRating = Rating(
+  snapId: snapId,
+  totalVotes: 123,
+  ratingsBand: RatingsBand.good,
+);
+
 void main() {
+  final ratingsModel = createMockRatingsModel(
+    snapId: snapId,
+    snapRating: snapRating,
+  );
   final mockSearchProvider = createMockSnapSearchProvider({
     const SnapSearchParameters(query: 'testsn'): const [
       Snap(name: 'testsnap', title: 'Test Snap', downloadSize: 3),
@@ -30,7 +42,8 @@ void main() {
       (_) => ProviderScope(
         overrides: [
           snapSearchProvider
-              .overrideWith((ref, query) => mockSearchProvider(query))
+              .overrideWith((ref, query) => mockSearchProvider(query)),
+          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         ],
         child: const SearchPage(query: 'testsn'),
       ),
@@ -54,7 +67,8 @@ void main() {
       (_) => ProviderScope(
         overrides: [
           snapSearchProvider
-              .overrideWith((ref, query) => mockSearchProvider(query))
+              .overrideWith((ref, query) => mockSearchProvider(query)),
+          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         ],
         child: const SearchPage(
           query: 'testsn',
@@ -81,7 +95,8 @@ void main() {
       (_) => ProviderScope(
         overrides: [
           snapSearchProvider
-              .overrideWith((ref, query) => mockSearchProvider(query))
+              .overrideWith((ref, query) => mockSearchProvider(query)),
+          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         ],
         child: const SearchPage(
           category: 'education',
@@ -105,7 +120,8 @@ void main() {
         (_) => ProviderScope(
           overrides: [
             snapSearchProvider
-                .overrideWith((ref, query) => mockSearchProvider(query))
+                .overrideWith((ref, query) => mockSearchProvider(query)),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'testsn'),
         ),
@@ -130,7 +146,8 @@ void main() {
         (_) => ProviderScope(
           overrides: [
             snapSearchProvider
-                .overrideWith((ref, query) => mockSearchProvider(query))
+                .overrideWith((ref, query) => mockSearchProvider(query)),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'testsn'),
         ),
@@ -158,7 +175,8 @@ void main() {
         (_) => ProviderScope(
           overrides: [
             snapSearchProvider
-                .overrideWith((ref, query) => mockSearchProvider(query))
+                .overrideWith((ref, query) => mockSearchProvider(query)),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'testsn'),
         ),
@@ -189,7 +207,8 @@ void main() {
         (_) => ProviderScope(
           overrides: [
             snapSearchProvider
-                .overrideWith((ref, query) => mockSearchProvider(query))
+                .overrideWith((ref, query) => mockSearchProvider(query)),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'foo'),
         ),
@@ -206,7 +225,8 @@ void main() {
         (_) => ProviderScope(
           overrides: [
             snapSearchProvider
-                .overrideWith((ref, query) => mockSearchProvider(query))
+                .overrideWith((ref, query) => mockSearchProvider(query)),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'foo', category: 'social'),
         ),

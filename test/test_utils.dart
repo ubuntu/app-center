@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/l10n.dart';
+import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/manage/manage_model.dart';
 import 'package:appstream/appstream.dart';
@@ -52,6 +53,21 @@ SnapLauncher createMockSnapLauncher({
   final launcher = MockSnapLauncher();
   when(launcher.isLaunchable).thenReturn(isLaunchable);
   return launcher;
+}
+
+@GenerateMocks([RatingsModel])
+RatingsModel createMockRatingsModel({
+  AsyncValue<void>? state,
+  Rating? snapRating,
+  String? snapId,
+}) {
+  final model = MockRatingsModel();
+
+  when(model.state).thenReturn(state ?? AsyncValue.data(() {}()));
+  when(model.snapRating).thenReturn(snapRating);
+  when(model.snapId).thenReturn(snapId ?? '');
+
+  return model;
 }
 
 @GenerateMocks([SnapModel])
@@ -206,4 +222,10 @@ MockPackageKitTransaction createMockPackageKitTransaction({
   when(transaction.resolve(any))
       .thenAnswer((_) async => unawaited(emitEvents()));
   return transaction;
+}
+
+@GenerateMocks([RatingsService])
+MockRatingsService createMockRatingsService() {
+  final service = MockRatingsService();
+  return service;
 }
