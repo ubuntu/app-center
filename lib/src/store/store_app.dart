@@ -5,10 +5,10 @@ import 'package:ubuntu_logger/ubuntu_logger.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/detail.dart';
 import '/l10n.dart';
 import '/layout.dart';
 import '/search.dart';
+import '/snapd.dart';
 import 'store_navigator.dart';
 import 'store_observer.dart';
 import 'store_pages.dart';
@@ -50,7 +50,7 @@ class _StoreAppState extends ConsumerState<StoreApp> {
               child: SearchField(
                 onSearch: (query) =>
                     _navigator.pushAndRemoveSearch(query: query),
-                onSnapSelected: (name) => _navigator.pushDetail(name: name),
+                onSnapSelected: (name) => _navigator.pushSnap(name: name),
                 onDebSelected: (_) {
                   log.debug('Detail page for debs not implemented yet!');
                 }, // TODO: push detail page
@@ -71,10 +71,10 @@ class _StoreAppState extends ConsumerState<StoreApp> {
             breakpoint: 0, // always landscape
             onGenerateRoute: (settings) =>
                 switch (StoreRoutes.routeOf(settings)) {
-              StoreRoutes.detail => MaterialPageRoute(
+              StoreRoutes.snap => MaterialPageRoute(
                   settings: settings,
-                  builder: (_) => DetailPage(
-                    snapName: StoreRoutes.detailOf(settings)!,
+                  builder: (_) => SnapPage(
+                    snapName: StoreRoutes.snapOf(settings)!,
                   ),
                 ),
               StoreRoutes.search => MaterialPageRoute(

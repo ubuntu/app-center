@@ -123,7 +123,7 @@ class SearchPage extends StatelessWidget {
                         slivers: [
                           SnapCardGrid(
                             snaps: data,
-                            onTap: (snap) => StoreNavigator.pushSearchDetail(
+                            onTap: (snap) => StoreNavigator.pushSearchSnap(
                               context,
                               name: snap.name,
                               query: query,

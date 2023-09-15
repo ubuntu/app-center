@@ -1,7 +1,6 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
-import 'package:app_center/src/detail/detail_page.dart';
 import 'package:app_center/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -75,16 +74,16 @@ void expectSnapInfos(
   expect(find.markdownBody(snap.description), findsOneWidget);
   expect(find.text(snap.license!), findsOneWidget);
 
-  expect(find.text(tester.l10n.detailPageConfinementLabel), findsOneWidget);
-  expect(find.text(tester.l10n.detailPageDescriptionLabel), findsOneWidget);
-  expect(find.text(tester.l10n.detailPageLicenseLabel), findsOneWidget);
-  expect(find.text(tester.l10n.detailPagePublishedLabel), findsOneWidget);
+  expect(find.text(tester.l10n.snapPageConfinementLabel), findsOneWidget);
+  expect(find.text(tester.l10n.snapPageDescriptionLabel), findsOneWidget);
+  expect(find.text(tester.l10n.snapPageLicenseLabel), findsOneWidget);
+  expect(find.text(tester.l10n.snapPagePublishedLabel), findsOneWidget);
 
   final snapChannel = snap.channels[channel];
   if (snapChannel != null) {
     expect(find.text(snapChannel.confinement.localize(tester.l10n)),
         findsOneWidget);
-    expect(find.text(tester.l10n.detailPageDownloadSizeLabel), findsOneWidget);
+    expect(find.text(tester.l10n.snapPageDownloadSizeLabel), findsOneWidget);
     expect(find.text(tester.context.formatByteSize(snapChannel.size)),
         findsOneWidget);
     expect(find.text(DateFormat.yMMMd().format(snapChannel.releasedAt)),
@@ -115,7 +114,7 @@ void main() {
             updatesModelProvider.overrideWith((ref) => updatesModel),
             ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
-          child: const DetailPage(snapName: 'testsnap'),
+          child: const SnapPage(snapName: 'testsnap'),
         ));
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
@@ -159,7 +158,7 @@ void main() {
             updatesModelProvider.overrideWith((ref) => updatesModel),
             ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
-          child: DetailPage(snapName: storeSnap.name),
+          child: SnapPage(snapName: storeSnap.name),
         ));
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
@@ -196,7 +195,7 @@ void main() {
             updatesModelProvider.overrideWith((ref) => updatesModel),
             ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
-          child: DetailPage(snapName: storeSnap.name),
+          child: SnapPage(snapName: storeSnap.name),
         ));
     await tester.pump();
     expectSnapInfos(tester, storeSnap);
@@ -229,7 +228,7 @@ void main() {
             updatesModelProvider.overrideWith((ref) => updatesModel),
             ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
-          child: DetailPage(snapName: localSnap.name),
+          child: SnapPage(snapName: localSnap.name),
         ));
     await tester.pump();
     expectSnapInfos(tester, localSnap);
@@ -266,7 +265,7 @@ void main() {
             launchProvider.overrideWith((ref, arg) => snapLauncher),
             updatesModelProvider.overrideWith((ref) => updatesModel)
           ],
-          child: DetailPage(snapName: storeSnap.name),
+          child: SnapPage(snapName: storeSnap.name),
         ));
     await tester.pump();
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);

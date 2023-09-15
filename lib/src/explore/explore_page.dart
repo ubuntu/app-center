@@ -131,13 +131,11 @@ class _CategorySnapList extends ConsumerWidget {
     return showScreenshots
         ? SnapImageCardGrid(
             snaps: snaps,
-            onTap: (snap) =>
-                StoreNavigator.pushDetail(context, name: snap.name),
+            onTap: (snap) => StoreNavigator.pushSnap(context, name: snap.name),
           )
         : SnapCardGrid(
             snaps: snaps,
-            onTap: (snap) =>
-                StoreNavigator.pushDetail(context, name: snap.name),
+            onTap: (snap) => StoreNavigator.pushSnap(context, name: snap.name),
           );
   }
 }
@@ -269,7 +267,7 @@ class _BannerIconState extends State<_BannerIcon> {
       verticalOffset: _kMaxSize / 2,
       message: widget.snap.titleOrName,
       child: InkWell(
-        onTap: () => StoreNavigator.pushDetail(context, name: widget.snap.name),
+        onTap: () => StoreNavigator.pushSnap(context, name: widget.snap.name),
         onHover: (hover) {
           setState(() => scale = hover ? _kScaleLarge : 1.0);
         },
@@ -293,7 +291,7 @@ class _BannerIconState extends State<_BannerIcon> {
                     )
                   ],
                 ),
-                child: SnapIcon(
+                child: AppIcon(
                   iconUrl: widget.snap.iconUrl,
                   size: _kIconSize * scale,
                 ),

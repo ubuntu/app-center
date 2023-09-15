@@ -7,8 +7,8 @@ import '/constants.dart';
 import '/layout.dart';
 import '/xdg_cache_manager.dart';
 
-class SnapIcon extends StatelessWidget {
-  const SnapIcon({
+class AppIcon extends StatelessWidget {
+  const AppIcon({
     super.key,
     required this.iconUrl,
     this.size = kIconSize,

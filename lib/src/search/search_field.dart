@@ -209,7 +209,7 @@ class _AutoCompleteTile extends StatelessWidget {
       AutoCompleteSnapOption(snap: final snap) => ListTile(
           selected: selected,
           title: Text(snap.titleOrName),
-          leading: SnapIcon(
+          leading: AppIcon(
             size: _iconSize,
             iconUrl: snap.iconUrl,
           ),
@@ -217,7 +217,7 @@ class _AutoCompleteTile extends StatelessWidget {
       AutoCompleteDebOption(deb: final deb) => ListTile(
           selected: selected,
           title: Text(deb.getLocalizedName()),
-          leading: SnapIcon(
+          leading: AppIcon(
             size: _iconSize,
             iconUrl:
                 deb.icons.whereType<AppstreamRemoteIcon>().firstOrNull?.url,
