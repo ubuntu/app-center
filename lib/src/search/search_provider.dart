@@ -7,7 +7,12 @@ import 'package:snapd/snapd.dart';
 import '/appstream.dart';
 import '/snapd.dart';
 
+enum PackageFormat { snap, deb }
+
 final queryProvider = StateProvider<String?>((_) => null);
+
+final packageFormatProvider =
+    StateProvider<PackageFormat>((_) => PackageFormat.snap);
 
 typedef AutoCompleteOptions = ({
   Iterable<Snap> snaps,

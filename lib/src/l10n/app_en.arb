@@ -107,6 +107,8 @@
     "appstreamUrlTypeHelp": "Help",
     "appstreamUrlTypeHomepage": "Homepage",
     "appstreamUrlTypeTranslate": "Translations",
+    "packageFormatDebLabel": "Debian packages",
+    "packageFormatSnapLabel": "Snap packages",
     "snapActionCancelLabel": "Cancel",
     "snapActionInstallLabel": "Install",
     "snapActionInstallingLabel": "Installing",
