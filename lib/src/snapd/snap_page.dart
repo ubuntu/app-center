@@ -132,7 +132,7 @@ class _SnapView extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _SnapInfos(
+                      _SnapInfoBar(
                         snapInfos: snapInfos,
                         snapId: snapModel.snap.id,
                         layout: layout,
@@ -170,8 +170,8 @@ class _SnapView extends ConsumerWidget {
   }
 }
 
-class _SnapInfos extends ConsumerWidget {
-  const _SnapInfos({
+class _SnapInfoBar extends ConsumerWidget {
+  const _SnapInfoBar({
     required this.snapInfos,
     required this.snapId,
     required this.layout,
@@ -197,31 +197,9 @@ class _SnapInfos extends ConsumerWidget {
       ),
     );
 
-    return Wrap(
-      spacing: kPagePadding,
-      runSpacing: 8,
-      children: [
-        if (ratings != null) ratings,
-        ...snapInfos,
-      ]
-          .map(
-            (info) => SizedBox(
-              width: (layout.totalWidth -
-                      (layout.snapInfoColumnCount - 1) * kPagePadding) /
-                  layout.snapInfoColumnCount,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(info.label),
-                  DefaultTextStyle.merge(
-                    style: const TextStyle(fontWeight: FontWeight.w500),
-                    child: info.value,
-                  ),
-                ],
-              ),
-            ),
-          )
-          .toList(),
+    return AppInfoBar(
+      appInfos: [if (ratings != null) ratings, ...snapInfos],
+      layout: layout,
     );
   }
 }
