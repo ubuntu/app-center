@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:appstream/appstream.dart';
+import 'package:collection/collection.dart';
+
+import '/l10n.dart';
 
 extension _GetOrDefault<K, V> on Map<K, V> {
   V getOrDefault(K? key, V fallback) {
@@ -19,6 +22,11 @@ extension LocalizedComponent on AppstreamComponent {
   String getLocalizedName() {
     final key = bestLanguageKey(name);
     return name.getOrDefault(key, '');
+  }
+
+  String getLocalizedDeveloperName() {
+    final key = bestLanguageKey(name);
+    return developerName.getOrDefault(key, '');
   }
 
   List<String> getLocalizedKeywords() {
@@ -66,4 +74,38 @@ extension LocalizedComponent on AppstreamComponent {
 
     return null;
   }
+}
+
+extension AppstreamUrlTypeL10n on AppstreamUrlType {
+  String localize(AppLocalizations l10n) {
+    return switch (this) {
+      AppstreamUrlType.bugtracker => l10n.appstreamUrlTypeBugtracker,
+      AppstreamUrlType.contact => l10n.appstreamUrlTypeContact,
+      AppstreamUrlType.donation => l10n.appstreamUrlTypeDonation,
+      AppstreamUrlType.faq => l10n.appstreamUrlTypeFaq,
+      AppstreamUrlType.help => l10n.appstreamUrlTypeHelp,
+      AppstreamUrlType.homepage => l10n.appstreamUrlTypeHomepage,
+      AppstreamUrlType.translate => l10n.appstreamUrlTypeTranslate,
+    };
+  }
+}
+
+extension Metadata on AppstreamComponent {
+  String? get icon {
+    final remoteIcon = icons.whereType<AppstreamRemoteIcon>().firstOrNull;
+    return remoteIcon?.url;
+  }
+
+  String? get website {
+    return urls
+        .firstWhereOrNull((url) => url.type == AppstreamUrlType.homepage)
+        ?.url;
+  }
+
+  List<String> get screenshotUrls => screenshots
+      .map((screenshot) => screenshot.images
+          .where((image) => image.type == AppstreamImageType.source)
+          .map((image) => image.url))
+      .expand((images) => images)
+      .toList();
 }
