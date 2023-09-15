@@ -132,7 +132,7 @@ void main() {
       expect(find.text(tester.l10n.searchPageRelevanceLabel), findsOneWidget);
 
       final resultSnaps =
-          tester.widget<SnapCardGrid>(find.byType(SnapCardGrid)).snaps;
+          tester.widget<AppCardGrid>(find.byType(AppCardGrid)).snaps;
       expect(
           resultSnaps.map((snap) => snap.titleOrName).toList(),
           equals([
@@ -161,7 +161,7 @@ void main() {
       await tester.pumpAndSettle();
 
       final resultSnaps =
-          tester.widget<SnapCardGrid>(find.byType(SnapCardGrid)).snaps;
+          tester.widget<AppCardGrid>(find.byType(AppCardGrid)).snaps;
       expect(
           resultSnaps.map((snap) => snap.titleOrName).toList(),
           equals([
@@ -190,7 +190,7 @@ void main() {
       await tester.pumpAndSettle();
 
       final resultSnaps =
-          tester.widget<SnapCardGrid>(find.byType(SnapCardGrid)).snaps;
+          tester.widget<AppCardGrid>(find.byType(AppCardGrid)).snaps;
       expect(
           resultSnaps.map((snap) => snap.titleOrName).toList(),
           equals([
@@ -217,7 +217,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text(tester.l10n.searchPageNoResults('foo')), findsOneWidget);
       expect(find.text(tester.l10n.searchPageNoResultsHint), findsOneWidget);
-      expect(find.byType(SnapCardGrid), findsNothing);
+      expect(find.byType(AppCardGrid), findsNothing);
     });
 
     testWidgets('empty category', (tester) async {
@@ -237,7 +237,7 @@ void main() {
           find.text(tester.l10n.searchPageNoResultsCategory), findsOneWidget);
       expect(find.text(tester.l10n.searchPageNoResultsCategoryHint),
           findsOneWidget);
-      expect(find.byType(SnapCardGrid), findsNothing);
+      expect(find.byType(AppCardGrid), findsNothing);
     });
   });
 }

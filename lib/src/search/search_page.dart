@@ -121,7 +121,7 @@ class SearchPage extends StatelessWidget {
                 data: (data) => data.isNotEmpty
                     ? ResponsiveLayoutScrollView(
                         slivers: [
-                          SnapCardGrid(
+                          AppCardGrid.fromSnaps(
                             snaps: data,
                             onTap: (snap) => StoreNavigator.pushSearchSnap(
                               context,

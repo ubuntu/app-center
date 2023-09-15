@@ -1,25 +1,58 @@
+import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+import '/appstream.dart';
 import '/l10n.dart';
 import '/layout.dart';
 import '/ratings.dart';
 import '/snapd.dart';
 import '/widgets.dart';
 
-class SnapCard extends StatelessWidget {
-  const SnapCard({
+class AppCard extends StatelessWidget {
+  const AppCard({
     super.key,
-    required this.snap,
+    required this.title,
+    required this.summary,
     this.onTap,
     this.compact = false,
+    this.iconUrl,
+    this.footer,
   });
 
-  final Snap snap;
+  factory AppCard.fromSnap({
+    required Snap snap,
+    VoidCallback? onTap,
+  }) =>
+      AppCard(
+        key: ValueKey(snap.id),
+        title: AppTitle.fromSnap(snap),
+        summary: snap.summary,
+        iconUrl: snap.iconUrl,
+        footer: _RatingsInfo(snapId: snap.id),
+        onTap: onTap,
+      );
+
+  factory AppCard.fromDeb({
+    required AppstreamComponent component,
+    VoidCallback? onTap,
+  }) =>
+      AppCard(
+        key: ValueKey(component.id),
+        title: AppTitle.fromDeb(component),
+        summary: component.getLocalizedSummary(),
+        iconUrl: component.icon,
+        onTap: onTap,
+      );
+
+  final Widget title;
+  final String summary;
   final VoidCallback? onTap;
   final bool compact;
+  final String? iconUrl;
+  final Widget? footer;
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +63,21 @@ class SnapCard extends StatelessWidget {
         direction: compact ? Axis.vertical : Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppIcon(iconUrl: snap.iconUrl),
+          AppIcon(iconUrl: iconUrl),
           const SizedBox(width: 16, height: 16),
-          Expanded(child: _SnapCardBody(snap: snap)),
+          Expanded(
+              child: _AppCardBody(
+            title: title,
+            summary: summary,
+            footer: footer,
+          )),
         ],
       ),
     );
   }
 }
 
+// TODO: generalize
 class SnapImageCard extends StatelessWidget {
   const SnapImageCard({super.key, required this.snap, this.onTap});
 
@@ -69,7 +108,12 @@ class SnapImageCard extends StatelessWidget {
             flex: 306 - 160, // based on mockups
             child: Padding(
               padding: const EdgeInsets.all(kCardSpacing),
-              child: _SnapCardBody(snap: snap, maxlines: 1),
+              child: _AppCardBody(
+                title: AppTitle.fromSnap(snap),
+                summary: snap.summary,
+                footer: _RatingsInfo(snapId: snap.id),
+                maxlines: 1,
+              ),
             ),
           ),
         ],
@@ -78,10 +122,17 @@ class SnapImageCard extends StatelessWidget {
   }
 }
 
-class _SnapCardBody extends StatelessWidget {
-  const _SnapCardBody({required this.snap, this.maxlines = 2});
+class _AppCardBody extends StatelessWidget {
+  const _AppCardBody({
+    required this.title,
+    required this.summary,
+    this.footer,
+    this.maxlines = 2,
+  });
 
-  final Snap snap;
+  final Widget title;
+  final String summary;
+  final Widget? footer;
   final int maxlines;
 
   @override
@@ -93,19 +144,21 @@ class _SnapCardBody extends StatelessWidget {
           height: kIconSize,
           child: Align(
             alignment: Alignment.bottomLeft,
-            child: SnapTitle(snap: snap),
+            child: title,
           ),
         ),
         const SizedBox(height: 12),
         Flexible(
           child: Text(
-            snap.summary,
+            summary,
             maxLines: maxlines,
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        const SizedBox(height: 8),
-        _RatingsInfo(snapId: snap.id),
+        if (footer != null) ...[
+          const SizedBox(height: 8),
+          footer!,
+        ]
       ],
     );
   }

@@ -391,7 +391,7 @@ class _Header extends StatelessWidget {
           children: [
             AppIcon(iconUrl: snap.iconUrl, size: 96),
             const SizedBox(width: 16),
-            Expanded(child: SnapTitle.large(snap: snap)),
+            Expanded(child: AppTitle.fromSnap(snap, large: true)),
           ],
         ),
         const SizedBox(height: kPagePadding),

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -225,17 +224,7 @@ class _Header extends StatelessWidget {
           children: [
             AppIcon(iconUrl: debModel.component.icon, size: 96),
             const SizedBox(width: 16),
-            Expanded(
-              // TODO: generalize `SnapTitle` widget
-              child: SnapTitle.large(
-                snap: Snap(
-                  name: debModel.component.getLocalizedName(),
-                  publisher: SnapPublisher(
-                    displayName: debModel.component.getLocalizedDeveloperName(),
-                  ),
-                ),
-              ),
-            ),
+            Expanded(child: AppTitle.fromDeb(debModel.component)),
           ],
         ),
         const SizedBox(height: kPagePadding),
