@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:github/github.dart';
 import 'package:gtk/gtk.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:snapcraft_launcher/snapcraft_launcher.dart';
 import 'package:ubuntu_logger/ubuntu_logger.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -11,6 +12,7 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 import 'appstream.dart';
 import 'l10n.dart';
+import 'packagekit.dart';
 import 'ratings.dart';
 import 'snapd.dart';
 import 'store.dart';
@@ -38,6 +40,10 @@ Future<void> main(List<String> args) async {
   // metadata from the disk.
   unawaited(appstream.init());
   registerServiceInstance(appstream);
+
+  registerService(() => PackageKitClient());
+  registerService(() => PackageKitService(),
+      dispose: (service) => service.dispose());
 
   await initDefaultLocale();
 
