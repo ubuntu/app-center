@@ -4,20 +4,19 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i11;
-import 'dart:ui' as _i12;
 
 import 'package:app_center/snapd.dart' as _i6;
-import 'package:app_center/src/appstream/appstream_service.dart' as _i17;
-import 'package:app_center/src/manage/manage_model.dart' as _i13;
-import 'package:app_center/src/packagekit/packagekit_service.dart' as _i18;
+import 'package:app_center/src/appstream/appstream_service.dart' as _i16;
+import 'package:app_center/src/manage/manage_model.dart' as _i12;
+import 'package:app_center/src/packagekit/packagekit_service.dart' as _i17;
 import 'package:app_center/src/ratings/exports.dart' as _i10;
 import 'package:app_center/src/ratings/ratings_model.dart' as _i9;
 import 'package:app_center/src/ratings/ratings_service.dart' as _i4;
 import 'package:appstream/appstream.dart' as _i8;
-import 'package:dbus/dbus.dart' as _i16;
-import 'package:file/file.dart' as _i14;
+import 'package:dbus/dbus.dart' as _i15;
+import 'package:file/file.dart' as _i13;
 import 'package:flutter_riverpod/flutter_riverpod.dart' as _i5;
-import 'package:gtk/src/gtk_application_notifier.dart' as _i15;
+import 'package:gtk/src/gtk_application_notifier.dart' as _i14;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:packagekit/packagekit.dart' as _i7;
 import 'package:snapcraft_launcher/snapcraft_launcher.dart' as _i3;
@@ -222,6 +221,11 @@ class MockRatingsModel extends _i1.Mock implements _i9.RatingsModel {
         returnValue: '',
       ) as String);
   @override
+  String get snapRevision => (super.noSuchMethod(
+        Invocation.getter(#snapRevision),
+        returnValue: '',
+      ) as String);
+  @override
   set snapRating(_i10.Rating? _snapRating) => super.noSuchMethod(
         Invocation.setter(
           #snapRating,
@@ -238,6 +242,11 @@ class MockRatingsModel extends _i1.Mock implements _i9.RatingsModel {
         ),
       ) as _i5.AsyncValue<void>);
   @override
+  _i9.VoteStatus get vote => (super.noSuchMethod(
+        Invocation.getter(#vote),
+        returnValue: _i9.VoteStatus.up,
+      ) as _i9.VoteStatus);
+  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
@@ -252,7 +261,16 @@ class MockRatingsModel extends _i1.Mock implements _i9.RatingsModel {
         returnValueForMissingStub: _i11.Future<void>.value(),
       ) as _i11.Future<void>);
   @override
-  void addListener(_i12.VoidCallback? listener) => super.noSuchMethod(
+  _i11.Future<void> castVote(bool? voteUp) => (super.noSuchMethod(
+        Invocation.method(
+          #castVote,
+          [voteUp],
+        ),
+        returnValue: _i11.Future<void>.value(),
+        returnValueForMissingStub: _i11.Future<void>.value(),
+      ) as _i11.Future<void>);
+  @override
+  void addListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -260,7 +278,7 @@ class MockRatingsModel extends _i1.Mock implements _i9.RatingsModel {
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i12.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -416,7 +434,7 @@ class MockSnapModel extends _i1.Mock implements _i6.SnapModel {
         returnValueForMissingStub: _i11.Future<void>.value(),
       ) as _i11.Future<void>);
   @override
-  void addListener(_i12.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -424,7 +442,7 @@ class MockSnapModel extends _i1.Mock implements _i6.SnapModel {
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i12.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -444,7 +462,7 @@ class MockSnapModel extends _i1.Mock implements _i6.SnapModel {
 /// A class which mocks [ManageModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockManageModel extends _i1.Mock implements _i13.ManageModel {
+class MockManageModel extends _i1.Mock implements _i12.ManageModel {
   MockManageModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -506,7 +524,7 @@ class MockManageModel extends _i1.Mock implements _i13.ManageModel {
         returnValueForMissingStub: null,
       );
   @override
-  void addListener(_i12.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -514,7 +532,7 @@ class MockManageModel extends _i1.Mock implements _i13.ManageModel {
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i12.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -919,7 +937,7 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
   _i11.Stream<List<_i2.Snap>> getCategory(
     String? name, {
     Duration? expiry = const Duration(days: 1),
-    _i14.FileSystem? fs,
+    _i13.FileSystem? fs,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -936,7 +954,7 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
   _i11.Stream<_i2.Snap?> getStoreSnap(
     String? name, {
     Duration? expiry = const Duration(minutes: 1),
-    _i14.FileSystem? fs,
+    _i13.FileSystem? fs,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -953,7 +971,7 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
   _i11.Stream<List<_i2.Snap>> getStoreSnaps(
     List<String>? names, {
     Duration? expiry = const Duration(minutes: 1),
-    _i14.FileSystem? fs,
+    _i13.FileSystem? fs,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1058,7 +1076,7 @@ class MockUpdatesModel extends _i1.Mock implements _i6.UpdatesModel {
         returnValueForMissingStub: _i11.Future<void>.value(),
       ) as _i11.Future<void>);
   @override
-  void addListener(_i12.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -1066,7 +1084,7 @@ class MockUpdatesModel extends _i1.Mock implements _i6.UpdatesModel {
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i12.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -1095,13 +1113,13 @@ class MockUpdatesModel extends _i1.Mock implements _i6.UpdatesModel {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGtkApplicationNotifier extends _i1.Mock
-    implements _i15.GtkApplicationNotifier {
+    implements _i14.GtkApplicationNotifier {
   MockGtkApplicationNotifier() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  void addCommandLineListener(_i15.GtkCommandLineListener? listener) =>
+  void addCommandLineListener(_i14.GtkCommandLineListener? listener) =>
       super.noSuchMethod(
         Invocation.method(
           #addCommandLineListener,
@@ -1110,7 +1128,7 @@ class MockGtkApplicationNotifier extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void removeCommandLineListener(_i15.GtkCommandLineListener? listener) =>
+  void removeCommandLineListener(_i14.GtkCommandLineListener? listener) =>
       super.noSuchMethod(
         Invocation.method(
           #removeCommandLineListener,
@@ -1119,7 +1137,7 @@ class MockGtkApplicationNotifier extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void addOpenListener(_i15.GtkOpenListener? listener) => super.noSuchMethod(
+  void addOpenListener(_i14.GtkOpenListener? listener) => super.noSuchMethod(
         Invocation.method(
           #addOpenListener,
           [listener],
@@ -1127,7 +1145,7 @@ class MockGtkApplicationNotifier extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void removeOpenListener(_i15.GtkOpenListener? listener) => super.noSuchMethod(
+  void removeOpenListener(_i14.GtkOpenListener? listener) => super.noSuchMethod(
         Invocation.method(
           #removeOpenListener,
           [listener],
@@ -1317,7 +1335,7 @@ class MockPackageKitClient extends _i1.Mock implements _i7.PackageKitClient {
       ) as _i11.Future<void>);
   @override
   _i11.Future<_i7.PackageKitTransaction> getTransaction(
-          _i16.DBusObjectPath? path) =>
+          _i15.DBusObjectPath? path) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTransaction,
@@ -1800,12 +1818,21 @@ class MockRatingsService extends _i1.Mock implements _i4.RatingsService {
         ),
         returnValue: _i11.Future<List<_i10.Vote>>.value(<_i10.Vote>[]),
       ) as _i11.Future<List<_i10.Vote>>);
+  @override
+  _i11.Future<List<_i10.Vote>> getSnapVotes(String? snapId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getSnapVotes,
+          [snapId],
+        ),
+        returnValue: _i11.Future<List<_i10.Vote>>.value(<_i10.Vote>[]),
+      ) as _i11.Future<List<_i10.Vote>>);
 }
 
 /// A class which mocks [AppstreamService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppstreamService extends _i1.Mock implements _i17.AppstreamService {
+class MockAppstreamService extends _i1.Mock implements _i16.AppstreamService {
   MockAppstreamService() {
     _i1.throwOnMissingStub(this);
   }
@@ -1858,7 +1885,7 @@ class MockAppstreamService extends _i1.Mock implements _i17.AppstreamService {
 /// A class which mocks [PackageKitService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPackageKitService extends _i1.Mock implements _i18.PackageKitService {
+class MockPackageKitService extends _i1.Mock implements _i17.PackageKitService {
   MockPackageKitService() {
     _i1.throwOnMissingStub(this);
   }

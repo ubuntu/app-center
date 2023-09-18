@@ -2,6 +2,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
@@ -124,6 +125,12 @@ void main() {
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
     verify(snapLauncher.open()).called(1);
 
+    await tester.tap(find.byIcon(Icons.thumb_up_outlined));
+    verify(ratingsModel.castVote(true)).called(1);
+
+    await tester.tap(find.byIcon(Icons.thumb_down_outlined));
+    verify(ratingsModel.castVote(false)).called(1);
+
     await tester.tap(find.byIcon(YaruIcons.view_more_horizontal));
     await tester.pump();
 
@@ -168,6 +175,12 @@ void main() {
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
     verify(snapLauncher.open()).called(1);
 
+    await tester.tap(find.byIcon(Icons.thumb_up_outlined));
+    verify(ratingsModel.castVote(true)).called(1);
+
+    await tester.tap(find.byIcon(Icons.thumb_down_outlined));
+    verify(ratingsModel.castVote(false)).called(1);
+
     await tester.tap(find.byIcon(YaruIcons.view_more_horizontal));
     await tester.pump();
 
@@ -203,6 +216,8 @@ void main() {
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionOpenLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
+    expect(find.byIcon(Icons.thumb_up_outlined), findsNothing);
+    expect(find.byIcon(Icons.thumb_down_outlined), findsNothing);
 
     await tester.tap(find.text(tester.l10n.snapActionInstallLabel));
     verify(snapModel.install()).called(1);
@@ -234,6 +249,12 @@ void main() {
     expectSnapInfos(tester, localSnap);
     expect(find.byType(ScreenshotGallery), findsNothing);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
+
+    await tester.tap(find.byIcon(Icons.thumb_up_outlined));
+    verify(ratingsModel.castVote(true)).called(1);
+
+    await tester.tap(find.byIcon(Icons.thumb_down_outlined));
+    verify(ratingsModel.castVote(false)).called(1);
 
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
     verify(snapLauncher.open()).called(1);
@@ -270,6 +291,8 @@ void main() {
     await tester.pump();
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
+    expect(find.byIcon(Icons.thumb_up_outlined), findsNothing);
+    expect(find.byIcon(Icons.thumb_down_outlined), findsNothing);
     expect(find.byType(YaruCircularProgressIndicator), findsOneWidget);
     final l10n = tester.l10n;
     expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
