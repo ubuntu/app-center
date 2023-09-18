@@ -132,7 +132,10 @@ class SearchPage extends StatelessWidget {
           Expanded(
             child: Consumer(
               builder: (context, ref, child) {
-                return switch (ref.watch(packageFormatProvider)) {
+                final packageFormat = initialCategoryName != null
+                    ? PackageFormat.snap
+                    : ref.watch(packageFormatProvider);
+                return switch (packageFormat) {
                   PackageFormat.snap => _SnapSearchResults(
                       initialCategory: initialCategory,
                       query: query,

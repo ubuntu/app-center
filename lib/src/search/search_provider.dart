@@ -12,7 +12,7 @@ enum PackageFormat { snap, deb }
 final queryProvider = StateProvider<String?>((_) => null);
 
 final packageFormatProvider =
-    StateProvider<PackageFormat>((_) => PackageFormat.snap);
+    StateProvider.autoDispose<PackageFormat>((_) => PackageFormat.snap);
 
 typedef AutoCompleteOptions = ({
   Iterable<Snap> snaps,
