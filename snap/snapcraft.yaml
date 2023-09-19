@@ -46,6 +46,8 @@ parts:
 apps:
   snap-store:
     command: bin/snap-store
+    environment:
+      RATINGS_SERVICE_URL: 'ratings.ubuntu.com'
     desktop: bin/data/flutter_assets/assets/app-center.desktop
     extensions: [gnome]
     plugs:

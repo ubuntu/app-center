@@ -14,6 +14,7 @@ import 'package:xdg_directories/xdg_directories.dart' as xdg;
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 import 'appstream.dart';
+import 'config.dart';
 import 'l10n.dart';
 import 'packagekit.dart';
 import 'ratings.dart';
@@ -31,8 +32,12 @@ Future<void> main(List<String> args) async {
   await launcher.connect();
   registerServiceInstance(launcher);
 
-  // TODO: Dev/prod url's, determine on .env var
-  final ratings = RatingsService('localhost', 8080);
+  final config = ConfigService();
+  config.load();
+
+  final ratings =
+      RatingsService(config.ratingServiceUrl, config.ratingsServicePort);
+  registerServiceInstance(config);
   registerServiceInstance(ratings);
 
   registerService(() => GitHub());
