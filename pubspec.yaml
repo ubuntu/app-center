@@ -16,7 +16,7 @@ dependencies:
   app_center_ratings_client:
     git: 
       url: https://github.com/matthew-hagemann/app_center_ratings_client.dart.git
-      ref: register-auth-merge
+      ref: main
   crypto: ^3.0.3
   file: ^6.1.0
   flutter:

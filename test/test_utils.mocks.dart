@@ -222,6 +222,11 @@ class MockRatingsModel extends _i1.Mock implements _i9.RatingsModel {
         returnValue: '',
       ) as String);
   @override
+  String get snapRevision => (super.noSuchMethod(
+        Invocation.getter(#snapRevision),
+        returnValue: '',
+      ) as String);
+  @override
   set snapRating(_i10.Rating? _snapRating) => super.noSuchMethod(
         Invocation.setter(
           #snapRating,
@@ -247,6 +252,15 @@ class MockRatingsModel extends _i1.Mock implements _i9.RatingsModel {
         Invocation.method(
           #init,
           [],
+        ),
+        returnValue: _i11.Future<void>.value(),
+        returnValueForMissingStub: _i11.Future<void>.value(),
+      ) as _i11.Future<void>);
+  @override
+  _i11.Future<void> castVote(_i9.VoteStatus? castVote) => (super.noSuchMethod(
+        Invocation.method(
+          #castVote,
+          [castVote],
         ),
         returnValue: _i11.Future<void>.value(),
         returnValueForMissingStub: _i11.Future<void>.value(),
@@ -1797,6 +1811,15 @@ class MockRatingsService extends _i1.Mock implements _i4.RatingsService {
         Invocation.method(
           #listMyVotes,
           [snapFilter],
+        ),
+        returnValue: _i11.Future<List<_i10.Vote>>.value(<_i10.Vote>[]),
+      ) as _i11.Future<List<_i10.Vote>>);
+  @override
+  _i11.Future<List<_i10.Vote>> getSnapVotes(String? snapId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getSnapVotes,
+          [snapId],
         ),
         returnValue: _i11.Future<List<_i10.Vote>>.value(<_i10.Vote>[]),
       ) as _i11.Future<List<_i10.Vote>>);

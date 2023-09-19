@@ -49,4 +49,9 @@ class RatingsService {
     await _ensureValidToken();
     return await _client.listMyVotes(snapFilter, _jwt!);
   }
+
+  Future<List<Vote>> getSnapVotes(String snapId) async {
+    await _ensureValidToken();
+    return await _client.getSnapVotes(snapId, _jwt!);
+  }
 }

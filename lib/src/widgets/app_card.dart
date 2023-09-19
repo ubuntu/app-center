@@ -31,7 +31,7 @@ class AppCard extends StatelessWidget {
         title: AppTitle.fromSnap(snap),
         summary: snap.summary,
         iconUrl: snap.iconUrl,
-        footer: _RatingsInfo(snapId: snap.id),
+        footer: _RatingsInfo(snap: snap),
         onTap: onTap,
       );
 
@@ -111,7 +111,7 @@ class SnapImageCard extends StatelessWidget {
               child: _AppCardBody(
                 title: AppTitle.fromSnap(snap),
                 summary: snap.summary,
-                footer: _RatingsInfo(snapId: snap.id),
+                footer: _RatingsInfo(snap: snap),
                 maxlines: 1,
               ),
             ),
@@ -165,13 +165,13 @@ class _AppCardBody extends StatelessWidget {
 }
 
 class _RatingsInfo extends ConsumerWidget {
-  const _RatingsInfo({required this.snapId});
+  const _RatingsInfo({required this.snap});
 
-  final String snapId;
+  final Snap snap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ratingsModel = ref.watch(ratingsModelProvider(snapId));
+    final ratingsModel = ref.watch(ratingsModelProvider(snap));
     final l10n = AppLocalizations.of(context);
 
     return ratingsModel.state.when(

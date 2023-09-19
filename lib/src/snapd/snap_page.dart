@@ -134,7 +134,7 @@ class _SnapView extends ConsumerWidget {
                     children: [
                       _SnapInfoBar(
                         snapInfos: snapInfos,
-                        snapId: snapModel.snap.id,
+                        snap: snapModel.snap,
                         layout: layout,
                       ),
                       const Divider(),
@@ -173,18 +173,18 @@ class _SnapView extends ConsumerWidget {
 class _SnapInfoBar extends ConsumerWidget {
   const _SnapInfoBar({
     required this.snapInfos,
-    required this.snapId,
+    required this.snap,
     required this.layout,
   });
 
   final List<SnapInfo> snapInfos;
   final ResponsiveLayout layout;
-  final String snapId;
+  final Snap snap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final ratingsModel = ref.watch(ratingsModelProvider(snapId));
+    final ratingsModel = ref.watch(ratingsModelProvider(snap));
 
     final ratings = ratingsModel.state.whenOrNull(
       data: (_) => (
@@ -314,7 +314,64 @@ class _SnapActionButtons extends ConsumerWidget {
           cancelButton
         else if (snapModel.isInstalled)
           secondaryActionsButton,
+        if (snapModel.isInstalled) ...[
+          const SizedBox(width: 8),
+          _RatingsActionButtons(
+            snap: snapModel.snap,
+          ),
+        ]
       ].whereNotNull().toList(),
+    );
+  }
+}
+
+class _RatingsActionButtons extends ConsumerWidget {
+  const _RatingsActionButtons({required this.snap});
+
+  final Snap snap;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ratingsModel = ref.watch(ratingsModelProvider(snap));
+
+    return ratingsModel.state.when(
+      data: (_) {
+        return IntrinsicHeight(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                YaruIconButton(
+                  icon: ratingsModel.vote == VoteStatus.up
+                      ? const Icon(Icons.thumb_up)
+                      : const Icon(Icons.thumb_up_outlined),
+                  onPressed: () {
+                    ratingsModel.castVote(VoteStatus.up);
+                  },
+                ),
+                const VerticalDivider(
+                  color: Colors.grey,
+                  thickness: 1,
+                  width: 1,
+                ),
+                YaruIconButton(
+                  icon: ratingsModel.vote == VoteStatus.down
+                      ? const Icon(Icons.thumb_down)
+                      : const Icon(Icons.thumb_down_outlined),
+                  onPressed: () {
+                    ratingsModel.castVote(VoteStatus.down);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      error: (error, stackTrace) => const SizedBox.shrink(),
+      loading: () => const SizedBox.shrink(),
     );
   }
 }

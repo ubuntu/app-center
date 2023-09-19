@@ -62,12 +62,21 @@ RatingsModel createMockRatingsModel({
   AsyncValue<void>? state,
   Rating? snapRating,
   String? snapId,
+  VoteStatus? voteStatus,
+  Future<void> Function(bool voteUp)? mockVote,
 }) {
   final model = MockRatingsModel();
 
   when(model.state).thenReturn(state ?? AsyncValue.data(() {}()));
   when(model.snapRating).thenReturn(snapRating);
   when(model.snapId).thenReturn(snapId ?? '');
+  when(model.vote).thenReturn(voteStatus);
+
+  if (mockVote != null) {
+    when(model.castVote(any)).thenAnswer((invocation) async {
+      await mockVote(invocation.positionalArguments[0] as bool);
+    });
+  }
 
   return model;
 }
@@ -229,6 +238,7 @@ MockPackageKitTransaction createMockPackageKitTransaction({
 @GenerateMocks([RatingsService])
 MockRatingsService createMockRatingsService() {
   final service = MockRatingsService();
+  when(service.vote(any)).thenAnswer((_) async => {});
   return service;
 }
 
