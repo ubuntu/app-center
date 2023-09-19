@@ -21,8 +21,7 @@ class RatingsModel extends ChangeNotifier {
     required this.ratings,
     required this.snapId,
     required this.snapRevision,
-  })  : _state = const AsyncValue.loading(),
-        _vote = VoteStatus.none;
+  }) : _state = const AsyncValue.loading();
   final RatingsService ratings;
   final String snapId;
   final String snapRevision;
@@ -32,8 +31,8 @@ class RatingsModel extends ChangeNotifier {
   AsyncValue<void> get state => _state;
   AsyncValue<void> _state;
 
-  VoteStatus get vote => _vote;
-  VoteStatus _vote;
+  VoteStatus? get vote => _vote;
+  VoteStatus? _vote;
 
   Future<void> init() async {
     _state = await AsyncValue.guard(() async {
@@ -47,8 +46,8 @@ class RatingsModel extends ChangeNotifier {
 
       _setSnapRating(rating);
       _setUserVote(votes);
-      notifyListeners();
     });
+    notifyListeners();
   }
 
   void _setSnapRating(Rating? rating) {
@@ -65,10 +64,10 @@ class RatingsModel extends ChangeNotifier {
     }
   }
 
-  Future<void> castVote(bool voteUp) async {
-    VoteStatus newVoteStatus = voteUp ? VoteStatus.up : VoteStatus.down;
+  Future<void> castVote(VoteStatus castVote) async {
+    bool voteUp = castVote == VoteStatus.up ? true : false;
 
-    if (newVoteStatus != _vote) {
+    if (castVote != _vote) {
       final vote = Vote(
         snapId: snapId,
         snapRevision: int.parse(snapRevision),
@@ -76,7 +75,7 @@ class RatingsModel extends ChangeNotifier {
         dateTime: DateTime.now(),
       );
       await ratings.vote(vote);
-      _vote = newVoteStatus;
+      _vote = castVote;
     }
 
     notifyListeners();
@@ -86,5 +85,4 @@ class RatingsModel extends ChangeNotifier {
 enum VoteStatus {
   up,
   down,
-  none,
 }

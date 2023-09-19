@@ -314,11 +314,12 @@ class _SnapActionButtons extends ConsumerWidget {
           cancelButton
         else if (snapModel.isInstalled)
           secondaryActionsButton,
-        const SizedBox(width: 8),
-        if (snapModel.isInstalled)
+        if (snapModel.isInstalled) ...[
+          const SizedBox(width: 8),
           _RatingsActionButtons(
             snap: snapModel.snap,
-          )
+          ),
+        ]
       ].whereNotNull().toList(),
     );
   }
@@ -348,7 +349,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                       ? const Icon(Icons.thumb_up)
                       : const Icon(Icons.thumb_up_outlined),
                   onPressed: () {
-                    ratingsModel.castVote(true);
+                    ratingsModel.castVote(VoteStatus.up);
                   },
                 ),
                 const VerticalDivider(
@@ -361,7 +362,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                       ? const Icon(Icons.thumb_down)
                       : const Icon(Icons.thumb_down_outlined),
                   onPressed: () {
-                    ratingsModel.castVote(false);
+                    ratingsModel.castVote(VoteStatus.down);
                   },
                 ),
               ],

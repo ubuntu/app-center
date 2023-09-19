@@ -70,7 +70,7 @@ RatingsModel createMockRatingsModel({
   when(model.state).thenReturn(state ?? AsyncValue.data(() {}()));
   when(model.snapRating).thenReturn(snapRating);
   when(model.snapId).thenReturn(snapId ?? '');
-  when(model.vote).thenReturn(voteStatus ?? VoteStatus.none);
+  when(model.vote).thenReturn(voteStatus);
 
   if (mockVote != null) {
     when(model.castVote(any)).thenAnswer((invocation) async {

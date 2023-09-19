@@ -126,10 +126,10 @@ void main() {
     verify(snapLauncher.open()).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_up_outlined));
-    verify(ratingsModel.castVote(true)).called(1);
+    verify(ratingsModel.castVote(VoteStatus.up)).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_down_outlined));
-    verify(ratingsModel.castVote(false)).called(1);
+    verify(ratingsModel.castVote(VoteStatus.down)).called(1);
 
     await tester.tap(find.byIcon(YaruIcons.view_more_horizontal));
     await tester.pump();
@@ -176,10 +176,10 @@ void main() {
     verify(snapLauncher.open()).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_up_outlined));
-    verify(ratingsModel.castVote(true)).called(1);
+    verify(ratingsModel.castVote(VoteStatus.up)).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_down_outlined));
-    verify(ratingsModel.castVote(false)).called(1);
+    verify(ratingsModel.castVote(VoteStatus.down)).called(1);
 
     await tester.tap(find.byIcon(YaruIcons.view_more_horizontal));
     await tester.pump();
@@ -251,10 +251,10 @@ void main() {
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
 
     await tester.tap(find.byIcon(Icons.thumb_up_outlined));
-    verify(ratingsModel.castVote(true)).called(1);
+    verify(ratingsModel.castVote(VoteStatus.up)).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_down_outlined));
-    verify(ratingsModel.castVote(false)).called(1);
+    verify(ratingsModel.castVote(VoteStatus.down)).called(1);
 
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
     verify(snapLauncher.open()).called(1);

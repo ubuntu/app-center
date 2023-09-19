@@ -242,11 +242,6 @@ class MockRatingsModel extends _i1.Mock implements _i9.RatingsModel {
         ),
       ) as _i5.AsyncValue<void>);
   @override
-  _i9.VoteStatus get vote => (super.noSuchMethod(
-        Invocation.getter(#vote),
-        returnValue: _i9.VoteStatus.up,
-      ) as _i9.VoteStatus);
-  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
@@ -261,10 +256,10 @@ class MockRatingsModel extends _i1.Mock implements _i9.RatingsModel {
         returnValueForMissingStub: _i11.Future<void>.value(),
       ) as _i11.Future<void>);
   @override
-  _i11.Future<void> castVote(bool? voteUp) => (super.noSuchMethod(
+  _i11.Future<void> castVote(_i9.VoteStatus? castVote) => (super.noSuchMethod(
         Invocation.method(
           #castVote,
-          [voteUp],
+          [castVote],
         ),
         returnValue: _i11.Future<void>.value(),
         returnValueForMissingStub: _i11.Future<void>.value(),
