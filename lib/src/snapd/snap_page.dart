@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,14 +24,44 @@ const _kChannelDropdownWidth = 220.0;
 
 typedef SnapInfo = ({String label, Widget value});
 
-class SnapPage extends ConsumerWidget {
+class SnapPage extends ConsumerStatefulWidget {
   const SnapPage({super.key, required this.snapName});
 
   final String snapName;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final snapModel = ref.watch(snapModelProvider(snapName));
+  ConsumerState<SnapPage> createState() => _SnapPageState();
+}
+
+class _SnapPageState extends ConsumerState<SnapPage> {
+  StreamSubscription? _errorSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _errorSubscription = ref
+        .read(snapModelProvider(widget.snapName))
+        .errorStream
+        .listen(showError);
+  }
+
+  @override
+  void dispose() {
+    _errorSubscription?.cancel();
+    _errorSubscription = null;
+    super.dispose();
+  }
+
+  Future<void> showError(SnapdException e) => showErrorDialog(
+        context: context,
+        title: e.kind ?? '',
+        message: e.message,
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    final snapModel = ref.watch(snapModelProvider(widget.snapName));
     final updatesModel = ref.watch(updatesModelProvider);
     return snapModel.state.when(
       data: (_) => ResponsiveLayoutBuilder(

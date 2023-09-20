@@ -89,6 +89,7 @@ SnapModel createMockSnapModel({
   String? selectedChannel,
   String? snapName,
   AsyncValue<void>? state,
+  Stream<SnapdException>? errorStream,
 }) {
   final model = MockSnapModel();
   when(model.localSnap).thenReturn(localSnap);
@@ -107,6 +108,8 @@ SnapModel createMockSnapModel({
       model.storeSnap != null && model.storeSnap!.screenshotUrls.isNotEmpty);
   when(model.snapName)
       .thenReturn(snapName ?? localSnap?.name ?? storeSnap?.name ?? '');
+  when(model.errorStream)
+      .thenAnswer((_) => errorStream ?? const Stream.empty());
   return model;
 }
 
