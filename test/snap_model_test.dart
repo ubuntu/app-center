@@ -207,4 +207,29 @@ void main() {
     verify(service.abortChange('changeId')).called(1);
     expect(model.activeChangeId, isNull);
   });
+
+  test('error stream', () async {
+    final service = createMockSnapdService(
+      localSnap: localSnap,
+      storeSnap: storeSnap,
+    );
+    when(service.install(
+      any,
+      channel: anyNamed('channel'),
+      classic: anyNamed('classic'),
+    )).thenThrow(SnapdException(message: 'error message', kind: 'error kind'));
+
+    final model = SnapModel(snapd: service, snapName: 'testsnap');
+    await model.init();
+
+    model.errorStream.listen(
+      expectAsync1<void, SnapdException>(
+        (e) {
+          expect(e.kind, equals('error kind'));
+          expect(e.message, equals('error message'));
+        },
+      ),
+    );
+    await model.install();
+  });
 }

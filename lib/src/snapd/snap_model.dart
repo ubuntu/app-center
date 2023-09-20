@@ -3,10 +3,15 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meta/meta.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_logger/ubuntu_logger.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '/snapd.dart';
+
+@internal
+final log = Logger('snap');
 
 final snapModelProvider =
     ChangeNotifierProvider.family.autoDispose<SnapModel, String>(
@@ -80,6 +85,10 @@ class SnapModel extends ChangeNotifier {
 
   StreamSubscription? _storeSnapSubscription;
 
+  Stream<SnapdException> get errorStream => _errorStreamController.stream;
+  final StreamController<SnapdException> _errorStreamController =
+      StreamController.broadcast();
+
   Future<void> init() async {
     final storeSnapCompleter = Completer();
     _storeSnapSubscription = snapd.getStoreSnap(snapName).listen((snap) {
@@ -103,6 +112,7 @@ class SnapModel extends ChangeNotifier {
   Future<void> dispose() async {
     await _storeSnapSubscription?.cancel();
     _storeSnapSubscription = null;
+    await _errorStreamController.close();
     super.dispose();
   }
 
@@ -120,6 +130,11 @@ class SnapModel extends ChangeNotifier {
     }
   }
 
+  void _handleError(SnapdException e) {
+    _errorStreamController.add(e);
+    log.error('Caught exception for snap "${snap.name}"', e);
+  }
+
   void _setDefaultSelectedChannel() {
     final channels = storeSnap?.channels.keys;
     final localChannel = localSnap?.trackingChannel;
@@ -135,10 +150,14 @@ class SnapModel extends ChangeNotifier {
   }
 
   Future<void> _snapAction(Future<String> Function() action) async {
-    final changeId = await action.call();
-    _activeChangeId = changeId;
-    notifyListeners();
-    await snapd.waitChange(changeId);
+    try {
+      final changeId = await action.call();
+      _activeChangeId = changeId;
+      notifyListeners();
+      await snapd.waitChange(changeId);
+    } on SnapdException catch (e) {
+      _handleError(e);
+    }
     _activeChangeId = null;
     await _getLocalSnap();
     notifyListeners();
