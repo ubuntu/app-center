@@ -155,6 +155,7 @@ MockSnapdService createMockSnapdService({
     channel: anyNamed('channel'),
     classic: anyNamed('classic'),
   )).thenAnswer((_) async => 'id');
+  when(service.refreshMany(any)).thenAnswer((_) async => 'id');
   when(service.remove(any)).thenAnswer((_) async => 'id');
   when(service.find(filter: SnapFindFilter.refresh))
       .thenAnswer((_) async => refreshableSnaps ?? []);

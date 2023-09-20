@@ -1046,6 +1046,11 @@ class MockUpdatesModel extends _i1.Mock implements _i6.UpdatesModel {
         ),
       ) as _i5.AsyncValue<void>);
   @override
+  _i11.Stream<_i2.SnapdException> get errorStream => (super.noSuchMethod(
+        Invocation.getter(#errorStream),
+        returnValue: _i11.Stream<_i2.SnapdException>.empty(),
+      ) as _i11.Stream<_i2.SnapdException>);
+  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
