@@ -164,8 +164,10 @@ MockSnapdService createMockSnapdService({
 }
 
 @GenerateMocks([UpdatesModel])
-MockUpdatesModel createMockUpdatesModel(
-    {Iterable<String>? refreshableSnapNames}) {
+MockUpdatesModel createMockUpdatesModel({
+  Iterable<String>? refreshableSnapNames,
+  Stream<SnapdException>? errorStream,
+}) {
   final model = MockUpdatesModel();
   when(model.refreshableSnapNames)
       .thenReturn(refreshableSnapNames ?? const Iterable.empty());
@@ -173,6 +175,8 @@ MockUpdatesModel createMockUpdatesModel(
       refreshableSnapNames?.contains(i.positionalArguments.single) ?? false);
   when(model.state).thenReturn(AsyncValue.data(() {}()));
   when(model.activeChangeId).thenReturn(null);
+  when(model.errorStream)
+      .thenAnswer((_) => errorStream ?? const Stream.empty());
   return model;
 }
 
