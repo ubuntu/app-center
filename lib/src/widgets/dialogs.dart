@@ -78,3 +78,5 @@ class ErrorDialog extends StatelessWidget {
     );
   }
 }
+
+// TODO: add confirmation dialogs (issue #1398)
