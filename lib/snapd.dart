@@ -7,4 +7,4 @@ export 'src/snapd/snap_search.dart';
 export 'src/snapd/snap_sort.dart';
 export 'src/snapd/snapd_service.dart';
 export 'src/snapd/snapx.dart';
-export 'src/snapd/updates_model.dart' hide log;
+export 'src/snapd/updates_model.dart';

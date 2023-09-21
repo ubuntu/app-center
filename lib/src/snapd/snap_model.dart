@@ -3,15 +3,11 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meta/meta.dart';
 import 'package:snapd/snapd.dart';
-import 'package:ubuntu_logger/ubuntu_logger.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '/snapd.dart';
-
-@internal
-final log = Logger('snap');
+import 'logger.dart';
 
 final snapModelProvider =
     ChangeNotifierProvider.family.autoDispose<SnapModel, String>(
