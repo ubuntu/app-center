@@ -55,7 +55,7 @@ class _SnapPageState extends ConsumerState<SnapPage> {
 
   Future<void> showError(SnapdException e) => showErrorDialog(
         context: context,
-        title: e.kind ?? '',
+        title: e.kind ?? 'Unknown Snapd Exception',
         message: e.message,
       );
 

@@ -46,7 +46,7 @@ class _ManagePageState extends ConsumerState<ManagePage> {
 
   Future<void> showError(SnapdException e) => showErrorDialog(
         context: context,
-        title: e.kind ?? '',
+        title: e.kind ?? 'Unknown Snapd Exception',
         message: e.message,
       );
 
