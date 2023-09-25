@@ -258,7 +258,8 @@ class _ActionButtons extends ConsumerWidget {
         const SizedBox(width: 8),
         PushButton.elevated(
           onPressed: updatesModel.refreshableSnapNames.isNotEmpty &&
-                  !updatesModel.state.isLoading
+                  !updatesModel.state.isLoading &&
+                  updatesModel.activeChangeId == null
               ? ref.read(updatesModelProvider).updateAll
               : null,
           child: updatesModel.activeChangeId != null
@@ -278,12 +279,10 @@ class _ActionButtons extends ConsumerWidget {
                         ),
                         if (change != null) ...[
                           const SizedBox(width: 8),
-                          Flexible(
-                            child: Text(
-                              change.localize(l10n) ?? '',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          Text(
+                            change.localize(l10n) ?? '',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ]
                       ],
