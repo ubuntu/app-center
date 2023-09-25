@@ -25,6 +25,14 @@ void main() {
       channel: 'latest/candidate',
     ),
   ];
+  const refreshableSnaps = [
+    Snap(
+      name: 'testsnap3',
+      title: 'Snap with an update',
+      version: '2.0',
+      channel: 'latest/stable',
+    ),
+  ];
   testWidgets('list installed snaps', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(
@@ -101,6 +109,68 @@ void main() {
 
     await tester.tap(openButton);
     verify(snapLauncher.open()).called(1);
+  });
+
+  testWidgets('refresh snaps', (tester) async {
+    final mockUpdatesModel = createMockUpdatesModel(
+        refreshableSnapNames: refreshableSnaps.map((snap) => snap.name));
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          manageModelProvider.overrideWith(
+            (_) => createMockManageModel(
+              refreshableSnaps: refreshableSnaps,
+            ),
+          ),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          updatesModelProvider.overrideWith((_) => mockUpdatesModel)
+        ],
+        child: const ManagePage(),
+      ),
+    );
+
+    final testTile = find.snapTile('Snap with an update');
+    expect(testTile, findsOneWidget);
+    expect(find.descendant(of: testTile, matching: find.text('2.0')),
+        findsOneWidget);
+    expect(find.descendant(of: testTile, matching: find.text('latest/stable')),
+        findsOneWidget);
+
+    await tester.tap(find.text(tester.l10n.managePageUpdateAllLabel));
+    verify(mockUpdatesModel.updateAll()).called(1);
+  });
+
+  testWidgets('error dialog', (tester) async {
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          manageModelProvider.overrideWith(
+            (_) => createMockManageModel(
+              refreshableSnaps: refreshableSnaps,
+            ),
+          ),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          updatesModelProvider.overrideWith(
+            (_) => createMockUpdatesModel(
+              refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
+              errorStream: Stream.value(
+                SnapdException(
+                  message: 'error message',
+                  kind: 'error kind',
+                ),
+              ),
+            ),
+          )
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.text('error message'), findsOneWidget);
+    expect(find.text('error kind'), findsOneWidget);
   });
 
   // TODO: test loading states with snap change in progress

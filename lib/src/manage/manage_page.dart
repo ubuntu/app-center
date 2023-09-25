@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
@@ -13,7 +15,7 @@ import '/widgets.dart';
 import 'local_snap_providers.dart';
 import 'manage_model.dart';
 
-class ManagePage extends ConsumerWidget {
+class ManagePage extends ConsumerStatefulWidget {
   const ManagePage({super.key});
 
   static IconData icon(bool selected) => YaruIcons.app_grid;
@@ -21,7 +23,35 @@ class ManagePage extends ConsumerWidget {
       AppLocalizations.of(context).managePageLabel;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ManagePage> createState() => _ManagePageState();
+}
+
+class _ManagePageState extends ConsumerState<ManagePage> {
+  StreamSubscription? _errorSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _errorSubscription =
+        ref.read(updatesModelProvider).errorStream.listen(showError);
+  }
+
+  @override
+  void dispose() {
+    _errorSubscription?.cancel();
+    _errorSubscription = null;
+    super.dispose();
+  }
+
+  Future<void> showError(SnapdException e) => showErrorDialog(
+        context: context,
+        title: e.kind ?? 'Unknown Snapd Exception',
+        message: e.message,
+      );
+
+  @override
+  Widget build(BuildContext context) {
     final manageModel = ref.watch(manageModelProvider);
     return manageModel.state.when(
       data: (_) => _ManageView(manageModel: manageModel),

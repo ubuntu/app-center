@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '/snapd.dart';
+import 'logger.dart';
 
 final updatesModelProvider = ChangeNotifierProvider(
   (ref) => UpdatesModel(getService<SnapdService>())..refresh(),
@@ -23,6 +26,16 @@ class UpdatesModel extends ChangeNotifier {
   AsyncValue<void> get state => _state;
   AsyncValue<void> _state;
 
+  Stream<SnapdException> get errorStream => _errorStreamController.stream;
+  final StreamController<SnapdException> _errorStreamController =
+      StreamController.broadcast();
+
+  void _handleError(SnapdException e) {
+    _errorStreamController.add(e);
+    log.error(
+        'Caught exception when handling updates for $refreshableSnapNames', e);
+  }
+
   Future<void> refresh() async {
     _state = const AsyncValue.loading();
     notifyListeners();
@@ -36,10 +49,14 @@ class UpdatesModel extends ChangeNotifier {
 
   Future<void> updateAll() async {
     if (_refreshableSnaps == null) return;
-    final changeId = await snapd.refreshMany(refreshableSnapNames.toList());
-    _activeChangeId = changeId;
-    notifyListeners();
-    await snapd.waitChange(changeId);
+    try {
+      final changeId = await snapd.refreshMany(refreshableSnapNames.toList());
+      _activeChangeId = changeId;
+      notifyListeners();
+      await snapd.waitChange(changeId);
+    } on SnapdException catch (e) {
+      _handleError(e);
+    }
     _activeChangeId = null;
     await refresh();
   }

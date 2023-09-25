@@ -89,6 +89,7 @@ SnapModel createMockSnapModel({
   String? selectedChannel,
   String? snapName,
   AsyncValue<void>? state,
+  Stream<SnapdException>? errorStream,
 }) {
   final model = MockSnapModel();
   when(model.localSnap).thenReturn(localSnap);
@@ -107,6 +108,8 @@ SnapModel createMockSnapModel({
       model.storeSnap != null && model.storeSnap!.screenshotUrls.isNotEmpty);
   when(model.snapName)
       .thenReturn(snapName ?? localSnap?.name ?? storeSnap?.name ?? '');
+  when(model.errorStream)
+      .thenAnswer((_) => errorStream ?? const Stream.empty());
   return model;
 }
 
@@ -152,6 +155,7 @@ MockSnapdService createMockSnapdService({
     channel: anyNamed('channel'),
     classic: anyNamed('classic'),
   )).thenAnswer((_) async => 'id');
+  when(service.refreshMany(any)).thenAnswer((_) async => 'id');
   when(service.remove(any)).thenAnswer((_) async => 'id');
   when(service.find(filter: SnapFindFilter.refresh))
       .thenAnswer((_) async => refreshableSnaps ?? []);
@@ -160,8 +164,10 @@ MockSnapdService createMockSnapdService({
 }
 
 @GenerateMocks([UpdatesModel])
-MockUpdatesModel createMockUpdatesModel(
-    {Iterable<String>? refreshableSnapNames}) {
+MockUpdatesModel createMockUpdatesModel({
+  Iterable<String>? refreshableSnapNames,
+  Stream<SnapdException>? errorStream,
+}) {
   final model = MockUpdatesModel();
   when(model.refreshableSnapNames)
       .thenReturn(refreshableSnapNames ?? const Iterable.empty());
@@ -169,6 +175,8 @@ MockUpdatesModel createMockUpdatesModel(
       refreshableSnapNames?.contains(i.positionalArguments.single) ?? false);
   when(model.state).thenReturn(AsyncValue.data(() {}()));
   when(model.activeChangeId).thenReturn(null);
+  when(model.errorStream)
+      .thenAnswer((_) => errorStream ?? const Stream.empty());
   return model;
 }
 
