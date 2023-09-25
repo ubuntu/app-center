@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
+import 'logger.dart';
+
 typedef PackageKitPackageInfo = PackageKitPackageEvent;
 
 class PackageKitService {
@@ -52,7 +54,8 @@ class PackageKitService {
       await _client.connect();
       _isAvailable = true;
     } on DBusServiceUnknownException catch (_) {
-      // Service isn't available
+      log.info(
+          'Could not connect to PackageKit - marking service as unavailable');
     }
   }
 
@@ -74,6 +77,9 @@ class PackageKitService {
       if (event is PackageKitFinishedEvent || event is PackageKitDestroyEvent) {
         _transactions.remove(id);
         subscription.cancel();
+      } else if (event is PackageKitErrorCodeEvent) {
+        log.error(
+            'Received PackageKitErrorCodeEvent (${event.code}): ${event.details}');
       }
     });
     await action?.call(transaction);
