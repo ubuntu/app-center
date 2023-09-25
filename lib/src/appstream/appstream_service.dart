@@ -3,10 +3,12 @@ import 'dart:collection';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:snowball_stemmer/snowball_stemmer.dart';
 
 import '/l10n.dart';
 import 'appstream_utils.dart';
+import 'logger.dart';
 
 class _CachedComponent {
   final AppstreamComponent component;
@@ -135,7 +137,8 @@ class AppstreamService {
 
   // TODO: cache AppstreamPool
   AppstreamService({@visibleForTesting AppstreamPool? pool})
-      : _pool = pool ?? AppstreamPool() {
+      : _pool = pool ?? AppstreamPool(),
+        _l10n = _loadL10n() {
     PlatformDispatcher.instance.onLocaleChanged = () async {
       await _loader;
       _populateCache();
@@ -154,10 +157,23 @@ class AppstreamService {
     }
   }
 
-  List<String> get _greyList =>
-      lookupAppLocalizations(PlatformDispatcher.instance.locale)
-          .appstreamSearchGreylist
-          .split(';');
+  final AppLocalizations _l10n;
+
+  static AppLocalizations _loadL10n() {
+    late final Locale locale;
+    if (AppLocalizations.supportedLocales
+        .map((l) => l.languageCode)
+        .contains(PlatformDispatcher.instance.locale.languageCode)) {
+      locale = PlatformDispatcher.instance.locale;
+    } else {
+      locale = const Locale('en');
+      log.info(
+          'Unsupported locale: ${PlatformDispatcher.instance.locale}. Defaulting to "en".');
+    }
+    return lookupAppLocalizations(locale);
+  }
+
+  List<String> get _greyList => _l10n.appstreamSearchGreylist.split(';');
 
   Future<void> init() async => _loader;
 

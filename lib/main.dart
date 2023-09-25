@@ -24,6 +24,15 @@ import 'store.dart';
 Future<void> main(List<String> args) async {
   await YaruWindowTitleBar.ensureInitialized();
 
+  final binaryName = p.basename(Platform.resolvedExecutable);
+  Logger.setup(
+    path: p.join(
+      xdg.dataHome.path,
+      binaryName,
+      '$binaryName.log',
+    ),
+  );
+
   final snapd = SnapdService();
   await snapd.loadAuthorization();
   registerServiceInstance(snapd);
@@ -54,15 +63,6 @@ Future<void> main(List<String> args) async {
       dispose: (service) => service.dispose());
 
   await initDefaultLocale();
-
-  final binaryName = p.basename(Platform.resolvedExecutable);
-  Logger.setup(
-    path: p.join(
-      xdg.dataHome.path,
-      binaryName,
-      '$binaryName.log',
-    ),
-  );
 
   runApp(const ProviderScope(child: StoreApp()));
 }
