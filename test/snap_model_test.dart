@@ -232,4 +232,30 @@ void main() {
     );
     await model.install();
   });
+  group('change progress', () {
+    final testCases = [
+      (
+        name: 'no tasks',
+        change: SnapdChange(spawnTime: DateTime(1970)),
+        expectedProgress: 0.0,
+      ),
+      (
+        name: '60% completed',
+        change: SnapdChange(spawnTime: DateTime(1970), tasks: [
+          SnapdTask(progress: const SnapdTaskProgress(done: 2, total: 3)),
+          SnapdTask(progress: const SnapdTaskProgress(done: 4, total: 7)),
+        ]),
+        expectedProgress: 0.6,
+      ),
+    ];
+    for (final testCase in testCases) {
+      test(
+        testCase.name,
+        () => expect(
+          testCase.change.progress,
+          equals(testCase.expectedProgress),
+        ),
+      );
+    }
+  });
 }

@@ -198,6 +198,6 @@ extension SnapdChangeX on SnapdChange {
       total += task.progress.total;
     }
 
-    return done / total;
+    return total != 0 ? done / total : 0;
   }
 }
