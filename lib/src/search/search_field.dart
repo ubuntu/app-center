@@ -1,6 +1,5 @@
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
@@ -16,13 +15,7 @@ sealed class AutoCompleteOption {
   String get title => switch (this) {
         AutoCompleteSnapOption(snap: final snap) => snap.titleOrName,
         AutoCompleteDebOption(deb: final deb) => deb.getLocalizedName(),
-        AutoCompleteSectionOption(section: final section) => section,
         AutoCompleteSearchOption(query: final query) => query,
-        AutoCompleteDividerOption() => '',
-      };
-  bool get selectable => switch (this) {
-        AutoCompleteSectionOption() || AutoCompleteDividerOption() => false,
-        _ => true,
       };
 }
 
@@ -36,17 +29,10 @@ class AutoCompleteDebOption extends AutoCompleteOption {
   AutoCompleteDebOption(this.deb);
 }
 
-class AutoCompleteSectionOption extends AutoCompleteOption {
-  final String section;
-  AutoCompleteSectionOption(this.section);
-}
-
 class AutoCompleteSearchOption extends AutoCompleteOption {
   final String query;
   AutoCompleteSearchOption(this.query);
 }
-
-class AutoCompleteDividerOption extends AutoCompleteOption {}
 
 class SearchField extends ConsumerStatefulWidget {
   const SearchField({
@@ -87,6 +73,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         ref.read(queryProvider.notifier).state = query.text;
         final options = await ref.watch(autoCompleteProvider.future);
         if (options.snaps.isEmpty && options.debs.isEmpty) return [];
+        _optionsAvailable = true;
         final snapOptions = options.snaps
             .take(3)
             .map<AutoCompleteOption>(AutoCompleteSnapOption.new)
@@ -96,61 +83,74 @@ class _SearchFieldState extends ConsumerState<SearchField> {
             .map<AutoCompleteOption>(AutoCompleteDebOption.new)
             .toList();
         return <AutoCompleteOption>[
-          if (snapOptions.isNotEmpty) ...[
-            AutoCompleteSectionOption(l10n.searchFieldSnapSection),
-            ...snapOptions,
-            AutoCompleteDividerOption()
-          ],
-          if (debOptions.isNotEmpty) ...[
-            AutoCompleteSectionOption(l10n.searchFieldDebSection),
-            ...debOptions,
-            AutoCompleteDividerOption(),
-          ],
           AutoCompleteSearchOption(query.text),
+          ...snapOptions,
+          ...debOptions,
         ];
       },
       displayStringForOption: (option) => option.title,
-      optionsViewBuilder: (context, onSelected, options) => Align(
-        alignment: Alignment.topLeft,
-        child: Material(
-          elevation: 4.0,
-          child: SizedBox(
-            width: _optionsWidth,
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              itemCount: options.length,
-              itemBuilder: (context, index) {
-                final option = options.elementAt(index);
-                _optionsAvailable = options.isNotEmpty;
-                return InkWell(
-                  onTap: option.selectable ? () => onSelected(option) : null,
-                  child: Builder(builder: (context) {
-                    final bool selected =
-                        AutocompleteHighlightedOption.of(context) == index;
-                    if (selected) {
-                      SchedulerBinding.instance
-                          .addPostFrameCallback((Duration timeStamp) {
-                        Scrollable.ensureVisible(context, alignment: 0.5);
-                      });
-                    }
-                    return _AutoCompleteTile(
-                      option: option,
-                      selected: selected,
-                    );
-                  }),
-                );
-              },
+      optionsViewBuilder: (context, onSelected, options) {
+        final snapOptions = options.whereType<AutoCompleteSnapOption>();
+        final debOptions = options.whereType<AutoCompleteDebOption>();
+        final searchOption =
+            options.whereType<AutoCompleteSearchOption>().single;
+        final highlightedOption =
+            options.elementAt(AutocompleteHighlightedOption.of(context));
+
+        return Align(
+          alignment: Alignment.topLeft,
+          child: Material(
+            elevation: 4.0,
+            child: SizedBox(
+              width: _optionsWidth,
+              child: ListView(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                children: [
+                  if (snapOptions.isNotEmpty) ...[
+                    ListTile(
+                      title: Text(
+                        l10n.searchFieldSnapSection,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                    ...snapOptions.map((e) => _AutoCompleteTile(
+                          option: e,
+                          onTap: () => onSelected(e),
+                          selected: e == highlightedOption,
+                        )),
+                    const Divider(),
+                  ],
+                  if (debOptions.isNotEmpty) ...[
+                    ListTile(
+                      title: Text(
+                        l10n.searchFieldDebSection,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                    ...debOptions.map((e) => _AutoCompleteTile(
+                          option: e,
+                          onTap: () => onSelected(e),
+                          selected: e == highlightedOption,
+                        )),
+                    const Divider(),
+                  ],
+                  _AutoCompleteTile(
+                    option: searchOption,
+                    onTap: () => onSelected(searchOption),
+                    selected: searchOption == highlightedOption,
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
       onSelected: (option) => switch (option) {
         AutoCompleteSnapOption(snap: final snap) =>
           widget.onSnapSelected(snap.name),
         AutoCompleteDebOption(deb: final deb) => widget.onDebSelected(deb.id),
         AutoCompleteSearchOption(query: final query) => widget.onSearch(query),
-        _ => () {}
       },
       fieldViewBuilder: (context, controller, node, onFieldSubmitted) {
         return Consumer(builder: (context, ref, child) {
@@ -195,11 +195,16 @@ class _SearchFieldState extends ConsumerState<SearchField> {
 }
 
 class _AutoCompleteTile extends StatelessWidget {
-  const _AutoCompleteTile({required this.option, required this.selected});
+  const _AutoCompleteTile({
+    required this.option,
+    required this.onTap,
+    required this.selected,
+  });
 
   static const _iconSize = 32.0;
 
   final AutoCompleteOption option;
+  final VoidCallback onTap;
   final bool selected;
 
   @override
@@ -213,6 +218,7 @@ class _AutoCompleteTile extends StatelessWidget {
             size: _iconSize,
             iconUrl: snap.iconUrl,
           ),
+          onTap: onTap,
         ),
       AutoCompleteDebOption(deb: final deb) => ListTile(
           selected: selected,
@@ -222,20 +228,15 @@ class _AutoCompleteTile extends StatelessWidget {
             iconUrl:
                 deb.icons.whereType<AppstreamRemoteIcon>().firstOrNull?.url,
           ),
+          onTap: onTap,
         ),
       AutoCompleteSearchOption(query: final query) => ListTile(
           selected: selected,
           title: Text(
             l10n.searchFieldSearchForLabel(query),
           ),
+          onTap: onTap,
         ),
-      AutoCompleteSectionOption(section: final section) => ListTile(
-          title: Text(
-            section,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ),
-      AutoCompleteDividerOption() => const Divider(),
     };
   }
 }
