@@ -226,7 +226,13 @@ class AppstreamService {
         stemmersMap[PlatformDispatcher.instance.locale.languageCode];
     if (algorithm != null) {
       final stemmer = SnowballStemmer(algorithm);
-      return words.map((element) => stemmer.stem(element)).toSet().toList();
+      return words
+          .map((element) => stemmer.stem(element))
+          // Keep original tokens as well, since the stemming algorithm might
+          // have unintended effects. See #1305.
+          .followedBy(words)
+          .toSet()
+          .toList();
     } else {
       return words;
     }
