@@ -10,6 +10,7 @@ class SnapSearchParameters {
 
   // Removes characters from the search query that would cause snapd to reply
   // with 'bad query'.
+  // See https://github.com/snapcore/snapd/blob/29c9752d66bf95ffa85d85309531e2f5c7971553/store/store.go#L1048-L1056
   String? get cleanedQuery => query?.replaceAll(
         RegExp(r'[+=&|><!(){}\[\]^"~*?:\\/]'),
         ' ',
