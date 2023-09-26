@@ -98,5 +98,21 @@
   "snapCategoryDevicesAndIot": "Geräte und IoT",
   "@snapCategoryDevicesAndIot": {},
   "managePageCheckForUpdates": "Auf Aktualisierungen prüfen",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "explorePageCategoriesLabel": "Kategorien",
+  "@explorePageCategoriesLabel": {},
+  "snapPageDownloadSizeLabel": "Downloadgröße",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPagePublishedLabel": "Veröffentlicht",
+  "@snapPagePublishedLabel": {},
+  "managePageCheckingForUpdates": "Prüfe auf updates",
+  "@managePageCheckingForUpdates": {},
+  "snapPageContactPublisherLabel": "Kontakt {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  }
 }
