@@ -40,5 +40,21 @@
   "explorePageLabel": "Wyszukaj",
   "@explorePageLabel": {},
   "managePageCheckForUpdates": "Sprawdź dostępność aktualizacji",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "managePageUpdateAllLabel": "Zaktualizuj wszystko",
+  "@managePageUpdateAllLabel": {},
+  "managePageShowDetailsLabel": "Pokaż szczegóły",
+  "@managePageShowDetailsLabel": {},
+  "managePageLabel": "Zarządzanie",
+  "@managePageLabel": {},
+  "managePageInstalledAndUpdatedLabel": "Zainstalowane i zaktualizowane",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "managePageDescription": "Sprawdzaj dostępne aktualizacje, aktualizuj swoje programy i zarządzaj stanem wszystkich swoich programów.",
+  "@managePageDescription": {},
+  "managePageSearchFieldSearchHint": "Wyszukiwanie zainstalowanych programów",
+  "@managePageSearchFieldSearchHint": {},
+  "managePageNoUpdatesAvailableDescription": "Brak dostępnych aktualizacji. Wszystkie programy są aktualne.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "managePageShowSystemSnapsLabel": "Pokaż snapy systemowe",
+  "@managePageShowSystemSnapsLabel": {}
 }
