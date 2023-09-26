@@ -85,6 +85,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         Invocation.getter(#allowInteraction),
         returnValue: false,
       ) as bool);
+
   @override
   set allowInteraction(bool? _allowInteraction) => super.noSuchMethod(
         Invocation.setter(
@@ -93,6 +94,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   set userAgent(String? value) => super.noSuchMethod(
         Invocation.setter(
@@ -101,6 +103,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i3.Future<void> loadAuthorization({String? path}) => (super.noSuchMethod(
         Invocation.method(
@@ -111,6 +114,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   void setAuthorization(
     String? macaroon,
@@ -126,6 +130,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i3.Future<_i2.SnapdSystemInfoResponse> systemInfo() => (super.noSuchMethod(
         Invocation.method(
@@ -141,6 +146,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
           ),
         )),
       ) as _i3.Future<_i2.SnapdSystemInfoResponse>);
+
   @override
   _i3.Future<List<_i2.Snap>> getSnaps() => (super.noSuchMethod(
         Invocation.method(
@@ -149,6 +155,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValue: _i3.Future<List<_i2.Snap>>.value(<_i2.Snap>[]),
       ) as _i3.Future<List<_i2.Snap>>);
+
   @override
   _i3.Future<_i2.Snap> getSnap(String? name) => (super.noSuchMethod(
         Invocation.method(
@@ -163,6 +170,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
           ),
         )),
       ) as _i3.Future<_i2.Snap>);
+
   @override
   _i3.Future<List<_i2.SnapApp>> getApps({
     List<String>? names,
@@ -179,6 +187,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValue: _i3.Future<List<_i2.SnapApp>>.value(<_i2.SnapApp>[]),
       ) as _i3.Future<List<_i2.SnapApp>>);
+
   @override
   _i3.Future<List<_i2.SnapdCategoryDetails>> getCategories() =>
       (super.noSuchMethod(
@@ -189,6 +198,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         returnValue: _i3.Future<List<_i2.SnapdCategoryDetails>>.value(
             <_i2.SnapdCategoryDetails>[]),
       ) as _i3.Future<List<_i2.SnapdCategoryDetails>>);
+
   @override
   _i3.Future<_i2.SnapdConnectionsResponse> getConnections({
     String? snap,
@@ -219,6 +229,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
           ),
         )),
       ) as _i3.Future<_i2.SnapdConnectionsResponse>);
+
   @override
   _i3.Future<String> refreshMany(List<String>? names) => (super.noSuchMethod(
         Invocation.method(
@@ -227,6 +238,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValue: _i3.Future<String>.value(''),
       ) as _i3.Future<String>);
+
   @override
   _i3.Future<String> connect(
     String? snap,
@@ -246,6 +258,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValue: _i3.Future<String>.value(''),
       ) as _i3.Future<String>);
+
   @override
   _i3.Future<String> disconnect(
     String? plugSnap,
@@ -265,6 +278,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValue: _i3.Future<String>.value(''),
       ) as _i3.Future<String>);
+
   @override
   _i3.Future<List<_i2.Snap>> find({
     String? query,
@@ -287,6 +301,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValue: _i3.Future<List<_i2.Snap>>.value(<_i2.Snap>[]),
       ) as _i3.Future<List<_i2.Snap>>);
+
   @override
   _i3.Future<_i2.SnapdLoginResponse> login(
     String? email,
@@ -315,6 +330,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
           ),
         )),
       ) as _i3.Future<_i2.SnapdLoginResponse>);
+
   @override
   _i3.Future<dynamic> logout(int? id) => (super.noSuchMethod(
         Invocation.method(
@@ -323,6 +339,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValue: _i3.Future<dynamic>.value(),
       ) as _i3.Future<dynamic>);
+
   @override
   _i3.Future<String> install(
     String? name, {
@@ -348,6 +365,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValue: _i3.Future<String>.value(''),
       ) as _i3.Future<String>);
+
   @override
   _i3.Future<String> refresh(
     String? name, {
@@ -365,6 +383,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValue: _i3.Future<String>.value(''),
       ) as _i3.Future<String>);
+
   @override
   _i3.Future<String> remove(
     String? name, {
@@ -378,6 +397,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValue: _i3.Future<String>.value(''),
       ) as _i3.Future<String>);
+
   @override
   _i3.Future<String> enable(String? name) => (super.noSuchMethod(
         Invocation.method(
@@ -386,6 +406,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValue: _i3.Future<String>.value(''),
       ) as _i3.Future<String>);
+
   @override
   _i3.Future<String> disable(String? name) => (super.noSuchMethod(
         Invocation.method(
@@ -394,6 +415,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         ),
         returnValue: _i3.Future<String>.value(''),
       ) as _i3.Future<String>);
+
   @override
   _i3.Future<_i2.SnapdChange> getChange(String? id) => (super.noSuchMethod(
         Invocation.method(
@@ -408,6 +430,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
           ),
         )),
       ) as _i3.Future<_i2.SnapdChange>);
+
   @override
   _i3.Future<List<_i2.SnapdChange>> getChanges({
     _i2.SnapdChangeFilter? filter,
@@ -425,6 +448,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
         returnValue:
             _i3.Future<List<_i2.SnapdChange>>.value(<_i2.SnapdChange>[]),
       ) as _i3.Future<List<_i2.SnapdChange>>);
+
   @override
   _i3.Future<_i2.SnapdChange> abortChange(String? id) => (super.noSuchMethod(
         Invocation.method(
@@ -439,6 +463,7 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
           ),
         )),
       ) as _i3.Future<_i2.SnapdChange>);
+
   @override
   void close() => super.noSuchMethod(
         Invocation.method(
