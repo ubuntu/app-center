@@ -1,1 +1,20 @@
-{}
+{
+  "snapPageChannelLabel": "Kanał",
+  "@snapPageChannelLabel": {},
+  "snapPageDeveloperWebsiteLabel": "Witryna twórcy",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "appstreamSearchGreylist": "apka;aplikacja;pakiet;program;oprogramowanie;pakiet;narzędzie",
+  "@appstreamSearchGreylist": {},
+  "snapPageConfinementLabel": "Ograniczenia",
+  "@snapPageConfinementLabel": {},
+  "snapPageContactPublisherLabel": "Skontaktuj się z {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageDescriptionLabel": "Opis",
+  "@snapPageDescriptionLabel": {}
+}
