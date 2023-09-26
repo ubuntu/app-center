@@ -33,6 +33,7 @@ class MockAppstreamPool extends _i1.Mock implements _i2.AppstreamPool {
         Invocation.getter(#components),
         returnValue: <_i3.AppstreamComponent>[],
       ) as List<_i3.AppstreamComponent>);
+
   @override
   _i4.Future<void> load() => (super.noSuchMethod(
         Invocation.method(

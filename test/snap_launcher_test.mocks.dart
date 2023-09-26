@@ -33,6 +33,7 @@ class MockPrivilegedDesktopLauncher extends _i1.Mock
         Invocation.getter(#isAvailable),
         returnValue: false,
       ) as bool);
+
   @override
   _i3.Future<void> connect() => (super.noSuchMethod(
         Invocation.method(
@@ -42,6 +43,7 @@ class MockPrivilegedDesktopLauncher extends _i1.Mock
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   _i3.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
@@ -51,6 +53,7 @@ class MockPrivilegedDesktopLauncher extends _i1.Mock
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   _i3.Future<void> openDesktopEntry(String? desktopFileId) =>
       (super.noSuchMethod(

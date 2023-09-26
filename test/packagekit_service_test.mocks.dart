@@ -57,32 +57,38 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         Invocation.getter(#introspectable),
         returnValue: false,
       ) as bool);
+
   @override
   String get uniqueName => (super.noSuchMethod(
         Invocation.getter(#uniqueName),
         returnValue: '',
       ) as String);
+
   @override
   Iterable<String> get ownedNames => (super.noSuchMethod(
         Invocation.getter(#ownedNames),
         returnValue: <String>[],
       ) as Iterable<String>);
+
   @override
   _i4.Stream<String> get nameAcquired => (super.noSuchMethod(
         Invocation.getter(#nameAcquired),
         returnValue: _i4.Stream<String>.empty(),
       ) as _i4.Stream<String>);
+
   @override
   _i4.Stream<String> get nameLost => (super.noSuchMethod(
         Invocation.getter(#nameLost),
         returnValue: _i4.Stream<String>.empty(),
       ) as _i4.Stream<String>);
+
   @override
   _i4.Stream<_i2.DBusNameOwnerChangedEvent> get nameOwnerChanged =>
       (super.noSuchMethod(
         Invocation.getter(#nameOwnerChanged),
         returnValue: _i4.Stream<_i2.DBusNameOwnerChangedEvent>.empty(),
       ) as _i4.Stream<_i2.DBusNameOwnerChangedEvent>);
+
   @override
   _i4.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
@@ -92,6 +98,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
   @override
   _i4.Future<_i2.DBusRequestNameReply> requestName(
     String? name, {
@@ -106,6 +113,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         returnValue: _i4.Future<_i2.DBusRequestNameReply>.value(
             _i2.DBusRequestNameReply.primaryOwner),
       ) as _i4.Future<_i2.DBusRequestNameReply>);
+
   @override
   _i4.Future<_i2.DBusReleaseNameReply> releaseName(String? name) =>
       (super.noSuchMethod(
@@ -116,6 +124,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         returnValue: _i4.Future<_i2.DBusReleaseNameReply>.value(
             _i2.DBusReleaseNameReply.released),
       ) as _i4.Future<_i2.DBusReleaseNameReply>);
+
   @override
   _i4.Future<List<String>> listQueuedOwners(String? name) =>
       (super.noSuchMethod(
@@ -125,6 +134,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         ),
         returnValue: _i4.Future<List<String>>.value(<String>[]),
       ) as _i4.Future<List<String>>);
+
   @override
   _i4.Future<List<String>> listNames() => (super.noSuchMethod(
         Invocation.method(
@@ -133,6 +143,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         ),
         returnValue: _i4.Future<List<String>>.value(<String>[]),
       ) as _i4.Future<List<String>>);
+
   @override
   _i4.Future<List<String>> listActivatableNames() => (super.noSuchMethod(
         Invocation.method(
@@ -141,6 +152,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         ),
         returnValue: _i4.Future<List<String>>.value(<String>[]),
       ) as _i4.Future<List<String>>);
+
   @override
   _i4.Future<_i2.DBusStartServiceByNameReply> startServiceByName(
           String? name) =>
@@ -152,6 +164,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         returnValue: _i4.Future<_i2.DBusStartServiceByNameReply>.value(
             _i2.DBusStartServiceByNameReply.success),
       ) as _i4.Future<_i2.DBusStartServiceByNameReply>);
+
   @override
   _i4.Future<bool> nameHasOwner(String? name) => (super.noSuchMethod(
         Invocation.method(
@@ -160,6 +173,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         ),
         returnValue: _i4.Future<bool>.value(false),
       ) as _i4.Future<bool>);
+
   @override
   _i4.Future<String?> getNameOwner(String? name) => (super.noSuchMethod(
         Invocation.method(
@@ -168,6 +182,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         ),
         returnValue: _i4.Future<String?>.value(),
       ) as _i4.Future<String?>);
+
   @override
   _i4.Future<int> getConnectionUnixUser(String? name) => (super.noSuchMethod(
         Invocation.method(
@@ -176,6 +191,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         ),
         returnValue: _i4.Future<int>.value(0),
       ) as _i4.Future<int>);
+
   @override
   _i4.Future<int> getConnectionUnixProcessId(String? name) =>
       (super.noSuchMethod(
@@ -185,6 +201,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         ),
         returnValue: _i4.Future<int>.value(0),
       ) as _i4.Future<int>);
+
   @override
   _i4.Future<_i2.DBusProcessCredentials> getConnectionCredentials(
           String? name) =>
@@ -202,6 +219,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
           ),
         )),
       ) as _i4.Future<_i2.DBusProcessCredentials>);
+
   @override
   _i4.Future<String> getId() => (super.noSuchMethod(
         Invocation.method(
@@ -210,6 +228,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         ),
         returnValue: _i4.Future<String>.value(''),
       ) as _i4.Future<String>);
+
   @override
   _i4.Future<void> ping([String? destination = r'org.freedesktop.DBus']) =>
       (super.noSuchMethod(
@@ -220,6 +239,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
   @override
   _i4.Future<String> getMachineId(
           [String? destination = r'org.freedesktop.DBus']) =>
@@ -230,6 +250,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         ),
         returnValue: _i4.Future<String>.value(''),
       ) as _i4.Future<String>);
+
   @override
   _i4.Future<_i3.DBusMethodSuccessResponse> callMethod({
     String? destination,
@@ -278,6 +299,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
           ),
         )),
       ) as _i4.Future<_i3.DBusMethodSuccessResponse>);
+
   @override
   _i4.Future<void> emitSignal({
     String? destination,
@@ -301,6 +323,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
   @override
   _i4.Future<void> registerObject(_i6.DBusObject? object) =>
       (super.noSuchMethod(
@@ -311,6 +334,7 @@ class MockDBusClient extends _i1.Mock implements _i2.DBusClient {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
   @override
   _i4.Future<void> unregisterObject(_i6.DBusObject? object) =>
       (super.noSuchMethod(
