@@ -8,6 +8,14 @@ class SnapSearchParameters {
   final String? query;
   final SnapCategoryEnum? category;
 
+  // Removes characters from the search query that would cause snapd to reply
+  // with 'bad query'.
+  // See https://github.com/snapcore/snapd/blob/29c9752d66bf95ffa85d85309531e2f5c7971553/store/store.go#L1048-L1056
+  String? get cleanedQuery => query?.replaceAll(
+        RegExp(r'[+=&|><!(){}\[\]^"~*?:\\/]'),
+        ' ',
+      );
+
   @override
   bool operator ==(Object other) =>
       other is SnapSearchParameters &&
@@ -35,7 +43,7 @@ final snapSearchProvider =
     yield* snapd.getCategory(searchParameters.category!.categoryName);
   } else {
     yield await snapd.find(
-      query: searchParameters.query,
+      query: searchParameters.cleanedQuery,
       category: searchParameters.category?.categoryName,
     );
   }
