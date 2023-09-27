@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
+import 'package:yaru_test/yaru_test.dart';
+import 'package:yaru_widgets/yaru_widgets.dart';
 
 import 'test_utils.dart';
 
@@ -141,6 +143,51 @@ void main() {
     verify(mockUpdatesModel.updateAll()).called(1);
   });
 
+  testWidgets('refreshing all', (tester) async {
+    final mockUpdatesModel = createMockUpdatesModel(
+      refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
+      isBusy: true,
+    );
+    final mockChange = SnapdChange(
+      spawnTime: DateTime(1970),
+      kind: 'refresh-snap',
+      tasks: [SnapdTask(progress: const SnapdTaskProgress(done: 1, total: 4))],
+    );
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          manageModelProvider.overrideWith(
+            (_) => createMockManageModel(
+              refreshableSnaps: refreshableSnaps,
+            ),
+          ),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          updatesModelProvider.overrideWith((_) => mockUpdatesModel),
+          changeProvider
+              .overrideWith((_, __) => Stream.fromIterable([mockChange])),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pump();
+
+    final refreshButton =
+        find.buttonWithText(tester.l10n.snapActionUpdatingLabel);
+    expect(refreshButton, findsOneWidget);
+    expect(refreshButton, isDisabled);
+
+    final progressIndicator = find.descendant(
+      of: refreshButton,
+      matching: find.byType(YaruCircularProgressIndicator),
+    );
+    expect(progressIndicator, findsOneWidget);
+    expect(
+      tester.widget<YaruCircularProgressIndicator>(progressIndicator).value,
+      equals(0.25),
+    );
+  });
+
   testWidgets('error dialog', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(
@@ -173,7 +220,6 @@ void main() {
     expect(find.text('error kind'), findsOneWidget);
   });
 
-  // TODO: test loading states with snap change in progress
   // TODO: test sorting and filtering
 }
 
