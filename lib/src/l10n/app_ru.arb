@@ -11,7 +11,7 @@
   "@snapCategoryProductivity": {},
   "snapCategoryUtilities": "Утилиты",
   "@snapCategoryUtilities": {},
-  "snapCategorySocial": "Социальные Сети",
+  "snapCategorySocial": "Социальность",
   "@snapCategorySocial": {},
   "productivityPageLabel": "Работа",
   "@productivityPageLabel": {},
@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Разработка",
   "@developmentPageLabel": {},
-  "managePageLabel": "Управлять",
+  "managePageLabel": "Управление",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Канал",
   "@snapPageChannelLabel": {},
@@ -31,7 +31,7 @@
   "@snapCategoryEducation": {},
   "snapActionUpdateLabel": "Обновить",
   "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "Сортировать по",
+  "searchPageSortByLabel": "Сортировка",
   "@searchPageSortByLabel": {},
   "snapPageGalleryLabel": "Галерея",
   "@snapPageGalleryLabel": {},
@@ -43,7 +43,7 @@
   "@snapCategoryDevelopment": {},
   "snapCategoryHealthAndFitness": "Здоровье и Фитнес",
   "@snapCategoryHealthAndFitness": {},
-  "appstreamUrlTypeContact": "Связаться с",
+  "appstreamUrlTypeContact": "Связаться",
   "@appstreamUrlTypeContact": {},
   "snapCategorySecurity": "Безопасность",
   "@snapCategorySecurity": {},
@@ -51,7 +51,7 @@
   "@snapCategoryFinance": {},
   "snapCategoryServerAndCloud": "Серверы и Облака",
   "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "О приложении",
+  "aboutPageLabel": "Инфо",
   "@aboutPageLabel": {},
   "snapPageSummaryLabel": "Главное",
   "@snapPageSummaryLabel": {},
@@ -98,5 +98,183 @@
   "snapCategoryDevicesAndIot": "Устройства и IoT",
   "@snapCategoryDevicesAndIot": {},
   "managePageCheckForUpdates": "Проверить наличие обновлений",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "managePageUpdateAllLabel": "Обновить всё",
+  "@managePageUpdateAllLabel": {},
+  "searchFieldSearchForLabel": "Показать все результаты для \"{query}\"",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "explorePageCategoriesLabel": "Категории",
+  "@explorePageCategoriesLabel": {},
+  "snapCategoryDefaultButtonLabel": "Исследовать больше",
+  "@snapCategoryDefaultButtonLabel": {},
+  "managePageShowDetailsLabel": "Показать детали",
+  "@managePageShowDetailsLabel": {},
+  "snapPageDownloadSizeLabel": "Размер загрузки",
+  "@snapPageDownloadSizeLabel": {},
+  "snapCategoryProductivityButtonLabel": "Исследовать коллекцию для продуктивности",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapPagePublishedLabel": "Опубликовано",
+  "@snapPagePublishedLabel": {},
+  "aboutPageLearnMoreLabel": "Узнать больше",
+  "@aboutPageLearnMoreLabel": {},
+  "snapRatingsBandNeutral": "Нейтральные",
+  "@snapRatingsBandNeutral": {},
+  "appstreamUrlTypeTranslate": "Локализация",
+  "@appstreamUrlTypeTranslate": {},
+  "searchPageNoResultsHint": "Попробуйте использовать другие или больше ключевых слов",
+  "@searchPageNoResultsHint": {},
+  "snapRatingsBandGood": "Положительные",
+  "@snapRatingsBandGood": {},
+  "snapCategoryFeaturedSlogan": "Избранные приложения",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapSortOrderInstalledDateAsc": "Обновлено давно",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapCategoryProductivitySlogan": "Вычеркните из Вашего списка дел",
+  "@snapCategoryProductivitySlogan": {},
+  "appstreamUrlTypeDonation": "Пожертвование",
+  "@appstreamUrlTypeDonation": {},
+  "snapRatingsBandVeryGood": "Очень положительные",
+  "@snapRatingsBandVeryGood": {},
+  "snapActionRemoveLabel": "Удалить",
+  "@snapActionRemoveLabel": {},
+  "appstreamUrlTypeHelp": "Помощь",
+  "@appstreamUrlTypeHelp": {},
+  "snapCategoryPersonalisation": "Персонализация",
+  "@snapCategoryPersonalisation": {},
+  "aboutPagePublishLabel": "Публикация приложений в Snap Store",
+  "@aboutPagePublishLabel": {},
+  "aboutPageContributorTitle": "Разработано этими людьми:",
+  "@aboutPageContributorTitle": {},
+  "managePageInstalledAndUpdatedLabel": "Установлено и обновлено",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "appstreamUrlTypeHomepage": "Домашняя страница",
+  "@appstreamUrlTypeHomepage": {},
+  "managePageCheckingForUpdates": "Проверка обновлений",
+  "@managePageCheckingForUpdates": {},
+  "managePageUpdatedDaysAgo": "Обновлено {n} д. назад",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapRatingsBandInsufficientVotes": "Недостаточно голосов",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsBandVeryPoor": "Очень отрицательные",
+  "@snapRatingsBandVeryPoor": {},
+  "managePageDescription": "Проверяйте доступность обновлений, обновляйте приложения и управляйте ими.",
+  "@managePageDescription": {},
+  "snapActionRemovingLabel": "Удаление",
+  "@snapActionRemovingLabel": {},
+  "snapSortOrderInstalledSizeDesc": "по Размеру (от бол. к мен.)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapPageDeveloperWebsiteLabel": "Веб-сайт разработчика",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapConfinementClassic": "Классический",
+  "@snapConfinementClassic": {},
+  "snapRatingsBandPoor": "Отрицательные",
+  "@snapRatingsBandPoor": {},
+  "snapCategoryDevelopmentSlogan": "Приложения для разработчиков",
+  "@snapCategoryDevelopmentSlogan": {},
+  "searchPageTitle": "Результаты для \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryGamesSlogan": "Всё для вашей ночной игры",
+  "@snapCategoryGamesSlogan": {},
+  "snapActionSwitchChannelLabel": "Переключить канал",
+  "@snapActionSwitchChannelLabel": {},
+  "appstreamUrlTypeFaq": "ЧаВо",
+  "@appstreamUrlTypeFaq": {},
+  "snapConfinementStrict": "Строгое",
+  "@snapConfinementStrict": {},
+  "aboutPageContributeLabel": "Поучаствовать или сообщить о проблеме",
+  "@aboutPageContributeLabel": {},
+  "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
+  "@snapCategoryUbuntuDesktop": {},
+  "managePageUpdatesAvailable": "Доступны обновления ({n})",
+  "@managePageUpdatesAvailable": {},
+  "aboutPageCommunityTitle": "Будьте частью сообщества:",
+  "@aboutPageCommunityTitle": {},
+  "searchPageNoResultsCategoryHint": "Попробуйте поискать в другой категории, или используйте другие ключевые слова",
+  "@searchPageNoResultsCategoryHint": {},
+  "snapSortOrderAlphabeticalDesc": "по Алфавиту (от Я до А)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "searchPageNoResultsCategory": "Извините, мы не смогли найти никаких пакетов в этой категории",
+  "@searchPageNoResultsCategory": {},
+  "snapRatingsVotes": "{n} голосов",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryAll": "Все категории",
+  "@snapCategoryAll": {},
+  "snapSortOrderInstalledSizeAsc": "по Размеру (от мен. к бол.)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "aboutPageVersionLabel": "Версия {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageContactPublisherLabel": "Связаться с {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapConfinementDevmode": "Режим разработчика (Devmode)",
+  "@snapConfinementDevmode": {},
+  "searchPageNoResults": "Нет результатов для \"{query}\"",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapSortOrderDownloadSizeAsc": "по Размеру (от мен. к бол.)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "unknownPublisher": "Неизвестный издатель",
+  "@unknownPublisher": {},
+  "snapCategoryUbuntuDesktopSlogan": "Здесь рабочий стол становится Вашим",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapActionUpdatingLabel": "Обновление",
+  "@snapActionUpdatingLabel": {},
+  "searchPageRelevanceLabel": "по Релевантности",
+  "@searchPageRelevanceLabel": {},
+  "snapSortOrderAlphabeticalAsc": "по Алфавиту (от А до Я)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "managePageNoUpdatesAvailableDescription": "Нет доступных обновлений. Все Ваши приложения актуальны.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "snapSortOrderRelevance": "по Релевантности",
+  "@snapSortOrderRelevance": {},
+  "snapSortOrderDownloadSizeDesc": "по Размеру (от бол. к мен.)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "appstreamUrlTypeBugtracker": "Багтрекер",
+  "@appstreamUrlTypeBugtracker": {},
+  "managePageShowSystemSnapsLabel": "Показать системные приложения",
+  "@managePageShowSystemSnapsLabel": {},
+  "searchPageFilterByLabel": "Фильтр",
+  "@searchPageFilterByLabel": {},
+  "snapSortOrderInstalledDateDesc": "Обновлено недавно",
+  "@snapSortOrderInstalledDateDesc": {}
 }

@@ -31,7 +31,7 @@
   "@snapCategoryEducation": {},
   "snapActionUpdateLabel": "Aktualizovať",
   "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "Zoradenie",
+  "searchPageSortByLabel": "Zoradiť podľa",
   "@searchPageSortByLabel": {},
   "snapPageGalleryLabel": "Galéria",
   "@snapPageGalleryLabel": {},
@@ -97,6 +97,184 @@
   "@searchFieldSnapSection": {},
   "snapCategoryDevicesAndIot": "Zariadenia a IoT",
   "@snapCategoryDevicesAndIot": {},
-  "managePageCheckForUpdates": "Kontrola aktualizácií",
-  "@managePageCheckForUpdates": {}
+  "managePageCheckForUpdates": "Skontrolovať aktualizácie",
+  "@managePageCheckForUpdates": {},
+  "managePageUpdateAllLabel": "Aktualizovať všetko",
+  "@managePageUpdateAllLabel": {},
+  "searchFieldSearchForLabel": "Zobraziť všetky výsledky pre „{query}“",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "explorePageCategoriesLabel": "Kategórie",
+  "@explorePageCategoriesLabel": {},
+  "snapCategoryDefaultButtonLabel": "Objavte viac",
+  "@snapCategoryDefaultButtonLabel": {},
+  "managePageShowDetailsLabel": "Zobraziť podrobnosti",
+  "@managePageShowDetailsLabel": {},
+  "snapPageDownloadSizeLabel": "Veľkosť na stiahnutie",
+  "@snapPageDownloadSizeLabel": {},
+  "snapCategoryProductivityButtonLabel": "Objavte zbierku produktivity",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapPagePublishedLabel": "Vydané",
+  "@snapPagePublishedLabel": {},
+  "aboutPageLearnMoreLabel": "Zistiť viac",
+  "@aboutPageLearnMoreLabel": {},
+  "snapRatingsBandNeutral": "Neutrálne",
+  "@snapRatingsBandNeutral": {},
+  "appstreamUrlTypeTranslate": "Preklady",
+  "@appstreamUrlTypeTranslate": {},
+  "searchPageNoResultsHint": "Skúste použiť iné alebo všeobecnejšie kľúčové slová",
+  "@searchPageNoResultsHint": {},
+  "snapRatingsBandGood": "Dobré",
+  "@snapRatingsBandGood": {},
+  "snapCategoryFeaturedSlogan": "Odporúčané snapy",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapSortOrderInstalledDateAsc": "Najmenej aktualizované",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapCategoryProductivitySlogan": "Vyškrtnite jednu vec zo svojho zoznamu úloh",
+  "@snapCategoryProductivitySlogan": {},
+  "appstreamUrlTypeDonation": "Darovať",
+  "@appstreamUrlTypeDonation": {},
+  "snapRatingsBandVeryGood": "Veľmi dobré",
+  "@snapRatingsBandVeryGood": {},
+  "snapActionRemoveLabel": "Odinštalovať",
+  "@snapActionRemoveLabel": {},
+  "appstreamUrlTypeHelp": "Pomocník",
+  "@appstreamUrlTypeHelp": {},
+  "snapCategoryPersonalisation": "Personalizácia",
+  "@snapCategoryPersonalisation": {},
+  "aboutPagePublishLabel": "Publikovať na Snap Store",
+  "@aboutPagePublishLabel": {},
+  "aboutPageContributorTitle": "Navrhnuté a vyvinuté:",
+  "@aboutPageContributorTitle": {},
+  "managePageInstalledAndUpdatedLabel": "Nainštalované a aktualizované",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "appstreamUrlTypeHomepage": "Domovská stránka",
+  "@appstreamUrlTypeHomepage": {},
+  "managePageCheckingForUpdates": "Kontrolujú sa aktualizácie",
+  "@managePageCheckingForUpdates": {},
+  "managePageUpdatedDaysAgo": "Aktualizované pred {n} dňami",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapRatingsBandInsufficientVotes": "Nedostatok hlasov",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsBandVeryPoor": "Veľmi zlé",
+  "@snapRatingsBandVeryPoor": {},
+  "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a spravujte stav všetkých svojich aplikácií.",
+  "@managePageDescription": {},
+  "snapActionRemovingLabel": "Odinštaluje sa",
+  "@snapActionRemovingLabel": {},
+  "snapSortOrderInstalledSizeDesc": "Veľkosti (od najväčšieho po najmenší)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapPageDeveloperWebsiteLabel": "Webová stránka vývojára",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapConfinementClassic": "Klasické",
+  "@snapConfinementClassic": {},
+  "snapRatingsBandPoor": "Zlé",
+  "@snapRatingsBandPoor": {},
+  "snapCategoryDevelopmentSlogan": "Nevyhnutné snapy pre vývojárov",
+  "@snapCategoryDevelopmentSlogan": {},
+  "searchPageTitle": "Výsledky pre „{query}“",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryGamesSlogan": "Všetko pre váš herný večer",
+  "@snapCategoryGamesSlogan": {},
+  "snapActionSwitchChannelLabel": "Prepnúť kanál",
+  "@snapActionSwitchChannelLabel": {},
+  "appstreamUrlTypeFaq": "Často kladené otázky",
+  "@appstreamUrlTypeFaq": {},
+  "snapConfinementStrict": "Prísne",
+  "@snapConfinementStrict": {},
+  "aboutPageContributeLabel": "Prispejte alebo nahláste chybu",
+  "@aboutPageContributeLabel": {},
+  "snapCategoryUbuntuDesktop": "Ubuntu pracovná plocha",
+  "@snapCategoryUbuntuDesktop": {},
+  "managePageUpdatesAvailable": "Dostupné aktualizácie ({n})",
+  "@managePageUpdatesAvailable": {},
+  "aboutPageCommunityTitle": "Staňte sa súčasťou komunity:",
+  "@aboutPageCommunityTitle": {},
+  "searchPageNoResultsCategoryHint": "Skúste inú kategóriu alebo použite všeobecnejšie kľúčové slová",
+  "@searchPageNoResultsCategoryHint": {},
+  "snapSortOrderAlphabeticalDesc": "Abecedy (od Z po A)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "searchPageNoResultsCategory": "Ľutujeme, v tejto kategórii sme nenašli žiadne balíky",
+  "@searchPageNoResultsCategory": {},
+  "snapRatingsVotes": "{n} hlasov",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryAll": "Všetky kategórie",
+  "@snapCategoryAll": {},
+  "snapSortOrderInstalledSizeAsc": "Veľkosti (od najmenšieho po najväčší)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "aboutPageVersionLabel": "Verzia {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageContactPublisherLabel": "Kontakt {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapConfinementDevmode": "Vývojové",
+  "@snapConfinementDevmode": {},
+  "searchPageNoResults": "Nenašli sa žiadne výsledky pre „{query}“",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapSortOrderDownloadSizeAsc": "Veľkosti (od najmenšieho po najväčší)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "unknownPublisher": "Neznámy vydavateľ",
+  "@unknownPublisher": {},
+  "snapCategoryUbuntuDesktopSlogan": "Rýchly štart vašej pracovnej plochy",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapActionUpdatingLabel": "Aktualizuje sa",
+  "@snapActionUpdatingLabel": {},
+  "searchPageRelevanceLabel": "Relevantnosť",
+  "@searchPageRelevanceLabel": {},
+  "snapSortOrderAlphabeticalAsc": "Abecedy (od A po Z)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "managePageNoUpdatesAvailableDescription": "Nie sú k dispozícii žiadne aktualizácie. Všetky vaše aplikácie sú aktuálne.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "snapSortOrderRelevance": "Relevantnosti",
+  "@snapSortOrderRelevance": {},
+  "snapSortOrderDownloadSizeDesc": "Veľkosti (od najväčšieho po najmenší)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "appstreamUrlTypeBugtracker": "Sledovanie chýb",
+  "@appstreamUrlTypeBugtracker": {},
+  "managePageShowSystemSnapsLabel": "Zobraziť systémové snapy",
+  "@managePageShowSystemSnapsLabel": {},
+  "searchPageFilterByLabel": "Filtrovať podľa",
+  "@searchPageFilterByLabel": {},
+  "snapSortOrderInstalledDateDesc": "Najviac aktualizované",
+  "@snapSortOrderInstalledDateDesc": {}
 }
