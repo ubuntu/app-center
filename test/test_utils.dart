@@ -275,10 +275,12 @@ MockAppstreamService createMockAppstreamService({
 MockPackageKitService createMockPackageKitService({
   PackageKitPackageInfo? packageInfo,
   int transactionId = 0,
+  Stream<PackageKitServiceError> errorStream = const Stream.empty(),
 }) {
   final packageKit = MockPackageKitService();
   when(packageKit.resolve(any)).thenAnswer((_) async => packageInfo);
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.errorStream).thenAnswer((_) => errorStream);
   return packageKit;
 }

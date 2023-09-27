@@ -2065,6 +2065,13 @@ class MockPackageKitService extends _i1.Mock implements _i18.PackageKitService {
       ) as bool);
 
   @override
+  _i11.Stream<_i7.PackageKitErrorCodeEvent> get errorStream =>
+      (super.noSuchMethod(
+        Invocation.getter(#errorStream),
+        returnValue: _i11.Stream<_i7.PackageKitErrorCodeEvent>.empty(),
+      ) as _i11.Stream<_i7.PackageKitErrorCodeEvent>);
+
+  @override
   _i7.PackageKitTransaction? getTransaction(int? id) =>
       (super.noSuchMethod(Invocation.method(
         #getTransaction,
