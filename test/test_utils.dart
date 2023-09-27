@@ -167,6 +167,7 @@ MockSnapdService createMockSnapdService({
 MockUpdatesModel createMockUpdatesModel({
   Iterable<String>? refreshableSnapNames,
   Stream<SnapdException>? errorStream,
+  bool isBusy = false,
 }) {
   final model = MockUpdatesModel();
   when(model.refreshableSnapNames)
@@ -174,7 +175,7 @@ MockUpdatesModel createMockUpdatesModel({
   when(model.hasUpdate(any)).thenAnswer((i) =>
       refreshableSnapNames?.contains(i.positionalArguments.single) ?? false);
   when(model.state).thenReturn(AsyncValue.data(() {}()));
-  when(model.activeChangeId).thenReturn(null);
+  when(model.activeChangeId).thenReturn(isBusy ? 'changeId' : null);
   when(model.errorStream)
       .thenAnswer((_) => errorStream ?? const Stream.empty());
   return model;
