@@ -143,6 +143,31 @@ void main() {
     await packageKit.waitTransaction(id);
     expect(packageKit.getTransaction(id), isNull);
   });
+
+  test('error stream', () async {
+    const mockError = PackageKitErrorCodeEvent(
+      code: PackageKitError.noNetwork,
+      details: 'error details',
+    );
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [mockError],
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit =
+        PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+    await packageKit.activateService();
+
+    packageKit.errorStream.listen(
+      expectAsync1<void, PackageKitServiceError>(
+        (e) {
+          expect(e.code, equals(PackageKitError.noNetwork));
+          expect(e.details, equals('error details'));
+        },
+      ),
+    );
+    final info = await packageKit.resolve('foo');
+    expect(info, isNull);
+  });
 }
 
 @GenerateMocks([DBusClient])

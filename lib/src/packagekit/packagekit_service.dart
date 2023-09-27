@@ -8,6 +8,7 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'logger.dart';
 
 typedef PackageKitPackageInfo = PackageKitPackageEvent;
+typedef PackageKitServiceError = PackageKitErrorCodeEvent;
 
 class PackageKitService {
   PackageKitService({
@@ -20,6 +21,11 @@ class PackageKitService {
 
   bool get isAvailable => _isAvailable;
   bool _isAvailable = false;
+
+  Stream<PackageKitServiceError> get errorStream =>
+      _errorStreamController.stream;
+  final StreamController<PackageKitServiceError> _errorStreamController =
+      StreamController.broadcast();
 
   // Keep track of active transactions.
   // TODO: Implement `GetTransactionList` in packagekit.dart instead.
@@ -78,6 +84,7 @@ class PackageKitService {
         _transactions.remove(id);
         subscription.cancel();
       } else if (event is PackageKitErrorCodeEvent) {
+        _errorStreamController.add(event);
         log.error(
             'Received PackageKitErrorCodeEvent (${event.code}): ${event.details}');
       }
@@ -140,5 +147,6 @@ class PackageKitService {
   Future<void> dispose() async {
     await _dbus.close();
     await _client.close();
+    await _errorStreamController.close();
   }
 }
