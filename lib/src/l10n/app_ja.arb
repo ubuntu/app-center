@@ -96,5 +96,185 @@
   "snapCategoryDevicesAndIot": "端末・IoT",
   "@snapCategoryDevicesAndIot": {},
   "managePageCheckForUpdates": "アップデートを確認",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "managePageUpdateAllLabel": "",
+  "@managePageUpdateAllLabel": {},
+  "searchFieldSearchForLabel": "",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "explorePageCategoriesLabel": "",
+  "@explorePageCategoriesLabel": {},
+  "snapCategoryDefaultButtonLabel": "",
+  "@snapCategoryDefaultButtonLabel": {},
+  "managePageShowDetailsLabel": "",
+  "@managePageShowDetailsLabel": {},
+  "snapPageDownloadSizeLabel": "",
+  "@snapPageDownloadSizeLabel": {},
+  "snapCategoryProductivityButtonLabel": "",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapPagePublishedLabel": "",
+  "@snapPagePublishedLabel": {},
+  "aboutPageLearnMoreLabel": "",
+  "@aboutPageLearnMoreLabel": {},
+  "snapRatingsBandNeutral": "",
+  "@snapRatingsBandNeutral": {},
+  "appstreamUrlTypeTranslate": "",
+  "@appstreamUrlTypeTranslate": {},
+  "searchPageNoResultsHint": "",
+  "@searchPageNoResultsHint": {},
+  "snapRatingsBandGood": "",
+  "@snapRatingsBandGood": {},
+  "snapCategoryFeaturedSlogan": "",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapSortOrderInstalledDateAsc": "",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapCategoryProductivitySlogan": "",
+  "@snapCategoryProductivitySlogan": {},
+  "appstreamUrlTypeDonation": "",
+  "@appstreamUrlTypeDonation": {},
+  "snapRatingsBandVeryGood": "",
+  "@snapRatingsBandVeryGood": {},
+  "snapActionRemoveLabel": "",
+  "@snapActionRemoveLabel": {},
+  "appstreamUrlTypeHelp": "",
+  "@appstreamUrlTypeHelp": {},
+  "snapCategoryPersonalisation": "",
+  "@snapCategoryPersonalisation": {},
+  "aboutPagePublishLabel": "",
+  "@aboutPagePublishLabel": {},
+  "aboutPageContributorTitle": "",
+  "@aboutPageContributorTitle": {},
+  "managePageInstalledAndUpdatedLabel": "",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "appstreamUrlTypeHomepage": "",
+  "@appstreamUrlTypeHomepage": {},
+  "managePageCheckingForUpdates": "",
+  "@managePageCheckingForUpdates": {},
+  "managePageUpdatedDaysAgo": "",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapRatingsBandInsufficientVotes": "",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsBandVeryPoor": "",
+  "@snapRatingsBandVeryPoor": {},
+  "managePageDescription": "",
+  "@managePageDescription": {},
+  "snapActionRemovingLabel": "",
+  "@snapActionRemovingLabel": {},
+  "snapSortOrderInstalledSizeDesc": "",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapPageSummaryLabel": "",
+  "@snapPageSummaryLabel": {},
+  "snapPageDeveloperWebsiteLabel": "",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapConfinementClassic": "",
+  "@snapConfinementClassic": {},
+  "snapRatingsBandPoor": "",
+  "@snapRatingsBandPoor": {},
+  "snapCategoryDevelopmentSlogan": "",
+  "@snapCategoryDevelopmentSlogan": {},
+  "searchPageTitle": "",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryGamesSlogan": "",
+  "@snapCategoryGamesSlogan": {},
+  "snapActionSwitchChannelLabel": "",
+  "@snapActionSwitchChannelLabel": {},
+  "appstreamUrlTypeFaq": "",
+  "@appstreamUrlTypeFaq": {},
+  "snapConfinementStrict": "",
+  "@snapConfinementStrict": {},
+  "aboutPageContributeLabel": "",
+  "@aboutPageContributeLabel": {},
+  "snapCategoryUbuntuDesktop": "",
+  "@snapCategoryUbuntuDesktop": {},
+  "managePageUpdatesAvailable": "",
+  "@managePageUpdatesAvailable": {},
+  "aboutPageCommunityTitle": "",
+  "@aboutPageCommunityTitle": {},
+  "searchPageNoResultsCategoryHint": "",
+  "@searchPageNoResultsCategoryHint": {},
+  "snapSortOrderAlphabeticalDesc": "",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "searchPageNoResultsCategory": "",
+  "@searchPageNoResultsCategory": {},
+  "snapRatingsVotes": "",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryAll": "",
+  "@snapCategoryAll": {},
+  "snapSortOrderInstalledSizeAsc": "",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "aboutPageVersionLabel": "",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageContactPublisherLabel": "",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapConfinementDevmode": "",
+  "@snapConfinementDevmode": {},
+  "searchPageNoResults": "",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapSortOrderDownloadSizeAsc": "",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "unknownPublisher": "",
+  "@unknownPublisher": {},
+  "snapCategoryUbuntuDesktopSlogan": "",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapActionUpdatingLabel": "",
+  "@snapActionUpdatingLabel": {},
+  "searchPageRelevanceLabel": "",
+  "@searchPageRelevanceLabel": {},
+  "snapSortOrderAlphabeticalAsc": "",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "managePageNoUpdatesAvailableDescription": "",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "snapSortOrderRelevance": "",
+  "@snapSortOrderRelevance": {},
+  "snapSortOrderDownloadSizeDesc": "",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "appstreamUrlTypeBugtracker": "",
+  "@appstreamUrlTypeBugtracker": {},
+  "managePageShowSystemSnapsLabel": "",
+  "@managePageShowSystemSnapsLabel": {},
+  "searchPageFilterByLabel": "",
+  "@searchPageFilterByLabel": {},
+  "snapSortOrderInstalledDateDesc": "",
+  "@snapSortOrderInstalledDateDesc": {}
 }
