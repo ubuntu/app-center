@@ -5,6 +5,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/packagekit.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/deb/deb_model.dart';
 import 'package:app_center/src/manage/manage_model.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
@@ -108,6 +109,36 @@ SnapModel createMockSnapModel({
       model.storeSnap != null && model.storeSnap!.screenshotUrls.isNotEmpty);
   when(model.snapName)
       .thenReturn(snapName ?? localSnap?.name ?? storeSnap?.name ?? '');
+  when(model.errorStream)
+      .thenAnswer((_) => errorStream ?? const Stream.empty());
+  return model;
+}
+
+@GenerateMocks([DebModel])
+DebModel createMockDebModel({
+  String? id,
+  AppstreamComponent? component,
+  PackageKitPackageInfo? packageInfo,
+  AsyncValue<void>? state,
+  Stream<PackageKitServiceError>? errorStream,
+}) {
+  final model = MockDebModel();
+  when(model.id).thenReturn(id ?? '');
+  when(model.state).thenReturn(state ?? AsyncValue.data(() {}()));
+  when(model.component).thenReturn(
+    component ??
+        const AppstreamComponent(
+          id: '',
+          type: AppstreamComponentType.desktopApplication,
+          package: '',
+          name: {'C': ''},
+          summary: {'C': ''},
+        ),
+  );
+  when(model.packageInfo).thenReturn(packageInfo);
+  when(model.isInstalled)
+      .thenReturn(packageInfo?.info == PackageKitInfo.installed);
+  when(model.activeTransactionId).thenReturn(null);
   when(model.errorStream)
       .thenAnswer((_) => errorStream ?? const Stream.empty());
   return model;
@@ -276,10 +307,12 @@ MockAppstreamService createMockAppstreamService({
 MockPackageKitService createMockPackageKitService({
   PackageKitPackageInfo? packageInfo,
   int transactionId = 0,
+  Stream<PackageKitServiceError> errorStream = const Stream.empty(),
 }) {
   final packageKit = MockPackageKitService();
   when(packageKit.resolve(any)).thenAnswer((_) async => packageInfo);
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.errorStream).thenAnswer((_) => errorStream);
   return packageKit;
 }

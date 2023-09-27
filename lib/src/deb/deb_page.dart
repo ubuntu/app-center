@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -13,17 +15,45 @@ import '/appstream.dart';
 import '/l10n.dart';
 import '/layout.dart';
 import '/widgets.dart';
+import '../packagekit/packagekit_service.dart';
 import 'deb_model.dart';
 
 const _kPrimaryButtonMaxWidth = 136.0;
 
-class DebPage extends ConsumerWidget {
+class DebPage extends ConsumerStatefulWidget {
   const DebPage({super.key, required this.id});
   final String id;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final debModel = ref.watch(debModelProvider(id));
+  ConsumerState<DebPage> createState() => _DebPageState();
+}
+
+class _DebPageState extends ConsumerState<DebPage> {
+  StreamSubscription? _errorSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _errorSubscription =
+        ref.read(debModelProvider(widget.id)).errorStream.listen(showError);
+  }
+
+  @override
+  void dispose() {
+    _errorSubscription?.cancel();
+    _errorSubscription = null;
+    super.dispose();
+  }
+
+  Future<void> showError(PackageKitServiceError e) => showErrorDialog(
+        context: context,
+        title: 'PackageKit error: ${e.code}',
+        message: e.details,
+      );
+  @override
+  Widget build(BuildContext context) {
+    final debModel = ref.watch(debModelProvider(widget.id));
     return debModel.state.when(
       data: (_) => ResponsiveLayoutBuilder(
         builder: (context) => _DebView(

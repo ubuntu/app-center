@@ -49,6 +49,8 @@ class DebModel extends ChangeNotifier {
   PackageKitPackageInfo? packageInfo;
   bool get isInstalled => packageInfo!.info == PackageKitInfo.installed;
 
+  Stream<PackageKitServiceError> get errorStream => packageKit.errorStream;
+
   Future<void> init() async {
     _state = await AsyncValue.guard(() async {
       await packageKit.activateService();

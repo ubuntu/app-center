@@ -83,5 +83,33 @@ void main() {
     ).called(1);
   });
 
+  test('error stream', () async {
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      errorStream: Stream.value(
+        const PackageKitServiceError(
+          code: PackageKitError.noNetwork,
+          details: 'error details',
+        ),
+      ),
+    );
+    final appstream = createMockAppstreamService(component: component);
+    final model = DebModel(
+      appstream: appstream,
+      packageKit: packageKit,
+      id: 'testdeb',
+    );
+
+    model.errorStream.listen(
+      expectAsync1<void, PackageKitServiceError>(
+        (e) {
+          expect(e.code, equals(PackageKitError.noNetwork));
+          expect(e.details, equals('error details'));
+        },
+      ),
+    );
+    await model.init();
+  });
+
   // TODO: test `activeTransactionId` and `cancel()`
 }
