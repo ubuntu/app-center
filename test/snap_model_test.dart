@@ -87,6 +87,18 @@ void main() {
       expect(model.localSnap, equals(localSnap));
       expect(model.selectedChannel, isNull);
     });
+
+    test('get active change', () async {
+      final service = createMockSnapdService(
+        localSnap: localSnap,
+        changes: [SnapdChange(spawnTime: DateTime(1970), id: 'active change')],
+      );
+      final model = SnapModel(snapd: service, snapName: 'testsnap');
+      await model.init();
+
+      verify(service.getChanges(name: localSnap.name)).called(1);
+      expect(model.activeChangeId, equals('active change'));
+    });
   });
 
   group('install', () {
@@ -177,20 +189,22 @@ void main() {
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
-    final changeCompleter = Completer();
-    final notifyCompleter = Completer();
+    var notifyCompleter = Completer();
 
     when(service.install(
       any,
       channel: anyNamed('channel'),
       classic: anyNamed('classic'),
     )).thenAnswer((_) async => 'changeId');
-    when(service.waitChange('changeId'))
-        .thenAnswer((_) async => await changeCompleter.future);
-    when(service.abortChange('changeId')).thenAnswer((_) async {
-      changeCompleter.complete();
-      return SnapdChange(spawnTime: DateTime.now());
-    });
+
+    when(service.watchChange('changeId')).thenAnswer(
+      (_) => Stream.fromIterable(
+        [
+          SnapdChange(spawnTime: DateTime(1970)),
+          SnapdChange(spawnTime: DateTime(1970), ready: true),
+        ],
+      ),
+    );
 
     final model = SnapModel(snapd: service, snapName: 'testsnap');
     await model.init();
@@ -203,9 +217,14 @@ void main() {
     await notifyCompleter.future;
     expect(model.activeChangeId, equals('changeId'));
 
+    notifyCompleter = Completer();
+    model.addListener(expectAsync0(() {
+      expect(model.activeChangeId, isNull);
+      if (!notifyCompleter.isCompleted) notifyCompleter.complete();
+    }));
     await model.cancel();
     verify(service.abortChange('changeId')).called(1);
-    expect(model.activeChangeId, isNull);
+    await notifyCompleter.future;
   });
 
   test('error stream', () async {
