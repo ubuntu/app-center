@@ -80,6 +80,7 @@ class SnapModel extends ChangeNotifier {
   Map<String, SnapChannel>? get availableChannels => storeSnap?.channels;
 
   StreamSubscription? _storeSnapSubscription;
+  StreamSubscription? _activeChangeSubscription;
 
   Stream<SnapdException> get errorStream => _errorStreamController.stream;
   final StreamController<SnapdException> _errorStreamController =
@@ -100,6 +101,7 @@ class SnapModel extends ChangeNotifier {
         await storeSnapCompleter.future;
       }
       _setDefaultSelectedChannel();
+      await _getActiveChange();
       notifyListeners();
     });
   }
@@ -109,6 +111,7 @@ class SnapModel extends ChangeNotifier {
     await _storeSnapSubscription?.cancel();
     _storeSnapSubscription = null;
     await _errorStreamController.close();
+    _setActiveChange(null);
     super.dispose();
   }
 
@@ -145,18 +148,46 @@ class SnapModel extends ChangeNotifier {
     }
   }
 
+  Future<void> _activeChangeListener(SnapdChange change) async {
+    if (change.ready) {
+      log.debug('Change $_activeChangeId for $snapName done');
+      _setActiveChange(null);
+      await _getLocalSnap();
+      notifyListeners();
+    }
+  }
+
+  void _setActiveChange(String? id) {
+    _activeChangeId = id;
+    if (id == null) {
+      _activeChangeSubscription?.cancel();
+      _activeChangeSubscription = null;
+    } else {
+      _activeChangeSubscription =
+          snapd.watchChange(id).listen(_activeChangeListener);
+    }
+  }
+
+  Future<void> _getActiveChange() async {
+    final changes = await snapd.getChanges(name: snapName);
+    if (changes.isEmpty) return;
+    if (changes.length > 1) {
+      log.info(
+          'Got ${changes.length} active changes for $snapName when expecting only one');
+      return;
+    }
+    log.debug('Found active change ${changes.single.id} for $snapName');
+    _setActiveChange(changes.single.id);
+  }
+
   Future<void> _snapAction(Future<String> Function() action) async {
     try {
       final changeId = await action.call();
-      _activeChangeId = changeId;
+      _setActiveChange(changeId);
       notifyListeners();
-      await snapd.waitChange(changeId);
     } on SnapdException catch (e) {
       _handleError(e);
     }
-    _activeChangeId = null;
-    await _getLocalSnap();
-    notifyListeners();
   }
 
   Future<void> cancel() async {

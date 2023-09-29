@@ -165,6 +165,7 @@ MockSnapdService createMockSnapdService({
   Snap? storeSnap,
   List<Snap>? refreshableSnaps,
   List<Snap>? installedSnaps,
+  List<SnapdChange>? changes,
 }) {
   final service = MockSnapdService();
   when(service.getStoreSnap(any)).thenAnswer((_) => Stream.value(storeSnap));
@@ -191,6 +192,11 @@ MockSnapdService createMockSnapdService({
   when(service.find(filter: SnapFindFilter.refresh))
       .thenAnswer((_) async => refreshableSnaps ?? []);
   when(service.getSnaps()).thenAnswer((_) async => installedSnaps ?? []);
+  when(service.getChanges(name: anyNamed('name')))
+      .thenAnswer((_) async => changes ?? []);
+  when(service.watchChange(any)).thenAnswer((_) => const Stream.empty());
+  when(service.abortChange(any))
+      .thenAnswer((_) async => SnapdChange(spawnTime: DateTime.now()));
   return service;
 }
 
