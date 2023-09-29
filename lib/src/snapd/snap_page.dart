@@ -114,16 +114,16 @@ class _SnapView extends ConsumerWidget {
         ),
       ),
       (
+        label: l10n.snapPageLicenseLabel,
+        value: Text(snapModel.snap.license ?? ''),
+      ),
+      (
         label: l10n.snapPagePublishedLabel,
         value: Text(
           snapModel.channelInfo != null
               ? DateFormat.yMMMd().format(snapModel.channelInfo!.releasedAt)
               : '',
         ),
-      ),
-      (
-        label: l10n.snapPageLicenseLabel,
-        value: Text(snapModel.snap.license ?? ''),
       ),
       (
         label: l10n.snapPageLinksLabel,
@@ -148,56 +148,112 @@ class _SnapView extends ConsumerWidget {
 
     final layout = ResponsiveLayout.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: kPagePadding),
-      child: Column(
-        children: [
-          SizedBox(
-            width: layout.totalWidth,
+    return Column(
+      children: [
+        SizedBox(
+          width: layout.totalWidth,
+          child: Padding(
+            padding: const EdgeInsets.only(top: kPagePadding),
             child: _Header(snapModel: snapModel),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Center(
-                child: SizedBox(
-                  width: layout.totalWidth,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _SnapInfoBar(
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Center(
+              child: SizedBox(
+                width: layout.totalWidth,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppIcon(iconUrl: snapModel.snap.iconUrl, size: 96),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: AppTitle.fromSnap(snapModel.snap, large: true),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: kPagePadding),
+                    Row(
+                      children: [
+                        if (snapModel.availableChannels != null &&
+                            snapModel.selectedChannel != null) ...[
+                          _ChannelDropdown(model: snapModel),
+                          const SizedBox(width: 16),
+                        ],
+                        Flexible(
+                          child: _SnapActionButtons(snapModel: snapModel),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                    const Divider(height: 2),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 32),
+                      child: _SnapInfoBar(
                         snapInfos: snapInfos,
                         snap: snapModel.snap,
                         layout: layout,
                       ),
-                      const Divider(),
-                      if (snapModel.hasGallery)
-                        _Section(
-                          header: Text(l10n.snapPageGalleryLabel),
+                    ),
+                    const Divider(height: 2),
+                    const SizedBox(height: 48),
+                    if (snapModel.hasGallery) ...[
+                      _Section(
+                        header: Text(
+                          l10n.snapPageGalleryLabel,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontWeight: FontWeight.w500),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 48),
                           child: ScreenshotGallery(
                             title: snapModel.storeSnap!.titleOrName,
                             urls: snapModel.storeSnap!.screenshotUrls,
                             height: layout.totalWidth / 2,
                           ),
                         ),
-                      _Section(
-                        header: Text(l10n.snapPageDescriptionLabel),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: MarkdownBody(
-                            data: snapModel.storeSnap?.description ??
-                                snapModel.localSnap?.description ??
-                                '',
-                          ),
+                      ),
+                      const Divider(height: 2),
+                      const SizedBox(height: 48),
+                    ],
+                    _Section(
+                      header: Text(
+                        l10n.snapPageDescriptionLabel,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w500),
+                      ),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              snapModel.snap.summary,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            const SizedBox(height: kPagePadding),
+                            MarkdownBody(
+                              data: snapModel.snap.description,
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: kPagePadding),
+                  ],
                 ),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -447,6 +503,7 @@ class _Section extends YaruExpandable {
       : super(
           expandButtonPosition: YaruExpandableButtonPosition.start,
           isExpanded: true,
+          gapHeight: 24,
         );
 }
 
@@ -475,27 +532,6 @@ class _Header extends StatelessWidget {
           ],
         ),
         const SizedBox(height: kPagePadding),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppIcon(iconUrl: snap.iconUrl, size: 96),
-            const SizedBox(width: 16),
-            Expanded(child: AppTitle.fromSnap(snap, large: true)),
-          ],
-        ),
-        const SizedBox(height: kPagePadding),
-        Row(
-          children: [
-            if (snapModel.availableChannels != null &&
-                snapModel.selectedChannel != null) ...[
-              _ChannelDropdown(model: snapModel),
-              const SizedBox(width: 16),
-            ],
-            Flexible(child: _SnapActionButtons(snapModel: snapModel))
-          ],
-        ),
-        const SizedBox(height: 42),
-        const Divider(),
       ],
     );
   }
