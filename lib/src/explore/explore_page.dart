@@ -23,64 +23,65 @@ class ExplorePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: kPagePadding),
-      child: ResponsiveLayoutScrollView(
-        slivers: [
-          SliverList.list(children: const [
-            _CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
-            SizedBox(height: 24),
-          ]),
-          const _CategorySnapList(
-            category: SnapCategoryEnum.ubuntuDesktop,
-            hideBannerSnaps: true,
-          ),
-          SliverList.list(children: const [
-            SizedBox(height: 56),
-            _CategoryBanner(category: SnapCategoryEnum.featured),
-            SizedBox(height: 24),
-          ]),
-          const _CategorySnapList(
-            category: SnapCategoryEnum.featured,
-            hideBannerSnaps: true,
-          ),
-          SliverList.list(children: [
-            const SizedBox(height: 56),
-            _Title(text: SnapCategoryEnum.games.slogan(l10n)),
-            const SizedBox(height: 24),
-          ]),
-          const _CategorySnapList(
-            category: SnapCategoryEnum.games,
-            numberOfSnaps: 4,
-            showScreenshots: true,
-            onlyFeatured: true,
-          ),
-          SliverList.list(children: [
-            const SizedBox(height: 56),
-            _Title(text: l10n.explorePageCategoriesLabel),
-            const SizedBox(height: 24),
-          ]),
-          const _CategoryList(),
-          SliverList.list(children: const [
-            SizedBox(height: 56),
-            _CategoryBanner(category: SnapCategoryEnum.development),
-            SizedBox(height: 24),
-          ]),
-          const _CategorySnapList(
-            category: SnapCategoryEnum.development,
-            hideBannerSnaps: true,
-          ),
-          SliverList.list(children: const [
-            SizedBox(height: 56),
-            _CategoryBanner(category: SnapCategoryEnum.productivity),
-            SizedBox(height: 24),
-          ]),
-          const _CategorySnapList(
-            category: SnapCategoryEnum.productivity,
-            hideBannerSnaps: true,
-          ),
-        ],
-      ),
+    return ResponsiveLayoutScrollView(
+      slivers: [
+        SliverList.list(children: const [
+          SizedBox(height: kPagePadding),
+          _CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
+          SizedBox(height: kPagePadding),
+        ]),
+        const _CategorySnapList(
+          category: SnapCategoryEnum.ubuntuDesktop,
+          hideBannerSnaps: true,
+        ),
+        SliverList.list(children: const [
+          SizedBox(height: 56),
+          _CategoryBanner(category: SnapCategoryEnum.featured),
+          SizedBox(height: kPagePadding),
+        ]),
+        const _CategorySnapList(
+          category: SnapCategoryEnum.featured,
+          hideBannerSnaps: true,
+        ),
+        SliverList.list(children: [
+          const SizedBox(height: 56),
+          _Title(text: SnapCategoryEnum.games.slogan(l10n)),
+          const SizedBox(height: kPagePadding),
+        ]),
+        const _CategorySnapList(
+          category: SnapCategoryEnum.games,
+          numberOfSnaps: 4,
+          showScreenshots: true,
+          onlyFeatured: true,
+        ),
+        SliverList.list(children: [
+          const SizedBox(height: 56),
+          _Title(text: l10n.explorePageCategoriesLabel),
+          const SizedBox(height: kPagePadding),
+        ]),
+        const _CategoryList(),
+        SliverList.list(children: const [
+          SizedBox(height: 56),
+          _CategoryBanner(category: SnapCategoryEnum.development),
+          SizedBox(height: kPagePadding),
+        ]),
+        const _CategorySnapList(
+          category: SnapCategoryEnum.development,
+          hideBannerSnaps: true,
+        ),
+        SliverList.list(children: const [
+          SizedBox(height: 56),
+          _CategoryBanner(category: SnapCategoryEnum.productivity),
+          SizedBox(height: kPagePadding),
+        ]),
+        const _CategorySnapList(
+          category: SnapCategoryEnum.productivity,
+          hideBannerSnaps: true,
+        ),
+        const SliverToBoxAdapter(
+          child: SizedBox(height: kPagePadding),
+        ),
+      ],
     );
   }
 }
@@ -334,7 +335,7 @@ class _CategoryList extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(category.getIcon(false)),
+                    Icon(category.icon(true)),
                     const SizedBox(width: 8),
                     Text(category.localize(AppLocalizations.of(context)))
                   ],

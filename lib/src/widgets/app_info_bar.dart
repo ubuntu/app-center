@@ -18,7 +18,7 @@ class AppInfoBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       spacing: kPagePadding,
-      runSpacing: 8,
+      runSpacing: 32,
       children: appInfos
           .map((info) => SizedBox(
                 width: (layout.totalWidth -

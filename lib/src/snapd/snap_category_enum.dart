@@ -104,7 +104,7 @@ enum SnapCategoryEnum {
         _ => l10n.snapCategoryDefaultButtonLabel,
       };
 
-  IconData getIcon(bool selected) => switch (this) {
+  IconData icon(bool selected) => switch (this) {
         artAndDesign =>
           selected ? YaruIcons.rule_and_pen_filled : YaruIcons.rule_and_pen,
         booksAndReference => selected ? YaruIcons.book_filled : YaruIcons.book,

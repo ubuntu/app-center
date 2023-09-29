@@ -11,8 +11,8 @@
         }
     },
     "snapPageDescriptionLabel": "Description",
-    "snapPageDeveloperWebsiteLabel": "Developer Website",
-    "snapPageDownloadSizeLabel": "Download Size",
+    "snapPageDeveloperWebsiteLabel": "Developer website",
+    "snapPageDownloadSizeLabel": "Download size",
     "snapPageGalleryLabel": "Gallery",
     "snapPageLicenseLabel": "License",
     "snapPageLinksLabel": "Links",
@@ -31,7 +31,7 @@
     "managePageSearchFieldSearchHint": "Search your installed apps",
     "managePageShowDetailsLabel": "Show details",
     "managePageShowSystemSnapsLabel": "Show system snaps",
-    "managePageUpdateAllLabel": "Update All",
+    "managePageUpdateAllLabel": "Update all",
     "managePageUpdatedDaysAgo": "Updated {n} days ago",
     "@managePageUpdatedDaysAgo": {
         "placeholders": {
@@ -40,7 +40,7 @@
             }
         }
     },
-    "managePageUpdatesAvailable": "Updates Available ({n})",
+    "managePageUpdatesAvailable": "Updates available ({n})",
     "@managePageUpdatesAvaialble": {
         "placeholders": {
             "n": {
@@ -51,7 +51,7 @@
     "productivityPageLabel": "Productivity",
     "developmentPageLabel": "Development",
     "gamesPageLabel": "Games",
-    "unknownPublisher": "Unknown Publisher",
+    "unknownPublisher": "Unknown publisher",
     "searchFieldDebSection": "Debian packages",
     "searchFieldSearchHint": "Search for apps",
     "searchFieldSearchForLabel": "See all results for \"{query}\"",
@@ -115,7 +115,7 @@
     "snapActionOpenLabel": "Open",
     "snapActionRemoveLabel": "Uninstall",
     "snapActionRemovingLabel": "Uninstalling",
-    "snapActionSwitchChannelLabel": "Switch Channel",
+    "snapActionSwitchChannelLabel": "Switch channel",
     "snapActionUpdateLabel": "Update",
     "snapCategoryAll": "All categories",
     "snapActionUpdatingLabel": "Updating",
@@ -159,12 +159,12 @@
     "snapSortOrderInstalledDateAsc": "Least recently updated",
     "snapSortOrderInstalledDateDesc": "Most recently updated",
     "snapSortOrderRelevance": "Relevance",
-    "snapRatingsBandVeryGood": "Very Good",
+    "snapRatingsBandVeryGood": "Very good",
     "snapRatingsBandGood": "Good",
     "snapRatingsBandNeutral": "Neutral",
     "snapRatingsBandPoor": "Poor",
-    "snapRatingsBandVeryPoor": "Very Poor",
-    "snapRatingsBandInsufficientVotes": "Insufficient Votes",
+    "snapRatingsBandVeryPoor": "Very poor",
+    "snapRatingsBandInsufficientVotes": "Insufficient votes",
     "snapRatingsVotes": "{n} votes",
     "@snapRatingsVotes": {
         "placeholders": {
