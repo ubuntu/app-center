@@ -96,5 +96,21 @@
   "searchFieldSnapSection": "Paquets Snap",
   "@searchFieldSnapSection": {},
   "managePageCheckForUpdates": "Vérifier les mises à jour",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "explorePageCategoriesLabel": "Catégories",
+  "@explorePageCategoriesLabel": {},
+  "appstreamUrlTypeFaq": "FAQ",
+  "@appstreamUrlTypeFaq": {},
+  "managePageUpdatesAvailable": "Mises à jour disponibles ({n})",
+  "@managePageUpdatesAvailable": {},
+  "aboutPageVersionLabel": "Version {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageFilterByLabel": "Filtrer par",
+  "@searchPageFilterByLabel": {}
 }
