@@ -424,37 +424,80 @@ class _RatingsActionButtons extends ConsumerWidget {
     return ratingsModel.state.when(
       data: (_) {
         return IntrinsicHeight(
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                YaruIconButton(
-                  icon: ratingsModel.vote == VoteStatus.up
-                      ? const Icon(Icons.thumb_up)
-                      : const Icon(Icons.thumb_up_outlined),
-                  onPressed: () {
-                    ratingsModel.castVote(VoteStatus.up);
-                  },
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InkWell(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(6),
+                  bottomLeft: Radius.circular(6),
                 ),
-                const VerticalDivider(
-                  color: Colors.grey,
-                  thickness: 1,
-                  width: 1,
+                onTap: () {
+                  ratingsModel.castVote(VoteStatus.up);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(color: Theme.of(context).dividerColor),
+                      bottom: BorderSide(color: Theme.of(context).dividerColor),
+                      left: BorderSide(color: Theme.of(context).dividerColor),
+                      right: BorderSide(
+                          color: Theme.of(context).dividerColor, width: 0.5),
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(6),
+                      bottomLeft: Radius.circular(6),
+                    ),
+                  ),
+                  child: YaruIconButton(
+                    icon: ratingsModel.vote == VoteStatus.up
+                        ? Icon(
+                            Icons.thumb_up,
+                            color: Theme.of(context).iconTheme.color,
+                          )
+                        : Icon(
+                            Icons.thumb_up_outlined,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                  ),
                 ),
-                YaruIconButton(
-                  icon: ratingsModel.vote == VoteStatus.down
-                      ? const Icon(Icons.thumb_down)
-                      : const Icon(Icons.thumb_down_outlined),
-                  onPressed: () {
-                    ratingsModel.castVote(VoteStatus.down);
-                  },
+              ),
+              InkWell(
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(6),
+                  bottomRight: Radius.circular(6),
                 ),
-              ],
-            ),
+                onTap: () {
+                  ratingsModel.castVote(VoteStatus.down);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(color: Theme.of(context).dividerColor),
+                      bottom: BorderSide(color: Theme.of(context).dividerColor),
+                      left: BorderSide(
+                          color: Theme.of(context).dividerColor, width: 0.5),
+                      right: BorderSide(color: Theme.of(context).dividerColor),
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(6),
+                      bottomRight: Radius.circular(6),
+                    ),
+                  ),
+                  child: YaruIconButton(
+                    icon: ratingsModel.vote == VoteStatus.down
+                        ? Icon(
+                            Icons.thumb_down,
+                            color: Theme.of(context).iconTheme.color,
+                          )
+                        : Icon(
+                            Icons.thumb_down_outlined,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },
