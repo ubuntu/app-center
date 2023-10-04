@@ -450,15 +450,12 @@ class _RatingsActionButtons extends ConsumerWidget {
                     ),
                   ),
                   child: YaruIconButton(
-                    icon: ratingsModel.vote == VoteStatus.up
-                        ? Icon(
-                            Icons.thumb_up,
-                            color: Theme.of(context).iconTheme.color,
-                          )
-                        : Icon(
-                            Icons.thumb_up_outlined,
-                            color: Theme.of(context).iconTheme.color,
-                          ),
+                    icon: Icon(
+                      ratingsModel.vote == VoteStatus.up
+                          ? Icons.thumb_up
+                          : Icons.thumb_up_outlined,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
                   ),
                 ),
               ),
@@ -485,15 +482,12 @@ class _RatingsActionButtons extends ConsumerWidget {
                     ),
                   ),
                   child: YaruIconButton(
-                    icon: ratingsModel.vote == VoteStatus.down
-                        ? Icon(
-                            Icons.thumb_down,
-                            color: Theme.of(context).iconTheme.color,
-                          )
-                        : Icon(
-                            Icons.thumb_down_outlined,
-                            color: Theme.of(context).iconTheme.color,
-                          ),
+                    icon: Icon(
+                      ratingsModel.vote == VoteStatus.down
+                          ? Icons.thumb_down
+                          : Icons.thumb_down_outlined,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
                   ),
                 ),
               ),
