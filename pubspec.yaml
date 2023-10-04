@@ -4,8 +4,10 @@ version: 1.0.0-alpha
 publish_to: 'none'
 
 environment:
-  sdk: '^3.0.6'
-  flutter: '^3.10.6'
+  # fix Flutter version to 3.10.6
+  # (exact version bug: https://github.com/dart-lang/sdk/issues/52672)
+  sdk: '>=3.0.6 <3.0.7'
+  flutter: '>=3.10.6 <3.10.7'
 
 dependencies:
   appstream: ^0.2.8
