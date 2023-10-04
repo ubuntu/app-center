@@ -97,6 +97,184 @@
   "@searchFieldSnapSection": {},
   "snapCategoryDevicesAndIot": "Dispositivos e IoT",
   "@snapCategoryDevicesAndIot": {},
-  "managePageCheckForUpdates": "Checar por atualizações",
-  "@managePageCheckForUpdates": {}
+  "managePageCheckForUpdates": "Verificar se há atualizações",
+  "@managePageCheckForUpdates": {},
+  "managePageUpdateAllLabel": "Atualizar tudo",
+  "@managePageUpdateAllLabel": {},
+  "searchFieldSearchForLabel": "Ver todos os resultados para \"{query}\"",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "explorePageCategoriesLabel": "Categorias",
+  "@explorePageCategoriesLabel": {},
+  "snapCategoryDefaultButtonLabel": "Descobrir mais",
+  "@snapCategoryDefaultButtonLabel": {},
+  "managePageShowDetailsLabel": "Mostrar detalhes",
+  "@managePageShowDetailsLabel": {},
+  "snapPageDownloadSizeLabel": "Tamanho da transferência",
+  "@snapPageDownloadSizeLabel": {},
+  "snapCategoryProductivityButtonLabel": "Descubra a coleção de produtividade",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapPagePublishedLabel": "Publicado",
+  "@snapPagePublishedLabel": {},
+  "aboutPageLearnMoreLabel": "Saiba mais",
+  "@aboutPageLearnMoreLabel": {},
+  "snapRatingsBandNeutral": "Neutro",
+  "@snapRatingsBandNeutral": {},
+  "appstreamUrlTypeTranslate": "Traduções",
+  "@appstreamUrlTypeTranslate": {},
+  "searchPageNoResultsHint": "Tente usar palavras-chave diferentes ou mais gerais",
+  "@searchPageNoResultsHint": {},
+  "snapRatingsBandGood": "Bom",
+  "@snapRatingsBandGood": {},
+  "snapCategoryFeaturedSlogan": "Snaps em Destaque",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapSortOrderInstalledDateAsc": "Atualizado menos recentemente",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapCategoryProductivitySlogan": "Risque uma coisa da sua lista de tarefas",
+  "@snapCategoryProductivitySlogan": {},
+  "appstreamUrlTypeDonation": "Doar",
+  "@appstreamUrlTypeDonation": {},
+  "snapRatingsBandVeryGood": "Muito bom",
+  "@snapRatingsBandVeryGood": {},
+  "snapActionRemoveLabel": "Desinstalar",
+  "@snapActionRemoveLabel": {},
+  "appstreamUrlTypeHelp": "Ajuda",
+  "@appstreamUrlTypeHelp": {},
+  "snapCategoryPersonalisation": "Personalização",
+  "@snapCategoryPersonalisation": {},
+  "aboutPagePublishLabel": "Publicar para a Snap Store",
+  "@aboutPagePublishLabel": {},
+  "aboutPageContributorTitle": "Projetado e desenvolvido por:",
+  "@aboutPageContributorTitle": {},
+  "managePageInstalledAndUpdatedLabel": "Instalado e atualizado",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "appstreamUrlTypeHomepage": "Página inicial",
+  "@appstreamUrlTypeHomepage": {},
+  "managePageCheckingForUpdates": "Verificando se há atualizações",
+  "@managePageCheckingForUpdates": {},
+  "managePageUpdatedDaysAgo": "Atualizado há {n} dias",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapRatingsBandInsufficientVotes": "Votos insuficientes",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsBandVeryPoor": "Muito ruim",
+  "@snapRatingsBandVeryPoor": {},
+  "managePageDescription": "Verifique se há atualizações disponíveis, atualize seus aplicativos e gerencie o status de todos os seus aplicativos.",
+  "@managePageDescription": {},
+  "snapActionRemovingLabel": "Desinstalando",
+  "@snapActionRemovingLabel": {},
+  "snapSortOrderInstalledSizeDesc": "Tamanho (do maior ao menor)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapPageDeveloperWebsiteLabel": "Site do desenvolvedor",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapConfinementClassic": "Clássico",
+  "@snapConfinementClassic": {},
+  "snapRatingsBandPoor": "Ruim",
+  "@snapRatingsBandPoor": {},
+  "snapCategoryDevelopmentSlogan": "Snaps indispensáveis para desenvolvedores",
+  "@snapCategoryDevelopmentSlogan": {},
+  "searchPageTitle": "Resultados para \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryGamesSlogan": "Tudo para a sua noite de jogo",
+  "@snapCategoryGamesSlogan": {},
+  "snapActionSwitchChannelLabel": "Mudar de canal",
+  "@snapActionSwitchChannelLabel": {},
+  "appstreamUrlTypeFaq": "FAQ",
+  "@appstreamUrlTypeFaq": {},
+  "snapConfinementStrict": "Estrito",
+  "@snapConfinementStrict": {},
+  "aboutPageContributeLabel": "Contribuir ou reportar bug",
+  "@aboutPageContributeLabel": {},
+  "snapCategoryUbuntuDesktop": "Área de Trabalho Ubuntu",
+  "@snapCategoryUbuntuDesktop": {},
+  "managePageUpdatesAvailable": "Atualizações disponíveis ({n})",
+  "@managePageUpdatesAvailable": {},
+  "aboutPageCommunityTitle": "Faça parte da comunidade:",
+  "@aboutPageCommunityTitle": {},
+  "searchPageNoResultsCategoryHint": "Tente uma categoria diferente ou use palavras-chave mais gerais",
+  "@searchPageNoResultsCategoryHint": {},
+  "snapSortOrderAlphabeticalDesc": "Alfabética (Z a A)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "searchPageNoResultsCategory": "Desculpe, não conseguimos encontrar nenhum pacote nesta categoria",
+  "@searchPageNoResultsCategory": {},
+  "snapRatingsVotes": "{n} votos",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryAll": "Todas as categorias",
+  "@snapCategoryAll": {},
+  "snapSortOrderInstalledSizeAsc": "Tamanho (do menor ao maior)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "aboutPageVersionLabel": "Versão {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageContactPublisherLabel": "Entre em contato com {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapConfinementDevmode": "Modo de desenvolvimento",
+  "@snapConfinementDevmode": {},
+  "searchPageNoResults": "Nenhum resultado encontrado para \"{query}\"",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapSortOrderDownloadSizeAsc": "Tamanho (do menor ao maior)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "unknownPublisher": "Editor desconhecido",
+  "@unknownPublisher": {},
+  "snapCategoryUbuntuDesktopSlogan": "Inicie rapidamente a sua área de trabalho",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapActionUpdatingLabel": "Atualizando",
+  "@snapActionUpdatingLabel": {},
+  "searchPageRelevanceLabel": "Relevância",
+  "@searchPageRelevanceLabel": {},
+  "snapSortOrderAlphabeticalAsc": "Alfabética (A a Z)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "managePageNoUpdatesAvailableDescription": "Não há atualizações disponíveis. Todos os seus aplicativos estão atualizados.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "snapSortOrderRelevance": "Relevância",
+  "@snapSortOrderRelevance": {},
+  "snapSortOrderDownloadSizeDesc": "Tamanho (do maior ao menor)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "appstreamUrlTypeBugtracker": "Rastreador de bugs",
+  "@appstreamUrlTypeBugtracker": {},
+  "managePageShowSystemSnapsLabel": "Mostrar snaps do sistema",
+  "@managePageShowSystemSnapsLabel": {},
+  "searchPageFilterByLabel": "Filtrar por",
+  "@searchPageFilterByLabel": {},
+  "snapSortOrderInstalledDateDesc": "Atualizado mais recentemente",
+  "@snapSortOrderInstalledDateDesc": {}
 }

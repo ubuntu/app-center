@@ -96,5 +96,153 @@
   "searchFieldSnapSection": "Paquets Snap",
   "@searchFieldSnapSection": {},
   "managePageCheckForUpdates": "Vérifier les mises à jour",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "explorePageCategoriesLabel": "Catégories",
+  "@explorePageCategoriesLabel": {},
+  "appstreamUrlTypeFaq": "FAQ",
+  "@appstreamUrlTypeFaq": {},
+  "managePageUpdatesAvailable": "Mises à jour disponibles ({n})",
+  "@managePageUpdatesAvailable": {},
+  "aboutPageVersionLabel": "Version {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageFilterByLabel": "Filtrer par",
+  "@searchPageFilterByLabel": {},
+  "managePageUpdateAllLabel": "Tout mettre à jour",
+  "@managePageUpdateAllLabel": {},
+  "searchFieldSearchForLabel": "Afficher tous les résultats pour \"{query}\"",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryDefaultButtonLabel": "Découvrir d'avantage",
+  "@snapCategoryDefaultButtonLabel": {},
+  "managePageShowDetailsLabel": "Afficher les détails",
+  "@managePageShowDetailsLabel": {},
+  "snapPageDownloadSizeLabel": "Taille du téléchargement",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPagePublishedLabel": "Publié",
+  "@snapPagePublishedLabel": {},
+  "aboutPageLearnMoreLabel": "En savoir plus",
+  "@aboutPageLearnMoreLabel": {},
+  "snapRatingsBandNeutral": "Neutre",
+  "@snapRatingsBandNeutral": {},
+  "appstreamUrlTypeTranslate": "Traductions",
+  "@appstreamUrlTypeTranslate": {},
+  "snapRatingsBandGood": "Bon",
+  "@snapRatingsBandGood": {},
+  "snapCategoryFeaturedSlogan": "Snaps en vedette",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapSortOrderInstalledDateAsc": "Moins récemment mis à jour",
+  "@snapSortOrderInstalledDateAsc": {},
+  "appstreamUrlTypeDonation": "Faire un don",
+  "@appstreamUrlTypeDonation": {},
+  "snapRatingsBandVeryGood": "Très bon",
+  "@snapRatingsBandVeryGood": {},
+  "snapActionRemoveLabel": "Désinstaller",
+  "@snapActionRemoveLabel": {},
+  "appstreamUrlTypeHelp": "Aide",
+  "@appstreamUrlTypeHelp": {},
+  "snapCategoryPersonalisation": "Personnalisation",
+  "@snapCategoryPersonalisation": {},
+  "aboutPageContributorTitle": "Conçu et développé par :",
+  "@aboutPageContributorTitle": {},
+  "managePageInstalledAndUpdatedLabel": "Installés et mis à jour",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "appstreamUrlTypeHomepage": "Page d’accueil",
+  "@appstreamUrlTypeHomepage": {},
+  "managePageCheckingForUpdates": "Recherche de mises à jour",
+  "@managePageCheckingForUpdates": {},
+  "managePageUpdatedDaysAgo": "Mis à jour il y a {n} jours",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapRatingsBandInsufficientVotes": "Votes insuffisants",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsBandVeryPoor": "Très mauvais",
+  "@snapRatingsBandVeryPoor": {},
+  "managePageDescription": "Rechercher les mises à jour disponibles, mettre à jour vos applications, et gérer l'état de toutes vos applications.",
+  "@managePageDescription": {},
+  "snapActionRemovingLabel": "Désinstallation en cours",
+  "@snapActionRemovingLabel": {},
+  "snapPageDeveloperWebsiteLabel": "Site de développeur",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapConfinementClassic": "",
+  "@snapConfinementClassic": {},
+  "snapRatingsBandPoor": "Mauvais",
+  "@snapRatingsBandPoor": {},
+  "searchPageTitle": "Résultats pour \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapActionSwitchChannelLabel": "Changer de canal",
+  "@snapActionSwitchChannelLabel": {},
+  "aboutPageContributeLabel": "Contribuer ou signaler une anomalie",
+  "@aboutPageContributeLabel": {},
+  "aboutPageCommunityTitle": "Faites partie de la communauté :",
+  "@aboutPageCommunityTitle": {},
+  "snapSortOrderAlphabeticalDesc": "Alphabétique (Z à A)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "searchPageNoResultsCategory": "Désolé, nous n'avons pu trouver aucun paquets dans cette catégorie",
+  "@searchPageNoResultsCategory": {},
+  "snapRatingsVotes": "{n} votes",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryAll": "Toutes les catégories",
+  "@snapCategoryAll": {},
+  "snapPageContactPublisherLabel": "Contacter {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageNoResults": "Aucun résultat trouvé pour \"{query}\"",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "unknownPublisher": "Éditeur inconnu",
+  "@unknownPublisher": {},
+  "snapActionUpdatingLabel": "Mise à jour",
+  "@snapActionUpdatingLabel": {},
+  "searchPageRelevanceLabel": "Pertinence",
+  "@searchPageRelevanceLabel": {},
+  "snapSortOrderAlphabeticalAsc": "Alphabétique (A à Z)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "managePageNoUpdatesAvailableDescription": "Pas de mise à jour disponible. Vos applications sont toutes à jour.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "snapSortOrderRelevance": "Pertinence",
+  "@snapSortOrderRelevance": {},
+  "appstreamUrlTypeBugtracker": "Système de suivi des bogues",
+  "@appstreamUrlTypeBugtracker": {},
+  "managePageShowSystemSnapsLabel": "Afficher les paquets snap système",
+  "@managePageShowSystemSnapsLabel": {},
+  "snapSortOrderInstalledDateDesc": "Plus récemment mis à jour",
+  "@snapSortOrderInstalledDateDesc": {}
 }
