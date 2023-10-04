@@ -1,0 +1,13 @@
+name: PR
+
+on: [pull_request_target]
+
+jobs:
+  cla:
+    if: contains(fromJson('["weblate"]'), github.event.pull_request.user.login) == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if CLA signed
+        uses: canonical/has-signed-canonical-cla@v1
+        with:
+          exempted-bots: dependabot,github-actions,renovate
