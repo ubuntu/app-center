@@ -279,12 +279,14 @@ void main() {
     );
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel = createMockUpdatesModel();
+    final ratingsModel = createMockRatingsModel();
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
-            updatesModelProvider.overrideWith((ref) => updatesModel)
+            updatesModelProvider.overrideWith((ref) => updatesModel),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: SnapPage(snapName: storeSnap.name),
         ));
@@ -313,12 +315,14 @@ void main() {
     );
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel = createMockUpdatesModel();
+    final ratingsModel = createMockRatingsModel();
 
     await tester.pumpApp((_) => ProviderScope(
           overrides: [
             snapModelProvider.overrideWith((ref, arg) => snapModel),
             launchProvider.overrideWith((ref, arg) => snapLauncher),
-            updatesModelProvider.overrideWith((ref) => updatesModel)
+            updatesModelProvider.overrideWith((ref) => updatesModel),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: SnapPage(snapName: storeSnap.name),
         ));
