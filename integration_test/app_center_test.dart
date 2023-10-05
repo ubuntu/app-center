@@ -30,13 +30,13 @@ Future<void> testSearchSnap(
   required String packageName,
 }) async {
   final searchField = find.textField(tester.l10n.searchFieldSearchHint);
-  expectSync(searchField, findsOneWidget);
+  expect(searchField, findsOneWidget);
   await tester.enterText(searchField, packageName);
   await tester.pumpAndSettle();
 
   final dropdownEntry = find.widgetWithText(ListTile, packageName);
   await tester.pumpUntil(dropdownEntry);
-  expectSync(dropdownEntry, findsOneWidget);
+  expect(dropdownEntry, findsOneWidget);
 
   await tester.tap(dropdownEntry);
   await tester.pumpAndSettle();
@@ -50,16 +50,16 @@ Future<void> testInstallSnap(
 
   final installButton = find.button(tester.l10n.snapActionInstallLabel);
   final openButton = find.button(tester.l10n.snapActionOpenLabel);
-  expectSync(installButton, findsOneWidget);
-  expectSync(openButton, findsNothing);
+  expect(installButton, findsOneWidget);
+  expect(openButton, findsNothing);
 
   await tester.tap(installButton);
   await tester.pumpUntil(openButton);
 
-  expectSync(openButton, findsOneWidget);
-  expectSync(installButton, findsNothing);
+  expect(openButton, findsOneWidget);
+  expect(installButton, findsNothing);
 
-  expectSync(installedFile.existsSync(), isTrue);
+  expect(installedFile.existsSync(), isTrue);
 }
 
 Future<void> testRemoveSnap(
