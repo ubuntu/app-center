@@ -6,15 +6,14 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:glib/glib.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+
 import 'exports.dart';
 
 class RatingsService {
-  RatingsService(String url, int port,
-      [@visibleForTesting RatingsClient? client])
-      : _client = client ?? RatingsClient(url, port),
-        _id = _generateId();
+  RatingsService(this.client, {@visibleForTesting String? id})
+      : _id = id ?? _generateId();
 
-  final RatingsClient _client;
+  final RatingsClient client;
   String? _jwt;
   final String _id;
 
@@ -26,32 +25,32 @@ class RatingsService {
 
   Future<void> _ensureValidToken() async {
     if (_jwt == null || Jwt.isExpired(_jwt!)) {
-      _jwt = await _client.authenticate(_id);
+      _jwt = await client.authenticate(_id);
     }
   }
 
   Future<Rating?> getRating(String snapId) async {
     await _ensureValidToken();
-    return _client.getRating(snapId, _jwt!);
+    return client.getRating(snapId, _jwt!);
   }
 
   Future<void> vote(Vote vote) async {
     await _ensureValidToken();
-    await _client.vote(vote.snapId, vote.snapRevision, vote.voteUp, _jwt!);
+    await client.vote(vote.snapId, vote.snapRevision, vote.voteUp, _jwt!);
   }
 
   Future<void> delete() async {
     await _ensureValidToken();
-    await _client.delete(_jwt!);
+    await client.delete(_jwt!);
   }
 
   Future<List<Vote>> listMyVotes(String snapFilter) async {
     await _ensureValidToken();
-    return await _client.listMyVotes(snapFilter, _jwt!);
+    return await client.listMyVotes(snapFilter, _jwt!);
   }
 
   Future<List<Vote>> getSnapVotes(String snapId) async {
     await _ensureValidToken();
-    return await _client.getSnapVotes(snapId, _jwt!);
+    return await client.getSnapVotes(snapId, _jwt!);
   }
 }

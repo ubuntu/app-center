@@ -7,6 +7,7 @@ import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/deb/deb_model.dart';
 import 'package:app_center/src/manage/manage_model.dart';
+import 'package:app_center_ratings_client/ratings_client.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -282,10 +283,42 @@ MockPackageKitTransaction createMockPackageKitTransaction({
 }
 
 @GenerateMocks([RatingsService])
-MockRatingsService createMockRatingsService() {
+MockRatingsService createMockRatingsService({
+  Rating? rating,
+  List<Vote>? snapVotes,
+}) {
   final service = MockRatingsService();
-  when(service.vote(any)).thenAnswer((_) async => {});
+  when(service.getRating(any)).thenAnswer((_) async =>
+      rating ??
+      const Rating(
+        snapId: '',
+        totalVotes: 0,
+        ratingsBand: RatingsBand.insufficientVotes,
+      ));
+  when(service.getSnapVotes(any)).thenAnswer((_) async => snapVotes ?? []);
+
   return service;
+}
+
+@GenerateMocks([RatingsClient])
+MockRatingsClient createMockRatingsClient({
+  String? token,
+  Rating? rating,
+  List<Vote>? myVotes,
+  List<Vote>? snapVotes,
+}) {
+  final client = MockRatingsClient();
+  when(client.authenticate(any)).thenAnswer((_) async => token ?? '');
+  when(client.getRating(any, any)).thenAnswer((_) async =>
+      rating ??
+      const Rating(
+        snapId: '',
+        totalVotes: 0,
+        ratingsBand: RatingsBand.insufficientVotes,
+      ));
+  when(client.listMyVotes(any, any)).thenAnswer((_) async => myVotes ?? []);
+  when(client.getSnapVotes(any, any)).thenAnswer((_) async => snapVotes ?? []);
+  return client;
 }
 
 @GenerateMocks([AppstreamService])
