@@ -283,9 +283,20 @@ MockPackageKitTransaction createMockPackageKitTransaction({
 }
 
 @GenerateMocks([RatingsService])
-MockRatingsService createMockRatingsService() {
+MockRatingsService createMockRatingsService({
+  Rating? rating,
+  List<Vote>? snapVotes,
+}) {
   final service = MockRatingsService();
-  when(service.vote(any)).thenAnswer((_) async => {});
+  when(service.getRating(any)).thenAnswer((_) async =>
+      rating ??
+      const Rating(
+        snapId: '',
+        totalVotes: 0,
+        ratingsBand: RatingsBand.insufficientVotes,
+      ));
+  when(service.getSnapVotes(any)).thenAnswer((_) async => snapVotes ?? []);
+
   return service;
 }
 

@@ -1,10 +1,10 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'exports.dart';
-
 import 'ratings_service.dart';
 
 final ratingsModelProvider =
@@ -72,7 +72,7 @@ class RatingsModel extends ChangeNotifier {
         snapId: snapId,
         snapRevision: int.parse(snapRevision),
         voteUp: voteUp, // using voteUp directly here
-        dateTime: DateTime.now(),
+        dateTime: clock.now(),
       );
       await ratings.vote(vote);
       _vote = castVote;
