@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:app_center_ratings_client/ratings_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:github/github.dart';
@@ -44,8 +45,12 @@ Future<void> main(List<String> args) async {
   final config = ConfigService();
   config.load();
 
-  final ratings =
-      RatingsService(config.ratingServiceUrl, config.ratingsServicePort);
+  final ratings = RatingsService(
+    RatingsClient(
+      config.ratingServiceUrl,
+      config.ratingsServicePort,
+    ),
+  );
   registerServiceInstance(config);
   registerServiceInstance(ratings);
 
