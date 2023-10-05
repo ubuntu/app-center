@@ -9,6 +9,7 @@ abstract class StoreRoutes {
 
   static bool isSnap(RouteSettings route) => routeOf(route) == snap;
   static bool isSearch(RouteSettings route) => routeOf(route) == search;
+  static bool isDeb(RouteSettings route) => routeOf(route) == deb;
 
   static String routeOf(RouteSettings route) =>
       Uri.parse(route.name ?? '').path;
