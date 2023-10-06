@@ -40,8 +40,12 @@ class UpdatesModel extends ChangeNotifier {
     _state = const AsyncValue.loading();
     notifyListeners();
     _state = await AsyncValue.guard(() async {
-      _refreshableSnaps = await snapd.find(filter: SnapFindFilter.refresh);
-      notifyListeners();
+      try {
+        _refreshableSnaps = await snapd.find(filter: SnapFindFilter.refresh);
+        notifyListeners();
+      } on SnapdException catch (e) {
+        _handleError(e);
+      }
     });
   }
 
