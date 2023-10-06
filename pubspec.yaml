@@ -40,6 +40,7 @@ dependencies:
   packagekit: ^0.2.6
   path: ^1.8.3
   shimmer: ^3.0.0
+  internet_connection_checker: ^1.0.0+1
   snapcraft_launcher: ^0.1.0
   snapd: ^0.4.11
   snowball_stemmer: ^0.1.0
@@ -72,3 +73,4 @@ flutter:
   generate: true
   assets:
     - assets/
+    - assets/icons/

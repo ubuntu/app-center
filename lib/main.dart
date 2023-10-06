@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:github/github.dart';
 import 'package:gtk/gtk.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:path/path.dart' as p;
 import 'package:snapcraft_launcher/snapcraft_launcher.dart';
@@ -17,6 +18,7 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 import 'appstream.dart';
 import 'config.dart';
 import 'l10n.dart';
+import 'offline.dart';
 import 'packagekit.dart';
 import 'ratings.dart';
 import 'snapd.dart';
@@ -69,5 +71,12 @@ Future<void> main(List<String> args) async {
 
   await initDefaultLocale();
 
-  runApp(const ProviderScope(child: StoreApp()));
+  // Check inernet connection
+  bool isOnline = await InternetConnectionChecker().hasConnection;
+
+  runApp(
+    ProviderScope(
+        child: isOnline ? const StoreApp() : const OfflinePage(),
+    ),
+  );
 }
