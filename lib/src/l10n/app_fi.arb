@@ -63,15 +63,15 @@
   "@snapCategoryEntertainment": {},
   "snapActionInstallLabel": "Asenna",
   "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "Luvitus",
+  "snapPageLicenseLabel": "Lisenssi",
   "@snapPageLicenseLabel": {},
   "snapCategoryPhotoAndVideo": "Kuva ja video",
   "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "Karsinointi",
+  "snapPageConfinementLabel": "Eristys",
   "@snapPageConfinementLabel": {},
   "snapCategoryMusicAndAudio": "Musiikki ja ääni",
   "@snapCategoryMusicAndAudio": {},
-  "aboutPageGitHubLabel": "Löydät meidät GitHub:ista",
+  "aboutPageGitHubLabel": "Löydät meidät GitHubista",
   "@aboutPageGitHubLabel": {},
   "packageFormatSnapLabel": "Snap-paketit",
   "@packageFormatSnapLabel": {},
@@ -98,5 +98,183 @@
   "snapCategoryDevicesAndIot": "Laitteet ja IoT",
   "@snapCategoryDevicesAndIot": {},
   "managePageCheckForUpdates": "Tarkista päivitykset",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "managePageUpdateAllLabel": "Päivitä kaikki",
+  "@managePageUpdateAllLabel": {},
+  "searchFieldSearchForLabel": "Näytä kaikki haun \"{query}\" tulokset",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "explorePageCategoriesLabel": "Luokat",
+  "@explorePageCategoriesLabel": {},
+  "snapCategoryDefaultButtonLabel": "Löydä enemmän",
+  "@snapCategoryDefaultButtonLabel": {},
+  "managePageShowDetailsLabel": "Näytä tiedot",
+  "@managePageShowDetailsLabel": {},
+  "snapPageDownloadSizeLabel": "Latauksen koko",
+  "@snapPageDownloadSizeLabel": {},
+  "snapCategoryProductivityButtonLabel": "Tutustu tuottavuuskokoelmaan",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapPagePublishedLabel": "Julkaistu",
+  "@snapPagePublishedLabel": {},
+  "aboutPageLearnMoreLabel": "Lue lisää",
+  "@aboutPageLearnMoreLabel": {},
+  "snapRatingsBandNeutral": "Neutraali",
+  "@snapRatingsBandNeutral": {},
+  "appstreamUrlTypeTranslate": "Käännökset",
+  "@appstreamUrlTypeTranslate": {},
+  "searchPageNoResultsHint": "Käytä eri hakuehtoja tai yleisempiä avainsanoja",
+  "@searchPageNoResultsHint": {},
+  "snapRatingsBandGood": "Hyvä",
+  "@snapRatingsBandGood": {},
+  "snapCategoryFeaturedSlogan": "Esittelyssä olevat snapit",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapSortOrderInstalledDateAsc": "Pisin aika viime päivityksestä",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapCategoryProductivitySlogan": "Yksi asia vähemmän tehtävälistalla",
+  "@snapCategoryProductivitySlogan": {},
+  "appstreamUrlTypeDonation": "Lahjoita",
+  "@appstreamUrlTypeDonation": {},
+  "snapRatingsBandVeryGood": "Erittäin hyvä",
+  "@snapRatingsBandVeryGood": {},
+  "snapActionRemoveLabel": "Poista asennus",
+  "@snapActionRemoveLabel": {},
+  "appstreamUrlTypeHelp": "Tuki",
+  "@appstreamUrlTypeHelp": {},
+  "snapCategoryPersonalisation": "Mukauttaminen",
+  "@snapCategoryPersonalisation": {},
+  "aboutPagePublishLabel": "Julkaise Snap-kauppaan",
+  "@aboutPagePublishLabel": {},
+  "aboutPageContributorTitle": "Suunnitellut ja kehittänyt:",
+  "@aboutPageContributorTitle": {},
+  "managePageInstalledAndUpdatedLabel": "Asennettu ja päivitetty",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "appstreamUrlTypeHomepage": "Verkkosivusto",
+  "@appstreamUrlTypeHomepage": {},
+  "managePageCheckingForUpdates": "Tarkistetaan päivityksiä",
+  "@managePageCheckingForUpdates": {},
+  "managePageUpdatedDaysAgo": "Päivitetty {n} päivää sitten",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapRatingsBandInsufficientVotes": "Ei riittävästi ääniä",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsBandVeryPoor": "Erittäin heikko",
+  "@snapRatingsBandVeryPoor": {},
+  "managePageDescription": "Tarkista saatavilla olevat päivitykset, päivitä sovellukset ja hallitse kaikkien sovellusten tilaa.",
+  "@managePageDescription": {},
+  "snapActionRemovingLabel": "Poistetaan asennus",
+  "@snapActionRemovingLabel": {},
+  "snapSortOrderInstalledSizeDesc": "Koko (suurimmasta pienimpään)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapPageDeveloperWebsiteLabel": "Kehittäjän sivusto",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapConfinementClassic": "Klassinen",
+  "@snapConfinementClassic": {},
+  "snapRatingsBandPoor": "Heikko",
+  "@snapRatingsBandPoor": {},
+  "snapCategoryDevelopmentSlogan": "Tärkeimmät snapit kehittäjille",
+  "@snapCategoryDevelopmentSlogan": {},
+  "searchPageTitle": "Tulokset haulla \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryGamesSlogan": "Kaikkea peli-iltaa varten",
+  "@snapCategoryGamesSlogan": {},
+  "snapActionSwitchChannelLabel": "Vaihda kanavaa",
+  "@snapActionSwitchChannelLabel": {},
+  "appstreamUrlTypeFaq": "UKK",
+  "@appstreamUrlTypeFaq": {},
+  "snapConfinementStrict": "Tiukka",
+  "@snapConfinementStrict": {},
+  "aboutPageContributeLabel": "Osallistu tai ilmoita virheestä",
+  "@aboutPageContributeLabel": {},
+  "snapCategoryUbuntuDesktop": "Ubuntu-työpöytä",
+  "@snapCategoryUbuntuDesktop": {},
+  "managePageUpdatesAvailable": "Päivityksiä saatavilla ({n})",
+  "@managePageUpdatesAvailable": {},
+  "aboutPageCommunityTitle": "Ole osa yhteisöä:",
+  "@aboutPageCommunityTitle": {},
+  "searchPageNoResultsCategoryHint": "Etsi eri luokasta tai käytä yleisempiä avainsanoja",
+  "@searchPageNoResultsCategoryHint": {},
+  "snapSortOrderAlphabeticalDesc": "Aakkosjärjestys (Ö-A)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "searchPageNoResultsCategory": "Valitettavasti tästä luokasta ei löytynyt paketteja",
+  "@searchPageNoResultsCategory": {},
+  "snapRatingsVotes": "{n} ääntä",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryAll": "Kaikki luokat",
+  "@snapCategoryAll": {},
+  "snapSortOrderInstalledSizeAsc": "Koko (pienimmästä suurimpaan)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "aboutPageVersionLabel": "Versio {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageContactPublisherLabel": "Ota yhteys julkaisijaan {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapConfinementDevmode": "Kehitystila",
+  "@snapConfinementDevmode": {},
+  "searchPageNoResults": "Haku \"{query}\" ei tuottanut tuloksia",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapSortOrderDownloadSizeAsc": "Koko (pienimmästä suurimpaan)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "unknownPublisher": "Tuntematon julkaisija",
+  "@unknownPublisher": {},
+  "snapCategoryUbuntuDesktopSlogan": "Hyppy työpöydälle",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapActionUpdatingLabel": "Päivitetään",
+  "@snapActionUpdatingLabel": {},
+  "searchPageRelevanceLabel": "Asiaankuuluvuus",
+  "@searchPageRelevanceLabel": {},
+  "snapSortOrderAlphabeticalAsc": "Aakkosjärjestys (A-Ö)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "managePageNoUpdatesAvailableDescription": "Päivityksiä ei ole saatavilla. Kaikki sovellukset ovat ajan tasalla.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "snapSortOrderRelevance": "Asiaankuuluvuus",
+  "@snapSortOrderRelevance": {},
+  "snapSortOrderDownloadSizeDesc": "Koko (suurimmasta pienimpään)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "appstreamUrlTypeBugtracker": "Vianseuranta",
+  "@appstreamUrlTypeBugtracker": {},
+  "managePageShowSystemSnapsLabel": "Näytä järjestelmä-snapit",
+  "@managePageShowSystemSnapsLabel": {},
+  "searchPageFilterByLabel": "Suodata",
+  "@searchPageFilterByLabel": {},
+  "snapSortOrderInstalledDateDesc": "Lyhyin aika viime päivityksestä",
+  "@snapSortOrderInstalledDateDesc": {}
 }
