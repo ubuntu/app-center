@@ -8,10 +8,14 @@
 [codecov-image]: https://codecov.io/gh/ubuntu/app-center/graph/badge.svg?token=E7rXg31KRk
 [codecov-url]: https://codecov.io/gh/ubuntu/app-center
 
+[weblate-image]: https://hosted.weblate.org/widget/ubuntu-software/app-center/svg-badge.svg
+[weblate-url]: https://hosted.weblate.org/engage/ubuntu-software/
+
 
 [![Code quality][actions-image]][actions-url]
 [![License][license-image]](LICENSE)
 [![Code coverage][codecov-image]][codecov-url]
+[![Translation status][weblate-image]][weblate-url]
 
 This is the code repository for **App Center**
 
