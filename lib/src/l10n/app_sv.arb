@@ -98,5 +98,179 @@
   "snapCategoryDevicesAndIot": "Enheter och IoT",
   "@snapCategoryDevicesAndIot": {},
   "managePageCheckForUpdates": "Sök efter uppdateringar",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "managePageUpdateAllLabel": "Uppdatera alla",
+  "@managePageUpdateAllLabel": {},
+  "searchFieldSearchForLabel": "Se alla resultat för \"{query}\"",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "explorePageCategoriesLabel": "Kategorier",
+  "@explorePageCategoriesLabel": {},
+  "snapCategoryDefaultButtonLabel": "Upptäck mer",
+  "@snapCategoryDefaultButtonLabel": {},
+  "managePageShowDetailsLabel": "Visa detaljer",
+  "@managePageShowDetailsLabel": {},
+  "snapPageDownloadSizeLabel": "Nedladdningsstorlek",
+  "@snapPageDownloadSizeLabel": {},
+  "snapCategoryProductivityButtonLabel": "Upptäck produktivitets samlingen",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapPagePublishedLabel": "Publicerad",
+  "@snapPagePublishedLabel": {},
+  "aboutPageLearnMoreLabel": "Läs mer",
+  "@aboutPageLearnMoreLabel": {},
+  "snapRatingsBandNeutral": "Neutral",
+  "@snapRatingsBandNeutral": {},
+  "appstreamUrlTypeTranslate": "Översättningar",
+  "@appstreamUrlTypeTranslate": {},
+  "searchPageNoResultsHint": "Prova att använda andra eller mer allmänna nyckelord",
+  "@searchPageNoResultsHint": {},
+  "snapRatingsBandGood": "Bra",
+  "@snapRatingsBandGood": {},
+  "snapCategoryFeaturedSlogan": "Utvalda Snaps",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapSortOrderInstalledDateAsc": "Minst nyligen uppdaterade",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapCategoryProductivitySlogan": "Stryk en sak från din att göra-lista",
+  "@snapCategoryProductivitySlogan": {},
+  "appstreamUrlTypeDonation": "Donera",
+  "@appstreamUrlTypeDonation": {},
+  "snapRatingsBandVeryGood": "Väldigt bra",
+  "@snapRatingsBandVeryGood": {},
+  "snapActionRemoveLabel": "Avinstallera",
+  "@snapActionRemoveLabel": {},
+  "appstreamUrlTypeHelp": "Hjälp",
+  "@appstreamUrlTypeHelp": {},
+  "snapCategoryPersonalisation": "Personalisering",
+  "@snapCategoryPersonalisation": {},
+  "aboutPagePublishLabel": "Publicera till Snap Store",
+  "@aboutPagePublishLabel": {},
+  "aboutPageContributorTitle": "Designad och utvecklad av:",
+  "@aboutPageContributorTitle": {},
+  "managePageInstalledAndUpdatedLabel": "Installerad och uppdaterad",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "appstreamUrlTypeHomepage": "Hemsida",
+  "@appstreamUrlTypeHomepage": {},
+  "managePageCheckingForUpdates": "Söker efter uppdateringar",
+  "@managePageCheckingForUpdates": {},
+  "managePageUpdatedDaysAgo": "Uppdaterad {n} dagar sedan",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapRatingsBandInsufficientVotes": "Inte tillräckligt med röster",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsBandVeryPoor": "Väldigt dålig",
+  "@snapRatingsBandVeryPoor": {},
+  "managePageDescription": "Sök efter tillgängliga uppdateringar, uppdatera dina appar och hantera statusen för alla dina appar.",
+  "@managePageDescription": {},
+  "snapActionRemovingLabel": "Avinstallerar",
+  "@snapActionRemovingLabel": {},
+  "snapSortOrderInstalledSizeDesc": "Storlek (största till minsta)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapPageDeveloperWebsiteLabel": "Utvecklarens webbplats",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapConfinementClassic": "Klassisk",
+  "@snapConfinementClassic": {},
+  "snapRatingsBandPoor": "Dålig",
+  "@snapRatingsBandPoor": {},
+  "snapCategoryDevelopmentSlogan": "Måste-ha snaps för utvecklare",
+  "@snapCategoryDevelopmentSlogan": {},
+  "searchPageTitle": "Resultat för \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryGamesSlogan": "Allt för din spelkväll",
+  "@snapCategoryGamesSlogan": {},
+  "snapActionSwitchChannelLabel": "Byt kanal",
+  "@snapActionSwitchChannelLabel": {},
+  "appstreamUrlTypeFaq": "FAQ",
+  "@appstreamUrlTypeFaq": {},
+  "snapConfinementStrict": "Strikt",
+  "@snapConfinementStrict": {},
+  "aboutPageContributeLabel": "Bidra eller rapportera fel",
+  "@aboutPageContributeLabel": {},
+  "snapCategoryUbuntuDesktop": "Ubuntu skrivbord",
+  "@snapCategoryUbuntuDesktop": {},
+  "managePageUpdatesAvailable": "Uppdateringar tillgängliga ({n})",
+  "@managePageUpdatesAvailable": {},
+  "aboutPageCommunityTitle": "Var en del av gemenskapen:",
+  "@aboutPageCommunityTitle": {},
+  "searchPageNoResultsCategoryHint": "Prova en annan kategori eller använd mer allmänna nyckelord",
+  "@searchPageNoResultsCategoryHint": {},
+  "snapSortOrderAlphabeticalDesc": "Alfabetisk (Z till A)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "snapRatingsVotes": "{n} röster",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryAll": "Alla kategorier",
+  "@snapCategoryAll": {},
+  "snapSortOrderInstalledSizeAsc": "Storlek (minsta till största)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "aboutPageVersionLabel": "Version {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageContactPublisherLabel": "Kontakt {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapConfinementDevmode": "Utvecklarläge",
+  "@snapConfinementDevmode": {},
+  "searchPageNoResults": "Inga resultat för \"{query}\"",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapSortOrderDownloadSizeAsc": "Storlek (minst till störst)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "snapCategoryUbuntuDesktopSlogan": "Sätt igång ditt skrivbord",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapActionUpdatingLabel": "Uppdaterar",
+  "@snapActionUpdatingLabel": {},
+  "searchPageRelevanceLabel": "Relevans",
+  "@searchPageRelevanceLabel": {},
+  "snapSortOrderAlphabeticalAsc": "Alfabetisk (A till Ö)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "managePageNoUpdatesAvailableDescription": "Inga uppdateringar tillgängliga. Dina applikationer är alla uppdaterade.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "snapSortOrderRelevance": "Relevans",
+  "@snapSortOrderRelevance": {},
+  "snapSortOrderDownloadSizeDesc": "Storlek (störst till minst)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "appstreamUrlTypeBugtracker": "Felspårare",
+  "@appstreamUrlTypeBugtracker": {},
+  "managePageShowSystemSnapsLabel": "Visa system snappar",
+  "@managePageShowSystemSnapsLabel": {},
+  "searchPageFilterByLabel": "Filtrera efter",
+  "@searchPageFilterByLabel": {},
+  "snapSortOrderInstalledDateDesc": "Mest senast uppdaterade",
+  "@snapSortOrderInstalledDateDesc": {}
 }
