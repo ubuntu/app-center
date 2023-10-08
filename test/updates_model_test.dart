@@ -31,22 +31,45 @@ void main() {
     verify(service.refreshMany(const ['firefox'])).called(1);
   });
 
-  test('error stream', () async {
-    final service =
-        createMockSnapdService(refreshableSnaps: [const Snap(name: 'firefox')]);
-    final model = UpdatesModel(service);
-    when(service.refreshMany(any)).thenThrow(
-        SnapdException(message: 'error message', kind: 'error kind'));
+  group('error stream', () {
+    test('refresh', () async {
+      final service = createMockSnapdService();
+      final model = UpdatesModel(service);
+      when(service.find(filter: SnapFindFilter.refresh))
+          .thenThrow(SnapdException(
+        message: 'error while checking for updates',
+        kind: 'error kind',
+      ));
 
-    model.errorStream.listen(
-      expectAsync1<void, SnapdException>(
-        (e) {
-          expect(e.kind, equals('error kind'));
-          expect(e.message, equals('error message'));
-        },
-      ),
-    );
-    await model.refresh();
-    await model.updateAll();
+      model.errorStream.listen(
+        expectAsync1<void, SnapdException>(
+          (e) {
+            expect(e.kind, equals('error kind'));
+            expect(e.message, equals('error while checking for updates'));
+          },
+        ),
+      );
+      await model.refresh();
+    });
+    test('update all', () async {
+      final service = createMockSnapdService(
+          refreshableSnaps: [const Snap(name: 'firefox')]);
+      final model = UpdatesModel(service);
+      when(service.refreshMany(any)).thenThrow(SnapdException(
+        message: 'error while updating snaps',
+        kind: 'error kind',
+      ));
+
+      model.errorStream.listen(
+        expectAsync1<void, SnapdException>(
+          (e) {
+            expect(e.kind, equals('error kind'));
+            expect(e.message, equals('error while updating snaps'));
+          },
+        ),
+      );
+      await model.refresh();
+      await model.updateAll();
+    });
   });
 }

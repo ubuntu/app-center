@@ -1,6 +1,6 @@
 name: app_center
 description: App Center
-version: 1.0.0-alpha
+version: 1.0.0
 publish_to: 'none'
 
 environment:
