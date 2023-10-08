@@ -272,5 +272,9 @@
   "searchPageFilterByLabel": "Filtrera efter",
   "@searchPageFilterByLabel": {},
   "snapSortOrderInstalledDateDesc": "Mest senast uppdaterade",
-  "@snapSortOrderInstalledDateDesc": {}
+  "@snapSortOrderInstalledDateDesc": {},
+  "searchPageNoResultsCategory": "Vi kunde tyvärr inte hitta några paket i den här kategorin",
+  "@searchPageNoResultsCategory": {},
+  "unknownPublisher": "Okänd utgivare",
+  "@unknownPublisher": {}
 }
