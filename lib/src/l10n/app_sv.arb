@@ -119,7 +119,7 @@
   "@snapPageDownloadSizeLabel": {},
   "snapCategoryProductivityButtonLabel": "Upptäck produktivitets samlingen",
   "@snapCategoryProductivityButtonLabel": {},
-  "snapPagePublishedLabel": "Publicerad",
+  "snapPagePublishedLabel": "Publicerades",
   "@snapPagePublishedLabel": {},
   "aboutPageLearnMoreLabel": "Läs mer",
   "@aboutPageLearnMoreLabel": {},
@@ -151,13 +151,13 @@
   "@aboutPagePublishLabel": {},
   "aboutPageContributorTitle": "Designad och utvecklad av:",
   "@aboutPageContributorTitle": {},
-  "managePageInstalledAndUpdatedLabel": "Installerad och uppdaterad",
+  "managePageInstalledAndUpdatedLabel": "Installerade och uppdaterade",
   "@managePageInstalledAndUpdatedLabel": {},
   "appstreamUrlTypeHomepage": "Hemsida",
   "@appstreamUrlTypeHomepage": {},
   "managePageCheckingForUpdates": "Söker efter uppdateringar",
   "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Uppdaterad {n} dagar sedan",
+  "managePageUpdatedDaysAgo": "Uppdaterades {n} dagar sedan",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -267,7 +267,7 @@
   "@snapSortOrderDownloadSizeDesc": {},
   "appstreamUrlTypeBugtracker": "Felspårare",
   "@appstreamUrlTypeBugtracker": {},
-  "managePageShowSystemSnapsLabel": "Visa system snappar",
+  "managePageShowSystemSnapsLabel": "Visa systemets snap-paket",
   "@managePageShowSystemSnapsLabel": {},
   "searchPageFilterByLabel": "Filtrera efter",
   "@searchPageFilterByLabel": {},
