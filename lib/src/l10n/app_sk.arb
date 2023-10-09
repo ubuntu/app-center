@@ -119,7 +119,7 @@
   "@snapPageDownloadSizeLabel": {},
   "snapCategoryProductivityButtonLabel": "Objavte zbierku produktivity",
   "@snapCategoryProductivityButtonLabel": {},
-  "snapPagePublishedLabel": "Zverejnené",
+  "snapPagePublishedLabel": "Vydané",
   "@snapPagePublishedLabel": {},
   "aboutPageLearnMoreLabel": "Zistiť viac",
   "@aboutPageLearnMoreLabel": {},
@@ -233,7 +233,7 @@
       }
     }
   },
-  "snapPageContactPublisherLabel": "Kontakt {publisher}",
+  "snapPageContactPublisherLabel": "Kontaktovať {publisher}",
   "@snapPageContactPublisherLabel": {
     "placeholders": {
       "publisher": {
