@@ -55,7 +55,7 @@
   "@aboutPageLabel": {},
   "snapPageSummaryLabel": "Главное",
   "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "приложение;програма;программа;пакет;программы;приложения;инструмент",
+  "appstreamSearchGreylist": "приложение;пакет;программа;приложения;набор;инструмент",
   "@appstreamSearchGreylist": {},
   "snapCategoryScience": "Наука",
   "@snapCategoryScience": {},
