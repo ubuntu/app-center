@@ -94,5 +94,187 @@
   "searchFieldSnapSection": "Snap 包",
   "@searchFieldSnapSection": {},
   "managePageCheckForUpdates": "检查更新",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "managePageUpdateAllLabel": "全部更新",
+  "@managePageUpdateAllLabel": {},
+  "searchFieldSearchForLabel": "查看“{query}”的结果",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "explorePageCategoriesLabel": "分类",
+  "@explorePageCategoriesLabel": {},
+  "snapCategoryDefaultButtonLabel": "发现更多",
+  "@snapCategoryDefaultButtonLabel": {},
+  "managePageShowDetailsLabel": "显示详细信息",
+  "@managePageShowDetailsLabel": {},
+  "snapPageDownloadSizeLabel": "下载大小",
+  "@snapPageDownloadSizeLabel": {},
+  "snapCategoryProductivityButtonLabel": "了解生产力系列",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapPagePublishedLabel": "已发布",
+  "@snapPagePublishedLabel": {},
+  "aboutPageLearnMoreLabel": "了解更多",
+  "@aboutPageLearnMoreLabel": {},
+  "snapRatingsBandNeutral": "一般",
+  "@snapRatingsBandNeutral": {},
+  "appstreamUrlTypeTranslate": "翻译",
+  "@appstreamUrlTypeTranslate": {},
+  "searchPageNoResultsHint": "尝试使用不同或更通用的关键词",
+  "@searchPageNoResultsHint": {},
+  "snapRatingsBandGood": "好",
+  "@snapRatingsBandGood": {},
+  "snapCategoryFeaturedSlogan": "特色软件包",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapSortOrderInstalledDateAsc": "最久远的更新",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapCategoryProductivitySlogan": "让您的工作更简单",
+  "@snapCategoryProductivitySlogan": {},
+  "appstreamUrlTypeDonation": "捐赠",
+  "@appstreamUrlTypeDonation": {},
+  "snapRatingsBandVeryGood": "很棒",
+  "@snapRatingsBandVeryGood": {},
+  "snapActionRemoveLabel": "卸载",
+  "@snapActionRemoveLabel": {},
+  "appstreamUrlTypeHelp": "帮助",
+  "@appstreamUrlTypeHelp": {},
+  "snapCategoryPersonalisation": "个性化",
+  "@snapCategoryPersonalisation": {},
+  "aboutPagePublishLabel": "发布到Snap商店",
+  "@aboutPagePublishLabel": {},
+  "aboutPageContributorTitle": "设计和开发者：",
+  "@aboutPageContributorTitle": {},
+  "managePageInstalledAndUpdatedLabel": "已安装并更新",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "appstreamUrlTypeHomepage": "主页",
+  "@appstreamUrlTypeHomepage": {},
+  "managePageCheckingForUpdates": "正在检查更新",
+  "@managePageCheckingForUpdates": {},
+  "managePageUpdatedDaysAgo": "{n}天前更新",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapRatingsBandInsufficientVotes": "票数不足",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsBandVeryPoor": "很差",
+  "@snapRatingsBandVeryPoor": {},
+  "managePageDescription": "检查可用更新、更新应用并管理所有应用的状态。",
+  "@managePageDescription": {},
+  "snapActionRemovingLabel": "卸载中",
+  "@snapActionRemovingLabel": {},
+  "snapSortOrderInstalledSizeDesc": "大小（从大到小）",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapPageDeveloperWebsiteLabel": "开发者网站",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapConfinementClassic": "经典",
+  "@snapConfinementClassic": {},
+  "snapRatingsBandPoor": "差",
+  "@snapRatingsBandPoor": {},
+  "snapCategoryDevelopmentSlogan": "开发者必备的软件包",
+  "@snapCategoryDevelopmentSlogan": {},
+  "searchPageTitle": "“{query}”的搜索结果",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryGamesSlogan": "为您的游戏之旅准备的一切",
+  "@snapCategoryGamesSlogan": {},
+  "snapActionSwitchChannelLabel": "切换频道",
+  "@snapActionSwitchChannelLabel": {},
+  "appstreamUrlTypeFaq": "常见问题",
+  "@appstreamUrlTypeFaq": {},
+  "snapConfinementStrict": "严格",
+  "@snapConfinementStrict": {},
+  "aboutPageContributeLabel": "贡献或报告错误",
+  "@aboutPageContributeLabel": {},
+  "snapCategoryUbuntuDesktop": "Ubuntu桌面系统",
+  "@snapCategoryUbuntuDesktop": {},
+  "managePageUpdatesAvailable": "可用更新（{n}）",
+  "@managePageUpdatesAvailable": {},
+  "snapPageConfinementLabel": "隔离",
+  "@snapPageConfinementLabel": {},
+  "aboutPageCommunityTitle": "成为社区的一份子：",
+  "@aboutPageCommunityTitle": {},
+  "searchPageNoResultsCategoryHint": "尝试不同的类别或使用更通用的关键词",
+  "@searchPageNoResultsCategoryHint": {},
+  "snapSortOrderAlphabeticalDesc": "字典序（从Z到A）",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "searchPageNoResultsCategory": "抱歉，我们无法在此类别中找到任何软件包",
+  "@searchPageNoResultsCategory": {},
+  "snapRatingsVotes": "{n}票",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryAll": "全部分类",
+  "@snapCategoryAll": {},
+  "snapSortOrderInstalledSizeAsc": "大小（从小到大）",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "aboutPageVersionLabel": "版本{version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageContactPublisherLabel": "联系{publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapConfinementDevmode": "实验模式",
+  "@snapConfinementDevmode": {},
+  "searchPageNoResults": "未找到有关“{query}”的结果",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapSortOrderDownloadSizeAsc": "大小（从小到大）",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "unknownPublisher": "未知发布者",
+  "@unknownPublisher": {},
+  "snapCategoryUbuntuDesktopSlogan": "让您的电脑起飞",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapActionUpdatingLabel": "更新中",
+  "@snapActionUpdatingLabel": {},
+  "searchPageRelevanceLabel": "相关度",
+  "@searchPageRelevanceLabel": {},
+  "snapSortOrderAlphabeticalAsc": "字典序（从A到Z）",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "managePageNoUpdatesAvailableDescription": "无可用更新。您的应用都是最新的。",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "snapSortOrderRelevance": "相关度",
+  "@snapSortOrderRelevance": {},
+  "snapCategoryDevicesAndIot": "设备和物联网",
+  "@snapCategoryDevicesAndIot": {},
+  "snapSortOrderDownloadSizeDesc": "大小（从大到小）",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "appstreamUrlTypeBugtracker": "错误跟踪器",
+  "@appstreamUrlTypeBugtracker": {},
+  "managePageShowSystemSnapsLabel": "显示系统snap包",
+  "@managePageShowSystemSnapsLabel": {},
+  "searchPageFilterByLabel": "筛选依据",
+  "@searchPageFilterByLabel": {},
+  "snapSortOrderInstalledDateDesc": "最近的更新",
+  "@snapSortOrderInstalledDateDesc": {}
 }
