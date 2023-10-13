@@ -25,7 +25,7 @@
   "@developmentPageLabel": {},
   "managePageLabel": "Керувати",
   "@managePageLabel": {},
-  "snapPageChannelLabel": "Джерело",
+  "snapPageChannelLabel": "Канал",
   "@snapPageChannelLabel": {},
   "snapCategoryEducation": "Освіта й навчання",
   "@snapCategoryEducation": {},
@@ -96,5 +96,185 @@
   "searchFieldSnapSection": "Snap пакети",
   "@searchFieldSnapSection": {},
   "managePageCheckForUpdates": "Перевірити наявність оновлень",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "managePageUpdateAllLabel": "Оновити все",
+  "@managePageUpdateAllLabel": {},
+  "searchFieldSearchForLabel": "Переглянути всі результати для \"{query}\"",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "explorePageCategoriesLabel": "Категорії",
+  "@explorePageCategoriesLabel": {},
+  "snapCategoryDefaultButtonLabel": "Дізнатися більше",
+  "@snapCategoryDefaultButtonLabel": {},
+  "managePageShowDetailsLabel": "Подробиці",
+  "@managePageShowDetailsLabel": {},
+  "snapPageDownloadSizeLabel": "Розмір завантаження",
+  "@snapPageDownloadSizeLabel": {},
+  "snapCategoryProductivityButtonLabel": "Відкрийте колекцію продуктивності",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapPagePublishedLabel": "Опубліковано",
+  "@snapPagePublishedLabel": {},
+  "aboutPageLearnMoreLabel": "Детальніше",
+  "@aboutPageLearnMoreLabel": {},
+  "snapRatingsBandNeutral": "Нейтрально",
+  "@snapRatingsBandNeutral": {},
+  "appstreamUrlTypeTranslate": "Переклади",
+  "@appstreamUrlTypeTranslate": {},
+  "searchPageNoResultsHint": "Спробуйте використовувати різні або більше загальні ключові слова",
+  "@searchPageNoResultsHint": {},
+  "snapRatingsBandGood": "Добре",
+  "@snapRatingsBandGood": {},
+  "snapCategoryFeaturedSlogan": "Популярні Snaps",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapSortOrderInstalledDateAsc": "Найстаріші оновлення",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapCategoryProductivitySlogan": "Викресліть одну справу зі свого списку справ",
+  "@snapCategoryProductivitySlogan": {},
+  "appstreamUrlTypeDonation": "Пожертвувати",
+  "@appstreamUrlTypeDonation": {},
+  "snapRatingsBandVeryGood": "Дуже добре",
+  "@snapRatingsBandVeryGood": {},
+  "snapActionRemoveLabel": "Деінсталювати",
+  "@snapActionRemoveLabel": {},
+  "appstreamUrlTypeHelp": "Довідка",
+  "@appstreamUrlTypeHelp": {},
+  "snapCategoryPersonalisation": "Персоналізація",
+  "@snapCategoryPersonalisation": {},
+  "aboutPagePublishLabel": "Публікація в магазині Snap",
+  "@aboutPagePublishLabel": {},
+  "aboutPageContributorTitle": "Дизайн і розробка:",
+  "@aboutPageContributorTitle": {},
+  "managePageInstalledAndUpdatedLabel": "Встановлено та оновлено",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "appstreamUrlTypeHomepage": "Головна",
+  "@appstreamUrlTypeHomepage": {},
+  "managePageCheckingForUpdates": "Перевірка оновлень",
+  "@managePageCheckingForUpdates": {},
+  "managePageUpdatedDaysAgo": "Оновлено {n} днів тому",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapRatingsBandInsufficientVotes": "Недостатньо голосів",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsBandVeryPoor": "Дуже бідні",
+  "@snapRatingsBandVeryPoor": {},
+  "managePageDescription": "Перевіряйте наявність оновлень, оновлюйте програми та керуйте статусом усіх програм.",
+  "@managePageDescription": {},
+  "snapActionRemovingLabel": "Деінсталяція",
+  "@snapActionRemovingLabel": {},
+  "snapSortOrderInstalledSizeDesc": "За розміром (від найбільшого до найменшого)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapPageDeveloperWebsiteLabel": "Веб-сайт розробника",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapConfinementClassic": "Класика",
+  "@snapConfinementClassic": {},
+  "snapRatingsBandPoor": "Бідний",
+  "@snapRatingsBandPoor": {},
+  "snapCategoryDevelopmentSlogan": "Обов’язкові Snap для розробників",
+  "@snapCategoryDevelopmentSlogan": {},
+  "searchPageTitle": "Результати для \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryGamesSlogan": "Все для вашої ігрової ночі",
+  "@snapCategoryGamesSlogan": {},
+  "snapActionSwitchChannelLabel": "Переключити канал",
+  "@snapActionSwitchChannelLabel": {},
+  "appstreamUrlTypeFaq": "Запитання та відповіді",
+  "@appstreamUrlTypeFaq": {},
+  "snapConfinementStrict": "Строгий",
+  "@snapConfinementStrict": {},
+  "aboutPageContributeLabel": "Долучайтесь або повідомте про помилку",
+  "@aboutPageContributeLabel": {},
+  "snapCategoryUbuntuDesktop": "Ubuntu для Робочого столу",
+  "@snapCategoryUbuntuDesktop": {},
+  "managePageUpdatesAvailable": "Доступні оновлення ({n})",
+  "@managePageUpdatesAvailable": {},
+  "aboutPageCommunityTitle": "Будь частиною спільноти:",
+  "@aboutPageCommunityTitle": {},
+  "searchPageNoResultsCategoryHint": "Спробуйте різні категорії або скористайтеся більш загальними ключовими словами",
+  "@searchPageNoResultsCategoryHint": {},
+  "snapSortOrderAlphabeticalDesc": "За алфавітом (від Я до А)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "searchPageNoResultsCategory": "На жаль, ми не знайшли пакети в цій категорії",
+  "@searchPageNoResultsCategory": {},
+  "snapRatingsVotes": "{n} голосів",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryAll": "Всі категорії",
+  "@snapCategoryAll": {},
+  "snapSortOrderInstalledSizeAsc": "За розміром (від найменшого до найбільшого)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "aboutPageVersionLabel": "Версія {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageContactPublisherLabel": "Зв'яжіться з {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapConfinementDevmode": "Режим розробника",
+  "@snapConfinementDevmode": {},
+  "searchPageNoResults": "Не знайдено результатів для \"{query}\"",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapSortOrderDownloadSizeAsc": "За розміром (від найменшого до найбільшого)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "unknownPublisher": "Невідомий видавець",
+  "@unknownPublisher": {},
+  "snapCategoryUbuntuDesktopSlogan": "Швидкий запуск робочого столу",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapActionUpdatingLabel": "Оновлення",
+  "@snapActionUpdatingLabel": {},
+  "searchPageRelevanceLabel": "Актуальність",
+  "@searchPageRelevanceLabel": {},
+  "snapSortOrderAlphabeticalAsc": "За алфавітом (від А до Я)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "managePageNoUpdatesAvailableDescription": "Немає оновлень. Усі ваші програми найновіші.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "snapSortOrderRelevance": "Актуальність",
+  "@snapSortOrderRelevance": {},
+  "snapCategoryDevicesAndIot": "Пристрої та IoT",
+  "@snapCategoryDevicesAndIot": {},
+  "snapSortOrderDownloadSizeDesc": "За розміром (від найбільшого до найменшого)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "appstreamUrlTypeBugtracker": "Система відстеження помилок",
+  "@appstreamUrlTypeBugtracker": {},
+  "managePageShowSystemSnapsLabel": "Показати системні Snap",
+  "@managePageShowSystemSnapsLabel": {},
+  "searchPageFilterByLabel": "Фільтрувати",
+  "@searchPageFilterByLabel": {},
+  "snapSortOrderInstalledDateDesc": "Найновіші оновлення",
+  "@snapSortOrderInstalledDateDesc": {}
 }
