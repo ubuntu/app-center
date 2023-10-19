@@ -1,5 +1,5 @@
 {
-  "snapPageLinksLabel": "Ligações",
+  "snapPageLinksLabel": "Endereços",
   "@snapPageLinksLabel": {},
   "snapPageVersionLabel": "Versão",
   "@snapPageVersionLabel": {},
@@ -79,7 +79,7 @@
   "@snapCategoryFeatured": {},
   "snapActionCancelLabel": "Cancelar",
   "@snapActionCancelLabel": {},
-  "snapPagePublisherLabel": "Editor",
+  "snapPagePublisherLabel": "Publicador",
   "@snapPagePublisherLabel": {},
   "snapPageDescriptionLabel": "Descrição",
   "@snapPageDescriptionLabel": {},
@@ -88,5 +88,193 @@
   "searchFieldSnapSection": "Pacotes Snap",
   "@searchFieldSnapSection": {},
   "managePageCheckForUpdates": "Verificar por atualizações",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "managePageUpdateAllLabel": "Atualizar tudo",
+  "@managePageUpdateAllLabel": {},
+  "searchFieldSearchForLabel": "Ver todos os resultados para \"{query}\"",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "explorePageCategoriesLabel": "Categorias",
+  "@explorePageCategoriesLabel": {},
+  "snapCategoryDefaultButtonLabel": "Descobrir mais",
+  "@snapCategoryDefaultButtonLabel": {},
+  "managePageShowDetailsLabel": "Mostrar detalhes",
+  "@managePageShowDetailsLabel": {},
+  "snapPageDownloadSizeLabel": "Tamanho da Transferência",
+  "@snapPageDownloadSizeLabel": {},
+  "snapCategoryProductivityButtonLabel": "Descubra a coleção de produtividade",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapPagePublishedLabel": "Publicadas",
+  "@snapPagePublishedLabel": {},
+  "aboutPageLearnMoreLabel": "Saber mais",
+  "@aboutPageLearnMoreLabel": {},
+  "snapRatingsBandNeutral": "Neutro",
+  "@snapRatingsBandNeutral": {},
+  "appstreamUrlTypeTranslate": "Traduções",
+  "@appstreamUrlTypeTranslate": {},
+  "searchPageNoResultsHint": "Tente utilizar palavras-chave diferentes ou mais gerais",
+  "@searchPageNoResultsHint": {},
+  "snapRatingsBandGood": "Bom",
+  "@snapRatingsBandGood": {},
+  "snapCategoryFeaturedSlogan": "Snaps em Destaque",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapSortOrderInstalledDateAsc": "Menos recentemente atualizado",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapCategoryProductivitySlogan": "Risque uma coisa da tua lista de tarefas",
+  "@snapCategoryProductivitySlogan": {},
+  "appstreamUrlTypeDonation": "Doar",
+  "@appstreamUrlTypeDonation": {},
+  "snapRatingsBandVeryGood": "Muito bom",
+  "@snapRatingsBandVeryGood": {},
+  "snapActionRemoveLabel": "Desistalar",
+  "@snapActionRemoveLabel": {},
+  "appstreamUrlTypeHelp": "Ajuda",
+  "@appstreamUrlTypeHelp": {},
+  "snapCategoryPersonalisation": "Personalização",
+  "@snapCategoryPersonalisation": {},
+  "managePageLabel": "Gerir",
+  "@managePageLabel": {},
+  "aboutPagePublishLabel": "Publicar na Snap Store",
+  "@aboutPagePublishLabel": {},
+  "aboutPageContributorTitle": "Desenhado e desenvolvido por:",
+  "@aboutPageContributorTitle": {},
+  "managePageInstalledAndUpdatedLabel": "Instalada e atualizada",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "appstreamUrlTypeHomepage": "Página Inicial",
+  "@appstreamUrlTypeHomepage": {},
+  "managePageCheckingForUpdates": "A verificar atualizações",
+  "@managePageCheckingForUpdates": {},
+  "managePageUpdatedDaysAgo": "Atualizado há {n} dias",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapRatingsBandInsufficientVotes": "Votos insuficientes",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsBandVeryPoor": "Muito pobre",
+  "@snapRatingsBandVeryPoor": {},
+  "managePageDescription": "Verifique a disponibilidade de atualizações, atualize as suas aplicações e gerencie o estado de todas as suas aplicações.",
+  "@managePageDescription": {},
+  "snapActionRemovingLabel": "A desistalar",
+  "@snapActionRemovingLabel": {},
+  "snapSortOrderInstalledSizeDesc": "Por tamanho (do maior ao mais pequeno)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapPageSummaryLabel": "Sumário",
+  "@snapPageSummaryLabel": {},
+  "snapPageDeveloperWebsiteLabel": "Página Web do Desenvolvedor",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapConfinementClassic": "Clássico",
+  "@snapConfinementClassic": {},
+  "snapRatingsBandPoor": "Pobre",
+  "@snapRatingsBandPoor": {},
+  "snapCategoryDevelopmentSlogan": "Snaps essenciais para desenvolvedores",
+  "@snapCategoryDevelopmentSlogan": {},
+  "searchPageTitle": "Resultados por \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryGamesSlogan": "Tudo para a tua noite de jogos",
+  "@snapCategoryGamesSlogan": {},
+  "snapActionSwitchChannelLabel": "Mudar de canal",
+  "@snapActionSwitchChannelLabel": {},
+  "appstreamUrlTypeFaq": "FAQ",
+  "@appstreamUrlTypeFaq": {},
+  "snapConfinementStrict": "Restrito",
+  "@snapConfinementStrict": {},
+  "aboutPageContributeLabel": "Contribuir ou reportar um erro",
+  "@aboutPageContributeLabel": {},
+  "snapCategoryUbuntuDesktop": "Ambiente de Trabalho Ubuntu",
+  "@snapCategoryUbuntuDesktop": {},
+  "managePageUpdatesAvailable": "Atualizações disponíveis ({n})",
+  "@managePageUpdatesAvailable": {},
+  "aboutPageCommunityTitle": "Faz parte da comunidade:",
+  "@aboutPageCommunityTitle": {},
+  "searchPageNoResultsCategoryHint": "Experimente uma categoria diferente ou utilize palavras-chave mais gerais",
+  "@searchPageNoResultsCategoryHint": {},
+  "snapSortOrderAlphabeticalDesc": "Por ordem alfabética (de Z a A)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "searchPageNoResultsCategory": "Lamentamos, não foi possível encontrar quaisquer pacotes nesta categoria",
+  "@searchPageNoResultsCategory": {},
+  "snapRatingsVotes": "{n} votos",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryAll": "Todas as categorias",
+  "@snapCategoryAll": {},
+  "searchFieldSearchHint": "Procurar por todas as aplicações",
+  "@searchFieldSearchHint": {},
+  "snapSortOrderInstalledSizeAsc": "Por tamanho (do mais pequeno ao maior)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "aboutPageVersionLabel": "Versão {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageContactPublisherLabel": "Contacto {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapConfinementDevmode": "Modo de desenvolvedor",
+  "@snapConfinementDevmode": {},
+  "searchPageNoResults": "Sem resultados encontrados para \"{query}\"",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageSearchFieldSearchHint": "Procurar as suas aplicações instaladas",
+  "@managePageSearchFieldSearchHint": {},
+  "snapSortOrderDownloadSizeAsc": "Por tamanho (do mais pequeno ao maior)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "unknownPublisher": "Publicador desconhecido",
+  "@unknownPublisher": {},
+  "snapCategoryUbuntuDesktopSlogan": "Dê um impulso inicial ao seu ambiente de trabalho",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapActionUpdatingLabel": "A atualizar",
+  "@snapActionUpdatingLabel": {},
+  "searchPageRelevanceLabel": "Relevância",
+  "@searchPageRelevanceLabel": {},
+  "snapSortOrderAlphabeticalAsc": "Por ordem alfabética (de A a Z)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "managePageNoUpdatesAvailableDescription": "Sem atualizações disponíveis. Todas as aplicações estão atualizadas.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "snapSortOrderRelevance": "Relevância",
+  "@snapSortOrderRelevance": {},
+  "snapCategoryDevicesAndIot": "Dispositivos e IoT",
+  "@snapCategoryDevicesAndIot": {},
+  "snapSortOrderDownloadSizeDesc": "Por tamanho (do maior ao mais pequeno)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "appstreamUrlTypeBugtracker": "Sistema de acompanhamento de erros",
+  "@appstreamUrlTypeBugtracker": {},
+  "managePageShowSystemSnapsLabel": "Mostrar snaps do sistema",
+  "@managePageShowSystemSnapsLabel": {},
+  "searchPageFilterByLabel": "Filtrar por",
+  "@searchPageFilterByLabel": {},
+  "snapSortOrderInstalledDateDesc": "Mais recentemente atualizado",
+  "@snapSortOrderInstalledDateDesc": {}
 }
