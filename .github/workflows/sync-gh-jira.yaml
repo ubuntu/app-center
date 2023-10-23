@@ -9,4 +9,4 @@ jobs:
       - uses: canonical/sync-issues-github-jira@v1
         with:
           webhook-url: ${{ secrets.JIRA_WEBHOOK_URL }}
-          component: 'S-Flutter'
+          component: 'Apps'
