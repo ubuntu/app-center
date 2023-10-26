@@ -616,7 +616,9 @@ class _ChannelDropdown extends StatelessWidget {
                   MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
               visualDensity: VisualDensity(horizontal: 0, vertical: 0),
             ),
-            itemStyle: MenuItemButton.styleFrom(),
+            itemStyle: MenuItemButton.styleFrom(
+              maximumSize: const Size.fromHeight(100),
+            ),
             child: Text(
               '${model.selectedChannel} ${model.availableChannels![model.selectedChannel]!.version}',
             ),
@@ -635,40 +637,44 @@ class _ChannelDropdownEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return DefaultTextStyle(
-      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            overflow: TextOverflow.ellipsis,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: DefaultTextStyle(
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              overflow: TextOverflow.ellipsis,
+            ),
+        child: SizedBox(
+          width: _kChannelDropdownWidth - 24,
+          child: Row(
+            children: [
+              DefaultTextStyle.merge(
+                style: TextStyle(
+                  color: Theme.of(context).hintColor,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(l10n.snapPageChannelLabel),
+                    Text(l10n.snapPageVersionLabel),
+                    Text(l10n.snapPagePublishedLabel),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    channelEntry.key,
+                    channelEntry.value.version,
+                    DateFormat.yMd().format(channelEntry.value.releasedAt),
+                  ].map((e) => Text(e, maxLines: 1)).toList(),
+                ),
+              ),
+            ],
           ),
-      child: SizedBox(
-        width: _kChannelDropdownWidth - 24,
-        child: Row(
-          children: [
-            DefaultTextStyle.merge(
-              style: TextStyle(
-                color: Theme.of(context).hintColor,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(l10n.snapPageChannelLabel),
-                  Text(l10n.snapPageVersionLabel),
-                  Text(l10n.snapPagePublishedLabel),
-                ],
-              ),
-            ),
-            const SizedBox(width: 8),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  channelEntry.key,
-                  channelEntry.value.version,
-                  DateFormat.yMd().format(channelEntry.value.releasedAt),
-                ].map((e) => Text(e, maxLines: 1)).toList(),
-              ),
-            ),
-          ],
         ),
       ),
     );
