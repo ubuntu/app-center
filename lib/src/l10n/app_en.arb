@@ -1,178 +1,280 @@
 {
-    "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
-    "snapPageChannelLabel": "Channel",
-    "snapPageConfinementLabel": "Confinement",
-    "snapPageContactPublisherLabel": "Contact {publisher}",
-    "@snapPageContactPublisherLabel": {
-        "placeholders": {
-            "publisher": {
-                "type": "String"
-            }
-        }
-    },
-    "snapPageDescriptionLabel": "Description",
-    "snapPageDeveloperWebsiteLabel": "Developer website",
-    "snapPageDownloadSizeLabel": "Download size",
-    "snapPageGalleryLabel": "Gallery",
-    "snapPageLicenseLabel": "License",
-    "snapPageLinksLabel": "Links",
-    "snapPagePublisherLabel": "Publisher",
-    "snapPagePublishedLabel": "Published",
-    "snapPageSummaryLabel": "Summary",
-    "snapPageVersionLabel": "Version",
-    "explorePageLabel": "Explore",
-    "explorePageCategoriesLabel": "Categories",
-    "managePageCheckForUpdates": "Check for updates",
-    "managePageCheckingForUpdates": "Checking for updates",
-    "managePageDescription": "Check for available updates, update your apps, and manage the status of all your apps.",
-    "managePageInstalledAndUpdatedLabel": "Installed and updated",
-    "managePageLabel": "Manage",
-    "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
-    "managePageSearchFieldSearchHint": "Search your installed apps",
-    "managePageShowDetailsLabel": "Show details",
-    "managePageShowSystemSnapsLabel": "Show system snaps",
-    "managePageUpdateAllLabel": "Update all",
-    "managePageUpdatedDaysAgo": "Updated {n} days ago",
-    "@managePageUpdatedDaysAgo": {
-        "placeholders": {
-            "n": {
-                "type": "int"
-            }
-        }
-    },
-    "managePageUpdatesAvailable": "Updates available ({n})",
-    "@managePageUpdatesAvaialble": {
-        "placeholders": {
-            "n": {
-                "type": "int"
-            }
-        }
-    },
-    "productivityPageLabel": "Productivity",
-    "developmentPageLabel": "Development",
-    "gamesPageLabel": "Games",
-    "unknownPublisher": "Unknown publisher",
-    "searchFieldDebSection": "Debian packages",
-    "searchFieldSearchHint": "Search for apps",
-    "searchFieldSearchForLabel": "See all results for \"{query}\"",
-    "@searchFieldSearchForLabel": {
-        "placeholders": {
-            "query": {
-                "type": "String"
-            }
-        }
-    },
-    "searchFieldSnapSection": "Snap packages",
-    "searchPageFilterByLabel": "Filter by",
-    "searchPageNoResults": "No results found for \"{query}\"",
-    "@searchPageNoResults": {
-        "placeholders": {
-            "query": {
-                "type": "String"
-            }
-        }
-    },
-    "searchPageNoResultsHint": "Try using different or more general keywords",
-    "searchPageNoResultsCategory": "Sorry, we couldn’t find any packages in this category",
-    "searchPageNoResultsCategoryHint": "Try a different category or use more general keywords",
-    "searchPageSortByLabel": "Sort by",
-    "searchPageRelevanceLabel": "Relevance",
-    "searchPageTitle": "Results for \"{query}\"",
-    "@searchPageTitle": {
-        "placeholders": {
-            "query": {
-                "type": "String"
-            }
-        }
-    },
-    "aboutPageLabel": "About",
-    "aboutPageVersionLabel": "Version {version}",
-    "@aboutPageVersionLabel": {
-        "placeholders": {
-            "version": {
-                "type": "String"
-            }
-        }
-    },
-    "aboutPageContributorTitle": "Designed and developed by:",
-    "aboutPageCommunityTitle": "Be part of the community:",
-    "aboutPageContributeLabel": "Contribute or report bug",
-    "aboutPageGitHubLabel": "Find us on GitHub",
-    "aboutPagePublishLabel": "Publish to the Snap Store",
-    "aboutPageLearnMoreLabel": "Learn more",
-    "appstreamUrlTypeBugtracker": "Bugtracker",
-    "appstreamUrlTypeContact": "Contact",
-    "appstreamUrlTypeDonation": "Donate",
-    "appstreamUrlTypeFaq": "FAQ",
-    "appstreamUrlTypeHelp": "Help",
-    "appstreamUrlTypeHomepage": "Homepage",
-    "appstreamUrlTypeTranslate": "Translations",
-    "packageFormatDebLabel": "Debian packages",
-    "packageFormatSnapLabel": "Snap packages",
-    "snapActionCancelLabel": "Cancel",
-    "snapActionInstallLabel": "Install",
-    "snapActionInstallingLabel": "Installing",
-    "snapActionOpenLabel": "Open",
-    "snapActionRemoveLabel": "Uninstall",
-    "snapActionRemovingLabel": "Uninstalling",
-    "snapActionSwitchChannelLabel": "Switch channel",
-    "snapActionUpdateLabel": "Update",
-    "snapCategoryAll": "All categories",
-    "snapActionUpdatingLabel": "Updating",
-    "snapCategoryArtAndDesign": "Art and Design",
-    "snapCategoryBooksAndReference": "Books and Reference",
-    "snapCategoryDefaultButtonLabel": "Discover more",
-    "snapCategoryDevelopment": "Development",
-    "snapCategoryDevelopmentSlogan": "Must-have snaps for developers",
-    "snapCategoryDevicesAndIot": "Devices and IoT",
-    "snapCategoryEducation": "Education",
-    "snapCategoryEntertainment": "Entertainment",
-    "snapCategoryFeatured": "Featured",
-    "snapCategoryFeaturedSlogan": "Featured Snaps",
-    "snapCategoryFinance": "Finance",
-    "snapCategoryGames": "Games",
-    "snapCategoryGamesSlogan": "Everything for your game night",
-    "snapCategoryHealthAndFitness": "Health and Fitness",
-    "snapCategoryMusicAndAudio": "Music and Audio",
-    "snapCategoryNewsAndWeather": "News and Weather",
-    "snapCategoryPersonalisation": "Personalisation",
-    "snapCategoryPhotoAndVideo": "Photo and Video",
-    "snapCategoryProductivity": "Productivity",
-    "snapCategoryProductivityButtonLabel": "Discover the productivity collection",
-    "snapCategoryProductivitySlogan": "Cross one thing off your to-do list",
-    "snapCategoryScience": "Science",
-    "snapCategorySecurity": "Security",
-    "snapCategoryServerAndCloud": "Server and Cloud",
-    "snapCategorySocial": "Social",
-    "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
-    "snapCategoryUbuntuDesktopSlogan": "Jump start your desktop",
-    "snapCategoryUtilities": "Utilities",
-    "snapConfinementClassic": "Classic",
-    "snapConfinementDevmode": "Devmode",
-    "snapConfinementStrict": "Strict",
-    "snapSortOrderAlphabeticalAsc": "Alphabetical (A to Z)",
-    "snapSortOrderAlphabeticalDesc": "Alphabetical (Z to A)",
-    "snapSortOrderDownloadSizeAsc": "Size (Smallest to largest)",
-    "snapSortOrderDownloadSizeDesc": "Size (Largest to smallest)",
-    "snapSortOrderInstalledSizeAsc": "Size (Smallest to largest)",
-    "snapSortOrderInstalledSizeDesc": "Size (Largest to smallest)",
-    "snapSortOrderInstalledDateAsc": "Least recently updated",
-    "snapSortOrderInstalledDateDesc": "Most recently updated",
-    "snapSortOrderRelevance": "Relevance",
-    "snapRatingsBandVeryGood": "Very good",
-    "snapRatingsBandGood": "Good",
-    "snapRatingsBandNeutral": "Neutral",
-    "snapRatingsBandPoor": "Poor",
-    "snapRatingsBandVeryPoor": "Very poor",
-    "snapRatingsBandInsufficientVotes": "Insufficient votes",
-    "snapRatingsVotes": "{n} votes",
-    "@snapRatingsVotes": {
-        "placeholders": {
-            "n": {
-                "type": "int"
-            }
-        }
+  "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
+  "@appstreamSearchGreylist": {},
+  "snapPageChannelLabel": "Channel",
+  "@snapPageChannelLabel": {},
+  "snapPageConfinementLabel": "Confinement",
+  "@snapPageConfinementLabel": {},
+  "snapPageContactPublisherLabel": "Contact {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
     }
-
-
+  },
+  "snapPageDescriptionLabel": "Description",
+  "@snapPageDescriptionLabel": {},
+  "snapPageDeveloperWebsiteLabel": "Developer website",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapPageDownloadSizeLabel": "Download size",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPageGalleryLabel": "Gallery",
+  "@snapPageGalleryLabel": {},
+  "snapPageLicenseLabel": "License",
+  "@snapPageLicenseLabel": {},
+  "snapPageLinksLabel": "Links",
+  "@snapPageLinksLabel": {},
+  "snapPagePublisherLabel": "Publisher",
+  "@snapPagePublisherLabel": {},
+  "snapPagePublishedLabel": "Published",
+  "@snapPagePublishedLabel": {},
+  "snapPageSummaryLabel": "Summary",
+  "@snapPageSummaryLabel": {},
+  "snapPageVersionLabel": "Version",
+  "@snapPageVersionLabel": {},
+  "explorePageLabel": "Explore",
+  "@explorePageLabel": {},
+  "explorePageCategoriesLabel": "Categories",
+  "@explorePageCategoriesLabel": {},
+  "managePageCheckForUpdates": "Check for updates",
+  "@managePageCheckForUpdates": {},
+  "managePageCheckingForUpdates": "Checking for updates",
+  "@managePageCheckingForUpdates": {},
+  "managePageDescription": "Check for available updates, update your apps, and manage the status of all your apps.",
+  "@managePageDescription": {},
+  "managePageInstalledAndUpdatedLabel": "Installed and updated",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "managePageLabel": "Manage",
+  "@managePageLabel": {},
+  "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "managePageSearchFieldSearchHint": "Search your installed apps",
+  "@managePageSearchFieldSearchHint": {},
+  "managePageShowDetailsLabel": "Show details",
+  "@managePageShowDetailsLabel": {},
+  "managePageShowSystemSnapsLabel": "Show system snaps",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageUpdateAllLabel": "Update all",
+  "@managePageUpdateAllLabel": {},
+  "managePageUpdatedDaysAgo": "Updated {n} days ago",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesAvailable": "Updates available ({n})",
+  "@managePageUpdatesAvailable": {},
+  "productivityPageLabel": "Productivity",
+  "@productivityPageLabel": {},
+  "developmentPageLabel": "Development",
+  "@developmentPageLabel": {},
+  "gamesPageLabel": "Games",
+  "@gamesPageLabel": {},
+  "unknownPublisher": "Unknown publisher",
+  "@unknownPublisher": {},
+  "searchFieldDebSection": "Debian packages",
+  "@searchFieldDebSection": {},
+  "searchFieldSearchHint": "Search for apps",
+  "@searchFieldSearchHint": {},
+  "searchFieldSearchForLabel": "See all results for \"{query}\"",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchFieldSnapSection": "Snap packages",
+  "@searchFieldSnapSection": {},
+  "searchPageFilterByLabel": "Filter by",
+  "@searchPageFilterByLabel": {},
+  "searchPageNoResults": "No results found for \"{query}\"",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageNoResultsHint": "Try using different or more general keywords",
+  "@searchPageNoResultsHint": {},
+  "searchPageNoResultsCategory": "Sorry, we couldn’t find any packages in this category",
+  "@searchPageNoResultsCategory": {},
+  "searchPageNoResultsCategoryHint": "Try a different category or use more general keywords",
+  "@searchPageNoResultsCategoryHint": {},
+  "searchPageSortByLabel": "Sort by",
+  "@searchPageSortByLabel": {},
+  "searchPageRelevanceLabel": "Relevance",
+  "@searchPageRelevanceLabel": {},
+  "searchPageTitle": "Results for \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageLabel": "About",
+  "@aboutPageLabel": {},
+  "aboutPageVersionLabel": "Version {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageContributorTitle": "Designed and developed by:",
+  "@aboutPageContributorTitle": {},
+  "aboutPageCommunityTitle": "Be part of the community:",
+  "@aboutPageCommunityTitle": {},
+  "aboutPageContributeLabel": "Contribute or report a bug",
+  "@aboutPageContributeLabel": {},
+  "aboutPageGitHubLabel": "Find us on GitHub",
+  "@aboutPageGitHubLabel": {},
+  "aboutPagePublishLabel": "Publish to the Snap Store",
+  "@aboutPagePublishLabel": {},
+  "aboutPageLearnMoreLabel": "Learn more",
+  "@aboutPageLearnMoreLabel": {},
+  "appstreamUrlTypeBugtracker": "Bug tracker",
+  "@appstreamUrlTypeBugtracker": {},
+  "appstreamUrlTypeContact": "Contact",
+  "@appstreamUrlTypeContact": {},
+  "appstreamUrlTypeDonation": "Donate",
+  "@appstreamUrlTypeDonation": {},
+  "appstreamUrlTypeFaq": "FAQ",
+  "@appstreamUrlTypeFaq": {},
+  "appstreamUrlTypeHelp": "Help",
+  "@appstreamUrlTypeHelp": {},
+  "appstreamUrlTypeHomepage": "Homepage",
+  "@appstreamUrlTypeHomepage": {},
+  "appstreamUrlTypeTranslate": "Translations",
+  "@appstreamUrlTypeTranslate": {},
+  "packageFormatDebLabel": "Debian packages",
+  "@packageFormatDebLabel": {},
+  "packageFormatSnapLabel": "Snap packages",
+  "@packageFormatSnapLabel": {},
+  "snapActionCancelLabel": "Cancel",
+  "@snapActionCancelLabel": {},
+  "snapActionInstallLabel": "Install",
+  "@snapActionInstallLabel": {},
+  "snapActionInstallingLabel": "Installing",
+  "@snapActionInstallingLabel": {},
+  "snapActionOpenLabel": "Open",
+  "@snapActionOpenLabel": {},
+  "snapActionRemoveLabel": "Uninstall",
+  "@snapActionRemoveLabel": {},
+  "snapActionRemovingLabel": "Uninstalling",
+  "@snapActionRemovingLabel": {},
+  "snapActionSwitchChannelLabel": "Switch channel",
+  "@snapActionSwitchChannelLabel": {},
+  "snapActionUpdateLabel": "Update",
+  "@snapActionUpdateLabel": {},
+  "snapCategoryAll": "All categories",
+  "@snapCategoryAll": {},
+  "snapActionUpdatingLabel": "Updating",
+  "@snapActionUpdatingLabel": {},
+  "snapCategoryArtAndDesign": "Art and Design",
+  "@snapCategoryArtAndDesign": {},
+  "snapCategoryBooksAndReference": "Books and Reference",
+  "@snapCategoryBooksAndReference": {},
+  "snapCategoryDefaultButtonLabel": "Discover more",
+  "@snapCategoryDefaultButtonLabel": {},
+  "snapCategoryDevelopment": "Development",
+  "@snapCategoryDevelopment": {},
+  "snapCategoryDevelopmentSlogan": "Must-have snaps for developers",
+  "@snapCategoryDevelopmentSlogan": {},
+  "snapCategoryDevicesAndIot": "Devices and IoT",
+  "@snapCategoryDevicesAndIot": {},
+  "snapCategoryEducation": "Education",
+  "@snapCategoryEducation": {},
+  "snapCategoryEntertainment": "Entertainment",
+  "@snapCategoryEntertainment": {},
+  "snapCategoryFeatured": "Featured",
+  "@snapCategoryFeatured": {},
+  "snapCategoryFeaturedSlogan": "Featured Snaps",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapCategoryFinance": "Finance",
+  "@snapCategoryFinance": {},
+  "snapCategoryGames": "Games",
+  "@snapCategoryGames": {},
+  "snapCategoryGamesSlogan": "Everything for your game night",
+  "@snapCategoryGamesSlogan": {},
+  "snapCategoryHealthAndFitness": "Health and Fitness",
+  "@snapCategoryHealthAndFitness": {},
+  "snapCategoryMusicAndAudio": "Music and Audio",
+  "@snapCategoryMusicAndAudio": {},
+  "snapCategoryNewsAndWeather": "News and Weather",
+  "@snapCategoryNewsAndWeather": {},
+  "snapCategoryPersonalisation": "Personalisation",
+  "@snapCategoryPersonalisation": {},
+  "snapCategoryPhotoAndVideo": "Photo and Video",
+  "@snapCategoryPhotoAndVideo": {},
+  "snapCategoryProductivity": "Productivity",
+  "@snapCategoryProductivity": {},
+  "snapCategoryProductivityButtonLabel": "Discover the productivity collection",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapCategoryProductivitySlogan": "Cross one thing off your to-do list",
+  "@snapCategoryProductivitySlogan": {},
+  "snapCategoryScience": "Science",
+  "@snapCategoryScience": {},
+  "snapCategorySecurity": "Security",
+  "@snapCategorySecurity": {},
+  "snapCategoryServerAndCloud": "Server and Cloud",
+  "@snapCategoryServerAndCloud": {},
+  "snapCategorySocial": "Social",
+  "@snapCategorySocial": {},
+  "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
+  "@snapCategoryUbuntuDesktop": {},
+  "snapCategoryUbuntuDesktopSlogan": "Jump start your desktop",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapCategoryUtilities": "Utilities",
+  "@snapCategoryUtilities": {},
+  "snapConfinementClassic": "Classic",
+  "@snapConfinementClassic": {},
+  "snapConfinementDevmode": "Devmode",
+  "@snapConfinementDevmode": {},
+  "snapConfinementStrict": "Strict",
+  "@snapConfinementStrict": {},
+  "snapSortOrderAlphabeticalAsc": "Alphabetical (A to Z)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "snapSortOrderAlphabeticalDesc": "Alphabetical (Z to A)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "snapSortOrderDownloadSizeAsc": "Size (Smallest to largest)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "snapSortOrderDownloadSizeDesc": "Size (Largest to smallest)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "snapSortOrderInstalledSizeAsc": "Size (Smallest to largest)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "snapSortOrderInstalledSizeDesc": "Size (Largest to smallest)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapSortOrderInstalledDateAsc": "Least recently updated",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapSortOrderInstalledDateDesc": "Most recently updated",
+  "@snapSortOrderInstalledDateDesc": {},
+  "snapSortOrderRelevance": "Relevance",
+  "@snapSortOrderRelevance": {},
+  "snapRatingsBandVeryGood": "Very good",
+  "@snapRatingsBandVeryGood": {},
+  "snapRatingsBandGood": "Good",
+  "@snapRatingsBandGood": {},
+  "snapRatingsBandNeutral": "Neutral",
+  "@snapRatingsBandNeutral": {},
+  "snapRatingsBandPoor": "Poor",
+  "@snapRatingsBandPoor": {},
+  "snapRatingsBandVeryPoor": "Very poor",
+  "@snapRatingsBandVeryPoor": {},
+  "snapRatingsBandInsufficientVotes": "Insufficient votes",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsVotes": "{n} votes",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
