@@ -55,7 +55,7 @@
   "@aboutPageLabel": {},
   "snapPageSummaryLabel": "Підсумок",
   "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "програма;додаток;застосунок;пакет;інструмент;засіб;засоби",
+  "appstreamSearchGreylist": "програма;додаток;застосунок;пакет;пакунок;інструмент;засіб;засоби",
   "@appstreamSearchGreylist": {},
   "snapCategoryScience": "Наука",
   "@snapCategoryScience": {},
