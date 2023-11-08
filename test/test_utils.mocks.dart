@@ -2446,11 +2446,17 @@ class MockPackageKitService extends _i1.Mock implements _i8.PackageKitService {
       ) as _i14.Future<int>);
 
   @override
-  _i14.Future<_i10.PackageKitPackageEvent?> resolve(String? name) =>
+  _i14.Future<_i10.PackageKitPackageEvent?> resolve(
+    String? name, [
+    String? architecture,
+  ]) =>
       (super.noSuchMethod(
         Invocation.method(
           #resolve,
-          [name],
+          [
+            name,
+            architecture,
+          ],
         ),
         returnValue: _i14.Future<_i10.PackageKitPackageEvent?>.value(),
       ) as _i14.Future<_i10.PackageKitPackageEvent?>);
