@@ -108,7 +108,11 @@ void main() {
     test('unique package', () async {
       const mockInfo = PackageKitPackageEvent(
         info: PackageKitInfo.available,
-        packageId: PackageKitPackageId(name: 'foo', version: '1.0'),
+        packageId: PackageKitPackageId(
+          name: 'foo',
+          version: '1.0',
+          arch: 'amd64',
+        ),
         summary: 'summary',
       );
       final mockTransaction = createMockPackageKitTransaction(
@@ -119,7 +123,7 @@ void main() {
       final packageKit =
           PackageKitService(dbus: createMockDbusClient(), client: mockClient);
       await packageKit.activateService();
-      final info = await packageKit.resolve('foo');
+      final info = await packageKit.resolve('foo', 'amd64');
       verify(mockTransaction.resolve(['foo'])).called(1);
       expect(info, equals(mockInfo));
     });
@@ -152,7 +156,7 @@ void main() {
       final packageKit =
           PackageKitService(dbus: createMockDbusClient(), client: mockClient);
       await packageKit.activateService();
-      final info = await packageKit.resolve('foo');
+      final info = await packageKit.resolve('foo', 'amd64');
       expect(info!.packageId.arch, equals('amd64'));
     });
   });
