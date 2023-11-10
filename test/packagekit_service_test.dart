@@ -104,22 +104,61 @@ void main() {
     expect(packageKit.getTransaction(id), isNull);
   });
 
-  test('resolve', () async {
-    const mockInfo = PackageKitPackageEvent(
-      info: PackageKitInfo.available,
-      packageId: PackageKitPackageId(name: 'foo', version: '1.0'),
-      summary: 'summary',
-    );
-    final mockTransaction = createMockPackageKitTransaction(
-      events: [mockInfo],
-    );
-    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
-    final packageKit =
-        PackageKitService(dbus: createMockDbusClient(), client: mockClient);
-    await packageKit.activateService();
-    final info = await packageKit.resolve('foo');
-    verify(mockTransaction.resolve(['foo'])).called(1);
-    expect(info, equals(mockInfo));
+  group('resolve', () {
+    test('unique package', () async {
+      const mockInfo = PackageKitPackageEvent(
+        info: PackageKitInfo.available,
+        packageId: PackageKitPackageId(
+          name: 'foo',
+          version: '1.0',
+          arch: 'amd64',
+        ),
+        summary: 'summary',
+      );
+      final mockTransaction = createMockPackageKitTransaction(
+        events: [mockInfo],
+      );
+      final mockClient =
+          createMockPackageKitClient(transaction: mockTransaction);
+      final packageKit =
+          PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+      await packageKit.activateService();
+      final info = await packageKit.resolve('foo', 'amd64');
+      verify(mockTransaction.resolve(['foo'])).called(1);
+      expect(info, equals(mockInfo));
+    });
+
+    test('multiple architectures', () async {
+      final mockTransaction = createMockPackageKitTransaction(
+        events: const [
+          PackageKitPackageEvent(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'foo',
+              version: '1.0',
+              arch: 'amd64',
+            ),
+            summary: 'summary',
+          ),
+          PackageKitPackageEvent(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'foo',
+              version: '1.0',
+              arch: 'i386',
+            ),
+            summary: 'summary',
+          )
+        ],
+      );
+      final mockClient =
+          createMockPackageKitClient(transaction: mockTransaction);
+      final packageKit =
+          PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+      await packageKit.activateService();
+      final info = await packageKit.resolve('foo', 'amd64');
+      expect(info!.packageId.arch, equals('amd64'));
+    });
   });
 
   test('cancel', () async {

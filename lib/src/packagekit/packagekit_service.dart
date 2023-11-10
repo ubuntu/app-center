@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dbus/dbus.dart';
 import 'package:flutter/material.dart';
@@ -130,13 +131,27 @@ class PackageKitService {
         action: (transaction) => transaction.removePackages([packageId]),
       );
 
+  static Future<String> _getNativeArchitecture() async {
+    final snapArch = Platform.environment['SNAP_ARCH'];
+    if (snapArch != null) {
+      return snapArch;
+    }
+
+    final result = await Process.run('/usr/bin/dpkg', ['--print-architecture']);
+    return result.stdout as String;
+  }
+
   /// Resolves a single package name provided by `name`.
-  Future<PackageKitPackageInfo?> resolve(String name) async {
+  Future<PackageKitPackageInfo?> resolve(
+    String name, [
+    @visibleForTesting String? architecture,
+  ]) async {
+    final arch = architecture ?? await _getNativeArchitecture();
     PackageKitPackageInfo? info;
     await _createTransaction(
       action: (transaction) => transaction.resolve([name]),
       listener: (event) {
-        if (event is PackageKitPackageEvent) {
+        if (event is PackageKitPackageEvent && event.packageId.arch == arch) {
           info = event;
         }
       },
