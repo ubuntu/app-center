@@ -63,7 +63,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   melos: ^3.0.0
-  mockito: 5.4.2
+  mockito: 5.4.3
 
 flutter:
   uses-material-design: true
