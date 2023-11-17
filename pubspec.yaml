@@ -43,7 +43,7 @@ dependencies:
   snowball_stemmer: ^0.1.0
   ubuntu_localizations: ^0.3.3
   ubuntu_logger: ^0.1.0
-  ubuntu_service: ^0.2.2
+  ubuntu_service: ^0.3.0
   ubuntu_test: ^0.1.0-0
   ubuntu_widgets: ^0.3.0
   url_launcher: ^6.1.12
