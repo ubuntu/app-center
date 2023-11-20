@@ -1,11 +1,7 @@
 name: app_center
 
 packages:
-  - .
   - packages/**
-
-ignore:
-  - synthetic_package
 
 scripts:
   # analyze all packages

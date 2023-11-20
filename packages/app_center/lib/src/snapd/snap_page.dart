@@ -34,7 +34,7 @@ class SnapPage extends ConsumerStatefulWidget {
 }
 
 class _SnapPageState extends ConsumerState<SnapPage> {
-  StreamSubscription? _errorSubscription;
+  StreamSubscription<SnapdException>? _errorSubscription;
 
   @override
   void initState() {

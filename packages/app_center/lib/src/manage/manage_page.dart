@@ -27,7 +27,7 @@ class ManagePage extends ConsumerStatefulWidget {
 }
 
 class _ManagePageState extends ConsumerState<ManagePage> {
-  StreamSubscription? _errorSubscription;
+  StreamSubscription<SnapdException>? _errorSubscription;
 
   @override
   void initState() {

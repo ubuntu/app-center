@@ -35,6 +35,7 @@ pubspec.lock
 /coverage/
 /doc/
 .fvm
+**/build/
 
 # Symbolication related
 app.*.symbols

@@ -35,6 +35,7 @@ parts:
     source: .
     plugin: nil
     override-build: |
+      cd packages/app_center
       # when building locally artifacts can pollute the container and cause builds to fail
       # this helps increase reliability for local builds
       flutter clean

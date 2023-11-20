@@ -13,9 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: asdf-vm/actions/install@v2
-      - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-      - run: flutter pub global activate melos
-      - run: melos pub get
+      - uses: bluefireteam/melos-action@v2
       - run: melos analyze
 
   format:
@@ -23,9 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: asdf-vm/actions/install@v2
-      - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-      - run: flutter pub global activate melos
-      - run: melos pub get
+      - uses: bluefireteam/melos-action@v2
       - run: melos format
 
   mocks:
@@ -33,9 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: asdf-vm/actions/install@v2
-      - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-      - run: flutter pub global activate melos
-      - run: melos pub get
+      - uses: bluefireteam/melos-action@v2
       - run: melos generate
       - name: Check for outdated mocks
         if: github.event_name != 'push'
@@ -55,9 +49,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: asdf-vm/actions/install@v2
-      - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-      - run: flutter pub global activate melos
-      - run: melos pub get
+      - uses: bluefireteam/melos-action@v2
       - run: melos gen-l10n
       - name: Check for outdated l10n
         if: github.event_name == 'pull_request'
@@ -77,10 +69,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: asdf-vm/actions/install@v2
-      - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+      - uses: bluefireteam/melos-action@v2
       - run: sudo apt update && sudo apt install -y lcov
-      - run: flutter pub global activate melos
-      - run: melos pub get
       - run: melos coverage
       - uses: codecov/codecov-action@v3
         with:

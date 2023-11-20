@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru_icons/yaru_icons.dart';
@@ -29,7 +30,7 @@ class DebPage extends ConsumerStatefulWidget {
 }
 
 class _DebPageState extends ConsumerState<DebPage> {
-  StreamSubscription? _errorSubscription;
+  StreamSubscription<PackageKitErrorCodeEvent>? _errorSubscription;
 
   @override
   void initState() {
