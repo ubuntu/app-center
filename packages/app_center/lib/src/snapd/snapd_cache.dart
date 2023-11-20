@@ -148,7 +148,7 @@ extension SnapCacheFile on CacheFile {
   Future<List<Snap>?> readSnapList() async {
     final data = await read() as List?;
     return data
-        ?.cast<Map<String, dynamic>>()
+        ?.cast<Map<Object?, Object?>>()
         .map((s) => Snap.fromJson(s.cast()))
         .toList();
   }
