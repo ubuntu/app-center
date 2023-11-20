@@ -248,8 +248,8 @@ MockPackageKitTransaction createMockPackageKitTransaction({
   Iterable<PackageKitEvent>? events,
   PackageKitExit? exit,
   int? runtime,
-  Future? start,
-  Future? end,
+  Future<void>? start,
+  Future<void>? end,
 }) {
   final transaction = MockPackageKitTransaction();
   final controller = StreamController<PackageKitEvent>.broadcast();

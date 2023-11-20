@@ -147,7 +147,10 @@ extension SnapCacheFile on CacheFile {
 
   Future<List<Snap>?> readSnapList() async {
     final data = await read() as List?;
-    return data?.cast<Map>().map((s) => Snap.fromJson(s.cast())).toList();
+    return data
+        ?.cast<Map<Object?, Object?>>()
+        .map((s) => Snap.fromJson(s.cast()))
+        .toList();
   }
 
   Future<void> writeSnap(Snap snap) => write(snap.toJson());
@@ -165,14 +168,14 @@ class CacheFile {
     String path, {
     Duration? expiry,
     FileSystem? fs,
-    MessageCodec codec = const StandardMessageCodec(),
+    MessageCodec<Object?> codec = const StandardMessageCodec(),
   })  : _file = (fs ?? const LocalFileSystem()).file(path),
         _expiry = expiry ?? Duration.zero,
         _codec = codec;
 
   final File _file;
   final Duration _expiry;
-  final MessageCodec _codec;
+  final MessageCodec<Object?> _codec;
 
   String get path => _file.path;
 
@@ -218,7 +221,7 @@ class CacheFile {
 }
 
 extension CacheObject on Object {
-  Uint8List encodeCache(MessageCodec codec) {
+  Uint8List encodeCache(MessageCodec<Object?> codec) {
     final data = codec.encodeMessage(_toMessage())!;
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }
@@ -233,7 +236,7 @@ extension CacheObject on Object {
 }
 
 extension CacheUint8List on Uint8List {
-  Object? decodeCache(MessageCodec codec) {
+  Object? decodeCache(MessageCodec<Object?> codec) {
     return codec.decodeMessage(ByteData.sublistView(this));
   }
 }
