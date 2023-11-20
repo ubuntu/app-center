@@ -18,7 +18,7 @@ void main() {
     final listener = MockInitialRouteListener();
     container.listen<String?>(
       initialRouteProvider,
-      listener,
+      listener.call,
       fireImmediately: true,
     );
 
@@ -34,7 +34,7 @@ void main() {
     final listener = MockInitialRouteListener();
     container.listen<String?>(
       initialRouteProvider,
-      listener,
+      listener.call,
       fireImmediately: true,
     );
 
@@ -50,7 +50,7 @@ void main() {
     final listener = MockInitialRouteListener();
     container.listen<String?>(
       initialRouteProvider,
-      listener,
+      listener.call,
       fireImmediately: true,
     );
 
@@ -65,7 +65,7 @@ void main() {
     final listener = MockInitialRouteListener();
     container.listen<String?>(
       initialRouteProvider,
-      listener,
+      listener.call,
       fireImmediately: true,
     );
 

@@ -131,8 +131,8 @@ void main() {
                 .overrideWith((ref, query) => Stream.value([]))
           ],
           child: SearchField(
-            onSearch: mockSearchCallback,
-            onSnapSelected: mockSelectedCallback,
+            onSearch: mockSearchCallback.call,
+            onSnapSelected: mockSelectedCallback.call,
             onDebSelected: (_) {},
           ),
         ),
@@ -161,8 +161,8 @@ void main() {
                 .overrideWith((ref, query) => Stream.value([]))
           ],
           child: SearchField(
-            onSearch: mockSearchCallback,
-            onSnapSelected: mockSelectedCallback,
+            onSearch: mockSearchCallback.call,
+            onSnapSelected: mockSelectedCallback.call,
             onDebSelected: (_) {},
           ),
         ),
@@ -192,8 +192,8 @@ void main() {
                 .overrideWith((ref, query) => Stream.value([]))
           ],
           child: SearchField(
-            onSearch: mockSearchCallback,
-            onSnapSelected: mockSelectedCallback,
+            onSearch: mockSearchCallback.call,
+            onSnapSelected: mockSelectedCallback.call,
             onDebSelected: (_) {},
           ),
         ),
