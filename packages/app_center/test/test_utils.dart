@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:app_center/appstream.dart';
 import 'package:app_center/l10n.dart';
@@ -11,6 +12,7 @@ import 'package:app_center_ratings_client/ratings_client.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk/gtk.dart';
@@ -24,11 +26,21 @@ import 'test_utils.mocks.dart';
 extension WidgetTesterX on WidgetTester {
   BuildContext get context => element(find.byType(Scaffold).first);
   AppLocalizations get l10n => AppLocalizations.of(context);
-  Future<void> pumpApp(WidgetBuilder builder) {
-    return pumpWidget(MaterialApp(
-      localizationsDelegates: localizationsDelegates,
-      home: Scaffold(body: Builder(builder: builder)),
-    ));
+  Future<void> pumpApp(WidgetBuilder builder) async {
+    view.physicalSize = view.physicalSize * 5;
+    final ubuntuRegular = File('test/fonts/Ubuntu-Regular.ttf');
+    final content = ByteData.view(
+        Uint8List.fromList(ubuntuRegular.readAsBytesSync()).buffer);
+    final fontLoader = FontLoader('UbuntuRegular')
+      ..addFont(Future.value(content));
+    await fontLoader.load();
+    return pumpWidget(
+      MaterialApp(
+        theme: ThemeData(fontFamily: 'UbuntuRegular'),
+        localizationsDelegates: localizationsDelegates,
+        home: Scaffold(body: Builder(builder: builder)),
+      ),
+    );
   }
 }
 
