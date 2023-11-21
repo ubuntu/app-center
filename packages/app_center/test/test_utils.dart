@@ -27,7 +27,9 @@ extension WidgetTesterX on WidgetTester {
   BuildContext get context => element(find.byType(Scaffold).first);
   AppLocalizations get l10n => AppLocalizations.of(context);
   Future<void> pumpApp(WidgetBuilder builder) async {
-    view.physicalSize = view.physicalSize * 5;
+    // The intended minimum size of the window.
+    view.physicalSize =
+        (Size(800, 600) + Offset(54, 54)) * view.devicePixelRatio;
     final ubuntuRegular = File('test/fonts/Ubuntu-Regular.ttf');
     final content = ByteData.view(
         Uint8List.fromList(ubuntuRegular.readAsBytesSync()).buffer);
