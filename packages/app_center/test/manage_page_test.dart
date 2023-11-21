@@ -1,10 +1,8 @@
-import 'package:app_center/l10n.dart';
 import 'package:app_center/manage.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/manage/local_snap_providers.dart';
 import 'package:app_center/src/manage/manage_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
