@@ -15,7 +15,7 @@ dependencies:
   dbus: ^0.7.10
   app_center_ratings_client:
     git:
-      url: https://github.com/matthew-hagemann/app_center_ratings_client.dart.git
+      url: https://github.com/canonical/app_center_ratings_client.dart.git
       ref: main
   crypto: ^3.0.3
   file: ^6.1.4
