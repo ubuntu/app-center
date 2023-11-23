@@ -131,10 +131,15 @@ void main() {
     await tester.tap(find.byIcon(Icons.thumb_down_outlined));
     verify(ratingsModel.castVote(VoteStatus.down)).called(1);
 
-    await tester.tap(find.byIcon(YaruIcons.view_more_horizontal));
+    final viewMoreButton = find.byIcon(YaruIcons.view_more_horizontal);
+    expect(viewMoreButton, findsOneWidget);
+    await tester.tap(viewMoreButton);
     await tester.pump();
 
-    await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
+    final removeButton = find.text(tester.l10n.snapActionRemoveLabel);
+    expect(removeButton, findsOneWidget);
+    await tester.tap(removeButton);
+    await tester.pump();
     verify(snapModel.remove()).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
@@ -181,13 +186,18 @@ void main() {
     await tester.tap(find.byIcon(Icons.thumb_down_outlined));
     verify(ratingsModel.castVote(VoteStatus.down)).called(1);
 
-    await tester.tap(find.byIcon(YaruIcons.view_more_horizontal));
+    final viewMoreButton = find.byIcon(YaruIcons.view_more_horizontal);
+    expect(viewMoreButton, findsOneWidget);
+    await tester.tap(viewMoreButton);
     await tester.pump();
 
+    final updateButton = find.text(tester.l10n.snapActionUpdateLabel);
+    expect(updateButton, findsOneWidget);
+
     await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
+    await tester.pump();
     verify(snapModel.remove()).called(1);
 
-    expect(find.text(tester.l10n.snapActionUpdateLabel), findsOneWidget);
     final l10n = tester.l10n;
     expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
         findsOneWidget);
@@ -258,11 +268,17 @@ void main() {
 
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
     verify(snapLauncher.open()).called(1);
-
-    await tester.tap(find.byIcon(YaruIcons.view_more_horizontal));
     await tester.pump();
 
-    await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
+    final findMoreButton = find.byIcon(YaruIcons.view_more_horizontal);
+    expect(findMoreButton, findsOneWidget);
+    await tester.tap(findMoreButton);
+    await tester.pump();
+
+    final removeButton = find.text(tester.l10n.snapActionRemoveLabel);
+    expect(removeButton, findsOneWidget);
+    await tester.tap(removeButton);
+    await tester.pump();
     verify(snapModel.remove()).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
