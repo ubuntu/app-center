@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: asdf-vm/actions/install@v2
-      - uses: bluefireteam/melos-action@v2
+      - uses: bluefireteam/melos-action@v3
       - run: sudo apt update
       - run: sudo apt install -y clang cmake libblkid-dev libglib2.0-dev libgtk-3-dev liblzma-dev network-manager ninja-build packagekit pkg-config polkitd xvfb
       - run: |
