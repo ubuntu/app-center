@@ -23,7 +23,7 @@ final progressProvider =
 
   final streamController = StreamController<double>.broadcast();
   final subProgresses = <String, double>{for (final id in ids) id: 0.0};
-  final subscriptions = <String, StreamSubscription>{
+  final subscriptions = <String, StreamSubscription<SnapdChange>>{
     for (final id in ids)
       id: snapd.watchChange(id).listen((change) {
         subProgresses[id] = change.progress;
@@ -79,8 +79,8 @@ class SnapModel extends ChangeNotifier {
 
   Map<String, SnapChannel>? get availableChannels => storeSnap?.channels;
 
-  StreamSubscription? _storeSnapSubscription;
-  StreamSubscription? _activeChangeSubscription;
+  StreamSubscription<Snap?>? _storeSnapSubscription;
+  StreamSubscription<SnapdChange>? _activeChangeSubscription;
 
   Stream<SnapdException> get errorStream => _errorStreamController.stream;
   final StreamController<SnapdException> _errorStreamController =

@@ -19,7 +19,7 @@ class AppTitle extends StatelessWidget {
     this.large = false,
   });
 
-  factory AppTitle.fromSnap(Snap snap, {large = false}) => AppTitle(
+  factory AppTitle.fromSnap(Snap snap, {bool large = false}) => AppTitle(
         title: snap.titleOrName,
         publisher: snap.publisher?.displayName,
         verifiedPublisher: snap.verifiedPublisher,
@@ -28,7 +28,10 @@ class AppTitle extends StatelessWidget {
         large: large,
       );
 
-  factory AppTitle.fromDeb(AppstreamComponent component, {large = false}) =>
+  factory AppTitle.fromDeb(
+    AppstreamComponent component, {
+    bool large = false,
+  }) =>
       AppTitle(
         title: component.getLocalizedName(),
         publisher: component.getLocalizedDeveloperName(),

@@ -9,7 +9,7 @@ version: git
 parts:
   flutter-git:
     source: https://github.com/flutter/flutter.git
-    source-tag: 3.13.7
+    source-tag: 3.13.9
     source-depth: 1
     plugin: nil
     override-build: |
@@ -35,6 +35,7 @@ parts:
     source: .
     plugin: nil
     override-build: |
+      cd packages/app_center
       # when building locally artifacts can pollute the container and cause builds to fail
       # this helps increase reliability for local builds
       flutter clean

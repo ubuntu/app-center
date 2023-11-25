@@ -10,7 +10,7 @@ class StoreObserver extends NavigatorObserver {
   final WidgetRef ref;
 
   @override
-  void didPop(Route route, Route? previousRoute) {
+  void didPop(Route<void> route, Route<void>? previousRoute) {
     final query = previousRoute != null
         ? StoreRoutes.queryOf(previousRoute.settings)
         : null;

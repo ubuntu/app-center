@@ -78,7 +78,7 @@ class PackageKitService {
     final id = _nextId++;
     _transactions[id] = transaction;
 
-    late final StreamSubscription subscription;
+    late final StreamSubscription<PackageKitEvent> subscription;
     subscription = transaction.events.listen((event) {
       listener?.call(event);
       if (event is PackageKitFinishedEvent || event is PackageKitDestroyEvent) {
