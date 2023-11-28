@@ -121,7 +121,7 @@ class _ContributorView extends ConsumerWidget {
         const SizedBox(height: 8),
         state.when(
           data: (contributors) => _ContributorWrap(contributors),
-          error: (error, stackTrace) => ErrorWidget(error),
+          error: (error, stackTrace) => Text(error.toString()),
           loading: () => Shimmer.fromColors(
             baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
             highlightColor:
