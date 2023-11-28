@@ -14,7 +14,8 @@ import 'package:app_center/src/manage/manage_model.dart' as _i17;
 import 'package:app_center/src/ratings/exports.dart' as _i21;
 import 'package:app_center/src/ratings/ratings_model.dart' as _i12;
 import 'package:app_center/src/ratings/ratings_service.dart' as _i4;
-import 'package:app_center_ratings_client/ratings_client.dart' as _i11;
+import 'package:app_center_ratings_client/app_center_ratings_client.dart'
+    as _i11;
 import 'package:app_center_ratings_client/src/chart.dart' as _i22;
 import 'package:appstream/appstream.dart' as _i9;
 import 'package:dbus/dbus.dart' as _i20;

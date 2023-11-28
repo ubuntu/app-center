@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app_center_ratings_client/ratings_client.dart'
+import 'package:app_center_ratings_client/app_center_ratings_client.dart'
     hide Rating, RatingsBand;
 import 'package:app_center_ratings_client/src/chart.dart' as chart;
 import 'package:app_center_ratings_client/src/generated/google/protobuf/empty.pb.dart';

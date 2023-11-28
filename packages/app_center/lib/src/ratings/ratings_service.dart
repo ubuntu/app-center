@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:app_center_ratings_client/ratings_client.dart';
+import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:glib/glib.dart';

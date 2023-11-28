@@ -3,15 +3,13 @@ import 'dart:async';
 import 'package:grpc/grpc.dart';
 import 'package:meta/meta.dart';
 
-import 'src/chart.dart';
-import 'src/generated/google/protobuf/empty.pb.dart';
-import 'src/generated/ratings_features_app.pbgrpc.dart' as appPb;
-import 'src/generated/ratings_features_chart.pbgrpc.dart' as chartPb;
-import 'src/generated/ratings_features_user.pbgrpc.dart' as userPb;
-import 'src/ratings.dart';
-import 'src/user.dart';
-
-export 'src/ratings.dart';
+import 'chart.dart';
+import 'generated/google/protobuf/empty.pb.dart';
+import 'generated/ratings_features_app.pbgrpc.dart' as appPb;
+import 'generated/ratings_features_chart.pbgrpc.dart' as chartPb;
+import 'generated/ratings_features_user.pbgrpc.dart' as userPb;
+import 'ratings.dart';
+import 'user.dart';
 
 class RatingsClient {
   late appPb.AppClient _appClient;
