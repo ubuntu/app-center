@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package ratings.features.user;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service User {
+  rpc Authenticate (AuthenticateRequest) returns (AuthenticateResponse) {}
+
+  rpc Delete (google.protobuf.Empty) returns (google.protobuf.Empty) {}
+  rpc Vote (VoteRequest) returns (google.protobuf.Empty) {}
+  rpc ListMyVotes (ListMyVotesRequest) returns (ListMyVotesResponse) {}
+  rpc GetSnapVotes(GetSnapVotesRequest) returns (GetSnapVotesResponse) {}
+}
+
+message AuthenticateRequest {
+  string id = 1;
+}
+
+message AuthenticateResponse {
+  string token = 1;
+}
+
+message ListMyVotesRequest {
+  string snap_id_filter = 1;
+}
+
+message ListMyVotesResponse {
+  repeated Vote votes = 1;
+}
+
+message GetSnapVotesRequest {
+  string snap_id = 1;
+}
+
+message GetSnapVotesResponse {
+  repeated Vote votes = 1;
+}
+
+message Vote {
+  string snap_id = 1;
+  int32 snap_revision = 2;
+  bool vote_up = 3;
+  google.protobuf.Timestamp timestamp = 4;
+}
+
+message VoteRequest {
+  string snap_id = 1;
+  int32 snap_revision = 2;
+  bool vote_up = 3;
+}

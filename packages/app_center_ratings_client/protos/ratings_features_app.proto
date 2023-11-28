@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package ratings.features.app;
+
+import "ratings_features_common.proto";
+
+service App {
+  rpc GetRating (GetRatingRequest) returns (GetRatingResponse) {}
+}
+
+message GetRatingRequest {
+  string snap_id = 1;
+}
+
+message GetRatingResponse {
+  ratings.features.common.Rating rating = 1;
+}
