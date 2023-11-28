@@ -11,24 +11,20 @@
 
 import 'dart:core' as $core;
 
-import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'ratings_features_chart.pbenum.dart';
+import 'ratings_features_common.pb.dart' as $1;
 
 export 'ratings_features_chart.pbenum.dart';
 
 class GetChartRequest extends $pb.GeneratedMessage {
   factory GetChartRequest({
     Timeframe? timeframe,
-    ChartType? type,
   }) {
     final $result = create();
     if (timeframe != null) {
       $result.timeframe = timeframe;
-    }
-    if (type != null) {
-      $result.type = type;
     }
     return $result;
   }
@@ -49,10 +45,6 @@ class GetChartRequest extends $pb.GeneratedMessage {
         defaultOrMaker: Timeframe.TIMEFRAME_UNSPECIFIED,
         valueOf: Timeframe.valueOf,
         enumValues: Timeframe.values)
-    ..e<ChartType>(2, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE,
-        defaultOrMaker: ChartType.CHART_TYPE_TOP_UNSPECIFIED,
-        valueOf: ChartType.valueOf,
-        enumValues: ChartType.values)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -89,32 +81,16 @@ class GetChartRequest extends $pb.GeneratedMessage {
   $core.bool hasTimeframe() => $_has(0);
   @$pb.TagNumber(1)
   void clearTimeframe() => clearField(1);
-
-  @$pb.TagNumber(2)
-  ChartType get type => $_getN(1);
-  @$pb.TagNumber(2)
-  set type(ChartType v) {
-    setField(2, v);
-  }
-
-  @$pb.TagNumber(2)
-  $core.bool hasType() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearType() => clearField(2);
 }
 
 class GetChartResponse extends $pb.GeneratedMessage {
   factory GetChartResponse({
     Timeframe? timeframe,
-    ChartType? type,
     $core.Iterable<ChartData>? orderedChartData,
   }) {
     final $result = create();
     if (timeframe != null) {
       $result.timeframe = timeframe;
-    }
-    if (type != null) {
-      $result.type = type;
     }
     if (orderedChartData != null) {
       $result.orderedChartData.addAll(orderedChartData);
@@ -138,12 +114,8 @@ class GetChartResponse extends $pb.GeneratedMessage {
         defaultOrMaker: Timeframe.TIMEFRAME_UNSPECIFIED,
         valueOf: Timeframe.valueOf,
         enumValues: Timeframe.values)
-    ..e<ChartType>(2, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE,
-        defaultOrMaker: ChartType.CHART_TYPE_TOP_UNSPECIFIED,
-        valueOf: ChartType.valueOf,
-        enumValues: ChartType.values)
     ..pc<ChartData>(
-        3, _omitFieldNames ? '' : 'orderedChartData', $pb.PbFieldType.PM,
+        2, _omitFieldNames ? '' : 'orderedChartData', $pb.PbFieldType.PM,
         subBuilder: ChartData.create)
     ..hasRequiredFields = false;
 
@@ -183,36 +155,20 @@ class GetChartResponse extends $pb.GeneratedMessage {
   void clearTimeframe() => clearField(1);
 
   @$pb.TagNumber(2)
-  ChartType get type => $_getN(1);
-  @$pb.TagNumber(2)
-  set type(ChartType v) {
-    setField(2, v);
-  }
-
-  @$pb.TagNumber(2)
-  $core.bool hasType() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearType() => clearField(2);
-
-  @$pb.TagNumber(3)
-  $core.List<ChartData> get orderedChartData => $_getList(2);
+  $core.List<ChartData> get orderedChartData => $_getList(1);
 }
 
 class ChartData extends $pb.GeneratedMessage {
   factory ChartData({
-    $core.String? app,
-    $fixnum.Int64? totalUpVotes,
-    $fixnum.Int64? totalDownVotes,
+    $core.double? rawRating,
+    $1.Rating? rating,
   }) {
     final $result = create();
-    if (app != null) {
-      $result.app = app;
+    if (rawRating != null) {
+      $result.rawRating = rawRating;
     }
-    if (totalUpVotes != null) {
-      $result.totalUpVotes = totalUpVotes;
-    }
-    if (totalDownVotes != null) {
-      $result.totalDownVotes = totalDownVotes;
+    if (rating != null) {
+      $result.rating = rating;
     }
     return $result;
   }
@@ -229,13 +185,9 @@ class ChartData extends $pb.GeneratedMessage {
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'ratings.features.chart'),
       createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'app')
-    ..a<$fixnum.Int64>(
-        2, _omitFieldNames ? '' : 'totalUpVotes', $pb.PbFieldType.OU6,
-        defaultOrMaker: $fixnum.Int64.ZERO)
-    ..a<$fixnum.Int64>(
-        3, _omitFieldNames ? '' : 'totalDownVotes', $pb.PbFieldType.OU6,
-        defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.double>(1, _omitFieldNames ? '' : 'rawRating', $pb.PbFieldType.OF)
+    ..aOM<$1.Rating>(2, _omitFieldNames ? '' : 'rating',
+        subBuilder: $1.Rating.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -260,40 +212,30 @@ class ChartData extends $pb.GeneratedMessage {
   static ChartData? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get app => $_getSZ(0);
+  $core.double get rawRating => $_getN(0);
   @$pb.TagNumber(1)
-  set app($core.String v) {
-    $_setString(0, v);
+  set rawRating($core.double v) {
+    $_setFloat(0, v);
   }
 
   @$pb.TagNumber(1)
-  $core.bool hasApp() => $_has(0);
+  $core.bool hasRawRating() => $_has(0);
   @$pb.TagNumber(1)
-  void clearApp() => clearField(1);
+  void clearRawRating() => clearField(1);
 
   @$pb.TagNumber(2)
-  $fixnum.Int64 get totalUpVotes => $_getI64(1);
+  $1.Rating get rating => $_getN(1);
   @$pb.TagNumber(2)
-  set totalUpVotes($fixnum.Int64 v) {
-    $_setInt64(1, v);
+  set rating($1.Rating v) {
+    setField(2, v);
   }
 
   @$pb.TagNumber(2)
-  $core.bool hasTotalUpVotes() => $_has(1);
+  $core.bool hasRating() => $_has(1);
   @$pb.TagNumber(2)
-  void clearTotalUpVotes() => clearField(2);
-
-  @$pb.TagNumber(3)
-  $fixnum.Int64 get totalDownVotes => $_getI64(2);
-  @$pb.TagNumber(3)
-  set totalDownVotes($fixnum.Int64 v) {
-    $_setInt64(2, v);
-  }
-
-  @$pb.TagNumber(3)
-  $core.bool hasTotalDownVotes() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearTotalDownVotes() => clearField(3);
+  void clearRating() => clearField(2);
+  @$pb.TagNumber(2)
+  $1.Rating ensureRating() => $_ensure(1);
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');

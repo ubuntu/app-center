@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package ratings.features.common;
+
+message Rating {
+  string snap_id = 1;
+  uint64 total_votes = 2;
+  RatingsBand ratings_band = 3;
+}
+
+enum RatingsBand {
+  VERY_GOOD = 0;
+  GOOD = 1;
+  NEUTRAL = 2;
+  POOR = 3;
+  VERY_POOR = 4;
+  INSUFFICIENT_VOTES = 5;
+}

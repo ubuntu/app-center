@@ -1,5 +1,6 @@
 import 'package:app_center/ratings.dart';
 import 'package:app_center/widgets.dart';
+import 'package:app_center_ratings_client/ratings_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:snapd/snapd.dart';

@@ -1,11 +1,16 @@
 import 'dart:async';
 
-import 'package:app_center_ratings_client/ratings_client.dart';
-import 'package:app_center_ratings_client/src/app.dart' as app;
+import 'package:app_center_ratings_client/ratings_client.dart'
+    hide Rating, RatingsBand;
+import 'package:app_center_ratings_client/src/chart.dart' as chart;
 import 'package:app_center_ratings_client/src/generated/google/protobuf/empty.pb.dart';
 import 'package:app_center_ratings_client/src/generated/google/protobuf/timestamp.pb.dart';
-import 'package:app_center_ratings_client/src/generated/ratings_features_app.pbgrpc.dart';
+import 'package:app_center_ratings_client/src/generated/ratings_features_app.pbgrpc.dart'
+    as pb;
+import 'package:app_center_ratings_client/src/generated/ratings_features_chart.pbgrpc.dart';
+import 'package:app_center_ratings_client/src/generated/ratings_features_common.pb.dart';
 import 'package:app_center_ratings_client/src/generated/ratings_features_user.pbgrpc.dart';
+import 'package:app_center_ratings_client/src/ratings.dart' as ratings;
 import 'package:app_center_ratings_client/src/user.dart' as user;
 import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart';
@@ -15,14 +20,64 @@ import 'package:test/test.dart';
 
 import 'ratings_client_test.mocks.dart';
 
-@GenerateMocks([AppClient, UserClient])
+@GenerateMocks([pb.AppClient, UserClient, ChartClient])
 void main() {
   final mockAppClient = MockAppClient();
   final mockUserClient = MockUserClient();
-  final ratingsClient = RatingsClient.withClients(
-    mockAppClient,
-    mockUserClient,
-  );
+  final mockChartClient = MockChartClient();
+  final ratingsClient =
+      RatingsClient.withClients(mockAppClient, mockUserClient, mockChartClient);
+
+  test('get chart', () async {
+    final snapId = 'foobar';
+    final token = 'bar';
+    final timeframe = chart.Timeframe.month;
+    final pbChartList = [
+      ChartData(
+          rawRating: 3,
+          rating: Rating(
+            snapId: snapId,
+            totalVotes: Int64(105),
+            ratingsBand: RatingsBand.NEUTRAL,
+          ))
+    ];
+
+    final expectedResponse = [
+      chart.ChartData(
+          rawRating: 3,
+          rating: ratings.Rating(
+            snapId: snapId,
+            totalVotes: 105,
+            ratingsBand: ratings.RatingsBand.neutral,
+          ))
+    ];
+    final mockResponse = GetChartResponse(
+      timeframe: Timeframe.TIMEFRAME_MONTH,
+      orderedChartData: pbChartList,
+    );
+    final request = GetChartRequest(timeframe: Timeframe.TIMEFRAME_MONTH);
+    when(mockChartClient.getChart(
+      request,
+      options: anyNamed('options'),
+    )).thenAnswer((_) => MockResponseFuture<GetChartResponse>(mockResponse));
+    final response = await ratingsClient.getChart(timeframe, token);
+    expect(
+      response,
+      equals(expectedResponse),
+    );
+    final capturedArgs = verify(mockChartClient.getChart(
+      request,
+      options: captureAnyNamed('options'),
+    )).captured;
+    final capturedOptions = capturedArgs.single as CallOptions;
+    expect(
+      capturedOptions.metadata,
+      containsPair(
+        'authorization',
+        'Bearer $token',
+      ),
+    );
+  });
 
   test('get rating', () async {
     final snapId = 'foo';
@@ -32,17 +87,18 @@ void main() {
       totalVotes: Int64(105),
       ratingsBand: RatingsBand.NEUTRAL,
     );
-    final expectedResponse = app.Rating(
+    final expectedResponse = ratings.Rating(
       snapId: snapId,
       totalVotes: 105,
-      ratingsBand: app.RatingsBand.neutral,
+      ratingsBand: ratings.RatingsBand.neutral,
     );
-    final mockResponse = GetRatingResponse(rating: pbRating);
-    final request = GetRatingRequest(snapId: snapId);
+    final mockResponse = pb.GetRatingResponse(rating: pbRating);
+    final request = pb.GetRatingRequest(snapId: snapId);
     when(mockAppClient.getRating(
       request,
       options: anyNamed('options'),
-    )).thenAnswer((_) => MockResponseFuture<GetRatingResponse>(mockResponse));
+    )).thenAnswer(
+        (_) => MockResponseFuture<pb.GetRatingResponse>(mockResponse));
     final response = await ratingsClient.getRating(
       snapId,
       token,

@@ -1,3 +1,4 @@
+import 'package:app_center_ratings_client/ratings_client.dart';
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

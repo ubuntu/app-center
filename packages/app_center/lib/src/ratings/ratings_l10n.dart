@@ -1,3 +1,4 @@
+import 'package:app_center_ratings_client/ratings_client.dart';
 import 'package:flutter/material.dart';
 
 import '/l10n.dart';

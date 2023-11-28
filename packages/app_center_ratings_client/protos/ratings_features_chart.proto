@@ -2,30 +2,24 @@ syntax = "proto3";
 
 package ratings.features.chart;
 
+import "ratings_features_common.proto";
+
 service Chart {
   rpc GetChart (GetChartRequest) returns (GetChartResponse) {}
 }
 
 message GetChartRequest {
   Timeframe timeframe = 1;
-  ChartType type = 2;
-}
-
-enum ChartType {
-  CHART_TYPE_TOP_UNSPECIFIED = 0;
-  CHART_TYPE_TOP = 1;
 }
 
 message GetChartResponse {
   Timeframe timeframe = 1;
-  ChartType type = 2;
-  repeated ChartData ordered_chart_data = 3;
+  repeated ChartData ordered_chart_data = 2;
 }
 
 message ChartData {
-  string app = 1;
-  uint64 total_up_votes = 2;
-  uint64 total_down_votes = 3;
+  float raw_rating = 1;
+  ratings.features.common.Rating rating = 2;
 }
 
 enum Timeframe {
