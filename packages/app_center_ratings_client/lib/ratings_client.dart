@@ -11,7 +11,7 @@ import 'src/generated/ratings_features_user.pbgrpc.dart' as userPb;
 import 'src/ratings.dart';
 import 'src/user.dart';
 
-export 'src/ratings.dart' hide RatingsBandL10n;
+export 'src/ratings.dart';
 
 class RatingsClient {
   late appPb.AppClient _appClient;

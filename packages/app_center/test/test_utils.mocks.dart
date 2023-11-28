@@ -3,25 +3,26 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i15;
-import 'dart:ui' as _i16;
+import 'dart:async' as _i14;
+import 'dart:ui' as _i15;
 
 import 'package:app_center/appstream.dart' as _i7;
 import 'package:app_center/packagekit.dart' as _i8;
 import 'package:app_center/snapd.dart' as _i6;
-import 'package:app_center/src/deb/deb_model.dart' as _i17;
-import 'package:app_center/src/manage/manage_model.dart' as _i18;
-import 'package:app_center/src/ratings/exports.dart' as _i12;
-import 'package:app_center/src/ratings/ratings_model.dart' as _i13;
+import 'package:app_center/src/deb/deb_model.dart' as _i16;
+import 'package:app_center/src/manage/manage_model.dart' as _i17;
+import 'package:app_center/src/ratings/exports.dart' as _i21;
+import 'package:app_center/src/ratings/ratings_model.dart' as _i12;
 import 'package:app_center/src/ratings/ratings_service.dart' as _i4;
 import 'package:app_center_ratings_client/ratings_client.dart' as _i11;
+import 'package:app_center_ratings_client/src/chart.dart' as _i22;
 import 'package:appstream/appstream.dart' as _i9;
-import 'package:dbus/dbus.dart' as _i21;
-import 'package:file/file.dart' as _i19;
+import 'package:dbus/dbus.dart' as _i20;
+import 'package:file/file.dart' as _i18;
 import 'package:flutter_riverpod/flutter_riverpod.dart' as _i5;
-import 'package:gtk/src/gtk_application_notifier.dart' as _i20;
+import 'package:gtk/src/gtk_application_notifier.dart' as _i19;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i14;
+import 'package:mockito/src/dummies.dart' as _i13;
 import 'package:packagekit/packagekit.dart' as _i10;
 import 'package:snapcraft_launcher/snapcraft_launcher.dart' as _i3;
 import 'package:snapd/snapd.dart' as _i2;
@@ -199,7 +200,7 @@ class _FakeRatingsClient_14 extends _i1.SmartFake
         );
 }
 
-class _FakeRating_15 extends _i1.SmartFake implements _i12.Rating {
+class _FakeRating_15 extends _i1.SmartFake implements _i11.Rating {
   _FakeRating_15(
     Object parent,
     Invocation parentInvocation,
@@ -254,7 +255,7 @@ class MockSnapLauncher extends _i1.Mock implements _i6.SnapLauncher {
 /// A class which mocks [RatingsModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockRatingsModel extends _i1.Mock implements _i13.RatingsModel {
+class MockRatingsModel extends _i1.Mock implements _i12.RatingsModel {
   MockRatingsModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -271,7 +272,7 @@ class MockRatingsModel extends _i1.Mock implements _i13.RatingsModel {
   @override
   String get snapId => (super.noSuchMethod(
         Invocation.getter(#snapId),
-        returnValue: _i14.dummyValue<String>(
+        returnValue: _i13.dummyValue<String>(
           this,
           Invocation.getter(#snapId),
         ),
@@ -280,14 +281,14 @@ class MockRatingsModel extends _i1.Mock implements _i13.RatingsModel {
   @override
   String get snapRevision => (super.noSuchMethod(
         Invocation.getter(#snapRevision),
-        returnValue: _i14.dummyValue<String>(
+        returnValue: _i13.dummyValue<String>(
           this,
           Invocation.getter(#snapRevision),
         ),
       ) as String);
 
   @override
-  set snapRating(_i12.Rating? _snapRating) => super.noSuchMethod(
+  set snapRating(_i11.Rating? _snapRating) => super.noSuchMethod(
         Invocation.setter(
           #snapRating,
           _snapRating,
@@ -311,27 +312,27 @@ class MockRatingsModel extends _i1.Mock implements _i13.RatingsModel {
       ) as bool);
 
   @override
-  _i15.Future<void> init() => (super.noSuchMethod(
+  _i14.Future<void> init() => (super.noSuchMethod(
         Invocation.method(
           #init,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> castVote(_i13.VoteStatus? castVote) => (super.noSuchMethod(
+  _i14.Future<void> castVote(_i12.VoteStatus? castVote) => (super.noSuchMethod(
         Invocation.method(
           #castVote,
           [castVote],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  void addListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -340,7 +341,7 @@ class MockRatingsModel extends _i1.Mock implements _i13.RatingsModel {
       );
 
   @override
-  void removeListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -387,7 +388,7 @@ class MockSnapModel extends _i1.Mock implements _i6.SnapModel {
   @override
   String get snapName => (super.noSuchMethod(
         Invocation.getter(#snapName),
-        returnValue: _i14.dummyValue<String>(
+        returnValue: _i13.dummyValue<String>(
           this,
           Invocation.getter(#snapName),
         ),
@@ -451,10 +452,10 @@ class MockSnapModel extends _i1.Mock implements _i6.SnapModel {
       );
 
   @override
-  _i15.Stream<_i2.SnapdException> get errorStream => (super.noSuchMethod(
+  _i14.Stream<_i2.SnapdException> get errorStream => (super.noSuchMethod(
         Invocation.getter(#errorStream),
-        returnValue: _i15.Stream<_i2.SnapdException>.empty(),
-      ) as _i15.Stream<_i2.SnapdException>);
+        returnValue: _i14.Stream<_i2.SnapdException>.empty(),
+      ) as _i14.Stream<_i2.SnapdException>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -463,67 +464,67 @@ class MockSnapModel extends _i1.Mock implements _i6.SnapModel {
       ) as bool);
 
   @override
-  _i15.Future<void> init() => (super.noSuchMethod(
+  _i14.Future<void> init() => (super.noSuchMethod(
         Invocation.method(
           #init,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> dispose() => (super.noSuchMethod(
+  _i14.Future<void> dispose() => (super.noSuchMethod(
         Invocation.method(
           #dispose,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> cancel() => (super.noSuchMethod(
+  _i14.Future<void> cancel() => (super.noSuchMethod(
         Invocation.method(
           #cancel,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> install() => (super.noSuchMethod(
+  _i14.Future<void> install() => (super.noSuchMethod(
         Invocation.method(
           #install,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> refresh() => (super.noSuchMethod(
+  _i14.Future<void> refresh() => (super.noSuchMethod(
         Invocation.method(
           #refresh,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> remove() => (super.noSuchMethod(
+  _i14.Future<void> remove() => (super.noSuchMethod(
         Invocation.method(
           #remove,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  void addListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -532,7 +533,7 @@ class MockSnapModel extends _i1.Mock implements _i6.SnapModel {
       );
 
   @override
-  void removeListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -553,7 +554,7 @@ class MockSnapModel extends _i1.Mock implements _i6.SnapModel {
 /// A class which mocks [DebModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDebModel extends _i1.Mock implements _i17.DebModel {
+class MockDebModel extends _i1.Mock implements _i16.DebModel {
   MockDebModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -579,7 +580,7 @@ class MockDebModel extends _i1.Mock implements _i17.DebModel {
   @override
   String get id => (super.noSuchMethod(
         Invocation.getter(#id),
-        returnValue: _i14.dummyValue<String>(
+        returnValue: _i13.dummyValue<String>(
           this,
           Invocation.getter(#id),
         ),
@@ -620,11 +621,11 @@ class MockDebModel extends _i1.Mock implements _i17.DebModel {
       ) as bool);
 
   @override
-  _i15.Stream<_i10.PackageKitErrorCodeEvent> get errorStream =>
+  _i14.Stream<_i10.PackageKitErrorCodeEvent> get errorStream =>
       (super.noSuchMethod(
         Invocation.getter(#errorStream),
-        returnValue: _i15.Stream<_i10.PackageKitErrorCodeEvent>.empty(),
-      ) as _i15.Stream<_i10.PackageKitErrorCodeEvent>);
+        returnValue: _i14.Stream<_i10.PackageKitErrorCodeEvent>.empty(),
+      ) as _i14.Stream<_i10.PackageKitErrorCodeEvent>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -633,47 +634,47 @@ class MockDebModel extends _i1.Mock implements _i17.DebModel {
       ) as bool);
 
   @override
-  _i15.Future<void> init() => (super.noSuchMethod(
+  _i14.Future<void> init() => (super.noSuchMethod(
         Invocation.method(
           #init,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> install() => (super.noSuchMethod(
+  _i14.Future<void> install() => (super.noSuchMethod(
         Invocation.method(
           #install,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> remove() => (super.noSuchMethod(
+  _i14.Future<void> remove() => (super.noSuchMethod(
         Invocation.method(
           #remove,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> cancel() => (super.noSuchMethod(
+  _i14.Future<void> cancel() => (super.noSuchMethod(
         Invocation.method(
           #cancel,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  void addListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -682,7 +683,7 @@ class MockDebModel extends _i1.Mock implements _i17.DebModel {
       );
 
   @override
-  void removeListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -712,7 +713,7 @@ class MockDebModel extends _i1.Mock implements _i17.DebModel {
 /// A class which mocks [ManageModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockManageModel extends _i1.Mock implements _i18.ManageModel {
+class MockManageModel extends _i1.Mock implements _i17.ManageModel {
   MockManageModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -763,14 +764,14 @@ class MockManageModel extends _i1.Mock implements _i18.ManageModel {
       ) as bool);
 
   @override
-  _i15.Future<void> init() => (super.noSuchMethod(
+  _i14.Future<void> init() => (super.noSuchMethod(
         Invocation.method(
           #init,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
   void dispose() => super.noSuchMethod(
@@ -782,7 +783,7 @@ class MockManageModel extends _i1.Mock implements _i18.ManageModel {
       );
 
   @override
-  void addListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -791,7 +792,7 @@ class MockManageModel extends _i1.Mock implements _i18.ManageModel {
       );
 
   @override
-  void removeListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -842,25 +843,25 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
       );
 
   @override
-  _i15.Future<void> waitChange(String? changeId) => (super.noSuchMethod(
+  _i14.Future<void> waitChange(String? changeId) => (super.noSuchMethod(
         Invocation.method(
           #waitChange,
           [changeId],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> loadAuthorization({String? path}) => (super.noSuchMethod(
+  _i14.Future<void> loadAuthorization({String? path}) => (super.noSuchMethod(
         Invocation.method(
           #loadAuthorization,
           [],
           {#path: path},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
   void setAuthorization(
@@ -879,12 +880,12 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
       );
 
   @override
-  _i15.Future<_i2.SnapdSystemInfoResponse> systemInfo() => (super.noSuchMethod(
+  _i14.Future<_i2.SnapdSystemInfoResponse> systemInfo() => (super.noSuchMethod(
         Invocation.method(
           #systemInfo,
           [],
         ),
-        returnValue: _i15.Future<_i2.SnapdSystemInfoResponse>.value(
+        returnValue: _i14.Future<_i2.SnapdSystemInfoResponse>.value(
             _FakeSnapdSystemInfoResponse_9(
           this,
           Invocation.method(
@@ -892,34 +893,34 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             [],
           ),
         )),
-      ) as _i15.Future<_i2.SnapdSystemInfoResponse>);
+      ) as _i14.Future<_i2.SnapdSystemInfoResponse>);
 
   @override
-  _i15.Future<List<_i2.Snap>> getSnaps() => (super.noSuchMethod(
+  _i14.Future<List<_i2.Snap>> getSnaps() => (super.noSuchMethod(
         Invocation.method(
           #getSnaps,
           [],
         ),
-        returnValue: _i15.Future<List<_i2.Snap>>.value(<_i2.Snap>[]),
-      ) as _i15.Future<List<_i2.Snap>>);
+        returnValue: _i14.Future<List<_i2.Snap>>.value(<_i2.Snap>[]),
+      ) as _i14.Future<List<_i2.Snap>>);
 
   @override
-  _i15.Future<_i2.Snap> getSnap(String? name) => (super.noSuchMethod(
+  _i14.Future<_i2.Snap> getSnap(String? name) => (super.noSuchMethod(
         Invocation.method(
           #getSnap,
           [name],
         ),
-        returnValue: _i15.Future<_i2.Snap>.value(_FakeSnap_0(
+        returnValue: _i14.Future<_i2.Snap>.value(_FakeSnap_0(
           this,
           Invocation.method(
             #getSnap,
             [name],
           ),
         )),
-      ) as _i15.Future<_i2.Snap>);
+      ) as _i14.Future<_i2.Snap>);
 
   @override
-  _i15.Future<List<_i2.SnapApp>> getApps({
+  _i14.Future<List<_i2.SnapApp>> getApps({
     List<String>? names,
     _i2.SnapdAppFilter? filter,
   }) =>
@@ -932,22 +933,22 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             #filter: filter,
           },
         ),
-        returnValue: _i15.Future<List<_i2.SnapApp>>.value(<_i2.SnapApp>[]),
-      ) as _i15.Future<List<_i2.SnapApp>>);
+        returnValue: _i14.Future<List<_i2.SnapApp>>.value(<_i2.SnapApp>[]),
+      ) as _i14.Future<List<_i2.SnapApp>>);
 
   @override
-  _i15.Future<List<_i2.SnapdCategoryDetails>> getCategories() =>
+  _i14.Future<List<_i2.SnapdCategoryDetails>> getCategories() =>
       (super.noSuchMethod(
         Invocation.method(
           #getCategories,
           [],
         ),
-        returnValue: _i15.Future<List<_i2.SnapdCategoryDetails>>.value(
+        returnValue: _i14.Future<List<_i2.SnapdCategoryDetails>>.value(
             <_i2.SnapdCategoryDetails>[]),
-      ) as _i15.Future<List<_i2.SnapdCategoryDetails>>);
+      ) as _i14.Future<List<_i2.SnapdCategoryDetails>>);
 
   @override
-  _i15.Future<_i2.SnapdConnectionsResponse> getConnections({
+  _i14.Future<_i2.SnapdConnectionsResponse> getConnections({
     String? snap,
     String? interface,
     _i2.SnapdConnectionFilter? filter,
@@ -962,7 +963,7 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             #filter: filter,
           },
         ),
-        returnValue: _i15.Future<_i2.SnapdConnectionsResponse>.value(
+        returnValue: _i14.Future<_i2.SnapdConnectionsResponse>.value(
             _FakeSnapdConnectionsResponse_10(
           this,
           Invocation.method(
@@ -975,25 +976,25 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             },
           ),
         )),
-      ) as _i15.Future<_i2.SnapdConnectionsResponse>);
+      ) as _i14.Future<_i2.SnapdConnectionsResponse>);
 
   @override
-  _i15.Future<String> refreshMany(List<String>? names) => (super.noSuchMethod(
+  _i14.Future<String> refreshMany(List<String>? names) => (super.noSuchMethod(
         Invocation.method(
           #refreshMany,
           [names],
         ),
-        returnValue: _i15.Future<String>.value(_i14.dummyValue<String>(
+        returnValue: _i14.Future<String>.value(_i13.dummyValue<String>(
           this,
           Invocation.method(
             #refreshMany,
             [names],
           ),
         )),
-      ) as _i15.Future<String>);
+      ) as _i14.Future<String>);
 
   @override
-  _i15.Future<String> connect(
+  _i14.Future<String> connect(
     String? snap,
     String? plug,
     String? slotSnap,
@@ -1009,7 +1010,7 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             slot,
           ],
         ),
-        returnValue: _i15.Future<String>.value(_i14.dummyValue<String>(
+        returnValue: _i14.Future<String>.value(_i13.dummyValue<String>(
           this,
           Invocation.method(
             #connect,
@@ -1021,10 +1022,10 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             ],
           ),
         )),
-      ) as _i15.Future<String>);
+      ) as _i14.Future<String>);
 
   @override
-  _i15.Future<String> disconnect(
+  _i14.Future<String> disconnect(
     String? plugSnap,
     String? plug,
     String? slotSnap,
@@ -1040,7 +1041,7 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             slot,
           ],
         ),
-        returnValue: _i15.Future<String>.value(_i14.dummyValue<String>(
+        returnValue: _i14.Future<String>.value(_i13.dummyValue<String>(
           this,
           Invocation.method(
             #disconnect,
@@ -1052,10 +1053,10 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             ],
           ),
         )),
-      ) as _i15.Future<String>);
+      ) as _i14.Future<String>);
 
   @override
-  _i15.Future<List<_i2.Snap>> find({
+  _i14.Future<List<_i2.Snap>> find({
     String? query,
     String? name,
     String? category,
@@ -1074,11 +1075,11 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             #filter: filter,
           },
         ),
-        returnValue: _i15.Future<List<_i2.Snap>>.value(<_i2.Snap>[]),
-      ) as _i15.Future<List<_i2.Snap>>);
+        returnValue: _i14.Future<List<_i2.Snap>>.value(<_i2.Snap>[]),
+      ) as _i14.Future<List<_i2.Snap>>);
 
   @override
-  _i15.Future<_i2.SnapdLoginResponse> login(
+  _i14.Future<_i2.SnapdLoginResponse> login(
     String? email,
     String? password, {
     String? otp,
@@ -1092,7 +1093,7 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
           ],
           {#otp: otp},
         ),
-        returnValue: _i15.Future<_i2.SnapdLoginResponse>.value(
+        returnValue: _i14.Future<_i2.SnapdLoginResponse>.value(
             _FakeSnapdLoginResponse_11(
           this,
           Invocation.method(
@@ -1104,19 +1105,19 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             {#otp: otp},
           ),
         )),
-      ) as _i15.Future<_i2.SnapdLoginResponse>);
+      ) as _i14.Future<_i2.SnapdLoginResponse>);
 
   @override
-  _i15.Future<dynamic> logout(int? id) => (super.noSuchMethod(
+  _i14.Future<dynamic> logout(int? id) => (super.noSuchMethod(
         Invocation.method(
           #logout,
           [id],
         ),
-        returnValue: _i15.Future<dynamic>.value(),
-      ) as _i15.Future<dynamic>);
+        returnValue: _i14.Future<dynamic>.value(),
+      ) as _i14.Future<dynamic>);
 
   @override
-  _i15.Future<String> install(
+  _i14.Future<String> install(
     String? name, {
     String? channel,
     String? revision,
@@ -1138,7 +1139,7 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             #jailmode: jailmode,
           },
         ),
-        returnValue: _i15.Future<String>.value(_i14.dummyValue<String>(
+        returnValue: _i14.Future<String>.value(_i13.dummyValue<String>(
           this,
           Invocation.method(
             #install,
@@ -1153,10 +1154,10 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             },
           ),
         )),
-      ) as _i15.Future<String>);
+      ) as _i14.Future<String>);
 
   @override
-  _i15.Future<String> refresh(
+  _i14.Future<String> refresh(
     String? name, {
     String? channel,
     bool? classic = false,
@@ -1170,7 +1171,7 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             #classic: classic,
           },
         ),
-        returnValue: _i15.Future<String>.value(_i14.dummyValue<String>(
+        returnValue: _i14.Future<String>.value(_i13.dummyValue<String>(
           this,
           Invocation.method(
             #refresh,
@@ -1181,10 +1182,10 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             },
           ),
         )),
-      ) as _i15.Future<String>);
+      ) as _i14.Future<String>);
 
   @override
-  _i15.Future<String> remove(
+  _i14.Future<String> remove(
     String? name, {
     bool? purge = false,
   }) =>
@@ -1194,7 +1195,7 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
           [name],
           {#purge: purge},
         ),
-        returnValue: _i15.Future<String>.value(_i14.dummyValue<String>(
+        returnValue: _i14.Future<String>.value(_i13.dummyValue<String>(
           this,
           Invocation.method(
             #remove,
@@ -1202,55 +1203,55 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             {#purge: purge},
           ),
         )),
-      ) as _i15.Future<String>);
+      ) as _i14.Future<String>);
 
   @override
-  _i15.Future<String> enable(String? name) => (super.noSuchMethod(
+  _i14.Future<String> enable(String? name) => (super.noSuchMethod(
         Invocation.method(
           #enable,
           [name],
         ),
-        returnValue: _i15.Future<String>.value(_i14.dummyValue<String>(
+        returnValue: _i14.Future<String>.value(_i13.dummyValue<String>(
           this,
           Invocation.method(
             #enable,
             [name],
           ),
         )),
-      ) as _i15.Future<String>);
+      ) as _i14.Future<String>);
 
   @override
-  _i15.Future<String> disable(String? name) => (super.noSuchMethod(
+  _i14.Future<String> disable(String? name) => (super.noSuchMethod(
         Invocation.method(
           #disable,
           [name],
         ),
-        returnValue: _i15.Future<String>.value(_i14.dummyValue<String>(
+        returnValue: _i14.Future<String>.value(_i13.dummyValue<String>(
           this,
           Invocation.method(
             #disable,
             [name],
           ),
         )),
-      ) as _i15.Future<String>);
+      ) as _i14.Future<String>);
 
   @override
-  _i15.Future<_i2.SnapdChange> getChange(String? id) => (super.noSuchMethod(
+  _i14.Future<_i2.SnapdChange> getChange(String? id) => (super.noSuchMethod(
         Invocation.method(
           #getChange,
           [id],
         ),
-        returnValue: _i15.Future<_i2.SnapdChange>.value(_FakeSnapdChange_12(
+        returnValue: _i14.Future<_i2.SnapdChange>.value(_FakeSnapdChange_12(
           this,
           Invocation.method(
             #getChange,
             [id],
           ),
         )),
-      ) as _i15.Future<_i2.SnapdChange>);
+      ) as _i14.Future<_i2.SnapdChange>);
 
   @override
-  _i15.Future<List<_i2.SnapdChange>> getChanges({
+  _i14.Future<List<_i2.SnapdChange>> getChanges({
     _i2.SnapdChangeFilter? filter,
     String? name,
   }) =>
@@ -1264,23 +1265,23 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
           },
         ),
         returnValue:
-            _i15.Future<List<_i2.SnapdChange>>.value(<_i2.SnapdChange>[]),
-      ) as _i15.Future<List<_i2.SnapdChange>>);
+            _i14.Future<List<_i2.SnapdChange>>.value(<_i2.SnapdChange>[]),
+      ) as _i14.Future<List<_i2.SnapdChange>>);
 
   @override
-  _i15.Future<_i2.SnapdChange> abortChange(String? id) => (super.noSuchMethod(
+  _i14.Future<_i2.SnapdChange> abortChange(String? id) => (super.noSuchMethod(
         Invocation.method(
           #abortChange,
           [id],
         ),
-        returnValue: _i15.Future<_i2.SnapdChange>.value(_FakeSnapdChange_12(
+        returnValue: _i14.Future<_i2.SnapdChange>.value(_FakeSnapdChange_12(
           this,
           Invocation.method(
             #abortChange,
             [id],
           ),
         )),
-      ) as _i15.Future<_i2.SnapdChange>);
+      ) as _i14.Future<_i2.SnapdChange>);
 
   @override
   void close() => super.noSuchMethod(
@@ -1292,10 +1293,10 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
       );
 
   @override
-  _i15.Stream<List<_i2.Snap>> getCategory(
+  _i14.Stream<List<_i2.Snap>> getCategory(
     String? name, {
     Duration? expiry = const Duration(days: 1),
-    _i19.FileSystem? fs,
+    _i18.FileSystem? fs,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1306,14 +1307,14 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             #fs: fs,
           },
         ),
-        returnValue: _i15.Stream<List<_i2.Snap>>.empty(),
-      ) as _i15.Stream<List<_i2.Snap>>);
+        returnValue: _i14.Stream<List<_i2.Snap>>.empty(),
+      ) as _i14.Stream<List<_i2.Snap>>);
 
   @override
-  _i15.Stream<_i2.Snap?> getStoreSnap(
+  _i14.Stream<_i2.Snap?> getStoreSnap(
     String? name, {
     Duration? expiry = const Duration(minutes: 1),
-    _i19.FileSystem? fs,
+    _i18.FileSystem? fs,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1324,14 +1325,14 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             #fs: fs,
           },
         ),
-        returnValue: _i15.Stream<_i2.Snap?>.empty(),
-      ) as _i15.Stream<_i2.Snap?>);
+        returnValue: _i14.Stream<_i2.Snap?>.empty(),
+      ) as _i14.Stream<_i2.Snap?>);
 
   @override
-  _i15.Stream<List<_i2.Snap>> getStoreSnaps(
+  _i14.Stream<List<_i2.Snap>> getStoreSnaps(
     List<String>? names, {
     Duration? expiry = const Duration(minutes: 1),
-    _i19.FileSystem? fs,
+    _i18.FileSystem? fs,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1342,11 +1343,11 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             #fs: fs,
           },
         ),
-        returnValue: _i15.Stream<List<_i2.Snap>>.empty(),
-      ) as _i15.Stream<List<_i2.Snap>>);
+        returnValue: _i14.Stream<List<_i2.Snap>>.empty(),
+      ) as _i14.Stream<List<_i2.Snap>>);
 
   @override
-  _i15.Stream<_i2.SnapdChange> watchChange(
+  _i14.Stream<_i2.SnapdChange> watchChange(
     String? id, {
     Duration? interval = const Duration(milliseconds: 100),
   }) =>
@@ -1356,11 +1357,11 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
           [id],
           {#interval: interval},
         ),
-        returnValue: _i15.Stream<_i2.SnapdChange>.empty(),
-      ) as _i15.Stream<_i2.SnapdChange>);
+        returnValue: _i14.Stream<_i2.SnapdChange>.empty(),
+      ) as _i14.Stream<_i2.SnapdChange>);
 
   @override
-  _i15.Stream<List<String>> watchChanges({
+  _i14.Stream<List<String>> watchChanges({
     String? name,
     Duration? interval = const Duration(milliseconds: 100),
   }) =>
@@ -1373,8 +1374,8 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             #interval: interval,
           },
         ),
-        returnValue: _i15.Stream<List<String>>.empty(),
-      ) as _i15.Stream<List<String>>);
+        returnValue: _i14.Stream<List<String>>.empty(),
+      ) as _i14.Stream<List<String>>);
 }
 
 /// A class which mocks [UpdatesModel].
@@ -1410,10 +1411,10 @@ class MockUpdatesModel extends _i1.Mock implements _i6.UpdatesModel {
       ) as _i5.AsyncValue<void>);
 
   @override
-  _i15.Stream<_i2.SnapdException> get errorStream => (super.noSuchMethod(
+  _i14.Stream<_i2.SnapdException> get errorStream => (super.noSuchMethod(
         Invocation.getter(#errorStream),
-        returnValue: _i15.Stream<_i2.SnapdException>.empty(),
-      ) as _i15.Stream<_i2.SnapdException>);
+        returnValue: _i14.Stream<_i2.SnapdException>.empty(),
+      ) as _i14.Stream<_i2.SnapdException>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -1422,14 +1423,14 @@ class MockUpdatesModel extends _i1.Mock implements _i6.UpdatesModel {
       ) as bool);
 
   @override
-  _i15.Future<void> refresh() => (super.noSuchMethod(
+  _i14.Future<void> refresh() => (super.noSuchMethod(
         Invocation.method(
           #refresh,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
   bool hasUpdate(String? snapName) => (super.noSuchMethod(
@@ -1441,17 +1442,17 @@ class MockUpdatesModel extends _i1.Mock implements _i6.UpdatesModel {
       ) as bool);
 
   @override
-  _i15.Future<void> updateAll() => (super.noSuchMethod(
+  _i14.Future<void> updateAll() => (super.noSuchMethod(
         Invocation.method(
           #updateAll,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  void addListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -1460,7 +1461,7 @@ class MockUpdatesModel extends _i1.Mock implements _i6.UpdatesModel {
       );
 
   @override
-  void removeListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -1491,13 +1492,13 @@ class MockUpdatesModel extends _i1.Mock implements _i6.UpdatesModel {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGtkApplicationNotifier extends _i1.Mock
-    implements _i20.GtkApplicationNotifier {
+    implements _i19.GtkApplicationNotifier {
   MockGtkApplicationNotifier() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  void addCommandLineListener(_i20.GtkCommandLineListener? listener) =>
+  void addCommandLineListener(_i19.GtkCommandLineListener? listener) =>
       super.noSuchMethod(
         Invocation.method(
           #addCommandLineListener,
@@ -1507,7 +1508,7 @@ class MockGtkApplicationNotifier extends _i1.Mock
       );
 
   @override
-  void removeCommandLineListener(_i20.GtkCommandLineListener? listener) =>
+  void removeCommandLineListener(_i19.GtkCommandLineListener? listener) =>
       super.noSuchMethod(
         Invocation.method(
           #removeCommandLineListener,
@@ -1517,7 +1518,7 @@ class MockGtkApplicationNotifier extends _i1.Mock
       );
 
   @override
-  void addOpenListener(_i20.GtkOpenListener? listener) => super.noSuchMethod(
+  void addOpenListener(_i19.GtkOpenListener? listener) => super.noSuchMethod(
         Invocation.method(
           #addOpenListener,
           [listener],
@@ -1526,7 +1527,7 @@ class MockGtkApplicationNotifier extends _i1.Mock
       );
 
   @override
-  void removeOpenListener(_i20.GtkOpenListener? listener) => super.noSuchMethod(
+  void removeOpenListener(_i19.GtkOpenListener? listener) => super.noSuchMethod(
         Invocation.method(
           #removeOpenListener,
           [listener],
@@ -1650,7 +1651,7 @@ class MockPackageKitClient extends _i1.Mock implements _i10.PackageKitClient {
   @override
   String get backendAuthor => (super.noSuchMethod(
         Invocation.getter(#backendAuthor),
-        returnValue: _i14.dummyValue<String>(
+        returnValue: _i13.dummyValue<String>(
           this,
           Invocation.getter(#backendAuthor),
         ),
@@ -1659,7 +1660,7 @@ class MockPackageKitClient extends _i1.Mock implements _i10.PackageKitClient {
   @override
   String get backendDescription => (super.noSuchMethod(
         Invocation.getter(#backendDescription),
-        returnValue: _i14.dummyValue<String>(
+        returnValue: _i13.dummyValue<String>(
           this,
           Invocation.getter(#backendDescription),
         ),
@@ -1668,7 +1669,7 @@ class MockPackageKitClient extends _i1.Mock implements _i10.PackageKitClient {
   @override
   String get backendName => (super.noSuchMethod(
         Invocation.getter(#backendName),
-        returnValue: _i14.dummyValue<String>(
+        returnValue: _i13.dummyValue<String>(
           this,
           Invocation.getter(#backendName),
         ),
@@ -1677,7 +1678,7 @@ class MockPackageKitClient extends _i1.Mock implements _i10.PackageKitClient {
   @override
   String get distroId => (super.noSuchMethod(
         Invocation.getter(#distroId),
-        returnValue: _i14.dummyValue<String>(
+        returnValue: _i13.dummyValue<String>(
           this,
           Invocation.getter(#distroId),
         ),
@@ -1738,30 +1739,30 @@ class MockPackageKitClient extends _i1.Mock implements _i10.PackageKitClient {
       ) as int);
 
   @override
-  _i15.Stream<List<String>> get propertiesChanged => (super.noSuchMethod(
+  _i14.Stream<List<String>> get propertiesChanged => (super.noSuchMethod(
         Invocation.getter(#propertiesChanged),
-        returnValue: _i15.Stream<List<String>>.empty(),
-      ) as _i15.Stream<List<String>>);
+        returnValue: _i14.Stream<List<String>>.empty(),
+      ) as _i14.Stream<List<String>>);
 
   @override
-  _i15.Future<void> connect() => (super.noSuchMethod(
+  _i14.Future<void> connect() => (super.noSuchMethod(
         Invocation.method(
           #connect,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<_i10.PackageKitTransaction> getTransaction(
-          _i21.DBusObjectPath? path) =>
+  _i14.Future<_i10.PackageKitTransaction> getTransaction(
+          _i20.DBusObjectPath? path) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTransaction,
           [path],
         ),
-        returnValue: _i15.Future<_i10.PackageKitTransaction>.value(
+        returnValue: _i14.Future<_i10.PackageKitTransaction>.value(
             _FakePackageKitTransaction_13(
           this,
           Invocation.method(
@@ -1769,16 +1770,16 @@ class MockPackageKitClient extends _i1.Mock implements _i10.PackageKitClient {
             [path],
           ),
         )),
-      ) as _i15.Future<_i10.PackageKitTransaction>);
+      ) as _i14.Future<_i10.PackageKitTransaction>);
 
   @override
-  _i15.Future<_i10.PackageKitTransaction> createTransaction() =>
+  _i14.Future<_i10.PackageKitTransaction> createTransaction() =>
       (super.noSuchMethod(
         Invocation.method(
           #createTransaction,
           [],
         ),
-        returnValue: _i15.Future<_i10.PackageKitTransaction>.value(
+        returnValue: _i14.Future<_i10.PackageKitTransaction>.value(
             _FakePackageKitTransaction_13(
           this,
           Invocation.method(
@@ -1786,17 +1787,17 @@ class MockPackageKitClient extends _i1.Mock implements _i10.PackageKitClient {
             [],
           ),
         )),
-      ) as _i15.Future<_i10.PackageKitTransaction>);
+      ) as _i14.Future<_i10.PackageKitTransaction>);
 
   @override
-  _i15.Future<void> close() => (super.noSuchMethod(
+  _i14.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
           #close,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 }
 
 /// A class which mocks [PackageKitTransaction].
@@ -1809,13 +1810,13 @@ class MockPackageKitTransaction extends _i1.Mock
   }
 
   @override
-  _i15.Stream<_i10.PackageKitEvent> get events => (super.noSuchMethod(
+  _i14.Stream<_i10.PackageKitEvent> get events => (super.noSuchMethod(
         Invocation.getter(#events),
-        returnValue: _i15.Stream<_i10.PackageKitEvent>.empty(),
-      ) as _i15.Stream<_i10.PackageKitEvent>);
+        returnValue: _i14.Stream<_i10.PackageKitEvent>.empty(),
+      ) as _i14.Stream<_i10.PackageKitEvent>);
 
   @override
-  set events(_i15.Stream<_i10.PackageKitEvent>? _events) => super.noSuchMethod(
+  set events(_i14.Stream<_i10.PackageKitEvent>? _events) => super.noSuchMethod(
         Invocation.setter(
           #events,
           _events,
@@ -1838,7 +1839,7 @@ class MockPackageKitTransaction extends _i1.Mock
   @override
   String get lastPackage => (super.noSuchMethod(
         Invocation.getter(#lastPackage),
-        returnValue: _i14.dummyValue<String>(
+        returnValue: _i13.dummyValue<String>(
           this,
           Invocation.getter(#lastPackage),
         ),
@@ -1900,23 +1901,23 @@ class MockPackageKitTransaction extends _i1.Mock
       ) as Set<_i10.PackageKitTransactionFlag>);
 
   @override
-  _i15.Stream<List<String>> get propertiesChanged => (super.noSuchMethod(
+  _i14.Stream<List<String>> get propertiesChanged => (super.noSuchMethod(
         Invocation.getter(#propertiesChanged),
-        returnValue: _i15.Stream<List<String>>.empty(),
-      ) as _i15.Stream<List<String>>);
+        returnValue: _i14.Stream<List<String>>.empty(),
+      ) as _i14.Stream<List<String>>);
 
   @override
-  _i15.Future<void> cancel() => (super.noSuchMethod(
+  _i14.Future<void> cancel() => (super.noSuchMethod(
         Invocation.method(
           #cancel,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> dependsOn(
+  _i14.Future<void> dependsOn(
     Iterable<_i10.PackageKitPackageId>? packageIds, {
     Set<_i10.PackageKitFilter>? filter = const {},
     bool? recursive = false,
@@ -1930,35 +1931,35 @@ class MockPackageKitTransaction extends _i1.Mock
             #recursive: recursive,
           },
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> getDetails(
+  _i14.Future<void> getDetails(
           Iterable<_i10.PackageKitPackageId>? packageIds) =>
       (super.noSuchMethod(
         Invocation.method(
           #getDetails,
           [packageIds],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> getDetailsLocal(Iterable<String>? paths) =>
+  _i14.Future<void> getDetailsLocal(Iterable<String>? paths) =>
       (super.noSuchMethod(
         Invocation.method(
           #getDetailsLocal,
           [paths],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> downloadPackages(
+  _i14.Future<void> downloadPackages(
     Iterable<_i10.PackageKitPackageId>? packageIds, {
     bool? storeInCache = false,
   }) =>
@@ -1968,34 +1969,34 @@ class MockPackageKitTransaction extends _i1.Mock
           [packageIds],
           {#storeInCache: storeInCache},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> getFiles(Iterable<_i10.PackageKitPackageId>? packageIds) =>
+  _i14.Future<void> getFiles(Iterable<_i10.PackageKitPackageId>? packageIds) =>
       (super.noSuchMethod(
         Invocation.method(
           #getFiles,
           [packageIds],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> getFilesLocal(Iterable<String>? paths) =>
+  _i14.Future<void> getFilesLocal(Iterable<String>? paths) =>
       (super.noSuchMethod(
         Invocation.method(
           #getFilesLocal,
           [paths],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> getPackages(
+  _i14.Future<void> getPackages(
           {Set<_i10.PackageKitFilter>? filter = const {}}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -2003,12 +2004,12 @@ class MockPackageKitTransaction extends _i1.Mock
           [],
           {#filter: filter},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> getRepositoryList(
+  _i14.Future<void> getRepositoryList(
           {Set<_i10.PackageKitFilter>? filter = const {}}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -2016,12 +2017,12 @@ class MockPackageKitTransaction extends _i1.Mock
           [],
           {#filter: filter},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> setRepositoryEnabled(
+  _i14.Future<void> setRepositoryEnabled(
     String? id,
     bool? enabled,
   ) =>
@@ -2033,12 +2034,12 @@ class MockPackageKitTransaction extends _i1.Mock
             enabled,
           ],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> setRepositoryData(
+  _i14.Future<void> setRepositoryData(
     String? id,
     String? parameter,
     String? value,
@@ -2052,12 +2053,12 @@ class MockPackageKitTransaction extends _i1.Mock
             value,
           ],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> removeRepository(
+  _i14.Future<void> removeRepository(
     String? id, {
     bool? autoremovePackages = false,
   }) =>
@@ -2067,24 +2068,24 @@ class MockPackageKitTransaction extends _i1.Mock
           [id],
           {#autoremovePackages: autoremovePackages},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> getUpdateDetail(
+  _i14.Future<void> getUpdateDetail(
           Iterable<_i10.PackageKitPackageId>? packageIds) =>
       (super.noSuchMethod(
         Invocation.method(
           #getUpdateDetail,
           [packageIds],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> getUpdates(
+  _i14.Future<void> getUpdates(
           {Set<_i10.PackageKitFilter>? filter = const {}}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -2092,12 +2093,12 @@ class MockPackageKitTransaction extends _i1.Mock
           [],
           {#filter: filter},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> installFiles(
+  _i14.Future<void> installFiles(
     Iterable<String>? paths, {
     Set<_i10.PackageKitTransactionFlag>? transactionFlags = const {},
   }) =>
@@ -2107,12 +2108,12 @@ class MockPackageKitTransaction extends _i1.Mock
           [paths],
           {#transactionFlags: transactionFlags},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> installPackages(
+  _i14.Future<void> installPackages(
     Iterable<_i10.PackageKitPackageId>? packageIds, {
     Set<_i10.PackageKitTransactionFlag>? transactionFlags = const {},
   }) =>
@@ -2122,23 +2123,23 @@ class MockPackageKitTransaction extends _i1.Mock
           [packageIds],
           {#transactionFlags: transactionFlags},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> refreshCache({bool? force = false}) => (super.noSuchMethod(
+  _i14.Future<void> refreshCache({bool? force = false}) => (super.noSuchMethod(
         Invocation.method(
           #refreshCache,
           [],
           {#force: force},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> removePackages(
+  _i14.Future<void> removePackages(
     Iterable<_i10.PackageKitPackageId>? packageIds, {
     Set<_i10.PackageKitTransactionFlag>? transactionFlags = const {},
     bool? allowDeps = false,
@@ -2154,12 +2155,12 @@ class MockPackageKitTransaction extends _i1.Mock
             #autoremove: autoremove,
           },
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> resolve(
+  _i14.Future<void> resolve(
     Iterable<String>? packages, {
     Set<_i10.PackageKitTransactionFlag>? transactionFlags = const {},
   }) =>
@@ -2169,12 +2170,12 @@ class MockPackageKitTransaction extends _i1.Mock
           [packages],
           {#transactionFlags: transactionFlags},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> searchFiles(
+  _i14.Future<void> searchFiles(
     Iterable<String>? values, {
     Set<_i10.PackageKitFilter>? filter = const {},
   }) =>
@@ -2184,12 +2185,12 @@ class MockPackageKitTransaction extends _i1.Mock
           [values],
           {#filter: filter},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> searchNames(
+  _i14.Future<void> searchNames(
     Iterable<String>? values, {
     Set<_i10.PackageKitFilter>? filter = const {},
   }) =>
@@ -2199,12 +2200,12 @@ class MockPackageKitTransaction extends _i1.Mock
           [values],
           {#filter: filter},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> updatePackages(
+  _i14.Future<void> updatePackages(
     Iterable<_i10.PackageKitPackageId>? packageIds, {
     Set<_i10.PackageKitTransactionFlag>? transactionFlags = const {},
   }) =>
@@ -2214,12 +2215,12 @@ class MockPackageKitTransaction extends _i1.Mock
           [packageIds],
           {#transactionFlags: transactionFlags},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> upgradeSystem(
+  _i14.Future<void> upgradeSystem(
     String? distroId,
     _i10.PackageKitDistroUpgrade? upgradeKind, {
     Set<_i10.PackageKitTransactionFlag>? transactionFlags = const {},
@@ -2233,9 +2234,9 @@ class MockPackageKitTransaction extends _i1.Mock
           ],
           {#transactionFlags: transactionFlags},
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 }
 
 /// A class which mocks [RatingsService].
@@ -2256,53 +2257,53 @@ class MockRatingsService extends _i1.Mock implements _i4.RatingsService {
       ) as _i11.RatingsClient);
 
   @override
-  _i15.Future<_i12.Rating?> getRating(String? snapId) => (super.noSuchMethod(
+  _i14.Future<_i11.Rating?> getRating(String? snapId) => (super.noSuchMethod(
         Invocation.method(
           #getRating,
           [snapId],
         ),
-        returnValue: _i15.Future<_i12.Rating?>.value(),
-      ) as _i15.Future<_i12.Rating?>);
+        returnValue: _i14.Future<_i11.Rating?>.value(),
+      ) as _i14.Future<_i11.Rating?>);
 
   @override
-  _i15.Future<void> vote(_i12.Vote? vote) => (super.noSuchMethod(
+  _i14.Future<void> vote(_i21.Vote? vote) => (super.noSuchMethod(
         Invocation.method(
           #vote,
           [vote],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> delete() => (super.noSuchMethod(
+  _i14.Future<void> delete() => (super.noSuchMethod(
         Invocation.method(
           #delete,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<List<_i12.Vote>> listMyVotes(String? snapFilter) =>
+  _i14.Future<List<_i21.Vote>> listMyVotes(String? snapFilter) =>
       (super.noSuchMethod(
         Invocation.method(
           #listMyVotes,
           [snapFilter],
         ),
-        returnValue: _i15.Future<List<_i12.Vote>>.value(<_i12.Vote>[]),
-      ) as _i15.Future<List<_i12.Vote>>);
+        returnValue: _i14.Future<List<_i21.Vote>>.value(<_i21.Vote>[]),
+      ) as _i14.Future<List<_i21.Vote>>);
 
   @override
-  _i15.Future<List<_i12.Vote>> getSnapVotes(String? snapId) =>
+  _i14.Future<List<_i21.Vote>> getSnapVotes(String? snapId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getSnapVotes,
           [snapId],
         ),
-        returnValue: _i15.Future<List<_i12.Vote>>.value(<_i12.Vote>[]),
-      ) as _i15.Future<List<_i12.Vote>>);
+        returnValue: _i14.Future<List<_i21.Vote>>.value(<_i21.Vote>[]),
+      ) as _i14.Future<List<_i21.Vote>>);
 }
 
 /// A class which mocks [RatingsClient].
@@ -2314,7 +2315,49 @@ class MockRatingsClient extends _i1.Mock implements _i11.RatingsClient {
   }
 
   @override
-  _i15.Future<_i12.Rating> getRating(
+  _i14.Future<String> authenticate(String? id) => (super.noSuchMethod(
+        Invocation.method(
+          #authenticate,
+          [id],
+        ),
+        returnValue: _i14.Future<String>.value(_i13.dummyValue<String>(
+          this,
+          Invocation.method(
+            #authenticate,
+            [id],
+          ),
+        )),
+      ) as _i14.Future<String>);
+
+  @override
+  _i14.Future<void> delete(String? token) => (super.noSuchMethod(
+        Invocation.method(
+          #delete,
+          [token],
+        ),
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
+
+  @override
+  _i14.Future<List<_i22.ChartData>> getChart(
+    _i22.Timeframe? timeframe,
+    String? token,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getChart,
+          [
+            timeframe,
+            token,
+          ],
+        ),
+        returnValue:
+            _i14.Future<List<_i22.ChartData>>.value(<_i22.ChartData>[]),
+      ) as _i14.Future<List<_i22.ChartData>>);
+
+  @override
+  _i14.Future<_i11.Rating> getRating(
     String? snapId,
     String? token,
   ) =>
@@ -2326,7 +2369,7 @@ class MockRatingsClient extends _i1.Mock implements _i11.RatingsClient {
             token,
           ],
         ),
-        returnValue: _i15.Future<_i12.Rating>.value(_FakeRating_15(
+        returnValue: _i14.Future<_i11.Rating>.value(_FakeRating_15(
           this,
           Invocation.method(
             #getRating,
@@ -2336,25 +2379,26 @@ class MockRatingsClient extends _i1.Mock implements _i11.RatingsClient {
             ],
           ),
         )),
-      ) as _i15.Future<_i12.Rating>);
+      ) as _i14.Future<_i11.Rating>);
 
   @override
-  _i15.Future<String> authenticate(String? id) => (super.noSuchMethod(
+  _i14.Future<List<_i21.Vote>> getSnapVotes(
+    String? snap_id,
+    String? token,
+  ) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #authenticate,
-          [id],
+          #getSnapVotes,
+          [
+            snap_id,
+            token,
+          ],
         ),
-        returnValue: _i15.Future<String>.value(_i14.dummyValue<String>(
-          this,
-          Invocation.method(
-            #authenticate,
-            [id],
-          ),
-        )),
-      ) as _i15.Future<String>);
+        returnValue: _i14.Future<List<_i21.Vote>>.value(<_i21.Vote>[]),
+      ) as _i14.Future<List<_i21.Vote>>);
 
   @override
-  _i15.Future<List<_i12.Vote>> listMyVotes(
+  _i14.Future<List<_i21.Vote>> listMyVotes(
     String? snapIdFilter,
     String? token,
   ) =>
@@ -2366,11 +2410,11 @@ class MockRatingsClient extends _i1.Mock implements _i11.RatingsClient {
             token,
           ],
         ),
-        returnValue: _i15.Future<List<_i12.Vote>>.value(<_i12.Vote>[]),
-      ) as _i15.Future<List<_i12.Vote>>);
+        returnValue: _i14.Future<List<_i21.Vote>>.value(<_i21.Vote>[]),
+      ) as _i14.Future<List<_i21.Vote>>);
 
   @override
-  _i15.Future<void> vote(
+  _i14.Future<void> vote(
     String? snapId,
     int? snapRevision,
     bool? voteUp,
@@ -2386,35 +2430,9 @@ class MockRatingsClient extends _i1.Mock implements _i11.RatingsClient {
             token,
           ],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
-
-  @override
-  _i15.Future<void> delete(String? token) => (super.noSuchMethod(
-        Invocation.method(
-          #delete,
-          [token],
-        ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
-
-  @override
-  _i15.Future<List<_i12.Vote>> getSnapVotes(
-    String? snap_id,
-    String? token,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getSnapVotes,
-          [
-            snap_id,
-            token,
-          ],
-        ),
-        returnValue: _i15.Future<List<_i12.Vote>>.value(<_i12.Vote>[]),
-      ) as _i15.Future<List<_i12.Vote>>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 }
 
 /// A class which mocks [AppstreamService].
@@ -2438,25 +2456,25 @@ class MockAppstreamService extends _i1.Mock implements _i7.AppstreamService {
       ) as int);
 
   @override
-  _i15.Future<void> init() => (super.noSuchMethod(
+  _i14.Future<void> init() => (super.noSuchMethod(
         Invocation.method(
           #init,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<List<_i9.AppstreamComponent>> search(String? search) =>
+  _i14.Future<List<_i9.AppstreamComponent>> search(String? search) =>
       (super.noSuchMethod(
         Invocation.method(
           #search,
           [search],
         ),
-        returnValue: _i15.Future<List<_i9.AppstreamComponent>>.value(
+        returnValue: _i14.Future<List<_i9.AppstreamComponent>>.value(
             <_i9.AppstreamComponent>[]),
-      ) as _i15.Future<List<_i9.AppstreamComponent>>);
+      ) as _i14.Future<List<_i9.AppstreamComponent>>);
 
   @override
   _i9.AppstreamComponent getFromId(String? id) => (super.noSuchMethod(
@@ -2489,11 +2507,11 @@ class MockPackageKitService extends _i1.Mock implements _i8.PackageKitService {
       ) as bool);
 
   @override
-  _i15.Stream<_i10.PackageKitErrorCodeEvent> get errorStream =>
+  _i14.Stream<_i10.PackageKitErrorCodeEvent> get errorStream =>
       (super.noSuchMethod(
         Invocation.getter(#errorStream),
-        returnValue: _i15.Stream<_i10.PackageKitErrorCodeEvent>.empty(),
-      ) as _i15.Stream<_i10.PackageKitErrorCodeEvent>);
+        returnValue: _i14.Stream<_i10.PackageKitErrorCodeEvent>.empty(),
+      ) as _i14.Stream<_i10.PackageKitErrorCodeEvent>);
 
   @override
   _i10.PackageKitTransaction? getTransaction(int? id) =>
@@ -2503,57 +2521,57 @@ class MockPackageKitService extends _i1.Mock implements _i8.PackageKitService {
       )) as _i10.PackageKitTransaction?);
 
   @override
-  _i15.Future<void> activateService() => (super.noSuchMethod(
+  _i14.Future<void> activateService() => (super.noSuchMethod(
         Invocation.method(
           #activateService,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> waitTransaction(int? id) => (super.noSuchMethod(
+  _i14.Future<void> waitTransaction(int? id) => (super.noSuchMethod(
         Invocation.method(
           #waitTransaction,
           [id],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<void> cancelTransaction(int? id) => (super.noSuchMethod(
+  _i14.Future<void> cancelTransaction(int? id) => (super.noSuchMethod(
         Invocation.method(
           #cancelTransaction,
           [id],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
-  _i15.Future<int> install(_i10.PackageKitPackageId? packageId) =>
+  _i14.Future<int> install(_i10.PackageKitPackageId? packageId) =>
       (super.noSuchMethod(
         Invocation.method(
           #install,
           [packageId],
         ),
-        returnValue: _i15.Future<int>.value(0),
-      ) as _i15.Future<int>);
+        returnValue: _i14.Future<int>.value(0),
+      ) as _i14.Future<int>);
 
   @override
-  _i15.Future<int> remove(_i10.PackageKitPackageId? packageId) =>
+  _i14.Future<int> remove(_i10.PackageKitPackageId? packageId) =>
       (super.noSuchMethod(
         Invocation.method(
           #remove,
           [packageId],
         ),
-        returnValue: _i15.Future<int>.value(0),
-      ) as _i15.Future<int>);
+        returnValue: _i14.Future<int>.value(0),
+      ) as _i14.Future<int>);
 
   @override
-  _i15.Future<_i10.PackageKitPackageEvent?> resolve(
+  _i14.Future<_i10.PackageKitPackageEvent?> resolve(
     String? name, [
     String? architecture,
   ]) =>
@@ -2565,16 +2583,16 @@ class MockPackageKitService extends _i1.Mock implements _i8.PackageKitService {
             architecture,
           ],
         ),
-        returnValue: _i15.Future<_i10.PackageKitPackageEvent?>.value(),
-      ) as _i15.Future<_i10.PackageKitPackageEvent?>);
+        returnValue: _i14.Future<_i10.PackageKitPackageEvent?>.value(),
+      ) as _i14.Future<_i10.PackageKitPackageEvent?>);
 
   @override
-  _i15.Future<void> dispose() => (super.noSuchMethod(
+  _i14.Future<void> dispose() => (super.noSuchMethod(
         Invocation.method(
           #dispose,
           [],
         ),
-        returnValue: _i15.Future<void>.value(),
-        returnValueForMissingStub: _i15.Future<void>.value(),
-      ) as _i15.Future<void>);
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 }
