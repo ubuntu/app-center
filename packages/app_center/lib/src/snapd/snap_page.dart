@@ -240,6 +240,8 @@ class _SnapView extends ConsumerWidget {
                             ),
                             const SizedBox(height: kPagePadding),
                             MarkdownBody(
+                              onTapLink: (text, href, title) =>
+                                  launchUrlString(href!),
                               data: snapModel.snap.description,
                             ),
                           ],
