@@ -32,7 +32,7 @@
     "managePageShowDetailsLabel": "Show details",
     "managePageShowSystemSnapsLabel": "Show system snaps",
     "managePageUpdateAllLabel": "Update all",
-    "managePageUpdatedDaysAgo": "Updated {n} days ago",
+    "managePageUpdatedDaysAgo": "Updated {n, plural, =1{{n} day} other{{n} days}} ago",
     "@managePageUpdatedDaysAgo": {
         "placeholders": {
             "n": {
