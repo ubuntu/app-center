@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/src/store/store_app.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -546,14 +547,16 @@ class _Section extends YaruExpandable {
         );
 }
 
-class _Header extends StatelessWidget {
+class _Header extends ConsumerWidget {
   const _Header({required this.snapModel});
 
   final SnapModel snapModel;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final snap = snapModel.storeSnap ?? snapModel.localSnap!;
+    final l10n = AppLocalizations.of(context);
+
     return Column(
       children: [
         Row(
@@ -564,7 +567,15 @@ class _Header extends StatelessWidget {
               YaruIconButton(
                 icon: const Icon(YaruIcons.share),
                 onPressed: () {
-                  // TODO show snackbar
+                  final navigationKey =
+                      ref.watch(materialAppNavigatorKeyProvider);
+
+                  ScaffoldMessenger.of(navigationKey.currentContext!)
+                      .showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.snapPageShareLinkCopiedMessage),
+                    ),
+                  );
                   Clipboard.setData(ClipboardData(text: snap.website!));
                 },
               ),

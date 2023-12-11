@@ -14,6 +14,10 @@ import 'store_pages.dart';
 import 'store_providers.dart';
 import 'store_routes.dart';
 
+// Making a provider to provide navigatorKeyTwo
+final materialAppNavigatorKeyProvider =
+    Provider((ref) => GlobalKey<NavigatorState>());
+
 class StoreApp extends ConsumerStatefulWidget {
   const StoreApp({super.key});
 
@@ -38,6 +42,7 @@ class _StoreAppState extends ConsumerState<StoreApp> {
         darkTheme: yaru.darkTheme,
         debugShowCheckedModeBanner: false,
         localizationsDelegates: localizationsDelegates,
+        navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
         supportedLocales: supportedLocales,
         home: Scaffold(
           appBar: YaruWindowTitleBar(
