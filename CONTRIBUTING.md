@@ -79,6 +79,13 @@ Install Melos:
 dart pub global activate melos
 ```
 
+Bootstrap the monorepo:
+```
+melos bootstrap
+```
+
+`melos bootstrap` connects all the local packages/apps to each other with the help of `pubspec_overrides.yaml` files, and it also runs `pub get` in all packages/apps.
+
 ### Building and running the binaries
 
 You can run the application with
