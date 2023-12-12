@@ -1,16 +1,8 @@
+import 'dart:async';
+
 import 'package:app_center/constants.dart';
-import 'package:app_center/error/error.dart';
-import 'package:app_center/extensions/string_extensions.dart';
-import 'package:app_center/l10n.dart';
-import 'package:app_center/layout.dart';
-import 'package:app_center/manage/local_snap_providers.dart';
-import 'package:app_center/ratings/ratings.dart';
-import 'package:app_center/snapd/snap_action.dart';
-import 'package:app_center/snapd/snap_report.dart';
-import 'package:app_center/snapd/snapd.dart';
-import 'package:app_center/snapd/snapd_cache.dart';
-import 'package:app_center/store/store_app.dart';
-import 'package:app_center/widgets/widgets.dart';
+import 'package:app_center/src/widgets/placeholders.dart';
+import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +10,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -26,7 +19,7 @@ import 'package:yaru/yaru.dart';
 const _kPrimaryButtonMaxWidth = 136.0;
 const _kChannelDropdownWidth = 220.0;
 
-typedef SnapInfo = ({String label, Widget value});
+typedef SnapInfo = ({Widget label, Widget value});
 
 class SnapPage extends ConsumerWidget {
   const SnapPage({required this.snapName, super.key});
@@ -75,7 +68,7 @@ class _SnapView extends StatelessWidget {
 
     final snapInfos = <SnapInfo>[
       (
-        label: l10n.snapPageConfinementLabel,
+        label: Text(l10n.snapPageConfinementLabel),
         value: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -93,7 +86,7 @@ class _SnapView extends StatelessWidget {
         ),
       ),
       (
-        label: l10n.snapPageDownloadSizeLabel,
+        label: Text(l10n.snapPageDownloadSizeLabel),
         value: Text(
           snapData.channelInfo != null
               ? context.formatByteSize(snapData.channelInfo!.size)
@@ -101,15 +94,15 @@ class _SnapView extends StatelessWidget {
         ),
       ),
       (
-        label: l10n.snapPageLicenseLabel,
+        label: Text(l10n.snapPageLicenseLabel),
         value: Text(snapData.snap.license ?? ''),
       ),
       (
-        label: l10n.snapPageVersionLabel,
+        label: Text(l10n.snapPageVersionLabel),
         value: Text(snapData.channelInfo?.version ?? snapData.snap.version),
       ),
       (
-        label: l10n.snapPagePublishedLabel,
+        label: Text(l10n.snapPagePublishedLabel),
         value: Text(
           snapData.channelInfo != null
               ? DateFormat.yMMMd().format(snapData.channelInfo!.releasedAt)
@@ -117,7 +110,7 @@ class _SnapView extends StatelessWidget {
         ),
       ),
       (
-        label: l10n.snapPageLinksLabel,
+        label: Text(l10n.snapPageLinksLabel),
         value: Column(
           children: [
             if (snapData.snap.website?.isNotEmpty ?? false)
@@ -271,6 +264,26 @@ class _SnapInfoBar extends ConsumerWidget {
           ratingsData.rating?.ratingsBand.localize(l10n) ?? '',
           style: TextStyle(
             color: ratingsData.rating?.ratingsBand.getColor(context),
+          ),
+        ),
+      ),
+      loading: () => (
+        label: Shimmer.fromColors(
+          baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
+          highlightColor:
+              light ? kShimmerHighLightLight : kShimmerHighLightDark,
+          child: ShimmerPlaceholder(
+            child: Text(l10n.snapRatingsVotes(0)),
+          ),
+        ),
+        value: Shimmer.fromColors(
+          baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
+          highlightColor:
+              light ? kShimmerHighLightLight : kShimmerHighLightDark,
+          child: ShimmerPlaceholder(
+            child: Text(
+              RatingsBand.insufficientVotes.localize(l10n),
+            ),
           ),
         ),
       ),
