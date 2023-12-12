@@ -1,18 +1,17 @@
+import 'package:app_center/deb.dart';
+import 'package:app_center/l10n.dart';
+import 'package:app_center/layout.dart';
+import 'package:app_center/search.dart';
+import 'package:app_center/snapd.dart';
+import 'package:app_center/src/store/store_navigator.dart';
+import 'package:app_center/src/store/store_observer.dart';
+import 'package:app_center/src/store/store_pages.dart';
+import 'package:app_center/src/store/store_providers.dart';
+import 'package:app_center/src/store/store_routes.dart';
 import 'package:flutter/material.dart' hide AboutDialog, showAboutDialog;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
-
-import '/deb.dart';
-import '/l10n.dart';
-import '/layout.dart';
-import '/search.dart';
-import '/snapd.dart';
-import 'store_navigator.dart';
-import 'store_observer.dart';
-import 'store_pages.dart';
-import 'store_providers.dart';
-import 'store_routes.dart';
 
 // Making a provider to provide navigatorKeyTwo
 final materialAppNavigatorKeyProvider =

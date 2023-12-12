@@ -1,7 +1,7 @@
+import 'package:app_center_ratings_client/src/generated/ratings_features_chart.pb.dart'
+    as pb;
+import 'package:app_center_ratings_client/src/ratings.dart' as common;
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import 'generated/ratings_features_chart.pb.dart' as pb;
-import 'ratings.dart' as common;
 
 part 'chart.freezed.dart';
 
@@ -22,8 +22,8 @@ enum Timeframe {
 extension ChartDataFromDTO on pb.ChartData {
   ChartData fromDTO() {
     return ChartData(
-      rating: this.rating.fromDTO(),
-      rawRating: this.rawRating,
+      rating: rating.fromDTO(),
+      rawRating: rawRating,
     );
   }
 }

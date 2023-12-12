@@ -12,47 +12,44 @@
 import 'dart:async' as $async;
 import 'dart:core' as $core;
 
+import 'package:app_center_ratings_client/src/generated/google/protobuf/empty.pb.dart'
+    as $1;
+import 'package:app_center_ratings_client/src/generated/ratings_features_user.pb.dart'
+    as $0;
 import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
-
-import 'google/protobuf/empty.pb.dart' as $1;
-import 'ratings_features_user.pb.dart' as $0;
 
 export 'ratings_features_user.pb.dart';
 
 @$pb.GrpcServiceName('ratings.features.user.User')
 class UserClient extends $grpc.Client {
-  static final _$authenticate =
-      $grpc.ClientMethod<$0.AuthenticateRequest, $0.AuthenticateResponse>(
-          '/ratings.features.user.User/Authenticate',
-          ($0.AuthenticateRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) =>
-              $0.AuthenticateResponse.fromBuffer(value));
-  static final _$delete = $grpc.ClientMethod<$1.Empty, $1.Empty>(
-      '/ratings.features.user.User/Delete',
-      ($1.Empty value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$vote = $grpc.ClientMethod<$0.VoteRequest, $1.Empty>(
-      '/ratings.features.user.User/Vote',
-      ($0.VoteRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
-  static final _$listMyVotes =
-      $grpc.ClientMethod<$0.ListMyVotesRequest, $0.ListMyVotesResponse>(
-          '/ratings.features.user.User/ListMyVotes',
-          ($0.ListMyVotesRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) =>
-              $0.ListMyVotesResponse.fromBuffer(value));
-  static final _$getSnapVotes =
-      $grpc.ClientMethod<$0.GetSnapVotesRequest, $0.GetSnapVotesResponse>(
-          '/ratings.features.user.User/GetSnapVotes',
-          ($0.GetSnapVotesRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) =>
-              $0.GetSnapVotesResponse.fromBuffer(value));
-
   UserClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
+  static final _$authenticate =
+      $grpc.ClientMethod<$0.AuthenticateRequest, $0.AuthenticateResponse>(
+          '/ratings.features.user.User/Authenticate',
+          (value) => value.writeToBuffer(),
+          (value) => $0.AuthenticateResponse.fromBuffer(value));
+  static final _$delete = $grpc.ClientMethod<$1.Empty, $1.Empty>(
+      '/ratings.features.user.User/Delete',
+      (value) => value.writeToBuffer(),
+      (value) => $1.Empty.fromBuffer(value));
+  static final _$vote = $grpc.ClientMethod<$0.VoteRequest, $1.Empty>(
+      '/ratings.features.user.User/Vote',
+      (value) => value.writeToBuffer(),
+      (value) => $1.Empty.fromBuffer(value));
+  static final _$listMyVotes =
+      $grpc.ClientMethod<$0.ListMyVotesRequest, $0.ListMyVotesResponse>(
+          '/ratings.features.user.User/ListMyVotes',
+          (value) => value.writeToBuffer(),
+          (value) => $0.ListMyVotesResponse.fromBuffer(value));
+  static final _$getSnapVotes =
+      $grpc.ClientMethod<$0.GetSnapVotesRequest, $0.GetSnapVotesResponse>(
+          '/ratings.features.user.User/GetSnapVotes',
+          (value) => value.writeToBuffer(),
+          (value) => $0.GetSnapVotesResponse.fromBuffer(value));
 
   $grpc.ResponseFuture<$0.AuthenticateResponse> authenticate(
       $0.AuthenticateRequest request,
@@ -85,8 +82,6 @@ class UserClient extends $grpc.Client {
 
 @$pb.GrpcServiceName('ratings.features.user.User')
 abstract class UserServiceBase extends $grpc.Service {
-  $core.String get $name => 'ratings.features.user.User';
-
   UserServiceBase() {
     $addMethod(
         $grpc.ServiceMethod<$0.AuthenticateRequest, $0.AuthenticateResponse>(
@@ -94,42 +89,40 @@ abstract class UserServiceBase extends $grpc.Service {
             authenticate_Pre,
             false,
             false,
-            ($core.List<$core.int> value) =>
-                $0.AuthenticateRequest.fromBuffer(value),
-            ($0.AuthenticateResponse value) => value.writeToBuffer()));
+            (value) => $0.AuthenticateRequest.fromBuffer(value),
+            (value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.Empty, $1.Empty>(
         'Delete',
         delete_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $1.Empty.fromBuffer(value),
-        ($1.Empty value) => value.writeToBuffer()));
+        (value) => $1.Empty.fromBuffer(value),
+        (value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.VoteRequest, $1.Empty>(
         'Vote',
         vote_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.VoteRequest.fromBuffer(value),
-        ($1.Empty value) => value.writeToBuffer()));
+        (value) => $0.VoteRequest.fromBuffer(value),
+        (value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.ListMyVotesRequest, $0.ListMyVotesResponse>(
             'ListMyVotes',
             listMyVotes_Pre,
             false,
             false,
-            ($core.List<$core.int> value) =>
-                $0.ListMyVotesRequest.fromBuffer(value),
-            ($0.ListMyVotesResponse value) => value.writeToBuffer()));
+            (value) => $0.ListMyVotesRequest.fromBuffer(value),
+            (value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.GetSnapVotesRequest, $0.GetSnapVotesResponse>(
             'GetSnapVotes',
             getSnapVotes_Pre,
             false,
             false,
-            ($core.List<$core.int> value) =>
-                $0.GetSnapVotesRequest.fromBuffer(value),
-            ($0.GetSnapVotesResponse value) => value.writeToBuffer()));
+            (value) => $0.GetSnapVotesRequest.fromBuffer(value),
+            (value) => value.writeToBuffer()));
   }
+  $core.String get $name => 'ratings.features.user.User';
 
   $async.Future<$0.AuthenticateResponse> authenticate_Pre(
       $grpc.ServiceCall call,

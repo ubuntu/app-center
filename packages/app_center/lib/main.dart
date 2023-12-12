@@ -1,6 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:app_center/appstream.dart';
+import 'package:app_center/config.dart';
+import 'package:app_center/l10n.dart';
+import 'package:app_center/packagekit.dart';
+import 'package:app_center/ratings.dart';
+import 'package:app_center/snapd.dart';
+import 'package:app_center/store.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,14 +20,6 @@ import 'package:ubuntu_logger/ubuntu_logger.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
 import 'package:yaru_widgets/yaru_widgets.dart';
-
-import 'appstream.dart';
-import 'config.dart';
-import 'l10n.dart';
-import 'packagekit.dart';
-import 'ratings.dart';
-import 'snapd.dart';
-import 'store.dart';
 
 Future<void> main(List<String> args) async {
   await YaruWindowTitleBar.ensureInitialized();
@@ -54,7 +53,7 @@ Future<void> main(List<String> args) async {
   registerServiceInstance(config);
   registerServiceInstance(ratings);
 
-  registerService(() => GitHub());
+  registerService(GitHub.new);
   registerService(() => GtkApplicationNotifier(args));
 
   final appstream = AppstreamService();
@@ -63,8 +62,8 @@ Future<void> main(List<String> args) async {
   unawaited(appstream.init());
   registerServiceInstance(appstream);
 
-  registerService(() => PackageKitClient());
-  registerService(() => PackageKitService(),
+  registerService(PackageKitClient.new);
+  registerService(PackageKitService.new,
       dispose: (service) => service.dispose());
 
   await initDefaultLocale();

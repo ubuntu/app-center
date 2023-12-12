@@ -1,14 +1,13 @@
+import 'package:app_center/layout.dart';
 import 'package:flutter/material.dart';
-
-import '/layout.dart';
 
 typedef AppInfo = ({String label, Widget value});
 
 class AppInfoBar extends StatelessWidget {
   const AppInfoBar({
-    super.key,
     required this.appInfos,
     required this.layout,
+    super.key,
   });
 
   final List<AppInfo> appInfos;

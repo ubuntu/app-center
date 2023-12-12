@@ -1,14 +1,13 @@
+import 'package:app_center/layout.dart';
+import 'package:app_center/src/widgets/app_card.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
 
-import '/layout.dart';
-import 'app_card.dart';
-
 class AppCardGrid extends StatelessWidget {
   const AppCardGrid({
-    super.key,
     required this.appCards,
+    super.key,
   });
 
   factory AppCardGrid.fromSnaps({
@@ -58,9 +57,9 @@ class AppCardGrid extends StatelessWidget {
 // TODO: generalize
 class SnapImageCardGrid extends StatelessWidget {
   const SnapImageCardGrid({
-    super.key,
     required this.snaps,
     required this.onTap,
+    super.key,
   });
 
   final List<Snap> snaps;

@@ -1,13 +1,12 @@
+import 'package:app_center/about.dart';
+import 'package:app_center/explore.dart';
+import 'package:app_center/l10n.dart';
+import 'package:app_center/manage.dart';
+import 'package:app_center/search.dart';
+import 'package:app_center/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
-
-import '/about.dart';
-import '/explore.dart';
-import '/l10n.dart';
-import '/manage.dart';
-import '/search.dart';
-import '/snapd.dart';
 
 typedef StorePage = ({
   Widget Function(BuildContext context, bool selected) tileBuilder,

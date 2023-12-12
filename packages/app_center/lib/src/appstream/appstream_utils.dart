@@ -1,9 +1,8 @@
 import 'dart:ui';
 
+import 'package:app_center/l10n.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
-
-import '/l10n.dart';
 
 extension _GetOrDefault<K, V> on Map<K, V> {
   V getOrDefault(K? key, V fallback) {
@@ -45,7 +44,7 @@ extension LocalizedComponent on AppstreamComponent {
   }
 
   List<String> getLocalizedMediaTypes() {
-    final List<String> mediaTypes = [];
+    final mediaTypes = <String>[];
 
     for (final provider in provides) {
       if (provider is AppstreamProvidesMediatype) {
@@ -68,7 +67,7 @@ extension LocalizedComponent on AppstreamComponent {
     final candidates = [fullLocale, languageCode, fallback];
     final keys = keyedByLanguage.keys;
 
-    for (final String candidate in candidates) {
+    for (final candidate in candidates) {
       if (keys.contains(candidate)) return candidate;
     }
 

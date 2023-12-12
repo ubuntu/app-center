@@ -1,11 +1,10 @@
 import 'dart:async';
 
+import 'package:app_center/appstream.dart';
+import 'package:app_center/snapd.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
-
-import '/appstream.dart';
-import '/snapd.dart';
 
 enum PackageFormat { snap, deb }
 

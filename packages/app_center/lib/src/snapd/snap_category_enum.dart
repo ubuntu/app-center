@@ -1,8 +1,7 @@
+import 'package:app_center/l10n.dart';
 import 'package:flutter/widgets.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_icons/yaru_icons.dart';
-
-import '/l10n.dart';
 
 extension SnapCategoryX on SnapCategory {
   SnapCategoryEnum get categoryEnum => name.toSnapCategoryEnum();
@@ -11,7 +10,7 @@ extension SnapCategoryX on SnapCategory {
 extension StringX on String {
   SnapCategoryEnum toSnapCategoryEnum() => SnapCategoryEnum.values.byName(
         replaceAllMapped(
-          RegExp(r'-(.)'),
+          RegExp('-(.)'),
           (match) => match[1]!.toUpperCase(),
         ),
       );
@@ -44,7 +43,7 @@ enum SnapCategoryEnum {
   bool get hidden => [unknown, ubuntuDesktop].contains(this);
 
   String get categoryName => name.replaceAllMapped(
-      RegExp(r'[A-Z]'), (match) => '-${match[0]!.toLowerCase()}');
+      RegExp('[A-Z]'), (match) => '-${match[0]!.toLowerCase()}');
 
   List<String>? get featuredSnapNames => switch (this) {
         development => ['code', 'postman', 'phpstorm'],

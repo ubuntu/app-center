@@ -5,8 +5,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-final contributorsProvider =
-    FutureProvider.autoDispose.family((ref, String repo) async {
+final contributorsProvider = FutureProvider.autoDispose
+    .family<List<Contributor>, String>((ref, repo) async {
   const designers = {'anasereijo', 'elioqoshi', 'Zoospora'};
   const exclude = {'weblate'};
   final contributors = await getService<GitHub>()
