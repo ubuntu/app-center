@@ -21,9 +21,9 @@ enum ResponsiveLayoutType {
 
 class ResponsiveLayout extends InheritedWidget {
   ResponsiveLayout({
-    super.key,
     required this.constraints,
     required super.child,
+    super.key,
   }) {
     final (cardColumnCount, cardSize, snapInfoColumnCount, type) =
         switch (constraints.maxWidth + kPaneWidth + 1) {
@@ -74,7 +74,7 @@ class ResponsiveLayout extends InheritedWidget {
 }
 
 class ResponsiveLayoutBuilder extends LayoutBuilder {
-  ResponsiveLayoutBuilder({super.key, required WidgetBuilder builder})
+  ResponsiveLayoutBuilder({required WidgetBuilder builder, super.key})
       : super(
           builder: (context, constraints) => ResponsiveLayout(
             constraints: constraints,

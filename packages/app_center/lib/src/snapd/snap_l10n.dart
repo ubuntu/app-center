@@ -1,7 +1,6 @@
+import 'package:app_center/l10n.dart';
+import 'package:app_center/src/snapd/snap_sort.dart';
 import 'package:snapd/snapd.dart';
-
-import '/l10n.dart';
-import 'snap_sort.dart';
 
 extension SnapdChangeL10n on SnapdChange {
   String? localize(AppLocalizations l10n) => switch (kind) {

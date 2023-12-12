@@ -1,18 +1,17 @@
+import 'package:app_center_ratings_client/src/generated/ratings_features_common.pb.dart'
+    as pb;
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import 'generated/ratings_features_common.pb.dart' as pb;
 
 @immutable
 class Rating {
-  final String snapId;
-  final int totalVotes;
-  final RatingsBand ratingsBand;
-
   const Rating({
     required this.snapId,
     required this.totalVotes,
     required this.ratingsBand,
   });
+  final String snapId;
+  final int totalVotes;
+  final RatingsBand ratingsBand;
 
   @override
   bool operator ==(Object other) {
@@ -41,9 +40,9 @@ enum RatingsBand {
 extension RatingFromDTO on pb.Rating {
   Rating fromDTO() {
     return Rating(
-      snapId: this.snapId,
-      totalVotes: this.totalVotes.toInt(),
-      ratingsBand: this.ratingsBand.fromDTO(),
+      snapId: snapId,
+      totalVotes: totalVotes.toInt(),
+      ratingsBand: ratingsBand.fromDTO(),
     );
   }
 }

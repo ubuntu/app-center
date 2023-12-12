@@ -1,12 +1,11 @@
+import 'package:app_center/src/ratings/exports.dart';
+import 'package:app_center/src/ratings/ratings_service.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-
-import 'exports.dart';
-import 'ratings_service.dart';
 
 final ratingsModelProvider =
     ChangeNotifierProvider.family.autoDispose<RatingsModel, Snap>(
@@ -66,7 +65,7 @@ class RatingsModel extends ChangeNotifier {
   }
 
   Future<void> castVote(VoteStatus castVote) async {
-    bool voteUp = castVote == VoteStatus.up ? true : false;
+    final voteUp = castVote == VoteStatus.up ? true : false;
 
     if (castVote != _vote) {
       final vote = Vote(

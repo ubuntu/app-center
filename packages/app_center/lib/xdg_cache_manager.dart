@@ -14,10 +14,9 @@ import 'package:path/path.dart' as p;
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
 
 class _XdgFileSystem implements FileSystem {
+  _XdgFileSystem(this._cacheKey) : _fileDir = createDirectory(_cacheKey);
   final Future<Directory> _fileDir;
   final String _cacheKey;
-
-  _XdgFileSystem(this._cacheKey) : _fileDir = createDirectory(_cacheKey);
 
   static Future<Directory> createDirectory(String key) async {
     final baseDir = xdg.cacheHome;
@@ -40,13 +39,12 @@ class _XdgFileSystem implements FileSystem {
 }
 
 class XdgCacheManager extends CacheManager with ImageCacheManager {
-  static final key = p.basename(Platform.resolvedExecutable);
-
-  static final XdgCacheManager _instance = XdgCacheManager._();
-
   factory XdgCacheManager() {
     return _instance;
   }
 
   XdgCacheManager._() : super(Config(key, fileSystem: _XdgFileSystem(key)));
+  static final key = p.basename(Platform.resolvedExecutable);
+
+  static final XdgCacheManager _instance = XdgCacheManager._();
 }

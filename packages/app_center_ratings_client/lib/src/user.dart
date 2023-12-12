@@ -1,6 +1,6 @@
+import 'package:app_center_ratings_client/src/generated/ratings_features_user.pb.dart'
+    as pb;
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import 'generated/ratings_features_user.pb.dart' as pb;
 
 part 'user.freezed.dart';
 
@@ -17,10 +17,10 @@ class Vote with _$Vote {
 extension VoteFromDTO on pb.Vote {
   Vote fromDTO() {
     return Vote(
-      snapId: this.snapId,
-      snapRevision: this.snapRevision,
-      voteUp: this.voteUp,
-      dateTime: this.timestamp.toDateTime(),
+      snapId: snapId,
+      snapRevision: snapRevision,
+      voteUp: voteUp,
+      dateTime: timestamp.toDateTime(),
     );
   }
 }

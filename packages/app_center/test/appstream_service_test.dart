@@ -41,8 +41,6 @@ void main() {
     package: 'qbrew',
     name: {'C': 'QBrew'},
     summary: {},
-    description: {},
-    keywords: {},
   );
 
   const component3 = AppstreamComponent(
@@ -51,8 +49,6 @@ void main() {
     package: 'gperiodic',
     name: {'C': 'GPeriodic'},
     summary: {},
-    description: {},
-    keywords: {},
   );
 
   setUp(() {

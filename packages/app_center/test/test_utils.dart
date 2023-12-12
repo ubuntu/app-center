@@ -29,7 +29,7 @@ extension WidgetTesterX on WidgetTester {
   Future<void> pumpApp(WidgetBuilder builder) async {
     // The intended minimum size of the window.
     view.physicalSize =
-        (Size(800, 600) + Offset(54, 54)) * view.devicePixelRatio;
+        (const Size(800, 600) + const Offset(54, 54)) * view.devicePixelRatio;
     final ubuntuRegular = File('test/fonts/Ubuntu-Regular.ttf');
     final content = ByteData.view(
         Uint8List.fromList(ubuntuRegular.readAsBytesSync()).buffer);
@@ -48,7 +48,7 @@ extension WidgetTesterX on WidgetTester {
 
 Stream<List<Snap>> Function(SnapSearchParameters) createMockSnapSearchProvider(
     Map<SnapSearchParameters, List<Snap>> searchResults) {
-  return (SnapSearchParameters searchParameters) => Stream.value(
+  return (searchParameters) => Stream.value(
         searchResults.entries
                 .firstWhereOrNull((e) => e.key == searchParameters)
                 ?.value ??
@@ -58,7 +58,7 @@ Stream<List<Snap>> Function(SnapSearchParameters) createMockSnapSearchProvider(
 
 Stream<List<AppstreamComponent>> Function(String) createMockDebSearchProvider(
     Map<String, List<AppstreamComponent>> searchResults) {
-  return (String query) => Stream.value(
+  return (query) => Stream.value(
         searchResults.entries.firstWhereOrNull((e) => e.key == query)?.value ??
             [],
       );

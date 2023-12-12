@@ -1,36 +1,27 @@
 import 'dart:collection';
 
+import 'package:app_center/l10n.dart';
+import 'package:app_center/src/appstream/appstream_utils.dart';
+import 'package:app_center/src/appstream/logger.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:snowball_stemmer/snowball_stemmer.dart';
 
-import '/l10n.dart';
-import 'appstream_utils.dart';
-import 'logger.dart';
-
+@immutable
 class _CachedComponent {
-  final AppstreamComponent component;
-  final String id;
-  final String name;
-  final List<String> keywords;
-  final List<String> summary;
-  final List<String> description;
-  final String origin;
-  final String package;
-  final List<String> mediaTypes;
-
-  _CachedComponent(
-      this.component,
-      this.id,
-      this.name,
-      this.keywords,
-      this.summary,
-      this.description,
-      this.origin,
-      this.package,
-      this.mediaTypes);
+  const _CachedComponent(
+    this.component,
+    this.id,
+    this.name,
+    this.keywords,
+    this.summary,
+    this.description,
+    this.origin,
+    this.package,
+    this.mediaTypes,
+  );
 
   factory _CachedComponent.fromAppstream(AppstreamComponent component) {
     final id = component.getId();
@@ -59,9 +50,18 @@ class _CachedComponent {
     return _CachedComponent(component, id, name, keywords, summary, description,
         origin, package, mediaTypes);
   }
+  final AppstreamComponent component;
+  final String id;
+  final String name;
+  final List<String> keywords;
+  final List<String> summary;
+  final List<String> description;
+  final String origin;
+  final String package;
+  final List<String> mediaTypes;
 
   int match(List<String> tokens) {
-    int score = _MatchScore.none.value;
+    var score = _MatchScore.none.value;
 
     for (final token in tokens) {
       if (id.contains(token)) {
@@ -113,28 +113,18 @@ enum _MatchScore {
   id(1 << 7),
   all(1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4 | 1 << 5 | 1 << 6 | 1 << 7);
 
-  final int value;
-
   const _MatchScore(this.value);
+
+  final int value;
 }
 
 class _ScoredComponent {
+  const _ScoredComponent(this.score, this.component);
   final int score;
   final AppstreamComponent component;
-
-  const _ScoredComponent(this.score, this.component);
 }
 
 class AppstreamService {
-  final AppstreamPool _pool;
-  late final Future<void> _loader = _pool.load().then((_) {
-    _populateCache();
-    _initialized = true;
-  });
-
-  bool get initialized => _initialized;
-  bool _initialized = false;
-
   // TODO: cache AppstreamPool
   AppstreamService({@visibleForTesting AppstreamPool? pool})
       : _pool = pool ?? AppstreamPool(),
@@ -144,6 +134,14 @@ class AppstreamService {
       _populateCache();
     };
   }
+  final AppstreamPool _pool;
+  late final Future<void> _loader = _pool.load().then((_) {
+    _populateCache();
+    _initialized = true;
+  });
+
+  bool get initialized => _initialized;
+  bool _initialized = false;
 
   final HashSet<_CachedComponent> _cache = HashSet<_CachedComponent>();
 
@@ -219,7 +217,7 @@ class AppstreamService {
     }
     // Filter out short tokens, and those containing markup
     words.removeWhere(
-      (element) => element.length <= 1 || element.contains(RegExp(r'[<>()]')),
+      (element) => element.length <= 1 || element.contains(RegExp('[<>()]')),
     );
     // Extract only the common stems from the tokens
     final algorithm =
@@ -227,7 +225,7 @@ class AppstreamService {
     if (algorithm != null) {
       final stemmer = SnowballStemmer(algorithm);
       return words
-          .map((element) => stemmer.stem(element))
+          .map(stemmer.stem)
           // Keep original tokens as well, since the stemming algorithm might
           // have unintended effects. See #1305.
           .followedBy(words)

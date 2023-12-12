@@ -9,7 +9,7 @@ mixin SnapdWatcher on SnapdClient {
     Duration interval = const Duration(milliseconds: 100),
   }) {
     return Stream.periodic(interval, (_) => getChange(id))
-        .asyncMap((response) async => await response)
+        .asyncMap((response) async => response)
         .distinct();
   }
 
@@ -18,7 +18,7 @@ mixin SnapdWatcher on SnapdClient {
     Duration interval = const Duration(milliseconds: 100),
   }) {
     return Stream.periodic(interval, (_) => getChanges(name: name))
-        .asyncMap((response) async => await response)
+        .asyncMap((response) async => response)
         .map((changes) => changes.map((c) => c.id).sorted())
         .distinct(const ListEquality().equals);
   }

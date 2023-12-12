@@ -1,8 +1,7 @@
+import 'package:app_center/appstream.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-
-import '/appstream.dart';
 
 final appstreamSearchProvider =
     StreamProvider.family<List<AppstreamComponent>, String>(

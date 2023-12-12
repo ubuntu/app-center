@@ -1,7 +1,6 @@
+import 'package:app_center/l10n.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter/material.dart';
-
-import '../../l10n.dart';
 
 extension RatingsBandL10n on RatingsBand {
   String localize(AppLocalizations l10n) {

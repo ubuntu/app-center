@@ -1,3 +1,5 @@
+import 'package:app_center/appstream.dart';
+import 'package:app_center/snapd.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -5,13 +7,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 
-import '/appstream.dart';
-import '/snapd.dart';
-
 class AppTitle extends StatelessWidget {
   const AppTitle({
-    super.key,
     required this.title,
+    super.key,
     this.publisher,
     this.verifiedPublisher = false,
     this.starredPublisher = false,

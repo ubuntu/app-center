@@ -1,7 +1,6 @@
+import 'package:app_center/snapd.dart';
+import 'package:app_center/src/manage/manage_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '/snapd.dart';
-import 'manage_model.dart';
 
 final localSnapFilterProvider = StateProvider.autoDispose<String>((_) => '');
 final showLocalSystemAppsProvider = StateProvider<bool>((_) => false);

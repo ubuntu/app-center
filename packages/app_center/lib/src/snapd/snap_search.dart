@@ -1,8 +1,10 @@
+import 'package:app_center/snapd.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meta/meta.dart';
+import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-import '/snapd.dart';
-
+@immutable
 class SnapSearchParameters {
   const SnapSearchParameters({this.query, this.category});
   final String? query;
@@ -31,13 +33,16 @@ final snapCategoryProvider = StateProvider.family
         (ref, initialValue) => initialValue);
 
 final snapSearchProvider =
-    StreamProvider.family((ref, SnapSearchParameters searchParameters) async* {
+    StreamProvider.family<List<Snap>, SnapSearchParameters>(
+        (ref, searchParameters) async* {
   final snapd = getService<SnapdService>();
   if (searchParameters.category == SnapCategoryEnum.ubuntuDesktop) {
-    yield* snapd.getStoreSnaps(searchParameters.category!.featuredSnapNames
-            ?.where((name) => name.contains(searchParameters.query ?? ''))
-            .toList() ??
-        []);
+    yield* snapd.getStoreSnaps(
+      searchParameters.category!.featuredSnapNames
+              ?.where((name) => name.contains(searchParameters.query ?? ''))
+              .toList() ??
+          [],
+    );
   } else if (searchParameters.query == null &&
       searchParameters.category != null) {
     yield* snapd.getCategory(searchParameters.category!.categoryName);
@@ -53,7 +58,8 @@ final snapSortOrderProvider =
     StateProvider.autoDispose<SnapSortOrder?>((_) => null);
 
 final sortedSnapSearchProvider = FutureProvider.family
-    .autoDispose((ref, SnapSearchParameters searchParameters) {
+    .autoDispose<List<Snap>, SnapSearchParameters>((ref, searchParameters) {
   return ref.watch(snapSearchProvider(searchParameters).future).then(
-      (snaps) => snaps.sortedSnaps(ref.watch(snapSortOrderProvider)).toList());
+        (snaps) => snaps.sortedSnaps(ref.watch(snapSortOrderProvider)).toList(),
+      );
 });

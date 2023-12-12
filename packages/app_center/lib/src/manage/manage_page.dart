@@ -1,19 +1,18 @@
 import 'dart:async';
 
+import 'package:app_center/l10n.dart';
+import 'package:app_center/layout.dart';
+import 'package:app_center/snapd.dart';
+import 'package:app_center/src/manage/local_snap_providers.dart';
+import 'package:app_center/src/manage/manage_model.dart';
+import 'package:app_center/store.dart';
+import 'package:app_center/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
-
-import '/l10n.dart';
-import '/layout.dart';
-import '/snapd.dart';
-import '/store.dart';
-import '/widgets.dart';
-import 'local_snap_providers.dart';
-import 'manage_model.dart';
 
 class ManagePage extends ConsumerStatefulWidget {
   const ManagePage({super.key});
@@ -341,7 +340,6 @@ class _ManageSnapTile extends ConsumerWidget {
             side: border,
           ),
         ManageTilePosition.middle => RoundedRectangleBorder(
-            borderRadius: const BorderRadius.all(Radius.zero),
             side: border,
           ),
         ManageTilePosition.last => RoundedRectangleBorder(

@@ -1,21 +1,20 @@
+import 'package:app_center/appstream.dart';
+import 'package:app_center/l10n.dart';
+import 'package:app_center/layout.dart';
+import 'package:app_center/ratings.dart';
+import 'package:app_center/snapd.dart';
+import 'package:app_center/widgets.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/appstream.dart';
-import '/l10n.dart';
-import '/layout.dart';
-import '/ratings.dart';
-import '/snapd.dart';
-import '/widgets.dart';
-
 class AppCard extends StatelessWidget {
   const AppCard({
-    super.key,
     required this.title,
     required this.summary,
+    super.key,
     this.onTap,
     this.compact = false,
     this.iconUrl,
@@ -79,7 +78,7 @@ class AppCard extends StatelessWidget {
 
 // TODO: generalize
 class SnapImageCard extends StatelessWidget {
-  const SnapImageCard({super.key, required this.snap, this.onTap});
+  const SnapImageCard({required this.snap, super.key, this.onTap});
 
   final Snap snap;
   final VoidCallback? onTap;

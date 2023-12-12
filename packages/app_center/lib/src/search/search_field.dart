@@ -1,3 +1,7 @@
+import 'package:app_center/appstream.dart';
+import 'package:app_center/snapd.dart';
+import 'package:app_center/src/search/search_provider.dart';
+import 'package:app_center/widgets.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -5,11 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
-
-import '/appstream.dart';
-import '/snapd.dart';
-import '/widgets.dart';
-import 'search_provider.dart';
 
 sealed class AutoCompleteOption {
   String get title => switch (this) {
@@ -20,26 +19,26 @@ sealed class AutoCompleteOption {
 }
 
 class AutoCompleteSnapOption extends AutoCompleteOption {
-  final Snap snap;
   AutoCompleteSnapOption(this.snap);
+  final Snap snap;
 }
 
 class AutoCompleteDebOption extends AutoCompleteOption {
-  final AppstreamComponent deb;
   AutoCompleteDebOption(this.deb);
+  final AppstreamComponent deb;
 }
 
 class AutoCompleteSearchOption extends AutoCompleteOption {
-  final String query;
   AutoCompleteSearchOption(this.query);
+  final String query;
 }
 
 class SearchField extends ConsumerStatefulWidget {
   const SearchField({
-    super.key,
     required this.onSearch,
     required this.onSnapSelected,
     required this.onDebSelected,
+    super.key,
   });
 
   final ValueChanged<String> onSearch;

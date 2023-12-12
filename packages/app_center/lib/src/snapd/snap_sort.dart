@@ -1,7 +1,6 @@
+import 'package:app_center/snapd.dart';
 import 'package:collection/collection.dart';
 import 'package:snapd/snapd.dart';
-
-import '/snapd.dart';
 
 enum SnapSortOrder {
   alphabeticalAsc,
