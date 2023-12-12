@@ -72,7 +72,9 @@ Translations are managed using [Weblate](https://hosted.weblate.org/projects/ubu
 
 [Install Flutter](https://flutter.dev/docs/get-started/install/linux) - the currently used version is specified in `.tool-versions`. If you're using [asdf](https://asdf-vm.com/) to manage your Flutter SDK, you can simply run `asdf install` to install the required version.
 
-Even though this repo currently consists of only a single package we provide a [Melos](https://docs.page/invertase/melos) configuration to make it straightforward to execute common tasks.
+Install the [Flutter Linux prerequisites](https://docs.flutter.dev/get-started/install/linux#linux-prerequisites)
+
+We provide a [Melos](https://docs.page/invertase/melos) configuration to make it straightforward to execute common tasks.
 
 Install Melos:
 ```
