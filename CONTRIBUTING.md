@@ -74,6 +74,11 @@ Translations are managed using [Weblate](https://hosted.weblate.org/projects/ubu
 
 Even though this repo currently consists of only a single package we provide a [Melos](https://docs.page/invertase/melos) configuration to make it straightforward to execute common tasks.
 
+Install Cairo:
+```
+sudo apt-get install libcairo2-dev
+```
+
 Install Melos:
 ```
 dart pub global activate melos
