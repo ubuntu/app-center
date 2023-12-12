@@ -2384,14 +2384,14 @@ class MockRatingsClient extends _i1.Mock implements _i11.RatingsClient {
 
   @override
   _i14.Future<List<_i21.Vote>> getSnapVotes(
-    String? snap_id,
+    String? snapId,
     String? token,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
           #getSnapVotes,
           [
-            snap_id,
+            snapId,
             token,
           ],
         ),
