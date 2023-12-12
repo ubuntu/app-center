@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:app_center/constants.dart';
+import 'package:app_center/src/widgets/placeholders.dart';
+import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +10,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -22,7 +26,7 @@ import '/widgets.dart';
 const _kPrimaryButtonMaxWidth = 136.0;
 const _kChannelDropdownWidth = 220.0;
 
-typedef SnapInfo = ({String label, Widget value});
+typedef SnapInfo = ({Widget label, Widget value});
 
 class SnapPage extends ConsumerStatefulWidget {
   const SnapPage({super.key, required this.snapName});
@@ -88,7 +92,7 @@ class _SnapView extends ConsumerWidget {
 
     final snapInfos = <SnapInfo>[
       (
-        label: l10n.snapPageConfinementLabel,
+        label: Text(l10n.snapPageConfinementLabel),
         value: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -106,7 +110,7 @@ class _SnapView extends ConsumerWidget {
         ),
       ),
       (
-        label: l10n.snapPageDownloadSizeLabel,
+        label: Text(l10n.snapPageDownloadSizeLabel),
         value: Text(
           snapModel.channelInfo != null
               ? context.formatByteSize(snapModel.channelInfo!.size)
@@ -114,11 +118,11 @@ class _SnapView extends ConsumerWidget {
         ),
       ),
       (
-        label: l10n.snapPageLicenseLabel,
+        label: Text(l10n.snapPageLicenseLabel),
         value: Text(snapModel.snap.license ?? ''),
       ),
       (
-        label: l10n.snapPagePublishedLabel,
+        label: Text(l10n.snapPagePublishedLabel),
         value: Text(
           snapModel.channelInfo != null
               ? DateFormat.yMMMd().format(snapModel.channelInfo!.releasedAt)
@@ -126,7 +130,7 @@ class _SnapView extends ConsumerWidget {
         ),
       ),
       (
-        label: l10n.snapPageLinksLabel,
+        label: Text(l10n.snapPageLinksLabel),
         value: Column(
           children: [
             if (snapModel.snap.website != null)
@@ -275,14 +279,36 @@ class _SnapInfoBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final ratingsModel = ref.watch(ratingsModelProvider(snap));
+    final light = Theme.of(context).brightness == Brightness.light;
 
     final ratings = ratingsModel.state.whenOrNull(
       data: (_) => (
-        label: l10n.snapRatingsVotes(ratingsModel.snapRating?.totalVotes ?? 0),
+        label: Text(
+            l10n.snapRatingsVotes(ratingsModel.snapRating?.totalVotes ?? 0)),
         value: Text(
           ratingsModel.snapRating?.ratingsBand.localize(l10n) ?? '',
           style: TextStyle(
               color: ratingsModel.snapRating?.ratingsBand.getColor(context)),
+        ),
+      ),
+      loading: () => (
+        label: Shimmer.fromColors(
+          baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
+          highlightColor:
+              light ? kShimmerHighLightLight : kShimmerHighLightDark,
+          child: ShimmerPlaceholder(
+            child: Text(l10n.snapRatingsVotes(0)),
+          ),
+        ),
+        value: Shimmer.fromColors(
+          baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
+          highlightColor:
+              light ? kShimmerHighLightLight : kShimmerHighLightDark,
+          child: ShimmerPlaceholder(
+            child: Text(
+              RatingsBand.insufficientVotes.localize(l10n),
+            ),
+          ),
         ),
       ),
     );
