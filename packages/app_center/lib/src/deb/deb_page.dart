@@ -80,7 +80,7 @@ class _DebView extends StatelessWidget {
     final debInfos = <AppInfo>[
       (
         label: l10n.snapPageVersionLabel,
-        value: Text(debModel.packageInfo!.packageId.version)
+        value: Text(debModel.packageInfo?.packageId.version ?? '')
       ),
       if (debModel.component.urls.isNotEmpty)
         (
