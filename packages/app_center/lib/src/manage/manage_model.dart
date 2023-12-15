@@ -26,8 +26,8 @@ class ManageModel extends ChangeNotifier {
 
   List<Snap>? _installedSnaps;
   List<String>? _refreshableSnapNames;
-  Map<String, (Snap snap, SnapdChange snapdChange)> snapsWithInprogressChange =
-      {};
+  Map<String, ({Snap snap, SnapdChange snapdChange})>
+      snapsWithInprogressChange = {};
 
   bool _isRefreshable(Snap snap) => updatesModel.hasUpdate(snap.name);
   Iterable<Snap> get refreshableSnaps =>
@@ -70,7 +70,8 @@ class ManageModel extends ChangeNotifier {
       if (change.status == 'Done') {
         snapsWithInprogressChange.remove(snap.name);
       } else {
-        snapsWithInprogressChange.putIfAbsent(snap.name, () => (snap, change));
+        snapsWithInprogressChange.putIfAbsent(
+            snap.name, () => (snap: snap, snapdChange: change));
       }
 
       await _getInstalledSnaps();

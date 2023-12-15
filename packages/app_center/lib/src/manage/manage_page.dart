@@ -172,8 +172,8 @@ class _ManageView extends ConsumerWidget {
                         .elementAt(index)]!;
 
                 return _ManageSnapTile(
-                  snapdChangeId: snapDetails.$2.id,
-                  snap: snapDetails.$1,
+                  snapdChangeId: snapDetails.snapdChange.id,
+                  snap: snapDetails.snap,
                   position: index ==
                           (manageModel.snapsWithInprogressChange.length - 1)
                       ? index == 0
