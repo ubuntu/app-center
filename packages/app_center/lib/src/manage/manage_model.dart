@@ -1,4 +1,5 @@
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/snapd/logger.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,6 +26,8 @@ class ManageModel extends ChangeNotifier {
 
   List<Snap>? _installedSnaps;
   List<String>? _refreshableSnapNames;
+  Map<String, (Snap snap, SnapdChange snapdChange)> snapsWithInprogressChange =
+      {};
 
   bool _isRefreshable(Snap snap) => updatesModel.hasUpdate(snap.name);
   Iterable<Snap> get refreshableSnaps =>
@@ -58,5 +61,20 @@ class ManageModel extends ChangeNotifier {
   Future<void> _getInstalledSnaps() async {
     _installedSnaps = await snapd.getSnaps().then(
         (snaps) => snaps.sortedBy((snap) => snap.titleOrName.toLowerCase()));
+  }
+
+  Future<void> handleSnapChange(Snap snap, SnapdChange change) async {
+    _state = await AsyncValue.guard(() async {
+      log.debug(
+          'handleSnapChange: ${snap.name} with changeId ${change.id} for kind: ${change.kind}, is ${change.status}');
+      if (change.status == 'Done') {
+        snapsWithInprogressChange.remove(snap.name);
+      } else {
+        snapsWithInprogressChange.putIfAbsent(snap.name, () => (snap, change));
+      }
+
+      await _getInstalledSnaps();
+      notifyListeners();
+    });
   }
 }

@@ -128,6 +128,63 @@ class _ManageView extends ConsumerWidget {
                       : ManageTilePosition.middle,
             ),
           ),
+          if (manageModel.snapsWithInprogressChange.isNotEmpty)
+            SliverList.list(
+              children: [
+                const SizedBox(height: 48),
+                Builder(builder: (context) {
+                  final compact = ResponsiveLayout.of(context).type ==
+                      ResponsiveLayoutType.small;
+                  return Flex(
+                    direction: compact ? Axis.vertical : Axis.horizontal,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: compact
+                        ? CrossAxisAlignment.start
+                        : CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        l10n.managePageInstallingApps(
+                            manageModel.snapsWithInprogressChange.length),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  );
+                }),
+                const SizedBox(height: 24),
+                if (manageModel.snapsWithInprogressChange.isEmpty)
+                  Text(
+                    l10n.managePageNoUpdatesAvailableDescription,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+              ],
+            ),
+          if (manageModel.snapsWithInprogressChange.isNotEmpty)
+            SliverList.builder(
+              itemCount: manageModel.snapsWithInprogressChange.length,
+              itemBuilder: (context, index) {
+                final snapDetails = manageModel.snapsWithInprogressChange[
+                    manageModel.snapsWithInprogressChange.keys
+                        .toList()
+                        .elementAt(index)]!;
+
+                return _ManageSnapTile(
+                  snapdChangeId: snapDetails.$2.id,
+                  snap: snapDetails.$1,
+                  position: index ==
+                          (manageModel.snapsWithInprogressChange.length - 1)
+                      ? index == 0
+                          ? ManageTilePosition.single
+                          : ManageTilePosition.last
+                      : index == 0
+                          ? ManageTilePosition.first
+                          : ManageTilePosition.middle,
+                );
+              },
+            ),
           SliverList.list(children: [
             const SizedBox(height: 48),
             Text(
@@ -313,10 +370,12 @@ enum ManageTilePosition { first, middle, last, single }
 class _ManageSnapTile extends ConsumerWidget {
   const _ManageSnapTile({
     required this.snap,
+    this.snapdChangeId,
     this.position = ManageTilePosition.middle,
   });
 
   final Snap snap;
+  final String? snapdChangeId;
   final ManageTilePosition position;
 
   @override
@@ -327,6 +386,13 @@ class _ManageSnapTile extends ConsumerWidget {
     final daysSinceUpdate = snap.installDate != null
         ? DateTime.now().difference(snap.installDate!).inDays
         : null;
+
+    SnapdChange? change;
+    if (snapdChangeId != null) {
+      change = ref
+          .watch(changeProvider(snapdChangeId))
+          .whenOrNull(data: (data) => data);
+    }
 
     return ListTile(
       key: ValueKey(snap.id),
@@ -386,6 +452,30 @@ class _ManageSnapTile extends ConsumerWidget {
                     )
                   : const SizedBox(),
             ),
+            if (change?.id != null)
+              Expanded(
+                child: Row(
+                  children: [
+                    SizedBox.square(
+                      dimension: 16,
+                      child: YaruCircularProgressIndicator(
+                        value: change?.progress,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                    if (change != null) ...[
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          change.localize(l10n) ?? '',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ]
+                  ],
+                ),
+              ),
             Expanded(
               child: snap.installedSize != null
                   ? Text(

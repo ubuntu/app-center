@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/manage/manage_model.dart';
 import 'package:app_center/src/snapd/logger.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
@@ -8,16 +9,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-final snapModelProvider =
-    ChangeNotifierProvider.family.autoDispose<SnapModel, String>(
+final snapModelProvider = ChangeNotifierProvider.family<SnapModel, String>(
   (ref, snapName) => SnapModel(
+    ref: ref,
     snapd: getService<SnapdService>(),
     snapName: snapName,
   )..init(),
 );
 
 final progressProvider =
-    StreamProvider.family.autoDispose<double, List<String>>((ref, ids) {
+    StreamProvider.family<double, List<String>>((ref, ids) {
   final snapd = getService<SnapdService>();
 
   final streamController = StreamController<double>.broadcast();
@@ -38,19 +39,17 @@ final progressProvider =
   return streamController.stream;
 });
 
-final changeProvider =
-    StreamProvider.family.autoDispose<SnapdChange, String?>((ref, id) {
+final changeProvider = StreamProvider.family<SnapdChange, String?>((ref, id) {
   if (id == null) return const Stream.empty();
   return getService<SnapdService>().watchChange(id);
 });
 
 class SnapModel extends ChangeNotifier {
-  SnapModel({
-    required this.snapd,
-    required this.snapName,
-  }) : _state = const AsyncValue.loading();
+  SnapModel({required this.snapd, required this.snapName, this.ref})
+      : _state = const AsyncValue.loading();
   final SnapdService snapd;
   final String snapName;
+  final ChangeNotifierProviderRef<SnapModel>? ref;
 
   String? get activeChangeId => _activeChangeId;
   String? _activeChangeId;
@@ -148,6 +147,8 @@ class SnapModel extends ChangeNotifier {
   }
 
   Future<void> _activeChangeListener(SnapdChange change) async {
+    await ref?.read(manageModelProvider).handleSnapChange(snap, change);
+
     if (change.ready) {
       log.debug('Change $_activeChangeId for $snapName done');
       _setActiveChange(null);
