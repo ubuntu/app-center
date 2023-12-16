@@ -303,6 +303,21 @@ class _ActionButtons extends ConsumerWidget {
                   ],
                 ),
         ),
+        const SizedBox(width: 8),
+        PushButton.outlined(
+          onPressed: updatesModel.refreshableSnapNames.isNotEmpty &&
+                  !updatesModel.state.isLoading &&
+                  updatesModel.activeChangeId != null
+              ? () => ref
+                  .read(updatesModelProvider)
+                  .cancelChange(updatesModel.activeChangeId!)
+              : null,
+          child: Text(
+            l10n.snapActionCancelLabel,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     );
   }
