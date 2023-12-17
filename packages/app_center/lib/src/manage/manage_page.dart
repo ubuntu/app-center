@@ -451,14 +451,18 @@ class _ManageSnapTile extends ConsumerWidget {
     return ButtonBar(
       mainAxisSize: MainAxisSize.min,
       children: [
-        PushButton.outlined(
-          onPressed: () {
-            ref.read(snapModelProvider(snap.name)).refresh();
-          },
-          child: Consumer(
-            builder: (context, ref, child) {
-              final snapModel = ref.watch(snapModelProvider(snap.name));
-              return snapModel.activeChangeId != null
+        Consumer(
+          builder: (context, ref, child) {
+            final snapModel = ref.watch(snapModelProvider(snap.name));
+            final updatesModel = ref.watch(updatesModelProvider);
+
+            return PushButton.outlined(
+              onPressed: updatesModel.activeChangeId != null
+                  ? null
+                  : () {
+                      ref.read(snapModelProvider(snap.name)).refresh();
+                    },
+              child: snapModel.activeChangeId != null
                   ? Consumer(
                       builder: (context, ref, child) {
                         final change = ref
@@ -500,9 +504,9 @@ class _ManageSnapTile extends ConsumerWidget {
                           ),
                         ),
                       ],
-                    );
-            },
-          ),
+                    ),
+            );
+          },
         ),
         MenuAnchor(
           menuChildren: [
