@@ -35,6 +35,13 @@ void main() {
       channel: 'latest/stable',
     ),
   ];
+
+  final snapModel = createMockSnapModel(
+    hasUpdate: true,
+    localSnap: refreshableSnaps[0],
+    storeSnap: refreshableSnaps[0],
+  );
+
   testWidgets('list installed snaps', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(
@@ -126,7 +133,8 @@ void main() {
             ),
           ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
-          updatesModelProvider.overrideWith((_) => mockUpdatesModel)
+          updatesModelProvider.overrideWith((_) => mockUpdatesModel),
+          snapModelProvider.overrideWith((_, __) => snapModel)
         ],
         child: const ManagePage(),
       ),
@@ -204,6 +212,7 @@ void main() {
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
           changeProvider
               .overrideWith((_, __) => Stream.fromIterable([mockChange])),
+          snapModelProvider.overrideWith((_, __) => snapModel)
         ],
         child: const ManagePage(),
       ),
@@ -247,7 +256,8 @@ void main() {
                 ),
               ),
             ),
-          )
+          ),
+          snapModelProvider.overrideWith((_, __) => snapModel)
         ],
         child: const ManagePage(),
       ),
