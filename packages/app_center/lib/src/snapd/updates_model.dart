@@ -19,8 +19,8 @@ class UpdatesModel extends ChangeNotifier {
 
   Iterable<Snap>? _refreshableSnaps;
 
-  String? get activeChangeId => _activeChangeId;
-  String? _activeChangeId;
+  String? get updateAllChangeId => _updateAllChangeId;
+  String? _updateAllChangeId;
 
   AsyncValue<void> get state => _state;
   AsyncValue<void> _state;
@@ -54,13 +54,13 @@ class UpdatesModel extends ChangeNotifier {
     if (_refreshableSnaps == null) return;
     try {
       final changeId = await snapd.refreshMany(refreshableSnapNames.toList());
-      _activeChangeId = changeId;
+      _updateAllChangeId = changeId;
       notifyListeners();
       await snapd.waitChange(changeId);
     } on SnapdException catch (e) {
       _handleError(e);
     }
-    _activeChangeId = null;
+    _updateAllChangeId = null;
     await refresh();
   }
 }
