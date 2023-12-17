@@ -238,9 +238,8 @@ class _ActionButtons extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         PushButton.outlined(
-          onPressed: updatesModel.updateAllChangeId != null
-              ? null
-              : updatesModel.refresh,
+          onPressed:
+              updatesModel.activeChangeId != null ? null : updatesModel.refresh,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -260,14 +259,14 @@ class _ActionButtons extends ConsumerWidget {
         PushButton.elevated(
           onPressed: updatesModel.refreshableSnapNames.isNotEmpty &&
                   !updatesModel.state.isLoading &&
-                  updatesModel.updateAllChangeId == null
+                  updatesModel.activeChangeId == null
               ? ref.read(updatesModelProvider).updateAll
               : null,
-          child: updatesModel.updateAllChangeId != null
+          child: updatesModel.activeChangeId != null
               ? Consumer(
                   builder: (context, ref, child) {
                     final change = ref
-                        .watch(changeProvider(updatesModel.updateAllChangeId))
+                        .watch(changeProvider(updatesModel.activeChangeId))
                         .whenOrNull(data: (data) => data);
                     return Row(
                       children: [
