@@ -1,15 +1,14 @@
 name: app_center
 description: App Center
 version: 1.0.0
-publish_to: "none"
+publish_to: 'none'
 
 environment:
-  sdk: ">=3.1.0 <4.0.0"
+  sdk: '>=3.1.0 <4.0.0'
   flutter: 3.13.9
 
 dependencies:
-  app_center_ratings_client:
-    path: ../app_center_ratings_client
+  app_center_ratings_client: ^1.0.0
   appstream: ^0.2.8
   args: ^2.4.2
   cached_network_image: ^3.3.0
