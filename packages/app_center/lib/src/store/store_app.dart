@@ -37,7 +37,7 @@ class _StoreAppState extends ConsumerState<StoreApp> {
 
     return YaruTheme(
       builder: (context, yaru, child) => MaterialApp(
-        theme: yaru.theme,
+        theme: yaru.theme?.copyWith(scaffoldBackgroundColor: Colors.white),
         darkTheme: yaru.darkTheme,
         debugShowCheckedModeBanner: false,
         localizationsDelegates: localizationsDelegates,
