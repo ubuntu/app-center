@@ -9,7 +9,7 @@ version: git
 parts:
   flutter-git:
     source: https://github.com/flutter/flutter.git
-    source-tag: 3.13.9
+    source-tag: 3.16.4
     source-depth: 1
     plugin: nil
     override-build: |

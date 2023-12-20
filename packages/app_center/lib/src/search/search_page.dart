@@ -48,31 +48,29 @@ class SearchPage extends StatelessWidget {
                 Row(children: [
                   Text(l10n.searchPageSortByLabel),
                   const SizedBox(width: 8),
-                  Expanded(
-                    child: Consumer(builder: (context, ref, child) {
-                      final sortOrder = ref.watch(snapSortOrderProvider);
-                      return MenuButtonBuilder<SnapSortOrder?>(
-                        values: const [
-                          null,
-                          SnapSortOrder.alphabeticalAsc,
-                          SnapSortOrder.alphabeticalDesc,
-                          SnapSortOrder.downloadSizeAsc,
-                          SnapSortOrder.downloadSizeDesc,
-                        ],
-                        itemBuilder: (context, sortOrder, child) => Text(
-                          sortOrder?.localize(l10n) ??
-                              l10n.snapSortOrderRelevance,
-                        ),
-                        onSelected: (value) => ref
-                            .read(snapSortOrderProvider.notifier)
-                            .state = value,
-                        child: Text(
-                          sortOrder?.localize(l10n) ??
-                              l10n.snapSortOrderRelevance,
-                        ),
-                      );
-                    }),
-                  ),
+                  Consumer(builder: (context, ref, child) {
+                    final sortOrder = ref.watch(snapSortOrderProvider);
+                    return MenuButtonBuilder<SnapSortOrder?>(
+                      values: const [
+                        null,
+                        SnapSortOrder.alphabeticalAsc,
+                        SnapSortOrder.alphabeticalDesc,
+                        SnapSortOrder.downloadSizeAsc,
+                        SnapSortOrder.downloadSizeDesc,
+                      ],
+                      itemBuilder: (context, sortOrder, child) => Text(
+                        sortOrder?.localize(l10n) ??
+                            l10n.snapSortOrderRelevance,
+                      ),
+                      onSelected: (value) => ref
+                          .read(snapSortOrderProvider.notifier)
+                          .state = value,
+                      child: Text(
+                        sortOrder?.localize(l10n) ??
+                            l10n.snapSortOrderRelevance,
+                      ),
+                    );
+                  }),
                   if (query != null) ...[
                     const SizedBox(width: 24),
                     Text(l10n.searchPageFilterByLabel),
