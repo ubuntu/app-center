@@ -738,15 +738,16 @@ class MockManageModel extends _i1.Mock implements _i17.ManageModel {
       ) as _i6.UpdatesModel);
 
   @override
-  Map<String, (_i2.Snap, _i2.SnapdChange)> get snapsWithInprogressChange =>
-      (super.noSuchMethod(
-        Invocation.getter(#snapsWithInprogressChange),
-        returnValue: <String, (_i2.Snap, _i2.SnapdChange)>{},
-      ) as Map<String, (_i2.Snap, _i2.SnapdChange)>);
+  Map<String, ({_i2.Snap snap, _i2.SnapdChange snapdChange})>
+      get snapsWithInprogressChange => (super.noSuchMethod(
+            Invocation.getter(#snapsWithInprogressChange),
+            returnValue: <String,
+                ({_i2.Snap snap, _i2.SnapdChange snapdChange})>{},
+          ) as Map<String, ({_i2.Snap snap, _i2.SnapdChange snapdChange})>);
 
   @override
   set snapsWithInprogressChange(
-          Map<String, (_i2.Snap, _i2.SnapdChange)>?
+          Map<String, ({_i2.Snap snap, _i2.SnapdChange snapdChange})>?
               _snapsWithInprogressChange) =>
       super.noSuchMethod(
         Invocation.setter(

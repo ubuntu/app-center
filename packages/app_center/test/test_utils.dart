@@ -163,7 +163,8 @@ DebModel createMockDebModel({
 ManageModel createMockManageModel({
   Iterable<Snap>? refreshableSnaps,
   Iterable<Snap>? nonRefreshableSnaps,
-  Map<String, (Snap, SnapdChange)>? snapsWithInprogressChange,
+  Map<String, ({Snap snap, SnapdChange snapdChange})>?
+      snapsWithInprogressChange,
   AsyncValue<void>? state,
 }) {
   final model = MockManageModel();
@@ -173,7 +174,7 @@ ManageModel createMockManageModel({
   when(model.nonRefreshableSnaps)
       .thenReturn(nonRefreshableSnaps ?? const Iterable.empty());
   when(model.snapsWithInprogressChange)
-      .thenReturn(snapsWithInprogressChange ?? <String, (Snap, SnapdChange)>{});
+      .thenReturn(snapsWithInprogressChange ?? {});
   return model;
 }
 

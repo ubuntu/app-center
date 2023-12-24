@@ -35,17 +35,19 @@ void main() {
       channel: 'latest/stable',
     ),
   ];
-  final snapsWithInprogressChange = <String, (Snap, SnapdChange)>{};
+
+  final snapsWithInprogressChange =
+      <String, ({Snap snap, SnapdChange snapdChange})>{};
   snapsWithInprogressChange.putIfAbsent(
     'testsnap4',
     () => (
-      const Snap(
+      snap: const Snap(
         name: 'testsnap4',
         title: 'Snap that is being installed',
         version: '2.0',
         channel: 'latest/stable',
       ),
-      SnapdChange(spawnTime: DateTime.now())
+      snapdChange: SnapdChange(spawnTime: DateTime.now())
     ),
   );
 
