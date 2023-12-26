@@ -1,10 +1,10 @@
 name: app_center
 description: App Center
 version: 1.0.0
-publish_to: "none"
+publish_to: 'none'
 
 environment:
-  sdk: ">=3.1.0 <4.0.0"
+  sdk: '>=3.1.0 <4.0.0'
   flutter: 3.16.4
 
 dependencies:
