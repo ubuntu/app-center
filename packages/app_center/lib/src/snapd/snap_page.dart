@@ -4,6 +4,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/snapd/snap_report.dart';
 import 'package:app_center/src/store/store_app.dart';
 import 'package:app_center/widgets.dart';
 import 'package:collection/collection.dart';
@@ -563,6 +564,7 @@ class _Header extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const YaruBackButton(),
+            const Spacer(),
             if (snap.website != null)
               YaruIconButton(
                 icon: const Icon(YaruIcons.share),
@@ -579,6 +581,17 @@ class _Header extends ConsumerWidget {
                   Clipboard.setData(ClipboardData(text: snap.website!));
                 },
               ),
+            YaruIconButton(
+              icon: const Icon(YaruIcons.flag),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return SnapReport(name: snapModel.snap.titleOrName);
+                  },
+                );
+              },
+            ),
           ],
         ),
         const SizedBox(height: kPagePadding),
