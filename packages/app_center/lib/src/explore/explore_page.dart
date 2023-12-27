@@ -1,6 +1,7 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/store/store_pages.dart';
 import 'package:app_center/store.dart';
 import 'package:app_center/widgets.dart';
 import 'package:collection/collection.dart';
@@ -172,8 +173,14 @@ class _CategoryBanner extends ConsumerWidget {
       snaps: featuredSnaps?.take(kNumberOfBannerSnaps).toList() ?? [],
       slogan: category.slogan(l10n),
       buttonLabel: category.buttonLabel(l10n),
-      onPressed: () =>
-          StoreNavigator.pushSearch(context, category: category.categoryName),
+      onPressed: () {
+        if (displayedCategories.contains(category)) {
+          ref.read(yaruPageControllerProvider).index =
+              displayedCategories.indexOf(category) + 1;
+        } else {
+          StoreNavigator.pushSearch(context, category: category.categoryName);
+        }
+      },
       colors: category.bannerColors,
     );
   }

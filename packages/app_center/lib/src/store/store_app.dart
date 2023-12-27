@@ -17,6 +17,9 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 final materialAppNavigatorKeyProvider =
     Provider((ref) => GlobalKey<NavigatorState>());
 
+final yaruPageControllerProvider =
+    Provider((ref) => YaruPageController(length: pages.length));
+
 class StoreApp extends ConsumerStatefulWidget {
   const StoreApp({super.key});
 
@@ -60,7 +63,7 @@ class _StoreAppState extends ConsumerState<StoreApp> {
               navigatorKey: _navigatorKey,
               navigatorObservers: [StoreObserver(ref)],
               initialRoute: ref.watch(initialRouteProvider),
-              length: pages.length,
+              controller: ref.watch(yaruPageControllerProvider),
               tileBuilder: (context, index, selected, availableWidth) =>
                   pages[index].tileBuilder(context, selected),
               pageBuilder: (context, index) =>
