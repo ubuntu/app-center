@@ -51,6 +51,12 @@ void main() {
     ),
   );
 
+  final snapModel = createMockSnapModel(
+    hasUpdate: true,
+    localSnap: refreshableSnaps[0],
+    storeSnap: refreshableSnaps[0],
+  );
+
   testWidgets('list installed snaps', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(
@@ -166,7 +172,8 @@ void main() {
             ),
           ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
-          updatesModelProvider.overrideWith((_) => mockUpdatesModel)
+          updatesModelProvider.overrideWith((_) => mockUpdatesModel),
+          snapModelProvider.overrideWith((_, __) => snapModel)
         ],
         child: const ManagePage(),
       ),
@@ -181,6 +188,44 @@ void main() {
 
     await tester.tap(find.text(tester.l10n.managePageUpdateAllLabel));
     verify(mockUpdatesModel.updateAll()).called(1);
+  });
+
+  testWidgets('refresh individual snap', (tester) async {
+    final mockUpdatesModel = createMockUpdatesModel(
+        refreshableSnapNames: refreshableSnaps.map((snap) => snap.name));
+
+    final snapModel = createMockSnapModel(
+      hasUpdate: true,
+      localSnap: refreshableSnaps[0],
+      storeSnap: refreshableSnaps[0],
+    );
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          snapModelProvider.overrideWith((ref, arg) => snapModel),
+          manageModelProvider.overrideWith(
+            (_) => createMockManageModel(
+              refreshableSnaps: refreshableSnaps,
+            ),
+          ),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          updatesModelProvider.overrideWith((_) => mockUpdatesModel)
+        ],
+        child: const ManagePage(),
+      ),
+    );
+
+    final testTile = find.snapTile('Snap with an update');
+    expect(testTile, findsOneWidget);
+    expect(find.descendant(of: testTile, matching: find.text('2.0')),
+        findsOneWidget);
+    expect(find.descendant(of: testTile, matching: find.text('latest/stable')),
+        findsOneWidget);
+
+    await tester.tap(find.text(tester.l10n.snapActionUpdateLabel));
+    verify(snapModel.refresh()).called(1);
   });
 
   testWidgets('refreshing all', (tester) async {
@@ -206,6 +251,7 @@ void main() {
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
           changeProvider
               .overrideWith((_, __) => Stream.fromIterable([mockChange])),
+          snapModelProvider.overrideWith((_, __) => snapModel)
         ],
         child: const ManagePage(),
       ),
@@ -249,7 +295,8 @@ void main() {
                 ),
               ),
             ),
-          )
+          ),
+          snapModelProvider.overrideWith((_, __) => snapModel)
         ],
         child: const ManagePage(),
       ),
