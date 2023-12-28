@@ -312,10 +312,11 @@ class _ActionButtons extends ConsumerWidget {
 enum ManageTilePosition { first, middle, last, single }
 
 class _ManageSnapTile extends ConsumerWidget {
-  const _ManageSnapTile(
-      {required this.snap,
-      this.position = ManageTilePosition.middle,
-      this.showUpdateButton = false});
+  const _ManageSnapTile({
+    required this.snap,
+    this.position = ManageTilePosition.middle,
+    this.showUpdateButton = false,
+  });
 
   final Snap snap;
   final ManageTilePosition position;
