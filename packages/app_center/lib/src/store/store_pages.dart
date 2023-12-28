@@ -8,6 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
+final displayedCategories = [
+  SnapCategoryEnum.featured,
+  SnapCategoryEnum.productivity,
+  SnapCategoryEnum.development,
+  SnapCategoryEnum.games,
+];
+
 typedef StorePage = ({
   Widget Function(BuildContext context, bool selected) tileBuilder,
   WidgetBuilder pageBuilder,
@@ -21,12 +28,7 @@ final pages = <StorePage>[
         ),
     pageBuilder: (_) => const ExplorePage(),
   ),
-  for (final category in [
-    SnapCategoryEnum.featured,
-    SnapCategoryEnum.productivity,
-    SnapCategoryEnum.development,
-    SnapCategoryEnum.games,
-  ])
+  for (final category in displayedCategories)
     (
       tileBuilder: (context, selected) => YaruMasterTile(
             leading: Icon(category.icon(true)),
