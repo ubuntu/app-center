@@ -71,7 +71,8 @@ class UpdatesModel extends ChangeNotifier {
       final changeDetails = await snapd.getChange(changeId);
 
       // If the change is already completed, ignore silently.
-      // Otherwise an erorr will be displayed to user, which might be confusing.
+      // If it wouldn't be ignored, an error would be displayed to the user,
+      // which might be confusing.
       if (changeDetails.ready) {
         return;
       }
