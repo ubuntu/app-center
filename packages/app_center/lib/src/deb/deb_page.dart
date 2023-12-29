@@ -195,7 +195,10 @@ class _DebActionButtons extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       overflowButtonSpacing: 8,
       children: [
-        primaryActionButton,
+        if (debModel.packageInfo != null)
+          primaryActionButton
+        else
+          Text(l10n.debPageErrorNoPackageInfo),
         if (debModel.activeTransactionId != null) cancelButton
       ].whereNotNull().toList(),
     );
