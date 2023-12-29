@@ -157,6 +157,9 @@ class PackageKitService {
         if (event is PackageKitPackageEvent &&
             possibleArchs.contains(event.packageId.arch)) {
           info = event;
+        } else {
+          log.error(
+              'Couldn\'t resolve package $name with architectures $possibleArchs');
         }
       },
     ).then(waitTransaction);
