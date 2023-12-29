@@ -75,13 +75,11 @@ class DebModel extends ChangeNotifier {
 
   Future<void> install() {
     assert(packageInfo != null);
-    //TODO: Display a snackbar if packageInfo is null
     return _packageKitAction(() => packageKit.install(packageInfo!.packageId));
   }
 
   Future<void> remove() {
     assert(packageInfo != null);
-    //TODO: Display a snackbar if packageInfo is null
     return _packageKitAction(() => packageKit.remove(packageInfo!.packageId));
   }
 
