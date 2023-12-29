@@ -1,16 +1,15 @@
+import 'package:app_center/constants.dart';
+import 'package:app_center/layout.dart';
+import 'package:app_center/xdg_cache_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
-import '/constants.dart';
-import '/layout.dart';
-import '/xdg_cache_manager.dart';
-
 class AppIcon extends StatelessWidget {
   const AppIcon({
-    super.key,
     required this.iconUrl,
+    super.key,
     this.size = kIconSize,
     this.loadingHighlight,
     this.loadingBaseColor,
@@ -25,7 +24,7 @@ class AppIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final fallBackIcon = YaruPlaceholderIcon(size: Size.square(size));
 
-    var light = Theme.of(context).brightness == Brightness.light;
+    final light = Theme.of(context).brightness == Brightness.light;
     final fallBackLoadingIcon = Shimmer.fromColors(
       baseColor:
           loadingBaseColor ?? (light ? kShimmerBaseLight : kShimmerBaseDark),

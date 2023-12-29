@@ -1,8 +1,7 @@
+import 'package:app_center/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_icons/yaru_icons.dart';
-
-import '/l10n.dart';
 
 const kMaxWidth = 500.0;
 
@@ -24,9 +23,9 @@ Future<void> showErrorDialog({
 
 class ErrorDialog extends StatelessWidget {
   const ErrorDialog({
-    super.key,
     required this.title,
     required this.message,
+    super.key,
     this.icon,
   });
 

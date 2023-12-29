@@ -1,3 +1,8 @@
+import 'package:app_center/constants.dart';
+import 'package:app_center/l10n.dart';
+import 'package:app_center/layout.dart';
+import 'package:app_center/src/about/about_providers.dart';
+import 'package:app_center/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,12 +11,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
-
-import '/constants.dart';
-import '/l10n.dart';
-import '/layout.dart';
-import '/widgets.dart';
-import 'about_providers.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -120,7 +119,7 @@ class _ContributorView extends ConsumerWidget {
         Text(l10n.aboutPageContributorTitle),
         const SizedBox(height: 8),
         state.when(
-          data: (contributors) => _ContributorWrap(contributors),
+          data: _ContributorWrap.new,
           error: (error, stackTrace) => Text(error.toString()),
           loading: () => Shimmer.fromColors(
             baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,

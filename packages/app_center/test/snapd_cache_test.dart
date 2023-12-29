@@ -73,7 +73,6 @@ void main() {
     final cache = CacheFile(
       '/foo/${localSnap.name}.smc',
       fs: fs,
-      codec: smc,
     );
     final file = fs.file('foo/${localSnap.name}.smc');
     expect(file.existsSync(), isFalse);

@@ -1,8 +1,7 @@
+import 'package:app_center/search.dart';
+import 'package:app_center/src/store/store_routes.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '/search.dart';
-import 'store_routes.dart';
 
 class StoreObserver extends NavigatorObserver {
   StoreObserver(this.ref);

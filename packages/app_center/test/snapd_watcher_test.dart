@@ -13,8 +13,8 @@ class TestSnapdWatcher extends MockSnapdClient with SnapdWatcher {}
 void main() {
   test('watch change', () async {
     final changes = [
-      SnapdChange(id: 'c', spawnTime: DateTime(1970, 1)),
-      SnapdChange(id: 'c', spawnTime: DateTime(1970, 1)),
+      SnapdChange(id: 'c', spawnTime: DateTime(1970)),
+      SnapdChange(id: 'c', spawnTime: DateTime(1970)),
       SnapdChange(id: 'c', spawnTime: DateTime(1970, 2)),
       SnapdChange(id: 'c', spawnTime: DateTime(1970, 3)),
       SnapdChange(id: 'c', spawnTime: DateTime(1970, 3)),
@@ -36,7 +36,7 @@ void main() {
     final changes = [
       SnapdChange(id: 'c2', spawnTime: DateTime(1970, 2)),
       SnapdChange(id: 'c3', spawnTime: DateTime(1970, 3)),
-      SnapdChange(id: 'c1', spawnTime: DateTime(1970, 1)),
+      SnapdChange(id: 'c1', spawnTime: DateTime(1970)),
     ];
 
     final watcher = TestSnapdWatcher();

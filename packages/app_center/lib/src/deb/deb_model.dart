@@ -1,13 +1,12 @@
 import 'dart:async';
 
+import 'package:app_center/appstream.dart';
+import 'package:app_center/packagekit.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-
-import '/appstream.dart';
-import '/packagekit.dart';
 
 final debModelProvider =
     ChangeNotifierProvider.family.autoDispose<DebModel, String>(

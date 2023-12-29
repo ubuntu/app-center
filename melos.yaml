@@ -3,6 +3,15 @@ name: app_center
 packages:
   - packages/**
 
+command:
+  bootstrap:
+    environment:
+      sdk: '>=3.1.0 <4.0.0'
+      flutter: 3.16.4
+
+    dev_dependencies:
+      ubuntu_lints: ^0.3.0
+
 scripts:
   # analyze all packages
   analyze: >

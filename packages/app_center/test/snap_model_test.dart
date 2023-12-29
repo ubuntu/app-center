@@ -114,7 +114,6 @@ void main() {
       verify(service.install(
         'testsnap',
         channel: 'latest/stable',
-        classic: false,
       )).called(1);
     });
     test('non-default channel', () async {
@@ -166,7 +165,6 @@ void main() {
       verify(service.refresh(
         'testsnap',
         channel: 'latest/stable',
-        classic: false,
       )).called(1);
     });
   });

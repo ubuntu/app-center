@@ -1,14 +1,14 @@
+import 'package:app_center/l10n.dart';
+import 'package:app_center/layout.dart';
+import 'package:app_center/snapd.dart';
+import 'package:app_center/src/store/store_pages.dart';
+import 'package:app_center/store.dart';
+import 'package:app_center/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru_icons/yaru_icons.dart';
-
-import '/l10n.dart';
-import '/layout.dart';
-import '/snapd.dart';
-import '/store.dart';
-import '/widgets.dart';
 
 const kNumberOfBannerSnaps = 3;
 
@@ -164,8 +164,8 @@ class _CategoryBanner extends ConsumerWidget {
         .whenOrNull(data: (data) => data);
     final featuredSnaps = category.featuredSnapNames != null
         ? category.featuredSnapNames!
-            .map((name) =>
-                snaps?.singleWhereOrNull(((snap) => snap.name == name)))
+            .map(
+                (name) => snaps?.singleWhereOrNull((snap) => snap.name == name))
             .whereNotNull()
         : snaps;
     final l10n = AppLocalizations.of(context);
@@ -173,8 +173,14 @@ class _CategoryBanner extends ConsumerWidget {
       snaps: featuredSnaps?.take(kNumberOfBannerSnaps).toList() ?? [],
       slogan: category.slogan(l10n),
       buttonLabel: category.buttonLabel(l10n),
-      onPressed: () =>
-          StoreNavigator.pushSearch(context, category: category.categoryName),
+      onPressed: () {
+        if (displayedCategories.contains(category)) {
+          ref.read(yaruPageControllerProvider).index =
+              displayedCategories.indexOf(category) + 1;
+        } else {
+          StoreNavigator.pushSearch(context, category: category.categoryName);
+        }
+      },
       colors: category.bannerColors,
     );
   }
@@ -184,9 +190,9 @@ class _Banner extends StatelessWidget {
   const _Banner({
     required this.snaps,
     required this.slogan,
+    required this.colors,
     this.buttonLabel,
     this.onPressed,
-    required this.colors,
   });
 
   final Iterable<Snap> snaps;

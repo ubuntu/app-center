@@ -1,16 +1,15 @@
+import 'package:app_center/appstream.dart';
+import 'package:app_center/l10n.dart';
+import 'package:app_center/layout.dart';
+import 'package:app_center/search.dart';
+import 'package:app_center/snapd.dart';
+import 'package:app_center/store.dart';
+import 'package:app_center/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
-
-import '/appstream.dart';
-import '/l10n.dart';
-import '/layout.dart';
-import '/search.dart';
-import '/snapd.dart';
-import '/store.dart';
-import '/widgets.dart';
 
 // TODO: break down into smaller widgets
 class SearchPage extends StatelessWidget {
@@ -49,31 +48,29 @@ class SearchPage extends StatelessWidget {
                 Row(children: [
                   Text(l10n.searchPageSortByLabel),
                   const SizedBox(width: 8),
-                  Expanded(
-                    child: Consumer(builder: (context, ref, child) {
-                      final sortOrder = ref.watch(snapSortOrderProvider);
-                      return MenuButtonBuilder<SnapSortOrder?>(
-                        values: const [
-                          null,
-                          SnapSortOrder.alphabeticalAsc,
-                          SnapSortOrder.alphabeticalDesc,
-                          SnapSortOrder.downloadSizeAsc,
-                          SnapSortOrder.downloadSizeDesc,
-                        ],
-                        itemBuilder: (context, sortOrder, child) => Text(
-                          sortOrder?.localize(l10n) ??
-                              l10n.snapSortOrderRelevance,
-                        ),
-                        onSelected: (value) => ref
-                            .read(snapSortOrderProvider.notifier)
-                            .state = value,
-                        child: Text(
-                          sortOrder?.localize(l10n) ??
-                              l10n.snapSortOrderRelevance,
-                        ),
-                      );
-                    }),
-                  ),
+                  Consumer(builder: (context, ref, child) {
+                    final sortOrder = ref.watch(snapSortOrderProvider);
+                    return MenuButtonBuilder<SnapSortOrder?>(
+                      values: const [
+                        null,
+                        SnapSortOrder.alphabeticalAsc,
+                        SnapSortOrder.alphabeticalDesc,
+                        SnapSortOrder.downloadSizeAsc,
+                        SnapSortOrder.downloadSizeDesc,
+                      ],
+                      itemBuilder: (context, sortOrder, child) => Text(
+                        sortOrder?.localize(l10n) ??
+                            l10n.snapSortOrderRelevance,
+                      ),
+                      onSelected: (value) => ref
+                          .read(snapSortOrderProvider.notifier)
+                          .state = value,
+                      child: Text(
+                        sortOrder?.localize(l10n) ??
+                            l10n.snapSortOrderRelevance,
+                      ),
+                    );
+                  }),
                   if (query != null) ...[
                     const SizedBox(width: 24),
                     Text(l10n.searchPageFilterByLabel),
@@ -180,7 +177,7 @@ class _DebSearchResults extends ConsumerWidget {
               padding: ResponsiveLayout.of(context).padding,
               child: Column(
                 children: [
-                  const Spacer(flex: 1),
+                  const Spacer(),
                   Text(
                     l10n.searchPageNoResults(query!),
                     style: Theme.of(context).textTheme.headlineSmall,
@@ -238,7 +235,7 @@ class _SnapSearchResults extends ConsumerWidget {
               padding: ResponsiveLayout.of(context).padding,
               child: Column(
                 children: [
-                  const Spacer(flex: 1),
+                  const Spacer(),
                   Text(
                     category == null
                         ? l10n.searchPageNoResults(query!)

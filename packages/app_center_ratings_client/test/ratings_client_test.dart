@@ -29,9 +29,9 @@ void main() {
       RatingsClient.withClients(mockAppClient, mockUserClient, mockChartClient);
 
   test('get chart', () async {
-    final snapId = 'foobar';
-    final token = 'bar';
-    final timeframe = chart.Timeframe.month;
+    const snapId = 'foobar';
+    const token = 'bar';
+    const timeframe = chart.Timeframe.month;
     final pbChartList = [
       ChartData(
           rawRating: 3,
@@ -43,7 +43,7 @@ void main() {
     ];
 
     final expectedResponse = [
-      chart.ChartData(
+      const chart.ChartData(
           rawRating: 3,
           rating: ratings.Rating(
             snapId: snapId,
@@ -80,14 +80,14 @@ void main() {
   });
 
   test('get rating', () async {
-    final snapId = 'foo';
-    final token = 'bar';
+    const snapId = 'foo';
+    const token = 'bar';
     final pbRating = Rating(
       snapId: snapId,
       totalVotes: Int64(105),
       ratingsBand: RatingsBand.NEUTRAL,
     );
-    final expectedResponse = ratings.Rating(
+    const expectedResponse = ratings.Rating(
       snapId: snapId,
       totalVotes: 105,
       ratingsBand: ratings.RatingsBand.neutral,
@@ -122,8 +122,8 @@ void main() {
   });
 
   test('authenticate user', () async {
-    final id = 'foo';
-    final token = 'bar';
+    const id = 'foo';
+    const token = 'bar';
     final mockResponse = AuthenticateResponse(token: token);
     final request = AuthenticateRequest(id: id);
     when(mockUserClient.authenticate(request)).thenAnswer(
@@ -137,8 +137,8 @@ void main() {
   });
 
   test('list user votes', () async {
-    final snapIdFilter = 'foo';
-    final token = 'bar';
+    const snapIdFilter = 'foo';
+    const token = 'bar';
     final time = DateTime.now().toUtc();
     final mockVotes = <Vote>[
       Vote(
@@ -193,10 +193,10 @@ void main() {
   });
 
   test('user votes', () async {
-    final snapId = 'foo';
-    final snapRevision = 1;
-    final voteUp = true;
-    final token = 'bar';
+    const snapId = 'foo';
+    const snapRevision = 1;
+    const voteUp = true;
+    const token = 'bar';
     final request = VoteRequest(
       snapId: snapId,
       snapRevision: snapRevision,
@@ -227,8 +227,8 @@ void main() {
   });
 
   test('user votes by snap id', () async {
-    final snapId = 'foo';
-    final token = 'bar';
+    const snapId = 'foo';
+    const token = 'bar';
     final time = DateTime.now().toUtc();
     final mockVotes = <Vote>[
       Vote(
@@ -284,7 +284,7 @@ void main() {
   });
 
   test('delete user', () async {
-    final token = 'bar';
+    const token = 'bar';
     final request = Empty();
 
     when(mockUserClient.delete(
@@ -308,9 +308,8 @@ void main() {
 }
 
 class MockResponseFuture<T> extends Mock implements ResponseFuture<T> {
-  final T value;
-
   MockResponseFuture(this.value);
+  final T value;
 
   @override
   Future<S> then<S>(FutureOr<S> Function(T) onValue, {Function? onError}) =>

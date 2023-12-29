@@ -1,12 +1,11 @@
 import 'dart:async';
 
+import 'package:app_center/snapd.dart';
+import 'package:app_center/src/snapd/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-
-import '/snapd.dart';
-import 'logger.dart';
 
 final updatesModelProvider = ChangeNotifierProvider(
   (ref) => UpdatesModel(getService<SnapdService>())..refresh(),

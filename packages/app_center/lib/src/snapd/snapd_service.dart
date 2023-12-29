@@ -1,7 +1,6 @@
+import 'package:app_center/src/snapd/snapd_cache.dart';
+import 'package:app_center/src/snapd/snapd_watcher.dart';
 import 'package:snapd/snapd.dart';
-
-import 'snapd_cache.dart';
-import 'snapd_watcher.dart';
 
 class SnapdService extends SnapdClient with SnapdCache, SnapdWatcher {
   Future<void> waitChange(String changeId) =>

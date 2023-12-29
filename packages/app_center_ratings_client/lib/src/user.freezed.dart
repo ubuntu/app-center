@@ -142,7 +142,7 @@ class _$VoteImpl implements _Vote {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$VoteImpl &&

@@ -9,7 +9,7 @@ version: git
 parts:
   flutter-git:
     source: https://github.com/flutter/flutter.git
-    source-tag: 3.13.9
+    source-tag: 3.16.4
     source-depth: 1
     plugin: nil
     override-build: |
@@ -35,14 +35,13 @@ parts:
     source: .
     plugin: nil
     override-build: |
-      cd packages/app_center
+      set -eux
+      dart pub global activate melos
       # when building locally artifacts can pollute the container and cause builds to fail
       # this helps increase reliability for local builds
-      flutter clean
-      # work around pub get stack overflow # https://github.com/dart-lang/sdk/issues/51068#issuecomment-1396588253
-      set +e
-      dart pub get
-      set -eux
+      dart pub global run melos clean
+      dart pub global run melos bootstrap
+      cd packages/app_center
       flutter build linux --release -v
       mkdir -p $CRAFT_PART_INSTALL/bin/
       cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/bin/

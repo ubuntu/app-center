@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_center/src/ratings/exports.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:glib/glib.dart';
 import 'package:jwt_decode/jwt_decode.dart';
-
-import 'exports.dart';
 
 class RatingsService {
   RatingsService(this.client, {@visibleForTesting String? id})
@@ -46,11 +45,11 @@ class RatingsService {
 
   Future<List<Vote>> listMyVotes(String snapFilter) async {
     await _ensureValidToken();
-    return await client.listMyVotes(snapFilter, _jwt!);
+    return client.listMyVotes(snapFilter, _jwt!);
   }
 
   Future<List<Vote>> getSnapVotes(String snapId) async {
     await _ensureValidToken();
-    return await client.getSnapVotes(snapId, _jwt!);
+    return client.getSnapVotes(snapId, _jwt!);
   }
 }

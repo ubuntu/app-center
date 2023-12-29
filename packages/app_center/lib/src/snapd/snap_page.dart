@@ -1,5 +1,11 @@
 import 'dart:async';
 
+import 'package:app_center/l10n.dart';
+import 'package:app_center/layout.dart';
+import 'package:app_center/ratings.dart';
+import 'package:app_center/snapd.dart';
+import 'package:app_center/src/store/store_app.dart';
+import 'package:app_center/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,19 +19,13 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/l10n.dart';
-import '/layout.dart';
-import '/ratings.dart';
-import '/snapd.dart';
-import '/widgets.dart';
-
 const _kPrimaryButtonMaxWidth = 136.0;
 const _kChannelDropdownWidth = 220.0;
 
 typedef SnapInfo = ({String label, Widget value});
 
 class SnapPage extends ConsumerStatefulWidget {
-  const SnapPage({super.key, required this.snapName});
+  const SnapPage({required this.snapName, super.key});
 
   final String snapName;
 
@@ -302,8 +302,9 @@ class _SnapActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final snapLauncher = snapModel.isInstalled
-        ? ref.watch(launchProvider(snapModel.localSnap!))
+    final localSnap = snapModel.localSnap;
+    final snapLauncher = snapModel.isInstalled && localSnap != null
+        ? ref.watch(launchProvider(localSnap))
         : null;
     final updatesModel = ref.watch(updatesModelProvider);
 
@@ -437,7 +438,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                 onTap: () {
                   ratingsModel.castVote(VoteStatus.up);
                 },
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     border: Border(
                       top: BorderSide(color: Theme.of(context).dividerColor),
@@ -469,7 +470,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                 onTap: () {
                   ratingsModel.castVote(VoteStatus.down);
                 },
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     border: Border(
                       top: BorderSide(color: Theme.of(context).dividerColor),
@@ -546,14 +547,16 @@ class _Section extends YaruExpandable {
         );
 }
 
-class _Header extends StatelessWidget {
+class _Header extends ConsumerWidget {
   const _Header({required this.snapModel});
 
   final SnapModel snapModel;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final snap = snapModel.storeSnap ?? snapModel.localSnap!;
+    final l10n = AppLocalizations.of(context);
+
     return Column(
       children: [
         Row(
@@ -564,7 +567,15 @@ class _Header extends StatelessWidget {
               YaruIconButton(
                 icon: const Icon(YaruIcons.share),
                 onPressed: () {
-                  // TODO show snackbar
+                  final navigationKey =
+                      ref.watch(materialAppNavigatorKeyProvider);
+
+                  ScaffoldMessenger.of(navigationKey.currentContext!)
+                      .showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.snapPageShareLinkCopiedMessage),
+                    ),
+                  );
                   Clipboard.setData(ClipboardData(text: snap.website!));
                 },
               ),
@@ -616,7 +627,7 @@ class _ChannelDropdown extends StatelessWidget {
                   MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 0)),
               maximumSize:
                   MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
-              visualDensity: VisualDensity(horizontal: 0, vertical: 0),
+              visualDensity: VisualDensity.standard,
             ),
             itemStyle: MenuItemButton.styleFrom(
               maximumSize: const Size.fromHeight(100),

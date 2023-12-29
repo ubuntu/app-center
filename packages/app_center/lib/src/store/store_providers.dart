@@ -1,9 +1,8 @@
+import 'package:app_center/src/store/store_routes.dart';
 import 'package:args/args.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gtk/gtk.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-
-import 'store_routes.dart';
 
 const _kUrlPrefix = 'snap://';
 

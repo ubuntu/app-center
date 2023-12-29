@@ -1,4 +1,5 @@
 {
+    "appCenterLabel": "App Center",
     "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
     "snapPageChannelLabel": "Channel",
     "snapPageConfinementLabel": "Confinement",
@@ -20,6 +21,7 @@
     "snapPagePublishedLabel": "Published",
     "snapPageSummaryLabel": "Summary",
     "snapPageVersionLabel": "Version",
+    "snapPageShareLinkCopiedMessage": "Link copied to clipboard",
     "explorePageLabel": "Explore",
     "explorePageCategoriesLabel": "Categories",
     "managePageCheckForUpdates": "Check for updates",

@@ -1,5 +1,11 @@
 import 'dart:async';
 
+import 'package:app_center/appstream.dart';
+import 'package:app_center/l10n.dart';
+import 'package:app_center/layout.dart';
+import 'package:app_center/src/deb/deb_model.dart';
+import 'package:app_center/src/packagekit/packagekit_service.dart';
+import 'package:app_center/widgets.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -12,17 +18,10 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/appstream.dart';
-import '/l10n.dart';
-import '/layout.dart';
-import '/widgets.dart';
-import '../packagekit/packagekit_service.dart';
-import 'deb_model.dart';
-
 const _kPrimaryButtonMaxWidth = 136.0;
 
 class DebPage extends ConsumerStatefulWidget {
-  const DebPage({super.key, required this.id});
+  const DebPage({required this.id, super.key});
   final String id;
 
   @override

@@ -1,16 +1,15 @@
+import 'package:app_center/xdg_cache_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-import '/xdg_cache_manager.dart';
-
 class ScreenshotGallery extends StatelessWidget {
   const ScreenshotGallery({
-    super.key,
     required this.title,
     required this.urls,
+    super.key,
     this.height,
   });
 
@@ -46,10 +45,10 @@ class ScreenshotGallery extends StatelessWidget {
 
 class MediaTile extends StatelessWidget {
   const MediaTile({
-    super.key,
     required this.url,
-    this.fit = BoxFit.contain,
     required this.onTap,
+    super.key,
+    this.fit = BoxFit.contain,
   });
 
   final String url;
@@ -106,7 +105,6 @@ class _CarouselDialogState extends State<_CarouselDialog> {
     super.initState();
     controller = YaruCarouselController(
       initialPage: widget.initialIndex,
-      viewportFraction: 0.8,
     );
   }
 
@@ -162,8 +160,8 @@ class _CarouselDialogState extends State<_CarouselDialog> {
 
 class SafeNetworkImage extends StatelessWidget {
   const SafeNetworkImage({
-    super.key,
     required this.url,
+    super.key,
     this.filterQuality = FilterQuality.medium,
     this.fit = BoxFit.fitHeight,
     this.fallBackIcon,

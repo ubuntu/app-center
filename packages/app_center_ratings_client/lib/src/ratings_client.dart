@@ -1,21 +1,19 @@
 import 'dart:async';
 
+import 'package:app_center_ratings_client/src/chart.dart';
+import 'package:app_center_ratings_client/src/generated/google/protobuf/empty.pb.dart';
+import 'package:app_center_ratings_client/src/generated/ratings_features_app.pbgrpc.dart'
+    as app_pb;
+import 'package:app_center_ratings_client/src/generated/ratings_features_chart.pbgrpc.dart'
+    as chart_pb;
+import 'package:app_center_ratings_client/src/generated/ratings_features_user.pbgrpc.dart'
+    as user_pb;
+import 'package:app_center_ratings_client/src/ratings.dart';
+import 'package:app_center_ratings_client/src/user.dart';
 import 'package:grpc/grpc.dart';
 import 'package:meta/meta.dart';
 
-import 'chart.dart';
-import 'generated/google/protobuf/empty.pb.dart';
-import 'generated/ratings_features_app.pbgrpc.dart' as appPb;
-import 'generated/ratings_features_chart.pbgrpc.dart' as chartPb;
-import 'generated/ratings_features_user.pbgrpc.dart' as userPb;
-import 'ratings.dart';
-import 'user.dart';
-
 class RatingsClient {
-  late appPb.AppClient _appClient;
-  late userPb.UserClient _userClient;
-  late chartPb.ChartClient _chartClient;
-
   RatingsClient(String serverUrl, int port) {
     final channel = ClientChannel(
       serverUrl,
@@ -24,9 +22,9 @@ class RatingsClient {
         credentials: ChannelCredentials.insecure(),
       ),
     );
-    _appClient = appPb.AppClient(channel);
-    _userClient = userPb.UserClient(channel);
-    _chartClient = chartPb.ChartClient(channel);
+    _appClient = app_pb.AppClient(channel);
+    _userClient = user_pb.UserClient(channel);
+    _chartClient = chart_pb.ChartClient(channel);
   }
 
   // Additional constructor for testing
@@ -36,9 +34,12 @@ class RatingsClient {
     this._userClient,
     this._chartClient,
   );
+  late app_pb.AppClient _appClient;
+  late user_pb.UserClient _userClient;
+  late chart_pb.ChartClient _chartClient;
 
   Future<String> authenticate(String id) async {
-    final request = userPb.AuthenticateRequest(id: id);
+    final request = user_pb.AuthenticateRequest(id: id);
     final grpcResponse = await _userClient.authenticate(request);
     return grpcResponse.token;
   }
@@ -51,7 +52,7 @@ class RatingsClient {
   }
 
   Future<List<ChartData>> getChart(Timeframe timeframe, String token) async {
-    final request = chartPb.GetChartRequest(timeframe: timeframe.toDTO());
+    final request = chart_pb.GetChartRequest(timeframe: timeframe.toDTO());
     final callOptions =
         CallOptions(metadata: {'authorization': 'Bearer $token'});
     final grpcResponse =
@@ -63,7 +64,7 @@ class RatingsClient {
     String snapId,
     String token,
   ) async {
-    final request = appPb.GetRatingRequest(snapId: snapId);
+    final request = app_pb.GetRatingRequest(snapId: snapId);
     final callOptions =
         CallOptions(metadata: {'authorization': 'Bearer $token'});
     final grpcResponse = await _appClient.getRating(
@@ -73,8 +74,8 @@ class RatingsClient {
     return grpcResponse.rating.fromDTO();
   }
 
-  Future<List<Vote>> getSnapVotes(String snap_id, String token) async {
-    final request = userPb.GetSnapVotesRequest(snapId: snap_id);
+  Future<List<Vote>> getSnapVotes(String snapId, String token) async {
+    final request = user_pb.GetSnapVotesRequest(snapId: snapId);
     final callOptions =
         CallOptions(metadata: {'authorization': 'Bearer $token'});
     final grpcResponse = await _userClient.getSnapVotes(
@@ -85,7 +86,7 @@ class RatingsClient {
   }
 
   Future<List<Vote>> listMyVotes(String snapIdFilter, String token) async {
-    final request = userPb.ListMyVotesRequest(snapIdFilter: snapIdFilter);
+    final request = user_pb.ListMyVotesRequest(snapIdFilter: snapIdFilter);
     final callOptions =
         CallOptions(metadata: {'authorization': 'Bearer $token'});
     final grpcResponse = await _userClient.listMyVotes(
@@ -97,7 +98,7 @@ class RatingsClient {
 
   Future<void> vote(
       String snapId, int snapRevision, bool voteUp, String token) async {
-    final request = userPb.VoteRequest(
+    final request = user_pb.VoteRequest(
       snapId: snapId,
       snapRevision: snapRevision,
       voteUp: voteUp,
