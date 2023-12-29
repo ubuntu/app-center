@@ -145,13 +145,20 @@ class PackageKitService {
     String name, [
     @visibleForTesting String? architecture,
   ]) async {
-    final arch = architecture ?? await _getNativeArchitecture();
+    final possibleArchs = [
+      architecture ?? await _getNativeArchitecture(),
+      'all'
+    ];
     PackageKitPackageInfo? info;
     await _createTransaction(
       action: (transaction) => transaction.resolve([name]),
       listener: (event) {
-        if (event is PackageKitPackageEvent && event.packageId.arch == arch) {
+        if (event is PackageKitPackageEvent &&
+            possibleArchs.contains(event.packageId.arch)) {
           info = event;
+        } else {
+          log.error(
+              'Couldn\'t resolve package $name with architectures $possibleArchs');
         }
       },
     ).then(waitTransaction);

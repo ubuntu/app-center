@@ -79,7 +79,7 @@ class _DebView extends StatelessWidget {
     final debInfos = <AppInfo>[
       (
         label: l10n.snapPageVersionLabel,
-        value: Text(debModel.packageInfo!.packageId.version)
+        value: Text(debModel.packageInfo?.packageId.version ?? '')
       ),
       if (debModel.component.urls.isNotEmpty)
         (
@@ -195,7 +195,10 @@ class _DebActionButtons extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       overflowButtonSpacing: 8,
       children: [
-        primaryActionButton,
+        if (debModel.packageInfo != null)
+          primaryActionButton
+        else
+          Text(l10n.debPageErrorNoPackageInfo),
         if (debModel.activeTransactionId != null) cancelButton
       ].whereNotNull().toList(),
     );
