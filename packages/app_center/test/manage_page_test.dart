@@ -250,6 +250,7 @@ void main() {
               refreshableSnaps: refreshableSnaps,
             ),
           ),
+          snapModelProvider.overrideWith((_, __) => snapModel),
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
         ],
         child: const ManagePage(),

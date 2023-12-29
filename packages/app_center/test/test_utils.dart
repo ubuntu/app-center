@@ -230,7 +230,6 @@ MockUpdatesModel createMockUpdatesModel({
   when(model.activeChangeId).thenReturn(isBusy ? 'changeId' : null);
   when(model.errorStream)
       .thenAnswer((_) => errorStream ?? const Stream.empty());
-  when(model.activeChangeId).thenReturn('activeChangeId');
   return model;
 }
 
