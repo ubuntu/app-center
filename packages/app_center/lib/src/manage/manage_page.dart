@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/snapd.dart';
@@ -225,7 +226,7 @@ class _ActionButtons extends ConsumerWidget {
       loading: () => (
         l10n.managePageCheckingForUpdates,
         const SizedBox(
-          height: 24,
+          height: kCircularProgressIndicatorHeight,
           child: YaruCircularProgressIndicator(
             strokeWidth: 4,
           ),
@@ -274,7 +275,7 @@ class _ActionButtons extends ConsumerWidget {
                     return Row(
                       children: [
                         SizedBox.square(
-                          dimension: 16,
+                          dimension: kCircularProgressIndicatorHeight,
                           child: YaruCircularProgressIndicator(
                             value: change?.progress,
                             strokeWidth: 2,
@@ -488,7 +489,7 @@ class _ManageSnapTile extends ConsumerWidget {
                         return Row(
                           children: [
                             SizedBox.square(
-                              dimension: 16,
+                              dimension: kCircularProgressIndicatorHeight,
                               child: YaruCircularProgressIndicator(
                                 value: change?.progress,
                                 strokeWidth: 2,
