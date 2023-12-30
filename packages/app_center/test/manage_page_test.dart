@@ -235,6 +235,34 @@ void main() {
     );
   });
 
+  testWidgets('cancel refresh all', (tester) async {
+    final mockUpdatesModel = createMockUpdatesModel(
+      refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
+      isBusy: true,
+    );
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          manageModelProvider.overrideWith(
+            (_) => createMockManageModel(
+              refreshableSnaps: refreshableSnaps,
+            ),
+          ),
+          snapModelProvider.overrideWith((_, __) => snapModel),
+          updatesModelProvider.overrideWith((_) => mockUpdatesModel),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pump();
+
+    final cancelButton = find.buttonWithText(tester.l10n.snapActionCancelLabel);
+    expect(cancelButton, findsOneWidget);
+    expect(cancelButton, isEnabled);
+  });
+
   testWidgets('error dialog', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(

@@ -63,4 +63,26 @@ class UpdatesModel extends ChangeNotifier {
     _activeChangeId = null;
     await refresh();
   }
+
+  Future<void> cancelChange(String changeId) async {
+    if (changeId.isEmpty) return;
+
+    try {
+      final changeDetails = await snapd.getChange(changeId);
+
+      // If the change is already completed, ignore silently.
+      // If it wouldn't be ignored, an error would be displayed to the user,
+      // which might be confusing.
+      if (changeDetails.ready) {
+        return;
+      }
+
+      final abortChange = await snapd.abortChange(changeId);
+      await snapd.waitChange(abortChange.id);
+      _activeChangeId = null;
+      notifyListeners();
+    } on SnapdException catch (e) {
+      _handleError(e);
+    }
+  }
 }

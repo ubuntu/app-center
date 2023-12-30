@@ -234,6 +234,9 @@ class _ActionButtons extends ConsumerWidget {
       error: (_, __) => ('', const SizedBox.shrink()),
     );
 
+    final updatesInprogress = updatesModel.refreshableSnapNames.isNotEmpty &&
+        !updatesModel.state.isLoading &&
+        updatesModel.activeChangeId != null;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -303,6 +306,19 @@ class _ActionButtons extends ConsumerWidget {
                     ),
                   ],
                 ),
+        ),
+        const SizedBox(width: 8),
+        PushButton.outlined(
+          onPressed: updatesInprogress
+              ? () => ref
+                  .read(updatesModelProvider)
+                  .cancelChange(updatesModel.activeChangeId!)
+              : null,
+          child: Text(
+            l10n.snapActionCancelLabel,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );
