@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/appstream.dart';
+import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/src/deb/deb_model.dart';
@@ -173,7 +174,7 @@ class _DebActionButtons extends ConsumerWidget {
                       .whenOrNull(data: (data) => data);
                   return Center(
                     child: SizedBox.square(
-                      dimension: 16,
+                      dimension: kCircularProgressIndicatorHeight,
                       child: YaruCircularProgressIndicator(
                         value: (transaction?.percentage ?? 0) / 100.0,
                         strokeWidth: 2,
