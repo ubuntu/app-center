@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/snapd.dart';
@@ -282,7 +283,7 @@ class _ActionButtons extends ConsumerWidget {
       loading: () => (
         l10n.managePageCheckingForUpdates,
         const SizedBox(
-          height: 24,
+          height: kCircularProgressIndicatorHeight,
           child: YaruCircularProgressIndicator(
             strokeWidth: 4,
           ),
@@ -291,6 +292,9 @@ class _ActionButtons extends ConsumerWidget {
       error: (_, __) => ('', const SizedBox.shrink()),
     );
 
+    final updatesInprogress = updatesModel.refreshableSnapNames.isNotEmpty &&
+        !updatesModel.state.isLoading &&
+        updatesModel.activeChangeId != null;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -328,7 +332,7 @@ class _ActionButtons extends ConsumerWidget {
                     return Row(
                       children: [
                         SizedBox.square(
-                          dimension: 16,
+                          dimension: kCircularProgressIndicatorHeight,
                           child: YaruCircularProgressIndicator(
                             value: change?.progress,
                             strokeWidth: 2,
@@ -360,6 +364,19 @@ class _ActionButtons extends ConsumerWidget {
                     ),
                   ],
                 ),
+        ),
+        const SizedBox(width: 8),
+        PushButton.outlined(
+          onPressed: updatesInprogress
+              ? () => ref
+                  .read(updatesModelProvider)
+                  .cancelChange(updatesModel.activeChangeId!)
+              : null,
+          child: Text(
+            l10n.snapActionCancelLabel,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );
@@ -562,7 +579,7 @@ class _ManageSnapTile extends ConsumerWidget {
                         return Row(
                           children: [
                             SizedBox.square(
-                              dimension: 16,
+                              dimension: kCircularProgressIndicatorHeight,
                               child: YaruCircularProgressIndicator(
                                 value: change?.progress,
                                 strokeWidth: 2,

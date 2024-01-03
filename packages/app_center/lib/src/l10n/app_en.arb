@@ -182,7 +182,8 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "debPageErrorNoPackageInfo": "No package information found"
 
 
 }

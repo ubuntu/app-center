@@ -1490,6 +1490,16 @@ class MockUpdatesModel extends _i1.Mock implements _i6.UpdatesModel {
       ) as _i14.Future<void>);
 
   @override
+  _i14.Future<void> cancelChange(String? changeId) => (super.noSuchMethod(
+        Invocation.method(
+          #cancelChange,
+          [changeId],
+        ),
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
+
+  @override
   void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
