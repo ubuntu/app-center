@@ -23,7 +23,7 @@ typedef StorePage = ({
 final pages = <StorePage>[
   (
     tileBuilder: (context, selected) => YaruMasterTile(
-          leading: Icon(ExplorePage.icon(true)),
+          leading: Icon(ExplorePage.icon(selected)),
           title: Text(ExplorePage.label(context)),
         ),
     pageBuilder: (_) => const ExplorePage(),
@@ -31,7 +31,7 @@ final pages = <StorePage>[
   for (final category in displayedCategories)
     (
       tileBuilder: (context, selected) => YaruMasterTile(
-            leading: Icon(category.icon(true)),
+            leading: Icon(category.icon(selected)),
             title: Text(category.localize(AppLocalizations.of(context))),
           ),
       pageBuilder: (_) => SearchPage(category: category.categoryName),
@@ -46,7 +46,7 @@ final pages = <StorePage>[
   ),
   (
     tileBuilder: (context, selected) => YaruMasterTile(
-          leading: Icon(ManagePage.icon(true)),
+          leading: Icon(ManagePage.icon(selected)),
           title: Text(ManagePage.label(context)),
           trailing: Consumer(
             builder: (context, ref, child) {
@@ -62,7 +62,7 @@ final pages = <StorePage>[
   ),
   (
     tileBuilder: (context, selected) => YaruMasterTile(
-          leading: Icon(AboutPage.icon(true)),
+          leading: Icon(AboutPage.icon(selected)),
           title: Text(AboutPage.label(context)),
         ),
     pageBuilder: (_) => const AboutPage(),
