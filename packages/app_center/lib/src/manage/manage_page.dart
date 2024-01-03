@@ -308,19 +308,18 @@ class _ActionButtons extends ConsumerWidget {
                   ],
                 ),
         ),
-        const SizedBox(width: 8),
-        PushButton.outlined(
-          onPressed: updatesInprogress
-              ? () => ref
-                  .read(updatesModelProvider)
-                  .cancelChange(updatesModel.activeChangeId!)
-              : null,
-          child: Text(
-            l10n.snapActionCancelLabel,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+        if (updatesInprogress) const SizedBox(width: 8),
+        if (updatesInprogress)
+          PushButton.outlined(
+            onPressed: () => ref
+                .read(updatesModelProvider)
+                .cancelChange(updatesModel.activeChangeId!),
+            child: Text(
+              l10n.snapActionCancelLabel,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
       ],
     );
   }
