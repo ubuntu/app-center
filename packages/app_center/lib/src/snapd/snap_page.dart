@@ -454,6 +454,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                     ),
                   ),
                   child: YaruIconButton(
+                    mouseCursor: SystemMouseCursors.click,
                     icon: Icon(
                       ratingsModel.vote == VoteStatus.up
                           ? Icons.thumb_up
@@ -486,6 +487,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                     ),
                   ),
                   child: YaruIconButton(
+                    mouseCursor: SystemMouseCursors.click,
                     icon: Icon(
                       ratingsModel.vote == VoteStatus.down
                           ? Icons.thumb_down
