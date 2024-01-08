@@ -159,6 +159,29 @@ void main() {
       final info = await packageKit.resolve('foo', 'amd64');
       expect(info!.packageId.arch, equals('amd64'));
     });
+
+    test('architecture \'all\'', () async {
+      final mockTransaction = createMockPackageKitTransaction(
+        events: const [
+          PackageKitPackageEvent(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'foo',
+              version: '1.0',
+              arch: 'all',
+            ),
+            summary: 'summary',
+          ),
+        ],
+      );
+      final mockClient =
+          createMockPackageKitClient(transaction: mockTransaction);
+      final packageKit =
+          PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+      await packageKit.activateService();
+      final info = await packageKit.resolve('foo', 'all');
+      expect(info!.packageId.arch, equals('all'));
+    });
   });
 
   test('cancel', () async {

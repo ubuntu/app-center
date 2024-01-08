@@ -46,7 +46,7 @@ class DebModel extends ChangeNotifier {
   AsyncValue<void> _state;
 
   PackageKitPackageInfo? packageInfo;
-  bool get isInstalled => packageInfo!.info == PackageKitInfo.installed;
+  bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
 
   Stream<PackageKitServiceError> get errorStream => packageKit.errorStream;
 

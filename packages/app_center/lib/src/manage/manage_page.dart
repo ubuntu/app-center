@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/snapd.dart';
@@ -126,6 +127,7 @@ class _ManageView extends ConsumerWidget {
                   : index == 0
                       ? ManageTilePosition.first
                       : ManageTilePosition.middle,
+              showUpdateButton: true,
             ),
           ),
           SliverList.list(children: [
@@ -224,7 +226,7 @@ class _ActionButtons extends ConsumerWidget {
       loading: () => (
         l10n.managePageCheckingForUpdates,
         const SizedBox(
-          height: 24,
+          height: kCircularProgressIndicatorHeight,
           child: YaruCircularProgressIndicator(
             strokeWidth: 4,
           ),
@@ -233,6 +235,9 @@ class _ActionButtons extends ConsumerWidget {
       error: (_, __) => ('', const SizedBox.shrink()),
     );
 
+    final updatesInprogress = updatesModel.refreshableSnapNames.isNotEmpty &&
+        !updatesModel.state.isLoading &&
+        updatesModel.activeChangeId != null;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -270,7 +275,7 @@ class _ActionButtons extends ConsumerWidget {
                     return Row(
                       children: [
                         SizedBox.square(
-                          dimension: 16,
+                          dimension: kCircularProgressIndicatorHeight,
                           child: YaruCircularProgressIndicator(
                             value: change?.progress,
                             strokeWidth: 2,
@@ -303,6 +308,19 @@ class _ActionButtons extends ConsumerWidget {
                   ],
                 ),
         ),
+        const SizedBox(width: 8),
+        PushButton.outlined(
+          onPressed: updatesInprogress
+              ? () => ref
+                  .read(updatesModelProvider)
+                  .cancelChange(updatesModel.activeChangeId!)
+              : null,
+          child: Text(
+            l10n.snapActionCancelLabel,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     );
   }
@@ -314,10 +332,12 @@ class _ManageSnapTile extends ConsumerWidget {
   const _ManageSnapTile({
     required this.snap,
     this.position = ManageTilePosition.middle,
+    this.showUpdateButton = false,
   });
 
   final Snap snap;
   final ManageTilePosition position;
+  final bool showUpdateButton;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -438,43 +458,148 @@ class _ManageSnapTile extends ConsumerWidget {
             )
         ],
       ),
-      trailing: ButtonBar(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Visibility(
-            maintainSize: true,
-            maintainAnimation: true,
-            maintainState: true,
-            visible: snapLauncher.isLaunchable,
-            child: OutlinedButton(
-              onPressed: snapLauncher.open,
-              child: Text(l10n.snapActionOpenLabel),
+      trailing: showUpdateButton
+          ? buildButtonBarForUpdate(ref, l10n, snapLauncher, context)
+          : buildButtonBarForOpen(ref, l10n, snapLauncher, context),
+    );
+  }
+
+  ButtonBar buildButtonBarForUpdate(WidgetRef ref, AppLocalizations l10n,
+      SnapLauncher snapLauncher, BuildContext context) {
+    return ButtonBar(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Consumer(
+          builder: (context, ref, child) {
+            final snapModel = ref.watch(snapModelProvider(snap.name));
+            final updatesModel = ref.watch(updatesModelProvider);
+
+            return PushButton.outlined(
+              onPressed: updatesModel.activeChangeId != null
+                  ? null
+                  : () {
+                      ref.read(snapModelProvider(snap.name)).refresh();
+                    },
+              child: snapModel.activeChangeId != null
+                  ? Consumer(
+                      builder: (context, ref, child) {
+                        final change = ref
+                            .watch(changeProvider(snapModel.activeChangeId))
+                            .whenOrNull(data: (data) => data);
+                        return Row(
+                          children: [
+                            SizedBox.square(
+                              dimension: kCircularProgressIndicatorHeight,
+                              child: YaruCircularProgressIndicator(
+                                value: change?.progress,
+                                strokeWidth: 2,
+                              ),
+                            ),
+                            if (change != null) ...[
+                              const SizedBox(width: 8),
+                              Flexible(
+                                child: Text(
+                                  change.localize(l10n) ?? '',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ]
+                          ],
+                        );
+                      },
+                    )
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(YaruIcons.download),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            l10n.snapActionUpdateLabel,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+            );
+          },
+        ),
+        MenuAnchor(
+          menuChildren: [
+            Visibility(
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              visible: snapLauncher.isLaunchable,
+              child: MenuItemButton(
+                onPressed: snapLauncher.open,
+                child: Text(l10n.snapActionOpenLabel),
+              ),
             ),
+            MenuItemButton(
+              onPressed: () =>
+                  StoreNavigator.pushSnap(context, name: snap.name),
+              child: Text(
+                l10n.managePageShowDetailsLabel,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            )
+          ],
+          builder: (context, controller, child) => YaruOptionButton(
+            onPressed: () {
+              if (controller.isOpen) {
+                controller.close();
+              } else {
+                controller.open();
+              }
+            },
+            child: const Icon(YaruIcons.view_more_horizontal),
           ),
-          MenuAnchor(
-            menuChildren: [
-              MenuItemButton(
-                onPressed: () =>
-                    StoreNavigator.pushSnap(context, name: snap.name),
-                child: Text(
-                  l10n.managePageShowDetailsLabel,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              )
-            ],
-            builder: (context, controller, child) => YaruOptionButton(
-              onPressed: () {
-                if (controller.isOpen) {
-                  controller.close();
-                } else {
-                  controller.open();
-                }
-              },
-              child: const Icon(YaruIcons.view_more_horizontal),
-            ),
-          )
-        ],
-      ),
+        )
+      ],
+    );
+  }
+
+  ButtonBar buildButtonBarForOpen(WidgetRef ref, AppLocalizations l10n,
+      SnapLauncher snapLauncher, BuildContext context) {
+    return ButtonBar(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Visibility(
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
+          visible: snapLauncher.isLaunchable,
+          child: OutlinedButton(
+            onPressed: snapLauncher.open,
+            child: Text(l10n.snapActionOpenLabel),
+          ),
+        ),
+        MenuAnchor(
+          menuChildren: [
+            MenuItemButton(
+              onPressed: () =>
+                  StoreNavigator.pushSnap(context, name: snap.name),
+              child: Text(
+                l10n.managePageShowDetailsLabel,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            )
+          ],
+          builder: (context, controller, child) => YaruOptionButton(
+            onPressed: () {
+              if (controller.isOpen) {
+                controller.close();
+              } else {
+                controller.open();
+              }
+            },
+            child: const Icon(YaruIcons.view_more_horizontal),
+          ),
+        )
+      ],
     );
   }
 }

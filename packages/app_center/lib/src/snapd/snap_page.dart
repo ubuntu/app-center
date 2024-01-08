@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings.dart';
@@ -329,7 +330,7 @@ class _SnapActionButtons extends ConsumerWidget {
                   return Row(
                     children: [
                       SizedBox.square(
-                        dimension: 16,
+                        dimension: kCircularProgressIndicatorHeight,
                         child: YaruCircularProgressIndicator(
                           value: change?.progress,
                           strokeWidth: 2,
@@ -454,6 +455,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                     ),
                   ),
                   child: YaruIconButton(
+                    mouseCursor: SystemMouseCursors.click,
                     icon: Icon(
                       ratingsModel.vote == VoteStatus.up
                           ? Icons.thumb_up
@@ -486,6 +488,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                     ),
                   ),
                   child: YaruIconButton(
+                    mouseCursor: SystemMouseCursors.click,
                     icon: Icon(
                       ratingsModel.vote == VoteStatus.down
                           ? Icons.thumb_down

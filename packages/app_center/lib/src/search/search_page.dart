@@ -51,6 +51,7 @@ class SearchPage extends StatelessWidget {
                   Consumer(builder: (context, ref, child) {
                     final sortOrder = ref.watch(snapSortOrderProvider);
                     return MenuButtonBuilder<SnapSortOrder?>(
+                      expanded: false,
                       values: const [
                         null,
                         SnapSortOrder.alphabeticalAsc,

@@ -1,4 +1,5 @@
 {
+    "appCenterLabel": "App Center",
     "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
     "snapPageChannelLabel": "Channel",
     "snapPageConfinementLabel": "Confinement",
@@ -195,6 +196,6 @@
     "snapReportPrivacyAgreementLabel": "In submitting this form, I confirm that I have read and agree to ",
     "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical’s Privacy Notice ",
     "snapReportPrivacyAgreementAndLabel": "and ",
-    "snapReportPrivacyAgreementPrivacyPolicy": "Privacy Policy"
-
+    "snapReportPrivacyAgreementPrivacyPolicy": "Privacy Policy",
+    "debPageErrorNoPackageInfo": "No package information found"
 }
