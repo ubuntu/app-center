@@ -587,7 +587,10 @@ class _Header extends ConsumerWidget {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return SnapReport(name: snapModel.snap.titleOrName);
+                    return ResponsiveLayoutBuilder(
+                      builder: (context) =>
+                          SnapReport(name: snapModel.snap.titleOrName),
+                    );
                   },
                 );
               },

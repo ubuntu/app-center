@@ -1,4 +1,5 @@
 import 'package:app_center/l10n.dart';
+import 'package:app_center/layout.dart';
 import 'package:app_center/src/snapd/logger.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +26,12 @@ class _SnapReportState extends State<SnapReport> {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
     final titleTextStyle = textTheme.headlineSmall!;
+    final layout = ResponsiveLayout.of(context);
 
     return Dialog(
       child: Container(
-        padding: const EdgeInsets.all(16.0),
-        width: double.infinity,
+        width: layout.cardSize.width * 2 + kCardSpacing,
+        padding: const EdgeInsets.all(kCardSpacing),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +41,10 @@ class _SnapReportState extends State<SnapReport> {
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: Divider(),
               ),
-              Text(l10n.snapReportSelectReportReasonLabel),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: kCardMargin),
+                child: Text(l10n.snapReportSelectReportReasonLabel),
+              ),
               MenuButtonBuilder(
                 entries: <String>[
                   l10n.snapReportOptionCopyrightViolation,
@@ -66,9 +71,12 @@ class _SnapReportState extends State<SnapReport> {
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: kPagePadding,
               ),
-              Text(l10n.snapReportDetailsLabel),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: kCardMargin),
+                child: Text(l10n.snapReportDetailsLabel),
+              ),
               SizedBox(
                 height: 100,
                 child: TextField(
@@ -87,10 +95,13 @@ class _SnapReportState extends State<SnapReport> {
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: kPagePadding,
               ),
-              Text(
-                l10n.snapReportOptionalEmailAddressLabel,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: kCardMargin),
+                child: Text(
+                  l10n.snapReportOptionalEmailAddressLabel,
+                ),
               ),
               TextFormField(
                 decoration: InputDecoration(
@@ -112,7 +123,7 @@ class _SnapReportState extends State<SnapReport> {
                 controller: _emailController,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                padding: const EdgeInsets.symmetric(vertical: kPagePadding),
                 child: RichText(
                   text: TextSpan(
                     children: [
@@ -154,11 +165,11 @@ class _SnapReportState extends State<SnapReport> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(
+                  OutlinedButton(
                     onPressed: () => Navigator.of(context).pop(),
                     child: Text(l10n.snapReportCancelButtonLabel),
                   ),
-                  const SizedBox(width: 20.0),
+                  const SizedBox(width: kPagePadding),
                   ElevatedButton(
                     onPressed: () async {
                       if (selectedReason == null ||
