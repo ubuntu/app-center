@@ -175,7 +175,27 @@
             }
         }
     },
+    "snapReportLabel": "Report {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "Choose a reason for reporting this snap",
+    "snapReportSelectAnOptionLabel": "Select an option",
+    "snapReportOptionCopyrightViolation": "Copyright or trademark violation",
+    "snapReportOptionStoreViolation": "Snap Store terms of service violation",
+    "snapReportDetailsLabel": "Please provide more detailed reason to your report",
+    "snapReportOptionalEmailAddressLabel": "Your email (optional)",
+    "snapReportCancelButtonLabel": "Cancel",
+    "snapReportSubmitButtonLabel": "Submit report",
+    "snapReportEnterValidEmailError": "Enter a valid email address",
+    "snapReportDetailsHint": "Comment...",
+    "snapReportPrivacyAgreementLabel": "In submitting this form, I confirm that I have read and agree to ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical’s Privacy Notice ",
+    "snapReportPrivacyAgreementAndLabel": "and ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "Privacy Policy",
     "debPageErrorNoPackageInfo": "No package information found"
-
-
 }

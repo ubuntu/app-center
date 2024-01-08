@@ -29,6 +29,7 @@ dependencies:
   glib: ^0.0.1
   gtk: ^2.1.0
   handy_window: ^0.3.1
+  http: ^1.1.2
   intl: ^0.18.1
   jwt_decode: ^0.3.1
   meta: ^1.9.1
