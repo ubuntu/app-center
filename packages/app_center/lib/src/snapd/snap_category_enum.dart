@@ -107,7 +107,7 @@ enum SnapCategoryEnum {
         artAndDesign =>
           selected ? YaruIcons.rule_and_pen_filled : YaruIcons.rule_and_pen,
         booksAndReference => selected ? YaruIcons.book_filled : YaruIcons.book,
-        development => YaruIcons.wrench,
+        development => selected ? YaruIcons.wrench_filled : YaruIcons.wrench,
         devicesAndIot => selected ? YaruIcons.chip_filled : YaruIcons.chip,
         education =>
           selected ? YaruIcons.education_filled : YaruIcons.education,
