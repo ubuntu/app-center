@@ -27,9 +27,11 @@ class AppInfoBar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(info.label),
-                    DefaultTextStyle.merge(
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                      child: info.value,
+                    SelectionArea(
+                      child: DefaultTextStyle.merge(
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                        child: info.value,
+                      ),
                     ),
                   ],
                 ),

@@ -120,6 +120,10 @@ class _SnapView extends ConsumerWidget {
         value: Text(snapModel.snap.license ?? ''),
       ),
       (
+        label: l10n.snapPageVersionLabel,
+        value: Text(snapModel.snap.version),
+      ),
+      (
         label: l10n.snapPagePublishedLabel,
         value: Text(
           snapModel.channelInfo != null
@@ -242,6 +246,7 @@ class _SnapView extends ConsumerWidget {
                             ),
                             const SizedBox(height: kPagePadding),
                             MarkdownBody(
+                              selectable: true,
                               onTapLink: (text, href, title) =>
                                   launchUrlString(href!),
                               data: snapModel.snap.description,
@@ -366,6 +371,7 @@ class _SnapActionButtons extends ConsumerWidget {
         return MenuItemButton(
           child: IntrinsicWidth(
             child: ListTile(
+              mouseCursor: SystemMouseCursors.click,
               leading: action.icon != null
                   ? Icon(
                       action.icon,
