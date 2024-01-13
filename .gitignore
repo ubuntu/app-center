@@ -32,7 +32,7 @@ migrate_working_dir/
 .pub/
 pubspec.lock
 /build/
-/coverage/
+coverage/
 /doc/
 .fvm
 **/build/
