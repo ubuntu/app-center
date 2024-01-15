@@ -119,6 +119,7 @@ class _ManageView extends ConsumerWidget {
           SliverList.builder(
             itemCount: manageModel.refreshableSnaps.length,
             itemBuilder: (context, index) => _ManageSnapTile(
+              updated: false,
               snap: manageModel.refreshableSnaps.elementAt(index),
               position: index == (manageModel.refreshableSnaps.length - 1)
                   ? index == 0
@@ -331,14 +332,17 @@ class _ManageSnapTile extends ConsumerWidget {
     required this.snap,
     this.position = ManageTilePosition.middle,
     this.showUpdateButton = false,
+    this.updated = true,
   });
 
   final Snap snap;
   final ManageTilePosition position;
   final bool showUpdateButton;
+  final bool updated;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final snapModel = ref.watch(snapModelProvider(snap.name));
     final snapLauncher = ref.watch(launchProvider(snap));
     final l10n = AppLocalizations.of(context);
     final border = BorderSide(color: Theme.of(context).colorScheme.outline);
@@ -425,7 +429,10 @@ class _ManageSnapTile extends ConsumerWidget {
             children: [
               Text(snap.channel),
               const SizedBox(width: 4),
-              Text(snap.version),
+              updated
+                  ? Text(snap.version)
+                  : Text(
+                      '${snap.revision} => ${snapModel.availableChannels?[snap.channel]?.revision}'),
             ],
           ),
           if (ResponsiveLayout.of(context).type == ResponsiveLayoutType.small)
