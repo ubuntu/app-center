@@ -238,8 +238,9 @@ class _ActionButtons extends ConsumerWidget {
     final updatesInprogress = updatesModel.refreshableSnapNames.isNotEmpty &&
         !updatesModel.state.isLoading &&
         updatesModel.activeChangeId != null;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return Wrap(
+      spacing: 10,
+      runSpacing: 10,
       children: [
         PushButton.outlined(
           onPressed:
@@ -259,7 +260,6 @@ class _ActionButtons extends ConsumerWidget {
             ],
           ),
         ),
-        const SizedBox(width: 8),
         PushButton.elevated(
           onPressed: updatesModel.refreshableSnapNames.isNotEmpty &&
                   !updatesModel.state.isLoading &&
@@ -308,7 +308,6 @@ class _ActionButtons extends ConsumerWidget {
                   ],
                 ),
         ),
-        if (updatesInprogress) const SizedBox(width: 8),
         if (updatesInprogress)
           PushButton.outlined(
             onPressed: () => ref
