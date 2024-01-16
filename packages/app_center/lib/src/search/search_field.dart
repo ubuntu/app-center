@@ -38,12 +38,14 @@ class SearchField extends ConsumerStatefulWidget {
     required this.onSearch,
     required this.onSnapSelected,
     required this.onDebSelected,
+    required this.searchFocus,
     super.key,
   });
 
   final ValueChanged<String> onSearch;
   final ValueChanged<String> onSnapSelected;
   final ValueChanged<String> onDebSelected;
+  final FocusNode searchFocus;
 
   @override
   ConsumerState<SearchField> createState() => _SearchFieldState();
@@ -163,7 +165,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
             maxHeight: 32,
           );
           return TextField(
-            focusNode: node,
+            focusNode: widget.searchFocus,
             controller: controller,
             onChanged: (_) => _optionsAvailable = false,
             onSubmitted: (query) =>
