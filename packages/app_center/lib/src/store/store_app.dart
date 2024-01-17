@@ -43,7 +43,10 @@ class _StoreAppState extends ConsumerState<StoreApp> {
     return CallbackShortcuts(
         bindings: <ShortcutActivator, VoidCallback>{
           LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF):
-              searchFocus.requestFocus
+              () {
+            searchFocus.requestFocus();
+            searchFocus.nextFocus();
+          }
         },
         child: YaruTheme(
           builder: (context, yaru, child) => MaterialApp(
