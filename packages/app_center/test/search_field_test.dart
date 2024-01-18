@@ -50,6 +50,7 @@ void main() {
             onSearch: (_) {},
             onSnapSelected: (_) {},
             onDebSelected: (_) {},
+            searchFocus: FocusNode(),
           ),
         ),
       );
@@ -88,6 +89,7 @@ void main() {
             onSearch: (_) {},
             onSnapSelected: (_) {},
             onDebSelected: (_) {},
+            searchFocus: FocusNode(),
           ),
         ),
       );
@@ -134,6 +136,7 @@ void main() {
             onSearch: mockSearchCallback.call,
             onSnapSelected: mockSelectedCallback.call,
             onDebSelected: (_) {},
+            searchFocus: FocusNode(),
           ),
         ),
       );
@@ -164,6 +167,7 @@ void main() {
             onSearch: mockSearchCallback.call,
             onSnapSelected: mockSelectedCallback.call,
             onDebSelected: (_) {},
+            searchFocus: FocusNode(),
           ),
         ),
       );
@@ -195,6 +199,7 @@ void main() {
             onSearch: mockSearchCallback.call,
             onSnapSelected: mockSelectedCallback.call,
             onDebSelected: (_) {},
+            searchFocus: FocusNode(),
           ),
         ),
       );
