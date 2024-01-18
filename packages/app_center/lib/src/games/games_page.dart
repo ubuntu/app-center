@@ -36,22 +36,22 @@ class GamesPage extends ConsumerWidget {
                     flex: 306 - 160,
                     child: CategoryBanner(
                       category: SnapCategoryEnum.gameDev,
-                      padding: 24,
-                      height: 150,
-                      kMaxSize: 60,
-                      kIconSize: 24,
-                      fontSize: 16,
+                      padding: _CategoryBannerProperties.padding,
+                      height: _CategoryBannerProperties.height,
+                      kMaxSize: _CategoryBannerProperties.kMaxSize,
+                      kIconSize: _CategoryBannerProperties.kIconSize,
+                      fontSize: _CategoryBannerProperties.fontSize,
                     )),
                 Container(width: 12),
                 const Expanded(
                     flex: 306 - 160,
                     child: CategoryBanner(
                       category: SnapCategoryEnum.gameEmulators,
-                      padding: 24,
-                      height: 150,
-                      kMaxSize: 60,
-                      kIconSize: 24,
-                      fontSize: 16,
+                      padding: _CategoryBannerProperties.padding,
+                      height: _CategoryBannerProperties.height,
+                      kMaxSize: _CategoryBannerProperties.kMaxSize,
+                      kIconSize: _CategoryBannerProperties.kIconSize,
+                      fontSize: _CategoryBannerProperties.fontSize,
                     ))
               ],
             ),
@@ -62,22 +62,22 @@ class GamesPage extends ConsumerWidget {
                     flex: 306 - 160,
                     child: CategoryBanner(
                       category: SnapCategoryEnum.gnomeGames,
-                      padding: 24,
-                      height: 150,
-                      kMaxSize: 60,
-                      kIconSize: 24,
-                      fontSize: 16,
+                      padding: _CategoryBannerProperties.padding,
+                      height: _CategoryBannerProperties.height,
+                      kMaxSize: _CategoryBannerProperties.kMaxSize,
+                      kIconSize: _CategoryBannerProperties.kIconSize,
+                      fontSize: _CategoryBannerProperties.fontSize,
                     )),
                 Container(width: 12),
                 const Expanded(
                     flex: 306 - 160,
                     child: CategoryBanner(
                       category: SnapCategoryEnum.kdeGames,
-                      padding: 24,
-                      height: 150,
-                      kMaxSize: 60,
-                      kIconSize: 24,
-                      fontSize: 16,
+                      padding: _CategoryBannerProperties.padding,
+                      height: _CategoryBannerProperties.height,
+                      kMaxSize: _CategoryBannerProperties.kMaxSize,
+                      kIconSize: _CategoryBannerProperties.kIconSize,
+                      fontSize: _CategoryBannerProperties.fontSize,
                     ))
               ],
             )
@@ -97,4 +97,12 @@ class _Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(text, style: Theme.of(context).textTheme.headlineSmall);
   }
+}
+
+class _CategoryBannerProperties {
+  static const double padding = 24;
+  static const double height = 150;
+  static const double kMaxSize = 60;
+  static const double kIconSize = 24;
+  static const double fontSize = 16;
 }
