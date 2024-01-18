@@ -27,7 +27,7 @@ class ExplorePage extends ConsumerWidget {
       slivers: [
         SliverList.list(children: const [
           SizedBox(height: kPagePadding),
-          _CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
+          CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
           SizedBox(height: kPagePadding),
         ]),
         const _CategorySnapList(
@@ -36,7 +36,7 @@ class ExplorePage extends ConsumerWidget {
         ),
         SliverList.list(children: const [
           SizedBox(height: 56),
-          _CategoryBanner(category: SnapCategoryEnum.featured),
+          CategoryBanner(category: SnapCategoryEnum.featured),
           SizedBox(height: kPagePadding),
         ]),
         const _CategorySnapList(
@@ -62,7 +62,7 @@ class ExplorePage extends ConsumerWidget {
         const _CategoryList(),
         SliverList.list(children: const [
           SizedBox(height: 56),
-          _CategoryBanner(category: SnapCategoryEnum.development),
+          CategoryBanner(category: SnapCategoryEnum.development),
           SizedBox(height: kPagePadding),
         ]),
         const _CategorySnapList(
@@ -71,7 +71,7 @@ class ExplorePage extends ConsumerWidget {
         ),
         SliverList.list(children: const [
           SizedBox(height: 56),
-          _CategoryBanner(category: SnapCategoryEnum.productivity),
+          CategoryBanner(category: SnapCategoryEnum.productivity),
           SizedBox(height: kPagePadding),
         ]),
         const _CategorySnapList(
@@ -153,10 +153,24 @@ class _CategorySnapList extends ConsumerWidget {
   }
 }
 
-class _CategoryBanner extends ConsumerWidget {
-  const _CategoryBanner({required this.category});
+class CategoryBanner extends ConsumerWidget {
+  const CategoryBanner({
+    required this.category,
+    this.padding = 48,
+    this.height = 240,
+    this.kMaxSize = 88.0,
+    this.kIconSize = 48.0,
+    this.fontSize = 24,
+    super.key,
+  });
 
   final SnapCategoryEnum category;
+  final double padding;
+  final double height;
+  final double kMaxSize;
+  final double kIconSize;
+  final double fontSize;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final snaps = ref
@@ -182,6 +196,11 @@ class _CategoryBanner extends ConsumerWidget {
         }
       },
       colors: category.bannerColors,
+      padding: padding,
+      height: height,
+      kMaxSize: kMaxSize,
+      kIconSize: kIconSize,
+      fontSize: fontSize,
     );
   }
 }
@@ -191,6 +210,11 @@ class _Banner extends StatelessWidget {
     required this.snaps,
     required this.slogan,
     required this.colors,
+    required this.padding,
+    required this.height,
+    required this.kMaxSize,
+    required this.kIconSize,
+    required this.fontSize,
     this.buttonLabel,
     this.onPressed,
   });
@@ -199,6 +223,11 @@ class _Banner extends StatelessWidget {
   final String slogan;
   final String? buttonLabel;
   final VoidCallback? onPressed;
+  final double padding;
+  final double height;
+  final double kMaxSize;
+  final double kIconSize;
+  final double fontSize;
 
   static const _kForegroundColor = Colors.white;
   final List<Color> colors;
@@ -206,14 +235,14 @@ class _Banner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(48),
+      padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
           colors: colors,
         ),
       ),
-      height: 240,
+      height: height,
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -225,10 +254,10 @@ class _Banner extends StatelessWidget {
                 children: [
                   Text(
                     slogan,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(color: _kForegroundColor),
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        color: _kForegroundColor,
+                        fontSize: fontSize,
+                        letterSpacing: 0.15),
                   ),
                   if (buttonLabel != null) ...[
                     const SizedBox(height: 24),
@@ -251,8 +280,11 @@ class _Banner extends StatelessWidget {
             // TODO: add smooth transition
             if (ResponsiveLayout.of(context).type != ResponsiveLayoutType.small)
               Row(
-                mainAxisSize: MainAxisSize.min,
-                children: snaps.map((snap) => _BannerIcon(snap: snap)).toList(),
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: snaps
+                    .map((snap) => _BannerIcon(
+                        snap: snap, kMaxSize: kMaxSize, kIconSize: kIconSize))
+                    .toList(),
               ),
           ],
         ),
@@ -262,18 +294,22 @@ class _Banner extends StatelessWidget {
 }
 
 class _BannerIcon extends StatefulWidget {
-  const _BannerIcon({required this.snap});
+  const _BannerIcon({
+    required this.snap,
+    required this.kMaxSize,
+    required this.kIconSize,
+  });
 
   final Snap snap;
+  final double kMaxSize;
+  final double kIconSize;
 
   @override
   State<_BannerIcon> createState() => _BannerIconState();
 }
 
 class _BannerIconState extends State<_BannerIcon> {
-  static const _kMaxSize = 88.0;
   static const _kHoverDelay = Duration(milliseconds: 100);
-  static const _kIconSize = 48.0;
   static const _kScaleLarge = 1.5;
 
   double scale = 1.0;
@@ -283,7 +319,7 @@ class _BannerIconState extends State<_BannerIcon> {
     return Tooltip(
       waitDuration: Duration.zero,
       showDuration: Duration.zero,
-      verticalOffset: _kMaxSize / 2,
+      verticalOffset: widget.kMaxSize / 2,
       message: widget.snap.titleOrName,
       child: InkWell(
         onTap: () => StoreNavigator.pushSnap(context, name: widget.snap.name),
@@ -291,8 +327,8 @@ class _BannerIconState extends State<_BannerIcon> {
           setState(() => scale = hover ? _kScaleLarge : 1.0);
         },
         child: SizedBox(
-          height: _kMaxSize,
-          width: _kMaxSize,
+          height: widget.kMaxSize,
+          width: widget.kMaxSize,
           child: Center(
             child: TweenAnimationBuilder(
               curve: Curves.easeIn,
@@ -312,7 +348,7 @@ class _BannerIconState extends State<_BannerIcon> {
                 ),
                 child: AppIcon(
                   iconUrl: widget.snap.iconUrl,
-                  size: _kIconSize * scale,
+                  size: widget.kIconSize * scale,
                 ),
               ),
             ),

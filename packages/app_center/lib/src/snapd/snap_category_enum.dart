@@ -44,7 +44,14 @@ enum SnapCategoryEnum {
   unknown,
   ubuntuDesktop;
 
-  bool get hidden => [gameDev, gameEmulators, gnomeGames, kdeGames, unknown, ubuntuDesktop].contains(this);
+  bool get hidden => [
+        gameDev,
+        gameEmulators,
+        gnomeGames,
+        kdeGames,
+        unknown,
+        ubuntuDesktop
+      ].contains(this);
 
   String get categoryName => name.replaceAllMapped(
       RegExp('[A-Z]'), (match) => '-${match[0]!.toLowerCase()}');
@@ -78,7 +85,7 @@ enum SnapCategoryEnum {
             'mgba',
             'rpcs3-emu',
           ],
-          gnomeGames => [
+        gnomeGames => [
             'gnome-sudoku',
             'gnome-mahjongg',
             'gnome-2048',
@@ -91,9 +98,8 @@ enum SnapCategoryEnum {
             'gnome-hitori',
             'five-or-more',
             'quadrapassel',
-
           ],
-          kdeGames => [
+        kdeGames => [
             'ksirk',
             'kgeography',
             'kigo',

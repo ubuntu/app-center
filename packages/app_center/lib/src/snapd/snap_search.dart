@@ -43,7 +43,10 @@ final snapSearchProvider =
               .toList() ??
           [],
     );
-  } else if (searchParameters.category == SnapCategoryEnum.gameDev || searchParameters.category == SnapCategoryEnum.gameEmulators || searchParameters.category == SnapCategoryEnum.gnomeGames || searchParameters.category == SnapCategoryEnum.kdeGames) {
+  } else if (searchParameters.category == SnapCategoryEnum.gameDev ||
+      searchParameters.category == SnapCategoryEnum.gameEmulators ||
+      searchParameters.category == SnapCategoryEnum.gnomeGames ||
+      searchParameters.category == SnapCategoryEnum.kdeGames) {
     yield* snapd.getStoreSnaps(
       searchParameters.category!.featuredSnapNames
               ?.where((name) => name.contains(searchParameters.query ?? ''))
