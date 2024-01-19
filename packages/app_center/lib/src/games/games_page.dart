@@ -135,6 +135,6 @@ class _CategoryBannerProperties {
   static const double padding = 24;
   static const double height = 150;
   static const double kMaxSize = 60;
-  static const double kIconSize = 24;
+  static const double kIconSize = 32;
   static const double fontSize = 16;
 }
