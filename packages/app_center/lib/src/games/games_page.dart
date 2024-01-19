@@ -3,6 +3,7 @@ import 'package:app_center/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -83,6 +84,37 @@ class GamesPage extends ConsumerWidget {
             )
           ],
         ),
+        SliverList.list(
+          children: [
+            const SizedBox(height: kPagePadding),
+            Row(
+              children: [
+                Flexible(
+                  flex: 3,
+                  fit: FlexFit.tight,
+                  child: Container(),
+                ),
+                Flexible(
+                  flex: 2,
+                  fit: FlexFit.tight,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      StoreNavigator.pushSearch(context,
+                          category: SnapCategoryEnum.games.categoryName);
+                    },
+                    child: const Text('All games'), //TODO: l10n
+                  ),
+                ),
+                Flexible(
+                  flex: 3,
+                  fit: FlexFit.tight,
+                  child: Container(),
+                ),
+              ],
+            ),
+            const SizedBox(height: kPagePadding),
+          ],
+        )
       ],
     );
   }
