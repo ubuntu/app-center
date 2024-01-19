@@ -20,13 +20,15 @@ class GamesPage extends ConsumerWidget {
     return ResponsiveLayoutScrollView(
       slivers: [
         SliverList.list(children: [
-          const SizedBox(height: 56),
-          _Title(text: SnapCategoryEnum.games.localize(l10n)),
           const SizedBox(height: kPagePadding),
+          _Title(text: SnapCategoryEnum.games.localize(l10n)),
+          const SizedBox(height: 0),
         ]),
         SliverList.list(children: const [
-          SizedBox(height: 56),
+          SizedBox(height: kPagePadding),
           GamesPageFeatured(),
+          SizedBox(height: kPagePadding),
+          Text("Here we'll have featured games!"),
           SizedBox(height: kPagePadding),
         ]),
         SliverList.list(
