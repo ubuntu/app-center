@@ -195,7 +195,7 @@ class _SnapView extends ConsumerWidget {
                       ],
                     ),
                     const SizedBox(height: 32),
-                    const Divider(height: 2),
+                    const Divider(),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 32),
                       child: _SnapInfoBar(
@@ -204,7 +204,7 @@ class _SnapView extends ConsumerWidget {
                         layout: layout,
                       ),
                     ),
-                    const Divider(height: 2),
+                    const Divider(),
                     const SizedBox(height: 48),
                     if (snapModel.hasGallery) ...[
                       _Section(
@@ -224,7 +224,7 @@ class _SnapView extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      const Divider(height: 2),
+                      const Divider(),
                       const SizedBox(height: 48),
                     ],
                     _Section(
