@@ -5,6 +5,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/snapd/snap_report.dart';
 import 'package:app_center/src/store/store_app.dart';
 import 'package:app_center/widgets.dart';
 import 'package:collection/collection.dart';
@@ -117,6 +118,10 @@ class _SnapView extends ConsumerWidget {
       (
         label: l10n.snapPageLicenseLabel,
         value: Text(snapModel.snap.license ?? ''),
+      ),
+      (
+        label: l10n.snapPageVersionLabel,
+        value: Text(snapModel.snap.version),
       ),
       (
         label: l10n.snapPagePublishedLabel,
@@ -241,6 +246,7 @@ class _SnapView extends ConsumerWidget {
                             ),
                             const SizedBox(height: kPagePadding),
                             MarkdownBody(
+                              selectable: true,
                               onTapLink: (text, href, title) =>
                                   launchUrlString(href!),
                               data: snapModel.snap.description,
@@ -365,6 +371,7 @@ class _SnapActionButtons extends ConsumerWidget {
         return MenuItemButton(
           child: IntrinsicWidth(
             child: ListTile(
+              mouseCursor: SystemMouseCursors.click,
               leading: action.icon != null
                   ? Icon(
                       action.icon,
@@ -454,6 +461,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                     ),
                   ),
                   child: YaruIconButton(
+                    mouseCursor: SystemMouseCursors.click,
                     icon: Icon(
                       ratingsModel.vote == VoteStatus.up
                           ? Icons.thumb_up
@@ -486,6 +494,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                     ),
                   ),
                   child: YaruIconButton(
+                    mouseCursor: SystemMouseCursors.click,
                     icon: Icon(
                       ratingsModel.vote == VoteStatus.down
                           ? Icons.thumb_down
@@ -564,6 +573,7 @@ class _Header extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const YaruBackButton(),
+            const Spacer(),
             if (snap.website != null)
               YaruIconButton(
                 icon: const Icon(YaruIcons.share),
@@ -580,6 +590,20 @@ class _Header extends ConsumerWidget {
                   Clipboard.setData(ClipboardData(text: snap.website!));
                 },
               ),
+            YaruIconButton(
+              icon: const Icon(YaruIcons.flag),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return ResponsiveLayoutBuilder(
+                      builder: (context) =>
+                          SnapReport(name: snapModel.snap.titleOrName),
+                    );
+                  },
+                );
+              },
+            ),
           ],
         ),
         const SizedBox(height: kPagePadding),

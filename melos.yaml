@@ -31,14 +31,22 @@ scripts:
   # cleanup generated files from coverage
   coverage:cleanup: >
     melos exec --file-exists=coverage/lcov.info -- \
-      lcov --remove coverage/lcov.info '**/*.g.dart' '**/*.freezed.dart' -o coverage/lcov.info
+      lcov --remove coverage/lcov.info \
+        '**/*.freezed.dart' \
+        '**/*.g.dart' \
+        '**/*.mocks.dart' \
+        '**/l10n/*.dart' \
+        '**/*.pb*.dart' \
+        -o coverage/lcov.info
 
   # format all packages
   format: >
     find . -name '*.dart' \
-      ! -name '*.g.dart' \
       ! -name '*.freezed.dart' \
+      ! -name '*.g.dart' \
       ! -name '*.mocks.dart' \
+      ! -path '*/l10n/*.dart' \
+      ! -name '*.pb*.dart' \
       ! -path '*/.*/*' \
       | xargs dart format --set-exit-if-changed
 

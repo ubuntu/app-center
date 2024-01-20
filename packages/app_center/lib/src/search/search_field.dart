@@ -38,12 +38,14 @@ class SearchField extends ConsumerStatefulWidget {
     required this.onSearch,
     required this.onSnapSelected,
     required this.onDebSelected,
+    required this.searchFocus,
     super.key,
   });
 
   final ValueChanged<String> onSearch;
   final ValueChanged<String> onSnapSelected;
   final ValueChanged<String> onDebSelected;
+  final FocusNode searchFocus;
 
   @override
   ConsumerState<SearchField> createState() => _SearchFieldState();
@@ -152,42 +154,45 @@ class _SearchFieldState extends ConsumerState<SearchField> {
         AutoCompleteSearchOption(query: final query) => widget.onSearch(query),
       },
       fieldViewBuilder: (context, controller, node, onFieldSubmitted) {
-        return Consumer(builder: (context, ref, child) {
-          ref.listen(queryProvider, (prev, next) {
-            if (!node.hasPrimaryFocus) controller.text = next ?? '';
-          });
-          const iconConstraints = BoxConstraints(
-            minWidth: 32,
-            minHeight: 32,
-            maxWidth: 32,
-            maxHeight: 32,
-          );
-          return TextField(
-            focusNode: node,
-            controller: controller,
-            onChanged: (_) => _optionsAvailable = false,
-            onSubmitted: (query) =>
-                _optionsAvailable ? onFieldSubmitted() : widget.onSearch(query),
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-              fillColor: Theme.of(context).dividerColor,
-              prefixIcon: const Icon(YaruIcons.search, size: 16),
-              prefixIconConstraints: iconConstraints,
-              hintText: l10n.searchFieldSearchHint,
-              suffixIcon: AnimatedBuilder(
-                animation: controller,
-                builder: (context, child) {
-                  return YaruIconButton(
-                    icon: const Icon(YaruIcons.edit_clear, size: 16),
-                    onPressed:
-                        controller.text.isEmpty ? null : controller.clear,
-                  );
-                },
-              ),
-              suffixIconConstraints: iconConstraints,
-            ),
-          );
-        });
+        return Focus(
+            focusNode: widget.searchFocus,
+            child: Consumer(builder: (context, ref, child) {
+              ref.listen(queryProvider, (prev, next) {
+                if (!node.hasPrimaryFocus) controller.text = next ?? '';
+              });
+              const iconConstraints = BoxConstraints(
+                minWidth: 32,
+                minHeight: 32,
+                maxWidth: 32,
+                maxHeight: 32,
+              );
+              return TextField(
+                focusNode: node,
+                controller: controller,
+                onChanged: (_) => _optionsAvailable = false,
+                onSubmitted: (query) => _optionsAvailable
+                    ? onFieldSubmitted()
+                    : widget.onSearch(query),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                  fillColor: Theme.of(context).dividerColor,
+                  prefixIcon: const Icon(YaruIcons.search, size: 16),
+                  prefixIconConstraints: iconConstraints,
+                  hintText: l10n.searchFieldSearchHint,
+                  suffixIcon: AnimatedBuilder(
+                    animation: controller,
+                    builder: (context, child) {
+                      return YaruIconButton(
+                        icon: const Icon(YaruIcons.edit_clear, size: 16),
+                        onPressed:
+                            controller.text.isEmpty ? null : controller.clear,
+                      );
+                    },
+                  ),
+                  suffixIconConstraints: iconConstraints,
+                ),
+              );
+            }));
       },
     );
   }
