@@ -273,6 +273,7 @@ class _ActionButtons extends ConsumerWidget {
                         .watch(changeProvider(updatesModel.activeChangeId))
                         .whenOrNull(data: (data) => data);
                     return Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox.square(
                           dimension: kCircularProgressIndicatorHeight,
