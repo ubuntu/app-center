@@ -36,6 +36,21 @@ void main() {
     ),
   ];
 
+  final snapsWithInprogressChange =
+      <String, ({Snap snap, SnapdChange snapdChange})>{};
+  snapsWithInprogressChange.putIfAbsent(
+    'testsnap4',
+    () => (
+      snap: const Snap(
+        name: 'testsnap4',
+        title: 'Snap that is being installed',
+        version: '2.0',
+        channel: 'latest/stable',
+      ),
+      snapdChange: SnapdChange(spawnTime: DateTime.now())
+    ),
+  );
+
   final snapModel = createMockSnapModel(
     hasUpdate: true,
     localSnap: refreshableSnaps[0],
@@ -71,6 +86,30 @@ void main() {
         findsOneWidget);
     expect(
         find.descendant(of: testTile2, matching: find.text('latest/candidate')),
+        findsOneWidget);
+  });
+
+  testWidgets('list installing snaps', (tester) async {
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          manageModelProvider.overrideWith(
+            (_) => createMockManageModel(
+                snapsWithInprogressChange: snapsWithInprogressChange),
+          ),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          updatesModelProvider.overrideWith((_) => createMockUpdatesModel())
+        ],
+        child: const ManagePage(),
+      ),
+    );
+
+    final testTile = find.snapTile('Snap that is being installed');
+    expect(testTile, findsOneWidget);
+    expect(find.descendant(of: testTile, matching: find.text('2.0')),
+        findsOneWidget);
+    expect(find.descendant(of: testTile, matching: find.text('latest/stable')),
         findsOneWidget);
   });
 

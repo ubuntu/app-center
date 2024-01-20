@@ -738,6 +738,26 @@ class MockManageModel extends _i1.Mock implements _i17.ManageModel {
       ) as _i6.UpdatesModel);
 
   @override
+  Map<String, ({_i2.Snap snap, _i2.SnapdChange snapdChange})>
+      get snapsWithInprogressChange => (super.noSuchMethod(
+            Invocation.getter(#snapsWithInprogressChange),
+            returnValue: <String,
+                ({_i2.Snap snap, _i2.SnapdChange snapdChange})>{},
+          ) as Map<String, ({_i2.Snap snap, _i2.SnapdChange snapdChange})>);
+
+  @override
+  set snapsWithInprogressChange(
+          Map<String, ({_i2.Snap snap, _i2.SnapdChange snapdChange})>?
+              _snapsWithInprogressChange) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #snapsWithInprogressChange,
+          _snapsWithInprogressChange,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i5.AsyncValue<void> get state => (super.noSuchMethod(
         Invocation.getter(#state),
         returnValue: _FakeAsyncValue_3<void>(
@@ -782,6 +802,23 @@ class MockManageModel extends _i1.Mock implements _i17.ManageModel {
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  _i14.Future<void> handleSnapChange(
+    _i2.Snap? snap,
+    _i2.SnapdChange? change,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #handleSnapChange,
+          [
+            snap,
+            change,
+          ],
+        ),
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
 
   @override
   void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
