@@ -79,6 +79,7 @@ void expectSnapInfos(
   expect(find.text(tester.l10n.snapPageConfinementLabel), findsOneWidget);
   expect(find.text(tester.l10n.snapPageDescriptionLabel), findsOneWidget);
   expect(find.text(tester.l10n.snapPageLicenseLabel), findsOneWidget);
+  expect(find.text(tester.l10n.snapPageVersionLabel), findsOneWidget);
   expect(find.text(tester.l10n.snapPagePublishedLabel), findsOneWidget);
 
   final snapChannel = snap.channels[channel];
