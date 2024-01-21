@@ -121,7 +121,7 @@ class _SnapView extends ConsumerWidget {
       ),
       (
         label: l10n.snapPageVersionLabel,
-        value: Text(snapModel.channelInfo!.version),
+        value: Text(snapModel.channelInfo?.version ?? snapModel.snap.version),
       ),
       (
         label: l10n.snapPagePublishedLabel,
