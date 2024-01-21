@@ -346,120 +346,131 @@ class _ManageSnapTile extends ConsumerWidget {
     final daysSinceUpdate = snap.installDate != null
         ? DateTime.now().difference(snap.installDate!).inDays
         : null;
+    const radius = Radius.circular(8);
 
-    return ListTile(
-      key: ValueKey(snap.id),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      shape: switch (position) {
-        ManageTilePosition.first => RoundedRectangleBorder(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: switch (position) {
+          ManageTilePosition.first =>
+            const BorderRadius.only(topLeft: radius, topRight: radius),
+          ManageTilePosition.middle => BorderRadius.zero,
+          ManageTilePosition.last =>
+            const BorderRadius.only(bottomLeft: radius, bottomRight: radius),
+          ManageTilePosition.single => BorderRadius.zero,
+        },
+        border: switch (position) {
+          ManageTilePosition.first => Border(
+              top: border,
+              left: border,
+              right: border,
+              bottom: border,
             ),
-            side: border,
-          ),
-        ManageTilePosition.middle => RoundedRectangleBorder(
-            side: border,
-          ),
-        ManageTilePosition.last => RoundedRectangleBorder(
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(8),
-              bottomRight: Radius.circular(8),
+          ManageTilePosition.middle => Border(
+              left: border,
+              right: border,
+              bottom: border,
             ),
-            side: border,
-          ),
-        ManageTilePosition.single => RoundedRectangleBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            side: border,
-          ),
-      },
-      leading: Clickable(
-        onTap: () => StoreNavigator.pushSnap(context, name: snap.name),
-        child: AppIcon(iconUrl: snap.iconUrl, size: 40),
+          ManageTilePosition.last => Border(
+              bottom: border,
+              left: border,
+              right: border,
+            ),
+          ManageTilePosition.single =>
+            const Border.fromBorderSide(BorderSide.none),
+        },
       ),
-      title: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Clickable(
-                onTap: () => StoreNavigator.pushSnap(context, name: snap.name),
-                child: Text(
-                  snap.titleOrName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+      child: ListTile(
+        key: ValueKey(snap.id),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        leading: Clickable(
+          onTap: () => StoreNavigator.pushSnap(context, name: snap.name),
+          child: AppIcon(iconUrl: snap.iconUrl, size: 40),
+        ),
+        title: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Clickable(
+                  onTap: () =>
+                      StoreNavigator.pushSnap(context, name: snap.name),
+                  child: Text(
+                    snap.titleOrName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ),
-          ),
-          if (ResponsiveLayout.of(context).type !=
-              ResponsiveLayoutType.small) ...[
-            Expanded(
-              flex: 2,
-              child: daysSinceUpdate != null
-                  ? Text(
-                      l10n.managePageUpdatedDaysAgo(daysSinceUpdate),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )
-                  : const SizedBox(),
-            ),
-            Expanded(
-              child: snap.installedSize != null
-                  ? Text(
-                      context.formatByteSize(
-                        snap.installedSize!,
-                        precision: 0,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )
-                  : const SizedBox(),
-            ),
-          ],
-        ],
-      ),
-      subtitle: Column(
-        children: [
-          Row(
-            children: [
-              Text(snap.channel),
-              const SizedBox(width: 4),
-              Text(snap.version),
+            if (ResponsiveLayout.of(context).type !=
+                ResponsiveLayoutType.small) ...[
+              Expanded(
+                flex: 2,
+                child: daysSinceUpdate != null
+                    ? Text(
+                        l10n.managePageUpdatedDaysAgo(daysSinceUpdate),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    : const SizedBox(),
+              ),
+              Expanded(
+                child: snap.installedSize != null
+                    ? Text(
+                        context.formatByteSize(
+                          snap.installedSize!,
+                          precision: 0,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    : const SizedBox(),
+              ),
             ],
-          ),
-          if (ResponsiveLayout.of(context).type == ResponsiveLayoutType.small)
+          ],
+        ),
+        subtitle: Column(
+          children: [
             Row(
               children: [
-                Expanded(
-                  child: daysSinceUpdate != null
-                      ? Text(
-                          l10n.managePageUpdatedDaysAgo(daysSinceUpdate),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      : const SizedBox(),
-                ),
-                Expanded(
-                  child: snap.installedSize != null
-                      ? Text(
-                          context.formatByteSize(
-                            snap.installedSize!,
-                            precision: 0,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      : const SizedBox(),
-                ),
+                Text(snap.channel),
+                const SizedBox(width: 4),
+                Text(snap.version),
               ],
-            )
-        ],
+            ),
+            if (ResponsiveLayout.of(context).type == ResponsiveLayoutType.small)
+              Row(
+                children: [
+                  Expanded(
+                    child: daysSinceUpdate != null
+                        ? Text(
+                            l10n.managePageUpdatedDaysAgo(daysSinceUpdate),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        : const SizedBox(),
+                  ),
+                  Expanded(
+                    child: snap.installedSize != null
+                        ? Text(
+                            context.formatByteSize(
+                              snap.installedSize!,
+                              precision: 0,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        : const SizedBox(),
+                  ),
+                ],
+              )
+          ],
+        ),
+        trailing: showUpdateButton
+            ? buildButtonBarForUpdate(ref, l10n, snapLauncher, context)
+            : buildButtonBarForOpen(ref, l10n, snapLauncher, context),
       ),
-      trailing: showUpdateButton
-          ? buildButtonBarForUpdate(ref, l10n, snapLauncher, context)
-          : buildButtonBarForOpen(ref, l10n, snapLauncher, context),
     );
   }
 

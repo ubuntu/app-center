@@ -41,7 +41,7 @@ final pages = <StorePage>[
     pageBuilder: (_) => const SizedBox.shrink(),
   ),
   (
-    tileBuilder: (context, selected) => const Divider(height: 1),
+    tileBuilder: (context, selected) => const Divider(),
     pageBuilder: (_) => const SizedBox.shrink(),
   ),
   (
