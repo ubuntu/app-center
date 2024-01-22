@@ -180,6 +180,8 @@ class _Banner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final titleTextStyle = kIconSize > 40 ? textTheme.headlineSmall! : textTheme.titleMedium!;
     return Container(
       padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(
@@ -200,10 +202,7 @@ class _Banner extends StatelessWidget {
                 children: [
                   Text(
                     slogan,
-                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                        color: _kForegroundColor,
-                        fontSize: fontSize,
-                        letterSpacing: 0.15),
+                    style: titleTextStyle.copyWith(color: _kForegroundColor),
                   ),
                   if (buttonLabel != null) ...[
                     const SizedBox(height: 24),
