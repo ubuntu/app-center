@@ -96,10 +96,10 @@ class _CarouselCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(snap.name,
-                        style: Theme.of(context).textTheme.displayMedium),
+                        style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.white)),
                     Text(
                       snap.summary,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     )
