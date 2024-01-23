@@ -138,116 +138,11 @@ class GamesPage extends ConsumerWidget {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Tooltip(
-                          waitDuration: Duration.zero,
-                          showDuration: Duration.zero,
-                          verticalOffset: 88 / 2,
-                          message: tools[0].name,
-                          child: InkWell(
-                            child: SizedBox(
-                              height: 88,
-                              width: 88,
-                              child: Center(
-                                child: TweenAnimationBuilder(
-                                  curve: Curves.easeIn,
-                                  tween: Tween<double>(begin: 1.0, end: 1.5),
-                                  duration: const Duration(milliseconds: 100),
-                                  builder: (context, scale, child) => Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 24,
-                                          color: Colors.black.withAlpha(0x19),
-                                        )
-                                      ],
-                                    ),
-                                    child: AppIcon(
-                                      iconUrl: tools[0].iconUrl,
-                                      size: 48 * scale,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        _ExternalToolIcon(tool: tools[0]),
                         Container(width: 24),
-                        Tooltip(
-                          waitDuration: Duration.zero,
-                          showDuration: Duration.zero,
-                          verticalOffset: 88 / 2,
-                          message: tools[1].name,
-                          child: InkWell(
-                            child: SizedBox(
-                              height: 88,
-                              width: 88,
-                              child: Center(
-                                child: TweenAnimationBuilder(
-                                  curve: Curves.easeIn,
-                                  tween: Tween<double>(begin: 1.0, end: 1.5),
-                                  duration: const Duration(milliseconds: 100),
-                                  builder: (context, scale, child) => Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 24,
-                                          color: Colors.black.withAlpha(0x19),
-                                        )
-                                      ],
-                                    ),
-                                    child: AppIcon(
-                                      iconUrl: tools[1].iconUrl,
-                                      size: 48 * scale,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        _ExternalToolIcon(tool: tools[1]),
                         Container(width: 24),
-                        Tooltip(
-                          waitDuration: Duration.zero,
-                          showDuration: Duration.zero,
-                          verticalOffset: 88 / 2,
-                          message: tools[2].name,
-                          child: InkWell(
-                            child: SizedBox(
-                              height: 88,
-                              width: 88,
-                              child: Center(
-                                child: TweenAnimationBuilder(
-                                  curve: Curves.easeIn,
-                                  tween: Tween<double>(begin: 1.0, end: 1.5),
-                                  duration: const Duration(milliseconds: 100),
-                                  builder: (context, scale, child) => Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 24,
-                                          color: Colors.black.withAlpha(0x19),
-                                        )
-                                      ],
-                                    ),
-                                    child: AppIcon(
-                                      iconUrl: tools[2].iconUrl,
-                                      size: 48 * scale,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
+                        _ExternalToolIcon(tool: tools[2]),
                       ]),
                 ],
               ),
@@ -306,4 +201,52 @@ class _CategoryBannerProperties {
   static const double height = 150;
   static const double kMaxSize = 60;
   static const double kIconSize = 32;
+}
+
+class _ExternalToolIcon extends ConsumerWidget {
+  const _ExternalToolIcon({
+    required this.tool,
+  });
+
+  final Tool tool;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Tooltip(
+      waitDuration: Duration.zero,
+      showDuration: Duration.zero,
+      verticalOffset: 88 / 2,
+      message: tool.name,
+      child: InkWell(
+        child: SizedBox(
+          height: 88,
+          width: 88,
+          child: Center(
+            child: TweenAnimationBuilder(
+              curve: Curves.easeIn,
+              tween: Tween<double>(begin: 1.0, end: 1.5),
+              duration: const Duration(milliseconds: 100),
+              builder: (context, scale, child) => Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 24,
+                      color: Colors.black.withAlpha(0x19),
+                    )
+                  ],
+                ),
+                child: AppIcon(
+                  iconUrl: tool.iconUrl,
+                  size: 48 * scale,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
