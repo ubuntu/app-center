@@ -37,6 +37,17 @@ class AppTitle extends StatelessWidget {
         large: large,
       );
 
+  factory AppTitle.fromTool(
+    String title,
+    String publisher, {
+    bool large = false,
+  }) =>
+      AppTitle(
+        title: title,
+        publisher: publisher,
+        large: large,
+      );
+
   final String title;
   final String? publisher;
   final bool verifiedPublisher;

@@ -36,6 +36,10 @@ class StoreNavigator {
       category: category,
     );
   }
+
+  static Future<void> pushExternalTools(BuildContext context) {
+    return Navigator.of(context).pushExternalTools();
+  }
 }
 
 extension StoreNavigatorState on NavigatorState {
@@ -68,5 +72,9 @@ extension StoreNavigatorState on NavigatorState {
       query: query,
       category: category,
     ));
+  }
+
+  Future<void> pushExternalTools({String? query, String? category}) {
+    return pushNamed('/externalTools');
   }
 }

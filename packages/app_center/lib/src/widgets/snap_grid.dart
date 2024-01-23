@@ -36,6 +36,17 @@ class AppCardGrid extends StatelessWidget {
         ),
       );
 
+  factory AppCardGrid.fromTools({
+    required List<Tool> tools,
+  }) =>
+      AppCardGrid(
+        appCards: tools.map(
+          (tool) => AppCard.fromTool(
+            tool: tool,
+          ),
+        ),
+      );
+
   final Iterable<AppCard> appCards;
 
   @override

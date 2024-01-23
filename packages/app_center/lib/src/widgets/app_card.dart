@@ -8,6 +8,7 @@ import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppCard extends StatelessWidget {
@@ -44,6 +45,20 @@ class AppCard extends StatelessWidget {
         summary: component.getLocalizedSummary(),
         iconUrl: component.icon,
         onTap: onTap,
+      );
+  
+  factory AppCard.fromTool({
+    required Tool tool,
+    VoidCallback? onTap,
+  }) =>
+      AppCard(
+        title: AppTitle.fromTool(tool.name, tool.publisher),
+        summary: tool.summary,
+        iconUrl: tool.iconUrl,
+        footer: ElevatedButton(
+          onPressed: () async {await _launchUrl(Uri.parse(tool.url));},
+          child: Text('Open in browser'), //TODO: l10n
+        ),
       );
 
   final AppTitle title;
@@ -200,4 +215,24 @@ class _RatingsInfo extends ConsumerWidget {
       loading: () => const SizedBox.shrink(),
     );
   }
+}
+
+class Tool {
+  Tool(
+    this.name,
+    this.summary,
+    this.publisher,
+    this.iconUrl,
+    this.url
+  );
+
+  final String name;
+  final String summary;
+  final String publisher;
+  final String iconUrl;
+  final String url;
+}
+
+Future <void> _launchUrl(Uri url) async {
+  await launchUrl(url);
 }
