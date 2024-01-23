@@ -46,7 +46,7 @@ class AppCard extends StatelessWidget {
         iconUrl: component.icon,
         onTap: onTap,
       );
-  
+
   factory AppCard.fromTool({
     required Tool tool,
     VoidCallback? onTap,
@@ -56,7 +56,9 @@ class AppCard extends StatelessWidget {
         summary: tool.summary,
         iconUrl: tool.iconUrl,
         footer: ElevatedButton(
-          onPressed: () async {await _launchUrl(Uri.parse(tool.url));},
+          onPressed: () async {
+            await _launchUrl(Uri.parse(tool.url));
+          },
           child: Text('Open in browser'), //TODO: l10n
         ),
       );
@@ -218,13 +220,7 @@ class _RatingsInfo extends ConsumerWidget {
 }
 
 class Tool {
-  Tool(
-    this.name,
-    this.summary,
-    this.publisher,
-    this.iconUrl,
-    this.url
-  );
+  Tool(this.name, this.summary, this.publisher, this.iconUrl, this.url);
 
   final String name;
   final String summary;
@@ -233,6 +229,6 @@ class Tool {
   final String url;
 }
 
-Future <void> _launchUrl(Uri url) async {
+Future<void> _launchUrl(Uri url) async {
   await launchUrl(url);
 }

@@ -165,8 +165,7 @@ class GamesPage extends ConsumerWidget {
                                       ],
                                     ),
                                     child: AppIcon(
-                                      iconUrl:
-                                          tools[0].iconUrl,
+                                      iconUrl: tools[0].iconUrl,
                                       size: 48 * scale,
                                     ),
                                   ),
@@ -203,8 +202,7 @@ class GamesPage extends ConsumerWidget {
                                       ],
                                     ),
                                     child: AppIcon(
-                                      iconUrl:
-                                          tools[1].iconUrl,
+                                      iconUrl: tools[1].iconUrl,
                                       size: 48 * scale,
                                     ),
                                   ),
@@ -241,8 +239,7 @@ class GamesPage extends ConsumerWidget {
                                       ],
                                     ),
                                     child: AppIcon(
-                                      iconUrl:
-                                          tools[2].iconUrl,
+                                      iconUrl: tools[2].iconUrl,
                                       size: 48 * scale,
                                     ),
                                   ),
