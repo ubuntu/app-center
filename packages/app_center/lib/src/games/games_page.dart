@@ -88,64 +88,10 @@ class GamesPage extends ConsumerWidget {
           ],
         ),
         SliverList.list(children: [
-          Container(
-            padding: const EdgeInsets.all(48),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              gradient: const LinearGradient(
-                colors: [
-                  Color.fromARGB(255, 29, 27, 112),
-                  Color.fromARGB(255, 49, 1, 82),
-                ],
-              ),
-            ),
-            height: 185,
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "External references", //TODO: l10n
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(color: Colors.white),
-                        ),
-                        const SizedBox(height: 24),
-                        OutlinedButton(
-                          onPressed: () {
-                            StoreNavigator.pushExternalTools(context);
-                          },
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            side: const BorderSide(color: Colors.white),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                          ),
-                          child: Text("Discover Resources"), //TODO: l10n
-                        ),
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: tools
-                          .map((tool) => _ExternalToolIcon(tool: tool))
-                          .toList(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          ToolsBanner(
+              summary: 'External references', //TODO: l10n
+              buttonText: 'Discover resources',
+              bannerApps: tools),
           const SizedBox(height: kPagePadding),
         ]),
         SliverList.list(
@@ -199,52 +145,4 @@ class _CategoryBannerProperties {
   static const double height = 150;
   static const double kMaxSize = 60;
   static const double kIconSize = 32;
-}
-
-class _ExternalToolIcon extends ConsumerWidget {
-  const _ExternalToolIcon({
-    required this.tool,
-  });
-
-  final Tool tool;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Tooltip(
-      waitDuration: Duration.zero,
-      showDuration: Duration.zero,
-      verticalOffset: 88 / 2,
-      message: tool.name,
-      child: InkWell(
-        child: SizedBox(
-          height: 88,
-          width: 88,
-          child: Center(
-            child: TweenAnimationBuilder(
-              curve: Curves.easeIn,
-              tween: Tween<double>(begin: 1.0, end: 1.5),
-              duration: const Duration(milliseconds: 100),
-              builder: (context, scale, child) => Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 24,
-                      color: Colors.black.withAlpha(0x19),
-                    )
-                  ],
-                ),
-                child: AppIcon(
-                  iconUrl: tool.iconUrl,
-                  size: 48 * scale,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
