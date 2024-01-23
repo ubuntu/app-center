@@ -134,16 +134,14 @@ class GamesPage extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  // TODO: add smooth transition
-                  Row(
+                  Flexible(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _ExternalToolIcon(tool: tools[0]),
-                        Container(width: 24),
-                        _ExternalToolIcon(tool: tools[1]),
-                        Container(width: 24),
-                        _ExternalToolIcon(tool: tools[2]),
-                      ]),
+                      children: tools
+                          .map((tool) => _ExternalToolIcon(tool: tool))
+                          .toList(),
+                    ),
+                  ),
                 ],
               ),
             ),
