@@ -59,7 +59,7 @@ class AppCard extends StatelessWidget {
           onPressed: () async {
             await _launchUrl(Uri.parse(tool.url));
           },
-          child: Text('Open in browser'), //TODO: l10n
+          child: const Text('Open in browser'), //TODO: l10n
         ),
       );
 

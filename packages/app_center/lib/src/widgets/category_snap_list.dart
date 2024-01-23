@@ -8,12 +8,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategorySnapList extends ConsumerWidget {
   const CategorySnapList({
-    super.key,
     required this.category,
     this.numberOfSnaps = 6,
     this.showScreenshots = false,
     this.onlyFeatured = false,
     this.hideBannerSnaps = false,
+    super.key,
   });
 
   final SnapCategoryEnum category;

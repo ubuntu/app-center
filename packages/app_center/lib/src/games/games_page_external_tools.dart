@@ -57,7 +57,6 @@ class _Tools extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
     return ResponsiveLayoutScrollView(
       slivers: [
         AppCardGrid.fromTools(
