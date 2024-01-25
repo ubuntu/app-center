@@ -121,6 +121,5 @@ List<Tool> tools = [
       'Compatibility tool based on Steam Play',
       'GloriousEggroll',
       'https://avatars.githubusercontent.com/u/11287837?v=4',
-      'https://github.com/GloriousEggroll/proton-ge-custom'
-      ),
+      'https://github.com/GloriousEggroll/proton-ge-custom'),
 ];

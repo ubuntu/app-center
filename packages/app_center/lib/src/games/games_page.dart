@@ -93,7 +93,7 @@ class GamesPage extends ConsumerWidget {
           ToolsBanner(
               summary: 'External references', //TODO: l10n
               buttonText: 'Discover resources',
-              bannerApps: takeRandom(tools, 3)!),
+              bannerApps: takeRandom(tools, 3)),
           const SizedBox(height: kPagePadding),
         ]),
         SliverList.list(
