@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-// TODO: break down into smaller widgets
 class ExternalTools extends StatelessWidget {
   const ExternalTools({super.key});
 
@@ -24,7 +23,7 @@ class ExternalTools extends StatelessWidget {
               children: [
                 if (Navigator.of(context).canPop()) const YaruBackButton(),
                 Text(
-                  'External Tools',
+                  l10n.externalResources,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ],
@@ -40,7 +39,7 @@ class ExternalTools extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Disclaimer: These are all recommended external tools. These aren't owned nor distributed by Canonical.", //TODO: l10n
+                  l10n.externalResourcesDisclaimer,
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
               ],
@@ -57,16 +56,16 @@ class _Tools extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     return ResponsiveLayoutScrollView(
       slivers: [
-        AppCardGrid.fromTools(
-          tools: tools,
-        ),
+        AppCardGrid.fromTools(tools: tools, l10n: l10n),
       ],
     );
   }
 }
 
+//TODO: should we localize this stuff?
 List<Tool> tools = [
   Tool(
       'ProtonDB',

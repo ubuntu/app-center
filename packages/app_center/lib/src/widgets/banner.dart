@@ -250,7 +250,7 @@ class ToolsBanner extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    summary, //TODO: l10n
+                    summary,
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall!
@@ -269,7 +269,7 @@ class ToolsBanner extends ConsumerWidget {
                         vertical: 8,
                       ),
                     ),
-                    child: Text(buttonText), //TODO: l10n
+                    child: Text(buttonText),
                   ),
                 ],
               ),

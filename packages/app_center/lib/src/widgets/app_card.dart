@@ -49,6 +49,7 @@ class AppCard extends StatelessWidget {
 
   factory AppCard.fromTool({
     required Tool tool,
+    required AppLocalizations l10n,
     VoidCallback? onTap,
   }) =>
       AppCard(
@@ -59,7 +60,7 @@ class AppCard extends StatelessWidget {
           onPressed: () async {
             await _launchUrl(Uri.parse(tool.url));
           },
-          child: const Text('Open in browser'), //TODO: l10n
+          child: Text(l10n.openInBrowser),
         ),
       );
 

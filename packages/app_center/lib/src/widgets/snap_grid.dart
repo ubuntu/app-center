@@ -1,3 +1,4 @@
+import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/src/widgets/app_card.dart';
 import 'package:appstream/appstream.dart';
@@ -38,11 +39,13 @@ class AppCardGrid extends StatelessWidget {
 
   factory AppCardGrid.fromTools({
     required List<Tool> tools,
+    required AppLocalizations l10n,
   }) =>
       AppCardGrid(
         appCards: tools.map(
           (tool) => AppCard.fromTool(
             tool: tool,
+            l10n: l10n,
           ),
         ),
       );

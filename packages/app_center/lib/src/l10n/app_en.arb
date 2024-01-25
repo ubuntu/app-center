@@ -205,5 +205,10 @@
     "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical’s Privacy Notice ",
     "snapReportPrivacyAgreementAndLabel": "and ",
     "snapReportPrivacyAgreementPrivacyPolicy": "Privacy Policy",
-    "debPageErrorNoPackageInfo": "No package information found"
+    "debPageErrorNoPackageInfo": "No package information found",
+    "externalResources": "External references",
+    "externalResourcesButtonLabel": "Discover resources",
+    "allGamesButtonLabel": "All games",
+    "externalResourcesDisclaimer": "Disclaimer: These are all recommended external tools. These aren't owned nor distributed by Canonical.",
+    "openInBrowser": "Open in browser"
 }
