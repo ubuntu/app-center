@@ -85,5 +85,54 @@ List<Tool> tools = [
       'Run Microsoft Windows programs on Linux',
       'WineHQ',
       'https://static.macupdate.com/products/17376/l/wine-logo.png?v=1638440531',
-      'https://www.winehq.org/')
+      'https://www.winehq.org/'),
+  Tool(
+      'Lutris',
+      'Launcher, hub, and game tweaks',
+      'Lutris',
+      'https://lutris.net/static/images/logo.png',
+      'https://lutris.net/'
+      ),
+  Tool(
+      'GameMode',
+      'Game optimizer and performance tweaks',
+      'Feral Interactive',
+      '',
+      'https://github.com/FeralInteractive/gamemode'
+      ),
+  Tool(
+      'MangoHUD',
+      'Game HUD and overlay',
+      'flightlessmango',
+      '',
+      'https://github.com/flightlessmango/MangoHud'
+      ),
+  Tool(
+      'AreWeAntiCheatYet?',
+      'Crowd-sourced anti-cheat status for Linux games',
+      '',
+      'https://areweanticheatyet.com/icon.webp',
+      'https://areweanticheatyet.com/'
+      ),
+  Tool(
+      'Unreal Engine',
+      'Game engine, real-time 3D creation tool',
+      'Epic Games',
+      'https://alternative.me/media/256/unreal-engine-4-icon-n9l5dnli0fo5ghgo-c.png',
+      'https://www.unrealengine.com/'
+      ),
+  Tool(
+      'Unity Engine',
+      'Cross-platform game engine',
+      'Unity Technologies',
+      'https://engine.needle.tools/docs/imgs/unity-logo.webp',
+      'https://unity.com/'
+      ),
+  Tool(
+      'GamingOnLinux',
+      'Blog with information on Linux Gaming',
+      'Liam Dawe',
+      'https://www.gamingonlinux.com/templates/default/images/logos/icon_mouse.png',
+      'https://www.gamingonlinux.com/'
+      )
 ];
