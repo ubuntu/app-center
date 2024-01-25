@@ -93,8 +93,7 @@ class GamesPage extends ConsumerWidget {
           ToolsBanner(
               summary: 'External references', //TODO: l10n
               buttonText: 'Discover resources',
-              bannerApps: takeRandom(tools,3)!
-          ),
+              bannerApps: takeRandom(tools, 3)!),
           const SizedBox(height: kPagePadding),
         ]),
         SliverList.list(
@@ -150,15 +149,15 @@ class _CategoryBannerProperties {
   static const double kIconSize = 32;
 }
 
-List<Tool>? takeRandom(List<Tool> tools, int num){
-  if (num == 0){
+List<Tool>? takeRandom(List<Tool> tools, int num) {
+  if (num == 0) {
     return null;
   }
   final result = <Tool>[];
   var count = num;
-  while(count > 0){
+  while (count > 0) {
     final random = Random().nextInt(tools.length);
-    if (!(tools[random].iconUrl == '') && !result.contains(tools[random])){
+    if (!(tools[random].iconUrl == '') && !result.contains(tools[random])) {
       result.add(tools[random]);
       count--;
     }
