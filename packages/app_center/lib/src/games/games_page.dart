@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:app_center/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
@@ -91,7 +93,8 @@ class GamesPage extends ConsumerWidget {
           ToolsBanner(
               summary: 'External references', //TODO: l10n
               buttonText: 'Discover resources',
-              bannerApps: tools),
+              bannerApps: takeRandom(tools,3)!
+          ),
           const SizedBox(height: kPagePadding),
         ]),
         SliverList.list(
@@ -145,4 +148,20 @@ class _CategoryBannerProperties {
   static const double height = 150;
   static const double kMaxSize = 60;
   static const double kIconSize = 32;
+}
+
+List<Tool>? takeRandom(List<Tool> tools, int num){
+  if (num == 0){
+    return null;
+  }
+  final result = <Tool>[];
+  var count = num;
+  while(count > 0){
+    final random = Random().nextInt(tools.length);
+    if (!(tools[random].iconUrl == '') && !result.contains(tools[random])){
+      result.add(tools[random]);
+      count--;
+    }
+  }
+  return result;
 }
