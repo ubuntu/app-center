@@ -149,10 +149,7 @@ class _CategoryBannerProperties {
   static const double kIconSize = 32;
 }
 
-List<Tool>? takeRandom(List<Tool> tools, int num) {
-  if (num == 0) {
-    return null;
-  }
+List<Tool> takeRandom(List<Tool> tools, int num) {
   final result = <Tool>[];
   var count = num;
   while (count > 0) {
