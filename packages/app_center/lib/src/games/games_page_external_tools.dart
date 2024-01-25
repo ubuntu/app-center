@@ -95,7 +95,7 @@ List<Tool> tools = [
   Tool(
       'AreWeAntiCheatYet?',
       'Crowd-sourced anti-cheat status for Linux games',
-      '',
+      'Starz0r & Curve',
       'https://areweanticheatyet.com/icon.webp',
       'https://areweanticheatyet.com/'),
   Tool(
@@ -115,5 +115,12 @@ List<Tool> tools = [
       'Blog with information on Linux Gaming',
       'Liam Dawe',
       'https://www.gamingonlinux.com/templates/default/images/logos/icon_mouse.png',
-      'https://www.gamingonlinux.com/')
+      'https://www.gamingonlinux.com/'),
+  Tool(
+      'Proton GE',
+      'Compatibility tool based on Steam Play',
+      'GloriousEggroll',
+      'https://avatars.githubusercontent.com/u/11287837?v=4',
+      'https://github.com/GloriousEggroll/proton-ge-custom'
+      ),
 ];
