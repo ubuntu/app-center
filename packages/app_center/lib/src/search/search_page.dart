@@ -8,6 +8,8 @@ import 'package:app_center/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -123,7 +125,14 @@ class SearchPage extends StatelessWidget {
                       ),
                     ),
                   ],
-                ])
+                ]),
+                if (initialCategory == SnapCategoryEnum.gameDev ||
+                    initialCategory == SnapCategoryEnum.gameEmulators ||
+                    initialCategory == SnapCategoryEnum.gnomeGames ||
+                    initialCategory == SnapCategoryEnum.kdeGames) ...[
+                  const SizedBox(height: kPagePadding),
+                  InstallAll(initialCategory: initialCategory),
+                ]
               ],
             ),
           ),
@@ -145,6 +154,45 @@ class SearchPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class InstallAll extends ConsumerWidget {
+  const InstallAll({
+    required this.initialCategory, super.key,
+  });
+
+  final SnapCategoryEnum? initialCategory;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final snaps = ref
+        .watch(snapSearchProvider(SnapSearchParameters(category: initialCategory)))
+        .whenOrNull(data: (data) => data);
+    return Row(
+      children: [
+        Flexible(
+          flex: 3,
+          fit: FlexFit.tight,
+          child: Container(),
+        ),
+        Flexible(
+          flex: 2,
+          fit: FlexFit.tight,
+          child: ElevatedButton(
+            onPressed: () {
+              installAll(snaps!); //TODO: l10n
+            },
+            child: Text("Install all"),
+          ),
+        ),
+        Flexible(
+          flex: 3,
+          fit: FlexFit.tight,
+          child: Container(),
+        ),
+      ],
     );
   }
 }
@@ -266,4 +314,22 @@ extension on PackageFormat {
       PackageFormat.snap => l10n.packageFormatSnapLabel,
     };
   }
+}
+
+Future<void> installAll(List<Snap> snaps) async {
+    final snapd = getService<SnapdService>();
+    final classicSnaps = snaps.where((snap) => snap.confinement == SnapConfinement.classic).toList();
+    final strictSnaps = snaps.where((snap) => snap.confinement == SnapConfinement.strict).toList();
+    if(classicSnaps.isNotEmpty){
+      final changeId = await snapd.install(classicSnaps.first.name, classic: true);
+      final change = await snapd.getChange(changeId);
+      if (["Do", "Doing", "Done"].contains(change.status)){
+        for (var i = 1; i < classicSnaps.length; i++) {
+          await snapd.install(classicSnaps[i].name, classic: true);
+        }
+        await snapd.installMany(strictSnaps.map((snap)=>snap.name).toList());
+      }
+    } else {
+      await snapd.installMany(strictSnaps.map((snap)=>snap.name).toList());
+    }
 }
