@@ -56,7 +56,7 @@ class AppCard extends StatelessWidget {
         title: AppTitle.fromTool(tool.name, tool.publisher),
         summary: tool.summary,
         iconUrl: tool.iconUrl,
-        footer: ElevatedButton(
+        footer: OutlinedButton(
           onPressed: () async {
             await _launchUrl(Uri.parse(tool.url));
           },

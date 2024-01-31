@@ -22,29 +22,65 @@ class ExternalTools extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (Navigator.of(context).canPop()) const YaruBackButton(),
-                Text(
-                  l10n.externalResources,
-                  style: Theme.of(context).textTheme.headlineSmall,
+              ],
+            ),
+          ),
+          Padding(
+            padding: ResponsiveLayout.of(context).padding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(48),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 29, 27, 112),
+                        Color.fromARGB(255, 49, 1, 82),
+                      ],
+                    ),
+                  ),
+                  height: 180,
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l10n.externalResources,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(color: Colors.white),
+                              ),
+                              const SizedBox(height: 24),
+                              Text(
+                                l10n.externalResourcesDisclaimer,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium!
+                                    .copyWith(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
+              const SizedBox(height: kPagePadding,),
               ],
             ),
           ),
           Expanded(child: Consumer(builder: (context, ref, child) {
             return const _Tools();
           })),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: kPagePadding) +
-                ResponsiveLayout.of(context).padding,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l10n.externalResourcesDisclaimer,
-                  style: Theme.of(context).textTheme.labelMedium,
-                ),
-              ],
-            ),
-          ),
+          const SizedBox(height: kPagePadding,)
         ],
       ),
     );
