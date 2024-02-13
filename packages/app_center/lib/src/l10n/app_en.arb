@@ -214,5 +214,6 @@
     "externalResourcesButtonLabel": "Discover resources",
     "allGamesButtonLabel": "All games",
     "externalResourcesDisclaimer": "Disclaimer: These are all recommended external tools. These aren't owned nor distributed by Canonical.",
-    "openInBrowser": "Open in browser"
+    "openInBrowser": "Open in browser",
+    "installAll": "Install all"
 }

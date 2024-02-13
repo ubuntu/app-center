@@ -160,15 +160,18 @@ class SearchPage extends StatelessWidget {
 
 class InstallAll extends ConsumerWidget {
   const InstallAll({
-    required this.initialCategory, super.key,
+    required this.initialCategory,
+    super.key,
   });
 
   final SnapCategoryEnum? initialCategory;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final snaps = ref
-        .watch(snapSearchProvider(SnapSearchParameters(category: initialCategory)))
+        .watch(
+            snapSearchProvider(SnapSearchParameters(category: initialCategory)))
         .whenOrNull(data: (data) => data);
     return Row(
       children: [
@@ -182,9 +185,9 @@ class InstallAll extends ConsumerWidget {
           fit: FlexFit.tight,
           child: ElevatedButton(
             onPressed: () {
-              installAll(snaps!); //TODO: l10n
+              installAll(snaps!);
             },
-            child: Text("Install all"),
+            child: Text(l10n.installAll),
           ),
         ),
         Flexible(
@@ -317,19 +320,24 @@ extension on PackageFormat {
 }
 
 Future<void> installAll(List<Snap> snaps) async {
-    final snapd = getService<SnapdService>();
-    final classicSnaps = snaps.where((snap) => snap.confinement == SnapConfinement.classic).toList();
-    final strictSnaps = snaps.where((snap) => snap.confinement == SnapConfinement.strict).toList();
-    if(classicSnaps.isNotEmpty){
-      final changeId = await snapd.install(classicSnaps.first.name, classic: true);
-      final change = await snapd.getChange(changeId);
-      if (["Do", "Doing", "Done"].contains(change.status)){
-        for (var i = 1; i < classicSnaps.length; i++) {
-          await snapd.install(classicSnaps[i].name, classic: true);
-        }
-        await snapd.installMany(strictSnaps.map((snap)=>snap.name).toList());
+  final snapd = getService<SnapdService>();
+  final classicSnaps = snaps
+      .where((snap) => snap.confinement == SnapConfinement.classic)
+      .toList();
+  final strictSnaps = snaps
+      .where((snap) => snap.confinement == SnapConfinement.strict)
+      .toList();
+  if (classicSnaps.isNotEmpty) {
+    final changeId =
+        await snapd.install(classicSnaps.first.name, classic: true);
+    final change = await snapd.getChange(changeId);
+    if (["Do", "Doing", "Done"].contains(change.status)) {
+      for (var i = 1; i < classicSnaps.length; i++) {
+        await snapd.install(classicSnaps[i].name, classic: true);
       }
-    } else {
-      await snapd.installMany(strictSnaps.map((snap)=>snap.name).toList());
+      await snapd.installMany(strictSnaps.map((snap) => snap.name).toList());
     }
+  } else {
+    await snapd.installMany(strictSnaps.map((snap) => snap.name).toList());
+  }
 }
