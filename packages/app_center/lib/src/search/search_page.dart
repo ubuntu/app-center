@@ -331,7 +331,7 @@ Future<void> installAll(List<Snap> snaps) async {
     final changeId =
         await snapd.install(classicSnaps.first.name, classic: true);
     final change = await snapd.getChange(changeId);
-    if (["Do", "Doing", "Done"].contains(change.status)) {
+    if (['Do', 'Doing', 'Done'].contains(change.status)) {
       for (var i = 1; i < classicSnaps.length; i++) {
         await snapd.install(classicSnaps[i].name, classic: true);
       }
