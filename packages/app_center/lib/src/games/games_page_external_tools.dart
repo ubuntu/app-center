@@ -73,14 +73,18 @@ class ExternalTools extends StatelessWidget {
                     ),
                   ),
                 ),
-              const SizedBox(height: kPagePadding,),
+                const SizedBox(
+                  height: kPagePadding,
+                ),
               ],
             ),
           ),
           Expanded(child: Consumer(builder: (context, ref, child) {
             return const _Tools();
           })),
-          const SizedBox(height: kPagePadding,)
+          const SizedBox(
+            height: kPagePadding,
+          )
         ],
       ),
     );
