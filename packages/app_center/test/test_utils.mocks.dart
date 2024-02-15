@@ -1084,6 +1084,7 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
     String? category,
     String? section,
     _i2.SnapFindFilter? filter,
+    _i2.SnapFindScope? scope,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1095,6 +1096,7 @@ class MockSnapdService extends _i1.Mock implements _i6.SnapdService {
             #category: category,
             #section: section,
             #filter: filter,
+            #scope: scope,
           },
         ),
         returnValue: _i14.Future<List<_i2.Snap>>.value(<_i2.Snap>[]),
