@@ -41,6 +41,7 @@ parts:
       # this helps increase reliability for local builds
       dart pub global run melos clean
       dart pub global run melos bootstrap
+      sed -i 's/runPubGetInParallel: true/runPubGetInParallel: false/g' melos.yaml
       cd packages/app_center
       flutter build linux --release -v
       mkdir -p $CRAFT_PART_INSTALL/bin/
