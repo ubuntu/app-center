@@ -36,12 +36,15 @@ parts:
     plugin: nil
     override-build: |
       set -eux
-      sed -i 's/runPubGetInParallel: true/runPubGetInParallel: false/g' melos.yaml
       dart pub global activate melos
+
+      set +e # ignore pub errors
       # when building locally artifacts can pollute the container and cause builds to fail
       # this helps increase reliability for local builds
       dart pub global run melos clean
       dart pub global run melos bootstrap
+      set -e
+
       cd packages/app_center
       flutter build linux --release -v
       mkdir -p $CRAFT_PART_INSTALL/bin/
