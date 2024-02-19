@@ -249,6 +249,27 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
       ) as _i3.Future<String>);
 
   @override
+  _i3.Future<String> installMany(
+    List<String>? names, {
+    bool? classic = false,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #installMany,
+          [names],
+          {#classic: classic},
+        ),
+        returnValue: _i3.Future<String>.value(_i4.dummyValue<String>(
+          this,
+          Invocation.method(
+            #installMany,
+            [names],
+            {#classic: classic},
+          ),
+        )),
+      ) as _i3.Future<String>);
+
+  @override
   _i3.Future<String> connect(
     String? snap,
     String? plug,
