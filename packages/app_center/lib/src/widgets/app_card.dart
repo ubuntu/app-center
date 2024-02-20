@@ -49,18 +49,21 @@ class AppCard extends StatelessWidget {
 
   factory AppCard.fromTool({
     required Tool tool,
-    required AppLocalizations l10n,
-    VoidCallback? onTap,
   }) =>
       AppCard(
-        title: AppTitle.fromTool(tool.name, tool.publisher),
+        title: AppTitle.fromTool(tool),
         summary: tool.summary,
         iconUrl: tool.iconUrl,
         footer: OutlinedButton(
           onPressed: () async {
-            await _launchUrl(Uri.parse(tool.url));
+            await launchUrl(Uri.parse(tool.url));
           },
-          child: Text(l10n.openInBrowser),
+          child: Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context);
+              return Text(l10n.openInBrowser);
+            }
+          ),
         ),
       );
 
@@ -228,8 +231,4 @@ class Tool {
   final String publisher;
   final String iconUrl;
   final String url;
-}
-
-Future<void> _launchUrl(Uri url) async {
-  await launchUrl(url);
 }

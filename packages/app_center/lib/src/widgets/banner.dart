@@ -12,19 +12,19 @@ import 'package:snapd/snapd.dart';
 class CategoryBanner extends ConsumerWidget {
   const CategoryBanner({
     required this.category,
-    this.padding = 48,
+    this.padding = const EdgeInsets.all(48),
     this.height = 240,
-    this.kMaxSize = 88.0,
-    this.kIconSize = 48.0,
+    this.maxSize = 88.0,
+    this.iconSize = 48.0,
     this.kNumberOfBannerSnaps = 3,
     super.key,
   });
 
   final SnapCategoryEnum category;
-  final double padding;
+  final EdgeInsets padding;
   final double height;
-  final double kMaxSize;
-  final double kIconSize;
+  final double maxSize;
+  final double iconSize;
   final int kNumberOfBannerSnaps;
 
   @override
@@ -54,8 +54,8 @@ class CategoryBanner extends ConsumerWidget {
       colors: category.bannerColors,
       padding: padding,
       height: height,
-      kMaxSize: kMaxSize,
-      kIconSize: kIconSize,
+      maxSize: maxSize,
+      iconSize: iconSize,
     );
   }
 }
@@ -67,8 +67,8 @@ class _Banner extends StatelessWidget {
     required this.colors,
     required this.padding,
     required this.height,
-    required this.kMaxSize,
-    required this.kIconSize,
+    required this.maxSize,
+    required this.iconSize,
     this.buttonLabel,
     this.onPressed,
   });
@@ -77,10 +77,10 @@ class _Banner extends StatelessWidget {
   final String slogan;
   final String? buttonLabel;
   final VoidCallback? onPressed;
-  final double padding;
+  final EdgeInsets padding;
   final double height;
-  final double kMaxSize;
-  final double kIconSize;
+  final double maxSize;
+  final double iconSize;
 
   static const _kForegroundColor = Colors.white;
   final List<Color> colors;
@@ -89,9 +89,9 @@ class _Banner extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final titleTextStyle =
-        kIconSize > 40 ? textTheme.headlineSmall! : textTheme.titleMedium!;
+        iconSize > 40 ? textTheme.headlineSmall! : textTheme.titleMedium!;
     return Container(
-      padding: EdgeInsets.all(padding),
+      padding: padding,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
@@ -136,7 +136,7 @@ class _Banner extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: snaps
                     .map((snap) => _BannerIcon(
-                        snap: snap, kMaxSize: kMaxSize, kIconSize: kIconSize))
+                        snap: snap, maxSize: maxSize, iconSize: iconSize))
                     .toList(),
               ),
           ],
@@ -149,13 +149,13 @@ class _Banner extends StatelessWidget {
 class _BannerIcon extends StatefulWidget {
   const _BannerIcon({
     required this.snap,
-    required this.kMaxSize,
-    required this.kIconSize,
+    required this.maxSize,
+    required this.iconSize,
   });
 
   final Snap snap;
-  final double kMaxSize;
-  final double kIconSize;
+  final double maxSize;
+  final double iconSize;
 
   @override
   State<_BannerIcon> createState() => _BannerIconState();
@@ -172,7 +172,7 @@ class _BannerIconState extends State<_BannerIcon> {
     return Tooltip(
       waitDuration: Duration.zero,
       showDuration: Duration.zero,
-      verticalOffset: widget.kMaxSize / 2,
+      verticalOffset: widget.maxSize / 2,
       message: widget.snap.titleOrName,
       child: InkWell(
         onTap: () => StoreNavigator.pushSnap(context, name: widget.snap.name),
@@ -180,8 +180,8 @@ class _BannerIconState extends State<_BannerIcon> {
           setState(() => scale = hover ? _kScaleLarge : 1.0);
         },
         child: SizedBox(
-          height: widget.kMaxSize,
-          width: widget.kMaxSize,
+          height: widget.maxSize,
+          width: widget.maxSize,
           child: Center(
             child: TweenAnimationBuilder(
               curve: Curves.easeIn,
@@ -201,7 +201,7 @@ class _BannerIconState extends State<_BannerIcon> {
                 ),
                 child: AppIcon(
                   iconUrl: widget.snap.iconUrl,
-                  size: widget.kIconSize * scale,
+                  size: widget.iconSize * scale,
                 ),
               ),
             ),
@@ -232,11 +232,8 @@ class ToolsBanner extends ConsumerWidget {
       padding: const EdgeInsets.all(48),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        gradient: const LinearGradient(
-          colors: [
-            Color.fromARGB(255, 29, 27, 112),
-            Color.fromARGB(255, 49, 1, 82),
-          ],
+        gradient: LinearGradient(
+          colors: SnapCategoryEnum.games.bannerColors,
         ),
       ),
       height: 185,

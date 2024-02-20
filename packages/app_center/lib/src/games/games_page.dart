@@ -88,8 +88,8 @@ class GamesPage extends ConsumerWidget {
                       category: SnapCategoryEnum.gameDev,
                       padding: _CategoryBannerProperties.padding,
                       height: _CategoryBannerProperties.height,
-                      kMaxSize: _CategoryBannerProperties.kMaxSize,
-                      kIconSize: _CategoryBannerProperties.kIconSize,
+                      maxSize: _CategoryBannerProperties.maxSize,
+                      iconSize: _CategoryBannerProperties.iconSize,
                     )),
                 Container(width: 12),
                 const Expanded(
@@ -98,8 +98,8 @@ class GamesPage extends ConsumerWidget {
                       category: SnapCategoryEnum.gameEmulators,
                       padding: _CategoryBannerProperties.padding,
                       height: _CategoryBannerProperties.height,
-                      kMaxSize: _CategoryBannerProperties.kMaxSize,
-                      kIconSize: _CategoryBannerProperties.kIconSize,
+                      maxSize: _CategoryBannerProperties.maxSize,
+                      iconSize: _CategoryBannerProperties.iconSize,
                     ))
               ],
             ),
@@ -112,8 +112,8 @@ class GamesPage extends ConsumerWidget {
                       category: SnapCategoryEnum.gnomeGames,
                       padding: _CategoryBannerProperties.padding,
                       height: _CategoryBannerProperties.height,
-                      kMaxSize: _CategoryBannerProperties.kMaxSize,
-                      kIconSize: _CategoryBannerProperties.kIconSize,
+                      maxSize: _CategoryBannerProperties.maxSize,
+                      iconSize: _CategoryBannerProperties.iconSize,
                     )),
                 Container(width: 12),
                 const Expanded(
@@ -122,8 +122,8 @@ class GamesPage extends ConsumerWidget {
                       category: SnapCategoryEnum.kdeGames,
                       padding: _CategoryBannerProperties.padding,
                       height: _CategoryBannerProperties.height,
-                      kMaxSize: _CategoryBannerProperties.kMaxSize,
-                      kIconSize: _CategoryBannerProperties.kIconSize,
+                      maxSize: _CategoryBannerProperties.maxSize,
+                      iconSize: _CategoryBannerProperties.iconSize,
                     ))
               ],
             ),
@@ -156,10 +156,10 @@ class _Title extends StatelessWidget {
 }
 
 class _CategoryBannerProperties {
-  static const double padding = 24;
+  static const EdgeInsets padding = EdgeInsets.all(24);
   static const double height = 150;
-  static const double kMaxSize = 60;
-  static const double kIconSize = 32;
+  static const double maxSize = 60;
+  static const double iconSize = 32;
 }
 
 List<Tool> takeRandom(List<Tool> tools, int num) {

@@ -1,5 +1,6 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/src/snapd/snap_category_enum.dart';
 import 'package:app_center/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,11 +35,8 @@ class ExternalTools extends StatelessWidget {
                   padding: const EdgeInsets.all(48),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color.fromARGB(255, 29, 27, 112),
-                        Color.fromARGB(255, 49, 1, 82),
-                      ],
+                    gradient: LinearGradient(
+                      colors: SnapCategoryEnum.games.bannerColors
                     ),
                   ),
                   height: 180,
@@ -96,10 +94,9 @@ class _Tools extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
     return ResponsiveLayoutScrollView(
       slivers: [
-        AppCardGrid.fromTools(tools: tools, l10n: l10n),
+        AppCardGrid.fromTools(tools: tools),
       ],
     );
   }

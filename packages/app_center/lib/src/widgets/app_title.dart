@@ -1,5 +1,6 @@
 import 'package:app_center/appstream.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/widgets.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -38,13 +39,12 @@ class AppTitle extends StatelessWidget {
       );
 
   factory AppTitle.fromTool(
-    String title,
-    String publisher, {
+    Tool tool, {
     bool large = false,
   }) =>
       AppTitle(
-        title: title,
-        publisher: publisher,
+        title: tool.name,
+        publisher: tool.publisher,
         large: large,
       );
 
