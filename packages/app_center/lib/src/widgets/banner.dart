@@ -14,8 +14,8 @@ class CategoryBanner extends ConsumerWidget {
     required this.category,
     this.padding = const EdgeInsets.all(48),
     this.height = 240,
-    this.maxSize = 88.0,
-    this.iconSize = 48.0,
+    this.maxSize = const Size(88.0, 88.0),
+    this.iconSize = const Size(48.0, 48.0),
     this.kNumberOfBannerSnaps = 3,
     super.key,
   });
@@ -23,8 +23,8 @@ class CategoryBanner extends ConsumerWidget {
   final SnapCategoryEnum category;
   final EdgeInsets padding;
   final double height;
-  final double maxSize;
-  final double iconSize;
+  final Size maxSize;
+  final Size iconSize;
   final int kNumberOfBannerSnaps;
 
   @override
@@ -79,8 +79,8 @@ class _Banner extends StatelessWidget {
   final VoidCallback? onPressed;
   final EdgeInsets padding;
   final double height;
-  final double maxSize;
-  final double iconSize;
+  final Size maxSize;
+  final Size iconSize;
 
   static const _kForegroundColor = Colors.white;
   final List<Color> colors;
@@ -88,8 +88,9 @@ class _Banner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final titleTextStyle =
-        iconSize > 40 ? textTheme.headlineSmall! : textTheme.titleMedium!;
+    final titleTextStyle = iconSize.height > 40
+        ? textTheme.headlineSmall!
+        : textTheme.titleMedium!;
     return Container(
       padding: padding,
       decoration: BoxDecoration(
@@ -154,8 +155,8 @@ class _BannerIcon extends StatefulWidget {
   });
 
   final Snap snap;
-  final double maxSize;
-  final double iconSize;
+  final Size maxSize;
+  final Size iconSize;
 
   @override
   State<_BannerIcon> createState() => _BannerIconState();
@@ -172,7 +173,7 @@ class _BannerIconState extends State<_BannerIcon> {
     return Tooltip(
       waitDuration: Duration.zero,
       showDuration: Duration.zero,
-      verticalOffset: widget.maxSize / 2,
+      verticalOffset: widget.maxSize.height / 2,
       message: widget.snap.titleOrName,
       child: InkWell(
         onTap: () => StoreNavigator.pushSnap(context, name: widget.snap.name),
@@ -180,8 +181,8 @@ class _BannerIconState extends State<_BannerIcon> {
           setState(() => scale = hover ? _kScaleLarge : 1.0);
         },
         child: SizedBox(
-          height: widget.maxSize,
-          width: widget.maxSize,
+          height: widget.maxSize.height,
+          width: widget.maxSize.width,
           child: Center(
             child: TweenAnimationBuilder(
               curve: Curves.easeIn,
@@ -201,7 +202,7 @@ class _BannerIconState extends State<_BannerIcon> {
                 ),
                 child: AppIcon(
                   iconUrl: widget.snap.iconUrl,
-                  size: widget.iconSize * scale,
+                  size: widget.iconSize.height * scale,
                 ),
               ),
             ),

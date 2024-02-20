@@ -75,6 +75,6 @@ extension StoreNavigatorState on NavigatorState {
   }
 
   Future<void> pushExternalTools({String? query, String? category}) {
-    return pushNamed('/externalTools');
+    return pushNamed(StoreRoutes.externalTools);
   }
 }

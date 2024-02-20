@@ -36,8 +36,7 @@ class ExternalTools extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     gradient: LinearGradient(
-                      colors: SnapCategoryEnum.games.bannerColors
-                    ),
+                        colors: SnapCategoryEnum.games.bannerColors),
                   ),
                   height: 180,
                   child: Center(

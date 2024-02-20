@@ -58,12 +58,10 @@ class AppCard extends StatelessWidget {
           onPressed: () async {
             await launchUrl(Uri.parse(tool.url));
           },
-          child: Builder(
-            builder: (context) {
-              final l10n = AppLocalizations.of(context);
-              return Text(l10n.openInBrowser);
-            }
-          ),
+          child: Builder(builder: (context) {
+            final l10n = AppLocalizations.of(context);
+            return Text(l10n.openInBrowser);
+          }),
         ),
       );
 

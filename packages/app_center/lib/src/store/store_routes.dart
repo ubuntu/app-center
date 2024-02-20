@@ -6,6 +6,7 @@ abstract class StoreRoutes {
   static const snap = '/snap';
   static const manage = '/manage';
   static const search = '/search';
+  static const externalTools = '/externalTools';
 
   static bool isSnap(RouteSettings route) => routeOf(route) == snap;
   static bool isSearch(RouteSettings route) => routeOf(route) == search;

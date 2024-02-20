@@ -105,7 +105,7 @@ class _StoreAppState extends ConsumerState<StoreApp> {
                           category: StoreRoutes.categoryOf(settings),
                         ),
                       ),
-                    '/externalTools' => MaterialPageRoute(
+                    StoreRoutes.externalTools => MaterialPageRoute(
                         settings: settings,
                         builder: (_) => const ExternalTools(),
                       ),

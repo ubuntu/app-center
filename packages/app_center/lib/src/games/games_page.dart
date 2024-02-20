@@ -158,8 +158,8 @@ class _Title extends StatelessWidget {
 class _CategoryBannerProperties {
   static const EdgeInsets padding = EdgeInsets.all(24);
   static const double height = 150;
-  static const double maxSize = 60;
-  static const double iconSize = 32;
+  static const Size maxSize = Size(60, 60);
+  static const Size iconSize = Size(32, 32);
 }
 
 List<Tool> takeRandom(List<Tool> tools, int num) {
