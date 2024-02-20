@@ -3,6 +3,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/tool.dart';
 import 'package:app_center/widgets.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
@@ -219,14 +220,4 @@ class _RatingsInfo extends ConsumerWidget {
       loading: () => const SizedBox.shrink(),
     );
   }
-}
-
-class Tool {
-  Tool(this.name, this.summary, this.publisher, this.iconUrl, this.url);
-
-  final String name;
-  final String summary;
-  final String publisher;
-  final String iconUrl;
-  final String url;
 }

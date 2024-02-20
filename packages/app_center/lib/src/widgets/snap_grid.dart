@@ -1,4 +1,3 @@
-import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/src/widgets/app_card.dart';
 import 'package:appstream/appstream.dart';

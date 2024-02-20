@@ -1,6 +1,7 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/src/snapd/snap_category_enum.dart';
+import 'package:app_center/tool.dart';
 import 'package:app_center/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
