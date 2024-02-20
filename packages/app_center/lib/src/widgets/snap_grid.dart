@@ -1,5 +1,6 @@
 import 'package:app_center/layout.dart';
 import 'package:app_center/src/widgets/app_card.dart';
+import 'package:app_center/tool.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';

@@ -80,7 +80,7 @@ enum SnapCategoryEnum {
             'ppsspp-emu',
             'yuzu',
             'mupen64plus-gui',
-            'doxbox-x',
+            'dosbox-x',
             'mame',
             'mgba',
             'rpcs3-emu',

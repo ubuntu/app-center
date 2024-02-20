@@ -3,13 +3,12 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/search.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/snapd/multisnap_model.dart';
 import 'package:app_center/store.dart';
 import 'package:app_center/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:snapd/snapd.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
@@ -169,10 +168,7 @@ class InstallAll extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final snaps = ref
-        .watch(
-            snapSearchProvider(SnapSearchParameters(category: initialCategory)))
-        .whenOrNull(data: (data) => data);
+    final multiSnapModel = ref.watch(multiSnapModelProvider(initialCategory!));
     return Row(
       children: [
         Flexible(
@@ -184,9 +180,7 @@ class InstallAll extends ConsumerWidget {
           flex: 2,
           fit: FlexFit.tight,
           child: ElevatedButton(
-            onPressed: () {
-              installAll(snaps!);
-            },
+            onPressed: multiSnapModel.install,
             child: Text(l10n.installAll),
           ),
         ),
@@ -316,28 +310,5 @@ extension on PackageFormat {
       PackageFormat.deb => l10n.packageFormatDebLabel,
       PackageFormat.snap => l10n.packageFormatSnapLabel,
     };
-  }
-}
-
-Future<void> installAll(List<Snap> snaps) async {
-  final snapd = getService<SnapdService>();
-  final classicSnaps = snaps
-      .where((snap) => snap.confinement == SnapConfinement.classic)
-      .toList();
-  final strictSnaps = snaps
-      .where((snap) => snap.confinement == SnapConfinement.strict)
-      .toList();
-  if (classicSnaps.isNotEmpty) {
-    final changeId =
-        await snapd.install(classicSnaps.first.name, classic: true);
-    final change = await snapd.getChange(changeId);
-    if (['Do', 'Doing', 'Done'].contains(change.status)) {
-      for (var i = 1; i < classicSnaps.length; i++) {
-        await snapd.install(classicSnaps[i].name, classic: true);
-      }
-      await snapd.installMany(strictSnaps.map((snap) => snap.name).toList());
-    }
-  } else {
-    await snapd.installMany(strictSnaps.map((snap) => snap.name).toList());
   }
 }
