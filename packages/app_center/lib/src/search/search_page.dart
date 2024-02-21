@@ -169,28 +169,11 @@ class InstallAll extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final multiSnapModel = ref.watch(multiSnapModelProvider(initialCategory!));
-    return Row(
-      children: [
-        Flexible(
-          flex: 3,
-          fit: FlexFit.tight,
-          child: Container(),
-        ),
-        Flexible(
-          flex: 2,
-          fit: FlexFit.tight,
-          child: ElevatedButton(
-            onPressed: multiSnapModel.install,
-            child: Text(l10n.installAll),
-          ),
-        ),
-        Flexible(
-          flex: 3,
-          fit: FlexFit.tight,
-          child: Container(),
-        ),
-      ],
-    );
+    return Center(
+        child: ElevatedButton(
+      onPressed: multiSnapModel.install,
+      child: Text(l10n.installAll),
+    ));
   }
 }
 
