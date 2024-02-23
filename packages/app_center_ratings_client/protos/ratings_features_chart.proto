@@ -10,11 +10,13 @@ service Chart {
 
 message GetChartRequest {
   Timeframe timeframe = 1;
+  optional Category category = 2;
 }
 
 message GetChartResponse {
   Timeframe timeframe = 1;
   repeated ChartData ordered_chart_data = 2;
+  optional Category category = 3;
 }
 
 message ChartData {
@@ -26,4 +28,27 @@ enum Timeframe {
   TIMEFRAME_UNSPECIFIED = 0;
   TIMEFRAME_WEEK = 1;
   TIMEFRAME_MONTH = 2;
+}
+
+enum Category {
+  ART_AND_DESIGN = 0;
+  BOOK_AND_REFERENCE = 1;
+  DEVELOPMENT = 2;
+  DEVICES_AND_IOT = 3;
+  EDUCATION = 4;
+  ENTERTAINMENT = 5;
+  FEATURED = 6;
+  FINANCE = 7;
+  GAMES = 8;
+  HEALTH_AND_FITNESS = 9;
+  MUSIC_AND_AUDIO = 10;
+  NEWS_AND_WEATHER = 11;
+  PERSONALISATION = 12;
+  PHOTO_AND_VIDEO = 13;
+  PRODUCTIVITY = 14;
+  SCIENCE = 15;
+  SECURITY = 16;
+  SERVER_AND_CLOUD = 17;
+  SOCIAL = 18;
+  UTILITIES = 19;
 }
