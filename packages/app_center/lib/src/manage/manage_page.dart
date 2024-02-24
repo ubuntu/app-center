@@ -485,6 +485,8 @@ class _ManageSnapTile extends ConsumerWidget {
             final updatesModel = ref.watch(updatesModelProvider);
 
             return PushButton.outlined(
+              style: const ButtonStyle(
+                  padding: MaterialStatePropertyAll(EdgeInsets.zero)),
               onPressed: updatesModel.activeChangeId != null
                   ? null
                   : () {
@@ -583,8 +585,12 @@ class _ManageSnapTile extends ConsumerWidget {
           maintainState: true,
           visible: snapLauncher.isLaunchable,
           child: OutlinedButton(
+            style: const ButtonStyle(
+                padding: MaterialStatePropertyAll(EdgeInsets.zero)),
             onPressed: snapLauncher.open,
-            child: Text(l10n.snapActionOpenLabel),
+            child: Text(
+              l10n.snapActionOpenLabel,
+            ),
           ),
         ),
         MenuAnchor(
