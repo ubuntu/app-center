@@ -1,12 +1,10 @@
-import 'dart:math';
-
 import 'package:app_center/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/store.dart';
-import 'package:app_center/tool.dart';
 import 'package:app_center/widgets.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -137,7 +135,7 @@ class GamesPage extends ConsumerWidget {
           ToolsBanner(
               summary: l10n.externalResources,
               buttonText: l10n.externalResourcesButtonLabel,
-              bannerApps: takeRandom(tools, 3)),
+              bannerApps: tools.where((tool)=>tool.iconUrl != '').sample(3)),
           const SizedBox(height: kPagePadding),
         ]),
       ],
@@ -161,17 +159,4 @@ class _CategoryBannerProperties {
   static const double height = 150;
   static const Size maxSize = Size.square(60);
   static const Size iconSize = Size.square(32);
-}
-
-List<Tool> takeRandom(List<Tool> tools, int num) {
-  final result = <Tool>[];
-  var count = num;
-  while (count > 0) {
-    final random = Random().nextInt(tools.length);
-    if (!(tools[random].iconUrl == '') && !result.contains(tools[random])) {
-      result.add(tools[random]);
-      count--;
-    }
-  }
-  return result;
 }
