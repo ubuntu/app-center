@@ -135,7 +135,7 @@ class GamesPage extends ConsumerWidget {
           ToolsBanner(
               summary: l10n.externalResources,
               buttonText: l10n.externalResourcesButtonLabel,
-              bannerApps: tools.where((tool)=>tool.iconUrl != '').sample(3)),
+              bannerApps: tools.where((tool) => tool.iconUrl != '').sample(3)),
           const SizedBox(height: kPagePadding),
         ]),
       ],

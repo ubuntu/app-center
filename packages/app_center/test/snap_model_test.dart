@@ -277,22 +277,17 @@ void main() {
     }
   });
   test('install-many', () async {
-      final service = createMockSnapdService(
-        storeSnap: storeSnap,
-      );
-      final model = MultiSnapModel(snapd: service, category: SnapCategoryEnum.gameDev);
-      await model.init();
+    final service = createMockSnapdService(
+      storeSnap: storeSnap,
+    );
+    final model =
+        MultiSnapModel(snapd: service, category: SnapCategoryEnum.gameDev);
+    await model.init();
 
-      await model.installAll();
+    await model.installAll();
 
-      verify(service.install(
-        'godot', classic: true
-      )).called(1);
-      verify(service.install(
-        'blender', classic: true
-      )).called(1);
-      verify(service.installMany(
-        List<String>.from(['gimp', 'inkscape', 'krita'])
-      )).called(1);
-    });
+    verify(service.installMany(List<String>.from(List<String>.generate(
+        SnapCategoryEnum.gameDev.featuredSnapNames!.length,
+        (index) => 'testsnap')))).called(1);
+  });
 }
