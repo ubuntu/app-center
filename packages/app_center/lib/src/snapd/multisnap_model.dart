@@ -36,9 +36,9 @@ class MultiSnapModel extends ChangeNotifier {
   AsyncValue<void> get state => _state;
   AsyncValue<void> _state;
 
-  late List<Snap> categorySnaps;
+  List<Snap> categorySnaps = [];
 
-  StreamSubscription<Snap?>? _storeSnapSubscription;
+  StreamSubscription<List<Snap>?>? _storeSnapSubscription;
   StreamSubscription<SnapdChange>? _activeChangeSubscription;
 
   Stream<SnapdException> get errorStream => _errorStreamController.stream;
@@ -46,15 +46,14 @@ class MultiSnapModel extends ChangeNotifier {
       StreamController.broadcast();
 
   Future<void> init() async {
-    categorySnaps = List.empty(growable: true);
+    assert(category.featuredSnapNames!.isNotEmpty);
     final storeSnapCompleter = Completer();
-    for (final name in category.featuredSnapNames!) {
-      _storeSnapSubscription = snapd.getStoreSnap(name).listen((snap) {
-        categorySnaps.add(snap!);
-        if (!storeSnapCompleter.isCompleted) storeSnapCompleter.complete();
-        notifyListeners();
-      });
-    }
+    _storeSnapSubscription =
+        snapd.getStoreSnaps(category.featuredSnapNames!).listen((snaps) {
+      categorySnaps.addAll(snaps);
+      if (!storeSnapCompleter.isCompleted) storeSnapCompleter.complete();
+      notifyListeners();
+    });
 
     _state = await AsyncValue.guard(() async {
       if (categorySnaps.length != category.featuredSnapNames!.length) {
@@ -112,50 +111,37 @@ class MultiSnapModel extends ChangeNotifier {
     await snapd.abortChange(activeChangeId!);
   }
 
-  Future<void> install() {
+  Future<void> installAll() {
     assert(categorySnaps.length == category.featuredSnapNames!.length,
         'install() should not be called before the store snaps are available');
-    return _snapAction(() => installAll(categorySnaps));
+    return _snapAction(() => _installAllSnaps(categorySnaps));
   }
-}
 
-extension SnapdChangeX on SnapdChange {
-  double get progress {
-    var done = 0.0;
-    var total = 0.0;
-    for (final task in tasks) {
-      done += task.progress.done;
-      total += task.progress.total;
-    }
-
-    return total != 0 ? done / total : 0;
-  }
-}
-
-Future<String> installAll(List<Snap> snaps) async {
-  final snapd = getService<SnapdService>();
-  final classicSnaps = snaps
-      .where((snap) => snap.confinement == SnapConfinement.classic)
-      .toList();
-  final strictSnaps = snaps
-      .where((snap) => snap.confinement == SnapConfinement.strict)
-      .toList();
-  final changeIds = List<String>.empty(growable: true);
-  if (classicSnaps.isNotEmpty) {
-    final changeId =
-        await snapd.install(classicSnaps.first.name, classic: true);
-    final change = await snapd.getChange(changeId);
-    changeIds.add(changeId);
-    if (['Do', 'Doing', 'Done'].contains(change.status)) {
-      for (var i = 1; i < classicSnaps.length; i++) {
-        changeIds.add(await snapd.install(classicSnaps[i].name, classic: true));
+  Future<String> _installAllSnaps(List<Snap> snaps) async {
+    final classicSnaps = snaps
+        .where((snap) => snap.confinement == SnapConfinement.classic)
+        .toList();
+    final strictSnaps = snaps
+        .where((snap) => snap.confinement == SnapConfinement.strict)
+        .toList();
+    final changeIds = List<String>.empty(growable: true);
+    if (classicSnaps.isNotEmpty) {
+      final changeId =
+          await snapd.install(classicSnaps.first.name, classic: true);
+      final change = await snapd.getChange(changeId);
+      changeIds.add(changeId);
+      if (['Do', 'Doing', 'Done'].contains(change.status)) {
+        for (var i = 1; i < classicSnaps.length; i++) {
+          changeIds
+              .add(await snapd.install(classicSnaps[i].name, classic: true));
+        }
+        changeIds.add(await snapd
+            .installMany(strictSnaps.map((snap) => snap.name).toList()));
       }
+    } else {
       changeIds.add(await snapd
           .installMany(strictSnaps.map((snap) => snap.name).toList()));
     }
-  } else {
-    changeIds.add(
-        await snapd.installMany(strictSnaps.map((snap) => snap.name).toList()));
+    return changeIds.last;
   }
-  return changeIds.last;
 }

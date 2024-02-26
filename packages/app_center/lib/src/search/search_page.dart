@@ -171,7 +171,7 @@ class InstallAll extends ConsumerWidget {
     final multiSnapModel = ref.watch(multiSnapModelProvider(initialCategory!));
     return Center(
         child: ElevatedButton(
-      onPressed: multiSnapModel.install,
+      onPressed: multiSnapModel.installAll,
       child: Text(l10n.installAll),
     ));
   }
