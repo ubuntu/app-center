@@ -212,6 +212,9 @@ MockSnapdService createMockSnapdService({
   when(service.watchChange(any)).thenAnswer((_) => const Stream.empty());
   when(service.abortChange(any))
       .thenAnswer((_) async => SnapdChange(spawnTime: DateTime.now()));
+  when(service.installMany(
+    any,
+  )).thenAnswer((_) async => 'id');
   return service;
 }
 
