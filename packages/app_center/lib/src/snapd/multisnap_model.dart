@@ -16,12 +16,6 @@ final multiSnapModelProvider =
   )..init(),
 );
 
-final changeProvider =
-    StreamProvider.family.autoDispose<SnapdChange, String?>((ref, id) {
-  if (id == null) return const Stream.empty();
-  return getService<SnapdService>().watchChange(id);
-});
-
 class MultiSnapModel extends ChangeNotifier {
   MultiSnapModel({
     required this.snapd,
