@@ -14,6 +14,7 @@ import 'package:app_center/src/manage/manage_model.dart' as _i17;
 import 'package:app_center/src/ratings/exports.dart' as _i21;
 import 'package:app_center/src/ratings/ratings_model.dart' as _i12;
 import 'package:app_center/src/ratings/ratings_service.dart' as _i4;
+import 'package:app_center/src/snapd/multisnap_model.dart' as _i23;
 import 'package:app_center_ratings_client/app_center_ratings_client.dart'
     as _i11;
 import 'package:app_center_ratings_client/src/chart.dart' as _i22;
@@ -2629,4 +2630,131 @@ class MockPackageKitService extends _i1.Mock implements _i8.PackageKitService {
         returnValue: _i14.Future<void>.value(),
         returnValueForMissingStub: _i14.Future<void>.value(),
       ) as _i14.Future<void>);
+}
+
+/// A class which mocks [MultiSnapModel].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMultiSnapModel extends _i1.Mock implements _i23.MultiSnapModel {
+  MockMultiSnapModel() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.SnapdService get snapd => (super.noSuchMethod(
+        Invocation.getter(#snapd),
+        returnValue: _FakeSnapdService_4(
+          this,
+          Invocation.getter(#snapd),
+        ),
+      ) as _i6.SnapdService);
+
+  @override
+  _i6.SnapCategoryEnum get category => (super.noSuchMethod(
+        Invocation.getter(#category),
+        returnValue: _i6.SnapCategoryEnum.artAndDesign,
+      ) as _i6.SnapCategoryEnum);
+
+  @override
+  List<_i2.Snap> get categorySnaps => (super.noSuchMethod(
+        Invocation.getter(#categorySnaps),
+        returnValue: <_i2.Snap>[],
+      ) as List<_i2.Snap>);
+
+  @override
+  set categorySnaps(List<_i2.Snap>? _categorySnaps) => super.noSuchMethod(
+        Invocation.setter(
+          #categorySnaps,
+          _categorySnaps,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i5.AsyncValue<void> get state => (super.noSuchMethod(
+        Invocation.getter(#state),
+        returnValue: _FakeAsyncValue_3<void>(
+          this,
+          Invocation.getter(#state),
+        ),
+      ) as _i5.AsyncValue<void>);
+
+  @override
+  _i14.Stream<_i2.SnapdException> get errorStream => (super.noSuchMethod(
+        Invocation.getter(#errorStream),
+        returnValue: _i14.Stream<_i2.SnapdException>.empty(),
+      ) as _i14.Stream<_i2.SnapdException>);
+
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i14.Future<void> init() => (super.noSuchMethod(
+        Invocation.method(
+          #init,
+          [],
+        ),
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
+
+  @override
+  _i14.Future<void> dispose() => (super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
+
+  @override
+  _i14.Future<void> cancel() => (super.noSuchMethod(
+        Invocation.method(
+          #cancel,
+          [],
+        ),
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
+
+  @override
+  _i14.Future<void> installAll() => (super.noSuchMethod(
+        Invocation.method(
+          #installAll,
+          [],
+        ),
+        returnValue: _i14.Future<void>.value(),
+        returnValueForMissingStub: _i14.Future<void>.value(),
+      ) as _i14.Future<void>);
+
+  @override
+  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }

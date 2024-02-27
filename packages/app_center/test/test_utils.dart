@@ -8,6 +8,7 @@ import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/deb/deb_model.dart';
 import 'package:app_center/src/manage/manage_model.dart';
+import 'package:app_center/src/snapd/multisnap_model.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
@@ -400,4 +401,10 @@ MockPackageKitService createMockPackageKitService({
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);
   return packageKit;
+}
+
+@GenerateMocks([MultiSnapModel])
+MultiSnapModel createMockMultiSnapModel() {
+  final model = MockMultiSnapModel();
+  return model;
 }
