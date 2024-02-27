@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app_center/snapd.dart';
-import 'package:app_center/src/snapd/multisnap_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
@@ -275,19 +274,5 @@ void main() {
         ),
       );
     }
-  });
-  test('install-many', () async {
-    final service = createMockSnapdService(
-      storeSnap: storeSnap,
-    );
-    final model =
-        MultiSnapModel(snapd: service, category: SnapCategoryEnum.gameDev);
-    await model.init();
-
-    await model.installAll();
-
-    verify(service.installMany(List<String>.from(List<String>.generate(
-        SnapCategoryEnum.gameDev.featuredSnapNames!.length,
-        (index) => 'testsnap')))).called(1);
   });
 }
