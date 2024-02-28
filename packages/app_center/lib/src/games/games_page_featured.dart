@@ -8,10 +8,11 @@ import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class FeaturedCarousel extends ConsumerStatefulWidget {
-  const FeaturedCarousel(
-      {super.key,
-      this.snapAmount = 10,
-      this.scrollDelay = const Duration(seconds: 5)});
+  const FeaturedCarousel({
+    super.key,
+    this.snapAmount = 10,
+    this.scrollDelay = const Duration(seconds: 5),
+  });
 
   final Duration scrollDelay;
   final int snapAmount;
@@ -34,24 +35,32 @@ class _FeaturedCarouselState extends ConsumerState<FeaturedCarousel> {
         [];
 
     controller = YaruCarouselController(
-        autoScroll: true, autoScrollDuration: widget.scrollDelay);
+      autoScroll: true,
+      autoScrollDuration: widget.scrollDelay,
+    );
 
     return MouseRegion(
       onEnter: (_) => controller.cancelTimer(),
       onExit: (_) => controller.startTimer(),
       child: YaruCarousel(
-          controller: controller,
-          height: 350,
-          width: double.infinity,
-          nextIcon: const Icon(YaruIcons.go_next),
-          previousIcon: const Icon(YaruIcons.go_previous),
-          navigationControls: true,
-          children: snaps
-              .map((e) => _CarouselCard(
-                  snap: e,
-                  onTap: (snap) =>
-                      StoreNavigator.pushSnap(context, name: e.name)))
-              .toList()),
+        controller: controller,
+        height: 350,
+        width: double.infinity,
+        nextIcon: const Icon(YaruIcons.go_next),
+        previousIcon: const Icon(YaruIcons.go_previous),
+        navigationControls: true,
+        children: snaps
+            .map(
+              (e) => _CarouselCard(
+                snap: e,
+                onTap: (snap) => StoreNavigator.pushSnap(
+                  context,
+                  name: e.name,
+                ),
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }
@@ -67,43 +76,51 @@ class _CarouselCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruBanner(
-        padding: EdgeInsets.zero,
-        onTap: () => onTap(snap),
-        child:
-            Stack(alignment: Alignment.center, fit: StackFit.expand, children: [
+      padding: EdgeInsets.zero,
+      onTap: () => onTap(snap),
+      child: Stack(
+        alignment: Alignment.center,
+        fit: StackFit.expand,
+        children: [
           SafeNetworkImage(
             url: snap.screenshotUrls.first,
             fit: BoxFit.cover,
           ),
           Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                    Colors.black.withOpacity(1.0),
-                    Colors.black.withOpacity(0.2)
-                  ])),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(snap.titleOrName,
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayMedium!
-                            .copyWith(color: _kForegroundColorPrimary)),
-                    Text(
-                      snap.summary,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: _kForegroundColorSecondary),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )
-                  ]))
-        ]));
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Colors.black.withOpacity(1.0),
+                  Colors.black.withOpacity(0.2)
+                ],
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(snap.titleOrName,
+                    style: Theme.of(context)
+                        .textTheme
+                        .displayMedium!
+                        .copyWith(color: _kForegroundColorPrimary)),
+                Text(
+                  snap.summary,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: _kForegroundColorSecondary),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

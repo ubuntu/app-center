@@ -47,8 +47,10 @@ class GamesPage extends ConsumerWidget {
                     fit: FlexFit.tight,
                     child: OutlinedButton(
                       onPressed: () {
-                        StoreNavigator.pushSearch(context,
-                            category: SnapCategoryEnum.games.categoryName);
+                        StoreNavigator.pushSearch(
+                          context,
+                          category: SnapCategoryEnum.games.categoryName,
+                        );
                       },
                       child: Text(l10n.allGamesButtonLabel),
                     ),
@@ -82,48 +84,52 @@ class GamesPage extends ConsumerWidget {
             Row(
               children: [
                 const Expanded(
-                    flex: 306 - 160,
-                    child: CategoryBanner(
-                      category: SnapCategoryEnum.gameDev,
-                      padding: _CategoryBannerProperties.padding,
-                      height: _CategoryBannerProperties.height,
-                      maxSize: _CategoryBannerProperties.maxSize,
-                      iconSize: _CategoryBannerProperties.iconSize,
-                    )),
+                  flex: 306 - 160,
+                  child: CategoryBanner(
+                    category: SnapCategoryEnum.gameDev,
+                    padding: _CategoryBannerProperties.padding,
+                    height: _CategoryBannerProperties.height,
+                    maxSize: _CategoryBannerProperties.maxSize,
+                    iconSize: _CategoryBannerProperties.iconSize,
+                  ),
+                ),
                 Container(width: 12),
                 const Expanded(
-                    flex: 306 - 160,
-                    child: CategoryBanner(
-                      category: SnapCategoryEnum.gameEmulators,
-                      padding: _CategoryBannerProperties.padding,
-                      height: _CategoryBannerProperties.height,
-                      maxSize: _CategoryBannerProperties.maxSize,
-                      iconSize: _CategoryBannerProperties.iconSize,
-                    ))
+                  flex: 306 - 160,
+                  child: CategoryBanner(
+                    category: SnapCategoryEnum.gameEmulators,
+                    padding: _CategoryBannerProperties.padding,
+                    height: _CategoryBannerProperties.height,
+                    maxSize: _CategoryBannerProperties.maxSize,
+                    iconSize: _CategoryBannerProperties.iconSize,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 12),
             Row(
               children: [
                 const Expanded(
-                    flex: 306 - 160,
-                    child: CategoryBanner(
-                      category: SnapCategoryEnum.gnomeGames,
-                      padding: _CategoryBannerProperties.padding,
-                      height: _CategoryBannerProperties.height,
-                      maxSize: _CategoryBannerProperties.maxSize,
-                      iconSize: _CategoryBannerProperties.iconSize,
-                    )),
+                  flex: 306 - 160,
+                  child: CategoryBanner(
+                    category: SnapCategoryEnum.gnomeGames,
+                    padding: _CategoryBannerProperties.padding,
+                    height: _CategoryBannerProperties.height,
+                    maxSize: _CategoryBannerProperties.maxSize,
+                    iconSize: _CategoryBannerProperties.iconSize,
+                  ),
+                ),
                 Container(width: 12),
                 const Expanded(
-                    flex: 306 - 160,
-                    child: CategoryBanner(
-                      category: SnapCategoryEnum.kdeGames,
-                      padding: _CategoryBannerProperties.padding,
-                      height: _CategoryBannerProperties.height,
-                      maxSize: _CategoryBannerProperties.maxSize,
-                      iconSize: _CategoryBannerProperties.iconSize,
-                    ))
+                  flex: 306 - 160,
+                  child: CategoryBanner(
+                    category: SnapCategoryEnum.kdeGames,
+                    padding: _CategoryBannerProperties.padding,
+                    height: _CategoryBannerProperties.height,
+                    maxSize: _CategoryBannerProperties.maxSize,
+                    iconSize: _CategoryBannerProperties.iconSize,
+                  ),
+                )
               ],
             ),
             const SizedBox(
