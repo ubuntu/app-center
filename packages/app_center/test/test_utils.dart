@@ -182,6 +182,7 @@ MockSnapdService createMockSnapdService({
   List<Snap>? refreshableSnaps,
   List<Snap>? installedSnaps,
   List<SnapdChange>? changes,
+  int? storeSnapsCount,
 }) {
   final service = MockSnapdService();
   when(service.getStoreSnap(any)).thenAnswer((_) => Stream.value(storeSnap));
@@ -216,34 +217,8 @@ MockSnapdService createMockSnapdService({
   when(service.installMany(
     any,
   )).thenAnswer((_) async => 'id');
-  when(service.getStoreSnaps(any))
-      .thenAnswer((_) => Stream.value(List<Snap>.generate(
-          SnapCategoryEnum.gameDev.featuredSnapNames!.length,
-          (index) => Snap(
-                name: 'testsnap',
-                title: 'Testsnap',
-                publisher: const SnapPublisher(displayName: 'testPublisher'),
-                version: '1.0.0',
-                website: 'https://example.com',
-                confinement: SnapConfinement.strict,
-                license: 'MIT',
-                description: 'this is the **description**',
-                downloadSize: 1337,
-                channels: {
-                  'latest/stable': SnapChannel(
-                    confinement: SnapConfinement.strict,
-                    size: 1337,
-                    releasedAt: DateTime(1970),
-                    version: '1.0.0',
-                  ),
-                  'latest/edge': SnapChannel(
-                    confinement: SnapConfinement.classic,
-                    size: 31337,
-                    releasedAt: DateTime(1970, 1, 2),
-                    version: '2.0.0',
-                  ),
-                },
-              ),
+  when(service.getStoreSnaps(any)).thenAnswer((_) => Stream.value(
+      List<Snap>.generate(storeSnapsCount!, (index) => storeSnap!,
           growable: false)));
   return service;
 }

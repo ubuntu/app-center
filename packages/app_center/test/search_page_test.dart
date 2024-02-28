@@ -4,8 +4,10 @@ import 'package:app_center/snapd.dart';
 import 'package:app_center/src/snapd/multisnap_model.dart';
 import 'package:app_center/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
@@ -137,6 +139,7 @@ void main() {
     );
 
     await tester.pumpAndSettle();
+    await tester.tap(find.byType(ElevatedButton));
 
     expect(find.text(tester.l10n.snapCategoryGameDev), findsOneWidget);
     expect(find.byType(MenuButtonBuilder<SnapCategoryEnum?>), findsNothing);
@@ -144,6 +147,7 @@ void main() {
     expect(find.text('Game Engine'), findsOneWidget);
     expect(find.text('Image Processor'), findsOneWidget);
     expect(find.text('Test Snap'), findsNothing);
+    verify(multiSnapModel.installAll()).called(1);
   });
 
   group('sort results', () {

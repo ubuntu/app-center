@@ -33,11 +33,6 @@ class MultiSnapModel extends ChangeNotifier {
   List<Snap> categorySnaps = [];
 
   StreamSubscription<List<Snap>?>? _storeSnapSubscription;
-  StreamSubscription<SnapdChange>? _activeChangeSubscription;
-
-  Stream<SnapdException> get errorStream => _errorStreamController.stream;
-  final StreamController<SnapdException> _errorStreamController =
-      StreamController.broadcast();
 
   Future<void> init() async {
     assert(category.featuredSnapNames!.isNotEmpty);
@@ -61,39 +56,16 @@ class MultiSnapModel extends ChangeNotifier {
   Future<void> dispose() async {
     await _storeSnapSubscription?.cancel();
     _storeSnapSubscription = null;
-    await _errorStreamController.close();
-    _setActiveChange(null);
     super.dispose();
   }
 
   void _handleError(SnapdException e) {
-    _errorStreamController.add(e);
     log.error('Caught exception for snap bundle "$category"', e);
-  }
-
-  Future<void> _activeChangeListener(SnapdChange change) async {
-    if (change.ready) {
-      log.debug('Change $_activeChangeId for $category done');
-      _setActiveChange(null);
-      notifyListeners();
-    }
-  }
-
-  void _setActiveChange(String? id) {
-    _activeChangeId = id;
-    if (id == null) {
-      _activeChangeSubscription?.cancel();
-      _activeChangeSubscription = null;
-    } else {
-      _activeChangeSubscription =
-          snapd.watchChange(id).listen(_activeChangeListener);
-    }
   }
 
   Future<void> _snapAction(Future<String> Function() action) async {
     try {
-      final changeId = await action.call();
-      _setActiveChange(changeId);
+      await action.call();
       notifyListeners();
     } on SnapdException catch (e) {
       _handleError(e);
