@@ -1,6 +1,6 @@
 import 'package:app_center/appstream.dart';
+import 'package:app_center/games.dart';
 import 'package:app_center/snapd.dart';
-import 'package:app_center/tool.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
