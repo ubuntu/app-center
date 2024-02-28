@@ -78,48 +78,52 @@ class _CarouselCard extends StatelessWidget {
     return YaruBanner(
       padding: EdgeInsets.zero,
       onTap: () => onTap(snap),
-      child: Stack(
-        alignment: Alignment.center,
-        fit: StackFit.expand,
-        children: [
-          SafeNetworkImage(
-            url: snap.screenshotUrls.first,
-            fit: BoxFit.cover,
-          ),
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Colors.black.withOpacity(1.0),
-                  Colors.black.withOpacity(0.2)
-                ],
-              ),
+      child: ClipRRect(
+        borderRadius:
+            const BorderRadius.all(Radius.circular(kYaruBannerRadius)),
+        child: Stack(
+          alignment: Alignment.center,
+          fit: StackFit.expand,
+          children: [
+            SafeNetworkImage(
+              url: snap.screenshotUrls.first,
+              fit: BoxFit.cover,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(snap.titleOrName,
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black.withOpacity(1.0),
+                    Colors.black.withOpacity(0.2)
+                  ],
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(snap.titleOrName,
+                      style: Theme.of(context)
+                          .textTheme
+                          .displayMedium!
+                          .copyWith(color: _kForegroundColorPrimary)),
+                  Text(
+                    snap.summary,
                     style: Theme.of(context)
                         .textTheme
-                        .displayMedium!
-                        .copyWith(color: _kForegroundColorPrimary)),
-                Text(
-                  snap.summary,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: _kForegroundColorSecondary),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                )
-              ],
-            ),
-          )
-        ],
+                        .bodyMedium!
+                        .copyWith(color: _kForegroundColorSecondary),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
