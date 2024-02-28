@@ -139,7 +139,6 @@ void main() {
     );
 
     await tester.pumpAndSettle();
-    await tester.tap(find.byType(ElevatedButton));
 
     expect(find.text(tester.l10n.snapCategoryGameDev), findsOneWidget);
     expect(find.byType(MenuButtonBuilder<SnapCategoryEnum?>), findsNothing);
@@ -147,6 +146,8 @@ void main() {
     expect(find.text('Game Engine'), findsOneWidget);
     expect(find.text('Image Processor'), findsOneWidget);
     expect(find.text('Test Snap'), findsNothing);
+
+    await tester.tap(find.byType(ElevatedButton));
     verify(multiSnapModel.installAll()).called(1);
   });
 
