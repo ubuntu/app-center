@@ -125,7 +125,7 @@ List<Tool> tools = [
       'Wine',
       'Run Microsoft Windows programs on Linux',
       'WineHQ',
-      'https://static.macupdate.com/products/17376/l/wine-logo.png?v=1638440531',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/WINE-logo.png/120px-WINE-logo.png',
       'https://www.winehq.org/'),
   Tool('Lutris', 'Launcher, hub, and game tweaks', 'Lutris',
       'https://lutris.net/static/images/logo.png', 'https://lutris.net/'),

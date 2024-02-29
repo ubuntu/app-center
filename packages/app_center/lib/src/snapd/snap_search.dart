@@ -46,7 +46,9 @@ final snapSearchProvider =
   } else if (searchParameters.category == SnapCategoryEnum.gameDev ||
       searchParameters.category == SnapCategoryEnum.gameEmulators ||
       searchParameters.category == SnapCategoryEnum.gnomeGames ||
-      searchParameters.category == SnapCategoryEnum.kdeGames) {
+      searchParameters.category == SnapCategoryEnum.kdeGames ||
+      searchParameters.category == SnapCategoryEnum.gameLaunchers ||
+      searchParameters.category == SnapCategoryEnum.gameContentCreation) {
     yield* snapd.getStoreSnaps(
       searchParameters.category!.featuredSnapNames
               ?.where((name) => name.contains(searchParameters.query ?? ''))

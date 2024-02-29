@@ -132,6 +132,32 @@ class GamesPage extends ConsumerWidget {
                 )
               ],
             ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                const Expanded(
+                  flex: 306 - 160,
+                  child: CategoryBanner(
+                    category: SnapCategoryEnum.gameLaunchers,
+                    padding: _CategoryBannerProperties.padding,
+                    height: _CategoryBannerProperties.height,
+                    maxSize: _CategoryBannerProperties.maxSize,
+                    iconSize: _CategoryBannerProperties.iconSize,
+                  ),
+                ),
+                Container(width: 12),
+                const Expanded(
+                  flex: 306 - 160,
+                  child: CategoryBanner(
+                    category: SnapCategoryEnum.gameContentCreation,
+                    padding: _CategoryBannerProperties.padding,
+                    height: _CategoryBannerProperties.height,
+                    maxSize: _CategoryBannerProperties.maxSize,
+                    iconSize: _CategoryBannerProperties.iconSize,
+                  ),
+                )
+              ],
+            ),
             const SizedBox(
               height: kPagePadding,
             )
