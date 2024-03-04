@@ -52,6 +52,8 @@ class _StoreAppState extends ConsumerState<StoreApp> {
           builder: (context, yaru, child) => MaterialApp(
             theme: yaru.theme,
             darkTheme: yaru.darkTheme,
+            highContrastTheme: yaruHighContrastLight,
+            highContrastDarkTheme: yaruHighContrastDark,
             debugShowCheckedModeBanner: false,
             localizationsDelegates: localizationsDelegates,
             navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
