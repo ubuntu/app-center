@@ -69,6 +69,8 @@ class _CarouselCard extends StatelessWidget {
 
   final Snap snap;
   final ValueChanged<Snap> onTap;
+  final Color _kForegroundColorPrimary = Colors.white;
+  final Color _kForegroundColorSecondary = Colors.white70;
 
   @override
   Widget build(BuildContext context) {
@@ -96,10 +98,16 @@ class _CarouselCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(snap.name,
-                        style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.white)),
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayMedium!
+                            .copyWith(color: _kForegroundColorPrimary)),
                     Text(
                       snap.summary,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: _kForegroundColorSecondary),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     )
