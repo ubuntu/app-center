@@ -83,7 +83,6 @@ void main() {
           ],
           child: const FeaturedCarousel(
             snapAmount: 1,
-            scrollDelay: Duration(seconds: 5),
           ),
         ),
       );
@@ -104,10 +103,7 @@ void main() {
                 .overrideWith((ref, arg) => mockSearchProvider(arg)),
             ratingsModelProvider.overrideWith((ref, arg) => ratingsModel)
           ],
-          child: const FeaturedCarousel(
-            snapAmount: 10,
-            scrollDelay: Duration(seconds: 5),
-          ),
+          child: const FeaturedCarousel(),
         ),
       );
 

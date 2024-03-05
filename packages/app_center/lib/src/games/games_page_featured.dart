@@ -9,7 +9,9 @@ import 'package:yaru_widgets/yaru_widgets.dart';
 
 class FeaturedCarousel extends ConsumerStatefulWidget {
   const FeaturedCarousel(
-      {super.key, required this.snapAmount, required this.scrollDelay});
+      {super.key,
+      this.snapAmount = 10,
+      this.scrollDelay = const Duration(seconds: 5)});
 
   final Duration scrollDelay;
   final int snapAmount;
