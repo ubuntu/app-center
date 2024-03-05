@@ -30,7 +30,7 @@ class ExplorePage extends ConsumerWidget {
           CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
           SizedBox(height: kPagePadding),
         ]),
-        const _CategorySnapList(
+        const CategorySnapList(
           category: SnapCategoryEnum.ubuntuDesktop,
           hideBannerSnaps: true,
         ),
@@ -39,7 +39,7 @@ class ExplorePage extends ConsumerWidget {
           CategoryBanner(category: SnapCategoryEnum.featured),
           SizedBox(height: kPagePadding),
         ]),
-        const _CategorySnapList(
+        const CategorySnapList(
           category: SnapCategoryEnum.featured,
           hideBannerSnaps: true,
         ),
@@ -48,7 +48,7 @@ class ExplorePage extends ConsumerWidget {
           _Title(text: SnapCategoryEnum.games.slogan(l10n)),
           const SizedBox(height: kPagePadding),
         ]),
-        const _CategorySnapList(
+        const CategorySnapList(
           category: SnapCategoryEnum.games,
           numberOfSnaps: 4,
           showScreenshots: true,
@@ -65,7 +65,7 @@ class ExplorePage extends ConsumerWidget {
           CategoryBanner(category: SnapCategoryEnum.development),
           SizedBox(height: kPagePadding),
         ]),
-        const _CategorySnapList(
+        const CategorySnapList(
           category: SnapCategoryEnum.development,
           hideBannerSnaps: true,
         ),
@@ -74,7 +74,7 @@ class ExplorePage extends ConsumerWidget {
           CategoryBanner(category: SnapCategoryEnum.productivity),
           SizedBox(height: kPagePadding),
         ]),
-        const _CategorySnapList(
+        const CategorySnapList(
           category: SnapCategoryEnum.productivity,
           hideBannerSnaps: true,
         ),
@@ -96,60 +96,6 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text, style: Theme.of(context).textTheme.headlineSmall);
-  }
-}
-
-class _CategorySnapList extends ConsumerWidget {
-  const _CategorySnapList({
-    required this.category,
-    this.numberOfSnaps = 6,
-    this.showScreenshots = false,
-    this.onlyFeatured = false,
-    this.hideBannerSnaps = false,
-  });
-
-  final SnapCategoryEnum category;
-  final int numberOfSnaps;
-  final bool showScreenshots;
-  final bool onlyFeatured;
-  final bool hideBannerSnaps;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // get snaps from `category`
-    final categorySnaps = ref
-        .watch(snapSearchProvider(SnapSearchParameters(category: category)))
-        .whenOrNull(data: (data) => data);
-
-    final bannerSnaps =
-        category.featuredSnapNames?.take(kNumberOfBannerSnaps) ??
-            categorySnaps?.take(kNumberOfBannerSnaps).map((snap) => snap.name);
-
-    // .. without the banner snaps, if we don't want them
-    final filteredSnaps = categorySnaps?.where(
-      (snap) =>
-          hideBannerSnaps ? !(bannerSnaps ?? []).contains(snap.name) : true,
-    );
-
-    // pick hand-selected featured snaps
-    final featuredSnaps = category.featuredSnapNames
-        ?.map((name) =>
-            filteredSnaps?.singleWhereOrNull((snap) => snap.name == name))
-        .whereNotNull();
-
-    final snaps = (onlyFeatured ? featuredSnaps : filteredSnaps)
-            ?.take(numberOfSnaps)
-            .toList() ??
-        [];
-    return showScreenshots
-        ? SnapImageCardGrid(
-            snaps: snaps,
-            onTap: (snap) => StoreNavigator.pushSnap(context, name: snap.name),
-          )
-        : AppCardGrid.fromSnaps(
-            snaps: snaps,
-            onTap: (snap) => StoreNavigator.pushSnap(context, name: snap.name),
-          );
   }
 }
 
