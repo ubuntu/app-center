@@ -72,23 +72,51 @@ void main() {
     expect(find.text('Test Snap'), findsNothing);
   });
 
-  testWidgets('Games tab - Carousel', (tester) async {
-    await tester.pumpApp(
-      (_) => ProviderScope(
-        overrides: [
-          snapSearchProvider
-              .overrideWith((ref, arg) => mockSearchProvider(arg)),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel)
-        ],
-        child: const GamesPageFeatured(),
-      ),
-    );
+  group('Games tab - Carousel', () {
+    testWidgets('1 app', (tester) async {
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            snapSearchProvider
+                .overrideWith((ref, arg) => mockSearchProvider(arg)),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel)
+          ],
+          child: const FeaturedCarousel(
+            snapAmount: 1,
+            scrollDelay: Duration(seconds: 5),
+          ),
+        ),
+      );
 
-    await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
 
-    expect(find.text('A Cool Game'), findsOne);
-    expect(find.text('testsnap5'), findsOne);
-    expect(find.text('This is a really cool game'), findsOne);
-    expect(find.text('This is another really cool game'), findsOne);
+      expect(find.text('A Cool Game'), findsOne);
+      expect(find.text('testsnap5'), findsNothing);
+      expect(find.text('This is a really cool game'), findsOne);
+      expect(find.text('This is another really cool game'), findsNothing);
+    });
+
+    testWidgets('10 apps', (tester) async {
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            snapSearchProvider
+                .overrideWith((ref, arg) => mockSearchProvider(arg)),
+            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel)
+          ],
+          child: const FeaturedCarousel(
+            snapAmount: 10,
+            scrollDelay: Duration(seconds: 5),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('A Cool Game'), findsOne);
+      expect(find.text('testsnap5'), findsOne);
+      expect(find.text('This is a really cool game'), findsOne);
+      expect(find.text('This is another really cool game'), findsOne);
+    });
   });
 }

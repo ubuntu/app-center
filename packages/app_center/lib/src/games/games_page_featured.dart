@@ -7,28 +7,18 @@ import 'package:snapd/snapd.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
-class GamesPageFeatured extends StatelessWidget {
-  const GamesPageFeatured({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const _FeaturedCarousel(
-        snapAmount: 10, scrollDelay: Duration(seconds: 5));
-  }
-}
-
-class _FeaturedCarousel extends ConsumerStatefulWidget {
-  const _FeaturedCarousel(
-      {required this.snapAmount, required this.scrollDelay});
+class FeaturedCarousel extends ConsumerStatefulWidget {
+  const FeaturedCarousel(
+      {super.key, required this.snapAmount, required this.scrollDelay});
 
   final Duration scrollDelay;
   final int snapAmount;
 
   @override
-  ConsumerState<_FeaturedCarousel> createState() => _FeaturedCarouselState();
+  ConsumerState<FeaturedCarousel> createState() => _FeaturedCarouselState();
 }
 
-class _FeaturedCarouselState extends ConsumerState<_FeaturedCarousel> {
+class _FeaturedCarouselState extends ConsumerState<FeaturedCarousel> {
   late YaruCarouselController controller;
   late Iterable<Snap> snaps;
 
