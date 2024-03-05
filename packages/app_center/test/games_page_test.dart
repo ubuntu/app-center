@@ -1,7 +1,7 @@
+import 'package:app_center/games.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/search.dart';
 import 'package:app_center/snapd.dart';
-import 'package:app_center/src/games/games_page_featured.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -118,5 +118,19 @@ void main() {
       expect(find.text('This is a really cool game'), findsOne);
       expect(find.text('This is another really cool game'), findsOne);
     });
+  });
+
+  testWidgets('Games Tab', (tester) async {
+    await tester.pumpApp(
+      (_) => ProviderScope(overrides: [
+        snapSearchProvider.overrideWith((ref, arg) => mockSearchProvider(arg)),
+        ratingsModelProvider.overrideWith((ref, arg) => ratingsModel)
+      ], child: const GamesPage()),
+    );
+
+    await tester.pump();
+
+    expect(find.text('It\'s playtime'), findsOne);
+    expect(find.byType(FeaturedCarousel), findsOne);
   });
 }
