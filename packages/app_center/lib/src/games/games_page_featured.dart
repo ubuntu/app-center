@@ -97,7 +97,7 @@ class _CarouselCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(snap.name,
+                    Text(snap.titleOrName,
                         style: Theme.of(context)
                             .textTheme
                             .displayMedium!

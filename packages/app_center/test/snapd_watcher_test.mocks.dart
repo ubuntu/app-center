@@ -338,7 +338,6 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
     String? category,
     String? section,
     _i2.SnapFindFilter? filter,
-    _i2.SnapFindScope? scope,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -350,7 +349,6 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
             #category: category,
             #section: section,
             #filter: filter,
-            #scope: scope,
           },
         ),
         returnValue: _i3.Future<List<_i2.Snap>>.value(<_i2.Snap>[]),
