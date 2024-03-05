@@ -13,9 +13,7 @@ class GamesPageFeatured extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const _FeaturedCarousel(
-      snapAmount: 10,
-      scrollDelay: Duration(seconds: 5),
-    );
+        snapAmount: 10, scrollDelay: Duration(seconds: 5));
   }
 }
 
@@ -40,18 +38,18 @@ class _FeaturedCarouselState extends ConsumerState<_FeaturedCarousel> {
             .watch(snapSearchProvider(
                 const SnapSearchParameters(category: SnapCategoryEnum.games)))
             .whenOrNull(data: (data) => data)
-            ?.take(5) ??
+            ?.take(widget.snapAmount) ??
         [];
 
     controller = YaruCarouselController(
-        autoScroll: true, autoScrollDuration: const Duration(seconds: 5));
+        autoScroll: true, autoScrollDuration: widget.scrollDelay);
 
     return MouseRegion(
       onEnter: (_) => controller.cancelTimer(),
       onExit: (_) => controller.startTimer(),
       child: YaruCarousel(
           controller: controller,
-          height: 260,
+          height: 350,
           width: double.infinity,
           nextIcon: const Icon(YaruIcons.go_next),
           previousIcon: const Icon(YaruIcons.go_previous),
