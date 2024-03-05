@@ -21,20 +21,18 @@ class GamesPage extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     return ResponsiveLayoutScrollView(
       slivers: [
-        SliverList.list(children: const [
-          SizedBox(height: kPagePadding),
-          _Title(text: 'It\'s playtime'),
-          SizedBox(height: kPagePadding),
-          Text("Here we'll have featured games!"),
-          SizedBox(height: kPagePadding),
+        SliverList.list(children: [
+          const SizedBox(height: kPagePadding),
+          _Title(text: l10n.gamesPageTitle),
+          const SizedBox(height: kPagePadding),
         ]),
         SliverList.list(children: const [
           FeaturedCarousel(),
         ]),
-        SliverList.list(children: const [
-          SizedBox(height: 56),
-          _Title(text: 'Top Games'),
-          SizedBox(height: kPagePadding),
+        SliverList.list(children: [
+          const SizedBox(height: 56),
+          _Title(text: l10n.gamesPageTop),
+          const SizedBox(height: kPagePadding),
         ]),
         const CategorySnapList(
           category: SnapCategoryEnum.games,
@@ -66,10 +64,10 @@ class GamesPage extends ConsumerWidget {
             ),
           ],
         ),
-        SliverList.list(children: const [
-          SizedBox(height: 56),
-          _Title(text: 'Featured Games'),
-          SizedBox(height: kPagePadding),
+        SliverList.list(children: [
+          const SizedBox(height: 56),
+          _Title(text: l10n.gamesPageFeatured),
+          const SizedBox(height: kPagePadding),
         ]),
         const CategorySnapList(
           category: SnapCategoryEnum.games,
@@ -80,7 +78,7 @@ class GamesPage extends ConsumerWidget {
         SliverList.list(
           children: [
             const SizedBox(height: 56),
-            const _Title(text: 'App Bundles'),
+            _Title(text: l10n.gamesPageBundles),
             const SizedBox(height: kPagePadding),
             Row(
               children: [

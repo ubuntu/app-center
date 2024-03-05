@@ -126,7 +126,7 @@ void main() {
 
     await tester.pump();
 
-    expect(find.text('It\'s playtime'), findsOne);
+    expect(find.text(tester.l10n.gamesPageTitle), findsOne);
     expect(find.byType(FeaturedCarousel), findsOne);
   });
 }
