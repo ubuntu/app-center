@@ -1,5 +1,6 @@
 import 'package:app_center/about.dart';
 import 'package:app_center/explore.dart';
+import 'package:app_center/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/manage.dart';
 import 'package:app_center/search.dart';
@@ -12,7 +13,6 @@ final displayedCategories = [
   SnapCategoryEnum.featured,
   SnapCategoryEnum.productivity,
   SnapCategoryEnum.development,
-  SnapCategoryEnum.games,
 ];
 
 typedef StorePage = ({
@@ -36,6 +36,13 @@ final pages = <StorePage>[
           ),
       pageBuilder: (_) => SearchPage(category: category.categoryName),
     ),
+  (
+    tileBuilder: (context, selected) => YaruMasterTile(
+          leading: Icon(GamesPage.icon(selected)),
+          title: Text(GamesPage.label(context)),
+        ),
+    pageBuilder: (_) => const GamesPage(),
+  ),
   (
     tileBuilder: (context, selected) => const Spacer(),
     pageBuilder: (_) => const SizedBox.shrink(),
