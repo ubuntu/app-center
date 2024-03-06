@@ -1,10 +1,13 @@
 import 'package:app_center/ratings.dart';
 import 'package:app_center/search.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/snapd/multisnap_model.dart';
 import 'package:app_center/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
@@ -37,7 +40,12 @@ void main() {
     const SnapSearchParameters(category: SnapCategoryEnum.education): const [
       Snap(name: 'educational-snap', title: 'Educational Snap'),
     ],
+    const SnapSearchParameters(category: SnapCategoryEnum.gameDev): const [
+      Snap(name: 'game-engine', title: 'Game Engine'),
+      Snap(name: 'image-processor', title: 'Image Processor'),
+    ],
   });
+  final multiSnapModel = createMockMultiSnapModel();
   testWidgets('query', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(
@@ -113,6 +121,34 @@ void main() {
     expect(find.text('Another Test Snap'), findsNothing);
     expect(find.text('Yet Another Test Snap'), findsNothing);
     expect(find.text('Educational Snap'), findsOneWidget);
+  });
+
+  testWidgets('games-bundle', (tester) async {
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          snapSearchProvider
+              .overrideWith((ref, query) => mockSearchProvider(query)),
+          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
+          multiSnapModelProvider.overrideWith((ref, arg) => multiSnapModel)
+        ],
+        child: const SearchPage(
+          category: 'gameDev',
+        ),
+      ),
+    );
+
+    await tester.pumpAndSettle();
+
+    expect(find.text(tester.l10n.snapCategoryGameDev), findsOneWidget);
+    expect(find.byType(MenuButtonBuilder<SnapCategoryEnum?>), findsNothing);
+    expect(find.text(tester.l10n.installAll), findsOneWidget);
+    expect(find.text('Game Engine'), findsOneWidget);
+    expect(find.text('Image Processor'), findsOneWidget);
+    expect(find.text('Test Snap'), findsNothing);
+
+    await tester.tap(find.byType(ElevatedButton));
+    verify(multiSnapModel.installAll()).called(1);
   });
 
   group('sort results', () {

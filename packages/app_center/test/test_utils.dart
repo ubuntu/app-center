@@ -8,6 +8,7 @@ import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/deb/deb_model.dart';
 import 'package:app_center/src/manage/manage_model.dart';
+import 'package:app_center/src/snapd/multisnap_model.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
@@ -181,6 +182,7 @@ MockSnapdService createMockSnapdService({
   List<Snap>? refreshableSnaps,
   List<Snap>? installedSnaps,
   List<SnapdChange>? changes,
+  int? storeSnapsCount,
 }) {
   final service = MockSnapdService();
   when(service.getStoreSnap(any)).thenAnswer((_) => Stream.value(storeSnap));
@@ -212,6 +214,12 @@ MockSnapdService createMockSnapdService({
   when(service.watchChange(any)).thenAnswer((_) => const Stream.empty());
   when(service.abortChange(any))
       .thenAnswer((_) async => SnapdChange(spawnTime: DateTime.now()));
+  when(service.installMany(
+    any,
+  )).thenAnswer((_) async => 'id');
+  when(service.getStoreSnaps(any)).thenAnswer((_) => Stream.value(
+      List<Snap>.generate(storeSnapsCount!, (index) => storeSnap!,
+          growable: false)));
   return service;
 }
 
@@ -368,4 +376,10 @@ MockPackageKitService createMockPackageKitService({
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);
   return packageKit;
+}
+
+@GenerateMocks([MultiSnapModel])
+MultiSnapModel createMockMultiSnapModel() {
+  final model = MockMultiSnapModel();
+  return model;
 }

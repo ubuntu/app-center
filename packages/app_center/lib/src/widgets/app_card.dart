@@ -1,4 +1,5 @@
 import 'package:app_center/appstream.dart';
+import 'package:app_center/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings.dart';
@@ -8,6 +9,7 @@ import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yaru_widgets/yaru_widgets.dart';
 
 class AppCard extends StatelessWidget {
@@ -44,6 +46,24 @@ class AppCard extends StatelessWidget {
         summary: component.getLocalizedSummary(),
         iconUrl: component.icon,
         onTap: onTap,
+      );
+
+  factory AppCard.fromTool({
+    required Tool tool,
+  }) =>
+      AppCard(
+        title: AppTitle.fromTool(tool),
+        summary: tool.summary,
+        iconUrl: tool.iconUrl,
+        footer: OutlinedButton(
+          onPressed: () async {
+            await launchUrl(Uri.parse(tool.url));
+          },
+          child: Builder(builder: (context) {
+            final l10n = AppLocalizations.of(context);
+            return Text(l10n.openInBrowser);
+          }),
+        ),
       );
 
   final AppTitle title;

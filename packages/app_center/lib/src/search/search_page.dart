@@ -3,6 +3,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/search.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/snapd/multisnap_model.dart';
 import 'package:app_center/store.dart';
 import 'package:app_center/widgets.dart';
 import 'package:collection/collection.dart';
@@ -123,7 +124,14 @@ class SearchPage extends StatelessWidget {
                       ),
                     ),
                   ],
-                ])
+                ]),
+                if (initialCategory == SnapCategoryEnum.gameDev ||
+                    initialCategory == SnapCategoryEnum.gameEmulators ||
+                    initialCategory == SnapCategoryEnum.gnomeGames ||
+                    initialCategory == SnapCategoryEnum.kdeGames) ...[
+                  const SizedBox(height: kPagePadding),
+                  InstallAll(initialCategory: initialCategory),
+                ]
               ],
             ),
           ),
@@ -146,6 +154,26 @@ class SearchPage extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class InstallAll extends ConsumerWidget {
+  const InstallAll({
+    required this.initialCategory,
+    super.key,
+  });
+
+  final SnapCategoryEnum? initialCategory;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final multiSnapModel = ref.watch(multiSnapModelProvider(initialCategory!));
+    return Center(
+        child: ElevatedButton(
+      onPressed: multiSnapModel.installAll,
+      child: Text(l10n.installAll),
+    ));
   }
 }
 

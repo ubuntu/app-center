@@ -1,4 +1,5 @@
 import 'package:app_center/deb.dart';
+import 'package:app_center/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/search.dart';
@@ -105,6 +106,10 @@ class _StoreAppState extends ConsumerState<StoreApp> {
                           query: StoreRoutes.queryOf(settings),
                           category: StoreRoutes.categoryOf(settings),
                         ),
+                      ),
+                    StoreRoutes.externalTools => MaterialPageRoute(
+                        settings: settings,
+                        builder: (_) => const ExternalTools(),
                       ),
                     _ => null,
                   },

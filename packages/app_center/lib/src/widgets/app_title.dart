@@ -1,4 +1,5 @@
 import 'package:app_center/appstream.dart';
+import 'package:app_center/games.dart';
 import 'package:app_center/snapd.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
@@ -34,6 +35,16 @@ class AppTitle extends StatelessWidget {
       AppTitle(
         title: component.getLocalizedName(),
         publisher: component.getLocalizedDeveloperName(),
+        large: large,
+      );
+
+  factory AppTitle.fromTool(
+    Tool tool, {
+    bool large = false,
+  }) =>
+      AppTitle(
+        title: tool.name,
+        publisher: tool.publisher,
         large: large,
       );
 

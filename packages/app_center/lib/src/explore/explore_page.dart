@@ -1,13 +1,11 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/snapd.dart';
-import 'package:app_center/src/store/store_pages.dart';
 import 'package:app_center/store.dart';
 import 'package:app_center/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:snapd/snapd.dart';
 import 'package:yaru_icons/yaru_icons.dart';
 
 const kNumberOfBannerSnaps = 3;
@@ -27,19 +25,19 @@ class ExplorePage extends ConsumerWidget {
       slivers: [
         SliverList.list(children: const [
           SizedBox(height: kPagePadding),
-          _CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
+          CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
           SizedBox(height: kPagePadding),
         ]),
-        const _CategorySnapList(
+        const CategorySnapList(
           category: SnapCategoryEnum.ubuntuDesktop,
           hideBannerSnaps: true,
         ),
         SliverList.list(children: const [
           SizedBox(height: 56),
-          _CategoryBanner(category: SnapCategoryEnum.featured),
+          CategoryBanner(category: SnapCategoryEnum.featured),
           SizedBox(height: kPagePadding),
         ]),
-        const _CategorySnapList(
+        const CategorySnapList(
           category: SnapCategoryEnum.featured,
           hideBannerSnaps: true,
         ),
@@ -48,7 +46,7 @@ class ExplorePage extends ConsumerWidget {
           _Title(text: SnapCategoryEnum.games.slogan(l10n)),
           const SizedBox(height: kPagePadding),
         ]),
-        const _CategorySnapList(
+        const CategorySnapList(
           category: SnapCategoryEnum.games,
           numberOfSnaps: 4,
           showScreenshots: true,
@@ -62,19 +60,19 @@ class ExplorePage extends ConsumerWidget {
         const _CategoryList(),
         SliverList.list(children: const [
           SizedBox(height: 56),
-          _CategoryBanner(category: SnapCategoryEnum.development),
+          CategoryBanner(category: SnapCategoryEnum.development),
           SizedBox(height: kPagePadding),
         ]),
-        const _CategorySnapList(
+        const CategorySnapList(
           category: SnapCategoryEnum.development,
           hideBannerSnaps: true,
         ),
         SliverList.list(children: const [
           SizedBox(height: 56),
-          _CategoryBanner(category: SnapCategoryEnum.productivity),
+          CategoryBanner(category: SnapCategoryEnum.productivity),
           SizedBox(height: kPagePadding),
         ]),
-        const _CategorySnapList(
+        const CategorySnapList(
           category: SnapCategoryEnum.productivity,
           hideBannerSnaps: true,
         ),
@@ -96,230 +94,6 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text, style: Theme.of(context).textTheme.headlineSmall);
-  }
-}
-
-class _CategorySnapList extends ConsumerWidget {
-  const _CategorySnapList({
-    required this.category,
-    this.numberOfSnaps = 6,
-    this.showScreenshots = false,
-    this.onlyFeatured = false,
-    this.hideBannerSnaps = false,
-  });
-
-  final SnapCategoryEnum category;
-  final int numberOfSnaps;
-  final bool showScreenshots;
-  final bool onlyFeatured;
-  final bool hideBannerSnaps;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // get snaps from `category`
-    final categorySnaps = ref
-        .watch(snapSearchProvider(SnapSearchParameters(category: category)))
-        .whenOrNull(data: (data) => data);
-
-    final bannerSnaps =
-        category.featuredSnapNames?.take(kNumberOfBannerSnaps) ??
-            categorySnaps?.take(kNumberOfBannerSnaps).map((snap) => snap.name);
-
-    // .. without the banner snaps, if we don't want them
-    final filteredSnaps = categorySnaps?.where(
-      (snap) =>
-          hideBannerSnaps ? !(bannerSnaps ?? []).contains(snap.name) : true,
-    );
-
-    // pick hand-selected featured snaps
-    final featuredSnaps = category.featuredSnapNames
-        ?.map((name) =>
-            filteredSnaps?.singleWhereOrNull((snap) => snap.name == name))
-        .whereNotNull();
-
-    final snaps = (onlyFeatured ? featuredSnaps : filteredSnaps)
-            ?.take(numberOfSnaps)
-            .toList() ??
-        [];
-    return showScreenshots
-        ? SnapImageCardGrid(
-            snaps: snaps,
-            onTap: (snap) => StoreNavigator.pushSnap(context, name: snap.name),
-          )
-        : AppCardGrid.fromSnaps(
-            snaps: snaps,
-            onTap: (snap) => StoreNavigator.pushSnap(context, name: snap.name),
-          );
-  }
-}
-
-class _CategoryBanner extends ConsumerWidget {
-  const _CategoryBanner({required this.category});
-
-  final SnapCategoryEnum category;
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final snaps = ref
-        .watch(snapSearchProvider(SnapSearchParameters(category: category)))
-        .whenOrNull(data: (data) => data);
-    final featuredSnaps = category.featuredSnapNames != null
-        ? category.featuredSnapNames!
-            .map(
-                (name) => snaps?.singleWhereOrNull((snap) => snap.name == name))
-            .whereNotNull()
-        : snaps;
-    final l10n = AppLocalizations.of(context);
-    return _Banner(
-      snaps: featuredSnaps?.take(kNumberOfBannerSnaps).toList() ?? [],
-      slogan: category.slogan(l10n),
-      buttonLabel: category.buttonLabel(l10n),
-      onPressed: () {
-        if (displayedCategories.contains(category)) {
-          ref.read(yaruPageControllerProvider).index =
-              displayedCategories.indexOf(category) + 1;
-        } else {
-          StoreNavigator.pushSearch(context, category: category.categoryName);
-        }
-      },
-      colors: category.bannerColors,
-    );
-  }
-}
-
-class _Banner extends StatelessWidget {
-  const _Banner({
-    required this.snaps,
-    required this.slogan,
-    required this.colors,
-    this.buttonLabel,
-    this.onPressed,
-  });
-
-  final Iterable<Snap> snaps;
-  final String slogan;
-  final String? buttonLabel;
-  final VoidCallback? onPressed;
-
-  static const _kForegroundColor = Colors.white;
-  final List<Color> colors;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(48),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        gradient: LinearGradient(
-          colors: colors,
-        ),
-      ),
-      height: 240,
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    slogan,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(color: _kForegroundColor),
-                  ),
-                  if (buttonLabel != null) ...[
-                    const SizedBox(height: 24),
-                    OutlinedButton(
-                      onPressed: onPressed,
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: _kForegroundColor,
-                        side: const BorderSide(color: _kForegroundColor),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                      ),
-                      child: Text(buttonLabel!),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-            // TODO: add smooth transition
-            if (ResponsiveLayout.of(context).type != ResponsiveLayoutType.small)
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: snaps.map((snap) => _BannerIcon(snap: snap)).toList(),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _BannerIcon extends StatefulWidget {
-  const _BannerIcon({required this.snap});
-
-  final Snap snap;
-
-  @override
-  State<_BannerIcon> createState() => _BannerIconState();
-}
-
-class _BannerIconState extends State<_BannerIcon> {
-  static const _kMaxSize = 88.0;
-  static const _kHoverDelay = Duration(milliseconds: 100);
-  static const _kIconSize = 48.0;
-  static const _kScaleLarge = 1.5;
-
-  double scale = 1.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Tooltip(
-      waitDuration: Duration.zero,
-      showDuration: Duration.zero,
-      verticalOffset: _kMaxSize / 2,
-      message: widget.snap.titleOrName,
-      child: InkWell(
-        onTap: () => StoreNavigator.pushSnap(context, name: widget.snap.name),
-        onHover: (hover) {
-          setState(() => scale = hover ? _kScaleLarge : 1.0);
-        },
-        child: SizedBox(
-          height: _kMaxSize,
-          width: _kMaxSize,
-          child: Center(
-            child: TweenAnimationBuilder(
-              curve: Curves.easeIn,
-              tween: Tween<double>(begin: 1.0, end: scale),
-              duration: _kHoverDelay,
-              builder: (context, scale, child) => Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 24,
-                      color: Colors.black.withAlpha(0x19),
-                    )
-                  ],
-                ),
-                child: AppIcon(
-                  iconUrl: widget.snap.iconUrl,
-                  size: _kIconSize * scale,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
 

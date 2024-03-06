@@ -1,3 +1,4 @@
+import 'package:app_center/games.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/src/widgets/app_card.dart';
 import 'package:appstream/appstream.dart';
@@ -32,6 +33,17 @@ class AppCardGrid extends StatelessWidget {
           (deb) => AppCard.fromDeb(
             component: deb,
             onTap: () => onTap(deb),
+          ),
+        ),
+      );
+
+  factory AppCardGrid.fromTools({
+    required List<Tool> tools,
+  }) =>
+      AppCardGrid(
+        appCards: tools.map(
+          (tool) => AppCard.fromTool(
+            tool: tool,
           ),
         ),
       );
