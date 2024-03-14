@@ -276,5 +276,7 @@
   "searchPageFilterByLabel": "Filtern nach",
   "@searchPageFilterByLabel": {},
   "snapSortOrderInstalledDateDesc": "Am häufigsten kürzlich aktualisiert",
-  "@snapSortOrderInstalledDateDesc": {}
+  "@snapSortOrderInstalledDateDesc": {},
+  "snapPageShareLinkCopiedMessage": "",
+  "@snapPageShareLinkCopiedMessage": {}
 }
