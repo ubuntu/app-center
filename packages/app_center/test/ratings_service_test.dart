@@ -1,4 +1,5 @@
 import 'package:app_center/ratings/ratings_service.dart';
+import 'package:app_center/snapd/snap_category_enum.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -28,6 +29,55 @@ void main() {
           ratingsBand: RatingsBand.veryGood,
         ),
       ),
+    );
+  });
+
+  test('get category', () async {
+    final mockClient = createMockRatingsClient(
+      token: 'jwt',
+      chartData: const [
+        ChartData(
+          rawRating: 117,
+          rating: Rating(
+            snapId: 'john',
+            totalVotes: 117,
+            ratingsBand: RatingsBand.veryGood,
+          ),
+        ),
+        ChartData(
+          rawRating: 104,
+          rating: Rating(
+            snapId: 'fred',
+            totalVotes: 104,
+            ratingsBand: RatingsBand.veryGood,
+          ),
+        ),
+      ],
+    );
+    final service = RatingsService(mockClient, id: 'myId');
+
+    final charts = await service.getChart(SnapCategoryEnum.games);
+    verify(mockClient.authenticate('myId')).called(1);
+    expect(
+      charts,
+      containsAll([
+        const ChartData(
+          rawRating: 117,
+          rating: Rating(
+            snapId: 'john',
+            totalVotes: 117,
+            ratingsBand: RatingsBand.veryGood,
+          ),
+        ),
+        const ChartData(
+          rawRating: 104,
+          rating: Rating(
+            snapId: 'fred',
+            totalVotes: 104,
+            ratingsBand: RatingsBand.veryGood,
+          ),
+        ),
+      ]),
     );
   });
 

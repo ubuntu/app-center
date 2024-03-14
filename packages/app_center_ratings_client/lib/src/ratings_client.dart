@@ -54,9 +54,11 @@ class RatingsClient {
   }
 
   Future<List<ChartData>> getChart(Timeframe timeframe, String token,
-      [chart_pb.Category? category]) async {
+      [int? category]) async {
     final request = chart_pb.GetChartRequest(
-        timeframe: timeframe.toDTO(), category: category);
+        timeframe: timeframe.toDTO(),
+        category:
+            category != null ? chart_pb.Category.valueOf(category) : null);
     final callOptions =
         CallOptions(metadata: {'authorization': 'Bearer $token'});
     final grpcResponse =
