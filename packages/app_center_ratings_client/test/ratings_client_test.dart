@@ -66,8 +66,8 @@ void main() {
       options: anyNamed('options'),
     )).thenAnswer(
         (_) => MockResponseFuture<pb_chart.GetChartResponse>(mockResponse));
-    final response =
-        await ratingsClient.getChart(timeframe, token, pb_chart.Category.GAMES);
+    final response = await ratingsClient.getChart(
+        timeframe, token, pb_chart.Category.GAMES.value);
     expect(
       response,
       equals(expectedResponse),
