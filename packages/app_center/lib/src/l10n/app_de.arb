@@ -277,6 +277,6 @@
   "@searchPageFilterByLabel": {},
   "snapSortOrderInstalledDateDesc": "Am häufigsten kürzlich aktualisiert",
   "@snapSortOrderInstalledDateDesc": {},
-  "snapPageShareLinkCopiedMessage": "",
+  "snapPageShareLinkCopiedMessage": "Link in die Zwischenablage kopiert",
   "@snapPageShareLinkCopiedMessage": {}
 }
