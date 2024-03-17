@@ -1,62 +1,223 @@
 {
-  "snapPageVersionLabel": "Sürüm",
-  "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "Debian paketleri",
-  "@packageFormatDebLabel": {},
-  "snapCategoryBooksAndReference": "Kitaplar ve Kaynak",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryProductivity": "Üretkenlik",
-  "@snapCategoryProductivity": {},
-  "snapCategorySocial": "Sosyal",
-  "@snapCategorySocial": {},
-  "productivityPageLabel": "Üretkenlik",
-  "@productivityPageLabel": {},
-  "gamesPageLabel": "Oyunlar",
-  "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "Sanat ve Tasarım",
-  "@snapCategoryArtAndDesign": {},
-  "developmentPageLabel": "Geliştirme",
-  "@developmentPageLabel": {},
+  "appCenterLabel": "Uygulama Merkezi",
+  "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
   "snapPageChannelLabel": "Kanal",
-  "@snapPageChannelLabel": {},
-  "snapCategoryEducation": "Eğitim",
-  "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "Güncelle",
-  "@snapActionUpdateLabel": {},
-  "searchFieldDebSection": "Debian paketleri",
-  "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "Aç",
-  "@snapActionOpenLabel": {},
-  "snapCategoryDevelopment": "Geliştirme",
-  "@snapCategoryDevelopment": {},
-  "appstreamUrlTypeContact": "İletişim",
-  "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "Güvenlik",
-  "@snapCategorySecurity": {},
-  "snapCategoryFinance": "Finans",
-  "@snapCategoryFinance": {},
-  "snapCategoryServerAndCloud": "Sunucu ve Bulut",
-  "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "Hakkında",
-  "@aboutPageLabel": {},
-  "snapCategoryScience": "Bilim",
-  "@snapCategoryScience": {},
-  "snapActionInstallLabel": "Yükle",
-  "@snapActionInstallLabel": {},
+  "snapPageConfinementLabel": "Kapatılma",
+  "snapPageContactPublisherLabel": "{publisher} ile iletişime geçin",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "Dizi"
+      }
+    }
+  },
+  "snapPageDescriptionLabel": "Açıklama",
+  "snapPageDeveloperWebsiteLabel": "Geliştirici web sitesi",
+  "snapPageDownloadSizeLabel": "İndirme boyutu",
+  "snapPageGalleryLabel": "Galeri",
   "snapPageLicenseLabel": "Lisans",
-  "@snapPageLicenseLabel": {},
-  "snapCategoryPhotoAndVideo": "Fotoğraf ve Video",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapCategoryMusicAndAudio": "Müzik ve Ses",
-  "@snapCategoryMusicAndAudio": {},
-  "packageFormatSnapLabel": "Snap paketleri",
-  "@packageFormatSnapLabel": {},
-  "snapCategoryGames": "Oyunlar",
-  "@snapCategoryGames": {},
-  "snapPageDescriptionLabel": "Tanım",
-  "@snapPageDescriptionLabel": {},
+  "snapPageLinksLabel": "Bağlantılar",
+  "snapPagePublisherLabel": "Yayıncı",
+  "snapPagePublishedLabel": "Yayınlandı",
+  "snapPageSummaryLabel": "Özet",
+  "snapPageVersionLabel": "Sürüm",
+  "snapPageShareLinkCopiedMessage": "Bağlantı panoya kopyalandı",
   "explorePageLabel": "Keşfet",
-  "@explorePageLabel": {},
+  "explorePageCategoriesLabel": "Kategoriler",
+  "managePageCheckForUpdates": "Güncellemeleri kontrol et",
+  "managePageCheckingForUpdates": "Güncellemeler denetleniyor",
+  "managePageDescription": "Mevcut güncellemeleri kontrol edin, uygulamalarınızı güncelleyin ve tüm uygulamalarınızın durumunu yönetin.",
+  "managePageInstalledAndUpdatedLabel": "Yüklendi ve güncellendi",
+  "managePageLabel": "Yönet",
+  "managePageNoUpdatesAvailableDescription": "Güncelleme yok. Uygulamalarınızın tamamı günceldir.",
+  "managePageSearchFieldSearchHint": "Yüklü uygulamalarınızı arayın",
+  "managePageShowDetailsLabel": "Ayrıntıları göster",
+  "managePageShowSystemSnapsLabel": "Sistem snap'lerini göster",
+  "managePageUpdateAllLabel": "Tümünü güncelle",
+  "managePageUpdatedDaysAgo": "{n, plural, =1{{n} gün} diğer{{n} gün}} önce güncellendi",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesAvailable": "Güncellemeler mevcut ({n})",
+  "@managePageUpdatesAvaialble": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "productivityPageLabel": "Verimlilik",
+  "developmentPageLabel": "Geliştirme",
+  "gamesPageLabel": "Oyunlar",
+  "gamesPageTitle": "Ne Var Ne Yok",
+  "gamesPageTop": "En İyi Oyunlar",
+  "gamesPageFeatured": "Öne Çıkan Başlıklar",
+  "gamesPageBundles": "Uygulama Paketleri",
+  "unknownPublisher": "Bilinmeyen yayıncı",
+  "searchFieldDebSection": "Debian paketleri",
+  "searchFieldSearchHint": "Uygulamaları ara",
+  "searchFieldSearchForLabel": "\"{ query }\" için tüm sonuçları gör",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "Dizi"
+      }
+    }
+  },
   "searchFieldSnapSection": "Snap paketleri",
-  "@searchFieldSnapSection": {}
+  "searchPageFilterByLabel": "Filtrele",
+  "searchPageNoResults": "\"{ query }\" için sonuç bulunamadı",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "Dizi"
+      }
+    }
+  },
+  "searchPageNoResultsHint": "Farklı veya daha genel anahtar kelimeler kullanmayı deneyin",
+  "searchPageNoResultsCategory": "Üzgünüz, bu kategoride herhangi bir paket bulamadık",
+  "searchPageNoResultsCategoryHint": "Farklı bir kategori deneyin veya daha genel anahtar kelimeler kullanın",
+  "searchPageSortByLabel": "Sıralama ölçütü",
+  "searchPageRelevanceLabel": "Uygunluk",
+  "searchPageTitle": "\"{ query }\" için sonuçlar",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "Dizi"
+      }
+    }
+  },
+  "aboutPageLabel": "Hakkında",
+  "aboutPageVersionLabel": "Sürüm {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "Dizi"
+      }
+    }
+  },
+  "aboutPageContributorTitle": "Tasarlayan ve geliştiren:",
+  "aboutPageCommunityTitle": "Topluluğun bir parçası olun:",
+  "aboutPageContributeLabel": "Katkıda bulunun veya hata bildirin",
+  "aboutPageGitHubLabel": "Bizi GitHub'da bulun",
+  "aboutPagePublishLabel": "Snap Store'da yayınla",
+  "aboutPageLearnMoreLabel": "Daha fazla bilgi edinin",
+  "appstreamUrlTypeBugtracker": "Bugtracker",
+  "appstreamUrlTypeContact": "İletişim",
+  "appstreamUrlTypeDonation": "Bağış Yapın",
+  "appstreamUrlTypeFaq": "SSS",
+  "appstreamUrlTypeHelp": "Yardım",
+  "appstreamUrlTypeHomepage": "Anasayfa",
+  "appstreamUrlTypeTranslate": "Çeviriler",
+  "packageFormatDebLabel": "Debian paketleri",
+  "packageFormatSnapLabel": "Snap paketleri",
+  "snapActionCancelLabel": "İptal",
+  "snapActionInstallLabel": "Yükle",
+  "snapActionInstallingLabel": "Kurulum",
+  "snapActionOpenLabel": "Açık",
+  "snapActionRemoveLabel": "Kaldır",
+  "snapActionRemovingLabel": "Kaldırılıyor",
+  "snapActionSwitchChannelLabel": "Kanal değiştir",
+  "snapActionUpdateLabel": "Güncelle",
+  "snapCategoryAll": "Tüm kategoriler",
+  "snapActionUpdatingLabel": "Güncelleniyor",
+  "snapCategoryArtAndDesign": "Sanat ve Tasarım",
+  "snapCategoryBooksAndReference": "Kitaplar ve Referanslar",
+  "snapCategoryDefaultButtonLabel": "Daha fazlasını keşfedin",
+  "snapCategoryDevelopment": "Geliştirme",
+  "snapCategoryDevelopmentSlogan": "Geliştiriciler için olmazsa olmaz snap'ler",
+  "snapCategoryDevicesAndIot": "Cihazlar ve IoT",
+  "snapCategoryEducation": "Eğitim",
+  "snapCategoryEntertainment": "Eğlence",
+  "snapCategoryFeatured": "Öne çıkan",
+  "snapCategoryFeaturedSlogan": "Öne Çıkan Snap'ler",
+  "snapCategoryFinance": "Finans",
+  "snapCategoryGames": "Oyunlar",
+  "snapCategoryGamesSlogan": "Oyun geceniz için her şey",
+  "snapCategoryGameDev": "Oyun Geliştirme",
+  "snapCategoryGameDevSlogan": "Oyun Geliştirme",
+  "snapCategoryGameEmulators": "Emülatörler",
+  "snapCategoryGameEmulatorsSlogan": "Emülatörler",
+  "snapCategoryGnomeGames": "Gnome Oyunları",
+  "snapCategoryGnomeGamesSlogan": "Gnome Oyun Paketi",
+  "snapCategoryKdeGames": "KDE Oyunları",
+  "snapCategoryKdeGamesSlogan": "KDE Oyun Paketi",
+  "snapCategoryGameLaunchers": "Oyun Başlatıcıları",
+  "snapCategoryGameLaunchersSlogan": "Oyun Başlatıcıları",
+  "snapCategoryGameContentCreation": "İçerik Üretimi",
+  "snapCategoryGameContentCreationSlogan": "İçerik Üretimi",
+  "snapCategoryHealthAndFitness": "Sağlık ve Fitness",
+  "snapCategoryMusicAndAudio": "Müzik ve Ses",
+  "snapCategoryNewsAndWeather": "Haberler ve Hava Durumu",
+  "snapCategoryPersonalisation": "Kişiselleştirme",
+  "snapCategoryPhotoAndVideo": "Fotoğraf ve Video",
+  "snapCategoryProductivity": "Verimlilik",
+  "snapCategoryProductivityButtonLabel": "Verimlilik koleksiyonunu keşfedin",
+  "snapCategoryProductivitySlogan": "Yapılacaklar listenizden tek bir şeyin üstünü çizin",
+  "snapCategoryScience": "Bilim",
+  "snapCategorySecurity": "Güvenlik",
+  "snapCategoryServerAndCloud": "Sunucu ve Bulut",
+  "snapCategorySocial": "Sosyal",
+  "snapCategoryUbuntuDesktop": "Ubuntu Masaüstü",
+  "snapCategoryUbuntuDesktopSlogan": "Masaüstünüzü hızlıca başlatın",
+  "snapCategoryUtilities": "Kamu hizmetleri",
+  "snapConfinementClassic": "Klasik",
+  "snapConfinementDevmode": "Devmode",
+  "snapConfinementStrict": "Katı",
+  "snapSortOrderAlphabeticalAsc": "Alfabetik (A'dan Z'ye)",
+  "snapSortOrderAlphabeticalDesc": "Alfabetik (Z'den A'ya)",
+  "snapSortOrderDownloadSizeAsc": "Boyut (En küçükten en büyüğe)",
+  "snapSortOrderDownloadSizeDesc": "Boyut (En büyükten en küçüğe)",
+  "snapSortOrderInstalledSizeAsc": "Boyut (En küçükten en büyüğe)",
+  "snapSortOrderInstalledSizeDesc": "Boyut (En büyükten en küçüğe)",
+  "snapSortOrderInstalledDateAsc": "En son güncellenen",
+  "snapSortOrderInstalledDateDesc": "En son güncellenen",
+  "snapSortOrderRelevance": "Uygunluk",
+  "snapRatingsBandVeryGood": "Çok iyi",
+  "snapRatingsBandGood": "İyi",
+  "snapRatingsBandNeutral": "Tarafsız",
+  "snapRatingsBandPoor": "Zayıf",
+  "snapRatingsBandVeryPoor": "Çok kötü",
+  "snapRatingsBandInsufficientVotes": "Yetersiz oy",
+  "snapRatingsVotes": "{n} oy",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapReportLabel": "{snapName} şikayet et",
+  "@snapReportLabel": {
+    "placeholders": {
+      "snapName": {
+        "type": "Dizi"
+      }
+    }
+  },
+  "snapReportSelectReportReasonLabel": "Bu snap'i bildirmek için bir neden seçin",
+  "snapReportSelectAnOptionLabel": "Bir seçenek belirleyin",
+  "snapReportOptionCopyrightViolation": "Telif hakkı veya ticari marka ihlali",
+  "snapReportOptionStoreViolation": "Snap Store hizmet şartları ihlali",
+  "snapReportDetailsLabel": "Lütfen raporunuza daha ayrıntılı bir neden belirtin",
+  "snapReportOptionalEmailAddressLabel": "E-posta adresiniz (isteğe bağlı)",
+  "snapReportCancelButtonLabel": "İptal",
+  "snapReportSubmitButtonLabel": "Raporu gönder",
+  "snapReportEnterValidEmailError": "Geçerli bir e - posta adresi girin",
+  "snapReportDetailsHint": "Yorum...",
+  "snapReportPrivacyAgreementLabel": "Bu formu göndererek, okuduğumu ve kabul ettiğimi onaylıyorum. ",
+  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical Gizlilik Bildirimi ",
+  "snapReportPrivacyAgreementAndLabel": "ve ",
+  "snapReportPrivacyAgreementPrivacyPolicy": "Gizlilik Politikası",
+  "debPageErrorNoPackageInfo": "Paket bilgisi bulunamadı",
+  "externalResources": "Ek kaynaklar",
+  "externalResourcesButtonLabel": "Daha fazlasını keşfedin",
+  "allGamesButtonLabel": "Tüm oyunlar",
+  "externalResourcesDisclaimer": "Not: Bunların hepsi harici araçlardır. Bunlar Canonical tarafından sahiplenilmemiş veya dağıtılmamıştır.",
+  "openInBrowser": "Tarayıcıda aç",
+  "installAll": "Tümünü yükle"
 }
