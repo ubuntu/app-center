@@ -5,7 +5,7 @@ import 'package:app_center/src/snapd/snap_category_enum.dart';
 import 'package:app_center/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
+import 'package:yaru/yaru.dart';
 
 class ExternalTools extends StatelessWidget {
   const ExternalTools({super.key});
