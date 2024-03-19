@@ -2,8 +2,7 @@ import 'package:app_center/xdg_cache_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:yaru_icons/yaru_icons.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
+import 'package:yaru/yaru.dart';
 
 class ScreenshotGallery extends StatelessWidget {
   const ScreenshotGallery({

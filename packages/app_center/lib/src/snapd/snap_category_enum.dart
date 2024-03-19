@@ -1,7 +1,7 @@
 import 'package:app_center/l10n.dart';
 import 'package:flutter/widgets.dart';
 import 'package:snapd/snapd.dart';
-import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru/icons.dart';
 
 extension SnapCategoryX on SnapCategory {
   SnapCategoryEnum get categoryEnum => name.toSnapCategoryEnum();
