@@ -571,7 +571,7 @@ class _Header extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const YaruBackButton(),
+            const YaruBackButton(style: YaruBackButtonStyle.rounded),
             const Spacer(),
             if (snap.website != null)
               YaruIconButton(
