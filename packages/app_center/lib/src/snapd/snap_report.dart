@@ -197,6 +197,8 @@ class _SnapReportState extends State<SnapReport> {
                             'Snap reporting for snap "${widget.name}" failed with HTTP Code ${response.statusCode}');
                       }
                       if (mounted) {
+                        // TODO: fix async gap
+                        // ignore: use_build_context_synchronously
                         Navigator.of(context).pop();
                       }
                     },
