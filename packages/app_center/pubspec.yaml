@@ -5,7 +5,7 @@ publish_to: 'none'
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
-  flutter: 3.16.4
+  flutter: '>=3.19.0'
 
 dependencies:
   app_center_ratings_client: ^1.0.0
@@ -16,7 +16,7 @@ dependencies:
   collection: ^1.17.2
   crypto: ^3.0.3
   dbus: ^0.7.10
-  file: ^6.1.4
+  file: ^7.0.0
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.3.1
@@ -28,7 +28,7 @@ dependencies:
   github: ^9.20.0
   glib: ^0.0.1
   gtk: ^2.1.0
-  handy_window: ^0.3.1
+  handy_window: ^0.4.0
   http: ^1.1.2
   intl: ^0.18.1
   jwt_decode: ^0.3.1
@@ -44,13 +44,11 @@ dependencies:
   ubuntu_logger: ^0.1.0
   ubuntu_service: ^0.3.0
   ubuntu_test: ^0.1.0-0
-  ubuntu_widgets: ^0.3.2
+  ubuntu_widgets: ^0.4.0
   url_launcher: ^6.2.1
   xdg_directories: ^1.0.3
-  yaru: ^1.2.0
-  yaru_icons: ^2.3.0
-  yaru_test: ^0.1.5
-  yaru_widgets: ^3.4.0
+  yaru: ^4.0.0
+  yaru_test: ^0.1.6
   yaru_window: ^0.2.0
 
 dev_dependencies:

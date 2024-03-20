@@ -18,8 +18,7 @@ import 'package:intl/intl.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:yaru_icons/yaru_icons.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
+import 'package:yaru/yaru.dart';
 
 const _kPrimaryButtonMaxWidth = 136.0;
 const _kChannelDropdownWidth = 220.0;

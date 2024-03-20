@@ -19,7 +19,7 @@ import 'package:snapcraft_launcher/snapcraft_launcher.dart';
 import 'package:ubuntu_logger/ubuntu_logger.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
-import 'package:yaru_widgets/yaru_widgets.dart';
+import 'package:yaru/yaru.dart';
 
 Future<void> main(List<String> args) async {
   await YaruWindowTitleBar.ensureInitialized();

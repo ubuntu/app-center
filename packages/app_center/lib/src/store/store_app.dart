@@ -13,7 +13,6 @@ import 'package:flutter/material.dart' hide AboutDialog, showAboutDialog;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
-import 'package:yaru_widgets/yaru_widgets.dart';
 
 // Making a provider to provide navigatorKeyTwo
 final materialAppNavigatorKeyProvider =

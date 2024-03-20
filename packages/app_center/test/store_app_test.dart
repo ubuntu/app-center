@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gtk/gtk.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:yaru_widgets/widgets.dart';
+import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
 

@@ -1,7 +1,7 @@
 import 'package:app_center/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
-import 'package:yaru_icons/yaru_icons.dart';
+import 'package:yaru/icons.dart';
 
 const kMaxWidth = 500.0;
 
