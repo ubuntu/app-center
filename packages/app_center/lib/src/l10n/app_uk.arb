@@ -196,7 +196,7 @@
   "snapReportCancelButtonLabel": "Скасувати",
   "snapReportSubmitButtonLabel": "Надіслати звіт",
   "snapReportEnterValidEmailError": "Введіть дійсну адресу електронної пошти",
-  "snapReportDetailsHint": "Коментар ...",
+  "snapReportDetailsHint": "Коментар...",
   "snapReportPrivacyAgreementLabel": "Надсилаючи цю форму, я підтверджую, що прочитав і згоден з ",
   "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Повідомленням про конфіденційність Canonical ",
   "snapReportPrivacyAgreementAndLabel": "і ",
