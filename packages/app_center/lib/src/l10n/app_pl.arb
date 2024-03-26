@@ -133,7 +133,7 @@
   "@snapCategoryDevelopment": {},
   "appstreamUrlTypeHomepage": "Strona główna",
   "@appstreamUrlTypeHomepage": {},
-  "managePageUpdatedDaysAgo": "Zaktualizowano {n} dni temu",
+  "managePageUpdatedDaysAgo": "Zaktualizowano {n, plural, =1{{n} dzień} other{{n} dni}} temu",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -303,9 +303,9 @@
   "@snapReportEnterValidEmailError": {},
   "snapReportDetailsHint": "Komentarz...",
   "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementLabel": "Przesyłając ten formularz, potwierdzam przeczytanie i akceptację ",
+  "snapReportPrivacyAgreementLabel": "Przesyłając ten formularz, potwierdzam przeczytanie i akceptację ",
   "@snapReportPrivacyAgreementLabel": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "uwagi o prywatności ",
+  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "oświadczenia o ochronie prywatności ",
   "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
   "snapReportPrivacyAgreementAndLabel": "i ",
   "@snapReportPrivacyAgreementAndLabel": {},
