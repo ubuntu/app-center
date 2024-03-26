@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Vývoj",
   "@developmentPageLabel": {},
-  "managePageLabel": "Spravovať",
+  "managePageLabel": "Ovládať",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanál",
   "@snapPageChannelLabel": {},
@@ -55,7 +55,7 @@
   "@aboutPageLabel": {},
   "snapPageSummaryLabel": "Zhrnutie",
   "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "aplikačný program;používateľské programy;aplikácia;aplikácie;aplikačné programy;aplikačný softvér;výpočtový program;výpočtové programy;počítačový program;počítačové programy;balík;balíky;program;programy;softvér;sada;sady;nástroj;nástroje",
+  "appstreamSearchGreylist": "app;aplikácia;balík;program;softvér;sada;súprava;nástroj",
   "@appstreamSearchGreylist": {},
   "snapCategoryScience": "Veda",
   "@snapCategoryScience": {},
@@ -157,7 +157,7 @@
   "@appstreamUrlTypeHomepage": {},
   "managePageCheckingForUpdates": "Kontrolujú sa aktualizácie",
   "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Aktualizované pred {n} dňami",
+  "managePageUpdatedDaysAgo": "Aktualizované pred {n, plural, =1{{n} dňom} other{{n} dňami}}",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -297,7 +297,7 @@
   "@snapCategoryKdeGamesSlogan": {},
   "snapCategoryGameLaunchers": "Spúšťače hier",
   "@snapCategoryGameLaunchers": {},
-  "snapCategoryGameLaunchersSlogan": "Spúšťače hier",
+  "snapCategoryGameLaunchersSlogan": "Spúšťanie hier",
   "@snapCategoryGameLaunchersSlogan": {},
   "snapCategoryGameContentCreation": "Tvorba obsahu",
   "@snapCategoryGameContentCreation": {},
