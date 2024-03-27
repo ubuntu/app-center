@@ -72,5 +72,35 @@
   "explorePageLabel": "کاوش",
   "@explorePageLabel": {},
   "searchFieldSnapSection": "بسته‌های اسنب",
-  "@searchFieldSnapSection": {}
+  "@searchFieldSnapSection": {},
+  "appCenterLabel": "مرکز کاره",
+  "@appCenterLabel": {},
+  "snapPageContactPublisherLabel": "تماس با {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageGalleryLabel": "جُنگ",
+  "@snapPageGalleryLabel": {},
+  "snapPageShareLinkCopiedMessage": "پیوند در تخته‌گیره رونوشت شد",
+  "@snapPageShareLinkCopiedMessage": {},
+  "explorePageCategoriesLabel": "دسته‌ها",
+  "@explorePageCategoriesLabel": {},
+  "managePageCheckForUpdates": "بررسی برای به‌روز رسانی",
+  "@managePageCheckForUpdates": {},
+  "snapPageDeveloperWebsiteLabel": "پایگاه وب توسعه‌دهنده",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapPageDownloadSizeLabel": "اندازهٔ بارگیری",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPageLinksLabel": "پیوندها",
+  "@snapPageLinksLabel": {},
+  "snapPagePublisherLabel": "ناشر",
+  "@snapPagePublisherLabel": {},
+  "snapPagePublishedLabel": "منتشر شده",
+  "@snapPagePublishedLabel": {},
+  "snapPageSummaryLabel": "خلاصه",
+  "@snapPageSummaryLabel": {}
 }
