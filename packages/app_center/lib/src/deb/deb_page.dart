@@ -240,7 +240,7 @@ class _Header extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const YaruBackButton(),
+            const YaruBackButton(style: YaruBackButtonStyle.rounded),
             if (debModel.component.website != null)
               YaruIconButton(
                 icon: const Icon(YaruIcons.share),
