@@ -276,5 +276,7 @@
   "searchPageFilterByLabel": "Filtrovat podle",
   "@searchPageFilterByLabel": {},
   "snapSortOrderInstalledDateDesc": "Naposledy aktualizované",
-  "@snapSortOrderInstalledDateDesc": {}
+  "@snapSortOrderInstalledDateDesc": {},
+  "appCenterLabel": "Centrum aplikací",
+  "@appCenterLabel": {}
 }
