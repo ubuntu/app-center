@@ -157,7 +157,7 @@
   "@appstreamUrlTypeHomepage": {},
   "managePageCheckingForUpdates": "Kontrolujú sa aktualizácie",
   "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Aktualizované pred {n, plural, =1{{n} dňom} other{{n} dňami}}",
+  "managePageUpdatedDaysAgo": "Obnovené pred {n, plural, =1{{n} dňom} other{{n} dňami}}",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
