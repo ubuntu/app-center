@@ -276,5 +276,7 @@
   "searchPageFilterByLabel": "Filtrar por",
   "@searchPageFilterByLabel": {},
   "snapSortOrderInstalledDateDesc": "Atualizado mais recentemente",
-  "@snapSortOrderInstalledDateDesc": {}
+  "@snapSortOrderInstalledDateDesc": {},
+  "appCenterLabel": "Centro de Aplicativos",
+  "@appCenterLabel": {}
 }
