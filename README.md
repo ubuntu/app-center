@@ -8,8 +8,8 @@
 [codecov-image]: https://codecov.io/gh/ubuntu/app-center/graph/badge.svg?token=E7rXg31KRk
 [codecov-url]: https://codecov.io/gh/ubuntu/app-center
 
-[weblate-image]: https://hosted.weblate.org/widget/ubuntu-software/app-center/svg-badge.svg
-[weblate-url]: https://hosted.weblate.org/engage/ubuntu-software/
+[weblate-image]: https://hosted.weblate.org/widget/ubuntu-desktop-translations/app-center/svg-badge.svg
+[weblate-url]: https://hosted.weblate.org/projects/ubuntu-desktop-translations/app-center/
 
 
 [![Code quality][actions-image]][actions-url]
