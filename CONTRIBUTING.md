@@ -64,7 +64,7 @@ PRs will trigger unit and integration tests with and without race detection, lin
 
 ## Translations
 
-Translations are managed using [Weblate](https://hosted.weblate.org/projects/ubuntu-software/app-center/)
+Translations are managed using [Weblate](https://hosted.weblate.org/projects/ubuntu-desktop-translations/app-center/)
 
 ## Contributing to the code
 
