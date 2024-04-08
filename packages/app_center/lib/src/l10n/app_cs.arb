@@ -348,5 +348,19 @@
   "snapReportPrivacyAgreementLabel": "Odesláním tohoto formuláře potvrzuji, že jsem četl(a) a souhlasím s ",
   "@snapReportPrivacyAgreementLabel": {},
   "snapReportPrivacyAgreementCanonicalPrivacyNotice": "prohlášením společnosti Canonical o ochraně osobních údajů ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {}
+  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+  "externalResources": "Další zdroje",
+  "@externalResources": {},
+  "externalResourcesDisclaimer": "Poznámka: Všechny tyto nástroje jsou externí. Nejsou vlastněny ani distribuovány společností Canonical.",
+  "@externalResourcesDisclaimer": {},
+  "openInBrowser": "Otevřít v prohlížeči",
+  "@openInBrowser": {},
+  "installAll": "Instalovat vše",
+  "@installAll": {},
+  "debPageErrorNoPackageInfo": "Nenalezeny žádné informace o balíčku",
+  "@debPageErrorNoPackageInfo": {},
+  "externalResourcesButtonLabel": "Objevit více",
+  "@externalResourcesButtonLabel": {},
+  "allGamesButtonLabel": "Všechny hry",
+  "@allGamesButtonLabel": {}
 }
