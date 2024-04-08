@@ -23,7 +23,10 @@ class ExternalTools extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (Navigator.of(context).canPop()) const YaruBackButton(),
+                if (Navigator.of(context).canPop())
+                  const YaruBackButton(
+                    style: YaruBackButtonStyle.rounded,
+                  ),
               ],
             ),
           ),
