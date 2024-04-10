@@ -2656,6 +2656,15 @@ class MockMultiSnapModel extends _i1.Mock implements _i23.MultiSnapModel {
       ) as _i6.SnapCategoryEnum);
 
   @override
+  set activeChangeIds(List<String>? _activeChangeIds) => super.noSuchMethod(
+        Invocation.setter(
+          #activeChangeIds,
+          _activeChangeIds,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   List<_i2.Snap> get categorySnaps => (super.noSuchMethod(
         Invocation.getter(#categorySnaps),
         returnValue: <_i2.Snap>[],
