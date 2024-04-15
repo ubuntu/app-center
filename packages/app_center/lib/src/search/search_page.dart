@@ -141,7 +141,12 @@ class SearchPage extends StatelessWidget {
                     initialCategory ==
                         SnapCategoryEnum.gameContentCreation) ...[
                   const SizedBox(height: kPagePadding),
-                  InstallAll(initialCategory: initialCategory),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InstallAll(initialCategory: initialCategory),
+                    ],
+                  ),
                 ]
               ],
             ),
