@@ -55,7 +55,7 @@
   "@aboutPageLabel": {},
   "snapPageSummaryLabel": "Resumen",
   "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "aplicación;aplicaciones;app;paquete;paquetes;programa;programas;software;herramienta;herramientas",
+  "appstreamSearchGreylist": "aplicación;aplicación;paquete;programa;programa;suite;herramienta",
   "@appstreamSearchGreylist": {},
   "snapCategoryScience": "Ciencia",
   "@snapCategoryScience": {},
