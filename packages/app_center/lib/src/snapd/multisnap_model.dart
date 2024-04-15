@@ -47,7 +47,8 @@ class MultiSnapModel extends ChangeNotifier {
   final SnapdService snapd;
   final SnapCategoryEnum category;
 
-  UnmodifiableListView<String> get activeChangeIds => UnmodifiableListView(_activeChangeIds);
+  UnmodifiableListView<String> get activeChangeIds =>
+      UnmodifiableListView(_activeChangeIds);
   final List<String> _activeChangeIds = [];
 
   AsyncValue<void> get state => _state;
@@ -98,7 +99,7 @@ class MultiSnapModel extends ChangeNotifier {
 
   Future<void> cancel() async {
     if (_activeChangeIds.isEmpty) return;
-    for (final changeId in _activeChangeIds!) {
+    for (final changeId in _activeChangeIds) {
       await snapd.abortChange(changeId);
     }
   }

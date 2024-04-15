@@ -189,16 +189,16 @@ class InstallAll extends ConsumerWidget {
         child: Column(
       children: [
         ElevatedButton(
-          onPressed: multiSnapModel.activeChangeIds!.isEmpty
+          onPressed: multiSnapModel.activeChangeIds.isEmpty
               ? multiSnapModel.installAll
               : null,
           child: Text(l10n.installAll),
         ),
-        if (multiSnapModel.activeChangeIds!.isNotEmpty) ...[
+        if (multiSnapModel.activeChangeIds.isNotEmpty) ...[
           const SizedBox(height: kPagePadding),
           LinearProgressIndicator(
               value: ref
-                  .watch(multiProgressProvider(multiSnapModel.activeChangeIds!))
+                  .watch(multiProgressProvider(multiSnapModel.activeChangeIds))
                   .whenOrNull(data: (data) => data))
         ]
       ],
