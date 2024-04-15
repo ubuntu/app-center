@@ -47,7 +47,8 @@ class MultiSnapModel extends ChangeNotifier {
   final SnapdService snapd;
   final SnapCategoryEnum category;
 
-  List<String>? activeChangeIds = [];
+  UnmodifiableListView<String> get activeChangeIds => UnmodifiableListView(_activeChangeIds);
+  final List<String> _activeChangeIds = [];
 
   AsyncValue<void> get state => _state;
   AsyncValue<void> _state;
@@ -96,8 +97,8 @@ class MultiSnapModel extends ChangeNotifier {
   }
 
   Future<void> cancel() async {
-    if (activeChangeIds!.isEmpty) return;
-    for (final changeId in activeChangeIds!) {
+    if (_activeChangeIds.isEmpty) return;
+    for (final changeId in _activeChangeIds!) {
       await snapd.abortChange(changeId);
     }
   }
@@ -119,19 +120,19 @@ class MultiSnapModel extends ChangeNotifier {
       final changeId =
           await snapd.install(classicSnaps.first.name, classic: true);
       final change = await snapd.getChange(changeId);
-      activeChangeIds!.add(changeId);
+      _activeChangeIds.add(changeId);
       if (['Do', 'Doing', 'Done'].contains(change.status)) {
         for (var i = 1; i < classicSnaps.length; i++) {
-          activeChangeIds!
+          _activeChangeIds
               .add(await snapd.install(classicSnaps[i].name, classic: true));
         }
-        activeChangeIds!.add(await snapd
+        _activeChangeIds.add(await snapd
             .installMany(strictSnaps.map((snap) => snap.name).toList()));
       }
     } else {
-      activeChangeIds!.add(await snapd
+      _activeChangeIds.add(await snapd
           .installMany(strictSnaps.map((snap) => snap.name).toList()));
     }
-    return activeChangeIds;
+    return _activeChangeIds;
   }
 }
