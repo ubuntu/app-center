@@ -362,5 +362,29 @@
   "snapReportPrivacyAgreementAndLabel": "kaj ",
   "@snapReportPrivacyAgreementAndLabel": {},
   "snapReportPrivacyAgreementLabel": "Submetante ĉi tiun raporton, mi konfirmas, ke mi legis kaj konsentas ",
-  "@snapReportPrivacyAgreementLabel": {}
+  "@snapReportPrivacyAgreementLabel": {},
+  "managePageUpdatedWeeksAgo": "Ĝisdatigita antaŭ {n, plural, =1{{n} semajno} other{{n} semajnoj}}",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "Ĝisdatigita antaŭ {n, plural, =1{{n} monato} other{{n} monatoj}}",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Ĝisdatigita antaŭ {n, plural, =1{{n} jaro} other{{n} jaroj}}",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
