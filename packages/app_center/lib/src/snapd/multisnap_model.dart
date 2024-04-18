@@ -49,7 +49,7 @@ class MultiSnapModel extends ChangeNotifier {
 
   UnmodifiableListView<String> get activeChangeIds =>
       UnmodifiableListView(_activeChangeIds);
-  final List<String> _activeChangeIds = [];
+  List<String> _activeChangeIds = [];
 
   AsyncValue<void> get state => _state;
   AsyncValue<void> _state;
@@ -57,6 +57,7 @@ class MultiSnapModel extends ChangeNotifier {
   List<Snap> categorySnaps = [];
 
   StreamSubscription<List<Snap>?>? _storeSnapSubscription;
+  final List<StreamSubscription<SnapdChange>> _activeChangeSubscription = [];
 
   Future<void> init() async {
     assert(category.featuredSnapNames!.isNotEmpty);
@@ -81,7 +82,39 @@ class MultiSnapModel extends ChangeNotifier {
   Future<void> dispose() async {
     await _storeSnapSubscription?.cancel();
     _storeSnapSubscription = null;
+    _activeChangeIds = [];
     super.dispose();
+  }
+
+  Future<void> _getLocalSnaps(List<String> snapNames) async {
+    try {
+      for (final snapName in snapNames) {
+        await snapd.getSnap(snapName);
+      }
+    } on SnapdException catch (e) {
+      if (e.kind != 'snap-not-found') rethrow;
+    }
+  }
+
+  Future<void> _activeChangeListener(SnapdChange change) async {
+    if (change.ready) {
+      log.debug('Change ${change.id} for ${change.snapNames.join(", ")} done');
+      _removeActiveChange(change.id);
+      await _getLocalSnaps(change.snapNames);
+      notifyListeners();
+    }
+  }
+
+  void _addActiveChange(String id) {
+    _activeChangeIds.add(id);
+    _activeChangeSubscription
+        .add(snapd.watchChange(id).listen(_activeChangeListener));
+  }
+
+  void _removeActiveChange(String id) {
+    _activeChangeIds.remove(id);
+    _activeChangeSubscription
+        .remove(snapd.watchChange(id).listen(_activeChangeListener));
   }
 
   void _handleError(SnapdException e) {
@@ -121,17 +154,17 @@ class MultiSnapModel extends ChangeNotifier {
       final changeId =
           await snapd.install(classicSnaps.first.name, classic: true);
       final change = await snapd.getChange(changeId);
-      _activeChangeIds.add(changeId);
+      _addActiveChange(changeId);
       if (['Do', 'Doing', 'Done'].contains(change.status)) {
         for (var i = 1; i < classicSnaps.length; i++) {
-          _activeChangeIds
-              .add(await snapd.install(classicSnaps[i].name, classic: true));
+          _addActiveChange(
+              await snapd.install(classicSnaps[i].name, classic: true));
         }
-        _activeChangeIds.add(await snapd
+        _addActiveChange(await snapd
             .installMany(strictSnaps.map((snap) => snap.name).toList()));
       }
     } else {
-      _activeChangeIds.add(await snapd
+      _addActiveChange(await snapd
           .installMany(strictSnaps.map((snap) => snap.name).toList()));
     }
     return _activeChangeIds;
