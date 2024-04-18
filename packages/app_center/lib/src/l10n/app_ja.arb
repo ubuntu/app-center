@@ -362,5 +362,29 @@
   "openInBrowser": "ブラウザーで開く",
   "@openInBrowser": {},
   "installAll": "すべてインストール",
-  "@installAll": {}
+  "@installAll": {},
+  "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} 週} other{{n} 週}} 間前にアップデート",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "{n, plural, =1{{n} 年} other{{n} 年}} 前にアップデート",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} ヶ月} other{{n} ヶ月}} 前にアップデート",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
