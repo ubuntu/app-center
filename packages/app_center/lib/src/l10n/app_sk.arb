@@ -362,5 +362,29 @@
   "snapCategoryGnomeGamesSlogan": "Zostava hier GNOME",
   "@snapCategoryGnomeGamesSlogan": {},
   "externalResourcesDisclaimer": "Poznámka: Toto všetko sú externé nástroje. Nie sú vlastnené ani distribuované spoločnosťou Canonical.",
-  "@externalResourcesDisclaimer": {}
+  "@externalResourcesDisclaimer": {},
+  "managePageUpdatedMonthsAgo": "Obnovené pred {n, plural, =1{{n} mesiacom} other{{n} mesiacmi}}",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Obnovené pred {n, plural, =1{{n} rokom} other{{n} rokmi}}",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedWeeksAgo": "Obnovené pred {n, plural, =1{{n} týždňom} other{{n} týždňami}}",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
