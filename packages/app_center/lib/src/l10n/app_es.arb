@@ -362,5 +362,29 @@
   "openInBrowser": "Abrir en el navegador",
   "@openInBrowser": {},
   "installAll": "Instalar todo",
-  "@installAll": {}
+  "@installAll": {},
+  "managePageUpdatedYearsAgo": "Actualizado hace {n, plural, =1{{n} año} other{{n} años}}",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedWeeksAgo": "Actualizado hace {n, plural, =1{{n} semana} other{{n} semanas}}",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "Actualizado hace {n, plural, =1{{n} mes} other{{n} meses}}",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
