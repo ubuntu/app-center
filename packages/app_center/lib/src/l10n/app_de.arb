@@ -282,5 +282,109 @@
   "gamesPageTitle": "Was ist angesagt",
   "@gamesPageTitle": {},
   "gamesPageTop": "Top-Spiele",
-  "@gamesPageTop": {}
+  "@gamesPageTop": {},
+  "appCenterLabel": "App-Center",
+  "@appCenterLabel": {},
+  "gamesPageBundles": "App-Bundles",
+  "@gamesPageBundles": {},
+  "snapCategoryGameDev": "Spieleentwicklung",
+  "@snapCategoryGameDev": {},
+  "snapCategoryGameDevSlogan": "Spieleentwicklung",
+  "@snapCategoryGameDevSlogan": {},
+  "snapCategoryGameEmulators": "Emulatoren",
+  "@snapCategoryGameEmulators": {},
+  "snapCategoryGameEmulatorsSlogan": "Emulatoren",
+  "@snapCategoryGameEmulatorsSlogan": {},
+  "snapCategoryGameLaunchers": "Game-Launchers",
+  "@snapCategoryGameLaunchers": {},
+  "snapCategoryGameLaunchersSlogan": "Game-Launchers",
+  "@snapCategoryGameLaunchersSlogan": {},
+  "snapCategoryGameContentCreation": "Content-Erstellung",
+  "@snapCategoryGameContentCreation": {},
+  "snapCategoryKdeGames": "KDE-Spiele",
+  "@snapCategoryKdeGames": {},
+  "snapCategoryKdeGamesSlogan": "KDE-Spielesuite",
+  "@snapCategoryKdeGamesSlogan": {},
+  "snapCategoryGameContentCreationSlogan": "Content-Erstellung",
+  "@snapCategoryGameContentCreationSlogan": {},
+  "snapReportLabel": "{snapName} melden",
+  "@snapReportLabel": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "snapReportDetailsLabel": "Bitte begründen Sie Ihre Meldung ausführlicher",
+  "@snapReportDetailsLabel": {},
+  "snapReportSelectAnOptionLabel": "Wählen Sie eine Option",
+  "@snapReportSelectAnOptionLabel": {},
+  "snapReportOptionCopyrightViolation": "Urheberrechts- oder Markenrechtsverletzung",
+  "@snapReportOptionCopyrightViolation": {},
+  "snapReportOptionStoreViolation": "Verstoß gegen die Nutzungsbedingungen des Snap Store",
+  "@snapReportOptionStoreViolation": {},
+  "snapReportSubmitButtonLabel": "Meldung einreichen",
+  "@snapReportSubmitButtonLabel": {},
+  "snapReportEnterValidEmailError": "Gültige E-Mail-Adresse eingeben",
+  "@snapReportEnterValidEmailError": {},
+  "snapReportDetailsHint": "Kommentar ...",
+  "@snapReportDetailsHint": {},
+  "snapReportOptionalEmailAddressLabel": "Ihre E-Mail (optional)",
+  "@snapReportOptionalEmailAddressLabel": {},
+  "snapReportCancelButtonLabel": "Abbrechen",
+  "@snapReportCancelButtonLabel": {},
+  "snapReportPrivacyAgreementAndLabel": "und ",
+  "@snapReportPrivacyAgreementAndLabel": {},
+  "snapReportPrivacyAgreementLabel": "Mit dem Absenden dieses Formulars bestätige ich, dass ich gelesen habe und zustimme zu ",
+  "@snapReportPrivacyAgreementLabel": {},
+  "externalResourcesDisclaimer": "Anmerkung: Dies sind alles externe Werkzeuge. Sie sind weder Eigentum von, noch vertrieben von Canonical.",
+  "@externalResourcesDisclaimer": {},
+  "openInBrowser": "Im Browser öffnen",
+  "@openInBrowser": {},
+  "installAll": "Alle installieren",
+  "@installAll": {},
+  "externalResourcesButtonLabel": "Mehr entdecken",
+  "@externalResourcesButtonLabel": {},
+  "allGamesButtonLabel": "Alle Spiele",
+  "@allGamesButtonLabel": {},
+  "managePageUpdatedMonthsAgo": "Vor {n, plural, =1{{n} Monat} other{{n} Monaten}} aktualisiert",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Vor {n, plural, =1{{n} Jahr} other{{n} Jahren}} aktualisiert",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "gamesPageFeatured": "Ausgewählte Titel",
+  "@gamesPageFeatured": {},
+  "snapCategoryGnomeGames": "GNOME-Spiele",
+  "@snapCategoryGnomeGames": {},
+  "snapCategoryGnomeGamesSlogan": "GNOME-Spielesuite",
+  "@snapCategoryGnomeGamesSlogan": {},
+  "snapReportSelectReportReasonLabel": "Einen Grund für die Meldung dieses Snaps wählen",
+  "@snapReportSelectReportReasonLabel": {},
+  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Datenschutzerklärung von Canonical ",
+  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+  "snapReportPrivacyAgreementPrivacyPolicy": "Datenschutzrichtlinie",
+  "@snapReportPrivacyAgreementPrivacyPolicy": {},
+  "debPageErrorNoPackageInfo": "Keine Paket-Informationen gefunden",
+  "@debPageErrorNoPackageInfo": {},
+  "externalResources": "Zusätzliche Ressourcen",
+  "@externalResources": {},
+  "managePageUpdatedWeeksAgo": "Vor {n, plural, =1{{n} Woche} other{{n} Wochen}} aktualisiert",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
