@@ -362,5 +362,29 @@
   "openInBrowser": "Öppna i webbläsare",
   "@openInBrowser": {},
   "installAll": "Installera alla",
-  "@installAll": {}
+  "@installAll": {},
+  "managePageUpdatedWeeksAgo": "Uppdaterades för {n, plural, =1{{n} vecka} annat för{{n} veckor}} sedan",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "Uppdaterades för {n, plural, =1{{n} månad} annat{{n} månader}} sedan",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Uppdaterades för {n, plural, =1{{n} år} annat{{n} år}} sedan",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
