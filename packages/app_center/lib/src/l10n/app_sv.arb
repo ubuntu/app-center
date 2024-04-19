@@ -363,7 +363,7 @@
   "@openInBrowser": {},
   "installAll": "Installera alla",
   "@installAll": {},
-  "managePageUpdatedWeeksAgo": "Uppdaterades för {n, plural, =1{{n} vecka} annat för{{n} veckor}} sedan",
+  "managePageUpdatedWeeksAgo": "Uppdaterades för {n, plural, =1{{n} vecka} other{{n} veckor}} sedan",
   "@managePageUpdatedWeeksAgo": {
     "placeholders": {
       "n": {
@@ -371,7 +371,7 @@
       }
     }
   },
-  "managePageUpdatedMonthsAgo": "Uppdaterades för {n, plural, =1{{n} månad} annat{{n} månader}} sedan",
+  "managePageUpdatedMonthsAgo": "Uppdaterades för {n, plural, =1{{n} månad} other{{n} månader}} sedan",
   "@managePageUpdatedMonthsAgo": {
     "placeholders": {
       "n": {
@@ -379,7 +379,7 @@
       }
     }
   },
-  "managePageUpdatedYearsAgo": "Uppdaterades för {n, plural, =1{{n} år} annat{{n} år}} sedan",
+  "managePageUpdatedYearsAgo": "Uppdaterades för {n, plural, =1{{n} år} other{{n} år}} sedan",
   "@managePageUpdatedYearsAgo": {
     "placeholders": {
       "n": {
