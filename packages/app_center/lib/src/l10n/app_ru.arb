@@ -307,7 +307,7 @@
   "@snapReportSubmitButtonLabel": {},
   "snapReportOptionalEmailAddressLabel": "Ваш адрес электронной почты (необязательно)",
   "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportDetailsLabel": "Пожалуйста, напишите подробнее о жалобе",
+  "snapReportDetailsLabel": "Предоставьте более подробное обоснование к жалобе",
   "@snapReportDetailsLabel": {},
   "snapReportLabel": "Пожаловаться на {snapName}",
   "@snapReportLabel": {
@@ -359,7 +359,7 @@
   "@snapCategoryGameLaunchersSlogan": {},
   "snapCategoryGameContentCreationSlogan": "Создание контента",
   "@snapCategoryGameContentCreationSlogan": {},
-  "gamesPageFeatured": "Избранные статьи",
+  "gamesPageFeatured": "Избранные наименования",
   "@gamesPageFeatured": {},
   "gamesPageBundles": "Наборы приложений",
   "@gamesPageBundles": {}

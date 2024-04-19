@@ -42,6 +42,30 @@
             }
         }
     },
+    "managePageUpdatedWeeksAgo": "Updated {n, plural, =1{{n} week} other{{n} weeks}} ago",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "Updated {n, plural, =1{{n} month} other{{n} months}} ago",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Updated {n, plural, =1{{n} year} other{{n} years}} ago",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
     "managePageUpdatesAvailable": "Updates available ({n})",
     "@managePageUpdatesAvaialble": {
         "placeholders": {

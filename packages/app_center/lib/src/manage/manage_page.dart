@@ -5,6 +5,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/manage/local_snap_providers.dart';
+import 'package:app_center/src/manage/manage_l10n.dart';
 import 'package:app_center/src/manage/manage_model.dart';
 import 'package:app_center/store.dart';
 import 'package:app_center/widgets.dart';
@@ -342,8 +343,8 @@ class _ManageSnapTile extends ConsumerWidget {
     final snapLauncher = ref.watch(launchProvider(snap));
     final l10n = AppLocalizations.of(context);
     final border = BorderSide(color: Theme.of(context).colorScheme.outline);
-    final daysSinceUpdate = snap.installDate != null
-        ? DateTime.now().difference(snap.installDate!).inDays
+    final dateTimeSinceUpdate = snap.installDate != null
+        ? DateTime.now().difference(snap.installDate!)
         : null;
     const radius = Radius.circular(8);
 
@@ -406,9 +407,10 @@ class _ManageSnapTile extends ConsumerWidget {
                 ResponsiveLayoutType.small) ...[
               Expanded(
                 flex: 2,
-                child: daysSinceUpdate != null
+                child: dateTimeSinceUpdate != null
                     ? Text(
-                        l10n.managePageUpdatedDaysAgo(daysSinceUpdate),
+                        dateTimeSinceUpdate
+                            .managePageUpdateSinceDateTimeAgo(l10n),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       )
@@ -442,9 +444,10 @@ class _ManageSnapTile extends ConsumerWidget {
               Row(
                 children: [
                   Expanded(
-                    child: daysSinceUpdate != null
+                    child: dateTimeSinceUpdate != null
                         ? Text(
-                            l10n.managePageUpdatedDaysAgo(daysSinceUpdate),
+                            dateTimeSinceUpdate
+                                .managePageUpdateSinceDateTimeAgo(l10n),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           )
