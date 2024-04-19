@@ -381,5 +381,6 @@ MockPackageKitService createMockPackageKitService({
 @GenerateMocks([MultiSnapModel])
 MultiSnapModel createMockMultiSnapModel() {
   final model = MockMultiSnapModel();
+  when(model.activeChangeIds).thenAnswer((_) => UnmodifiableListView([]));
   return model;
 }
