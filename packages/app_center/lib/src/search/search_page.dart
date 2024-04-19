@@ -188,19 +188,24 @@ class InstallAll extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ElevatedButton(
-          onPressed: multiSnapModel.activeChangeIds.isEmpty
-              ? multiSnapModel.installAll
-              : null,
-          child: Text(l10n.installAll),
+        Row(
+          children: [
+            ElevatedButton(
+              onPressed: multiSnapModel.activeChangeIds.isEmpty
+                  ? multiSnapModel.installAll
+                  : null,
+              child: Text(l10n.installAll),
+            ),
+            if (multiSnapModel.activeChangeIds.isNotEmpty) ...[
+              const SizedBox(width: kPagePadding),
+              CircularProgressIndicator(
+                  value: ref
+                      .watch(
+                          multiProgressProvider(multiSnapModel.activeChangeIds))
+                      .whenOrNull(data: (data) => data))
+            ]
+          ],
         ),
-        if (multiSnapModel.activeChangeIds.isNotEmpty) ...[
-          const SizedBox(height: kPagePadding),
-          LinearProgressIndicator(
-              value: ref
-                  .watch(multiProgressProvider(multiSnapModel.activeChangeIds))
-                  .whenOrNull(data: (data) => data))
-        ]
       ],
     );
   }
