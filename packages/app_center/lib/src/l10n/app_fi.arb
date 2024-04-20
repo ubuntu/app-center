@@ -362,5 +362,29 @@
   "openInBrowser": "Avaa selaimessa",
   "@openInBrowser": {},
   "installAll": "Asenna kaikki",
-  "@installAll": {}
+  "@installAll": {},
+  "managePageUpdatedWeeksAgo": "Päivitetty {n, plural, =1{{n} viikko} other{{n} viikkoa}} sitten",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "Päivitetty {n, plural, =1{{n} kuukausi} other{{n}kuukautta}} sitten",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Päivitetty {n, plural, =1{{n} vuosi} other{{n} vuotta}} sitten",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
