@@ -55,7 +55,7 @@
   "@aboutPageLabel": {},
   "snapPageSummaryLabel": "總結",
   "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "應用程式;套件;軟體",
+  "appstreamSearchGreylist": "應用;應用軟體;軟體包;套件;程式;程序;套裝軟體;工具",
   "@appstreamSearchGreylist": {},
   "snapCategoryScience": "科學",
   "@snapCategoryScience": {},
@@ -331,7 +331,7 @@
   "@managePageShowSystemSnapsLabel": {},
   "managePageUpdateAllLabel": "全部更新",
   "@managePageUpdateAllLabel": {},
-  "appCenterLabel": "App Center",
+  "appCenterLabel": "應用軟體中心",
   "@appCenterLabel": {},
   "managePageUpdatedDaysAgo": "{n, plural, =1{{n} 天前更新} other{{n} 天前更新}}",
   "@managePageUpdatedDaysAgo": {
