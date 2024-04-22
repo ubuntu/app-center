@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Desarrollo",
   "@developmentPageLabel": {},
-  "managePageLabel": "Administrar",
+  "managePageLabel": "Gestionar",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Canal",
   "@snapPageChannelLabel": {},
@@ -101,7 +101,7 @@
   "@managePageCheckForUpdates": {},
   "managePageUpdateAllLabel": "Actualizar todo",
   "@managePageUpdateAllLabel": {},
-  "searchFieldSearchForLabel": "Ver todos los resultados para \"{query}\"",
+  "searchFieldSearchForLabel": "Ver todos los resultados de «{query}»",
   "@searchFieldSearchForLabel": {
     "placeholders": {
       "query": {
@@ -131,9 +131,9 @@
   "@searchPageNoResultsHint": {},
   "snapRatingsBandGood": "Bien",
   "@snapRatingsBandGood": {},
-  "snapCategoryFeaturedSlogan": "Instantáneas destacadas",
+  "snapCategoryFeaturedSlogan": "«Snaps» destacados",
   "@snapCategoryFeaturedSlogan": {},
-  "snapSortOrderInstalledDateAsc": "Lo menos actualizado",
+  "snapSortOrderInstalledDateAsc": "Lo menos reciente",
   "@snapSortOrderInstalledDateAsc": {},
   "snapCategoryProductivitySlogan": "Tacha una cosa de tu lista de tareas pendientes",
   "@snapCategoryProductivitySlogan": {},
@@ -155,7 +155,7 @@
   "@managePageInstalledAndUpdatedLabel": {},
   "appstreamUrlTypeHomepage": "Página principal",
   "@appstreamUrlTypeHomepage": {},
-  "managePageCheckingForUpdates": "Comprobar las actualizaciones",
+  "managePageCheckingForUpdates": "Buscando actualizaciones",
   "@managePageCheckingForUpdates": {},
   "managePageUpdatedDaysAgo": "Actualizado hace {n, plural, =1{{n} día} other{{n} días}}",
   "@managePageUpdatedDaysAgo": {
@@ -165,25 +165,25 @@
       }
     }
   },
-  "snapRatingsBandInsufficientVotes": "Número insuficiente de votos",
+  "snapRatingsBandInsufficientVotes": "Votos insuficientes",
   "@snapRatingsBandInsufficientVotes": {},
   "snapRatingsBandVeryPoor": "Muy pobre",
   "@snapRatingsBandVeryPoor": {},
-  "managePageDescription": "Comprueba si hay actualizaciones disponibles, actualiza tus aplicaciones y gestiona el estado de todas ellas.",
+  "managePageDescription": "Compruebe si hay actualizaciones disponibles, actualice sus aplicaciones y gestione el estado de todas ellas.",
   "@managePageDescription": {},
   "snapActionRemovingLabel": "Desinstalando",
   "@snapActionRemovingLabel": {},
   "snapSortOrderInstalledSizeDesc": "Tamaño (de mayor a menor)",
   "@snapSortOrderInstalledSizeDesc": {},
-  "snapPageDeveloperWebsiteLabel": "Página web del desarrollador",
+  "snapPageDeveloperWebsiteLabel": "Sitio web del desarrollador",
   "@snapPageDeveloperWebsiteLabel": {},
   "snapConfinementClassic": "Clásico",
   "@snapConfinementClassic": {},
   "snapRatingsBandPoor": "Pobre",
   "@snapRatingsBandPoor": {},
-  "snapCategoryDevelopmentSlogan": "Instantáneas indispensables para los desarrolladores",
+  "snapCategoryDevelopmentSlogan": "«Snaps» indispensables para desarrolladores",
   "@snapCategoryDevelopmentSlogan": {},
-  "searchPageTitle": "Resultados para \"{query}\"",
+  "searchPageTitle": "Resultados de «{query}»",
   "@searchPageTitle": {
     "placeholders": {
       "query": {
@@ -191,7 +191,7 @@
       }
     }
   },
-  "snapCategoryGamesSlogan": "Todo para tu noche de juegos",
+  "snapCategoryGamesSlogan": "Todo para su noche de juegos",
   "@snapCategoryGamesSlogan": {},
   "snapActionSwitchChannelLabel": "Cambiar de canal",
   "@snapActionSwitchChannelLabel": {},
@@ -233,7 +233,7 @@
       }
     }
   },
-  "snapPageContactPublisherLabel": "Contacto {publisher}",
+  "snapPageContactPublisherLabel": "Contactar con {publisher}",
   "@snapPageContactPublisherLabel": {
     "placeholders": {
       "publisher": {
@@ -243,7 +243,7 @@
   },
   "snapConfinementDevmode": "Modo de desarrollo",
   "@snapConfinementDevmode": {},
-  "searchPageNoResults": "No se han encontrado resultados para \"{query}\"",
+  "searchPageNoResults": "No se encontró ningún resultado para «{query}»",
   "@searchPageNoResults": {
     "placeholders": {
       "query": {
@@ -251,31 +251,31 @@
       }
     }
   },
-  "snapSortOrderDownloadSizeAsc": "Tamaño (del menor al mayor)",
+  "snapSortOrderDownloadSizeAsc": "Tamaño (de menor a mayor)",
   "@snapSortOrderDownloadSizeAsc": {},
   "unknownPublisher": "Editor desconocido",
   "@unknownPublisher": {},
-  "snapCategoryUbuntuDesktopSlogan": "Inicia tu escritorio",
+  "snapCategoryUbuntuDesktopSlogan": "Saque el máximo partido a su escritorio",
   "@snapCategoryUbuntuDesktopSlogan": {},
   "snapActionUpdatingLabel": "Actualizando",
   "@snapActionUpdatingLabel": {},
-  "searchPageRelevanceLabel": "Importancia",
+  "searchPageRelevanceLabel": "Relevancia",
   "@searchPageRelevanceLabel": {},
   "snapSortOrderAlphabeticalAsc": "Alfabético (de la A a la Z)",
   "@snapSortOrderAlphabeticalAsc": {},
   "managePageNoUpdatesAvailableDescription": "No hay actualizaciones disponibles. Tus aplicaciones están actualizadas.",
   "@managePageNoUpdatesAvailableDescription": {},
-  "snapSortOrderRelevance": "Importancia",
+  "snapSortOrderRelevance": "Relevancia",
   "@snapSortOrderRelevance": {},
-  "snapSortOrderDownloadSizeDesc": "Talla (de mayor a menor)",
+  "snapSortOrderDownloadSizeDesc": "Tamaño (de mayor a menor)",
   "@snapSortOrderDownloadSizeDesc": {},
   "appstreamUrlTypeBugtracker": "Rastreador de errores",
   "@appstreamUrlTypeBugtracker": {},
-  "managePageShowSystemSnapsLabel": "Mostrar las instantáneas del sistema",
+  "managePageShowSystemSnapsLabel": "Mostrar «snaps» del sistema",
   "@managePageShowSystemSnapsLabel": {},
   "searchPageFilterByLabel": "Filtrar por",
   "@searchPageFilterByLabel": {},
-  "snapSortOrderInstalledDateDesc": "Actualización más reciente",
+  "snapSortOrderInstalledDateDesc": "Lo más reciente",
   "@snapSortOrderInstalledDateDesc": {},
   "gamesPageTitle": "Popular",
   "@gamesPageTitle": {},
@@ -313,7 +313,7 @@
   "@allGamesButtonLabel": {},
   "appCenterLabel": "Centro de aplicaciones",
   "@appCenterLabel": {},
-  "snapPageShareLinkCopiedMessage": "Enlace copiado al portapapeles",
+  "snapPageShareLinkCopiedMessage": "Se copió el enlace en el portapapeles",
   "@snapPageShareLinkCopiedMessage": {},
   "gamesPageBundles": "Paquetes de aplicaciones",
   "@gamesPageBundles": {},
