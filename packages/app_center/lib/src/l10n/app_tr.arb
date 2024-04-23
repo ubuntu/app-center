@@ -58,5 +58,89 @@
   "explorePageLabel": "Keşfet",
   "@explorePageLabel": {},
   "searchFieldSnapSection": "Snap paketleri",
-  "@searchFieldSnapSection": {}
+  "@searchFieldSnapSection": {},
+  "appCenterLabel": "Uygulama Merkezi",
+  "@appCenterLabel": {},
+  "snapPageContactPublisherLabel": "İletişime geç {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageDeveloperWebsiteLabel": "Geliştirici Websitesi",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapPageDownloadSizeLabel": "İndirme boyutu",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPageGalleryLabel": "Galeri",
+  "@snapPageGalleryLabel": {},
+  "snapPageLinksLabel": "Bağlantılar",
+  "@snapPageLinksLabel": {},
+  "snapPagePublisherLabel": "Yayıncı",
+  "@snapPagePublisherLabel": {},
+  "snapPagePublishedLabel": "Yayınlanmış",
+  "@snapPagePublishedLabel": {},
+  "snapPageSummaryLabel": "Özet",
+  "@snapPageSummaryLabel": {},
+  "snapPageShareLinkCopiedMessage": "Bağlantı panoya kopyalandı",
+  "@snapPageShareLinkCopiedMessage": {},
+  "explorePageCategoriesLabel": "Kategoriler",
+  "@explorePageCategoriesLabel": {},
+  "managePageCheckForUpdates": "Güncellemeleri kontrol et",
+  "@managePageCheckForUpdates": {},
+  "managePageCheckingForUpdates": "Güncellemeler kontrol ediliyor",
+  "@managePageCheckingForUpdates": {},
+  "managePageDescription": "Uygulamalarınızın mevcut güncellemelerini kontol edin, güncelleyin ve durumlarını yönetin.",
+  "@managePageDescription": {},
+  "managePageInstalledAndUpdatedLabel": "Yüklü ve güncellenmiş",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "managePageLabel": "Yönet",
+  "@managePageLabel": {},
+  "managePageNoUpdatesAvailableDescription": "Şu an için güncelleme bulunmuyor. Tüm uygulamalarınız güncel.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "managePageSearchFieldSearchHint": "Yüklü uygulamalarınızı arayın",
+  "@managePageSearchFieldSearchHint": {},
+  "managePageShowDetailsLabel": "Ayrıntıları göster",
+  "@managePageShowDetailsLabel": {},
+  "managePageShowSystemSnapsLabel": "System Snap'lerini göster",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageUpdateAllLabel": "Tümünü güncelle",
+  "@managePageUpdateAllLabel": {},
+  "managePageUpdatedDaysAgo": "{n} gün önce güncellendi",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesAvailable": "Güncellemeler mevcut ({n})",
+  "@managePageUpdatesAvailable": {},
+  "managePageUpdatedYearsAgo": "{n} yıl önce güncellendi",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedWeeksAgo": "{n} hafta önce güncellendi",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "{n} ay önce güncellendi",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "gamesPageTop": "En iyi Oyunlar",
+  "@gamesPageTop": {}
 }
