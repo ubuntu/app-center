@@ -133,7 +133,7 @@
   "@snapCategoryDevelopment": {},
   "appstreamUrlTypeHomepage": "Strona główna",
   "@appstreamUrlTypeHomepage": {},
-  "managePageUpdatedDaysAgo": "Zaktualizowano {n, plural, =1{{n} dzień} other{{n} dni}} temu",
+  "managePageUpdatedDaysAgo": "Zaktualizowano {n, plural, =1{{n} dzień} few{{n} dni} many{{n} dni} other{{n} dni}} temu",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -362,5 +362,29 @@
   "externalResources": "Dodatkowe zasoby",
   "@externalResources": {},
   "allGamesButtonLabel": "Wszystkie gry",
-  "@allGamesButtonLabel": {}
+  "@allGamesButtonLabel": {},
+  "managePageUpdatedYearsAgo": "Zaktualizowano {n, plural, =1{{n} rok} few{{n} lata} many{{n} lat} other{{n} lat}} temu",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedWeeksAgo": "Zaktualizowano {n, plural, =1{{n} tydzień} few{{n} tygodnie} many{{n} tygodni} other{{n} tygodni}} temu",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "Zaktualizowano {n, plural, =1{{n} miesiąc} few{{n} miesiące} many{{n} miesięcy} other{{n} miesięcy}} temu",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

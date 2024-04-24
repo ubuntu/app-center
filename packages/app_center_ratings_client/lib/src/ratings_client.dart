@@ -14,12 +14,14 @@ import 'package:grpc/grpc.dart';
 import 'package:meta/meta.dart';
 
 class RatingsClient {
-  RatingsClient(String serverUrl, int port) {
+  RatingsClient(String serverUrl, int port, bool useTls) {
     final channel = ClientChannel(
       serverUrl,
       port: port,
-      options: const ChannelOptions(
-        credentials: ChannelCredentials.insecure(),
+      options: ChannelOptions(
+        credentials: useTls
+            ? const ChannelCredentials.secure()
+            : const ChannelCredentials.insecure(),
       ),
     );
     _appClient = app_pb.AppClient(channel);

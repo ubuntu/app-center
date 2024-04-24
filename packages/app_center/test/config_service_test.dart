@@ -2,21 +2,25 @@ import 'package:app_center/config.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('env vars not set', () {
+  test('default values', () {
     final configService = ConfigService();
-    configService.testEnvironment = {};
     configService.load();
-    expect(configService.ratingServiceUrl, 'localhost');
-    expect(configService.ratingsServicePort, 8080);
+    expect(configService.ratingServiceUrl, equals('localhost'));
+    expect(configService.ratingsServicePort, equals(8080));
+    expect(configService.ratingsServiceUseTls, isFalse);
   });
 
-  test('env vars set', () {
-    final configService = ConfigService();
-    configService.testEnvironment = {
-      'RATINGS_SERVICE_URL': 'test.url',
-    };
+  test('custom values', () {
+    final configService = ConfigService(
+      env: {
+        'RATINGS_SERVICE_URL': 'test.url',
+        'RATINGS_SERVICE_PORT': '443',
+        'RATINGS_SERVICE_USE_TLS': 'true',
+      },
+    );
     configService.load();
-    expect(configService.ratingServiceUrl, 'test.url');
-    expect(configService.ratingsServicePort, 443);
+    expect(configService.ratingServiceUrl, equals('test.url'));
+    expect(configService.ratingsServicePort, equals(443));
+    expect(configService.ratingsServiceUseTls, isTrue);
   });
 }

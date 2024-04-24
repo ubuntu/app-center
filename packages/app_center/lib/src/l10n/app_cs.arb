@@ -157,7 +157,7 @@
   "@appstreamUrlTypeHomepage": {},
   "managePageCheckingForUpdates": "Kontrolují se aktualizace",
   "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Aktualizováno před {n} dny",
+  "managePageUpdatedDaysAgo": "Aktualizováno před {n, plural, =1{{n} dnem} other{{n} dny}}",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -362,5 +362,29 @@
   "externalResourcesButtonLabel": "Objevit více",
   "@externalResourcesButtonLabel": {},
   "allGamesButtonLabel": "Všechny hry",
-  "@allGamesButtonLabel": {}
+  "@allGamesButtonLabel": {},
+  "managePageUpdatedWeeksAgo": "Aktualizováno před {n, plural, =1{{n} týdnem} other{{n} týdny}}",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "Aktualizováno před {n, plural, =1{{n} měsícem} other{{n} měsíci}}",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Aktualizováno před {n, plural, =1{{n} rokem} other{{n} lety}}",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

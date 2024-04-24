@@ -55,6 +55,8 @@ apps:
     command: bin/snap-store
     environment:
       RATINGS_SERVICE_URL: 'ratings.ubuntu.com'
+      RATINGS_SERVICE_PORT: '443'
+      RATINGS_SERVICE_USE_TLS: 'true'
     desktop: bin/data/flutter_assets/assets/app-center.desktop
     extensions: [gnome]
     plugs:
