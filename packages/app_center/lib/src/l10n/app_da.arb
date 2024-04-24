@@ -362,5 +362,29 @@
         "type": "int"
       }
     }
+  },
+  "managePageUpdatedWeeksAgo": "Opdateret for {n, plural, =1{{n} uge} other{{n} uger}} siden",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "Opdateret for {n, plural, =1{{n} måned} other{{n} måneder}} siden",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Opdateret for {n, plural, =1{{n} år} other{{n} år}} siden",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
   }
 }

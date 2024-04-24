@@ -362,5 +362,29 @@
   "snapReportDetailsLabel": "请在举报中提供更多详细理由",
   "@snapReportDetailsLabel": {},
   "debPageErrorNoPackageInfo": "未找到软件包信息",
-  "@debPageErrorNoPackageInfo": {}
+  "@debPageErrorNoPackageInfo": {},
+  "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} 周} other{{n} 周}}前更新",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "{n, plural, =1{{n} 年} other{{n} 年}}前更新",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} 个月} other{{n} 个月}}前更新",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
