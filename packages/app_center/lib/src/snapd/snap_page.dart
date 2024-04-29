@@ -5,6 +5,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/snapd/snap_data.dart';
 import 'package:app_center/src/snapd/snap_model.dart';
 import 'package:app_center/src/snapd/snap_report.dart';
 import 'package:app_center/src/store/store_app.dart';
