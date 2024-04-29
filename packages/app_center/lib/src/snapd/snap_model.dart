@@ -1,19 +1,36 @@
 import 'dart:async';
 
 import 'package:app_center/snapd.dart';
-import 'package:app_center/src/snapd/logger.dart';
+import 'package:app_center/src/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-final snapModelProvider =
-    ChangeNotifierProvider.family.autoDispose<SnapModel, String>(
-  (ref, snapName) => SnapModel(
-    snapd: getService<SnapdService>(),
-    snapName: snapName,
-  )..init(),
+final snapModelProvider = FutureProvider.family<SnapData, String>(
+  (ref, snapName) async {
+    final localSnap = await getService<SnapdService>().getSnap(snapName);
+    final storeSnap = ref.watch(snapProvider(snapName)).value;
+    final activeSnapChangeId =
+        ref.watch(activeChangeProvider(snapName)).value?.id;
+    final selectedChannel = ref.read(selectedChannelProvider(snapName));
+    return SnapData(
+      name: snapName,
+      localSnap: localSnap,
+      storeSnap: storeSnap,
+      activeChangeId: activeSnapChangeId,
+      selectedChannel: selectedChannel,
+    );
+  },
+);
+
+final snapErrorProvider = StateProvider.family<SnapdException?, String>(
+  (ref, snapName) => null,
+);
+
+final selectedChannelProvider = StateProvider.family<String?, String>(
+  (ref, snapName) => null,
 );
 
 final progressProvider =
@@ -38,185 +55,136 @@ final progressProvider =
   return streamController.stream;
 });
 
-final changeProvider =
-    StreamProvider.family.autoDispose<SnapdChange, String?>((ref, id) {
+final activeChangeProvider =
+    StreamProvider.family<SnapdChange, String?>((ref, id) {
   if (id == null) return const Stream.empty();
-  return getService<SnapdService>().watchChange(id);
+  final controller = StreamController<SnapdChange>.broadcast();
+  controller.addStream(getService<SnapdService>().watchChange(id));
+  controller.stream.listen((event) {
+    if (event.ready) {
+      controller.close();
+    }
+  });
+  ref.onDispose(controller.close);
+  return controller.stream;
 });
 
-class SnapModel extends ChangeNotifier {
-  SnapModel({
-    required this.snapd,
-    required this.snapName,
-  }) : _state = const AsyncValue.loading();
-  final SnapdService snapd;
-  final String snapName;
+final activeChangeIdProvider = StateProvider.family<String?, String>(
+  (ref, name) => null,
+);
 
-  String? get activeChangeId => _activeChangeId;
-  String? _activeChangeId;
+final snapInstallProvider =
+    FutureProvider.family<void, String>((ref, snapName) async {
+  final model = ref.read(snapModelProvider(snapName)).value;
+  final storeSnap = model?.storeSnap;
+  final selectedChannel = model?.selectedChannel;
+  final snapd = getService<SnapdService>();
 
-  AsyncValue<void> get state => _state;
-  AsyncValue<void> _state;
+  assert(
+    storeSnap?.channels[selectedChannel] != null,
+    'install() should not be called before the store snap is available',
+  );
+  final changeId = await snapd.install(
+    snapName,
+    channel: selectedChannel,
+    classic: storeSnap!.channels[selectedChannel]!.confinement ==
+        SnapConfinement.classic,
+  );
+  ref.read(activeChangeIdProvider(snapName).notifier).state = changeId;
+});
 
-  Snap? localSnap;
-  Snap? storeSnap;
+final snapAbortProvider = FutureProvider.family<void, String>(
+  (ref, snapName) async {
+    final changeIdToAbort = ref.read(activeChangeIdProvider(snapName));
+    if (changeIdToAbort == null) {
+      return;
+    }
+    final snapd = getService<SnapdService>();
+    final changeId = (await snapd.abortChange(changeIdToAbort)).id;
+    ref.read(activeChangeIdProvider(snapName).notifier).state = changeId;
+  },
+);
+
+final snapRefreshProvider =
+    FutureProvider.family<void, SnapData>((ref, snapData) async {
+  final storeSnap = snapData.storeSnap;
+  final selectedChannel = snapData.selectedChannel;
+  final snapd = getService<SnapdService>();
+
+  assert(
+    storeSnap?.channels[selectedChannel] != null,
+    'refresh() should not be called before the store snap is available',
+  );
+  final changeId = await snapd.refresh(
+    snapData.name,
+    channel: selectedChannel,
+    classic: storeSnap!.channels[selectedChannel]!.confinement ==
+        SnapConfinement.classic,
+  );
+  ref.read(activeChangeIdProvider(snapData.name).notifier).state = changeId;
+});
+
+final snapRemoveProvider =
+    FutureProvider.family<void, String>((ref, snapName) async {
+  final changeId = await getService<SnapdService>().remove(snapName);
+  ref.read(activeChangeIdProvider(snapName).notifier).state = changeId;
+});
+
+@immutable
+class SnapData {
+  SnapData({
+    required this.name,
+    required this.localSnap,
+    required this.storeSnap,
+    this.activeChangeId,
+    String? selectedChannel,
+  }) : selectedChannel =
+            selectedChannel ?? _defaultSelectedChannel(localSnap, storeSnap);
+
+  final String name;
+  final Snap? localSnap;
+  final Snap? storeSnap;
+  final String? selectedChannel;
+  final String? activeChangeId;
 
   Snap get snap => storeSnap ?? localSnap!;
-  SnapChannel? get channelInfo =>
-      selectedChannel != null ? storeSnap?.channels[selectedChannel] : null;
+  SnapChannel? get channelInfo => storeSnap?.channels[selectedChannel];
   bool get isInstalled => localSnap != null;
   bool get hasGallery =>
       storeSnap != null && storeSnap!.screenshotUrls.isNotEmpty;
-
-  String? get selectedChannel => _selectedChannel;
-  String? _selectedChannel;
-  set selectedChannel(String? channel) {
-    if (channel == _selectedChannel) return;
-    _selectedChannel = channel;
-    notifyListeners();
-  }
-
   Map<String, SnapChannel>? get availableChannels => storeSnap?.channels;
 
-  StreamSubscription<Snap?>? _storeSnapSubscription;
-  StreamSubscription<SnapdChange>? _activeChangeSubscription;
-
-  Stream<SnapdException> get errorStream => _errorStreamController.stream;
-  final StreamController<SnapdException> _errorStreamController =
-      StreamController.broadcast();
-
-  Future<void> init() async {
-    final storeSnapCompleter = Completer();
-    _storeSnapSubscription = snapd.getStoreSnap(snapName).listen((snap) {
-      _setStoreSnap(snap);
-      if (!storeSnapCompleter.isCompleted) storeSnapCompleter.complete();
-      _setDefaultSelectedChannel();
-      notifyListeners();
-    });
-
-    _state = await AsyncValue.guard(() async {
-      await _getLocalSnap();
-      if (storeSnap == null && localSnap == null) {
-        await storeSnapCompleter.future;
-      }
-      _setDefaultSelectedChannel();
-      await _getActiveChange();
-      notifyListeners();
-    });
+  VoidCallback? callback(
+    WidgetRef ref,
+    SnapAction action, [
+    SnapLauncher? launcher,
+  ]) {
+    return switch (action) {
+      SnapAction.cancel => () => ref.read(snapAbortProvider(name)),
+      SnapAction.install =>
+        storeSnap != null ? () => ref.read(snapInstallProvider(name)) : null,
+      SnapAction.open =>
+        launcher?.isLaunchable ?? false ? launcher!.open : null,
+      SnapAction.remove => () => ref.read(snapRemoveProvider(name)),
+      SnapAction.switchChannel =>
+        storeSnap != null ? () => ref.read(snapRefreshProvider(this)) : null,
+      SnapAction.update =>
+        storeSnap != null ? () => ref.read(snapRefreshProvider(this)) : null,
+    };
   }
 
-  @override
-  Future<void> dispose() async {
-    await _storeSnapSubscription?.cancel();
-    _storeSnapSubscription = null;
-    await _errorStreamController.close();
-    _setActiveChange(null);
-    super.dispose();
-  }
-
-  void _setStoreSnap(Snap? newStoreSnap) {
-    if (newStoreSnap == storeSnap) return;
-    storeSnap = newStoreSnap;
-  }
-
-  Future<void> _getLocalSnap() async {
-    try {
-      localSnap = await snapd.getSnap(snapName);
-    } on SnapdException catch (e) {
-      if (e.kind != 'snap-not-found') rethrow;
-      localSnap = null;
-    }
-  }
-
-  void _handleError(SnapdException e) {
-    _errorStreamController.add(e);
-    log.error('Caught exception for snap "${snap.name}"', e);
-  }
-
-  void _setDefaultSelectedChannel() {
+  static String? _defaultSelectedChannel(Snap? localSnap, Snap? storeSnap) {
     final channels = storeSnap?.channels.keys;
     final localChannel = localSnap?.trackingChannel;
     if (localChannel != null && (channels?.contains(localChannel) ?? false)) {
-      _selectedChannel = localChannel;
+      return localChannel;
     } else if (channels?.contains('latest/stable') ?? false) {
-      _selectedChannel = 'latest/stable';
+      return 'latest/stable';
     } else {
-      _selectedChannel =
-          channels?.firstWhereOrNull((c) => c.contains('stable')) ??
-              channels?.firstOrNull;
+      return channels?.firstWhereOrNull((c) => c.contains('stable')) ??
+          channels?.firstOrNull;
     }
   }
-
-  Future<void> _activeChangeListener(SnapdChange change) async {
-    if (change.ready) {
-      log.debug('Change $_activeChangeId for $snapName done');
-      _setActiveChange(null);
-      await _getLocalSnap();
-      notifyListeners();
-    }
-  }
-
-  void _setActiveChange(String? id) {
-    _activeChangeId = id;
-    if (id == null) {
-      _activeChangeSubscription?.cancel();
-      _activeChangeSubscription = null;
-    } else {
-      _activeChangeSubscription =
-          snapd.watchChange(id).listen(_activeChangeListener);
-    }
-  }
-
-  Future<void> _getActiveChange() async {
-    final changes = await snapd.getChanges(name: snapName);
-    if (changes.isEmpty) return;
-    if (changes.length > 1) {
-      log.info(
-          'Got ${changes.length} active changes for $snapName when expecting only one');
-      return;
-    }
-    log.debug('Found active change ${changes.single.id} for $snapName');
-    _setActiveChange(changes.single.id);
-  }
-
-  Future<void> _snapAction(Future<String> Function() action) async {
-    try {
-      final changeId = await action.call();
-      _setActiveChange(changeId);
-      notifyListeners();
-    } on SnapdException catch (e) {
-      _handleError(e);
-    }
-  }
-
-  Future<void> cancel() async {
-    if (activeChangeId == null) return;
-    await snapd.abortChange(activeChangeId!);
-  }
-
-  Future<void> install() {
-    assert(storeSnap?.channels[selectedChannel] != null,
-        'install() should not be called before the store snap is available');
-    return _snapAction(() => snapd.install(
-          snapName,
-          channel: selectedChannel,
-          classic: storeSnap!.channels[selectedChannel]!.confinement ==
-              SnapConfinement.classic,
-        ));
-  }
-
-  Future<void> refresh() {
-    assert(storeSnap?.channels[selectedChannel] != null,
-        'remove() should not be called before the store snap is available');
-    return _snapAction(() => snapd.refresh(
-          snapName,
-          channel: selectedChannel,
-          classic: storeSnap!.channels[selectedChannel]!.confinement ==
-              SnapConfinement.classic,
-        ));
-  }
-
-  Future<void> remove() => _snapAction(() => snapd.remove(snapName));
 }
 
 extension SnapdChangeX on SnapdChange {

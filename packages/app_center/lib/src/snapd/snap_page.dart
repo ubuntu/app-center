@@ -5,6 +5,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/snapd/snap_model.dart';
 import 'package:app_center/src/snapd/snap_report.dart';
 import 'package:app_center/src/store/store_app.dart';
 import 'package:app_center/widgets.dart';
@@ -25,49 +26,33 @@ const _kChannelDropdownWidth = 220.0;
 
 typedef SnapInfo = ({String label, Widget value});
 
-class SnapPage extends ConsumerStatefulWidget {
+class SnapPage extends ConsumerWidget {
   const SnapPage({required this.snapName, super.key});
 
   final String snapName;
 
-  @override
-  ConsumerState<SnapPage> createState() => _SnapPageState();
-}
-
-class _SnapPageState extends ConsumerState<SnapPage> {
-  StreamSubscription<SnapdException>? _errorSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _errorSubscription = ref
-        .read(snapModelProvider(widget.snapName))
-        .errorStream
-        .listen(showError);
+  Future<void> showError(BuildContext context, SnapdException e) {
+    return showErrorDialog(
+      context: context,
+      title: e.kind ?? 'Unknown Snapd Exception',
+      message: e.message,
+    );
   }
 
   @override
-  void dispose() {
-    _errorSubscription?.cancel();
-    _errorSubscription = null;
-    super.dispose();
-  }
-
-  Future<void> showError(SnapdException e) => showErrorDialog(
-        context: context,
-        title: e.kind ?? 'Unknown Snapd Exception',
-        message: e.message,
-      );
-
-  @override
-  Widget build(BuildContext context) {
-    final snapModel = ref.watch(snapModelProvider(widget.snapName));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final snapModel = ref.watch(snapModelProvider(snapName));
     final updatesModel = ref.watch(updatesModelProvider);
-    return snapModel.state.when(
-      data: (_) => ResponsiveLayoutBuilder(
+    ref.listen(snapErrorProvider(snapName), (_, error) {
+      if (error != null) {
+        showError(context, error);
+      }
+    });
+
+    return snapModel.when(
+      data: (snapData) => ResponsiveLayoutBuilder(
         builder: (_) => _SnapView(
-          snapModel: snapModel,
+          snapModel: snapData,
           updatesModel: updatesModel,
         ),
       ),
@@ -80,7 +65,7 @@ class _SnapPageState extends ConsumerState<SnapPage> {
 class _SnapView extends ConsumerWidget {
   const _SnapView({required this.snapModel, required this.updatesModel});
 
-  final SnapModel snapModel;
+  final SnapData snapModel;
   final UpdatesModel updatesModel;
 
   @override
@@ -303,7 +288,7 @@ class _SnapInfoBar extends ConsumerWidget {
 class _SnapActionButtons extends ConsumerWidget {
   const _SnapActionButtons({required this.snapModel});
 
-  final SnapModel snapModel;
+  final SnapData snapModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -324,12 +309,12 @@ class _SnapActionButtons extends ConsumerWidget {
       child: PushButton.elevated(
         onPressed: snapModel.activeChangeId != null
             ? null
-            : primaryAction.callback(snapModel, snapLauncher),
+            : snapModel.callback(ref, primaryAction, snapLauncher),
         child: snapModel.activeChangeId != null
             ? Consumer(
                 builder: (context, ref, child) {
                   final change = ref
-                      .watch(changeProvider(snapModel.activeChangeId))
+                      .watch(activeChangeProvider(snapModel.activeChangeId))
                       .whenOrNull(data: (data) => data);
                   return Row(
                     children: [
@@ -359,7 +344,7 @@ class _SnapActionButtons extends ConsumerWidget {
     );
 
     final secondaryActions = [
-      if (updatesModel.hasUpdate(snapModel.snapName)) SnapAction.update,
+      if (updatesModel.hasUpdate(snapModel.name)) SnapAction.update,
       SnapAction.remove,
     ];
     final secondaryActionsButton = MenuAnchor(
@@ -383,7 +368,8 @@ class _SnapActionButtons extends ConsumerWidget {
               ),
             ),
           ),
-          onPressed: () => action.callback(snapModel)?.call(),
+          onPressed: () =>
+              snapModel.callback(ref, action, snapLauncher)?.call(),
         );
       }).toList(),
       builder: (context, controller, child) => YaruOptionButton(
@@ -399,7 +385,7 @@ class _SnapActionButtons extends ConsumerWidget {
     );
 
     final cancelButton = OutlinedButton(
-      onPressed: SnapAction.cancel.callback(snapModel),
+      onPressed: snapModel.callback(ref, SnapAction.cancel),
       child: Text(SnapAction.cancel.label(l10n)),
     );
 
@@ -535,16 +521,6 @@ enum SnapAction {
         remove => YaruIcons.trash,
         _ => null,
       };
-
-  VoidCallback? callback(SnapModel model, [SnapLauncher? launcher]) =>
-      switch (this) {
-        cancel => model.cancel,
-        install => model.storeSnap != null ? model.install : null,
-        open => launcher?.isLaunchable ?? false ? launcher!.open : null,
-        remove => model.remove,
-        switchChannel => model.storeSnap != null ? model.refresh : null,
-        update => model.storeSnap != null ? model.refresh : null,
-      };
 }
 
 class _Section extends YaruExpandable {
@@ -559,7 +535,7 @@ class _Section extends YaruExpandable {
 class _Header extends ConsumerWidget {
   const _Header({required this.snapModel});
 
-  final SnapModel snapModel;
+  final SnapData snapModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -611,13 +587,13 @@ class _Header extends ConsumerWidget {
   }
 }
 
-class _ChannelDropdown extends StatelessWidget {
+class _ChannelDropdown extends ConsumerWidget {
   const _ChannelDropdown({required this.model});
 
-  final SnapModel model;
+  final SnapData model;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -644,7 +620,9 @@ class _ChannelDropdown extends StatelessWidget {
             )..removeLast(),
             itemBuilder: (context, value, child) => Text(value),
             selected: model.selectedChannel,
-            onSelected: (value) => model.selectedChannel = value,
+            onSelected: (value) => ref
+                .read(selectedChannelProvider(model.name).notifier)
+                .state = value,
             menuPosition: PopupMenuPosition.under,
             menuStyle: const MenuStyle(
               minimumSize:

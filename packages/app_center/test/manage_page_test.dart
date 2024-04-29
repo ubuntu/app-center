@@ -210,7 +210,7 @@ void main() {
           ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
-          changeProvider
+          activeChangeProvider
               .overrideWith((_, __) => Stream.fromIterable([mockChange])),
           snapModelProvider.overrideWith((_, __) => snapModel)
         ],
