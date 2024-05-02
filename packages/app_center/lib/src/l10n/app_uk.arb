@@ -113,7 +113,7 @@
   "@snapSortOrderDownloadSizeDesc": {},
   "snapSortOrderInstalledDateDesc": "Останні оновлення",
   "@snapSortOrderInstalledDateDesc": {},
-  "managePageUpdatedWeeksAgo": "\"Оновлено {n, plural, =1{{n} тиждень} few{{n} тижні} many{{n} тижнів} other{{n} тижнів}} тому\"",
+  "managePageUpdatedWeeksAgo": "\"Оновлено {n, plural, =1{{n} тиждень} few{{n} тижні} many{{n} тижнів} other{{n} тиждень}} тому\"",
   "@managePageUpdatedWeeksAgo": {
     "placeholders": {
       "n": {
@@ -123,7 +123,7 @@
   },
   "snapRatingsBandNeutral": "Нейтрально",
   "@snapRatingsBandNeutral": {},
-  "managePageUpdatedMonthsAgo": "\"Оновлено {n, plural, =1{{n} місяць} few{{n} місяці} many{{n} місяців} other{{n} місяців}} тому\"",
+  "managePageUpdatedMonthsAgo": "\"Оновлено {n, plural, =1{{n} місяць} few{{n} місяці} many{{n} місяців} other{{n} місяць}} тому\"",
   "@managePageUpdatedMonthsAgo": {
     "placeholders": {
       "n": {
@@ -133,7 +133,7 @@
   },
   "snapRatingsBandPoor": "Погано",
   "@snapRatingsBandPoor": {},
-  "managePageUpdatedYearsAgo": "Оновлено {n, plural, =1{{n} рік} few{{n} роки} many{{n} років} other{{n} років}} тому",
+  "managePageUpdatedYearsAgo": "Оновлено {n, plural, =1{{n} рік} few{{n} роки} many{{n} років} other{{n} рік}} тому",
   "@managePageUpdatedYearsAgo": {
     "placeholders": {
       "n": {
@@ -147,13 +147,13 @@
   "@snapReportDetailsLabel": {},
   "managePageUpdatesAvailable": "Доступні оновлення ({n})",
   "@managePageUpdatesAvailable": {},
-  "snapReportPrivacyAgreementLabel": "Відправляючи цю форму, я підтверджую, що ознайомився та погоджуюся з ",
+  "snapReportPrivacyAgreementLabel": "Відправляючи цю форму, я підтверджую ознайомлення та свою згоду з ",
   "@snapReportPrivacyAgreementLabel": {},
   "gamesPageTop": "Найкращі ігри",
   "@gamesPageTop": {},
   "gamesPageFeatured": "Обрані найменування",
   "@gamesPageFeatured": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "Політикою конфіденційності",
+  "snapReportPrivacyAgreementPrivacyPolicy": "Політикою приватності",
   "@snapReportPrivacyAgreementPrivacyPolicy": {},
   "searchPageNoResultsCategory": "На жаль, ми не знайшли жодного пакету в цій категорії",
   "@searchPageNoResultsCategory": {},
@@ -161,13 +161,13 @@
   "@searchPageNoResultsCategoryHint": {},
   "aboutPageContributeLabel": "Зробити внесок або повідомити про ваду",
   "@aboutPageContributeLabel": {},
-  "snapActionRemoveLabel": "Деінсталювати",
+  "snapActionRemoveLabel": "Видалити",
   "@snapActionRemoveLabel": {},
-  "snapActionRemovingLabel": "Деінсталяція",
+  "snapActionRemovingLabel": "Видалення",
   "@snapActionRemovingLabel": {},
   "snapCategoryGamesSlogan": "Все для вашого ігрового вечора",
   "@snapCategoryGamesSlogan": {},
-  "snapPageContactPublisherLabel": "Зв'яжіться з {publisher}",
+  "snapPageContactPublisherLabel": "Зв'язатися з {publisher}",
   "@snapPageContactPublisherLabel": {
     "placeholders": {
       "publisher": {
@@ -175,7 +175,7 @@
       }
     }
   },
-  "snapPageDeveloperWebsiteLabel": "Веб-сайт розробника",
+  "snapPageDeveloperWebsiteLabel": "Вебсайт розробника",
   "@snapPageDeveloperWebsiteLabel": {},
   "snapPageDownloadSizeLabel": "Розмір завантаження",
   "@snapPageDownloadSizeLabel": {},
@@ -199,7 +199,7 @@
   "@managePageShowDetailsLabel": {},
   "managePageUpdateAllLabel": "Оновити все",
   "@managePageUpdateAllLabel": {},
-  "managePageUpdatedDaysAgo": "Оновлено {n, plural, =1{{n} день} few{{n} дні} many{{n} днів} other{{n} днів}} тому",
+  "managePageUpdatedDaysAgo": "Оновлено {n, plural, =1{{n} день} few{{n} дні} many{{n} днів} other{{n} день}} тому",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -207,11 +207,11 @@
       }
     }
   },
-  "managePageShowSystemSnapsLabel": "Показати системні snap пакети",
+  "managePageShowSystemSnapsLabel": "Показати системні пакунки snap",
   "@managePageShowSystemSnapsLabel": {},
   "appstreamUrlTypeFaq": "ЧаПи",
   "@appstreamUrlTypeFaq": {},
-  "externalResourcesButtonLabel": "Пізнати більше",
+  "externalResourcesButtonLabel": "Знайти більше",
   "@externalResourcesButtonLabel": {},
   "allGamesButtonLabel": "Всі ігри",
   "@allGamesButtonLabel": {},
@@ -271,27 +271,27 @@
   "@aboutPageCommunityTitle": {},
   "aboutPagePublishLabel": "Опублікувати в Snap Store",
   "@aboutPagePublishLabel": {},
-  "aboutPageLearnMoreLabel": "Дізнатися більше",
+  "aboutPageLearnMoreLabel": "Докладніше",
   "@aboutPageLearnMoreLabel": {},
   "appstreamUrlTypeBugtracker": "Багтрекер",
   "@appstreamUrlTypeBugtracker": {},
-  "appstreamUrlTypeDonation": "Пожертвувати кошти",
+  "appstreamUrlTypeDonation": "Підтримати",
   "@appstreamUrlTypeDonation": {},
-  "appstreamUrlTypeHelp": "Допомога",
+  "appstreamUrlTypeHelp": "Довідка",
   "@appstreamUrlTypeHelp": {},
   "appstreamUrlTypeHomepage": "Головна сторінка",
   "@appstreamUrlTypeHomepage": {},
   "appstreamUrlTypeTranslate": "Переклади",
   "@appstreamUrlTypeTranslate": {},
-  "snapActionSwitchChannelLabel": "Переключити канал",
+  "snapActionSwitchChannelLabel": "Перемкнути канал",
   "@snapActionSwitchChannelLabel": {},
-  "snapCategoryAll": "Всі категорії",
+  "snapCategoryAll": "Усі категорії",
   "@snapCategoryAll": {},
   "snapActionUpdatingLabel": "Оновлення",
   "@snapActionUpdatingLabel": {},
-  "snapCategoryDefaultButtonLabel": "Пізнати більше",
+  "snapCategoryDefaultButtonLabel": "Знайти більше",
   "@snapCategoryDefaultButtonLabel": {},
-  "snapCategoryDevelopmentSlogan": "Обов'язкові snap пакети для розробників",
+  "snapCategoryDevelopmentSlogan": "Обов'язкові пакунки snap для розробників",
   "@snapCategoryDevelopmentSlogan": {},
   "snapCategoryDevicesAndIot": "Пристрої та IoT",
   "@snapCategoryDevicesAndIot": {},
@@ -325,9 +325,9 @@
   "@snapConfinementDevmode": {},
   "snapConfinementStrict": "Суворий",
   "@snapConfinementStrict": {},
-  "snapSortOrderAlphabeticalAsc": "За алфавітом (від А до Я)",
+  "snapSortOrderAlphabeticalAsc": "За абеткою (від А до Я)",
   "@snapSortOrderAlphabeticalAsc": {},
-  "snapSortOrderAlphabeticalDesc": "За алфавітом (від Я до А)",
+  "snapSortOrderAlphabeticalDesc": "За абеткою (від Я до А)",
   "@snapSortOrderAlphabeticalDesc": {},
   "snapSortOrderDownloadSizeAsc": "Розмір (від найменшого до найбільшого)",
   "@snapSortOrderDownloadSizeAsc": {},
@@ -371,7 +371,7 @@
   "@snapReportOptionCopyrightViolation": {},
   "snapReportOptionalEmailAddressLabel": "Ваша електронна пошта (необов'язково)",
   "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportCancelButtonLabel": "Відмінити",
+  "snapReportCancelButtonLabel": "Скасувати",
   "@snapReportCancelButtonLabel": {},
   "snapReportSubmitButtonLabel": "Надіслати скаргу",
   "@snapReportSubmitButtonLabel": {},
@@ -379,7 +379,7 @@
   "@snapReportEnterValidEmailError": {},
   "snapReportDetailsHint": "Коментар...",
   "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Повідомленням про конфіденційність компанії Canonical ",
+  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Повідомленням про приватність компанії Canonical ",
   "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
   "snapReportPrivacyAgreementAndLabel": "та ",
   "@snapReportPrivacyAgreementAndLabel": {},
