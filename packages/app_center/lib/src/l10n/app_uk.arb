@@ -37,7 +37,7 @@
   "@snapPageGalleryLabel": {},
   "searchFieldDebSection": "Debian пакети",
   "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "Відкрито",
+  "snapActionOpenLabel": "Відкрити",
   "@snapActionOpenLabel": {},
   "snapCategoryDevelopment": "Розробка",
   "@snapCategoryDevelopment": {},
@@ -121,7 +121,7 @@
       }
     }
   },
-  "snapRatingsBandNeutral": "Нейтральні",
+  "snapRatingsBandNeutral": "Нейтрально",
   "@snapRatingsBandNeutral": {},
   "managePageUpdatedMonthsAgo": "\"Оновлено {n, plural, =1{{n} місяць} few{{n} місяці} many{{n} місяців} other{{n} місяців}} тому\"",
   "@managePageUpdatedMonthsAgo": {
@@ -131,7 +131,7 @@
       }
     }
   },
-  "snapRatingsBandPoor": "Погані",
+  "snapRatingsBandPoor": "Погано",
   "@snapRatingsBandPoor": {},
   "managePageUpdatedYearsAgo": "Оновлено {n, plural, =1{{n} рік} few{{n} роки} many{{n} років} other{{n} років}} тому",
   "@managePageUpdatedYearsAgo": {
@@ -317,7 +317,7 @@
   "@snapCategoryPersonalisation": {},
   "snapCategoryProductivityButtonLabel": "Відкрийте для себе колекцію продуктивності",
   "@snapCategoryProductivityButtonLabel": {},
-  "snapCategoryUbuntuDesktopSlogan": "Запустіть свій робочий стіл",
+  "snapCategoryUbuntuDesktopSlogan": "Швидкий старт для вашої стільниці",
   "@snapCategoryUbuntuDesktopSlogan": {},
   "snapConfinementClassic": "Класичний",
   "@snapConfinementClassic": {},
@@ -339,11 +339,11 @@
   "@snapSortOrderInstalledDateAsc": {},
   "snapSortOrderRelevance": "Актуальність",
   "@snapSortOrderRelevance": {},
-  "snapRatingsBandVeryGood": "Дуже добрі",
+  "snapRatingsBandVeryGood": "Дуже добре",
   "@snapRatingsBandVeryGood": {},
-  "snapRatingsBandGood": "Добрі",
+  "snapRatingsBandGood": "Добре",
   "@snapRatingsBandGood": {},
-  "snapRatingsBandVeryPoor": "Дуже погані",
+  "snapRatingsBandVeryPoor": "Дуже погано",
   "@snapRatingsBandVeryPoor": {},
   "snapRatingsBandInsufficientVotes": "Недостатньо голосів",
   "@snapRatingsBandInsufficientVotes": {},
