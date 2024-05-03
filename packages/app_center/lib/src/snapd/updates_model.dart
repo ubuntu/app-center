@@ -53,7 +53,7 @@ class UpdatesModel extends ChangeNotifier {
   Future<void> updateAll() async {
     if (_refreshableSnaps == null) return;
     try {
-      final changeId = await snapd.refreshMany(refreshableSnapNames.toList());
+      final changeId = await snapd.refreshMany([]);
       _activeChangeId = changeId;
       notifyListeners();
       await snapd.waitChange(changeId);
