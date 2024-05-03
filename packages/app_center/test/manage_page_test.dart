@@ -2,6 +2,7 @@ import 'package:app_center/manage.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/manage/local_snap_providers.dart';
 import 'package:app_center/src/manage/manage_model.dart';
+import 'package:app_center/src/snapd/snap_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -36,8 +37,8 @@ void main() {
     ),
   ];
 
-  final snapModel = createMockSnapModel(
-    hasUpdate: true,
+  final snapData = SnapData(
+    name: refreshableSnaps[0].name,
     localSnap: refreshableSnaps[0],
     storeSnap: refreshableSnaps[0],
   );
@@ -134,7 +135,7 @@ void main() {
           ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
-          snapModelProvider.overrideWith((_, __) => snapModel)
+          snapModelProvider.overrideWith((_, __) => snapData)
         ],
         child: const ManagePage(),
       ),
@@ -153,19 +154,19 @@ void main() {
 
   testWidgets('refresh individual snap', (tester) async {
     final mockUpdatesModel = createMockUpdatesModel(
-        refreshableSnapNames: refreshableSnaps.map((snap) => snap.name));
-
-    final snapModel = createMockSnapModel(
-      hasUpdate: true,
-      localSnap: refreshableSnaps[0],
-      storeSnap: refreshableSnaps[0],
+      refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
     );
+    var snapRefreshed = false;
 
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          snapModelProvider.overrideWith((ref, arg) => snapModel),
+          snapModelProvider.overrideWith((ref, arg) => snapData),
+          snapRefreshProvider.overrideWith((ref, arg) {
+            snapRefreshed = true;
+            return Future.value();
+          }),
           manageModelProvider.overrideWith(
             (_) => createMockManageModel(
               refreshableSnaps: refreshableSnaps,
@@ -180,13 +181,18 @@ void main() {
 
     final testTile = find.snapTile('Snap with an update');
     expect(testTile, findsOneWidget);
-    expect(find.descendant(of: testTile, matching: find.text('2.0')),
-        findsOneWidget);
-    expect(find.descendant(of: testTile, matching: find.text('latest/stable')),
-        findsOneWidget);
+    expect(
+      find.descendant(of: testTile, matching: find.text('2.0')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: testTile, matching: find.text('latest/stable')),
+      findsOneWidget,
+    );
 
+    expect(snapRefreshed, isFalse);
     await tester.tap(find.text(tester.l10n.snapActionUpdateLabel));
-    verify(snapModel.refresh()).called(1);
+    expect(snapRefreshed, isTrue);
   });
 
   testWidgets('refreshing all', (tester) async {
@@ -210,9 +216,8 @@ void main() {
           ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
-          activeChangeProvider
-              .overrideWith((_, __) => Stream.fromIterable([mockChange])),
-          snapModelProvider.overrideWith((_, __) => snapModel)
+          activeChangeProvider.overrideWith((_, __) => mockChange),
+          snapModelProvider.overrideWith((_, __) => snapData)
         ],
         child: const ManagePage(),
       ),
@@ -250,7 +255,10 @@ void main() {
               refreshableSnaps: refreshableSnaps,
             ),
           ),
-          snapModelProvider.overrideWith((_, __) => snapModel),
+          activeChangeProvider.overrideWith(
+            (_, __) => SnapdChange(spawnTime: DateTime(1970)),
+          ),
+          snapModelProvider.overrideWith((_, __) => snapData),
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
         ],
         child: const ManagePage(),
@@ -285,7 +293,7 @@ void main() {
               ),
             ),
           ),
-          snapModelProvider.overrideWith((_, __) => snapModel)
+          snapModelProvider.overrideWith((_, __) => snapData)
         ],
         child: const ManagePage(),
       ),

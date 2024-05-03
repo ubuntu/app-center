@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/snapd/snapd_cache.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
@@ -48,146 +50,175 @@ final storeSnap = Snap(
 
 void main() {
   group('init', () {
+    const snapName = 'testsnap';
+
     test('local + store', () async {
-      final service = createMockSnapdService(
-        localSnap: localSnap,
-        storeSnap: storeSnap,
-      );
-      final model = SnapModel(snapd: service, snapName: 'testsnap');
-      await model.init();
+      final container = ProviderContainer();
+      createMockSnapdService(localSnap: localSnap, storeSnap: storeSnap);
+      await container.read(storeSnapProvider(snapName).future);
+      final snapData = await container.read(snapModelProvider(snapName).future);
 
-      expect(model.state.hasValue, isTrue);
-      expect(model.storeSnap, equals(storeSnap));
-      expect(model.localSnap, equals(localSnap));
-      expect(model.selectedChannel, equals('latest/edge'));
+      expect(snapData.name, equals(snapName));
+      expect(snapData.localSnap, isNotNull);
+      expect(snapData.storeSnap, isNotNull);
+      expect(snapData.localSnap?.version, equals('2.0.0'));
+      expect(snapData.storeSnap?.version, equals('1.0.0'));
+      expect(snapData.localSnap, equals(localSnap));
+      expect(snapData.storeSnap, equals(storeSnap));
+      expect(snapData.selectedChannel, equals('latest/edge'));
+
+      container.dispose();
     });
 
-    test('store-only', () async {
-      final service = createMockSnapdService(
-        storeSnap: storeSnap,
-      );
-      final model = SnapModel(snapd: service, snapName: 'testsnap');
-      await model.init();
+    test('store only', () async {
+      final container = ProviderContainer();
+      createMockSnapdService(storeSnap: storeSnap);
+      await container.read(storeSnapProvider(snapName).future);
+      final snapData = await container.read(snapModelProvider(snapName).future);
 
-      expect(model.state.hasValue, isTrue);
-      expect(model.storeSnap, equals(storeSnap));
-      expect(model.localSnap, isNull);
-      expect(model.selectedChannel, equals('latest/stable'));
+      expect(snapData.storeSnap, equals(storeSnap));
+      expect(snapData.localSnap, isNull);
+      expect(snapData.selectedChannel, equals('latest/stable'));
+      expect(snapData.name, equals(snapName));
+
+      container.dispose();
     });
 
-    test('local-only', () async {
-      final service = createMockSnapdService(
-        localSnap: localSnap,
-      );
-      final model = SnapModel(snapd: service, snapName: 'testsnap');
-      await model.init();
+    test('local only', () async {
+      final container = ProviderContainer();
+      createMockSnapdService(localSnap: localSnap);
+      final snapData = await container.read(snapModelProvider(snapName).future);
 
-      expect(model.state.hasValue, isTrue);
-      expect(model.storeSnap, isNull);
-      expect(model.localSnap, equals(localSnap));
-      expect(model.selectedChannel, isNull);
+      expect(snapData.storeSnap, isNull);
+      expect(snapData.localSnap, localSnap);
+      expect(snapData.selectedChannel, isNull);
+      expect(snapData.name, equals(snapName));
+
+      container.dispose();
     });
 
     test('get active change', () async {
+      final container = ProviderContainer(overrides: [
+        activeChangeIdProvider.overrideWith((_, __) => 'active change'),
+      ]);
       final service = createMockSnapdService(
         localSnap: localSnap,
         changes: [SnapdChange(spawnTime: DateTime(1970), id: 'active change')],
       );
-      final model = SnapModel(snapd: service, snapName: 'testsnap');
-      await model.init();
+      final snapData = await container.read(snapModelProvider(snapName).future);
+      container.read(activeChangeProvider(snapData.activeChangeId));
 
-      verify(service.getChanges(name: localSnap.name)).called(1);
-      expect(model.activeChangeId, equals('active change'));
+      expect(snapData.activeChangeId, equals('active change'));
+      verify(
+        service.watchChange(
+          snapData.activeChangeId,
+          interval: anyNamed('interval'),
+        ),
+      ).called(1);
+
+      container.dispose();
     });
   });
 
   group('install', () {
     test('default channel', () async {
-      final service = createMockSnapdService(
-        storeSnap: storeSnap,
-      );
-      final model = SnapModel(snapd: service, snapName: 'testsnap');
-      await model.init();
-
-      await model.install();
+      final container = ProviderContainer();
+      final service = createMockSnapdService(storeSnap: storeSnap);
+      await container.read(storeSnapProvider('testsnap').future);
+      await container.read(snapModelProvider('testsnap').future);
+      await container.read(snapInstallProvider('testsnap').future);
 
       verify(service.install(
         'testsnap',
         channel: 'latest/stable',
       )).called(1);
+      container.dispose();
     });
-    test('non-default channel', () async {
-      final service = createMockSnapdService(
-        storeSnap: storeSnap,
-      );
-      final model = SnapModel(snapd: service, snapName: 'testsnap');
-      await model.init();
 
-      model.selectedChannel = 'latest/edge';
-      await model.install();
+    test('non-default channel', () async {
+      final container = ProviderContainer(overrides: [
+        selectedChannelProvider.overrideWith((_, __) => 'latest/edge'),
+      ]);
+      final service = createMockSnapdService(storeSnap: storeSnap);
+      await container.read(storeSnapProvider('testsnap').future);
+      await container.read(snapModelProvider('testsnap').future);
+
+      await container.read(snapInstallProvider('testsnap').future);
 
       verify(service.install(
         'testsnap',
         channel: 'latest/edge',
         classic: true,
       )).called(1);
+      container.dispose();
     });
   });
 
   group('refresh', () {
     test('update installed snap', () async {
+      final container = ProviderContainer(overrides: [
+        selectedChannelProvider.overrideWith((_, __) => 'latest/edge'),
+      ]);
       final service = createMockSnapdService(
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
-      final model = SnapModel(snapd: service, snapName: 'testsnap');
-      await model.init();
+      await container.read(storeSnapProvider('testsnap').future);
+      final snapData =
+          await container.read(snapModelProvider('testsnap').future);
 
-      await model.refresh();
+      await container.read(snapRefreshProvider(snapData).future);
 
       verify(service.refresh(
         'testsnap',
         channel: 'latest/edge',
         classic: true,
       )).called(1);
+      container.dispose();
     });
+
     test('switch channel', () async {
+      final container = ProviderContainer(overrides: [
+        selectedChannelProvider.overrideWith((_, __) => 'latest/edge'),
+      ]);
       final service = createMockSnapdService(
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
-      final model = SnapModel(snapd: service, snapName: 'testsnap');
-      await model.init();
+      container.read(selectedChannelProvider('testsnap').notifier).state =
+          'latest/stable';
+      await container.read(storeSnapProvider('testsnap').future);
+      final snapData =
+          await container.read(snapModelProvider('testsnap').future);
 
-      model.selectedChannel = 'latest/stable';
-      await model.refresh();
+      await container.read(snapRefreshProvider(snapData).future);
 
       verify(service.refresh(
         'testsnap',
         channel: 'latest/stable',
       )).called(1);
+      container.dispose();
     });
   });
 
   test('remove', () async {
+    final container = ProviderContainer();
     final service = createMockSnapdService(
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
-    final model = SnapModel(snapd: service, snapName: 'testsnap');
-    await model.init();
-
-    await model.remove();
+    await container.read(snapRemoveProvider('testsnap').future);
 
     verify(service.remove('testsnap')).called(1);
+    container.dispose();
   });
 
   test('cancel active change', () async {
+    final container = ProviderContainer();
     final service = createMockSnapdService(
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
-    var notifyCompleter = Completer();
 
     when(service.install(
       any,
@@ -204,28 +235,23 @@ void main() {
       ),
     );
 
-    final model = SnapModel(snapd: service, snapName: 'testsnap');
-    await model.init();
+    container.read(selectedChannelProvider('testsnap').notifier).state =
+        'latest/stable';
+    await container.read(storeSnapProvider('testsnap').future);
+    final snapData = await container.read(snapModelProvider('testsnap').future);
 
-    expect(model.activeChangeId, isNull);
-    model.addListener(() {
-      if (!notifyCompleter.isCompleted) notifyCompleter.complete();
-    });
-    unawaited(model.install());
-    await notifyCompleter.future;
-    expect(model.activeChangeId, equals('changeId'));
+    expect(snapData.activeChangeId, isNull);
+    await container.read(snapInstallProvider('testsnap').future);
+    final snapDataWithChangeId =
+        await container.read(snapModelProvider('testsnap').future);
+    expect(snapDataWithChangeId.activeChangeId, equals('changeId'));
 
-    notifyCompleter = Completer();
-    model.addListener(expectAsync0(() {
-      expect(model.activeChangeId, isNull);
-      if (!notifyCompleter.isCompleted) notifyCompleter.complete();
-    }));
-    await model.cancel();
+    await container.read(snapAbortProvider('testsnap').future);
     verify(service.abortChange('changeId')).called(1);
-    await notifyCompleter.future;
   });
 
-  test('error stream', () async {
+  test('error state', () async {
+    final container = ProviderContainer();
     final service = createMockSnapdService(
       localSnap: localSnap,
       storeSnap: storeSnap,
@@ -236,19 +262,14 @@ void main() {
       classic: anyNamed('classic'),
     )).thenThrow(SnapdException(message: 'error message', kind: 'error kind'));
 
-    final model = SnapModel(snapd: service, snapName: 'testsnap');
-    await model.init();
-
-    model.errorStream.listen(
-      expectAsync1<void, SnapdException>(
-        (e) {
-          expect(e.kind, equals('error kind'));
-          expect(e.message, equals('error message'));
-        },
-      ),
+    await container.read(storeSnapProvider('testSnap').future);
+    await container.read(snapModelProvider('testSnap').future);
+    await expectLater(
+      container.read(snapInstallProvider('testSnap').future),
+      throwsA(isA<SnapdException>()),
     );
-    await model.install();
   });
+
   group('change progress', () {
     final testCases = [
       (

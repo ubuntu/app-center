@@ -6,7 +6,6 @@ import 'package:app_center/layout.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/snapd/snap_data.dart';
-import 'package:app_center/src/snapd/snap_model.dart';
 import 'package:app_center/src/snapd/snap_report.dart';
 import 'package:app_center/src/store/store_app.dart';
 import 'package:app_center/widgets.dart';
@@ -44,9 +43,9 @@ class SnapPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final snapModel = ref.watch(snapModelProvider(snapName));
     final updatesModel = ref.watch(updatesModelProvider);
-    ref.listen(snapErrorProvider(snapName), (_, error) {
-      if (error != null) {
-        showError(context, error);
+    ref.listen(snapModelProvider(snapName), (_, value) {
+      if (value.hasError && value.error is SnapdException) {
+        showError(context, value.error as SnapdException);
       }
     });
 
@@ -314,9 +313,8 @@ class _SnapActionButtons extends ConsumerWidget {
         child: snapModel.activeChangeId != null
             ? Consumer(
                 builder: (context, ref, child) {
-                  final change = ref
-                      .watch(activeChangeProvider(snapModel.activeChangeId))
-                      .whenOrNull(data: (data) => data);
+                  final change =
+                      ref.watch(activeChangeProvider(snapModel.activeChangeId));
                   return Row(
                     children: [
                       SizedBox.square(

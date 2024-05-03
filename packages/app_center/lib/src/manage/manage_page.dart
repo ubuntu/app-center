@@ -269,10 +269,9 @@ class _ActionButtons extends ConsumerWidget {
           child: updatesModel.activeChangeId != null
               ? Consumer(
                   builder: (context, ref, child) {
-                    final change = ref
-                        .watch(
-                            activeChangeProvider(updatesModel.activeChangeId))
-                        .whenOrNull(data: (data) => data);
+                    final change = ref.watch(
+                      activeChangeProvider(updatesModel.activeChangeId),
+                    );
                     return Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -488,9 +487,10 @@ class _ButtonBarForUpdate extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final snapModel = ref.watch(snapModelProvider(snap.name));
     final updatesModel = ref.watch(updatesModelProvider);
-    final change = ref
-        .watch(activeChangeProvider(snapModel.value?.activeChangeId))
-        .whenOrNull(data: (data) => data);
+    final activeChangeId = snapModel.value?.activeChangeId;
+    final change = activeChangeId != null
+        ? ref.watch(activeChangeProvider(activeChangeId))
+        : null;
 
     return ButtonBar(
       mainAxisSize: MainAxisSize.min,
@@ -498,9 +498,9 @@ class _ButtonBarForUpdate extends ConsumerWidget {
         PushButton.outlined(
           style: const ButtonStyle(
               padding: MaterialStatePropertyAll(EdgeInsets.zero)),
-          onPressed: updatesModel.activeChangeId != null
+          onPressed: updatesModel.activeChangeId != null || !snapModel.hasValue
               ? null
-              : () => ref.refresh(snapModelProvider(snap.name)),
+              : () => ref.read(snapRefreshProvider(snapModel.value!)),
           child: snapModel.value?.activeChangeId != null
               ? Row(
                   children: [
@@ -513,12 +513,10 @@ class _ButtonBarForUpdate extends ConsumerWidget {
                     ),
                     if (change != null) ...[
                       const SizedBox(width: 8),
-                      Flexible(
-                        child: Text(
-                          change.localize(l10n) ?? '',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      Text(
+                        change.localize(l10n) ?? '',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ]
                   ],
@@ -528,12 +526,10 @@ class _ButtonBarForUpdate extends ConsumerWidget {
                   children: [
                     const Icon(YaruIcons.download),
                     const SizedBox(width: 8),
-                    Flexible(
-                      child: Text(
-                        l10n.snapActionUpdateLabel,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    Text(
+                      l10n.snapActionUpdateLabel,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),

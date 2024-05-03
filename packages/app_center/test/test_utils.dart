@@ -12,6 +12,7 @@ import 'package:app_center/src/snapd/multisnap_model.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
+import 'package:file/memory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.mocks.dart';
 
@@ -98,38 +100,6 @@ RatingsModel createMockRatingsModel({
   return model;
 }
 
-@GenerateMocks([SnapModel])
-SnapModel createMockSnapModel({
-  bool? hasUpdate,
-  Snap? localSnap,
-  Snap? storeSnap,
-  String? selectedChannel,
-  String? snapName,
-  AsyncValue<void>? state,
-  Stream<SnapdException>? errorStream,
-}) {
-  final model = MockSnapModel();
-  when(model.localSnap).thenReturn(localSnap);
-  when(model.storeSnap).thenReturn(storeSnap);
-  when(model.state).thenReturn(state ?? AsyncValue.data(() {}()));
-  when(model.availableChannels).thenReturn(storeSnap?.channels);
-  when(model.selectedChannel).thenReturn(
-      selectedChannel ?? localSnap?.trackingChannel ?? 'latest/stable');
-  when(model.activeChangeId).thenReturn(null);
-  when(model.snap).thenReturn(storeSnap ?? localSnap!);
-  when(model.channelInfo).thenReturn(model.selectedChannel != null
-      ? storeSnap?.channels[model.selectedChannel]
-      : null);
-  when(model.isInstalled).thenReturn(model.localSnap != null);
-  when(model.hasGallery).thenReturn(
-      model.storeSnap != null && model.storeSnap!.screenshotUrls.isNotEmpty);
-  when(model.snapName)
-      .thenReturn(snapName ?? localSnap?.name ?? storeSnap?.name ?? '');
-  when(model.errorStream)
-      .thenAnswer((_) => errorStream ?? const Stream.empty());
-  return model;
-}
-
 @GenerateMocks([DebModel])
 DebModel createMockDebModel({
   String? id,
@@ -185,7 +155,9 @@ MockSnapdService createMockSnapdService({
   int? storeSnapsCount,
 }) {
   final service = MockSnapdService();
-  when(service.getStoreSnap(any)).thenAnswer((_) => Stream.value(storeSnap));
+  when(service.defaultFileSystem).thenReturn(MemoryFileSystem());
+  when(service.getStoreSnaps(any))
+      .thenAnswer((_) => Stream.value([if (storeSnap != null) storeSnap]));
   if (localSnap != null) {
     when(service.getSnap(any)).thenAnswer((_) async => localSnap);
   } else {
@@ -208,10 +180,13 @@ MockSnapdService createMockSnapdService({
   when(service.remove(any)).thenAnswer((_) async => 'id');
   when(service.find(filter: SnapFindFilter.refresh))
       .thenAnswer((_) async => refreshableSnaps ?? []);
+  when(service.find(name: anyNamed('name')))
+      .thenAnswer((_) async => [if (storeSnap != null) storeSnap]);
   when(service.getSnaps()).thenAnswer((_) async => installedSnaps ?? []);
   when(service.getChanges(name: anyNamed('name')))
       .thenAnswer((_) async => changes ?? []);
-  when(service.watchChange(any)).thenAnswer((_) => const Stream.empty());
+  when(service.watchChange(any))
+      .thenAnswer((_) => Stream.fromIterable(changes ?? []));
   when(service.abortChange(any))
       .thenAnswer((_) async => SnapdChange(spawnTime: DateTime.now()));
   when(service.installMany(
@@ -220,6 +195,7 @@ MockSnapdService createMockSnapdService({
   when(service.getStoreSnaps(any)).thenAnswer((_) => Stream.value(
       List<Snap>.generate(storeSnapsCount!, (index) => storeSnap!,
           growable: false)));
+  registerMockService<SnapdService>(service);
   return service;
 }
 

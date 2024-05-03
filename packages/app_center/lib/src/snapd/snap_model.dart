@@ -11,10 +11,18 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 final snapModelProvider = FutureProvider.family<SnapData, String>(
   (ref, snapName) async {
-    final localSnap = await getService<SnapdService>().getSnap(snapName);
-    final storeSnap = ref.watch(snapProvider(snapName)).value;
-    final activeSnapChangeId =
-        ref.watch(activeChangeProvider(snapName)).value?.id;
+    Snap? localSnap;
+    try {
+      localSnap = await getService<SnapdService>().getSnap(snapName);
+    } on SnapdException catch (e) {
+      if (e.kind != 'snap-not-found') rethrow;
+    }
+
+    final storeSnap = ref.watch(storeSnapProvider(snapName)).value;
+    if (localSnap == null) {
+      await ref.read(storeSnapProvider(snapName).future);
+    }
+    final activeSnapChangeId = ref.watch(activeChangeIdProvider(snapName));
     final selectedChannel = ref.read(selectedChannelProvider(snapName));
     return SnapData(
       name: snapName,
@@ -24,10 +32,6 @@ final snapModelProvider = FutureProvider.family<SnapData, String>(
       selectedChannel: selectedChannel,
     );
   },
-);
-
-final snapErrorProvider = StateProvider.family<SnapdException?, String>(
-  (ref, snapName) => null,
 );
 
 final selectedChannelProvider = StateProvider.family<String?, String>(
@@ -62,17 +66,17 @@ final activeChangeIdProvider = StateProvider.family<String?, String>(
 );
 
 final activeChangeProvider =
-    StreamProvider.family<SnapdChange, String?>((ref, id) {
-  if (id == null) return const Stream.empty();
-  final controller = StreamController<SnapdChange>.broadcast();
-  controller.addStream(getService<SnapdService>().watchChange(id));
-  controller.stream.listen((event) {
+    StateProvider.family<SnapdChange?, String?>((ref, id) {
+  if (id == null) return null;
+  late final StreamSubscription<SnapdChange> subscription;
+  subscription = getService<SnapdService>().watchChange(id).listen((event) {
+    ref.controller.state = event;
     if (event.ready) {
-      controller.close();
+      subscription.cancel();
     }
   });
-  ref.onDispose(controller.close);
-  return controller.stream;
+  ref.onDispose(subscription.cancel);
+  return null;
 });
 
 final snapInstallProvider =
@@ -86,13 +90,13 @@ final snapInstallProvider =
     storeSnap?.channels[selectedChannel] != null,
     'install() should not be called before the store snap is available',
   );
-  final changeId = await snapd.install(
+  final changeId = snapd.install(
     snapName,
     channel: selectedChannel,
     classic: storeSnap!.channels[selectedChannel]!.confinement ==
         SnapConfinement.classic,
   );
-  ref.read(activeChangeIdProvider(snapName).notifier).state = changeId;
+  ref.read(activeChangeIdProvider(snapName).notifier).state = await changeId;
 });
 
 final snapAbortProvider = FutureProvider.family<void, String>(

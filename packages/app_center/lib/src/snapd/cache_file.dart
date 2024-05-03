@@ -26,11 +26,11 @@ class CacheFile {
   CacheFile.fromFileName(
     String fileName, {
     Duration? expiry,
-    FileSystem? fs,
+    FileSystem? fileSystem,
   }) : this(
           '$cachePath/$fileName.smc',
           expiry: expiry,
-          fs: fs,
+          fs: fileSystem,
         );
 
   final File _file;
