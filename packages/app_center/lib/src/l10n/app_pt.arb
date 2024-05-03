@@ -87,6 +87,38 @@
   "@explorePageLabel": {},
   "searchFieldSnapSection": "Pacotes Snap",
   "@searchFieldSnapSection": {},
-  "managePageCheckForUpdates": "Verificar por atualizações",
-  "@managePageCheckForUpdates": {}
+  "managePageCheckForUpdates": "Procurar por atualizações",
+  "@managePageCheckForUpdates": {},
+  "snapPageContactPublisherLabel": "Contacto {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageDownloadSizeLabel": "Tamanho da transferência",
+  "@snapPageDownloadSizeLabel": {},
+  "appCenterLabel": "Centro de Aplicações",
+  "@appCenterLabel": {},
+  "snapPageDeveloperWebsiteLabel": "Website do programador",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapPagePublishedLabel": "Publicado",
+  "@snapPagePublishedLabel": {},
+  "snapPageSummaryLabel": "Resumo",
+  "@snapPageSummaryLabel": {},
+  "snapPageShareLinkCopiedMessage": "Ligação copiada para a área de transferência",
+  "@snapPageShareLinkCopiedMessage": {},
+  "explorePageCategoriesLabel": "Categorias",
+  "@explorePageCategoriesLabel": {},
+  "managePageCheckingForUpdates": "A procurar por atualizações",
+  "@managePageCheckingForUpdates": {},
+  "managePageDescription": "Procure por atualizações disponíveis, atualize as suas aplicações e faça a gestão do estado de todas as suas aplicações.",
+  "@managePageDescription": {},
+  "managePageInstalledAndUpdatedLabel": "Instalado e atualizado",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "managePageLabel": "Gerir",
+  "@managePageLabel": {},
+  "managePageShowDetailsLabel": "Mostrar detalhes",
+  "@managePageShowDetailsLabel": {}
 }
