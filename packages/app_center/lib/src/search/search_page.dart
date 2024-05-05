@@ -35,12 +35,12 @@ class SearchPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (Navigator.of(context).canPop())
-                  Row(
+                  const Row(
                     children: [
-                      const YaruBackButton(
+                      YaruBackButton(
                         style: YaruBackButtonStyle.rounded,
                       ),
-                      const Spacer(),
+                      Spacer(),
                     ],
                   ),
                 if (query != null)
