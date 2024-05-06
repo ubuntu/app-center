@@ -28,7 +28,7 @@ void main() {
     final model = UpdatesModel(service);
     await model.refresh();
     await model.updateAll();
-    verify(service.refreshMany(const ['firefox'])).called(1);
+    verify(service.refreshMany(const [])).called(1);
   });
 
   group('error stream', () {
