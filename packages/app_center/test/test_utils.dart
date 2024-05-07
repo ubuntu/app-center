@@ -185,8 +185,11 @@ MockSnapdService createMockSnapdService({
   when(service.getSnaps()).thenAnswer((_) async => installedSnaps ?? []);
   when(service.getChanges(name: anyNamed('name')))
       .thenAnswer((_) async => changes ?? []);
-  when(service.watchChange(any))
-      .thenAnswer((_) => Stream.fromIterable(changes ?? []));
+  when(service.watchChange(any)).thenAnswer(
+    (_) => Stream.fromIterable(
+      changes ?? [SnapdChange(spawnTime: DateTime(1970), ready: true)],
+    ),
+  );
   when(service.abortChange(any))
       .thenAnswer((_) async => SnapdChange(spawnTime: DateTime.now()));
   when(service.installMany(
