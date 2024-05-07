@@ -78,10 +78,6 @@ final activeChangeProvider =
   subscription = getService<SnapdService>().watchChange(id).listen((event) {
     ref.controller.state = event;
     if (event.ready) {
-      // TODO: This should not be done here.
-      for (final snapName in event.snapNames) {
-        ref.read(activeChangeIdProvider(snapName).notifier).state = null;
-      }
       subscription.cancel();
     }
   });
@@ -103,13 +99,14 @@ final snapInstallProvider =
     storeSnap?.channels[selectedChannel] != null,
     'install() should not be called before the store snap is available',
   );
-  final changeId = snapd.install(
+  final changeId = await snapd.install(
     snapName,
     channel: selectedChannel,
     classic: storeSnap!.channels[selectedChannel]!.confinement ==
         SnapConfinement.classic,
   );
-  ref.read(activeChangeIdProvider(snapName).notifier).state = await changeId;
+  ref.read(activeChangeIdProvider(snapName).notifier).state = changeId;
+  return _listenUntilDone(changeId, snapName, ref);
 });
 
 /// Aborts the active change for the given snap.
@@ -122,6 +119,7 @@ final snapAbortProvider = FutureProvider.family<void, String>(
     final snapd = getService<SnapdService>();
     final changeId = (await snapd.abortChange(changeIdToAbort)).id;
     ref.read(activeChangeIdProvider(snapName).notifier).state = changeId;
+    return _listenUntilDone(changeId, snapName, ref);
   },
 );
 
@@ -143,6 +141,7 @@ final snapRefreshProvider =
         SnapConfinement.classic,
   );
   ref.read(activeChangeIdProvider(snapData.name).notifier).state = changeId;
+  return _listenUntilDone(changeId, snapData.name, ref);
 });
 
 /// Initiates the removal of the snap with the given name.
@@ -150,9 +149,24 @@ final snapRemoveProvider =
     FutureProvider.family<void, String>((ref, snapName) async {
   final changeId = await getService<SnapdService>().remove(snapName);
   ref.read(activeChangeIdProvider(snapName).notifier).state = changeId;
+  return _listenUntilDone(changeId, snapName, ref);
 });
 
 //#endregion
+
+Future<void> _listenUntilDone(String changeId, String snapName, Ref ref) {
+  final completer = Completer();
+  getService<SnapdService>().watchChange(changeId).listen((event) {
+    if (event.err != null) {
+      completer.completeError(event.err!);
+    } else if (event.ready) {
+      completer.complete();
+    }
+  });
+  return completer.future.whenComplete(
+    () => ref.read(activeChangeIdProvider(snapName).notifier).state = null,
+  );
+}
 
 extension SnapdChangeX on SnapdChange {
   double get progress {
