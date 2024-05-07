@@ -120,5 +120,25 @@
   "managePageLabel": "Gerir",
   "@managePageLabel": {},
   "managePageShowDetailsLabel": "Mostrar detalhes",
-  "@managePageShowDetailsLabel": {}
+  "@managePageShowDetailsLabel": {},
+  "managePageNoUpdatesAvailableDescription": "Não há atualizações disponíveis. As suas aplicações estão todas atualizadas.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "managePageShowSystemSnapsLabel": "Mostrar snaps do sistema",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageUpdateAllLabel": "Atualizar tudo",
+  "@managePageUpdateAllLabel": {},
+  "managePageSearchFieldSearchHint": "Procurar nas suas aplicações instaladas",
+  "@managePageSearchFieldSearchHint": {},
+  "managePageUpdatesAvailable": "Atualizações disponíveis ({n})",
+  "@managePageUpdatesAvailable": {},
+  "managePageUpdatedDaysAgo": "Atualizado {n, plural, =1{{n} dia} outros{{n} dias}} atrás",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "installAll": "Instalar tudo",
+  "@installAll": {}
 }
