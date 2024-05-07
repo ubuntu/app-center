@@ -41,9 +41,9 @@ class SnapPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final snapModel = ref.watch(snapModelProvider(snapName));
+    final snapModel = ref.watch(snapDataProvider(snapName));
     final updatesModel = ref.watch(updatesModelProvider);
-    ref.listen(snapModelProvider(snapName), (_, value) {
+    ref.listen(snapDataProvider(snapName), (_, value) {
       if (value.hasError && value.error is SnapdException) {
         showError(context, value.error as SnapdException);
       }

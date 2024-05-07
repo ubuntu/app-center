@@ -56,7 +56,7 @@ void main() {
       final container = ProviderContainer();
       createMockSnapdService(localSnap: localSnap, storeSnap: storeSnap);
       await container.read(storeSnapProvider(snapName).future);
-      final snapData = await container.read(snapModelProvider(snapName).future);
+      final snapData = await container.read(snapDataProvider(snapName).future);
 
       expect(snapData.name, equals(snapName));
       expect(snapData.localSnap, isNotNull);
@@ -74,7 +74,7 @@ void main() {
       final container = ProviderContainer();
       createMockSnapdService(storeSnap: storeSnap);
       await container.read(storeSnapProvider(snapName).future);
-      final snapData = await container.read(snapModelProvider(snapName).future);
+      final snapData = await container.read(snapDataProvider(snapName).future);
 
       expect(snapData.storeSnap, equals(storeSnap));
       expect(snapData.localSnap, isNull);
@@ -87,7 +87,7 @@ void main() {
     test('local only', () async {
       final container = ProviderContainer();
       createMockSnapdService(localSnap: localSnap);
-      final snapData = await container.read(snapModelProvider(snapName).future);
+      final snapData = await container.read(snapDataProvider(snapName).future);
 
       expect(snapData.storeSnap, isNull);
       expect(snapData.localSnap, localSnap);
@@ -105,7 +105,7 @@ void main() {
         localSnap: localSnap,
         changes: [SnapdChange(spawnTime: DateTime(1970), id: 'active change')],
       );
-      final snapData = await container.read(snapModelProvider(snapName).future);
+      final snapData = await container.read(snapDataProvider(snapName).future);
       container.read(activeChangeProvider(snapData.activeChangeId));
 
       expect(snapData.activeChangeId, equals('active change'));
@@ -125,7 +125,7 @@ void main() {
       final container = ProviderContainer();
       final service = createMockSnapdService(storeSnap: storeSnap);
       await container.read(storeSnapProvider('testsnap').future);
-      await container.read(snapModelProvider('testsnap').future);
+      await container.read(snapDataProvider('testsnap').future);
       await container.read(snapInstallProvider('testsnap').future);
 
       verify(service.install(
@@ -141,7 +141,7 @@ void main() {
       ]);
       final service = createMockSnapdService(storeSnap: storeSnap);
       await container.read(storeSnapProvider('testsnap').future);
-      await container.read(snapModelProvider('testsnap').future);
+      await container.read(snapDataProvider('testsnap').future);
 
       await container.read(snapInstallProvider('testsnap').future);
 
@@ -165,7 +165,7 @@ void main() {
       );
       await container.read(storeSnapProvider('testsnap').future);
       final snapData =
-          await container.read(snapModelProvider('testsnap').future);
+          await container.read(snapDataProvider('testsnap').future);
 
       await container.read(snapRefreshProvider(snapData).future);
 
@@ -189,7 +189,7 @@ void main() {
           'latest/stable';
       await container.read(storeSnapProvider('testsnap').future);
       final snapData =
-          await container.read(snapModelProvider('testsnap').future);
+          await container.read(snapDataProvider('testsnap').future);
 
       await container.read(snapRefreshProvider(snapData).future);
 
@@ -238,12 +238,12 @@ void main() {
     container.read(selectedChannelProvider('testsnap').notifier).state =
         'latest/stable';
     await container.read(storeSnapProvider('testsnap').future);
-    final snapData = await container.read(snapModelProvider('testsnap').future);
+    final snapData = await container.read(snapDataProvider('testsnap').future);
 
     expect(snapData.activeChangeId, isNull);
     await container.read(snapInstallProvider('testsnap').future);
     final snapDataWithChangeId =
-        await container.read(snapModelProvider('testsnap').future);
+        await container.read(snapDataProvider('testsnap').future);
     expect(snapDataWithChangeId.activeChangeId, equals('changeId'));
 
     await container.read(snapAbortProvider('testsnap').future);
@@ -263,7 +263,7 @@ void main() {
     )).thenThrow(SnapdException(message: 'error message', kind: 'error kind'));
 
     await container.read(storeSnapProvider('testSnap').future);
-    await container.read(snapModelProvider('testSnap').future);
+    await container.read(snapDataProvider('testSnap').future);
     await expectLater(
       container.read(snapInstallProvider('testSnap').future),
       throwsA(isA<SnapdException>()),

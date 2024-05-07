@@ -485,7 +485,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final snapLauncher = ref.watch(launchProvider(snap));
     final l10n = AppLocalizations.of(context);
-    final snapModel = ref.watch(snapModelProvider(snap.name));
+    final snapModel = ref.watch(snapDataProvider(snap.name));
     final updatesModel = ref.watch(updatesModelProvider);
     final activeChangeId = snapModel.value?.activeChangeId;
     final change = activeChangeId != null

@@ -9,7 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-final snapModelProvider = FutureProvider.family<SnapData, String>(
+/// Used to fetch the meta data for a snap from both the store and the local
+/// system.
+final snapDataProvider = FutureProvider.family<SnapData, String>(
   (ref, snapName) async {
     Snap? localSnap;
     try {
@@ -34,10 +36,12 @@ final snapModelProvider = FutureProvider.family<SnapData, String>(
   },
 );
 
+/// Provides the selected channel for a given snap.
 final selectedChannelProvider = StateProvider.family<String?, String>(
   (ref, snapName) => null,
 );
 
+/// Provides the progress of the snapd operations for the given change IDs.
 final progressProvider =
     StreamProvider.family.autoDispose<double, List<String>>((ref, ids) {
   final snapd = getService<SnapdService>();
@@ -60,11 +64,13 @@ final progressProvider =
   return streamController.stream;
 });
 
+/// Provides the active change ID, if any, for a given snap.
 @visibleForTesting
 final activeChangeIdProvider = StateProvider.family<String?, String>(
   (ref, name) => null,
 );
 
+/// Provides the active change, if any, for a given snap.
 final activeChangeProvider =
     StateProvider.family<SnapdChange?, String?>((ref, id) {
   if (id == null) return null;
@@ -72,6 +78,10 @@ final activeChangeProvider =
   subscription = getService<SnapdService>().watchChange(id).listen((event) {
     ref.controller.state = event;
     if (event.ready) {
+      // TODO: This should not be done here.
+      for (final snapName in event.snapNames) {
+        ref.read(activeChangeIdProvider(snapName).notifier).state = null;
+      }
       subscription.cancel();
     }
   });
@@ -79,9 +89,12 @@ final activeChangeProvider =
   return null;
 });
 
+//#region Snap operations
+
+/// Initiates the installation of the snap with the given name.
 final snapInstallProvider =
     FutureProvider.family<void, String>((ref, snapName) async {
-  final model = ref.read(snapModelProvider(snapName)).value;
+  final model = ref.read(snapDataProvider(snapName)).value;
   final storeSnap = model?.storeSnap;
   final selectedChannel = model?.selectedChannel;
   final snapd = getService<SnapdService>();
@@ -99,6 +112,7 @@ final snapInstallProvider =
   ref.read(activeChangeIdProvider(snapName).notifier).state = await changeId;
 });
 
+/// Aborts the active change for the given snap.
 final snapAbortProvider = FutureProvider.family<void, String>(
   (ref, snapName) async {
     final changeIdToAbort = ref.read(activeChangeIdProvider(snapName));
@@ -111,6 +125,7 @@ final snapAbortProvider = FutureProvider.family<void, String>(
   },
 );
 
+/// Initiates the refresh/update of the snap with the given name.
 final snapRefreshProvider =
     FutureProvider.family<void, SnapData>((ref, snapData) async {
   final storeSnap = snapData.storeSnap;
@@ -130,11 +145,14 @@ final snapRefreshProvider =
   ref.read(activeChangeIdProvider(snapData.name).notifier).state = changeId;
 });
 
+/// Initiates the removal of the snap with the given name.
 final snapRemoveProvider =
     FutureProvider.family<void, String>((ref, snapName) async {
   final changeId = await getService<SnapdService>().remove(snapName);
   ref.read(activeChangeIdProvider(snapName).notifier).state = changeId;
 });
+
+//#endregion
 
 extension SnapdChangeX on SnapdChange {
   double get progress {

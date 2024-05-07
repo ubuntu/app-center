@@ -128,7 +128,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          snapModelProvider.overrideWith((ref, arg) => snapModel),
+          snapDataProvider.overrideWith((ref, arg) => snapModel),
           snapRemoveProvider.overrideWith((ref, arg) => snapRemoved = true),
           launchProvider.overrideWith((ref, arg) => snapLauncher),
           updatesModelProvider.overrideWith((ref) => updatesModel),
@@ -187,7 +187,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          snapModelProvider.overrideWith((ref, arg) => snapModel),
+          snapDataProvider.overrideWith((ref, arg) => snapModel),
           snapRemoveProvider.overrideWith((ref, arg) => snapRemoved = true),
           launchProvider.overrideWith((ref, arg) => snapLauncher),
           updatesModelProvider.overrideWith((ref) => updatesModel),
@@ -240,7 +240,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          snapModelProvider.overrideWith((ref, arg) => snapModel),
+          snapDataProvider.overrideWith((ref, arg) => snapModel),
           snapInstallProvider.overrideWith((ref, arg) => snapInstalled = true),
           updatesModelProvider.overrideWith((ref) => updatesModel),
           ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
@@ -281,7 +281,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          snapModelProvider.overrideWith((ref, arg) => snapModel),
+          snapDataProvider.overrideWith((ref, arg) => snapModel),
           snapRemoveProvider.overrideWith((ref, arg) => snapRemoved = true),
           launchProvider.overrideWith((ref, arg) => snapLauncher),
           updatesModelProvider.overrideWith((ref) => updatesModel),
@@ -331,7 +331,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          snapModelProvider.overrideWith((ref, _) => ref.future),
+          snapDataProvider.overrideWith((ref, _) => ref.future),
           launchProvider.overrideWith((ref, arg) => snapLauncher),
           updatesModelProvider.overrideWith((ref) => updatesModel),
           ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
@@ -359,7 +359,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          snapModelProvider.overrideWithProvider(
+          snapDataProvider.overrideWithProvider(
             (_) => FutureProvider<SnapData>(
               (_) => Future.error(SnapdException(
                 message: 'error message',

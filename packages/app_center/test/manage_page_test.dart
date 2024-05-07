@@ -135,7 +135,7 @@ void main() {
           ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
-          snapModelProvider.overrideWith((_, __) => snapData)
+          snapDataProvider.overrideWith((_, __) => snapData)
         ],
         child: const ManagePage(),
       ),
@@ -162,7 +162,7 @@ void main() {
       (_) => ProviderScope(
         overrides: [
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          snapModelProvider.overrideWith((ref, arg) => snapData),
+          snapDataProvider.overrideWith((ref, arg) => snapData),
           snapRefreshProvider.overrideWith((ref, arg) {
             snapRefreshed = true;
             return Future.value();
@@ -217,7 +217,7 @@ void main() {
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
           activeChangeProvider.overrideWith((_, __) => mockChange),
-          snapModelProvider.overrideWith((_, __) => snapData)
+          snapDataProvider.overrideWith((_, __) => snapData)
         ],
         child: const ManagePage(),
       ),
@@ -258,7 +258,7 @@ void main() {
           activeChangeProvider.overrideWith(
             (_, __) => SnapdChange(spawnTime: DateTime(1970)),
           ),
-          snapModelProvider.overrideWith((_, __) => snapData),
+          snapDataProvider.overrideWith((_, __) => snapData),
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
         ],
         child: const ManagePage(),
@@ -293,7 +293,7 @@ void main() {
               ),
             ),
           ),
-          snapModelProvider.overrideWith((_, __) => snapData)
+          snapDataProvider.overrideWith((_, __) => snapData)
         ],
         child: const ManagePage(),
       ),
