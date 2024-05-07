@@ -218,6 +218,9 @@ void main() {
     final service = createMockSnapdService(
       localSnap: localSnap,
       storeSnap: storeSnap,
+      changes: [
+        SnapdChange(spawnTime: DateTime(1970), ready: true),
+      ],
     );
 
     when(service.install(
@@ -227,13 +230,15 @@ void main() {
     )).thenAnswer((_) async => 'changeId');
 
     when(service.watchChange('changeId')).thenAnswer(
-      (_) => Stream.fromIterable(
-        [
-          SnapdChange(spawnTime: DateTime(1970)),
-          SnapdChange(spawnTime: DateTime(1970), ready: true),
-        ],
-      ),
+      (_) => Stream.fromIterable([
+        SnapdChange(spawnTime: DateTime(1970), id: 'changeId'),
+      ]),
     );
+    container.listen(activeChangeIdProvider('testsnap'), (previous, next) {
+      if (previous == null) {
+        expect(next, equals('changeId'));
+      }
+    });
 
     container.read(selectedChannelProvider('testsnap').notifier).state =
         'latest/stable';
@@ -241,11 +246,10 @@ void main() {
     final snapData = await container.read(snapDataProvider('testsnap').future);
 
     expect(snapData.activeChangeId, isNull);
-    await container.read(snapInstallProvider('testsnap').future);
-    final snapDataWithChangeId =
-        await container.read(snapDataProvider('testsnap').future);
-    expect(snapDataWithChangeId.activeChangeId, equals('changeId'));
-
+    unawaited(container.read(snapInstallProvider('testsnap').future));
+    // To make sure that the install starts, but we can't wait for it since it
+    // needs to have time to be cancelled.
+    await Future.delayed(Duration.zero);
     await container.read(snapAbortProvider('testsnap').future);
     verify(service.abortChange('changeId')).called(1);
   });
