@@ -131,7 +131,7 @@
   "@managePageSearchFieldSearchHint": {},
   "managePageUpdatesAvailable": "Atualizações disponíveis ({n})",
   "@managePageUpdatesAvailable": {},
-  "managePageUpdatedDaysAgo": "Atualizado {n, plural, =1{{n} dia} outros{{n} dias}} atrás",
+  "managePageUpdatedDaysAgo": "Atualizado {n, plural, =1{{n} dia} other{{n} dias}} atrás",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
