@@ -72,5 +72,7 @@
   "explorePageLabel": "Jelajahi",
   "@explorePageLabel": {},
   "searchFieldSnapSection": "Paket Snap",
-  "@searchFieldSnapSection": {}
+  "@searchFieldSnapSection": {},
+  "appCenterLabel": "Pusat Aplikasi",
+  "@appCenterLabel": {}
 }
