@@ -2,30 +2,15 @@ import 'package:app_center_ratings_client/src/generated/ratings_features_common.
     as pb;
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-class Rating {
-  const Rating({
-    required this.snapId,
-    required this.totalVotes,
-    required this.ratingsBand,
-  });
-  final String snapId;
-  final int totalVotes;
-  final RatingsBand ratingsBand;
+part 'ratings.freezed.dart';
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Rating &&
-        other.snapId == snapId &&
-        other.totalVotes == totalVotes &&
-        other.ratingsBand == ratingsBand;
-  }
-
-  @override
-  int get hashCode =>
-      snapId.hashCode ^ totalVotes.hashCode ^ ratingsBand.hashCode;
+@freezed
+abstract class Rating with _$Rating {
+  const factory Rating({
+    required String snapId,
+    required int totalVotes,
+    required RatingsBand ratingsBand,
+  }) = _Rating;
 }
 
 enum RatingsBand {

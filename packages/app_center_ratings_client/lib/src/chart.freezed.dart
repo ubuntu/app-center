@@ -30,6 +30,8 @@ abstract class $ChartDataCopyWith<$Res> {
       _$ChartDataCopyWithImpl<$Res, ChartData>;
   @useResult
   $Res call({double rawRating, common.Rating rating});
+
+  $RatingCopyWith<$Res> get rating;
 }
 
 /// @nodoc
@@ -59,6 +61,14 @@ class _$ChartDataCopyWithImpl<$Res, $Val extends ChartData>
               as common.Rating,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RatingCopyWith<$Res> get rating {
+    return $RatingCopyWith<$Res>(_value.rating, (value) {
+      return _then(_value.copyWith(rating: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -70,6 +80,9 @@ abstract class _$$ChartDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call({double rawRating, common.Rating rating});
+
+  @override
+  $RatingCopyWith<$Res> get rating;
 }
 
 /// @nodoc
