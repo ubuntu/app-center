@@ -362,5 +362,29 @@
   "gamesPageFeatured": "Избранные наименования",
   "@gamesPageFeatured": {},
   "gamesPageBundles": "Наборы приложений",
-  "@gamesPageBundles": {}
+  "@gamesPageBundles": {},
+  "managePageUpdatedWeeksAgo": "Обновлено {n, plural, =1{{n} неделю} other{{n} нед}} назад",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Обновлено {n, plural, =1{{n} год} other{{n} г}} назад",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "Обновлено {n, plural, =1{{n} месяц} other{{n} мес}} назад",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

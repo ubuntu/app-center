@@ -48,6 +48,7 @@ Future<void> main(List<String> args) async {
     RatingsClient(
       config.ratingServiceUrl,
       config.ratingsServicePort,
+      config.ratingsServiceUseTls,
     ),
   );
   registerServiceInstance(config);

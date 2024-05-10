@@ -9,7 +9,7 @@
   "@snapCategoryBooksAndReference": {},
   "snapCategoryProductivity": "生產力工具",
   "@snapCategoryProductivity": {},
-  "snapCategoryUtilities": "附屬工具",
+  "snapCategoryUtilities": "實用工具",
   "@snapCategoryUtilities": {},
   "snapCategorySocial": "社交",
   "@snapCategorySocial": {},
@@ -55,7 +55,7 @@
   "@aboutPageLabel": {},
   "snapPageSummaryLabel": "總結",
   "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "程式;套件;軟體",
+  "appstreamSearchGreylist": "應用;應用軟體;軟體包;套件;程式;程序;套裝軟體;工具",
   "@appstreamSearchGreylist": {},
   "snapCategoryScience": "科學",
   "@snapCategoryScience": {},
@@ -71,7 +71,7 @@
   "@snapPageConfinementLabel": {},
   "snapCategoryMusicAndAudio": "音樂與音訊",
   "@snapCategoryMusicAndAudio": {},
-  "aboutPageGitHubLabel": "看看我們的 GitHub",
+  "aboutPageGitHubLabel": "在 GitHub 上找到我們",
   "@aboutPageGitHubLabel": {},
   "packageFormatSnapLabel": "Snap 軟體包",
   "@packageFormatSnapLabel": {},
@@ -98,5 +98,293 @@
   "snapCategoryDevicesAndIot": "設備與 IoT 裝置",
   "@snapCategoryDevicesAndIot": {},
   "managePageCheckForUpdates": "檢查更新",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} 週前更新} other{{n} 週前更新}}",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} 個月前更新} other{{n} 個月前更新}}",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "{n, plural, =1{{n} 年前更新} other{{n} 年前更新}}",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesAvailable": "有更新可用 ({n})",
+  "@managePageUpdatesAvailable": {},
+  "gamesPageTitle": "熱門遊戲",
+  "@gamesPageTitle": {},
+  "gamesPageTop": "最佳遊戲",
+  "@gamesPageTop": {},
+  "gamesPageFeatured": "精選遊戲",
+  "@gamesPageFeatured": {},
+  "gamesPageBundles": "應用程式套裝",
+  "@gamesPageBundles": {},
+  "unknownPublisher": "未知的發布者",
+  "@unknownPublisher": {},
+  "searchFieldSearchForLabel": "檢視所有 \"{query}\" 的結果",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageFilterByLabel": "篩選條件",
+  "@searchPageFilterByLabel": {},
+  "searchPageNoResults": "找不到與 \"{query}\" 關聯的結果",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageNoResultsHint": "嘗試使用不同或更通用的關鍵字",
+  "@searchPageNoResultsHint": {},
+  "searchPageNoResultsCategory": "抱歉，我們在這個類別中找不到任何套件",
+  "@searchPageNoResultsCategory": {},
+  "searchPageNoResultsCategoryHint": "嘗試不同的類別或使用更通用的關鍵字",
+  "@searchPageNoResultsCategoryHint": {},
+  "searchPageRelevanceLabel": "關聯性",
+  "@searchPageRelevanceLabel": {},
+  "searchPageTitle": "與 \"{query}\" 相關的結果",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageVersionLabel": "版本 {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageContributorTitle": "設計與開發者：",
+  "@aboutPageContributorTitle": {},
+  "aboutPageCommunityTitle": "加入社群：",
+  "@aboutPageCommunityTitle": {},
+  "aboutPageContributeLabel": "貢獻或回報錯誤",
+  "@aboutPageContributeLabel": {},
+  "aboutPagePublishLabel": "發布到 Snap 商店",
+  "@aboutPagePublishLabel": {},
+  "aboutPageLearnMoreLabel": "了解更多",
+  "@aboutPageLearnMoreLabel": {},
+  "appstreamUrlTypeBugtracker": "錯誤追蹤",
+  "@appstreamUrlTypeBugtracker": {},
+  "appstreamUrlTypeDonation": "捐款",
+  "@appstreamUrlTypeDonation": {},
+  "appstreamUrlTypeFaq": "常見問題",
+  "@appstreamUrlTypeFaq": {},
+  "appstreamUrlTypeHelp": "幫助",
+  "@appstreamUrlTypeHelp": {},
+  "appstreamUrlTypeHomepage": "首頁",
+  "@appstreamUrlTypeHomepage": {},
+  "appstreamUrlTypeTranslate": "翻譯",
+  "@appstreamUrlTypeTranslate": {},
+  "snapActionRemoveLabel": "解除安裝",
+  "@snapActionRemoveLabel": {},
+  "snapActionRemovingLabel": "正在解除安裝",
+  "@snapActionRemovingLabel": {},
+  "snapActionSwitchChannelLabel": "切換頻道",
+  "@snapActionSwitchChannelLabel": {},
+  "snapCategoryAll": "所有類別",
+  "@snapCategoryAll": {},
+  "snapActionUpdatingLabel": "正在更新",
+  "@snapActionUpdatingLabel": {},
+  "snapCategoryDefaultButtonLabel": "探索更多",
+  "@snapCategoryDefaultButtonLabel": {},
+  "snapCategoryDevelopmentSlogan": "開發者必備的 snaps",
+  "@snapCategoryDevelopmentSlogan": {},
+  "snapCategoryFeaturedSlogan": "精選 Snaps",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapCategoryGamesSlogan": "您的遊戲之夜所需的一切",
+  "@snapCategoryGamesSlogan": {},
+  "snapCategoryGameDev": "遊戲開發",
+  "@snapCategoryGameDev": {},
+  "snapCategoryGameDevSlogan": "遊戲開發",
+  "@snapCategoryGameDevSlogan": {},
+  "snapCategoryGameEmulators": "模擬器",
+  "@snapCategoryGameEmulators": {},
+  "snapCategoryGameEmulatorsSlogan": "模擬器",
+  "@snapCategoryGameEmulatorsSlogan": {},
+  "snapCategoryGnomeGames": "GNOME 遊戲",
+  "@snapCategoryGnomeGames": {},
+  "snapCategoryGnomeGamesSlogan": "GNOME 遊戲套裝",
+  "@snapCategoryGnomeGamesSlogan": {},
+  "snapCategoryKdeGames": "KDE 遊戲",
+  "@snapCategoryKdeGames": {},
+  "snapCategoryKdeGamesSlogan": "KDE 遊戲套裝",
+  "@snapCategoryKdeGamesSlogan": {},
+  "snapCategoryGameLaunchers": "遊戲啟動器",
+  "@snapCategoryGameLaunchers": {},
+  "snapCategoryGameLaunchersSlogan": "遊戲啟動器",
+  "@snapCategoryGameLaunchersSlogan": {},
+  "snapCategoryGameContentCreation": "內容創作",
+  "@snapCategoryGameContentCreation": {},
+  "snapCategoryGameContentCreationSlogan": "內容創作",
+  "@snapCategoryGameContentCreationSlogan": {},
+  "snapCategoryPersonalisation": "個人化",
+  "@snapCategoryPersonalisation": {},
+  "snapCategoryProductivityButtonLabel": "探索生產力工具集",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapCategoryProductivitySlogan": "完成您待辦事項中的一項",
+  "@snapCategoryProductivitySlogan": {},
+  "snapCategoryUbuntuDesktop": "Ubuntu 桌面",
+  "@snapCategoryUbuntuDesktop": {},
+  "snapCategoryUbuntuDesktopSlogan": "快速啟動您的桌面",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapConfinementClassic": "經典",
+  "@snapConfinementClassic": {},
+  "snapConfinementDevmode": "開發者模式",
+  "@snapConfinementDevmode": {},
+  "snapConfinementStrict": "嚴格",
+  "@snapConfinementStrict": {},
+  "snapSortOrderAlphabeticalAsc": "字母順序 (A 到 Z)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "snapSortOrderAlphabeticalDesc": "字母順序 (Z 到 A)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "snapSortOrderDownloadSizeAsc": "大小 (從小到大)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "snapSortOrderDownloadSizeDesc": "大小 (從大到小)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "snapReportLabel": "回報 {snapName}",
+  "@snapReportLabel": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "snapReportSelectReportReasonLabel": "選擇回報此 snap 的原因",
+  "@snapReportSelectReportReasonLabel": {},
+  "snapReportSelectAnOptionLabel": "選擇一個選項",
+  "@snapReportSelectAnOptionLabel": {},
+  "snapReportOptionCopyrightViolation": "侵犯版權或商標",
+  "@snapReportOptionCopyrightViolation": {},
+  "snapReportOptionStoreViolation": "違反 Snap 商店服務條款",
+  "@snapReportOptionStoreViolation": {},
+  "snapReportDetailsLabel": "請提供更詳細的回報原因",
+  "@snapReportDetailsLabel": {},
+  "snapReportOptionalEmailAddressLabel": "您的電子郵件 (選填)",
+  "@snapReportOptionalEmailAddressLabel": {},
+  "snapReportCancelButtonLabel": "取消",
+  "@snapReportCancelButtonLabel": {},
+  "snapReportSubmitButtonLabel": "提交回報",
+  "@snapReportSubmitButtonLabel": {},
+  "snapReportEnterValidEmailError": "輸入有效的電子郵件地址",
+  "@snapReportEnterValidEmailError": {},
+  "snapReportDetailsHint": "評論...",
+  "@snapReportDetailsHint": {},
+  "snapReportPrivacyAgreementLabel": "在提交此表單時，我確認我已閱讀並同意 ",
+  "@snapReportPrivacyAgreementLabel": {},
+  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical 的隱私權聲明 ",
+  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+  "snapReportPrivacyAgreementAndLabel": "和 ",
+  "@snapReportPrivacyAgreementAndLabel": {},
+  "snapPageContactPublisherLabel": "聯絡 {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageDeveloperWebsiteLabel": "開發者網站",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapPageDownloadSizeLabel": "下載大小",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPagePublishedLabel": "發布日期",
+  "@snapPagePublishedLabel": {},
+  "snapPageShareLinkCopiedMessage": "連結已複製到剪貼簿",
+  "@snapPageShareLinkCopiedMessage": {},
+  "explorePageCategoriesLabel": "類別",
+  "@explorePageCategoriesLabel": {},
+  "managePageCheckingForUpdates": "正在檢查更新",
+  "@managePageCheckingForUpdates": {},
+  "managePageDescription": "檢查可用的更新，更新您的應用程式，並管理所有應用程式的狀態。",
+  "@managePageDescription": {},
+  "managePageInstalledAndUpdatedLabel": "已安裝並更新",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "managePageNoUpdatesAvailableDescription": "沒有可用的更新。您的所有應用程式都是最新的。",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "managePageShowDetailsLabel": "顯示詳細資訊",
+  "@managePageShowDetailsLabel": {},
+  "managePageShowSystemSnapsLabel": "顯示系統快照",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageUpdateAllLabel": "全部更新",
+  "@managePageUpdateAllLabel": {},
+  "appCenterLabel": "應用軟體中心",
+  "@appCenterLabel": {},
+  "managePageUpdatedDaysAgo": "{n, plural, =1{{n} 天前更新} other{{n} 天前更新}}",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapSortOrderInstalledSizeAsc": "大小 (從小到大)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "snapSortOrderInstalledSizeDesc": "大小 (從大到小)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapSortOrderInstalledDateAsc": "最近最少更新",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapSortOrderInstalledDateDesc": "最近最常更新",
+  "@snapSortOrderInstalledDateDesc": {},
+  "snapSortOrderRelevance": "關聯性",
+  "@snapSortOrderRelevance": {},
+  "snapRatingsBandVeryGood": "非常好",
+  "@snapRatingsBandVeryGood": {},
+  "snapRatingsBandGood": "好",
+  "@snapRatingsBandGood": {},
+  "snapRatingsBandNeutral": "中立",
+  "@snapRatingsBandNeutral": {},
+  "snapRatingsBandPoor": "差",
+  "@snapRatingsBandPoor": {},
+  "snapRatingsBandVeryPoor": "非常差",
+  "@snapRatingsBandVeryPoor": {},
+  "snapRatingsBandInsufficientVotes": "票數不足",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsVotes": "{n} 票",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "allGamesButtonLabel": "所有遊戲",
+  "@allGamesButtonLabel": {},
+  "snapReportPrivacyAgreementPrivacyPolicy": "隱私權政策",
+  "@snapReportPrivacyAgreementPrivacyPolicy": {},
+  "debPageErrorNoPackageInfo": "找不到套件資訊",
+  "@debPageErrorNoPackageInfo": {},
+  "externalResources": "額外資源",
+  "@externalResources": {},
+  "externalResourcesButtonLabel": "探索更多",
+  "@externalResourcesButtonLabel": {},
+  "externalResourcesDisclaimer": "注意：這些都是外部工具。它們並非由 Canonical 擁有或提供。",
+  "@externalResourcesDisclaimer": {},
+  "openInBrowser": "在瀏覽器中開啟",
+  "@openInBrowser": {},
+  "installAll": "全部安裝",
+  "@installAll": {}
 }

@@ -362,5 +362,29 @@
   "installAll": "Tot installar",
   "@installAll": {},
   "allGamesButtonLabel": "Totes los jòcs",
-  "@allGamesButtonLabel": {}
+  "@allGamesButtonLabel": {},
+  "managePageUpdatedMonthsAgo": "Actualizat fa {n, plural, =1{{n} mes} other{{n} meses}}",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedWeeksAgo": "Actualizat fa {n, plural, =1{{n} sermana} other{{n} setmanas}}",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Actualizat fa {n, plural, =1{{n} an} other{{n} ans}}",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
