@@ -35,8 +35,13 @@ class SearchPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (Navigator.of(context).canPop())
-                  const YaruBackButton(
-                    style: YaruBackButtonStyle.rounded,
+                  const Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      YaruBackButton(
+                        style: YaruBackButtonStyle.rounded,
+                      ),
+                    ],
                   ),
                 if (query != null)
                   Text(
@@ -131,9 +136,17 @@ class SearchPage extends StatelessWidget {
                 if (initialCategory == SnapCategoryEnum.gameDev ||
                     initialCategory == SnapCategoryEnum.gameEmulators ||
                     initialCategory == SnapCategoryEnum.gnomeGames ||
-                    initialCategory == SnapCategoryEnum.kdeGames) ...[
+                    initialCategory == SnapCategoryEnum.kdeGames ||
+                    initialCategory == SnapCategoryEnum.gameLaunchers ||
+                    initialCategory ==
+                        SnapCategoryEnum.gameContentCreation) ...[
                   const SizedBox(height: kPagePadding),
-                  InstallAll(initialCategory: initialCategory),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InstallAll(initialCategory: initialCategory),
+                    ],
+                  ),
                 ]
               ],
             ),
@@ -172,11 +185,29 @@ class InstallAll extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final multiSnapModel = ref.watch(multiSnapModelProvider(initialCategory!));
-    return Center(
-        child: ElevatedButton(
-      onPressed: multiSnapModel.installAll,
-      child: Text(l10n.installAll),
-    ));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            ElevatedButton(
+              onPressed: multiSnapModel.activeChangeIds.isEmpty
+                  ? multiSnapModel.installAll
+                  : null,
+              child: Text(l10n.installAll),
+            ),
+            if (multiSnapModel.activeChangeIds.isNotEmpty) ...[
+              const SizedBox(width: kPagePadding),
+              CircularProgressIndicator(
+                  value: ref
+                      .watch(
+                          multiProgressProvider(multiSnapModel.activeChangeIds))
+                      .whenOrNull(data: (data) => data))
+            ]
+          ],
+        ),
+      ],
+    );
   }
 }
 
