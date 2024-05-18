@@ -630,13 +630,15 @@ class _ChannelDropdown extends StatelessWidget {
         SizedBox(
           width: _kChannelDropdownWidth,
           child: MenuButtonBuilder(
-            entries: model.availableChannels!.entries
+            entries: model
+                .getSortedChannels()!
+                .entries
                 .map(
-              (channelEntry) => MenuButtonEntry(
-                value: channelEntry.key,
-                child: _ChannelDropdownEntry(channelEntry: channelEntry),
-              ),
-            )
+                  (channelEntry) => MenuButtonEntry(
+                    value: channelEntry.key,
+                    child: _ChannelDropdownEntry(channelEntry: channelEntry),
+                  ),
+                )
                 .fold(
               <MenuButtonEntry<String>>[],
               (p, e) =>

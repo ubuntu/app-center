@@ -77,6 +77,7 @@ class SnapModel extends ChangeNotifier {
   }
 
   Map<String, SnapChannel>? get availableChannels => storeSnap?.channels;
+  List<String>? get availableTracks => storeSnap?.tracks;
 
   StreamSubscription<Snap?>? _storeSnapSubscription;
   StreamSubscription<SnapdChange>? _activeChangeSubscription;
@@ -84,6 +85,26 @@ class SnapModel extends ChangeNotifier {
   Stream<SnapdException> get errorStream => _errorStreamController.stream;
   final StreamController<SnapdException> _errorStreamController =
       StreamController.broadcast();
+
+  Map<String, SnapChannel>? getSortedChannels() {
+    if (availableTracks == null || availableChannels == null) {
+      return null;
+    }
+    // ignore: omit_local_variable_types
+    final Map<String, SnapChannel> sortedChannels = {};
+    const risks = ['stable', 'candidate', 'beta', 'edge'];
+    if (availableTracks != null && availableChannels != null) {
+      for (final track in availableTracks!) {
+        for (final risk in risks) {
+          final key = '$track/$risk';
+          if (availableChannels!.containsKey('$track/$risk')) {
+            sortedChannels[key] = availableChannels![key]!;
+          }
+        }
+      }
+    }
+    return sortedChannels;
+  }
 
   Future<void> init() async {
     final storeSnapCompleter = Completer();
