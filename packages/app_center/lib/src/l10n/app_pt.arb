@@ -140,5 +140,107 @@
     }
   },
   "installAll": "Instalar tudo",
-  "@installAll": {}
+  "@installAll": {},
+  "searchFieldSearchForLabel": "Ver todos os resultados para \"{query}\"",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageFilterByLabel": "Filtrar por",
+  "@searchPageFilterByLabel": {},
+  "searchPageNoResults": "Nenhum resultado encontrado para \"{query}\"",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageNoResultsHint": "Tente usar palavras-chave diferentes ou mais gerais",
+  "@searchPageNoResultsHint": {},
+  "searchPageNoResultsCategory": "Desculpe, não encontramos nenhum pacote nesta categoria",
+  "@searchPageNoResultsCategory": {},
+  "searchPageNoResultsCategoryHint": "Tente uma categoria diferente ou use palavras-chave mais gerais",
+  "@searchPageNoResultsCategoryHint": {},
+  "searchPageRelevanceLabel": "Relevância",
+  "@searchPageRelevanceLabel": {},
+  "searchPageTitle": "Resultados para \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageVersionLabel": "Versão {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageContributorTitle": "Projetado e desenvolvido por:",
+  "@aboutPageContributorTitle": {},
+  "aboutPageCommunityTitle": "Faça parte da comunidade:",
+  "@aboutPageCommunityTitle": {},
+  "aboutPagePublishLabel": "Publique na Snap Store",
+  "@aboutPagePublishLabel": {},
+  "aboutPageLearnMoreLabel": "Saber mais",
+  "@aboutPageLearnMoreLabel": {},
+  "appstreamUrlTypeBugtracker": "Rastreador de bugs",
+  "@appstreamUrlTypeBugtracker": {},
+  "appstreamUrlTypeDonation": "Doar",
+  "@appstreamUrlTypeDonation": {},
+  "snapCategoryGameDev": "Desenvolvimento de jogos",
+  "@snapCategoryGameDev": {},
+  "snapCategoryPersonalisation": "Personalização",
+  "@snapCategoryPersonalisation": {},
+  "snapReportPrivacyAgreementLabel": "Ao enviar este formulário, confirmo que li e concordo com ",
+  "@snapReportPrivacyAgreementLabel": {},
+  "snapCategoryGameDevSlogan": "Desenvolvimento de jogos",
+  "@snapCategoryGameDevSlogan": {},
+  "appstreamUrlTypeFaq": "Perguntas frequentes",
+  "@appstreamUrlTypeFaq": {},
+  "snapCategoryGameEmulators": "Emuladores",
+  "@snapCategoryGameEmulators": {},
+  "snapCategoryGnomeGames": "Jogos do GNOME",
+  "@snapCategoryGnomeGames": {},
+  "appstreamUrlTypeHelp": "Ajuda",
+  "@appstreamUrlTypeHelp": {},
+  "snapCategoryGameEmulatorsSlogan": "Emuladores",
+  "@snapCategoryGameEmulatorsSlogan": {},
+  "appstreamUrlTypeHomepage": "Página inicial",
+  "@appstreamUrlTypeHomepage": {},
+  "appstreamUrlTypeTranslate": "Traduções",
+  "@appstreamUrlTypeTranslate": {},
+  "snapActionRemoveLabel": "Desinstalar",
+  "@snapActionRemoveLabel": {},
+  "snapActionRemovingLabel": "A desinstalar",
+  "@snapActionRemovingLabel": {},
+  "snapActionSwitchChannelLabel": "Mudar de canal",
+  "@snapActionSwitchChannelLabel": {},
+  "snapCategoryAll": "Todas as categorias",
+  "@snapCategoryAll": {},
+  "snapActionUpdatingLabel": "Atualizando",
+  "@snapActionUpdatingLabel": {},
+  "snapCategoryDefaultButtonLabel": "Descubra mais",
+  "@snapCategoryDefaultButtonLabel": {},
+  "snapCategoryDevelopmentSlogan": "Snaps indispensáveis para desenvolvedores",
+  "@snapCategoryDevelopmentSlogan": {},
+  "snapCategoryDevicesAndIot": "Dispositivos e IoT",
+  "@snapCategoryDevicesAndIot": {},
+  "snapCategoryFeaturedSlogan": "Snaps em destaque",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapCategoryGamesSlogan": "Tudo para sua noite de jogos",
+  "@snapCategoryGamesSlogan": {},
+  "snapCategoryGameContentCreation": "Criação de conteúdo",
+  "@snapCategoryGameContentCreation": {},
+  "snapCategoryGameContentCreationSlogan": "Criação de conteúdo",
+  "@snapCategoryGameContentCreationSlogan": {},
+  "snapCategoryGnomeGamesSlogan": "Suíte de Jogos GNOME",
+  "@snapCategoryGnomeGamesSlogan": {}
 }
