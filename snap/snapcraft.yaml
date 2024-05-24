@@ -5,7 +5,6 @@ confinement: strict
 base: core22
 grade: stable
 version: git
-assumes: [snapd2.57] # Needed for ignore-running refresh-mode
 
 parts:
   flutter-git:
@@ -60,7 +59,6 @@ apps:
       RATINGS_SERVICE_USE_TLS: 'true'
     desktop: bin/data/flutter_assets/assets/app-center.desktop
     extensions: [gnome]
-    refresh-mode: ignore-running
     plugs:
       - appstream-metadata
       - desktop
