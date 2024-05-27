@@ -1,7 +1,6 @@
 import 'package:app_center/snapd.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 
 @immutable
@@ -28,25 +27,6 @@ class SnapData {
       storeSnap != null && storeSnap!.screenshotUrls.isNotEmpty;
   Map<String, SnapChannel>? get availableChannels => storeSnap?.channels;
 
-  VoidCallback? callback(
-    WidgetRef ref,
-    SnapAction action, [
-    SnapLauncher? launcher,
-  ]) {
-    return switch (action) {
-      SnapAction.cancel => () => ref.read(snapAbortProvider(name)),
-      SnapAction.install =>
-        storeSnap != null ? () => ref.read(snapInstallProvider(name)) : null,
-      SnapAction.open =>
-        launcher?.isLaunchable ?? false ? launcher!.open : null,
-      SnapAction.remove => () => ref.read(snapRemoveProvider(name)),
-      SnapAction.switchChannel =>
-        storeSnap != null ? () => ref.read(snapRefreshProvider(this)) : null,
-      SnapAction.update =>
-        storeSnap != null ? () => ref.read(snapRefreshProvider(this)) : null,
-    };
-  }
-
   static String? _defaultSelectedChannel(Snap? localSnap, Snap? storeSnap) {
     final channels = storeSnap?.channels.keys;
     final localChannel = localSnap?.trackingChannel;
@@ -58,5 +38,21 @@ class SnapData {
       return channels?.firstWhereOrNull((c) => c.contains('stable')) ??
           channels?.firstOrNull;
     }
+  }
+
+  SnapData copyWith({
+    String? name,
+    Snap? localSnap,
+    Snap? storeSnap,
+    String? selectedChannel,
+    String? activeChangeId,
+  }) {
+    return SnapData(
+      name: name ?? this.name,
+      localSnap: localSnap ?? this.localSnap,
+      storeSnap: storeSnap ?? this.storeSnap,
+      selectedChannel: selectedChannel ?? this.selectedChannel,
+      activeChangeId: activeChangeId ?? this.activeChangeId,
+    );
   }
 }

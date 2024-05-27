@@ -485,7 +485,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final snapLauncher = ref.watch(launchProvider(snap));
     final l10n = AppLocalizations.of(context);
-    final snapModel = ref.watch(snapDataProvider(snap.name));
+    final snapModel = ref.watch(snapPackageProvider(snapName: snap.name));
     final updatesModel = ref.watch(updatesModelProvider);
     final activeChangeId = snapModel.value?.activeChangeId;
     final change = activeChangeId != null
@@ -497,10 +497,13 @@ class _ButtonBarForUpdate extends ConsumerWidget {
       children: [
         PushButton.outlined(
           style: const ButtonStyle(
-              padding: MaterialStatePropertyAll(EdgeInsets.zero)),
+            padding: WidgetStatePropertyAll(EdgeInsets.zero),
+          ),
           onPressed: updatesModel.activeChangeId != null || !snapModel.hasValue
               ? null
-              : () => ref.read(snapRefreshProvider(snapModel.value!)),
+              : ref
+                  .read(snapPackageProvider(snapName: snap.name).notifier)
+                  .install,
           child: snapModel.value?.activeChangeId != null
               ? Row(
                   children: [
@@ -591,7 +594,8 @@ class _ButtonBarForOpen extends ConsumerWidget {
           visible: snapLauncher.isLaunchable,
           child: OutlinedButton(
             style: const ButtonStyle(
-                padding: MaterialStatePropertyAll(EdgeInsets.zero)),
+              padding: WidgetStatePropertyAll(EdgeInsets.zero),
+            ),
             onPressed: snapLauncher.open,
             child: Text(
               l10n.snapActionOpenLabel,

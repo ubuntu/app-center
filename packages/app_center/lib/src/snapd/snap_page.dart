@@ -41,15 +41,15 @@ class SnapPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final snapModel = ref.watch(snapDataProvider(snapName));
+    final snap = ref.watch(snapPackageProvider(snapName: snapName));
     final updatesModel = ref.watch(updatesModelProvider);
-    ref.listen(snapDataProvider(snapName), (_, value) {
+    ref.listen(snapPackageProvider(snapName: snapName), (_, value) {
       if (value.hasError && value.error is SnapdException) {
         showError(context, value.error as SnapdException);
       }
     });
 
-    return snapModel.when(
+    return snap.when(
       data: (snapData) => ResponsiveLayoutBuilder(
         builder: (_) => _SnapView(
           snapModel: snapData,
@@ -298,18 +298,21 @@ class _SnapActionButtons extends ConsumerWidget {
         ? ref.watch(launchProvider(localSnap))
         : null;
     final updatesModel = ref.watch(updatesModelProvider);
+    final snapNotifier =
+        ref.read(snapPackageProvider(snapName: snapModel.name).notifier);
 
     final primaryAction = snapModel.isInstalled
         ? snapModel.selectedChannel == snapModel.localSnap!.trackingChannel
             ? SnapAction.open
             : SnapAction.switchChannel
         : SnapAction.install;
+
     final primaryActionButton = SizedBox(
       width: _kPrimaryButtonMaxWidth,
       child: PushButton.elevated(
         onPressed: snapModel.activeChangeId != null
             ? null
-            : snapModel.callback(ref, primaryAction, snapLauncher),
+            : snapNotifier.callback(ref, primaryAction, snapLauncher),
         child: snapModel.activeChangeId != null
             ? Consumer(
                 builder: (context, ref, child) {
@@ -368,7 +371,7 @@ class _SnapActionButtons extends ConsumerWidget {
             ),
           ),
           onPressed: () =>
-              snapModel.callback(ref, action, snapLauncher)?.call(),
+              snapNotifier.callback(ref, primaryAction, snapLauncher),
         );
       }).toList(),
       builder: (context, controller, child) => YaruOptionButton(
@@ -384,7 +387,7 @@ class _SnapActionButtons extends ConsumerWidget {
     );
 
     final cancelButton = OutlinedButton(
-      onPressed: snapModel.callback(ref, SnapAction.cancel),
+      onPressed: snapNotifier.callback(ref, SnapAction.cancel),
       child: Text(SnapAction.cancel.label(l10n)),
     );
 
@@ -620,14 +623,14 @@ class _ChannelDropdown extends ConsumerWidget {
             itemBuilder: (context, value, child) => Text(value),
             selected: model.selectedChannel,
             onSelected: (value) => ref
-                .read(selectedChannelProvider(model.name).notifier)
-                .state = value,
+                .read(snapPackageProvider(snapName: model.name).notifier)
+                .selectChannel(value),
             menuPosition: PopupMenuPosition.under,
             menuStyle: const MenuStyle(
               minimumSize:
-                  MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 0)),
+                  WidgetStatePropertyAll(Size(_kChannelDropdownWidth, 0)),
               maximumSize:
-                  MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
+                  WidgetStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
               visualDensity: VisualDensity.standard,
             ),
             itemStyle: MenuItemButton.styleFrom(
