@@ -10,7 +10,7 @@ command:
       flutter: '>=3.19.0'
 
     dev_dependencies:
-      ubuntu_lints: ^0.3.0
+      ubuntu_lints: ^0.3.1
 
 scripts:
   # analyze all packages
