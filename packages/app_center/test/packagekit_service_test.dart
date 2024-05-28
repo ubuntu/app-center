@@ -84,6 +84,24 @@ void main() {
     expect(packageKit.getTransaction(id), isNull);
   });
 
+  test('install local package', () async {
+    final completer = Completer();
+    final mockTransaction = createMockPackageKitTransaction(
+      start: completer.future,
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit =
+        PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+    await packageKit.activateService();
+    final id = await packageKit.installLocal('/path/to/local.deb');
+    verify(mockTransaction.installFiles(['/path/to/local.deb'])).called(1);
+    final transaction = packageKit.getTransaction(id);
+    expect(transaction, isNotNull);
+    completer.complete();
+    await packageKit.waitTransaction(id);
+    expect(packageKit.getTransaction(id), isNull);
+  });
+
   test('remove', () async {
     final completer = Completer();
     final mockTransaction = createMockPackageKitTransaction(
@@ -182,6 +200,27 @@ void main() {
       final info = await packageKit.resolve('foo', 'all');
       expect(info!.packageId.arch, equals('all'));
     });
+  });
+
+  test('get details of local package', () async {
+    final mockDetails = PackageKitPackageDetails(
+      packageId: const PackageKitPackageId(
+        name: 'foo',
+        version: '1.0',
+        arch: 'all',
+      ),
+      summary: 'summary',
+    );
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [mockDetails],
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit =
+        PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+    await packageKit.activateService();
+    final details = await packageKit.getDetailsLocal('/path/to/local.deb');
+    verify(mockTransaction.getDetailsLocal(['/path/to/local.deb'])).called(1);
+    expect(details, equals(mockDetails));
   });
 
   test('cancel', () async {

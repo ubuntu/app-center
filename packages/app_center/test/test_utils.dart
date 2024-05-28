@@ -301,6 +301,10 @@ MockPackageKitTransaction createMockPackageKitTransaction({
       .thenAnswer((_) async => unawaited(emitEvents()));
   when(transaction.resolve(any))
       .thenAnswer((_) async => unawaited(emitEvents()));
+  when(transaction.installFiles(any))
+      .thenAnswer((_) async => unawaited(emitEvents()));
+  when(transaction.getDetailsLocal(any))
+      .thenAnswer((_) async => unawaited(emitEvents()));
   return transaction;
 }
 
