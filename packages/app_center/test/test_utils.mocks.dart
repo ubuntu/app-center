@@ -2596,6 +2596,15 @@ class MockPackageKitService extends _i1.Mock implements _i8.PackageKitService {
       ) as _i14.Future<int>);
 
   @override
+  _i14.Future<int> installLocal(String? path) => (super.noSuchMethod(
+        Invocation.method(
+          #installLocal,
+          [path],
+        ),
+        returnValue: _i14.Future<int>.value(0),
+      ) as _i14.Future<int>);
+
+  @override
   _i14.Future<int> remove(_i10.PackageKitPackageId? packageId) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -2620,6 +2629,16 @@ class MockPackageKitService extends _i1.Mock implements _i8.PackageKitService {
         ),
         returnValue: _i14.Future<_i10.PackageKitPackageEvent?>.value(),
       ) as _i14.Future<_i10.PackageKitPackageEvent?>);
+
+  @override
+  _i14.Future<_i10.PackageKitDetailsEvent?> getDetailsLocal(String? path) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getDetailsLocal,
+          [path],
+        ),
+        returnValue: _i14.Future<_i10.PackageKitDetailsEvent?>.value(),
+      ) as _i14.Future<_i10.PackageKitDetailsEvent?>);
 
   @override
   _i14.Future<void> dispose() => (super.noSuchMethod(
