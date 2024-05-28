@@ -9,6 +9,7 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 typedef PackageKitPackageInfo = PackageKitPackageEvent;
 typedef PackageKitServiceError = PackageKitErrorCodeEvent;
+typedef PackageKitPackageDetails = PackageKitDetailsEvent;
 
 class PackageKitService {
   PackageKitService({
@@ -123,6 +124,12 @@ class PackageKitService {
         action: (transaction) => transaction.installPackages([packageId]),
       );
 
+  /// Creates a transaction that installs the local package given by `path` and
+  /// returns the transaction ID.
+  Future<int> installLocal(String path) async => _createTransaction(
+        action: (transaction) => transaction.installFiles([path]),
+      );
+
   /// Creates a transaction that removes the package given by `packageId` and
   /// returns the transaction ID.
   // TODO: Decide how to handle dependencies. Autoremove? Ask the user?
@@ -163,6 +170,21 @@ class PackageKitService {
       },
     ).then(waitTransaction);
     return info;
+  }
+
+  Future<PackageKitPackageDetails?> getDetailsLocal(String path) async {
+    PackageKitPackageDetails? details;
+    await _createTransaction(
+      action: (transaction) => transaction.getDetailsLocal([path]),
+      listener: (event) {
+        if (event is PackageKitDetailsEvent) {
+          details = event;
+        } else {
+          log.error('Couldn\'t get details for local package $path');
+        }
+      },
+    ).then(waitTransaction);
+    return details;
   }
 
   Future<void> dispose() async {
