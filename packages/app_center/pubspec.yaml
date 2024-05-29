@@ -1,7 +1,7 @@
 name: app_center
 description: App Center
 version: 1.0.0
-publish_to: 'none'
+publish_to: "none"
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
@@ -25,7 +25,6 @@ dependencies:
     sdk: flutter
   flutter_markdown: ^0.6.16
   flutter_riverpod: ^2.5.1
-  freezed: ^2.4.1
   freezed_annotation: ^2.4.1
   github: ^9.24.0
   glib: ^0.0.1
@@ -59,6 +58,7 @@ dev_dependencies:
   fake_async: ^1.3.1
   flutter_test:
     sdk: flutter
+  freezed: ^2.5.2
   integration_test:
     sdk: flutter
   mockito: ^5.4.3
@@ -70,4 +70,3 @@ flutter:
   generate: true
   assets:
     - assets/
-    
