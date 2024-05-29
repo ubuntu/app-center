@@ -27,6 +27,8 @@ String? _parseRoute(List<String>? args) {
   final parser = ArgParser();
   parser.addOption('snap', valueHelp: 'name', help: 'Show snap details');
   parser.addOption('search', valueHelp: 'query', help: 'Search for snaps');
+  parser.addOption('local-deb',
+      valueHelp: 'path', help: 'Show local deb details');
 
   try {
     if (args?.firstOrNull?.startsWith(_kUrlPrefix) ?? false) {
@@ -36,6 +38,11 @@ String? _parseRoute(List<String>? args) {
       }
     }
     final result = parser.parse(args ?? []);
+
+    final localDeb = result['local-deb'] as String?;
+    if (localDeb != null) {
+      return StoreRoutes.namedLocalDeb(path: localDeb);
+    }
 
     final query = result['search'] as String?;
     if (query != null) {
