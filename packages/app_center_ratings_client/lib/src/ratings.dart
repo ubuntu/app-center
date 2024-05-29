@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:app_center_ratings_client/src/generated/ratings_features_common.pb.dart'
     as pb;
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -6,6 +8,7 @@ part 'ratings.freezed.dart';
 
 @freezed
 abstract class Rating with _$Rating {
+  @JsonSerializable(explicitToJson: true)
   const factory Rating({
     required String snapId,
     required int totalVotes,

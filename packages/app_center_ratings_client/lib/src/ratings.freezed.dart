@@ -110,6 +110,7 @@ class __$$RatingImplCopyWithImpl<$Res>
 
 /// @nodoc
 
+@JsonSerializable(explicitToJson: true)
 class _$RatingImpl implements _Rating {
   const _$RatingImpl(
       {required this.snapId,
