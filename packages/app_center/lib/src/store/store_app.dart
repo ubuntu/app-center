@@ -131,6 +131,12 @@ class _StoreAppHome extends ConsumerWidget {
                 id: StoreRoutes.debOf(settings)!,
               ),
             ),
+          StoreRoutes.localDeb => MaterialPageRoute(
+              settings: settings,
+              builder: (_) => LocalDebPage(
+                path: StoreRoutes.localDebOf(settings)!,
+              ),
+            ),
           StoreRoutes.snap => MaterialPageRoute(
               settings: settings,
               builder: (_) => SnapPage(
