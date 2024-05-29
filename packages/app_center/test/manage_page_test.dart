@@ -28,12 +28,26 @@ void main() {
       channel: 'latest/candidate',
     ),
   ];
-  const refreshableSnaps = [
+  final refreshableSnaps = [
     Snap(
       name: 'testsnap3',
       title: 'Snap with an update',
       version: '2.0',
       channel: 'latest/stable',
+      channels: {
+        'latest/stable': SnapChannel(
+          confinement: SnapConfinement.strict,
+          size: 1337,
+          releasedAt: DateTime(1970),
+          version: '1.0',
+        ),
+        'latest/edge': SnapChannel(
+          confinement: SnapConfinement.classic,
+          size: 31337,
+          releasedAt: DateTime(1970, 1, 2),
+          version: '2.0',
+        ),
+      },
     ),
   ];
 
@@ -123,7 +137,8 @@ void main() {
 
   testWidgets('refresh snaps', (tester) async {
     final mockUpdatesModel = createMockUpdatesModel(
-        refreshableSnapNames: refreshableSnaps.map((snap) => snap.name));
+      refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
+    );
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
@@ -135,7 +150,6 @@ void main() {
           ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
-          snapDataProvider.overrideWith((_, __) => snapData)
         ],
         child: const ManagePage(),
       ),
@@ -153,28 +167,28 @@ void main() {
   });
 
   testWidgets('refresh individual snap', (tester) async {
+    final service = createMockSnapdService(
+      localSnap: snapData.localSnap,
+      storeSnap: snapData.storeSnap,
+      refreshableSnaps: refreshableSnaps,
+    );
     final mockUpdatesModel = createMockUpdatesModel(
       refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
     );
-    var snapRefreshed = false;
+    final container = createContainer(
+      overrides: [
+        launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+        manageModelProvider.overrideWith(
+          (_) => createMockManageModel(refreshableSnaps: refreshableSnaps),
+        ),
+        showLocalSystemAppsProvider.overrideWith((ref) => true),
+        updatesModelProvider.overrideWith((_) => mockUpdatesModel),
+      ],
+    );
 
     await tester.pumpApp(
-      (_) => ProviderScope(
-        overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          snapDataProvider.overrideWith((ref, arg) => snapData),
-          snapRefreshProvider.overrideWith((ref, arg) {
-            snapRefreshed = true;
-            return Future.value();
-          }),
-          manageModelProvider.overrideWith(
-            (_) => createMockManageModel(
-              refreshableSnaps: refreshableSnaps,
-            ),
-          ),
-          showLocalSystemAppsProvider.overrideWith((ref) => true),
-          updatesModelProvider.overrideWith((_) => mockUpdatesModel)
-        ],
+      (_) => UncontrolledProviderScope(
+        container: container,
         child: const ManagePage(),
       ),
     );
@@ -189,13 +203,18 @@ void main() {
       find.descendant(of: testTile, matching: find.text('latest/stable')),
       findsOneWidget,
     );
+    await tester.pumpAndSettle();
 
-    expect(snapRefreshed, isFalse);
+    verifyNever(service.refresh(any));
     await tester.tap(find.text(tester.l10n.snapActionUpdateLabel));
-    expect(snapRefreshed, isTrue);
+    verify(service.refresh(any, channel: anyNamed('channel'))).called(1);
   });
 
   testWidgets('refreshing all', (tester) async {
+    createMockSnapdService(
+      localSnap: snapData.localSnap,
+      storeSnap: snapData.storeSnap,
+    );
     final mockUpdatesModel = createMockUpdatesModel(
       refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
       isBusy: true,
@@ -217,7 +236,6 @@ void main() {
           showLocalSystemAppsProvider.overrideWith((ref) => true),
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
           activeChangeProvider.overrideWith((_, __) => mockChange),
-          snapDataProvider.overrideWith((_, __) => snapData)
         ],
         child: const ManagePage(),
       ),
@@ -241,6 +259,10 @@ void main() {
   });
 
   testWidgets('cancel refresh all', (tester) async {
+    createMockSnapdService(
+      localSnap: snapData.localSnap,
+      storeSnap: snapData.storeSnap,
+    );
     final mockUpdatesModel = createMockUpdatesModel(
       refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
       isBusy: true,
@@ -258,7 +280,6 @@ void main() {
           activeChangeProvider.overrideWith(
             (_, __) => SnapdChange(spawnTime: DateTime(1970)),
           ),
-          snapDataProvider.overrideWith((_, __) => snapData),
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
         ],
         child: const ManagePage(),
@@ -272,6 +293,10 @@ void main() {
   });
 
   testWidgets('error dialog', (tester) async {
+    createMockSnapdService(
+      localSnap: snapData.localSnap,
+      storeSnap: snapData.storeSnap,
+    );
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
@@ -293,7 +318,6 @@ void main() {
               ),
             ),
           ),
-          snapDataProvider.overrideWith((_, __) => snapData)
         ],
         child: const ManagePage(),
       ),

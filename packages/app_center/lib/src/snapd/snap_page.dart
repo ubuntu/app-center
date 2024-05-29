@@ -41,9 +41,9 @@ class SnapPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final snap = ref.watch(snapPackageProvider(snapName: snapName));
+    final snap = ref.watch(snapPackageProvider(snapName));
     final updatesModel = ref.watch(updatesModelProvider);
-    ref.listen(snapPackageProvider(snapName: snapName), (_, value) {
+    ref.listen(snapPackageProvider(snapName), (_, value) {
       if (value.hasError && value.error is SnapdException) {
         showError(context, value.error as SnapdException);
       }
@@ -298,8 +298,7 @@ class _SnapActionButtons extends ConsumerWidget {
         ? ref.watch(launchProvider(localSnap))
         : null;
     final updatesModel = ref.watch(updatesModelProvider);
-    final snapNotifier =
-        ref.read(snapPackageProvider(snapName: snapModel.name).notifier);
+    final snapNotifier = ref.read(snapPackageProvider(snapModel.name).notifier);
 
     final primaryAction = snapModel.isInstalled
         ? snapModel.selectedChannel == snapModel.localSnap!.trackingChannel
@@ -358,20 +357,15 @@ class _SnapActionButtons extends ConsumerWidget {
           child: IntrinsicWidth(
             child: ListTile(
               mouseCursor: SystemMouseCursors.click,
-              leading: action.icon != null
-                  ? Icon(
-                      action.icon,
-                      color: color,
-                    )
-                  : null,
+              leading:
+                  action.icon != null ? Icon(action.icon, color: color) : null,
               title: Text(
                 action.label(l10n),
                 style: TextStyle(color: color),
               ),
             ),
           ),
-          onPressed: () =>
-              snapNotifier.callback(ref, primaryAction, snapLauncher),
+          onPressed: () => snapNotifier.callback(ref, action, snapLauncher),
         );
       }).toList(),
       builder: (context, controller, child) => YaruOptionButton(
@@ -623,7 +617,7 @@ class _ChannelDropdown extends ConsumerWidget {
             itemBuilder: (context, value, child) => Text(value),
             selected: model.selectedChannel,
             onSelected: (value) => ref
-                .read(snapPackageProvider(snapName: model.name).notifier)
+                .read(snapPackageProvider(model.name).notifier)
                 .selectChannel(value),
             menuPosition: PopupMenuPosition.under,
             menuStyle: const MenuStyle(

@@ -2,14 +2,17 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/providers/file_system_provider.dart';
 import 'package:app_center/src/snapd/cache_file.dart';
 import 'package:collection/collection.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meta/meta.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+
+part 'snapd_cache.g.dart';
 
 mixin SnapdCache on SnapdClient {
   @visibleForTesting
@@ -107,36 +110,37 @@ mixin SnapdCache on SnapdClient {
   }
 }
 
-final storeSnapProvider = StreamProvider.family<Snap?, String>(
-  (ref, name) async* {
-    const expiry = Duration(minutes: 1);
-    final file = CacheFile.fromFileName('snap-$name', expiry: expiry);
+@Riverpod(keepAlive: true)
+class StoreSnap extends _$StoreSnap {
+  @override
+  Future<Snap?> build(String snapName) async {
+    final file = CacheFile.fromFileName(
+      'snap-$snapName',
+      fileSystem: ref.read(fileSystemProvider),
+    );
     Snap? cachedSnap;
     if (file.existsSync()) {
       cachedSnap = await file.readSnap();
-      if (cachedSnap != null) {
-        yield cachedSnap;
-      }
     }
     final hasChannels = cachedSnap?.channels.isNotEmpty ?? false;
     if (!hasChannels || !file.isValidSync()) {
-      final refreshedSnap = await _refreshSnapCache(name, file);
-      yield refreshedSnap;
+      return _refreshSnapCache(snapName, file).then((snap) => snap);
     }
-  },
-);
+    return cachedSnap;
+  }
 
-Future<Snap?> _refreshSnapCache(String name, CacheFile file) async {
-  try {
-    final client = getService<SnapdService>();
-    final snap = await client.find(name: name).then((r) => r.single);
-    await file.writeSnap(snap);
-    return snap;
-  } on SnapdException catch (e) {
-    if (e.kind == 'snap-not-found') {
-      return null;
-    } else {
-      rethrow;
+  Future<Snap?> _refreshSnapCache(String name, CacheFile file) async {
+    try {
+      final client = getService<SnapdService>();
+      final snap = await client.find(name: name).then((r) => r.single);
+      await file.writeSnap(snap);
+      return snap;
+    } on SnapdException catch (e) {
+      if (e.kind == 'snap-not-found') {
+        return null;
+      } else {
+        rethrow;
+      }
     }
   }
 }

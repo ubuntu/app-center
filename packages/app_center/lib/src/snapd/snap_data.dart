@@ -1,9 +1,7 @@
 import 'package:app_center/snapd.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/widgets.dart';
 import 'package:snapd/snapd.dart';
 
-@immutable
 class SnapData {
   SnapData({
     required this.name,
@@ -54,5 +52,17 @@ class SnapData {
       selectedChannel: selectedChannel ?? this.selectedChannel,
       activeChangeId: activeChangeId ?? this.activeChangeId,
     );
+  }
+
+  @override
+  String toString() {
+    return '''
+SnapData(
+  name: $name,
+  localSnap: $localSnap,
+  storeSnap: $storeSnap,
+  selectedChannel: $selectedChannel,
+  activeChangeId: $activeChangeId,
+)''';
   }
 }

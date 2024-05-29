@@ -4,6 +4,7 @@ import 'package:app_center/snapd.dart';
 import 'package:app_center/src/snapd/snap_data.dart';
 import 'package:app_center/src/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
@@ -11,12 +12,12 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 part 'snap_model.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class SnapPackage extends _$SnapPackage {
   late final _snapd = getService<SnapdService>();
 
   @override
-  Future<SnapData> build({required String snapName}) async {
+  Future<SnapData> build(String snapName) async {
     Snap? localSnap;
     try {
       localSnap = await getService<SnapdService>().getSnap(snapName);
@@ -24,20 +25,35 @@ class SnapPackage extends _$SnapPackage {
       if (e.kind != 'snap-not-found') rethrow;
     }
 
-    final storeSnap = ref.watch(storeSnapProvider(snapName)).value;
+    final Snap? storeSnap;
     if (localSnap == null) {
-      await ref.read(storeSnapProvider(snapName).future);
+      // If we don't have a local snap we keep the provider in loading until the
+      // store snap is loaded.
+      storeSnap = await ref.watch(storeSnapProvider(snapName).future);
+    } else {
+      // Since we have a local snap we don't need to wait for the store snap to
+      // be loaded, but the store snap will be updated in the data once it is.
+      storeSnap = ref.watch(storeSnapProvider(snapName)).valueOrNull;
     }
+
+    final activeChangeId = (await _snapd.getChanges(name: snapName))
+        .firstWhereOrNull((change) => !change.ready)
+        ?.id;
+    if (activeChangeId != null) {
+      unawaited(_listenUntilDone(activeChangeId, snapName, ref));
+    }
+
     return SnapData(
       name: snapName,
       localSnap: localSnap,
       storeSnap: storeSnap,
+      activeChangeId: activeChangeId,
     );
   }
 
   Future<void> install() async {
     if (!state.hasValue) {
-      throw PrematureSnapOperationException();
+      await future;
     }
     final model = state.value;
     final storeSnap = model?.storeSnap;
@@ -57,6 +73,9 @@ class SnapPackage extends _$SnapPackage {
   }
 
   Future<void> abort() async {
+    if (!state.hasValue) {
+      await future;
+    }
     final changeIdToAbort = state.value?.activeChangeId;
     if (changeIdToAbort == null) {
       return;
@@ -67,6 +86,9 @@ class SnapPackage extends _$SnapPackage {
   }
 
   Future<void> refresh() async {
+    if (!state.hasValue) {
+      await future;
+    }
     final snapData = state.asData?.valueOrNull;
     final storeSnap = snapData?.storeSnap;
     final selectedChannel = snapData?.selectedChannel;
@@ -86,16 +108,60 @@ class SnapPackage extends _$SnapPackage {
   }
 
   Future<void> remove() async {
+    if (!state.hasValue) {
+      await future;
+    }
     final changeId = await getService<SnapdService>().remove(snapName);
     _updateChangeId(changeId);
     return _listenUntilDone(changeId, snapName, ref);
   }
 
-  void selectChannel(String channel) {
+  Future<void> selectChannel(String channel) async {
+    if (!state.hasValue) {
+      await future;
+    }
     final data = state.asData?.valueOrNull;
     if (data != null) {
       state = AsyncData(data.copyWith(selectedChannel: channel));
+    } else {
+      // TODO: Throw an error?
     }
+  }
+
+  // TODO: Remove if not used
+  @visibleForTesting
+  Future<void> fullyLoad() async {
+    if (state.isLoading) {
+      await future;
+    }
+    final data = state.asData?.valueOrNull;
+    if (data != null) {
+      final storeSnap = await ref.read(storeSnapProvider(data.name).future);
+      state = AsyncData(data.copyWith(storeSnap: storeSnap));
+    }
+  }
+
+  @visibleForTesting
+  void setValues({
+    bool? hasUpdate,
+    Snap? localSnap,
+    Snap? storeSnap,
+    String? selectedChannel,
+    String? snapName,
+    String? activeChangeId,
+    AsyncValue<SnapData>? mockState,
+  }) {
+    if (mockState != null) {
+      state = mockState;
+    }
+    state = AsyncData(SnapData(
+      name: snapName ?? localSnap?.name ?? storeSnap?.name ?? '',
+      localSnap: localSnap,
+      storeSnap: storeSnap,
+      selectedChannel:
+          selectedChannel ?? localSnap?.trackingChannel ?? 'latest/stable',
+      activeChangeId: activeChangeId,
+    ));
   }
 
   void Function()? callback(
@@ -110,6 +176,7 @@ class SnapPackage extends _$SnapPackage {
       SnapAction.open =>
         launcher?.isLaunchable ?? false ? launcher!.open : null,
       SnapAction.remove => remove,
+      // TODO: This must surely be wrong?
       SnapAction.switchChannel =>
         state.valueOrNull?.storeSnap != null ? refresh : null,
       SnapAction.update =>
@@ -160,7 +227,7 @@ final progressProvider =
   return streamController.stream;
 });
 
-/// Provides the active change, if any, for a given snap.
+/// Provides the active change, if any, for a given changeId.
 final activeChangeProvider =
     StateProvider.family<SnapdChange?, String?>((ref, id) {
   if (id == null) return null;

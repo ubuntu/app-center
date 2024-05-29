@@ -8,6 +8,7 @@ import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/deb/deb_model.dart';
 import 'package:app_center/src/manage/manage_model.dart';
+import 'package:app_center/src/providers/file_system_provider.dart';
 import 'package:app_center/src/snapd/multisnap_model.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:appstream/appstream.dart';
@@ -47,6 +48,29 @@ extension WidgetTesterX on WidgetTester {
       ),
     );
   }
+}
+
+/// A testing utility which creates a [ProviderContainer] and automatically
+/// disposes it at the end of the test.
+ProviderContainer createContainer({
+  ProviderContainer? parent,
+  List<Override> overrides = const [],
+  List<ProviderObserver>? observers,
+}) {
+  // Create a ProviderContainer, and optionally allow specifying parameters.
+  final container = ProviderContainer(
+    parent: parent,
+    overrides: [
+      fileSystemProvider.overrideWithValue(MemoryFileSystem()),
+      ...overrides,
+    ],
+    observers: observers,
+  );
+
+  // When the test ends, dispose the container.
+  addTearDown(container.dispose);
+
+  return container;
 }
 
 Stream<List<Snap>> Function(SnapSearchParameters) createMockSnapSearchProvider(

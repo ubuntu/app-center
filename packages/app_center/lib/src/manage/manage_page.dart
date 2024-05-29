@@ -485,7 +485,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final snapLauncher = ref.watch(launchProvider(snap));
     final l10n = AppLocalizations.of(context);
-    final snapModel = ref.watch(snapPackageProvider(snapName: snap.name));
+    final snapModel = ref.watch(snapPackageProvider(snap.name));
     final updatesModel = ref.watch(updatesModelProvider);
     final activeChangeId = snapModel.value?.activeChangeId;
     final change = activeChangeId != null
@@ -499,11 +499,11 @@ class _ButtonBarForUpdate extends ConsumerWidget {
           style: const ButtonStyle(
             padding: WidgetStatePropertyAll(EdgeInsets.zero),
           ),
+          //onPressed: () => print(
+          //    'TAPPED ${updatesModel.activeChangeId != null} ${!snapModel.hasValue}'),
           onPressed: updatesModel.activeChangeId != null || !snapModel.hasValue
               ? null
-              : ref
-                  .read(snapPackageProvider(snapName: snap.name).notifier)
-                  .install,
+              : ref.read(snapPackageProvider(snap.name).notifier).refresh,
           child: snapModel.value?.activeChangeId != null
               ? Row(
                   children: [
