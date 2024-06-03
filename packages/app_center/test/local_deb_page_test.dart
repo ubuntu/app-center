@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:app_center/deb.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/packagekit.dart';
-import 'package:app_center/src/deb/local_deb_model.dart';
-import 'package:file/memory.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -33,13 +31,9 @@ void main() {
     final packageKit = createMockPackageKitService(packageDetails: mockPackage);
     registerMockService<PackageKitService>(packageKit);
 
-    final fs = MemoryFileSystem.test();
-    fs.file('/path/to/package.deb').createSync(recursive: true);
-
     await tester.pumpApp(
-      (_) => ProviderScope(
-        overrides: [fsProvider.overrideWith((ref) => fs)],
-        child: const LocalDebPage(path: '/path/to/package.deb'),
+      (_) => const ProviderScope(
+        child: LocalDebPage(path: '/path/to/package.deb'),
       ),
     );
     await tester.pump();

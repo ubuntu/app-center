@@ -6,21 +6,7 @@ part of 'local_deb_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fsHash() => r'0554884b30c7bb09d6a2009eb4affa769f667de3';
-
-/// See also [fs].
-@ProviderFor(fs)
-final fsProvider = AutoDisposeProvider<FileSystem>.internal(
-  fs,
-  name: r'fsProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$fsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef FsRef = AutoDisposeProviderRef<FileSystem>;
-String _$localDebModelHash() => r'4782028c5ea791044afd11fa85d0b094b26e5050';
+String _$localDebModelHash() => r'aa104be82db4b11fde92bac9a62c0da7e7c86072';
 
 /// Copied from Dart SDK
 class _SystemHash {

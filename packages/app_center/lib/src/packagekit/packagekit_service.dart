@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:app_center/src/packagekit/logger.dart';
 import 'package:dbus/dbus.dart';
+import 'package:file/file.dart';
+import 'package:file/local.dart';
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -15,10 +17,14 @@ class PackageKitService {
   PackageKitService({
     @visibleForTesting PackageKitClient? client,
     @visibleForTesting DBusClient? dbus,
+    @visibleForTesting FileSystem? fs,
   })  : _client = client ?? getService<PackageKitClient>(),
-        _dbus = dbus ?? DBusClient.system();
+        _dbus = dbus ?? DBusClient.system(),
+        _fs = fs ?? const LocalFileSystem();
+
   final PackageKitClient _client;
   final DBusClient _dbus;
+  final FileSystem _fs;
 
   bool get isAvailable => _isAvailable;
   bool _isAvailable = false;
@@ -127,7 +133,8 @@ class PackageKitService {
   /// Creates a transaction that installs the local package given by `path` and
   /// returns the transaction ID.
   Future<int> installLocal(String path) async => _createTransaction(
-        action: (transaction) => transaction.installFiles([path]),
+        action: (transaction) =>
+            transaction.installFiles([_getAbsolutePath(path)]),
       );
 
   /// Creates a transaction that removes the package given by `packageId` and
@@ -146,6 +153,8 @@ class PackageKitService {
     final result = await Process.run('/usr/bin/dpkg', ['--print-architecture']);
     return result.stdout as String;
   }
+
+  String _getAbsolutePath(String path) => _fs.file(path).absolute.path;
 
   /// Resolves a single package name provided by `name`.
   Future<PackageKitPackageInfo?> resolve(
@@ -174,13 +183,14 @@ class PackageKitService {
 
   Future<PackageKitPackageDetails?> getDetailsLocal(String path) async {
     PackageKitPackageDetails? details;
+    final absolutePath = _getAbsolutePath(path);
     await _createTransaction(
-      action: (transaction) => transaction.getDetailsLocal([path]),
+      action: (transaction) => transaction.getDetailsLocal([absolutePath]),
       listener: (event) {
         if (event is PackageKitDetailsEvent) {
           details = event;
         } else {
-          log.error('Couldn\'t get details for local package $path');
+          log.error('Couldn\'t get details for local package $absolutePath');
         }
       },
     ).then(waitTransaction);
