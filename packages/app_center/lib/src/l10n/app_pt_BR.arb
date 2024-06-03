@@ -278,5 +278,113 @@
   "snapSortOrderInstalledDateDesc": "Atualizado mais recentemente",
   "@snapSortOrderInstalledDateDesc": {},
   "appCenterLabel": "Centro de Aplicativos",
-  "@appCenterLabel": {}
+  "@appCenterLabel": {},
+  "snapCategoryGameLaunchersSlogan": "Lançadores de Jogos",
+  "@snapCategoryGameLaunchersSlogan": {},
+  "snapCategoryGameContentCreation": "Criação de Conteúdo",
+  "@snapCategoryGameContentCreation": {},
+  "snapCategoryGameContentCreationSlogan": "Criação de Conteúdo",
+  "@snapCategoryGameContentCreationSlogan": {},
+  "snapReportLabel": "Relatar {snapName}",
+  "@snapReportLabel": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "snapReportOptionCopyrightViolation": "Violação de direitos autorais ou marca registrada",
+  "@snapReportOptionCopyrightViolation": {},
+  "snapReportSelectAnOptionLabel": "Selecione uma opção",
+  "@snapReportSelectAnOptionLabel": {},
+  "snapReportDetailsLabel": "Forneça um motivo mais detalhado para seu relatório",
+  "@snapReportDetailsLabel": {},
+  "snapReportOptionalEmailAddressLabel": "Seu e-mail (opcional)",
+  "@snapReportOptionalEmailAddressLabel": {},
+  "snapReportSubmitButtonLabel": "Enviar relatório",
+  "@snapReportSubmitButtonLabel": {},
+  "snapReportEnterValidEmailError": "Digite um endereço de e-mail válido",
+  "@snapReportEnterValidEmailError": {},
+  "installAll": "Instalar tudo",
+  "@installAll": {},
+  "managePageUpdatedYearsAgo": "Atualizado há {n, plural, =1{{n} ano} other{{n} anos}} atrás",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "gamesPageFeatured": "Títulos em Destaque",
+  "@gamesPageFeatured": {},
+  "snapCategoryGameEmulatorsSlogan": "Emuladores",
+  "@snapCategoryGameEmulatorsSlogan": {},
+  "snapCategoryKdeGames": "Jogos KDE",
+  "@snapCategoryKdeGames": {},
+  "snapCategoryKdeGamesSlogan": "Suíte de Jogos KDE",
+  "@snapCategoryKdeGamesSlogan": {},
+  "gamesPageBundles": "Pacotes de Aplicativos",
+  "@gamesPageBundles": {},
+  "snapCategoryGnomeGames": "Jogos GNOME",
+  "@snapCategoryGnomeGames": {},
+  "snapCategoryGameLaunchers": "Lançadores de Jogos",
+  "@snapCategoryGameLaunchers": {},
+  "snapCategoryGnomeGamesSlogan": "Suíte de Jogos GNOME",
+  "@snapCategoryGnomeGamesSlogan": {},
+  "snapPageShareLinkCopiedMessage": "Link copiado para a área de transferência",
+  "@snapPageShareLinkCopiedMessage": {},
+  "snapReportOptionStoreViolation": "Violação dos termos de serviço da Snap Store",
+  "@snapReportOptionStoreViolation": {},
+  "snapReportCancelButtonLabel": "Cancelar",
+  "@snapReportCancelButtonLabel": {},
+  "managePageUpdatedWeeksAgo": "Atualizado há {n, plural, =1{{n} semana} other{{n} semanas}} atrás",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "Atualizado há {n, plural, =1{{n} mês} other{{n} meses}} atrás",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "gamesPageTitle": "Novidades",
+  "@gamesPageTitle": {},
+  "gamesPageTop": "Jogos mais Populares",
+  "@gamesPageTop": {},
+  "snapCategoryGameDev": "Desenvolvimento de Jogos",
+  "@snapCategoryGameDev": {},
+  "snapCategoryGameDevSlogan": "Desenvolvimento de Jogos",
+  "@snapCategoryGameDevSlogan": {},
+  "snapCategoryGameEmulators": "Emuladores",
+  "@snapCategoryGameEmulators": {},
+  "snapReportSelectReportReasonLabel": "Escolha um motivo para relatar este snap",
+  "@snapReportSelectReportReasonLabel": {},
+  "snapReportDetailsHint": "Comente...",
+  "@snapReportDetailsHint": {},
+  "snapReportPrivacyAgreementLabel": "Ao enviar este formulário, confirmo que li e concordo com ",
+  "@snapReportPrivacyAgreementLabel": {},
+  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Aviso de privacidade da Canonical ",
+  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+  "snapReportPrivacyAgreementAndLabel": "e ",
+  "@snapReportPrivacyAgreementAndLabel": {},
+  "snapReportPrivacyAgreementPrivacyPolicy": "Política de Privacidade",
+  "@snapReportPrivacyAgreementPrivacyPolicy": {},
+  "debPageErrorNoPackageInfo": "Nenhuma informação de pacote encontrada",
+  "@debPageErrorNoPackageInfo": {},
+  "externalResources": "Recursos adicionais",
+  "@externalResources": {},
+  "externalResourcesButtonLabel": "Descobrir mais",
+  "@externalResourcesButtonLabel": {},
+  "allGamesButtonLabel": "Todos os jogos",
+  "@allGamesButtonLabel": {},
+  "externalResourcesDisclaimer": "Nota: Todas essas são ferramentas externas. Eles não pertencem nem são distribuídas pela Canonical.",
+  "@externalResourcesDisclaimer": {},
+  "openInBrowser": "Abrir no navegador",
+  "@openInBrowser": {}
 }

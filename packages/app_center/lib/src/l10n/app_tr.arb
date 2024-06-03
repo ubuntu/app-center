@@ -142,5 +142,7 @@
     }
   },
   "gamesPageTop": "En iyi Oyunlar",
-  "@gamesPageTop": {}
+  "@gamesPageTop": {},
+  "appstreamSearchGreylist": "uygulama;uygulama;paket;program;program;?;araç",
+  "@appstreamSearchGreylist": {}
 }
