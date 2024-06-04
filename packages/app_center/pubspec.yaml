@@ -4,8 +4,8 @@ version: 1.0.0
 publish_to: 'none'
 
 environment:
-  sdk: '>=3.4.0 <4.0.0'
-  flutter: '>=3.22.0'
+  sdk: ">=3.1.0 <4.0.0"
+  flutter: ">=3.19.0"
 
 dependencies:
   app_center_ratings_client: ^1.0.0
@@ -25,6 +25,8 @@ dependencies:
     sdk: flutter
   flutter_markdown: ^0.7.1
   flutter_riverpod: ^2.5.1
+  freezed: ^2.4.1
+  freezed_annotation: ^2.4.1
   github: ^9.24.0
   glib: ^0.0.1
   gtk: ^2.1.0

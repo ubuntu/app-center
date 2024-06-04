@@ -499,8 +499,6 @@ class _ButtonBarForUpdate extends ConsumerWidget {
           style: const ButtonStyle(
             padding: WidgetStatePropertyAll(EdgeInsets.zero),
           ),
-          //onPressed: () => print(
-          //    'TAPPED ${updatesModel.activeChangeId != null} ${!snapModel.hasValue}'),
           onPressed: updatesModel.activeChangeId != null || !snapModel.hasValue
               ? null
               : ref.read(snapPackageProvider(snap.name).notifier).refresh,

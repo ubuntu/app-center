@@ -6,7 +6,7 @@ part of 'snapd_cache.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$storeSnapHash() => r'89a2df0f04b39fd24c1415f185217d8e7b399ec1';
+String _$storeSnapHash() => r'5581a6b36de1739aacc416ea7f6f31edd370664e';
 
 /// Copied from Dart SDK
 class _SystemHash {
