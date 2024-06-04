@@ -10,7 +10,7 @@ const kIconSize = 56.0;
 const kCardSizeNormal = Size(416.0, 170.0);
 const kCardSizeWide = Size(548.0, 170.0);
 
-const kBreakPointSmall = 1280.0;
+const kBreakPointSmall = 1080.0;
 const kBreakPointLarge = 1680.0;
 
 enum ResponsiveLayoutType {
