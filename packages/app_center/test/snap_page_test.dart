@@ -1,7 +1,6 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
-import 'package:app_center/src/snapd/snap_data.dart';
 import 'package:app_center/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter/material.dart';
@@ -84,28 +83,20 @@ void expectSnapInfos(
 
   final snapChannel = snap.channels[channel];
   if (snapChannel != null) {
-    expect(find.text(snapChannel.confinement.localize(tester.l10n)),
-        findsOneWidget);
+    expect(
+      find.text(snapChannel.confinement.localize(tester.l10n)),
+      findsOneWidget,
+    );
     expect(find.text(tester.l10n.snapPageDownloadSizeLabel), findsOneWidget);
-    expect(find.text(tester.context.formatByteSize(snapChannel.size)),
-        findsOneWidget);
-    expect(find.text(DateFormat.yMMMd().format(snapChannel.releasedAt)),
-        findsOneWidget);
+    expect(
+      find.text(tester.context.formatByteSize(snapChannel.size)),
+      findsOneWidget,
+    );
+    expect(
+      find.text(DateFormat.yMMMd().format(snapChannel.releasedAt)),
+      findsOneWidget,
+    );
   }
-}
-
-SnapData createMockSnapModel({
-  Snap? localSnap,
-  Snap? storeSnap,
-  String? activeChangeId,
-}) {
-  return SnapData(
-    name: (localSnap ?? storeSnap)?.name ?? '',
-    localSnap: localSnap,
-    storeSnap: storeSnap,
-    activeChangeId: activeChangeId,
-    selectedChannel: localSnap?.channel,
-  );
 }
 
 // TODO agree with design team on what snap metadata should be shown depending on:
@@ -115,8 +106,11 @@ SnapData createMockSnapModel({
 // - any combination of the above
 void main() {
   testWidgets('local + store', (tester) async {
-    final snapModel =
-        createMockSnapModel(localSnap: localSnap, storeSnap: storeSnap);
+    final service = createMockSnapdService(
+      localSnap: localSnap,
+      storeSnap: storeSnap,
+    );
+
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel = createMockUpdatesModel();
     final ratingsModel = createMockRatingsModel(
@@ -124,19 +118,20 @@ void main() {
       snapRating: snapRating,
     );
 
-    var snapRemoved = false;
+    final container = createContainer(
+      overrides: [
+        launchProvider.overrideWith((ref, arg) => snapLauncher),
+        updatesModelProvider.overrideWith((ref) => updatesModel),
+        ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
+      ],
+    );
     await tester.pumpApp(
-      (_) => ProviderScope(
-        overrides: [
-          snapDataProvider.overrideWith((ref, arg) => snapModel),
-          snapRemoveProvider.overrideWith((ref, arg) => snapRemoved = true),
-          launchProvider.overrideWith((ref, arg) => snapLauncher),
-          updatesModelProvider.overrideWith((ref) => updatesModel),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
-        ],
+      (_) => UncontrolledProviderScope(
+        container: container,
         child: const SnapPage(snapName: 'testsnap'),
       ),
     );
+    await container.read(snapPackageProvider('testsnap').notifier).fullyLoad();
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.byType(ScreenshotGallery), findsOneWidget);
@@ -159,8 +154,8 @@ void main() {
     final removeButton = find.text(tester.l10n.snapActionRemoveLabel);
     expect(removeButton, findsOneWidget);
     await tester.tap(removeButton);
-    await tester.pump();
-    expect(snapRemoved, isTrue);
+    await tester.pumpAndSettle();
+    verify(service.remove(any)).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
     final l10n = tester.l10n;
@@ -170,8 +165,7 @@ void main() {
   });
 
   testWidgets('local + store with update', (tester) async {
-    final snapModel = createMockSnapModel(
-      //hasUpdate: true,
+    final service = createMockSnapdService(
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
@@ -183,19 +177,23 @@ void main() {
       snapRating: snapRating,
     );
 
-    var snapRemoved = false;
+    final container = createContainer(
+      overrides: [
+        launchProvider.overrideWith((ref, arg) => snapLauncher),
+        updatesModelProvider.overrideWith((ref) => updatesModel),
+        ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
+      ],
+    );
+
     await tester.pumpApp(
-      (_) => ProviderScope(
-        overrides: [
-          snapDataProvider.overrideWith((ref, arg) => snapModel),
-          snapRemoveProvider.overrideWith((ref, arg) => snapRemoved = true),
-          launchProvider.overrideWith((ref, arg) => snapLauncher),
-          updatesModelProvider.overrideWith((ref) => updatesModel),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
-        ],
+      (_) => UncontrolledProviderScope(
+        container: container,
         child: SnapPage(snapName: storeSnap.name),
       ),
     );
+    await container
+        .read(snapPackageProvider(storeSnap.name).notifier)
+        .fullyLoad();
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.byType(ScreenshotGallery), findsOneWidget);
@@ -220,7 +218,7 @@ void main() {
 
     await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
     await tester.pump();
-    expect(snapRemoved, isTrue);
+    verify(service.remove(any)).called(1);
 
     final l10n = tester.l10n;
     expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
@@ -229,25 +227,31 @@ void main() {
   });
 
   testWidgets('store-only', (tester) async {
-    final snapModel = createMockSnapModel(storeSnap: storeSnap);
+    final service = createMockSnapdService(
+      storeSnap: storeSnap,
+    );
     final updatesModel = createMockUpdatesModel();
     final ratingsModel = createMockRatingsModel(
       snapId: snapId,
       snapRating: snapRating,
     );
+    final container = createContainer(
+      overrides: [
+        updatesModelProvider.overrideWith((ref) => updatesModel),
+        ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
+        launchProvider.overrideWith((ref, arg) => createMockSnapLauncher()),
+      ],
+    );
 
-    var snapInstalled = false;
     await tester.pumpApp(
-      (_) => ProviderScope(
-        overrides: [
-          snapDataProvider.overrideWith((ref, arg) => snapModel),
-          snapInstallProvider.overrideWith((ref, arg) => snapInstalled = true),
-          updatesModelProvider.overrideWith((ref) => updatesModel),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
-        ],
+      (_) => UncontrolledProviderScope(
+        container: container,
         child: SnapPage(snapName: storeSnap.name),
       ),
     );
+    await container
+        .read(snapPackageProvider(storeSnap.name).notifier)
+        .fullyLoad();
     await tester.pump();
     expectSnapInfos(tester, storeSnap);
     expect(find.byType(ScreenshotGallery), findsOneWidget);
@@ -258,18 +262,18 @@ void main() {
     expect(find.byIcon(Icons.thumb_down_outlined), findsNothing);
 
     await tester.tap(find.text(tester.l10n.snapActionInstallLabel));
-    expect(snapInstalled, isTrue);
     final l10n = tester.l10n;
-    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
-        findsOneWidget);
+    await tester.pumpAndSettle();
+    expect(
+      find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
+      findsOneWidget,
+    );
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
+    verify(service.install(any, channel: anyNamed('channel'))).called(1);
   });
 
   testWidgets('local-only', (tester) async {
-    final snapModel = createMockSnapModel(
-      localSnap: localSnap,
-      //activeChangeId: '1',
-    );
+    final service = createMockSnapdService(localSnap: localSnap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel = createMockUpdatesModel();
     final ratingsModel = createMockRatingsModel(
@@ -277,12 +281,9 @@ void main() {
       snapRating: snapRating,
     );
 
-    var snapRemoved = false;
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          snapDataProvider.overrideWith((ref, arg) => snapModel),
-          snapRemoveProvider.overrideWith((ref, arg) => snapRemoved = true),
           launchProvider.overrideWith((ref, arg) => snapLauncher),
           updatesModelProvider.overrideWith((ref) => updatesModel),
           ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
@@ -314,7 +315,7 @@ void main() {
     expect(removeButton, findsOneWidget);
     await tester.tap(removeButton);
     await tester.pump();
-    expect(snapRemoved, isTrue);
+    verify(service.remove(any)).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
     final l10n = tester.l10n;
@@ -328,18 +329,24 @@ void main() {
     final updatesModel = createMockUpdatesModel();
     final ratingsModel = createMockRatingsModel();
 
+    final container = createContainer(
+      overrides: [
+        launchProvider.overrideWith((ref, arg) => snapLauncher),
+        updatesModelProvider.overrideWith((ref) => updatesModel),
+        ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
+      ],
+    );
+
     await tester.pumpApp(
-      (_) => ProviderScope(
-        overrides: [
-          snapDataProvider.overrideWith((ref, _) => ref.future),
-          launchProvider.overrideWith((ref, arg) => snapLauncher),
-          updatesModelProvider.overrideWith((ref) => updatesModel),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
-        ],
+      (_) => UncontrolledProviderScope(
+        container: container,
         child: SnapPage(snapName: storeSnap.name),
       ),
     );
     await tester.pump();
+    container
+        .read(snapPackageProvider(storeSnap.name).notifier)
+        .setValues(mockState: const AsyncLoading());
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
     expect(find.byIcon(Icons.thumb_up_outlined), findsNothing);
@@ -355,31 +362,29 @@ void main() {
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel = createMockUpdatesModel();
     final ratingsModel = createMockRatingsModel();
+    final container = createContainer(
+      overrides: [
+        launchProvider.overrideWith((ref, arg) => snapLauncher),
+        updatesModelProvider.overrideWith((ref) => updatesModel),
+        ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
+      ],
+    );
 
     await tester.pumpApp(
-      (_) => ProviderScope(
-        overrides: [
-          snapDataProvider.overrideWithProvider(
-            (_) => FutureProvider<SnapData>(
-              (_) => Future.error(SnapdException(
-                message: 'error message',
-                kind: 'error kind',
-              )),
-            ),
-          ),
-          //snapModelProvider.overrideWith((ref, arg) {
-          //  throw SnapdException(
-          //    message: 'error message',
-          //    kind: 'error kind',
-          //  );
-          //}),
-          launchProvider.overrideWith((ref, arg) => snapLauncher),
-          updatesModelProvider.overrideWith((ref) => updatesModel),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
-        ],
+      (_) => UncontrolledProviderScope(
+        container: container,
         child: SnapPage(snapName: storeSnap.name),
       ),
     );
+    container.read(snapPackageProvider(storeSnap.name).notifier).setValues(
+          mockState: AsyncError(
+            SnapdException(
+              message: 'error message',
+              kind: 'error kind',
+            ),
+            StackTrace.current,
+          ),
+        );
     await tester.pumpAndSettle();
 
     expect(find.text('error message'), findsOneWidget);

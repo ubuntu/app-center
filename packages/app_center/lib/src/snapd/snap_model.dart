@@ -48,6 +48,7 @@ class SnapPackage extends _$SnapPackage {
       localSnap: localSnap,
       storeSnap: storeSnap,
       activeChangeId: activeChangeId,
+      selectedChannel: SnapData.defaultSelectedChannel(localSnap, storeSnap),
     );
   }
 

@@ -10,7 +10,7 @@ class SnapData {
     this.activeChangeId,
     String? selectedChannel,
   }) : selectedChannel =
-            selectedChannel ?? _defaultSelectedChannel(localSnap, storeSnap);
+            selectedChannel ?? defaultSelectedChannel(localSnap, storeSnap);
 
   final String name;
   final Snap? localSnap;
@@ -25,7 +25,7 @@ class SnapData {
       storeSnap != null && storeSnap!.screenshotUrls.isNotEmpty;
   Map<String, SnapChannel>? get availableChannels => storeSnap?.channels;
 
-  static String? _defaultSelectedChannel(Snap? localSnap, Snap? storeSnap) {
+  static String? defaultSelectedChannel(Snap? localSnap, Snap? storeSnap) {
     final channels = storeSnap?.channels.keys;
     final localChannel = localSnap?.trackingChannel;
     if (localChannel != null && (channels?.contains(localChannel) ?? false)) {

@@ -51,10 +51,12 @@ class SnapPage extends ConsumerWidget {
 
     return snap.when(
       data: (snapData) => ResponsiveLayoutBuilder(
-        builder: (_) => _SnapView(
-          snapModel: snapData,
-          updatesModel: updatesModel,
-        ),
+        builder: (_) {
+          return _SnapView(
+            snapModel: snapData,
+            updatesModel: updatesModel,
+          );
+        },
       ),
       error: (error, stackTrace) => ErrorWidget(error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
@@ -62,14 +64,14 @@ class SnapPage extends ConsumerWidget {
   }
 }
 
-class _SnapView extends ConsumerWidget {
+class _SnapView extends StatelessWidget {
   const _SnapView({required this.snapModel, required this.updatesModel});
 
   final SnapData snapModel;
   final UpdatesModel updatesModel;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
     final snapInfos = <SnapInfo>[
@@ -300,11 +302,16 @@ class _SnapActionButtons extends ConsumerWidget {
     final updatesModel = ref.watch(updatesModelProvider);
     final snapNotifier = ref.read(snapPackageProvider(snapModel.name).notifier);
 
-    final primaryAction = snapModel.isInstalled
-        ? snapModel.selectedChannel == snapModel.localSnap!.trackingChannel
-            ? SnapAction.open
-            : SnapAction.switchChannel
-        : SnapAction.install;
+    final SnapAction primaryAction;
+    if (snapModel.isInstalled) {
+      primaryAction =
+          snapModel.selectedChannel == snapModel.localSnap!.trackingChannel ||
+                  snapModel.storeSnap == null
+              ? SnapAction.open
+              : SnapAction.switchChannel;
+    } else {
+      primaryAction = SnapAction.install;
+    }
 
     final primaryActionButton = SizedBox(
       width: _kPrimaryButtonMaxWidth,
@@ -354,6 +361,7 @@ class _SnapActionButtons extends ConsumerWidget {
             ? Theme.of(context).colorScheme.error
             : null;
         return MenuItemButton(
+          onPressed: snapNotifier.callback(ref, action, snapLauncher),
           child: IntrinsicWidth(
             child: ListTile(
               mouseCursor: SystemMouseCursors.click,
@@ -365,7 +373,6 @@ class _SnapActionButtons extends ConsumerWidget {
               ),
             ),
           ),
-          onPressed: () => snapNotifier.callback(ref, action, snapLauncher),
         );
       }).toList(),
       builder: (context, controller, child) => YaruOptionButton(
