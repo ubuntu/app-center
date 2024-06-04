@@ -34,4 +34,7 @@ class LocalDebModel extends _$LocalDebModel {
     await packageKit.waitTransaction(activeTransactionId);
     state = AsyncValue.data(state.value!.copyWith(activeTransactionId: null));
   }
+
+  Stream<PackageKitServiceError> get errorStream =>
+      getService<PackageKitService>().errorStream;
 }
