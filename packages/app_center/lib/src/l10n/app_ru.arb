@@ -386,5 +386,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "appstreamUrlTypeContribute": "Участие",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeVcsBrowser": "Исходный код",
+  "@appstreamUrlTypeVcsBrowser": {}
 }
