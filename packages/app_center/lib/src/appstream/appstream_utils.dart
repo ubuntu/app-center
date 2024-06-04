@@ -85,6 +85,8 @@ extension AppstreamUrlTypeL10n on AppstreamUrlType {
       AppstreamUrlType.help => l10n.appstreamUrlTypeHelp,
       AppstreamUrlType.homepage => l10n.appstreamUrlTypeHomepage,
       AppstreamUrlType.translate => l10n.appstreamUrlTypeTranslate,
+      AppstreamUrlType.vcsBrowser => l10n.appstreamUrlTypeVcsBrowser,
+      AppstreamUrlType.contribute => l10n.appstreamUrlTypeContribute,
     };
   }
 }
