@@ -26,7 +26,7 @@ class LocalDebModel extends _$LocalDebModel {
   }
 
   Future<void> install() async {
-    if (!state.hasValue) return;
+    assert(state.hasValue, 'install() called during loading or error state');
     final packageKit = getService<PackageKitService>();
     final activeTransactionId = await packageKit.installLocal(path);
     state = AsyncValue.data(
