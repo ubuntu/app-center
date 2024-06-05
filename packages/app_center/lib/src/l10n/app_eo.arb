@@ -386,5 +386,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "appstreamUrlTypeContribute": "Kontribui",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeVcsBrowser": "Fonto",
+  "@appstreamUrlTypeVcsBrowser": {}
 }
