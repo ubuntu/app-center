@@ -87,7 +87,7 @@ class SnapPackage extends _$SnapPackage {
     }
     final changeId = (await _snapd.abortChange(changeIdToAbort)).id;
     _updateChangeId(changeId);
-    return _listenUntilDone(changeId, snapName, ref);
+    return _listenUntilDone(changeId, snapName, ref, invalidate: false);
   }
 
   Future<void> refresh() async {
@@ -113,23 +113,17 @@ class SnapPackage extends _$SnapPackage {
   }
 
   Future<void> remove() async {
-    if (!state.hasValue) {
-      await future;
-    }
+    assert(state.hasValue, 'The snap must be loaded before removing it');
     final changeId = await getService<SnapdService>().remove(snapName);
     _updateChangeId(changeId);
     return _listenUntilDone(changeId, snapName, ref);
   }
 
   Future<void> selectChannel(String channel) async {
-    if (!state.hasValue) {
-      await future;
-    }
+    assert(state.hasValue, 'The snap must be loaded before changing channel');
     final data = state.asData?.valueOrNull;
     if (data != null) {
       state = AsyncData(data.copyWith(selectedChannel: channel));
-    } else {
-      // TODO: Throw an error?
     }
   }
 
@@ -180,7 +174,12 @@ class SnapPackage extends _$SnapPackage {
     }
   }
 
-  Future<void> _listenUntilDone(String changeId, String snapName, Ref ref) {
+  Future<void> _listenUntilDone(
+    String changeId,
+    String snapName,
+    Ref ref, {
+    bool invalidate = true,
+  }) async {
     final completer = Completer();
     _snapd.watchChange(changeId).listen((event) {
       if (event.err != null) {
@@ -189,7 +188,10 @@ class SnapPackage extends _$SnapPackage {
         completer.complete();
       }
     });
-    return completer.future.whenComplete(() => _updateChangeId(null));
+    await completer.future.whenComplete(() => _updateChangeId(null));
+    if (invalidate) {
+      ref.invalidateSelf();
+    }
   }
 }
 

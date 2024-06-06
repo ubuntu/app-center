@@ -291,7 +291,7 @@ void main() {
         child: SnapPage(snapName: localSnap.name),
       ),
     );
-    await tester.pump();
+    await tester.pumpAndSettle();
     expectSnapInfos(tester, localSnap);
     expect(find.byType(ScreenshotGallery), findsNothing);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
