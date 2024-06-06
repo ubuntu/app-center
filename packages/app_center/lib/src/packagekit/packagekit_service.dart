@@ -172,12 +172,13 @@ class PackageKitService {
         if (event is PackageKitPackageEvent &&
             possibleArchs.contains(event.packageId.arch)) {
           info = event;
-        } else {
-          log.error(
-              'Couldn\'t resolve package $name with architectures $possibleArchs');
         }
       },
     ).then(waitTransaction);
+    if (info == null) {
+      log.error(
+          'Couldn\'t resolve package $name with architectures $possibleArchs');
+    }
     return info;
   }
 
@@ -189,11 +190,12 @@ class PackageKitService {
       listener: (event) {
         if (event is PackageKitDetailsEvent) {
           details = event;
-        } else {
-          log.error('Couldn\'t get details for local package $absolutePath');
         }
       },
     ).then(waitTransaction);
+    if (details == null) {
+      log.error('Couldn\'t get details for local package $absolutePath');
+    }
     return details;
   }
 
