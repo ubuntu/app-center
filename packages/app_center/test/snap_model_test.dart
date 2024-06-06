@@ -202,6 +202,7 @@ void main() {
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
+    await container.read(snapPackageProvider('testsnap').future);
     await container.read(snapPackageProvider('testsnap').notifier).remove();
 
     verify(service.remove('testsnap')).called(1);
