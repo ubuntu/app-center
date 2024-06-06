@@ -1,6 +1,7 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/snapd/snapd_cache.dart';
 import 'package:app_center/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter/material.dart';
@@ -131,7 +132,8 @@ void main() {
         child: const SnapPage(snapName: 'testsnap'),
       ),
     );
-    await container.read(snapPackageProvider('testsnap').notifier).fullyLoad();
+    await container.read(storeSnapProvider('testsnap').future);
+    await container.read(snapPackageProvider('testsnap').future);
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.byType(ScreenshotGallery), findsOneWidget);
@@ -191,9 +193,8 @@ void main() {
         child: SnapPage(snapName: storeSnap.name),
       ),
     );
-    await container
-        .read(snapPackageProvider(storeSnap.name).notifier)
-        .fullyLoad();
+    await container.read(storeSnapProvider(storeSnap.name).future);
+    await container.read(snapPackageProvider(storeSnap.name).future);
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.byType(ScreenshotGallery), findsOneWidget);
@@ -249,9 +250,8 @@ void main() {
         child: SnapPage(snapName: storeSnap.name),
       ),
     );
-    await container
-        .read(snapPackageProvider(storeSnap.name).notifier)
-        .fullyLoad();
+    await container.read(storeSnapProvider(storeSnap.name).future);
+    await container.read(snapPackageProvider(storeSnap.name).future);
     await tester.pump();
     expectSnapInfos(tester, storeSnap);
     expect(find.byType(ScreenshotGallery), findsOneWidget);

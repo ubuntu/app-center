@@ -4,8 +4,8 @@ import 'package:app_center/snapd.dart';
 import 'package:app_center/src/snapd/snap_data.dart';
 import 'package:app_center/src/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meta/meta.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -56,17 +56,17 @@ class SnapPackage extends _$SnapPackage {
     );
   }
 
+  /// Installs the selected snap from the selected channel.
   Future<void> install() async {
-    if (!state.hasValue) {
-      await future;
-    }
+    assert(state.hasValue, 'The snap must be loaded before installing it');
     final model = state.value;
     final storeSnap = model?.storeSnap;
     final selectedChannel = model?.selectedChannel;
 
-    if (storeSnap?.channels[selectedChannel] == null) {
-      throw PrematureSnapOperationException();
-    }
+    assert(
+      storeSnap?.channels[selectedChannel] != null,
+      'Invalid channel or not fully loaded store snap $selectedChannel',
+    );
     final changeId = await _snapd.install(
       snapName,
       channel: selectedChannel,
@@ -77,10 +77,9 @@ class SnapPackage extends _$SnapPackage {
     return _listenUntilDone(changeId, snapName, ref);
   }
 
+  /// Aborts the currently active operation (tracked by `activeChangeId`).
   Future<void> abort() async {
-    if (!state.hasValue) {
-      await future;
-    }
+    assert(state.hasValue, 'The snap must be loaded before aborting an action');
     final changeIdToAbort = state.value?.activeChangeId;
     if (changeIdToAbort == null) {
       return;
@@ -90,17 +89,12 @@ class SnapPackage extends _$SnapPackage {
     return _listenUntilDone(changeId, snapName, ref, invalidate: false);
   }
 
+  /// Updates the version of the snap.
   Future<void> refresh() async {
-    if (!state.hasValue) {
-      await future;
-    }
-    final snapData = state.asData?.valueOrNull;
-    final storeSnap = snapData?.storeSnap;
-    final selectedChannel = snapData?.selectedChannel;
-
-    if (snapData == null || storeSnap?.channels[selectedChannel] == null) {
-      throw PrematureSnapOperationException();
-    }
+    assert(state.hasValue, 'The snap must be loaded before updating it');
+    final snapData = state.value!;
+    final storeSnap = snapData.storeSnap;
+    final selectedChannel = snapData.selectedChannel;
 
     final changeId = await _snapd.refresh(
       snapData.name,
@@ -112,6 +106,7 @@ class SnapPackage extends _$SnapPackage {
     return _listenUntilDone(changeId, snapData.name, ref);
   }
 
+  /// Uninstalls the snap.
   Future<void> remove() async {
     assert(state.hasValue, 'The snap must be loaded before removing it');
     final changeId = await getService<SnapdService>().remove(snapName);
@@ -119,25 +114,11 @@ class SnapPackage extends _$SnapPackage {
     return _listenUntilDone(changeId, snapName, ref);
   }
 
+  /// Changes the selected channel.
   Future<void> selectChannel(String channel) async {
     assert(state.hasValue, 'The snap must be loaded before changing channel');
-    final data = state.asData?.valueOrNull;
-    if (data != null) {
-      state = AsyncData(data.copyWith(selectedChannel: channel));
-    }
-  }
-
-  // TODO: Remove if not used
-  @visibleForTesting
-  Future<void> fullyLoad({bool awaitFuture = true}) async {
-    if (awaitFuture && state.isLoading) {
-      await future;
-    }
-    final data = state.asData?.valueOrNull;
-    if (data != null) {
-      final storeSnap = await ref.read(storeSnapProvider(data.name).future);
-      state = AsyncData(data.copyWith(storeSnapState: AsyncData(storeSnap)));
-    }
+    final data = state.value!;
+    state = AsyncData(data.copyWith(selectedChannel: channel));
   }
 
   @visibleForTesting
@@ -168,7 +149,7 @@ class SnapPackage extends _$SnapPackage {
   }
 
   void _updateChangeId(String? changeId) {
-    final data = state.asData?.valueOrNull;
+    final data = state.value;
     if (data != null) {
       state = AsyncData(data.copyWith(activeChangeId: changeId));
     }
@@ -243,12 +224,5 @@ extension SnapdChangeX on SnapdChange {
     }
 
     return total != 0 ? done / total : 0;
-  }
-}
-
-class PrematureSnapOperationException implements Exception {
-  @override
-  String toString() {
-    return 'The operation can not be performed before the snap is loaded';
   }
 }
