@@ -54,7 +54,7 @@ void main() {
   final snapData = SnapData(
     name: refreshableSnaps[0].name,
     localSnap: refreshableSnaps[0],
-    storeSnap: refreshableSnaps[0],
+    storeSnapState: AsyncData(refreshableSnaps[0]),
   );
 
   testWidgets('list installed snaps', (tester) async {

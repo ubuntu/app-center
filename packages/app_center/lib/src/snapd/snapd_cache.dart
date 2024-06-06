@@ -132,8 +132,10 @@ class StoreSnap extends _$StoreSnap {
   Future<Snap?> _refreshSnapCache(String name, CacheFile file) async {
     try {
       final client = getService<SnapdService>();
-      final snap = await client.find(name: name).then((r) => r.single);
-      await file.writeSnap(snap);
+      final snap = await client.find(name: name).then((r) => r.firstOrNull);
+      if (snap != null) {
+        await file.writeSnap(snap);
+      }
       return snap;
     } on SnapdException catch (e) {
       if (e.kind == 'snap-not-found') {

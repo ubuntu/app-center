@@ -25,15 +25,16 @@ class SnapPackage extends _$SnapPackage {
       if (e.kind != 'snap-not-found') rethrow;
     }
 
-    final Snap? storeSnap;
+    final AsyncValue<Snap?> storeSnapState;
     if (localSnap == null) {
       // If we don't have a local snap we keep the provider in loading until the
       // store snap is loaded.
-      storeSnap = await ref.watch(storeSnapProvider(snapName).future);
+      storeSnapState =
+          AsyncData(await ref.watch(storeSnapProvider(snapName).future));
     } else {
       // Since we have a local snap we don't need to wait for the store snap to
       // be loaded, but the store snap will be updated in the data once it is.
-      storeSnap = ref.watch(storeSnapProvider(snapName)).valueOrNull;
+      storeSnapState = ref.watch(storeSnapProvider(snapName));
     }
 
     final activeChangeId = (await _snapd.getChanges(name: snapName))
@@ -46,9 +47,12 @@ class SnapPackage extends _$SnapPackage {
     return SnapData(
       name: snapName,
       localSnap: localSnap,
-      storeSnap: storeSnap,
+      storeSnapState: storeSnapState,
       activeChangeId: activeChangeId,
-      selectedChannel: SnapData.defaultSelectedChannel(localSnap, storeSnap),
+      selectedChannel: SnapData.defaultSelectedChannel(
+        localSnap,
+        storeSnapState.valueOrNull,
+      ),
     );
   }
 
@@ -131,38 +135,22 @@ class SnapPackage extends _$SnapPackage {
 
   // TODO: Remove if not used
   @visibleForTesting
-  Future<void> fullyLoad() async {
-    if (state.isLoading) {
+  Future<void> fullyLoad({bool awaitFuture = true}) async {
+    if (awaitFuture && state.isLoading) {
       await future;
     }
     final data = state.asData?.valueOrNull;
     if (data != null) {
       final storeSnap = await ref.read(storeSnapProvider(data.name).future);
-      state = AsyncData(data.copyWith(storeSnap: storeSnap));
+      state = AsyncData(data.copyWith(storeSnapState: AsyncData(storeSnap)));
     }
   }
 
   @visibleForTesting
-  void setValues({
-    bool? hasUpdate,
-    Snap? localSnap,
-    Snap? storeSnap,
-    String? selectedChannel,
-    String? snapName,
-    String? activeChangeId,
-    AsyncValue<SnapData>? mockState,
-  }) {
-    if (mockState != null) {
-      state = mockState;
-    }
-    state = AsyncData(SnapData(
-      name: snapName ?? localSnap?.name ?? storeSnap?.name ?? '',
-      localSnap: localSnap,
-      storeSnap: storeSnap,
-      selectedChannel:
-          selectedChannel ?? localSnap?.trackingChannel ?? 'latest/stable',
-      activeChangeId: activeChangeId,
-    ));
+  void setMockState(
+    AsyncValue<SnapData> mockState,
+  ) {
+    state = mockState;
   }
 
   void Function()? callback(

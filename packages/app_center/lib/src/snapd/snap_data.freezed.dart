@@ -18,44 +18,56 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SnapData {
   String get name => throw _privateConstructorUsedError;
   Snap? get localSnap => throw _privateConstructorUsedError;
-  Snap? get storeSnap => throw _privateConstructorUsedError;
+  AsyncValue<Snap?> get storeSnapState => throw _privateConstructorUsedError;
   String? get selectedChannel => throw _privateConstructorUsedError;
   String? get activeChangeId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String name, Snap? localSnap, Snap? storeSnap,
-            String? selectedChannel, String? activeChangeId)
-        def,
+    required TResult Function(
+            String name,
+            Snap? localSnap,
+            AsyncValue<Snap?> storeSnapState,
+            String? selectedChannel,
+            String? activeChangeId)
+        definition,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String name, Snap? localSnap, Snap? storeSnap,
-            String? selectedChannel, String? activeChangeId)?
-        def,
+    TResult? Function(
+            String name,
+            Snap? localSnap,
+            AsyncValue<Snap?> storeSnapState,
+            String? selectedChannel,
+            String? activeChangeId)?
+        definition,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String name, Snap? localSnap, Snap? storeSnap,
-            String? selectedChannel, String? activeChangeId)?
-        def,
+    TResult Function(
+            String name,
+            Snap? localSnap,
+            AsyncValue<Snap?> storeSnapState,
+            String? selectedChannel,
+            String? activeChangeId)?
+        definition,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_SnapData value) def,
+    required TResult Function(_SnapData value) definition,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_SnapData value)? def,
+    TResult? Function(_SnapData value)? definition,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SnapData value)? def,
+    TResult Function(_SnapData value)? definition,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -73,7 +85,7 @@ abstract class $SnapDataCopyWith<$Res> {
   $Res call(
       {String name,
       Snap? localSnap,
-      Snap? storeSnap,
+      AsyncValue<Snap?> storeSnapState,
       String? selectedChannel,
       String? activeChangeId});
 }
@@ -93,7 +105,7 @@ class _$SnapDataCopyWithImpl<$Res, $Val extends SnapData>
   $Res call({
     Object? name = null,
     Object? localSnap = freezed,
-    Object? storeSnap = freezed,
+    Object? storeSnapState = null,
     Object? selectedChannel = freezed,
     Object? activeChangeId = freezed,
   }) {
@@ -106,10 +118,10 @@ class _$SnapDataCopyWithImpl<$Res, $Val extends SnapData>
           ? _value.localSnap
           : localSnap // ignore: cast_nullable_to_non_nullable
               as Snap?,
-      storeSnap: freezed == storeSnap
-          ? _value.storeSnap
-          : storeSnap // ignore: cast_nullable_to_non_nullable
-              as Snap?,
+      storeSnapState: null == storeSnapState
+          ? _value.storeSnapState
+          : storeSnapState // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<Snap?>,
       selectedChannel: freezed == selectedChannel
           ? _value.selectedChannel
           : selectedChannel // ignore: cast_nullable_to_non_nullable
@@ -133,7 +145,7 @@ abstract class _$$SnapDataImplCopyWith<$Res>
   $Res call(
       {String name,
       Snap? localSnap,
-      Snap? storeSnap,
+      AsyncValue<Snap?> storeSnapState,
       String? selectedChannel,
       String? activeChangeId});
 }
@@ -151,7 +163,7 @@ class __$$SnapDataImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? localSnap = freezed,
-    Object? storeSnap = freezed,
+    Object? storeSnapState = null,
     Object? selectedChannel = freezed,
     Object? activeChangeId = freezed,
   }) {
@@ -164,10 +176,10 @@ class __$$SnapDataImplCopyWithImpl<$Res>
           ? _value.localSnap
           : localSnap // ignore: cast_nullable_to_non_nullable
               as Snap?,
-      storeSnap: freezed == storeSnap
-          ? _value.storeSnap
-          : storeSnap // ignore: cast_nullable_to_non_nullable
-              as Snap?,
+      storeSnapState: null == storeSnapState
+          ? _value.storeSnapState
+          : storeSnapState // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<Snap?>,
       selectedChannel: freezed == selectedChannel
           ? _value.selectedChannel
           : selectedChannel // ignore: cast_nullable_to_non_nullable
@@ -186,7 +198,7 @@ class _$SnapDataImpl extends _SnapData {
   _$SnapDataImpl(
       {required this.name,
       required this.localSnap,
-      required this.storeSnap,
+      required this.storeSnapState,
       required this.selectedChannel,
       this.activeChangeId})
       : super._();
@@ -196,7 +208,7 @@ class _$SnapDataImpl extends _SnapData {
   @override
   final Snap? localSnap;
   @override
-  final Snap? storeSnap;
+  final AsyncValue<Snap?> storeSnapState;
   @override
   final String? selectedChannel;
   @override
@@ -204,7 +216,7 @@ class _$SnapDataImpl extends _SnapData {
 
   @override
   String toString() {
-    return 'SnapData.def(name: $name, localSnap: $localSnap, storeSnap: $storeSnap, selectedChannel: $selectedChannel, activeChangeId: $activeChangeId)';
+    return 'SnapData.definition(name: $name, localSnap: $localSnap, storeSnapState: $storeSnapState, selectedChannel: $selectedChannel, activeChangeId: $activeChangeId)';
   }
 
   @override
@@ -215,8 +227,8 @@ class _$SnapDataImpl extends _SnapData {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.localSnap, localSnap) ||
                 other.localSnap == localSnap) &&
-            (identical(other.storeSnap, storeSnap) ||
-                other.storeSnap == storeSnap) &&
+            (identical(other.storeSnapState, storeSnapState) ||
+                other.storeSnapState == storeSnapState) &&
             (identical(other.selectedChannel, selectedChannel) ||
                 other.selectedChannel == selectedChannel) &&
             (identical(other.activeChangeId, activeChangeId) ||
@@ -224,8 +236,8 @@ class _$SnapDataImpl extends _SnapData {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, name, localSnap, storeSnap, selectedChannel, activeChangeId);
+  int get hashCode => Object.hash(runtimeType, name, localSnap, storeSnapState,
+      selectedChannel, activeChangeId);
 
   @JsonKey(ignore: true)
   @override
@@ -236,34 +248,48 @@ class _$SnapDataImpl extends _SnapData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String name, Snap? localSnap, Snap? storeSnap,
-            String? selectedChannel, String? activeChangeId)
-        def,
+    required TResult Function(
+            String name,
+            Snap? localSnap,
+            AsyncValue<Snap?> storeSnapState,
+            String? selectedChannel,
+            String? activeChangeId)
+        definition,
   }) {
-    return def(name, localSnap, storeSnap, selectedChannel, activeChangeId);
+    return definition(
+        name, localSnap, storeSnapState, selectedChannel, activeChangeId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String name, Snap? localSnap, Snap? storeSnap,
-            String? selectedChannel, String? activeChangeId)?
-        def,
+    TResult? Function(
+            String name,
+            Snap? localSnap,
+            AsyncValue<Snap?> storeSnapState,
+            String? selectedChannel,
+            String? activeChangeId)?
+        definition,
   }) {
-    return def?.call(
-        name, localSnap, storeSnap, selectedChannel, activeChangeId);
+    return definition?.call(
+        name, localSnap, storeSnapState, selectedChannel, activeChangeId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String name, Snap? localSnap, Snap? storeSnap,
-            String? selectedChannel, String? activeChangeId)?
-        def,
+    TResult Function(
+            String name,
+            Snap? localSnap,
+            AsyncValue<Snap?> storeSnapState,
+            String? selectedChannel,
+            String? activeChangeId)?
+        definition,
     required TResult orElse(),
   }) {
-    if (def != null) {
-      return def(name, localSnap, storeSnap, selectedChannel, activeChangeId);
+    if (definition != null) {
+      return definition(
+          name, localSnap, storeSnapState, selectedChannel, activeChangeId);
     }
     return orElse();
   }
@@ -271,27 +297,27 @@ class _$SnapDataImpl extends _SnapData {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_SnapData value) def,
+    required TResult Function(_SnapData value) definition,
   }) {
-    return def(this);
+    return definition(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_SnapData value)? def,
+    TResult? Function(_SnapData value)? definition,
   }) {
-    return def?.call(this);
+    return definition?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SnapData value)? def,
+    TResult Function(_SnapData value)? definition,
     required TResult orElse(),
   }) {
-    if (def != null) {
-      return def(this);
+    if (definition != null) {
+      return definition(this);
     }
     return orElse();
   }
@@ -301,7 +327,7 @@ abstract class _SnapData extends SnapData {
   factory _SnapData(
       {required final String name,
       required final Snap? localSnap,
-      required final Snap? storeSnap,
+      required final AsyncValue<Snap?> storeSnapState,
       required final String? selectedChannel,
       final String? activeChangeId}) = _$SnapDataImpl;
   _SnapData._() : super._();
@@ -311,7 +337,7 @@ abstract class _SnapData extends SnapData {
   @override
   Snap? get localSnap;
   @override
-  Snap? get storeSnap;
+  AsyncValue<Snap?> get storeSnapState;
   @override
   String? get selectedChannel;
   @override

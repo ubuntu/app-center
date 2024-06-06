@@ -346,7 +346,7 @@ void main() {
     await tester.pump();
     container
         .read(snapPackageProvider(storeSnap.name).notifier)
-        .setValues(mockState: const AsyncLoading());
+        .setMockState(const AsyncLoading());
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
     expect(find.byIcon(Icons.thumb_up_outlined), findsNothing);
@@ -376,8 +376,8 @@ void main() {
         child: SnapPage(snapName: storeSnap.name),
       ),
     );
-    container.read(snapPackageProvider(storeSnap.name).notifier).setValues(
-          mockState: AsyncError(
+    container.read(snapPackageProvider(storeSnap.name).notifier).setMockState(
+          AsyncError(
             SnapdException(
               message: 'error message',
               kind: 'error kind',
