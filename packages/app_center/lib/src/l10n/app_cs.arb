@@ -386,5 +386,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "appstreamUrlTypeContribute": "Přispět",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeVcsBrowser": "Zdrojový kód",
+  "@appstreamUrlTypeVcsBrowser": {}
 }
