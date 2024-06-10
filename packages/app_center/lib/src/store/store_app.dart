@@ -41,82 +41,81 @@ class _StoreAppState extends ConsumerState<StoreApp> {
     });
 
     return CallbackShortcuts(
-        bindings: <ShortcutActivator, VoidCallback>{
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF):
-              () {
-            searchFocus.requestFocus();
-            searchFocus.nextFocus();
-          }
-        },
-        child: YaruTheme(
-          builder: (context, yaru, child) => MaterialApp(
-            theme: yaru.theme,
-            darkTheme: yaru.darkTheme,
-            highContrastTheme: yaruHighContrastLight,
-            highContrastDarkTheme: yaruHighContrastDark,
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: localizationsDelegates,
-            navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
-            supportedLocales: supportedLocales,
-            home: YaruWindowTitleSetter(
-              child: Scaffold(
-                appBar: YaruWindowTitleBar(
-                  title: ConstrainedBox(
-                    constraints:
-                        const BoxConstraints(maxWidth: kSearchBarWidth),
-                    child: SearchField(
-                      onSearch: (query) =>
-                          _navigator.pushAndRemoveSearch(query: query),
-                      onSnapSelected: (name) => _navigator.pushSnap(name: name),
-                      onDebSelected: (id) => _navigator.pushDeb(id: id),
-                      searchFocus: searchFocus,
+      bindings: <ShortcutActivator, VoidCallback>{
+        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF): () {
+          searchFocus.requestFocus();
+          searchFocus.nextFocus();
+        }
+      },
+      child: YaruTheme(
+        builder: (context, yaru, child) => MaterialApp(
+          theme: yaru.theme,
+          darkTheme: yaru.darkTheme,
+          highContrastTheme: yaruHighContrastLight,
+          highContrastDarkTheme: yaruHighContrastDark,
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: localizationsDelegates,
+          navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
+          supportedLocales: supportedLocales,
+          home: YaruWindowTitleSetter(
+            child: Scaffold(
+              appBar: YaruWindowTitleBar(
+                title: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: kSearchBarWidth),
+                  child: SearchField(
+                    onSearch: (query) =>
+                        _navigator.pushAndRemoveSearch(query: query),
+                    onSnapSelected: (name) => _navigator.pushSnap(name: name),
+                    onDebSelected: (id) => _navigator.pushDeb(id: id),
+                    searchFocus: searchFocus,
+                  ),
+                ),
+              ),
+              body: YaruMasterDetailPage(
+                navigatorKey: _navigatorKey,
+                navigatorObservers: [StoreObserver(ref)],
+                initialRoute: ref.watch(initialRouteProvider),
+                controller: ref.watch(yaruPageControllerProvider),
+                tileBuilder: (context, index, selected, availableWidth) =>
+                    pages[index].tileBuilder(context, selected),
+                pageBuilder: (context, index) =>
+                    pages[index].pageBuilder(context),
+                layoutDelegate: const YaruMasterFixedPaneDelegate(
+                  paneWidth: kPaneWidth,
+                ),
+                breakpoint: 0, // always landscape
+                onGenerateRoute: (settings) =>
+                    switch (StoreRoutes.routeOf(settings)) {
+                  StoreRoutes.deb => MaterialPageRoute(
+                      settings: settings,
+                      builder: (_) => DebPage(
+                            id: StoreRoutes.debOf(settings)!,
+                          )),
+                  StoreRoutes.snap => MaterialPageRoute(
+                      settings: settings,
+                      builder: (_) => SnapPage(
+                        snapName: StoreRoutes.snapOf(settings)!,
+                      ),
                     ),
-                  ),
-                ),
-                body: YaruMasterDetailPage(
-                  navigatorKey: _navigatorKey,
-                  navigatorObservers: [StoreObserver(ref)],
-                  initialRoute: ref.watch(initialRouteProvider),
-                  controller: ref.watch(yaruPageControllerProvider),
-                  tileBuilder: (context, index, selected, availableWidth) =>
-                      pages[index].tileBuilder(context, selected),
-                  pageBuilder: (context, index) =>
-                      pages[index].pageBuilder(context),
-                  layoutDelegate: const YaruMasterFixedPaneDelegate(
-                    paneWidth: kPaneWidth,
-                  ),
-                  breakpoint: 0, // always landscape
-                  onGenerateRoute: (settings) =>
-                      switch (StoreRoutes.routeOf(settings)) {
-                    StoreRoutes.deb => MaterialPageRoute(
-                        settings: settings,
-                        builder: (_) => DebPage(
-                              id: StoreRoutes.debOf(settings)!,
-                            )),
-                    StoreRoutes.snap => MaterialPageRoute(
-                        settings: settings,
-                        builder: (_) => SnapPage(
-                          snapName: StoreRoutes.snapOf(settings)!,
-                        ),
+                  StoreRoutes.search => MaterialPageRoute(
+                      settings: settings,
+                      builder: (_) => SearchPage(
+                        query: StoreRoutes.queryOf(settings),
+                        category: StoreRoutes.categoryOf(settings),
                       ),
-                    StoreRoutes.search => MaterialPageRoute(
-                        settings: settings,
-                        builder: (_) => SearchPage(
-                          query: StoreRoutes.queryOf(settings),
-                          category: StoreRoutes.categoryOf(settings),
-                        ),
-                      ),
-                    StoreRoutes.externalTools => MaterialPageRoute(
-                        settings: settings,
-                        builder: (_) => const ExternalTools(),
-                      ),
-                    _ => null,
-                  },
-                ),
+                    ),
+                  StoreRoutes.externalTools => MaterialPageRoute(
+                      settings: settings,
+                      builder: (_) => const ExternalTools(),
+                    ),
+                  _ => null,
+                },
               ),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 
