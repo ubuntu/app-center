@@ -41,9 +41,9 @@ class SnapPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final snap = ref.watch(snapPackageProvider(snapName));
+    final snap = ref.watch(snapModelProvider(snapName));
     final updatesModel = ref.watch(updatesModelProvider);
-    ref.listen(snapPackageProvider(snapName), (_, value) {
+    ref.listen(snapModelProvider(snapName), (_, value) {
       if (value.hasError && value.error is SnapdException) {
         showError(context, value.error as SnapdException);
       }
@@ -300,7 +300,7 @@ class _SnapActionButtons extends ConsumerWidget {
         ? ref.watch(launchProvider(localSnap))
         : null;
     final updatesModel = ref.watch(updatesModelProvider);
-    final snapNotifier = ref.read(snapPackageProvider(snapModel.name).notifier);
+    final snapNotifier = ref.read(snapModelProvider(snapModel.name).notifier);
 
     final SnapAction primaryAction;
     if (snapModel.isInstalled) {
@@ -600,7 +600,7 @@ class _ChannelDropdown extends ConsumerWidget {
             itemBuilder: (context, value, child) => Text(value),
             selected: model.selectedChannel,
             onSelected: (value) => ref
-                .read(snapPackageProvider(model.name).notifier)
+                .read(snapModelProvider(model.name).notifier)
                 .selectChannel(value),
             menuPosition: PopupMenuPosition.under,
             menuStyle: const MenuStyle(

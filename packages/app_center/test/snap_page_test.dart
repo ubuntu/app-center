@@ -136,7 +136,7 @@ void main() {
       ),
     );
     await container.read(storeSnapProvider('testsnap').future);
-    await container.read(snapPackageProvider('testsnap').future);
+    await container.read(snapModelProvider('testsnap').future);
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.byType(ScreenshotGallery), findsOneWidget);
@@ -197,7 +197,7 @@ void main() {
       ),
     );
     await container.read(storeSnapProvider(storeSnap.name).future);
-    await container.read(snapPackageProvider(storeSnap.name).future);
+    await container.read(snapModelProvider(storeSnap.name).future);
     await tester.pump();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.byType(ScreenshotGallery), findsOneWidget);
@@ -254,7 +254,7 @@ void main() {
       ),
     );
     await container.read(storeSnapProvider(storeSnap.name).future);
-    await container.read(snapPackageProvider(storeSnap.name).future);
+    await container.read(snapModelProvider(storeSnap.name).future);
     await tester.pump();
     expectSnapInfos(tester, storeSnap);
     expect(find.byType(ScreenshotGallery), findsOneWidget);
@@ -348,7 +348,7 @@ void main() {
       ),
     );
     await tester.pump();
-    container.read(snapPackageProvider(storeSnap.name).notifier).state =
+    container.read(snapModelProvider(storeSnap.name).notifier).state =
         const AsyncLoading();
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
@@ -379,7 +379,7 @@ void main() {
         child: SnapPage(snapName: storeSnap.name),
       ),
     );
-    container.read(snapPackageProvider(storeSnap.name).notifier).state =
+    container.read(snapModelProvider(storeSnap.name).notifier).state =
         AsyncError(
       SnapdException(message: 'error message', kind: 'error kind'),
       StackTrace.current,

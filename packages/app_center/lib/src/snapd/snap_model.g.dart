@@ -6,7 +6,7 @@ part of 'snap_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$snapPackageHash() => r'04b6f9796c9c92dce2f0d309a82fafaa82586dfa';
+String _$snapModelHash() => r'1f022ba15fffe2fb0fbc9b8dfd7b7c009ca53c27';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$SnapPackage extends BuildlessAsyncNotifier<SnapData> {
+abstract class _$SnapModel extends BuildlessAsyncNotifier<SnapData> {
   late final String snapName;
 
   FutureOr<SnapData> build(
@@ -37,27 +37,27 @@ abstract class _$SnapPackage extends BuildlessAsyncNotifier<SnapData> {
   );
 }
 
-/// See also [SnapPackage].
-@ProviderFor(SnapPackage)
-const snapPackageProvider = SnapPackageFamily();
+/// See also [SnapModel].
+@ProviderFor(SnapModel)
+const snapModelProvider = SnapModelFamily();
 
-/// See also [SnapPackage].
-class SnapPackageFamily extends Family<AsyncValue<SnapData>> {
-  /// See also [SnapPackage].
-  const SnapPackageFamily();
+/// See also [SnapModel].
+class SnapModelFamily extends Family<AsyncValue<SnapData>> {
+  /// See also [SnapModel].
+  const SnapModelFamily();
 
-  /// See also [SnapPackage].
-  SnapPackageProvider call(
+  /// See also [SnapModel].
+  SnapModelProvider call(
     String snapName,
   ) {
-    return SnapPackageProvider(
+    return SnapModelProvider(
       snapName,
     );
   }
 
   @override
-  SnapPackageProvider getProviderOverride(
-    covariant SnapPackageProvider provider,
+  SnapModelProvider getProviderOverride(
+    covariant SnapModelProvider provider,
   ) {
     return call(
       provider.snapName,
@@ -76,30 +76,28 @@ class SnapPackageFamily extends Family<AsyncValue<SnapData>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'snapPackageProvider';
+  String? get name => r'snapModelProvider';
 }
 
-/// See also [SnapPackage].
-class SnapPackageProvider
-    extends AsyncNotifierProviderImpl<SnapPackage, SnapData> {
-  /// See also [SnapPackage].
-  SnapPackageProvider(
+/// See also [SnapModel].
+class SnapModelProvider extends AsyncNotifierProviderImpl<SnapModel, SnapData> {
+  /// See also [SnapModel].
+  SnapModelProvider(
     String snapName,
   ) : this._internal(
-          () => SnapPackage()..snapName = snapName,
-          from: snapPackageProvider,
-          name: r'snapPackageProvider',
+          () => SnapModel()..snapName = snapName,
+          from: snapModelProvider,
+          name: r'snapModelProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$snapPackageHash,
-          dependencies: SnapPackageFamily._dependencies,
-          allTransitiveDependencies:
-              SnapPackageFamily._allTransitiveDependencies,
+                  : _$snapModelHash,
+          dependencies: SnapModelFamily._dependencies,
+          allTransitiveDependencies: SnapModelFamily._allTransitiveDependencies,
           snapName: snapName,
         );
 
-  SnapPackageProvider._internal(
+  SnapModelProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -113,7 +111,7 @@ class SnapPackageProvider
 
   @override
   FutureOr<SnapData> runNotifierBuild(
-    covariant SnapPackage notifier,
+    covariant SnapModel notifier,
   ) {
     return notifier.build(
       snapName,
@@ -121,10 +119,10 @@ class SnapPackageProvider
   }
 
   @override
-  Override overrideWith(SnapPackage Function() create) {
+  Override overrideWith(SnapModel Function() create) {
     return ProviderOverride(
       origin: this,
-      override: SnapPackageProvider._internal(
+      override: SnapModelProvider._internal(
         () => create()..snapName = snapName,
         from: from,
         name: null,
@@ -137,13 +135,13 @@ class SnapPackageProvider
   }
 
   @override
-  AsyncNotifierProviderElement<SnapPackage, SnapData> createElement() {
-    return _SnapPackageProviderElement(this);
+  AsyncNotifierProviderElement<SnapModel, SnapData> createElement() {
+    return _SnapModelProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SnapPackageProvider && other.snapName == snapName;
+    return other is SnapModelProvider && other.snapName == snapName;
   }
 
   @override
@@ -155,18 +153,18 @@ class SnapPackageProvider
   }
 }
 
-mixin SnapPackageRef on AsyncNotifierProviderRef<SnapData> {
+mixin SnapModelRef on AsyncNotifierProviderRef<SnapData> {
   /// The parameter `snapName` of this provider.
   String get snapName;
 }
 
-class _SnapPackageProviderElement
-    extends AsyncNotifierProviderElement<SnapPackage, SnapData>
-    with SnapPackageRef {
-  _SnapPackageProviderElement(super.provider);
+class _SnapModelProviderElement
+    extends AsyncNotifierProviderElement<SnapModel, SnapData>
+    with SnapModelRef {
+  _SnapModelProviderElement(super.provider);
 
   @override
-  String get snapName => (origin as SnapPackageProvider).snapName;
+  String get snapName => (origin as SnapModelProvider).snapName;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

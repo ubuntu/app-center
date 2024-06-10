@@ -15,7 +15,7 @@ import 'package:yaru/icons.dart';
 part 'snap_model.g.dart';
 
 @Riverpod(keepAlive: true)
-class SnapPackage extends _$SnapPackage {
+class SnapModel extends _$SnapModel {
   late final _snapd = getService<SnapdService>();
 
   @override

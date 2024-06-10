@@ -30,6 +30,7 @@ import 'test_utils.mocks.dart';
 extension WidgetTesterX on WidgetTester {
   BuildContext get context => element(find.byType(Scaffold).first);
   AppLocalizations get l10n => AppLocalizations.of(context);
+
   Future<void> pumpApp(WidgetBuilder builder) async {
     // The intended minimum size of the window.
     view.physicalSize =
