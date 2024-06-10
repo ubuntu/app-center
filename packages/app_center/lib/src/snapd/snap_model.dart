@@ -34,9 +34,17 @@ class SnapModel extends _$SnapModel {
       storeSnapState =
           AsyncData(await ref.watch(storeSnapProvider(snapName).future));
     } else {
+      storeSnapState = const AsyncLoading();
       // Since we have a local snap we don't need to wait for the store snap to
       // be loaded, but the store snap will be updated in the data once it is.
-      storeSnapState = ref.watch(storeSnapProvider(snapName));
+      ref.listen(
+        storeSnapProvider(snapName),
+        (_, snap) {
+          if (state.hasValue) {
+            state = AsyncData(state.value!.copyWith(storeSnapState: snap));
+          }
+        },
+      );
     }
 
     final activeChangeId = (await _snapd.getChanges(name: snapName))
