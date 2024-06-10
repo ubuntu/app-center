@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
 
@@ -49,12 +50,14 @@ final storeSnap = Snap(
 );
 
 void main() {
+  tearDown(resetAllServices);
+
   group('init', () {
     const snapName = 'testsnap';
 
     test('local + store', () async {
       final container = createContainer();
-      createMockSnapdService(localSnap: localSnap, storeSnap: storeSnap);
+      registerMockSnapdService(localSnap: localSnap, storeSnap: storeSnap);
       await container.read(storeSnapProvider(snapName).future);
       final subscription =
           container.listen(snapPackageProvider(snapName), (_, __) {});
@@ -73,7 +76,7 @@ void main() {
 
     test('store only', () async {
       final container = createContainer();
-      createMockSnapdService(storeSnap: storeSnap);
+      registerMockSnapdService(storeSnap: storeSnap);
       final subscription =
           container.listen(snapPackageProvider(snapName), (_, __) {});
       await container.read(snapPackageProvider(snapName).future);
@@ -87,7 +90,7 @@ void main() {
 
     test('local only', () async {
       final container = createContainer();
-      createMockSnapdService(localSnap: localSnap);
+      registerMockSnapdService(localSnap: localSnap);
       final subscription =
           container.listen(snapPackageProvider(snapName), (_, __) {});
       await container.read(snapPackageProvider(snapName).future);
@@ -101,7 +104,7 @@ void main() {
 
     test('get active change', () async {
       final container = createContainer();
-      final service = createMockSnapdService(
+      final service = registerMockSnapdService(
         localSnap: localSnap,
         changes: [SnapdChange(spawnTime: DateTime(1970), id: 'active change')],
       );
@@ -125,7 +128,7 @@ void main() {
   group('install', () {
     test('default channel', () async {
       final container = createContainer();
-      final service = createMockSnapdService(storeSnap: storeSnap);
+      final service = registerMockSnapdService(storeSnap: storeSnap);
       await container.read(snapPackageProvider('testsnap').future);
       await container.read(snapPackageProvider('testsnap').notifier).install();
 
@@ -137,7 +140,7 @@ void main() {
 
     test('non-default channel', () async {
       final container = createContainer();
-      final service = createMockSnapdService(storeSnap: storeSnap);
+      final service = registerMockSnapdService(storeSnap: storeSnap);
       await container.read(snapPackageProvider('testsnap').future);
       await container
           .read(snapPackageProvider('testsnap').notifier)
@@ -155,7 +158,7 @@ void main() {
   group('refresh', () {
     test('update installed snap', () async {
       final container = createContainer();
-      final service = createMockSnapdService(
+      final service = registerMockSnapdService(
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
@@ -175,7 +178,7 @@ void main() {
 
     test('switch channel', () async {
       final container = createContainer();
-      final service = createMockSnapdService(
+      final service = registerMockSnapdService(
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
@@ -198,7 +201,7 @@ void main() {
 
   test('remove', () async {
     final container = createContainer();
-    final service = createMockSnapdService(
+    final service = registerMockSnapdService(
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
@@ -210,7 +213,7 @@ void main() {
 
   test('cancel active change', () async {
     final container = createContainer();
-    final service = createMockSnapdService(
+    final service = registerMockSnapdService(
       localSnap: localSnap,
       storeSnap: storeSnap,
       changes: [
@@ -242,13 +245,13 @@ void main() {
     // To make sure that the install starts, but we can't wait for it since it
     // needs to have time to be cancelled.
     await Future.delayed(Duration.zero);
-    await container.read(snapPackageProvider('testsnap').notifier).abort();
+    await container.read(snapPackageProvider('testsnap').notifier).cancel();
     verify(service.abortChange('changeId')).called(1);
   });
 
   test('error state', () async {
     final container = createContainer();
-    final service = createMockSnapdService(
+    final service = registerMockSnapdService(
       localSnap: localSnap,
       storeSnap: storeSnap,
     );

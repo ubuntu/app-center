@@ -1,14 +1,16 @@
 import 'dart:async';
 
+import 'package:app_center/l10n.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/snapd/snap_data.dart';
 import 'package:app_center/src/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meta/meta.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru/icons.dart';
 
 part 'snap_model.g.dart';
 
@@ -20,7 +22,7 @@ class SnapPackage extends _$SnapPackage {
   Future<SnapData> build(String snapName) async {
     Snap? localSnap;
     try {
-      localSnap = await getService<SnapdService>().getSnap(snapName);
+      localSnap = await _snapd.getSnap(snapName);
     } on SnapdException catch (e) {
       if (e.kind != 'snap-not-found') rethrow;
     }
@@ -77,8 +79,9 @@ class SnapPackage extends _$SnapPackage {
     return _listenUntilDone(changeId, snapName, ref);
   }
 
-  /// Aborts the currently active operation (tracked by `activeChangeId`).
-  Future<void> abort() async {
+  /// Cancels (aborts) the currently active operation which is tracked by
+  /// the `activeChangeId`.
+  Future<void> cancel() async {
     assert(state.hasValue, 'The snap must be loaded before aborting an action');
     final changeIdToAbort = state.value?.activeChangeId;
     if (changeIdToAbort == null) {
@@ -109,7 +112,7 @@ class SnapPackage extends _$SnapPackage {
   /// Uninstalls the snap.
   Future<void> remove() async {
     assert(state.hasValue, 'The snap must be loaded before removing it');
-    final changeId = await getService<SnapdService>().remove(snapName);
+    final changeId = await _snapd.remove(snapName);
     _updateChangeId(changeId);
     return _listenUntilDone(changeId, snapName, ref);
   }
@@ -121,26 +124,18 @@ class SnapPackage extends _$SnapPackage {
     state = AsyncData(data.copyWith(selectedChannel: channel));
   }
 
-  @visibleForTesting
-  void setMockState(
-    AsyncValue<SnapData> mockState,
-  ) {
-    state = mockState;
-  }
-
   void Function()? callback(
     WidgetRef ref,
     SnapAction action, [
     SnapLauncher? launcher,
   ]) {
     return switch (action) {
-      SnapAction.cancel => abort,
+      SnapAction.cancel => cancel,
       SnapAction.install =>
         state.valueOrNull?.storeSnap != null ? install : null,
       SnapAction.open =>
         launcher?.isLaunchable ?? false ? launcher!.open : null,
       SnapAction.remove => remove,
-      // TODO: This must surely be wrong?
       SnapAction.switchChannel =>
         state.valueOrNull?.storeSnap != null ? refresh : null,
       SnapAction.update =>
@@ -213,6 +208,30 @@ final activeChangeProvider =
   ref.onDispose(subscription.cancel);
   return null;
 });
+
+enum SnapAction {
+  cancel,
+  install,
+  open,
+  remove,
+  switchChannel,
+  update;
+
+  String label(AppLocalizations l10n) => switch (this) {
+        cancel => l10n.snapActionCancelLabel,
+        install => l10n.snapActionInstallLabel,
+        open => l10n.snapActionOpenLabel,
+        remove => l10n.snapActionRemoveLabel,
+        switchChannel => l10n.snapActionSwitchChannelLabel,
+        update => l10n.snapActionUpdateLabel,
+      };
+
+  IconData? get icon => switch (this) {
+        update => YaruIcons.refresh,
+        remove => YaruIcons.trash,
+        _ => null,
+      };
+}
 
 extension SnapdChangeX on SnapdChange {
   double get progress {

@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
 import 'package:yaru_test/yaru_test.dart';
 
@@ -56,6 +57,8 @@ void main() {
     localSnap: refreshableSnaps[0],
     storeSnapState: AsyncData(refreshableSnaps[0]),
   );
+
+  tearDown(resetAllServices);
 
   testWidgets('list installed snaps', (tester) async {
     await tester.pumpApp(
@@ -167,7 +170,7 @@ void main() {
   });
 
   testWidgets('refresh individual snap', (tester) async {
-    final service = createMockSnapdService(
+    final service = registerMockSnapdService(
       localSnap: snapData.localSnap,
       storeSnap: snapData.storeSnap,
       refreshableSnaps: refreshableSnaps,
@@ -211,7 +214,7 @@ void main() {
   });
 
   testWidgets('refreshing all', (tester) async {
-    createMockSnapdService(
+    registerMockSnapdService(
       localSnap: snapData.localSnap,
       storeSnap: snapData.storeSnap,
     );
@@ -259,7 +262,7 @@ void main() {
   });
 
   testWidgets('cancel refresh all', (tester) async {
-    createMockSnapdService(
+    registerMockSnapdService(
       localSnap: snapData.localSnap,
       storeSnap: snapData.storeSnap,
     );
@@ -293,7 +296,7 @@ void main() {
   });
 
   testWidgets('error dialog', (tester) async {
-    createMockSnapdService(
+    registerMockSnapdService(
       localSnap: snapData.localSnap,
       storeSnap: snapData.storeSnap,
     );

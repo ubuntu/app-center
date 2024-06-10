@@ -34,7 +34,7 @@ final storeSnap = Snap(
 
 void main() {
   test('install-many', () async {
-    final service = createMockSnapdService(
+    final service = registerMockSnapdService(
         storeSnap: storeSnap,
         storeSnapsCount: SnapCategoryEnum.gameDev.featuredSnapNames!.length);
     final model =

@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_test/ubuntu_test.dart';
 import 'package:yaru/yaru.dart';
 
@@ -106,8 +107,10 @@ void expectSnapInfos(
 // - which channel is currently selected
 // - any combination of the above
 void main() {
+  tearDown(resetAllServices);
+
   testWidgets('local + store', (tester) async {
-    final service = createMockSnapdService(
+    final service = registerMockSnapdService(
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
@@ -167,7 +170,7 @@ void main() {
   });
 
   testWidgets('local + store with update', (tester) async {
-    final service = createMockSnapdService(
+    final service = registerMockSnapdService(
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
@@ -228,7 +231,7 @@ void main() {
   });
 
   testWidgets('store-only', (tester) async {
-    final service = createMockSnapdService(
+    final service = registerMockSnapdService(
       storeSnap: storeSnap,
     );
     final updatesModel = createMockUpdatesModel();
@@ -273,7 +276,7 @@ void main() {
   });
 
   testWidgets('local-only', (tester) async {
-    final service = createMockSnapdService(localSnap: localSnap);
+    final service = registerMockSnapdService(localSnap: localSnap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel = createMockUpdatesModel();
     final ratingsModel = createMockRatingsModel(
@@ -325,6 +328,7 @@ void main() {
   });
 
   testWidgets('loading', (tester) async {
+    registerMockSnapdService(localSnap: localSnap, storeSnap: storeSnap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel = createMockUpdatesModel();
     final ratingsModel = createMockRatingsModel();
@@ -344,9 +348,8 @@ void main() {
       ),
     );
     await tester.pump();
-    container
-        .read(snapPackageProvider(storeSnap.name).notifier)
-        .setMockState(const AsyncLoading());
+    container.read(snapPackageProvider(storeSnap.name).notifier).state =
+        const AsyncLoading();
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
     expect(find.byIcon(Icons.thumb_up_outlined), findsNothing);
@@ -376,15 +379,11 @@ void main() {
         child: SnapPage(snapName: storeSnap.name),
       ),
     );
-    container.read(snapPackageProvider(storeSnap.name).notifier).setMockState(
-          AsyncError(
-            SnapdException(
-              message: 'error message',
-              kind: 'error kind',
-            ),
-            StackTrace.current,
-          ),
-        );
+    container.read(snapPackageProvider(storeSnap.name).notifier).state =
+        AsyncError(
+      SnapdException(message: 'error message', kind: 'error kind'),
+      StackTrace.current,
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('error message'), findsOneWidget);

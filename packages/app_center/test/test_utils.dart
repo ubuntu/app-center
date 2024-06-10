@@ -170,7 +170,7 @@ ManageModel createMockManageModel({
 }
 
 @GenerateMocks([SnapdService])
-MockSnapdService createMockSnapdService({
+MockSnapdService registerMockSnapdService({
   Snap? localSnap,
   Snap? storeSnap,
   List<Snap>? refreshableSnaps,

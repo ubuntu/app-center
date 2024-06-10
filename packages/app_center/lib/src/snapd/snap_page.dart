@@ -502,30 +502,6 @@ class _RatingsActionButtons extends ConsumerWidget {
   }
 }
 
-enum SnapAction {
-  cancel,
-  install,
-  open,
-  remove,
-  switchChannel,
-  update;
-
-  String label(AppLocalizations l10n) => switch (this) {
-        cancel => l10n.snapActionCancelLabel,
-        install => l10n.snapActionInstallLabel,
-        open => l10n.snapActionOpenLabel,
-        remove => l10n.snapActionRemoveLabel,
-        switchChannel => l10n.snapActionSwitchChannelLabel,
-        update => l10n.snapActionUpdateLabel,
-      };
-
-  IconData? get icon => switch (this) {
-        update => YaruIcons.refresh,
-        remove => YaruIcons.trash,
-        _ => null,
-      };
-}
-
 class _Section extends YaruExpandable {
   const _Section({required super.header, required super.child})
       : super(
