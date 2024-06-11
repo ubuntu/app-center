@@ -134,9 +134,9 @@ class _SnapView extends ConsumerWidget {
         label: l10n.snapPageLinksLabel,
         value: Column(
           children: [
-            if (snapModel.snap.website != null)
+            if (snapModel.snap.website?.isNotEmpty ?? false)
               '<a href="${snapModel.snap.website}">${l10n.snapPageDeveloperWebsiteLabel}</a>',
-            if (snapModel.snap.contact != null &&
+            if ((snapModel.snap.contact?.isNotEmpty ?? false) &&
                 snapModel.snap.publisher != null)
               '<a href="${snapModel.snap.contact}">${l10n.snapPageContactPublisherLabel(snapModel.snap.publisher!.displayName)}</a>'
           ]
