@@ -1,6 +1,5 @@
 import 'package:app_center/snapd.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapd/snapd.dart';
 
@@ -12,19 +11,16 @@ class SnapData with _$SnapData {
   factory SnapData({
     required String name,
     required Snap? localSnap,
-    required AsyncValue<Snap?> storeSnapState,
+    required Snap? storeSnap,
     String? selectedChannel,
     String? activeChangeId,
   }) {
     return _SnapData(
       name: name,
       localSnap: localSnap,
-      storeSnapState: storeSnapState,
-      selectedChannel: selectedChannel ??
-          defaultSelectedChannel(
-            localSnap,
-            storeSnapState.valueOrNull,
-          ),
+      storeSnap: storeSnap,
+      selectedChannel:
+          selectedChannel ?? defaultSelectedChannel(localSnap, storeSnap),
       activeChangeId: activeChangeId,
     );
   }
@@ -35,7 +31,7 @@ class SnapData with _$SnapData {
   factory SnapData.definition({
     required String name,
     required Snap? localSnap,
-    required AsyncValue<Snap?> storeSnapState,
+    required Snap? storeSnap,
     required String? selectedChannel,
     String? activeChangeId,
   }) = _SnapData;
@@ -43,7 +39,6 @@ class SnapData with _$SnapData {
   SnapData._();
 
   Snap get snap => storeSnap ?? localSnap!;
-  Snap? get storeSnap => storeSnapState.valueOrNull;
   SnapChannel? get channelInfo => storeSnap?.channels[selectedChannel];
   bool get isInstalled => localSnap != null;
   bool get hasGallery =>

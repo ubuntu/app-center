@@ -4,14 +4,17 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/search.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/providers/error_provider.dart';
 import 'package:app_center/src/store/store_navigator.dart';
 import 'package:app_center/src/store/store_observer.dart';
 import 'package:app_center/src/store/store_pages.dart';
 import 'package:app_center/src/store/store_providers.dart';
 import 'package:app_center/src/store/store_routes.dart';
+import 'package:app_center/widgets.dart';
 import 'package:flutter/material.dart' hide AboutDialog, showAboutDialog;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 
 // Making a provider to provide navigatorKeyTwo
@@ -34,10 +37,24 @@ class _StoreAppState extends ConsumerState<StoreApp> {
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
+  Future<void> _showError(BuildContext context, SnapdException e) {
+    return showErrorDialog(
+      context: context,
+      title: e.kind ?? 'Unknown Snapd Exception',
+      message: e.message,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen(routeStreamProvider, (prev, next) {
       next.whenData((route) => _navigator.pushNamed(route));
+    });
+
+    ref.listen(errorProvider, (_, error) {
+      if (error.hasValue && error.value is SnapdException) {
+        _showError(context, error.value as SnapdException);
+      }
     });
 
     return CallbackShortcuts(

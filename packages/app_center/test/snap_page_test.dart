@@ -350,6 +350,7 @@ void main() {
     await tester.pump();
     container.read(snapModelProvider(storeSnap.name).notifier).state =
         const AsyncLoading();
+    await tester.pump();
     expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
     expect(find.byIcon(Icons.thumb_up_outlined), findsNothing);

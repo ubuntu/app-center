@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
@@ -31,23 +29,10 @@ class SnapPage extends ConsumerWidget {
 
   final String snapName;
 
-  Future<void> showError(BuildContext context, SnapdException e) {
-    return showErrorDialog(
-      context: context,
-      title: e.kind ?? 'Unknown Snapd Exception',
-      message: e.message,
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final snap = ref.watch(snapModelProvider(snapName));
     final updatesModel = ref.watch(updatesModelProvider);
-    ref.listen(snapModelProvider(snapName), (_, value) {
-      if (value.hasError && value.error is SnapdException) {
-        showError(context, value.error as SnapdException);
-      }
-    });
 
     return snap.when(
       data: (snapData) => ResponsiveLayoutBuilder(

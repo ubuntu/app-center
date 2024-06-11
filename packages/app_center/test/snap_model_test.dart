@@ -77,15 +77,12 @@ void main() {
     test('store only', () async {
       final container = createContainer();
       registerMockSnapdService(storeSnap: storeSnap);
-      final subscription =
-          container.listen(snapModelProvider(snapName), (_, __) {});
-      await container.read(snapModelProvider(snapName).future);
-      final snapData = subscription.read().valueOrNull;
+      final snapData = await container.read(snapModelProvider(snapName).future);
 
-      expect(snapData?.storeSnap, equals(storeSnap));
-      expect(snapData?.localSnap, isNull);
-      expect(snapData?.selectedChannel, equals('latest/stable'));
-      expect(snapData?.name, equals(snapName));
+      expect(snapData.storeSnap, equals(storeSnap));
+      expect(snapData.localSnap, isNull);
+      expect(snapData.selectedChannel, equals('latest/stable'));
+      expect(snapData.name, equals(snapName));
     });
 
     test('local only', () async {
@@ -114,14 +111,12 @@ void main() {
       final snapData = subscription.read().valueOrNull;
       expect(snapData?.activeChangeId, equals('active change'));
 
-      // This is called twice since the provider is rebuilt when the store snap
-      // is fully loaded.
       verify(
         service.watchChange(
           snapData?.activeChangeId,
           interval: anyNamed('interval'),
         ),
-      ).called(2);
+      ).called(1);
     });
   });
 
@@ -129,7 +124,9 @@ void main() {
     test('default channel', () async {
       final container = createContainer();
       final service = registerMockSnapdService(storeSnap: storeSnap);
-      await container.read(snapModelProvider('testsnap').future);
+      final subscription =
+          container.listen(snapModelProvider('testsnap').future, (_, __) {});
+      await subscription.read();
       await container.read(snapModelProvider('testsnap').notifier).install();
 
       verify(service.install(

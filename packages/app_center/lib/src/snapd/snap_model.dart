@@ -24,28 +24,14 @@ class SnapModel extends _$SnapModel {
     try {
       localSnap = await _snapd.getSnap(snapName);
     } on SnapdException catch (e) {
+      // TODO: Do we really need a try-catch here, don't we want to go into
+      // the AsyncError in all cases?
       if (e.kind != 'snap-not-found') rethrow;
     }
 
-    final AsyncValue<Snap?> storeSnapState;
-    if (localSnap == null) {
-      // If we don't have a local snap we keep the provider in loading until the
-      // store snap is loaded.
-      storeSnapState =
-          AsyncData(await ref.watch(storeSnapProvider(snapName).future));
-    } else {
-      storeSnapState = const AsyncLoading();
-      // Since we have a local snap we don't need to wait for the store snap to
-      // be loaded, but the store snap will be updated in the data once it is.
-      ref.listen(
-        storeSnapProvider(snapName),
-        (_, snap) {
-          if (state.hasValue) {
-            state = AsyncData(state.value!.copyWith(storeSnapState: snap));
-          }
-        },
-      );
-    }
+    final storeSnap = await ref
+        .watch(storeSnapProvider(snapName).future)
+        .onError((_, __) => null);
 
     final activeChangeId = (await _snapd.getChanges(name: snapName))
         .firstWhereOrNull((change) => !change.ready)
@@ -57,18 +43,21 @@ class SnapModel extends _$SnapModel {
     return SnapData(
       name: snapName,
       localSnap: localSnap,
-      storeSnapState: storeSnapState,
+      storeSnap: storeSnap,
       activeChangeId: activeChangeId,
       selectedChannel: SnapData.defaultSelectedChannel(
         localSnap,
-        storeSnapState.valueOrNull,
+        storeSnap,
       ),
     );
   }
 
   /// Installs the selected snap from the selected channel.
   Future<void> install() async {
-    assert(state.hasValue, 'The snap must be loaded before installing it');
+    assert(
+      state.hasStoreSnap,
+      'The snap must be loaded from the store before installing it',
+    );
     final model = state.value;
     final storeSnap = model?.storeSnap;
     final selectedChannel = model?.selectedChannel;
@@ -90,7 +79,10 @@ class SnapModel extends _$SnapModel {
   /// Cancels (aborts) the currently active operation which is tracked by
   /// the `activeChangeId`.
   Future<void> cancel() async {
-    assert(state.hasValue, 'The snap must be loaded before aborting an action');
+    assert(
+      state.hasStoreSnap,
+      'The snap must be loaded from the store before aborting an action',
+    );
     final changeIdToAbort = state.value?.activeChangeId;
     if (changeIdToAbort == null) {
       return;
@@ -102,7 +94,10 @@ class SnapModel extends _$SnapModel {
 
   /// Updates the version of the snap.
   Future<void> refresh() async {
-    assert(state.hasValue, 'The snap must be loaded before updating it');
+    assert(
+      state.hasStoreSnap,
+      'The snap must be loaded from the store before updating it',
+    );
     final snapData = state.value!;
     final storeSnap = snapData.storeSnap;
     final selectedChannel = snapData.selectedChannel;
@@ -119,7 +114,7 @@ class SnapModel extends _$SnapModel {
 
   /// Uninstalls the snap.
   Future<void> remove() async {
-    assert(state.hasValue, 'The snap must be loaded before removing it');
+    assert(state.hasValue, 'The snap must be loaded  before removing it');
     final changeId = await _snapd.remove(snapName);
     _updateChangeId(changeId);
     return _listenUntilDone(changeId, snapName, ref);
@@ -127,7 +122,10 @@ class SnapModel extends _$SnapModel {
 
   /// Changes the selected channel.
   Future<void> selectChannel(String channel) async {
-    assert(state.hasValue, 'The snap must be loaded before changing channel');
+    assert(
+      state.hasStoreSnap,
+      'The snap must be loaded from the store before changing channel',
+    );
     final data = state.value!;
     state = AsyncData(data.copyWith(selectedChannel: channel));
   }
@@ -252,4 +250,8 @@ extension SnapdChangeX on SnapdChange {
 
     return total != 0 ? done / total : 0;
   }
+}
+
+extension on AsyncValue<SnapData> {
+  bool get hasStoreSnap => valueOrNull?.storeSnap != null;
 }

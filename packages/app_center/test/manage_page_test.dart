@@ -3,6 +3,7 @@ import 'package:app_center/snapd.dart';
 import 'package:app_center/src/manage/local_snap_providers.dart';
 import 'package:app_center/src/manage/manage_model.dart';
 import 'package:app_center/src/snapd/snap_data.dart';
+import 'package:app_center/src/snapd/snapd_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -55,7 +56,7 @@ void main() {
   final snapData = SnapData(
     name: refreshableSnaps[0].name,
     localSnap: refreshableSnaps[0],
-    storeSnapState: AsyncData(refreshableSnaps[0]),
+    storeSnap: refreshableSnaps[0],
   );
 
   tearDown(resetAllServices);
@@ -195,6 +196,8 @@ void main() {
         child: const ManagePage(),
       ),
     );
+    await container.read(storeSnapProvider(snapData.name).future);
+    await tester.pumpAndSettle();
 
     final testTile = find.snapTile('Snap with an update');
     expect(testTile, findsOneWidget);
