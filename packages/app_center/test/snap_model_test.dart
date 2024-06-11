@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app_center/snapd.dart';
-import 'package:app_center/src/snapd/snapd_cache.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -58,7 +57,6 @@ void main() {
     test('local + store', () async {
       final container = createContainer();
       registerMockSnapdService(localSnap: localSnap, storeSnap: storeSnap);
-      await container.read(storeSnapProvider(snapName).future);
       final subscription =
           container.listen(snapModelProvider(snapName), (_, __) {});
       await container.read(snapModelProvider(snapName).future);
@@ -159,7 +157,6 @@ void main() {
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
-      await container.read(storeSnapProvider('testsnap').future);
       await container.read(snapModelProvider('testsnap').future);
       await container
           .read(snapModelProvider('testsnap').notifier)
@@ -179,7 +176,6 @@ void main() {
         localSnap: localSnap,
         storeSnap: storeSnap,
       );
-      await container.read(storeSnapProvider('testsnap').future);
       await container.read(snapModelProvider('testsnap').future);
       await container
           .read(snapModelProvider('testsnap').notifier)
@@ -230,9 +226,7 @@ void main() {
       ]),
     );
 
-    await container.read(storeSnapProvider('testsnap').future);
     final snapData = await container.read(snapModelProvider('testsnap').future);
-
     expect(snapData.activeChangeId, isNull);
 
     unawaited(
@@ -257,7 +251,6 @@ void main() {
       classic: anyNamed('classic'),
     )).thenThrow(SnapdException(message: 'error message', kind: 'error kind'));
 
-    await container.read(storeSnapProvider('testsnap').future);
     await container.read(snapModelProvider('testsnap').future);
     await expectLater(
       container.read(snapModelProvider('testsnap').notifier).install(),
