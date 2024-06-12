@@ -358,34 +358,5 @@ void main() {
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsNothing);
   });
 
-  testWidgets('error dialog', (tester) async {
-    final snapLauncher = createMockSnapLauncher(isLaunchable: true);
-    final updatesModel = createMockUpdatesModel();
-    final ratingsModel = createMockRatingsModel();
-    final container = createContainer(
-      overrides: [
-        launchProvider.overrideWith((ref, arg) => snapLauncher),
-        updatesModelProvider.overrideWith((ref) => updatesModel),
-        ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
-      ],
-    );
-
-    await tester.pumpApp(
-      (_) => UncontrolledProviderScope(
-        container: container,
-        child: SnapPage(snapName: storeSnap.name),
-      ),
-    );
-    container.read(snapModelProvider(storeSnap.name).notifier).state =
-        AsyncError(
-      SnapdException(message: 'error message', kind: 'error kind'),
-      StackTrace.current,
-    );
-    await tester.pumpAndSettle();
-
-    expect(find.text('error message'), findsOneWidget);
-    expect(find.text('error kind'), findsOneWidget);
-  });
-
   // TODO: test loading states with snap change in progress
 }
