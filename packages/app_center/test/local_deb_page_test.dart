@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app_center/deb.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/packagekit.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -84,6 +85,14 @@ void main() {
     await tester.pump();
 
     await tester.tapButton(tester.l10n.snapActionInstallLabel);
+    await tester.pump();
+
+    await tester.tap(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.button(tester.l10n.snapActionInstallLabel),
+      ),
+    );
     await tester.pump();
 
     verify(packageKit.installLocal('/path/to/package.deb')).called(1);

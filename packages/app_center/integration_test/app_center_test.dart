@@ -49,6 +49,14 @@ void main() {
     );
 
     await tester.tap(find.button(tester.l10n.snapActionInstallLabel));
+    await tester.pump();
+
+    await tester.tap(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.button(tester.l10n.snapActionInstallLabel),
+      ),
+    );
     await tester.pumpAndSettle();
 
     final result = await Process.run('dpkg', ['-s', 'appcenter-testdeb']);

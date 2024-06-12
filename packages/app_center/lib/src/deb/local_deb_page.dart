@@ -94,14 +94,41 @@ class _LocalDebActionButtons extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
 
+    Future<void> confirmInstallCallback() async {
+      final userChoice = await showYaruInfoDialog(
+        context: context,
+        type: YaruInfoType.warning,
+        primaryActionLabel: l10n.snapActionInstallLabel,
+        secondaryActionLabel: UbuntuLocalizations.of(context).cancelLabel,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.localDebDialogMessage),
+            const SizedBox(height: kPagePadding),
+            Text(
+              l10n.localDebDialogConfirmation,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(fontWeight: FontWeight.bold),
+            )
+          ],
+        ),
+      );
+      if (userChoice == DialogAction.primaryAction) {
+        await ref
+            .read(localDebModelProvider(path: debData.path).notifier)
+            .install();
+      }
+    }
+
     final primaryActionButton = SizedBox(
       width: kPrimaryButtonMaxWidth,
       child: PushButton.elevated(
         onPressed: debData.activeTransactionId != null || debData.isInstalled
             ? null
-            : ref
-                .read(localDebModelProvider(path: debData.path).notifier)
-                .install,
+            : confirmInstallCallback,
         child: debData.activeTransactionId != null
             ? Row(
                 children: [
