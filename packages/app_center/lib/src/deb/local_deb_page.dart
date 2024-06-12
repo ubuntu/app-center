@@ -1,5 +1,4 @@
 import 'package:app_center/constants.dart';
-import 'package:app_center/deb.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/src/deb/local_deb_model.dart';
@@ -104,25 +103,15 @@ class _LocalDebActionButtons extends ConsumerWidget {
                 .read(localDebModelProvider(path: debData.path).notifier)
                 .install,
         child: debData.activeTransactionId != null
-            ? Consumer(
-                builder: (context, ref, child) {
-                  final transaction = ref
-                      .watch(transactionProvider(debData.activeTransactionId!))
-                      .valueOrNull;
-                  return Row(
-                    children: [
-                      SizedBox.square(
-                        dimension: kCircularProgressIndicatorHeight,
-                        child: YaruCircularProgressIndicator(
-                          value: (transaction?.percentage ?? 0) / 100.0,
-                          strokeWidth: 2,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Flexible(child: Text(l10n.snapActionInstallingLabel)),
-                    ],
-                  );
-                },
+            ? Row(
+                children: [
+                  const SizedBox.square(
+                    dimension: kCircularProgressIndicatorHeight,
+                    child: YaruCircularProgressIndicator(strokeWidth: 2),
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(child: Text(l10n.snapActionInstallingLabel)),
+                ],
               )
             : Text(l10n.snapActionInstallLabel),
       ),
