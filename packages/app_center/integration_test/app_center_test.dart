@@ -33,22 +33,22 @@ void main() {
     ]);
     await tester.pumpUntil(find.byType(StoreApp));
     await tester.pumpAndSettle();
-    expect(find.text('Name: appcenter-testdeb'), findsOneWidget);
+    expect(find.text('appcenter-testdeb'), findsOneWidget);
     expect(
-      find.text('Summary: Minimal package for App Center integration tests'),
+      find.text('Minimal package for App Center integration tests'),
       findsOneWidget,
     );
     expect(
       find.text(
-          'Description: This is a minimal test package for App Center integration tests.'),
+          'This is a minimal test package for App Center integration tests.'),
       findsOneWidget,
     );
     expect(
-      find.text('URL: https://example.com/appcenter-testdeb'),
+      find.text('https://example.com/appcenter-testdeb'),
       findsOneWidget,
     );
 
-    await tester.tap(find.button('Install'));
+    await tester.tap(find.button(tester.l10n.snapActionInstallLabel));
     await tester.pumpAndSettle();
 
     final result = await Process.run('dpkg', ['-s', 'appcenter-testdeb']);
