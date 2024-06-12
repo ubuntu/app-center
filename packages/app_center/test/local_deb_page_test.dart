@@ -38,14 +38,34 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.text('Name: testdeb'), findsOneWidget);
-    expect(find.text('Summary: summary'), findsOneWidget);
-    expect(find.text('Description: description'), findsOneWidget);
-    expect(find.text('License: license'), findsOneWidget);
-    expect(find.text('Size: ${tester.context.formatByteSize(42)}'),
-        findsOneWidget);
-    expect(find.text('URL: url'), findsOneWidget);
-    expect(find.button('Install'), findsOneWidget);
+    expect(find.text('testdeb'), findsOneWidget);
+    expect(find.text('summary'), findsOneWidget);
+    expect(find.text('description'), findsOneWidget);
+    expect(find.text('license'), findsOneWidget);
+    expect(find.text(tester.context.formatByteSize(42)), findsOneWidget);
+    expect(find.text('url'), findsOneWidget);
+    expect(find.button(tester.l10n.snapActionInstallLabel), findsOneWidget);
+  });
+
+  testWidgets('installed package', (tester) async {
+    final packageKit = createMockPackageKitService(
+      packageDetails: mockPackage,
+      packageInfo: const PackageKitPackageInfo(
+        info: PackageKitInfo.installed,
+        packageId: PackageKitPackageId(name: 'testdeb', version: '1.0'),
+        summary: 'summary',
+      ),
+    );
+    registerMockService<PackageKitService>(packageKit);
+
+    await tester.pumpApp(
+      (_) => const ProviderScope(
+        child: LocalDebPage(path: '/path/to/package.deb'),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.button(tester.l10n.snapActionInstallLabel), isDisabled);
   });
 
   testWidgets('install', (tester) async {
@@ -63,7 +83,7 @@ void main() {
     );
     await tester.pump();
 
-    await tester.tapButton('Install');
+    await tester.tapButton(tester.l10n.snapActionInstallLabel);
     await tester.pump();
 
     verify(packageKit.installLocal('/path/to/package.deb')).called(1);
