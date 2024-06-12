@@ -14,6 +14,7 @@
     "snapPageDescriptionLabel": "Description",
     "snapPageDeveloperWebsiteLabel": "Developer website",
     "snapPageDownloadSizeLabel": "Download size",
+    "snapPageSizeLabel": "Size",
     "snapPageGalleryLabel": "Gallery",
     "snapPageLicenseLabel": "License",
     "snapPageLinksLabel": "Links",
@@ -245,5 +246,8 @@
     "allGamesButtonLabel": "All games",
     "externalResourcesDisclaimer": "Note: These are all external tools. These aren't owned nor distributed by Canonical.",
     "openInBrowser": "Open in browser",
-    "installAll": "Install all"
+    "installAll": "Install all",
+    "localDebWarningTitle": "Potentially unsafe",
+    "localDebWarningBody": "This package is provided by a third party. Installing packages from outside the App Center can increase the risk to your system and personal data. Ensure you trust the source before proceeding.",
+    "localDebLearnMore": "Learn more about third party packages"
 }

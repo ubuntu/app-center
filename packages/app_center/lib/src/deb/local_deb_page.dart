@@ -1,9 +1,19 @@
+import 'package:app_center/constants.dart';
+import 'package:app_center/deb.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/src/deb/local_deb_model.dart';
+import 'package:app_center/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ubuntu_widgets/ubuntu_widgets.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru/yaru.dart';
+
+const localDebInfoUrl =
+    'https://ubuntu.com/server/docs/third-party-repository-usage';
 
 class LocalDebPage extends ConsumerWidget {
   const LocalDebPage({required this.path, super.key});
@@ -14,55 +24,171 @@ class LocalDebPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final model = ref.watch(localDebModelProvider(path: path));
     return model.when(
-      data: (debData) => ResponsiveLayoutBuilder(builder: (context) {
-        return _LocalDebView(debData: debData);
-      }),
+      data: (debData) => _LocalDebPage(debData: debData),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
       error: (error, stackTrace) => ErrorWidget(error),
     );
   }
 }
 
-class _LocalDebView extends ConsumerWidget {
-  const _LocalDebView({required this.debData});
+class _LocalDebPage extends StatelessWidget {
+  const _LocalDebPage({required this.debData});
+
+  final LocalDebData debData;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return AppPage(
+      appInfos: [
+        (
+          label: l10n.snapPageSizeLabel,
+          value: Text(context.formatByteSize(debData.details.size))
+        ),
+        (
+          label: l10n.snapPageLicenseLabel,
+          value: Text(debData.details.license)
+        ),
+        (
+          label: l10n.snapPageLinksLabel,
+          value: Html(
+            data: '<a href="${debData.details.url}">${debData.details.url}</a>',
+            style: {'body': Style(margin: Margins.zero)},
+            onLinkTap: (url, attributes, element) => launchUrlString(url!),
+          )
+        ),
+      ],
+      header: _Header(debData: debData),
+      children: [_Description(context, debData: debData)],
+    );
+  }
+}
+
+class _Description extends AppPageSection {
+  _Description(BuildContext context, {required LocalDebData debData})
+      : super(
+          header: Text(AppLocalizations.of(context).snapPageDescriptionLabel),
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(debData.details.summary),
+                const SizedBox(height: kPagePadding),
+                MarkdownBody(
+                  selectable: true,
+                  onTapLink: (text, href, title) => launchUrlString(href!),
+                  data: debData.details.description,
+                ),
+              ],
+            ),
+          ),
+        );
+}
+
+class _LocalDebActionButtons extends ConsumerWidget {
+  const _LocalDebActionButtons({required this.debData});
 
   final LocalDebData debData;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final layout = ResponsiveLayout.of(context);
+    final l10n = AppLocalizations.of(context);
 
-    return debData.details != null
-        ? Padding(
-            padding: const EdgeInsets.symmetric(vertical: kPagePadding),
-            child: Center(
-              child: SizedBox(
-                width: layout.totalWidth,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Name: ${debData.details!.packageId.name}'),
-                    Text('Summary: ${debData.details!.summary}'),
-                    Text('Description: ${debData.details!.description}'),
-                    Text('Group: ${debData.details!.group}'),
-                    Text(
-                        'Size: ${context.formatByteSize(debData.details!.size)}'),
-                    Text('License: ${debData.details!.license}'),
-                    Text('URL: ${debData.details!.url}'),
-                    debData.activeTransactionId != null
-                        ? const YaruCircularProgressIndicator()
-                        : ElevatedButton(
-                            onPressed: () => ref
-                                .read(localDebModelProvider(path: debData.path)
-                                    .notifier)
-                                .install(),
-                            child: const Text('Install'),
-                          ),
-                  ],
-                ),
+    final primaryActionButton = SizedBox(
+      width: kPrimaryButtonMaxWidth,
+      child: PushButton.elevated(
+        onPressed: debData.activeTransactionId != null || debData.isInstalled
+            ? null
+            : ref
+                .read(localDebModelProvider(path: debData.path).notifier)
+                .install,
+        child: debData.activeTransactionId != null
+            ? Consumer(
+                builder: (context, ref, child) {
+                  final transaction = ref
+                      .watch(transactionProvider(debData.activeTransactionId!))
+                      .valueOrNull;
+                  return Row(
+                    children: [
+                      SizedBox.square(
+                        dimension: kCircularProgressIndicatorHeight,
+                        child: YaruCircularProgressIndicator(
+                          value: (transaction?.percentage ?? 0) / 100.0,
+                          strokeWidth: 2,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(child: Text(l10n.snapActionInstallingLabel)),
+                    ],
+                  );
+                },
+              )
+            : Text(l10n.snapActionInstallLabel),
+      ),
+    );
+
+    final cancelButton = OutlinedButton(
+      onPressed: debData.activeTransactionId != null
+          ? ref.read(localDebModelProvider(path: debData.path).notifier).cancel
+          : null,
+      child: Text(l10n.snapActionCancelLabel),
+    );
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        primaryActionButton,
+        if (debData.activeTransactionId != null) ...[
+          const SizedBox(width: 8),
+          cancelButton
+        ],
+      ],
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  const _Header({required this.debData});
+
+  final LocalDebData debData;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const AppIcon(iconUrl: null, size: 96),
+            const SizedBox(width: 16),
+            Expanded(
+              child: AppTitle(
+                title: debData.details.packageId.name,
+                publisher: '',
+                large: true,
               ),
             ),
-          )
-        : const Center(child: YaruCircularProgressIndicator());
+          ],
+        ),
+        const SizedBox(height: kPagePadding),
+        _LocalDebActionButtons(debData: debData),
+        const SizedBox(height: kPagePadding),
+        YaruInfoBox(
+          title: Text(l10n.localDebWarningTitle),
+          yaruInfoType: YaruInfoType.warning,
+          child: Html(
+            data:
+                '${l10n.localDebWarningBody} <a href="$localDebInfoUrl">${l10n.localDebLearnMore}</a>',
+            style: {'body': Style(margin: Margins.zero)},
+            onLinkTap: (url, attributes, element) => launchUrlString(url!),
+          ),
+        ),
+        const SizedBox(height: kPagePadding),
+        const Divider(),
+      ],
+    );
   }
 }
