@@ -151,7 +151,7 @@ class PackageKitService {
     }
 
     final result = await Process.run('/usr/bin/dpkg', ['--print-architecture']);
-    return result.stdout as String;
+    return (result.stdout as String).trim();
   }
 
   String _getAbsolutePath(String path) => _fs.file(path).absolute.path;
