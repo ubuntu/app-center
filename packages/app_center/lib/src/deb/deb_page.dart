@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app_center/appstream.dart';
 import 'package:app_center/constants.dart';
+import 'package:app_center/deb.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/src/deb/deb_model.dart';

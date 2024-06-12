@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
+export 'package:packagekit/packagekit.dart' show PackageKitTransaction;
+
 typedef PackageKitPackageInfo = PackageKitPackageEvent;
 typedef PackageKitServiceError = PackageKitErrorCodeEvent;
 typedef PackageKitPackageDetails = PackageKitDetailsEvent;
