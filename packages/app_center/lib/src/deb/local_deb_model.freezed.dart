@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LocalDebData {
   String get path => throw _privateConstructorUsedError;
-  PackageKitDetailsEvent? get details => throw _privateConstructorUsedError;
+  PackageKitDetailsEvent get details => throw _privateConstructorUsedError;
+  PackageKitPackageEvent? get packageInfo => throw _privateConstructorUsedError;
   int? get activeTransactionId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -32,7 +33,10 @@ abstract class $LocalDebDataCopyWith<$Res> {
       _$LocalDebDataCopyWithImpl<$Res, LocalDebData>;
   @useResult
   $Res call(
-      {String path, PackageKitDetailsEvent? details, int? activeTransactionId});
+      {String path,
+      PackageKitDetailsEvent details,
+      PackageKitPackageEvent? packageInfo,
+      int? activeTransactionId});
 }
 
 /// @nodoc
@@ -49,7 +53,8 @@ class _$LocalDebDataCopyWithImpl<$Res, $Val extends LocalDebData>
   @override
   $Res call({
     Object? path = null,
-    Object? details = freezed,
+    Object? details = null,
+    Object? packageInfo = freezed,
     Object? activeTransactionId = freezed,
   }) {
     return _then(_value.copyWith(
@@ -57,10 +62,14 @@ class _$LocalDebDataCopyWithImpl<$Res, $Val extends LocalDebData>
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
-      details: freezed == details
+      details: null == details
           ? _value.details
           : details // ignore: cast_nullable_to_non_nullable
-              as PackageKitDetailsEvent?,
+              as PackageKitDetailsEvent,
+      packageInfo: freezed == packageInfo
+          ? _value.packageInfo
+          : packageInfo // ignore: cast_nullable_to_non_nullable
+              as PackageKitPackageEvent?,
       activeTransactionId: freezed == activeTransactionId
           ? _value.activeTransactionId
           : activeTransactionId // ignore: cast_nullable_to_non_nullable
@@ -78,7 +87,10 @@ abstract class _$$LocalDebDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String path, PackageKitDetailsEvent? details, int? activeTransactionId});
+      {String path,
+      PackageKitDetailsEvent details,
+      PackageKitPackageEvent? packageInfo,
+      int? activeTransactionId});
 }
 
 /// @nodoc
@@ -93,7 +105,8 @@ class __$$LocalDebDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? path = null,
-    Object? details = freezed,
+    Object? details = null,
+    Object? packageInfo = freezed,
     Object? activeTransactionId = freezed,
   }) {
     return _then(_$LocalDebDataImpl(
@@ -101,10 +114,14 @@ class __$$LocalDebDataImplCopyWithImpl<$Res>
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
-      details: freezed == details
+      details: null == details
           ? _value.details
           : details // ignore: cast_nullable_to_non_nullable
-              as PackageKitDetailsEvent?,
+              as PackageKitDetailsEvent,
+      packageInfo: freezed == packageInfo
+          ? _value.packageInfo
+          : packageInfo // ignore: cast_nullable_to_non_nullable
+              as PackageKitPackageEvent?,
       activeTransactionId: freezed == activeTransactionId
           ? _value.activeTransactionId
           : activeTransactionId // ignore: cast_nullable_to_non_nullable
@@ -115,20 +132,26 @@ class __$$LocalDebDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LocalDebDataImpl implements _LocalDebData {
+class _$LocalDebDataImpl extends _LocalDebData {
   _$LocalDebDataImpl(
-      {required this.path, required this.details, this.activeTransactionId});
+      {required this.path,
+      required this.details,
+      this.packageInfo,
+      this.activeTransactionId})
+      : super._();
 
   @override
   final String path;
   @override
-  final PackageKitDetailsEvent? details;
+  final PackageKitDetailsEvent details;
+  @override
+  final PackageKitPackageEvent? packageInfo;
   @override
   final int? activeTransactionId;
 
   @override
   String toString() {
-    return 'LocalDebData(path: $path, details: $details, activeTransactionId: $activeTransactionId)';
+    return 'LocalDebData(path: $path, details: $details, packageInfo: $packageInfo, activeTransactionId: $activeTransactionId)';
   }
 
   @override
@@ -138,13 +161,15 @@ class _$LocalDebDataImpl implements _LocalDebData {
             other is _$LocalDebDataImpl &&
             (identical(other.path, path) || other.path == path) &&
             (identical(other.details, details) || other.details == details) &&
+            (identical(other.packageInfo, packageInfo) ||
+                other.packageInfo == packageInfo) &&
             (identical(other.activeTransactionId, activeTransactionId) ||
                 other.activeTransactionId == activeTransactionId));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, path, details, activeTransactionId);
+      Object.hash(runtimeType, path, details, packageInfo, activeTransactionId);
 
   @JsonKey(ignore: true)
   @override
@@ -153,16 +178,20 @@ class _$LocalDebDataImpl implements _LocalDebData {
       __$$LocalDebDataImplCopyWithImpl<_$LocalDebDataImpl>(this, _$identity);
 }
 
-abstract class _LocalDebData implements LocalDebData {
+abstract class _LocalDebData extends LocalDebData {
   factory _LocalDebData(
       {required final String path,
-      required final PackageKitDetailsEvent? details,
+      required final PackageKitDetailsEvent details,
+      final PackageKitPackageEvent? packageInfo,
       final int? activeTransactionId}) = _$LocalDebDataImpl;
+  _LocalDebData._() : super._();
 
   @override
   String get path;
   @override
-  PackageKitDetailsEvent? get details;
+  PackageKitDetailsEvent get details;
+  @override
+  PackageKitPackageEvent? get packageInfo;
   @override
   int? get activeTransactionId;
   @override

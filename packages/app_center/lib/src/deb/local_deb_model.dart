@@ -11,9 +11,14 @@ part 'local_deb_model.g.dart';
 class LocalDebData with _$LocalDebData {
   factory LocalDebData({
     required String path,
-    required PackageKitDetailsEvent? details,
+    required PackageKitDetailsEvent details,
+    PackageKitPackageInfo? packageInfo,
     int? activeTransactionId,
   }) = _LocalDebData;
+
+  LocalDebData._();
+
+  bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
 }
 
 @riverpod
@@ -22,7 +27,11 @@ class LocalDebModel extends _$LocalDebModel {
   Future<LocalDebData> build({required String path}) async {
     final packageKit = getService<PackageKitService>();
     final details = await packageKit.getDetailsLocal(path);
-    return LocalDebData(path: path, details: details);
+    if (details == null) {
+      throw StateError('Failed to get package details');
+    }
+    final packageInfo = await packageKit.resolve(details.packageId.name);
+    return LocalDebData(path: path, details: details, packageInfo: packageInfo);
   }
 
   Future<void> install() async {
@@ -32,6 +41,15 @@ class LocalDebModel extends _$LocalDebModel {
     state = AsyncValue.data(
         state.value!.copyWith(activeTransactionId: activeTransactionId));
     await packageKit.waitTransaction(activeTransactionId);
+    ref.invalidateSelf();
+  }
+
+  Future<void> cancel() async {
+    assert(state.asData?.value.activeTransactionId != null,
+        'cancel() called without active transaction');
+    final packageKit = getService<PackageKitService>();
+    await packageKit
+        .cancelTransaction(state.asData!.value.activeTransactionId!);
     state = AsyncValue.data(state.value!.copyWith(activeTransactionId: null));
   }
 
