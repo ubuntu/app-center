@@ -18,8 +18,6 @@ import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru/yaru.dart';
 
-const _kPrimaryButtonMaxWidth = 136.0;
-
 class DebPage extends ConsumerStatefulWidget {
   const DebPage({required this.id, super.key});
   final String id;
@@ -122,7 +120,7 @@ class _DebView extends StatelessWidget {
                     children: [
                       AppInfoBar(appInfos: debInfos, layout: layout),
                       if (debModel.component.screenshotUrls.isNotEmpty)
-                        _Section(
+                        AppPageSection(
                           header: Text(l10n.snapPageGalleryLabel),
                           child: ScreenshotGallery(
                             title: debModel.component.getLocalizedName(),
@@ -130,7 +128,7 @@ class _DebView extends StatelessWidget {
                             height: layout.totalWidth / 2,
                           ),
                         ),
-                      _Section(
+                      AppPageSection(
                         header: Text(l10n.snapPageDescriptionLabel),
                         child: Html(
                           data: debModel.component.getLocalizedDescription(),
@@ -160,7 +158,7 @@ class _DebActionButtons extends ConsumerWidget {
     final primaryAction =
         debModel.isInstalled ? DebAction.remove : DebAction.install;
     final primaryActionButton = SizedBox(
-      width: _kPrimaryButtonMaxWidth,
+      width: kPrimaryButtonMaxWidth,
       child: PushButton.elevated(
         onPressed: debModel.activeTransactionId != null
             ? null
@@ -270,12 +268,4 @@ class _Header extends StatelessWidget {
       ],
     );
   }
-}
-
-class _Section extends YaruExpandable {
-  const _Section({required super.header, required super.child})
-      : super(
-          expandButtonPosition: YaruExpandableButtonPosition.start,
-          isExpanded: true,
-        );
 }

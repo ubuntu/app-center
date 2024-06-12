@@ -179,7 +179,7 @@ class _SnapView extends StatelessWidget {
                     const Divider(),
                     const SizedBox(height: 48),
                     if (snapData.hasGallery) ...[
-                      _Section(
+                      AppPageSection(
                         header: Text(
                           l10n.snapPageGalleryLabel,
                           style: Theme.of(context)
@@ -199,7 +199,7 @@ class _SnapView extends StatelessWidget {
                       const Divider(),
                       const SizedBox(height: 48),
                     ],
-                    _Section(
+                    AppPageSection(
                       header: Text(
                         l10n.snapPageDescriptionLabel,
                         style: Theme.of(context)
@@ -486,15 +486,6 @@ class _RatingsActionButtons extends ConsumerWidget {
       loading: () => const SizedBox.shrink(),
     );
   }
-}
-
-class _Section extends YaruExpandable {
-  const _Section({required super.header, required super.child})
-      : super(
-          expandButtonPosition: YaruExpandableButtonPosition.start,
-          isExpanded: true,
-          gapHeight: 24,
-        );
 }
 
 class _Header extends ConsumerWidget {
