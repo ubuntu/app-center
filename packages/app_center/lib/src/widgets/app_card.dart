@@ -75,6 +75,8 @@ class AppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruBanner(
+      // TODO: Remove color once we have upgraded to a yaru version > 4.1.0
+      color: Theme.of(context).cardColor,
       padding: const EdgeInsets.all(kCardSpacing),
       onTap: onTap,
       child: Flex(
