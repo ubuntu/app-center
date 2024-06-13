@@ -27,10 +27,7 @@ void main() {
   });
 
   testWidgets('install a local debian package', (tester) async {
-    await app.main([
-      '--local-deb',
-      'integration_test/assets/appcenter-testdeb_1.0_amd64.deb'
-    ]);
+    await app.main(['integration_test/assets/appcenter-testdeb_1.0_amd64.deb']);
     await tester.pumpUntil(find.byType(StoreApp));
     await tester.pumpAndSettle();
     expect(find.text('appcenter-testdeb'), findsOneWidget);

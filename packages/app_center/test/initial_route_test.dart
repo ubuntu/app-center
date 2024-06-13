@@ -57,6 +57,24 @@ void main() {
     verify(listener(null, StoreRoutes.namedSnap(name: 'bar'))).called(1);
   });
 
+  test('local debian package', () {
+    final container = ProviderContainer(overrides: [
+      commandLineProvider.overrideWith((ref) => ['/path/to/local.deb'])
+    ]);
+    addTearDown(container.dispose);
+
+    final listener = MockInitialRouteListener();
+    container.listen<String?>(
+      initialRouteProvider,
+      listener.call,
+      fireImmediately: true,
+    );
+
+    verify(listener(
+            null, StoreRoutes.namedLocalDeb(path: '/path/to/local.deb')))
+        .called(1);
+  });
+
   test('no arguments', () {
     final container = ProviderContainer(
         overrides: [commandLineProvider.overrideWith((ref) => [])]);
