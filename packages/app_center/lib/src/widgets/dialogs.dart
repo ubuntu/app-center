@@ -74,6 +74,7 @@ class _Dialog<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      contentPadding: const EdgeInsets.all(24.0),
       actions: actions.map((action) {
         final button =
             action.isPrimary ? PushButton.elevated : PushButton.outlined;
