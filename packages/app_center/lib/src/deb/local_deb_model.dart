@@ -26,6 +26,7 @@ class LocalDebModel extends _$LocalDebModel {
   @override
   Future<LocalDebData> build({required String path}) async {
     final packageKit = getService<PackageKitService>();
+    await packageKit.activateService();
     final details = await packageKit.getDetailsLocal(path);
     if (details == null) {
       throw StateError('Failed to get package details');
