@@ -4,7 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
 
-enum DialogAction { primaryAction, secondaryAction }
+class DialogAction<T> {
+  const DialogAction({
+    required this.value,
+    required this.label,
+    this.isPrimary = false,
+  });
+  final T value;
+  final bool isPrimary;
+  final String label;
+}
 
 Future<void> showErrorDialog({
   required BuildContext context,
@@ -13,7 +22,12 @@ Future<void> showErrorDialog({
 }) =>
     showYaruInfoDialog(
       context: context,
-      secondaryActionLabel: UbuntuLocalizations.of(context).closeLabel,
+      actions: [
+        DialogAction(
+          value: null,
+          label: UbuntuLocalizations.of(context).closeLabel,
+        ),
+      ],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,55 +46,42 @@ Future<void> showErrorDialog({
       type: YaruInfoType.danger,
     );
 
-Future<DialogAction?> showYaruInfoDialog({
+Future<T?> showYaruInfoDialog<T>({
   required BuildContext context,
   required Widget child,
   required YaruInfoType type,
-  String? primaryActionLabel,
-  String? secondaryActionLabel,
+  required List<DialogAction<T>> actions,
 }) =>
-    showDialog<DialogAction>(
+    showDialog(
       context: context,
       builder: (context) => _Dialog(
         type: type,
-        primaryActionLabel: primaryActionLabel,
-        secondaryActionLabel: secondaryActionLabel,
+        actions: actions,
         child: child,
       ),
     );
 
-class _Dialog extends StatelessWidget {
+class _Dialog<T> extends StatelessWidget {
   const _Dialog({
     required this.child,
     required this.type,
-    this.primaryActionLabel,
-    this.secondaryActionLabel,
-  }) : assert(
-          primaryActionLabel != null || secondaryActionLabel != null,
-          'At least one action label must be provided',
-        );
+    required this.actions,
+  });
   final Widget child;
   final YaruInfoType type;
-  final String? primaryActionLabel;
-  final String? secondaryActionLabel;
+  final List<DialogAction<T>> actions;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      actions: [
-        if (secondaryActionLabel != null)
-          PushButton.outlined(
-            onPressed: () =>
-                Navigator.of(context).pop(DialogAction.secondaryAction),
-            child: Text(secondaryActionLabel!),
-          ),
-        if (primaryActionLabel != null)
-          PushButton.elevated(
-            onPressed: () =>
-                Navigator.of(context).pop(DialogAction.primaryAction),
-            child: Text(primaryActionLabel!),
-          ),
-      ],
+      actions: actions.map((action) {
+        final button =
+            action.isPrimary ? PushButton.elevated : PushButton.outlined;
+        return button(
+          onPressed: () => Navigator.of(context).pop(action.value),
+          child: Text(action.label),
+        );
+      }).toList(),
       content: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: kMaxDialogWidth),
         child: Row(

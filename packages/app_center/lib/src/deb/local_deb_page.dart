@@ -96,6 +96,8 @@ class _Description extends StatelessWidget {
   }
 }
 
+enum _Actions { install, cancel }
+
 class _LocalDebActionButtons extends ConsumerWidget {
   const _LocalDebActionButtons({required this.debData});
 
@@ -109,8 +111,16 @@ class _LocalDebActionButtons extends ConsumerWidget {
       final userChoice = await showYaruInfoDialog(
         context: context,
         type: YaruInfoType.warning,
-        primaryActionLabel: l10n.snapActionInstallLabel,
-        secondaryActionLabel: UbuntuLocalizations.of(context).cancelLabel,
+        actions: [
+          DialogAction(
+            value: _Actions.cancel,
+            label: UbuntuLocalizations.of(context).cancelLabel,
+          ),
+          DialogAction(
+            value: _Actions.install,
+            label: l10n.snapActionInstallLabel,
+          ),
+        ],
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +137,7 @@ class _LocalDebActionButtons extends ConsumerWidget {
           ],
         ),
       );
-      if (userChoice == DialogAction.primaryAction) {
+      if (userChoice == _Actions.install) {
         await ref
             .read(localDebModelProvider(path: debData.path).notifier)
             .install();
