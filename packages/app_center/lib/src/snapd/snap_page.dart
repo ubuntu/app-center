@@ -590,9 +590,9 @@ class _ChannelDropdown extends ConsumerWidget {
             menuPosition: PopupMenuPosition.under,
             menuStyle: const MenuStyle(
               minimumSize:
-                  WidgetStatePropertyAll(Size(_kChannelDropdownWidth, 0)),
+                  MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 0)),
               maximumSize:
-                  WidgetStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
+                  MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
               visualDensity: VisualDensity.standard,
             ),
             itemStyle: MenuItemButton.styleFrom(
