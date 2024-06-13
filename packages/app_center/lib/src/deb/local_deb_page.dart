@@ -58,31 +58,42 @@ class _LocalDebPage extends StatelessWidget {
         ),
       ],
       header: _Header(debData: debData),
-      children: [_Description(context, debData: debData)],
+      children: [_Description(debData: debData)],
     );
   }
 }
 
-class _Description extends AppPageSection {
-  _Description(BuildContext context, {required LocalDebData debData})
-      : super(
-          header: Text(AppLocalizations.of(context).snapPageDescriptionLabel),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(debData.details.summary),
-                const SizedBox(height: kPagePadding),
-                MarkdownBody(
-                  selectable: true,
-                  onTapLink: (text, href, title) => launchUrlString(href!),
-                  data: debData.details.description,
-                ),
-              ],
-            ),
-          ),
-        );
+class _Description extends StatelessWidget {
+  const _Description({required this.debData});
+
+  final LocalDebData debData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppLocalizations.of(context).snapPageDescriptionLabel,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(height: kPagePadding),
+        Text(
+          debData.details.summary,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        const SizedBox(height: kPagePadding),
+        MarkdownBody(
+          selectable: true,
+          onTapLink: (text, href, title) => launchUrlString(href!),
+          data: debData.details.description,
+        ),
+      ],
+    );
+  }
 }
 
 class _LocalDebActionButtons extends ConsumerWidget {
