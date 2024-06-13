@@ -186,22 +186,11 @@ class _Header extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const AppIcon(iconUrl: null, size: 96),
-            const SizedBox(width: 16),
-            Expanded(
-              child: AppTitle(
-                title: debData.details.packageId.name,
-                publisher: '',
-                large: true,
-              ),
-            ),
-          ],
+        AppTitle(
+          title: debData.details.packageId.name,
+          large: true,
+          showPublisher: false,
         ),
-        const SizedBox(height: kPagePadding),
-        _LocalDebActionButtons(debData: debData),
         const SizedBox(height: kPagePadding),
         YaruInfoBox(
           title: Text(l10n.localDebWarningTitle),
@@ -213,6 +202,8 @@ class _Header extends StatelessWidget {
             onLinkTap: (url, attributes, element) => launchUrlString(url!),
           ),
         ),
+        const SizedBox(height: kPagePadding),
+        _LocalDebActionButtons(debData: debData),
         const SizedBox(height: kPagePadding),
         const Divider(),
       ],

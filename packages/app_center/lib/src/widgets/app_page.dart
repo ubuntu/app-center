@@ -38,7 +38,12 @@ class AppPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppInfoBar(appInfos: appInfos, layout: layout),
-                      if (children != null) ...children!,
+                      const SizedBox(height: kPagePadding),
+                      const Divider(),
+                      if (children != null) ...[
+                        const SizedBox(height: kPagePadding),
+                        ...children!,
+                      ],
                     ],
                   ),
                 ),
