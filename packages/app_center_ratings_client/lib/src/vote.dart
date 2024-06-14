@@ -2,7 +2,7 @@ import 'package:app_center_ratings_client/src/generated/ratings_features_user.pb
     as pb;
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'user.freezed.dart';
+part 'vote.freezed.dart';
 
 @freezed
 class Vote with _$Vote {

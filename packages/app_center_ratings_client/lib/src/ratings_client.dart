@@ -9,7 +9,7 @@ import 'package:app_center_ratings_client/src/generated/ratings_features_chart.p
 import 'package:app_center_ratings_client/src/generated/ratings_features_user.pbgrpc.dart'
     as user_pb;
 import 'package:app_center_ratings_client/src/ratings.dart';
-import 'package:app_center_ratings_client/src/user.dart';
+import 'package:app_center_ratings_client/src/vote.dart';
 import 'package:grpc/grpc.dart';
 import 'package:meta/meta.dart';
 
