@@ -19,32 +19,35 @@ Future<void> showErrorDialog({
   required BuildContext context,
   required String title,
   required String message,
-}) =>
-    showYaruInfoDialog(
-      context: context,
-      actions: [
-        DialogAction(
-          value: null,
-          label: UbuntuLocalizations.of(context).closeLabel,
-        ),
-      ],
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: Theme.of(context).textTheme.titleMedium!.fontSize! * 1.5,
-            child: Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(message),
-        ],
+  TextStyle? titleTextStyle,
+}) {
+  final titleStyle = titleTextStyle ?? Theme.of(context).textTheme.titleMedium!;
+  return showYaruInfoDialog(
+    context: context,
+    actions: [
+      DialogAction(
+        value: null,
+        label: UbuntuLocalizations.of(context).closeLabel,
       ),
-      type: YaruInfoType.danger,
-    );
+    ],
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: titleStyle.fontSize! * 1.5,
+          child: Text(
+            title,
+            style: titleStyle,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(message),
+      ],
+    ),
+    type: YaruInfoType.danger,
+  );
+}
 
 Future<T?> showYaruInfoDialog<T>({
   required BuildContext context,

@@ -70,9 +70,12 @@ void main() {
       fireImmediately: true,
     );
 
-    verify(listener(
-            null, StoreRoutes.namedLocalDeb(path: '/path/to/local.deb')))
-        .called(1);
+    verify(
+      listener(
+        null,
+        StoreRoutes.namedLocalDeb(path: '/path/to/local.deb'),
+      ),
+    ).called(1);
   });
 
   test('no arguments', () {

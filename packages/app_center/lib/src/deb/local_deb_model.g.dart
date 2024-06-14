@@ -6,7 +6,7 @@ part of 'local_deb_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$localDebModelHash() => r'a5436611cd350a341c76ff157dee2ce53d29d7f1';
+String _$localDebModelHash() => r'd3bc8e97ee087c87a8df7d142be0c73edd093686';
 
 /// Copied from Dart SDK
 class _SystemHash {

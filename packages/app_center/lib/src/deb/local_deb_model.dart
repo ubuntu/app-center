@@ -29,7 +29,7 @@ class LocalDebModel extends _$LocalDebModel {
     await packageKit.activateService();
     final details = await packageKit.getDetailsLocal(path);
     if (details == null) {
-      throw StateError('Failed to get package details');
+      throw Exception('Failed to get package details');
     }
     final packageInfo = await packageKit.resolve(details.packageId.name);
     return LocalDebData(path: path, details: details, packageInfo: packageInfo);
@@ -46,11 +46,10 @@ class LocalDebModel extends _$LocalDebModel {
   }
 
   Future<void> cancel() async {
-    assert(state.asData?.value.activeTransactionId != null,
+    assert(state.value?.activeTransactionId != null,
         'cancel() called without active transaction');
     final packageKit = getService<PackageKitService>();
-    await packageKit
-        .cancelTransaction(state.asData!.value.activeTransactionId!);
+    await packageKit.cancelTransaction(state.value!.activeTransactionId!);
     state = AsyncValue.data(state.value!.copyWith(activeTransactionId: null));
   }
 
