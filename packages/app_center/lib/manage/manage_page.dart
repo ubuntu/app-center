@@ -510,7 +510,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
       children: [
         PushButton.outlined(
           style: const ButtonStyle(
-            padding: MaterialStatePropertyAll(EdgeInsets.zero),
+            padding: WidgetStatePropertyAll(EdgeInsets.zero),
           ),
           onPressed: updatesModel.activeChangeId != null || !snapModel.hasValue
               ? null
@@ -605,7 +605,7 @@ class _ButtonBarForOpen extends ConsumerWidget {
           visible: snapLauncher.isLaunchable,
           child: OutlinedButton(
             style: const ButtonStyle(
-              padding: MaterialStatePropertyAll(EdgeInsets.zero),
+              padding: WidgetStatePropertyAll(EdgeInsets.zero),
             ),
             onPressed: snapLauncher.open,
             child: Text(
