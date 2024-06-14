@@ -7,6 +7,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/packagekit.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/providers/error_stream_provider.dart';
 import 'package:app_center/store.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +22,9 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
 import 'package:yaru/yaru.dart';
 
-Future<void> main(List<String> args) async {
-  await YaruWindowTitleBar.ensureInitialized();
+final log = Logger('main');
 
+Future<void> main(List<String> args) async {
   final binaryName = p.basename(Platform.resolvedExecutable);
   Logger.setup(
     path: p.join(
@@ -66,8 +67,23 @@ Future<void> main(List<String> args) async {
   registerService(PackageKitClient.new);
   registerService(PackageKitService.new,
       dispose: (service) => service.dispose());
+  registerService(
+    ErrorStreamController.new,
+    dispose: (controller) => controller.close(),
+  );
 
   await initDefaultLocale();
 
-  runApp(const ProviderScope(child: StoreApp()));
+  await runZonedGuarded(
+    () async {
+      await YaruWindowTitleBar.ensureInitialized();
+      runApp(const ProviderScope(child: StoreApp()));
+    },
+    (error, stackTrace) {
+      log.error('Error propagated to top-level', error, stackTrace);
+      if (error is Exception) {
+        getService<ErrorStreamController>().add(error);
+      }
+    },
+  );
 }

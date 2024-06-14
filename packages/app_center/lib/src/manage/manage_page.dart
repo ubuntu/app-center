@@ -269,9 +269,9 @@ class _ActionButtons extends ConsumerWidget {
           child: updatesModel.activeChangeId != null
               ? Consumer(
                   builder: (context, ref, child) {
-                    final change = ref
-                        .watch(changeProvider(updatesModel.activeChangeId))
-                        .whenOrNull(data: (data) => data);
+                    final change = ref.watch(
+                      activeChangeProvider(updatesModel.activeChangeId),
+                    );
                     return Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -340,7 +340,6 @@ class _ManageSnapTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final snapLauncher = ref.watch(launchProvider(snap));
     final l10n = AppLocalizations.of(context);
     final border = BorderSide(color: Theme.of(context).colorScheme.outline);
     final dateTimeSinceUpdate = snap.installDate != null
@@ -470,75 +469,71 @@ class _ManageSnapTile extends ConsumerWidget {
           ],
         ),
         trailing: showUpdateButton
-            ? buildButtonBarForUpdate(ref, l10n, snapLauncher, context)
-            : buildButtonBarForOpen(ref, l10n, snapLauncher, context),
+            ? _ButtonBarForUpdate(snap)
+            : _ButtonBarForOpen(snap),
       ),
     );
   }
+}
 
-  ButtonBar buildButtonBarForUpdate(WidgetRef ref, AppLocalizations l10n,
-      SnapLauncher snapLauncher, BuildContext context) {
+class _ButtonBarForUpdate extends ConsumerWidget {
+  const _ButtonBarForUpdate(this.snap);
+
+  final Snap snap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final snapLauncher = ref.watch(launchProvider(snap));
+    final l10n = AppLocalizations.of(context);
+    final snapModel = ref.watch(snapModelProvider(snap.name));
+    final updatesModel = ref.watch(updatesModelProvider);
+    final activeChangeId = snapModel.value?.activeChangeId;
+    final change = activeChangeId != null
+        ? ref.watch(activeChangeProvider(activeChangeId))
+        : null;
+
     return ButtonBar(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Consumer(
-          builder: (context, ref, child) {
-            final snapModel = ref.watch(snapModelProvider(snap.name));
-            final updatesModel = ref.watch(updatesModelProvider);
-
-            return PushButton.outlined(
-              style: const ButtonStyle(
-                  padding: MaterialStatePropertyAll(EdgeInsets.zero)),
-              onPressed: updatesModel.activeChangeId != null
-                  ? null
-                  : () {
-                      ref.read(snapModelProvider(snap.name)).refresh();
-                    },
-              child: snapModel.activeChangeId != null
-                  ? Consumer(
-                      builder: (context, ref, child) {
-                        final change = ref
-                            .watch(changeProvider(snapModel.activeChangeId))
-                            .whenOrNull(data: (data) => data);
-                        return Row(
-                          children: [
-                            SizedBox.square(
-                              dimension: kCircularProgressIndicatorHeight,
-                              child: YaruCircularProgressIndicator(
-                                value: change?.progress,
-                                strokeWidth: 2,
-                              ),
-                            ),
-                            if (change != null) ...[
-                              const SizedBox(width: 8),
-                              Flexible(
-                                child: Text(
-                                  change.localize(l10n) ?? '',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ]
-                          ],
-                        );
-                      },
-                    )
-                  : Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(YaruIcons.download),
-                        const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(
-                            l10n.snapActionUpdateLabel,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
+        PushButton.outlined(
+          style: const ButtonStyle(
+            padding: MaterialStatePropertyAll(EdgeInsets.zero),
+          ),
+          onPressed: updatesModel.activeChangeId != null || !snapModel.hasValue
+              ? null
+              : ref.read(snapModelProvider(snap.name).notifier).refresh,
+          child: snapModel.value?.activeChangeId != null
+              ? Row(
+                  children: [
+                    SizedBox.square(
+                      dimension: kCircularProgressIndicatorHeight,
+                      child: YaruCircularProgressIndicator(
+                        value: change?.progress,
+                        strokeWidth: 2,
+                      ),
                     ),
-            );
-          },
+                    if (change != null) ...[
+                      const SizedBox(width: 8),
+                      Text(
+                        change.localize(l10n) ?? '',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ]
+                  ],
+                )
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(YaruIcons.download),
+                    const SizedBox(width: 8),
+                    Text(
+                      l10n.snapActionUpdateLabel,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
         ),
         MenuAnchor(
           menuChildren: [
@@ -575,9 +570,18 @@ class _ManageSnapTile extends ConsumerWidget {
       ],
     );
   }
+}
 
-  ButtonBar buildButtonBarForOpen(WidgetRef ref, AppLocalizations l10n,
-      SnapLauncher snapLauncher, BuildContext context) {
+class _ButtonBarForOpen extends ConsumerWidget {
+  const _ButtonBarForOpen(this.snap);
+
+  final Snap snap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final snapLauncher = ref.watch(launchProvider(snap));
+    final l10n = AppLocalizations.of(context);
+
     return ButtonBar(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -588,7 +592,8 @@ class _ManageSnapTile extends ConsumerWidget {
           visible: snapLauncher.isLaunchable,
           child: OutlinedButton(
             style: const ButtonStyle(
-                padding: MaterialStatePropertyAll(EdgeInsets.zero)),
+              padding: MaterialStatePropertyAll(EdgeInsets.zero),
+            ),
             onPressed: snapLauncher.open,
             child: Text(
               l10n.snapActionOpenLabel,

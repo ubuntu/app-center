@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_center/src/snapd/cache_file.dart';
 import 'package:app_center/src/snapd/snapd_cache.dart';
 import 'package:file/memory.dart';
 import 'package:flutter/services.dart';
@@ -17,11 +18,11 @@ void main() {
   test('path', () {
     final cacheHome = Platform.environment['XDG_CACHE_HOME'] ??
         '${Platform.environment['HOME']}/.cache';
-    expect(SnapdCache.cachePath, startsWith(cacheHome));
-    expect(SnapdCache.cachePath, endsWith('/snapd'));
+    expect(cachePath, startsWith(cacheHome));
+    expect(cachePath, endsWith('/snapd'));
 
-    final file = SnapdCache.cacheFile('test');
-    expect(file.path, startsWith(SnapdCache.cachePath));
+    final file = CacheFile.fromFileName('test');
+    expect(file.path, startsWith(cachePath));
     expect(file.path, endsWith('/test.smc'));
   });
 
@@ -94,7 +95,7 @@ void main() {
       when(snapd.find(category: 'foo')).thenAnswer((_) async => [storeSnap]);
 
       await expectLater(
-        snapd.getCategory('foo', fs: fs),
+        snapd.getCategory('foo', fileSystem: fs),
         emitsInOrder([
           emits([storeSnap]),
           emitsDone
@@ -107,13 +108,13 @@ void main() {
       final fs = MemoryFileSystem();
       const smc = StandardMessageCodec();
 
-      final file = fs.file('${SnapdCache.cachePath}/category-foo.smc');
+      final file = fs.file('$cachePath/category-foo.smc');
       file.createSync(recursive: true);
       file.writeAsBytesSync([localSnap.toJson()].encodeCache(smc));
 
       final snapd = TestSnapdCache();
       expect(
-        snapd.getCategory('foo', fs: fs),
+        snapd.getCategory('foo', fileSystem: fs),
         emitsInOrder([
           [localSnap],
           emitsDone
@@ -126,7 +127,7 @@ void main() {
       final fs = MemoryFileSystem();
       const smc = StandardMessageCodec();
 
-      final file = fs.file('${SnapdCache.cachePath}/category-foo.smc');
+      final file = fs.file('$cachePath/category-foo.smc');
       file.createSync(recursive: true);
       file.writeAsBytesSync([localSnap.toJson()].encodeCache(smc));
       file.setLastModifiedSync(
@@ -136,7 +137,7 @@ void main() {
       when(snapd.find(category: 'foo')).thenAnswer((_) async => [storeSnap]);
 
       await expectLater(
-        snapd.getCategory('foo', fs: fs),
+        snapd.getCategory('foo', fileSystem: fs),
         emitsInOrder([
           [localSnap],
           [storeSnap],
@@ -155,8 +156,12 @@ void main() {
       when(snapd.find(name: 'foo')).thenAnswer((_) async => [storeSnap]);
 
       await expectLater(
-        snapd.getStoreSnap('foo', fs: fs),
-        emitsInOrder([storeSnap, emitsDone]),
+        snapd.getStoreSnaps(['foo'], fileSystem: fs),
+        emitsInOrder([
+          [],
+          [storeSnap],
+          emitsDone,
+        ]),
       );
       verify(snapd.find(name: 'foo')).called(1);
     });
@@ -165,14 +170,18 @@ void main() {
       final fs = MemoryFileSystem();
       const smc = StandardMessageCodec();
 
-      final file = fs.file('${SnapdCache.cachePath}/snap-foo.smc');
+      final file = fs.file('$cachePath/snap-foo.smc');
       file.createSync(recursive: true);
       file.writeAsBytesSync(storeSnap.encodeCache(smc));
 
       final snapd = TestSnapdCache();
       expect(
-        snapd.getStoreSnap('foo', fs: fs),
-        emitsInOrder([storeSnap, emitsDone]),
+        snapd.getStoreSnaps(['foo'], fileSystem: fs),
+        emitsInOrder([
+          [storeSnap],
+          [storeSnap],
+          emitsDone,
+        ]),
       );
       verifyNever(snapd.find(name: anyNamed('name')));
     });
@@ -181,7 +190,7 @@ void main() {
       final fs = MemoryFileSystem();
       const smc = StandardMessageCodec();
 
-      final file = fs.file('${SnapdCache.cachePath}/snap-foo.smc');
+      final file = fs.file('$cachePath/snap-foo.smc');
       file.createSync(recursive: true);
       file.writeAsBytesSync(localSnap.encodeCache(smc));
 
@@ -189,8 +198,12 @@ void main() {
       when(snapd.find(name: 'foo')).thenAnswer((_) async => [storeSnap]);
 
       await expectLater(
-        snapd.getStoreSnap('foo', fs: fs),
-        emitsInOrder([localSnap, storeSnap, emitsDone]),
+        snapd.getStoreSnaps(['foo'], fileSystem: fs),
+        emitsInOrder([
+          [localSnap],
+          [storeSnap],
+          emitsDone,
+        ]),
       );
       verify(snapd.find(name: 'foo')).called(1);
     });
@@ -205,7 +218,7 @@ void main() {
       when(snapd.find(name: 'bar')).thenAnswer((_) async => [storeSnap2]);
 
       await expectLater(
-        snapd.getStoreSnaps(['foo', 'bar'], fs: fs),
+        snapd.getStoreSnaps(['foo', 'bar'], fileSystem: fs),
         emitsInOrder([
           [],
           [storeSnap, storeSnap2],
@@ -220,7 +233,7 @@ void main() {
       final fs = MemoryFileSystem();
       const smc = StandardMessageCodec();
 
-      final file = fs.file('${SnapdCache.cachePath}/snap-foo.smc');
+      final file = fs.file('$cachePath/snap-foo.smc');
       file.createSync(recursive: true);
       file.writeAsBytesSync(storeSnap.encodeCache(smc));
 
@@ -228,7 +241,7 @@ void main() {
       when(snapd.find(name: 'bar')).thenAnswer((_) async => [storeSnap2]);
 
       await expectLater(
-        snapd.getStoreSnaps(['foo', 'bar'], fs: fs),
+        snapd.getStoreSnaps(['foo', 'bar'], fileSystem: fs),
         emitsInOrder([
           [storeSnap],
           [storeSnap, storeSnap2],
@@ -243,7 +256,7 @@ void main() {
       final fs = MemoryFileSystem();
       const smc = StandardMessageCodec();
 
-      final file = fs.file('${SnapdCache.cachePath}/snap-foo.smc');
+      final file = fs.file('$cachePath/snap-foo.smc');
       file.createSync(recursive: true);
       file.writeAsBytesSync(localSnap.encodeCache(smc));
 
@@ -252,7 +265,7 @@ void main() {
       when(snapd.find(name: 'bar')).thenAnswer((_) async => [storeSnap2]);
 
       await expectLater(
-        snapd.getStoreSnaps(['foo', 'bar'], fs: fs),
+        snapd.getStoreSnaps(['foo', 'bar'], fileSystem: fs),
         emitsInOrder([
           [localSnap],
           [storeSnap, storeSnap2],

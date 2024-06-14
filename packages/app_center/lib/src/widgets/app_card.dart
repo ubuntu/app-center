@@ -23,48 +23,47 @@ class AppCard extends StatelessWidget {
     this.footer,
   });
 
-  factory AppCard.fromSnap({
+  AppCard.fromSnap({
     required Snap snap,
     VoidCallback? onTap,
-  }) =>
-      AppCard(
-        key: ValueKey(snap.id),
-        title: AppTitle.fromSnap(snap),
-        summary: snap.summary,
-        iconUrl: snap.iconUrl,
-        footer: _RatingsInfo(snap: snap),
-        onTap: onTap,
-      );
+  }) : this(
+          key: ValueKey(snap.id),
+          title: AppTitle.fromSnap(snap),
+          summary: snap.summary,
+          iconUrl: snap.iconUrl,
+          footer: _RatingsInfo(snap: snap),
+          onTap: onTap,
+        );
 
-  factory AppCard.fromDeb({
+  AppCard.fromDeb({
     required AppstreamComponent component,
     VoidCallback? onTap,
-  }) =>
-      AppCard(
-        key: ValueKey(component.id),
-        title: AppTitle.fromDeb(component),
-        summary: component.getLocalizedSummary(),
-        iconUrl: component.icon,
-        onTap: onTap,
-      );
+  }) : this(
+          key: ValueKey(component.id),
+          title: AppTitle.fromDeb(component),
+          summary: component.getLocalizedSummary(),
+          iconUrl: component.icon,
+          onTap: onTap,
+        );
 
-  factory AppCard.fromTool({
+  AppCard.fromTool({
     required Tool tool,
-  }) =>
-      AppCard(
-        title: AppTitle.fromTool(tool),
-        summary: tool.summary,
-        iconUrl: tool.iconUrl,
-        footer: OutlinedButton(
-          onPressed: () async {
-            await launchUrl(Uri.parse(tool.url));
-          },
-          child: Builder(builder: (context) {
-            final l10n = AppLocalizations.of(context);
-            return Text(l10n.openInBrowser);
-          }),
-        ),
-      );
+    Key? key,
+  }) : this(
+          key: key,
+          title: AppTitle.fromTool(tool),
+          summary: tool.summary,
+          iconUrl: tool.iconUrl,
+          footer: OutlinedButton(
+            onPressed: () async {
+              await launchUrl(Uri.parse(tool.url));
+            },
+            child: Builder(builder: (context) {
+              final l10n = AppLocalizations.of(context);
+              return Text(l10n.openInBrowser);
+            }),
+          ),
+        );
 
   final AppTitle title;
   final String summary;
@@ -76,6 +75,8 @@ class AppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruBanner(
+      // TODO: Remove color once we have upgraded to a yaru version > 4.1.0
+      color: Theme.of(context).cardColor,
       padding: const EdgeInsets.all(kCardSpacing),
       onTap: onTap,
       child: Flex(
@@ -85,11 +86,12 @@ class AppCard extends StatelessWidget {
           AppIcon(iconUrl: iconUrl),
           const SizedBox(width: 16, height: 16),
           Expanded(
-              child: _AppCardBody(
-            title: title,
-            summary: summary,
-            footer: footer,
-          )),
+            child: _AppCardBody(
+              title: title,
+              summary: summary,
+              footer: footer,
+            ),
+          ),
         ],
       ),
     );
@@ -106,6 +108,8 @@ class SnapImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YaruBanner(
+      // TODO: Remove color once we have upgraded to a yaru version > 4.1.0
+      color: Theme.of(context).cardColor,
       padding: EdgeInsets.zero,
       onTap: onTap,
       child: Column(
