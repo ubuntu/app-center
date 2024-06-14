@@ -5,6 +5,7 @@ import 'package:gtk/gtk.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 const _kUrlPrefix = 'snap://';
+const _kDebSuffix = '.deb';
 
 final commandLineProvider = Provider.autoDispose((ref) {
   final app = getService<GtkApplicationNotifier>();
@@ -35,6 +36,12 @@ String? _parseRoute(List<String>? args) {
         return StoreRoutes.namedSnap(name: snap);
       }
     }
+
+    if (args?.firstOrNull?.endsWith(_kDebSuffix) ?? false) {
+      final debPath = args!.first;
+      return StoreRoutes.namedLocalDeb(path: debPath);
+    }
+
     final result = parser.parse(args ?? []);
 
     final query = result['search'] as String?;

@@ -1,0 +1,17 @@
+Source: appcenter-testdeb
+Section: utils
+Priority: optional
+Maintainer: Dennis Loose <dennis.loose@canonical.com>
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+Standards-Version: 4.6.2
+Homepage: https://example.com/appcenter-testdeb
+
+Package: appcenter-testdeb
+Architecture: any
+Multi-Arch: foreign
+Depends:
+ ${misc:Depends},
+Description: Minimal package for App Center integration tests
+ This is a minimal test package for App Center integration tests.

@@ -13,6 +13,7 @@ class AppTitle extends StatelessWidget {
     required this.title,
     super.key,
     this.publisher,
+    this.showPublisher = true,
     this.verifiedPublisher = false,
     this.starredPublisher = false,
     this.snapCategories,
@@ -50,6 +51,7 @@ class AppTitle extends StatelessWidget {
 
   final String title;
   final String? publisher;
+  final bool showPublisher;
   final bool verifiedPublisher;
   final bool starredPublisher;
   final List<SnapCategory>? snapCategories;
@@ -72,31 +74,33 @@ class AppTitle extends StatelessWidget {
           style: titleTextStyle,
           overflow: TextOverflow.ellipsis,
         ),
-        const SizedBox(height: 4),
-        Row(
-          children: [
-            Flexible(
-              child: Text(
-                publisher ?? l10n.unknownPublisher,
-                style: publisherTextStyle.copyWith(
-                    color: Theme.of(context).hintColor),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            if (verifiedPublisher || starredPublisher)
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
-                child: Icon(
-                  verifiedPublisher ? Icons.verified : Icons.stars,
-                  size: publisherTextStyle.fontSize,
-                  color: verifiedPublisher
-                      ? Theme.of(context).colorScheme.success
-                      : Theme.of(context).colorScheme.warning,
+        if (showPublisher) ...[
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Flexible(
+                child: Text(
+                  publisher ?? l10n.unknownPublisher,
+                  style: publisherTextStyle.copyWith(
+                      color: Theme.of(context).hintColor),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-          ],
-        ),
+              if (verifiedPublisher || starredPublisher)
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
+                  child: Icon(
+                    verifiedPublisher ? Icons.verified : Icons.stars,
+                    size: publisherTextStyle.fontSize,
+                    color: verifiedPublisher
+                        ? Theme.of(context).colorScheme.success
+                        : Theme.of(context).colorScheme.warning,
+                  ),
+                ),
+            ],
+          ),
+        ],
         if (large && snapCategories != null) ...[
           const SizedBox(height: 8),
           Row(
