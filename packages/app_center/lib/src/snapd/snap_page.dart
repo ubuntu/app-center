@@ -38,7 +38,7 @@ class SnapPage extends ConsumerWidget {
       data: (snapData) => ResponsiveLayoutBuilder(
         builder: (_) {
           return _SnapView(
-            snapModel: snapData,
+            snapData: snapData,
             updatesModel: updatesModel,
           );
         },
@@ -50,9 +50,9 @@ class SnapPage extends ConsumerWidget {
 }
 
 class _SnapView extends StatelessWidget {
-  const _SnapView({required this.snapModel, required this.updatesModel});
+  const _SnapView({required this.snapData, required this.updatesModel});
 
-  final SnapData snapModel;
+  final SnapData snapData;
   final UpdatesModel updatesModel;
 
   @override
@@ -66,11 +66,11 @@ class _SnapView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              snapModel.channelInfo?.confinement.localize(l10n) ??
-                  snapModel.snap.confinement.localize(l10n),
+              snapData.channelInfo?.confinement.localize(l10n) ??
+                  snapData.snap.confinement.localize(l10n),
             ),
-            if ((snapModel.channelInfo?.confinement ??
-                    snapModel.snap.confinement) ==
+            if ((snapData.channelInfo?.confinement ??
+                    snapData.snap.confinement) ==
                 SnapConfinement.strict) ...const [
               SizedBox(width: 2),
               Icon(YaruIcons.shield, size: 12),
@@ -81,24 +81,24 @@ class _SnapView extends StatelessWidget {
       (
         label: l10n.snapPageDownloadSizeLabel,
         value: Text(
-          snapModel.channelInfo != null
-              ? context.formatByteSize(snapModel.channelInfo!.size)
+          snapData.channelInfo != null
+              ? context.formatByteSize(snapData.channelInfo!.size)
               : '',
         ),
       ),
       (
         label: l10n.snapPageLicenseLabel,
-        value: Text(snapModel.snap.license ?? ''),
+        value: Text(snapData.snap.license ?? ''),
       ),
       (
         label: l10n.snapPageVersionLabel,
-        value: Text(snapModel.channelInfo?.version ?? snapModel.snap.version),
+        value: Text(snapData.channelInfo?.version ?? snapData.snap.version),
       ),
       (
         label: l10n.snapPagePublishedLabel,
         value: Text(
-          snapModel.channelInfo != null
-              ? DateFormat.yMMMd().format(snapModel.channelInfo!.releasedAt)
+          snapData.channelInfo != null
+              ? DateFormat.yMMMd().format(snapData.channelInfo!.releasedAt)
               : '',
         ),
       ),
@@ -106,11 +106,11 @@ class _SnapView extends StatelessWidget {
         label: l10n.snapPageLinksLabel,
         value: Column(
           children: [
-            if (snapModel.snap.website?.isNotEmpty ?? false)
-              '<a href="${snapModel.snap.website}">${l10n.snapPageDeveloperWebsiteLabel}</a>',
-            if ((snapModel.snap.contact?.isNotEmpty ?? false) &&
-                snapModel.snap.publisher != null)
-              '<a href="${snapModel.snap.contact}">${l10n.snapPageContactPublisherLabel(snapModel.snap.publisher!.displayName)}</a>'
+            if (snapData.snap.website?.isNotEmpty ?? false)
+              '<a href="${snapData.snap.website}">${l10n.snapPageDeveloperWebsiteLabel}</a>',
+            if ((snapData.snap.contact?.isNotEmpty ?? false) &&
+                snapData.snap.publisher != null)
+              '<a href="${snapData.snap.contact}">${l10n.snapPageContactPublisherLabel(snapData.snap.publisher!.displayName)}</a>'
           ]
               .map((link) => Html(
                     data: link,
@@ -131,7 +131,7 @@ class _SnapView extends StatelessWidget {
           width: layout.totalWidth,
           child: Padding(
             padding: const EdgeInsets.only(top: kPagePadding),
-            child: _Header(snapModel: snapModel),
+            child: _Header(snapData: snapData),
           ),
         ),
         Expanded(
@@ -145,23 +145,23 @@ class _SnapView extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AppIcon(iconUrl: snapModel.snap.iconUrl, size: 96),
+                        AppIcon(iconUrl: snapData.snap.iconUrl, size: 96),
                         const SizedBox(width: 16),
                         Expanded(
-                          child: AppTitle.fromSnap(snapModel.snap, large: true),
+                          child: AppTitle.fromSnap(snapData.snap, large: true),
                         ),
                       ],
                     ),
                     const SizedBox(height: kPagePadding),
                     Row(
                       children: [
-                        if (snapModel.availableChannels != null &&
-                            snapModel.selectedChannel != null) ...[
-                          _ChannelDropdown(model: snapModel),
+                        if (snapData.availableChannels != null &&
+                            snapData.selectedChannel != null) ...[
+                          _ChannelDropdown(snapData: snapData),
                           const SizedBox(width: 16),
                         ],
                         Flexible(
-                          child: _SnapActionButtons(snapModel: snapModel),
+                          child: _SnapActionButtons(snapData: snapData),
                         )
                       ],
                     ),
@@ -171,13 +171,13 @@ class _SnapView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 32),
                       child: _SnapInfoBar(
                         snapInfos: snapInfos,
-                        snap: snapModel.snap,
+                        snap: snapData.snap,
                         layout: layout,
                       ),
                     ),
                     const Divider(),
                     const SizedBox(height: 48),
-                    if (snapModel.hasGallery) ...[
+                    if (snapData.hasGallery) ...[
                       _Section(
                         header: Text(
                           l10n.snapPageGalleryLabel,
@@ -189,8 +189,8 @@ class _SnapView extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 48),
                           child: ScreenshotGallery(
-                            title: snapModel.storeSnap!.titleOrName,
-                            urls: snapModel.storeSnap!.screenshotUrls,
+                            title: snapData.storeSnap!.titleOrName,
+                            urls: snapData.storeSnap!.screenshotUrls,
                             height: layout.totalWidth / 2,
                           ),
                         ),
@@ -212,7 +212,7 @@ class _SnapView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              snapModel.snap.summary,
+                              snapData.snap.summary,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                             const SizedBox(height: kPagePadding),
@@ -220,7 +220,7 @@ class _SnapView extends StatelessWidget {
                               selectable: true,
                               onTapLink: (text, href, title) =>
                                   launchUrlString(href!),
-                              data: snapModel.snap.description,
+                              data: snapData.snap.description,
                             ),
                           ],
                         ),
@@ -273,25 +273,25 @@ class _SnapInfoBar extends ConsumerWidget {
 }
 
 class _SnapActionButtons extends ConsumerWidget {
-  const _SnapActionButtons({required this.snapModel});
+  const _SnapActionButtons({required this.snapData});
 
-  final SnapData snapModel;
+  final SnapData snapData;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final localSnap = snapModel.localSnap;
-    final snapLauncher = snapModel.isInstalled && localSnap != null
+    final localSnap = snapData.localSnap;
+    final snapLauncher = snapData.isInstalled && localSnap != null
         ? ref.watch(launchProvider(localSnap))
         : null;
     final updatesModel = ref.watch(updatesModelProvider);
-    final snapNotifier = ref.read(snapModelProvider(snapModel.name).notifier);
+    final snapNotifier = ref.read(snapModelProvider(snapData.name).notifier);
 
     final SnapAction primaryAction;
-    if (snapModel.isInstalled) {
+    if (snapData.isInstalled) {
       primaryAction =
-          snapModel.selectedChannel == snapModel.localSnap!.trackingChannel ||
-                  snapModel.storeSnap == null
+          snapData.selectedChannel == snapData.localSnap!.trackingChannel ||
+                  snapData.storeSnap == null
               ? SnapAction.open
               : SnapAction.switchChannel;
     } else {
@@ -301,14 +301,14 @@ class _SnapActionButtons extends ConsumerWidget {
     final primaryActionButton = SizedBox(
       width: _kPrimaryButtonMaxWidth,
       child: PushButton.elevated(
-        onPressed: snapModel.activeChangeId != null
+        onPressed: snapData.activeChangeId != null
             ? null
             : snapNotifier.callback(ref, primaryAction, snapLauncher),
-        child: snapModel.activeChangeId != null
+        child: snapData.activeChangeId != null
             ? Consumer(
                 builder: (context, ref, child) {
                   final change =
-                      ref.watch(activeChangeProvider(snapModel.activeChangeId));
+                      ref.watch(activeChangeProvider(snapData.activeChangeId));
                   return Row(
                     children: [
                       SizedBox.square(
@@ -337,7 +337,7 @@ class _SnapActionButtons extends ConsumerWidget {
     );
 
     final secondaryActions = [
-      if (updatesModel.hasUpdate(snapModel.name)) SnapAction.update,
+      if (updatesModel.hasUpdate(snapData.name)) SnapAction.update,
       SnapAction.remove,
     ];
     final secondaryActionsButton = MenuAnchor(
@@ -382,14 +382,14 @@ class _SnapActionButtons extends ConsumerWidget {
       overflowButtonSpacing: 8,
       children: [
         primaryActionButton,
-        if (snapModel.activeChangeId != null)
+        if (snapData.activeChangeId != null)
           cancelButton
-        else if (snapModel.isInstalled)
+        else if (snapData.isInstalled)
           secondaryActionsButton,
-        if (snapModel.isInstalled) ...[
+        if (snapData.isInstalled) ...[
           const SizedBox(width: 8),
           _RatingsActionButtons(
-            snap: snapModel.snap,
+            snap: snapData.snap,
           ),
         ]
       ].whereNotNull().toList(),
@@ -497,13 +497,13 @@ class _Section extends YaruExpandable {
 }
 
 class _Header extends ConsumerWidget {
-  const _Header({required this.snapModel});
+  const _Header({required this.snapData});
 
-  final SnapData snapModel;
+  final SnapData snapData;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final snap = snapModel.storeSnap ?? snapModel.localSnap!;
+    final snap = snapData.storeSnap ?? snapData.localSnap!;
     final l10n = AppLocalizations.of(context);
 
     return Column(
@@ -537,7 +537,7 @@ class _Header extends ConsumerWidget {
                   builder: (context) {
                     return ResponsiveLayoutBuilder(
                       builder: (context) =>
-                          SnapReport(name: snapModel.snap.titleOrName),
+                          SnapReport(name: snapData.snap.titleOrName),
                     );
                   },
                 );
@@ -552,9 +552,9 @@ class _Header extends ConsumerWidget {
 }
 
 class _ChannelDropdown extends ConsumerWidget {
-  const _ChannelDropdown({required this.model});
+  const _ChannelDropdown({required this.snapData});
 
-  final SnapData model;
+  final SnapData snapData;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -570,7 +570,7 @@ class _ChannelDropdown extends ConsumerWidget {
         SizedBox(
           width: _kChannelDropdownWidth,
           child: MenuButtonBuilder(
-            entries: model.availableChannels!.entries
+            entries: snapData.availableChannels!.entries
                 .map(
               (channelEntry) => MenuButtonEntry(
                 value: channelEntry.key,
@@ -583,9 +583,9 @@ class _ChannelDropdown extends ConsumerWidget {
                   [...p, e, const MenuButtonEntry(value: '', isDivider: true)],
             )..removeLast(),
             itemBuilder: (context, value, child) => Text(value),
-            selected: model.selectedChannel,
+            selected: snapData.selectedChannel,
             onSelected: (value) => ref
-                .read(snapModelProvider(model.name).notifier)
+                .read(snapModelProvider(snapData.name).notifier)
                 .selectChannel(value),
             menuPosition: PopupMenuPosition.under,
             menuStyle: const MenuStyle(
@@ -599,7 +599,7 @@ class _ChannelDropdown extends ConsumerWidget {
               maximumSize: const Size.fromHeight(100),
             ),
             child: Text(
-              '${model.selectedChannel} ${model.availableChannels![model.selectedChannel]!.version}',
+              '${snapData.selectedChannel} ${snapData.availableChannels![snapData.selectedChannel]!.version}',
             ),
           ),
         ),
