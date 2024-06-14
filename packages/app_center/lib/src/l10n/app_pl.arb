@@ -390,5 +390,17 @@
   "appstreamUrlTypeContribute": "Przyczyń się",
   "@appstreamUrlTypeContribute": {},
   "appstreamUrlTypeVcsBrowser": "Źródło",
-  "@appstreamUrlTypeVcsBrowser": {}
+  "@appstreamUrlTypeVcsBrowser": {},
+  "localDebLearnMore": "Dowiedz się więcej o pakietach innych dostawców",
+  "@localDebLearnMore": {},
+  "localDebDialogConfirmation": "Czy na pewno chcesz to zainstalować?",
+  "@localDebDialogConfirmation": {},
+  "snapPageSizeLabel": "Rozmiar",
+  "@snapPageSizeLabel": {},
+  "localDebWarningTitle": "Potencjalnie niebezpieczne",
+  "@localDebWarningTitle": {},
+  "localDebWarningBody": "Pakiet ten jest dostarczany przez innego dostawcę. Instalowanie pakietów spoza Centrum oprogramowania może zwiększyć ryzyko w przypadku systemu i prywatnych danych. Zanim przejdziesz dalej, upewnij się, że ufasz źródłu.",
+  "@localDebWarningBody": {},
+  "localDebDialogMessage": "Ten pakiet jest dostarczany przez innego dostawcę, może zagrozić systemowi i prywatnym danym.",
+  "@localDebDialogMessage": {}
 }
