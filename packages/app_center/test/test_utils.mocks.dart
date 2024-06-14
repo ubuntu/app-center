@@ -6,18 +6,17 @@
 import 'dart:async' as _i14;
 import 'dart:ui' as _i15;
 
-import 'package:app_center/appstream.dart' as _i6;
-import 'package:app_center/packagekit.dart' as _i7;
-import 'package:app_center/snapd.dart' as _i9;
-import 'package:app_center/src/deb/deb_model.dart' as _i16;
-import 'package:app_center/src/manage/manage_model.dart' as _i18;
-import 'package:app_center/src/ratings/exports.dart' as _i21;
-import 'package:app_center/src/ratings/ratings_model.dart' as _i12;
-import 'package:app_center/src/ratings/ratings_service.dart' as _i4;
-import 'package:app_center/src/snapd/multisnap_model.dart' as _i23;
+import 'package:app_center/appstream/appstream.dart' as _i6;
+import 'package:app_center/deb/deb_model.dart' as _i16;
+import 'package:app_center/manage/manage_model.dart' as _i18;
+import 'package:app_center/packagekit/packagekit.dart' as _i7;
+import 'package:app_center/ratings/ratings_model.dart' as _i12;
+import 'package:app_center/ratings/ratings_service.dart' as _i4;
+import 'package:app_center/snapd/multisnap_model.dart' as _i22;
+import 'package:app_center/snapd/snapd.dart' as _i9;
 import 'package:app_center_ratings_client/app_center_ratings_client.dart'
     as _i11;
-import 'package:app_center_ratings_client/src/chart.dart' as _i22;
+import 'package:app_center_ratings_client/src/chart.dart' as _i21;
 import 'package:appstream/appstream.dart' as _i8;
 import 'package:dbus/dbus.dart' as _i20;
 import 'package:file/file.dart' as _i10;
@@ -2119,7 +2118,7 @@ class MockRatingsService extends _i1.Mock implements _i4.RatingsService {
       ) as _i14.Future<_i11.Rating?>);
 
   @override
-  _i14.Future<void> vote(_i21.Vote? vote) => (super.noSuchMethod(
+  _i14.Future<void> vote(_i11.Vote? vote) => (super.noSuchMethod(
         Invocation.method(
           #vote,
           [vote],
@@ -2139,24 +2138,24 @@ class MockRatingsService extends _i1.Mock implements _i4.RatingsService {
       ) as _i14.Future<void>);
 
   @override
-  _i14.Future<List<_i21.Vote>> listMyVotes(String? snapFilter) =>
+  _i14.Future<List<_i11.Vote>> listMyVotes(String? snapFilter) =>
       (super.noSuchMethod(
         Invocation.method(
           #listMyVotes,
           [snapFilter],
         ),
-        returnValue: _i14.Future<List<_i21.Vote>>.value(<_i21.Vote>[]),
-      ) as _i14.Future<List<_i21.Vote>>);
+        returnValue: _i14.Future<List<_i11.Vote>>.value(<_i11.Vote>[]),
+      ) as _i14.Future<List<_i11.Vote>>);
 
   @override
-  _i14.Future<List<_i21.Vote>> getSnapVotes(String? snapId) =>
+  _i14.Future<List<_i11.Vote>> getSnapVotes(String? snapId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getSnapVotes,
           [snapId],
         ),
-        returnValue: _i14.Future<List<_i21.Vote>>.value(<_i21.Vote>[]),
-      ) as _i14.Future<List<_i21.Vote>>);
+        returnValue: _i14.Future<List<_i11.Vote>>.value(<_i11.Vote>[]),
+      ) as _i14.Future<List<_i11.Vote>>);
 }
 
 /// A class which mocks [RatingsClient].
@@ -2193,8 +2192,8 @@ class MockRatingsClient extends _i1.Mock implements _i11.RatingsClient {
       ) as _i14.Future<void>);
 
   @override
-  _i14.Future<List<_i22.ChartData>> getChart(
-    _i22.Timeframe? timeframe,
+  _i14.Future<List<_i21.ChartData>> getChart(
+    _i21.Timeframe? timeframe,
     String? token,
   ) =>
       (super.noSuchMethod(
@@ -2206,8 +2205,8 @@ class MockRatingsClient extends _i1.Mock implements _i11.RatingsClient {
           ],
         ),
         returnValue:
-            _i14.Future<List<_i22.ChartData>>.value(<_i22.ChartData>[]),
-      ) as _i14.Future<List<_i22.ChartData>>);
+            _i14.Future<List<_i21.ChartData>>.value(<_i21.ChartData>[]),
+      ) as _i14.Future<List<_i21.ChartData>>);
 
   @override
   _i14.Future<_i11.Rating> getRating(
@@ -2235,7 +2234,7 @@ class MockRatingsClient extends _i1.Mock implements _i11.RatingsClient {
       ) as _i14.Future<_i11.Rating>);
 
   @override
-  _i14.Future<List<_i21.Vote>> getSnapVotes(
+  _i14.Future<List<_i11.Vote>> getSnapVotes(
     String? snapId,
     String? token,
   ) =>
@@ -2247,11 +2246,11 @@ class MockRatingsClient extends _i1.Mock implements _i11.RatingsClient {
             token,
           ],
         ),
-        returnValue: _i14.Future<List<_i21.Vote>>.value(<_i21.Vote>[]),
-      ) as _i14.Future<List<_i21.Vote>>);
+        returnValue: _i14.Future<List<_i11.Vote>>.value(<_i11.Vote>[]),
+      ) as _i14.Future<List<_i11.Vote>>);
 
   @override
-  _i14.Future<List<_i21.Vote>> listMyVotes(
+  _i14.Future<List<_i11.Vote>> listMyVotes(
     String? snapIdFilter,
     String? token,
   ) =>
@@ -2263,8 +2262,8 @@ class MockRatingsClient extends _i1.Mock implements _i11.RatingsClient {
             token,
           ],
         ),
-        returnValue: _i14.Future<List<_i21.Vote>>.value(<_i21.Vote>[]),
-      ) as _i14.Future<List<_i21.Vote>>);
+        returnValue: _i14.Future<List<_i11.Vote>>.value(<_i11.Vote>[]),
+      ) as _i14.Future<List<_i11.Vote>>);
 
   @override
   _i14.Future<void> vote(
@@ -2472,7 +2471,7 @@ class MockPackageKitService extends _i1.Mock implements _i7.PackageKitService {
 /// A class which mocks [MultiSnapModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMultiSnapModel extends _i1.Mock implements _i23.MultiSnapModel {
+class MockMultiSnapModel extends _i1.Mock implements _i22.MultiSnapModel {
   MockMultiSnapModel() {
     _i1.throwOnMissingStub(this);
   }

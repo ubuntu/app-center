@@ -1,8 +1,8 @@
-import 'package:app_center/manage.dart';
-import 'package:app_center/snapd.dart';
-import 'package:app_center/src/manage/local_snap_providers.dart';
-import 'package:app_center/src/manage/manage_model.dart';
-import 'package:app_center/src/snapd/snap_data.dart';
+import 'package:app_center/manage/local_snap_providers.dart';
+import 'package:app_center/manage/manage.dart';
+import 'package:app_center/manage/manage_model.dart';
+import 'package:app_center/snapd/snap_data.dart';
+import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

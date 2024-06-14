@@ -1,0 +1,255 @@
+{
+    "appCenterLabel": "App Center",
+    "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
+    "snapPageChannelLabel": "Channel",
+    "snapPageConfinementLabel": "Confinement",
+    "snapPageContactPublisherLabel": "Contact {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDescriptionLabel": "Description",
+    "snapPageDeveloperWebsiteLabel": "Developer website",
+    "snapPageDownloadSizeLabel": "Download size",
+    "snapPageSizeLabel": "Size",
+    "snapPageGalleryLabel": "Gallery",
+    "snapPageLicenseLabel": "License",
+    "snapPageLinksLabel": "Links",
+    "snapPagePublisherLabel": "Publisher",
+    "snapPagePublishedLabel": "Published",
+    "snapPageSummaryLabel": "Summary",
+    "snapPageVersionLabel": "Version",
+    "snapPageShareLinkCopiedMessage": "Link copied to clipboard",
+    "explorePageLabel": "Explore",
+    "explorePageCategoriesLabel": "Categories",
+    "managePageCheckForUpdates": "Check for updates",
+    "managePageCheckingForUpdates": "Checking for updates",
+    "managePageDescription": "Check for available updates, update your apps, and manage the status of all your apps.",
+    "managePageInstalledAndUpdatedLabel": "Installed and updated",
+    "managePageLabel": "Manage",
+    "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
+    "managePageSearchFieldSearchHint": "Search your installed apps",
+    "managePageShowDetailsLabel": "Show details",
+    "managePageShowSystemSnapsLabel": "Show system snaps",
+    "managePageUpdateAllLabel": "Update all",
+    "managePageUpdatedDaysAgo": "Updated {n, plural, =1{{n} day} other{{n} days}} ago",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "Updated {n, plural, =1{{n} week} other{{n} weeks}} ago",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "Updated {n, plural, =1{{n} month} other{{n} months}} ago",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Updated {n, plural, =1{{n} year} other{{n} years}} ago",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "Updates available ({n})",
+    "@managePageUpdatesAvaialble": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "productivityPageLabel": "Productivity",
+    "developmentPageLabel": "Development",
+    "gamesPageLabel": "Games",
+    "gamesPageTitle": "What's Hot",
+    "gamesPageTop": "Top Games",
+    "gamesPageFeatured": "Featured Titles",
+    "gamesPageBundles": "App Bundles",
+    "unknownPublisher": "Unknown publisher",
+    "searchFieldDebSection": "Debian packages",
+    "searchFieldSearchHint": "Search for apps",
+    "searchFieldSearchForLabel": "See all results for \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSnapSection": "Snap packages",
+    "searchPageFilterByLabel": "Filter by",
+    "searchPageNoResults": "No results found for \"{query}\"",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "Try using different or more general keywords",
+    "searchPageNoResultsCategory": "Sorry, we couldn’t find any packages in this category",
+    "searchPageNoResultsCategoryHint": "Try a different category or use more general keywords",
+    "searchPageSortByLabel": "Sort by",
+    "searchPageRelevanceLabel": "Relevance",
+    "searchPageTitle": "Results for \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageLabel": "About",
+    "aboutPageVersionLabel": "Version {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "Designed and developed by:",
+    "aboutPageCommunityTitle": "Be part of the community:",
+    "aboutPageContributeLabel": "Contribute or report bug",
+    "aboutPageGitHubLabel": "Find us on GitHub",
+    "aboutPagePublishLabel": "Publish to the Snap Store",
+    "aboutPageLearnMoreLabel": "Learn more",
+    "appstreamUrlTypeBugtracker": "Bugtracker",
+    "appstreamUrlTypeContact": "Contact",
+    "appstreamUrlTypeContribute": "Contribute",
+    "appstreamUrlTypeDonation": "Donate",
+    "appstreamUrlTypeFaq": "FAQ",
+    "appstreamUrlTypeHelp": "Help",
+    "appstreamUrlTypeHomepage": "Homepage",
+    "appstreamUrlTypeTranslate": "Translations",
+    "appstreamUrlTypeVcsBrowser": "Source",
+    "packageFormatDebLabel": "Debian packages",
+    "packageFormatSnapLabel": "Snap packages",
+    "snapActionCancelLabel": "Cancel",
+    "snapActionInstallLabel": "Install",
+    "snapActionInstallingLabel": "Installing",
+    "snapActionOpenLabel": "Open",
+    "snapActionRemoveLabel": "Uninstall",
+    "snapActionRemovingLabel": "Uninstalling",
+    "snapActionSwitchChannelLabel": "Switch channel",
+    "snapActionUpdateLabel": "Update",
+    "snapCategoryAll": "All categories",
+    "snapActionUpdatingLabel": "Updating",
+    "snapCategoryArtAndDesign": "Art and Design",
+    "snapCategoryBooksAndReference": "Books and Reference",
+    "snapCategoryDefaultButtonLabel": "Discover more",
+    "snapCategoryDevelopment": "Development",
+    "snapCategoryDevelopmentSlogan": "Must-have snaps for developers",
+    "snapCategoryDevicesAndIot": "Devices and IoT",
+    "snapCategoryEducation": "Education",
+    "snapCategoryEntertainment": "Entertainment",
+    "snapCategoryFeatured": "Featured",
+    "snapCategoryFeaturedSlogan": "Featured Snaps",
+    "snapCategoryFinance": "Finance",
+    "snapCategoryGames": "Games",
+    "snapCategoryGamesSlogan": "Everything for your game night",
+    "snapCategoryGameDev": "Game Development",
+    "snapCategoryGameDevSlogan": "Game Development",
+    "snapCategoryGameEmulators": "Emulators",
+    "snapCategoryGameEmulatorsSlogan": "Emulators",
+    "snapCategoryGnomeGames": "GNOME Games",
+    "snapCategoryGnomeGamesSlogan": "GNOME Games Suite",
+    "snapCategoryKdeGames": "KDE Games",
+    "snapCategoryKdeGamesSlogan": "KDE Games Suite",
+    "snapCategoryGameLaunchers": "Game Launchers",
+    "snapCategoryGameLaunchersSlogan": "Game Launchers",
+    "snapCategoryGameContentCreation": "Content Creation",
+    "snapCategoryGameContentCreationSlogan": "Content Creation",
+    "snapCategoryHealthAndFitness": "Health and Fitness",
+    "snapCategoryMusicAndAudio": "Music and Audio",
+    "snapCategoryNewsAndWeather": "News and Weather",
+    "snapCategoryPersonalisation": "Personalisation",
+    "snapCategoryPhotoAndVideo": "Photo and Video",
+    "snapCategoryProductivity": "Productivity",
+    "snapCategoryProductivityButtonLabel": "Discover the productivity collection",
+    "snapCategoryProductivitySlogan": "Cross one thing off your to-do list",
+    "snapCategoryScience": "Science",
+    "snapCategorySecurity": "Security",
+    "snapCategoryServerAndCloud": "Server and Cloud",
+    "snapCategorySocial": "Social",
+    "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
+    "snapCategoryUbuntuDesktopSlogan": "Jump start your desktop",
+    "snapCategoryUtilities": "Utilities",
+    "snapConfinementClassic": "Classic",
+    "snapConfinementDevmode": "Devmode",
+    "snapConfinementStrict": "Strict",
+    "snapSortOrderAlphabeticalAsc": "Alphabetical (A to Z)",
+    "snapSortOrderAlphabeticalDesc": "Alphabetical (Z to A)",
+    "snapSortOrderDownloadSizeAsc": "Size (Smallest to largest)",
+    "snapSortOrderDownloadSizeDesc": "Size (Largest to smallest)",
+    "snapSortOrderInstalledSizeAsc": "Size (Smallest to largest)",
+    "snapSortOrderInstalledSizeDesc": "Size (Largest to smallest)",
+    "snapSortOrderInstalledDateAsc": "Least recently updated",
+    "snapSortOrderInstalledDateDesc": "Most recently updated",
+    "snapSortOrderRelevance": "Relevance",
+    "snapRatingsBandVeryGood": "Very good",
+    "snapRatingsBandGood": "Good",
+    "snapRatingsBandNeutral": "Neutral",
+    "snapRatingsBandPoor": "Poor",
+    "snapRatingsBandVeryPoor": "Very poor",
+    "snapRatingsBandInsufficientVotes": "Insufficient votes",
+    "snapRatingsVotes": "{n} votes",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "Report {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "Choose a reason for reporting this snap",
+    "snapReportSelectAnOptionLabel": "Select an option",
+    "snapReportOptionCopyrightViolation": "Copyright or trademark violation",
+    "snapReportOptionStoreViolation": "Snap Store terms of service violation",
+    "snapReportDetailsLabel": "Please provide more detailed reason to your report",
+    "snapReportOptionalEmailAddressLabel": "Your email (optional)",
+    "snapReportCancelButtonLabel": "Cancel",
+    "snapReportSubmitButtonLabel": "Submit report",
+    "snapReportEnterValidEmailError": "Enter a valid email address",
+    "snapReportDetailsHint": "Comment...",
+    "snapReportPrivacyAgreementLabel": "In submitting this form, I confirm that I have read and agree to ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical’s Privacy Notice ",
+    "snapReportPrivacyAgreementAndLabel": "and ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "Privacy Policy",
+    "debPageErrorNoPackageInfo": "No package information found",
+    "externalResources": "Additional resources",
+    "externalResourcesButtonLabel": "Discover more",
+    "allGamesButtonLabel": "All games",
+    "externalResourcesDisclaimer": "Note: These are all external tools. These aren't owned nor distributed by Canonical.",
+    "openInBrowser": "Open in browser",
+    "installAll": "Install all",
+    "localDebWarningTitle": "Potentially unsafe",
+    "localDebWarningBody": "This package is provided by a third party. Installing packages from outside the App Center can increase the risk to your system and personal data. Ensure you trust the source before proceeding.",
+    "localDebLearnMore": "Learn more about third party packages",
+    "localDebDialogMessage": "This package is provided by a third party and may threaten your system and personal data.",
+    "localDebDialogConfirmation": "Are you sure you want to install it?"
+}

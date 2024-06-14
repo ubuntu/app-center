@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:app_center/ratings.dart';
-import 'package:app_center/snapd.dart';
-import 'package:app_center/src/providers/error_stream_provider.dart';
-import 'package:app_center/src/store/store_app.dart';
+import 'package:app_center/providers/error_stream_provider.dart';
+import 'package:app_center/ratings/ratings.dart';
+import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/store/store_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

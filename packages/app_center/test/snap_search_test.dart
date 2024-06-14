@@ -1,4 +1,4 @@
-import 'package:app_center/snapd.dart';
+import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

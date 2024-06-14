@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app_center/src/packagekit/packagekit_service.dart';
+import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:dbus/dbus.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
