@@ -3,6 +3,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
+import 'package:app_center/src/snapd/snap_action.dart';
 import 'package:app_center/src/snapd/snap_data.dart';
 import 'package:app_center/src/snapd/snap_report.dart';
 import 'package:app_center/src/store/store_app.dart';
@@ -285,7 +286,7 @@ class _SnapActionButtons extends ConsumerWidget {
         ? ref.watch(launchProvider(localSnap))
         : null;
     final updatesModel = ref.watch(updatesModelProvider);
-    final snapNotifier = ref.read(snapModelProvider(snapData.name).notifier);
+    final snapModel = ref.watch(snapModelProvider(snapData.name).notifier);
 
     final SnapAction primaryAction;
     if (snapData.isInstalled) {
@@ -303,7 +304,7 @@ class _SnapActionButtons extends ConsumerWidget {
       child: PushButton.elevated(
         onPressed: snapData.activeChangeId != null
             ? null
-            : snapNotifier.callback(ref, primaryAction, snapLauncher),
+            : primaryAction.callback(snapData, snapModel, snapLauncher),
         child: snapData.activeChangeId != null
             ? Consumer(
                 builder: (context, ref, child) {
@@ -346,7 +347,7 @@ class _SnapActionButtons extends ConsumerWidget {
             ? Theme.of(context).colorScheme.error
             : null;
         return MenuItemButton(
-          onPressed: snapNotifier.callback(ref, action, snapLauncher),
+          onPressed: action.callback(snapData, snapModel, snapLauncher),
           child: IntrinsicWidth(
             child: ListTile(
               mouseCursor: SystemMouseCursors.click,
@@ -373,7 +374,7 @@ class _SnapActionButtons extends ConsumerWidget {
     );
 
     final cancelButton = OutlinedButton(
-      onPressed: snapNotifier.callback(ref, SnapAction.cancel),
+      onPressed: SnapAction.cancel.callback(snapData, snapModel),
       child: Text(SnapAction.cancel.label(l10n)),
     );
 

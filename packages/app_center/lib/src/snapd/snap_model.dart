@@ -1,16 +1,13 @@
 import 'dart:async';
 
-import 'package:app_center/l10n.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/snapd/snap_data.dart';
 import 'package:app_center/src/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:yaru/icons.dart';
 
 part 'snap_model.g.dart';
 
@@ -24,8 +21,6 @@ class SnapModel extends _$SnapModel {
     try {
       localSnap = await _snapd.getSnap(snapName);
     } on SnapdException catch (e) {
-      // TODO: Do we really need a try-catch here, don't we want to go into
-      // the AsyncError in all cases?
       if (e.kind != 'snap-not-found') rethrow;
     }
 
@@ -130,25 +125,6 @@ class SnapModel extends _$SnapModel {
     state = AsyncData(data.copyWith(selectedChannel: channel));
   }
 
-  void Function()? callback(
-    WidgetRef ref,
-    SnapAction action, [
-    SnapLauncher? launcher,
-  ]) {
-    return switch (action) {
-      SnapAction.cancel => cancel,
-      SnapAction.install =>
-        state.valueOrNull?.storeSnap != null ? install : null,
-      SnapAction.open =>
-        launcher?.isLaunchable ?? false ? launcher!.open : null,
-      SnapAction.remove => remove,
-      SnapAction.switchChannel =>
-        state.valueOrNull?.storeSnap != null ? refresh : null,
-      SnapAction.update =>
-        state.valueOrNull?.storeSnap != null ? refresh : null,
-    };
-  }
-
   void _updateChangeId(String? changeId) {
     final data = state.value;
     if (data != null) {
@@ -214,30 +190,6 @@ final activeChangeProvider =
   ref.onDispose(subscription.cancel);
   return null;
 });
-
-enum SnapAction {
-  cancel,
-  install,
-  open,
-  remove,
-  switchChannel,
-  update;
-
-  String label(AppLocalizations l10n) => switch (this) {
-        cancel => l10n.snapActionCancelLabel,
-        install => l10n.snapActionInstallLabel,
-        open => l10n.snapActionOpenLabel,
-        remove => l10n.snapActionRemoveLabel,
-        switchChannel => l10n.snapActionSwitchChannelLabel,
-        update => l10n.snapActionUpdateLabel,
-      };
-
-  IconData? get icon => switch (this) {
-        update => YaruIcons.refresh,
-        remove => YaruIcons.trash,
-        _ => null,
-      };
-}
 
 extension SnapdChangeX on SnapdChange {
   double get progress {
