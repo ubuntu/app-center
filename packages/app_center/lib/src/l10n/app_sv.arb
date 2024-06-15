@@ -390,5 +390,17 @@
   "appstreamUrlTypeVcsBrowser": "Källkod",
   "@appstreamUrlTypeVcsBrowser": {},
   "appstreamUrlTypeContribute": "Bidra",
-  "@appstreamUrlTypeContribute": {}
+  "@appstreamUrlTypeContribute": {},
+  "localDebLearnMore": "Läs mer om paket från tredje part",
+  "@localDebLearnMore": {},
+  "localDebWarningTitle": "Potentiellt osäkert",
+  "@localDebWarningTitle": {},
+  "snapPageSizeLabel": "Storlek",
+  "@snapPageSizeLabel": {},
+  "localDebWarningBody": "Detta paket tillhandahålls av en tredje part. Att installera paket utanför App Center kan öka risken för ditt system och dina personuppgifter. Se till att du litar på källan innan du fortsätter.",
+  "@localDebWarningBody": {},
+  "localDebDialogMessage": "Detta paket tillhandahålls av en tredje part och kan hota ditt system och dina personuppgifter.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "Är du säker på att du vill installera det?",
+  "@localDebDialogConfirmation": {}
 }
