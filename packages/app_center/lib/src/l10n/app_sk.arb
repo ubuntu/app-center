@@ -390,5 +390,17 @@
   "appstreamUrlTypeContribute": "Prispieť",
   "@appstreamUrlTypeContribute": {},
   "appstreamUrlTypeVcsBrowser": "Zdroj",
-  "@appstreamUrlTypeVcsBrowser": {}
+  "@appstreamUrlTypeVcsBrowser": {},
+  "localDebWarningBody": "Tento balík poskytuje tretia strana. Inštalácia balíkov mimo Centra aplikácií môže zvýšiť riziko pre váš systém a osobné údaje. Pred pokračovaním sa uistite, že zdroju dôverujete.",
+  "@localDebWarningBody": {},
+  "localDebDialogMessage": "Tento balík poskytuje tretia strana a môže ohroziť váš systém a osobné údaje.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "Naozaj ho chcete nainštalovať?",
+  "@localDebDialogConfirmation": {},
+  "snapPageSizeLabel": "Veľkosť",
+  "@snapPageSizeLabel": {},
+  "localDebWarningTitle": "Potenciálne nebezpečné",
+  "@localDebWarningTitle": {},
+  "localDebLearnMore": "Získajte viac informácií o balíkoch tretích strán",
+  "@localDebLearnMore": {}
 }
