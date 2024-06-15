@@ -386,5 +386,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "appstreamUrlTypeVcsBrowser": "Källkod",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "appstreamUrlTypeContribute": "Bidra",
+  "@appstreamUrlTypeContribute": {}
 }

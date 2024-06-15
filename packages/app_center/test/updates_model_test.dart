@@ -8,13 +8,13 @@ import 'test_utils.dart';
 void main() {
   group('refresh', () {
     test('no updates available', () async {
-      final service = createMockSnapdService();
+      final service = registerMockSnapdService();
       final model = UpdatesModel(service);
       await model.refresh();
       expect(model.refreshableSnapNames, isEmpty);
     });
     test('updates available', () async {
-      final service = createMockSnapdService(
+      final service = registerMockSnapdService(
           refreshableSnaps: [const Snap(name: 'firefox')]);
       final model = UpdatesModel(service);
       await model.refresh();
@@ -23,8 +23,8 @@ void main() {
   });
 
   test('update all', () async {
-    final service =
-        createMockSnapdService(refreshableSnaps: [const Snap(name: 'firefox')]);
+    final service = registerMockSnapdService(
+        refreshableSnaps: [const Snap(name: 'firefox')]);
     final model = UpdatesModel(service);
     await model.refresh();
     await model.updateAll();
@@ -33,7 +33,7 @@ void main() {
 
   group('error stream', () {
     test('refresh', () async {
-      final service = createMockSnapdService();
+      final service = registerMockSnapdService();
       final model = UpdatesModel(service);
       when(service.find(filter: SnapFindFilter.refresh))
           .thenThrow(SnapdException(
@@ -52,7 +52,7 @@ void main() {
       await model.refresh();
     });
     test('update all', () async {
-      final service = createMockSnapdService(
+      final service = registerMockSnapdService(
           refreshableSnaps: [const Snap(name: 'firefox')]);
       final model = UpdatesModel(service);
       when(service.refreshMany(any)).thenThrow(SnapdException(

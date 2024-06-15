@@ -17,14 +17,6 @@ final debModelProvider =
   )..init(),
 );
 
-final transactionProvider =
-    StreamProvider.family.autoDispose<PackageKitTransaction, int>((ref, id) {
-  final transaction = getService<PackageKitService>().getTransaction(id);
-  if (transaction == null) return const Stream.empty();
-
-  return transaction.propertiesChanged.asyncMap((_) => transaction);
-});
-
 class DebModel extends ChangeNotifier {
   DebModel({
     required this.appstream,

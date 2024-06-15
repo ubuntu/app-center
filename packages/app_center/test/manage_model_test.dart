@@ -6,7 +6,7 @@ import 'test_utils.dart';
 
 void main() {
   test('no updates available', () async {
-    final snapd = createMockSnapdService(
+    final snapd = registerMockSnapdService(
       installedSnaps: const [Snap(name: 'firefox'), Snap(name: 'thunderbird')],
     );
     final updatesModel = createMockUpdatesModel();
@@ -18,7 +18,7 @@ void main() {
     expect(model.refreshableSnaps, isEmpty);
   });
   test('update available', () async {
-    final snapd = createMockSnapdService(
+    final snapd = registerMockSnapdService(
       installedSnaps: const [Snap(name: 'firefox'), Snap(name: 'thunderbird')],
     );
     final updatesModel =
