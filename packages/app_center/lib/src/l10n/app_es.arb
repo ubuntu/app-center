@@ -390,5 +390,17 @@
   "appstreamUrlTypeContribute": "Contribuir",
   "@appstreamUrlTypeContribute": {},
   "appstreamUrlTypeVcsBrowser": "Fuente",
-  "@appstreamUrlTypeVcsBrowser": {}
+  "@appstreamUrlTypeVcsBrowser": {},
+  "snapPageSizeLabel": "Tamaño",
+  "@snapPageSizeLabel": {},
+  "localDebWarningTitle": "Potencialmente inseguro",
+  "@localDebWarningTitle": {},
+  "localDebLearnMore": "Aprenda más información sobre paquetes de terceros",
+  "@localDebLearnMore": {},
+  "localDebDialogMessage": "Este paquete es provisto por un tercero y puede amenazar su sistema y sus datos personales.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "¿Estás seguro de que quieres instalarlo?",
+  "@localDebDialogConfirmation": {},
+  "localDebWarningBody": "Este paquete es proporcionado por un tercero. La instalación de paquetes desde fuera del App Center puede aumentar el riesgo para su sistema y sus datos personales. Asegúrese de confiar en la fuente antes de continuar.",
+  "@localDebWarningBody": {}
 }
