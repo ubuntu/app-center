@@ -8,10 +8,12 @@ import 'package:app_center/ratings.dart';
 import 'package:app_center/snapd.dart';
 import 'package:app_center/src/deb/deb_model.dart';
 import 'package:app_center/src/manage/manage_model.dart';
+import 'package:app_center/src/providers/file_system_provider.dart';
 import 'package:app_center/src/snapd/multisnap_model.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
+import 'package:file/memory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,12 +23,14 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.mocks.dart';
 
 extension WidgetTesterX on WidgetTester {
   BuildContext get context => element(find.byType(Scaffold).first);
   AppLocalizations get l10n => AppLocalizations.of(context);
+
   Future<void> pumpApp(WidgetBuilder builder) async {
     // The intended minimum size of the window.
     view.physicalSize =
@@ -45,6 +49,29 @@ extension WidgetTesterX on WidgetTester {
       ),
     );
   }
+}
+
+/// A testing utility which creates a [ProviderContainer] and automatically
+/// disposes it at the end of the test.
+ProviderContainer createContainer({
+  ProviderContainer? parent,
+  List<Override> overrides = const [],
+  List<ProviderObserver>? observers,
+}) {
+  // Create a ProviderContainer, and optionally allow specifying parameters.
+  final container = ProviderContainer(
+    parent: parent,
+    overrides: [
+      fileSystemProvider.overrideWithValue(MemoryFileSystem()),
+      ...overrides,
+    ],
+    observers: observers,
+  );
+
+  // When the test ends, dispose the container.
+  addTearDown(container.dispose);
+
+  return container;
 }
 
 Stream<List<Snap>> Function(SnapSearchParameters) createMockSnapSearchProvider(
@@ -98,38 +125,6 @@ RatingsModel createMockRatingsModel({
   return model;
 }
 
-@GenerateMocks([SnapModel])
-SnapModel createMockSnapModel({
-  bool? hasUpdate,
-  Snap? localSnap,
-  Snap? storeSnap,
-  String? selectedChannel,
-  String? snapName,
-  AsyncValue<void>? state,
-  Stream<SnapdException>? errorStream,
-}) {
-  final model = MockSnapModel();
-  when(model.localSnap).thenReturn(localSnap);
-  when(model.storeSnap).thenReturn(storeSnap);
-  when(model.state).thenReturn(state ?? AsyncValue.data(() {}()));
-  when(model.availableChannels).thenReturn(storeSnap?.channels);
-  when(model.selectedChannel).thenReturn(
-      selectedChannel ?? localSnap?.trackingChannel ?? 'latest/stable');
-  when(model.activeChangeId).thenReturn(null);
-  when(model.snap).thenReturn(storeSnap ?? localSnap!);
-  when(model.channelInfo).thenReturn(model.selectedChannel != null
-      ? storeSnap?.channels[model.selectedChannel]
-      : null);
-  when(model.isInstalled).thenReturn(model.localSnap != null);
-  when(model.hasGallery).thenReturn(
-      model.storeSnap != null && model.storeSnap!.screenshotUrls.isNotEmpty);
-  when(model.snapName)
-      .thenReturn(snapName ?? localSnap?.name ?? storeSnap?.name ?? '');
-  when(model.errorStream)
-      .thenAnswer((_) => errorStream ?? const Stream.empty());
-  return model;
-}
-
 @GenerateMocks([DebModel])
 DebModel createMockDebModel({
   String? id,
@@ -176,7 +171,7 @@ ManageModel createMockManageModel({
 }
 
 @GenerateMocks([SnapdService])
-MockSnapdService createMockSnapdService({
+MockSnapdService registerMockSnapdService({
   Snap? localSnap,
   Snap? storeSnap,
   List<Snap>? refreshableSnaps,
@@ -185,7 +180,9 @@ MockSnapdService createMockSnapdService({
   int? storeSnapsCount,
 }) {
   final service = MockSnapdService();
-  when(service.getStoreSnap(any)).thenAnswer((_) => Stream.value(storeSnap));
+  when(service.defaultFileSystem).thenReturn(MemoryFileSystem());
+  when(service.getStoreSnaps(any))
+      .thenAnswer((_) => Stream.value([if (storeSnap != null) storeSnap]));
   if (localSnap != null) {
     when(service.getSnap(any)).thenAnswer((_) async => localSnap);
   } else {
@@ -208,10 +205,16 @@ MockSnapdService createMockSnapdService({
   when(service.remove(any)).thenAnswer((_) async => 'id');
   when(service.find(filter: SnapFindFilter.refresh))
       .thenAnswer((_) async => refreshableSnaps ?? []);
+  when(service.find(name: anyNamed('name')))
+      .thenAnswer((_) async => [if (storeSnap != null) storeSnap]);
   when(service.getSnaps()).thenAnswer((_) async => installedSnaps ?? []);
   when(service.getChanges(name: anyNamed('name')))
       .thenAnswer((_) async => changes ?? []);
-  when(service.watchChange(any)).thenAnswer((_) => const Stream.empty());
+  when(service.watchChange(any)).thenAnswer(
+    (_) => Stream.fromIterable(
+      changes ?? [SnapdChange(spawnTime: DateTime(1970), ready: true)],
+    ),
+  );
   when(service.abortChange(any))
       .thenAnswer((_) async => SnapdChange(spawnTime: DateTime.now()));
   when(service.installMany(
@@ -220,6 +223,7 @@ MockSnapdService createMockSnapdService({
   when(service.getStoreSnaps(any)).thenAnswer((_) => Stream.value(
       List<Snap>.generate(storeSnapsCount!, (index) => storeSnap!,
           growable: false)));
+  registerMockService<SnapdService>(service);
   return service;
 }
 
@@ -371,14 +375,20 @@ MockAppstreamService createMockAppstreamService({
 @GenerateMocks([PackageKitService])
 MockPackageKitService createMockPackageKitService({
   PackageKitPackageInfo? packageInfo,
+  PackageKitPackageDetails? packageDetails,
   int transactionId = 0,
+  Future<void>? waitTransaction,
   Stream<PackageKitServiceError> errorStream = const Stream.empty(),
 }) {
   final packageKit = MockPackageKitService();
   when(packageKit.resolve(any)).thenAnswer((_) async => packageInfo);
+  when(packageKit.getDetailsLocal(any)).thenAnswer((_) async => packageDetails);
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.installLocal(any)).thenAnswer((_) async => transactionId);
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);
+  when(packageKit.waitTransaction(any))
+      .thenAnswer((_) async => waitTransaction);
   return packageKit;
 }
 

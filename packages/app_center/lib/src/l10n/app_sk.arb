@@ -386,5 +386,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "appstreamUrlTypeContribute": "Prispieť",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeVcsBrowser": "Zdroj",
+  "@appstreamUrlTypeVcsBrowser": {}
 }

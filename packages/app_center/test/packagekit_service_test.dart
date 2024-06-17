@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app_center/src/packagekit/packagekit_service.dart';
 import 'package:dbus/dbus.dart';
+import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -19,8 +20,11 @@ void main() {
   group('activate service', () {
     test('service available', () async {
       final dbus = createMockDbusClient();
-      final packageKit =
-          PackageKitService(dbus: dbus, client: createMockPackageKitClient());
+      final packageKit = PackageKitService(
+        dbus: dbus,
+        client: createMockPackageKitClient(),
+        fs: MemoryFileSystem.test(),
+      );
       expect(packageKit.isAvailable, isFalse);
       await packageKit.activateService();
       verify(dbus.callMethod(
@@ -50,7 +54,11 @@ void main() {
           DBusMethodErrorResponse('org.freedesktop.DBus.Error.ServiceUnknown'),
         ),
       );
-      final packageKit = PackageKitService(dbus: dbus, client: client);
+      final packageKit = PackageKitService(
+        dbus: dbus,
+        client: client,
+        fs: MemoryFileSystem.test(),
+      );
       expect(packageKit.isAvailable, isFalse);
       await packageKit.activateService();
       verify(dbus.callMethod(
@@ -70,8 +78,11 @@ void main() {
       start: completer.future,
     );
     final mockClient = createMockPackageKitClient(transaction: mockTransaction);
-    final packageKit =
-        PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
     await packageKit.activateService();
     final id = await packageKit
         .install(const PackageKitPackageId(name: 'foo', version: '1.0'));
@@ -90,10 +101,16 @@ void main() {
       start: completer.future,
     );
     final mockClient = createMockPackageKitClient(transaction: mockTransaction);
-    final packageKit =
-        PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+    final mockFs = MemoryFileSystem.test();
+    mockFs.file('/path/to/local.deb').createSync(recursive: true);
+    mockFs.currentDirectory = mockFs.directory('/path');
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: mockFs,
+    );
     await packageKit.activateService();
-    final id = await packageKit.installLocal('/path/to/local.deb');
+    final id = await packageKit.installLocal('to/local.deb');
     verify(mockTransaction.installFiles(['/path/to/local.deb'])).called(1);
     final transaction = packageKit.getTransaction(id);
     expect(transaction, isNotNull);
@@ -108,8 +125,11 @@ void main() {
       start: completer.future,
     );
     final mockClient = createMockPackageKitClient(transaction: mockTransaction);
-    final packageKit =
-        PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
     await packageKit.activateService();
     final id = await packageKit
         .remove(const PackageKitPackageId(name: 'foo', version: '1.0'));
@@ -138,8 +158,11 @@ void main() {
       );
       final mockClient =
           createMockPackageKitClient(transaction: mockTransaction);
-      final packageKit =
-          PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
       await packageKit.activateService();
       final info = await packageKit.resolve('foo', 'amd64');
       verify(mockTransaction.resolve(['foo'])).called(1);
@@ -171,8 +194,11 @@ void main() {
       );
       final mockClient =
           createMockPackageKitClient(transaction: mockTransaction);
-      final packageKit =
-          PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
       await packageKit.activateService();
       final info = await packageKit.resolve('foo', 'amd64');
       expect(info!.packageId.arch, equals('amd64'));
@@ -194,8 +220,11 @@ void main() {
       );
       final mockClient =
           createMockPackageKitClient(transaction: mockTransaction);
-      final packageKit =
-          PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
       await packageKit.activateService();
       final info = await packageKit.resolve('foo', 'all');
       expect(info!.packageId.arch, equals('all'));
@@ -215,10 +244,16 @@ void main() {
       events: [mockDetails],
     );
     final mockClient = createMockPackageKitClient(transaction: mockTransaction);
-    final packageKit =
-        PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+    final mockFs = MemoryFileSystem.test();
+    mockFs.file('/path/to/local.deb').createSync(recursive: true);
+    mockFs.currentDirectory = mockFs.directory('/path/to');
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: mockFs,
+    );
     await packageKit.activateService();
-    final details = await packageKit.getDetailsLocal('/path/to/local.deb');
+    final details = await packageKit.getDetailsLocal('local.deb');
     verify(mockTransaction.getDetailsLocal(['/path/to/local.deb'])).called(1);
     expect(details, equals(mockDetails));
   });
@@ -229,8 +264,11 @@ void main() {
       start: completer.future,
     );
     final mockClient = createMockPackageKitClient(transaction: mockTransaction);
-    final packageKit =
-        PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
     await packageKit.activateService();
     final id = await packageKit
         .install(const PackageKitPackageId(name: 'foo', version: '1.0'));
@@ -254,8 +292,11 @@ void main() {
       events: [mockError],
     );
     final mockClient = createMockPackageKitClient(transaction: mockTransaction);
-    final packageKit =
-        PackageKitService(dbus: createMockDbusClient(), client: mockClient);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
     await packageKit.activateService();
 
     packageKit.errorStream.listen(

@@ -5,6 +5,7 @@ import 'package:app_center/src/store/store_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_test/ubuntu_test.dart';
 import 'package:yaru/icons.dart';
 import 'package:yaru_test/yaru_test.dart';
@@ -12,6 +13,7 @@ import 'package:yaru_test/yaru_test.dart';
 import '../test/test_utils.dart';
 
 void main() {
+  tearDown(resetAllServices);
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('install and remove a snap', (tester) async {
@@ -22,6 +24,40 @@ void main() {
     await testSearchSnap(tester, packageName: 'hello');
     await testInstallSnap(tester, installedFile: file);
     await testRemoveSnap(tester, installedFile: file);
+  });
+
+  testWidgets('install a local debian package', (tester) async {
+    await app.main(['integration_test/assets/appcenter-testdeb_1.0_amd64.deb']);
+    await tester.pumpUntil(find.byType(StoreApp));
+    await tester.pumpAndSettle();
+    expect(find.text('appcenter-testdeb'), findsOneWidget);
+    expect(
+      find.text('Minimal package for App Center integration tests'),
+      findsOneWidget,
+    );
+    expect(
+      find.text(
+          'This is a minimal test package for App Center integration tests.'),
+      findsOneWidget,
+    );
+    expect(
+      find.text('https://example.com/appcenter-testdeb'),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.button(tester.l10n.snapActionInstallLabel));
+    await tester.pump();
+
+    await tester.tap(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.button(tester.l10n.snapActionInstallLabel),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final result = await Process.run('dpkg', ['-s', 'appcenter-testdeb']);
+    expect(result.exitCode, isZero);
   });
 }
 

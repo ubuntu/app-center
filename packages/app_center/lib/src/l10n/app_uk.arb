@@ -113,7 +113,7 @@
   "@snapSortOrderDownloadSizeDesc": {},
   "snapSortOrderInstalledDateDesc": "Останні оновлення",
   "@snapSortOrderInstalledDateDesc": {},
-  "managePageUpdatedWeeksAgo": "\"Оновлено {n, plural, =1{{n} тиждень} few{{n} тижні} many{{n} тижнів} other{{n} тиждень}} тому\"",
+  "managePageUpdatedWeeksAgo": "Оновлено {n, plural, =1{{n} тиждень} few{{n} тижні} many{{n} тижнів} other{{n} тиждень}} тому",
   "@managePageUpdatedWeeksAgo": {
     "placeholders": {
       "n": {
@@ -123,7 +123,7 @@
   },
   "snapRatingsBandNeutral": "Нейтрально",
   "@snapRatingsBandNeutral": {},
-  "managePageUpdatedMonthsAgo": "\"Оновлено {n, plural, =1{{n} місяць} few{{n} місяці} many{{n} місяців} other{{n} місяць}} тому\"",
+  "managePageUpdatedMonthsAgo": "Оновлено {n, plural, =1{{n} місяць} few{{n} місяці} many{{n} місяців} other{{n} місяць}} тому",
   "@managePageUpdatedMonthsAgo": {
     "placeholders": {
       "n": {

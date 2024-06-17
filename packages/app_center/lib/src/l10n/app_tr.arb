@@ -144,5 +144,99 @@
   "gamesPageTop": "En iyi Oyunlar",
   "@gamesPageTop": {},
   "appstreamSearchGreylist": "uygulama;uygulama;paket;program;program;?;araç",
-  "@appstreamSearchGreylist": {}
+  "@appstreamSearchGreylist": {},
+  "gamesPageTitle": "En İyiler",
+  "@gamesPageTitle": {},
+  "searchPageNoResults": "\"{query}\" araması için sonuç bulunamadı",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageRelevanceLabel": "Alaka düzeyi",
+  "@searchPageRelevanceLabel": {},
+  "searchPageSortByLabel": "Sırala",
+  "@searchPageSortByLabel": {},
+  "aboutPageLearnMoreLabel": "Daha fazla bilgi edinin",
+  "@aboutPageLearnMoreLabel": {},
+  "appstreamUrlTypeHelp": "Yardım",
+  "@appstreamUrlTypeHelp": {},
+  "unknownPublisher": "Bilinmeyen yayıncı",
+  "@unknownPublisher": {},
+  "gamesPageFeatured": "Öne Çıkanlar",
+  "@gamesPageFeatured": {},
+  "gamesPageBundles": "Uygulama Paketleri",
+  "@gamesPageBundles": {},
+  "searchFieldSearchHint": "Uygulama ara",
+  "@searchFieldSearchHint": {},
+  "searchFieldSearchForLabel": "\"{query}\" araması için sonuçları gör",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageFilterByLabel": "Filtrele",
+  "@searchPageFilterByLabel": {},
+  "searchPageNoResultsHint": "Farklı veya daha genel anahtar kelimeler kullanın",
+  "@searchPageNoResultsHint": {},
+  "searchPageNoResultsCategory": "Üzgünüz, bu kategoriye ait bir paket bulamadık",
+  "@searchPageNoResultsCategory": {},
+  "searchPageNoResultsCategoryHint": "Farklı kategoriyi deneyin veya daha genel anahtar kelimeler kullanın",
+  "@searchPageNoResultsCategoryHint": {},
+  "searchPageTitle": "\"{query}\" için sonuçlar",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageVersionLabel": "Sürüm {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageContributorTitle": "Tasarlayan ve geliştiren:",
+  "@aboutPageContributorTitle": {},
+  "aboutPageCommunityTitle": "Topluluğun parçası ol:",
+  "@aboutPageCommunityTitle": {},
+  "aboutPageContributeLabel": "Katkıda bulunun veya hata bildirin",
+  "@aboutPageContributeLabel": {},
+  "aboutPageGitHubLabel": "GitHub'da bizi bulun",
+  "@aboutPageGitHubLabel": {},
+  "aboutPagePublishLabel": "Snap Mağazası'na yayınla",
+  "@aboutPagePublishLabel": {},
+  "appstreamUrlTypeBugtracker": "Hata izleyici",
+  "@appstreamUrlTypeBugtracker": {},
+  "appstreamUrlTypeDonation": "Bağış",
+  "@appstreamUrlTypeDonation": {},
+  "appstreamUrlTypeFaq": "SSS",
+  "@appstreamUrlTypeFaq": {},
+  "appstreamUrlTypeHomepage": "Ana Sayfa",
+  "@appstreamUrlTypeHomepage": {},
+  "appstreamUrlTypeTranslate": "Çeviriler",
+  "@appstreamUrlTypeTranslate": {},
+  "snapActionCancelLabel": "İptal Et",
+  "@snapActionCancelLabel": {},
+  "snapActionInstallingLabel": "Yükleniyor",
+  "@snapActionInstallingLabel": {},
+  "snapActionRemoveLabel": "Yüklemeyi Kaldır",
+  "@snapActionRemoveLabel": {},
+  "snapActionRemovingLabel": "Yükleme Kaldırılıyor",
+  "@snapActionRemovingLabel": {},
+  "snapActionSwitchChannelLabel": "Kanal değiştir",
+  "@snapActionSwitchChannelLabel": {},
+  "snapCategoryAll": "Tüm kategoriler",
+  "@snapCategoryAll": {},
+  "snapActionUpdatingLabel": "Güncelleniyor",
+  "@snapActionUpdatingLabel": {},
+  "snapCategoryDefaultButtonLabel": "Daha fazlasını keşfet",
+  "@snapCategoryDefaultButtonLabel": {}
 }
