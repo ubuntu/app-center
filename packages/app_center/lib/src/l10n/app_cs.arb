@@ -390,5 +390,17 @@
   "appstreamUrlTypeContribute": "Přispět",
   "@appstreamUrlTypeContribute": {},
   "appstreamUrlTypeVcsBrowser": "Zdrojový kód",
-  "@appstreamUrlTypeVcsBrowser": {}
+  "@appstreamUrlTypeVcsBrowser": {},
+  "localDebWarningBody": "Tento balíček poskytuje třetí strana. Instalace balíčků mimo Centrum aplikací může zvýšit riziko pro váš systém a osobní data. Než budete pokračovat, ujistěte se, že zdroji důvěřujete.",
+  "@localDebWarningBody": {},
+  "snapPageSizeLabel": "Velikost",
+  "@snapPageSizeLabel": {},
+  "localDebWarningTitle": "Potenciálně nebezpečné",
+  "@localDebWarningTitle": {},
+  "localDebLearnMore": "Dozvědět se více o balíčcích třetích stran",
+  "@localDebLearnMore": {},
+  "localDebDialogMessage": "Tento balíček je poskytován třetí stranou a může ohrozit váš systém a osobní data.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "Jste si jisti, že jej chcete nainstalovat?",
+  "@localDebDialogConfirmation": {}
 }
