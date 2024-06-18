@@ -1,7 +1,6 @@
-import 'package:app_center/games/games.dart';
-import 'package:app_center/ratings/ratings.dart';
-import 'package:app_center/search/search.dart';
-import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/games.dart';
+import 'package:app_center/search.dart';
+import 'package:app_center/snapd.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,10 +16,8 @@ const snapRating = Rating(
 );
 
 void main() {
-  final ratingsModel = createMockRatingsModel(
-    snapId: snapId,
-    snapRating: snapRating,
-  );
+  setUpAll(() => registerMockRatingsService(rating: snapRating, snapVotes: []));
+
   final mockSearchProvider = createMockSnapSearchProvider({
     const SnapSearchParameters(query: 'testsn'): const [
       Snap(name: 'testsnap', title: 'Test Snap', downloadSize: 3),
@@ -59,7 +56,6 @@ void main() {
         overrides: [
           snapSearchProvider
               .overrideWith((ref, arg) => mockSearchProvider(arg)),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel)
         ],
         child: SearchPage(category: SnapCategoryEnum.games.name),
       ),
@@ -79,7 +75,6 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, arg) => mockSearchProvider(arg)),
-            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel)
           ],
           child: const FeaturedCarousel(
             snapAmount: 1,
@@ -101,7 +96,6 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, arg) => mockSearchProvider(arg)),
-            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel)
           ],
           child: const FeaturedCarousel(),
         ),
@@ -120,7 +114,6 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(overrides: [
         snapSearchProvider.overrideWith((ref, arg) => mockSearchProvider(arg)),
-        ratingsModelProvider.overrideWith((ref, arg) => ratingsModel)
       ], child: const GamesPage()),
     );
 

@@ -21,7 +21,7 @@ void main() {
       registerMockService<GtkApplicationNotifier>(
         createMockGtkApplicationNotifier(),
       );
-      registerMockService<RatingsService>(createMockRatingsService());
+      registerMockService<RatingsService>(registerMockRatingsService());
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
@@ -43,7 +43,7 @@ void main() {
       registerMockService<GtkApplicationNotifier>(
         createMockGtkApplicationNotifier(),
       );
-      registerMockService<RatingsService>(createMockRatingsService());
+      registerMockService<RatingsService>(registerMockRatingsService());
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [

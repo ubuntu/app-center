@@ -1,5 +1,4 @@
-import 'package:app_center/ratings/ratings.dart';
-import 'package:app_center/widgets/widgets.dart';
+import 'package:app_center/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,22 +14,17 @@ const snapRating = Rating(
 );
 
 const snap = Snap(
-    name: 'testsnap',
-    id: 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD',
-    summary: 'Its a summary!');
+  name: 'testsnap',
+  id: 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD',
+  summary: 'Its a summary!',
+);
 
 void main() {
-  final ratingsModel = createMockRatingsModel(
-    snapId: snapId,
-    snapRating: snapRating,
-  );
-
   testWidgets('query', (tester) async {
+    registerMockSnapdService(storeSnap: snap);
+    registerMockRatingsService(rating: snapRating, snapVotes: []);
     await tester.pumpApp(
       (_) => ProviderScope(
-        overrides: [
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
-        ],
         child: AppCard.fromSnap(snap: snap),
       ),
     );
@@ -40,6 +34,8 @@ void main() {
     expect(find.text('testsnap'), findsOneWidget);
     expect(find.text(tester.l10n.snapRatingsBandGood), findsOneWidget);
     expect(
-        find.text(' | ${tester.l10n.snapRatingsVotes(123)}'), findsOneWidget);
+      find.text(' | ${tester.l10n.snapRatingsVotes(123)}'),
+      findsOneWidget,
+    );
   });
 }
