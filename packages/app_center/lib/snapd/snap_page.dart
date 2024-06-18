@@ -253,15 +253,16 @@ class _SnapInfoBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final ratingsModel = ref.watch(ratingsModelProvider(snap));
+    final ratingsModel = ref.watch(ratingsModelProvider(snap.name));
 
-    final ratings = ratingsModel.state.whenOrNull(
-      data: (_) => (
-        label: l10n.snapRatingsVotes(ratingsModel.snapRating?.totalVotes ?? 0),
+    final ratings = ratingsModel.whenOrNull(
+      data: (ratingsData) => (
+        label: l10n.snapRatingsVotes(ratingsData.rating?.totalVotes ?? 0),
         value: Text(
-          ratingsModel.snapRating?.ratingsBand.localize(l10n) ?? '',
+          ratingsData.rating?.ratingsBand.localize(l10n) ?? '',
           style: TextStyle(
-              color: ratingsModel.snapRating?.ratingsBand.getColor(context)),
+            color: ratingsData.rating?.ratingsBand.getColor(context),
+          ),
         ),
       ),
     );
@@ -404,10 +405,11 @@ class _RatingsActionButtons extends ConsumerWidget {
   final Snap snap;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ratingsModel = ref.watch(ratingsModelProvider(snap));
+    final ratingsModel = ref.watch(ratingsModelProvider(snap.name));
+    final ratingsNotifier = ref.watch(ratingsModelProvider(snap.name).notifier);
 
-    return ratingsModel.state.when(
-      data: (_) {
+    return ratingsModel.when(
+      data: (ratingsData) {
         return IntrinsicHeight(
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -418,7 +420,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                   bottomLeft: Radius.circular(6),
                 ),
                 onTap: () {
-                  ratingsModel.castVote(VoteStatus.up);
+                  ratingsNotifier.castVote(VoteStatus.up);
                 },
                 child: DecoratedBox(
                   decoration: BoxDecoration(
@@ -437,7 +439,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                   child: YaruIconButton(
                     mouseCursor: SystemMouseCursors.click,
                     icon: Icon(
-                      ratingsModel.vote == VoteStatus.up
+                      ratingsData.voteStatus == VoteStatus.up
                           ? Icons.thumb_up
                           : Icons.thumb_up_outlined,
                       color: Theme.of(context).iconTheme.color,
@@ -451,7 +453,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                   bottomRight: Radius.circular(6),
                 ),
                 onTap: () {
-                  ratingsModel.castVote(VoteStatus.down);
+                  ratingsNotifier.castVote(VoteStatus.down);
                 },
                 child: DecoratedBox(
                   decoration: BoxDecoration(
@@ -470,7 +472,7 @@ class _RatingsActionButtons extends ConsumerWidget {
                   child: YaruIconButton(
                     mouseCursor: SystemMouseCursors.click,
                     icon: Icon(
-                      ratingsModel.vote == VoteStatus.down
+                      ratingsData.voteStatus == VoteStatus.down
                           ? Icons.thumb_down
                           : Icons.thumb_down_outlined,
                       color: Theme.of(context).iconTheme.color,
