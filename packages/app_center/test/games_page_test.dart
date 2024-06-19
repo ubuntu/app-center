@@ -5,6 +5,7 @@ import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
 
@@ -16,7 +17,8 @@ const snapRating = Rating(
 );
 
 void main() {
-  setUpAll(() => registerMockRatingsService(rating: snapRating, snapVotes: []));
+  setUp(() => registerMockRatingsService(rating: snapRating, snapVotes: []));
+  tearDown(resetAllServices);
 
   final mockSearchProvider = createMockSnapSearchProvider({
     const SnapSearchParameters(query: 'testsn'): const [

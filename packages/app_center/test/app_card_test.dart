@@ -3,6 +3,7 @@ import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
 
@@ -20,9 +21,13 @@ const snap = Snap(
 );
 
 void main() {
-  testWidgets('query', (tester) async {
+  setUp(() {
     registerMockSnapdService(storeSnap: snap);
     registerMockRatingsService(rating: snapRating, snapVotes: []);
+  });
+  tearDown(resetAllServices);
+
+  testWidgets('query', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(
         child: AppCard.fromSnap(snap: snap),
