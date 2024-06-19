@@ -101,30 +101,6 @@ SnapLauncher createMockSnapLauncher({
   return launcher;
 }
 
-@GenerateMocks([RatingsModel])
-RatingsModel createMockRatingsModel({
-  AsyncValue<void>? state,
-  Rating? snapRating,
-  String? snapId,
-  VoteStatus? voteStatus,
-  Future<void> Function(bool voteUp)? mockVote,
-}) {
-  final model = MockRatingsModel();
-
-  when(model.state).thenReturn(state ?? AsyncValue.data(() {}()));
-  when(model.snapRating).thenReturn(snapRating);
-  when(model.snapId).thenReturn(snapId ?? '');
-  when(model.vote).thenReturn(voteStatus);
-
-  if (mockVote != null) {
-    when(model.castVote(any)).thenAnswer((invocation) async {
-      await mockVote(invocation.positionalArguments[0] as bool);
-    });
-  }
-
-  return model;
-}
-
 @GenerateMocks([DebModel])
 DebModel createMockDebModel({
   String? id,
@@ -313,19 +289,22 @@ MockPackageKitTransaction createMockPackageKitTransaction({
 }
 
 @GenerateMocks([RatingsService])
-MockRatingsService createMockRatingsService({
+MockRatingsService registerMockRatingsService({
   Rating? rating,
   List<Vote>? snapVotes,
 }) {
   final service = MockRatingsService();
-  when(service.getRating(any)).thenAnswer((_) async =>
-      rating ??
-      const Rating(
-        snapId: '',
-        totalVotes: 0,
-        ratingsBand: RatingsBand.insufficientVotes,
-      ));
+  when(service.getRating(any)).thenAnswer(
+    (_) async =>
+        rating ??
+        const Rating(
+          snapId: '',
+          totalVotes: 0,
+          ratingsBand: RatingsBand.insufficientVotes,
+        ),
+  );
   when(service.getSnapVotes(any)).thenAnswer((_) async => snapVotes ?? []);
+  registerMockService<RatingsService>(service);
 
   return service;
 }
@@ -392,8 +371,13 @@ MockPackageKitService createMockPackageKitService({
   return packageKit;
 }
 
-@GenerateMocks([MultiSnapModel])
-MultiSnapModel createMockMultiSnapModel() {
-  final model = MockMultiSnapModel();
+@GenerateMocks([Vote])
+Vote createMockVote() {
+  final model = MockVote();
   return model;
 }
+
+@GenerateMocks([
+  MultiSnapModel,
+])
+class _Dummy {} // ignore: unused_element

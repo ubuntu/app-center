@@ -14,6 +14,7 @@ import 'package:ubuntu_test/ubuntu_test.dart';
 import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
+import 'test_utils.mocks.dart';
 
 const snapId = 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD';
 const snapRating = Rating(
@@ -27,6 +28,7 @@ final localSnap = Snap(
   title: 'Testsnap',
   publisher: const SnapPublisher(displayName: 'testPublisher'),
   version: '2.0.0',
+  revision: '42',
   website: 'https://example.com',
   confinement: SnapConfinement.classic,
   license: 'MIT',
@@ -42,6 +44,7 @@ final storeSnap = Snap(
   title: 'Testsnap',
   publisher: const SnapPublisher(displayName: 'testPublisher'),
   version: '1.0.0',
+  revision: '42',
   website: 'https://example.com',
   confinement: SnapConfinement.strict,
   license: 'MIT',
@@ -106,6 +109,7 @@ void expectSnapInfos(
 // - which channel is currently selected
 // - any combination of the above
 void main() {
+  setUp(() => registerMockRatingsService(rating: snapRating));
   tearDown(resetAllServices);
 
   testWidgets('local + store', (tester) async {
@@ -113,19 +117,15 @@ void main() {
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
+    final ratingsService = getService<RatingsService>() as MockRatingsService;
 
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel = createMockUpdatesModel();
-    final ratingsModel = createMockRatingsModel(
-      snapId: snapId,
-      snapRating: snapRating,
-    );
 
     final container = createContainer(
       overrides: [
         launchProvider.overrideWith((ref, arg) => snapLauncher),
         updatesModelProvider.overrideWith((ref) => updatesModel),
-        ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
       ],
     );
     await tester.pumpApp(
@@ -135,7 +135,8 @@ void main() {
       ),
     );
     await container.read(snapModelProvider('testsnap').future);
-    await tester.pump();
+    await container.read(ratingsModelProvider('testsnap').future);
+    await tester.pumpAndSettle();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.byType(ScreenshotGallery), findsOneWidget);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
@@ -144,10 +145,14 @@ void main() {
     verify(snapLauncher.open()).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_up_outlined));
-    verify(ratingsModel.castVote(VoteStatus.up)).called(1);
+    verify(ratingsService.vote(argThat(
+      isA<Vote>().having((v) => v.voteUp, 'voteUp', true),
+    ))).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_down_outlined));
-    verify(ratingsModel.castVote(VoteStatus.down)).called(1);
+    verify(ratingsService.vote(argThat(
+      isA<Vote>().having((v) => v.voteUp, 'voteUp', false),
+    ))).called(1);
 
     final viewMoreButton = find.byIcon(YaruIcons.view_more_horizontal);
     expect(viewMoreButton, findsOneWidget);
@@ -172,19 +177,15 @@ void main() {
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
+    final ratingsService = getService<RatingsService>() as MockRatingsService;
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel =
         createMockUpdatesModel(refreshableSnapNames: [localSnap.name]);
-    final ratingsModel = createMockRatingsModel(
-      snapId: snapId,
-      snapRating: snapRating,
-    );
 
     final container = createContainer(
       overrides: [
         launchProvider.overrideWith((ref, arg) => snapLauncher),
         updatesModelProvider.overrideWith((ref) => updatesModel),
-        ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
       ],
     );
 
@@ -195,7 +196,8 @@ void main() {
       ),
     );
     await container.read(snapModelProvider(storeSnap.name).future);
-    await tester.pump();
+    await container.read(ratingsModelProvider(storeSnap.name).future);
+    await tester.pumpAndSettle();
     expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.byType(ScreenshotGallery), findsOneWidget);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
@@ -204,10 +206,14 @@ void main() {
     verify(snapLauncher.open()).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_up_outlined));
-    verify(ratingsModel.castVote(VoteStatus.up)).called(1);
+    verify(ratingsService.vote(argThat(
+      isA<Vote>().having((v) => v.voteUp, 'voteUp', true),
+    ))).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_down_outlined));
-    verify(ratingsModel.castVote(VoteStatus.down)).called(1);
+    verify(ratingsService.vote(argThat(
+      isA<Vote>().having((v) => v.voteUp, 'voteUp', false),
+    ))).called(1);
 
     final viewMoreButton = find.byIcon(YaruIcons.view_more_horizontal);
     expect(viewMoreButton, findsOneWidget);
@@ -232,14 +238,9 @@ void main() {
       storeSnap: storeSnap,
     );
     final updatesModel = createMockUpdatesModel();
-    final ratingsModel = createMockRatingsModel(
-      snapId: snapId,
-      snapRating: snapRating,
-    );
     final container = createContainer(
       overrides: [
         updatesModelProvider.overrideWith((ref) => updatesModel),
-        ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         launchProvider.overrideWith((ref, arg) => createMockSnapLauncher()),
       ],
     );
@@ -273,19 +274,15 @@ void main() {
 
   testWidgets('local-only', (tester) async {
     final service = registerMockSnapdService(localSnap: localSnap);
+    final ratingsService = getService<RatingsService>() as MockRatingsService;
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel = createMockUpdatesModel();
-    final ratingsModel = createMockRatingsModel(
-      snapId: snapId,
-      snapRating: snapRating,
-    );
 
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           launchProvider.overrideWith((ref, arg) => snapLauncher),
           updatesModelProvider.overrideWith((ref) => updatesModel),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         ],
         child: SnapPage(snapName: localSnap.name),
       ),
@@ -296,10 +293,14 @@ void main() {
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
 
     await tester.tap(find.byIcon(Icons.thumb_up_outlined));
-    verify(ratingsModel.castVote(VoteStatus.up)).called(1);
+    verify(ratingsService.vote(argThat(
+      isA<Vote>().having((v) => v.voteUp, 'voteUp', true),
+    ))).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_down_outlined));
-    verify(ratingsModel.castVote(VoteStatus.down)).called(1);
+    verify(ratingsService.vote(argThat(
+      isA<Vote>().having((v) => v.voteUp, 'voteUp', false),
+    ))).called(1);
 
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
     verify(snapLauncher.open()).called(1);
@@ -327,13 +328,11 @@ void main() {
     registerMockSnapdService(localSnap: localSnap, storeSnap: storeSnap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     final updatesModel = createMockUpdatesModel();
-    final ratingsModel = createMockRatingsModel();
 
     final container = createContainer(
       overrides: [
         launchProvider.overrideWith((ref, arg) => snapLauncher),
         updatesModelProvider.overrideWith((ref) => updatesModel),
-        ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
       ],
     );
 

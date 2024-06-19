@@ -1,4 +1,3 @@
-import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/multisnap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -9,9 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
 import 'test_utils.dart';
+import 'test_utils.mocks.dart';
 
 const snapId = 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD';
 const snapRating = Rating(
@@ -21,10 +22,9 @@ const snapRating = Rating(
 );
 
 void main() {
-  final ratingsModel = createMockRatingsModel(
-    snapId: snapId,
-    snapRating: snapRating,
-  );
+  setUp(() => registerMockRatingsService(rating: snapRating));
+  tearDown(resetAllServices);
+
   final mockSearchProvider = createMockSnapSearchProvider({
     const SnapSearchParameters(query: 'testsn'): const [
       Snap(name: 'testsnap', title: 'Test Snap', downloadSize: 3),
@@ -45,14 +45,14 @@ void main() {
       Snap(name: 'image-processor', title: 'Image Processor'),
     ],
   });
-  final multiSnapModel = createMockMultiSnapModel();
+  final multiSnapModel = MockMultiSnapModel();
+
   testWidgets('query', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         ],
         child: const SearchPage(query: 'testsn'),
       ),
@@ -77,7 +77,6 @@ void main() {
         overrides: [
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         ],
         child: const SearchPage(
           query: 'testsn',
@@ -105,7 +104,6 @@ void main() {
         overrides: [
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         ],
         child: const SearchPage(
           category: 'education',
@@ -129,7 +127,6 @@ void main() {
         overrides: [
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           multiSnapModelProvider.overrideWith((ref, arg) => multiSnapModel)
         ],
         child: const SearchPage(
@@ -158,7 +155,6 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
-            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'testsn'),
         ),
@@ -184,7 +180,6 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
-            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'testsn'),
         ),
@@ -213,7 +208,6 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
-            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'testsn'),
         ),
@@ -245,7 +239,6 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
-            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'foo'),
         ),
@@ -263,7 +256,6 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
-            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'foo', category: 'social'),
         ),

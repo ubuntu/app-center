@@ -1,87 +1,66 @@
+import 'package:app_center/ratings/ratings_data.dart';
 import 'package:app_center/ratings/ratings_service.dart';
+import 'package:app_center/snapd/snap_model.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:clock/clock.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:snapd/snapd.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-final ratingsModelProvider =
-    ChangeNotifierProvider.family.autoDispose<RatingsModel, Snap>(
-  (ref, snap) => RatingsModel(
-    ratings: getService<RatingsService>(),
-    snapId: snap.id,
-    snapRevision: snap.revision,
-  )..init(),
-);
+part 'ratings_model.g.dart';
 
-class RatingsModel extends ChangeNotifier {
-  RatingsModel({
-    required this.ratings,
-    required this.snapId,
-    required this.snapRevision,
-  }) : _state = const AsyncValue.loading();
-  final RatingsService ratings;
-  final String snapId;
-  final String snapRevision;
+@riverpod
+class RatingsModel extends _$RatingsModel {
+  late final _ratings = getService<RatingsService>();
 
-  Rating? snapRating;
+  @override
+  Future<RatingsData> build(String snapName) async {
+    final snap = (await ref.watch(snapModelProvider(snapName).future)).snap;
+    final snapId = snap.id;
 
-  AsyncValue<void> get state => _state;
-  AsyncValue<void> _state;
+    final results = await Future.wait([
+      _ratings.getRating(snapId),
+      _ratings.getSnapVotes(snapId),
+    ]);
 
-  VoteStatus? get vote => _vote;
-  VoteStatus? _vote;
+    final rating = results[0] as Rating;
+    final votes = results[1] as List<Vote>;
 
-  Future<void> init() async {
-    _state = await AsyncValue.guard(() async {
-      final results = await Future.wait([
-        ratings.getRating(snapId),
-        ratings.getSnapVotes(snapId),
-      ]);
-
-      final rating = results[0] as Rating;
-      final votes = results[1] as List<Vote>;
-
-      _setSnapRating(rating);
-      _setUserVote(votes);
-    });
-    notifyListeners();
+    return RatingsData(
+      snapId: snapId,
+      snapRevision: snap.revision,
+      rating: rating,
+      voteStatus: _getUserVote(snap.revision, votes),
+    );
   }
 
-  void _setSnapRating(Rating? rating) {
-    snapRating = rating;
-  }
+  Future<void> castVote(VoteStatus voteStatus) async {
+    assert(state.hasValue, 'Cannot cast vote before loading is finished');
+    final ratingsData = state.value!;
+    final voteUp = voteStatus == VoteStatus.up ? true : false;
 
-  void _setUserVote(List<Vote?> votes) {
-    for (final vote in votes) {
-      if (vote != null && vote.snapRevision == int.parse(snapRevision)) {
-        _vote = vote.voteUp ? VoteStatus.up : VoteStatus.down;
-        notifyListeners();
-        return;
-      }
-    }
-  }
-
-  Future<void> castVote(VoteStatus castVote) async {
-    final voteUp = castVote == VoteStatus.up ? true : false;
-
-    if (castVote != _vote) {
+    if (voteStatus != ratingsData.voteStatus) {
       final vote = Vote(
-        snapId: snapId,
-        snapRevision: int.parse(snapRevision),
-        voteUp: voteUp, // using voteUp directly here
+        snapId: ratingsData.snapId,
+        snapRevision: int.parse(ratingsData.snapRevision),
+        voteUp: voteUp,
         dateTime: clock.now(),
       );
-      await ratings.vote(vote);
-      _vote = castVote;
+      await _ratings.vote(vote);
+      state = AsyncData(ratingsData.copyWith(voteStatus: voteStatus));
     }
+  }
 
-    notifyListeners();
+  VoteStatus? _getUserVote(String snapRevision, List<Vote?> votes) {
+    for (final vote in votes) {
+      if (vote != null && vote.snapRevision == int.parse(snapRevision)) {
+        return vote.voteUp ? VoteStatus.up : VoteStatus.down;
+      }
+    }
+    return null;
   }
 }
 
 enum VoteStatus {
   up,
-  down,
+  down;
 }

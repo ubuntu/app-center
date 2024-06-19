@@ -194,12 +194,12 @@ class _RatingsInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ratingsModel = ref.watch(ratingsModelProvider(snap));
+    final ratingsModel = ref.watch(ratingsModelProvider(snap.name));
     final l10n = AppLocalizations.of(context);
 
-    return ratingsModel.state.when(
+    return ratingsModel.when(
       data: (ratingsData) {
-        final rating = ratingsModel.snapRating;
+        final rating = ratingsData.rating;
         return Wrap(
           children: [
             Text(
