@@ -1,4 +1,4 @@
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 
 extension ManagePageUpdateSinceDateTimeAgo on Duration {
   /// Formats the time since last updates as inDays, weeks, months or years.

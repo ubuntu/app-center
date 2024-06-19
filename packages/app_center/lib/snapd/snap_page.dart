@@ -1,5 +1,5 @@
 import 'package:app_center/constants.dart';
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snap_action.dart';

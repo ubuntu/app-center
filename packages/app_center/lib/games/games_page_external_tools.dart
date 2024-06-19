@@ -1,5 +1,5 @@
 import 'package:app_center/games/games.dart';
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/snapd/snap_category_enum.dart';
 import 'package:app_center/widgets/widgets.dart';

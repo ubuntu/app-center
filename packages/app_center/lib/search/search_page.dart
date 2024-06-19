@@ -1,5 +1,5 @@
 import 'package:app_center/appstream/appstream.dart';
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/multisnap_model.dart';

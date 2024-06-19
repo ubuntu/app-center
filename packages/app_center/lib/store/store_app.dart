@@ -1,6 +1,6 @@
 import 'package:app_center/deb/deb.dart';
 import 'package:app_center/games/games.dart';
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/search/search.dart';

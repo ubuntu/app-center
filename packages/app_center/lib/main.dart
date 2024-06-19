@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/config.dart';
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/ratings/ratings.dart';

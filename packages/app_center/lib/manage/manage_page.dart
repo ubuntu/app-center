@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/constants.dart';
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_l10n.dart';

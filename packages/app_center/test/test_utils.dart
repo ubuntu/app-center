@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/deb_model.dart';
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:app_center/manage/manage_model.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/file_system_provider.dart';

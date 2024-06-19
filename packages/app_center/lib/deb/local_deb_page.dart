@@ -1,6 +1,6 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/deb/local_deb_model.dart';
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';

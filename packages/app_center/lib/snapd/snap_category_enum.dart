@@ -1,4 +1,4 @@
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:flutter/widgets.dart';
 import 'package:snapd/snapd.dart';
 import 'package:yaru/icons.dart';

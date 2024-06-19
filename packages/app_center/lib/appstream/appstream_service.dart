@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:app_center/appstream/appstream_utils.dart';
 import 'package:app_center/appstream/logger.dart';
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';

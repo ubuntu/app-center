@@ -1,6 +1,6 @@
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/games/games.dart';
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snapd.dart';

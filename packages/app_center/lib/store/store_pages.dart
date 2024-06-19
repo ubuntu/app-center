@@ -1,7 +1,7 @@
 import 'package:app_center/about/about.dart';
 import 'package:app_center/explore/explore.dart';
 import 'package:app_center/games/games.dart';
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:app_center/manage/manage.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/snapd.dart';

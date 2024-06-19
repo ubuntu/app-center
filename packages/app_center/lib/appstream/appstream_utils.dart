@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:app_center/l10n/l10n.dart';
+import 'package:app_center/l10n.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 
