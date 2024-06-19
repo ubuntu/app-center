@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:app_center/appstream.dart';
+import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/config.dart';
 import 'package:app_center/l10n.dart';
-import 'package:app_center/packagekit.dart';
-import 'package:app_center/ratings.dart';
-import 'package:app_center/snapd.dart';
-import 'package:app_center/src/providers/error_stream_provider.dart';
-import 'package:app_center/store.dart';
+import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/providers/error_stream_provider.dart';
+import 'package:app_center/ratings/ratings.dart';
+import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/store/store.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

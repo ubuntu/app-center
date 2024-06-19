@@ -1,5 +1,5 @@
-import 'package:app_center/src/deb/deb_model.dart';
-import 'package:app_center/src/packagekit/packagekit_service.dart';
+import 'package:app_center/deb/deb_model.dart';
+import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

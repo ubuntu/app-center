@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:app_center/src/snapd/cache_file.dart';
-import 'package:app_center/src/snapd/snapd_cache.dart';
+import 'package:app_center/snapd/cache_file.dart';
+import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:file/memory.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';

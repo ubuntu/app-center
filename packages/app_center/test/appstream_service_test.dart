@@ -1,4 +1,4 @@
-import 'package:app_center/appstream.dart';
+import 'package:app_center/appstream/appstream.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';

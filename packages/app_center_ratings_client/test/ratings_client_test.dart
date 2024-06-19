@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center_ratings_client/app_center_ratings_client.dart'
-    hide Rating, RatingsBand;
+    hide Rating, RatingsBand, Vote;
 import 'package:app_center_ratings_client/src/chart.dart' as chart;
 import 'package:app_center_ratings_client/src/generated/google/protobuf/empty.pb.dart';
 import 'package:app_center_ratings_client/src/generated/google/protobuf/timestamp.pb.dart';
@@ -11,7 +11,7 @@ import 'package:app_center_ratings_client/src/generated/ratings_features_chart.p
 import 'package:app_center_ratings_client/src/generated/ratings_features_common.pb.dart';
 import 'package:app_center_ratings_client/src/generated/ratings_features_user.pbgrpc.dart';
 import 'package:app_center_ratings_client/src/ratings.dart' as ratings;
-import 'package:app_center_ratings_client/src/user.dart' as user;
+import 'package:app_center_ratings_client/src/vote.dart' as user;
 import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart';
 import 'package:mockito/annotations.dart';

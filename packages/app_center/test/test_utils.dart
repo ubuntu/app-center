@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:app_center/appstream.dart';
+import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/l10n.dart';
-import 'package:app_center/packagekit.dart';
-import 'package:app_center/ratings.dart';
-import 'package:app_center/snapd.dart';
-import 'package:app_center/src/deb/deb_model.dart';
-import 'package:app_center/src/manage/manage_model.dart';
-import 'package:app_center/src/providers/file_system_provider.dart';
-import 'package:app_center/src/snapd/multisnap_model.dart';
+import 'package:app_center/manage/manage_model.dart';
+import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/providers/file_system_provider.dart';
+import 'package:app_center/ratings/ratings.dart';
+import 'package:app_center/snapd/multisnap_model.dart';
+import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';

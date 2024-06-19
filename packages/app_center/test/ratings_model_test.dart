@@ -1,4 +1,4 @@
-import 'package:app_center/ratings.dart';
+import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
