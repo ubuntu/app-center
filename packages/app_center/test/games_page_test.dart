@@ -1,6 +1,7 @@
-import 'package:app_center/games.dart';
-import 'package:app_center/search.dart';
-import 'package:app_center/snapd.dart';
+import 'package:app_center/games/games.dart';
+import 'package:app_center/search/search.dart';
+import 'package:app_center/snapd/snap_category_enum.dart';
+import 'package:app_center/snapd/snap_search.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

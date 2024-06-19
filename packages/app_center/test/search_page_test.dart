@@ -1,7 +1,7 @@
-import 'package:app_center/search.dart';
-import 'package:app_center/snapd.dart';
-import 'package:app_center/src/snapd/multisnap_model.dart';
-import 'package:app_center/widgets.dart';
+import 'package:app_center/search/search.dart';
+import 'package:app_center/snapd/multisnap_model.dart';
+import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/widgets/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

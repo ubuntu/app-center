@@ -1,7 +1,6 @@
-import 'package:app_center/snapd.dart';
-import 'package:app_center/src/ratings/exports.dart';
-import 'package:app_center/src/ratings/ratings_data.dart';
-import 'package:app_center/src/ratings/ratings_service.dart';
+import 'package:app_center/ratings/ratings_data.dart';
+import 'package:app_center/ratings/ratings_service.dart';
+import 'package:app_center/snapd/snap_model.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:clock/clock.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
