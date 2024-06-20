@@ -57,6 +57,7 @@ class ManageModel extends ChangeNotifier {
 
   Future<void> _getInstalledSnaps() async {
     _installedSnaps = await snapd.getSnaps().then(
-        (snaps) => snaps.sortedBy((snap) => snap.titleOrName.toLowerCase()));
+          (snaps) => snaps.sortedBy((snap) => snap.titleOrName.toLowerCase()),
+        );
   }
 }

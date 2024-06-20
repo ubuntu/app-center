@@ -133,7 +133,7 @@ class _LocalDebActionButtons extends ConsumerWidget {
                   .textTheme
                   .bodyMedium!
                   .copyWith(fontWeight: FontWeight.bold),
-            )
+            ),
           ],
         ),
       );
@@ -178,7 +178,7 @@ class _LocalDebActionButtons extends ConsumerWidget {
         primaryActionButton,
         if (debData.activeTransactionId != null) ...[
           const SizedBox(width: 8),
-          cancelButton
+          cancelButton,
         ],
       ],
     );

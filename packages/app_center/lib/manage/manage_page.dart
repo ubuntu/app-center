@@ -84,30 +84,33 @@ class _ManageView extends ConsumerWidget {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 48),
-              Builder(builder: (context) {
-                final compact = ResponsiveLayout.of(context).type ==
-                    ResponsiveLayoutType.small;
-                return Flex(
-                  direction: compact ? Axis.vertical : Axis.horizontal,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: compact
-                      ? CrossAxisAlignment.start
-                      : CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      l10n.managePageUpdatesAvailable(
-                          manageModel.refreshableSnaps.length),
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontWeight: FontWeight.w500),
-                    ),
-                    if (compact) const SizedBox(height: 16),
-                    const Flexible(child: _ActionButtons()),
-                  ],
-                );
-              }),
+              Builder(
+                builder: (context) {
+                  final compact = ResponsiveLayout.of(context).type ==
+                      ResponsiveLayoutType.small;
+                  return Flex(
+                    direction: compact ? Axis.vertical : Axis.horizontal,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: compact
+                        ? CrossAxisAlignment.start
+                        : CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        l10n.managePageUpdatesAvailable(
+                          manageModel.refreshableSnaps.length,
+                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(fontWeight: FontWeight.w500),
+                      ),
+                      if (compact) const SizedBox(height: 16),
+                      const Flexible(child: _ActionButtons()),
+                    ],
+                  );
+                },
+              ),
               const SizedBox(height: 24),
               if (manageModel.refreshableSnaps.isEmpty)
                 Text(
@@ -130,70 +133,74 @@ class _ManageView extends ConsumerWidget {
               showUpdateButton: true,
             ),
           ),
-          SliverList.list(children: [
-            const SizedBox(height: 48),
-            Text(
-              l10n.managePageInstalledAndUpdatedLabel,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  // TODO: refactor - extract common text field decoration from
-                  // here and the `SearchField` widget
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(YaruIcons.search, size: 16),
-                      hintText: l10n.managePageSearchFieldSearchHint,
-                    ),
-                    initialValue: ref.watch(localSnapFilterProvider),
-                    onChanged: (value) => ref
-                        .read(localSnapFilterProvider.notifier)
-                        .state = value,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Text(l10n.searchPageSortByLabel),
-                const SizedBox(width: 8),
-                // TODO: refactor - create proper widget
-                Expanded(
-                  child: Consumer(builder: (context, ref, child) {
-                    final sortOrder = ref.watch(localSnapSortOrderProvider);
-                    return MenuButtonBuilder<SnapSortOrder>(
-                      values: const [
-                        SnapSortOrder.alphabeticalAsc,
-                        SnapSortOrder.alphabeticalDesc,
-                        SnapSortOrder.installedDateAsc,
-                        SnapSortOrder.installedDateDesc,
-                        SnapSortOrder.installedSizeAsc,
-                        SnapSortOrder.installedSizeDesc,
-                      ],
-                      itemBuilder: (context, sortOrder, child) =>
-                          Text(sortOrder.localize(l10n)),
-                      onSelected: (value) => ref
-                          .read(localSnapSortOrderProvider.notifier)
+          SliverList.list(
+            children: [
+              const SizedBox(height: 48),
+              Text(
+                l10n.managePageInstalledAndUpdatedLabel,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    // TODO: refactor - extract common text field decoration from
+                    // here and the `SearchField` widget
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(YaruIcons.search, size: 16),
+                        hintText: l10n.managePageSearchFieldSearchHint,
+                      ),
+                      initialValue: ref.watch(localSnapFilterProvider),
+                      onChanged: (value) => ref
+                          .read(localSnapFilterProvider.notifier)
                           .state = value,
-                      child: Text(sortOrder.localize(l10n)),
-                    );
-                  }),
-                ),
-                const SizedBox(width: 16),
-                Text(l10n.managePageShowSystemSnapsLabel),
-                const SizedBox(width: 8),
-                YaruCheckbox(
-                  value: ref.watch(showLocalSystemAppsProvider),
-                  onChanged: (value) => ref
-                      .read(showLocalSystemAppsProvider.notifier)
-                      .state = value ?? false,
-                )
-              ],
-            ),
-            const SizedBox(height: 24),
-          ]),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Text(l10n.searchPageSortByLabel),
+                  const SizedBox(width: 8),
+                  // TODO: refactor - create proper widget
+                  Expanded(
+                    child: Consumer(
+                      builder: (context, ref, child) {
+                        final sortOrder = ref.watch(localSnapSortOrderProvider);
+                        return MenuButtonBuilder<SnapSortOrder>(
+                          values: const [
+                            SnapSortOrder.alphabeticalAsc,
+                            SnapSortOrder.alphabeticalDesc,
+                            SnapSortOrder.installedDateAsc,
+                            SnapSortOrder.installedDateDesc,
+                            SnapSortOrder.installedSizeAsc,
+                            SnapSortOrder.installedSizeDesc,
+                          ],
+                          itemBuilder: (context, sortOrder, child) =>
+                              Text(sortOrder.localize(l10n)),
+                          onSelected: (value) => ref
+                              .read(localSnapSortOrderProvider.notifier)
+                              .state = value,
+                          child: Text(sortOrder.localize(l10n)),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Text(l10n.managePageShowSystemSnapsLabel),
+                  const SizedBox(width: 8),
+                  YaruCheckbox(
+                    value: ref.watch(showLocalSystemAppsProvider),
+                    onChanged: (value) => ref
+                        .read(showLocalSystemAppsProvider.notifier)
+                        .state = value ?? false,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+            ],
+          ),
           SliverList.builder(
             itemCount: filteredLocalSnaps.length,
             itemBuilder: (context, index) => _ManageSnapTile(
@@ -289,7 +296,7 @@ class _ActionButtons extends ConsumerWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                        ]
+                        ],
                       ],
                     );
                   },
@@ -465,7 +472,7 @@ class _ManageSnapTile extends ConsumerWidget {
                         : const SizedBox(),
                   ),
                 ],
-              )
+              ),
           ],
         ),
         trailing: showUpdateButton
@@ -519,7 +526,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                    ]
+                    ],
                   ],
                 )
               : Row(
@@ -554,7 +561,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
                 l10n.managePageShowDetailsLabel,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-            )
+            ),
           ],
           builder: (context, controller, child) => YaruOptionButton(
             onPressed: () {
@@ -566,7 +573,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
             },
             child: const Icon(YaruIcons.view_more_horizontal),
           ),
-        )
+        ),
       ],
     );
   }
@@ -609,7 +616,7 @@ class _ButtonBarForOpen extends ConsumerWidget {
                 l10n.managePageShowDetailsLabel,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-            )
+            ),
           ],
           builder: (context, controller, child) => YaruOptionButton(
             onPressed: () {
@@ -621,7 +628,7 @@ class _ButtonBarForOpen extends ConsumerWidget {
             },
             child: const Icon(YaruIcons.view_more_horizontal),
           ),
-        )
+        ),
       ],
     );
   }

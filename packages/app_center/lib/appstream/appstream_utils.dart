@@ -104,9 +104,11 @@ extension Metadata on AppstreamComponent {
   }
 
   List<String> get screenshotUrls => screenshots
-      .map((screenshot) => screenshot.images
-          .where((image) => image.type == AppstreamImageType.source)
-          .map((image) => image.url))
+      .map(
+        (screenshot) => screenshot.images
+            .where((image) => image.type == AppstreamImageType.source)
+            .map((image) => image.url),
+      )
       .expand((images) => images)
       .toList();
 }

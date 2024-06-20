@@ -10,9 +10,11 @@ class MockInitialRouteListener extends Mock {
 
 void main() {
   test('search query', () {
-    final container = ProviderContainer(overrides: [
-      commandLineProvider.overrideWith((ref) => ['--search', 'foo'])
-    ]);
+    final container = ProviderContainer(
+      overrides: [
+        commandLineProvider.overrideWith((ref) => ['--search', 'foo']),
+      ],
+    );
     addTearDown(container.dispose);
 
     final listener = MockInitialRouteListener();
@@ -26,9 +28,11 @@ void main() {
   });
 
   test('snap name', () {
-    final container = ProviderContainer(overrides: [
-      commandLineProvider.overrideWith((ref) => ['--snap', 'bar'])
-    ]);
+    final container = ProviderContainer(
+      overrides: [
+        commandLineProvider.overrideWith((ref) => ['--snap', 'bar']),
+      ],
+    );
     addTearDown(container.dispose);
 
     final listener = MockInitialRouteListener();
@@ -42,9 +46,11 @@ void main() {
   });
 
   test('snap url', () {
-    final container = ProviderContainer(overrides: [
-      commandLineProvider.overrideWith((ref) => ['snap://bar'])
-    ]);
+    final container = ProviderContainer(
+      overrides: [
+        commandLineProvider.overrideWith((ref) => ['snap://bar']),
+      ],
+    );
     addTearDown(container.dispose);
 
     final listener = MockInitialRouteListener();
@@ -58,9 +64,11 @@ void main() {
   });
 
   test('local debian package', () {
-    final container = ProviderContainer(overrides: [
-      commandLineProvider.overrideWith((ref) => ['/path/to/local.deb'])
-    ]);
+    final container = ProviderContainer(
+      overrides: [
+        commandLineProvider.overrideWith((ref) => ['/path/to/local.deb']),
+      ],
+    );
     addTearDown(container.dispose);
 
     final listener = MockInitialRouteListener();
@@ -80,7 +88,8 @@ void main() {
 
   test('no arguments', () {
     final container = ProviderContainer(
-        overrides: [commandLineProvider.overrideWith((ref) => [])]);
+      overrides: [commandLineProvider.overrideWith((ref) => [])],
+    );
     addTearDown(container.dispose);
 
     final listener = MockInitialRouteListener();

@@ -41,8 +41,10 @@ class CategorySnapList extends ConsumerWidget {
 
     // pick hand-selected featured snaps
     final featuredSnaps = category.featuredSnapNames
-        ?.map((name) =>
-            filteredSnaps?.singleWhereOrNull((snap) => snap.name == name))
+        ?.map(
+          (name) =>
+              filteredSnaps?.singleWhereOrNull((snap) => snap.name == name),
+        )
         .whereNotNull();
 
     final snaps = (onlyFeatured ? featuredSnaps : filteredSnaps)

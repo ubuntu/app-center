@@ -63,7 +63,9 @@ void main() {
     expect(find.text(tester.l10n.searchPageTitle('testsn')), findsOneWidget);
     expect(
       find.widgetWithText(
-          MenuButtonBuilder<SnapCategoryEnum?>, tester.l10n.snapCategoryAll),
+        MenuButtonBuilder<SnapCategoryEnum?>,
+        tester.l10n.snapCategoryAll,
+      ),
       findsOneWidget,
     );
     expect(find.text('Test Snap'), findsOneWidget);
@@ -89,8 +91,10 @@ void main() {
 
     expect(find.text(tester.l10n.searchPageTitle('testsn')), findsOneWidget);
     expect(
-      find.widgetWithText(MenuButtonBuilder<SnapCategoryEnum?>,
-          tester.l10n.snapCategoryDevelopment),
+      find.widgetWithText(
+        MenuButtonBuilder<SnapCategoryEnum?>,
+        tester.l10n.snapCategoryDevelopment,
+      ),
       findsOneWidget,
     );
     expect(find.text('Test Snap'), findsNothing);
@@ -127,7 +131,7 @@ void main() {
         overrides: [
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
-          multiSnapModelProvider.overrideWith((ref, arg) => multiSnapModel)
+          multiSnapModelProvider.overrideWith((ref, arg) => multiSnapModel),
         ],
         child: const SearchPage(
           category: 'gameDev',
@@ -167,12 +171,13 @@ void main() {
       final resultCards =
           tester.widget<AppCardGrid>(find.byType(AppCardGrid)).appCards;
       expect(
-          resultCards.map((card) => card.title.title).toList(),
-          equals([
-            'Test Snap',
-            'Another Test Snap',
-            'Yet Another Test Snap',
-          ]));
+        resultCards.map((card) => card.title.title).toList(),
+        equals([
+          'Test Snap',
+          'Another Test Snap',
+          'Yet Another Test Snap',
+        ]),
+      );
     });
     testWidgets('Download Size', (tester) async {
       await tester.pumpApp(
@@ -195,12 +200,13 @@ void main() {
       final resultCards =
           tester.widget<AppCardGrid>(find.byType(AppCardGrid)).appCards;
       expect(
-          resultCards.map((card) => card.title.title).toList(),
-          equals([
-            'Another Test Snap',
-            'Yet Another Test Snap',
-            'Test Snap',
-          ]));
+        resultCards.map((card) => card.title.title).toList(),
+        equals([
+          'Another Test Snap',
+          'Yet Another Test Snap',
+          'Test Snap',
+        ]),
+      );
     });
     testWidgets('Alphabetical', (tester) async {
       await tester.pumpApp(
@@ -223,12 +229,13 @@ void main() {
       final resultCards =
           tester.widget<AppCardGrid>(find.byType(AppCardGrid)).appCards;
       expect(
-          resultCards.map((card) => card.title.title).toList(),
-          equals([
-            'Another Test Snap',
-            'Test Snap',
-            'Yet Another Test Snap',
-          ]));
+        resultCards.map((card) => card.title.title).toList(),
+        equals([
+          'Another Test Snap',
+          'Test Snap',
+          'Yet Another Test Snap',
+        ]),
+      );
     });
   });
 
@@ -263,9 +270,13 @@ void main() {
 
       await tester.pumpAndSettle();
       expect(
-          find.text(tester.l10n.searchPageNoResultsCategory), findsOneWidget);
-      expect(find.text(tester.l10n.searchPageNoResultsCategoryHint),
-          findsOneWidget);
+        find.text(tester.l10n.searchPageNoResultsCategory),
+        findsOneWidget,
+      );
+      expect(
+        find.text(tester.l10n.searchPageNoResultsCategoryHint),
+        findsOneWidget,
+      );
       expect(find.byType(AppCardGrid), findsNothing);
     });
   });

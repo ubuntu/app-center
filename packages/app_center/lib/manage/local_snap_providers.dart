@@ -9,10 +9,14 @@ final localSnapSortOrderProvider =
 final localSnapsProvider = Provider.autoDispose(
   (ref) => ref
       .watch(manageModelProvider.select((m) => m.nonRefreshableSnaps))
-      .where((snap) => snap.titleOrName
-          .toLowerCase()
-          .contains(ref.watch(localSnapFilterProvider).toLowerCase()))
-      .where((snap) =>
-          ref.watch(showLocalSystemAppsProvider) || snap.apps.isNotEmpty)
+      .where(
+        (snap) => snap.titleOrName
+            .toLowerCase()
+            .contains(ref.watch(localSnapFilterProvider).toLowerCase()),
+      )
+      .where(
+        (snap) =>
+            ref.watch(showLocalSystemAppsProvider) || snap.apps.isNotEmpty,
+      )
       .sortedSnaps(ref.watch(localSnapSortOrderProvider)),
 );

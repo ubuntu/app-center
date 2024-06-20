@@ -44,9 +44,11 @@ void main() {
 
     fakeAsync((async) {
       final stream = watcher.watchChanges(name: 'foo');
-      stream.listen(expectAsync1((value) {
-        expect(value, ['c1', 'c2', 'c3']);
-      }));
+      stream.listen(
+        expectAsync1((value) {
+          expect(value, ['c1', 'c2', 'c3']);
+        }),
+      );
 
       async.elapse(const Duration(milliseconds: 500));
       verify(watcher.getChanges(name: 'foo')).called(5);

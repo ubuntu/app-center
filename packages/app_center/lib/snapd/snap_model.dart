@@ -165,7 +165,7 @@ final progressProvider =
       id: snapd.watchChange(id).listen((change) {
         subProgresses[id] = change.progress;
         streamController.add(subProgresses.values.sum / subProgresses.length);
-      })
+      }),
   };
   ref.onDispose(() {
     for (final subscription in subscriptions.values) {

@@ -49,92 +49,105 @@ class SearchPage extends StatelessWidget {
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 const SizedBox(height: 8),
-                Row(children: [
-                  Text(l10n.searchPageSortByLabel),
-                  const SizedBox(width: 8),
-                  Consumer(builder: (context, ref, child) {
-                    final sortOrder = ref.watch(snapSortOrderProvider);
-                    return MenuButtonBuilder<SnapSortOrder?>(
-                      expanded: false,
-                      values: const [
-                        null,
-                        SnapSortOrder.alphabeticalAsc,
-                        SnapSortOrder.alphabeticalDesc,
-                        SnapSortOrder.downloadSizeAsc,
-                        SnapSortOrder.downloadSizeDesc,
-                      ],
-                      itemBuilder: (context, sortOrder, child) => Text(
-                        sortOrder?.localize(l10n) ??
-                            l10n.snapSortOrderRelevance,
-                      ),
-                      onSelected: (value) => ref
-                          .read(snapSortOrderProvider.notifier)
-                          .state = value,
-                      child: Text(
-                        sortOrder?.localize(l10n) ??
-                            l10n.snapSortOrderRelevance,
-                      ),
-                    );
-                  }),
-                  if (query != null) ...[
-                    const SizedBox(width: 24),
-                    Text(l10n.searchPageFilterByLabel),
+                Row(
+                  children: [
+                    Text(l10n.searchPageSortByLabel),
                     const SizedBox(width: 8),
-                    Expanded(
-                      child: Consumer(
-                        builder: (context, ref, child) {
-                          return MenuButtonBuilder<PackageFormat>(
-                            values: PackageFormat.values,
-                            itemBuilder: (context, packageFormat, child) =>
-                                Text(packageFormat.localize(l10n)),
-                            onSelected: (value) => ref
-                                .read(packageFormatProvider.notifier)
-                                .state = value,
-                            child: Text(
-                              ref.watch(packageFormatProvider).localize(l10n),
-                            ),
-                          );
-                        },
-                      ),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final sortOrder = ref.watch(snapSortOrderProvider);
+                        return MenuButtonBuilder<SnapSortOrder?>(
+                          expanded: false,
+                          values: const [
+                            null,
+                            SnapSortOrder.alphabeticalAsc,
+                            SnapSortOrder.alphabeticalDesc,
+                            SnapSortOrder.downloadSizeAsc,
+                            SnapSortOrder.downloadSizeDesc,
+                          ],
+                          itemBuilder: (context, sortOrder, child) => Text(
+                            sortOrder?.localize(l10n) ??
+                                l10n.snapSortOrderRelevance,
+                          ),
+                          onSelected: (value) => ref
+                              .read(snapSortOrderProvider.notifier)
+                              .state = value,
+                          child: Text(
+                            sortOrder?.localize(l10n) ??
+                                l10n.snapSortOrderRelevance,
+                          ),
+                        );
+                      },
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Consumer(
-                        builder: (context, ref, child) {
-                          return switch (ref.watch(packageFormatProvider)) {
-                            PackageFormat.snap =>
-                              MenuButtonBuilder<SnapCategoryEnum?>(
-                                values: <SnapCategoryEnum?>[null] +
-                                    SnapCategoryEnum.values
-                                        .whereNot((c) => c.hidden)
-                                        .toList(),
-                                itemBuilder: (context, category, child) => Text(
-                                    category?.localize(l10n) ??
-                                        l10n.snapCategoryAll),
-                                onSelected: (value) => ref
-                                    .read(snapCategoryProvider(initialCategory)
-                                        .notifier)
-                                    .state = value,
-                                child: Text(ref
-                                        .watch(snapCategoryProvider(
-                                            initialCategory))
-                                        ?.localize(l10n) ??
-                                    l10n.snapCategoryAll),
+                    if (query != null) ...[
+                      const SizedBox(width: 24),
+                      Text(l10n.searchPageFilterByLabel),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Consumer(
+                          builder: (context, ref, child) {
+                            return MenuButtonBuilder<PackageFormat>(
+                              values: PackageFormat.values,
+                              itemBuilder: (context, packageFormat, child) =>
+                                  Text(packageFormat.localize(l10n)),
+                              onSelected: (value) => ref
+                                  .read(packageFormatProvider.notifier)
+                                  .state = value,
+                              child: Text(
+                                ref.watch(packageFormatProvider).localize(l10n),
                               ),
-                            PackageFormat.deb => const SizedBox.shrink(),
-                          };
-                        },
+                            );
+                          },
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Consumer(
+                          builder: (context, ref, child) {
+                            return switch (ref.watch(packageFormatProvider)) {
+                              PackageFormat.snap =>
+                                MenuButtonBuilder<SnapCategoryEnum?>(
+                                  values: <SnapCategoryEnum?>[null] +
+                                      SnapCategoryEnum.values
+                                          .whereNot((c) => c.hidden)
+                                          .toList(),
+                                  itemBuilder: (context, category, child) =>
+                                      Text(
+                                    category?.localize(l10n) ??
+                                        l10n.snapCategoryAll,
+                                  ),
+                                  onSelected: (value) => ref
+                                      .read(
+                                        snapCategoryProvider(initialCategory)
+                                            .notifier,
+                                      )
+                                      .state = value,
+                                  child: Text(
+                                    ref
+                                            .watch(
+                                              snapCategoryProvider(
+                                                initialCategory,
+                                              ),
+                                            )
+                                            ?.localize(l10n) ??
+                                        l10n.snapCategoryAll,
+                                  ),
+                                ),
+                              PackageFormat.deb => const SizedBox.shrink(),
+                            };
+                          },
+                        ),
+                      ),
+                    ],
                   ],
-                ]),
+                ),
                 if (initialCategory == SnapCategoryEnum.gameDev ||
                     initialCategory == SnapCategoryEnum.gameEmulators ||
                     initialCategory == SnapCategoryEnum.gnomeGames ||
                     initialCategory == SnapCategoryEnum.kdeGames) ...[
                   const SizedBox(height: kPagePadding),
                   InstallAll(initialCategory: initialCategory),
-                ]
+                ],
               ],
             ),
           ),
@@ -173,10 +186,11 @@ class InstallAll extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final multiSnapModel = ref.watch(multiSnapModelProvider(initialCategory!));
     return Center(
-        child: ElevatedButton(
-      onPressed: multiSnapModel.installAll,
-      child: Text(l10n.installAll),
-    ));
+      child: ElevatedButton(
+        onPressed: multiSnapModel.installAll,
+        child: Text(l10n.installAll),
+      ),
+    );
   }
 }
 

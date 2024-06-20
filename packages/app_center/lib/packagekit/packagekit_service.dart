@@ -70,7 +70,8 @@ class PackageKitService {
       _isAvailable = true;
     } on DBusServiceUnknownException catch (_) {
       log.info(
-          'Could not connect to PackageKit - marking service as unavailable');
+        'Could not connect to PackageKit - marking service as unavailable',
+      );
     }
   }
 
@@ -95,7 +96,8 @@ class PackageKitService {
       } else if (event is PackageKitErrorCodeEvent) {
         _errorStreamController.add(event);
         log.error(
-            'Received PackageKitErrorCodeEvent (${event.code}): ${event.details}');
+          'Received PackageKitErrorCodeEvent (${event.code}): ${event.details}',
+        );
       }
     });
     await action?.call(transaction);
@@ -165,7 +167,7 @@ class PackageKitService {
   ]) async {
     final possibleArchs = [
       architecture ?? await _getNativeArchitecture(),
-      'all'
+      'all',
     ];
     PackageKitPackageInfo? info;
     await _createTransaction(
@@ -179,7 +181,8 @@ class PackageKitService {
     ).then(waitTransaction);
     if (info == null) {
       log.error(
-          'Couldn\'t resolve package $name with architectures $possibleArchs');
+        'Couldn\'t resolve package $name with architectures $possibleArchs',
+      );
     }
     return info;
   }

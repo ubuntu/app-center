@@ -16,7 +16,8 @@ enum SnapSortOrder {
 // TODO: simplify; reconsider default values; separate order direction(?)
 extension SnapSort on Iterable<Snap> {
   Iterable<Snap> sortedSnaps(SnapSortOrder? order) => order != null
-      ? sorted((a, b) => switch (order) {
+      ? sorted(
+          (a, b) => switch (order) {
             SnapSortOrder.alphabeticalAsc => a.titleOrName
                 .toLowerCase()
                 .compareTo(b.titleOrName.toLowerCase()),
@@ -35,6 +36,7 @@ extension SnapSort on Iterable<Snap> {
                 .compareTo(b.installDate ?? DateTime(1970)),
             SnapSortOrder.installedDateDesc => (b.installDate ?? DateTime(1970))
                 .compareTo(a.installDate ?? DateTime(1970)),
-          })
+          },
+        )
       : toList();
 }

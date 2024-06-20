@@ -98,7 +98,7 @@ void main() {
         snapd.getCategory('foo', fileSystem: fs),
         emitsInOrder([
           emits([storeSnap]),
-          emitsDone
+          emitsDone,
         ]),
       );
       verify(snapd.find(category: 'foo')).called(1);
@@ -117,7 +117,7 @@ void main() {
         snapd.getCategory('foo', fileSystem: fs),
         emitsInOrder([
           [localSnap],
-          emitsDone
+          emitsDone,
         ]),
       );
       verifyNever(snapd.find(category: anyNamed('category')));
@@ -131,7 +131,8 @@ void main() {
       file.createSync(recursive: true);
       file.writeAsBytesSync([localSnap.toJson()].encodeCache(smc));
       file.setLastModifiedSync(
-          DateTime.now().subtract(const Duration(days: 2)));
+        DateTime.now().subtract(const Duration(days: 2)),
+      );
 
       final snapd = TestSnapdCache();
       when(snapd.find(category: 'foo')).thenAnswer((_) async => [storeSnap]);
@@ -141,7 +142,7 @@ void main() {
         emitsInOrder([
           [localSnap],
           [storeSnap],
-          emitsDone
+          emitsDone,
         ]),
       );
       verify(snapd.find(category: 'foo')).called(1);
@@ -222,7 +223,7 @@ void main() {
         emitsInOrder([
           [],
           [storeSnap, storeSnap2],
-          emitsDone
+          emitsDone,
         ]),
       );
       verify(snapd.find(name: 'foo')).called(1);
@@ -245,7 +246,7 @@ void main() {
         emitsInOrder([
           [storeSnap],
           [storeSnap, storeSnap2],
-          emitsDone
+          emitsDone,
         ]),
       );
       verifyNever(snapd.find(name: 'foo'));
@@ -269,7 +270,7 @@ void main() {
         emitsInOrder([
           [localSnap],
           [storeSnap, storeSnap2],
-          emitsDone
+          emitsDone,
         ]),
       );
       verify(snapd.find(name: 'foo')).called(1);
@@ -293,7 +294,7 @@ final localSnap = Snap.fromJson(const {
     'id': 'OgeoZuqQpVvSr9eGKJzNCrFGSaKXpkey',
     'username': 'mozilla',
     'display-name': 'Mozilla',
-    'validation': 'verified'
+    'validation': 'verified',
   },
   'developer': 'mozilla',
   'status': 'active',
@@ -313,16 +314,16 @@ final localSnap = Snap.fromJson(const {
       'snap': 'firefox',
       'name': 'firefox',
       'desktop-file':
-          '/var/lib/snapd/desktop/applications/firefox_firefox.desktop'
+          '/var/lib/snapd/desktop/applications/firefox_firefox.desktop',
     },
-    {'snap': 'firefox', 'name': 'geckodriver'}
+    {'snap': 'firefox', 'name': 'geckodriver'},
   ],
   'mounted-from': '/var/lib/snapd/snaps/firefox_2880.snap',
   'links': {
     'contact': [
-      'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla'
+      'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla',
     ],
-    'website': ['https://www.mozilla.org/firefox/']
+    'website': ['https://www.mozilla.org/firefox/'],
   },
   'contact':
       'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla',
@@ -333,16 +334,16 @@ final localSnap = Snap.fromJson(const {
       'url':
           'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
       'width': 196,
-      'height': 196
+      'height': 196,
     },
     {
       'type': 'screenshot',
       'url':
           'https://dashboard.snapcraft.io/site_media/appmedia/2021/09/Screenshot_from_2021-09-30_08-01-50.png',
       'width': 1850,
-      'height': 1415
+      'height': 1415,
     }
-  ]
+  ],
 });
 
 final storeSnap = Snap.fromJson(const {
@@ -359,7 +360,7 @@ final storeSnap = Snap.fromJson(const {
     'id': 'OgeoZuqQpVvSr9eGKJzNCrFGSaKXpkey',
     'username': 'mozilla',
     'display-name': 'Mozilla',
-    'validation': 'verified'
+    'validation': 'verified',
   },
   'store-url': 'https://snapcraft.io/firefox',
   'developer': 'mozilla',
@@ -377,9 +378,9 @@ final storeSnap = Snap.fromJson(const {
   'license': 'MPL-2.0',
   'links': {
     'contact': [
-      'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla'
+      'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla',
     ],
-    'website': ['https://www.mozilla.org/firefox/']
+    'website': ['https://www.mozilla.org/firefox/'],
   },
   'contact':
       'https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla',
@@ -390,18 +391,18 @@ final storeSnap = Snap.fromJson(const {
       'url':
           'https://dashboard.snapcraft.io/site_media/appmedia/2021/12/firefox_logo.png',
       'width': 196,
-      'height': 196
+      'height': 196,
     },
     {
       'type': 'screenshot',
       'url':
           'https://dashboard.snapcraft.io/site_media/appmedia/2021/09/Screenshot_from_2021-09-30_08-01-50.png',
       'width': 1850,
-      'height': 1415
+      'height': 1415,
     }
   ],
   'categories': [
-    {'name': 'productivity', 'featured': true}
+    {'name': 'productivity', 'featured': true},
   ],
   'channels': {
     'esr/candidate': {
@@ -411,10 +412,10 @@ final storeSnap = Snap.fromJson(const {
       'channel': 'esr/candidate',
       'epoch': {
         'read': [0],
-        'write': [0]
+        'write': [0],
       },
       'size': 256901120,
-      'released-at': '2023-07-11T00:34:34.677868Z'
+      'released-at': '2023-07-11T00:34:34.677868Z',
     },
     'esr/stable': {
       'revision': '2909',
@@ -423,10 +424,10 @@ final storeSnap = Snap.fromJson(const {
       'channel': 'esr/stable',
       'epoch': {
         'read': [0],
-        'write': [0]
+        'write': [0],
       },
       'size': 256901120,
-      'released-at': '2023-07-11T13:44:16.710497Z'
+      'released-at': '2023-07-11T13:44:16.710497Z',
     },
     'latest/beta': {
       'revision': '2922',
@@ -435,10 +436,10 @@ final storeSnap = Snap.fromJson(const {
       'channel': 'latest/beta',
       'epoch': {
         'read': [0],
-        'write': [0]
+        'write': [0],
       },
       'size': 249405440,
-      'released-at': '2023-07-12T01:37:32.508198Z'
+      'released-at': '2023-07-12T01:37:32.508198Z',
     },
     'latest/candidate': {
       'revision': '2908',
@@ -447,10 +448,10 @@ final storeSnap = Snap.fromJson(const {
       'channel': 'latest/candidate',
       'epoch': {
         'read': [0],
-        'write': [0]
+        'write': [0],
       },
       'size': 256905216,
-      'released-at': '2023-07-10T23:39:43.485418Z'
+      'released-at': '2023-07-10T23:39:43.485418Z',
     },
     'latest/edge': {
       'revision': '2924',
@@ -459,10 +460,10 @@ final storeSnap = Snap.fromJson(const {
       'channel': 'latest/edge',
       'epoch': {
         'read': [0],
-        'write': [0]
+        'write': [0],
       },
       'size': 258400256,
-      'released-at': '2023-07-12T04:02:41.300927Z'
+      'released-at': '2023-07-12T04:02:41.300927Z',
     },
     'latest/stable': {
       'revision': '2908',
@@ -471,13 +472,13 @@ final storeSnap = Snap.fromJson(const {
       'channel': 'latest/stable',
       'epoch': {
         'read': [0],
-        'write': [0]
+        'write': [0],
       },
       'size': 256905216,
-      'released-at': '2023-07-11T13:43:59.436506Z'
-    }
+      'released-at': '2023-07-11T13:43:59.436506Z',
+    },
   },
-  'tracks': ['latest', 'esr']
+  'tracks': ['latest', 'esr'],
 });
 
 final localSnap2 = Snap.fromJson(const {
@@ -493,7 +494,7 @@ final localSnap2 = Snap.fromJson(const {
     'id': 'canonical',
     'username': 'canonical',
     'display-name': 'Canonical',
-    'validation': 'verified'
+    'validation': 'verified',
   },
   'developer': 'canonical',
   'status': 'active',
@@ -510,13 +511,13 @@ final localSnap2 = Snap.fromJson(const {
   'jailmode': false,
   'apps': [
     {'snap': 'hello', 'name': 'hello'},
-    {'snap': 'hello', 'name': 'universe'}
+    {'snap': 'hello', 'name': 'universe'},
   ],
   'mounted-from': '/var/lib/snapd/snaps/hello_52.snap',
   'links': {
-    'contact': ['mailto:snaps@canonical.com']
+    'contact': ['mailto:snaps@canonical.com'],
   },
-  'contact': 'mailto:snaps@canonical.com'
+  'contact': 'mailto:snaps@canonical.com',
 });
 
 final storeSnap2 = Snap.fromJson(const {
@@ -531,7 +532,7 @@ final storeSnap2 = Snap.fromJson(const {
     'id': 'canonical',
     'username': 'canonical',
     'display-name': 'Canonical',
-    'validation': 'verified'
+    'validation': 'verified',
   },
   'store-url': 'https://snapcraft.io/hello',
   'developer': 'canonical',
@@ -548,7 +549,7 @@ final storeSnap2 = Snap.fromJson(const {
   'jailmode': false,
   'license': 'GPL-3.0',
   'links': {
-    'contact': ['mailto:snaps@canonical.com']
+    'contact': ['mailto:snaps@canonical.com'],
   },
   'contact': 'mailto:snaps@canonical.com',
   'channels': {
@@ -559,10 +560,10 @@ final storeSnap2 = Snap.fromJson(const {
       'channel': 'latest/beta',
       'epoch': {
         'read': [0],
-        'write': [0]
+        'write': [0],
       },
       'size': 65536,
-      'released-at': '2017-05-17T21:17:00.205019Z'
+      'released-at': '2017-05-17T21:17:00.205019Z',
     },
     'latest/candidate': {
       'revision': '42',
@@ -571,10 +572,10 @@ final storeSnap2 = Snap.fromJson(const {
       'channel': 'latest/candidate',
       'epoch': {
         'read': [0],
-        'write': [0]
+        'write': [0],
       },
       'size': 106496,
-      'released-at': '2022-01-14T01:57:40.028647Z'
+      'released-at': '2022-01-14T01:57:40.028647Z',
     },
     'latest/edge': {
       'revision': '52',
@@ -583,10 +584,10 @@ final storeSnap2 = Snap.fromJson(const {
       'channel': 'latest/edge',
       'epoch': {
         'read': [0],
-        'write': [0]
+        'write': [0],
       },
       'size': 131072,
-      'released-at': '2022-03-15T17:16:17.517293Z'
+      'released-at': '2022-03-15T17:16:17.517293Z',
     },
     'latest/stable': {
       'revision': '42',
@@ -595,11 +596,11 @@ final storeSnap2 = Snap.fromJson(const {
       'channel': 'latest/stable',
       'epoch': {
         'read': [0],
-        'write': [0]
+        'write': [0],
       },
       'size': 106496,
-      'released-at': '2022-01-14T02:01:54.911048Z'
-    }
+      'released-at': '2022-01-14T02:01:54.911048Z',
+    },
   },
-  'tracks': ['latest']
+  'tracks': ['latest'],
 });

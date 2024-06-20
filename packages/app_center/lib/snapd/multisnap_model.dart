@@ -78,8 +78,10 @@ class MultiSnapModel extends ChangeNotifier {
   }
 
   Future<void> installAll() {
-    assert(categorySnaps.length == category.featuredSnapNames!.length,
-        'install() should not be called before the store snaps are available');
+    assert(
+      categorySnaps.length == category.featuredSnapNames!.length,
+      'install() should not be called before the store snaps are available',
+    );
     return _snapAction(() => _installAllSnaps(categorySnaps));
   }
 
@@ -101,12 +103,15 @@ class MultiSnapModel extends ChangeNotifier {
           changeIds
               .add(await snapd.install(classicSnaps[i].name, classic: true));
         }
-        changeIds.add(await snapd
-            .installMany(strictSnaps.map((snap) => snap.name).toList()));
+        changeIds.add(
+          await snapd
+              .installMany(strictSnaps.map((snap) => snap.name).toList()),
+        );
       }
     } else {
-      changeIds.add(await snapd
-          .installMany(strictSnaps.map((snap) => snap.name).toList()));
+      changeIds.add(
+        await snapd.installMany(strictSnaps.map((snap) => snap.name).toList()),
+      );
     }
     return changeIds.last;
   }

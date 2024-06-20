@@ -147,10 +147,10 @@ class _CarouselDialogState extends State<_CarouselDialog> {
                   SafeNetworkImage(
                     url: url,
                     fit: BoxFit.fitWidth,
-                  )
+                  ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

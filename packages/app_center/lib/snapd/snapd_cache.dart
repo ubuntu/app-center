@@ -63,7 +63,7 @@ mixin SnapdCache on SnapdClient {
           'snap-$name',
           expiry: expiry,
           fileSystem: fileSystem ?? defaultFileSystem,
-        )
+        ),
     };
     final cachedSnaps = Map.fromEntries(
       await Future.wait(

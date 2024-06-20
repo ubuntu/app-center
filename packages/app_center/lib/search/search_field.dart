@@ -114,11 +114,13 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
-                    ...snapOptions.map((e) => _AutoCompleteTile(
-                          option: e,
-                          onTap: () => onSelected(e),
-                          selected: e == highlightedOption,
-                        )),
+                    ...snapOptions.map(
+                      (e) => _AutoCompleteTile(
+                        option: e,
+                        onTap: () => onSelected(e),
+                        selected: e == highlightedOption,
+                      ),
+                    ),
                     const Divider(),
                   ],
                   if (debOptions.isNotEmpty) ...[
@@ -128,18 +130,20 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
-                    ...debOptions.map((e) => _AutoCompleteTile(
-                          option: e,
-                          onTap: () => onSelected(e),
-                          selected: e == highlightedOption,
-                        )),
+                    ...debOptions.map(
+                      (e) => _AutoCompleteTile(
+                        option: e,
+                        onTap: () => onSelected(e),
+                        selected: e == highlightedOption,
+                      ),
+                    ),
                     const Divider(),
                   ],
                   _AutoCompleteTile(
                     option: searchOption,
                     onTap: () => onSelected(searchOption),
                     selected: searchOption == highlightedOption,
-                  )
+                  ),
                 ],
               ),
             ),
@@ -154,8 +158,9 @@ class _SearchFieldState extends ConsumerState<SearchField> {
       },
       fieldViewBuilder: (context, controller, node, onFieldSubmitted) {
         return Focus(
-            focusNode: widget.searchFocus,
-            child: Consumer(builder: (context, ref, child) {
+          focusNode: widget.searchFocus,
+          child: Consumer(
+            builder: (context, ref, child) {
               ref.listen(queryProvider, (prev, next) {
                 if (!node.hasPrimaryFocus) controller.text = next ?? '';
               });
@@ -191,7 +196,9 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                   suffixIconConstraints: iconConstraints,
                 ),
               );
-            }));
+            },
+          ),
+        );
       },
     );
   }

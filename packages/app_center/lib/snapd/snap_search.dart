@@ -28,9 +28,10 @@ class SnapSearchParameters {
   int get hashCode => Object.hash(query, category);
 }
 
-final snapCategoryProvider = StateProvider.family
-    .autoDispose<SnapCategoryEnum?, SnapCategoryEnum?>(
-        (ref, initialValue) => initialValue);
+final snapCategoryProvider =
+    StateProvider.family.autoDispose<SnapCategoryEnum?, SnapCategoryEnum?>(
+  (ref, initialValue) => initialValue,
+);
 
 final snapSearchProvider =
     StreamProvider.family<List<Snap>, SnapSearchParameters>(

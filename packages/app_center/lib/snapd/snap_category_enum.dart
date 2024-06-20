@@ -54,11 +54,13 @@ enum SnapCategoryEnum {
         gameLaunchers,
         gameContentCreation,
         unknown,
-        ubuntuDesktop
+        ubuntuDesktop,
       ].contains(this);
 
   String get categoryName => name.replaceAllMapped(
-      RegExp('[A-Z]'), (match) => '-${match[0]!.toLowerCase()}');
+        RegExp('[A-Z]'),
+        (match) => '-${match[0]!.toLowerCase()}',
+      );
 
   List<String>? get featuredSnapNames => switch (this) {
         development => ['code', 'postman', 'phpstorm'],

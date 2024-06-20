@@ -60,7 +60,8 @@ class ResponsiveLayout extends InheritedWidget {
       2 * kCardMargin; // left+right margin of outermost cards
 
   EdgeInsets get padding => EdgeInsets.symmetric(
-      horizontal: (constraints.maxWidth - totalWidth) / 2.0);
+        horizontal: (constraints.maxWidth - totalWidth) / 2.0,
+      );
 
   static ResponsiveLayout? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<ResponsiveLayout>();
@@ -94,15 +95,19 @@ class ResponsiveLayoutScrollView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayoutBuilder(builder: (context) {
-      return CustomScrollView(
-        slivers: slivers
-            .map((s) => SliverPadding(
+    return ResponsiveLayoutBuilder(
+      builder: (context) {
+        return CustomScrollView(
+          slivers: slivers
+              .map(
+                (s) => SliverPadding(
                   padding: ResponsiveLayout.of(context).padding,
                   sliver: s,
-                ))
-            .toList(),
-      );
-    });
+                ),
+              )
+              .toList(),
+        );
+      },
+    );
   }
 }

@@ -115,9 +115,13 @@ void main() {
 
   testWidgets('Games Tab', (tester) async {
     await tester.pumpApp(
-      (_) => ProviderScope(overrides: [
-        snapSearchProvider.overrideWith((ref, arg) => mockSearchProvider(arg)),
-      ], child: const GamesPage()),
+      (_) => ProviderScope(
+        overrides: [
+          snapSearchProvider
+              .overrideWith((ref, arg) => mockSearchProvider(arg)),
+        ],
+        child: const GamesPage(),
+      ),
     );
 
     await tester.pump();

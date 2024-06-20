@@ -47,8 +47,17 @@ class _CachedComponent {
         .split(nonWordCharacters)
         .toList();
 
-    return _CachedComponent(component, id, name, keywords, summary, description,
-        origin, package, mediaTypes);
+    return _CachedComponent(
+      component,
+      id,
+      name,
+      keywords,
+      summary,
+      description,
+      origin,
+      package,
+      mediaTypes,
+    );
   }
   final AppstreamComponent component;
   final String id;
@@ -166,7 +175,8 @@ class AppstreamService {
     } else {
       locale = const Locale('en');
       log.info(
-          'Unsupported locale: ${PlatformDispatcher.instance.locale}. Defaulting to "en".');
+        'Unsupported locale: ${PlatformDispatcher.instance.locale}. Defaulting to "en".',
+      );
     }
     return lookupAppLocalizations(locale);
   }

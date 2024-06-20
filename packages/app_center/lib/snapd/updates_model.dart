@@ -32,7 +32,9 @@ class UpdatesModel extends ChangeNotifier {
   void _handleError(SnapdException e) {
     _errorStreamController.add(e);
     log.error(
-        'Caught exception when handling updates for $refreshableSnapNames', e);
+      'Caught exception when handling updates for $refreshableSnapNames',
+      e,
+    );
   }
 
   Future<void> refresh() async {
