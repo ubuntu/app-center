@@ -32,7 +32,7 @@ class CategoryBanner extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final snaps = ref
         .watch(snapSearchProvider(SnapSearchParameters(category: category)))
-        .whenOrNull(data: (data) => data);
+        .valueOrNull;
     final featuredSnaps = category.featuredSnapNames != null
         ? category.featuredSnapNames!
             .map(

@@ -169,7 +169,7 @@ class _DebActionButtons extends ConsumerWidget {
                 builder: (context, ref, child) {
                   final transaction = ref
                       .watch(transactionProvider(debModel.activeTransactionId!))
-                      .whenOrNull(data: (data) => data);
+                      .valueOrNull;
                   return Center(
                     child: SizedBox.square(
                       dimension: kCircularProgressIndicatorHeight,

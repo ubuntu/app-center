@@ -29,7 +29,7 @@ class _FeaturedCarouselState extends ConsumerState<FeaturedCarousel> {
     snaps = ref
             .watch(snapSearchProvider(
                 const SnapSearchParameters(category: SnapCategoryEnum.games)))
-            .whenOrNull(data: (data) => data)
+            .valueOrNull
             ?.take(widget.snapAmount) ??
         [];
 

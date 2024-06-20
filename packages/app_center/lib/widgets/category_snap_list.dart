@@ -27,7 +27,7 @@ class CategorySnapList extends ConsumerWidget {
     // get snaps from `category`
     final categorySnaps = ref
         .watch(snapSearchProvider(SnapSearchParameters(category: category)))
-        .whenOrNull(data: (data) => data);
+        .valueOrNull;
 
     final bannerSnaps =
         category.featuredSnapNames?.take(kNumberOfBannerSnaps) ??
