@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/config.dart';
+import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
@@ -77,7 +78,12 @@ Future<void> main(List<String> args) async {
   await runZonedGuarded(
     () async {
       await YaruWindowTitleBar.ensureInitialized();
-      runApp(const ProviderScope(child: StoreApp()));
+      runApp(
+        ProviderScope(
+          observers: [ErrorObserver()],
+          child: const StoreApp(),
+        ),
+      );
     },
     (error, stackTrace) {
       log.error('Error propagated to top-level', error, stackTrace);
