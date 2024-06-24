@@ -27,7 +27,7 @@ void main() {
           snap: 'desktopsnap',
           name: 'desktopsnapapp',
           desktopFile: '/foo/bar/desktopsnapapp.desktop',
-        )
+        ),
       ],
     );
     final launcher = MockPrivilegedDesktopLauncher();

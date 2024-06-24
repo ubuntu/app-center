@@ -67,11 +67,13 @@ extension StoreNavigatorState on NavigatorState {
     String? query,
     String? category,
   }) {
-    return pushNamed(StoreRoutes.namedSearchSnap(
-      name: name,
-      query: query,
-      category: category,
-    ));
+    return pushNamed(
+      StoreRoutes.namedSearchSnap(
+        name: name,
+        query: query,
+        category: category,
+      ),
+    );
   }
 
   Future<void> pushExternalTools({String? query, String? category}) {

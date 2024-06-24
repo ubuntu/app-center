@@ -132,32 +132,36 @@ class _SnapReportState extends State<SnapReport> {
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       TextSpan(
-                          text: l10n
-                              .snapReportPrivacyAgreementCanonicalPrivacyNotice,
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            decoration: TextDecoration.underline,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () async {
-                              await launchUrlString(
-                                  'https://ubuntu.com/legal/data-privacy/contact');
-                            }),
+                        text: l10n
+                            .snapReportPrivacyAgreementCanonicalPrivacyNotice,
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            await launchUrlString(
+                              'https://ubuntu.com/legal/data-privacy/contact',
+                            );
+                          },
+                      ),
                       TextSpan(
                         text: l10n.snapReportPrivacyAgreementAndLabel,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       TextSpan(
-                          text: l10n.snapReportPrivacyAgreementPrivacyPolicy,
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            decoration: TextDecoration.underline,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () async {
-                              await launchUrlString(
-                                  'https://ubuntu.com/legal/data-privacy');
-                            }),
+                        text: l10n.snapReportPrivacyAgreementPrivacyPolicy,
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            await launchUrlString(
+                              'https://ubuntu.com/legal/data-privacy',
+                            );
+                          },
+                      ),
                     ],
                   ),
                 ),
@@ -190,11 +194,15 @@ class _SnapReportState extends State<SnapReport> {
                         'entry.1424146082': _emailController.text,
                       };
 
-                      final response = await http.post(Uri.parse(url),
-                          headers: headers, body: requestBody);
+                      final response = await http.post(
+                        Uri.parse(url),
+                        headers: headers,
+                        body: requestBody,
+                      );
                       if (response.statusCode != 200) {
                         log.error(
-                            'Snap reporting for snap "${widget.name}" failed with HTTP Code ${response.statusCode}');
+                          'Snap reporting for snap "${widget.name}" failed with HTTP Code ${response.statusCode}',
+                        );
                       }
                       if (mounted) {
                         // TODO: fix async gap

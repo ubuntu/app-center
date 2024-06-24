@@ -82,7 +82,8 @@ class AppTitle extends StatelessWidget {
                 child: Text(
                   publisher ?? l10n.unknownPublisher,
                   style: publisherTextStyle.copyWith(
-                      color: Theme.of(context).hintColor),
+                    color: Theme.of(context).hintColor,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -108,8 +109,8 @@ class AppTitle extends StatelessWidget {
                 .whereNot((c) => c.categoryEnum == SnapCategoryEnum.featured)
                 .map((c) => Text(c.categoryEnum.localize(l10n)))
                 .separatedBy(const Text(', ')),
-          )
-        ]
+          ),
+        ],
       ],
     );
   }
@@ -120,6 +121,6 @@ extension on Iterable<Widget> {
         for (var i = 0; i < length; i++) ...[
           elementAt(i),
           if (i < length - 1) separator,
-        ]
+        ],
       ];
 }

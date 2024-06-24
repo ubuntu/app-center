@@ -99,7 +99,11 @@ class RatingsClient {
   }
 
   Future<void> vote(
-      String snapId, int snapRevision, bool voteUp, String token) async {
+    String snapId,
+    int snapRevision,
+    bool voteUp,
+    String token,
+  ) async {
     final request = user_pb.VoteRequest(
       snapId: snapId,
       snapRevision: snapRevision,

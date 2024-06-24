@@ -34,41 +34,47 @@ void main() {
     const timeframe = chart.Timeframe.month;
     final pbChartList = [
       ChartData(
-          rawRating: 3,
-          rating: Rating(
-            snapId: snapId,
-            totalVotes: Int64(105),
-            ratingsBand: RatingsBand.NEUTRAL,
-          ))
+        rawRating: 3,
+        rating: Rating(
+          snapId: snapId,
+          totalVotes: Int64(105),
+          ratingsBand: RatingsBand.NEUTRAL,
+        ),
+      ),
     ];
 
     final expectedResponse = [
       const chart.ChartData(
-          rawRating: 3,
-          rating: ratings.Rating(
-            snapId: snapId,
-            totalVotes: 105,
-            ratingsBand: ratings.RatingsBand.neutral,
-          ))
+        rawRating: 3,
+        rating: ratings.Rating(
+          snapId: snapId,
+          totalVotes: 105,
+          ratingsBand: ratings.RatingsBand.neutral,
+        ),
+      ),
     ];
     final mockResponse = GetChartResponse(
       timeframe: Timeframe.TIMEFRAME_MONTH,
       orderedChartData: pbChartList,
     );
     final request = GetChartRequest(timeframe: Timeframe.TIMEFRAME_MONTH);
-    when(mockChartClient.getChart(
-      request,
-      options: anyNamed('options'),
-    )).thenAnswer((_) => MockResponseFuture<GetChartResponse>(mockResponse));
+    when(
+      mockChartClient.getChart(
+        request,
+        options: anyNamed('options'),
+      ),
+    ).thenAnswer((_) => MockResponseFuture<GetChartResponse>(mockResponse));
     final response = await ratingsClient.getChart(timeframe, token);
     expect(
       response,
       equals(expectedResponse),
     );
-    final capturedArgs = verify(mockChartClient.getChart(
-      request,
-      options: captureAnyNamed('options'),
-    )).captured;
+    final capturedArgs = verify(
+      mockChartClient.getChart(
+        request,
+        options: captureAnyNamed('options'),
+      ),
+    ).captured;
     final capturedOptions = capturedArgs.single as CallOptions;
     expect(
       capturedOptions.metadata,
@@ -94,11 +100,14 @@ void main() {
     );
     final mockResponse = pb.GetRatingResponse(rating: pbRating);
     final request = pb.GetRatingRequest(snapId: snapId);
-    when(mockAppClient.getRating(
-      request,
-      options: anyNamed('options'),
-    )).thenAnswer(
-        (_) => MockResponseFuture<pb.GetRatingResponse>(mockResponse));
+    when(
+      mockAppClient.getRating(
+        request,
+        options: anyNamed('options'),
+      ),
+    ).thenAnswer(
+      (_) => MockResponseFuture<pb.GetRatingResponse>(mockResponse),
+    );
     final response = await ratingsClient.getRating(
       snapId,
       token,
@@ -107,10 +116,12 @@ void main() {
       response,
       equals(expectedResponse),
     );
-    final capturedArgs = verify(mockAppClient.getRating(
-      request,
-      options: captureAnyNamed('options'),
-    )).captured;
+    final capturedArgs = verify(
+      mockAppClient.getRating(
+        request,
+        options: captureAnyNamed('options'),
+      ),
+    ).captured;
     final capturedOptions = capturedArgs.single as CallOptions;
     expect(
       capturedOptions.metadata,
@@ -127,7 +138,8 @@ void main() {
     final mockResponse = AuthenticateResponse(token: token);
     final request = AuthenticateRequest(id: id);
     when(mockUserClient.authenticate(request)).thenAnswer(
-        (_) => MockResponseFuture<AuthenticateResponse>(mockResponse));
+      (_) => MockResponseFuture<AuthenticateResponse>(mockResponse),
+    );
     final response = await ratingsClient.authenticate(id);
     verify(mockUserClient.authenticate(request)).captured;
     expect(
@@ -142,15 +154,17 @@ void main() {
     final time = DateTime.now().toUtc();
     final mockVotes = <Vote>[
       Vote(
-          snapId: 'foo1',
-          snapRevision: 1,
-          voteUp: true,
-          timestamp: Timestamp.fromDateTime(time)),
+        snapId: 'foo1',
+        snapRevision: 1,
+        voteUp: true,
+        timestamp: Timestamp.fromDateTime(time),
+      ),
       Vote(
-          snapId: 'foo2',
-          snapRevision: 2,
-          voteUp: false,
-          timestamp: Timestamp.fromDateTime(time)),
+        snapId: 'foo2',
+        snapRevision: 2,
+        voteUp: false,
+        timestamp: Timestamp.fromDateTime(time),
+      ),
     ];
     final expectedResponse = <user.Vote>[
       user.Vote(
@@ -169,19 +183,24 @@ void main() {
     final mockResponse = ListMyVotesResponse(votes: mockVotes);
     final request = ListMyVotesRequest(snapIdFilter: snapIdFilter);
 
-    when(mockUserClient.listMyVotes(
-      request,
-      options: anyNamed('options'),
-    )).thenAnswer((_) => MockResponseFuture<ListMyVotesResponse>(mockResponse));
+    when(
+      mockUserClient.listMyVotes(
+        request,
+        options: anyNamed('options'),
+      ),
+    ).thenAnswer((_) => MockResponseFuture<ListMyVotesResponse>(mockResponse));
     final response = await ratingsClient.listMyVotes(
       snapIdFilter,
       token,
     );
     expect(response, equals(expectedResponse));
 
-    final capturedArgs = verify(mockUserClient.listMyVotes(request,
-            options: captureAnyNamed('options')))
-        .captured;
+    final capturedArgs = verify(
+      mockUserClient.listMyVotes(
+        request,
+        options: captureAnyNamed('options'),
+      ),
+    ).captured;
     final capturedOptions = capturedArgs.single as CallOptions;
     expect(
       capturedOptions.metadata,
@@ -203,27 +222,32 @@ void main() {
       voteUp: voteUp,
     );
 
-    when(mockUserClient.vote(
-      request,
-      options: anyNamed('options'),
-    )).thenAnswer((_) => MockResponseFuture<Empty>(Empty()));
+    when(
+      mockUserClient.vote(
+        request,
+        options: anyNamed('options'),
+      ),
+    ).thenAnswer((_) => MockResponseFuture<Empty>(Empty()));
     await ratingsClient.vote(
       snapId,
       snapRevision,
       voteUp,
       token,
     );
-    final capturedArgs = verify(mockUserClient.vote(
-      request,
-      options: captureAnyNamed('options'),
-    )).captured;
+    final capturedArgs = verify(
+      mockUserClient.vote(
+        request,
+        options: captureAnyNamed('options'),
+      ),
+    ).captured;
     final capturedOptions = capturedArgs.single as CallOptions;
     expect(
-        capturedOptions.metadata,
-        containsPair(
-          'authorization',
-          'Bearer $token',
-        ));
+      capturedOptions.metadata,
+      containsPair(
+        'authorization',
+        'Bearer $token',
+      ),
+    );
   });
 
   test('user votes by snap id', () async {
@@ -232,15 +256,17 @@ void main() {
     final time = DateTime.now().toUtc();
     final mockVotes = <Vote>[
       Vote(
-          snapId: snapId,
-          snapRevision: 1,
-          voteUp: true,
-          timestamp: Timestamp.fromDateTime(time)),
+        snapId: snapId,
+        snapRevision: 1,
+        voteUp: true,
+        timestamp: Timestamp.fromDateTime(time),
+      ),
       Vote(
-          snapId: snapId,
-          snapRevision: 2,
-          voteUp: false,
-          timestamp: Timestamp.fromDateTime(time)),
+        snapId: snapId,
+        snapRevision: 2,
+        voteUp: false,
+        timestamp: Timestamp.fromDateTime(time),
+      ),
     ];
     final expectedResponse = <user.Vote>[
       user.Vote(
@@ -259,20 +285,26 @@ void main() {
     final mockResponse = GetSnapVotesResponse(votes: mockVotes);
     final request = GetSnapVotesRequest(snapId: snapId);
 
-    when(mockUserClient.getSnapVotes(
-      request,
-      options: anyNamed('options'),
-    )).thenAnswer(
-        (_) => MockResponseFuture<GetSnapVotesResponse>(mockResponse));
+    when(
+      mockUserClient.getSnapVotes(
+        request,
+        options: anyNamed('options'),
+      ),
+    ).thenAnswer(
+      (_) => MockResponseFuture<GetSnapVotesResponse>(mockResponse),
+    );
     final response = await ratingsClient.getSnapVotes(
       snapId,
       token,
     );
     expect(response, equals(expectedResponse));
 
-    final capturedArgs = verify(mockUserClient.getSnapVotes(request,
-            options: captureAnyNamed('options')))
-        .captured;
+    final capturedArgs = verify(
+      mockUserClient.getSnapVotes(
+        request,
+        options: captureAnyNamed('options'),
+      ),
+    ).captured;
     final capturedOptions = capturedArgs.single as CallOptions;
     expect(
       capturedOptions.metadata,
@@ -287,15 +319,17 @@ void main() {
     const token = 'bar';
     final request = Empty();
 
-    when(mockUserClient.delete(
-      request,
-      options: anyNamed('options'),
-    )).thenAnswer((_) => MockResponseFuture<Empty>(Empty()));
+    when(
+      mockUserClient.delete(
+        request,
+        options: anyNamed('options'),
+      ),
+    ).thenAnswer((_) => MockResponseFuture<Empty>(Empty()));
     await ratingsClient.delete(token);
 
     final capturedArgs = verify(
-            mockUserClient.delete(request, options: captureAnyNamed('options')))
-        .captured;
+      mockUserClient.delete(request, options: captureAnyNamed('options')),
+    ).captured;
     final capturedOptions = capturedArgs.single as CallOptions;
     expect(
       capturedOptions.metadata,

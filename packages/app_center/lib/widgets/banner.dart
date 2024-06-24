@@ -32,11 +32,12 @@ class CategoryBanner extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final snaps = ref
         .watch(snapSearchProvider(SnapSearchParameters(category: category)))
-        .whenOrNull(data: (data) => data);
+        .valueOrNull;
     final featuredSnaps = category.featuredSnapNames != null
         ? category.featuredSnapNames!
             .map(
-                (name) => snaps?.singleWhereOrNull((snap) => snap.name == name))
+              (name) => snaps?.singleWhereOrNull((snap) => snap.name == name),
+            )
             .whereNotNull()
         : snaps;
     final l10n = AppLocalizations.of(context);
@@ -137,8 +138,13 @@ class _Banner extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: snaps
-                    .map((snap) => _BannerIcon(
-                        snap: snap, maxSize: maxSize, iconSize: iconSize))
+                    .map(
+                      (snap) => _BannerIcon(
+                        snap: snap,
+                        maxSize: maxSize,
+                        iconSize: iconSize,
+                      ),
+                    )
                     .toList(),
               ),
           ],
@@ -198,7 +204,7 @@ class _BannerIconState extends State<_BannerIcon> {
                     BoxShadow(
                       blurRadius: 24,
                       color: Colors.black.withAlpha(0x19),
-                    )
+                    ),
                   ],
                 ),
                 child: AppIcon(
@@ -320,7 +326,7 @@ class _ExternalToolIcon extends ConsumerWidget {
                     BoxShadow(
                       blurRadius: 24,
                       color: Colors.black.withAlpha(0x19),
-                    )
+                    ),
                   ],
                 ),
                 child: AppIcon(

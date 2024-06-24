@@ -34,10 +34,12 @@ void main() {
       packageInfo: packageInfo,
     );
 
-    await tester.pumpApp((_) => ProviderScope(
-          overrides: [debModelProvider.overrideWith((_, __) => debModel)],
-          child: const DebPage(id: 'testdeb'),
-        ));
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [debModelProvider.overrideWith((_, __) => debModel)],
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
     await tester.pump();
 
     expect(find.text(component.getLocalizedName()), findsOneWidget);
@@ -59,14 +61,18 @@ void main() {
       ),
     );
 
-    await tester.pumpApp((_) => ProviderScope(
-          overrides: [debModelProvider.overrideWith((_, __) => debModel)],
-          child: const DebPage(id: 'testdeb'),
-        ));
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [debModelProvider.overrideWith((_, __) => debModel)],
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
     await tester.pump();
 
     expect(find.text('internal error'), findsOneWidget);
-    expect(find.text('PackageKit error: ${PackageKitError.internalError}'),
-        findsOneWidget);
+    expect(
+      find.text('PackageKit error: ${PackageKitError.internalError}'),
+      findsOneWidget,
+    );
   });
 }

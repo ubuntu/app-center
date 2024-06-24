@@ -70,7 +70,7 @@ void main() {
                 createMockManageModel(nonRefreshableSnaps: nonRefreshableSnaps),
           ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
-          updatesModelProvider.overrideWith((_) => createMockUpdatesModel())
+          updatesModelProvider.overrideWith((_) => createMockUpdatesModel()),
         ],
         child: const ManagePage(),
       ),
@@ -78,18 +78,25 @@ void main() {
 
     final testTile = find.snapTile('Test Snap');
     expect(testTile, findsOneWidget);
-    expect(find.descendant(of: testTile, matching: find.text('1.0')),
-        findsOneWidget);
-    expect(find.descendant(of: testTile, matching: find.text('latest/stable')),
-        findsOneWidget);
+    expect(
+      find.descendant(of: testTile, matching: find.text('1.0')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: testTile, matching: find.text('latest/stable')),
+      findsOneWidget,
+    );
 
     final testTile2 = find.snapTile('Another Test Snap');
     expect(testTile2, findsOneWidget);
-    expect(find.descendant(of: testTile2, matching: find.text('1.5')),
-        findsOneWidget);
     expect(
-        find.descendant(of: testTile2, matching: find.text('latest/candidate')),
-        findsOneWidget);
+      find.descendant(of: testTile2, matching: find.text('1.5')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: testTile2, matching: find.text('latest/candidate')),
+      findsOneWidget,
+    );
   });
 
   testWidgets('launch desktop snap', (tester) async {
@@ -97,15 +104,19 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
-          launchProvider.overrideWith((_, snap) => switch (snap.name) {
-                'testsnap' => snapLauncher,
-                _ => createMockSnapLauncher(),
-              }),
-          manageModelProvider.overrideWith((_) => createMockManageModel(
-                nonRefreshableSnaps: nonRefreshableSnaps,
-              )),
+          launchProvider.overrideWith(
+            (_, snap) => switch (snap.name) {
+              'testsnap' => snapLauncher,
+              _ => createMockSnapLauncher(),
+            },
+          ),
+          manageModelProvider.overrideWith(
+            (_) => createMockManageModel(
+              nonRefreshableSnaps: nonRefreshableSnaps,
+            ),
+          ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
-          updatesModelProvider.overrideWith((_) => createMockUpdatesModel())
+          updatesModelProvider.overrideWith((_) => createMockUpdatesModel()),
         ],
         child: const ManagePage(),
       ),
@@ -160,10 +171,14 @@ void main() {
 
     final testTile = find.snapTile('Snap with an update');
     expect(testTile, findsOneWidget);
-    expect(find.descendant(of: testTile, matching: find.text('2.0')),
-        findsOneWidget);
-    expect(find.descendant(of: testTile, matching: find.text('latest/stable')),
-        findsOneWidget);
+    expect(
+      find.descendant(of: testTile, matching: find.text('2.0')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: testTile, matching: find.text('latest/stable')),
+      findsOneWidget,
+    );
 
     await tester.tap(find.text(tester.l10n.managePageUpdateAllLabel));
     verify(mockUpdatesModel.updateAll()).called(1);

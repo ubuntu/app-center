@@ -37,7 +37,8 @@ void main() {
     );
     expect(
       find.text(
-          'This is a minimal test package for App Center integration tests.'),
+        'This is a minimal test package for App Center integration tests.',
+      ),
       findsOneWidget,
     );
     expect(

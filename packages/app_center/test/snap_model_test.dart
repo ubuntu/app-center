@@ -127,10 +127,12 @@ void main() {
       await subscription.read();
       await container.read(snapModelProvider('testsnap').notifier).install();
 
-      verify(service.install(
-        'testsnap',
-        channel: 'latest/stable',
-      )).called(1);
+      verify(
+        service.install(
+          'testsnap',
+          channel: 'latest/stable',
+        ),
+      ).called(1);
     });
 
     test('non-default channel', () async {
@@ -142,11 +144,13 @@ void main() {
           .selectChannel('latest/edge');
       await container.read(snapModelProvider('testsnap').notifier).install();
 
-      verify(service.install(
-        'testsnap',
-        channel: 'latest/edge',
-        classic: true,
-      )).called(1);
+      verify(
+        service.install(
+          'testsnap',
+          channel: 'latest/edge',
+          classic: true,
+        ),
+      ).called(1);
     });
   });
 
@@ -163,11 +167,13 @@ void main() {
           .selectChannel('latest/edge');
       await container.read(snapModelProvider('testsnap').notifier).refresh();
 
-      verify(service.refresh(
-        'testsnap',
-        channel: 'latest/edge',
-        classic: true,
-      )).called(1);
+      verify(
+        service.refresh(
+          'testsnap',
+          channel: 'latest/edge',
+          classic: true,
+        ),
+      ).called(1);
     });
 
     test('switch channel', () async {
@@ -185,10 +191,12 @@ void main() {
           .selectChannel('latest/stable');
       await container.read(snapModelProvider('testsnap').notifier).refresh();
 
-      verify(service.refresh(
-        'testsnap',
-        channel: 'latest/stable',
-      )).called(1);
+      verify(
+        service.refresh(
+          'testsnap',
+          channel: 'latest/stable',
+        ),
+      ).called(1);
     });
   });
 
@@ -214,11 +222,13 @@ void main() {
       ],
     );
 
-    when(service.install(
-      any,
-      channel: anyNamed('channel'),
-      classic: anyNamed('classic'),
-    )).thenAnswer((_) async => 'changeId');
+    when(
+      service.install(
+        any,
+        channel: anyNamed('channel'),
+        classic: anyNamed('classic'),
+      ),
+    ).thenAnswer((_) async => 'changeId');
 
     when(service.watchChange('changeId')).thenAnswer(
       (_) => Stream.fromIterable([
@@ -245,11 +255,13 @@ void main() {
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
-    when(service.install(
-      any,
-      channel: anyNamed('channel'),
-      classic: anyNamed('classic'),
-    )).thenThrow(SnapdException(message: 'error message', kind: 'error kind'));
+    when(
+      service.install(
+        any,
+        channel: anyNamed('channel'),
+        classic: anyNamed('classic'),
+      ),
+    ).thenThrow(SnapdException(message: 'error message', kind: 'error kind'));
 
     await container.read(snapModelProvider('testsnap').future);
     await expectLater(
@@ -267,10 +279,13 @@ void main() {
       ),
       (
         name: '60% completed',
-        change: SnapdChange(spawnTime: DateTime(1970), tasks: [
-          SnapdTask(progress: const SnapdTaskProgress(done: 2, total: 3)),
-          SnapdTask(progress: const SnapdTaskProgress(done: 4, total: 7)),
-        ]),
+        change: SnapdChange(
+          spawnTime: DateTime(1970),
+          tasks: [
+            SnapdTask(progress: const SnapdTaskProgress(done: 2, total: 3)),
+            SnapdTask(progress: const SnapdTaskProgress(done: 4, total: 7)),
+          ],
+        ),
         expectedProgress: 0.6,
       ),
     ];

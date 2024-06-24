@@ -63,7 +63,7 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.4.3
   riverpod_generator: ^2.4.0
-  ubuntu_lints: ^0.3.1
+  ubuntu_lints: ^0.4.0
 
 flutter:
   uses-material-design: true

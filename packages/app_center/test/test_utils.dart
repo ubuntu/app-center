@@ -37,7 +37,8 @@ extension WidgetTesterX on WidgetTester {
         (const Size(800, 600) + const Offset(54, 54)) * view.devicePixelRatio;
     final ubuntuRegular = File('test/fonts/Ubuntu-Regular.ttf');
     final content = ByteData.view(
-        Uint8List.fromList(ubuntuRegular.readAsBytesSync()).buffer);
+      Uint8List.fromList(ubuntuRegular.readAsBytesSync()).buffer,
+    );
     final fontLoader = FontLoader('UbuntuRegular')
       ..addFont(Future.value(content));
     await fontLoader.load();
@@ -75,7 +76,8 @@ ProviderContainer createContainer({
 }
 
 Stream<List<Snap>> Function(SnapSearchParameters) createMockSnapSearchProvider(
-    Map<SnapSearchParameters, List<Snap>> searchResults) {
+  Map<SnapSearchParameters, List<Snap>> searchResults,
+) {
   return (searchParameters) => Stream.value(
         searchResults.entries
                 .firstWhereOrNull((e) => e.key == searchParameters)
@@ -85,7 +87,8 @@ Stream<List<Snap>> Function(SnapSearchParameters) createMockSnapSearchProvider(
 }
 
 Stream<List<AppstreamComponent>> Function(String) createMockDebSearchProvider(
-    Map<String, List<AppstreamComponent>> searchResults) {
+  Map<String, List<AppstreamComponent>> searchResults,
+) {
   return (query) => Stream.value(
         searchResults.entries.firstWhereOrNull((e) => e.key == query)?.value ??
             [],
@@ -162,21 +165,27 @@ MockSnapdService registerMockSnapdService({
   if (localSnap != null) {
     when(service.getSnap(any)).thenAnswer((_) async => localSnap);
   } else {
-    when(service.getSnap(any)).thenThrow(SnapdException(
-      message: 'snap not installed',
-      kind: 'snap-not-found',
-    ));
+    when(service.getSnap(any)).thenThrow(
+      SnapdException(
+        message: 'snap not installed',
+        kind: 'snap-not-found',
+      ),
+    );
   }
-  when(service.install(
-    any,
-    channel: anyNamed('channel'),
-    classic: anyNamed('classic'),
-  )).thenAnswer((_) async => 'id');
-  when(service.refresh(
-    any,
-    channel: anyNamed('channel'),
-    classic: anyNamed('classic'),
-  )).thenAnswer((_) async => 'id');
+  when(
+    service.install(
+      any,
+      channel: anyNamed('channel'),
+      classic: anyNamed('classic'),
+    ),
+  ).thenAnswer((_) async => 'id');
+  when(
+    service.refresh(
+      any,
+      channel: anyNamed('channel'),
+      classic: anyNamed('classic'),
+    ),
+  ).thenAnswer((_) async => 'id');
   when(service.refreshMany(any)).thenAnswer((_) async => 'id');
   when(service.remove(any)).thenAnswer((_) async => 'id');
   when(service.find(filter: SnapFindFilter.refresh))
@@ -193,12 +202,20 @@ MockSnapdService registerMockSnapdService({
   );
   when(service.abortChange(any))
       .thenAnswer((_) async => SnapdChange(spawnTime: DateTime.now()));
-  when(service.installMany(
-    any,
-  )).thenAnswer((_) async => 'id');
-  when(service.getStoreSnaps(any)).thenAnswer((_) => Stream.value(
-      List<Snap>.generate(storeSnapsCount!, (index) => storeSnap!,
-          growable: false)));
+  when(
+    service.installMany(
+      any,
+    ),
+  ).thenAnswer((_) async => 'id');
+  when(service.getStoreSnaps(any)).thenAnswer(
+    (_) => Stream.value(
+      List<Snap>.generate(
+        storeSnapsCount!,
+        (index) => storeSnap!,
+        growable: false,
+      ),
+    ),
+  );
   registerMockService<SnapdService>(service);
   return service;
 }
@@ -212,8 +229,10 @@ MockUpdatesModel createMockUpdatesModel({
   final model = MockUpdatesModel();
   when(model.refreshableSnapNames)
       .thenReturn(refreshableSnapNames ?? const Iterable.empty());
-  when(model.hasUpdate(any)).thenAnswer((i) =>
-      refreshableSnapNames?.contains(i.positionalArguments.single) ?? false);
+  when(model.hasUpdate(any)).thenAnswer(
+    (i) =>
+        refreshableSnapNames?.contains(i.positionalArguments.single) ?? false,
+  );
   when(model.state).thenReturn(AsyncValue.data(() {}()));
   when(model.activeChangeId).thenReturn(isBusy ? 'changeId' : null);
   when(model.errorStream)
@@ -231,11 +250,13 @@ MockGtkApplicationNotifier createMockGtkApplicationNotifier() {
 /// Assumes that only a single `PackageKitTransaction` is used in a test. Needs
 /// to be generalized in order to test methods that use multiple transactions.
 @GenerateMocks([PackageKitClient])
-MockPackageKitClient createMockPackageKitClient(
-    {PackageKitTransaction? transaction}) {
+MockPackageKitClient createMockPackageKitClient({
+  PackageKitTransaction? transaction,
+}) {
   final client = MockPackageKitClient();
   when(client.createTransaction()).thenAnswer(
-      (_) async => transaction ?? createMockPackageKitTransaction());
+    (_) async => transaction ?? createMockPackageKitTransaction(),
+  );
   return client;
 }
 
@@ -318,13 +339,15 @@ MockRatingsClient createMockRatingsClient({
 }) {
   final client = MockRatingsClient();
   when(client.authenticate(any)).thenAnswer((_) async => token ?? '');
-  when(client.getRating(any, any)).thenAnswer((_) async =>
-      rating ??
-      const Rating(
-        snapId: '',
-        totalVotes: 0,
-        ratingsBand: RatingsBand.insufficientVotes,
-      ));
+  when(client.getRating(any, any)).thenAnswer(
+    (_) async =>
+        rating ??
+        const Rating(
+          snapId: '',
+          totalVotes: 0,
+          ratingsBand: RatingsBand.insufficientVotes,
+        ),
+  );
   when(client.listMyVotes(any, any)).thenAnswer((_) async => myVotes ?? []);
   when(client.getSnapVotes(any, any)).thenAnswer((_) async => snapVotes ?? []);
   return client;

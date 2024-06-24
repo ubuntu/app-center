@@ -20,19 +20,25 @@ class GamesPage extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     return ResponsiveLayoutScrollView(
       slivers: [
-        SliverList.list(children: [
-          const SizedBox(height: kPagePadding),
-          _Title(text: l10n.gamesPageTitle),
-          const SizedBox(height: kPagePadding),
-        ]),
-        SliverList.list(children: const [
-          FeaturedCarousel(),
-        ]),
-        SliverList.list(children: [
-          const SizedBox(height: 56),
-          _Title(text: l10n.gamesPageTop),
-          const SizedBox(height: kPagePadding),
-        ]),
+        SliverList.list(
+          children: [
+            const SizedBox(height: kPagePadding),
+            _Title(text: l10n.gamesPageTitle),
+            const SizedBox(height: kPagePadding),
+          ],
+        ),
+        SliverList.list(
+          children: const [
+            FeaturedCarousel(),
+          ],
+        ),
+        SliverList.list(
+          children: [
+            const SizedBox(height: 56),
+            _Title(text: l10n.gamesPageTop),
+            const SizedBox(height: kPagePadding),
+          ],
+        ),
         const CategorySnapList(
           category: SnapCategoryEnum.games,
         ),
@@ -65,11 +71,13 @@ class GamesPage extends ConsumerWidget {
             ),
           ],
         ),
-        SliverList.list(children: [
-          const SizedBox(height: 56),
-          _Title(text: l10n.gamesPageFeatured),
-          const SizedBox(height: kPagePadding),
-        ]),
+        SliverList.list(
+          children: [
+            const SizedBox(height: 56),
+            _Title(text: l10n.gamesPageFeatured),
+            const SizedBox(height: kPagePadding),
+          ],
+        ),
         const CategorySnapList(
           category: SnapCategoryEnum.games,
           numberOfSnaps: 4,
@@ -129,7 +137,7 @@ class GamesPage extends ConsumerWidget {
                     maxSize: _CategoryBannerProperties.maxSize,
                     iconSize: _CategoryBannerProperties.iconSize,
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(height: 12),
@@ -155,21 +163,24 @@ class GamesPage extends ConsumerWidget {
                     maxSize: _CategoryBannerProperties.maxSize,
                     iconSize: _CategoryBannerProperties.iconSize,
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(
               height: kPagePadding,
-            )
+            ),
           ],
         ),
-        SliverList.list(children: [
-          ToolsBanner(
+        SliverList.list(
+          children: [
+            ToolsBanner(
               summary: l10n.externalResources,
               buttonText: l10n.externalResourcesButtonLabel,
-              bannerApps: tools.where((tool) => tool.iconUrl != '').sample(3)),
-          const SizedBox(height: kPagePadding),
-        ]),
+              bannerApps: tools.where((tool) => tool.iconUrl != '').sample(3),
+            ),
+            const SizedBox(height: kPagePadding),
+          ],
+        ),
       ],
     );
   }

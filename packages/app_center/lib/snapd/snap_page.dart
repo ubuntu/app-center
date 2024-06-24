@@ -111,14 +111,16 @@ class _SnapView extends StatelessWidget {
               '<a href="${snapData.snap.website}">${l10n.snapPageDeveloperWebsiteLabel}</a>',
             if ((snapData.snap.contact?.isNotEmpty ?? false) &&
                 snapData.snap.publisher != null)
-              '<a href="${snapData.snap.contact}">${l10n.snapPageContactPublisherLabel(snapData.snap.publisher!.displayName)}</a>'
+              '<a href="${snapData.snap.contact}">${l10n.snapPageContactPublisherLabel(snapData.snap.publisher!.displayName)}</a>',
           ]
-              .map((link) => Html(
-                    data: link,
-                    style: {'body': Style(margin: Margins.zero)},
-                    onLinkTap: (url, attributes, element) =>
-                        launchUrlString(url!),
-                  ))
+              .map(
+                (link) => Html(
+                  data: link,
+                  style: {'body': Style(margin: Margins.zero)},
+                  onLinkTap: (url, attributes, element) =>
+                      launchUrlString(url!),
+                ),
+              )
               .toList(),
         ),
       ),
@@ -163,7 +165,7 @@ class _SnapView extends StatelessWidget {
                         ],
                         Flexible(
                           child: _SnapActionButtons(snapData: snapData),
-                        )
+                        ),
                       ],
                     ),
                     const SizedBox(height: 32),
@@ -329,7 +331,7 @@ class _SnapActionButtons extends ConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                      ]
+                      ],
                     ],
                   );
                 },
@@ -393,7 +395,7 @@ class _SnapActionButtons extends ConsumerWidget {
           _RatingsActionButtons(
             snap: snapData.snap,
           ),
-        ]
+        ],
       ].whereNotNull().toList(),
     );
   }
@@ -429,7 +431,9 @@ class _RatingsActionButtons extends ConsumerWidget {
                       bottom: BorderSide(color: Theme.of(context).dividerColor),
                       left: BorderSide(color: Theme.of(context).dividerColor),
                       right: BorderSide(
-                          color: Theme.of(context).dividerColor, width: 0.5),
+                        color: Theme.of(context).dividerColor,
+                        width: 0.5,
+                      ),
                     ),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(6),
@@ -461,7 +465,9 @@ class _RatingsActionButtons extends ConsumerWidget {
                       top: BorderSide(color: Theme.of(context).dividerColor),
                       bottom: BorderSide(color: Theme.of(context).dividerColor),
                       left: BorderSide(
-                          color: Theme.of(context).dividerColor, width: 0.5),
+                        color: Theme.of(context).dividerColor,
+                        width: 0.5,
+                      ),
                       right: BorderSide(color: Theme.of(context).dividerColor),
                     ),
                     borderRadius: const BorderRadius.only(

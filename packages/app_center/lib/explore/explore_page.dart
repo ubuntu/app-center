@@ -23,55 +23,67 @@ class ExplorePage extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     return ResponsiveLayoutScrollView(
       slivers: [
-        SliverList.list(children: const [
-          SizedBox(height: kPagePadding),
-          CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
-          SizedBox(height: kPagePadding),
-        ]),
+        SliverList.list(
+          children: const [
+            SizedBox(height: kPagePadding),
+            CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
+            SizedBox(height: kPagePadding),
+          ],
+        ),
         const CategorySnapList(
           category: SnapCategoryEnum.ubuntuDesktop,
           hideBannerSnaps: true,
         ),
-        SliverList.list(children: const [
-          SizedBox(height: 56),
-          CategoryBanner(category: SnapCategoryEnum.featured),
-          SizedBox(height: kPagePadding),
-        ]),
+        SliverList.list(
+          children: const [
+            SizedBox(height: 56),
+            CategoryBanner(category: SnapCategoryEnum.featured),
+            SizedBox(height: kPagePadding),
+          ],
+        ),
         const CategorySnapList(
           category: SnapCategoryEnum.featured,
           hideBannerSnaps: true,
         ),
-        SliverList.list(children: [
-          const SizedBox(height: 56),
-          _Title(text: SnapCategoryEnum.games.slogan(l10n)),
-          const SizedBox(height: kPagePadding),
-        ]),
+        SliverList.list(
+          children: [
+            const SizedBox(height: 56),
+            _Title(text: SnapCategoryEnum.games.slogan(l10n)),
+            const SizedBox(height: kPagePadding),
+          ],
+        ),
         const CategorySnapList(
           category: SnapCategoryEnum.games,
           numberOfSnaps: 4,
           showScreenshots: true,
           onlyFeatured: true,
         ),
-        SliverList.list(children: [
-          const SizedBox(height: 56),
-          _Title(text: l10n.explorePageCategoriesLabel),
-          const SizedBox(height: kPagePadding),
-        ]),
+        SliverList.list(
+          children: [
+            const SizedBox(height: 56),
+            _Title(text: l10n.explorePageCategoriesLabel),
+            const SizedBox(height: kPagePadding),
+          ],
+        ),
         const _CategoryList(),
-        SliverList.list(children: const [
-          SizedBox(height: 56),
-          CategoryBanner(category: SnapCategoryEnum.development),
-          SizedBox(height: kPagePadding),
-        ]),
+        SliverList.list(
+          children: const [
+            SizedBox(height: 56),
+            CategoryBanner(category: SnapCategoryEnum.development),
+            SizedBox(height: kPagePadding),
+          ],
+        ),
         const CategorySnapList(
           category: SnapCategoryEnum.development,
           hideBannerSnaps: true,
         ),
-        SliverList.list(children: const [
-          SizedBox(height: 56),
-          CategoryBanner(category: SnapCategoryEnum.productivity),
-          SizedBox(height: kPagePadding),
-        ]),
+        SliverList.list(
+          children: const [
+            SizedBox(height: 56),
+            CategoryBanner(category: SnapCategoryEnum.productivity),
+            SizedBox(height: kPagePadding),
+          ],
+        ),
         const CategorySnapList(
           category: SnapCategoryEnum.productivity,
           hideBannerSnaps: true,
@@ -109,18 +121,22 @@ class _CategoryList extends StatelessWidget {
       crossAxisCount: ResponsiveLayout.of(context).snapInfoColumnCount,
       children: SnapCategoryEnum.values
           .whereNot((category) => category.hidden)
-          .map((category) => InkWell(
-                onTap: () => StoreNavigator.pushSearch(context,
-                    category: category.categoryName),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(category.icon(true)),
-                    const SizedBox(width: 8),
-                    Text(category.localize(AppLocalizations.of(context)))
-                  ],
-                ),
-              ))
+          .map(
+            (category) => InkWell(
+              onTap: () => StoreNavigator.pushSearch(
+                context,
+                category: category.categoryName,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(category.icon(true)),
+                  const SizedBox(width: 8),
+                  Text(category.localize(AppLocalizations.of(context))),
+                ],
+              ),
+            ),
+          )
           .toList(),
     );
   }

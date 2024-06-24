@@ -34,7 +34,7 @@ final autoCompleteProvider = FutureProvider<AutoCompleteOptions>((ref) async {
   if ((query?.isNotEmpty ?? true) && !completer.isCompleted) {
     final results = await Future.wait([
       ref.watch(snapSearchProvider(SnapSearchParameters(query: query)).future),
-      ref.watch(appstreamSearchProvider(query ?? '').future)
+      ref.watch(appstreamSearchProvider(query ?? '').future),
     ]);
     final snaps = results[0] as List<Snap>;
     final debs = results[1] as List<AppstreamComponent>;

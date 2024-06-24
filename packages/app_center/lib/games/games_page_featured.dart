@@ -27,9 +27,12 @@ class _FeaturedCarouselState extends ConsumerState<FeaturedCarousel> {
   @override
   Widget build(BuildContext context) {
     snaps = ref
-            .watch(snapSearchProvider(
-                const SnapSearchParameters(category: SnapCategoryEnum.games)))
-            .whenOrNull(data: (data) => data)
+            .watch(
+              snapSearchProvider(
+                const SnapSearchParameters(category: SnapCategoryEnum.games),
+              ),
+            )
+            .valueOrNull
             ?.take(widget.snapAmount) ??
         [];
 
@@ -98,7 +101,7 @@ class _CarouselCard extends StatelessWidget {
                   end: Alignment.topCenter,
                   colors: [
                     Colors.black.withOpacity(1.0),
-                    Colors.black.withOpacity(0.2)
+                    Colors.black.withOpacity(0.2),
                   ],
                 ),
               ),
@@ -106,11 +109,13 @@ class _CarouselCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(snap.titleOrName,
-                      style: Theme.of(context)
-                          .textTheme
-                          .displayMedium!
-                          .copyWith(color: _kForegroundColorPrimary)),
+                  Text(
+                    snap.titleOrName,
+                    style: Theme.of(context)
+                        .textTheme
+                        .displayMedium!
+                        .copyWith(color: _kForegroundColorPrimary),
+                  ),
                   Text(
                     snap.summary,
                     style: Theme.of(context)
@@ -119,10 +124,10 @@ class _CarouselCard extends StatelessWidget {
                         .copyWith(color: _kForegroundColorSecondary),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

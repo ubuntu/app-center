@@ -12,18 +12,22 @@ final contributorsProvider = FutureProvider.autoDispose
   final contributors = await getService<GitHub>()
       .repositories
       .listContributors(RepositorySlug.full(repo))
-      .where((c) =>
-          c.type == 'User' &&
-          !designers.contains(c.login) &&
-          !exclude.contains(c.login))
+      .where(
+        (c) =>
+            c.type == 'User' &&
+            !designers.contains(c.login) &&
+            !exclude.contains(c.login),
+      )
       .toList();
   return [
-    ...designers.map((d) => Contributor(
-          login: d,
-          htmlUrl: 'https://github.com/$d',
-          avatarUrl: 'https://avatars.githubusercontent.com/$d',
-        )),
-    ...contributors
+    ...designers.map(
+      (d) => Contributor(
+        login: d,
+        htmlUrl: 'https://github.com/$d',
+        avatarUrl: 'https://avatars.githubusercontent.com/$d',
+      ),
+    ),
+    ...contributors,
   ].sortedBy((c) => c.login?.toLowerCase() ?? '');
 });
 

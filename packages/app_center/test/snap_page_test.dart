@@ -65,7 +65,7 @@ final storeSnap = Snap(
     ),
   },
   media: const [
-    SnapMedia(type: 'screenshot', url: 'http://example.com/example.jpg')
+    SnapMedia(type: 'screenshot', url: 'http://example.com/example.jpg'),
   ],
 );
 
@@ -145,14 +145,22 @@ void main() {
     verify(snapLauncher.open()).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_up_outlined));
-    verify(ratingsService.vote(argThat(
-      isA<Vote>().having((v) => v.voteUp, 'voteUp', true),
-    ))).called(1);
+    verify(
+      ratingsService.vote(
+        argThat(
+          isA<Vote>().having((v) => v.voteUp, 'voteUp', true),
+        ),
+      ),
+    ).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_down_outlined));
-    verify(ratingsService.vote(argThat(
-      isA<Vote>().having((v) => v.voteUp, 'voteUp', false),
-    ))).called(1);
+    verify(
+      ratingsService.vote(
+        argThat(
+          isA<Vote>().having((v) => v.voteUp, 'voteUp', false),
+        ),
+      ),
+    ).called(1);
 
     final viewMoreButton = find.byIcon(YaruIcons.view_more_horizontal);
     expect(viewMoreButton, findsOneWidget);
@@ -167,8 +175,10 @@ void main() {
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
     final l10n = tester.l10n;
-    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
-        findsOneWidget);
+    expect(
+      find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
+      findsOneWidget,
+    );
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
@@ -206,14 +216,22 @@ void main() {
     verify(snapLauncher.open()).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_up_outlined));
-    verify(ratingsService.vote(argThat(
-      isA<Vote>().having((v) => v.voteUp, 'voteUp', true),
-    ))).called(1);
+    verify(
+      ratingsService.vote(
+        argThat(
+          isA<Vote>().having((v) => v.voteUp, 'voteUp', true),
+        ),
+      ),
+    ).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_down_outlined));
-    verify(ratingsService.vote(argThat(
-      isA<Vote>().having((v) => v.voteUp, 'voteUp', false),
-    ))).called(1);
+    verify(
+      ratingsService.vote(
+        argThat(
+          isA<Vote>().having((v) => v.voteUp, 'voteUp', false),
+        ),
+      ),
+    ).called(1);
 
     final viewMoreButton = find.byIcon(YaruIcons.view_more_horizontal);
     expect(viewMoreButton, findsOneWidget);
@@ -228,8 +246,10 @@ void main() {
     verify(service.remove(any)).called(1);
 
     final l10n = tester.l10n;
-    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
-        findsOneWidget);
+    expect(
+      find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
+      findsOneWidget,
+    );
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
@@ -293,14 +313,22 @@ void main() {
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
 
     await tester.tap(find.byIcon(Icons.thumb_up_outlined));
-    verify(ratingsService.vote(argThat(
-      isA<Vote>().having((v) => v.voteUp, 'voteUp', true),
-    ))).called(1);
+    verify(
+      ratingsService.vote(
+        argThat(
+          isA<Vote>().having((v) => v.voteUp, 'voteUp', true),
+        ),
+      ),
+    ).called(1);
 
     await tester.tap(find.byIcon(Icons.thumb_down_outlined));
-    verify(ratingsService.vote(argThat(
-      isA<Vote>().having((v) => v.voteUp, 'voteUp', false),
-    ))).called(1);
+    verify(
+      ratingsService.vote(
+        argThat(
+          isA<Vote>().having((v) => v.voteUp, 'voteUp', false),
+        ),
+      ),
+    ).called(1);
 
     await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
     verify(snapLauncher.open()).called(1);
@@ -319,8 +347,10 @@ void main() {
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);
     final l10n = tester.l10n;
-    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
-        findsOneWidget);
+    expect(
+      find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
+      findsOneWidget,
+    );
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
@@ -352,8 +382,10 @@ void main() {
     expect(find.byIcon(Icons.thumb_down_outlined), findsNothing);
     expect(find.byType(YaruCircularProgressIndicator), findsOneWidget);
     final l10n = tester.l10n;
-    expect(find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
-        findsNothing);
+    expect(
+      find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
+      findsNothing,
+    );
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsNothing);
   });
 

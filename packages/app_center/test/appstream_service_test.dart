@@ -21,7 +21,7 @@ void main() {
     description: {
       'C': '''0 A.D. is a real-time strategy (RTS) game of ancient warfare.
           Each civilization is complete with substantially unique artwork,
-          technologies and civilization bonuses.'''
+          technologies and civilization bonuses.''',
     },
     keywords: {
       'C': [
@@ -30,7 +30,7 @@ void main() {
         'Economic Simulation Game',
         'History',
         'Warfare',
-      ]
+      ],
     },
     provides: [AppstreamProvidesMediatype('application/x-pyromod+zip')],
   );

@@ -48,7 +48,7 @@ class _StoreAppState extends ConsumerState<StoreApp> {
         LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF): () {
           searchFocus.requestFocus();
           searchFocus.nextFocus();
-        }
+        },
       },
       child: YaruTheme(
         builder: (context, yaru, child) => MaterialApp(

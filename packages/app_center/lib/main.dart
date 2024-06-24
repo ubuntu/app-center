@@ -65,8 +65,10 @@ Future<void> main(List<String> args) async {
   registerServiceInstance(appstream);
 
   registerService(PackageKitClient.new);
-  registerService(PackageKitService.new,
-      dispose: (service) => service.dispose());
+  registerService(
+    PackageKitService.new,
+    dispose: (service) => service.dispose(),
+  );
   registerService(
     ErrorStreamController.new,
     dispose: (controller) => controller.close(),

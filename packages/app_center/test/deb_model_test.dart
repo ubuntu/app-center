@@ -54,10 +54,12 @@ void main() {
     await model.install();
 
     verify(
-      packageKit.install(const PackageKitPackageId(
-        name: 'testdeb',
-        version: '1.0',
-      )),
+      packageKit.install(
+        const PackageKitPackageId(
+          name: 'testdeb',
+          version: '1.0',
+        ),
+      ),
     ).called(1);
   });
   test('remove', () async {
@@ -76,10 +78,12 @@ void main() {
     await model.remove();
 
     verify(
-      packageKit.remove(const PackageKitPackageId(
-        name: 'testdeb',
-        version: '1.0',
-      )),
+      packageKit.remove(
+        const PackageKitPackageId(
+          name: 'testdeb',
+          version: '1.0',
+        ),
+      ),
     ).called(1);
   });
 

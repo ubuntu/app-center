@@ -21,7 +21,7 @@ void main() {
     const SnapSearchParameters(query: 'testsn'): const [
       Snap(name: 'testsnap', title: 'Test Snap'),
       Snap(name: 'testsnap2', title: 'Another Test Snap'),
-    ]
+    ],
   });
 
   final mockDebSearchProvider = createMockDebSearchProvider({
@@ -32,8 +32,8 @@ void main() {
         package: 'testsn',
         name: {'C': 'Test Sn..I mean deb'},
         summary: {'C': 'The infamous Test snap as a debian package!'},
-      )
-    ]
+      ),
+    ],
   });
 
   group('autocomplete options', () {
@@ -41,10 +41,12 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            snapSearchProvider.overrideWith((ref, searchParameters) =>
-                mockSnapSearchProvider(searchParameters)),
+            snapSearchProvider.overrideWith(
+              (ref, searchParameters) =>
+                  mockSnapSearchProvider(searchParameters),
+            ),
             appstreamSearchProvider
-                .overrideWith((ref, query) => Stream.value([]))
+                .overrideWith((ref, query) => Stream.value([])),
           ],
           child: SearchField(
             onSearch: (_) {},
@@ -80,10 +82,12 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            snapSearchProvider.overrideWith((ref, searchParameters) =>
-                mockSnapSearchProvider(searchParameters)),
+            snapSearchProvider.overrideWith(
+              (ref, searchParameters) =>
+                  mockSnapSearchProvider(searchParameters),
+            ),
             appstreamSearchProvider
-                .overrideWith((ref, query) => mockDebSearchProvider(query))
+                .overrideWith((ref, query) => mockDebSearchProvider(query)),
           ],
           child: SearchField(
             onSearch: (_) {},
@@ -127,10 +131,12 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            snapSearchProvider.overrideWith((ref, searchParameters) =>
-                mockSnapSearchProvider(searchParameters)),
+            snapSearchProvider.overrideWith(
+              (ref, searchParameters) =>
+                  mockSnapSearchProvider(searchParameters),
+            ),
             appstreamSearchProvider
-                .overrideWith((ref, query) => Stream.value([]))
+                .overrideWith((ref, query) => Stream.value([])),
           ],
           child: SearchField(
             onSearch: mockSearchCallback.call,
@@ -158,10 +164,12 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            snapSearchProvider.overrideWith((ref, searchParameters) =>
-                mockSnapSearchProvider(searchParameters)),
+            snapSearchProvider.overrideWith(
+              (ref, searchParameters) =>
+                  mockSnapSearchProvider(searchParameters),
+            ),
             appstreamSearchProvider
-                .overrideWith((ref, query) => Stream.value([]))
+                .overrideWith((ref, query) => Stream.value([])),
           ],
           child: SearchField(
             onSearch: mockSearchCallback.call,
@@ -190,10 +198,12 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            snapSearchProvider.overrideWith((ref, searchParameters) =>
-                mockSnapSearchProvider(searchParameters)),
+            snapSearchProvider.overrideWith(
+              (ref, searchParameters) =>
+                  mockSnapSearchProvider(searchParameters),
+            ),
             appstreamSearchProvider
-                .overrideWith((ref, query) => Stream.value([]))
+                .overrideWith((ref, query) => Stream.value([])),
           ],
           child: SearchField(
             onSearch: mockSearchCallback.call,

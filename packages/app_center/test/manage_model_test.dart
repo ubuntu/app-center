@@ -13,8 +13,10 @@ void main() {
     final model = ManageModel(snapd: snapd, updatesModel: updatesModel);
     await model.init();
 
-    expect(model.nonRefreshableSnaps,
-        equals(const [Snap(name: 'firefox'), Snap(name: 'thunderbird')]));
+    expect(
+      model.nonRefreshableSnaps,
+      equals(const [Snap(name: 'firefox'), Snap(name: 'thunderbird')]),
+    );
     expect(model.refreshableSnaps, isEmpty);
   });
   test('update available', () async {
@@ -27,7 +29,9 @@ void main() {
     await model.init();
 
     expect(
-        model.nonRefreshableSnaps, equals(const [Snap(name: 'thunderbird')]));
+      model.nonRefreshableSnaps,
+      equals(const [Snap(name: 'thunderbird')]),
+    );
     expect(model.refreshableSnaps, equals(const [Snap(name: 'firefox')]));
   });
 }

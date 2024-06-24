@@ -25,7 +25,8 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            updatesModelProvider.overrideWith((ref) => createMockUpdatesModel())
+            updatesModelProvider
+                .overrideWith((ref) => createMockUpdatesModel()),
           ],
           child: const StoreApp(),
         ),
@@ -47,8 +48,11 @@ void main() {
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
-            updatesModelProvider.overrideWith((ref) => createMockUpdatesModel(
-                refreshableSnapNames: ['firefox', 'thunderbird']))
+            updatesModelProvider.overrideWith(
+              (ref) => createMockUpdatesModel(
+                refreshableSnapNames: ['firefox', 'thunderbird'],
+              ),
+            ),
           ],
           child: const StoreApp(),
         ),

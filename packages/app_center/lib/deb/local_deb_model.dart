@@ -40,14 +40,17 @@ class LocalDebModel extends _$LocalDebModel {
     final packageKit = getService<PackageKitService>();
     final activeTransactionId = await packageKit.installLocal(path);
     state = AsyncValue.data(
-        state.value!.copyWith(activeTransactionId: activeTransactionId));
+      state.value!.copyWith(activeTransactionId: activeTransactionId),
+    );
     await packageKit.waitTransaction(activeTransactionId);
     ref.invalidateSelf();
   }
 
   Future<void> cancel() async {
-    assert(state.value?.activeTransactionId != null,
-        'cancel() called without active transaction');
+    assert(
+      state.value?.activeTransactionId != null,
+      'cancel() called without active transaction',
+    );
     final packageKit = getService<PackageKitService>();
     await packageKit.cancelTransaction(state.value!.activeTransactionId!);
     state = AsyncValue.data(state.value!.copyWith(activeTransactionId: null));

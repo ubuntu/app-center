@@ -91,13 +91,14 @@ class _DebView extends StatelessWidget {
                     AppstreamUrlType.homepage,
                   ].contains(url.type),
                 )
-                .map((url) => Html(
-                      data:
-                          '<a href="${url.url}">${url.type.localize(l10n)}</a>',
-                      style: {'body': Style(margin: Margins.zero)},
-                      onLinkTap: (url, attributes, element) =>
-                          launchUrlString(url!),
-                    ))
+                .map(
+                  (url) => Html(
+                    data: '<a href="${url.url}">${url.type.localize(l10n)}</a>',
+                    style: {'body': Style(margin: Margins.zero)},
+                    onLinkTap: (url, attributes, element) =>
+                        launchUrlString(url!),
+                  ),
+                )
                 .toList(),
           ),
         ),
@@ -169,7 +170,7 @@ class _DebActionButtons extends ConsumerWidget {
                 builder: (context, ref, child) {
                   final transaction = ref
                       .watch(transactionProvider(debModel.activeTransactionId!))
-                      .whenOrNull(data: (data) => data);
+                      .valueOrNull;
                   return Center(
                     child: SizedBox.square(
                       dimension: kCircularProgressIndicatorHeight,
@@ -198,7 +199,7 @@ class _DebActionButtons extends ConsumerWidget {
           primaryActionButton
         else
           Text(l10n.debPageErrorNoPackageInfo),
-        if (debModel.activeTransactionId != null) cancelButton
+        if (debModel.activeTransactionId != null) cancelButton,
       ].whereNotNull().toList(),
     );
   }
@@ -245,7 +246,8 @@ class _Header extends StatelessWidget {
                 icon: const Icon(YaruIcons.share),
                 onPressed: () {
                   Clipboard.setData(
-                      ClipboardData(text: debModel.component.website!));
+                    ClipboardData(text: debModel.component.website!),
+                  );
                 },
               ),
           ],
