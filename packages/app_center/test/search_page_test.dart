@@ -1,17 +1,18 @@
-import 'package:app_center/ratings.dart';
-import 'package:app_center/search.dart';
-import 'package:app_center/snapd.dart';
-import 'package:app_center/src/snapd/multisnap_model.dart';
-import 'package:app_center/widgets.dart';
+import 'package:app_center/search/search.dart';
+import 'package:app_center/snapd/multisnap_model.dart';
+import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/widgets/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
 import 'test_utils.dart';
+import 'test_utils.mocks.dart';
 
 const snapId = 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD';
 const snapRating = Rating(
@@ -21,10 +22,9 @@ const snapRating = Rating(
 );
 
 void main() {
-  final ratingsModel = createMockRatingsModel(
-    snapId: snapId,
-    snapRating: snapRating,
-  );
+  setUp(() => registerMockRatingsService(rating: snapRating));
+  tearDown(resetAllServices);
+
   final mockSearchProvider = createMockSnapSearchProvider({
     const SnapSearchParameters(query: 'testsn'): const [
       Snap(name: 'testsnap', title: 'Test Snap', downloadSize: 3),
@@ -45,14 +45,14 @@ void main() {
       Snap(name: 'image-processor', title: 'Image Processor'),
     ],
   });
-  final multiSnapModel = createMockMultiSnapModel();
+  final multiSnapModel = MockMultiSnapModel();
+
   testWidgets('query', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         ],
         child: const SearchPage(query: 'testsn'),
       ),
@@ -63,7 +63,9 @@ void main() {
     expect(find.text(tester.l10n.searchPageTitle('testsn')), findsOneWidget);
     expect(
       find.widgetWithText(
-          MenuButtonBuilder<SnapCategoryEnum?>, tester.l10n.snapCategoryAll),
+        MenuButtonBuilder<SnapCategoryEnum?>,
+        tester.l10n.snapCategoryAll,
+      ),
       findsOneWidget,
     );
     expect(find.text('Test Snap'), findsOneWidget);
@@ -77,7 +79,6 @@ void main() {
         overrides: [
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         ],
         child: const SearchPage(
           query: 'testsn',
@@ -90,8 +91,10 @@ void main() {
 
     expect(find.text(tester.l10n.searchPageTitle('testsn')), findsOneWidget);
     expect(
-      find.widgetWithText(MenuButtonBuilder<SnapCategoryEnum?>,
-          tester.l10n.snapCategoryDevelopment),
+      find.widgetWithText(
+        MenuButtonBuilder<SnapCategoryEnum?>,
+        tester.l10n.snapCategoryDevelopment,
+      ),
       findsOneWidget,
     );
     expect(find.text('Test Snap'), findsNothing);
@@ -105,7 +108,6 @@ void main() {
         overrides: [
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
         ],
         child: const SearchPage(
           category: 'education',
@@ -129,8 +131,7 @@ void main() {
         overrides: [
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
-          ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
-          multiSnapModelProvider.overrideWith((ref, arg) => multiSnapModel)
+          multiSnapModelProvider.overrideWith((ref, arg) => multiSnapModel),
         ],
         child: const SearchPage(
           category: 'gameDev',
@@ -158,7 +159,6 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
-            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'testsn'),
         ),
@@ -171,12 +171,13 @@ void main() {
       final resultCards =
           tester.widget<AppCardGrid>(find.byType(AppCardGrid)).appCards;
       expect(
-          resultCards.map((card) => card.title.title).toList(),
-          equals([
-            'Test Snap',
-            'Another Test Snap',
-            'Yet Another Test Snap',
-          ]));
+        resultCards.map((card) => card.title.title).toList(),
+        equals([
+          'Test Snap',
+          'Another Test Snap',
+          'Yet Another Test Snap',
+        ]),
+      );
     });
     testWidgets('Download Size', (tester) async {
       await tester.pumpApp(
@@ -184,7 +185,6 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
-            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'testsn'),
         ),
@@ -200,12 +200,13 @@ void main() {
       final resultCards =
           tester.widget<AppCardGrid>(find.byType(AppCardGrid)).appCards;
       expect(
-          resultCards.map((card) => card.title.title).toList(),
-          equals([
-            'Another Test Snap',
-            'Yet Another Test Snap',
-            'Test Snap',
-          ]));
+        resultCards.map((card) => card.title.title).toList(),
+        equals([
+          'Another Test Snap',
+          'Yet Another Test Snap',
+          'Test Snap',
+        ]),
+      );
     });
     testWidgets('Alphabetical', (tester) async {
       await tester.pumpApp(
@@ -213,7 +214,6 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
-            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'testsn'),
         ),
@@ -229,12 +229,13 @@ void main() {
       final resultCards =
           tester.widget<AppCardGrid>(find.byType(AppCardGrid)).appCards;
       expect(
-          resultCards.map((card) => card.title.title).toList(),
-          equals([
-            'Another Test Snap',
-            'Test Snap',
-            'Yet Another Test Snap',
-          ]));
+        resultCards.map((card) => card.title.title).toList(),
+        equals([
+          'Another Test Snap',
+          'Test Snap',
+          'Yet Another Test Snap',
+        ]),
+      );
     });
   });
 
@@ -245,7 +246,6 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
-            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'foo'),
         ),
@@ -263,7 +263,6 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
-            ratingsModelProvider.overrideWith((ref, arg) => ratingsModel),
           ],
           child: const SearchPage(query: 'foo', category: 'social'),
         ),
@@ -271,9 +270,13 @@ void main() {
 
       await tester.pumpAndSettle();
       expect(
-          find.text(tester.l10n.searchPageNoResultsCategory), findsOneWidget);
-      expect(find.text(tester.l10n.searchPageNoResultsCategoryHint),
-          findsOneWidget);
+        find.text(tester.l10n.searchPageNoResultsCategory),
+        findsOneWidget,
+      );
+      expect(
+        find.text(tester.l10n.searchPageNoResultsCategoryHint),
+        findsOneWidget,
+      );
       expect(find.byType(AppCardGrid), findsNothing);
     });
   });

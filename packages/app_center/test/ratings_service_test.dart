@@ -1,5 +1,4 @@
-import 'package:app_center/src/ratings/exports.dart';
-import 'package:app_center/src/ratings/ratings_service.dart';
+import 'package:app_center/ratings/ratings_service.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

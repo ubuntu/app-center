@@ -1,4 +1,4 @@
-import 'package:app_center/snapd.dart';
+import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
@@ -15,7 +15,8 @@ void main() {
     });
     test('updates available', () async {
       final service = registerMockSnapdService(
-          refreshableSnaps: [const Snap(name: 'firefox')]);
+        refreshableSnaps: [const Snap(name: 'firefox')],
+      );
       final model = UpdatesModel(service);
       await model.refresh();
       expect(model.refreshableSnapNames.single, equals('firefox'));
@@ -24,7 +25,8 @@ void main() {
 
   test('update all', () async {
     final service = registerMockSnapdService(
-        refreshableSnaps: [const Snap(name: 'firefox')]);
+      refreshableSnaps: [const Snap(name: 'firefox')],
+    );
     final model = UpdatesModel(service);
     await model.refresh();
     await model.updateAll();
@@ -35,11 +37,12 @@ void main() {
     test('refresh', () async {
       final service = registerMockSnapdService();
       final model = UpdatesModel(service);
-      when(service.find(filter: SnapFindFilter.refresh))
-          .thenThrow(SnapdException(
-        message: 'error while checking for updates',
-        kind: 'error kind',
-      ));
+      when(service.find(filter: SnapFindFilter.refresh)).thenThrow(
+        SnapdException(
+          message: 'error while checking for updates',
+          kind: 'error kind',
+        ),
+      );
 
       model.errorStream.listen(
         expectAsync1<void, SnapdException>(
@@ -53,12 +56,15 @@ void main() {
     });
     test('update all', () async {
       final service = registerMockSnapdService(
-          refreshableSnaps: [const Snap(name: 'firefox')]);
+        refreshableSnaps: [const Snap(name: 'firefox')],
+      );
       final model = UpdatesModel(service);
-      when(service.refreshMany(any)).thenThrow(SnapdException(
-        message: 'error while updating snaps',
-        kind: 'error kind',
-      ));
+      when(service.refreshMany(any)).thenThrow(
+        SnapdException(
+          message: 'error while updating snaps',
+          kind: 'error kind',
+        ),
+      );
 
       model.errorStream.listen(
         expectAsync1<void, SnapdException>(

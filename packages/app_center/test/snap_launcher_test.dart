@@ -1,4 +1,4 @@
-import 'package:app_center/snapd.dart';
+import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -27,7 +27,7 @@ void main() {
           snap: 'desktopsnap',
           name: 'desktopsnapapp',
           desktopFile: '/foo/bar/desktopsnapapp.desktop',
-        )
+        ),
       ],
     );
     final launcher = MockPrivilegedDesktopLauncher();
