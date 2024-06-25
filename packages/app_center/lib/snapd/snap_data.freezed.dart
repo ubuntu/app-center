@@ -76,6 +76,9 @@ abstract class $SnapDataCopyWith<$Res> {
       Snap? storeSnap,
       String? selectedChannel,
       String? activeChangeId});
+
+  $SnapCopyWith<$Res>? get localSnap;
+  $SnapCopyWith<$Res>? get storeSnap;
 }
 
 /// @nodoc
@@ -120,6 +123,30 @@ class _$SnapDataCopyWithImpl<$Res, $Val extends SnapData>
               as String?,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SnapCopyWith<$Res>? get localSnap {
+    if (_value.localSnap == null) {
+      return null;
+    }
+
+    return $SnapCopyWith<$Res>(_value.localSnap!, (value) {
+      return _then(_value.copyWith(localSnap: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SnapCopyWith<$Res>? get storeSnap {
+    if (_value.storeSnap == null) {
+      return null;
+    }
+
+    return $SnapCopyWith<$Res>(_value.storeSnap!, (value) {
+      return _then(_value.copyWith(storeSnap: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -136,6 +163,11 @@ abstract class _$$SnapDataImplCopyWith<$Res>
       Snap? storeSnap,
       String? selectedChannel,
       String? activeChangeId});
+
+  @override
+  $SnapCopyWith<$Res>? get localSnap;
+  @override
+  $SnapCopyWith<$Res>? get storeSnap;
 }
 
 /// @nodoc

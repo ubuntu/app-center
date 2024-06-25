@@ -22,34 +22,36 @@ void main() {
   tearDown(resetAllServices);
 
   final mockSearchProvider = createMockSnapSearchProvider({
-    const SnapSearchParameters(query: 'testsn'): const [
-      Snap(name: 'testsnap', title: 'Test Snap', downloadSize: 3),
-      Snap(name: 'testsnap2', title: 'Another Test Snap', downloadSize: 1),
-      Snap(name: 'testsnap3', title: 'Yet Another Test Snap', downloadSize: 2),
+    const SnapSearchParameters(query: 'testsn'): [
+      createSnap(name: 'testsnap', title: 'Test Snap', downloadSize: 3),
+      createSnap(
+          name: 'testsnap2', title: 'Another Test Snap', downloadSize: 1),
+      createSnap(
+          name: 'testsnap3', title: 'Yet Another Test Snap', downloadSize: 2),
     ],
     const SnapSearchParameters(
       category: SnapCategoryEnum.games,
-    ): const [
-      Snap(
+    ): [
+      createSnap(
         name: 'testsnap4',
         title: 'A Cool Game',
         summary: 'This is a really cool game',
         downloadSize: 2,
         media: [
-          SnapMedia(type: 'screenshot', url: 'https://example.com'),
+          const SnapMedia(type: 'screenshot', url: 'https://example.com'),
         ],
       ),
-      Snap(
+      createSnap(
         name: 'testsnap5',
         summary: 'This is another really cool game',
         downloadSize: 3,
         media: [
-          SnapMedia(type: 'screenshot', url: 'https://example.com'),
+          const SnapMedia(type: 'screenshot', url: 'https://example.com'),
         ],
       ),
     ],
-    const SnapSearchParameters(category: SnapCategoryEnum.education): const [
-      Snap(name: 'educational-snap', title: 'Educational Snap'),
+    const SnapSearchParameters(category: SnapCategoryEnum.education): [
+      createSnap(name: 'educational-snap', title: 'Educational Snap'),
     ],
   });
 

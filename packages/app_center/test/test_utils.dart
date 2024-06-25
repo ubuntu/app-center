@@ -197,25 +197,17 @@ MockSnapdService registerMockSnapdService({
       .thenAnswer((_) async => changes ?? []);
   when(service.watchChange(any)).thenAnswer(
     (_) => Stream.fromIterable(
-      changes ?? [SnapdChange(spawnTime: DateTime(1970), ready: true)],
+      changes ?? [SnapdChange(id: '', spawnTime: DateTime(1970), ready: true)],
     ),
   );
   when(service.abortChange(any))
-      .thenAnswer((_) async => SnapdChange(spawnTime: DateTime.now()));
-  when(
-    service.installMany(
-      any,
-    ),
-  ).thenAnswer((_) async => 'id');
-  when(service.getStoreSnaps(any)).thenAnswer(
-    (_) => Stream.value(
-      List<Snap>.generate(
-        storeSnapsCount!,
-        (index) => storeSnap!,
-        growable: false,
-      ),
-    ),
-  );
+      .thenAnswer((_) async => SnapdChange(id: '', spawnTime: DateTime.now()));
+  when(service.installMany(
+    any,
+  )).thenAnswer((_) async => 'id');
+  when(service.getStoreSnaps(any)).thenAnswer((_) => Stream.value(
+      List<Snap>.generate(storeSnapsCount!, (index) => storeSnap!,
+          growable: false)));
   registerMockService<SnapdService>(service);
   return service;
 }
@@ -394,6 +386,7 @@ MockPackageKitService createMockPackageKitService({
   return packageKit;
 }
 
+// TODO: Move down to dummy class
 @GenerateMocks([Vote])
 Vote createMockVote() {
   final model = MockVote();
@@ -404,3 +397,73 @@ Vote createMockVote() {
   MultiSnapModel,
 ])
 class _Dummy {} // ignore: unused_element
+
+Snap createSnap({
+  String? id,
+  String? name,
+  String? revision,
+  String? version,
+  String? channel,
+  String? base,
+  String? contact,
+  String? description,
+  String? type,
+  List<SnapApp>? apps,
+  List<SnapCategory>? categories,
+  Map<String, SnapChannel>? channels,
+  List<String>? commonIds,
+  SnapConfinement? confinement,
+  bool? devmode,
+  int? downloadSize,
+  DateTime? hold,
+  DateTime? installDate,
+  int? installedSize,
+  bool? jailmode,
+  String? license,
+  List<SnapMedia>? media,
+  String? mountedFrom,
+  bool? private,
+  SnapPublisher? publisher,
+  SnapStatus? status,
+  String? storeUrl,
+  String? summary,
+  String? title,
+  String? trackingChannel,
+  List<String>? tracks,
+  String? website,
+}) {
+  return Snap(
+    id: id ?? '',
+    name: name ?? '',
+    revision: revision ?? '',
+    version: version ?? '',
+    channel: channel ?? '',
+    contact: contact ?? '',
+    description: description ?? '',
+    type: type ?? '',
+    base: base,
+    apps: apps ?? [],
+    categories: categories ?? [],
+    channels: channels ?? {},
+    commonIds: commonIds ?? [],
+    confinement: confinement ?? SnapConfinement.strict,
+    devmode: devmode ?? false,
+    downloadSize: downloadSize,
+    hold: hold,
+    installDate: installDate,
+    installedSize: installedSize,
+    jailmode: jailmode ?? false,
+    license: license,
+    media: media ?? [],
+    mountedFrom: mountedFrom,
+    private: private ?? false,
+    publisher: publisher,
+    status: status ?? SnapStatus.unknown,
+    storeUrl: storeUrl,
+    summary: summary ?? '',
+    title: title,
+    trackingChannel: trackingChannel,
+    tracks: tracks ?? [],
+    website: website,
+  );
+}

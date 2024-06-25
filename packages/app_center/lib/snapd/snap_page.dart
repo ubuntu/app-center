@@ -109,7 +109,7 @@ class _SnapView extends StatelessWidget {
           children: [
             if (snapData.snap.website?.isNotEmpty ?? false)
               '<a href="${snapData.snap.website}">${l10n.snapPageDeveloperWebsiteLabel}</a>',
-            if ((snapData.snap.contact?.isNotEmpty ?? false) &&
+            if ((snapData.snap.contact.isNotEmpty) &&
                 snapData.snap.publisher != null)
               '<a href="${snapData.snap.contact}">${l10n.snapPageContactPublisherLabel(snapData.snap.publisher!.displayName)}</a>',
           ]
@@ -649,7 +649,7 @@ class _ChannelDropdownEntry extends StatelessWidget {
                     channelEntry.key,
                     channelEntry.value.version,
                     DateFormat.yMd().format(channelEntry.value.releasedAt),
-                  ].map((e) => Text(e, maxLines: 1)).toList(),
+                  ].nonNulls.map((e) => Text(e, maxLines: 1)).toList(),
                 ),
               ),
             ],

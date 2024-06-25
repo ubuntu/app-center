@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
@@ -26,23 +25,26 @@ void main() {
   tearDown(resetAllServices);
 
   final mockSearchProvider = createMockSnapSearchProvider({
-    const SnapSearchParameters(query: 'testsn'): const [
-      Snap(name: 'testsnap', title: 'Test Snap', downloadSize: 3),
-      Snap(name: 'testsnap2', title: 'Another Test Snap', downloadSize: 1),
-      Snap(name: 'testsnap3', title: 'Yet Another Test Snap', downloadSize: 2),
+    const SnapSearchParameters(query: 'testsn'): [
+      createSnap(name: 'testsnap', title: 'Test Snap', downloadSize: 3),
+      createSnap(
+          name: 'testsnap2', title: 'Another Test Snap', downloadSize: 1),
+      createSnap(
+          name: 'testsnap3', title: 'Yet Another Test Snap', downloadSize: 2),
     ],
     const SnapSearchParameters(
       query: 'testsn',
       category: SnapCategoryEnum.development,
-    ): const [
-      Snap(name: 'testsnap3', title: 'Yet Another Test Snap', downloadSize: 2),
+    ): [
+      createSnap(
+          name: 'testsnap3', title: 'Yet Another Test Snap', downloadSize: 2),
     ],
-    const SnapSearchParameters(category: SnapCategoryEnum.education): const [
-      Snap(name: 'educational-snap', title: 'Educational Snap'),
+    const SnapSearchParameters(category: SnapCategoryEnum.education): [
+      createSnap(name: 'educational-snap', title: 'Educational Snap'),
     ],
-    const SnapSearchParameters(category: SnapCategoryEnum.gameDev): const [
-      Snap(name: 'game-engine', title: 'Game Engine'),
-      Snap(name: 'image-processor', title: 'Image Processor'),
+    const SnapSearchParameters(category: SnapCategoryEnum.gameDev): [
+      createSnap(name: 'game-engine', title: 'Game Engine'),
+      createSnap(name: 'image-processor', title: 'Image Processor'),
     ],
   });
   final multiSnapModel = MockMultiSnapModel();

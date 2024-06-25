@@ -15,14 +15,14 @@ import 'package:yaru_test/yaru_test.dart';
 import 'test_utils.dart';
 
 void main() {
-  const nonRefreshableSnaps = [
-    Snap(
+  final nonRefreshableSnaps = [
+    createSnap(
       name: 'testsnap',
       title: 'Test Snap',
       version: '1.0',
       channel: 'latest/stable',
     ),
-    Snap(
+    createSnap(
       name: 'testsnap2',
       title: 'Another Test Snap',
       version: '1.5',
@@ -30,7 +30,7 @@ void main() {
     ),
   ];
   final refreshableSnaps = [
-    Snap(
+    createSnap(
       name: 'testsnap3',
       title: 'Snap with an update',
       version: '2.0',
@@ -240,9 +240,12 @@ void main() {
       isBusy: true,
     );
     final mockChange = SnapdChange(
+      id: '',
       spawnTime: DateTime(1970),
       kind: 'refresh-snap',
-      tasks: [SnapdTask(progress: const SnapdTaskProgress(done: 1, total: 4))],
+      tasks: [
+        const SnapdTask(id: '', progress: SnapdTaskProgress(done: 1, total: 4)),
+      ],
     );
     await tester.pumpApp(
       (_) => ProviderScope(
@@ -298,7 +301,7 @@ void main() {
             ),
           ),
           activeChangeProvider.overrideWith(
-            (_, __) => SnapdChange(spawnTime: DateTime(1970)),
+            (_, __) => SnapdChange(id: '', spawnTime: DateTime(1970)),
           ),
           updatesModelProvider.overrideWith((_) => mockUpdatesModel),
         ],

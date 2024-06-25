@@ -40,7 +40,10 @@ dependencies:
   riverpod_annotation: ^2.3.5
   shimmer: ^3.0.0
   snapcraft_launcher: ^0.1.0
-  snapd: ^0.4.14
+  snapd:
+    git:
+      url: https://github.com/spydon/snapd.dart
+      ref: refactor/use-freezed
   snowball_stemmer: ^0.1.0
   ubuntu_localizations: ^0.3.6
   ubuntu_logger: ^0.1.1

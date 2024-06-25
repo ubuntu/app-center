@@ -3,13 +3,12 @@ import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
 
 void main() {
-  const snap = Snap(
+  final snap = createSnap(
     name: 'firefox',
     id: 'firefox',
     revision: '42',
