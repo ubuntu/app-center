@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$RatingsData {
   String get snapId => throw _privateConstructorUsedError;
-  String get snapRevision => throw _privateConstructorUsedError;
+  int get snapRevision => throw _privateConstructorUsedError;
   Rating? get rating => throw _privateConstructorUsedError;
   VoteStatus? get voteStatus => throw _privateConstructorUsedError;
 
@@ -34,7 +34,7 @@ abstract class $RatingsDataCopyWith<$Res> {
   @useResult
   $Res call(
       {String snapId,
-      String snapRevision,
+      int snapRevision,
       Rating? rating,
       VoteStatus? voteStatus});
 }
@@ -65,7 +65,7 @@ class _$RatingsDataCopyWithImpl<$Res, $Val extends RatingsData>
       snapRevision: null == snapRevision
           ? _value.snapRevision
           : snapRevision // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
@@ -88,7 +88,7 @@ abstract class _$$RatingsDataImplCopyWith<$Res>
   @useResult
   $Res call(
       {String snapId,
-      String snapRevision,
+      int snapRevision,
       Rating? rating,
       VoteStatus? voteStatus});
 }
@@ -117,7 +117,7 @@ class __$$RatingsDataImplCopyWithImpl<$Res>
       snapRevision: null == snapRevision
           ? _value.snapRevision
           : snapRevision // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
@@ -142,7 +142,7 @@ class _$RatingsDataImpl implements _RatingsData {
   @override
   final String snapId;
   @override
-  final String snapRevision;
+  final int snapRevision;
   @override
   final Rating? rating;
   @override
@@ -180,14 +180,14 @@ class _$RatingsDataImpl implements _RatingsData {
 abstract class _RatingsData implements RatingsData {
   const factory _RatingsData(
       {required final String snapId,
-      required final String snapRevision,
+      required final int snapRevision,
       required final Rating? rating,
       required final VoteStatus? voteStatus}) = _$RatingsDataImpl;
 
   @override
   String get snapId;
   @override
-  String get snapRevision;
+  int get snapRevision;
   @override
   Rating? get rating;
   @override

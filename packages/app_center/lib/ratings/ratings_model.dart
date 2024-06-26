@@ -41,7 +41,7 @@ class RatingsModel extends _$RatingsModel {
     if (voteStatus != ratingsData.voteStatus) {
       final vote = Vote(
         snapId: ratingsData.snapId,
-        snapRevision: int.parse(ratingsData.snapRevision),
+        snapRevision: ratingsData.snapRevision,
         voteUp: voteUp,
         dateTime: clock.now(),
       );
@@ -50,9 +50,9 @@ class RatingsModel extends _$RatingsModel {
     }
   }
 
-  VoteStatus? _getUserVote(String snapRevision, List<Vote?> votes) {
+  VoteStatus? _getUserVote(int snapRevision, List<Vote?> votes) {
     for (final vote in votes) {
-      if (vote != null && vote.snapRevision == int.parse(snapRevision)) {
+      if (vote != null && vote.snapRevision == snapRevision) {
         return vote.voteUp ? VoteStatus.up : VoteStatus.down;
       }
     }

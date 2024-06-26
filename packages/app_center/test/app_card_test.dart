@@ -17,13 +17,6 @@ final snap = createSnap(
   name: 'testsnap',
   id: 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD',
   summary: 'Its a summary!',
-  revision: '',
-  version: '',
-  channel: '',
-  base: '',
-  contact: '',
-  description: '',
-  type: '',
 );
 
 void main() {

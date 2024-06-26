@@ -8,7 +8,7 @@ void main() {
     final snapd = registerMockSnapdService(
       installedSnaps: [
         createSnap(name: 'firefox'),
-        createSnap(name: 'thunderbird')
+        createSnap(name: 'thunderbird'),
       ],
     );
     final updatesModel = createMockUpdatesModel();
@@ -25,7 +25,7 @@ void main() {
     final snapd = registerMockSnapdService(
       installedSnaps: [
         createSnap(name: 'firefox'),
-        createSnap(name: 'thunderbird')
+        createSnap(name: 'thunderbird'),
       ],
     );
     final updatesModel =

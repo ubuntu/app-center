@@ -25,9 +25,9 @@ void main() {
     const SnapSearchParameters(query: 'testsn'): [
       createSnap(name: 'testsnap', title: 'Test Snap', downloadSize: 3),
       createSnap(
-          name: 'testsnap2', title: 'Another Test Snap', downloadSize: 1),
+          name: 'testsnap2', title: 'Another Test Snap', downloadSize: 1,),
       createSnap(
-          name: 'testsnap3', title: 'Yet Another Test Snap', downloadSize: 2),
+          name: 'testsnap3', title: 'Yet Another Test Snap', downloadSize: 2,),
     ],
     const SnapSearchParameters(
       category: SnapCategoryEnum.games,

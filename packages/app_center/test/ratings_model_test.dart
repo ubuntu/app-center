@@ -11,7 +11,7 @@ void main() {
   final snap = createSnap(
     name: 'firefox',
     id: 'firefox',
-    revision: '42',
+    revision: 42,
   );
 
   setUp(() {

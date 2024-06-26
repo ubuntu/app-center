@@ -202,12 +202,20 @@ MockSnapdService registerMockSnapdService({
   );
   when(service.abortChange(any))
       .thenAnswer((_) async => SnapdChange(id: '', spawnTime: DateTime.now()));
-  when(service.installMany(
-    any,
-  )).thenAnswer((_) async => 'id');
-  when(service.getStoreSnaps(any)).thenAnswer((_) => Stream.value(
-      List<Snap>.generate(storeSnapsCount!, (index) => storeSnap!,
-          growable: false)));
+  when(
+    service.installMany(
+      any,
+    ),
+  ).thenAnswer((_) async => 'id');
+  when(service.getStoreSnaps(any)).thenAnswer(
+    (_) => Stream.value(
+      List<Snap>.generate(
+        storeSnapsCount!,
+        (index) => storeSnap!,
+        growable: false,
+      ),
+    ),
+  );
   registerMockService<SnapdService>(service);
   return service;
 }
@@ -401,7 +409,7 @@ class _Dummy {} // ignore: unused_element
 Snap createSnap({
   String? id,
   String? name,
-  String? revision,
+  int? revision,
   String? version,
   String? channel,
   String? base,
@@ -435,7 +443,7 @@ Snap createSnap({
   return Snap(
     id: id ?? '',
     name: name ?? '',
-    revision: revision ?? '',
+    revision: revision ?? 0,
     version: version ?? '',
     channel: channel ?? '',
     contact: contact ?? '',

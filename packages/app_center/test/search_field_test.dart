@@ -20,7 +20,7 @@ void main() {
     const SnapSearchParameters(query: 'testsn'): [
       createSnap(name: 'testsnap', title: 'Test Snap'),
       createSnap(name: 'testsnap2', title: 'Another Test Snap'),
-    ]
+    ],
   });
 
   final mockDebSearchProvider = createMockDebSearchProvider({
