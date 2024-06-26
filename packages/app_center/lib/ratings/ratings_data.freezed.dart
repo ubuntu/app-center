@@ -37,6 +37,8 @@ abstract class $RatingsDataCopyWith<$Res> {
       int snapRevision,
       Rating? rating,
       VoteStatus? voteStatus});
+
+  $RatingCopyWith<$Res>? get rating;
 }
 
 /// @nodoc
@@ -76,6 +78,18 @@ class _$RatingsDataCopyWithImpl<$Res, $Val extends RatingsData>
               as VoteStatus?,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RatingCopyWith<$Res>? get rating {
+    if (_value.rating == null) {
+      return null;
+    }
+
+    return $RatingCopyWith<$Res>(_value.rating!, (value) {
+      return _then(_value.copyWith(rating: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -91,6 +105,9 @@ abstract class _$$RatingsDataImplCopyWith<$Res>
       int snapRevision,
       Rating? rating,
       VoteStatus? voteStatus});
+
+  @override
+  $RatingCopyWith<$Res>? get rating;
 }
 
 /// @nodoc
