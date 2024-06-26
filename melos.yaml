@@ -40,7 +40,7 @@ scripts:
         -o coverage/lcov.info
 
   # format all packages
-  format: >
+  format:exclude: >
     find . -name '*.dart' \
       ! -name '*.freezed.dart' \
       ! -name '*.g.dart' \

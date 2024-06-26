@@ -8,7 +8,7 @@ part 'ratings_data.freezed.dart';
 class RatingsData with _$RatingsData {
   const factory RatingsData({
     required String snapId,
-    required String snapRevision,
+    required int snapRevision,
     required Rating? rating,
     required VoteStatus? voteStatus,
   }) = _RatingsData;

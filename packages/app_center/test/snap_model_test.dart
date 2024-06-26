@@ -9,10 +9,10 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
 
-const localSnap = Snap(
+final localSnap = createSnap(
   name: 'testsnap',
   title: 'Testsnap',
-  publisher: SnapPublisher(displayName: 'testPublisher'),
+  publisher: const SnapPublisher(id: '', displayName: 'testPublisher'),
   version: '2.0.0',
   website: 'https://example.com',
   confinement: SnapConfinement.classic,
@@ -22,10 +22,10 @@ const localSnap = Snap(
   channel: 'latest/edge',
 );
 
-final storeSnap = Snap(
+final storeSnap = createSnap(
   name: 'testsnap',
   title: 'Testsnap',
-  publisher: const SnapPublisher(displayName: 'testPublisher'),
+  publisher: const SnapPublisher(id: '', displayName: 'testPublisher'),
   version: '1.0.0',
   website: 'https://example.com',
   confinement: SnapConfinement.strict,
@@ -218,7 +218,7 @@ void main() {
       localSnap: localSnap,
       storeSnap: storeSnap,
       changes: [
-        SnapdChange(spawnTime: DateTime(1970), ready: true),
+        SnapdChange(id: '', spawnTime: DateTime(1970), ready: true),
       ],
     );
 
@@ -274,16 +274,17 @@ void main() {
     final testCases = [
       (
         name: 'no tasks',
-        change: SnapdChange(spawnTime: DateTime(1970)),
+        change: SnapdChange(id: '', spawnTime: DateTime(1970)),
         expectedProgress: 0.0,
       ),
       (
         name: '60% completed',
         change: SnapdChange(
+          id: '',
           spawnTime: DateTime(1970),
-          tasks: [
-            SnapdTask(progress: const SnapdTaskProgress(done: 2, total: 3)),
-            SnapdTask(progress: const SnapdTaskProgress(done: 4, total: 7)),
+          tasks: const [
+            SnapdTask(id: '', progress: SnapdTaskProgress(done: 2, total: 3)),
+            SnapdTask(id: '', progress: SnapdTaskProgress(done: 4, total: 7)),
           ],
         ),
         expectedProgress: 0.6,

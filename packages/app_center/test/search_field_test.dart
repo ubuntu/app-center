@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:snapd/snapd.dart';
 
 import 'test_utils.dart';
 
@@ -18,9 +17,9 @@ class MockStringCallback extends Mock implements StringCallback {}
 
 void main() {
   final mockSnapSearchProvider = createMockSnapSearchProvider({
-    const SnapSearchParameters(query: 'testsn'): const [
-      Snap(name: 'testsnap', title: 'Test Snap'),
-      Snap(name: 'testsnap2', title: 'Another Test Snap'),
+    const SnapSearchParameters(query: 'testsn'): [
+      createSnap(name: 'testsnap', title: 'Test Snap'),
+      createSnap(name: 'testsnap2', title: 'Another Test Snap'),
     ],
   });
 

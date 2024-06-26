@@ -2,7 +2,6 @@ import 'package:app_center/widgets/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
@@ -14,7 +13,7 @@ const snapRating = Rating(
   ratingsBand: RatingsBand.good,
 );
 
-const snap = Snap(
+final snap = createSnap(
   name: 'testsnap',
   id: 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD',
   summary: 'Its a summary!',

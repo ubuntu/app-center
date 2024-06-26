@@ -6,11 +6,12 @@ import 'package:snapcraft_launcher/snapcraft_launcher.dart';
 import 'package:snapd/snapd.dart';
 
 import 'snap_launcher_test.mocks.dart';
+import 'test_utils.dart';
 
 @GenerateMocks([PrivilegedDesktopLauncher])
 void main() {
   test('launcher unavailable', () {
-    const snap = Snap(name: '');
+    final snap = createSnap(name: '');
     final launcher = MockPrivilegedDesktopLauncher();
     when(launcher.isAvailable).thenReturn(false);
 
@@ -19,11 +20,11 @@ void main() {
   });
 
   test('desktop snap', () {
-    const snap = Snap(
+    final snap = createSnap(
       name: 'desktopsnap',
       type: 'app',
       apps: [
-        SnapApp(
+        const SnapApp(
           snap: 'desktopsnap',
           name: 'desktopsnapapp',
           desktopFile: '/foo/bar/desktopsnapapp.desktop',
@@ -42,7 +43,7 @@ void main() {
   });
 
   test('non-desktop snap', () {
-    const snap = Snap(name: 'nondesktopsnap');
+    final snap = createSnap(name: 'nondesktopsnap');
     final launcher = MockPrivilegedDesktopLauncher();
     when(launcher.isAvailable).thenReturn(true);
 

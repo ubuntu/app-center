@@ -661,6 +661,15 @@ class MockSnapdService extends _i1.Mock implements _i2.SnapdService {
   }
 
   @override
+  set userAgent(String? _userAgent) => super.noSuchMethod(
+        Invocation.setter(
+          #userAgent,
+          _userAgent,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   bool get allowInteraction => (super.noSuchMethod(
         Invocation.getter(#allowInteraction),
         returnValue: false,
@@ -671,15 +680,6 @@ class MockSnapdService extends _i1.Mock implements _i2.SnapdService {
         Invocation.setter(
           #allowInteraction,
           _allowInteraction,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  set userAgent(String? value) => super.noSuchMethod(
-        Invocation.setter(
-          #userAgent,
-          value,
         ),
         returnValueForMissingStub: null,
       );
@@ -788,15 +788,15 @@ class MockSnapdService extends _i1.Mock implements _i2.SnapdService {
       ) as _i12.Future<List<_i4.SnapApp>>);
 
   @override
-  _i12.Future<List<_i4.SnapdCategoryDetails>> getCategories() =>
+  _i12.Future<List<_i4.SnapCategoryDetails>> getCategories() =>
       (super.noSuchMethod(
         Invocation.method(
           #getCategories,
           [],
         ),
-        returnValue: _i12.Future<List<_i4.SnapdCategoryDetails>>.value(
-            <_i4.SnapdCategoryDetails>[]),
-      ) as _i12.Future<List<_i4.SnapdCategoryDetails>>);
+        returnValue: _i12.Future<List<_i4.SnapCategoryDetails>>.value(
+            <_i4.SnapCategoryDetails>[]),
+      ) as _i12.Future<List<_i4.SnapCategoryDetails>>);
 
   @override
   _i12.Future<_i4.SnapdConnectionsResponse> getConnections({
@@ -953,6 +953,24 @@ class MockSnapdService extends _i1.Mock implements _i2.SnapdService {
       ) as _i12.Future<List<_i4.Snap>>);
 
   @override
+  _i12.Future<Map<String, dynamic>> getAssertions({
+    String? assertion,
+    Map<String, String>? params,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAssertions,
+          [],
+          {
+            #assertion: assertion,
+            #params: params,
+          },
+        ),
+        returnValue:
+            _i12.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+      ) as _i12.Future<Map<String, dynamic>>);
+
+  @override
   _i12.Future<_i4.SnapdLoginResponse> login(
     String? email,
     String? password, {
@@ -982,13 +1000,14 @@ class MockSnapdService extends _i1.Mock implements _i2.SnapdService {
       ) as _i12.Future<_i4.SnapdLoginResponse>);
 
   @override
-  _i12.Future<dynamic> logout(int? id) => (super.noSuchMethod(
+  _i12.Future<void> logout(int? id) => (super.noSuchMethod(
         Invocation.method(
           #logout,
           [id],
         ),
-        returnValue: _i12.Future<dynamic>.value(),
-      ) as _i12.Future<dynamic>);
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
 
   @override
   _i12.Future<String> install(

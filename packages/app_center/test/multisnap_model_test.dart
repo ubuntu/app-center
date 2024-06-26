@@ -6,10 +6,10 @@ import 'package:snapd/snapd.dart';
 
 import 'test_utils.dart';
 
-final storeSnap = Snap(
+final storeSnap = createSnap(
   name: 'testsnap',
   title: 'Testsnap',
-  publisher: const SnapPublisher(displayName: 'testPublisher'),
+  publisher: const SnapPublisher(id: '', displayName: 'testPublisher'),
   version: '1.0.0',
   website: 'https://example.com',
   confinement: SnapConfinement.strict,

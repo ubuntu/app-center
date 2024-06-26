@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: asdf-vm/actions/install@v2
       - uses: bluefireteam/melos-action@v2
-      - run: melos format
+      - run: melos format:exclude
 
   mocks:
     runs-on: ubuntu-22.04
