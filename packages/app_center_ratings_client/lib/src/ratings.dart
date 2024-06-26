@@ -7,7 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'ratings.freezed.dart';
 
 @freezed
-abstract class Rating with _$Rating {
+class Rating with _$Rating {
   @JsonSerializable(explicitToJson: true)
   const factory Rating({
     required String snapId,
