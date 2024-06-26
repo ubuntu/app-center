@@ -15,7 +15,7 @@ void main() {
     });
     test('updates available', () async {
       final service = registerMockSnapdService(
-        refreshableSnaps: [const Snap(name: 'firefox')],
+        refreshableSnaps: [createSnap(name: 'firefox')],
       );
       final model = UpdatesModel(service);
       await model.refresh();
@@ -25,7 +25,7 @@ void main() {
 
   test('update all', () async {
     final service = registerMockSnapdService(
-      refreshableSnaps: [const Snap(name: 'firefox')],
+      refreshableSnaps: [createSnap(name: 'firefox')],
     );
     final model = UpdatesModel(service);
     await model.refresh();
@@ -56,7 +56,7 @@ void main() {
     });
     test('update all', () async {
       final service = registerMockSnapdService(
-        refreshableSnaps: [const Snap(name: 'firefox')],
+        refreshableSnaps: [createSnap(id: '', name: 'firefox')],
       );
       final model = UpdatesModel(service);
       when(service.refreshMany(any)).thenThrow(

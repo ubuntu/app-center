@@ -23,12 +23,12 @@ const snapRating = Rating(
   ratingsBand: RatingsBand.good,
 );
 
-final localSnap = Snap(
+final localSnap = createSnap(
   name: 'testsnap',
   title: 'Testsnap',
-  publisher: const SnapPublisher(displayName: 'testPublisher'),
+  publisher: const SnapPublisher(id: '', displayName: 'testPublisher'),
   version: '2.0.0',
-  revision: '42',
+  revision: 42,
   website: 'https://example.com',
   confinement: SnapConfinement.classic,
   license: 'MIT',
@@ -39,12 +39,12 @@ final localSnap = Snap(
   id: 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD',
 );
 
-final storeSnap = Snap(
+final storeSnap = createSnap(
   name: 'testsnap',
   title: 'Testsnap',
-  publisher: const SnapPublisher(displayName: 'testPublisher'),
+  publisher: const SnapPublisher(id: '', displayName: 'testPublisher'),
   version: '1.0.0',
-  revision: '42',
+  revision: 42,
   website: 'https://example.com',
   confinement: SnapConfinement.strict,
   license: 'MIT',
