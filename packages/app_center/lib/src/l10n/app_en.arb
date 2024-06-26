@@ -253,5 +253,15 @@
     "localDebWarningBody": "This package is provided by a third party. Installing packages from outside the App Center can increase the risk to your system and personal data. Ensure you trust the source before proceeding.",
     "localDebLearnMore": "Learn more about third party packages",
     "localDebDialogMessage": "This package is provided by a third party and may threaten your system and personal data.",
-    "localDebDialogConfirmation": "Are you sure you want to install it?"
+    "localDebDialogConfirmation": "Are you sure you want to install it?",
+    "snapdExceptionTooManyRequests": "Too many requests. Please try again later.",
+    "snapdExceptionRunningApps": "We couldn't update {snapName} because it is currently running.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapdExceptionNetworkTimeout": "Network timeout. Please check your internet connection and try again."
 }
