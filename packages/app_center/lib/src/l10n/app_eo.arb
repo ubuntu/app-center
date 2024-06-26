@@ -390,5 +390,17 @@
   "appstreamUrlTypeContribute": "Kontribui",
   "@appstreamUrlTypeContribute": {},
   "appstreamUrlTypeVcsBrowser": "Fonto",
-  "@appstreamUrlTypeVcsBrowser": {}
+  "@appstreamUrlTypeVcsBrowser": {},
+  "snapPageSizeLabel": "Grando",
+  "@snapPageSizeLabel": {},
+  "localDebWarningTitle": "Eble nesekura",
+  "@localDebWarningTitle": {},
+  "localDebDialogConfirmation": "Ĉu vi certe volas instali ĝin?",
+  "@localDebDialogConfirmation": {},
+  "localDebLearnMore": "Lernu pli pri triapartiaj pakoj",
+  "@localDebLearnMore": {},
+  "localDebDialogMessage": "Tiu pako estas disponigita de tria partio kaj povas minaci vian sistemon kaj personajn datenojn.",
+  "@localDebDialogMessage": {},
+  "localDebWarningBody": "Tiu pako estas disponigita de tria partio. Instalado de pakoj ekster Programcentro povas pliigi la riskon al via sistemo kaj personaj datenoj. Certigu, ke vi fidas la fonton antaŭ ol daŭrigi.",
+  "@localDebWarningBody": {}
 }

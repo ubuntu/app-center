@@ -390,5 +390,17 @@
   "appstreamUrlTypeContribute": "Участие",
   "@appstreamUrlTypeContribute": {},
   "appstreamUrlTypeVcsBrowser": "Исходный код",
-  "@appstreamUrlTypeVcsBrowser": {}
+  "@appstreamUrlTypeVcsBrowser": {},
+  "localDebWarningBody": "Этот пакет предоставлен третьей стороной. Установка пакетов не из каталога Центра приложений может повысить риск для Вашей системы и персональных данных. Прежде чем приступить к установке, убедитесь, что доверяете источнику.",
+  "@localDebWarningBody": {},
+  "localDebLearnMore": "Узнайте больше о сторонних пакетах",
+  "@localDebLearnMore": {},
+  "snapPageSizeLabel": "Размер",
+  "@snapPageSizeLabel": {},
+  "localDebWarningTitle": "Потенциально небезопасно",
+  "@localDebWarningTitle": {},
+  "localDebDialogMessage": "Этот пакет предоставляется третьей стороной и может представлять угрозу для Вашей системы и персональных данных.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "Вы уверены, что хотите установить его?",
+  "@localDebDialogConfirmation": {}
 }

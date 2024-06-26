@@ -25,7 +25,7 @@
   "@snapPageChannelLabel": {},
   "snapCategoryEducation": "Oktatás",
   "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "Frissít",
+  "snapActionUpdateLabel": "Frissítés",
   "@snapActionUpdateLabel": {},
   "searchPageSortByLabel": "Rendezés",
   "@searchPageSortByLabel": {},
@@ -51,7 +51,7 @@
   "@snapCategoryEntertainment": {},
   "snapActionInstallLabel": "Telepítés",
   "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "Licensz",
+  "snapPageLicenseLabel": "Licenc",
   "@snapPageLicenseLabel": {},
   "snapCategoryPhotoAndVideo": "Fotó és Videó",
   "@snapCategoryPhotoAndVideo": {},
@@ -76,5 +76,175 @@
   "snapCategoryDevicesAndIot": "Eszközök és IoT",
   "@snapCategoryDevicesAndIot": {},
   "managePageCheckForUpdates": "Frissítések keresése",
-  "@managePageCheckForUpdates": {}
+  "@managePageCheckForUpdates": {},
+  "snapCategoryGnomeGames": "GNOME játékok",
+  "@snapCategoryGnomeGames": {},
+  "snapCategoryGameEmulators": "Emulátorok",
+  "@snapCategoryGameEmulators": {},
+  "snapCategoryGameEmulatorsSlogan": "Emulátorok",
+  "@snapCategoryGameEmulatorsSlogan": {},
+  "snapCategoryKdeGamesSlogan": "KDE játékcsomag",
+  "@snapCategoryKdeGamesSlogan": {},
+  "snapCategoryGameContentCreation": "Tartalomgyártás",
+  "@snapCategoryGameContentCreation": {},
+  "snapReportLabel": "{snapName} jelentése",
+  "@snapReportLabel": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "snapReportOptionStoreViolation": "Szolgáltatási feltételek megsértése",
+  "@snapReportOptionStoreViolation": {},
+  "snapReportOptionalEmailAddressLabel": "E-mail cím (nem kötelező)",
+  "@snapReportOptionalEmailAddressLabel": {},
+  "openInBrowser": "Megnyitás böngészőben",
+  "@openInBrowser": {},
+  "snapPageSizeLabel": "Méret",
+  "@snapPageSizeLabel": {},
+  "managePageLabel": "Kezelés",
+  "@managePageLabel": {},
+  "managePageShowDetailsLabel": "Részletek megtekintése",
+  "@managePageShowDetailsLabel": {},
+  "managePageUpdateAllLabel": "Összes frissítése",
+  "@managePageUpdateAllLabel": {},
+  "snapReportCancelButtonLabel": "Mégse",
+  "@snapReportCancelButtonLabel": {},
+  "snapReportSubmitButtonLabel": "Bejelentés küldése",
+  "@snapReportSubmitButtonLabel": {},
+  "managePageCheckingForUpdates": "Frissítések keresése...",
+  "@managePageCheckingForUpdates": {},
+  "snapCategoryGameContentCreationSlogan": "Tartalomgyártás",
+  "@snapCategoryGameContentCreationSlogan": {},
+  "managePageShowSystemSnapsLabel": "Rendszer-alkalmazások is",
+  "@managePageShowSystemSnapsLabel": {},
+  "localDebWarningTitle": "Nem biztonságos",
+  "@localDebWarningTitle": {},
+  "appCenterLabel": "Szoftverközpont",
+  "@appCenterLabel": {},
+  "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool;alkalmazás;szoftver;központ;csomag",
+  "@appstreamSearchGreylist": {},
+  "snapPagePublishedLabel": "Kiadás dátuma",
+  "@snapPagePublishedLabel": {},
+  "snapPagePublisherLabel": "Fejlesztő",
+  "@snapPagePublisherLabel": {},
+  "snapPageDeveloperWebsiteLabel": "Fejlesztő honlapja",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapPageDownloadSizeLabel": "Letöltési méret",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPageGalleryLabel": "Képek",
+  "@snapPageGalleryLabel": {},
+  "snapPageLinksLabel": "Hivatkozások",
+  "@snapPageLinksLabel": {},
+  "snapPageShareLinkCopiedMessage": "Hivatkozás vágólapra másolva",
+  "@snapPageShareLinkCopiedMessage": {},
+  "managePageUpdatesAvailable": "Rendelkezésre álló frissítések ({n})",
+  "@managePageUpdatesAvailable": {},
+  "gamesPageTitle": "Népszerű",
+  "@gamesPageTitle": {},
+  "managePageUpdatedDaysAgo": "{n, plural, =1{{n} nappal} other{{n} nappal}} ezelőtt frissítve",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "gamesPageBundles": "Szoftvercsomagok",
+  "@gamesPageBundles": {},
+  "aboutPageLabel": "Névjegy",
+  "@aboutPageLabel": {},
+  "aboutPageContributorTitle": "Közreműködtek:",
+  "@aboutPageContributorTitle": {},
+  "aboutPageCommunityTitle": "Csatlakozás a közösséghez:",
+  "@aboutPageCommunityTitle": {},
+  "aboutPageContributeLabel": "Hibajegy küldése",
+  "@aboutPageContributeLabel": {},
+  "aboutPageVersionLabel": "{version} verzió",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "appstreamUrlTypeFaq": "GYIK",
+  "@appstreamUrlTypeFaq": {},
+  "appstreamUrlTypeHelp": "Súgó",
+  "@appstreamUrlTypeHelp": {},
+  "appstreamUrlTypeHomepage": "Honlap",
+  "@appstreamUrlTypeHomepage": {},
+  "appstreamUrlTypeTranslate": "Fordította",
+  "@appstreamUrlTypeTranslate": {},
+  "snapActionCancelLabel": "Mégse",
+  "@snapActionCancelLabel": {},
+  "snapActionInstallingLabel": "Telepítés...",
+  "@snapActionInstallingLabel": {},
+  "snapActionRemoveLabel": "Eltávolítás",
+  "@snapActionRemoveLabel": {},
+  "snapActionRemovingLabel": "Eltávolítás...",
+  "@snapActionRemovingLabel": {},
+  "snapActionUpdatingLabel": "Frissítés...",
+  "@snapActionUpdatingLabel": {},
+  "snapCategoryDefaultButtonLabel": "Felfedezés",
+  "@snapCategoryDefaultButtonLabel": {},
+  "snapCategoryDevelopmentSlogan": "Ajánlott snap alkalmazások fejlesztők számára",
+  "@snapCategoryDevelopmentSlogan": {},
+  "snapCategoryFeaturedSlogan": "Kiemelt snap alkalmazások",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapCategoryGameDev": "Játékfejlesztés",
+  "@snapCategoryGameDev": {},
+  "snapCategoryGameDevSlogan": "Játékfejlesztés",
+  "@snapCategoryGameDevSlogan": {},
+  "snapCategoryGnomeGamesSlogan": "GNOME játékcsomag",
+  "@snapCategoryGnomeGamesSlogan": {},
+  "snapCategoryKdeGames": "KDE játékok",
+  "@snapCategoryKdeGames": {},
+  "snapCategoryUbuntuDesktop": "Ubuntu asztal",
+  "@snapCategoryUbuntuDesktop": {},
+  "snapRatingsBandVeryGood": "Nagyon jó",
+  "@snapRatingsBandVeryGood": {},
+  "snapRatingsBandGood": "Jó",
+  "@snapRatingsBandGood": {},
+  "snapRatingsBandNeutral": "Semleges",
+  "@snapRatingsBandNeutral": {},
+  "snapReportSelectReportReasonLabel": "Jelentés okának kiválasztása",
+  "@snapReportSelectReportReasonLabel": {},
+  "snapReportOptionCopyrightViolation": "Szerzői jog megsértése",
+  "@snapReportOptionCopyrightViolation": {},
+  "snapReportSelectAnOptionLabel": "Indok kiválasztása",
+  "@snapReportSelectAnOptionLabel": {},
+  "externalResourcesButtonLabel": "Felfedezés",
+  "@externalResourcesButtonLabel": {},
+  "gamesPageTop": "Felkapott",
+  "@gamesPageTop": {},
+  "gamesPageFeatured": "Kiemelt",
+  "@gamesPageFeatured": {},
+  "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} héttel} other{{n} héttel}} ezelőtt frissítve",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} hónappal} other{{n} hónappal}} ezelőtt frissítve",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "{n, plural, =1{{n} évvel} other{{n} évvel}} ezelőtt frissítve",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryPersonalisation": "Személyre szabás",
+  "@snapCategoryPersonalisation": {}
 }

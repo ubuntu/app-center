@@ -386,5 +386,21 @@
   "openInBrowser": "在瀏覽器中開啟",
   "@openInBrowser": {},
   "installAll": "全部安裝",
-  "@installAll": {}
+  "@installAll": {},
+  "snapPageSizeLabel": "大小",
+  "@snapPageSizeLabel": {},
+  "localDebLearnMore": "了解有關此第三方套件的更多資訊",
+  "@localDebLearnMore": {},
+  "localDebWarningBody": "此套件由第三方提供。從應用中心外安裝套件可能會增加系統和個人資料的風險。請在繼續操作前確認您信任此來源。",
+  "@localDebWarningBody": {},
+  "localDebDialogConfirmation": "您確定要安裝它嗎？",
+  "@localDebDialogConfirmation": {},
+  "localDebDialogMessage": "此套件由第三方提供，可能會危害您的系統及個人資料。",
+  "@localDebDialogMessage": {},
+  "appstreamUrlTypeContribute": "貢獻",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeVcsBrowser": "來源",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "localDebWarningTitle": "可能不安全",
+  "@localDebWarningTitle": {}
 }
