@@ -402,5 +402,7 @@
   "localDebWarningBody": "Pakiet ten jest dostarczany przez innego dostawcę. Instalowanie pakietów spoza Centrum oprogramowania może zwiększyć ryzyko w przypadku systemu i prywatnych danych. Zanim przejdziesz dalej, upewnij się, że ufasz źródłu.",
   "@localDebWarningBody": {},
   "localDebDialogMessage": "Ten pakiet jest dostarczany przez innego dostawcę, może zagrozić systemowi i prywatnym danym.",
-  "@localDebDialogMessage": {}
+  "@localDebDialogMessage": {},
+  "managePageDebUpdatesMessage": "Aktualizacje pakietów Debiana są obsługiwane przez aktualizator oprogramowania.",
+  "@managePageDebUpdatesMessage": {}
 }
