@@ -69,6 +69,8 @@ class _ManageView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final filteredLocalSnaps = ref.watch(localSnapsProvider);
     final l10n = AppLocalizations.of(context);
+    final textTheme = Theme.of(context).textTheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: kPagePadding),
       child: ResponsiveLayoutScrollView(
@@ -77,11 +79,15 @@ class _ManageView extends ConsumerWidget {
             children: [
               Text(
                 l10n.managePageLabel,
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: textTheme.headlineSmall,
               ),
               Text(
                 l10n.managePageDescription,
-                style: Theme.of(context).textTheme.titleMedium,
+                style: textTheme.titleMedium,
+              ),
+              Text(
+                l10n.managePageDebUpdatesMessage,
+                style: textTheme.titleMedium,
               ),
               const SizedBox(height: 48),
               Builder(
@@ -115,7 +121,7 @@ class _ManageView extends ConsumerWidget {
               if (manageModel.refreshableSnaps.isEmpty)
                 Text(
                   l10n.managePageNoUpdatesAvailableDescription,
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: textTheme.titleMedium,
                 ),
             ],
           ),
