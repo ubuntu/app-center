@@ -24,6 +24,20 @@ class AppCardGrid extends StatelessWidget {
         ),
       );
 
+  factory AppCardGrid.fromRatedSnaps({
+    required List<Snap> snaps,
+    required ValueChanged<Snap> onTap,
+  }) =>
+      AppCardGrid(
+        appCards: snaps.asMap().entries.map(
+              (entry) => AppCard.fromRatedSnap(
+                snap: entry.value,
+                onTap: () => onTap(entry.value),
+                rating: entry.key + 1,
+              ),
+            ),
+      );
+
   factory AppCardGrid.fromDebs({
     required List<AppstreamComponent> debs,
     required ValueChanged<AppstreamComponent> onTap,
