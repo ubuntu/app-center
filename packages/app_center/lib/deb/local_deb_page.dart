@@ -161,7 +161,11 @@ class _LocalDebActionButtons extends ConsumerWidget {
                   Flexible(child: Text(l10n.snapActionInstallingLabel)),
                 ],
               )
-            : Text(l10n.snapActionInstallLabel),
+            : Text(
+                debData.isInstalled
+                    ? l10n.snapActionInstalledLabel
+                    : l10n.snapActionInstallLabel,
+              ),
       ),
     );
 
