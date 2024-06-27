@@ -22,7 +22,7 @@ class FeaturedCarousel extends ConsumerStatefulWidget {
 
 class _FeaturedCarouselState extends ConsumerState<FeaturedCarousel> {
   late YaruCarouselController controller;
-  late Iterable<Snap> snaps;
+  Iterable<Snap> snaps = [];
 
   @override
   Widget build(BuildContext context) {

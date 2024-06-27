@@ -21,6 +21,7 @@ class AppCard extends StatelessWidget {
     this.compact = false,
     this.iconUrl,
     this.footer,
+    this.rating = 0,
   });
 
   AppCard.fromSnap({
@@ -33,6 +34,20 @@ class AppCard extends StatelessWidget {
           iconUrl: snap.iconUrl,
           footer: _RatingsInfo(snap: snap),
           onTap: onTap,
+        );
+
+  AppCard.fromRatedSnap({
+    required Snap snap,
+    required int rating,
+    VoidCallback? onTap,
+  }) : this(
+          key: ValueKey(snap.id),
+          title: AppTitle.fromSnap(snap),
+          summary: snap.summary,
+          iconUrl: snap.iconUrl,
+          footer: _RatingsInfo(snap: snap),
+          onTap: onTap,
+          rating: rating,
         );
 
   AppCard.fromDeb({
@@ -73,12 +88,14 @@ class AppCard extends StatelessWidget {
   final bool compact;
   final String? iconUrl;
   final Widget? footer;
+  final int rating;
 
   @override
   Widget build(BuildContext context) {
-    return YaruBanner(
+    final banner = YaruBanner(
       padding: const EdgeInsets.all(kCardSpacing),
       onTap: onTap,
+      color: Theme.of(context).cardColor,
       child: Flex(
         direction: compact ? Axis.vertical : Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,13 +105,34 @@ class AppCard extends StatelessWidget {
           Expanded(
             child: _AppCardBody(
               title: title,
-              summary: summary,
+              summary: rating > 0 ? '' : summary,
               footer: footer,
             ),
           ),
         ],
       ),
     );
+
+    return rating > 0
+        ? Flex(
+            direction: Axis.horizontal,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                  child: Text(
+                rating.toString(),
+                style: const TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              )),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(child: banner),
+            ],
+          )
+        : banner;
   }
 }
 
@@ -168,14 +206,16 @@ class _AppCardBody extends StatelessWidget {
             child: title,
           ),
         ),
-        const SizedBox(height: 12),
-        Flexible(
-          child: Text(
-            summary,
-            maxLines: maxlines,
-            overflow: TextOverflow.ellipsis,
+        if (summary.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          Flexible(
+            child: Text(
+              summary,
+              maxLines: maxlines,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
+        ],
         if (footer != null) ...[
           const SizedBox(height: 8),
           footer!,
