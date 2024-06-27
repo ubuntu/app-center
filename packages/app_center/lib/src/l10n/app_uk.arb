@@ -386,5 +386,21 @@
   "debPageErrorNoPackageInfo": "Інформація про пакет не знайдена",
   "@debPageErrorNoPackageInfo": {},
   "externalResources": "Додаткові ресурси",
-  "@externalResources": {}
+  "@externalResources": {},
+  "appstreamUrlTypeContribute": "Зробити внесок",
+  "@appstreamUrlTypeContribute": {},
+  "snapPageSizeLabel": "Розмір",
+  "@snapPageSizeLabel": {},
+  "appstreamUrlTypeVcsBrowser": "Джерело",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "localDebWarningTitle": "Потенційно небезпечно",
+  "@localDebWarningTitle": {},
+  "localDebLearnMore": "Дізнайтеся більше про сторонні пакети",
+  "@localDebLearnMore": {},
+  "localDebDialogMessage": "Цей пакет надається третьою стороною і може загрожувати вашій системі та персональним даним.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "Ви впевнені, що ви бажаєте встановити це?",
+  "@localDebDialogConfirmation": {},
+  "localDebWarningBody": "Цей пакет надається третьою стороною. Встановлення пакунків не з Центру додатків може збільшити ризик для вашої системи та особистих даних. Переконайтеся, що ви довіряєте джерелу, перш ніж продовжувати.",
+  "@localDebWarningBody": {}
 }
