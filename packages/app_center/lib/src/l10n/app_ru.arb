@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Разработка",
   "@developmentPageLabel": {},
-  "managePageLabel": "Управление",
+  "managePageLabel": "Управление установленными Snap",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Канал",
   "@snapPageChannelLabel": {},
@@ -402,5 +402,9 @@
   "localDebDialogMessage": "Этот пакет предоставляется третьей стороной и может представлять угрозу для Вашей системы и персональных данных.",
   "@localDebDialogMessage": {},
   "localDebDialogConfirmation": "Вы уверены, что хотите установить его?",
-  "@localDebDialogConfirmation": {}
+  "@localDebDialogConfirmation": {},
+  "snapActionInstalledLabel": "Установлено",
+  "@snapActionInstalledLabel": {},
+  "managePageDebUpdatesMessage": "Обновление пакетов Debian осуществляется с помощью Software Updater.",
+  "@managePageDebUpdatesMessage": {}
 }
