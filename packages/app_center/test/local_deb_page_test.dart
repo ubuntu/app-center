@@ -66,7 +66,7 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.button(tester.l10n.snapActionInstallLabel), isDisabled);
+    expect(find.button(tester.l10n.snapActionInstalledLabel), isDisabled);
   });
 
   testWidgets('install', (tester) async {

@@ -145,6 +145,7 @@
     "packageFormatSnapLabel": "Snap packages",
     "snapActionCancelLabel": "Cancel",
     "snapActionInstallLabel": "Install",
+    "snapActionInstalledLabel": "Installed",
     "snapActionInstallingLabel": "Installing",
     "snapActionOpenLabel": "Open",
     "snapActionRemoveLabel": "Uninstall",
