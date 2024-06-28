@@ -126,7 +126,6 @@ void main() {
       await tester.pump();
 
       expect(find.text('error message'), findsOneWidget);
-      expect(find.text('error kind'), findsOneWidget);
     });
   });
 }

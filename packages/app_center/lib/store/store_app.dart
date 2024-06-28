@@ -88,8 +88,8 @@ class _StoreAppHome extends ConsumerWidget {
   Future<void> _showError(BuildContext context, SnapdException e) {
     return showErrorDialog(
       context: context,
-      title: e.kind ?? 'Unknown Snapd Exception',
-      message: e.message,
+      title: UbuntuLocalizations.of(context).errorLabel,
+      message: e.prettyFormat(AppLocalizations.of(context)),
     );
   }
 
