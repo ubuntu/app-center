@@ -404,5 +404,7 @@
   "localDebDialogMessage": "Ten pakiet jest dostarczany przez innego dostawcę, może zagrozić systemowi i prywatnym danym.",
   "@localDebDialogMessage": {},
   "managePageDebUpdatesMessage": "Aktualizacje pakietów Debiana są obsługiwane przez aktualizator oprogramowania.",
-  "@managePageDebUpdatesMessage": {}
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Zainstalowano",
+  "@snapActionInstalledLabel": {}
 }
