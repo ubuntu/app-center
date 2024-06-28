@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Programado",
   "@developmentPageLabel": {},
-  "managePageLabel": "Administri",
+  "managePageLabel": "Administri instalitajn Snap-pakojn",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanalo",
   "@snapPageChannelLabel": {},
@@ -402,5 +402,7 @@
   "localDebDialogMessage": "Tiu pako estas disponigita de tria partio kaj povas minaci vian sistemon kaj personajn datenojn.",
   "@localDebDialogMessage": {},
   "localDebWarningBody": "Tiu pako estas disponigita de tria partio. Instalado de pakoj ekster Programcentro povas pliigi la riskon al via sistemo kaj personaj datenoj. Certigu, ke vi fidas la fonton antaŭ ol daŭrigi.",
-  "@localDebWarningBody": {}
+  "@localDebWarningBody": {},
+  "managePageDebUpdatesMessage": "Ĝisdatigon de Debian-pakoj respondecas la Ĝisdatigilo de Programaroj.",
+  "@managePageDebUpdatesMessage": {}
 }
