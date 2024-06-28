@@ -1,7 +1,7 @@
-import 'package:app_center/appstream.dart';
-import 'package:app_center/src/deb/deb_model.dart';
-import 'package:app_center/src/deb/deb_page.dart';
-import 'package:app_center/src/packagekit/packagekit_service.dart';
+import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/deb/deb_model.dart';
+import 'package:app_center/deb/deb_page.dart';
+import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -34,10 +34,12 @@ void main() {
       packageInfo: packageInfo,
     );
 
-    await tester.pumpApp((_) => ProviderScope(
-          overrides: [debModelProvider.overrideWith((_, __) => debModel)],
-          child: const DebPage(id: 'testdeb'),
-        ));
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [debModelProvider.overrideWith((_, __) => debModel)],
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
     await tester.pump();
 
     expect(find.text(component.getLocalizedName()), findsOneWidget);
@@ -59,14 +61,18 @@ void main() {
       ),
     );
 
-    await tester.pumpApp((_) => ProviderScope(
-          overrides: [debModelProvider.overrideWith((_, __) => debModel)],
-          child: const DebPage(id: 'testdeb'),
-        ));
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [debModelProvider.overrideWith((_, __) => debModel)],
+        child: const DebPage(id: 'testdeb'),
+      ),
+    );
     await tester.pump();
 
     expect(find.text('internal error'), findsOneWidget);
-    expect(find.text('PackageKit error: ${PackageKitError.internalError}'),
-        findsOneWidget);
+    expect(
+      find.text('PackageKit error: ${PackageKitError.internalError}'),
+      findsOneWidget,
+    );
   });
 }

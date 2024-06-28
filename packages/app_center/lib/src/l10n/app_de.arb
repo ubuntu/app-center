@@ -165,7 +165,7 @@
   "@managePageInstalledAndUpdatedLabel": {},
   "appstreamUrlTypeHomepage": "Homepage",
   "@appstreamUrlTypeHomepage": {},
-  "managePageUpdatedDaysAgo": "Vor {n} Tagen aktualisiert",
+  "managePageUpdatedDaysAgo": "Aktualisiert vor {n, plural, =1{{n} Tag} other{{n} Tagen}}",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -386,5 +386,21 @@
         "type": "int"
       }
     }
-  }
+  },
+  "appstreamUrlTypeContribute": "Beitragen",
+  "@appstreamUrlTypeContribute": {},
+  "snapPageSizeLabel": "Größe",
+  "@snapPageSizeLabel": {},
+  "appstreamUrlTypeVcsBrowser": "Quelle",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "localDebWarningTitle": "Möglicherweise unsicher",
+  "@localDebWarningTitle": {},
+  "localDebLearnMore": "Mehr über Pakete von Drittanbietern erfahren",
+  "@localDebLearnMore": {},
+  "localDebDialogMessage": "Dieses Paket wird von einem Drittanbieter bereitgestellt und kann Ihr System und Ihre persönlichen Daten gefährden.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "Sind Sie sicher, dass Sie es installieren möchten?",
+  "@localDebDialogConfirmation": {},
+  "localDebWarningBody": "Dieses Paket wird von einem Drittanbieter bereitgestellt. Die Installation von Paketen von außerhalb des App Centers kann das Risiko für Ihr System und Ihre persönlichen Daten erhöhen. Stellen Sie sicher, dass Sie der Quelle vertrauen, bevor Sie fortfahren.",
+  "@localDebWarningBody": {}
 }

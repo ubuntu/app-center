@@ -10,7 +10,7 @@ command:
       flutter: '>=3.19.6'
 
     dev_dependencies:
-      ubuntu_lints: ^0.3.1
+      ubuntu_lints: ^0.4.0
 
 scripts:
   # analyze all packages
@@ -40,7 +40,7 @@ scripts:
         -o coverage/lcov.info
 
   # format all packages
-  format: >
+  format:exclude: >
     find . -name '*.dart' \
       ! -name '*.freezed.dart' \
       ! -name '*.g.dart' \

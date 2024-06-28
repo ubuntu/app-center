@@ -1,4 +1,4 @@
-import 'package:app_center/src/store/store_routes.dart';
+import 'package:app_center/store/store_routes.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -59,13 +59,19 @@ void main() {
     expect(StoreRoutes.namedRoute('/'), equals('/'));
     expect(StoreRoutes.namedRoute('/foo'), equals('/foo'));
     expect(
-        StoreRoutes.namedRoute('/foo', {'bar': 'baz'}), equals('/foo?bar=baz'));
+      StoreRoutes.namedRoute('/foo', {'bar': 'baz'}),
+      equals('/foo?bar=baz'),
+    );
 
     expect(StoreRoutes.namedSnap(name: 'foo'), equals('/snap?snap=foo'));
-    expect(StoreRoutes.namedSearch(query: 'bar', category: 'qux'),
-        equals('/search?query=bar&category=qux'));
-    expect(StoreRoutes.namedSearchSnap(query: 'bar', name: 'foo'),
-        equals('/snap?snap=foo&query=bar'));
+    expect(
+      StoreRoutes.namedSearch(query: 'bar', category: 'qux'),
+      equals('/search?query=bar&category=qux'),
+    );
+    expect(
+      StoreRoutes.namedSearchSnap(query: 'bar', name: 'foo'),
+      equals('/snap?snap=foo&query=bar'),
+    );
     expect(StoreRoutes.namedDeb(id: 'baz'), equals('/deb?deb=baz'));
   });
 }

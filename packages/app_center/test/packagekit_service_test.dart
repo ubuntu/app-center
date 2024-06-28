@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app_center/src/packagekit/packagekit_service.dart';
+import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:dbus/dbus.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -27,23 +27,27 @@ void main() {
       );
       expect(packageKit.isAvailable, isFalse);
       await packageKit.activateService();
-      verify(dbus.callMethod(
-        path: DBusObjectPath(_dBusObjectPath),
-        destination: _dBusName,
-        name: 'StartServiceByName',
-        interface: _dBusInterface,
-        values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
-      )).called(1);
+      verify(
+        dbus.callMethod(
+          path: DBusObjectPath(_dBusObjectPath),
+          destination: _dBusName,
+          name: 'StartServiceByName',
+          interface: _dBusInterface,
+          values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
+        ),
+      ).called(1);
       expect(packageKit.isAvailable, isTrue);
 
       await packageKit.activateService();
-      verifyNever(dbus.callMethod(
-        path: DBusObjectPath(_dBusObjectPath),
-        destination: _dBusName,
-        name: 'StartServiceByName',
-        interface: _dBusInterface,
-        values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
-      ));
+      verifyNever(
+        dbus.callMethod(
+          path: DBusObjectPath(_dBusObjectPath),
+          destination: _dBusName,
+          name: 'StartServiceByName',
+          interface: _dBusInterface,
+          values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
+        ),
+      );
     });
 
     test('service unavailable', () async {
@@ -61,13 +65,15 @@ void main() {
       );
       expect(packageKit.isAvailable, isFalse);
       await packageKit.activateService();
-      verify(dbus.callMethod(
-        path: DBusObjectPath(_dBusObjectPath),
-        destination: _dBusName,
-        name: 'StartServiceByName',
-        interface: _dBusInterface,
-        values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
-      )).called(1);
+      verify(
+        dbus.callMethod(
+          path: DBusObjectPath(_dBusObjectPath),
+          destination: _dBusName,
+          name: 'StartServiceByName',
+          interface: _dBusInterface,
+          values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
+        ),
+      ).called(1);
       expect(packageKit.isAvailable, isFalse);
     });
   });
@@ -86,8 +92,11 @@ void main() {
     await packageKit.activateService();
     final id = await packageKit
         .install(const PackageKitPackageId(name: 'foo', version: '1.0'));
-    verify(mockTransaction.installPackages(
-        [const PackageKitPackageId(name: 'foo', version: '1.0')])).called(1);
+    verify(
+      mockTransaction.installPackages(
+        [const PackageKitPackageId(name: 'foo', version: '1.0')],
+      ),
+    ).called(1);
     final transaction = packageKit.getTransaction(id);
     expect(transaction, isNotNull);
     completer.complete();
@@ -133,8 +142,11 @@ void main() {
     await packageKit.activateService();
     final id = await packageKit
         .remove(const PackageKitPackageId(name: 'foo', version: '1.0'));
-    verify(mockTransaction.removePackages(
-        [const PackageKitPackageId(name: 'foo', version: '1.0')])).called(1);
+    verify(
+      mockTransaction.removePackages(
+        [const PackageKitPackageId(name: 'foo', version: '1.0')],
+      ),
+    ).called(1);
     final transaction = packageKit.getTransaction(id);
     expect(transaction, isNotNull);
     completer.complete();
@@ -189,7 +201,7 @@ void main() {
               arch: 'i386',
             ),
             summary: 'summary',
-          )
+          ),
         ],
       );
       final mockClient =
@@ -272,8 +284,11 @@ void main() {
     await packageKit.activateService();
     final id = await packageKit
         .install(const PackageKitPackageId(name: 'foo', version: '1.0'));
-    verify(mockTransaction.installPackages(
-        [const PackageKitPackageId(name: 'foo', version: '1.0')])).called(1);
+    verify(
+      mockTransaction.installPackages(
+        [const PackageKitPackageId(name: 'foo', version: '1.0')],
+      ),
+    ).called(1);
     final transaction = packageKit.getTransaction(id);
     expect(transaction, isNotNull);
     await packageKit.cancelTransaction(id);
@@ -315,12 +330,14 @@ void main() {
 @GenerateMocks([DBusClient])
 MockDBusClient createMockDbusClient() {
   final dbus = MockDBusClient();
-  when(dbus.callMethod(
-    path: DBusObjectPath(_dBusObjectPath),
-    destination: _dBusName,
-    name: 'StartServiceByName',
-    interface: _dBusInterface,
-    values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
-  )).thenAnswer((_) async => DBusMethodSuccessResponse());
+  when(
+    dbus.callMethod(
+      path: DBusObjectPath(_dBusObjectPath),
+      destination: _dBusName,
+      name: 'StartServiceByName',
+      interface: _dBusInterface,
+      values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
+    ),
+  ).thenAnswer((_) async => DBusMethodSuccessResponse());
   return dbus;
 }

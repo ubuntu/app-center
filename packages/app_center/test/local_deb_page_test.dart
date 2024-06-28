@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:app_center/deb.dart';
+import 'package:app_center/deb/deb.dart';
 import 'package:app_center/l10n.dart';
-import 'package:app_center/packagekit.dart';
+import 'package:app_center/packagekit/packagekit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -66,7 +66,7 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.button(tester.l10n.snapActionInstallLabel), isDisabled);
+    expect(find.button(tester.l10n.snapActionInstalledLabel), isDisabled);
   });
 
   testWidgets('install', (tester) async {

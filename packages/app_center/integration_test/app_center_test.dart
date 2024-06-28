@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:app_center/main.dart' as app;
-import 'package:app_center/src/store/store_app.dart';
+import 'package:app_center/store/store_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -37,7 +37,8 @@ void main() {
     );
     expect(
       find.text(
-          'This is a minimal test package for App Center integration tests.'),
+        'This is a minimal test package for App Center integration tests.',
+      ),
       findsOneWidget,
     );
     expect(

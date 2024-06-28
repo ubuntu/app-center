@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app_center/snapd.dart';
+import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -9,10 +9,10 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
 
-const localSnap = Snap(
+final localSnap = createSnap(
   name: 'testsnap',
   title: 'Testsnap',
-  publisher: SnapPublisher(displayName: 'testPublisher'),
+  publisher: const SnapPublisher(id: '', displayName: 'testPublisher'),
   version: '2.0.0',
   website: 'https://example.com',
   confinement: SnapConfinement.classic,
@@ -22,10 +22,10 @@ const localSnap = Snap(
   channel: 'latest/edge',
 );
 
-final storeSnap = Snap(
+final storeSnap = createSnap(
   name: 'testsnap',
   title: 'Testsnap',
-  publisher: const SnapPublisher(displayName: 'testPublisher'),
+  publisher: const SnapPublisher(id: '', displayName: 'testPublisher'),
   version: '1.0.0',
   website: 'https://example.com',
   confinement: SnapConfinement.strict,
@@ -127,10 +127,12 @@ void main() {
       await subscription.read();
       await container.read(snapModelProvider('testsnap').notifier).install();
 
-      verify(service.install(
-        'testsnap',
-        channel: 'latest/stable',
-      )).called(1);
+      verify(
+        service.install(
+          'testsnap',
+          channel: 'latest/stable',
+        ),
+      ).called(1);
     });
 
     test('non-default channel', () async {
@@ -142,11 +144,13 @@ void main() {
           .selectChannel('latest/edge');
       await container.read(snapModelProvider('testsnap').notifier).install();
 
-      verify(service.install(
-        'testsnap',
-        channel: 'latest/edge',
-        classic: true,
-      )).called(1);
+      verify(
+        service.install(
+          'testsnap',
+          channel: 'latest/edge',
+          classic: true,
+        ),
+      ).called(1);
     });
   });
 
@@ -163,11 +167,13 @@ void main() {
           .selectChannel('latest/edge');
       await container.read(snapModelProvider('testsnap').notifier).refresh();
 
-      verify(service.refresh(
-        'testsnap',
-        channel: 'latest/edge',
-        classic: true,
-      )).called(1);
+      verify(
+        service.refresh(
+          'testsnap',
+          channel: 'latest/edge',
+          classic: true,
+        ),
+      ).called(1);
     });
 
     test('switch channel', () async {
@@ -185,10 +191,12 @@ void main() {
           .selectChannel('latest/stable');
       await container.read(snapModelProvider('testsnap').notifier).refresh();
 
-      verify(service.refresh(
-        'testsnap',
-        channel: 'latest/stable',
-      )).called(1);
+      verify(
+        service.refresh(
+          'testsnap',
+          channel: 'latest/stable',
+        ),
+      ).called(1);
     });
   });
 
@@ -210,15 +218,17 @@ void main() {
       localSnap: localSnap,
       storeSnap: storeSnap,
       changes: [
-        SnapdChange(spawnTime: DateTime(1970), ready: true),
+        SnapdChange(id: '', spawnTime: DateTime(1970), ready: true),
       ],
     );
 
-    when(service.install(
-      any,
-      channel: anyNamed('channel'),
-      classic: anyNamed('classic'),
-    )).thenAnswer((_) async => 'changeId');
+    when(
+      service.install(
+        any,
+        channel: anyNamed('channel'),
+        classic: anyNamed('classic'),
+      ),
+    ).thenAnswer((_) async => 'changeId');
 
     when(service.watchChange('changeId')).thenAnswer(
       (_) => Stream.fromIterable([
@@ -245,11 +255,13 @@ void main() {
       localSnap: localSnap,
       storeSnap: storeSnap,
     );
-    when(service.install(
-      any,
-      channel: anyNamed('channel'),
-      classic: anyNamed('classic'),
-    )).thenThrow(SnapdException(message: 'error message', kind: 'error kind'));
+    when(
+      service.install(
+        any,
+        channel: anyNamed('channel'),
+        classic: anyNamed('classic'),
+      ),
+    ).thenThrow(SnapdException(message: 'error message', kind: 'error kind'));
 
     await container.read(snapModelProvider('testsnap').future);
     await expectLater(
@@ -262,15 +274,19 @@ void main() {
     final testCases = [
       (
         name: 'no tasks',
-        change: SnapdChange(spawnTime: DateTime(1970)),
+        change: SnapdChange(id: '', spawnTime: DateTime(1970)),
         expectedProgress: 0.0,
       ),
       (
         name: '60% completed',
-        change: SnapdChange(spawnTime: DateTime(1970), tasks: [
-          SnapdTask(progress: const SnapdTaskProgress(done: 2, total: 3)),
-          SnapdTask(progress: const SnapdTaskProgress(done: 4, total: 7)),
-        ]),
+        change: SnapdChange(
+          id: '',
+          spawnTime: DateTime(1970),
+          tasks: const [
+            SnapdTask(id: '', progress: SnapdTaskProgress(done: 2, total: 3)),
+            SnapdTask(id: '', progress: SnapdTaskProgress(done: 4, total: 7)),
+          ],
+        ),
         expectedProgress: 0.6,
       ),
     ];

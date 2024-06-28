@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ChartData {
   double get rawRating => throw _privateConstructorUsedError;
-  common.Rating get rating => throw _privateConstructorUsedError;
+  Rating get rating => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChartDataCopyWith<ChartData> get copyWith =>
@@ -29,7 +29,9 @@ abstract class $ChartDataCopyWith<$Res> {
   factory $ChartDataCopyWith(ChartData value, $Res Function(ChartData) then) =
       _$ChartDataCopyWithImpl<$Res, ChartData>;
   @useResult
-  $Res call({double rawRating, common.Rating rating});
+  $Res call({double rawRating, Rating rating});
+
+  $RatingCopyWith<$Res> get rating;
 }
 
 /// @nodoc
@@ -56,8 +58,16 @@ class _$ChartDataCopyWithImpl<$Res, $Val extends ChartData>
       rating: null == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as common.Rating,
+              as Rating,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RatingCopyWith<$Res> get rating {
+    return $RatingCopyWith<$Res>(_value.rating, (value) {
+      return _then(_value.copyWith(rating: value) as $Val);
+    });
   }
 }
 
@@ -69,7 +79,10 @@ abstract class _$$ChartDataImplCopyWith<$Res>
       __$$ChartDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double rawRating, common.Rating rating});
+  $Res call({double rawRating, Rating rating});
+
+  @override
+  $RatingCopyWith<$Res> get rating;
 }
 
 /// @nodoc
@@ -94,7 +107,7 @@ class __$$ChartDataImplCopyWithImpl<$Res>
       rating: null == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as common.Rating,
+              as Rating,
     ));
   }
 }
@@ -107,7 +120,7 @@ class _$ChartDataImpl implements _ChartData {
   @override
   final double rawRating;
   @override
-  final common.Rating rating;
+  final Rating rating;
 
   @override
   String toString() {
@@ -137,12 +150,12 @@ class _$ChartDataImpl implements _ChartData {
 abstract class _ChartData implements ChartData {
   const factory _ChartData(
       {required final double rawRating,
-      required final common.Rating rating}) = _$ChartDataImpl;
+      required final Rating rating}) = _$ChartDataImpl;
 
   @override
   double get rawRating;
   @override
-  common.Rating get rating;
+  Rating get rating;
   @override
   @JsonKey(ignore: true)
   _$$ChartDataImplCopyWith<_$ChartDataImpl> get copyWith =>

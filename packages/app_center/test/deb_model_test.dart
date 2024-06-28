@@ -1,5 +1,5 @@
-import 'package:app_center/src/deb/deb_model.dart';
-import 'package:app_center/src/packagekit/packagekit_service.dart';
+import 'package:app_center/deb/deb_model.dart';
+import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -54,10 +54,12 @@ void main() {
     await model.install();
 
     verify(
-      packageKit.install(const PackageKitPackageId(
-        name: 'testdeb',
-        version: '1.0',
-      )),
+      packageKit.install(
+        const PackageKitPackageId(
+          name: 'testdeb',
+          version: '1.0',
+        ),
+      ),
     ).called(1);
   });
   test('remove', () async {
@@ -76,10 +78,12 @@ void main() {
     await model.remove();
 
     verify(
-      packageKit.remove(const PackageKitPackageId(
-        name: 'testdeb',
-        version: '1.0',
-      )),
+      packageKit.remove(
+        const PackageKitPackageId(
+          name: 'testdeb',
+          version: '1.0',
+        ),
+      ),
     ).called(1);
   });
 
