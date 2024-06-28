@@ -1,5 +1,4 @@
 import 'package:app_center/l10n.dart';
-import 'package:app_center/snapd/snap_data.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/widgets.dart';
 import 'package:yaru/icons.dart';
