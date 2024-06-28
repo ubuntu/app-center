@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   flutter_markdown: ^0.6.16
   flutter_riverpod: ^2.5.1
+  flutter_svg: ^2.0.10+1
   freezed_annotation: ^2.4.1
   github: ^9.24.0
   glib: ^0.0.1

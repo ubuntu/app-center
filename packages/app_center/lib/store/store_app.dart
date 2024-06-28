@@ -1,4 +1,5 @@
 import 'package:app_center/deb/deb.dart';
+import 'package:app_center/error/error.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';

@@ -263,5 +263,7 @@
             }
         }
     },
-    "snapdExceptionNetworkTimeout": "Network timeout. Please check your internet connection and try again."
+    "snapdExceptionNetworkTimeout": "Network timeout. Please check your internet connection and try again.",
+    "errorViewTitle": "Something went wrong",
+    "errorViewUnknownError": "An unknown error occurred"
 }

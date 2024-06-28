@@ -4,6 +4,7 @@ import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/deb_providers.dart';
+import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
@@ -59,7 +60,7 @@ class _DebPageState extends ConsumerState<DebPage> {
           debModel: debModel,
         ),
       ),
-      error: (error, stackTrace) => ErrorWidget(error),
+      error: (error, stackTrace) => ErrorView(error: error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }

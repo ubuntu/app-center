@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app_center/snapd/snap_data.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';

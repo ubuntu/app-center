@@ -72,6 +72,9 @@ void main() {
     testWidgets(
       'errorStreamProvider receives exception when thrown',
       (tester) async {
+        registerMockService<GtkApplicationNotifier>(
+          createMockGtkApplicationNotifier(),
+        );
         final snapdService = registerMockSnapdService();
         registerService<ErrorStreamController>(ErrorStreamController.new);
 
