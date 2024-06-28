@@ -404,5 +404,7 @@
   "localDebLearnMore": "Získajte viac informácií o balíkoch tretích strán",
   "@localDebLearnMore": {},
   "managePageDebUpdatesMessage": "Aktualizácie balíkov debianu spravuje nástroj na aktualizáciu softvéru.",
-  "@managePageDebUpdatesMessage": {}
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Nainštalované",
+  "@snapActionInstalledLabel": {}
 }
