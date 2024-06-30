@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Розробка",
   "@developmentPageLabel": {},
-  "managePageLabel": "Керувати",
+  "managePageLabel": "Керувати встановленими прив'язками",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Джерело",
   "@snapPageChannelLabel": {},
@@ -402,5 +402,9 @@
   "localDebDialogConfirmation": "Ви впевнені, що ви бажаєте встановити це?",
   "@localDebDialogConfirmation": {},
   "localDebWarningBody": "Цей пакет надається третьою стороною. Встановлення пакунків не з Центру додатків може збільшити ризик для вашої системи та особистих даних. Переконайтеся, що ви довіряєте джерелу, перш ніж продовжувати.",
-  "@localDebWarningBody": {}
+  "@localDebWarningBody": {},
+  "managePageDebUpdatesMessage": "Оновлення пакунків Debian виконує програма оновлення програмного забезпечення.",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Встановлено",
+  "@snapActionInstalledLabel": {}
 }
