@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Kehitystyö",
   "@developmentPageLabel": {},
-  "managePageLabel": "Hallitse",
+  "managePageLabel": "Hallitse asennettuja snap-paketteja",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanava",
   "@snapPageChannelLabel": {},
@@ -386,5 +386,23 @@
         "type": "int"
       }
     }
-  }
+  },
+  "managePageDebUpdatesMessage": "Debian-pakettien päivityksistä vastaa Ohjelmistojen päivitys.",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Asennettu",
+  "@snapActionInstalledLabel": {},
+  "appstreamUrlTypeContribute": "Osallistu",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeVcsBrowser": "Lähde",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "localDebDialogMessage": "Tämän paketin tarjoaa kolmas osapuoli, ja se saattaa olla uhka järjestelmän turvallisuudelle sekä henkilökohtaisille tiedoille.",
+  "@localDebDialogMessage": {},
+  "localDebWarningTitle": "Mahdollisesti turvaton",
+  "@localDebWarningTitle": {},
+  "localDebLearnMore": "Lue lisää kolmansien osapuolten paketeista",
+  "@localDebLearnMore": {},
+  "localDebDialogConfirmation": "Haluatko varmasti asentaa sen?",
+  "@localDebDialogConfirmation": {},
+  "snapPageSizeLabel": "Koko",
+  "@snapPageSizeLabel": {}
 }
