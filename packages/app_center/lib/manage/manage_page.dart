@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/constants.dart';
+import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
@@ -55,7 +56,7 @@ class _ManagePageState extends ConsumerState<ManagePage> {
     final manageModel = ref.watch(manageModelProvider);
     return manageModel.state.when(
       data: (_) => _ManageView(manageModel: manageModel),
-      error: (error, stack) => ErrorWidget(error),
+      error: (error, stack) => ErrorView(error: error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }

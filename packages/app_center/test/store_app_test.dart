@@ -72,6 +72,9 @@ void main() {
     testWidgets(
       'errorStreamProvider receives exception when thrown',
       (tester) async {
+        registerMockService<GtkApplicationNotifier>(
+          createMockGtkApplicationNotifier(),
+        );
         final snapdService = registerMockSnapdService();
         registerService<ErrorStreamController>(ErrorStreamController.new);
 
@@ -123,7 +126,6 @@ void main() {
       await tester.pump();
 
       expect(find.text('error message'), findsOneWidget);
-      expect(find.text('error kind'), findsOneWidget);
     });
   });
 }

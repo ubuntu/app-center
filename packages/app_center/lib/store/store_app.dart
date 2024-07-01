@@ -1,4 +1,5 @@
 import 'package:app_center/deb/deb.dart';
+import 'package:app_center/error/error.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
@@ -84,8 +85,8 @@ class _StoreAppHome extends ConsumerWidget {
   Future<void> _showError(BuildContext context, SnapdException e) {
     return showErrorDialog(
       context: context,
-      title: e.kind ?? 'Unknown Snapd Exception',
-      message: e.message,
+      title: UbuntuLocalizations.of(context).errorLabel,
+      message: e.prettyFormat(AppLocalizations.of(context)),
     );
   }
 
