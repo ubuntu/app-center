@@ -179,7 +179,6 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                     : widget.onSearch(query),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                  fillColor: Theme.of(context).dividerColor,
                   prefixIcon: const Icon(YaruIcons.search, size: 16),
                   prefixIconConstraints: iconConstraints,
                   hintText: l10n.searchFieldSearchHint,

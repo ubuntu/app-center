@@ -101,7 +101,7 @@ class _StoreAppHome extends ConsumerWidget {
     });
 
     return Scaffold(
-      appBar: YaruWindowTitleBar(
+      appBar: _TitleBar(
         title: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: kSearchBarWidth),
           child: SearchField(
@@ -159,4 +159,40 @@ class _StoreAppHome extends ConsumerWidget {
       ),
     );
   }
+}
+
+class _TitleBar extends StatelessWidget implements PreferredSizeWidget {
+  const _TitleBar({required this.title});
+
+  final Widget title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(
+          width: kPaneWidth,
+          child: YaruWindowTitleBar(
+            style: YaruTitleBarStyle.undecorated,
+            border: BorderSide.none,
+            backgroundColor: YaruMasterDetailTheme.of(context).sideBarColor,
+          ),
+        ),
+        const SizedBox(
+          height: kYaruTitleBarHeight,
+          child: VerticalDivider(),
+        ),
+        Expanded(
+          child: YaruWindowTitleBar(
+            border: BorderSide.none,
+            backgroundColor: Colors.transparent,
+            title: title,
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size(0, kYaruTitleBarHeight);
 }
