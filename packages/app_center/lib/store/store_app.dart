@@ -24,6 +24,8 @@ final materialAppNavigatorKeyProvider =
 final yaruPageControllerProvider =
     Provider((ref) => YaruPageController(length: pages.length));
 
+final routeNameProvider = StateProvider<String?>((ref) => null);
+
 class StoreApp extends ConsumerStatefulWidget {
   const StoreApp({super.key});
 
@@ -102,14 +104,33 @@ class _StoreAppHome extends ConsumerWidget {
 
     return Scaffold(
       appBar: _TitleBar(
-        title: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: kSearchBarWidth),
-          child: SearchField(
-            onSearch: (query) => navigator.pushAndRemoveSearch(query: query),
-            onSnapSelected: (name) => navigator.pushSnap(name: name),
-            onDebSelected: (id) => navigator.pushDeb(id: id),
-            searchFocus: searchFocus,
-          ),
+        title: Row(
+          children: [
+            Consumer(
+              builder: (_, ref, __) {
+                final routeName = ref.watch(routeNameProvider);
+                final canPop = routeName != null && routeName != '/';
+                return canPop
+                    ? YaruBackButton(
+                        style: YaruBackButtonStyle.rounded,
+                        onPressed: navigatorKey.currentState?.pop,
+                      )
+                    : const SizedBox();
+              },
+            ),
+            const Spacer(),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: kSearchBarWidth),
+              child: SearchField(
+                onSearch: (query) =>
+                    navigator.pushAndRemoveSearch(query: query),
+                onSnapSelected: (name) => navigator.pushSnap(name: name),
+                onDebSelected: (id) => navigator.pushDeb(id: id),
+                searchFocus: searchFocus,
+              ),
+            ),
+            const Spacer(),
+          ],
         ),
       ),
       body: YaruMasterDetailPage(
