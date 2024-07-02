@@ -130,13 +130,7 @@ class _SnapView extends StatelessWidget {
 
     return Column(
       children: [
-        SizedBox(
-          width: layout.totalWidth,
-          child: Padding(
-            padding: const EdgeInsets.only(top: kPagePadding),
-            child: _Header(snapData: snapData),
-          ),
-        ),
+        const SizedBox(height: kPagePadding),
         Expanded(
           child: SingleChildScrollView(
             child: Center(
@@ -145,6 +139,7 @@ class _SnapView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: kPagePadding),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -153,6 +148,7 @@ class _SnapView extends StatelessWidget {
                         Expanded(
                           child: AppTitle.fromSnap(snapData.snap, large: true),
                         ),
+                        _IconRow(snapData: snapData),
                       ],
                     ),
                     const SizedBox(height: kPagePadding),
@@ -496,8 +492,8 @@ class _RatingsActionButtons extends ConsumerWidget {
   }
 }
 
-class _Header extends ConsumerWidget {
-  const _Header({required this.snapData});
+class _IconRow extends ConsumerWidget {
+  const _IconRow({required this.snapData});
 
   final SnapData snapData;
 
@@ -506,45 +502,36 @@ class _Header extends ConsumerWidget {
     final snap = snapData.storeSnap ?? snapData.localSnap!;
     final l10n = AppLocalizations.of(context);
 
-    return Column(
+    return Row(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Spacer(),
-            if (snap.website != null)
-              YaruIconButton(
-                icon: const Icon(YaruIcons.share),
-                onPressed: () {
-                  final navigationKey =
-                      ref.watch(materialAppNavigatorKeyProvider);
+        if (snap.website != null)
+          YaruIconButton(
+            icon: const Icon(YaruIcons.share),
+            onPressed: () {
+              final navigationKey = ref.watch(materialAppNavigatorKeyProvider);
 
-                  ScaffoldMessenger.of(navigationKey.currentContext!)
-                      .showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.snapPageShareLinkCopiedMessage),
-                    ),
-                  );
-                  Clipboard.setData(ClipboardData(text: snap.website!));
-                },
-              ),
-            YaruIconButton(
-              icon: const Icon(YaruIcons.flag),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return ResponsiveLayoutBuilder(
-                      builder: (context) =>
-                          SnapReport(name: snapData.snap.titleOrName),
-                    );
-                  },
+              ScaffoldMessenger.of(navigationKey.currentContext!).showSnackBar(
+                SnackBar(
+                  content: Text(l10n.snapPageShareLinkCopiedMessage),
+                ),
+              );
+              Clipboard.setData(ClipboardData(text: snap.website!));
+            },
+          ),
+        YaruIconButton(
+          icon: const Icon(YaruIcons.flag),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return ResponsiveLayoutBuilder(
+                  builder: (context) =>
+                      SnapReport(name: snapData.snap.titleOrName),
                 );
               },
-            ),
-          ],
+            );
+          },
         ),
-        const SizedBox(height: kPagePadding),
       ],
     );
   }
