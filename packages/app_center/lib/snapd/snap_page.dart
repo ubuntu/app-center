@@ -508,7 +508,7 @@ class _IconRow extends ConsumerWidget {
 
     return Row(
       children: [
-        if (snap.website != null) ...[
+        if (snap.website != null)
           YaruIconButton(
             icon: const Icon(YaruIcons.share),
             onPressed: () {
@@ -522,8 +522,6 @@ class _IconRow extends ConsumerWidget {
               Clipboard.setData(ClipboardData(text: snap.website!));
             },
           ),
-          const SizedBox(width: 8),
-        ],
         YaruIconButton(
           icon: const Icon(YaruIcons.flag),
           onPressed: () {
