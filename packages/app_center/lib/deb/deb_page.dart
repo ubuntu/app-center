@@ -237,8 +237,13 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: kPagePadding),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            AppIcon(iconUrl: debModel.component.icon, size: 96),
+            const SizedBox(width: 16),
+            Expanded(child: AppTitle.fromDeb(debModel.component)),
             const Spacer(),
             if (debModel.component.website != null)
               YaruIconButton(
@@ -249,15 +254,6 @@ class _Header extends StatelessWidget {
                   );
                 },
               ),
-          ],
-        ),
-        const SizedBox(height: kPagePadding),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppIcon(iconUrl: debModel.component.icon, size: 96),
-            const SizedBox(width: 16),
-            Expanded(child: AppTitle.fromDeb(debModel.component)),
           ],
         ),
         const SizedBox(height: kPagePadding),
