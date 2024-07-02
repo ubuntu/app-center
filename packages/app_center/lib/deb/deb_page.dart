@@ -244,7 +244,6 @@ class _Header extends StatelessWidget {
             AppIcon(iconUrl: debModel.component.icon, size: 96),
             const SizedBox(width: 16),
             Expanded(child: AppTitle.fromDeb(debModel.component)),
-            const Spacer(),
             if (debModel.component.website != null)
               YaruIconButton(
                 icon: const Icon(YaruIcons.share),

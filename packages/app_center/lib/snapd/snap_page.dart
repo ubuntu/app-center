@@ -148,7 +148,6 @@ class _SnapView extends StatelessWidget {
                         Expanded(
                           child: AppTitle.fromSnap(snapData.snap, large: true),
                         ),
-                        const Spacer(),
                         _IconRow(snapData: snapData),
                       ],
                     ),
