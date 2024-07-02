@@ -106,18 +106,7 @@ class _StoreAppHome extends ConsumerWidget {
       appBar: _TitleBar(
         title: Row(
           children: [
-            Consumer(
-              builder: (_, ref, __) {
-                final routeName = ref.watch(routeNameProvider);
-                final canPop = routeName != null && routeName != '/';
-                return canPop
-                    ? YaruBackButton(
-                        style: YaruBackButtonStyle.rounded,
-                        onPressed: navigatorKey.currentState?.pop,
-                      )
-                    : const SizedBox();
-              },
-            ),
+            _MaybeBackButton(navigatorKey),
             const Spacer(),
             ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: kSearchBarWidth),
@@ -216,4 +205,22 @@ class _TitleBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size(0, kYaruTitleBarHeight);
+}
+
+class _MaybeBackButton extends ConsumerWidget {
+  const _MaybeBackButton(this.navigatorKey);
+
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final routeName = ref.watch(routeNameProvider);
+    final canPop = routeName != null && routeName != '/';
+    return canPop
+        ? YaruBackButton(
+            style: YaruBackButtonStyle.rounded,
+            onPressed: navigatorKey.currentState?.pop,
+          )
+        : const SizedBox();
+  }
 }
