@@ -139,6 +139,7 @@ class _SnapView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: kPagePadding),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -149,10 +150,6 @@ class _SnapView extends StatelessWidget {
                         ),
                         const Spacer(),
                         _IconRow(snapData: snapData),
-                        //SizedBox(
-                        //  width: 10,
-                        //  child:
-                        //),
                       ],
                     ),
                     const SizedBox(height: kPagePadding),
