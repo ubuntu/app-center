@@ -34,10 +34,6 @@ class SearchPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (Navigator.of(context).canPop())
-                  const YaruBackButton(
-                    style: YaruBackButtonStyle.rounded,
-                  ),
                 if (query != null)
                   Text(
                     l10n.searchPageTitle(query!),

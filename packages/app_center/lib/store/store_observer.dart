@@ -1,6 +1,5 @@
 import 'package:app_center/search/search.dart';
 import 'package:app_center/store/store.dart';
-import 'package:app_center/store/store_routes.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

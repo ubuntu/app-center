@@ -5,7 +5,6 @@ import 'package:app_center/snapd/snap_category_enum.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:yaru/yaru.dart';
 
 class ExternalTools extends StatelessWidget {
   const ExternalTools({super.key});
@@ -17,19 +16,6 @@ class ExternalTools extends StatelessWidget {
       builder: (context) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: kPagePadding) +
-                ResponsiveLayout.of(context).padding,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (Navigator.of(context).canPop())
-                  const YaruBackButton(
-                    style: YaruBackButtonStyle.rounded,
-                  ),
-              ],
-            ),
-          ),
           Padding(
             padding: ResponsiveLayout.of(context).padding,
             child: Column(
