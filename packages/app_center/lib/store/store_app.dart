@@ -104,22 +104,15 @@ class _StoreAppHome extends ConsumerWidget {
 
     return Scaffold(
       appBar: _TitleBar(
-        title: Row(
-          children: [
-            _MaybeBackButton(navigatorKey),
-            const Spacer(),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: kSearchBarWidth),
-              child: SearchField(
-                onSearch: (query) =>
-                    navigator.pushAndRemoveSearch(query: query),
-                onSnapSelected: (name) => navigator.pushSnap(name: name),
-                onDebSelected: (id) => navigator.pushDeb(id: id),
-                searchFocus: searchFocus,
-              ),
-            ),
-            const Spacer(),
-          ],
+        leading: _MaybeBackButton(navigatorKey),
+        title: SizedBox(
+          width: kSearchBarWidth,
+          child: SearchField(
+            onSearch: (query) => navigator.pushAndRemoveSearch(query: query),
+            onSnapSelected: (name) => navigator.pushSnap(name: name),
+            onDebSelected: (id) => navigator.pushDeb(id: id),
+            searchFocus: searchFocus,
+          ),
         ),
       ),
       body: YaruMasterDetailPage(
@@ -172,9 +165,10 @@ class _StoreAppHome extends ConsumerWidget {
 }
 
 class _TitleBar extends StatelessWidget implements PreferredSizeWidget {
-  const _TitleBar({required this.title});
+  const _TitleBar({required this.title, required this.leading});
 
   final Widget title;
+  final Widget leading;
 
   @override
   Widget build(BuildContext context) {
@@ -197,6 +191,7 @@ class _TitleBar extends StatelessWidget implements PreferredSizeWidget {
             border: BorderSide.none,
             backgroundColor: Colors.transparent,
             title: title,
+            leading: leading,
           ),
         ),
       ],
