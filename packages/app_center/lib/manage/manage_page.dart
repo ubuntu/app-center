@@ -241,7 +241,7 @@ class _ActionButtons extends ConsumerWidget {
         const SizedBox(
           height: kCircularProgressIndicatorHeight,
           child: YaruCircularProgressIndicator(
-            strokeWidth: 4,
+            strokeWidth: 2,
           ),
         ),
       ),
@@ -595,7 +595,7 @@ class _ButtonBarForOpen extends ConsumerWidget {
     final snapLauncher = ref.watch(launchProvider(snap));
     final l10n = AppLocalizations.of(context);
 
-    return ButtonBar(
+    return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Visibility(
@@ -604,14 +604,14 @@ class _ButtonBarForOpen extends ConsumerWidget {
           maintainState: true,
           visible: snapLauncher.isLaunchable,
           child: OutlinedButton(
-            style: const ButtonStyle(
-              padding: MaterialStatePropertyAll(EdgeInsets.zero),
-            ),
             onPressed: snapLauncher.open,
             child: Text(
               l10n.snapActionOpenLabel,
             ),
           ),
+        ),
+        const SizedBox(
+          width: 8,
         ),
         MenuAnchor(
           menuChildren: [

@@ -123,6 +123,7 @@ class _CategoryList extends StatelessWidget {
           .whereNot((category) => category.hidden)
           .map(
             (category) => InkWell(
+              borderRadius: BorderRadius.circular(kYaruButtonRadius),
               onTap: () => StoreNavigator.pushSearch(
                 context,
                 category: category.categoryName,
