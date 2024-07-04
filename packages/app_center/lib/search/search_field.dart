@@ -1,4 +1,5 @@
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/constants.dart';
 import 'package:app_center/search/search_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -164,13 +165,12 @@ class _SearchFieldState extends ConsumerState<SearchField> {
               ref.listen(queryProvider, (prev, next) {
                 if (!node.hasPrimaryFocus) controller.text = next ?? '';
               });
-              const iconConstraints = BoxConstraints(
-                minWidth: 32,
-                minHeight: 32,
-                maxWidth: 32,
-                maxHeight: 32,
-              );
+
               return TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                strutStyle: kSearchFieldStrutStyle,
+                textAlignVertical: TextAlignVertical.center,
+                cursorWidth: 1,
                 focusNode: node,
                 controller: controller,
                 onChanged: (_) => _optionsAvailable = false,
@@ -179,8 +179,8 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                     : widget.onSearch(query),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                  prefixIcon: const Icon(YaruIcons.search, size: 16),
-                  prefixIconConstraints: iconConstraints,
+                  prefixIcon: kSearchFieldPrefixIcon,
+                  prefixIconConstraints: kSearchFieldIconConstraints,
                   hintText: l10n.searchFieldSearchHint,
                   suffixIcon: AnimatedBuilder(
                     animation: controller,
@@ -192,7 +192,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                       );
                     },
                   ),
-                  suffixIconConstraints: iconConstraints,
+                  suffixIconConstraints: kSearchFieldIconConstraints,
                 ),
               );
             },

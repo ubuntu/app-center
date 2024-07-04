@@ -156,8 +156,13 @@ class _ManageView extends ConsumerWidget {
                     // TODO: refactor - extract common text field decoration from
                     // here and the `SearchField` widget
                     child: TextFormField(
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      strutStyle: kSearchFieldStrutStyle,
+                      textAlignVertical: TextAlignVertical.center,
+                      cursorWidth: 1,
                       decoration: InputDecoration(
-                        prefixIcon: const Icon(YaruIcons.search, size: 16),
+                        prefixIcon: kSearchFieldPrefixIcon,
+                        prefixIconConstraints: kSearchFieldIconConstraints,
                         hintText: l10n.managePageSearchFieldSearchHint,
                       ),
                       initialValue: ref.watch(localSnapFilterProvider),
