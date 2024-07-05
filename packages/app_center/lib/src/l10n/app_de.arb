@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Entwicklung",
   "@developmentPageLabel": {},
-  "managePageLabel": "Verwalten",
+  "managePageLabel": "Installierte Snaps verwalten",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanal",
   "@snapPageChannelLabel": {},
@@ -402,5 +402,9 @@
   "localDebDialogConfirmation": "Sind Sie sicher, dass Sie es installieren möchten?",
   "@localDebDialogConfirmation": {},
   "localDebWarningBody": "Dieses Paket wird von einem Drittanbieter bereitgestellt. Die Installation von Paketen von außerhalb des App Centers kann das Risiko für Ihr System und Ihre persönlichen Daten erhöhen. Stellen Sie sicher, dass Sie der Quelle vertrauen, bevor Sie fortfahren.",
-  "@localDebWarningBody": {}
+  "@localDebWarningBody": {},
+  "managePageDebUpdatesMessage": "Debian-Paketaktualisierungen werden von der Softwareaktualisierung durchgeführt.",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Installiert",
+  "@snapActionInstalledLabel": {}
 }
