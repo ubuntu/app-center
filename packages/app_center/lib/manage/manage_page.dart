@@ -129,13 +129,10 @@ class _ManageView extends ConsumerWidget {
             itemCount: manageModel.refreshableSnaps.length,
             itemBuilder: (context, index) => _ManageSnapTile(
               snap: manageModel.refreshableSnaps.elementAt(index),
-              position: index == (manageModel.refreshableSnaps.length - 1)
-                  ? index == 0
-                      ? ManageTilePosition.single
-                      : ManageTilePosition.last
-                  : index == 0
-                      ? ManageTilePosition.first
-                      : ManageTilePosition.middle,
+              position: detemineTilePosition(
+                index: index,
+                snaps: manageModel.refreshableSnaps,
+              ),
               showUpdateButton: true,
             ),
           ),
@@ -216,13 +213,8 @@ class _ManageView extends ConsumerWidget {
             itemCount: filteredLocalSnaps.length,
             itemBuilder: (context, index) => _ManageSnapTile(
               snap: filteredLocalSnaps.elementAt(index),
-              position: index == (filteredLocalSnaps.length - 1)
-                  ? index == 0
-                      ? ManageTilePosition.single
-                      : ManageTilePosition.last
-                  : index == 0
-                      ? ManageTilePosition.first
-                      : ManageTilePosition.middle,
+              position:
+                  detemineTilePosition(index: index, snaps: filteredLocalSnaps),
             ),
           ),
         ],
@@ -373,7 +365,7 @@ class _ManageSnapTile extends ConsumerWidget {
           ManageTilePosition.middle => BorderRadius.zero,
           ManageTilePosition.last =>
             const BorderRadius.only(bottomLeft: radius, bottomRight: radius),
-          ManageTilePosition.single => BorderRadius.zero,
+          ManageTilePosition.single => const BorderRadius.all(radius),
         },
         border: switch (position) {
           ManageTilePosition.first => Border(
@@ -392,8 +384,7 @@ class _ManageSnapTile extends ConsumerWidget {
               left: border,
               right: border,
             ),
-          ManageTilePosition.single =>
-            const Border.fromBorderSide(BorderSide.none),
+          ManageTilePosition.single => Border.fromBorderSide(border),
         },
       ),
       child: ListTile(
@@ -491,6 +482,26 @@ class _ManageSnapTile extends ConsumerWidget {
             : _ButtonBarForOpen(snap),
       ),
     );
+  }
+}
+
+ManageTilePosition detemineTilePosition({
+  required int index,
+  required Iterable<Snap> snaps,
+}) {
+  if (snaps.length == 1) {
+    return ManageTilePosition.single;
+  }
+
+  final isLast = index == (snaps.length - 1);
+  if (isLast) {
+    return ManageTilePosition.last;
+  }
+
+  if (index == 0) {
+    return ManageTilePosition.first;
+  } else {
+    return ManageTilePosition.middle;
   }
 }
 
