@@ -133,7 +133,13 @@ class _CategoryList extends StatelessWidget {
                 children: [
                   Icon(category.icon(true)),
                   const SizedBox(width: 8),
-                  Text(category.localize(AppLocalizations.of(context))),
+                  Expanded(
+                    child: Text(
+                      category.localize(AppLocalizations.of(context)),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
             ),
