@@ -129,9 +129,9 @@ class _ManageView extends ConsumerWidget {
             itemCount: manageModel.refreshableSnaps.length,
             itemBuilder: (context, index) => _ManageSnapTile(
               snap: manageModel.refreshableSnaps.elementAt(index),
-              position: detemineTilePosition(
+              position: determinePosition(
                 index: index,
-                snaps: manageModel.refreshableSnaps,
+                length: manageModel.refreshableSnaps.length,
               ),
               showUpdateButton: true,
             ),
@@ -213,8 +213,10 @@ class _ManageView extends ConsumerWidget {
             itemCount: filteredLocalSnaps.length,
             itemBuilder: (context, index) => _ManageSnapTile(
               snap: filteredLocalSnaps.elementAt(index),
-              position:
-                  detemineTilePosition(index: index, snaps: filteredLocalSnaps),
+              position: determinePosition(
+                index: index,
+                length: filteredLocalSnaps.length,
+              ),
             ),
           ),
         ],
@@ -485,16 +487,15 @@ class _ManageSnapTile extends ConsumerWidget {
   }
 }
 
-ManageTilePosition detemineTilePosition({
+ManageTilePosition determinePosition({
   required int index,
-  required Iterable<Snap> snaps,
+  required int length,
 }) {
-  if (snaps.length == 1) {
+  if (length == 1) {
     return ManageTilePosition.single;
   }
 
-  final isLast = index == (snaps.length - 1);
-  if (isLast) {
+  if (index == length - 1) {
     return ManageTilePosition.last;
   }
 
@@ -521,13 +522,10 @@ class _ButtonBarForUpdate extends ConsumerWidget {
         ? ref.watch(activeChangeProvider(activeChangeId))
         : null;
 
-    return ButtonBar(
+    return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        PushButton.outlined(
-          style: const ButtonStyle(
-            padding: MaterialStatePropertyAll(EdgeInsets.zero),
-          ),
+        OutlinedButton(
           onPressed: updatesModel.activeChangeId != null || !snapModel.hasValue
               ? null
               : ref.read(snapModelProvider(snap.name).notifier).refresh,
@@ -564,6 +562,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
                   ],
                 ),
         ),
+        const SizedBox(width: 8),
         MenuAnchor(
           menuChildren: [
             Visibility(
