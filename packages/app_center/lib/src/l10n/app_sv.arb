@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Utveckling",
   "@developmentPageLabel": {},
-  "managePageLabel": "Hantera",
+  "managePageLabel": "Hantera installerade snaps",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanal",
   "@snapPageChannelLabel": {},
@@ -402,5 +402,7 @@
   "localDebDialogMessage": "Detta paket tillhandahålls av en tredje part och kan hota ditt system och dina personuppgifter.",
   "@localDebDialogMessage": {},
   "localDebDialogConfirmation": "Är du säker på att du vill installera det?",
-  "@localDebDialogConfirmation": {}
+  "@localDebDialogConfirmation": {},
+  "snapActionInstalledLabel": "Installerad",
+  "@snapActionInstalledLabel": {}
 }
