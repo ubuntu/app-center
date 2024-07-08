@@ -129,13 +129,10 @@ class _ManageView extends ConsumerWidget {
             itemCount: manageModel.refreshableSnaps.length,
             itemBuilder: (context, index) => _ManageSnapTile(
               snap: manageModel.refreshableSnaps.elementAt(index),
-              position: index == (manageModel.refreshableSnaps.length - 1)
-                  ? index == 0
-                      ? ManageTilePosition.single
-                      : ManageTilePosition.last
-                  : index == 0
-                      ? ManageTilePosition.first
-                      : ManageTilePosition.middle,
+              position: determinePosition(
+                index: index,
+                length: manageModel.refreshableSnaps.length,
+              ),
               showUpdateButton: true,
             ),
           ),
@@ -156,8 +153,13 @@ class _ManageView extends ConsumerWidget {
                     // TODO: refactor - extract common text field decoration from
                     // here and the `SearchField` widget
                     child: TextFormField(
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      strutStyle: kSearchFieldStrutStyle,
+                      textAlignVertical: TextAlignVertical.center,
+                      cursorWidth: 1,
                       decoration: InputDecoration(
-                        prefixIcon: const Icon(YaruIcons.search, size: 16),
+                        prefixIcon: kSearchFieldPrefixIcon,
+                        prefixIconConstraints: kSearchFieldIconConstraints,
                         hintText: l10n.managePageSearchFieldSearchHint,
                       ),
                       initialValue: ref.watch(localSnapFilterProvider),
@@ -211,13 +213,10 @@ class _ManageView extends ConsumerWidget {
             itemCount: filteredLocalSnaps.length,
             itemBuilder: (context, index) => _ManageSnapTile(
               snap: filteredLocalSnaps.elementAt(index),
-              position: index == (filteredLocalSnaps.length - 1)
-                  ? index == 0
-                      ? ManageTilePosition.single
-                      : ManageTilePosition.last
-                  : index == 0
-                      ? ManageTilePosition.first
-                      : ManageTilePosition.middle,
+              position: determinePosition(
+                index: index,
+                length: filteredLocalSnaps.length,
+              ),
             ),
           ),
         ],
@@ -241,7 +240,7 @@ class _ActionButtons extends ConsumerWidget {
         const SizedBox(
           height: kCircularProgressIndicatorHeight,
           child: YaruCircularProgressIndicator(
-            strokeWidth: 4,
+            strokeWidth: 2,
           ),
         ),
       ),
@@ -368,7 +367,7 @@ class _ManageSnapTile extends ConsumerWidget {
           ManageTilePosition.middle => BorderRadius.zero,
           ManageTilePosition.last =>
             const BorderRadius.only(bottomLeft: radius, bottomRight: radius),
-          ManageTilePosition.single => BorderRadius.zero,
+          ManageTilePosition.single => const BorderRadius.all(radius),
         },
         border: switch (position) {
           ManageTilePosition.first => Border(
@@ -387,8 +386,7 @@ class _ManageSnapTile extends ConsumerWidget {
               left: border,
               right: border,
             ),
-          ManageTilePosition.single =>
-            const Border.fromBorderSide(BorderSide.none),
+          ManageTilePosition.single => Border.fromBorderSide(border),
         },
       ),
       child: ListTile(
@@ -489,6 +487,25 @@ class _ManageSnapTile extends ConsumerWidget {
   }
 }
 
+ManageTilePosition determinePosition({
+  required int index,
+  required int length,
+}) {
+  if (length == 1) {
+    return ManageTilePosition.single;
+  }
+
+  if (index == length - 1) {
+    return ManageTilePosition.last;
+  }
+
+  if (index == 0) {
+    return ManageTilePosition.first;
+  } else {
+    return ManageTilePosition.middle;
+  }
+}
+
 class _ButtonBarForUpdate extends ConsumerWidget {
   const _ButtonBarForUpdate(this.snap);
 
@@ -505,13 +522,10 @@ class _ButtonBarForUpdate extends ConsumerWidget {
         ? ref.watch(activeChangeProvider(activeChangeId))
         : null;
 
-    return ButtonBar(
+    return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        PushButton.outlined(
-          style: const ButtonStyle(
-            padding: MaterialStatePropertyAll(EdgeInsets.zero),
-          ),
+        OutlinedButton(
           onPressed: updatesModel.activeChangeId != null || !snapModel.hasValue
               ? null
               : ref.read(snapModelProvider(snap.name).notifier).refresh,
@@ -548,6 +562,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
                   ],
                 ),
         ),
+        const SizedBox(width: 8),
         MenuAnchor(
           menuChildren: [
             Visibility(
@@ -595,7 +610,7 @@ class _ButtonBarForOpen extends ConsumerWidget {
     final snapLauncher = ref.watch(launchProvider(snap));
     final l10n = AppLocalizations.of(context);
 
-    return ButtonBar(
+    return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Visibility(
@@ -604,14 +619,14 @@ class _ButtonBarForOpen extends ConsumerWidget {
           maintainState: true,
           visible: snapLauncher.isLaunchable,
           child: OutlinedButton(
-            style: const ButtonStyle(
-              padding: MaterialStatePropertyAll(EdgeInsets.zero),
-            ),
             onPressed: snapLauncher.open,
             child: Text(
               l10n.snapActionOpenLabel,
             ),
           ),
+        ),
+        const SizedBox(
+          width: 8,
         ),
         MenuAnchor(
           menuChildren: [
