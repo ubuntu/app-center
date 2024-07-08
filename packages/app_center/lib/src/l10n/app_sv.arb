@@ -404,5 +404,7 @@
   "localDebDialogConfirmation": "Är du säker på att du vill installera det?",
   "@localDebDialogConfirmation": {},
   "snapActionInstalledLabel": "Installerad",
-  "@snapActionInstalledLabel": {}
+  "@snapActionInstalledLabel": {},
+  "managePageDebUpdatesMessage": "Debian paket uppdateringar hanteras av Appcentralen.",
+  "@managePageDebUpdatesMessage": {}
 }
