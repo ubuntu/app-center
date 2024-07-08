@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Vývoj",
   "@developmentPageLabel": {},
-  "managePageLabel": "Spravovat",
+  "managePageLabel": "Spravovat nainstalované Snapy",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanál",
   "@snapPageChannelLabel": {},
@@ -402,5 +402,9 @@
   "localDebDialogMessage": "Tento balíček je poskytován třetí stranou a může ohrozit váš systém a osobní data.",
   "@localDebDialogMessage": {},
   "localDebDialogConfirmation": "Jste si jisti, že jej chcete nainstalovat?",
-  "@localDebDialogConfirmation": {}
+  "@localDebDialogConfirmation": {},
+  "managePageDebUpdatesMessage": "Aktualizace balíčků Debian zajišťuje Správce aktualizací.",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Nainstalováno",
+  "@snapActionInstalledLabel": {}
 }
