@@ -4,6 +4,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/widgets/small_banner.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
@@ -92,26 +93,17 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final banner = YaruBanner(
-      padding: const EdgeInsets.all(kCardSpacing),
-      onTap: onTap,
-      color: Theme.of(context).cardColor,
-      child: Flex(
-        direction: compact ? Axis.vertical : Axis.horizontal,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppIcon(iconUrl: iconUrl),
-          const SizedBox(width: 16, height: 16),
-          Expanded(
-            child: _AppCardBody(
-              title: title,
-              summary: rating > 0 ? '' : summary,
-              footer: footer,
-            ),
-          ),
-        ],
+    final appContent = [
+      AppIcon(iconUrl: iconUrl),
+      const SizedBox(width: 16, height: 16),
+      Expanded(
+        child: _AppCardBody(
+          title: title,
+          summary: rating > 0 ? '' : summary,
+          footer: footer,
+        ),
       ),
-    );
+    ];
 
     return rating > 0
         ? Flex(
@@ -119,20 +111,38 @@ class AppCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                  child: Text(
-                rating.toString(),
-                style: const TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w500,
+                child: Text(
+                  rating.toString(),
+                  style: const TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              )),
+              ),
               const SizedBox(
                 width: 16,
               ),
-              Expanded(child: banner),
+              Expanded(
+                child: SmallBanner(
+                  onTap: onTap,
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    children: appContent,
+                  ),
+                ),
+              ),
             ],
           )
-        : banner;
+        : YaruBanner(
+            padding: const EdgeInsets.all(kCardSpacing),
+            onTap: onTap,
+            color: Theme.of(context).cardColor,
+            child: Flex(
+              direction: compact ? Axis.vertical : Axis.horizontal,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: appContent,
+            ),
+          );
   }
 }
 
