@@ -2,6 +2,7 @@ import 'package:app_center/deb/deb.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/manage/manage_page.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -156,6 +157,10 @@ class _StoreAppHome extends ConsumerWidget {
           StoreRoutes.externalTools => MaterialPageRoute(
               settings: settings,
               builder: (_) => const ExternalTools(),
+            ),
+          StoreRoutes.manage => MaterialPageRoute(
+              settings: settings,
+              builder: (_) => const ManagePage(),
             ),
           _ => null,
         },

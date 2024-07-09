@@ -28,6 +28,7 @@ String? _parseRoute(List<String>? args) {
   final parser = ArgParser();
   parser.addOption('snap', valueHelp: 'name', help: 'Show snap details');
   parser.addOption('search', valueHelp: 'query', help: 'Search for snaps');
+  parser.addFlag('updates', negatable: false, help: 'Show manage page');
 
   try {
     if (args?.firstOrNull?.startsWith(_kUrlPrefix) ?? false) {
@@ -52,6 +53,10 @@ String? _parseRoute(List<String>? args) {
     final snap = result['snap'] as String? ?? result.rest.singleOrNull;
     if (snap != null) {
       return StoreRoutes.namedSnap(name: snap);
+    }
+
+    if (result.flag('updates')) {
+      return StoreRoutes.manage;
     }
   } on FormatException {
     // TODO: print usage

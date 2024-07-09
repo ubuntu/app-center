@@ -86,6 +86,24 @@ void main() {
     ).called(1);
   });
 
+  test('updates', () {
+    final container = ProviderContainer(
+      overrides: [
+        commandLineProvider.overrideWith((ref) => ['--updates']),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final listener = MockInitialRouteListener();
+    container.listen<String?>(
+      initialRouteProvider,
+      listener.call,
+      fireImmediately: true,
+    );
+
+    verify(listener(null, StoreRoutes.manage)).called(1);
+  });
+
   test('no arguments', () {
     final container = ProviderContainer(
       overrides: [commandLineProvider.overrideWith((ref) => [])],
