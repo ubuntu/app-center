@@ -7,6 +7,7 @@ import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_l10n.dart';
 import 'package:app_center/manage/manage_model.dart';
+import 'package:app_center/manage/manage_snaps_data.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -63,12 +64,12 @@ class _ManagePageState extends ConsumerState<ManagePage> {
 }
 
 class _ManageView extends ConsumerWidget {
-  const _ManageView({required this.manageModel});
-  final ManageModel manageModel;
+  const _ManageView({required this.manageSnapsData});
+
+  final ManageSnapsData manageSnapsData;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filteredLocalSnaps = ref.watch(localSnapsProvider);
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
 
@@ -105,7 +106,7 @@ class _ManageView extends ConsumerWidget {
                     children: [
                       Text(
                         l10n.managePageUpdatesAvailable(
-                          manageModel.refreshableSnaps.length,
+                          manageSnapsData.refreshableSnaps.length,
                         ),
                         style: Theme.of(context)
                             .textTheme
@@ -119,7 +120,7 @@ class _ManageView extends ConsumerWidget {
                 },
               ),
               const SizedBox(height: 24),
-              if (manageModel.refreshableSnaps.isEmpty)
+              if (manageSnapsData.refreshableSnaps.isEmpty)
                 Text(
                   l10n.managePageNoUpdatesAvailableDescription,
                   style: textTheme.titleMedium,
@@ -127,12 +128,12 @@ class _ManageView extends ConsumerWidget {
             ],
           ),
           SliverList.builder(
-            itemCount: manageModel.refreshableSnaps.length,
+            itemCount: manageSnapsData.refreshableSnaps.length,
             itemBuilder: (context, index) => _ManageSnapTile(
-              snap: manageModel.refreshableSnaps.elementAt(index),
+              snap: manageSnapsData.refreshableSnaps.elementAt(index),
               position: determinePosition(
                 index: index,
-                length: manageModel.refreshableSnaps.length,
+                length: manageSnapsData.refreshableSnaps.length,
               ),
               showUpdateButton: true,
             ),
@@ -210,15 +211,28 @@ class _ManageView extends ConsumerWidget {
               const SizedBox(height: 24),
             ],
           ),
-          SliverList.builder(
-            itemCount: filteredLocalSnaps.length,
-            itemBuilder: (context, index) => _ManageSnapTile(
-              snap: filteredLocalSnaps.elementAt(index),
-              position: determinePosition(
-                index: index,
-                length: filteredLocalSnaps.length,
-              ),
-            ),
+          Consumer(
+            builder: (context, ref, _) {
+              final filteredLocalSnaps = ref.watch(localSnapsProvider);
+              return filteredLocalSnaps.when(
+                data: (data) => SliverList.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) => _ManageSnapTile(
+                    snap: data.elementAt(index),
+                    position:
+                        determinePosition(index: index, length: data.length),
+                  ),
+                ),
+                error: (error, stack) => SliverToBoxAdapter(
+                  child: ErrorWidget(error),
+                ),
+                loading: () => const SliverToBoxAdapter(
+                  child: Center(
+                    child: YaruCircularProgressIndicator(),
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),

@@ -1,63 +1,25 @@
+import 'package:app_center/manage/manage_snaps_data.dart';
 import 'package:app_center/snapd/snapd.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:snapd/snapd.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-final manageModelProvider = ChangeNotifierProvider.autoDispose(
-  (ref) => ManageModel(
-    snapd: getService<SnapdService>(),
-    updatesModel: ref.read(updatesModelProvider),
-  )..init(),
-);
+part 'manage_model.g.dart';
 
-class ManageModel extends ChangeNotifier {
-  ManageModel({
-    required this.snapd,
-    required this.updatesModel,
-  }) : _state = const AsyncValue.loading();
-  final SnapdService snapd;
-  final UpdatesModel updatesModel;
-
-  AsyncValue<void> get state => _state;
-  AsyncValue<void> _state;
-
-  List<Snap>? _installedSnaps;
-  List<String>? _refreshableSnapNames;
-
-  bool _isRefreshable(Snap snap) => updatesModel.hasUpdate(snap.name);
-  Iterable<Snap> get refreshableSnaps =>
-      _installedSnaps?.where(_isRefreshable) ?? const Iterable.empty();
-  Iterable<Snap> get nonRefreshableSnaps =>
-      _installedSnaps?.whereNot(_isRefreshable) ?? const Iterable.empty();
-
-  void _getRefreshableSnapNames() {
-    final refreshableSnapNames = updatesModel.refreshableSnapNames.toList();
-    if (!listEquals(refreshableSnapNames, _refreshableSnapNames)) {
-      _refreshableSnapNames = refreshableSnapNames;
-      notifyListeners();
-    }
-  }
-
-  // TODO: cache local snaps
-  Future<void> init() async {
-    updatesModel.addListener(_getRefreshableSnapNames);
-    _state = await AsyncValue.guard(() async {
-      await _getInstalledSnaps();
-      notifyListeners();
-    });
-  }
+@Riverpod(keepAlive: true)
+class ManageModel extends _$ManageModel {
+  late final _snapd = getService<SnapdService>();
 
   @override
-  void dispose() {
-    updatesModel.removeListener(_getRefreshableSnapNames);
-    super.dispose();
-  }
-
-  Future<void> _getInstalledSnaps() async {
-    _installedSnaps = await snapd.getSnaps().then(
-          (snaps) => snaps.sortedBy((snap) => snap.titleOrName.toLowerCase()),
-        );
+  Future<ManageSnapsData> build() async {
+    final installedSnaps = await _snapd.getSnaps();
+    final refreshableSnapNames = ref
+        .watch(
+          updatesModelProvider.select((value) => value.refreshableSnapNames),
+        )
+        .toList(growable: false);
+    return ManageSnapsData(
+      installedSnaps: installedSnaps,
+      refreshableSnapNames: refreshableSnapNames,
+    );
   }
 }

@@ -20,6 +20,8 @@ class SnapModel extends _$SnapModel {
     try {
       localSnap = await _snapd.getSnap(snapName);
     } on SnapdException catch (e) {
+      // Since the snap is just not installed when 'snap-not-found is thrown we
+      // can ignore this exception.
       if (e.kind != 'snap-not-found') rethrow;
     }
 
@@ -32,6 +34,10 @@ class SnapModel extends _$SnapModel {
         ?.id;
     if (activeChangeId != null) {
       unawaited(_listenUntilDone(activeChangeId, snapName, ref));
+    }
+
+    if (localSnap == null && storeSnap == null) {
+      throw SnapDataNotFoundException(snapName);
     }
 
     return SnapData(
@@ -108,7 +114,7 @@ class SnapModel extends _$SnapModel {
 
   /// Uninstalls the snap.
   Future<void> remove() async {
-    assert(state.hasValue, 'The snap must be loaded  before removing it');
+    assert(state.hasValue, 'The snap must be loaded before removing it');
     final changeId = await _snapd.remove(snapName);
     _updateChangeId(changeId);
     return _listenUntilDone(changeId, snapName, ref);
@@ -205,4 +211,13 @@ extension SnapdChangeX on SnapdChange {
 
 extension on AsyncValue<SnapData> {
   bool get hasStoreSnap => valueOrNull?.storeSnap != null;
+}
+
+class SnapDataNotFoundException implements Exception {
+  SnapDataNotFoundException(this.message);
+
+  final String message;
+
+  @override
+  String toString() => 'SnapDataNotFoundException: $message';
 }

@@ -2,6 +2,7 @@ import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snap_action.dart';
 import 'package:app_center/snapd/snap_report.dart';
@@ -35,6 +36,17 @@ class SnapPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final snap = ref.watch(snapModelProvider(snapName));
     final updatesModel = ref.watch(updatesModelProvider);
+
+    final snapDataNotFound =
+        snap.hasError && snap.error is SnapDataNotFoundException;
+    if (snapDataNotFound) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (Navigator.canPop(context)) {
+          ref.invalidate(localSnapsProvider);
+          Navigator.pop(context);
+        }
+      });
+    }
 
     return snap.when(
       data: (snapData) => ResponsiveLayoutBuilder(

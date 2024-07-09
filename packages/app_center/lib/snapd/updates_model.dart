@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
+// TODO(Lukas): Rewrite to modern style provider
 final updatesModelProvider = ChangeNotifierProvider(
   (ref) => UpdatesModel(getService<SnapdService>())..refresh(),
 );
