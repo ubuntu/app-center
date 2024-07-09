@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Exec=snap-store --updates %U
+Icon=bin/data/flutter_assets/assets/app-center.png
+Terminal=false
+Categories=System;Utility;PackageManager;SoftwareManagement;Network;Settings;
+Keywords=Ubuntu;Applications;Apps;Store;Software;Snaps;
+Name=App Center Updates
+NoDisplay=true

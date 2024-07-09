@@ -60,19 +60,26 @@ parts:
 apps:
   snap-store:
     command: bin/snap-store
-    environment:
+    environment: &store_env
       RATINGS_SERVICE_URL: 'ratings.ubuntu.com'
       RATINGS_SERVICE_PORT: '443'
       RATINGS_SERVICE_USE_TLS: 'true'
     desktop: bin/data/flutter_assets/assets/app-center.desktop
     extensions: [gnome]
-    plugs:
+    plugs: &store_plugs
       - appstream-metadata
       - desktop
       - desktop-launch
       - network
       - snapd-control
       - packagekit-control
+
+  show-updates:
+    command: bin/snap-store --updates
+    desktop: bin/data/flutter_assets/assets/app-center-updates.desktop
+    environment: *store_env
+    extensions: [gnome]
+    plugs: *store_plugs
 
 slots:
   packagekit-svc:
