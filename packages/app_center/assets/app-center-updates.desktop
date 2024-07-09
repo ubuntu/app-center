@@ -1,4 +1,7 @@
 [Desktop Entry]
+# This desktop entry is required to allow Snapd Desktop Integration
+# to open the Snap Center in the "updates" page when the user
+# clicks "Show updates" in a notification. DO NOT DELETE.
 Type=Application
 Version=1.0
 Exec=snap-store --updates %U

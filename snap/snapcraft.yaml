@@ -74,6 +74,10 @@ apps:
       - snapd-control
       - packagekit-control
 
+# This entry, along with the corresponding .desktop file, is required
+# to allow Snapd Desktop Integration to open the Snap Center in the
+# "updates" page when the user clicks "Show updates" in a notification.
+# DO NOT DELETE.
   show-updates:
     command: bin/snap-store --updates
     desktop: bin/data/flutter_assets/assets/app-center-updates.desktop
