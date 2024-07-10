@@ -60,19 +60,30 @@ parts:
 apps:
   snap-store:
     command: bin/snap-store
-    environment:
+    environment: &store_env
       RATINGS_SERVICE_URL: 'ratings.ubuntu.com'
       RATINGS_SERVICE_PORT: '443'
       RATINGS_SERVICE_USE_TLS: 'true'
     desktop: bin/data/flutter_assets/assets/app-center.desktop
     extensions: [gnome]
-    plugs:
+    plugs: &store_plugs
       - appstream-metadata
       - desktop
       - desktop-launch
       - network
       - snapd-control
       - packagekit-control
+
+# This entry, along with the corresponding .desktop file, is required
+# to allow Snapd Desktop Integration to open the Snap Center in the
+# "updates" page when the user clicks "Show updates" in a notification.
+# DO NOT DELETE.
+  show-updates:
+    command: bin/snap-store --updates
+    desktop: bin/data/flutter_assets/assets/app-center-updates.desktop
+    environment: *store_env
+    extensions: [gnome]
+    plugs: *store_plugs
 
 slots:
   packagekit-svc:
