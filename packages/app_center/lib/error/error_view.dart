@@ -42,6 +42,10 @@ class ErrorView extends StatelessWidget {
                     ),
                     Flexible(child: Text(message.body(l10n))),
                     const SizedBox(height: kPagePadding),
+                    if (message.actions.isNotEmpty) ...[
+                      Flexible(child: Text(message.actionLabel(l10n))),
+                      const SizedBox(height: kPagePadding),
+                    ],
                     Row(
                       children: [
                         if (message.actions.contains(ErrorAction.retry))
