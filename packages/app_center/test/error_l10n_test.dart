@@ -1,6 +1,6 @@
 import 'package:app_center/error/error.dart';
+import 'package:app_center/error/error_l10n.dart';
 import 'package:app_center/l10n.dart';
-import 'package:app_center/src/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:snapd/snapd.dart';
@@ -12,17 +12,26 @@ void main() {
     final testCases = <({
       String name,
       SnapdException exception,
-      String Function(AppLocalizations) expected
+      String Function(AppLocalizations l10n) expectedTitle,
+      String Function(AppLocalizations l10n) expectedBody,
+      String Function(AppLocalizations l10n) expectedActionLabel,
+      List<ErrorAction> expectedActions,
     })>[
       (
         name: 'network timeout',
         exception: SnapdException(kind: 'network-timeout', message: 'message'),
-        expected: (l10n) => l10n.snapdExceptionNetworkTimeout
+        expectedTitle: (l10n) => l10n.errorViewNetworkErrorTitle,
+        expectedBody: (l10n) => l10n.errorViewNetworkErrorDescription,
+        expectedActionLabel: (l10n) => l10n.errorViewNetworkErrorAction,
+        expectedActions: [ErrorAction.retry],
       ),
       (
         name: 'too many requests',
         exception: SnapdException(message: 'too many requests'),
-        expected: (l10n) => l10n.snapdExceptionTooManyRequests,
+        expectedTitle: (l10n) => l10n.errorViewUnknownErrorTitle,
+        expectedBody: (l10n) => l10n.errorViewServerErrorDescription,
+        expectedActionLabel: (l10n) => l10n.errorViewServerErrorAction,
+        expectedActions: [ErrorAction.checkStatus],
       ),
       (
         name: 'running apps',
@@ -31,17 +40,30 @@ void main() {
           message:
               'cannot refresh "testsnap": snap "testsnap" has running apps (testapp)',
         ),
-        expected: (l10n) => l10n.snapdExceptionRunningApps('testsnap')
+        expectedTitle: (l10n) => l10n.errorViewUnknownErrorTitle,
+        expectedBody: (l10n) => l10n.snapdExceptionRunningApps('testsnap'),
+        expectedActionLabel: (l10n) => l10n.errorViewUnknownErrorAction,
+        expectedActions: [],
       ),
     ];
 
     for (final testCase in testCases) {
       testWidgets(testCase.name, (tester) async {
         await tester.pumpApp((context) => const Scaffold());
+        final message = ErrorMessage.fromObject(testCase.exception);
         expect(
-          testCase.exception.prettyFormat(tester.l10n),
-          testCase.expected(tester.l10n),
+          message.title(tester.l10n),
+          testCase.expectedTitle(tester.l10n),
         );
+        expect(
+          message.body(tester.l10n),
+          testCase.expectedBody(tester.l10n),
+        );
+        expect(
+          message.actionLabel(tester.l10n),
+          testCase.expectedActionLabel(tester.l10n),
+        );
+        expect(message.actions, testCase.expectedActions);
       });
     }
   });

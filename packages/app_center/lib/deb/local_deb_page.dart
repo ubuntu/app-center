@@ -26,7 +26,10 @@ class LocalDebPage extends ConsumerWidget {
     return model.when(
       data: (debData) => _LocalDebPage(debData: debData),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
-      error: (error, stackTrace) => ErrorView(error: error),
+      error: (error, stackTrace) => ErrorView(
+        error: error,
+        onRetry: () => ref.invalidate(localDebModelProvider(path: path)),
+      ),
     );
   }
 }

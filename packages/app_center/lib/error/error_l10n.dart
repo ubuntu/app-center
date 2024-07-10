@@ -1,37 +1,82 @@
 import 'package:app_center/l10n.dart';
 import 'package:snapd/snapd.dart';
 
-typedef PatternMap = ({
-  RegExp pattern,
-  String Function(AppLocalizations l10n, RegExpMatch match) message,
-});
+enum ErrorAction {
+  retry,
+  checkStatus,
+}
 
-final _patternMaps = <PatternMap>[
-  (
-    pattern: RegExp('too many requests'),
-    message: (l10n, _) => l10n.snapdExceptionTooManyRequests,
-  ),
-  (
-    pattern:
-        RegExp(r'cannot refresh "(.*?)": snap "\1" has running apps \((.*?)\)'),
-    message: (l10n, match) => l10n.snapdExceptionRunningApps(
-          match.group(1).toString(),
-        ),
-  ),
-];
+sealed class ErrorMessage {
+  const ErrorMessage();
 
-extension SnapdExceptionL10n on SnapdException {
-  String prettyFormat(AppLocalizations l10n) {
-    switch (kind) {
+  factory ErrorMessage.fromObject(Object? e) {
+    if (e is! SnapdException) return ErrorMessageUnkown();
+
+    switch (e.kind) {
       case 'network-timeout':
-        return l10n.snapdExceptionNetworkTimeout;
+        return ErrorMessageNetwork();
     }
     for (final patternMap in _patternMaps) {
-      final match = patternMap.pattern.firstMatch(message);
+      final match = patternMap.pattern.firstMatch(e.message);
       if (match != null) {
-        return patternMap.message(l10n, match);
+        return patternMap.message(match);
       }
     }
-    return message;
+    return ErrorMessageUnkown();
   }
+
+  static final _patternMaps =
+      <({RegExp pattern, ErrorMessage Function(Match) message})>[
+    (
+      pattern: RegExp('too many requests'),
+      message: (_) => ErrorMessageTooManyRequests(),
+    ),
+    (
+      pattern: RegExp(
+        r'cannot refresh "(.*?)": snap "\1" has running apps \((.*?)\)',
+      ),
+      message: (match) => ErrorMessageRunningApps(match.group(1)!),
+    ),
+    (
+      pattern: RegExp('persistent network error'),
+      message: (_) => ErrorMessageNetwork(),
+    ),
+  ];
+
+  String body(AppLocalizations l10n) => switch (this) {
+        ErrorMessageNetwork() => l10n.errorViewNetworkErrorDescription,
+        ErrorMessageTooManyRequests() => l10n.errorViewServerErrorDescription,
+        ErrorMessageRunningApps(snap: final snap) =>
+          l10n.snapdExceptionRunningApps(snap),
+        _ => l10n.errorViewUnknownErrorDescription,
+      };
+
+  String title(AppLocalizations l10n) => switch (this) {
+        ErrorMessageNetwork() => l10n.errorViewNetworkErrorTitle,
+        _ => l10n.errorViewUnknownErrorTitle,
+      };
+
+  String actionLabel(AppLocalizations l10n) => switch (this) {
+        ErrorMessageNetwork() => l10n.errorViewNetworkErrorAction,
+        ErrorMessageTooManyRequests() => l10n.errorViewServerErrorAction,
+        _ => l10n.errorViewUnknownErrorAction,
+      };
+
+  List<ErrorAction> get actions => switch (this) {
+        ErrorMessageNetwork() => [ErrorAction.retry],
+        ErrorMessageTooManyRequests() => [ErrorAction.checkStatus],
+        ErrorMessageRunningApps() => [],
+        _ => [ErrorAction.retry, ErrorAction.checkStatus],
+      };
 }
+
+class ErrorMessageNetwork extends ErrorMessage {}
+
+class ErrorMessageTooManyRequests extends ErrorMessage {}
+
+class ErrorMessageRunningApps extends ErrorMessage {
+  const ErrorMessageRunningApps(this.snap);
+  final String snap;
+}
+
+class ErrorMessageUnkown extends ErrorMessage {}

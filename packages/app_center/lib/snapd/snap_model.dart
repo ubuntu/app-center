@@ -25,7 +25,7 @@ class SnapModel extends _$SnapModel {
 
     final storeSnap = await ref
         .watch(storeSnapProvider(snapName).future)
-        .onError((_, __) => null);
+        .onError((_, __) => null, test: (_) => localSnap != null);
 
     final activeChangeId = (await _snapd.getChanges(name: snapName))
         .firstWhereOrNull((change) => !change.ready)

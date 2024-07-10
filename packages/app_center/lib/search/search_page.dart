@@ -233,7 +233,10 @@ class _DebSearchResults extends ConsumerWidget {
                 ],
               ),
             ),
-      error: (error, stack) => ErrorView(error: error),
+      error: (error, stack) => ErrorView(
+        error: error,
+        onRetry: () => ref.invalidate(appstreamSearchProvider(query ?? '')),
+      ),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }
@@ -295,7 +298,19 @@ class _SnapSearchResults extends ConsumerWidget {
                 ],
               ),
             ),
-      error: (error, stack) => ErrorView(error: error),
+      error: (error, stack) => ErrorView(
+        error: error,
+        onRetry: () {
+          ref.invalidate(
+            snapSearchProvider(
+              SnapSearchParameters(
+                query: query,
+                category: category,
+              ),
+            ),
+          );
+        },
+      ),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }

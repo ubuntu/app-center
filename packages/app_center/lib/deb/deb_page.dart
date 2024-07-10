@@ -60,7 +60,10 @@ class _DebPageState extends ConsumerState<DebPage> {
           debModel: debModel,
         ),
       ),
-      error: (error, stackTrace) => ErrorView(error: error),
+      error: (error, stackTrace) => ErrorView(
+        error: error,
+        onRetry: () => ref.invalidate(debModelProvider(widget.id)),
+      ),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }

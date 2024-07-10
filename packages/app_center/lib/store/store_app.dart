@@ -89,7 +89,7 @@ class _StoreAppHome extends ConsumerWidget {
     return showErrorDialog(
       context: context,
       title: UbuntuLocalizations.of(context).errorLabel,
-      message: e.prettyFormat(AppLocalizations.of(context)),
+      message: ErrorMessage.fromObject(e).body(AppLocalizations.of(context)),
     );
   }
 
