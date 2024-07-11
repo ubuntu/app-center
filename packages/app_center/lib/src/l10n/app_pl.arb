@@ -406,5 +406,31 @@
   "managePageDebUpdatesMessage": "Aktualizacje pakietów Debiana są obsługiwane przez aktualizator oprogramowania.",
   "@managePageDebUpdatesMessage": {},
   "snapActionInstalledLabel": "Zainstalowano",
-  "@snapActionInstalledLabel": {}
+  "@snapActionInstalledLabel": {},
+  "errorViewCheckStatusLabel": "Sprawdź stan",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "Połącz się z Internetem",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "Nie możemy wczytać treści w Centrum oprogramowania bez połączenia z Internetem.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewServerErrorDescription": "Przepraszamy, obecnie występują problemy z Centrum oprogramowania.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewUnknownErrorTitle": "Coś poszło źle",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorDescription": "Przepraszamy, ale nie jesteśmy pewni, na czym polega błąd.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "Możesz spróbować ponownie teraz, sprawdzić stan aktualizacji lub spróbować ponownie później.",
+  "@errorViewUnknownErrorAction": {},
+  "snapdExceptionRunningApps": "Nie mogliśmy zaktualizować programu {snapName}, ponieważ jest on aktualnie uruchomiony.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewNetworkErrorAction": "Sprawdź połączenie i spróbuj ponownie.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorAction": "Sprawdź stan aktualizacji lub spróbuj ponownie później.",
+  "@errorViewServerErrorAction": {}
 }
