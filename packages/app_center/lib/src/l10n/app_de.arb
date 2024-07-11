@@ -406,5 +406,31 @@
   "managePageDebUpdatesMessage": "Debian-Paketaktualisierungen werden von der Softwareaktualisierung durchgeführt.",
   "@managePageDebUpdatesMessage": {},
   "snapActionInstalledLabel": "Installiert",
-  "@snapActionInstalledLabel": {}
+  "@snapActionInstalledLabel": {},
+  "snapdExceptionRunningApps": "Wir konnten {snapName} nicht aktualisieren, da es gerade ausgeführt wird.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewCheckStatusLabel": "Status überprüfen",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "Mit dem Internet verbinden",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "Ohne Internetverbindung können wir keine Inhalte in das App Center laden.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewNetworkErrorAction": "Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "Es tut uns leid, wir haben derzeit Probleme mit dem App Center.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewUnknownErrorTitle": "Etwas ist schiefgelaufen",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorAction": "Sie können es jetzt erneut versuchen, den Status auf Aktualisierungen hin überprüfen oder es später erneut versuchen.",
+  "@errorViewUnknownErrorAction": {},
+  "errorViewUnknownErrorDescription": "Es tut uns leid, aber wir sind uns nicht sicher, wo der Fehler liegt.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewServerErrorAction": "Überprüfen Sie den Status auf Aktualisierungen oder versuchen Sie es später erneut.",
+  "@errorViewServerErrorAction": {}
 }
