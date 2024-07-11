@@ -12,11 +12,8 @@ class ManageModel extends _$ManageModel {
   @override
   Future<ManageSnapsData> build() async {
     final installedSnaps = await _snapd.getSnaps();
-    final refreshableSnapNames = ref
-        .watch(
-          updatesModelProvider.select((value) => value.refreshableSnapNames),
-        )
-        .toList(growable: false);
+    final refreshableSnapNames =
+        (await ref.watch(updatesModelProvider.future)).snapNames;
     return ManageSnapsData(
       installedSnaps: installedSnaps,
       refreshableSnapNames: refreshableSnapNames,

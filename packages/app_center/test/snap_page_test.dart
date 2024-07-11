@@ -120,12 +120,10 @@ void main() {
     final ratingsService = getService<RatingsService>() as MockRatingsService;
 
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
-    final updatesModel = createMockUpdatesModel();
 
     final container = createContainer(
       overrides: [
         launchProvider.overrideWith((ref, arg) => snapLauncher),
-        updatesModelProvider.overrideWith((ref) => updatesModel),
       ],
     );
     await tester.pumpApp(
@@ -186,16 +184,14 @@ void main() {
     final service = registerMockSnapdService(
       localSnap: localSnap,
       storeSnap: storeSnap,
+      refreshableSnaps: [localSnap],
     );
     final ratingsService = getService<RatingsService>() as MockRatingsService;
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
-    final updatesModel =
-        createMockUpdatesModel(refreshableSnapNames: [localSnap.name]);
 
     final container = createContainer(
       overrides: [
         launchProvider.overrideWith((ref, arg) => snapLauncher),
-        updatesModelProvider.overrideWith((ref) => updatesModel),
       ],
     );
 
@@ -257,10 +253,8 @@ void main() {
     final service = registerMockSnapdService(
       storeSnap: storeSnap,
     );
-    final updatesModel = createMockUpdatesModel();
     final container = createContainer(
       overrides: [
-        updatesModelProvider.overrideWith((ref) => updatesModel),
         launchProvider.overrideWith((ref, arg) => createMockSnapLauncher()),
       ],
     );
@@ -296,13 +290,11 @@ void main() {
     final service = registerMockSnapdService(localSnap: localSnap);
     final ratingsService = getService<RatingsService>() as MockRatingsService;
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
-    final updatesModel = createMockUpdatesModel();
 
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           launchProvider.overrideWith((ref, arg) => snapLauncher),
-          updatesModelProvider.overrideWith((ref) => updatesModel),
         ],
         child: SnapPage(snapName: localSnap.name),
       ),
@@ -357,12 +349,10 @@ void main() {
   testWidgets('loading', (tester) async {
     registerMockSnapdService(localSnap: localSnap, storeSnap: storeSnap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
-    final updatesModel = createMockUpdatesModel();
 
     final container = createContainer(
       overrides: [
         launchProvider.overrideWith((ref, arg) => snapLauncher),
-        updatesModelProvider.overrideWith((ref) => updatesModel),
       ],
     );
 

@@ -58,7 +58,7 @@ final pages = <StorePage>[
           trailing: Consumer(
             builder: (context, ref, child) {
               final availableUpdates =
-                  ref.watch(updatesModelProvider).refreshableSnapNames.length;
+                  ref.watch(updatesModelProvider).value?.length ?? 0;
               return availableUpdates > 0
                   ? Badge(label: Text('$availableUpdates'))
                   : const SizedBox.shrink();

@@ -5,15 +5,14 @@ import 'test_utils.dart';
 
 void main() {
   test('no updates available', () async {
-    final snapd = registerMockSnapdService(
+    registerMockSnapdService(
       installedSnaps: [
         createSnap(name: 'firefox'),
         createSnap(name: 'thunderbird'),
       ],
     );
-    final updatesModel = createMockUpdatesModel();
-    final model = ManageModel(snapd: snapd, updatesModel: updatesModel);
-    await model.init();
+    final container = createContainer();
+    final model = await container.read(manageModelProvider.future);
 
     expect(
       model.nonRefreshableSnaps,
@@ -21,17 +20,19 @@ void main() {
     );
     expect(model.refreshableSnaps, isEmpty);
   });
+
   test('update available', () async {
-    final snapd = registerMockSnapdService(
+    registerMockSnapdService(
       installedSnaps: [
         createSnap(name: 'firefox'),
         createSnap(name: 'thunderbird'),
       ],
+      refreshableSnaps: [
+        createSnap(name: 'firefox'),
+      ],
     );
-    final updatesModel =
-        createMockUpdatesModel(refreshableSnapNames: ['firefox']);
-    final model = ManageModel(snapd: snapd, updatesModel: updatesModel);
-    await model.init();
+    final container = createContainer();
+    final model = await container.read(manageModelProvider.future);
 
     expect(
       model.nonRefreshableSnaps,

@@ -8,6 +8,7 @@ import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_l10n.dart';
 import 'package:app_center/manage/manage_model.dart';
 import 'package:app_center/manage/manage_snaps_data.dart';
+import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -17,46 +18,32 @@ import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
 
-class ManagePage extends ConsumerStatefulWidget {
+class ManagePage extends ConsumerWidget {
   const ManagePage({super.key});
 
   static IconData icon(bool selected) => YaruIcons.app_grid;
   static String label(BuildContext context) =>
       AppLocalizations.of(context).managePageLabel;
 
-  @override
-  ConsumerState<ManagePage> createState() => _ManagePageState();
-}
-
-class _ManagePageState extends ConsumerState<ManagePage> {
-  StreamSubscription<SnapdException>? _errorSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _errorSubscription =
-        ref.read(updatesModelProvider).errorStream.listen(showError);
+  Future<void> _showError(BuildContext context, SnapdException e) {
+    return showErrorDialog(
+      context: context,
+      title: e.kind ?? 'Unknown Snapd Exception',
+      message: e.message,
+    );
   }
 
   @override
-  void dispose() {
-    _errorSubscription?.cancel();
-    _errorSubscription = null;
-    super.dispose();
-  }
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(errorStreamProvider, (_, error) {
+      if (error.hasValue && error.value is SnapdException) {
+        _showError(context, error.value as SnapdException);
+      }
+    });
 
-  Future<void> showError(SnapdException e) => showErrorDialog(
-        context: context,
-        title: e.kind ?? 'Unknown Snapd Exception',
-        message: e.message,
-      );
-
-  @override
-  Widget build(BuildContext context) {
-    final manageModel = ref.watch(manageModelProvider);
-    return manageModel.state.when(
-      data: (_) => _ManageView(manageModel: manageModel),
+    final manageSnaps = ref.watch(manageModelProvider);
+    return manageSnaps.when(
+      data: (data) => _ManageView(manageSnapsData: data),
       error: (error, stack) => ErrorView(error: error),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
@@ -248,7 +235,9 @@ class _ActionButtons extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final updatesModel = ref.watch(updatesModelProvider);
-    final (label, icon) = updatesModel.state.when(
+    final updateChangeId = ref.watch(updateChangeIdProvider);
+
+    final (label, icon) = updatesModel.when(
       data: (_) => (l10n.managePageCheckForUpdates, const Icon(YaruIcons.sync)),
       loading: () => (
         l10n.managePageCheckingForUpdates,
@@ -262,16 +251,15 @@ class _ActionButtons extends ConsumerWidget {
       error: (_, __) => ('', const SizedBox.shrink()),
     );
 
-    final updatesInprogress = updatesModel.refreshableSnapNames.isNotEmpty &&
-        !updatesModel.state.isLoading &&
-        updatesModel.activeChangeId != null;
+    final updatesInProgress = !updatesModel.isLoading && updateChangeId != null;
     return Wrap(
       spacing: 10,
       runSpacing: 10,
       children: [
         PushButton.outlined(
-          onPressed:
-              updatesModel.activeChangeId != null ? null : updatesModel.refresh,
+          onPressed: updatesInProgress
+              ? null
+              : () => ref.refresh(updatesModelProvider),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -288,16 +276,15 @@ class _ActionButtons extends ConsumerWidget {
           ),
         ),
         PushButton.elevated(
-          onPressed: updatesModel.refreshableSnapNames.isNotEmpty &&
-                  !updatesModel.state.isLoading &&
-                  updatesModel.activeChangeId == null
-              ? ref.read(updatesModelProvider).updateAll
-              : null,
-          child: updatesModel.activeChangeId != null
+          onPressed:
+              !updatesInProgress && (updatesModel.value?.isNotEmpty ?? false)
+                  ? ref.read(updatesModelProvider.notifier).updateAll
+                  : null,
+          child: updateChangeId != null
               ? Consumer(
                   builder: (context, ref, child) {
                     final change = ref.watch(
-                      activeChangeProvider(updatesModel.activeChangeId),
+                      activeChangeProvider(updateChangeId),
                     );
                     return Row(
                       mainAxisSize: MainAxisSize.min,
@@ -336,11 +323,11 @@ class _ActionButtons extends ConsumerWidget {
                   ],
                 ),
         ),
-        if (updatesInprogress)
+        if (updatesInProgress)
           PushButton.outlined(
             onPressed: () => ref
-                .read(updatesModelProvider)
-                .cancelChange(updatesModel.activeChangeId!),
+                .read(updatesModelProvider.notifier)
+                .cancelChange(updateChangeId),
             child: Text(
               l10n.snapActionCancelLabel,
               maxLines: 1,
@@ -354,7 +341,7 @@ class _ActionButtons extends ConsumerWidget {
 
 enum ManageTilePosition { first, middle, last, single }
 
-class _ManageSnapTile extends ConsumerWidget {
+class _ManageSnapTile extends StatelessWidget {
   const _ManageSnapTile({
     required this.snap,
     this.position = ManageTilePosition.middle,
@@ -366,7 +353,7 @@ class _ManageSnapTile extends ConsumerWidget {
   final bool showUpdateButton;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final border = BorderSide(color: Theme.of(context).colorScheme.outline);
     final dateTimeSinceUpdate = snap.installDate != null
@@ -528,10 +515,9 @@ class _ButtonBarForUpdate extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final snapLauncher = ref.watch(launchProvider(snap));
     final l10n = AppLocalizations.of(context);
+    final snapLauncher = ref.watch(launchProvider(snap));
     final snapModel = ref.watch(snapModelProvider(snap.name));
-    final updatesModel = ref.watch(updatesModelProvider);
     final activeChangeId = snapModel.value?.activeChangeId;
     final change = activeChangeId != null
         ? ref.watch(activeChangeProvider(activeChangeId))
@@ -541,7 +527,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         OutlinedButton(
-          onPressed: updatesModel.activeChangeId != null || !snapModel.hasValue
+          onPressed: activeChangeId != null || !snapModel.hasValue
               ? null
               : ref.read(snapModelProvider(snap.name).notifier).refresh,
           child: snapModel.value?.activeChangeId != null

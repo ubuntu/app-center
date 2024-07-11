@@ -39,6 +39,7 @@ class SnapModel extends _$SnapModel {
     if (localSnap == null && storeSnap == null) {
       throw SnapDataNotFoundException(snapName);
     }
+    final hasUpdate = ref.watch(hasUpdateProvider(snapName));
 
     return SnapData(
       name: snapName,
@@ -49,6 +50,7 @@ class SnapModel extends _$SnapModel {
         localSnap,
         storeSnap,
       ),
+      hasUpdate: hasUpdate,
     );
   }
 

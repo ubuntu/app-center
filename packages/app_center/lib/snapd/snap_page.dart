@@ -35,7 +35,6 @@ class SnapPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final snap = ref.watch(snapModelProvider(snapName));
-    final updatesModel = ref.watch(updatesModelProvider);
 
     final snapDataNotFound =
         snap.hasError && snap.error is SnapDataNotFoundException;
@@ -51,10 +50,7 @@ class SnapPage extends ConsumerWidget {
     return snap.when(
       data: (snapData) => ResponsiveLayoutBuilder(
         builder: (_) {
-          return _SnapView(
-            snapData: snapData,
-            updatesModel: updatesModel,
-          );
+          return _SnapView(snapData: snapData);
         },
       ),
       error: (error, stackTrace) => ErrorView(
@@ -67,10 +63,9 @@ class SnapPage extends ConsumerWidget {
 }
 
 class _SnapView extends StatelessWidget {
-  const _SnapView({required this.snapData, required this.updatesModel});
+  const _SnapView({required this.snapData});
 
   final SnapData snapData;
-  final UpdatesModel updatesModel;
 
   @override
   Widget build(BuildContext context) {
@@ -300,7 +295,6 @@ class _SnapActionButtons extends ConsumerWidget {
     final snapLauncher = snapData.isInstalled && localSnap != null
         ? ref.watch(launchProvider(localSnap))
         : null;
-    final updatesModel = ref.watch(updatesModelProvider);
     final snapModel = ref.watch(snapModelProvider(snapData.name).notifier);
 
     final SnapAction primaryAction;
@@ -353,7 +347,7 @@ class _SnapActionButtons extends ConsumerWidget {
     );
 
     final secondaryActions = [
-      if (updatesModel.hasUpdate(snapData.name)) SnapAction.update,
+      if (snapData.hasUpdate) SnapAction.update,
       SnapAction.remove,
     ];
     final secondaryActionsButton = MenuAnchor(
