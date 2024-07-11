@@ -23,51 +23,39 @@ class ErrorView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(kPagePadding),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Spacer(),
-          Flexible(
-            flex: 2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/error.svg'),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      message.title(l10n),
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    Flexible(child: Text(message.body(l10n))),
-                    const SizedBox(height: kPagePadding),
-                    if (message.actions.isNotEmpty) ...[
-                      Flexible(child: Text(message.actionLabel(l10n))),
-                      const SizedBox(height: kPagePadding),
-                    ],
-                    Row(
-                      children: [
-                        if (message.actions.contains(ErrorAction.retry))
-                          OutlinedButton(
-                            onPressed: onRetry,
-                            child: Text(
-                              UbuntuLocalizations.of(context).retryLabel,
-                            ),
-                          ),
-                        if (message.actions.contains(ErrorAction.checkStatus))
-                          OutlinedButton(
-                            onPressed: () => launchUrlString(statusUrl),
-                            child: Text(l10n.errorViewCheckStatusLabel),
-                          ),
-                      ].separatedBy(const SizedBox(width: 10)),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          SvgPicture.asset('assets/error.svg'),
+          Text(
+            message.title(l10n),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
-          const Spacer(flex: 5),
+          const SizedBox(height: kPagePadding),
+          Flexible(child: Text(message.body(l10n))),
+          if (message.actions.isNotEmpty) ...[
+            Flexible(child: Text(message.actionLabel(l10n))),
+            const SizedBox(height: kPagePadding),
+          ],
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (message.actions.contains(ErrorAction.retry))
+                OutlinedButton(
+                  onPressed: onRetry,
+                  child: Text(
+                    UbuntuLocalizations.of(context).retryLabel,
+                  ),
+                ),
+              if (message.actions.contains(ErrorAction.checkStatus))
+                OutlinedButton(
+                  onPressed: () => launchUrlString(statusUrl),
+                  child: Text(l10n.errorViewCheckStatusLabel),
+                ),
+            ].separatedBy(const SizedBox(width: 10)),
+          ),
+          const Spacer(flex: 3),
         ],
       ),
     );
