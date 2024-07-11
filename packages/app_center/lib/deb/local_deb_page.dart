@@ -1,5 +1,6 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/deb/local_deb_model.dart';
+import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -25,7 +26,10 @@ class LocalDebPage extends ConsumerWidget {
     return model.when(
       data: (debData) => _LocalDebPage(debData: debData),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
-      error: (error, stackTrace) => ErrorWidget(error),
+      error: (error, stackTrace) => ErrorView(
+        error: error,
+        onRetry: () => ref.invalidate(localDebModelProvider(path: path)),
+      ),
     );
   }
 }

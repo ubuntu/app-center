@@ -253,5 +253,22 @@
     "localDebWarningBody": "This package is provided by a third party. Installing packages from outside the App Center can increase the risk to your system and personal data. Ensure you trust the source before proceeding.",
     "localDebLearnMore": "Learn more about third party packages",
     "localDebDialogMessage": "This package is provided by a third party and may threaten your system and personal data.",
-    "localDebDialogConfirmation": "Are you sure you want to install it?"
+    "localDebDialogConfirmation": "Are you sure you want to install it?",
+    "snapdExceptionRunningApps": "We couldn't update {snapName} because it is currently running.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "Check status",
+    "errorViewNetworkErrorTitle": "Connect to internet",
+    "errorViewNetworkErrorDescription": "We can't load content in the App Center without an internet connection.",
+    "errorViewNetworkErrorAction": "Check your connection and retry.",
+    "errorViewServerErrorDescription": "We're sorry, we are currently experiencing problems with the App Center.",
+    "errorViewServerErrorAction": "Check the status for updates or try again later.",
+    "errorViewUnknownErrorTitle": "Something went wrong",
+    "errorViewUnknownErrorDescription": "We're sorry, but we’re not sure what the error is.",
+    "errorViewUnknownErrorAction": "You can retry now, check the status for updates, or try again later."
 }

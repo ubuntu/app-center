@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app_center/snapd/snap_data.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';
@@ -26,7 +25,7 @@ class SnapModel extends _$SnapModel {
 
     final storeSnap = await ref
         .watch(storeSnapProvider(snapName).future)
-        .onError((_, __) => null);
+        .onError((_, __) => null, test: (_) => localSnap != null);
 
     final activeChangeId = (await _snapd.getChanges(name: snapName))
         .firstWhereOrNull((change) => !change.ready)

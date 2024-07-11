@@ -1,4 +1,5 @@
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/search/search.dart';
@@ -232,7 +233,10 @@ class _DebSearchResults extends ConsumerWidget {
                 ],
               ),
             ),
-      error: (error, stack) => ErrorWidget(error),
+      error: (error, stack) => ErrorView(
+        error: error,
+        onRetry: () => ref.invalidate(appstreamSearchProvider(query ?? '')),
+      ),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }
@@ -294,7 +298,19 @@ class _SnapSearchResults extends ConsumerWidget {
                 ],
               ),
             ),
-      error: (error, stack) => ErrorWidget(error),
+      error: (error, stack) => ErrorView(
+        error: error,
+        onRetry: () {
+          ref.invalidate(
+            snapSearchProvider(
+              SnapSearchParameters(
+                query: query,
+                category: category,
+              ),
+            ),
+          );
+        },
+      ),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/error/error_l10n.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -16,6 +17,7 @@ import 'package:yaru/yaru.dart';
 import 'test_utils.dart';
 
 void main() {
+  tearDown(resetAllServices);
   group('updates badge', () {
     testWidgets('no updates available', (tester) async {
       registerMockService<GtkApplicationNotifier>(
@@ -72,6 +74,9 @@ void main() {
     testWidgets(
       'errorStreamProvider receives exception when thrown',
       (tester) async {
+        registerMockService<GtkApplicationNotifier>(
+          createMockGtkApplicationNotifier(),
+        );
         final snapdService = registerMockSnapdService();
         registerService<ErrorStreamController>(ErrorStreamController.new);
 
@@ -108,13 +113,16 @@ void main() {
 
     testWidgets('showing error from error stream', (tester) async {
       registerMockSnapdService();
+      registerMockService<GtkApplicationNotifier>(
+        createMockGtkApplicationNotifier(),
+      );
+      final error =
+          SnapdException(message: 'error message', kind: 'error kind');
       await tester.pumpApp(
         (_) => ProviderScope(
           overrides: [
             errorStreamProvider.overrideWith(
-              (ref) => Stream.value(
-                SnapdException(message: 'error message', kind: 'error kind'),
-              ),
+              (ref) => Stream.value(error),
             ),
           ],
           child: const StoreApp(),
@@ -122,8 +130,10 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.text('error message'), findsOneWidget);
-      expect(find.text('error kind'), findsOneWidget);
+      expect(
+        find.text(ErrorMessage.fromObject(error).body(tester.l10n)),
+        findsOneWidget,
+      );
     });
   });
 }

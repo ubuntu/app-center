@@ -1,11 +1,12 @@
 import 'package:app_center/constants.dart';
+import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snap_action.dart';
-import 'package:app_center/snapd/snap_data.dart';
 import 'package:app_center/snapd/snap_report.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:collection/collection.dart';
@@ -44,7 +45,10 @@ class SnapPage extends ConsumerWidget {
           );
         },
       ),
-      error: (error, stackTrace) => ErrorWidget(error),
+      error: (error, stackTrace) => ErrorView(
+        error: error,
+        onRetry: () => ref.invalidate(storeSnapProvider(snapName)),
+      ),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
   }
