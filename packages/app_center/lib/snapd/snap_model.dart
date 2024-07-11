@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/manage/manage_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';
@@ -119,7 +120,8 @@ class SnapModel extends _$SnapModel {
     assert(state.hasValue, 'The snap must be loaded before removing it');
     final changeId = await _snapd.remove(snapName);
     _updateChangeId(changeId);
-    return _listenUntilDone(changeId, snapName, ref);
+    await _listenUntilDone(changeId, snapName, ref);
+    ref.invalidate(manageModelProvider);
   }
 
   /// Changes the selected channel.
