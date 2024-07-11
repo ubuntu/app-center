@@ -406,5 +406,31 @@
   "managePageDebUpdatesMessage": "Aktualizácie balíkov debianu spravuje nástroj na aktualizáciu softvéru.",
   "@managePageDebUpdatesMessage": {},
   "snapActionInstalledLabel": "Nainštalované",
-  "@snapActionInstalledLabel": {}
+  "@snapActionInstalledLabel": {},
+  "errorViewNetworkErrorDescription": "Bez internetového pripojenia nie je možné načítať obsah v Centre aplikácií.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewServerErrorDescription": "Ľutujeme, momentálne máme problémy s centrom aplikácií.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewUnknownErrorTitle": "Niečo sa pokazilo",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorDescription": "Ľutujeme, ale nie sme si istí, v čom je chyba.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "Môžete to skúsiť znova, skontrolovať stav aktualizácií alebo to skúsiť znova neskôr.",
+  "@errorViewUnknownErrorAction": {},
+  "errorViewCheckStatusLabel": "Skontrolovať stav",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorAction": "Skontrolujte pripojenie a skúste to znova.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewNetworkErrorTitle": "Pripojenie na internet",
+  "@errorViewNetworkErrorTitle": {},
+  "snapdExceptionRunningApps": "Nepodarilo sa aktualizovať {snapName}, pretože je momentálne spustený.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewServerErrorAction": "Skontrolujte stav aktualizácií alebo to skúste znova neskôr.",
+  "@errorViewServerErrorAction": {}
 }
