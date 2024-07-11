@@ -406,5 +406,31 @@
   "snapActionInstalledLabel": "Установлено",
   "@snapActionInstalledLabel": {},
   "managePageDebUpdatesMessage": "Обновление пакетов Debian осуществляется с помощью Software Updater.",
-  "@managePageDebUpdatesMessage": {}
+  "@managePageDebUpdatesMessage": {},
+  "errorViewCheckStatusLabel": "Проверить состояние",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "Подключитесь к Интернету",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorAction": "Проверьте соединение и повторите попытку.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorAction": "Проверьте состояние служб для сведения или повторите попытку позже.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "Что-то пошло не так",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorDescription": "Нам жаль, но мы не уверены, в чем заключается проблема.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "Вы можете повторить попытку сейчас, проверить состояние служб для сведения или повторить попытку позже.",
+  "@errorViewUnknownErrorAction": {},
+  "snapdExceptionRunningApps": "Мы не смогли обновить приложение {snapName}, так как оно сейчас запущено.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewNetworkErrorDescription": "Мы не можем загрузить каталог Центра приложений без подключения к Интернету.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewServerErrorDescription": "Мы сожалеем, но в настоящее время у нас возникли проблемы с Центром приложений.",
+  "@errorViewServerErrorDescription": {}
 }
