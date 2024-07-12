@@ -20,16 +20,30 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
         (m) => m.then((value) => value.nonRefreshableSnaps),
       ),
     );
-    return nonRefreshableSnaps
-        .where(
-          (snap) => snap.titleOrName
-              .toLowerCase()
-              .contains(ref.watch(localSnapFilterProvider).toLowerCase()),
-        )
+    void refreshFunction(_, __) => _refreshWithFilters(nonRefreshableSnaps);
+    ref.listen(localSnapFilterProvider, refreshFunction);
+    ref.listen(showLocalSystemAppsProvider, refreshFunction);
+    ref.listen(localSnapSortOrderProvider, refreshFunction);
+    return _refreshWithFilters(nonRefreshableSnaps, updateState: false);
+  }
+
+  Iterable<Snap> _refreshWithFilters(
+    Iterable<Snap> nonRefreshableSnaps, {
+    bool updateState = true,
+  }) {
+    final filter = ref.read(localSnapFilterProvider).toLowerCase();
+    final showSystemApps = ref.read(showLocalSystemAppsProvider);
+    final sortOrder = ref.read(localSnapSortOrderProvider);
+    final filteredSnaps = nonRefreshableSnaps
         .where(
           (snap) =>
-              ref.watch(showLocalSystemAppsProvider) || snap.apps.isNotEmpty,
+              snap.titleOrName.toLowerCase().contains(filter) &&
+              (showSystemApps || snap.apps.isNotEmpty),
         )
-        .sortedSnaps(ref.watch(localSnapSortOrderProvider));
+        .sortedSnaps(sortOrder);
+    if (updateState) {
+      state = AsyncData(filteredSnaps);
+    }
+    return filteredSnaps;
   }
 }

@@ -7,7 +7,7 @@ part of 'local_snap_providers.dart';
 // **************************************************************************
 
 String _$filteredLocalSnapsHash() =>
-    r'b3811e1ed65d774b715aa47eee8ebe3f73c14e25';
+    r'593974499470101f76d365d0f4c957c08e6d85a2';
 
 /// See also [FilteredLocalSnaps].
 @ProviderFor(FilteredLocalSnaps)
