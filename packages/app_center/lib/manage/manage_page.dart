@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
@@ -8,7 +6,6 @@ import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_l10n.dart';
 import 'package:app_center/manage/manage_model.dart';
 import 'package:app_center/manage/manage_snaps_data.dart';
-import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -25,22 +22,8 @@ class ManagePage extends ConsumerWidget {
   static String label(BuildContext context) =>
       AppLocalizations.of(context).managePageLabel;
 
-  Future<void> _showError(BuildContext context, SnapdException e) {
-    return showErrorDialog(
-      context: context,
-      title: e.kind ?? 'Unknown Snapd Exception',
-      message: e.message,
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(errorStreamProvider, (_, error) {
-      if (error.hasValue && error.value is SnapdException) {
-        _showError(context, error.value as SnapdException);
-      }
-    });
-
     final manageSnaps = ref.watch(manageModelProvider);
     return manageSnaps.when(
       data: (data) => _ManageView(manageSnapsData: data),
