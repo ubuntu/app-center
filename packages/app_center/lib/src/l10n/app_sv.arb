@@ -406,5 +406,31 @@
   "snapActionInstalledLabel": "Installerad",
   "@snapActionInstalledLabel": {},
   "managePageDebUpdatesMessage": "Debian paket uppdateringar hanteras av Appcentralen.",
-  "@managePageDebUpdatesMessage": {}
+  "@managePageDebUpdatesMessage": {},
+  "errorViewCheckStatusLabel": "Kolla status",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorDescription": "Vi kan inte ladda innehåll i Appcentral utan en internetanslutning.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewServerErrorDescription": "Vi är ledsna, vi har för närvarande problem med Appcentral.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Kontrollera status för uppdateringar eller försök igen senare.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "Någonting gick fel",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorAction": "Du kan försöka igen nu, kontrollera status för uppdateringar eller försöka igen senare.",
+  "@errorViewUnknownErrorAction": {},
+  "errorViewNetworkErrorTitle": "Anslut till internet",
+  "@errorViewNetworkErrorTitle": {},
+  "snapdExceptionRunningApps": "Vi kunde inte uppdatera {snapName} eftersom det körs just nu.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewNetworkErrorAction": "Kontrollera din uppkoppling och försök igen.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewUnknownErrorDescription": "Vi är ledsna, men vi är inte säkra på vad felet är.",
+  "@errorViewUnknownErrorDescription": {}
 }
