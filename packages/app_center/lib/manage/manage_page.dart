@@ -276,10 +276,11 @@ class _ActionButtons extends ConsumerWidget {
           ),
         ),
         PushButton.elevated(
-          onPressed:
-              !updatesInProgress && (updatesModel.value?.isNotEmpty ?? false)
-                  ? ref.read(updatesModelProvider.notifier).updateAll
-                  : null,
+          onPressed: ref.watch(updatesModelProvider).whenOrNull(
+                data: (updates) => updates.isNotEmpty && updateChangeId == null
+                    ? ref.read(updatesModelProvider.notifier).updateAll
+                    : null,
+              ),
           child: updateChangeId != null
               ? Consumer(
                   builder: (context, ref, child) {

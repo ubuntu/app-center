@@ -6,7 +6,7 @@ part of 'updates_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$hasUpdateHash() => r'11c9797560e1bf807eaa921f44b2a8e21a2e9058';
+String _$hasUpdateHash() => r'2e6726976ec1efb4c3b8cecf2e82a74f3a3630f4';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -154,7 +154,7 @@ class _HasUpdateProviderElement extends ProviderElement<bool>
   String get snapName => (origin as HasUpdateProvider).snapName;
 }
 
-String _$updatesModelHash() => r'99cb3795ae4ca89b5549f521c2b92065177c656f';
+String _$updatesModelHash() => r'e0e2fd3b821444f5d18dd12cfa5524171d41f33b';
 
 /// See also [UpdatesModel].
 @ProviderFor(UpdatesModel)

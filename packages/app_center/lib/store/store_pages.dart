@@ -57,11 +57,13 @@ final pages = <StorePage>[
           title: Text(ManagePage.label(context)),
           trailing: Consumer(
             builder: (context, ref, child) {
-              final availableUpdates =
-                  ref.watch(updatesModelProvider).value?.length ?? 0;
-              return availableUpdates > 0
-                  ? Badge(label: Text('$availableUpdates'))
-                  : const SizedBox.shrink();
+              return ref.watch(updatesModelProvider).when(
+                    data: (updates) => updates.isNotEmpty
+                        ? Badge(label: Text('${updates.length}'))
+                        : const SizedBox.shrink(),
+                    loading: SizedBox.shrink,
+                    error: (_, __) => const SizedBox.shrink(),
+                  );
             },
           ),
         ),

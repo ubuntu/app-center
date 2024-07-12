@@ -14,7 +14,10 @@ final updateChangeIdProvider = StateProvider<String?>((_) => null);
 @Riverpod(keepAlive: true)
 bool hasUpdate(HasUpdateRef ref, String snapName) {
   final updatesModel = ref.watch(updatesModelProvider);
-  return updatesModel.value?.any((s) => s.name == snapName) ?? false;
+  return updatesModel.whenOrNull(
+        data: (snaps) => snaps.any((s) => s.name == snapName),
+      ) ??
+      false;
 }
 
 @Riverpod(keepAlive: true)
@@ -25,8 +28,8 @@ class UpdatesModel extends _$UpdatesModel {
   Future<Iterable<Snap>> build() {
     try {
       return _snapd.find(filter: SnapFindFilter.refresh);
-    } on SnapdException catch (e) {
-      ref.read(errorStreamControllerProvider).add(e);
+    } on SnapdException catch (_) {
+      // TODO: Should we ignore all SnapdExceptions here?
       return Future.value([]);
     }
   }
