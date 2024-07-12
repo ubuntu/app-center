@@ -40,7 +40,7 @@ class GamesPage extends ConsumerWidget {
           ],
         ),
         const RatedCategorySnapList(
-          categories: {
+          categories: [
             SnapCategoryEnum.games,
             SnapCategoryEnum.kdeGames,
             SnapCategoryEnum.gnomeGames,
@@ -48,7 +48,7 @@ class GamesPage extends ConsumerWidget {
             SnapCategoryEnum.gameEmulators,
             SnapCategoryEnum.gameContentCreation,
             SnapCategoryEnum.gameDev,
-          },
+          ],
         ),
         SliverList.list(
           children: [

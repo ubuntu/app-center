@@ -703,6 +703,15 @@ class MockSnapdService extends _i1.Mock implements _i2.SnapdService {
       ) as _i12.Future<void>);
 
   @override
+  _i12.Future<_i4.Snap?> findById(String? snapId) => (super.noSuchMethod(
+        Invocation.method(
+          #findById,
+          [snapId],
+        ),
+        returnValue: _i12.Future<_i4.Snap?>.value(),
+      ) as _i12.Future<_i4.Snap?>);
+
+  @override
   _i12.Future<void> loadAuthorization({String? path}) => (super.noSuchMethod(
         Invocation.method(
           #loadAuthorization,
