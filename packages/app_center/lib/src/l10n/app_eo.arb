@@ -406,5 +406,31 @@
   "managePageDebUpdatesMessage": "Ĝisdatigon de Debian-pakoj respondecas la Ĝisdatigilo de Programaroj.",
   "@managePageDebUpdatesMessage": {},
   "snapActionInstalledLabel": "Instalita",
-  "@snapActionInstalledLabel": {}
+  "@snapActionInstalledLabel": {},
+  "errorViewNetworkErrorAction": "Kontrolu vian konekton kaj reprovu.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewCheckStatusLabel": "Kontroli staton",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "Konekti al Interreto",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "Oni ne povas ŝargi enhavon en la Programcentro sen Interreta konekto.",
+  "@errorViewNetworkErrorDescription": {},
+  "snapdExceptionRunningApps": "Ne eblis ĝisdatigi {snapName}, ĉar ĝi nun ruliĝas.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewUnknownErrorTitle": "Io fiaskis",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewServerErrorDescription": "Bedaŭrinde, ni spertas problemojn pri la Programcentro.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Kontrolu la staton pri ĝisdatigoj, aŭ reprovu poste.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorDescription": "Bedaŭrinde, ni ne certas pri la eraro.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "Vi povas reprovi nun, kontroli la staton pri ĝisdatigoj, aŭ reprovi poste.",
+  "@errorViewUnknownErrorAction": {}
 }
