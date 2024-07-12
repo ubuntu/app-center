@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_center/snapd/snap_category_enum.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:glib/glib.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -30,6 +32,11 @@ class RatingsService {
   Future<Rating?> getRating(String snapId) async {
     await _ensureValidToken();
     return client.getRating(snapId, _jwt!);
+  }
+
+  Future<List<ChartData>> getChart(SnapCategoryEnum category) async {
+    await _ensureValidToken();
+    return client.getChart(Timeframe.unspecified, _jwt!, category.index);
   }
 
   Future<void> vote(Vote vote) async {
