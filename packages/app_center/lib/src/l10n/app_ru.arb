@@ -405,7 +405,7 @@
   "@localDebDialogConfirmation": {},
   "snapActionInstalledLabel": "Установлено",
   "@snapActionInstalledLabel": {},
-  "managePageDebUpdatesMessage": "Обновление пакетов Debian осуществляется с помощью Software Updater.",
+  "managePageDebUpdatesMessage": "Обновление пакетов Debian осуществляется с помощью программы «Обновление приложений».",
   "@managePageDebUpdatesMessage": {},
   "errorViewCheckStatusLabel": "Проверить состояние",
   "@errorViewCheckStatusLabel": {},
