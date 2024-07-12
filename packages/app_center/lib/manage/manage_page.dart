@@ -200,7 +200,7 @@ class _ManageView extends ConsumerWidget {
           ),
           Consumer(
             builder: (context, ref, _) {
-              final filteredLocalSnaps = ref.watch(localSnapsProvider);
+              final filteredLocalSnaps = ref.watch(filteredLocalSnapsProvider);
               return filteredLocalSnaps.when(
                 data: (data) => SliverList.builder(
                   itemCount: data.length,

@@ -11,9 +11,8 @@ final showLocalSystemAppsProvider = StateProvider<bool>((_) => false);
 final localSnapSortOrderProvider =
     StateProvider<SnapSortOrder>((_) => SnapSortOrder.alphabeticalAsc);
 
-// TODO: Maybe rename since it is filtered?
 @riverpod
-class LocalSnaps extends _$LocalSnaps {
+class FilteredLocalSnaps extends _$FilteredLocalSnaps {
   @override
   Future<Iterable<Snap>> build() async {
     final nonRefreshableSnaps = await ref.watch(

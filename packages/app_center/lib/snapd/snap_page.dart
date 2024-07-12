@@ -41,7 +41,8 @@ class SnapPage extends ConsumerWidget {
     if (snapDataNotFound) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (Navigator.canPop(context)) {
-          ref.invalidate(localSnapsProvider);
+          print('we invalidate');
+          ref.invalidate(filteredLocalSnapsProvider);
           Navigator.pop(context);
         }
       });
