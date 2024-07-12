@@ -35,12 +35,13 @@ void main() {
     const timeframe = chart.Timeframe.month;
     final pbChartList = [
       pb_chart.ChartData(
-          rawRating: 3,
-          rating: Rating(
-            snapId: snapId,
-            totalVotes: Int64(105),
-            ratingsBand: RatingsBand.NEUTRAL,
-          ))
+        rawRating: 3,
+        rating: Rating(
+          snapId: snapId,
+          totalVotes: Int64(105),
+          ratingsBand: RatingsBand.NEUTRAL,
+        ),
+      ),
     ];
 
     final expectedResponse = [
@@ -61,13 +62,19 @@ void main() {
       timeframe: pb_chart.Timeframe.TIMEFRAME_MONTH,
       category: pb_chart.Category.GAMES,
     );
-    when(mockChartClient.getChart(
-      request,
-      options: anyNamed('options'),
-    )).thenAnswer(
-        (_) => MockResponseFuture<pb_chart.GetChartResponse>(mockResponse));
+    when(
+      mockChartClient.getChart(
+        request,
+        options: anyNamed('options'),
+      ),
+    ).thenAnswer(
+      (_) => MockResponseFuture<pb_chart.GetChartResponse>(mockResponse),
+    );
     final response = await ratingsClient.getChart(
-        timeframe, token, pb_chart.Category.GAMES.value);
+      timeframe,
+      token,
+      pb_chart.Category.GAMES.value,
+    );
     expect(
       response,
       equals(expectedResponse),

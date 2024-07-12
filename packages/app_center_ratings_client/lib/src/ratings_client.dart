@@ -53,12 +53,15 @@ class RatingsClient {
     await _userClient.delete(request, options: callOptions);
   }
 
-  Future<List<ChartData>> getChart(Timeframe timeframe, String token,
-      [int? category]) async {
+  Future<List<ChartData>> getChart(
+    Timeframe timeframe,
+    String token, [
+    int? category,
+  ]) async {
     final request = chart_pb.GetChartRequest(
-        timeframe: timeframe.toDTO(),
-        category:
-            category != null ? chart_pb.Category.valueOf(category) : null);
+      timeframe: timeframe.toDTO(),
+      category: category != null ? chart_pb.Category.valueOf(category) : null,
+    );
     final callOptions =
         CallOptions(metadata: {'authorization': 'Bearer $token'});
     final grpcResponse =
