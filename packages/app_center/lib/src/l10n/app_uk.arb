@@ -406,5 +406,31 @@
   "managePageDebUpdatesMessage": "Оновлення пакунків Debian виконує програма оновлення програмного забезпечення.",
   "@managePageDebUpdatesMessage": {},
   "snapActionInstalledLabel": "Встановлено",
-  "@snapActionInstalledLabel": {}
+  "@snapActionInstalledLabel": {},
+  "errorViewNetworkErrorDescription": "Ми не можемо завантажити вміст у Центр додатків без підключення до Інтернету.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewUnknownErrorTitle": "Щось пішло не так",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewCheckStatusLabel": "Перевірте статус",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorAction": "Перевірте з'єднання та спробуйте ще раз.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "На жаль, у нас зараз проблеми з Центром додатків.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Перевірте статус на наявність оновлень або спробуйте пізніше.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorDescription": "Вибачте, але ми не впевнені, в чому саме полягає помилка.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "Ви можете повторити спробу зараз, перевірити статус на наявність оновлень або спробувати пізніше.",
+  "@errorViewUnknownErrorAction": {},
+  "snapdExceptionRunningApps": "Ми не змогли оновити {snapName}, оскільки він наразі запущений.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewNetworkErrorTitle": "Підключення до Інтернету",
+  "@errorViewNetworkErrorTitle": {}
 }
