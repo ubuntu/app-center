@@ -2,6 +2,7 @@
 
 #include <flutter_linux/flutter_linux.h>
 #include <handy.h>
+#include <gdk/gdk.h>
 
 #include "flutter/generated_plugin_registrant.h"
 
@@ -34,14 +35,27 @@ static void my_application_activate(GApplication* application) {
   GtkWindow* window = GTK_WINDOW(hdy_application_window_new());
   gtk_window_set_application(window, GTK_APPLICATION(application));
 
+  // Get screen size using GdkMonitor
+  GdkDisplay* display = gdk_display_get_default();
+  GdkMonitor* monitor = gdk_display_get_primary_monitor(display);
+  GdkRectangle monitor_geometry;
+  gdk_monitor_get_geometry(monitor, &monitor_geometry);
+  gint screen_width = monitor_geometry.width;
+  gint screen_height = monitor_geometry.height;
+
+  // Calculate default window size (e.g., 80% of screen size)
+  gint default_width = screen_width * 0.8;
+  gint default_height = screen_height * 0.8;
+
   GdkGeometry geometry;
 
-  // TODO: find better solution; set default window size based on available space
-  geometry.min_width = 800 + 52;  // account for shadow from libhandy
-  geometry.min_height = 600 + 52;
+  // This ensures that the minimum width of the window is at least 800+52 pixels
+  geometry.min_width = default_width < 800 + 52 ? 800 + 52 : default_width;
+  geometry.min_height = default_height < 600 + 52 ? 600 + 52 : default_height;
+
   gtk_window_set_geometry_hints(window, nullptr, &geometry, GDK_HINT_MIN_SIZE);
 
-  gtk_window_set_default_size(window, 1280 + 52, 800 + 52);
+  gtk_window_set_default_size(window, default_width, default_height);
   gtk_widget_show(GTK_WIDGET(window));
 
   g_autoptr(FlDartProject) project = fl_dart_project_new();
