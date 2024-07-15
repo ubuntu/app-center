@@ -45,6 +45,7 @@ class SnapPage extends ConsumerWidget {
           Navigator.pop(context);
         }
       });
+      return const Center(child: YaruCircularProgressIndicator());
     }
 
     return snap.when(

@@ -23,7 +23,7 @@ class SnapModel extends _$SnapModel {
     } on SnapdException catch (e) {
       // Since the snap is just not installed when 'snap-not-found is thrown we
       // can ignore this exception.
-      if (e.kind != 'snap-not-found' && e.kind != null) rethrow;
+      if (e.kind != 'snap-not-found') rethrow;
     }
 
     final storeSnap = await ref
