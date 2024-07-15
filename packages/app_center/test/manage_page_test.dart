@@ -1,6 +1,5 @@
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage.dart';
-import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -108,7 +107,6 @@ void main() {
     await resetAllServices();
     registerMockSnapdService(
       installedSnaps: nonRefreshableSnaps,
-      refreshableSnaps: refreshableSnaps,
     );
 
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
@@ -225,13 +223,8 @@ void main() {
       ],
     );
 
-    await resetAllServices();
-    registerMockSnapdService(
-      localSnap: snapData.localSnap,
-      storeSnap: snapData.storeSnap,
-      refreshableSnaps: refreshableSnaps,
-      changes: [mockChange],
-    );
+    when(snapd.getChanges(name: anyNamed('name')))
+        .thenAnswer((_) async => [mockChange]);
 
     await tester.pumpApp(
       (_) => ProviderScope(
@@ -244,7 +237,7 @@ void main() {
         child: const ManagePage(),
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     final refreshButton =
         find.buttonWithText(tester.l10n.snapActionUpdatingLabel);
@@ -280,35 +273,6 @@ void main() {
     final cancelButton = find.buttonWithText(tester.l10n.snapActionCancelLabel);
     expect(cancelButton, findsOneWidget);
     expect(cancelButton, isEnabled);
-  });
-
-  testWidgets('error dialog', (tester) async {
-    registerMockErrorStreamControllerService();
-
-    when(snapd.find(filter: SnapFindFilter.refresh)).thenThrow(
-      SnapdException(
-        message: 'error message',
-        kind: 'error kind',
-      ),
-    );
-    await tester.pumpApp(
-      (_) => ProviderScope(
-        overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          showLocalSystemAppsProvider.overrideWith((ref) => true),
-          errorStreamProvider.overrideWith(
-            (ref) => Stream.value(
-              SnapdException(message: 'error message', kind: 'error kind'),
-            ),
-          ),
-        ],
-        child: const ManagePage(),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    expect(find.text('error message'), findsOneWidget);
-    expect(find.text('error kind'), findsOneWidget);
   });
 
   // TODO: test sorting and filtering

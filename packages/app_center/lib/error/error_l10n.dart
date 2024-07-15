@@ -10,7 +10,7 @@ sealed class ErrorMessage {
   const ErrorMessage();
 
   factory ErrorMessage.fromObject(Object? e) {
-    if (e is! SnapdException) return ErrorMessageUnkown();
+    if (e is! SnapdException) return ErrorMessageUnknown();
 
     switch (e.kind) {
       case 'network-timeout':
@@ -22,7 +22,7 @@ sealed class ErrorMessage {
         return patternMap.message(match);
       }
     }
-    return ErrorMessageUnkown();
+    return ErrorMessageUnknown();
   }
 
   static final _patternMaps =
@@ -79,4 +79,4 @@ class ErrorMessageRunningApps extends ErrorMessage {
   final String snap;
 }
 
-class ErrorMessageUnkown extends ErrorMessage {}
+class ErrorMessageUnknown extends ErrorMessage {}
