@@ -38,6 +38,9 @@ class SnapModel extends _$SnapModel {
     }
 
     if (localSnap == null && storeSnap == null) {
+      // This only happens when you have installed a local snap that you then
+      // later remove, it results in that there isn't any metadata left
+      // regarding it.
       throw SnapDataNotFoundException(snapName);
     }
     final hasUpdate = ref.watch(hasUpdateProvider(snapName));
