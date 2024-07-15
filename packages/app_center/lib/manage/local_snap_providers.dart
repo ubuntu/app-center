@@ -1,8 +1,8 @@
-import 'package:app_center/manage/manage_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 part 'local_snap_providers.g.dart';
 
@@ -13,13 +13,15 @@ final localSnapSortOrderProvider =
 
 @riverpod
 class FilteredLocalSnaps extends _$FilteredLocalSnaps {
+  late final _snapd = getService<SnapdService>();
+
   @override
   Future<Iterable<Snap>> build() async {
-    final nonRefreshableSnaps = await ref.watch(
-      manageModelProvider.future.select(
-        (m) => m.then((value) => value.nonRefreshableSnaps),
-      ),
-    );
+    final snaps = await _snapd.getSnaps();
+    final refreshableSnaps =
+        (await ref.watch(updatesModelProvider.future)).map((s) => s.name);
+    final nonRefreshableSnaps =
+        snaps.where((s) => !refreshableSnaps.contains(s.name));
     void refreshFunction(_, __) => _refreshWithFilters(nonRefreshableSnaps);
     ref.listen(localSnapFilterProvider, refreshFunction);
     ref.listen(showLocalSystemAppsProvider, refreshFunction);

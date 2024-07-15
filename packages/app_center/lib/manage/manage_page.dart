@@ -4,8 +4,6 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_l10n.dart';
-import 'package:app_center/manage/manage_model.dart';
-import 'package:app_center/manage/manage_snaps_data.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -24,22 +22,7 @@ class ManagePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final manageSnaps = ref.watch(manageModelProvider);
-    return manageSnaps.when(
-      data: (data) => _ManageView(manageSnapsData: data),
-      error: (error, stack) => ErrorView(error: error),
-      loading: () => const Center(child: YaruCircularProgressIndicator()),
-    );
-  }
-}
-
-class _ManageView extends ConsumerWidget {
-  const _ManageView({required this.manageSnapsData});
-
-  final ManageSnapsData manageSnapsData;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
+    final updatesModel = ref.watch(updatesModelProvider);
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
 
@@ -62,50 +45,67 @@ class _ManageView extends ConsumerWidget {
                 style: textTheme.titleMedium,
               ),
               const SizedBox(height: 48),
-              Builder(
-                builder: (context) {
-                  final compact = ResponsiveLayout.of(context).type ==
-                      ResponsiveLayoutType.small;
-                  return Flex(
-                    direction: compact ? Axis.vertical : Axis.horizontal,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: compact
-                        ? CrossAxisAlignment.start
-                        : CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+              ...updatesModel.when(
+                data: (refreshableSnaps) {
+                  return [
+                    Builder(
+                      builder: (context) {
+                        final compact = ResponsiveLayout.of(context).type ==
+                            ResponsiveLayoutType.small;
+                        return Flex(
+                          direction: compact ? Axis.vertical : Axis.horizontal,
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: compact
+                              ? CrossAxisAlignment.start
+                              : CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              l10n.managePageUpdatesAvailable(
+                                refreshableSnaps.length,
+                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(fontWeight: FontWeight.w500),
+                            ),
+                            if (compact) const SizedBox(height: 16),
+                            const Flexible(child: _ActionButtons()),
+                          ],
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    if (refreshableSnaps.isEmpty)
                       Text(
-                        l10n.managePageUpdatesAvailable(
-                          manageSnapsData.refreshableSnaps.length,
-                        ),
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontWeight: FontWeight.w500),
+                        l10n.managePageNoUpdatesAvailableDescription,
+                        style: textTheme.titleMedium,
                       ),
-                      if (compact) const SizedBox(height: 16),
-                      const Flexible(child: _ActionButtons()),
-                    ],
-                  );
+                  ];
                 },
+                error: (error, stack) => [ErrorView(error: error)],
+                loading: () =>
+                    [const Center(child: YaruCircularProgressIndicator())],
               ),
-              const SizedBox(height: 24),
-              if (manageSnapsData.refreshableSnaps.isEmpty)
-                Text(
-                  l10n.managePageNoUpdatesAvailableDescription,
-                  style: textTheme.titleMedium,
-                ),
             ],
           ),
-          SliverList.builder(
-            itemCount: manageSnapsData.refreshableSnaps.length,
-            itemBuilder: (context, index) => _ManageSnapTile(
-              snap: manageSnapsData.refreshableSnaps.elementAt(index),
-              position: determinePosition(
-                index: index,
-                length: manageSnapsData.refreshableSnaps.length,
+          updatesModel.when(
+            data: (refreshableSnaps) => SliverList.builder(
+              itemCount: refreshableSnaps.length,
+              itemBuilder: (context, index) => _ManageSnapTile(
+                snap: refreshableSnaps.elementAt(index),
+                position: determinePosition(
+                  index: index,
+                  length: refreshableSnaps.length,
+                ),
+                showUpdateButton: true,
               ),
-              showUpdateButton: true,
+            ),
+            error: (error, stack) => SliverToBoxAdapter(
+              child: ErrorView(error: error),
+            ),
+            loading: () => const SliverToBoxAdapter(
+              child: Center(child: YaruCircularProgressIndicator()),
             ),
           ),
           SliverList.list(
@@ -231,7 +231,8 @@ class _ActionButtons extends ConsumerWidget {
           ),
         ),
       ),
-      error: (_, __) => ('', const SizedBox.shrink()),
+      error: (_, __) =>
+          (l10n.managePageCheckForUpdates, const Icon(YaruIcons.sync)),
     );
 
     final updatesInProgress = !updatesModel.isLoading && updateChangeId != null;
@@ -240,7 +241,7 @@ class _ActionButtons extends ConsumerWidget {
       runSpacing: 10,
       children: [
         PushButton.outlined(
-          onPressed: updatesInProgress
+          onPressed: updatesInProgress || updatesModel.hasError
               ? null
               : () => ref.refresh(updatesModelProvider),
           child: Row(

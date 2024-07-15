@@ -1,4 +1,5 @@
-import 'package:app_center/manage/manage_model.dart';
+import 'package:app_center/manage/local_snap_providers.dart';
+import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'test_utils.dart';
@@ -12,13 +13,16 @@ void main() {
       ],
     );
     final container = createContainer();
-    final model = await container.read(manageModelProvider.future);
+    container.read(showLocalSystemAppsProvider.notifier).state = true;
+    final nonRefreshableSnaps =
+        await container.read(filteredLocalSnapsProvider.future);
+    final refreshableSnaps = await container.read(updatesModelProvider.future);
 
     expect(
-      model.nonRefreshableSnaps,
+      nonRefreshableSnaps,
       equals([createSnap(name: 'firefox'), createSnap(name: 'thunderbird')]),
     );
-    expect(model.refreshableSnaps, isEmpty);
+    expect(refreshableSnaps, isEmpty);
   });
 
   test('update available', () async {
@@ -32,14 +36,17 @@ void main() {
       ],
     );
     final container = createContainer();
-    final model = await container.read(manageModelProvider.future);
+    container.read(showLocalSystemAppsProvider.notifier).state = true;
+    final nonRefreshableSnaps =
+        await container.read(filteredLocalSnapsProvider.future);
+    final refreshableSnaps = await container.read(updatesModelProvider.future);
 
     expect(
-      model.nonRefreshableSnaps,
+      nonRefreshableSnaps,
       equals([createSnap(name: 'thunderbird')]),
     );
     expect(
-      model.refreshableSnaps,
+      refreshableSnaps,
       equals([createSnap(name: 'firefox')]),
     );
   });

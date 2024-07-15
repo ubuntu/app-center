@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app_center/manage/manage_model.dart';
+import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';
@@ -121,7 +121,7 @@ class SnapModel extends _$SnapModel {
     final changeId = await _snapd.remove(snapName);
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, snapName, ref);
-    ref.invalidate(manageModelProvider);
+    ref.invalidate(localSnapFilterProvider);
   }
 
   /// Changes the selected channel.
