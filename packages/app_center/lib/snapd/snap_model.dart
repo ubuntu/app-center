@@ -21,9 +21,17 @@ class SnapModel extends _$SnapModel {
     try {
       localSnap = await _snapd.getSnap(snapName);
     } on SnapdException catch (e) {
-      // Since the snap is just not installed when 'snap-not-found is thrown we
-      // can ignore this exception.
-      if (e.kind != 'snap-not-found') rethrow;
+      switch (e.kind) {
+        // Since the snap is just not installed when 'snap-not-found is thrown
+        // we can ignore this exception.
+        case 'snap-not-found':
+        // When kind is null it is most likely a problem with the internet
+        // connection.
+        case null:
+          break;
+        default:
+          rethrow;
+      }
     }
 
     final storeSnap = await ref
