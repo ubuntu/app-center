@@ -1,5 +1,5 @@
 import 'package:app_center/manage/local_snap_providers.dart';
-import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/manage/updates_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'test_utils.dart';
@@ -20,7 +20,11 @@ void main() {
 
     expect(
       nonRefreshableSnaps,
-      equals([createSnap(name: 'firefox'), createSnap(name: 'thunderbird')]),
+      equals(
+        SnapListState(
+          snaps: [createSnap(name: 'firefox'), createSnap(name: 'thunderbird')],
+        ),
+      ),
     );
     expect(refreshableSnaps, isEmpty);
   });
@@ -43,11 +47,15 @@ void main() {
 
     expect(
       nonRefreshableSnaps,
-      equals([createSnap(name: 'thunderbird')]),
+      equals(
+        SnapListState(snaps: [createSnap(name: 'thunderbird')]),
+      ),
     );
     expect(
       refreshableSnaps,
-      equals([createSnap(name: 'firefox')]),
+      equals(
+        SnapListState(snaps: [createSnap(name: 'firefox')]),
+      ),
     );
   });
 }

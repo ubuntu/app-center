@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/manage/local_snap_providers.dart';
+import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';
@@ -27,6 +28,7 @@ class SnapModel extends _$SnapModel {
         case 'snap-not-found':
         // When kind is null it is most likely a problem with the internet
         // connection.
+        case 'network-timeout':
         case null:
           break;
         default:

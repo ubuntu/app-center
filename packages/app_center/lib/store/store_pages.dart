@@ -3,6 +3,7 @@ import 'package:app_center/explore/explore.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/manage/manage.dart';
+import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
@@ -58,8 +59,8 @@ final pages = <StorePage>[
           trailing: Consumer(
             builder: (context, ref, child) {
               return ref.watch(updatesModelProvider).when(
-                    data: (updates) => updates.isNotEmpty
-                        ? Badge(label: Text('${updates.length}'))
+                    data: (snapListState) => snapListState.isNotEmpty
+                        ? Badge(label: Text('${snapListState.length}'))
                         : const SizedBox.shrink(),
                     loading: SizedBox.shrink,
                     error: (_, __) => const SizedBox.shrink(),

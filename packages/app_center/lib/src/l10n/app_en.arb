@@ -27,6 +27,7 @@
     "explorePageCategoriesLabel": "Categories",
     "managePageCheckForUpdates": "Check for updates",
     "managePageCheckingForUpdates": "Checking for updates",
+    "managePageNoInternet": "No internet connection available.",
     "managePageDescription": "Check for available updates, update your apps, and manage the status of all your apps.",
     "managePageDebUpdatesMessage": "Debian package updates are handled by the Software Updater.",
     "managePageInstalledAndUpdatedLabel": "Installed and updated",

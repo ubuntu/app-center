@@ -6,7 +6,7 @@ part of 'updates_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$hasUpdateHash() => r'2e6726976ec1efb4c3b8cecf2e82a74f3a3630f4';
+String _$hasUpdateHash() => r'fbf8059b308298a0f481a3cc8a4c2289ca0bf005';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -154,12 +154,12 @@ class _HasUpdateProviderElement extends ProviderElement<bool>
   String get snapName => (origin as HasUpdateProvider).snapName;
 }
 
-String _$updatesModelHash() => r'e0e2fd3b821444f5d18dd12cfa5524171d41f33b';
+String _$updatesModelHash() => r'018b686d2f8d5b2b0a99fe1db2b17075dfaf23e4';
 
 /// See also [UpdatesModel].
 @ProviderFor(UpdatesModel)
 final updatesModelProvider =
-    AsyncNotifierProvider<UpdatesModel, Iterable<Snap>>.internal(
+    AsyncNotifierProvider<UpdatesModel, SnapListState>.internal(
   UpdatesModel.new,
   name: r'updatesModelProvider',
   debugGetCreateSourceHash:
@@ -168,6 +168,6 @@ final updatesModelProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$UpdatesModel = AsyncNotifier<Iterable<Snap>>;
+typedef _$UpdatesModel = AsyncNotifier<SnapListState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

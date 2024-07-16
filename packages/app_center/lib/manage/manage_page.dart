@@ -4,6 +4,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_snap_tile.dart';
+import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,7 +55,8 @@ class ManagePage extends ConsumerWidget {
               ),
               const SizedBox(height: 48),
               ...updatesModel.when(
-                data: (refreshableSnaps) {
+                data: (snapListState) {
+                  final refreshableSnaps = snapListState.snaps;
                   return [
                     Builder(
                       builder: (context) {
@@ -84,7 +86,12 @@ class ManagePage extends ConsumerWidget {
                       },
                     ),
                     const SizedBox(height: 24),
-                    if (refreshableSnaps.isEmpty)
+                    if (!snapListState.hasInternet) ...[
+                      Text(
+                        l10n.managePageNoInternet,
+                        style: textTheme.titleMedium,
+                      ),
+                    ] else if (refreshableSnaps.isEmpty)
                       Text(
                         l10n.managePageNoUpdatesAvailableDescription,
                         style: textTheme.titleMedium,
@@ -98,13 +105,13 @@ class ManagePage extends ConsumerWidget {
             ],
           ),
           updatesModel.when(
-            data: (refreshableSnaps) => SliverList.builder(
-              itemCount: refreshableSnaps.length,
+            data: (snapListState) => SliverList.builder(
+              itemCount: snapListState.snaps.length,
               itemBuilder: (context, index) => ManageSnapTile(
-                snap: refreshableSnaps.elementAt(index),
+                snap: snapListState.snaps.elementAt(index),
                 position: determineTilePosition(
                   index: index,
-                  length: refreshableSnaps.length,
+                  length: snapListState.snaps.length,
                 ),
                 showUpdateButton: true,
               ),
@@ -189,12 +196,14 @@ class ManagePage extends ConsumerWidget {
             ],
           ),
           filteredLocalSnaps.when(
-            data: (data) => SliverList.builder(
-              itemCount: data.length,
+            data: (snapListState) => SliverList.builder(
+              itemCount: snapListState.snaps.length,
               itemBuilder: (context, index) => ManageSnapTile(
-                snap: data.elementAt(index),
-                position:
-                    determineTilePosition(index: index, length: data.length),
+                snap: snapListState.snaps.elementAt(index),
+                position: determineTilePosition(
+                  index: index,
+                  length: snapListState.snaps.length,
+                ),
               ),
             ),
             error: (_, __) =>
@@ -220,6 +229,7 @@ class _ActionButtons extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final updatesModel = ref.watch(updatesModelProvider);
     final updateChangeId = ref.watch(updateChangeIdProvider);
+    final hasInternet = updatesModel.value?.hasInternet ?? true;
 
     final (label, icon) = updatesModel.when(
       data: (_) => (l10n.managePageCheckForUpdates, const Icon(YaruIcons.sync)),
@@ -240,6 +250,7 @@ class _ActionButtons extends ConsumerWidget {
     return Wrap(
       spacing: 10,
       runSpacing: 10,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         PushButton.outlined(
           onPressed: updatesInProgress || updatesModel.hasError
@@ -262,7 +273,9 @@ class _ActionButtons extends ConsumerWidget {
         ),
         PushButton.elevated(
           onPressed: ref.watch(updatesModelProvider).whenOrNull(
-                data: (updates) => updates.isNotEmpty && updateChangeId == null
+                data: (snapListState) => snapListState.snaps.isNotEmpty &&
+                        updateChangeId == null &&
+                        hasInternet
                     ? ref.read(updatesModelProvider.notifier).updateAll
                     : null,
               ),

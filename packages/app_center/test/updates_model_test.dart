@@ -1,5 +1,5 @@
+import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
-import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
@@ -12,7 +12,7 @@ void main() {
       registerMockSnapdService();
       final container = createContainer();
       final model = await container.read(updatesModelProvider.future);
-      expect(model, isEmpty);
+      expect(model.isEmpty, isTrue);
     });
 
     test('updates available', () async {
@@ -47,18 +47,19 @@ void main() {
         ),
       );
 
-      container.listen(
-        errorStreamProvider,
-        (_, __) {
-          expectAsync1<void, SnapdException>(
-            (e) {
-              expect(e.kind, equals('error kind'));
-              expect(e.message, equals('error while checking for updates'));
-            },
-          );
-        },
+      expect(container.read(updatesModelProvider.future), throwsException);
+    });
+
+    test('refresh no internet', () async {
+      registerMockErrorStreamControllerService();
+      final service = registerMockSnapdService();
+      final container = createContainer();
+      when(service.find(filter: SnapFindFilter.refresh)).thenThrow(
+        SnapdException(message: ''),
       );
-      await container.read(updatesModelProvider.future);
+
+      final snapListState = await container.read(updatesModelProvider.future);
+      expect(snapListState.hasInternet, isFalse);
     });
 
     test('update all', () async {

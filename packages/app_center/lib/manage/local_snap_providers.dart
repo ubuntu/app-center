@@ -1,3 +1,4 @@
+import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -16,17 +17,20 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
   late final _snapd = getService<SnapdService>();
 
   @override
-  Future<Iterable<Snap>> build() async {
-    final snaps = await _snapd.getSnaps();
+  Future<SnapListState> build() async {
+    final snapListState = await connectionCheck(_snapd.getSnaps, ref);
+    final snaps = snapListState.snaps;
     final refreshableSnaps =
-        (await ref.watch(updatesModelProvider.future)).map((s) => s.name);
+        (await ref.watch(updatesModelProvider.future)).snaps.map((s) => s.name);
     final nonRefreshableSnaps =
         snaps.where((s) => !refreshableSnaps.contains(s.name));
     void refreshFunction(_, __) => _refreshWithFilters(nonRefreshableSnaps);
     ref.listen(localSnapFilterProvider, refreshFunction);
     ref.listen(showLocalSystemAppsProvider, refreshFunction);
     ref.listen(localSnapSortOrderProvider, refreshFunction);
-    return _refreshWithFilters(nonRefreshableSnaps, updateState: false);
+    return snapListState.copyWith(
+      snaps: _refreshWithFilters(nonRefreshableSnaps, updateState: false),
+    );
   }
 
   Iterable<Snap> _refreshWithFilters(
@@ -44,7 +48,12 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
         )
         .sortedSnaps(sortOrder);
     if (updateState) {
-      state = AsyncData(filteredSnaps);
+      state = AsyncData(
+        SnapListState(
+          snaps: filteredSnaps,
+          hasInternet: state.value?.hasInternet ?? true,
+        ),
+      );
     }
     return filteredSnaps;
   }
