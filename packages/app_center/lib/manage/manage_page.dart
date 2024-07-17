@@ -21,13 +21,13 @@ class ManagePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final updatesModel = ref.watch(updatesModelProvider);
-    final filteredLocalSnaps = ref.watch(filteredLocalSnapsProvider);
+    final localSnapsModel = ref.watch(filteredLocalSnapsProvider);
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
 
-    if (updatesModel.hasError || filteredLocalSnaps.hasError) {
+    if (updatesModel.hasError || localSnapsModel.hasError) {
       return ErrorView(
-        error: updatesModel.error ?? filteredLocalSnaps.error,
+        error: updatesModel.error ?? localSnapsModel.error,
         onRetry: () {
           ref.invalidate(updatesModelProvider);
           ref.invalidate(filteredLocalSnapsProvider);
@@ -105,17 +105,27 @@ class ManagePage extends ConsumerWidget {
             ],
           ),
           updatesModel.when(
-            data: (snapListState) => SliverList.builder(
-              itemCount: snapListState.snaps.length,
-              itemBuilder: (context, index) => ManageSnapTile(
-                snap: snapListState.snaps.elementAt(index),
-                position: determineTilePosition(
-                  index: index,
-                  length: snapListState.snaps.length,
+            data: (snapListState) {
+              // Due to the updates model loading a lot faster than the
+              // local filtered snaps we force this list to show the loading
+              // state too.
+              if (localSnapsModel.isLoading) {
+                return const SliverToBoxAdapter(
+                  child: Center(child: YaruCircularProgressIndicator()),
+                );
+              }
+              return SliverList.builder(
+                itemCount: snapListState.snaps.length,
+                itemBuilder: (context, index) => ManageSnapTile(
+                  snap: snapListState.snaps.elementAt(index),
+                  position: determineTilePosition(
+                    index: index,
+                    length: snapListState.snaps.length,
+                  ),
+                  showUpdateButton: true,
                 ),
-                showUpdateButton: true,
-              ),
-            ),
+              );
+            },
             error: (error, stack) =>
                 const SliverToBoxAdapter(child: SizedBox.shrink()),
             loading: () => const SliverToBoxAdapter(
@@ -195,7 +205,7 @@ class ManagePage extends ConsumerWidget {
               const SizedBox(height: 24),
             ],
           ),
-          filteredLocalSnaps.when(
+          localSnapsModel.when(
             data: (snapListState) => SliverList.builder(
               itemCount: snapListState.snaps.length,
               itemBuilder: (context, index) => ManageSnapTile(
