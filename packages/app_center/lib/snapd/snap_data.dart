@@ -14,6 +14,7 @@ class SnapData with _$SnapData {
     required Snap? storeSnap,
     String? selectedChannel,
     String? activeChangeId,
+    bool hasUpdate = false,
   }) {
     return _SnapData(
       name: name,
@@ -22,6 +23,7 @@ class SnapData with _$SnapData {
       selectedChannel:
           selectedChannel ?? defaultSelectedChannel(localSnap, storeSnap),
       activeChangeId: activeChangeId,
+      hasUpdate: hasUpdate,
     );
   }
 
@@ -33,6 +35,7 @@ class SnapData with _$SnapData {
     required Snap? localSnap,
     required Snap? storeSnap,
     required String? selectedChannel,
+    required bool hasUpdate,
     String? activeChangeId,
   }) = _SnapData;
 

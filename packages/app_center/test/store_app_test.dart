@@ -24,13 +24,10 @@ void main() {
         createMockGtkApplicationNotifier(),
       );
       registerMockService<RatingsService>(registerMockRatingsService());
+      registerMockSnapdService();
       await tester.pumpApp(
-        (_) => ProviderScope(
-          overrides: [
-            updatesModelProvider
-                .overrideWith((ref) => createMockUpdatesModel()),
-          ],
-          child: const StoreApp(),
+        (_) => const ProviderScope(
+          child: StoreApp(),
         ),
       );
       await tester.pump();
@@ -43,20 +40,21 @@ void main() {
     });
 
     testWidgets('updates available', (tester) async {
+      final snaps = [
+        createSnap(name: 'firefox'),
+        createSnap(name: 'thunderbird'),
+      ];
+      registerMockSnapdService(
+        refreshableSnaps: snaps,
+        installedSnaps: snaps,
+      );
       registerMockService<GtkApplicationNotifier>(
         createMockGtkApplicationNotifier(),
       );
       registerMockService<RatingsService>(registerMockRatingsService());
       await tester.pumpApp(
-        (_) => ProviderScope(
-          overrides: [
-            updatesModelProvider.overrideWith(
-              (ref) => createMockUpdatesModel(
-                refreshableSnapNames: ['firefox', 'thunderbird'],
-              ),
-            ),
-          ],
-          child: const StoreApp(),
+        (_) => const ProviderScope(
+          child: StoreApp(),
         ),
       );
       await tester.pump();
