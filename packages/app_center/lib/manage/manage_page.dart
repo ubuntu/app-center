@@ -238,23 +238,9 @@ class _ActionButtons extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final updatesModel = ref.watch(updatesModelProvider);
+    final localSnapsModel = ref.watch(filteredLocalSnapsProvider);
     final updateChangeId = ref.watch(updateChangeIdProvider);
     final hasInternet = updatesModel.value?.hasInternet ?? true;
-
-    final (label, icon) = updatesModel.when(
-      data: (_) => (l10n.managePageCheckForUpdates, const Icon(YaruIcons.sync)),
-      loading: () => (
-        l10n.managePageCheckingForUpdates,
-        const SizedBox(
-          height: kCircularProgressIndicatorHeight,
-          child: YaruCircularProgressIndicator(
-            strokeWidth: 2,
-          ),
-        ),
-      ),
-      error: (_, __) =>
-          (l10n.managePageCheckForUpdates, const Icon(YaruIcons.sync)),
-    );
 
     final updatesInProgress = !updatesModel.isLoading && updateChangeId != null;
     return Wrap(
@@ -263,17 +249,20 @@ class _ActionButtons extends ConsumerWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         PushButton.outlined(
-          onPressed: updatesInProgress || updatesModel.hasError
+          onPressed: updatesInProgress ||
+                  updatesModel.hasError ||
+                  updatesModel.isLoading ||
+                  localSnapsModel.isLoading
               ? null
               : () => ref.refresh(updatesModelProvider),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              icon,
+              const Icon(YaruIcons.sync),
               const SizedBox(width: 8),
               Flexible(
                 child: Text(
-                  label,
+                  l10n.managePageCheckForUpdates,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
