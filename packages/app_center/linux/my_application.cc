@@ -20,6 +20,61 @@ struct _MyApplication {
 
 G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
 
+// Callback function to set the window size based on the monitor it's located on
+void on_window_realize(GtkWidget* widget, gpointer user_data) {
+  GdkWindow* gdk_window = gtk_widget_get_window(widget);
+  if (gdk_window == nullptr) {
+    return;
+  }
+
+  GdkDisplay* display = gdk_window_get_display(gdk_window);
+  GdkMonitor* monitor = gdk_display_get_monitor_at_window(display, gdk_window);
+
+  if (monitor == nullptr) {
+    return;
+  }
+
+  GdkRectangle monitor_geometry;
+  gdk_monitor_get_geometry(monitor, &monitor_geometry);
+  gint screen_width = monitor_geometry.width;
+  gint screen_height = monitor_geometry.height;
+
+  // Get the scale factor for high-DPI displays
+  gint scale_factor = gdk_monitor_get_scale_factor(monitor);
+
+  // Predefined sizes
+  const gint min_width = 800 + 52;
+  const gint min_height = 600 + 52;
+  const gint max_width = 1280 + 52;
+  const gint max_height = 800 + 52;
+
+  // Determine default window size based on screen size
+  gint default_width = screen_width/scale_factor;
+  gint default_height = screen_height/scale_factor;
+
+
+  // Ensure the window size is within the predefined sizes
+  if (default_width < min_width) {
+    default_width = min_width;
+  } else if (default_width > max_width) {
+    default_width = max_width;
+  }
+
+  if (default_height < min_height) {
+    default_height = min_height;
+  } else if (default_height > max_height) {
+    default_height = max_height;
+  }
+
+  GdkGeometry geometry;
+  geometry.min_width = min_width;
+  geometry.min_height = min_height;
+
+  gtk_window_set_geometry_hints(GTK_WINDOW(widget), nullptr, &geometry, GDK_HINT_MIN_SIZE);
+  gtk_window_set_default_size(GTK_WINDOW(widget), default_width, default_height);
+}
+
+
 // Implements GApplication::activate.
 static void my_application_activate(GApplication* application) {
   MyApplication* self = MY_APPLICATION(application);
@@ -35,27 +90,10 @@ static void my_application_activate(GApplication* application) {
   GtkWindow* window = GTK_WINDOW(hdy_application_window_new());
   gtk_window_set_application(window, GTK_APPLICATION(application));
 
-  // Get screen size using GdkMonitor
-  GdkDisplay* display = gdk_display_get_default();
-  GdkMonitor* monitor = gdk_display_get_primary_monitor(display);
-  GdkRectangle monitor_geometry;
-  gdk_monitor_get_geometry(monitor, &monitor_geometry);
-  gint screen_width = monitor_geometry.width;
-  gint screen_height = monitor_geometry.height;
+  // Connect to the "realize" signal to get the monitor size after the window is realized
+  g_signal_connect(window, "realize", G_CALLBACK(on_window_realize), nullptr);
 
-  // Calculate default window size (e.g., 80% of screen size)
-  gint default_width = screen_width * 0.8;
-  gint default_height = screen_height * 0.8;
 
-  GdkGeometry geometry;
-
-  // This ensures that the minimum width of the window is at least 800+52 pixels
-  geometry.min_width = default_width < 800 + 52 ? 800 + 52 : default_width;
-  geometry.min_height = default_height < 600 + 52 ? 600 + 52 : default_height;
-
-  gtk_window_set_geometry_hints(window, nullptr, &geometry, GDK_HINT_MIN_SIZE);
-
-  gtk_window_set_default_size(window, default_width, default_height);
   gtk_widget_show(GTK_WIDGET(window));
 
   g_autoptr(FlDartProject) project = fl_dart_project_new();
