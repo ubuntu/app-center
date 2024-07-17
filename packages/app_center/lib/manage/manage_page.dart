@@ -241,8 +241,8 @@ class _ActionButtons extends ConsumerWidget {
     final localSnapsModel = ref.watch(filteredLocalSnapsProvider);
     final updateChangeId = ref.watch(updateChangeIdProvider);
     final hasInternet = updatesModel.value?.hasInternet ?? true;
-
     final updatesInProgress = !updatesModel.isLoading && updateChangeId != null;
+
     return Wrap(
       spacing: 10,
       runSpacing: 10,

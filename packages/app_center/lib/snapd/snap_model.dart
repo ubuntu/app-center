@@ -89,7 +89,9 @@ class SnapModel extends _$SnapModel {
           SnapConfinement.classic,
     );
     _updateChangeId(changeId);
-    return _listenUntilDone(changeId, snapName, ref);
+    await _listenUntilDone(changeId, snapName, ref);
+    ref.invalidate(updatesModelProvider);
+    ref.invalidate(localSnapFilterProvider);
   }
 
   /// Cancels (aborts) the currently active operation which is tracked by
@@ -134,6 +136,7 @@ class SnapModel extends _$SnapModel {
     final changeId = await _snapd.remove(snapName);
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, snapName, ref);
+    ref.invalidate(updatesModelProvider);
     ref.invalidate(localSnapFilterProvider);
   }
 
