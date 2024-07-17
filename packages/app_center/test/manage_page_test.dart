@@ -1,6 +1,6 @@
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage.dart';
-import 'package:app_center/manage/manage_model.dart';
+import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +12,7 @@ import 'package:yaru/yaru.dart';
 import 'package:yaru_test/yaru_test.dart';
 
 import 'test_utils.dart';
+import 'test_utils.mocks.dart';
 
 void main() {
   final nonRefreshableSnaps = [
@@ -57,6 +58,15 @@ void main() {
     storeSnap: refreshableSnaps[0],
   );
 
+  late MockSnapdService snapd;
+  setUp(() {
+    snapd = registerMockSnapdService(
+      localSnap: snapData.localSnap,
+      storeSnap: snapData.storeSnap,
+      installedSnaps: nonRefreshableSnaps + refreshableSnaps,
+      refreshableSnaps: refreshableSnaps,
+    );
+  });
   tearDown(resetAllServices);
 
   testWidgets('list installed snaps', (tester) async {
@@ -64,17 +74,13 @@ void main() {
       (_) => ProviderScope(
         overrides: [
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          manageModelProvider.overrideWith(
-            (_) =>
-                createMockManageModel(nonRefreshableSnaps: nonRefreshableSnaps),
-          ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
-          updatesModelProvider.overrideWith((_) => createMockUpdatesModel()),
         ],
         child: const ManagePage(),
       ),
     );
 
+    await tester.pumpAndSettle();
     final testTile = find.snapTile('Test Snap');
     expect(testTile, findsOneWidget);
     expect(
@@ -99,6 +105,11 @@ void main() {
   });
 
   testWidgets('launch desktop snap', (tester) async {
+    await resetAllServices();
+    registerMockSnapdService(
+      installedSnaps: nonRefreshableSnaps,
+    );
+
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
     await tester.pumpApp(
       (_) => ProviderScope(
@@ -109,22 +120,16 @@ void main() {
               _ => createMockSnapLauncher(),
             },
           ),
-          manageModelProvider.overrideWith(
-            (_) => createMockManageModel(
-              nonRefreshableSnaps: nonRefreshableSnaps,
-            ),
-          ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
-          updatesModelProvider.overrideWith((_) => createMockUpdatesModel()),
         ],
         child: const ManagePage(),
       ),
     );
-
     await tester.pumpAndSettle();
 
     final testTile = find.snapTile('Test Snap');
     final testTile2 = find.snapTile('Another Test Snap');
+    expect(testTile, findsOneWidget);
 
     final openButton = find
         .descendant(
@@ -149,24 +154,16 @@ void main() {
   });
 
   testWidgets('refresh snaps', (tester) async {
-    final mockUpdatesModel = createMockUpdatesModel(
-      refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
-    );
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          manageModelProvider.overrideWith(
-            (_) => createMockManageModel(
-              refreshableSnaps: refreshableSnaps,
-            ),
-          ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
-          updatesModelProvider.overrideWith((_) => mockUpdatesModel),
         ],
         child: const ManagePage(),
       ),
     );
+    await tester.pumpAndSettle();
 
     final testTile = find.snapTile('Snap with an update');
     expect(testTile, findsOneWidget);
@@ -180,26 +177,14 @@ void main() {
     );
 
     await tester.tap(find.text(tester.l10n.managePageUpdateAllLabel));
-    verify(mockUpdatesModel.updateAll()).called(1);
+    verify(snapd.refreshMany([])).called(1);
   });
 
   testWidgets('refresh individual snap', (tester) async {
-    final service = registerMockSnapdService(
-      localSnap: snapData.localSnap,
-      storeSnap: snapData.storeSnap,
-      refreshableSnaps: refreshableSnaps,
-    );
-    final mockUpdatesModel = createMockUpdatesModel(
-      refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
-    );
     final container = createContainer(
       overrides: [
         launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-        manageModelProvider.overrideWith(
-          (_) => createMockManageModel(refreshableSnaps: refreshableSnaps),
-        ),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
-        updatesModelProvider.overrideWith((_) => mockUpdatesModel),
       ],
     );
 
@@ -224,20 +209,12 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    verifyNever(service.refresh(any));
+    verifyNever(snapd.refresh(any));
     await tester.tap(find.text(tester.l10n.snapActionUpdateLabel));
-    verify(service.refresh(any, channel: anyNamed('channel'))).called(1);
+    verify(snapd.refresh(any, channel: anyNamed('channel'))).called(1);
   });
 
   testWidgets('refreshing all', (tester) async {
-    registerMockSnapdService(
-      localSnap: snapData.localSnap,
-      storeSnap: snapData.storeSnap,
-    );
-    final mockUpdatesModel = createMockUpdatesModel(
-      refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
-      isBusy: true,
-    );
     final mockChange = SnapdChange(
       id: '',
       spawnTime: DateTime(1970),
@@ -246,18 +223,17 @@ void main() {
         const SnapdTask(id: '', progress: SnapdTaskProgress(done: 1, total: 4)),
       ],
     );
+
+    when(snapd.getChanges(name: anyNamed('name')))
+        .thenAnswer((_) async => [mockChange]);
+
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          manageModelProvider.overrideWith(
-            (_) => createMockManageModel(
-              refreshableSnaps: refreshableSnaps,
-            ),
-          ),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
-          updatesModelProvider.overrideWith((_) => mockUpdatesModel),
           activeChangeProvider.overrideWith((_, __) => mockChange),
+          updateChangeIdProvider.overrideWith((_) => mockChange.id),
         ],
         child: const ManagePage(),
       ),
@@ -281,73 +257,23 @@ void main() {
   });
 
   testWidgets('cancel refresh all', (tester) async {
-    registerMockSnapdService(
-      localSnap: snapData.localSnap,
-      storeSnap: snapData.storeSnap,
-    );
-    final mockUpdatesModel = createMockUpdatesModel(
-      refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
-      isBusy: true,
-    );
+    final mockChange = SnapdChange(id: '', spawnTime: DateTime(1970));
 
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          manageModelProvider.overrideWith(
-            (_) => createMockManageModel(
-              refreshableSnaps: refreshableSnaps,
-            ),
-          ),
-          activeChangeProvider.overrideWith(
-            (_, __) => SnapdChange(id: '', spawnTime: DateTime(1970)),
-          ),
-          updatesModelProvider.overrideWith((_) => mockUpdatesModel),
+          activeChangeProvider.overrideWith((_, __) => mockChange),
+          updateChangeIdProvider.overrideWith((_) => mockChange.id),
         ],
         child: const ManagePage(),
       ),
     );
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     final cancelButton = find.buttonWithText(tester.l10n.snapActionCancelLabel);
     expect(cancelButton, findsOneWidget);
     expect(cancelButton, isEnabled);
-  });
-
-  testWidgets('error dialog', (tester) async {
-    registerMockSnapdService(
-      localSnap: snapData.localSnap,
-      storeSnap: snapData.storeSnap,
-    );
-    await tester.pumpApp(
-      (_) => ProviderScope(
-        overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          manageModelProvider.overrideWith(
-            (_) => createMockManageModel(
-              refreshableSnaps: refreshableSnaps,
-            ),
-          ),
-          showLocalSystemAppsProvider.overrideWith((ref) => true),
-          updatesModelProvider.overrideWith(
-            (_) => createMockUpdatesModel(
-              refreshableSnapNames: refreshableSnaps.map((snap) => snap.name),
-              errorStream: Stream.value(
-                SnapdException(
-                  message: 'error message',
-                  kind: 'error kind',
-                ),
-              ),
-            ),
-          ),
-        ],
-        child: const ManagePage(),
-      ),
-    );
-    await tester.pump();
-
-    expect(find.text('error message'), findsOneWidget);
-    expect(find.text('error kind'), findsOneWidget);
   });
 
   // TODO: test sorting and filtering

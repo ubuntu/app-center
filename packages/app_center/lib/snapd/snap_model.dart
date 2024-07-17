@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:app_center/manage/local_snap_providers.dart';
+import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';
@@ -20,7 +22,18 @@ class SnapModel extends _$SnapModel {
     try {
       localSnap = await _snapd.getSnap(snapName);
     } on SnapdException catch (e) {
-      if (e.kind != 'snap-not-found') rethrow;
+      switch (e.kind) {
+        // Since the snap is just not installed when 'snap-not-found is thrown
+        // we can ignore this exception.
+        case 'snap-not-found':
+        // When kind is null it is most likely a problem with the internet
+        // connection.
+        case 'network-timeout':
+        case null:
+          break;
+        default:
+          rethrow;
+      }
     }
 
     final storeSnap = await ref
@@ -34,6 +47,14 @@ class SnapModel extends _$SnapModel {
       unawaited(_listenUntilDone(activeChangeId, snapName, ref));
     }
 
+    if (localSnap == null && storeSnap == null) {
+      // This only happens when you have installed a local snap that you then
+      // later remove, it results in that there isn't any metadata left
+      // regarding it.
+      throw SnapDataNotFoundException(snapName);
+    }
+    final hasUpdate = ref.watch(hasUpdateProvider(snapName));
+
     return SnapData(
       name: snapName,
       localSnap: localSnap,
@@ -43,6 +64,7 @@ class SnapModel extends _$SnapModel {
         localSnap,
         storeSnap,
       ),
+      hasUpdate: hasUpdate,
     );
   }
 
@@ -108,10 +130,11 @@ class SnapModel extends _$SnapModel {
 
   /// Uninstalls the snap.
   Future<void> remove() async {
-    assert(state.hasValue, 'The snap must be loaded  before removing it');
+    assert(state.hasValue, 'The snap must be loaded before removing it');
     final changeId = await _snapd.remove(snapName);
     _updateChangeId(changeId);
-    return _listenUntilDone(changeId, snapName, ref);
+    await _listenUntilDone(changeId, snapName, ref);
+    ref.invalidate(localSnapFilterProvider);
   }
 
   /// Changes the selected channel.
@@ -205,4 +228,13 @@ extension SnapdChangeX on SnapdChange {
 
 extension on AsyncValue<SnapData> {
   bool get hasStoreSnap => valueOrNull?.storeSnap != null;
+}
+
+class SnapDataNotFoundException implements Exception {
+  SnapDataNotFoundException(this.message);
+
+  final String message;
+
+  @override
+  String toString() => 'SnapDataNotFoundException: $message';
 }

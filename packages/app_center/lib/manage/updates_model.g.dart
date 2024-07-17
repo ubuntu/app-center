@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'snap_model.dart';
+part of 'updates_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$snapModelHash() => r'0d8a11366e47ceaeb98d54ed2f9388fcf50471b8';
+String _$hasUpdateHash() => r'fbf8059b308298a0f481a3cc8a4c2289ca0bf005';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,35 +29,27 @@ class _SystemHash {
   }
 }
 
-abstract class _$SnapModel extends BuildlessAsyncNotifier<SnapData> {
-  late final String snapName;
+/// See also [hasUpdate].
+@ProviderFor(hasUpdate)
+const hasUpdateProvider = HasUpdateFamily();
 
-  FutureOr<SnapData> build(
-    String snapName,
-  );
-}
+/// See also [hasUpdate].
+class HasUpdateFamily extends Family<bool> {
+  /// See also [hasUpdate].
+  const HasUpdateFamily();
 
-/// See also [SnapModel].
-@ProviderFor(SnapModel)
-const snapModelProvider = SnapModelFamily();
-
-/// See also [SnapModel].
-class SnapModelFamily extends Family<AsyncValue<SnapData>> {
-  /// See also [SnapModel].
-  const SnapModelFamily();
-
-  /// See also [SnapModel].
-  SnapModelProvider call(
+  /// See also [hasUpdate].
+  HasUpdateProvider call(
     String snapName,
   ) {
-    return SnapModelProvider(
+    return HasUpdateProvider(
       snapName,
     );
   }
 
   @override
-  SnapModelProvider getProviderOverride(
-    covariant SnapModelProvider provider,
+  HasUpdateProvider getProviderOverride(
+    covariant HasUpdateProvider provider,
   ) {
     return call(
       provider.snapName,
@@ -76,28 +68,31 @@ class SnapModelFamily extends Family<AsyncValue<SnapData>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'snapModelProvider';
+  String? get name => r'hasUpdateProvider';
 }
 
-/// See also [SnapModel].
-class SnapModelProvider extends AsyncNotifierProviderImpl<SnapModel, SnapData> {
-  /// See also [SnapModel].
-  SnapModelProvider(
+/// See also [hasUpdate].
+class HasUpdateProvider extends Provider<bool> {
+  /// See also [hasUpdate].
+  HasUpdateProvider(
     String snapName,
   ) : this._internal(
-          () => SnapModel()..snapName = snapName,
-          from: snapModelProvider,
-          name: r'snapModelProvider',
+          (ref) => hasUpdate(
+            ref as HasUpdateRef,
+            snapName,
+          ),
+          from: hasUpdateProvider,
+          name: r'hasUpdateProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$snapModelHash,
-          dependencies: SnapModelFamily._dependencies,
-          allTransitiveDependencies: SnapModelFamily._allTransitiveDependencies,
+                  : _$hasUpdateHash,
+          dependencies: HasUpdateFamily._dependencies,
+          allTransitiveDependencies: HasUpdateFamily._allTransitiveDependencies,
           snapName: snapName,
         );
 
-  SnapModelProvider._internal(
+  HasUpdateProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -110,20 +105,13 @@ class SnapModelProvider extends AsyncNotifierProviderImpl<SnapModel, SnapData> {
   final String snapName;
 
   @override
-  FutureOr<SnapData> runNotifierBuild(
-    covariant SnapModel notifier,
+  Override overrideWith(
+    bool Function(HasUpdateRef provider) create,
   ) {
-    return notifier.build(
-      snapName,
-    );
-  }
-
-  @override
-  Override overrideWith(SnapModel Function() create) {
     return ProviderOverride(
       origin: this,
-      override: SnapModelProvider._internal(
-        () => create()..snapName = snapName,
+      override: HasUpdateProvider._internal(
+        (ref) => create(ref as HasUpdateRef),
         from: from,
         name: null,
         dependencies: null,
@@ -135,13 +123,13 @@ class SnapModelProvider extends AsyncNotifierProviderImpl<SnapModel, SnapData> {
   }
 
   @override
-  AsyncNotifierProviderElement<SnapModel, SnapData> createElement() {
-    return _SnapModelProviderElement(this);
+  ProviderElement<bool> createElement() {
+    return _HasUpdateProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SnapModelProvider && other.snapName == snapName;
+    return other is HasUpdateProvider && other.snapName == snapName;
   }
 
   @override
@@ -153,18 +141,33 @@ class SnapModelProvider extends AsyncNotifierProviderImpl<SnapModel, SnapData> {
   }
 }
 
-mixin SnapModelRef on AsyncNotifierProviderRef<SnapData> {
+mixin HasUpdateRef on ProviderRef<bool> {
   /// The parameter `snapName` of this provider.
   String get snapName;
 }
 
-class _SnapModelProviderElement
-    extends AsyncNotifierProviderElement<SnapModel, SnapData>
-    with SnapModelRef {
-  _SnapModelProviderElement(super.provider);
+class _HasUpdateProviderElement extends ProviderElement<bool>
+    with HasUpdateRef {
+  _HasUpdateProviderElement(super.provider);
 
   @override
-  String get snapName => (origin as SnapModelProvider).snapName;
+  String get snapName => (origin as HasUpdateProvider).snapName;
 }
+
+String _$updatesModelHash() => r'018b686d2f8d5b2b0a99fe1db2b17075dfaf23e4';
+
+/// See also [UpdatesModel].
+@ProviderFor(UpdatesModel)
+final updatesModelProvider =
+    AsyncNotifierProvider<UpdatesModel, SnapListState>.internal(
+  UpdatesModel.new,
+  name: r'updatesModelProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$updatesModelHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$UpdatesModel = AsyncNotifier<SnapListState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

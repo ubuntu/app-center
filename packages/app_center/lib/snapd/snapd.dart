@@ -8,4 +8,3 @@ export 'snap_search.dart';
 export 'snap_sort.dart';
 export 'snapd_service.dart';
 export 'snapx.dart';
-export 'updates_model.dart';

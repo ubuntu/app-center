@@ -20,25 +20,26 @@ mixin _$SnapData {
   Snap? get localSnap => throw _privateConstructorUsedError;
   Snap? get storeSnap => throw _privateConstructorUsedError;
   String? get selectedChannel => throw _privateConstructorUsedError;
+  bool get hasUpdate => throw _privateConstructorUsedError;
   String? get activeChangeId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String name, Snap? localSnap, Snap? storeSnap,
-            String? selectedChannel, String? activeChangeId)
+            String? selectedChannel, bool hasUpdate, String? activeChangeId)
         definition,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String name, Snap? localSnap, Snap? storeSnap,
-            String? selectedChannel, String? activeChangeId)?
+            String? selectedChannel, bool hasUpdate, String? activeChangeId)?
         definition,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String name, Snap? localSnap, Snap? storeSnap,
-            String? selectedChannel, String? activeChangeId)?
+            String? selectedChannel, bool hasUpdate, String? activeChangeId)?
         definition,
     required TResult orElse(),
   }) =>
@@ -75,6 +76,7 @@ abstract class $SnapDataCopyWith<$Res> {
       Snap? localSnap,
       Snap? storeSnap,
       String? selectedChannel,
+      bool hasUpdate,
       String? activeChangeId});
 
   $SnapCopyWith<$Res>? get localSnap;
@@ -98,6 +100,7 @@ class _$SnapDataCopyWithImpl<$Res, $Val extends SnapData>
     Object? localSnap = freezed,
     Object? storeSnap = freezed,
     Object? selectedChannel = freezed,
+    Object? hasUpdate = null,
     Object? activeChangeId = freezed,
   }) {
     return _then(_value.copyWith(
@@ -117,6 +120,10 @@ class _$SnapDataCopyWithImpl<$Res, $Val extends SnapData>
           ? _value.selectedChannel
           : selectedChannel // ignore: cast_nullable_to_non_nullable
               as String?,
+      hasUpdate: null == hasUpdate
+          ? _value.hasUpdate
+          : hasUpdate // ignore: cast_nullable_to_non_nullable
+              as bool,
       activeChangeId: freezed == activeChangeId
           ? _value.activeChangeId
           : activeChangeId // ignore: cast_nullable_to_non_nullable
@@ -162,6 +169,7 @@ abstract class _$$SnapDataImplCopyWith<$Res>
       Snap? localSnap,
       Snap? storeSnap,
       String? selectedChannel,
+      bool hasUpdate,
       String? activeChangeId});
 
   @override
@@ -185,6 +193,7 @@ class __$$SnapDataImplCopyWithImpl<$Res>
     Object? localSnap = freezed,
     Object? storeSnap = freezed,
     Object? selectedChannel = freezed,
+    Object? hasUpdate = null,
     Object? activeChangeId = freezed,
   }) {
     return _then(_$SnapDataImpl(
@@ -204,6 +213,10 @@ class __$$SnapDataImplCopyWithImpl<$Res>
           ? _value.selectedChannel
           : selectedChannel // ignore: cast_nullable_to_non_nullable
               as String?,
+      hasUpdate: null == hasUpdate
+          ? _value.hasUpdate
+          : hasUpdate // ignore: cast_nullable_to_non_nullable
+              as bool,
       activeChangeId: freezed == activeChangeId
           ? _value.activeChangeId
           : activeChangeId // ignore: cast_nullable_to_non_nullable
@@ -220,6 +233,7 @@ class _$SnapDataImpl extends _SnapData {
       required this.localSnap,
       required this.storeSnap,
       required this.selectedChannel,
+      required this.hasUpdate,
       this.activeChangeId})
       : super._();
 
@@ -232,11 +246,13 @@ class _$SnapDataImpl extends _SnapData {
   @override
   final String? selectedChannel;
   @override
+  final bool hasUpdate;
+  @override
   final String? activeChangeId;
 
   @override
   String toString() {
-    return 'SnapData.definition(name: $name, localSnap: $localSnap, storeSnap: $storeSnap, selectedChannel: $selectedChannel, activeChangeId: $activeChangeId)';
+    return 'SnapData.definition(name: $name, localSnap: $localSnap, storeSnap: $storeSnap, selectedChannel: $selectedChannel, hasUpdate: $hasUpdate, activeChangeId: $activeChangeId)';
   }
 
   @override
@@ -251,13 +267,15 @@ class _$SnapDataImpl extends _SnapData {
                 other.storeSnap == storeSnap) &&
             (identical(other.selectedChannel, selectedChannel) ||
                 other.selectedChannel == selectedChannel) &&
+            (identical(other.hasUpdate, hasUpdate) ||
+                other.hasUpdate == hasUpdate) &&
             (identical(other.activeChangeId, activeChangeId) ||
                 other.activeChangeId == activeChangeId));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, name, localSnap, storeSnap, selectedChannel, activeChangeId);
+  int get hashCode => Object.hash(runtimeType, name, localSnap, storeSnap,
+      selectedChannel, hasUpdate, activeChangeId);
 
   @JsonKey(ignore: true)
   @override
@@ -269,35 +287,35 @@ class _$SnapDataImpl extends _SnapData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String name, Snap? localSnap, Snap? storeSnap,
-            String? selectedChannel, String? activeChangeId)
+            String? selectedChannel, bool hasUpdate, String? activeChangeId)
         definition,
   }) {
     return definition(
-        name, localSnap, storeSnap, selectedChannel, activeChangeId);
+        name, localSnap, storeSnap, selectedChannel, hasUpdate, activeChangeId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String name, Snap? localSnap, Snap? storeSnap,
-            String? selectedChannel, String? activeChangeId)?
+            String? selectedChannel, bool hasUpdate, String? activeChangeId)?
         definition,
   }) {
     return definition?.call(
-        name, localSnap, storeSnap, selectedChannel, activeChangeId);
+        name, localSnap, storeSnap, selectedChannel, hasUpdate, activeChangeId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String name, Snap? localSnap, Snap? storeSnap,
-            String? selectedChannel, String? activeChangeId)?
+            String? selectedChannel, bool hasUpdate, String? activeChangeId)?
         definition,
     required TResult orElse(),
   }) {
     if (definition != null) {
-      return definition(
-          name, localSnap, storeSnap, selectedChannel, activeChangeId);
+      return definition(name, localSnap, storeSnap, selectedChannel, hasUpdate,
+          activeChangeId);
     }
     return orElse();
   }
@@ -337,6 +355,7 @@ abstract class _SnapData extends SnapData {
       required final Snap? localSnap,
       required final Snap? storeSnap,
       required final String? selectedChannel,
+      required final bool hasUpdate,
       final String? activeChangeId}) = _$SnapDataImpl;
   _SnapData._() : super._();
 
@@ -348,6 +367,8 @@ abstract class _SnapData extends SnapData {
   Snap? get storeSnap;
   @override
   String? get selectedChannel;
+  @override
+  bool get hasUpdate;
   @override
   String? get activeChangeId;
   @override

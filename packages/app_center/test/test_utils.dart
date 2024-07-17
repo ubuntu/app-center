@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/l10n.dart';
-import 'package:app_center/manage/manage_model.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/providers/file_system_provider.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/multisnap_model.dart';
@@ -134,19 +134,11 @@ DebModel createMockDebModel({
   return model;
 }
 
-@GenerateMocks([ManageModel])
-ManageModel createMockManageModel({
-  Iterable<Snap>? refreshableSnaps,
-  Iterable<Snap>? nonRefreshableSnaps,
-  AsyncValue<void>? state,
-}) {
-  final model = MockManageModel();
-  when(model.state).thenReturn(state ?? AsyncValue.data(() {}()));
-  when(model.refreshableSnaps)
-      .thenReturn(refreshableSnaps ?? const Iterable.empty());
-  when(model.nonRefreshableSnaps)
-      .thenReturn(nonRefreshableSnaps ?? const Iterable.empty());
-  return model;
+@GenerateMocks([ErrorStreamController])
+MockErrorStreamController registerMockErrorStreamControllerService() {
+  final service = MockErrorStreamController();
+  registerMockService<ErrorStreamController>(service);
+  return service;
 }
 
 @GenerateMocks([SnapdService])
@@ -218,26 +210,6 @@ MockSnapdService registerMockSnapdService({
   );
   registerMockService<SnapdService>(service);
   return service;
-}
-
-@GenerateMocks([UpdatesModel])
-MockUpdatesModel createMockUpdatesModel({
-  Iterable<String>? refreshableSnapNames,
-  Stream<SnapdException>? errorStream,
-  bool isBusy = false,
-}) {
-  final model = MockUpdatesModel();
-  when(model.refreshableSnapNames)
-      .thenReturn(refreshableSnapNames ?? const Iterable.empty());
-  when(model.hasUpdate(any)).thenAnswer(
-    (i) =>
-        refreshableSnapNames?.contains(i.positionalArguments.single) ?? false,
-  );
-  when(model.state).thenReturn(AsyncValue.data(() {}()));
-  when(model.activeChangeId).thenReturn(isBusy ? 'changeId' : null);
-  when(model.errorStream)
-      .thenAnswer((_) => errorStream ?? const Stream.empty());
-  return model;
 }
 
 @GenerateMocks([GtkApplicationNotifier])
@@ -394,15 +366,9 @@ MockPackageKitService createMockPackageKitService({
   return packageKit;
 }
 
-// TODO: Move down to dummy class
-@GenerateMocks([Vote])
-Vote createMockVote() {
-  final model = MockVote();
-  return model;
-}
-
 @GenerateMocks([
   MultiSnapModel,
+  Vote,
 ])
 class _Dummy {} // ignore: unused_element
 
