@@ -432,5 +432,7 @@
   "errorViewNetworkErrorAction": "Sprawdź połączenie i spróbuj ponownie.",
   "@errorViewNetworkErrorAction": {},
   "errorViewServerErrorAction": "Sprawdź stan aktualizacji lub spróbuj ponownie później.",
-  "@errorViewServerErrorAction": {}
+  "@errorViewServerErrorAction": {},
+  "managePageNoInternet": "Nie można połączyć się z serwerem. Sprawdź połączenie internetowe lub spróbuj ponownie później.",
+  "@managePageNoInternet": {}
 }
