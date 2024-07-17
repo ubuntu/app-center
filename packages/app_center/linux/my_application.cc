@@ -22,55 +22,60 @@ G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
 
 // Callback function to set the window size based on the monitor it's located on
 void on_window_realize(GtkWidget* widget, gpointer user_data) {
+  GdkRectangle monitor_geometry;
   GdkWindow* gdk_window = gtk_widget_get_window(widget);
   if (gdk_window == nullptr) {
     return;
   }
 
   GdkDisplay* display = gdk_window_get_display(gdk_window);
-  GdkMonitor* monitor = gdk_display_get_monitor_at_window(display, gdk_window);
+  GdkSeat* seat = gdk_display_get_default_seat(display);
+  GdkDevice* pointer = gdk_seat_get_pointer(seat);
+
+  // Get the current cursor position
+  int x, y;
+  gdk_device_get_position(pointer, nullptr, &x, &y);
+
+  // Get the monitor at the cursor position
+  GdkMonitor* monitor = gdk_display_get_monitor_at_point(display, x, y);
 
   if (monitor == nullptr) {
     return;
   }
 
-  GdkRectangle monitor_geometry;
   gdk_monitor_get_geometry(monitor, &monitor_geometry);
   gint screen_width = monitor_geometry.width;
   gint screen_height = monitor_geometry.height;
 
-  // Get the scale factor for high-DPI displays
-  gint scale_factor = gdk_monitor_get_scale_factor(monitor);
-
   // Predefined sizes
-  const gint min_width = 800 + 52;
-  const gint min_height = 600 + 52;
-  const gint max_width = 1280 + 52;
-  const gint max_height = 800 + 52;
+  const gint min_width = 800;
+  const gint min_height = 600;
+  const gint max_width = 1280;
+  const gint max_height = 800;
 
   // Determine default window size based on screen size
-  gint default_width = screen_width/scale_factor;
-  gint default_height = screen_height/scale_factor;
+  gint default_width = screen_width;
+  gint default_height = screen_height;
+
+  g_print("Default width: %d, Default height: %d\n", default_width, default_height);
 
 
-  // Ensure the window size is within the predefined sizes
-  if (default_width < min_width) {
+  if (screen_width <= max_width || screen_height <= max_height) {
     default_width = min_width;
-  } else if (default_width > max_width) {
-    default_width = max_width;
-  }
-
-  if (default_height < min_height) {
     default_height = min_height;
-  } else if (default_height > max_height) {
+  } else {
+    default_width = max_width;
     default_height = max_height;
   }
+
+  g_print("Default width: %d, Default height: %d\n", default_width, default_height);
+
 
   GdkGeometry geometry;
   geometry.min_width = min_width;
   geometry.min_height = min_height;
 
-  gtk_window_set_geometry_hints(GTK_WINDOW(widget), nullptr, &geometry, GDK_HINT_MIN_SIZE);
+  // gtk_window_set_geometry_hints(GTK_WINDOW(widget), nullptr, &geometry, GDK_HINT_MIN_SIZE);
   gtk_window_set_default_size(GTK_WINDOW(widget), default_width, default_height);
 }
 
