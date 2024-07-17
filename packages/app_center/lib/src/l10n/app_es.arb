@@ -432,5 +432,7 @@
   "errorViewNetworkErrorDescription": "No podemos cargar contenidos en el App Center sin conexión a Internet.",
   "@errorViewNetworkErrorDescription": {},
   "errorViewUnknownErrorDescription": "Lo sentimos, pero no estamos seguros de cuál es el error.",
-  "@errorViewUnknownErrorDescription": {}
+  "@errorViewUnknownErrorDescription": {},
+  "managePageNoInternet": "No se puede acceder al servidor, compruebe su conexión a Internet o inténtelo más tarde.",
+  "@managePageNoInternet": {}
 }
