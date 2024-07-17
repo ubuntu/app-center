@@ -271,7 +271,7 @@ class _ButtonBarForOpen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final snapLauncher = ref.watch(launchProvider(snap));
     final snapModel = ref.watch(snapModelProvider(snap.name));
-    final activeChangeId = snapModel.value?.activeChangeId;
+    final activeChangeId = snapModel.valueOrNull?.activeChangeId;
     final removeColor = Theme.of(context).colorScheme.error;
 
     return Row(
