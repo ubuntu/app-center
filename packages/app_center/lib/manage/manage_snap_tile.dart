@@ -282,7 +282,7 @@ class _ButtonBarForOpen extends ConsumerWidget {
             if (activeChangeId != null)
               OutlinedButton(
                 onPressed: null,
-                child: ActiveChangeContent(activeChangeId),
+                child: ActiveChangeContent(activeChangeId, showText: false),
               ),
             Visibility(
               maintainSize: true,

@@ -136,8 +136,8 @@ class SnapModel extends _$SnapModel {
     final changeId = await _snapd.remove(snapName);
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, snapName, ref);
-    ref.invalidate(updatesModelProvider);
-    ref.invalidate(localSnapFilterProvider);
+    ref.read(updatesModelProvider.notifier).remove(snapName);
+    ref.read(filteredLocalSnapsProvider.notifier).remove(snapName);
   }
 
   /// Changes the selected channel.

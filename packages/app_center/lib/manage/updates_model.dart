@@ -50,6 +50,18 @@ class UpdatesModel extends _$UpdatesModel {
     return result;
   }
 
+  /// Used to remove a snap from the list without reloading the whole provider.
+  /// Should be used when a snap is uninstalled directly from the manage page
+  /// list for example.
+  void remove(String snapName) {
+    if (!state.hasValue) return;
+    state = AsyncData(
+      state.value!.copyWith(
+        snaps: state.value!.snaps.where((s) => s.name != snapName),
+      ),
+    );
+  }
+
   Future<void> updateAll() async {
     if (!state.hasValue) return;
     try {

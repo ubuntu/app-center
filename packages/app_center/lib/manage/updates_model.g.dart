@@ -154,7 +154,7 @@ class _HasUpdateProviderElement extends ProviderElement<bool>
   String get snapName => (origin as HasUpdateProvider).snapName;
 }
 
-String _$updatesModelHash() => r'018b686d2f8d5b2b0a99fe1db2b17075dfaf23e4';
+String _$updatesModelHash() => r'0d8b053b66701b113e28350571b227fbe66a623c';
 
 /// See also [UpdatesModel].
 @ProviderFor(UpdatesModel)
