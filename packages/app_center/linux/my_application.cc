@@ -60,7 +60,7 @@ void on_window_realize(GtkWidget* widget, gpointer user_data) {
   g_print("Default width: %d, Default height: %d\n", default_width, default_height);
 
 
-  if (screen_width <= max_width || screen_height <= max_height) {
+  if (screen_width <= 1440 ) {
     default_width = min_width;
     default_height = min_height;
   } else {
