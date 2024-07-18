@@ -50,8 +50,8 @@ void on_window_realize(GtkWidget* widget, gpointer user_data) {
   // Predefined sizes
   const gint min_width = 800;
   const gint min_height = 600;
-  const gint max_width = 1280;
-  const gint max_height = 800;
+  const gint max_width = 1080;
+  const gint max_height = 700;
 
   // Determine default window size based on screen size
   gint default_width = screen_width;
