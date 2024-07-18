@@ -432,5 +432,7 @@
   "errorViewNetworkErrorDescription": "Мы не можем загрузить каталог Центра приложений без подключения к Интернету.",
   "@errorViewNetworkErrorDescription": {},
   "errorViewServerErrorDescription": "Мы сожалеем, но в настоящее время у нас возникли проблемы с Центром приложений.",
-  "@errorViewServerErrorDescription": {}
+  "@errorViewServerErrorDescription": {},
+  "managePageNoInternet": "Не удалось подключиться к серверу. Проверьте подключение к Интернету или повторите попытку позже.",
+  "@managePageNoInternet": {}
 }
