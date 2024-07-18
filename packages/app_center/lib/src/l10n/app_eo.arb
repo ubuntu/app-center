@@ -432,5 +432,7 @@
   "errorViewUnknownErrorDescription": "Bedaŭrinde, ni ne certas pri la eraro.",
   "@errorViewUnknownErrorDescription": {},
   "errorViewUnknownErrorAction": "Vi povas reprovi nun, kontroli la staton pri ĝisdatigoj, aŭ reprovi poste.",
-  "@errorViewUnknownErrorAction": {}
+  "@errorViewUnknownErrorAction": {},
+  "managePageNoInternet": "Ne eblas konekti al la servilo. Kontrolu vian Interretan konekton, aŭ reprovu poste.",
+  "@managePageNoInternet": {}
 }
