@@ -6,7 +6,7 @@ part of 'snap_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$snapModelHash() => r'd21c0a5a5688a782c6ed62edcd27691246025964';
+String _$snapModelHash() => r'13ed852d71506ec2e6de5e376159c16f85de9af1';
 
 /// Copied from Dart SDK
 class _SystemHash {
