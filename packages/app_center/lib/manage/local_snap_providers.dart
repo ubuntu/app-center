@@ -33,6 +33,18 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
     );
   }
 
+  /// Used to remove a snap from the list without reloading the whole provider.
+  /// Should be used when a snap is uninstalled directly from the manage page
+  /// list for example.
+  void removeFromList(String snapName) {
+    if (!state.hasValue) return;
+    state = AsyncData(
+      state.value!.copyWith(
+        snaps: state.value!.snaps.where((s) => s.name != snapName),
+      ),
+    );
+  }
+
   Iterable<Snap> _refreshWithFilters(
     Iterable<Snap> nonRefreshableSnaps, {
     bool updateState = true,

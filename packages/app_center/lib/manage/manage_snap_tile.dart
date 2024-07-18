@@ -1,7 +1,7 @@
-import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/manage_l10n.dart';
+import 'package:app_center/snapd/snap_action.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -191,9 +191,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
     final snapLauncher = ref.watch(launchProvider(snap));
     final snapModel = ref.watch(snapModelProvider(snap.name));
     final activeChangeId = snapModel.value?.activeChangeId;
-    final change = activeChangeId != null
-        ? ref.watch(activeChangeProvider(activeChangeId))
-        : null;
+    final removeColor = Theme.of(context).colorScheme.error;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -202,26 +200,8 @@ class _ButtonBarForUpdate extends ConsumerWidget {
           onPressed: activeChangeId != null || !snapModel.hasValue
               ? null
               : ref.read(snapModelProvider(snap.name).notifier).refresh,
-          child: snapModel.value?.activeChangeId != null
-              ? Row(
-                  children: [
-                    SizedBox.square(
-                      dimension: kCircularProgressIndicatorHeight,
-                      child: YaruCircularProgressIndicator(
-                        value: change?.progress,
-                        strokeWidth: 2,
-                      ),
-                    ),
-                    if (change != null) ...[
-                      const SizedBox(width: 8),
-                      Text(
-                        change.localize(l10n) ?? '',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ],
-                )
+          child: activeChangeId != null
+              ? ActiveChangeContent(activeChangeId)
               : Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -256,6 +236,14 @@ class _ButtonBarForUpdate extends ConsumerWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
+            MenuItemButton(
+              onPressed: ref.read(snapModelProvider(snap.name).notifier).remove,
+              leadingIcon: Icon(SnapAction.remove.icon, color: removeColor),
+              child: Text(
+                SnapAction.remove.label(l10n),
+                style: TextStyle(color: removeColor),
+              ),
+            ),
           ],
           builder: (context, controller, child) => YaruOptionButton(
             onPressed: () {
@@ -280,23 +268,35 @@ class _ButtonBarForOpen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final snapLauncher = ref.watch(launchProvider(snap));
     final l10n = AppLocalizations.of(context);
+    final snapLauncher = ref.watch(launchProvider(snap));
+    final snapModel = ref.watch(snapModelProvider(snap.name));
+    final activeChangeId = snapModel.valueOrNull?.activeChangeId;
+    final removeColor = Theme.of(context).colorScheme.error;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Visibility(
-          maintainSize: true,
-          maintainAnimation: true,
-          maintainState: true,
-          visible: snapLauncher.isLaunchable,
-          child: OutlinedButton(
-            onPressed: snapLauncher.open,
-            child: Text(
-              l10n.snapActionOpenLabel,
+        Stack(
+          children: [
+            if (activeChangeId != null)
+              OutlinedButton(
+                onPressed: null,
+                child: ActiveChangeContent(activeChangeId, showText: false),
+              ),
+            Visibility(
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              visible: snapLauncher.isLaunchable && activeChangeId == null,
+              child: OutlinedButton(
+                onPressed: snapLauncher.open,
+                child: Text(
+                  l10n.snapActionOpenLabel,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
         const SizedBox(
           width: 8,
@@ -309,6 +309,14 @@ class _ButtonBarForOpen extends ConsumerWidget {
               child: Text(
                 l10n.managePageShowDetailsLabel,
                 style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+            MenuItemButton(
+              onPressed: ref.read(snapModelProvider(snap.name).notifier).remove,
+              leadingIcon: Icon(SnapAction.remove.icon, color: removeColor),
+              child: Text(
+                SnapAction.remove.label(l10n),
+                style: TextStyle(color: removeColor),
               ),
             ),
           ],
