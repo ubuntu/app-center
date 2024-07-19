@@ -384,5 +384,51 @@
   "snapReportPrivacyAgreementPrivacyPolicy": "Politique de confidentialité",
   "@snapReportPrivacyAgreementPrivacyPolicy": {},
   "openInBrowser": "Ouvrir dans navigateur",
-  "@openInBrowser": {}
+  "@openInBrowser": {},
+  "snapdExceptionRunningApps": "Nous n’avons pas pu mettre à jour {snapName} car il est actuellement en cours d’exécution.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageNoInternet": "Impossible d’atteindre le serveur, vérifiez votre connexion Internet ou réessayez plus tard.",
+  "@managePageNoInternet": {},
+  "errorViewNetworkErrorAction": "Vérifiez votre connexion et réessayez.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewUnknownErrorDescription": "Nous sommes désolés, mais nous ne savons pas quelle est l’erreur.",
+  "@errorViewUnknownErrorDescription": {},
+  "appstreamUrlTypeContribute": "Contribuer",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeVcsBrowser": "Source",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "managePageDebUpdatesMessage": "Les mises à jour des paquets Debian sont gérées par le Gestionnaire de mises à jour.",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Installées",
+  "@snapActionInstalledLabel": {},
+  "localDebLearnMore": "En savoir plus sur les paquetages tiers",
+  "@localDebLearnMore": {},
+  "localDebDialogMessage": "Ce paquetage est fourni par un tiers et pourrait menacer votre système et vos données personnelles.",
+  "@localDebDialogMessage": {},
+  "snapPageSizeLabel": "Taille",
+  "@snapPageSizeLabel": {},
+  "localDebWarningTitle": "Potentiellement non sécurisé",
+  "@localDebWarningTitle": {},
+  "localDebWarningBody": "Ce paquetage est fourni par un tiers. L’installation de paquetages à l’extérieur du Centre d'applications peut augmenter le risque pour votre système et vos données personnelles. Assurez-vous que la source soit de confiance avant de poursuivre.",
+  "@localDebWarningBody": {},
+  "localDebDialogConfirmation": "Vous êtes sûr(e) de vouloir l’installer ?",
+  "@localDebDialogConfirmation": {},
+  "errorViewCheckStatusLabel": "Vérifier statut",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "Connecte à Internet",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "Nous ne pouvons pas charger de contenu dans le Centre d'applications sans connexion Internet.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewServerErrorDescription": "Nous sommes désolés, nous rencontrons actuellement des problèmes avec le Centre d'applications.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewUnknownErrorTitle": "Quelque chose n'allait pas",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorAction": "Vous pouvez réessayer maintenant, vérifier l’état des mises à jour ou réessayer plus tard.",
+  "@errorViewUnknownErrorAction": {}
 }
