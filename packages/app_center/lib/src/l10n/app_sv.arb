@@ -432,5 +432,7 @@
   "errorViewNetworkErrorAction": "Kontrollera din uppkoppling och försök igen.",
   "@errorViewNetworkErrorAction": {},
   "errorViewUnknownErrorDescription": "Vi är ledsna, men vi är inte säkra på vad felet är.",
-  "@errorViewUnknownErrorDescription": {}
+  "@errorViewUnknownErrorDescription": {},
+  "managePageNoInternet": "Kan inte nå servern, kontrollera din internetanslutning eller försök igen senare.",
+  "@managePageNoInternet": {}
 }
