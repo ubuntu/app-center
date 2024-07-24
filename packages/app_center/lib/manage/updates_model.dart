@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,6 +25,10 @@ class SnapListState with _$SnapListState {
   bool get isEmpty => snaps.isEmpty;
   int get length => snaps.length;
   Snap get single => snaps.single;
+
+  Snap? getSnap(String snapName) {
+    return snaps.firstWhereOrNull((snap) => snap.name == snapName);
+  }
 }
 
 final updateChangeIdProvider = StateProvider<String?>((_) => null);
@@ -35,6 +40,14 @@ bool hasUpdate(HasUpdateRef ref, String snapName) {
         data: (updatesData) => updatesData.snaps.any((s) => s.name == snapName),
       ) ??
       false;
+}
+
+/// Used to see which snaps that are installed but need to be restarted to be
+/// refreshed (or be forced to restart after the proceedTime).
+@riverpod
+Future<List<Snap>> refreshInhibitSnaps(RefreshInhibitSnapsRef ref) async {
+  final snapd = getService<SnapdService>();
+  return snapd.getSnaps(filter: SnapsFilter.refreshInhibited);
 }
 
 @Riverpod(keepAlive: true)

@@ -75,6 +75,16 @@ class _FakeSnapdChange_4 extends _i1.SmartFake implements _i2.SnapdChange {
         );
 }
 
+class _FakeSnapdRule_5 extends _i1.SmartFake implements _i2.SnapdRule {
+  _FakeSnapdRule_5(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [SnapdClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -151,10 +161,12 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
       ) as _i3.Future<_i2.SnapdSystemInfoResponse>);
 
   @override
-  _i3.Future<List<_i2.Snap>> getSnaps() => (super.noSuchMethod(
+  _i3.Future<List<_i2.Snap>> getSnaps({_i2.SnapsFilter? filter}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getSnaps,
           [],
+          {#filter: filter},
         ),
         returnValue: _i3.Future<List<_i2.Snap>>.value(<_i2.Snap>[]),
       ) as _i3.Future<List<_i2.Snap>>);
@@ -579,6 +591,111 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
           ),
         )),
       ) as _i3.Future<_i2.SnapdChange>);
+
+  @override
+  _i3.Future<_i2.SnapdRule> getRule(
+    String? id, {
+    String? userId,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getRule,
+          [id],
+          {#userId: userId},
+        ),
+        returnValue: _i3.Future<_i2.SnapdRule>.value(_FakeSnapdRule_5(
+          this,
+          Invocation.method(
+            #getRule,
+            [id],
+            {#userId: userId},
+          ),
+        )),
+      ) as _i3.Future<_i2.SnapdRule>);
+
+  @override
+  _i3.Future<List<_i2.SnapdRule>> getRules({
+    String? snap,
+    String? interface,
+    String? userId,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getRules,
+          [],
+          {
+            #snap: snap,
+            #interface: interface,
+            #userId: userId,
+          },
+        ),
+        returnValue: _i3.Future<List<_i2.SnapdRule>>.value(<_i2.SnapdRule>[]),
+      ) as _i3.Future<List<_i2.SnapdRule>>);
+
+  @override
+  _i3.Future<void> removeRule(String? id) => (super.noSuchMethod(
+        Invocation.method(
+          #removeRule,
+          [id],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> addRule(_i2.SnapdRuleMask? rule) => (super.noSuchMethod(
+        Invocation.method(
+          #addRule,
+          [rule],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> removeRules(
+    String? snap, {
+    String? interface,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #removeRules,
+          [snap],
+          {#interface: interface},
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
+
+  @override
+  _i3.Future<String> enablePrompting() => (super.noSuchMethod(
+        Invocation.method(
+          #enablePrompting,
+          [],
+        ),
+        returnValue: _i3.Future<String>.value(_i4.dummyValue<String>(
+          this,
+          Invocation.method(
+            #enablePrompting,
+            [],
+          ),
+        )),
+      ) as _i3.Future<String>);
+
+  @override
+  _i3.Future<String> disablePrompting() => (super.noSuchMethod(
+        Invocation.method(
+          #disablePrompting,
+          [],
+        ),
+        returnValue: _i3.Future<String>.value(_i4.dummyValue<String>(
+          this,
+          Invocation.method(
+            #disablePrompting,
+            [],
+          ),
+        )),
+      ) as _i3.Future<String>);
 
   @override
   void close() => super.noSuchMethod(

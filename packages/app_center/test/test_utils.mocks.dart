@@ -198,9 +198,19 @@ class _FakeSnapdChange_14 extends _i1.SmartFake implements _i5.SnapdChange {
         );
 }
 
-class _FakePackageKitTransaction_15 extends _i1.SmartFake
+class _FakeSnapdRule_15 extends _i1.SmartFake implements _i5.SnapdRule {
+  _FakeSnapdRule_15(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakePackageKitTransaction_16 extends _i1.SmartFake
     implements _i8.PackageKitTransaction {
-  _FakePackageKitTransaction_15(
+  _FakePackageKitTransaction_16(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -209,8 +219,8 @@ class _FakePackageKitTransaction_15 extends _i1.SmartFake
         );
 }
 
-class _FakeRatingsClient_16 extends _i1.SmartFake implements _i4.RatingsClient {
-  _FakeRatingsClient_16(
+class _FakeRatingsClient_17 extends _i1.SmartFake implements _i4.RatingsClient {
+  _FakeRatingsClient_17(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -219,8 +229,8 @@ class _FakeRatingsClient_16 extends _i1.SmartFake implements _i4.RatingsClient {
         );
 }
 
-class _FakeRating_17 extends _i1.SmartFake implements _i4.Rating {
-  _FakeRating_17(
+class _FakeRating_18 extends _i1.SmartFake implements _i4.Rating {
+  _FakeRating_18(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -827,10 +837,12 @@ class MockSnapdService extends _i1.Mock implements _i2.SnapdService {
       ) as _i10.Future<_i5.SnapdSystemInfoResponse>);
 
   @override
-  _i10.Future<List<_i5.Snap>> getSnaps() => (super.noSuchMethod(
+  _i10.Future<List<_i5.Snap>> getSnaps({_i5.SnapsFilter? filter}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getSnaps,
           [],
+          {#filter: filter},
         ),
         returnValue: _i10.Future<List<_i5.Snap>>.value(<_i5.Snap>[]),
       ) as _i10.Future<List<_i5.Snap>>);
@@ -1257,6 +1269,111 @@ class MockSnapdService extends _i1.Mock implements _i2.SnapdService {
       ) as _i10.Future<_i5.SnapdChange>);
 
   @override
+  _i10.Future<_i5.SnapdRule> getRule(
+    String? id, {
+    String? userId,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getRule,
+          [id],
+          {#userId: userId},
+        ),
+        returnValue: _i10.Future<_i5.SnapdRule>.value(_FakeSnapdRule_15(
+          this,
+          Invocation.method(
+            #getRule,
+            [id],
+            {#userId: userId},
+          ),
+        )),
+      ) as _i10.Future<_i5.SnapdRule>);
+
+  @override
+  _i10.Future<List<_i5.SnapdRule>> getRules({
+    String? snap,
+    String? interface,
+    String? userId,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getRules,
+          [],
+          {
+            #snap: snap,
+            #interface: interface,
+            #userId: userId,
+          },
+        ),
+        returnValue: _i10.Future<List<_i5.SnapdRule>>.value(<_i5.SnapdRule>[]),
+      ) as _i10.Future<List<_i5.SnapdRule>>);
+
+  @override
+  _i10.Future<void> removeRule(String? id) => (super.noSuchMethod(
+        Invocation.method(
+          #removeRule,
+          [id],
+        ),
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
+
+  @override
+  _i10.Future<void> addRule(_i5.SnapdRuleMask? rule) => (super.noSuchMethod(
+        Invocation.method(
+          #addRule,
+          [rule],
+        ),
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
+
+  @override
+  _i10.Future<void> removeRules(
+    String? snap, {
+    String? interface,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #removeRules,
+          [snap],
+          {#interface: interface},
+        ),
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
+
+  @override
+  _i10.Future<String> enablePrompting() => (super.noSuchMethod(
+        Invocation.method(
+          #enablePrompting,
+          [],
+        ),
+        returnValue: _i10.Future<String>.value(_i14.dummyValue<String>(
+          this,
+          Invocation.method(
+            #enablePrompting,
+            [],
+          ),
+        )),
+      ) as _i10.Future<String>);
+
+  @override
+  _i10.Future<String> disablePrompting() => (super.noSuchMethod(
+        Invocation.method(
+          #disablePrompting,
+          [],
+        ),
+        returnValue: _i10.Future<String>.value(_i14.dummyValue<String>(
+          this,
+          Invocation.method(
+            #disablePrompting,
+            [],
+          ),
+        )),
+      ) as _i10.Future<String>);
+
+  @override
   void close() => super.noSuchMethod(
         Invocation.method(
           #close,
@@ -1608,7 +1725,7 @@ class MockPackageKitClient extends _i1.Mock implements _i16.PackageKitClient {
           [path],
         ),
         returnValue: _i10.Future<_i8.PackageKitTransaction>.value(
-            _FakePackageKitTransaction_15(
+            _FakePackageKitTransaction_16(
           this,
           Invocation.method(
             #getTransaction,
@@ -1625,7 +1742,7 @@ class MockPackageKitClient extends _i1.Mock implements _i16.PackageKitClient {
           [],
         ),
         returnValue: _i10.Future<_i8.PackageKitTransaction>.value(
-            _FakePackageKitTransaction_15(
+            _FakePackageKitTransaction_16(
           this,
           Invocation.method(
             #createTransaction,
@@ -2095,7 +2212,7 @@ class MockRatingsService extends _i1.Mock implements _i20.RatingsService {
   @override
   _i4.RatingsClient get client => (super.noSuchMethod(
         Invocation.getter(#client),
-        returnValue: _FakeRatingsClient_16(
+        returnValue: _FakeRatingsClient_17(
           this,
           Invocation.getter(#client),
         ),
@@ -2214,7 +2331,7 @@ class MockRatingsClient extends _i1.Mock implements _i4.RatingsClient {
             token,
           ],
         ),
-        returnValue: _i10.Future<_i4.Rating>.value(_FakeRating_17(
+        returnValue: _i10.Future<_i4.Rating>.value(_FakeRating_18(
           this,
           Invocation.method(
             #getRating,

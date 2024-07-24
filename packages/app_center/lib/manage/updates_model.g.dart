@@ -154,6 +154,26 @@ class _HasUpdateProviderElement extends ProviderElement<bool>
   String get snapName => (origin as HasUpdateProvider).snapName;
 }
 
+String _$refreshInhibitSnapsHash() =>
+    r'bca4d5f08da7469f4f143be90f6a2852dd2cdba2';
+
+/// Used to see which snaps that are installed but need to be restarted to be
+/// refreshed (or be forced to restart after the proceedTime).
+///
+/// Copied from [refreshInhibitSnaps].
+@ProviderFor(refreshInhibitSnaps)
+final refreshInhibitSnapsProvider =
+    AutoDisposeFutureProvider<List<Snap>>.internal(
+  refreshInhibitSnaps,
+  name: r'refreshInhibitSnapsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$refreshInhibitSnapsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef RefreshInhibitSnapsRef = AutoDisposeFutureProviderRef<List<Snap>>;
 String _$updatesModelHash() => r'99bb8a5fc71746dcac49aa9997dd5d56a7c07eec';
 
 /// See also [UpdatesModel].
