@@ -157,7 +157,7 @@
   "@appstreamUrlTypeHomepage": {},
   "managePageCheckingForUpdates": "Verificando se há atualizações",
   "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Atualizado há {n} dias",
+  "managePageUpdatedDaysAgo": "Atualizado {n, plural, =1{{n} dia} other{{n} dias}} atrás",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -404,5 +404,35 @@
   "localDebDialogMessage": "Esse pacote é fornecido por terceiros e pode colocar o seu sistema e dados pessoais em risco.",
   "@localDebDialogMessage": {},
   "localDebDialogConfirmation": "Tem certeza de que deseja instalá-lo?",
-  "@localDebDialogConfirmation": {}
+  "@localDebDialogConfirmation": {},
+  "appstreamUrlTypeVcsBrowser": "Fonte",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "errorViewUnknownErrorDescription": "Lamentamos, mas não sabemos qual é o erro.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "Você pode tentar novamente agora, verifique o status de atualizações, ou tente novamente mais tarde.",
+  "@errorViewUnknownErrorAction": {},
+  "managePageNoInternet": "Não pode chegar ao servidor, verifique sua conexão de internet ou tentar novamente mais tarde.",
+  "@managePageNoInternet": {},
+  "snapdExceptionRunningApps": "Não conseguimos atualizar {snapName} porque ele está sendo executado atualmente.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewNetworkErrorTitle": "Conecte-se à internet",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "Não podemos carregar conteúdo no App Center sem conexão com a internet.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewNetworkErrorAction": "Verifique sua conexão e tente novamente.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "Lamentamos, estamos tendo problemas com o App Center.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Verifique o status de atualizações ou tente novamente mais tarde.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "Algo deu errado",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewCheckStatusLabel": "Verificar o status",
+  "@errorViewCheckStatusLabel": {}
 }
