@@ -366,7 +366,7 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
       child: YaruInfoBox(
         title: Text(l10n.managePageOwnUpdateAvailable),
         subtitle: Padding(
-          padding: const EdgeInsets.only(right: 20),
+          padding: const EdgeInsets.only(right: 24),
           child: Text(l10n.managePageOwnUpdateDescription),
         ),
         trailing: Column(
