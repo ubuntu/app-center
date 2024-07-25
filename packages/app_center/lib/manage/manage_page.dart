@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
@@ -346,8 +344,7 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
     final refreshInhibitModel = ref.watch(
       refreshInhibitSnapsProvider.select(
         (value) => value.whenData(
-          //(data) => data.firstWhere((s) => s.name == 'snap-store'),
-          (data) => data.firstWhere((s) => s.name == 'element-desktop'),
+          (data) => data.firstWhere((s) => s.name == 'snap-store'),
         ),
       ),
     );
@@ -373,7 +370,7 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
                 l10n.managePageOwnUpdateQuitButton,
                 overflow: TextOverflow.ellipsis,
               ),
-              onPressed: () => exit(0),
+              onPressed: () => YaruWindow.of(context).close(),
             ),
           ],
         ),

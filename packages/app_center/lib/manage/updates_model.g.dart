@@ -155,7 +155,7 @@ class _HasUpdateProviderElement extends ProviderElement<bool>
 }
 
 String _$refreshInhibitSnapsHash() =>
-    r'bca4d5f08da7469f4f143be90f6a2852dd2cdba2';
+    r'1fc637ceea0ac8be9314dffee5c2e0f111d5c901';
 
 /// Used to see which snaps that are installed but need to be restarted to be
 /// refreshed (or be forced to restart after the proceedTime).
