@@ -434,5 +434,19 @@
   "errorViewUnknownErrorDescription": "Lo sentimos, pero no estamos seguros de cuál es el error.",
   "@errorViewUnknownErrorDescription": {},
   "managePageNoInternet": "No se puede acceder al servidor, compruebe su conexión a Internet o inténtelo más tarde.",
-  "@managePageNoInternet": {}
+  "@managePageNoInternet": {},
+  "managePageOwnUpdateDescription": "Al salir de la aplicación, esta se actualizará automáticamente.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "El centro de aplicaciones se actualizará automáticamente en {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Salir para actualizar",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageOwnUpdateAvailable": "Actualización disponible para el centro de aplicaciones",
+  "@managePageOwnUpdateAvailable": {}
 }
