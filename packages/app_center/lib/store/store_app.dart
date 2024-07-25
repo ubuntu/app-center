@@ -100,7 +100,12 @@ class _StoreAppHome extends ConsumerWidget {
 
     ref.listen(errorStreamProvider, (_, error) {
       if (error.hasValue && error.value is SnapdException) {
-        _showError(context, error.value as SnapdException);
+        final snapdError = error.value as SnapdException;
+        // Don't show an error if the user cancelled the auth dialog.
+        if (snapdError.kind == 'auth-cancelled') {
+          return;
+        }
+        _showError(context, snapdError);
       }
     });
 

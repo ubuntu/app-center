@@ -321,7 +321,7 @@ void main() {
         child: const ManagePage(),
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     final infoBox = find.widgetWithText(
       YaruInfoBox,
