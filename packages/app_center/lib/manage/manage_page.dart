@@ -342,7 +342,7 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
     final refreshInhibitModel = ref.watch(
       refreshInhibitSnapsProvider.select(
         (value) => value.whenData(
-          (data) => data.firstWhere((s) => s.name == 'snap-store'),
+          (data) => data.firstWhere((s) => s.name == kSnapName),
         ),
       ),
     );

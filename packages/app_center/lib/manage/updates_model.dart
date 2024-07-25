@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/constants.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:collection/collection.dart';
@@ -57,7 +58,9 @@ class UpdatesModel extends _$UpdatesModel {
   @override
   Future<SnapListState> build() async {
     final result = await connectionCheck(
-      () => _snapd.find(filter: SnapFindFilter.refresh),
+      () => _snapd
+          .find(filter: SnapFindFilter.refresh)
+          .then((snaps) => snaps.where((s) => s.name != kSnapName)),
       ref,
     );
     return result;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yaru/icons.dart';
 
 const kAppName = 'App Center';
+const kSnapName = 'snap-store';
 const kGitHubRepo = 'ubuntu/app-center';
 
 // TODO: add proper neutral colors to yaru
