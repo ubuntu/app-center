@@ -362,16 +362,12 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
         );
 
     return Padding(
-      padding: const EdgeInsets.only(top: 34, bottom: 18),
+      padding: const EdgeInsets.only(top: 34, bottom: 34),
       child: YaruInfoBox(
         title: Text(l10n.managePageOwnUpdateAvailable),
-        subtitle: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: 16,
-          runSpacing: 16,
-          children: [
-            Text(l10n.managePageOwnUpdateDescription),
-          ],
+        subtitle: Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: Text(l10n.managePageOwnUpdateDescription),
         ),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
