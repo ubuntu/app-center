@@ -434,5 +434,19 @@
   "errorViewServerErrorDescription": "Мы сожалеем, но в настоящее время у нас возникли проблемы с Центром приложений.",
   "@errorViewServerErrorDescription": {},
   "managePageNoInternet": "Не удалось подключиться к серверу. Проверьте подключение к Интернету или повторите попытку позже.",
-  "@managePageNoInternet": {}
+  "@managePageNoInternet": {},
+  "managePageOwnUpdateDescriptionSoon": "Центр приложений будет автоматически обновлён через {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateAvailable": "Доступно обновление Центра приложений",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "Обновление произойдёт автоматически, когда Вы закроете приложение.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateQuitButton": "Закрыть и обновить",
+  "@managePageOwnUpdateQuitButton": {}
 }
