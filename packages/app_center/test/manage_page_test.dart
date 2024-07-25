@@ -147,7 +147,7 @@ void main() {
         child: const ManagePage(),
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     final testTile = find.snapTile('Test Snap');
     final testTile2 = find.snapTile('Another Test Snap');
