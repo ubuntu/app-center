@@ -53,7 +53,7 @@ class ManagePage extends ConsumerWidget {
                 l10n.managePageDebUpdatesMessage,
                 style: textTheme.titleMedium,
               ),
-              const SizedBox(height: 48),
+              _SelfUpdateInfoBox(),
               ...updatesModel.when(
                 data: (snapListState) {
                   final refreshableSnaps = snapListState.snaps;
@@ -333,6 +333,58 @@ class _ActionButtons extends ConsumerWidget {
             ),
           ),
       ],
+    );
+  }
+}
+
+class _SelfUpdateInfoBox extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final refreshInhibitModel = ref.watch(
+      refreshInhibitSnapsProvider.select(
+        (value) => value.whenData(
+          (data) => data.firstWhere((s) => s.name == 'snap-store'),
+        ),
+      ),
+    );
+    final proceedTime =
+        refreshInhibitModel.valueOrNull?.refreshInhibit?.proceedTime;
+
+    if (proceedTime == null) {
+      return const SizedBox(height: 48);
+    }
+
+    final buttonStyle = OutlinedButtonTheme.of(context).style?.copyWith(
+          backgroundColor: MaterialStatePropertyAll(
+            Theme.of(context).colorScheme.background,
+          ),
+        );
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 34, bottom: 34),
+      child: YaruInfoBox(
+        title: Text(l10n.managePageOwnUpdateAvailable),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(right: 24),
+          child: Text(l10n.managePageOwnUpdateDescription),
+        ),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            PushButton.outlined(
+              style: buttonStyle,
+              onPressed: () => YaruWindow.of(context).close(),
+              child: Text(
+                l10n.managePageOwnUpdateQuitButton,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+        yaruInfoType: YaruInfoType.information,
+        isThreeLine: true,
+      ),
     );
   }
 }

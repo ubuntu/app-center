@@ -185,6 +185,10 @@ MockSnapdService registerMockSnapdService({
   when(service.find(name: anyNamed('name')))
       .thenAnswer((_) async => [if (storeSnap != null) storeSnap]);
   when(service.getSnaps()).thenAnswer((_) async => installedSnaps ?? []);
+  when(service.getSnaps(filter: SnapsFilter.refreshInhibited)).thenAnswer(
+    (_) async =>
+        installedSnaps?.where((s) => s.refreshInhibit != null).toList() ?? [],
+  );
   when(service.getChanges(name: anyNamed('name')))
       .thenAnswer((_) async => changes ?? []);
   when(service.watchChange(any)).thenAnswer(
@@ -405,6 +409,7 @@ Snap createSnap({
   String? trackingChannel,
   List<String>? tracks,
   String? website,
+  RefreshInhibit? refreshInhibit,
 }) {
   return Snap(
     id: id ?? '',
@@ -439,5 +444,6 @@ Snap createSnap({
     trackingChannel: trackingChannel,
     tracks: tracks ?? [],
     website: website,
+    refreshInhibit: refreshInhibit,
   );
 }

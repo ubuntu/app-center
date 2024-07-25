@@ -52,6 +52,28 @@ void main() {
     ),
   ];
 
+  final refreshableAppCenter = createSnap(
+    name: 'snap-store',
+    title: 'App Center with an update',
+    version: '2.0',
+    channel: 'latest/stable',
+    channels: {
+      'latest/stable': SnapChannel(
+        confinement: SnapConfinement.strict,
+        size: 1337,
+        releasedAt: DateTime(1970),
+        version: '1.0',
+      ),
+      'latest/edge': SnapChannel(
+        confinement: SnapConfinement.classic,
+        size: 31337,
+        releasedAt: DateTime(1970, 1, 2),
+        version: '2.0',
+      ),
+    },
+    refreshInhibit: RefreshInhibit(proceedTime: DateTime(1970)),
+  );
+
   final snapData = SnapData(
     name: refreshableSnaps[0].name,
     localSnap: refreshableSnaps[0],
@@ -274,6 +296,37 @@ void main() {
     final cancelButton = find.buttonWithText(tester.l10n.snapActionCancelLabel);
     expect(cancelButton, findsOneWidget);
     expect(cancelButton, isEnabled);
+  });
+
+  testWidgets('show app center update available', (tester) async {
+    await resetAllServices();
+    registerMockSnapdService(
+      localSnap: refreshableAppCenter,
+      storeSnap: refreshableAppCenter,
+      installedSnaps: [refreshableAppCenter],
+      refreshableSnaps: [refreshableAppCenter],
+    );
+
+    final container = createContainer(
+      overrides: [
+        launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+        showLocalSystemAppsProvider.overrideWith((ref) => true),
+      ],
+    );
+
+    await tester.pumpApp(
+      (_) => UncontrolledProviderScope(
+        container: container,
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final infoBox = find.widgetWithText(
+      YaruInfoBox,
+      tester.l10n.managePageOwnUpdateAvailable,
+    );
+    expect(infoBox, findsOneWidget);
   });
 
   // TODO: test sorting and filtering
