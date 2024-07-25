@@ -434,5 +434,19 @@
   "errorViewServerErrorAction": "Sprawdź stan aktualizacji lub spróbuj ponownie później.",
   "@errorViewServerErrorAction": {},
   "managePageNoInternet": "Nie można połączyć się z serwerem. Sprawdź połączenie internetowe lub spróbuj ponownie później.",
-  "@managePageNoInternet": {}
+  "@managePageNoInternet": {},
+  "managePageOwnUpdateDescription": "Po zamknięciu programu zostanie on automatycznie zaktualizowany.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "Centrum oprogramowania zostanie automatycznie zaktualizowane za {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Zamknij, aby zaktualizować",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageOwnUpdateAvailable": "Dostępna aktualizacja Centrum oprogramowania",
+  "@managePageOwnUpdateAvailable": {}
 }
