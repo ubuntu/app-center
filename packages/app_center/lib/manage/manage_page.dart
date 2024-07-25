@@ -371,6 +371,11 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
           runSpacing: 16,
           children: [
             Text(l10n.managePageOwnUpdateDescription),
+          ],
+        ),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
             PushButton.outlined(
               style: buttonStyle,
               onPressed: () => YaruWindow.of(context).close(),
