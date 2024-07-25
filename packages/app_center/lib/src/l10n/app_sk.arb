@@ -434,5 +434,19 @@
   "errorViewServerErrorAction": "Skontrolujte stav aktualizácií alebo to skúste znova neskôr.",
   "@errorViewServerErrorAction": {},
   "managePageNoInternet": "Nedá sa pripojiť k serveru, skontrolujte internetové pripojenie alebo to skúste znova neskôr.",
-  "@managePageNoInternet": {}
+  "@managePageNoInternet": {},
+  "managePageOwnUpdateAvailable": "K dispozícii je aktualizácia centra aplikácií",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "Keď aplikáciu ukončíte, aktualizuje sa automaticky.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateQuitButton": "Ukončiť a aktualizovať",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageOwnUpdateDescriptionSoon": "Centrum aplikácií sa automaticky aktualizuje o {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }
