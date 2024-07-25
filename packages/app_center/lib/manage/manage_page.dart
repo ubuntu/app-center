@@ -355,6 +355,12 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
       return const SizedBox(height: 48);
     }
 
+    final buttonStyle = OutlinedButtonTheme.of(context).style?.copyWith(
+          backgroundColor: MaterialStatePropertyAll(
+            Theme.of(context).colorScheme.background,
+          ),
+        );
+
     return Padding(
       padding: const EdgeInsets.only(top: 34, bottom: 18),
       child: YaruInfoBox(
@@ -366,11 +372,12 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
           children: [
             Text(l10n.managePageOwnUpdateDescription),
             PushButton.outlined(
+              style: buttonStyle,
+              onPressed: () => YaruWindow.of(context).close(),
               child: Text(
                 l10n.managePageOwnUpdateQuitButton,
                 overflow: TextOverflow.ellipsis,
               ),
-              onPressed: () => YaruWindow.of(context).close(),
             ),
           ],
         ),
