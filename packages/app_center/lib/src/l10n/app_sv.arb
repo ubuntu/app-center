@@ -434,5 +434,19 @@
   "errorViewUnknownErrorDescription": "Vi är ledsna, men vi är inte säkra på vad felet är.",
   "@errorViewUnknownErrorDescription": {},
   "managePageNoInternet": "Kan inte nå servern, kontrollera din internetanslutning eller försök igen senare.",
-  "@managePageNoInternet": {}
+  "@managePageNoInternet": {},
+  "managePageOwnUpdateAvailable": "Appcentral uppdatering är tillgänglig",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "När du avslutar programmet uppdateras det automatiskt.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "Appcentral kommer automatiskt att uppdateras om {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Avsluta vid uppdatering",
+  "@managePageOwnUpdateQuitButton": {}
 }
