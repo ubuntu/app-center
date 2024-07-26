@@ -434,5 +434,19 @@
   "errorViewUnknownErrorTitle": "Algo deu errado",
   "@errorViewUnknownErrorTitle": {},
   "errorViewCheckStatusLabel": "Verificar o status",
-  "@errorViewCheckStatusLabel": {}
+  "@errorViewCheckStatusLabel": {},
+  "managePageOwnUpdateAvailable": "Atualização do App Center disponível",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateQuitButton": "Saia para atualizar",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageOwnUpdateDescription": "Quando você parar o aplicativo ele irá atualizar automaticamente.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "O centro de aplicativos será atualizado automaticamente em {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }
