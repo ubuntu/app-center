@@ -432,5 +432,21 @@
   "errorViewUnknownErrorDescription": "Es tut uns leid, aber wir sind uns nicht sicher, wo der Fehler liegt.",
   "@errorViewUnknownErrorDescription": {},
   "errorViewServerErrorAction": "Überprüfen Sie den Status auf Aktualisierungen oder versuchen Sie es später erneut.",
-  "@errorViewServerErrorAction": {}
+  "@errorViewServerErrorAction": {},
+  "managePageOwnUpdateAvailable": "App Center-Aktualisierung verfügbar",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "Wenn Sie die Anwendung beenden, wird sie automatisch aktualisiert.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "Das App Center wird automatisch in {time} aktualisiert.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Zum Aktualisieren beenden",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageNoInternet": "Der Server kann nicht erreicht werden, überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später noch einmal.",
+  "@managePageNoInternet": {}
 }
