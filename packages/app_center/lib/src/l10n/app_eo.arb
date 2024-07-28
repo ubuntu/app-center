@@ -401,7 +401,7 @@
   "@localDebLearnMore": {},
   "localDebDialogMessage": "Tiu pako estas disponigita de tria partio kaj povas minaci vian sistemon kaj personajn datenojn.",
   "@localDebDialogMessage": {},
-  "localDebWarningBody": "Tiu pako estas disponigita de tria partio. Instalado de pakoj ekster Programcentro povas pliigi la riskon al via sistemo kaj personaj datenoj. Certigu, ke vi fidas la fonton antaŭ ol daŭrigi.",
+  "localDebWarningBody": "Tiu pako estas disponigita de tria partio. Instalado de pakoj ekster la Programcentro povas pliigi la riskon al via sistemo kaj personaj datenoj. Certigu, ke vi fidas la fonton antaŭ ol daŭrigi.",
   "@localDebWarningBody": {},
   "managePageDebUpdatesMessage": "Ĝisdatigon de Debian-pakoj respondecas la Ĝisdatigilo de Programaroj.",
   "@managePageDebUpdatesMessage": {},
@@ -434,5 +434,19 @@
   "errorViewUnknownErrorAction": "Vi povas reprovi nun, kontroli la staton pri ĝisdatigoj, aŭ reprovi poste.",
   "@errorViewUnknownErrorAction": {},
   "managePageNoInternet": "Ne eblas konekti al la servilo. Kontrolu vian Interretan konekton, aŭ reprovu poste.",
-  "@managePageNoInternet": {}
+  "@managePageNoInternet": {},
+  "managePageOwnUpdateQuitButton": "Forlasi por ĝisdatigi",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageOwnUpdateDescription": "Kiam vi forlasos la programon, ĝi ĝisdatiĝos aŭtomate.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "La Programcentro aŭtomate ĝisdatiĝos post {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateAvailable": "Ĝisdatigo de la Programcentro disponeblas",
+  "@managePageOwnUpdateAvailable": {}
 }
