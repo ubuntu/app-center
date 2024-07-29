@@ -432,5 +432,21 @@
   "errorViewUnknownErrorDescription": "Je nám líto, ale nejsme si jisti, o jakou chybu se jedná.",
   "@errorViewUnknownErrorDescription": {},
   "errorViewUnknownErrorAction": "Můžete to nyní zopakovat, zkontrolovat aktualizace stavu nebo to zkusit znovu později.",
-  "@errorViewUnknownErrorAction": {}
+  "@errorViewUnknownErrorAction": {},
+  "managePageOwnUpdateAvailable": "Je k dispozici aktualizace Centra aplikací",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "Když aplikaci ukončíte, automaticky se aktualizuje.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "Centrum aplikací se automaticky aktualizuje za {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageNoInternet": "Nelze se připojit k serveru, zkontrolujte připojení k internetu nebo to zkuste znovu později.",
+  "@managePageNoInternet": {},
+  "managePageOwnUpdateQuitButton": "Ukončit pro aktualizaci",
+  "@managePageOwnUpdateQuitButton": {}
 }
