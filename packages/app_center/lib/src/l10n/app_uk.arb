@@ -432,5 +432,21 @@
     }
   },
   "errorViewNetworkErrorTitle": "Підключення до Інтернету",
-  "@errorViewNetworkErrorTitle": {}
+  "@errorViewNetworkErrorTitle": {},
+  "managePageOwnUpdateAvailable": "Доступне оновлення центру застосунків",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescriptionSoon": "Центр застосунків автоматично оновиться за {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Вийти, щоб оновити",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageOwnUpdateDescription": "Коли ви вийдете з застосунку, він автоматично оновиться.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageNoInternet": "Не вдалося зв'язатися з сервером, перевірте з'єднання з інтернетом або спробуйте пізніше.",
+  "@managePageNoInternet": {}
 }
