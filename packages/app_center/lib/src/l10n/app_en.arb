@@ -26,6 +26,7 @@
     "explorePageLabel": "Explore",
     "explorePageCategoriesLabel": "Categories",
     "managePageOwnUpdateAvailable": "App Center update available",
+    "managePageQuitToUpdate": "Quit to update",
     "managePageOwnUpdateDescription": "When you quit the application it will automatically update.",
     "managePageOwnUpdateDescriptionSoon": "The app center will automatically update in {time}.",
     "@managePageOwnUpdateDescriptionSoon": {

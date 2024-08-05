@@ -192,30 +192,24 @@ class _ButtonBarForUpdate extends ConsumerWidget {
     final snapModel = ref.watch(snapModelProvider(snap.name));
     final activeChangeId = snapModel.value?.activeChangeId;
     final removeColor = Theme.of(context).colorScheme.error;
+    final quitToUpdate =
+        snapModel.valueOrNull?.localSnap?.refreshInhibit != null;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        OutlinedButton(
-          onPressed: activeChangeId != null || !snapModel.hasValue
-              ? null
-              : ref.read(snapModelProvider(snap.name).notifier).refresh,
-          child: activeChangeId != null
-              ? ActiveChangeContent(activeChangeId)
-              : Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(YaruIcons.download),
-                    const SizedBox(width: 8),
-                    Text(
-                      l10n.snapActionUpdateLabel,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-        ),
-        const SizedBox(width: 8),
+        if (quitToUpdate)
+          const _QuitToUpdateNotice()
+        else
+          OutlinedButton(
+            onPressed: activeChangeId != null || !snapModel.hasValue
+                ? null
+                : ref.read(snapModelProvider(snap.name).notifier).refresh,
+            child: activeChangeId != null
+                ? ActiveChangeContent(activeChangeId)
+                : const _UpdateButton(),
+          ),
+        const SizedBox(width: 16),
         MenuAnchor(
           menuChildren: [
             Visibility(
@@ -298,9 +292,7 @@ class _ButtonBarForOpen extends ConsumerWidget {
             ),
           ],
         ),
-        const SizedBox(
-          width: 8,
-        ),
+        const SizedBox(width: 16),
         MenuAnchor(
           menuChildren: [
             MenuItemButton(
@@ -330,6 +322,51 @@ class _ButtonBarForOpen extends ConsumerWidget {
             },
             child: const Icon(YaruIcons.view_more_horizontal),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class _UpdateButton extends StatelessWidget {
+  const _UpdateButton();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(YaruIcons.download),
+        const SizedBox(width: 8),
+        Text(
+          l10n.snapActionUpdateLabel,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
+    );
+  }
+}
+
+class _QuitToUpdateNotice extends StatelessWidget {
+  const _QuitToUpdateNotice();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(YaruIcons.warning_filled, color: colorScheme.warning),
+        const SizedBox(width: 8),
+        Text(
+          l10n.managePageQuitToUpdate,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );
