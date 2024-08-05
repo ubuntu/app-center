@@ -24,6 +24,7 @@ class ManagePage extends ConsumerWidget {
     final localSnapsModel = ref.watch(filteredLocalSnapsProvider);
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
+    final isLoading = updatesModel.isLoading || localSnapsModel.isLoading;
 
     if (updatesModel.hasError || localSnapsModel.hasError) {
       return ErrorView(
@@ -35,6 +36,9 @@ class ManagePage extends ConsumerWidget {
       );
     }
 
+    final refreshableSnaps = updatesModel.valueOrNull?.snaps ?? [];
+    final hasInternet = updatesModel.valueOrNull?.hasInternet ?? true;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: kPagePadding),
       child: ResponsiveLayoutScrollView(
@@ -45,63 +49,59 @@ class ManagePage extends ConsumerWidget {
                 l10n.managePageLabel,
                 style: textTheme.headlineSmall,
               ),
+              const SizedBox(height: kMargin),
               Text(
                 l10n.managePageDescription,
                 style: textTheme.titleMedium,
               ),
+              const SizedBox(height: kMargin),
               Text(
                 l10n.managePageDebUpdatesMessage,
                 style: textTheme.titleMedium,
               ),
               _SelfUpdateInfoBox(),
-              ...updatesModel.when(
-                data: (snapListState) {
-                  final refreshableSnaps = snapListState.snaps;
-                  return [
-                    Builder(
-                      builder: (context) {
-                        final compact = ResponsiveLayout.of(context).type ==
-                            ResponsiveLayoutType.small;
-                        return Flex(
-                          direction: compact ? Axis.vertical : Axis.horizontal,
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: compact
-                              ? CrossAxisAlignment.start
-                              : CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              l10n.managePageUpdatesAvailable(
-                                refreshableSnaps.length,
-                              ),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(fontWeight: FontWeight.w500),
-                            ),
-                            if (compact) const SizedBox(height: 16),
-                            const Flexible(child: _ActionButtons()),
-                          ],
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 24),
-                    if (!snapListState.hasInternet) ...[
+              Builder(
+                builder: (context) {
+                  final compact = ResponsiveLayout.of(context).type ==
+                      ResponsiveLayoutType.small;
+                  return Flex(
+                    direction: compact ? Axis.vertical : Axis.horizontal,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: compact
+                        ? CrossAxisAlignment.start
+                        : CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       Text(
-                        l10n.managePageNoInternet,
-                        style: textTheme.titleMedium,
+                        l10n.managePageUpdatesAvailable(
+                          refreshableSnaps.length,
+                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(fontWeight: FontWeight.w500),
                       ),
-                    ] else if (refreshableSnaps.isEmpty)
-                      Text(
-                        l10n.managePageNoUpdatesAvailableDescription,
-                        style: textTheme.titleMedium,
-                      ),
-                  ];
+                      if (compact) const SizedBox(height: 16),
+                      const Flexible(child: _ActionButtons()),
+                    ],
+                  );
                 },
-                error: (_, __) => [],
-                loading: () =>
-                    [const Center(child: YaruCircularProgressIndicator())],
               ),
+              const SizedBox(height: 24),
+              if (!hasInternet && !isLoading)
+                _MinHeightAsProgressIndicator(
+                  child: Text(
+                    l10n.managePageNoInternet,
+                    style: textTheme.titleMedium,
+                  ),
+                )
+              else if (refreshableSnaps.isEmpty && !isLoading)
+                _MinHeightAsProgressIndicator(
+                  child: Text(
+                    l10n.managePageNoUpdatesAvailableDescription,
+                    style: textTheme.titleMedium,
+                  ),
+                ),
             ],
           ),
           updatesModel.when(
@@ -242,6 +242,7 @@ class _ActionButtons extends ConsumerWidget {
     final updateChangeId = ref.watch(updateChangeIdProvider);
     final hasInternet = updatesModel.value?.hasInternet ?? true;
     final updatesInProgress = !updatesModel.isLoading && updateChangeId != null;
+    final isLoading = updatesModel.isLoading || localSnapsModel.isLoading;
 
     return Wrap(
       spacing: 10,
@@ -249,10 +250,7 @@ class _ActionButtons extends ConsumerWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         PushButton.outlined(
-          onPressed: updatesInProgress ||
-                  updatesModel.hasError ||
-                  updatesModel.isLoading ||
-                  localSnapsModel.isLoading
+          onPressed: updatesInProgress || updatesModel.hasError || isLoading
               ? null
               : () => ref.refresh(updatesModelProvider),
           child: Row(
@@ -344,7 +342,7 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
     final refreshInhibitModel = ref.watch(
       refreshInhibitSnapsProvider.select(
         (value) => value.whenData(
-          (data) => data.firstWhere((s) => s.name == 'snap-store'),
+          (data) => data.firstWhere((s) => s.name == kSnapName),
         ),
       ),
     );
@@ -385,6 +383,28 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
         yaruInfoType: YaruInfoType.information,
         isThreeLine: true,
       ),
+    );
+  }
+}
+
+class _MinHeightAsProgressIndicator extends StatelessWidget {
+  const _MinHeightAsProgressIndicator({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        const Visibility(
+          visible: false,
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
+          child: YaruCircularProgressIndicator(),
+        ),
+        child,
+      ],
     );
   }
 }

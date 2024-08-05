@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+const kMargin = 4.0;
 const kCardMargin = 4.0;
 const kPaneWidth = 204.0;
 const kPagePadding = 24.0;

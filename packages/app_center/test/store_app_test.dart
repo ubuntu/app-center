@@ -109,29 +109,47 @@ void main() {
       },
     );
 
-    testWidgets('showing error from error stream', (tester) async {
-      registerMockSnapdService();
-      registerMockService<GtkApplicationNotifier>(
-        createMockGtkApplicationNotifier(),
-      );
-      final error =
-          SnapdException(message: 'error message', kind: 'error kind');
-      await tester.pumpApp(
-        (_) => ProviderScope(
-          overrides: [
-            errorStreamProvider.overrideWith(
-              (ref) => Stream.value(error),
-            ),
-          ],
-          child: const StoreApp(),
+    group('showing error from error stream', () {
+      for (final testCase in [
+        (
+          name: 'generic snapd exception',
+          error: SnapdException(message: 'error message', kind: 'error kind'),
+          expectDialog: true,
         ),
-      );
-      await tester.pump();
+        (
+          name: 'auth-cancelled error',
+          error: SnapdException(message: 'cancelled', kind: 'auth-cancelled'),
+          expectDialog: false,
+        ),
+      ]) {
+        testWidgets(testCase.name, (tester) async {
+          registerMockSnapdService();
+          registerMockService<GtkApplicationNotifier>(
+            createMockGtkApplicationNotifier(),
+          );
+          await tester.pumpApp(
+            (_) => ProviderScope(
+              overrides: [
+                errorStreamProvider.overrideWith(
+                  (ref) => Stream.value(testCase.error),
+                ),
+              ],
+              child: const StoreApp(),
+            ),
+          );
+          await tester.pump();
 
-      expect(
-        find.text(ErrorMessage.fromObject(error).body(tester.l10n)),
-        findsOneWidget,
-      );
+          expect(
+            find.descendant(
+              of: find.byType(AlertDialog),
+              matching: find.text(
+                ErrorMessage.fromObject(testCase.error).body(tester.l10n),
+              ),
+            ),
+            testCase.expectDialog ? findsOneWidget : findsNothing,
+          );
+        });
+      }
     });
   });
 }

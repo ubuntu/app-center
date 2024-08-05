@@ -1,3 +1,4 @@
+import 'package:app_center/constants.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
@@ -20,7 +21,10 @@ class SnapLauncher {
   String? get desktopFile =>
       snap.apps.firstWhereOrNull((app) => app.desktopFile != null)?.desktopFile;
   bool get isLaunchable =>
-      snap.type == 'app' && desktopFile != null && launcher.isAvailable;
+      snap.type == 'app' &&
+      desktopFile != null &&
+      launcher.isAvailable &&
+      snap.name != kSnapName;
 
   void open() => launcher.openDesktopEntry(basename(desktopFile!));
 }

@@ -1,3 +1,4 @@
+import 'package:app_center/constants.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage.dart';
 import 'package:app_center/manage/updates_model.dart';
@@ -53,7 +54,7 @@ void main() {
   ];
 
   final refreshableAppCenter = createSnap(
-    name: 'snap-store',
+    name: kSnapName,
     title: 'App Center with an update',
     version: '2.0',
     channel: 'latest/stable',
@@ -147,7 +148,7 @@ void main() {
         child: const ManagePage(),
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     final testTile = find.snapTile('Test Snap');
     final testTile2 = find.snapTile('Another Test Snap');
@@ -320,7 +321,7 @@ void main() {
         child: const ManagePage(),
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     final infoBox = find.widgetWithText(
       YaruInfoBox,
