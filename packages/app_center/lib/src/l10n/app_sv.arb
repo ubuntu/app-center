@@ -448,5 +448,7 @@
     }
   },
   "managePageOwnUpdateQuitButton": "Avsluta vid uppdatering",
-  "@managePageOwnUpdateQuitButton": {}
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageQuitToUpdate": "Avsluta för att uppdatera",
+  "@managePageQuitToUpdate": {}
 }
