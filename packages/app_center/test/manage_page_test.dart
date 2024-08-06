@@ -1,6 +1,7 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage.dart';
+import 'package:app_center/manage/manage_snap_tile.dart';
 import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,28 @@ void main() {
   final refreshableAppCenter = createSnap(
     name: kSnapName,
     title: 'App Center with an update',
+    version: '2.0',
+    channel: 'latest/stable',
+    channels: {
+      'latest/stable': SnapChannel(
+        confinement: SnapConfinement.strict,
+        size: 1337,
+        releasedAt: DateTime(1970),
+        version: '1.0',
+      ),
+      'latest/edge': SnapChannel(
+        confinement: SnapConfinement.classic,
+        size: 31337,
+        releasedAt: DateTime(1970, 1, 2),
+        version: '2.0',
+      ),
+    },
+    refreshInhibit: RefreshInhibit(proceedTime: DateTime(1970)),
+  );
+
+  final refreshableOpenApp = createSnap(
+    name: 'flame',
+    title: 'The Flutter game engine',
     version: '2.0',
     channel: 'latest/stable',
     channels: {
@@ -329,6 +352,40 @@ void main() {
     );
     expect(infoBox, findsOneWidget);
   });
+
+  testWidgets(
+    'show quit to refresh label when update is available for open app',
+    (tester) async {
+      await resetAllServices();
+      registerMockSnapdService(
+        localSnap: refreshableOpenApp,
+        storeSnap: refreshableOpenApp,
+        installedSnaps: [refreshableOpenApp],
+        refreshableSnaps: [refreshableOpenApp],
+      );
+
+      final container = createContainer(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+        ],
+      );
+
+      await tester.pumpApp(
+        (_) => UncontrolledProviderScope(
+          container: container,
+          child: const ManagePage(),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final quitToUpdateNotice = find.widgetWithText(
+        QuitToUpdateNotice,
+        tester.l10n.managePageQuitToUpdate,
+      );
+      expect(quitToUpdateNotice, findsOneWidget);
+    },
+  );
 
   // TODO: test sorting and filtering
 }
