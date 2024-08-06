@@ -448,5 +448,7 @@
   "managePageOwnUpdateDescription": "Обновление произойдёт автоматически, когда Вы закроете приложение.",
   "@managePageOwnUpdateDescription": {},
   "managePageOwnUpdateQuitButton": "Закрыть и обновить",
-  "@managePageOwnUpdateQuitButton": {}
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageQuitToUpdate": "Закройте для обновления",
+  "@managePageQuitToUpdate": {}
 }
