@@ -192,14 +192,14 @@ class _ButtonBarForUpdate extends ConsumerWidget {
     final snapModel = ref.watch(snapModelProvider(snap.name));
     final activeChangeId = snapModel.value?.activeChangeId;
     final removeColor = Theme.of(context).colorScheme.error;
-    final quitToUpdate =
+    final shouldQuitToUpdate =
         snapModel.valueOrNull?.localSnap?.refreshInhibit != null;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (quitToUpdate)
-          const _QuitToUpdateNotice()
+        if (shouldQuitToUpdate)
+          const QuitToUpdateNotice()
         else
           OutlinedButton(
             onPressed: activeChangeId != null || !snapModel.hasValue
@@ -349,8 +349,9 @@ class _UpdateButton extends StatelessWidget {
   }
 }
 
-class _QuitToUpdateNotice extends StatelessWidget {
-  const _QuitToUpdateNotice();
+@visibleForTesting
+class QuitToUpdateNotice extends StatelessWidget {
+  const QuitToUpdateNotice({super.key});
 
   @override
   Widget build(BuildContext context) {
