@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Entwicklung",
   "@developmentPageLabel": {},
-  "managePageLabel": "Verwalten",
+  "managePageLabel": "Installierte Snaps verwalten",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanal",
   "@snapPageChannelLabel": {},
@@ -402,5 +402,51 @@
   "localDebDialogConfirmation": "Sind Sie sicher, dass Sie es installieren möchten?",
   "@localDebDialogConfirmation": {},
   "localDebWarningBody": "Dieses Paket wird von einem Drittanbieter bereitgestellt. Die Installation von Paketen von außerhalb des App Centers kann das Risiko für Ihr System und Ihre persönlichen Daten erhöhen. Stellen Sie sicher, dass Sie der Quelle vertrauen, bevor Sie fortfahren.",
-  "@localDebWarningBody": {}
+  "@localDebWarningBody": {},
+  "managePageDebUpdatesMessage": "Debian-Paketaktualisierungen werden von der Softwareaktualisierung durchgeführt.",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Installiert",
+  "@snapActionInstalledLabel": {},
+  "snapdExceptionRunningApps": "Wir konnten {snapName} nicht aktualisieren, da es gerade ausgeführt wird.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewCheckStatusLabel": "Status überprüfen",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "Mit dem Internet verbinden",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "Ohne Internetverbindung können wir keine Inhalte in das App Center laden.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewNetworkErrorAction": "Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "Es tut uns leid, wir haben derzeit Probleme mit dem App Center.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewUnknownErrorTitle": "Etwas ist schiefgelaufen",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorAction": "Sie können es jetzt erneut versuchen, den Status auf Aktualisierungen hin überprüfen oder es später erneut versuchen.",
+  "@errorViewUnknownErrorAction": {},
+  "errorViewUnknownErrorDescription": "Es tut uns leid, aber wir sind uns nicht sicher, wo der Fehler liegt.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewServerErrorAction": "Überprüfen Sie den Status auf Aktualisierungen oder versuchen Sie es später erneut.",
+  "@errorViewServerErrorAction": {},
+  "managePageOwnUpdateAvailable": "App Center-Aktualisierung verfügbar",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "Wenn Sie die Anwendung beenden, wird sie automatisch aktualisiert.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "Das App Center wird automatisch in {time} aktualisiert.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Zum Aktualisieren beenden",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageNoInternet": "Der Server kann nicht erreicht werden, überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später noch einmal.",
+  "@managePageNoInternet": {}
 }

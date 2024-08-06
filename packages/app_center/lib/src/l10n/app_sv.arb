@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Utveckling",
   "@developmentPageLabel": {},
-  "managePageLabel": "Hantera",
+  "managePageLabel": "Hantera installerade snaps",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanal",
   "@snapPageChannelLabel": {},
@@ -402,5 +402,51 @@
   "localDebDialogMessage": "Detta paket tillhandahålls av en tredje part och kan hota ditt system och dina personuppgifter.",
   "@localDebDialogMessage": {},
   "localDebDialogConfirmation": "Är du säker på att du vill installera det?",
-  "@localDebDialogConfirmation": {}
+  "@localDebDialogConfirmation": {},
+  "snapActionInstalledLabel": "Installerad",
+  "@snapActionInstalledLabel": {},
+  "managePageDebUpdatesMessage": "Debian paket uppdateringar hanteras av Appcentralen.",
+  "@managePageDebUpdatesMessage": {},
+  "errorViewCheckStatusLabel": "Kolla status",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorDescription": "Vi kan inte ladda innehåll i Appcentral utan en internetanslutning.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewServerErrorDescription": "Vi är ledsna, vi har för närvarande problem med Appcentral.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Kontrollera status för uppdateringar eller försök igen senare.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "Någonting gick fel",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorAction": "Du kan försöka igen nu, kontrollera status för uppdateringar eller försöka igen senare.",
+  "@errorViewUnknownErrorAction": {},
+  "errorViewNetworkErrorTitle": "Anslut till internet",
+  "@errorViewNetworkErrorTitle": {},
+  "snapdExceptionRunningApps": "Vi kunde inte uppdatera {snapName} eftersom det körs just nu.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewNetworkErrorAction": "Kontrollera din uppkoppling och försök igen.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewUnknownErrorDescription": "Vi är ledsna, men vi är inte säkra på vad felet är.",
+  "@errorViewUnknownErrorDescription": {},
+  "managePageNoInternet": "Kan inte nå servern, kontrollera din internetanslutning eller försök igen senare.",
+  "@managePageNoInternet": {},
+  "managePageOwnUpdateAvailable": "Appcentral uppdatering är tillgänglig",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "När du avslutar programmet uppdateras det automatiskt.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "Appcentral kommer automatiskt att uppdateras om {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Avsluta vid uppdatering",
+  "@managePageOwnUpdateQuitButton": {}
 }

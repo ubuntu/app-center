@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Vývoj",
   "@developmentPageLabel": {},
-  "managePageLabel": "Spravovat",
+  "managePageLabel": "Spravovat nainstalované Snapy",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanál",
   "@snapPageChannelLabel": {},
@@ -402,5 +402,51 @@
   "localDebDialogMessage": "Tento balíček je poskytován třetí stranou a může ohrozit váš systém a osobní data.",
   "@localDebDialogMessage": {},
   "localDebDialogConfirmation": "Jste si jisti, že jej chcete nainstalovat?",
-  "@localDebDialogConfirmation": {}
+  "@localDebDialogConfirmation": {},
+  "managePageDebUpdatesMessage": "Aktualizace balíčků Debian zajišťuje Správce aktualizací.",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Nainstalováno",
+  "@snapActionInstalledLabel": {},
+  "snapdExceptionRunningApps": "Nemohli jsme aktualizovat {snapName}, protože je aktuálně spuštěn.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewCheckStatusLabel": "Zkontrolovat stav",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "Připojit k internetu",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "Bez připojení k internetu nemůžeme načíst obsah Centra aplikací.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewNetworkErrorAction": "Zkontrolujte připojení a zkuste to znovu.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "Je nám líto, ale v současné době dochází k problémům s Centrem aplikací.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Zkontrolujte aktualizace stavu nebo to zkuste znovu později.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "Něco se nepovedlo",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorDescription": "Je nám líto, ale nejsme si jisti, o jakou chybu se jedná.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "Můžete to nyní zopakovat, zkontrolovat aktualizace stavu nebo to zkusit znovu později.",
+  "@errorViewUnknownErrorAction": {},
+  "managePageOwnUpdateAvailable": "Je k dispozici aktualizace Centra aplikací",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "Když aplikaci ukončíte, automaticky se aktualizuje.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "Centrum aplikací se automaticky aktualizuje za {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageNoInternet": "Nelze se připojit k serveru, zkontrolujte připojení k internetu nebo to zkuste znovu později.",
+  "@managePageNoInternet": {},
+  "managePageOwnUpdateQuitButton": "Ukončit pro aktualizaci",
+  "@managePageOwnUpdateQuitButton": {}
 }

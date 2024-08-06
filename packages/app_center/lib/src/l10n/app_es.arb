@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Desarrollo",
   "@developmentPageLabel": {},
-  "managePageLabel": "Gestionar",
+  "managePageLabel": "Gestionar los Snaps instalados",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Canal",
   "@snapPageChannelLabel": {},
@@ -402,5 +402,51 @@
   "localDebDialogConfirmation": "¿Estás seguro de que quieres instalarlo?",
   "@localDebDialogConfirmation": {},
   "localDebWarningBody": "Este paquete es proporcionado por un tercero. La instalación de paquetes desde fuera del App Center puede aumentar el riesgo para su sistema y sus datos personales. Asegúrese de confiar en la fuente antes de continuar.",
-  "@localDebWarningBody": {}
+  "@localDebWarningBody": {},
+  "managePageDebUpdatesMessage": "Las actualizaciones de los paquetes de Debian son gestionadas por el actualizador de software.",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Instalado",
+  "@snapActionInstalledLabel": {},
+  "snapdExceptionRunningApps": "No hemos podido actualizar {snapName} porque se está ejecutando actualmente.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewCheckStatusLabel": "Comprobar el estado",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "Conectar a internet",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorAction": "Compruebe tu conexión y vuelve a intentarlo.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "Lo sentimos, estamos experimentando problemas con el App Center.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Comprueba si hay actualizaciones o inténtalo más tarde.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "Algo salió mal",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorAction": "Puedes reintentarlo ahora, comprobar el estado de las actualizaciones o volver a intentarlo más tarde.",
+  "@errorViewUnknownErrorAction": {},
+  "errorViewNetworkErrorDescription": "No podemos cargar contenidos en el App Center sin conexión a Internet.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewUnknownErrorDescription": "Lo sentimos, pero no estamos seguros de cuál es el error.",
+  "@errorViewUnknownErrorDescription": {},
+  "managePageNoInternet": "No se puede acceder al servidor, compruebe su conexión a Internet o inténtelo más tarde.",
+  "@managePageNoInternet": {},
+  "managePageOwnUpdateDescription": "Al salir de la aplicación, esta se actualizará automáticamente.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "El centro de aplicaciones se actualizará automáticamente en {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Salir para actualizar",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageOwnUpdateAvailable": "Actualización disponible para el centro de aplicaciones",
+  "@managePageOwnUpdateAvailable": {}
 }

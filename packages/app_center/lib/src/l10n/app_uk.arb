@@ -23,9 +23,9 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Розробка",
   "@developmentPageLabel": {},
-  "managePageLabel": "Керувати",
+  "managePageLabel": "Керувати встановленими прив'язками",
   "@managePageLabel": {},
-  "snapPageChannelLabel": "Джерело",
+  "snapPageChannelLabel": "Канал",
   "@snapPageChannelLabel": {},
   "snapCategoryEducation": "Освіта й навчання",
   "@snapCategoryEducation": {},
@@ -386,5 +386,67 @@
   "debPageErrorNoPackageInfo": "Інформація про пакет не знайдена",
   "@debPageErrorNoPackageInfo": {},
   "externalResources": "Додаткові ресурси",
-  "@externalResources": {}
+  "@externalResources": {},
+  "appstreamUrlTypeContribute": "Зробити внесок",
+  "@appstreamUrlTypeContribute": {},
+  "snapPageSizeLabel": "Розмір",
+  "@snapPageSizeLabel": {},
+  "appstreamUrlTypeVcsBrowser": "Джерело",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "localDebWarningTitle": "Потенційно небезпечно",
+  "@localDebWarningTitle": {},
+  "localDebLearnMore": "Дізнайтеся більше про сторонні пакети",
+  "@localDebLearnMore": {},
+  "localDebDialogMessage": "Цей пакет надається третьою стороною і може загрожувати вашій системі та персональним даним.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "Ви впевнені, що ви бажаєте встановити це?",
+  "@localDebDialogConfirmation": {},
+  "localDebWarningBody": "Цей пакет надається третьою стороною. Встановлення пакунків не з Центру додатків може збільшити ризик для вашої системи та особистих даних. Переконайтеся, що ви довіряєте джерелу, перш ніж продовжувати.",
+  "@localDebWarningBody": {},
+  "managePageDebUpdatesMessage": "Оновлення пакунків Debian виконує програма оновлення програмного забезпечення.",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Встановлено",
+  "@snapActionInstalledLabel": {},
+  "errorViewNetworkErrorDescription": "Ми не можемо завантажити вміст у Центр додатків без підключення до Інтернету.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewUnknownErrorTitle": "Щось пішло не так",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewCheckStatusLabel": "Перевірте статус",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorAction": "Перевірте з'єднання та спробуйте ще раз.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "На жаль, у нас зараз проблеми з Центром додатків.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Перевірте статус на наявність оновлень або спробуйте пізніше.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorDescription": "Вибачте, але ми не впевнені, в чому саме полягає помилка.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "Ви можете повторити спробу зараз, перевірити статус на наявність оновлень або спробувати пізніше.",
+  "@errorViewUnknownErrorAction": {},
+  "snapdExceptionRunningApps": "Ми не змогли оновити {snapName}, оскільки він наразі запущений.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewNetworkErrorTitle": "Підключення до Інтернету",
+  "@errorViewNetworkErrorTitle": {},
+  "managePageOwnUpdateAvailable": "Доступне оновлення центру застосунків",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescriptionSoon": "Центр застосунків автоматично оновиться за {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Вийти, щоб оновити",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageOwnUpdateDescription": "Коли ви вийдете з застосунку, він автоматично оновиться.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageNoInternet": "Не вдалося зв'язатися з сервером, перевірте з'єднання з інтернетом або спробуйте пізніше.",
+  "@managePageNoInternet": {}
 }
