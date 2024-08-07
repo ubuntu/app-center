@@ -81,7 +81,13 @@ class UpdatesModel extends _$UpdatesModel {
   Future<void> updateAll() async {
     if (!state.hasValue) return;
     try {
-      final changeId = await _snapd.refreshMany([]);
+      final changeId = await _snapd.refreshMany(
+        state.value?.snaps
+                .where((s) => s.refreshInhibit == null)
+                .map((s) => s.name)
+                .toList() ??
+            [],
+      );
       ref.read(updateChangeIdProvider.notifier).state = changeId;
       await _snapd.waitChange(changeId);
     } on SnapdException catch (e) {
