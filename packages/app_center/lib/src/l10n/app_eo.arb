@@ -448,5 +448,7 @@
     }
   },
   "managePageOwnUpdateAvailable": "Ĝisdatigo de la Programcentro disponeblas",
-  "@managePageOwnUpdateAvailable": {}
+  "@managePageOwnUpdateAvailable": {},
+  "managePageQuitToUpdate": "Forlasi por ĝisdatigi",
+  "@managePageQuitToUpdate": {}
 }

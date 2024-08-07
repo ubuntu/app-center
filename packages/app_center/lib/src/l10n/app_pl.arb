@@ -448,5 +448,7 @@
   "managePageOwnUpdateQuitButton": "Zamknij, aby zaktualizować",
   "@managePageOwnUpdateQuitButton": {},
   "managePageOwnUpdateAvailable": "Dostępna aktualizacja Centrum oprogramowania",
-  "@managePageOwnUpdateAvailable": {}
+  "@managePageOwnUpdateAvailable": {},
+  "managePageQuitToUpdate": "Zamknij, aby zaktualizować",
+  "@managePageQuitToUpdate": {}
 }

@@ -448,5 +448,7 @@
   "managePageOwnUpdateQuitButton": "Salir para actualizar",
   "@managePageOwnUpdateQuitButton": {},
   "managePageOwnUpdateAvailable": "Actualización disponible para el centro de aplicaciones",
-  "@managePageOwnUpdateAvailable": {}
+  "@managePageOwnUpdateAvailable": {},
+  "managePageQuitToUpdate": "Cerrar para actualizar",
+  "@managePageQuitToUpdate": {}
 }
