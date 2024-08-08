@@ -86,7 +86,6 @@ class UpdatesModel extends _$UpdatesModel {
               .map((s) => s.name)
               .toList() ??
           [];
-      print(refreshableSnapNames);
       final refreshFutures = refreshableSnapNames.map((snapName) async {
         return ref.read(SnapModelProvider(snapName).notifier).refresh();
       });

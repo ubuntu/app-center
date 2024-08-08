@@ -46,7 +46,6 @@ class SnapModel extends _$SnapModel {
     if (activeChangeId != null) {
       unawaited(_listenUntilDone(activeChangeId, snapName, ref));
     }
-    print('$snapName Active change id: $activeChangeId');
 
     if (localSnap == null && storeSnap == null) {
       // This only happens when you have installed a local snap that you then
@@ -173,7 +172,6 @@ class SnapModel extends _$SnapModel {
   }) async {
     final completer = Completer();
     _snapd.watchChange(changeId).listen((event) {
-      print('$snapName Change event: $event');
       if (event.err != null) {
         completer.completeError(event.err!);
       } else if (event.ready) {

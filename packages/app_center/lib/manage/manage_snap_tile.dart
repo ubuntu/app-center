@@ -191,12 +191,9 @@ class _ButtonBarForUpdate extends ConsumerWidget {
     final snapLauncher = ref.watch(launchProvider(snap));
     final snapModel = ref.watch(snapModelProvider(snap.name));
     final activeChangeId = snapModel.valueOrNull?.activeChangeId;
-    //final activeChangeId = '1234';
     final removeColor = Theme.of(context).colorScheme.error;
     final shouldQuitToUpdate =
         snapModel.valueOrNull?.localSnap?.refreshInhibit != null;
-    print(
-        'Active change id: $activeChangeId in tile for ${snap.name} and model has value ${snapModel.hasValue}');
 
     return Row(
       mainAxisSize: MainAxisSize.min,
