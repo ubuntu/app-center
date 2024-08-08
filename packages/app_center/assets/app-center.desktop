@@ -7,6 +7,7 @@ Terminal=false
 Categories=System;Utility;PackageManager;SoftwareManagement;Network;Settings;
 Keywords=Ubuntu;Applications;Apps;Store;Software;Snaps;
 MimeType=x-scheme-handler/snap;application/vnd.debian.binary-package;
+StartupWMClass=Snap-store
 Name=App Center
 Name[ar]=مركز التطبيقات
 Name[cs]=Centrum aplikací
