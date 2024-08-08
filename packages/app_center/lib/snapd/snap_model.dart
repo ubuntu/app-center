@@ -46,6 +46,7 @@ class SnapModel extends _$SnapModel {
     if (activeChangeId != null) {
       unawaited(_listenUntilDone(activeChangeId, snapName, ref));
     }
+    print('$snapName Active change id: $activeChangeId');
 
     if (localSnap == null && storeSnap == null) {
       // This only happens when you have installed a local snap that you then
@@ -150,10 +151,17 @@ class SnapModel extends _$SnapModel {
     state = AsyncData(data.copyWith(selectedChannel: channel));
   }
 
-  void _updateChangeId(String? changeId) {
+  void _updateChangeId(String changeId) {
     final data = state.value;
     if (data != null) {
       state = AsyncData(data.copyWith(activeChangeId: changeId));
+    }
+  }
+
+  void _removeChangeId(String changeId) {
+    final data = state.value;
+    if (data != null && data.activeChangeId == changeId) {
+      state = AsyncData(data.copyWith(activeChangeId: null));
     }
   }
 
@@ -165,13 +173,14 @@ class SnapModel extends _$SnapModel {
   }) async {
     final completer = Completer();
     _snapd.watchChange(changeId).listen((event) {
+      print('$snapName Change event: $event');
       if (event.err != null) {
         completer.completeError(event.err!);
       } else if (event.ready) {
         completer.complete();
       }
     });
-    await completer.future.whenComplete(() => _updateChangeId(null));
+    await completer.future.whenComplete(() => _removeChangeId(changeId));
     if (invalidate) {
       ref.invalidateSelf();
     }

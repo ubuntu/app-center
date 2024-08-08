@@ -239,9 +239,9 @@ class _ActionButtons extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final updatesModel = ref.watch(updatesModelProvider);
     final localSnapsModel = ref.watch(filteredLocalSnapsProvider);
-    final updateChangeId = ref.watch(updateChangeIdProvider);
+    final isRefreshingAll =
+        ref.watch(currentlyRefreshAllSnapsProvider).isNotEmpty;
     final hasInternet = updatesModel.value?.hasInternet ?? true;
-    final updatesInProgress = !updatesModel.isLoading && updateChangeId != null;
     final isLoading = updatesModel.isLoading || localSnapsModel.isLoading;
 
     return Wrap(
@@ -250,7 +250,7 @@ class _ActionButtons extends ConsumerWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         PushButton.outlined(
-          onPressed: updatesInProgress || updatesModel.hasError || isLoading
+          onPressed: isRefreshingAll || updatesModel.hasError || isLoading
               ? null
               : () => ref.refresh(updatesModelProvider),
           child: Row(
@@ -271,59 +271,32 @@ class _ActionButtons extends ConsumerWidget {
         PushButton.elevated(
           onPressed: ref.watch(updatesModelProvider).whenOrNull(
                 data: (snapListState) => snapListState.snaps.isNotEmpty &&
-                        updateChangeId == null &&
+                        !isRefreshingAll &&
                         hasInternet
-                    ? ref.read(updatesModelProvider.notifier).updateAll
+                    ? ref.read(updatesModelProvider.notifier).refreshAll
                     : null,
               ),
-          child: updateChangeId != null
-              ? Consumer(
-                  builder: (context, ref, child) {
-                    final change = ref.watch(
-                      activeChangeProvider(updateChangeId),
-                    );
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox.square(
-                          dimension: kCircularProgressIndicatorHeight,
-                          child: YaruCircularProgressIndicator(
-                            value: change?.progress,
-                            strokeWidth: 2,
-                          ),
-                        ),
-                        if (change != null) ...[
-                          const SizedBox(width: 8),
-                          Text(
-                            change.localize(l10n) ?? '',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ],
-                    );
-                  },
-                )
-              : Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(YaruIcons.download),
-                    const SizedBox(width: 8),
-                    Flexible(
-                      child: Text(
-                        l10n.managePageUpdateAllLabel,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(YaruIcons.download),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  isRefreshingAll
+                      ? l10n.snapActionUpdatingLabel
+                      : l10n.managePageUpdateAllLabel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
+              ),
+            ],
+          ),
         ),
-        if (updatesInProgress)
+        if (isRefreshingAll)
           PushButton.outlined(
-            onPressed: () => ref
-                .read(updatesModelProvider.notifier)
-                .cancelChange(updateChangeId),
+            onPressed: () =>
+                ref.read(updatesModelProvider.notifier).cancelRefreshAll(),
             child: Text(
               l10n.snapActionCancelLabel,
               maxLines: 1,

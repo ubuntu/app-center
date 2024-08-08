@@ -111,6 +111,7 @@ void main() {
       storeSnap: snapData.storeSnap,
       installedSnaps: nonRefreshableSnaps + refreshableSnaps,
       refreshableSnaps: refreshableSnaps,
+      changes: [],
     );
   });
   tearDown(resetAllServices);
@@ -223,7 +224,13 @@ void main() {
     );
 
     await tester.tap(find.text(tester.l10n.managePageUpdateAllLabel));
-    verify(snapd.refreshMany([])).called(1);
+    verify(
+      snapd.refresh(
+        refreshableSnaps.first.name,
+        channel: anyNamed('channel'),
+        classic: anyNamed('classic'),
+      ),
+    ).called(1);
   });
 
   testWidgets('refresh individual snap', (tester) async {
@@ -262,7 +269,7 @@ void main() {
 
   testWidgets('refreshing all', (tester) async {
     final mockChange = SnapdChange(
-      id: '',
+      id: '1234',
       spawnTime: DateTime(1970),
       kind: 'refresh-snap',
       tasks: [
@@ -270,20 +277,26 @@ void main() {
       ],
     );
 
-    when(snapd.getChanges(name: anyNamed('name')))
+    final snapName = refreshableSnaps.first.name;
+    when(snapd.getChanges(name: snapName))
         .thenAnswer((_) async => [mockChange]);
 
+    final container = createContainer(
+      overrides: [
+        launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+        showLocalSystemAppsProvider.overrideWith((ref) => true),
+        activeChangeProvider.overrideWith((_, __) => mockChange),
+        currentlyRefreshAllSnapsProvider.overrideWith((_) => [snapName]),
+      ],
+    );
+
     await tester.pumpApp(
-      (_) => ProviderScope(
-        overrides: [
-          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
-          showLocalSystemAppsProvider.overrideWith((ref) => true),
-          activeChangeProvider.overrideWith((_, __) => mockChange),
-          updateChangeIdProvider.overrideWith((_) => mockChange.id),
-        ],
+      (_) => UncontrolledProviderScope(
+        container: container,
         child: const ManagePage(),
       ),
     );
+    await container.read(snapModelProvider(snapData.name).future);
     await tester.pump();
 
     final refreshButton =
@@ -291,8 +304,12 @@ void main() {
     expect(refreshButton, findsOneWidget);
     expect(refreshButton, isDisabled);
 
+    final testTile = find.snapTile('Snap with an update');
+    expect(testTile, findsOneWidget);
+    final activeChangeContent = find.byType(ActiveChangeContent);
+    expect(activeChangeContent, findsOneWidget);
     final progressIndicator = find.descendant(
-      of: refreshButton,
+      of: testTile,
       matching: find.byType(YaruCircularProgressIndicator),
     );
     expect(progressIndicator, findsOneWidget);
@@ -310,7 +327,7 @@ void main() {
         overrides: [
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           activeChangeProvider.overrideWith((_, __) => mockChange),
-          updateChangeIdProvider.overrideWith((_) => mockChange.id),
+          currentlyRefreshAllSnapsProvider.overrideWith((_) => ['name']),
         ],
         child: const ManagePage(),
       ),
