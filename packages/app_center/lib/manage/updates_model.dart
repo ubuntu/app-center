@@ -33,6 +33,7 @@ class SnapListState with _$SnapListState {
 }
 
 final currentlyRefreshAllSnapsProvider = StateProvider<List<String>>((_) => []);
+final isSilentlyiCheckingUpdatesProvider = StateProvider<bool>((_) => false);
 
 @Riverpod(keepAlive: true)
 bool hasUpdate(HasUpdateRef ref, String snapName) {
@@ -57,13 +58,34 @@ class UpdatesModel extends _$UpdatesModel {
 
   @override
   Future<SnapListState> build() async {
-    final result = await connectionCheck(
+    final result = fetchRefreshableSnaps();
+    return result;
+  }
+
+  Future<void> silentUpdatesCheck() async {
+    ref.read(isSilentlyiCheckingUpdatesProvider.notifier).state = true;
+    try {
+      final newSnapListState = await fetchRefreshableSnaps();
+      final isSameList = const ListEquality().equals(
+        state.valueOrNull?.snaps.toList() ?? [],
+        newSnapListState.snaps.toList(),
+      );
+      if (!isSameList ||
+          newSnapListState.hasInternet != state.valueOrNull?.hasInternet) {
+        state = AsyncData(newSnapListState);
+      }
+    } finally {
+      ref.read(isSilentlyiCheckingUpdatesProvider.notifier).state = false;
+    }
+  }
+
+  Future<SnapListState> fetchRefreshableSnaps() {
+    return connectionCheck(
       () => _snapd
           .find(filter: SnapFindFilter.refresh)
           .then((snaps) => snaps.where((s) => s.name != kSnapName)),
       ref,
     );
-    return result;
   }
 
   /// Used to remove a snap from the list without reloading the whole provider.

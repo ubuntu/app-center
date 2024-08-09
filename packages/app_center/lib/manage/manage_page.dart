@@ -243,6 +243,8 @@ class _ActionButtons extends ConsumerWidget {
         ref.watch(currentlyRefreshAllSnapsProvider).isNotEmpty;
     final hasInternet = updatesModel.value?.hasInternet ?? true;
     final isLoading = updatesModel.isLoading || localSnapsModel.isLoading;
+    final isSilentlyCheckingUpdates =
+        ref.watch(isSilentlyiCheckingUpdatesProvider);
 
     return Wrap(
       spacing: 10,
@@ -250,13 +252,22 @@ class _ActionButtons extends ConsumerWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         PushButton.outlined(
-          onPressed: isRefreshingAll || updatesModel.hasError || isLoading
+          onPressed: isRefreshingAll ||
+                  updatesModel.hasError ||
+                  isLoading ||
+                  isSilentlyCheckingUpdates
               ? null
-              : () => ref.refresh(updatesModelProvider),
+              : ref.read(updatesModelProvider.notifier).silentUpdatesCheck,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(YaruIcons.sync),
+              isSilentlyCheckingUpdates
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: YaruCircularProgressIndicator(strokeWidth: 3),
+                    )
+                  : const Icon(YaruIcons.sync),
               const SizedBox(width: 8),
               Flexible(
                 child: Text(
