@@ -190,7 +190,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final snapLauncher = ref.watch(launchProvider(snap));
     final snapModel = ref.watch(snapModelProvider(snap.name));
-    final activeChangeId = snapModel.value?.activeChangeId;
+    final activeChangeId = snapModel.valueOrNull?.activeChangeId;
     final removeColor = Theme.of(context).colorScheme.error;
     final shouldQuitToUpdate =
         snapModel.valueOrNull?.localSnap?.refreshInhibit != null;
@@ -206,7 +206,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
                 ? null
                 : ref.read(snapModelProvider(snap.name).notifier).refresh,
             child: activeChangeId != null
-                ? ActiveChangeContent(activeChangeId)
+                ? ActiveChangeContent(activeChangeId, showText: false)
                 : const _UpdateButton(),
           ),
         const SizedBox(width: 16),
