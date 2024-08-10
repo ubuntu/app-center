@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "軟體開發",
   "@developmentPageLabel": {},
-  "managePageLabel": "管理",
+  "managePageLabel": "管理已安裝的 Snap 套件",
   "@managePageLabel": {},
   "snapPageChannelLabel": "釋出頻道",
   "@snapPageChannelLabel": {},
@@ -402,5 +402,51 @@
   "appstreamUrlTypeVcsBrowser": "來源",
   "@appstreamUrlTypeVcsBrowser": {},
   "localDebWarningTitle": "可能不安全",
-  "@localDebWarningTitle": {}
+  "@localDebWarningTitle": {},
+  "errorViewNetworkErrorDescription": "我們無法在沒有網路連線的情況下載入應用程式中心的內容。",
+  "@errorViewNetworkErrorDescription": {},
+  "managePageDebUpdatesMessage": "Debian 套件更新由軟體更新程式處理。",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "已安裝",
+  "@snapActionInstalledLabel": {},
+  "managePageOwnUpdateDescription": "當您結束應用程式時，它將自動更新。",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateQuitButton": "結束以更新",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageOwnUpdateDescriptionSoon": "應用程式中心將在 {time} 後自動更新。",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewServerErrorAction": "檢查更新狀態或稍後再試。",
+  "@errorViewServerErrorAction": {},
+  "errorViewNetworkErrorAction": "請檢查您的網路連線後重試。",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "抱歉，我們在使用應用程式中心時遇到問題。",
+  "@errorViewServerErrorDescription": {},
+  "errorViewUnknownErrorTitle": "發生錯誤",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorDescription": "很抱歉，我們不確定錯誤的原因。",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "您可以現在重試、檢查更新狀態，或稍後再試。",
+  "@errorViewUnknownErrorAction": {},
+  "snapdExceptionRunningApps": "我們無法更新 {snapName}，因為它目前正在使用中。",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewCheckStatusLabel": "檢查狀態",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "連接到網路",
+  "@errorViewNetworkErrorTitle": {},
+  "managePageQuitToUpdate": "結束以更新",
+  "@managePageQuitToUpdate": {},
+  "managePageNoInternet": "無法連線到伺服器，請檢查您的網路連線或稍後再試。",
+  "@managePageNoInternet": {}
 }
