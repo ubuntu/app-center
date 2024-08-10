@@ -448,5 +448,7 @@
   "managePageOwnUpdateQuitButton": "Zum Aktualisieren beenden",
   "@managePageOwnUpdateQuitButton": {},
   "managePageNoInternet": "Der Server kann nicht erreicht werden, überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später noch einmal.",
-  "@managePageNoInternet": {}
+  "@managePageNoInternet": {},
+  "managePageQuitToUpdate": "Beenden, um zu aktualisieren",
+  "@managePageQuitToUpdate": {}
 }
