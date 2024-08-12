@@ -35,7 +35,7 @@
   "@managePageCheckForUpdates": {},
   "managePageCheckingForUpdates": "Checking for updates",
   "@managePageCheckingForUpdates": {},
-  "managePageLabel": "Manage",
+  "managePageLabel": "Manage installed Snaps",
   "@managePageLabel": {},
   "gamesPageBundles": "App Bundles",
   "@gamesPageBundles": {},
@@ -386,5 +386,69 @@
   "snapPageConfinementLabel": "Confinement",
   "@snapPageConfinementLabel": {},
   "snapPageDeveloperWebsiteLabel": "Developer website",
-  "@snapPageDeveloperWebsiteLabel": {}
+  "@snapPageDeveloperWebsiteLabel": {},
+  "managePageQuitToUpdate": "Quit to update",
+  "@managePageQuitToUpdate": {},
+  "localDebWarningBody": "This package is provided by a third party. Installing packages from outside the App Centre can increase the risk to your system and personal data. Ensure you trust the source before proceeding.",
+  "@localDebWarningBody": {},
+  "errorViewUnknownErrorDescription": "We're sorry, but we’re not sure what the error is.",
+  "@errorViewUnknownErrorDescription": {},
+  "snapActionInstalledLabel": "Installed",
+  "@snapActionInstalledLabel": {},
+  "snapPageSizeLabel": "Size",
+  "@snapPageSizeLabel": {},
+  "managePageOwnUpdateAvailable": "App Centre update available",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "When you quit the application it will automatically update.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "The app centre will automatically update in {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Quit to update",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageNoInternet": "Can't reach server, check your internet connection or try again later.",
+  "@managePageNoInternet": {},
+  "managePageDebUpdatesMessage": "Debian package updates are handled by the Software Updater.",
+  "@managePageDebUpdatesMessage": {},
+  "appstreamUrlTypeContribute": "Contribute",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeVcsBrowser": "Source",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "localDebLearnMore": "Learn more about third party packages",
+  "@localDebLearnMore": {},
+  "localDebDialogMessage": "This package is provided by a third party and may threaten your system and personal data.",
+  "@localDebDialogMessage": {},
+  "snapdExceptionRunningApps": "We couldn't update {snapName} because it is currently running.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewCheckStatusLabel": "Check status",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewServerErrorDescription": "We're sorry, we are currently experiencing problems with the App Centre.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Check the status for updates or try again later.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "Something went wrong",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorAction": "You can retry now, check the status for updates, or try again later.",
+  "@errorViewUnknownErrorAction": {},
+  "localDebDialogConfirmation": "Are you sure you want to install it?",
+  "@localDebDialogConfirmation": {},
+  "errorViewNetworkErrorTitle": "Connect to internet",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "We can't load content in the App Centre without an internet connection.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewNetworkErrorAction": "Check your connection and retry.",
+  "@errorViewNetworkErrorAction": {},
+  "localDebWarningTitle": "Potentially unsafe",
+  "@localDebWarningTitle": {}
 }
