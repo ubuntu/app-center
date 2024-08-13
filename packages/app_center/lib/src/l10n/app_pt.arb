@@ -242,5 +242,11 @@
   "snapCategoryGameContentCreationSlogan": "Criação de conteúdo",
   "@snapCategoryGameContentCreationSlogan": {},
   "snapCategoryGnomeGamesSlogan": "Suíte de Jogos GNOME",
-  "@snapCategoryGnomeGamesSlogan": {}
+  "@snapCategoryGnomeGamesSlogan": {},
+  "managePageQuitToUpdate": "Sair para atualizar",
+  "@managePageQuitToUpdate": {},
+  "snapPageSizeLabel": "Tamanho",
+  "@snapPageSizeLabel": {},
+  "managePageOwnUpdateQuitButton": "Sair para atualizar",
+  "@managePageOwnUpdateQuitButton": {}
 }
