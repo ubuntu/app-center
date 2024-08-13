@@ -21,6 +21,9 @@ jobs:
         working-directory: packages/app_center/integration_test/assets/appcenter-testdeb-1.0
         run: dpkg-buildpackage
 
+      - name: Flutter version
+        run: flutter --version
+
       - name: Run integration tests
         run: |
           cd packages/app_center && \
