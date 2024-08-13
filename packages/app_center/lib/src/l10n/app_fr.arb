@@ -123,7 +123,7 @@
       }
     }
   },
-  "snapCategoryDefaultButtonLabel": "Découvrir d'avantage",
+  "snapCategoryDefaultButtonLabel": "Découvrir davantage",
   "@snapCategoryDefaultButtonLabel": {},
   "managePageShowDetailsLabel": "Afficher les détails",
   "@managePageShowDetailsLabel": {},
@@ -430,5 +430,23 @@
   "errorViewUnknownErrorTitle": "Quelque chose n'allait pas",
   "@errorViewUnknownErrorTitle": {},
   "errorViewUnknownErrorAction": "Vous pouvez réessayer maintenant, vérifier l’état des mises à jour ou réessayer plus tard.",
-  "@errorViewUnknownErrorAction": {}
+  "@errorViewUnknownErrorAction": {},
+  "managePageQuitToUpdate": "Quitter pour mettre à jour",
+  "@managePageQuitToUpdate": {},
+  "managePageOwnUpdateAvailable": "Mise à jour du Centre d'Applications disponible",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "Lorsque vous quittez l’application, elle est automatiquement mise à jour.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "Le centre d’applications se mettra automatiquement à jour dans {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Quitter pour mettre à jour",
+  "@managePageOwnUpdateQuitButton": {},
+  "errorViewServerErrorAction": "Vérifiez l’état des mises à jour ou réessayez plus tard.",
+  "@errorViewServerErrorAction": {}
 }
