@@ -1,5 +1,6 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
+import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
@@ -231,7 +232,7 @@ class _SnapView extends StatelessWidget {
                               selectable: true,
                               onTapLink: (text, href, title) =>
                                   launchUrlString(href!),
-                              data: snapData.snap.description,
+                              data: snapData.snap.description.escapedMarkdown(),
                             ),
                           ],
                         ),
