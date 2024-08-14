@@ -16,7 +16,7 @@ parts:
         rm -rf "flutter"
       fi
 
-      sh scripts/install-flutter.sh
+      sh scripts/install_fvm.sh
       fvm install
     override-build: |
       mkdir -p $CRAFT_PART_INSTALL/usr/bin

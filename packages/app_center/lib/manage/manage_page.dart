@@ -354,8 +354,8 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
     }
 
     final buttonStyle = OutlinedButtonTheme.of(context).style?.copyWith(
-          backgroundColor: MaterialStatePropertyAll(
-            Theme.of(context).colorScheme.background,
+          backgroundColor: WidgetStatePropertyAll(
+            Theme.of(context).colorScheme.surface,
           ),
         );
 
