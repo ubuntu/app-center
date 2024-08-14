@@ -362,9 +362,8 @@ class _SnapActionButtons extends ConsumerWidget {
       child: Text(SnapAction.cancel.label(l10n)),
     );
 
-    return ButtonBar(
-      mainAxisSize: MainAxisSize.min,
-      overflowButtonSpacing: 8,
+    return OverflowBar(
+      overflowSpacing: 8,
       children: [
         primaryActionButton,
         if (snapData.activeChangeId != null)
