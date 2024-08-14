@@ -448,5 +448,7 @@
   "managePageOwnUpdateDescription": "Коли ви вийдете з застосунку, він автоматично оновиться.",
   "@managePageOwnUpdateDescription": {},
   "managePageNoInternet": "Не вдалося зв'язатися з сервером, перевірте з'єднання з інтернетом або спробуйте пізніше.",
-  "@managePageNoInternet": {}
+  "@managePageNoInternet": {},
+  "managePageQuitToUpdate": "Вийти, щоб оновити",
+  "@managePageQuitToUpdate": {}
 }
