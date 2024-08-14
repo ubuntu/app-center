@@ -17,7 +17,8 @@ parts:
       fi
 
       craftctl default
-      find / -name curl 2>/dev/null
+      /usr/bin/curl --version
+      curl --version
       bash scripts/install-fvm.sh
       fvm install
     override-build: |
