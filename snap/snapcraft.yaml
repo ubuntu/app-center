@@ -17,17 +17,11 @@ parts:
       fi
 
       craftctl default
-      /usr/bin/curl --version
-      curl --version
       bash scripts/install-fvm.sh
       fvm install
     override-build: |
-      mkdir -p $CRAFT_PART_INSTALL/usr/bin
-      mkdir -p $CRAFT_PART_INSTALL/usr/libexec
-      cp -r $CRAFT_PART_SRC/.fvm/flutter_sdk $CRAFT_PART_INSTALL/usr/libexec/flutter
-      ln -s $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/flutter $CRAFT_PART_INSTALL/usr/bin/flutter
-      ln -s $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/dart $CRAFT_PART_INSTALL/usr/bin/dart
-      $CRAFT_PART_INSTALL/usr/bin/flutter doctor
+      fvm flutter doctor
+      cp -r $CRAFT_PART_SRC/.fvm $CRAFT_PART_BUILD
     build-packages:
       - clang
       - cmake
@@ -45,17 +39,17 @@ parts:
     plugin: nil
     override-build: |
       set -eux
-      dart pub global activate melos
+      fvm dart pub global activate melos
 
       set +e # ignore pub errors
       # when building locally artifacts can pollute the container and cause builds to fail
       # this helps increase reliability for local builds
-      dart pub global run melos clean
-      dart pub global run melos bootstrap
+      fvm dart pub global run melos clean
+      fvm dart pub global run melos bootstrap
       set -e
 
       cd packages/app_center
-      flutter build linux --release -v
+      fvm flutter build linux --release -v
       mkdir -p $CRAFT_PART_INSTALL/bin/
       cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/bin/
 
