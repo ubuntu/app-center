@@ -16,9 +16,9 @@ parts:
         rm -rf "flutter"
       fi
 
-      sudo apt install curl
       craftctl default
-      sh scripts/install-fvm.sh
+      find / -name curl 2>/dev/null
+      bash scripts/install-fvm.sh
       fvm install
     override-build: |
       mkdir -p $CRAFT_PART_INSTALL/usr/bin
