@@ -16,6 +16,7 @@ parts:
         rm -rf "flutter"
       fi
 
+      sudo apt install curl
       craftctl default
       sh scripts/install-fvm.sh
       fvm install
