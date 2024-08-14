@@ -16,7 +16,7 @@ parts:
         rm -rf "flutter"
       fi
 
-      sh scripts/install_fvm.sh
+      curl -fsSL https://github.com/ubuntu/app-center/blob/ed81ba6956a0acaa4112a73fe1bde4da0d49cb51/scripts/install-fvm.sh | bash
       fvm install
     override-build: |
       mkdir -p $CRAFT_PART_INSTALL/usr/bin
