@@ -16,13 +16,12 @@ parts:
         rm -rf "flutter"
       fi
 
-      craftctl default
-      FLUTTER_VERSION=$(sed -n "s/^flutter \([0-9.]\+\).*/\1/p" .tool-versions)
-      git clone -b $FLUTTER_VERSION --depth 1 https://github.com/flutter/flutter.git
+      sh scripts/install-flutter.sh
+      fvm install
     override-build: |
       mkdir -p $CRAFT_PART_INSTALL/usr/bin
       mkdir -p $CRAFT_PART_INSTALL/usr/libexec
-      cp -r $CRAFT_PART_SRC/flutter $CRAFT_PART_INSTALL/usr/libexec/flutter
+      cp -r $CRAFT_PART_SRC/.fvm/flutter_sdk $CRAFT_PART_INSTALL/usr/libexec/flutter
       ln -s $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/flutter $CRAFT_PART_INSTALL/usr/bin/flutter
       ln -s $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/dart $CRAFT_PART_INSTALL/usr/bin/dart
       $CRAFT_PART_INSTALL/usr/bin/flutter doctor
