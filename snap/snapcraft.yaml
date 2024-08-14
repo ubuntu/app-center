@@ -16,8 +16,7 @@ parts:
         rm -rf "flutter"
       fi
 
-      sh $CRAFT_PART_SRC/scripts/install-fvm.sh
-      FLUTTER_VERSION=$(sed -n 's/.*"flutter": "\(.*\)".*/\1/p' $CRAFT_PART_SRC/.fvmrc)
+      sh scripts/install-fvm.sh
       fvm install
     override-build: |
       mkdir -p $CRAFT_PART_INSTALL/usr/bin
