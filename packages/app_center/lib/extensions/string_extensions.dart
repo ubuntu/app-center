@@ -1,15 +1,12 @@
-import 'package:flutter/widgets.dart';
-
 extension StringExtension on String {
   String escapedMarkdown() {
-    final imagePattern = RegExp(r'!\[.*?\]\(.*?\)');
-    final linkPattern = RegExp(r'\[.*?\]\(.*?\)');
-
-    // Replace images with escaped versions
+    // This covers both links and images
+    final linkPattern = RegExp(
+      r'\[.*?\]\(.*?\)',
+      multiLine: true,
+      dotAll: true,
+    );
     final escaped = replaceAllMapped(
-      imagePattern,
-      (match) => '\\${match.group(0)}',
-    ).replaceAllMapped(
       linkPattern,
       (match) => '\\${match.group(0)}',
     );
