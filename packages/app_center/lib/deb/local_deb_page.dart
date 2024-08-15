@@ -93,7 +93,6 @@ class _Description extends StatelessWidget {
         const SizedBox(height: kPagePadding),
         MarkdownBody(
           selectable: true,
-          onTapLink: (text, href, title) => launchUrlString(href!),
           data: debData.details.description.escapedMarkdown(),
         ),
       ],
