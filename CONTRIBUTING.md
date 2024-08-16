@@ -70,11 +70,16 @@ Translations are managed using [Weblate](https://hosted.weblate.org/projects/ubu
 
 ### Required dependencies
 
-[Install Flutter](https://flutter.dev/docs/get-started/install/linux) - the currently used version is specified in `.tool-versions`. If you're using [asdf](https://asdf-vm.com/) to manage your Flutter SDK, you can simply run `asdf install` to install the required version.
+[Install Flutter](https://flutter.dev/docs/get-started/install/linux) - the currently used version is specified in `.fvmrc`. If you're using [fvm](https://fvm.app) to manage your Flutter SDK, you can simply run `fvm install` to install the required version.
 
 Install the [Flutter Linux prerequisites](https://docs.flutter.dev/get-started/install/linux#linux-prerequisites)
 
 We provide a [Melos](https://docs.page/invertase/melos) configuration to make it straightforward to execute common tasks.
+
+Install fvm (you can also install it from the scripts directory in the repository):
+```
+curl -fsSL https://fvm.app/install.sh | bash
+```
 
 Install Melos:
 ```
@@ -92,7 +97,7 @@ melos bootstrap
 
 You can run the application with
 ```
-flutter run
+fvm flutter run
 ```
 
 and build a release version with

@@ -61,7 +61,9 @@ mixin _$SnapData {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SnapData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SnapDataCopyWith<SnapData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -93,6 +95,8 @@ class _$SnapDataCopyWithImpl<$Res, $Val extends SnapData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SnapData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -131,6 +135,8 @@ class _$SnapDataCopyWithImpl<$Res, $Val extends SnapData>
     ) as $Val);
   }
 
+  /// Create a copy of SnapData
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SnapCopyWith<$Res>? get localSnap {
@@ -143,6 +149,8 @@ class _$SnapDataCopyWithImpl<$Res, $Val extends SnapData>
     });
   }
 
+  /// Create a copy of SnapData
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SnapCopyWith<$Res>? get storeSnap {
@@ -186,6 +194,8 @@ class __$$SnapDataImplCopyWithImpl<$Res>
       _$SnapDataImpl _value, $Res Function(_$SnapDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SnapData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -277,7 +287,9 @@ class _$SnapDataImpl extends _SnapData {
   int get hashCode => Object.hash(runtimeType, name, localSnap, storeSnap,
       selectedChannel, hasUpdate, activeChangeId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SnapData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SnapDataImplCopyWith<_$SnapDataImpl> get copyWith =>
@@ -371,8 +383,11 @@ abstract class _SnapData extends SnapData {
   bool get hasUpdate;
   @override
   String? get activeChangeId;
+
+  /// Create a copy of SnapData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SnapDataImplCopyWith<_$SnapDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
