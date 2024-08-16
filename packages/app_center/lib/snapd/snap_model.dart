@@ -127,7 +127,14 @@ class SnapModel extends _$SnapModel {
           SnapConfinement.classic,
     );
     _updateChangeId(changeId);
-    return _listenUntilDone(changeId, snapData.name, ref);
+    await _listenUntilDone(
+      changeId,
+      snapData.name,
+      ref,
+      onSuccess: () {
+        ref.read(updatesModelProvider.notifier).removeFromList(snapData.name);
+      },
+    );
   }
 
   /// Uninstalls the snap.
@@ -169,6 +176,7 @@ class SnapModel extends _$SnapModel {
     String snapName,
     Ref ref, {
     bool invalidate = true,
+    void Function()? onSuccess,
   }) async {
     final completer = Completer();
     _snapd.watchChange(changeId).listen((event) {
@@ -176,6 +184,7 @@ class SnapModel extends _$SnapModel {
         completer.completeError(event.err!);
       } else if (event.ready) {
         completer.complete();
+        onSuccess?.call();
       }
     });
     await completer.future.whenComplete(() => _removeChangeId(changeId));
