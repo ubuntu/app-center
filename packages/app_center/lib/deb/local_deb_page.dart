@@ -46,15 +46,15 @@ class _LocalDebPage extends StatelessWidget {
     return AppPage(
       appInfos: [
         (
-          label: l10n.snapPageSizeLabel,
+          label: Text(l10n.snapPageSizeLabel),
           value: Text(context.formatByteSize(debData.details.size))
         ),
         (
-          label: l10n.snapPageLicenseLabel,
+          label: Text(l10n.snapPageLicenseLabel),
           value: Text(debData.details.license)
         ),
         (
-          label: l10n.snapPageLinksLabel,
+          label: Text(l10n.snapPageLinksLabel),
           value: Html(
             data: '<a href="${debData.details.url}">${debData.details.url}</a>',
             style: {'body': Style(margin: Margins.zero)},

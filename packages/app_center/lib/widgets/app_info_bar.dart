@@ -1,7 +1,7 @@
 import 'package:app_center/layout.dart';
 import 'package:flutter/material.dart';
 
-typedef AppInfo = ({String label, Widget value});
+typedef AppInfo = ({Widget label, Widget value});
 
 class AppInfoBar extends StatelessWidget {
   const AppInfoBar({
@@ -27,7 +27,7 @@ class AppInfoBar extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(info.label),
+                  info.label,
                   SelectionArea(
                     child: DefaultTextStyle.merge(
                       style: const TextStyle(fontWeight: FontWeight.w500),

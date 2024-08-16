@@ -10,7 +10,9 @@ import 'package:app_center/snapd/snap_report.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:app_center/store/store_app.dart';
+import 'package:app_center/widgets/shimmer_placeholder.dart';
 import 'package:app_center/widgets/widgets.dart';
+import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +20,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -26,7 +29,7 @@ import 'package:yaru/yaru.dart';
 const _kPrimaryButtonMaxWidth = 136.0;
 const _kChannelDropdownWidth = 220.0;
 
-typedef SnapInfo = ({String label, Widget value});
+typedef SnapInfo = ({Widget label, Widget value});
 
 class SnapPage extends ConsumerWidget {
   const SnapPage({required this.snapName, super.key});
@@ -75,7 +78,7 @@ class _SnapView extends StatelessWidget {
 
     final snapInfos = <SnapInfo>[
       (
-        label: l10n.snapPageConfinementLabel,
+        label: Text(l10n.snapPageConfinementLabel),
         value: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -93,7 +96,7 @@ class _SnapView extends StatelessWidget {
         ),
       ),
       (
-        label: l10n.snapPageDownloadSizeLabel,
+        label: Text(l10n.snapPageDownloadSizeLabel),
         value: Text(
           snapData.channelInfo != null
               ? context.formatByteSize(snapData.channelInfo!.size)
@@ -101,15 +104,15 @@ class _SnapView extends StatelessWidget {
         ),
       ),
       (
-        label: l10n.snapPageLicenseLabel,
+        label: Text(l10n.snapPageLicenseLabel),
         value: Text(snapData.snap.license ?? ''),
       ),
       (
-        label: l10n.snapPageVersionLabel,
+        label: Text(l10n.snapPageVersionLabel),
         value: Text(snapData.channelInfo?.version ?? snapData.snap.version),
       ),
       (
-        label: l10n.snapPagePublishedLabel,
+        label: Text(l10n.snapPagePublishedLabel),
         value: Text(
           snapData.channelInfo != null
               ? DateFormat.yMMMd().format(snapData.channelInfo!.releasedAt)
@@ -117,7 +120,7 @@ class _SnapView extends StatelessWidget {
         ),
       ),
       (
-        label: l10n.snapPageLinksLabel,
+        label: Text(l10n.snapPageLinksLabel),
         value: Column(
           children: [
             if (snapData.snap.website?.isNotEmpty ?? false)
@@ -263,14 +266,35 @@ class _SnapInfoBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final ratingsModel = ref.watch(ratingsModelProvider(snap.name));
+    final isLightTheme = Theme.of(context).brightness == Brightness.light;
 
     final ratings = ratingsModel.whenOrNull(
       data: (ratingsData) => (
-        label: l10n.snapRatingsVotes(ratingsData.rating?.totalVotes ?? 0),
+        label: Text(l10n.snapRatingsVotes(ratingsData.rating?.totalVotes ?? 0)),
         value: Text(
           ratingsData.rating?.ratingsBand.localize(l10n) ?? '',
           style: TextStyle(
             color: ratingsData.rating?.ratingsBand.getColor(context),
+          ),
+        ),
+      ),
+      loading: () => (
+        label: Shimmer.fromColors(
+          baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
+          highlightColor:
+              isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
+          child: ShimmerPlaceholder(
+            child: Text(l10n.snapRatingsVotes(0)),
+          ),
+        ),
+        value: Shimmer.fromColors(
+          baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
+          highlightColor:
+              isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
+          child: ShimmerPlaceholder(
+            child: Text(
+              RatingsBand.insufficientVotes.localize(l10n),
+            ),
           ),
         ),
       ),
