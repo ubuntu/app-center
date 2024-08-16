@@ -1,7 +1,17 @@
-import 'dart:async';
-
 import 'package:app_center/constants.dart';
-import 'package:app_center/src/widgets/placeholders.dart';
+import 'package:app_center/error/error.dart';
+import 'package:app_center/extensions/string_extensions.dart';
+import 'package:app_center/l10n.dart';
+import 'package:app_center/layout.dart';
+import 'package:app_center/manage/local_snap_providers.dart';
+import 'package:app_center/ratings/ratings.dart';
+import 'package:app_center/snapd/snap_action.dart';
+import 'package:app_center/snapd/snap_report.dart';
+import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/snapd/snapd_cache.dart';
+import 'package:app_center/store/store_app.dart';
+import 'package:app_center/widgets/shimmer_placeholder.dart';
+import 'package:app_center/widgets/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -256,10 +266,11 @@ class _SnapInfoBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final ratingsModel = ref.watch(ratingsModelProvider(snap.name));
+    final isLightTheme = Theme.of(context).brightness == Brightness.light;
 
     final ratings = ratingsModel.whenOrNull(
       data: (ratingsData) => (
-        label: l10n.snapRatingsVotes(ratingsData.rating?.totalVotes ?? 0),
+        label: Text(l10n.snapRatingsVotes(ratingsData.rating?.totalVotes ?? 0)),
         value: Text(
           ratingsData.rating?.ratingsBand.localize(l10n) ?? '',
           style: TextStyle(
@@ -269,17 +280,17 @@ class _SnapInfoBar extends ConsumerWidget {
       ),
       loading: () => (
         label: Shimmer.fromColors(
-          baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
+          baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
           highlightColor:
-              light ? kShimmerHighLightLight : kShimmerHighLightDark,
+              isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
           child: ShimmerPlaceholder(
             child: Text(l10n.snapRatingsVotes(0)),
           ),
         ),
         value: Shimmer.fromColors(
-          baseColor: light ? kShimmerBaseLight : kShimmerBaseDark,
+          baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
           highlightColor:
-              light ? kShimmerHighLightLight : kShimmerHighLightDark,
+              isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
           child: ShimmerPlaceholder(
             child: Text(
               RatingsBand.insufficientVotes.localize(l10n),

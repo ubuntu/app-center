@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ShimmerPlaceholder extends StatelessWidget {
-  final Widget child;
-
   const ShimmerPlaceholder({
-    Key? key,
     required this.child,
-  }) : super(key: key);
+    super.key,
+  });
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
