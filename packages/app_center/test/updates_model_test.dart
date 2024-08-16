@@ -1,5 +1,6 @@
 import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
+import 'package:app_center/snapd/snap_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
@@ -7,6 +8,29 @@ import 'package:snapd/snapd.dart';
 import 'test_utils.dart';
 
 void main() {
+  final refreshableSnaps = [
+    createSnap(
+      name: 'testsnap3',
+      title: 'Snap with an update',
+      version: '2.0',
+      channel: 'latest/stable',
+      channels: {
+        'latest/stable': SnapChannel(
+          confinement: SnapConfinement.strict,
+          size: 1337,
+          releasedAt: DateTime(1970),
+          version: '1.0',
+        ),
+        'latest/edge': SnapChannel(
+          confinement: SnapConfinement.classic,
+          size: 31337,
+          releasedAt: DateTime(1970, 1, 2),
+          version: '2.0',
+        ),
+      },
+    ),
+  ];
+
   group('refresh', () {
     test('no updates available', () async {
       registerMockSnapdService();
@@ -26,13 +50,19 @@ void main() {
   });
 
   test('update all', () async {
+    final testSnap = refreshableSnaps.first;
     final service = registerMockSnapdService(
-      refreshableSnaps: [createSnap(name: 'firefox')],
+      localSnap: testSnap,
+      storeSnap: testSnap,
+      refreshableSnaps: refreshableSnaps,
+      installedSnaps: refreshableSnaps,
     );
     final container = createContainer();
+    await container.read(snapModelProvider('testsnap3').future);
     await container.read(updatesModelProvider.future);
-    await container.read(updatesModelProvider.notifier).updateAll();
-    verify(service.refreshMany(const [])).called(1);
+    await container.read(updatesModelProvider.notifier).refreshAll();
+    verify(service.refresh('testsnap3', channel: anyNamed('channel')))
+        .called(1);
   });
 
   group('error stream', () {
@@ -64,10 +94,15 @@ void main() {
 
     test('update all', () async {
       registerMockErrorStreamControllerService();
+      final testSnap = refreshableSnaps.first;
       final service = registerMockSnapdService(
-        refreshableSnaps: [createSnap(id: '', name: 'firefox')],
+        localSnap: testSnap,
+        storeSnap: testSnap,
+        refreshableSnaps: refreshableSnaps,
+        installedSnaps: refreshableSnaps,
       );
       final container = createContainer();
+      await container.read(snapModelProvider('testsnap3').future);
       when(service.refreshMany(any)).thenThrow(
         SnapdException(
           message: 'error while updating snaps',
@@ -87,7 +122,7 @@ void main() {
           );
         },
       );
-      await container.read(updatesModelProvider.notifier).updateAll();
+      await container.read(updatesModelProvider.notifier).refreshAll();
     });
   });
 }

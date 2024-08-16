@@ -150,10 +150,17 @@ class SnapModel extends _$SnapModel {
     state = AsyncData(data.copyWith(selectedChannel: channel));
   }
 
-  void _updateChangeId(String? changeId) {
+  void _updateChangeId(String changeId) {
     final data = state.value;
     if (data != null) {
       state = AsyncData(data.copyWith(activeChangeId: changeId));
+    }
+  }
+
+  void _removeChangeId(String changeId) {
+    final data = state.value;
+    if (data != null && data.activeChangeId == changeId) {
+      state = AsyncData(data.copyWith(activeChangeId: null));
     }
   }
 
@@ -171,7 +178,7 @@ class SnapModel extends _$SnapModel {
         completer.complete();
       }
     });
-    await completer.future.whenComplete(() => _updateChangeId(null));
+    await completer.future.whenComplete(() => _removeChangeId(changeId));
     if (invalidate) {
       ref.invalidateSelf();
     }

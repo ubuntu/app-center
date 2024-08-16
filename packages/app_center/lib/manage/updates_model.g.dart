@@ -174,7 +174,7 @@ final refreshInhibitSnapsProvider =
 );
 
 typedef RefreshInhibitSnapsRef = AutoDisposeFutureProviderRef<List<Snap>>;
-String _$updatesModelHash() => r'082bb22efceeffc153148dab4b295e71e4dfe3ee';
+String _$updatesModelHash() => r'2db8a558dfb3f056b73c540bace34e511da987d4';
 
 /// See also [UpdatesModel].
 @ProviderFor(UpdatesModel)

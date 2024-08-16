@@ -32,7 +32,7 @@ class SnapListState with _$SnapListState {
   }
 }
 
-final updateChangeIdProvider = StateProvider<String?>((_) => null);
+final currentlyRefreshAllSnapsProvider = StateProvider<List<String>>((_) => []);
 
 @Riverpod(keepAlive: true)
 bool hasUpdate(HasUpdateRef ref, String snapName) {
@@ -78,37 +78,40 @@ class UpdatesModel extends _$UpdatesModel {
     );
   }
 
-  Future<void> updateAll() async {
+  Future<void> refreshAll() async {
     if (!state.hasValue) return;
     try {
-      final changeId = await _snapd.refreshMany([]);
-      ref.read(updateChangeIdProvider.notifier).state = changeId;
-      await _snapd.waitChange(changeId);
+      final refreshableSnapNames = state.value?.snaps
+              .where((s) => s.refreshInhibit == null)
+              .map((s) => s.name)
+              .toList() ??
+          [];
+      final refreshFutures = refreshableSnapNames.map((snapName) async {
+        return ref.read(SnapModelProvider(snapName).notifier).refresh();
+      });
+      ref.read(currentlyRefreshAllSnapsProvider.notifier).state =
+          refreshableSnapNames;
+      await Future.wait(refreshFutures);
     } on SnapdException catch (e) {
       ref.read(errorStreamControllerProvider).add(e);
     }
-    ref.read(updateChangeIdProvider.notifier).state = null;
+    ref.read(currentlyRefreshAllSnapsProvider.notifier).state = [];
     ref.invalidateSelf();
   }
 
-  Future<void> cancelChange(String changeId) async {
-    if (changeId.isEmpty) return;
+  Future<void> cancelRefreshAll() async {
+    final snapNames = ref.read(currentlyRefreshAllSnapsProvider);
+    if (snapNames.isEmpty) return;
 
     try {
-      final changeDetails = await _snapd.getChange(changeId);
-
-      // If the change is already completed, ignore silently.
-      // If it wouldn't be ignored, an error would be displayed to the user,
-      // which might be confusing.
-      if (changeDetails.ready) {
-        return;
-      }
-
-      final abortChange = await _snapd.abortChange(changeId);
-      await _snapd.waitChange(abortChange.id);
-      ref.read(updateChangeIdProvider.notifier).state = null;
+      final cancelFutures = snapNames.map(
+        (snapName) => ref.read(SnapModelProvider(snapName).notifier).cancel(),
+      );
+      await Future.wait(cancelFutures);
     } on SnapdException catch (e) {
       ref.read(errorStreamControllerProvider).add(e);
+    } finally {
+      ref.read(currentlyRefreshAllSnapsProvider.notifier).state = [];
     }
   }
 }
