@@ -11,21 +11,11 @@ parts:
     plugin: nil
     source: .
     override-pull: |
-      # necessary when reruns using the same container
-      if [ -d "flutter" ]; then
-        rm -rf "flutter"
-      fi
-
       craftctl default
-      FLUTTER_VERSION=$(sed -n "s/^flutter \([0-9.]\+\).*/\1/p" .tool-versions)
-      git clone -b $FLUTTER_VERSION --depth 1 https://github.com/flutter/flutter.git
+      bash $CRAFT_PART_SRC/scripts/install-fvm.sh
+      fvm install
     override-build: |
-      mkdir -p $CRAFT_PART_INSTALL/usr/bin
-      mkdir -p $CRAFT_PART_INSTALL/usr/libexec
-      cp -r $CRAFT_PART_SRC/flutter $CRAFT_PART_INSTALL/usr/libexec/flutter
-      ln -s $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/flutter $CRAFT_PART_INSTALL/usr/bin/flutter
-      ln -s $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/dart $CRAFT_PART_INSTALL/usr/bin/dart
-      $CRAFT_PART_INSTALL/usr/bin/flutter doctor
+      fvm flutter doctor
     build-packages:
       - clang
       - cmake
@@ -43,17 +33,18 @@ parts:
     plugin: nil
     override-build: |
       set -eux
-      dart pub global activate melos
+      fvm install
+      fvm dart pub global activate melos
 
       set +e # ignore pub errors
       # when building locally artifacts can pollute the container and cause builds to fail
       # this helps increase reliability for local builds
-      dart pub global run melos clean
-      dart pub global run melos bootstrap
+      fvm dart pub global run melos clean
+      fvm dart pub global run melos bootstrap
       set -e
 
       cd packages/app_center
-      flutter build linux --release -v
+      fvm flutter build linux --release -v
       mkdir -p $CRAFT_PART_INSTALL/bin/
       cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/bin/
 

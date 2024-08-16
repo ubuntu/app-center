@@ -34,7 +34,6 @@ pubspec.lock
 /build/
 coverage/
 /doc/
-.fvm
 **/build/
 
 # Symbolication related
@@ -50,3 +49,6 @@ app.*.map.json
 
 # Melos generated files
 **/pubspec_overrides.yaml
+
+# FVM Version Cache
+.fvm/
