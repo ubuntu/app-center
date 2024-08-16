@@ -1,6 +1,7 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/deb/local_deb_model.dart';
 import 'package:app_center/error/error.dart';
+import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -92,8 +93,7 @@ class _Description extends StatelessWidget {
         const SizedBox(height: kPagePadding),
         MarkdownBody(
           selectable: true,
-          onTapLink: (text, href, title) => launchUrlString(href!),
-          data: debData.details.description,
+          data: debData.details.description.escapedMarkdown(),
         ),
       ],
     );
