@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Vývoj",
   "@developmentPageLabel": {},
-  "managePageLabel": "Ovládať nainštalované snapy",
+  "managePageLabel": "Riadiť nainštalované snapy",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanál",
   "@snapPageChannelLabel": {},
@@ -169,7 +169,7 @@
   "@snapRatingsBandInsufficientVotes": {},
   "snapRatingsBandVeryPoor": "Veľmi zlé",
   "@snapRatingsBandVeryPoor": {},
-  "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a ovládajte stav všetkých svojich aplikácií.",
+  "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a riaďte stav všetkých svojich aplikácií.",
   "@managePageDescription": {},
   "snapActionRemovingLabel": "Odinštaluje sa",
   "@snapActionRemovingLabel": {},
@@ -448,5 +448,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "managePageQuitToUpdate": "Ukončite kvôli aktualizácii",
+  "@managePageQuitToUpdate": {}
 }

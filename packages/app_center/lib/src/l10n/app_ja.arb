@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "開発",
   "@developmentPageLabel": {},
-  "managePageLabel": "管理",
+  "managePageLabel": "インストールしたsnapの管理",
   "@managePageLabel": {},
   "snapPageChannelLabel": "チャンネル",
   "@snapPageChannelLabel": {},
@@ -386,5 +386,69 @@
         "type": "int"
       }
     }
-  }
+  },
+  "managePageQuitToUpdate": "アップデートを終了",
+  "@managePageQuitToUpdate": {},
+  "appstreamUrlTypeContribute": "貢献",
+  "@appstreamUrlTypeContribute": {},
+  "managePageDebUpdatesMessage": "Debianパッケージのアップデートはソフトウェアアップデートで管理されています。",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "インストール済",
+  "@snapActionInstalledLabel": {},
+  "localDebWarningTitle": "潜在的に安全ではない",
+  "@localDebWarningTitle": {},
+  "localDebDialogMessage": "このパッケージはサードパーティによって提供されており、システムと個人データを脅かすことになるかもしれません。",
+  "@localDebDialogMessage": {},
+  "snapPageSizeLabel": "サイズ",
+  "@snapPageSizeLabel": {},
+  "localDebDialogConfirmation": "本当にインストールしますか？",
+  "@localDebDialogConfirmation": {},
+  "managePageOwnUpdateAvailable": "アプリセンターのアップデートが入手できます",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "このアプリを終了すると自動的にアップデートが開始します。",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "アプリセンターは {time} に自動的にアップデートします。",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "アップデートを終了",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageNoInternet": "サーバーに接続できません。インターネット接続を確認してやり直してください。",
+  "@managePageNoInternet": {},
+  "appstreamUrlTypeVcsBrowser": "ソース",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "localDebLearnMore": "サードパーティパッケージについての追加情報",
+  "@localDebLearnMore": {},
+  "localDebWarningBody": "このパッケージはサードパーティによって提供されています。アプリセンター外からパッケージをインストールすることは、システムと個人データのリスクを増すことになり得ます。続ける前に本当に信用できるソースか確認してください。",
+  "@localDebWarningBody": {},
+  "errorViewCheckStatusLabel": "状況を確認",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "インターネットに接続",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "インターネット接続がないとアプリセンターの内容を読み込むことはできません。",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewServerErrorDescription": "現在アプリセンターの問題に直面しています。",
+  "@errorViewServerErrorDescription": {},
+  "errorViewUnknownErrorAction": "やり直し、アップデートの状況を確認するか、後でやり直してください。",
+  "@errorViewUnknownErrorAction": {},
+  "errorViewNetworkErrorAction": "接続を確認してやり直してください。",
+  "@errorViewNetworkErrorAction": {},
+  "snapdExceptionRunningApps": "現在実行中の {snapName} はアップデートできません。",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewServerErrorAction": "アップデートの状況を確認してやり直してください。",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "何かがおかしいです",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorDescription": "どんなエラーが起きているのかよくわかっていません。",
+  "@errorViewUnknownErrorDescription": {}
 }

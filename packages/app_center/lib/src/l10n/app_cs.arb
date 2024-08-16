@@ -448,5 +448,7 @@
   "managePageNoInternet": "Nelze se připojit k serveru, zkontrolujte připojení k internetu nebo to zkuste znovu později.",
   "@managePageNoInternet": {},
   "managePageOwnUpdateQuitButton": "Ukončit pro aktualizaci",
-  "@managePageOwnUpdateQuitButton": {}
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageQuitToUpdate": "Ukončit pro aktualizaci",
+  "@managePageQuitToUpdate": {}
 }
