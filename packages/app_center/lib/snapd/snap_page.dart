@@ -1,5 +1,6 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
+import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
@@ -229,9 +230,7 @@ class _SnapView extends StatelessWidget {
                             const SizedBox(height: kPagePadding),
                             MarkdownBody(
                               selectable: true,
-                              onTapLink: (text, href, title) =>
-                                  launchUrlString(href!),
-                              data: snapData.snap.description,
+                              data: snapData.snap.description.escapedMarkdown(),
                             ),
                           ],
                         ),
@@ -362,9 +361,8 @@ class _SnapActionButtons extends ConsumerWidget {
       child: Text(SnapAction.cancel.label(l10n)),
     );
 
-    return ButtonBar(
-      mainAxisSize: MainAxisSize.min,
-      overflowButtonSpacing: 8,
+    return OverflowBar(
+      overflowSpacing: 8,
       children: [
         primaryActionButton,
         if (snapData.activeChangeId != null)
@@ -561,9 +559,9 @@ class _ChannelDropdown extends ConsumerWidget {
             menuPosition: PopupMenuPosition.under,
             menuStyle: const MenuStyle(
               minimumSize:
-                  MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 0)),
+                  WidgetStatePropertyAll(Size(_kChannelDropdownWidth, 0)),
               maximumSize:
-                  MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
+                  WidgetStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
               visualDensity: VisualDensity.standard,
             ),
             itemStyle: MenuItemButton.styleFrom(

@@ -195,9 +195,8 @@ class _DebActionButtons extends ConsumerWidget {
       child: Text(DebAction.cancel.label(l10n)),
     );
 
-    return ButtonBar(
-      mainAxisSize: MainAxisSize.min,
-      overflowButtonSpacing: 8,
+    return OverflowBar(
+      overflowSpacing: 8,
       children: [
         if (debModel.packageInfo != null)
           primaryActionButton
