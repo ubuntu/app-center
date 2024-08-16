@@ -362,9 +362,8 @@ class _SnapActionButtons extends ConsumerWidget {
       child: Text(SnapAction.cancel.label(l10n)),
     );
 
-    return ButtonBar(
-      mainAxisSize: MainAxisSize.min,
-      overflowButtonSpacing: 8,
+    return OverflowBar(
+      overflowSpacing: 8,
       children: [
         primaryActionButton,
         if (snapData.activeChangeId != null)
@@ -561,9 +560,9 @@ class _ChannelDropdown extends ConsumerWidget {
             menuPosition: PopupMenuPosition.under,
             menuStyle: const MenuStyle(
               minimumSize:
-                  MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 0)),
+                  WidgetStatePropertyAll(Size(_kChannelDropdownWidth, 0)),
               maximumSize:
-                  MaterialStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
+                  WidgetStatePropertyAll(Size(_kChannelDropdownWidth, 200)),
               visualDensity: VisualDensity.standard,
             ),
             itemStyle: MenuItemButton.styleFrom(

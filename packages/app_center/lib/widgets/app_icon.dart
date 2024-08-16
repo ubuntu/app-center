@@ -46,7 +46,6 @@ class AppIcon extends StatelessWidget {
                 imageUrl: iconUrl!,
                 imageBuilder: (context, imageProvider) => Image(
                   image: imageProvider,
-                  filterQuality: FilterQuality.medium,
                   fit: BoxFit.fitHeight,
                 ),
                 placeholder: (context, url) => fallBackLoadingIcon,
