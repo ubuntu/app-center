@@ -19,9 +19,7 @@ mixin _$ChartData {
   double get rawRating => throw _privateConstructorUsedError;
   Rating get rating => throw _privateConstructorUsedError;
 
-  /// Create a copy of ChartData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ChartDataCopyWith<ChartData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46,8 +44,6 @@ class _$ChartDataCopyWithImpl<$Res, $Val extends ChartData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ChartData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -66,8 +62,6 @@ class _$ChartDataCopyWithImpl<$Res, $Val extends ChartData>
     ) as $Val);
   }
 
-  /// Create a copy of ChartData
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RatingCopyWith<$Res> get rating {
@@ -99,8 +93,6 @@ class __$$ChartDataImplCopyWithImpl<$Res>
       _$ChartDataImpl _value, $Res Function(_$ChartDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ChartData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -148,9 +140,7 @@ class _$ChartDataImpl implements _ChartData {
   @override
   int get hashCode => Object.hash(runtimeType, rawRating, rating);
 
-  /// Create a copy of ChartData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ChartDataImplCopyWith<_$ChartDataImpl> get copyWith =>
@@ -166,11 +156,8 @@ abstract class _ChartData implements ChartData {
   double get rawRating;
   @override
   Rating get rating;
-
-  /// Create a copy of ChartData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ChartDataImplCopyWith<_$ChartDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
