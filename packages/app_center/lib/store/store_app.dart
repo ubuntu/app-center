@@ -86,10 +86,15 @@ class _StoreAppHome extends ConsumerWidget {
   NavigatorState get navigator => navigatorKey.currentState!;
 
   Future<void> _showError(BuildContext context, SnapdException e) {
+    final errorMessage = ErrorMessage.fromObject(e);
+    final title = errorMessage.title(AppLocalizations.of(context));
+    final body = errorMessage.body(AppLocalizations.of(context));
+
     return showErrorDialog(
       context: context,
-      title: UbuntuLocalizations.of(context).errorLabel,
-      message: ErrorMessage.fromObject(e).body(AppLocalizations.of(context)),
+      title: title,
+      message: body,
+      type: errorMessage.type,
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/constants.dart';
+import 'package:app_center/error/error.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:collection/collection.dart';
@@ -33,7 +34,7 @@ class SnapListState with _$SnapListState {
 }
 
 final currentlyRefreshAllSnapsProvider = StateProvider<List<String>>((_) => []);
-final isSilentlyiCheckingUpdatesProvider = StateProvider<bool>((_) => false);
+final isSilentlyCheckingUpdatesProvider = StateProvider<bool>((_) => false);
 
 @Riverpod(keepAlive: true)
 bool hasUpdate(HasUpdateRef ref, String snapName) {
@@ -63,7 +64,7 @@ class UpdatesModel extends _$UpdatesModel {
   }
 
   Future<void> silentUpdatesCheck() async {
-    ref.read(isSilentlyiCheckingUpdatesProvider.notifier).state = true;
+    ref.read(isSilentlyCheckingUpdatesProvider.notifier).state = true;
     try {
       final newSnapListState = await fetchRefreshableSnaps();
       final isSameList = const ListEquality().equals(
@@ -75,7 +76,7 @@ class UpdatesModel extends _$UpdatesModel {
         state = AsyncData(newSnapListState);
       }
     } finally {
-      ref.read(isSilentlyiCheckingUpdatesProvider.notifier).state = false;
+      ref.read(isSilentlyCheckingUpdatesProvider.notifier).state = false;
     }
   }
 
@@ -101,21 +102,53 @@ class UpdatesModel extends _$UpdatesModel {
   }
 
   Future<void> refreshAll() async {
-    if (!state.hasValue) return;
+    if (!state.hasValue) {
+      return;
+    }
+    final errors = <String, Exception>{};
     try {
+      // TODO: Should we call each and rely on the error messages from snapd?
       final refreshableSnapNames = state.value?.snaps
               .where((s) => s.refreshInhibit == null)
               .map((s) => s.name)
               .toList() ??
           [];
-      final refreshFutures = refreshableSnapNames.map((snapName) async {
-        return ref.read(SnapModelProvider(snapName).notifier).refresh();
-      });
+      if (refreshableSnapNames.isEmpty) {
+        return;
+      }
       ref.read(currentlyRefreshAllSnapsProvider.notifier).state =
-          refreshableSnapNames;
+          refreshableSnapNames.toList();
+
+      Future<void> refreshSnap(String snapName) async {
+        final refreshFuture =
+            ref.read(SnapModelProvider(snapName).notifier).refresh();
+        try {
+          await refreshFuture;
+        } on Exception catch (e) {
+          if (e is SnapdException && e.kind == 'auth-cancelled') {
+            rethrow;
+          }
+          errors[snapName] = e;
+        }
+      }
+
+      // Refresh the first snap first so that we only ask for the password once.
+      final firstSnap = refreshableSnapNames.removeAt(0);
+      await refreshSnap(firstSnap);
+
+      final refreshFutures = refreshableSnapNames.map(refreshSnap);
       await Future.wait(refreshFutures);
     } on SnapdException catch (e) {
-      ref.read(errorStreamControllerProvider).add(e);
+      if (e.kind != 'auth-cancelled') {
+        ref.read(errorStreamControllerProvider).add(e);
+      }
+    }
+    if (errors.isNotEmpty) {
+      ref.read(errorStreamControllerProvider).add(
+            errors.length == 1
+                ? errors.values.first
+                : ConsolidatedSnapdException(errors),
+          );
     }
     ref.read(currentlyRefreshAllSnapsProvider.notifier).state = [];
     ref.invalidateSelf();

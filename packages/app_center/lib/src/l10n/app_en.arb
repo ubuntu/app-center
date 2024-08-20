@@ -82,10 +82,26 @@
         }
     },
     "managePageUpdatesAvailable": "Updates available ({n})",
-    "@managePageUpdatesAvaialble": {
+    "@managePageUpdatesAvailable": {
         "placeholders": {
             "n": {
                 "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{{n} One update} other{Some updates}} failed",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "We couldn't update these applications because they are currently running.\n\n{snapList}\nWhen you quit the applications, they will automatically update.",
+    "@managePageUpdatedFailedBody": {
+        "placeholders": {
+            "snapList": {
+                "type": "String"
             }
         }
     },
