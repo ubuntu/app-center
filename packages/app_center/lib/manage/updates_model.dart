@@ -142,16 +142,17 @@ class UpdatesModel extends _$UpdatesModel {
       if (e.kind != 'auth-cancelled') {
         ref.read(errorStreamControllerProvider).add(e);
       }
+    } finally {
+      ref.read(currentlyRefreshAllSnapsProvider.notifier).state = [];
+      if (errors.isNotEmpty) {
+        ref.read(errorStreamControllerProvider).add(
+              errors.length == 1
+                  ? errors.values.first
+                  : ConsolidatedSnapdException(errors),
+            );
+      }
+      ref.invalidateSelf();
     }
-    if (errors.isNotEmpty) {
-      ref.read(errorStreamControllerProvider).add(
-            errors.length == 1
-                ? errors.values.first
-                : ConsolidatedSnapdException(errors),
-          );
-    }
-    ref.read(currentlyRefreshAllSnapsProvider.notifier).state = [];
-    ref.invalidateSelf();
   }
 
   Future<void> cancelRefreshAll() async {

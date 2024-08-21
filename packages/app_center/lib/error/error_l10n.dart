@@ -62,6 +62,7 @@ sealed class ErrorMessage {
 
   String title(AppLocalizations l10n) => switch (this) {
         ErrorMessageNetwork() => l10n.errorViewNetworkErrorTitle,
+        ErrorMessageRunningApps() => l10n.managePageUpdatesFailed(1),
         ErrorMessageConsolidated() => l10n.managePageUpdatesFailed(
             (this as ErrorMessageConsolidated).errors.length,
           ),
