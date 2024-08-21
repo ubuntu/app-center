@@ -450,5 +450,15 @@
     }
   },
   "managePageQuitToUpdate": "Ukončite kvôli aktualizácii",
-  "@managePageQuitToUpdate": {}
+  "@managePageQuitToUpdate": {},
+  "managePageUpdatesFailed": "Zlyhanie {n, plural, =1{aktualizácie} other{{n} aktualizácií}}",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Nepodarilo sa aktualizovať tieto aplikácie, pretože sú momentálne spustené.\n\n{snapList}\nKeď aplikácie ukončíte, automaticky sa aktualizujú.",
+  "@managePageUpdatesFailedBody": {}
 }
