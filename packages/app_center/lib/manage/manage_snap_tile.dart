@@ -109,9 +109,11 @@ class ManageSnapTile extends StatelessWidget {
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.right,
                       )
                     : const SizedBox(),
               ),
+              Spacer(),
             ],
           ],
         ),
@@ -128,6 +130,7 @@ class ManageSnapTile extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
+                    flex: 2,
                     child: dateTimeSinceUpdate != null
                         ? Text(
                             dateTimeSinceUpdate
@@ -146,9 +149,11 @@ class ManageSnapTile extends StatelessWidget {
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.right,
                           )
                         : const SizedBox(),
                   ),
+                  Spacer(),
                 ],
               ),
           ],
