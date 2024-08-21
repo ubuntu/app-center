@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:app_center/deb/deb.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/games/games.dart';
@@ -64,6 +66,15 @@ class _StoreAppState extends ConsumerState<StoreApp> {
           localizationsDelegates: localizationsDelegates,
           navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
           supportedLocales: supportedLocales,
+          scrollBehavior: const MaterialScrollBehavior().copyWith(
+            dragDevices: {
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.touch,
+              PointerDeviceKind.stylus,
+              PointerDeviceKind.unknown,
+              PointerDeviceKind.trackpad,
+            },
+          ),
           home: _StoreAppHome(
             navigatorKey: _navigatorKey,
             searchFocus: searchFocus,
