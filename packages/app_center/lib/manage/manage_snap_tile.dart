@@ -113,7 +113,7 @@ class ManageSnapTile extends StatelessWidget {
                       )
                     : const SizedBox(),
               ),
-              Spacer(),
+              const Spacer(),
             ],
           ],
         ),
@@ -153,7 +153,7 @@ class ManageSnapTile extends StatelessWidget {
                           )
                         : const SizedBox(),
                   ),
-                  Spacer(),
+                  const Spacer(),
                 ],
               ),
           ],
