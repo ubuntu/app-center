@@ -28,7 +28,7 @@ Future<void> showErrorDialog({
     actions: [
       DialogAction(
         value: null,
-        label: UbuntuLocalizations.of(context).closeLabel,
+        label: AppLocalizations.of(context).okayLabel,
       ),
     ],
     child: Column(
