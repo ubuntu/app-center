@@ -89,7 +89,7 @@
             }
         }
     },
-    "managePageUpdatesFailed": "{n, plural, =1{{n} One update} other{Some updates}} failed",
+    "managePageUpdatesFailed": "{n, plural, =1{One update} other{{n} updates}} failed",
     "@managePageUpdatesFailed": {
         "placeholders": {
             "n": {
