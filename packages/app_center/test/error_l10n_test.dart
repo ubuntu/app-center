@@ -40,7 +40,7 @@ void main() {
           message:
               'cannot refresh "testsnap": snap "testsnap" has running apps (testapp)',
         ),
-        expectedTitle: (l10n) => l10n.errorViewUnknownErrorTitle,
+        expectedTitle: (l10n) => l10n.managePageUpdatesFailed(1),
         expectedBody: (l10n) => l10n.snapdExceptionRunningApps('testsnap'),
         expectedActionLabel: (l10n) => l10n.errorViewUnknownErrorAction,
         expectedActions: [],

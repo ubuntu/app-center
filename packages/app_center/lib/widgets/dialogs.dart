@@ -19,6 +19,7 @@ Future<void> showErrorDialog({
   required BuildContext context,
   required String title,
   required String message,
+  YaruInfoType type = YaruInfoType.danger,
   TextStyle? titleTextStyle,
 }) {
   final titleStyle = titleTextStyle ?? Theme.of(context).textTheme.titleMedium!;
@@ -27,7 +28,7 @@ Future<void> showErrorDialog({
     actions: [
       DialogAction(
         value: null,
-        label: UbuntuLocalizations.of(context).closeLabel,
+        label: UbuntuLocalizations.of(context).okLabel,
       ),
     ],
     child: Column(
@@ -45,7 +46,7 @@ Future<void> showErrorDialog({
         Text(message),
       ],
     ),
-    type: YaruInfoType.danger,
+    type: type,
   );
 }
 
@@ -89,8 +90,9 @@ class _Dialog<T> extends StatelessWidget {
       content: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: kMaxDialogWidth),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(type.iconData, color: type.getColor(context), size: 64.0),
+            Icon(type.iconData, color: type.getColor(context), size: 48.0),
             const SizedBox(width: 16.0),
             Flexible(child: child),
           ],

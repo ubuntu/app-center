@@ -244,7 +244,7 @@ class _ActionButtons extends ConsumerWidget {
     final hasInternet = updatesModel.value?.hasInternet ?? true;
     final isLoading = updatesModel.isLoading || localSnapsModel.isLoading;
     final isSilentlyCheckingUpdates =
-        ref.watch(isSilentlyiCheckingUpdatesProvider);
+        ref.watch(isSilentlyCheckingUpdatesProvider);
 
     return Wrap(
       spacing: 10,
@@ -262,11 +262,7 @@ class _ActionButtons extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               isSilentlyCheckingUpdates
-                  ? const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: YaruCircularProgressIndicator(strokeWidth: 3),
-                    )
+                  ? const _SmallLoadingIndicator()
                   : const Icon(YaruIcons.sync),
               const SizedBox(width: 8),
               Flexible(
@@ -389,6 +385,24 @@ class _MinHeightAsProgressIndicator extends StatelessWidget {
         ),
         child,
       ],
+    );
+  }
+}
+
+class _SmallLoadingIndicator extends StatelessWidget {
+  // ignore: unused_element
+  const _SmallLoadingIndicator({this.progress});
+
+  final double? progress;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.square(
+      dimension: kCircularProgressIndicatorHeight,
+      child: YaruCircularProgressIndicator(
+        value: progress,
+        strokeWidth: 2,
+      ),
     );
   }
 }
