@@ -212,16 +212,11 @@ class _ButtonBarForUpdate extends ConsumerWidget {
         const SizedBox(width: 16),
         MenuAnchor(
           menuChildren: [
-            Visibility(
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainState: true,
-              visible: snapLauncher.isLaunchable,
-              child: MenuItemButton(
+            if (snapLauncher.isLaunchable)
+              MenuItemButton(
                 onPressed: snapLauncher.open,
                 child: Text(l10n.snapActionOpenLabel),
               ),
-            ),
             MenuItemButton(
               onPressed: () =>
                   StoreNavigator.pushSnap(context, name: snap.name),
