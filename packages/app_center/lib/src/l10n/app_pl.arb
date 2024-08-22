@@ -460,5 +460,7 @@
     }
   },
   "managePageUpdatesFailedBody": "Nie mogliśmy zaktualizować tych programów, ponieważ są one obecnie uruchomione.\n\n{snapList}\nPo zamknięciu programów zostaną one automatycznie zaktualizowane.",
-  "@managePageUpdatesFailedBody": {}
+  "@managePageUpdatesFailedBody": {},
+  "managePageTitle": "Zarządzaj zainstalowanymi snapami",
+  "@managePageTitle": {}
 }
