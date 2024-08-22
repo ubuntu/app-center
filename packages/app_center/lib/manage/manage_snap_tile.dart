@@ -83,6 +83,7 @@ class ManageSnapTile extends StatelessWidget {
                     snap.titleOrName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
                   ),
                 ),
               ),
@@ -97,6 +98,7 @@ class ManageSnapTile extends StatelessWidget {
                             .managePageUpdateSinceDateTimeAgo(l10n),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.start,
                       )
                     : const SizedBox(),
               ),
@@ -109,7 +111,7 @@ class ManageSnapTile extends StatelessWidget {
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                       )
                     : const SizedBox(),
               ),
@@ -149,7 +151,7 @@ class ManageSnapTile extends StatelessWidget {
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.right,
+                            textAlign: TextAlign.end,
                           )
                         : const SizedBox(),
                   ),
