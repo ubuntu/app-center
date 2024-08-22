@@ -460,5 +460,7 @@
     }
   },
   "managePageUpdatesFailedBody": "No pudimos actualizar estas aplicaciones porque están actualmente ejecutandose.\n\n{snapList}\nCuando cierres las aplicaciones, se actualizarán automáticamente.",
-  "@managePageUpdatesFailedBody": {}
+  "@managePageUpdatesFailedBody": {},
+  "managePageTitle": "Administrar snaps instalados",
+  "@managePageTitle": {}
 }
