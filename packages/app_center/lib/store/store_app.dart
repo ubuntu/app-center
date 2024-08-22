@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:app_center/deb/deb.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/games/games.dart';
@@ -64,6 +66,15 @@ class _StoreAppState extends ConsumerState<StoreApp> {
           localizationsDelegates: localizationsDelegates,
           navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
           supportedLocales: supportedLocales,
+          scrollBehavior: const MaterialScrollBehavior().copyWith(
+            dragDevices: {
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.touch,
+              PointerDeviceKind.stylus,
+              PointerDeviceKind.unknown,
+              PointerDeviceKind.trackpad,
+            },
+          ),
           home: _StoreAppHome(
             navigatorKey: _navigatorKey,
             searchFocus: searchFocus,
@@ -86,10 +97,15 @@ class _StoreAppHome extends ConsumerWidget {
   NavigatorState get navigator => navigatorKey.currentState!;
 
   Future<void> _showError(BuildContext context, SnapdException e) {
+    final errorMessage = ErrorMessage.fromObject(e);
+    final title = errorMessage.title(AppLocalizations.of(context));
+    final body = errorMessage.body(AppLocalizations.of(context));
+
     return showErrorDialog(
       context: context,
-      title: UbuntuLocalizations.of(context).errorLabel,
-      message: ErrorMessage.fromObject(e).body(AppLocalizations.of(context)),
+      title: title,
+      message: body,
+      type: errorMessage.type,
     );
   }
 

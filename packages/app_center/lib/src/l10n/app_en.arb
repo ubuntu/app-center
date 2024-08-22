@@ -44,6 +44,7 @@
     "managePageDebUpdatesMessage": "Debian package updates are handled by the Software Updater.",
     "managePageInstalledAndUpdatedLabel": "Installed and updated",
     "managePageLabel": "Manage",
+    "managePageTitle": "Manage installed snaps",
     "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
     "managePageSearchFieldSearchHint": "Search your installed apps",
     "managePageShowDetailsLabel": "Show details",
@@ -82,10 +83,26 @@
         }
     },
     "managePageUpdatesAvailable": "Updates available ({n})",
-    "@managePageUpdatesAvaialble": {
+    "@managePageUpdatesAvailable": {
         "placeholders": {
             "n": {
                 "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{One update} other{{n} updates}} failed",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "We couldn't update these applications because they are currently running.\n\n{snapList}\nWhen you quit the applications, they will automatically update.",
+    "@managePageUpdatedFailedBody": {
+        "placeholders": {
+            "snapList": {
+                "type": "String"
             }
         }
     },

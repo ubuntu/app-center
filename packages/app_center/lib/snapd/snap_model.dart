@@ -44,7 +44,7 @@ class SnapModel extends _$SnapModel {
         .firstWhereOrNull((change) => !change.ready)
         ?.id;
     if (activeChangeId != null) {
-      unawaited(_listenUntilDone(activeChangeId, snapName, ref));
+      unawaited(_listenUntilDone(activeChangeId, ref));
     }
 
     if (localSnap == null && storeSnap == null) {
@@ -89,7 +89,7 @@ class SnapModel extends _$SnapModel {
           SnapConfinement.classic,
     );
     _updateChangeId(changeId);
-    await _listenUntilDone(changeId, snapName, ref);
+    await _listenUntilDone(changeId, ref);
     ref.invalidate(updatesModelProvider);
     ref.invalidate(localSnapFilterProvider);
   }
@@ -107,7 +107,7 @@ class SnapModel extends _$SnapModel {
     }
     final changeId = (await _snapd.abortChange(changeIdToAbort)).id;
     _updateChangeId(changeId);
-    return _listenUntilDone(changeId, snapName, ref, invalidate: false);
+    return _listenUntilDone(changeId, ref, invalidate: false);
   }
 
   /// Updates the version of the snap.
@@ -129,7 +129,6 @@ class SnapModel extends _$SnapModel {
     _updateChangeId(changeId);
     await _listenUntilDone(
       changeId,
-      snapData.name,
       ref,
       onSuccess: () {
         ref.read(updatesModelProvider.notifier).removeFromList(snapData.name);
@@ -142,7 +141,7 @@ class SnapModel extends _$SnapModel {
     assert(state.hasValue, 'The snap must be loaded before removing it');
     final changeId = await _snapd.remove(snapName);
     _updateChangeId(changeId);
-    await _listenUntilDone(changeId, snapName, ref);
+    await _listenUntilDone(changeId, ref);
     ref.read(updatesModelProvider.notifier).removeFromList(snapName);
     ref.read(filteredLocalSnapsProvider.notifier).removeFromList(snapName);
   }
@@ -173,13 +172,12 @@ class SnapModel extends _$SnapModel {
 
   Future<void> _listenUntilDone(
     String changeId,
-    String snapName,
     Ref ref, {
     bool invalidate = true,
     void Function()? onSuccess,
   }) async {
     final completer = Completer();
-    _snapd.watchChange(changeId).listen((event) {
+    final subscription = _snapd.watchChange(changeId).listen((event) {
       if (event.err != null) {
         completer.completeError(event.err!);
       } else if (event.ready) {
@@ -187,7 +185,10 @@ class SnapModel extends _$SnapModel {
         onSuccess?.call();
       }
     });
-    await completer.future.whenComplete(() => _removeChangeId(changeId));
+    await completer.future.whenComplete(() {
+      subscription.cancel();
+      _removeChangeId(changeId);
+    });
     if (invalidate) {
       ref.invalidateSelf();
     }

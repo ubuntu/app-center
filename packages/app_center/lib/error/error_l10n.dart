@@ -1,5 +1,6 @@
 import 'package:app_center/l10n.dart';
 import 'package:snapd/snapd.dart';
+import 'package:yaru/widgets.dart';
 
 enum ErrorAction {
   retry,
@@ -11,6 +12,7 @@ sealed class ErrorMessage {
 
   factory ErrorMessage.fromObject(Object? e) {
     if (e is! SnapdException) return ErrorMessageUnknown();
+    if (e is ConsolidatedSnapdException) return ErrorMessage.fromMap(e.errors);
 
     switch (e.kind) {
       case 'network-timeout':
@@ -23,6 +25,13 @@ sealed class ErrorMessage {
       }
     }
     return ErrorMessageUnknown();
+  }
+
+  factory ErrorMessage.fromMap(Map<String, Object?> errors) {
+    final errorMessages = errors.map(
+      (snapName, error) => MapEntry(snapName, ErrorMessage.fromObject(error)),
+    );
+    return ErrorMessageConsolidated(errorMessages);
   }
 
   static final _patternMaps =
@@ -53,6 +62,10 @@ sealed class ErrorMessage {
 
   String title(AppLocalizations l10n) => switch (this) {
         ErrorMessageNetwork() => l10n.errorViewNetworkErrorTitle,
+        ErrorMessageRunningApps() => l10n.managePageUpdatesFailed(1),
+        ErrorMessageConsolidated() => l10n.managePageUpdatesFailed(
+            (this as ErrorMessageConsolidated).errors.length,
+          ),
         _ => l10n.errorViewUnknownErrorTitle,
       };
 
@@ -68,6 +81,15 @@ sealed class ErrorMessage {
         ErrorMessageRunningApps() => [],
         _ => [ErrorAction.retry, ErrorAction.checkStatus],
       };
+
+  YaruInfoType get type => switch (this) {
+        ErrorMessageNetwork() => YaruInfoType.danger,
+        ErrorMessageTooManyRequests() => YaruInfoType.danger,
+        ErrorMessageRunningApps() ||
+        ErrorMessageConsolidated() =>
+          YaruInfoType.warning,
+        _ => YaruInfoType.danger,
+      };
 }
 
 class ErrorMessageNetwork extends ErrorMessage {}
@@ -80,3 +102,22 @@ class ErrorMessageRunningApps extends ErrorMessage {
 }
 
 class ErrorMessageUnknown extends ErrorMessage {}
+
+class ErrorMessageConsolidated extends ErrorMessage {
+  const ErrorMessageConsolidated(this.errors);
+  final Map<String, ErrorMessage> errors;
+
+  @override
+  String body(AppLocalizations l10n) {
+    final currentlyRunning = errors.entries
+        .where((entry) => entry.value is ErrorMessageRunningApps)
+        .map((entry) => '• ${entry.key}\n')
+        .join();
+    return l10n.managePageUpdatesFailedBody(currentlyRunning);
+  }
+}
+
+class ConsolidatedSnapdException extends SnapdException {
+  ConsolidatedSnapdException(this.errors, {super.message = ''});
+  final Map<String, Object?> errors;
+}
