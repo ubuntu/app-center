@@ -21,9 +21,7 @@ mixin _$LocalDebData {
   PackageKitPackageEvent? get packageInfo => throw _privateConstructorUsedError;
   int? get activeTransactionId => throw _privateConstructorUsedError;
 
-  /// Create a copy of LocalDebData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $LocalDebDataCopyWith<LocalDebData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,8 +49,6 @@ class _$LocalDebDataCopyWithImpl<$Res, $Val extends LocalDebData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of LocalDebData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -105,8 +101,6 @@ class __$$LocalDebDataImplCopyWithImpl<$Res>
       _$LocalDebDataImpl _value, $Res Function(_$LocalDebDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LocalDebData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -177,9 +171,7 @@ class _$LocalDebDataImpl extends _LocalDebData {
   int get hashCode =>
       Object.hash(runtimeType, path, details, packageInfo, activeTransactionId);
 
-  /// Create a copy of LocalDebData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$LocalDebDataImplCopyWith<_$LocalDebDataImpl> get copyWith =>
@@ -202,11 +194,8 @@ abstract class _LocalDebData extends LocalDebData {
   PackageKitPackageEvent? get packageInfo;
   @override
   int? get activeTransactionId;
-
-  /// Create a copy of LocalDebData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$LocalDebDataImplCopyWith<_$LocalDebDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
