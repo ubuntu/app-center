@@ -75,7 +75,7 @@ class ManageSnapTile extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: Clickable(
                   onTap: () =>
                       StoreNavigator.pushSnap(context, name: snap.name),
