@@ -68,3 +68,6 @@ scripts:
   test: >
     melos exec -c 1 --fail-fast --dir-exists=test -- \
       fvm flutter test
+
+  # run pub upgrade in all packages
+  upgrade: melos pub upgrade
