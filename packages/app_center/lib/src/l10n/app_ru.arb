@@ -460,5 +460,7 @@
     }
   },
   "managePageUpdatesFailedBody": "Мы не смогли обновить эти приложения, так как они в данный момент запущены.\n\n{snapList}\nКогда Вы закроете их, обновление произойдёт автоматически.",
-  "@managePageUpdatesFailedBody": {}
+  "@managePageUpdatesFailedBody": {},
+  "managePageTitle": "Управление установленными приложениями Snap",
+  "@managePageTitle": {}
 }
