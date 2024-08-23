@@ -35,7 +35,7 @@ parts:
       set -eux
       fvm install
       fvm dart pub global activate melos
-      alias melos="fvm dart pub global run melos"
+      export PATH="$PATH":"$HOME/.pub-cache/bin"
 
       set +e # ignore pub errors
       # when building locally artifacts can pollute the container and cause builds to fail
