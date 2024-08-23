@@ -8,46 +8,64 @@ on:
   workflow_dispatch:
 
 jobs:
-  analyze:
+  setup:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
+      - uses: Atsumi3/actions-setup-fvm@0.0.3
+      - uses: bluefireteam/melos-action@v2
+      - run: melos generate
+      - uses: actions/cache@v3
+        with:
+          path: |
+            .*
+            **/*
+          key: ${{ runner.os }}-repo-${{ github.sha }}
+
+  analyze:
+    runs-on: ubuntu-22.04
+    needs: setup
+    steps:
+      - name: Restore repository cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            .
+          key: ${{ runner.os }}-repo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-repo-
       - uses: Atsumi3/actions-setup-fvm@0.0.3
       - uses: bluefireteam/melos-action@v2
       - run: melos analyze --fatal-infos
 
   format:
     runs-on: ubuntu-22.04
+    needs: setup
     steps:
-      - uses: actions/checkout@v3
+      - name: Restore repository cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            .
+          key: ${{ runner.os }}-repo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-repo-
       - uses: Atsumi3/actions-setup-fvm@0.0.3
       - uses: bluefireteam/melos-action@v2
       - run: melos format:exclude
 
-  mocks:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3
-      - uses: Atsumi3/actions-setup-fvm@0.0.3
-      - uses: bluefireteam/melos-action@v3
-      - run: melos generate
-      - name: Check for outdated mocks
-        if: github.event_name != 'push'
-        run: ./scripts/check-outdated-files.sh
-      - name: Create PR
-        if: github.event_name == 'push'
-        uses: peter-evans/create-pull-request@v5
-        with:
-          add-paths: '**/*.mocks.dart'
-          title: 'chore: regenerate mocks'
-          commit-message: 'chore: regenerate mocks'
-          branch: create-pull-request/mocks
-          delete-branch: true
-
   l10n:
     runs-on: ubuntu-22.04
+    needs: setup
     steps:
-      - uses: actions/checkout@v3
+      - name: Restore repository cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            .
+          key: ${{ runner.os }}-repo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-repo-
       - uses: Atsumi3/actions-setup-fvm@0.0.3
       - uses: bluefireteam/melos-action@v2
       - run: melos gen-l10n
@@ -66,8 +84,16 @@ jobs:
 
   test:
     runs-on: ubuntu-22.04
+    needs: setup
     steps:
-      - uses: actions/checkout@v3
+      - name: Restore repository cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            .
+          key: ${{ runner.os }}-repo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-repo-
       - uses: Atsumi3/actions-setup-fvm@0.0.3
       - uses: bluefireteam/melos-action@v2
       - run: sudo apt update && sudo apt install -y lcov
