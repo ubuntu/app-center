@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Vývoj",
   "@developmentPageLabel": {},
-  "managePageLabel": "Riadiť nainštalované snapy",
+  "managePageLabel": "Ovládať",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanál",
   "@snapPageChannelLabel": {},
@@ -169,7 +169,7 @@
   "@snapRatingsBandInsufficientVotes": {},
   "snapRatingsBandVeryPoor": "Veľmi zlé",
   "@snapRatingsBandVeryPoor": {},
-  "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a riaďte stav všetkých svojich aplikácií.",
+  "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a ovládajte stav všetkých svojich aplikácií.",
   "@managePageDescription": {},
   "snapActionRemovingLabel": "Odinštaluje sa",
   "@snapActionRemovingLabel": {},
@@ -450,5 +450,17 @@
     }
   },
   "managePageQuitToUpdate": "Ukončite kvôli aktualizácii",
-  "@managePageQuitToUpdate": {}
+  "@managePageQuitToUpdate": {},
+  "managePageUpdatesFailed": "Zlyhanie {n, plural, =1{jednej aktualizácie} other{({n}) aktualizácií}}",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Nepodarilo sa aktualizovať tieto aplikácie, pretože sú momentálne spustené.\n\n{snapList}\nKeď aplikácie ukončíte, automaticky sa aktualizujú.",
+  "@managePageUpdatesFailedBody": {},
+  "managePageTitle": "Ovládajte nainštalované snapy",
+  "@managePageTitle": {}
 }

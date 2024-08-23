@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Разработка",
   "@developmentPageLabel": {},
-  "managePageLabel": "Управление установленными Snap",
+  "managePageLabel": "Управление",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Канал",
   "@snapPageChannelLabel": {},
@@ -450,5 +450,17 @@
   "managePageOwnUpdateQuitButton": "Закрыть и обновить",
   "@managePageOwnUpdateQuitButton": {},
   "managePageQuitToUpdate": "Закройте для обновления",
-  "@managePageQuitToUpdate": {}
+  "@managePageQuitToUpdate": {},
+  "managePageUpdatesFailed": "{n, plural, =1{Одно приложение} other{{n} приложения(-й)}} обновить не удалось",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Мы не смогли обновить эти приложения, так как они в данный момент запущены.\n\n{snapList}\nКогда Вы закроете их, обновление произойдёт автоматически.",
+  "@managePageUpdatesFailedBody": {},
+  "managePageTitle": "Управление установленными приложениями Snap",
+  "@managePageTitle": {}
 }
