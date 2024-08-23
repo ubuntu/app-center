@@ -35,16 +35,15 @@ parts:
       set -eux
       fvm install
       fvm dart pub global activate melos
-      alias melos="fvm dart pub global run melos"
 
       set +e # ignore pub errors
       # when building locally artifacts can pollute the container and cause builds to fail
       # this helps increase reliability for local builds
-      melos clean
-      melos bootstrap
+      fvm dart pub global run melos clean
+      fvm dart pub global run melos bootstrap
       set -e
       
-      melos exec -c 1 --fail-fast --depends-on=build_runner -- \
+      fvm dart pub global run melos exec -c 1 --fail-fast --depends-on=build_runner -- \
       fvm dart run build_runner build --delete-conflicting-outputs
 
       cd packages/app_center
