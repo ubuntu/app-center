@@ -75,7 +75,7 @@ class ManageSnapTile extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: Clickable(
                   onTap: () =>
                       StoreNavigator.pushSnap(context, name: snap.name),
@@ -83,6 +83,7 @@ class ManageSnapTile extends StatelessWidget {
                     snap.titleOrName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
                   ),
                 ),
               ),
@@ -97,6 +98,7 @@ class ManageSnapTile extends StatelessWidget {
                             .managePageUpdateSinceDateTimeAgo(l10n),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.start,
                       )
                     : const SizedBox(),
               ),
@@ -109,9 +111,11 @@ class ManageSnapTile extends StatelessWidget {
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.end,
                       )
                     : const SizedBox(),
               ),
+              const Spacer(),
             ],
           ],
         ),
@@ -128,6 +132,7 @@ class ManageSnapTile extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
+                    flex: 2,
                     child: dateTimeSinceUpdate != null
                         ? Text(
                             dateTimeSinceUpdate
@@ -146,9 +151,11 @@ class ManageSnapTile extends StatelessWidget {
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.end,
                           )
                         : const SizedBox(),
                   ),
+                  const Spacer(),
                 ],
               ),
           ],
