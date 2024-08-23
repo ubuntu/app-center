@@ -42,10 +42,10 @@ parts:
       fvm dart pub global run melos clean
       fvm dart pub global run melos bootstrap
       set -e
-      
+
       fvm dart pub global run melos exec -c 1 --fail-fast --depends-on=build_runner -- \
       fvm dart run build_runner build --delete-conflicting-outputs
-      
+
       cd packages/app_center
       fvm flutter gen-l10n
       fvm flutter build linux --release -v
