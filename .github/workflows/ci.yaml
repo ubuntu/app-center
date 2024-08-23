@@ -20,7 +20,7 @@ jobs:
           path: |
             .*
             **/*
-          key: ${{ runner.os }}-repo-${{ github.sha }}
+          key: ${{ runner.os }}-repo-${{ github.sha }}-generated
 
   analyze:
     runs-on: ubuntu-22.04
@@ -30,9 +30,8 @@ jobs:
       - name: Restore repository cache
         uses: actions/cache@v3
         with:
-          path: |
-            .
-          key: ${{ runner.os }}-repo-${{ github.sha }}
+          path: .
+          key: ${{ runner.os }}-repo-${{ github.sha }}-generated
           restore-keys: |
             ${{ runner.os }}-repo-
       - uses: Atsumi3/actions-setup-fvm@0.0.3
@@ -47,9 +46,8 @@ jobs:
       - name: Restore repository cache
         uses: actions/cache@v3
         with:
-          path: |
-            .
-          key: ${{ runner.os }}-repo-${{ github.sha }}
+          path: .
+          key: ${{ runner.os }}-repo-${{ github.sha }}-generated
           restore-keys: |
             ${{ runner.os }}-repo-
       - uses: Atsumi3/actions-setup-fvm@0.0.3
@@ -64,11 +62,8 @@ jobs:
       - name: Restore repository cache
         uses: actions/cache@v3
         with:
-          path: |
-            .
-          key: ${{ runner.os }}-repo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-repo-
+          path: .
+          key: ${{ runner.os }}-repo-${{ github.sha }}-generated
       - uses: Atsumi3/actions-setup-fvm@0.0.3
       - uses: bluefireteam/melos-action@v2
       - run: melos gen-l10n
@@ -93,9 +88,8 @@ jobs:
       - name: Restore repository cache
         uses: actions/cache@v3
         with:
-          path: |
-            .
-          key: ${{ runner.os }}-repo-${{ github.sha }}
+          path: .
+          key: ${{ runner.os }}-repo-${{ github.sha }}-generated
           restore-keys: |
             ${{ runner.os }}-repo-
       - uses: Atsumi3/actions-setup-fvm@0.0.3
