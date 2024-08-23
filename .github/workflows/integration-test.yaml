@@ -28,7 +28,7 @@ jobs:
         run: melos generate
 
       - name: Run melos gen-l10n
-        run: melos generate
+        run: melos gen-l10n
 
       - name: Run integration tests
         run: |
