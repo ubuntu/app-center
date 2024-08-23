@@ -35,15 +35,16 @@ parts:
       set -eux
       fvm install
       fvm dart pub global activate melos
+      alias melos="fvm dart pub global run melos"
 
       set +e # ignore pub errors
       # when building locally artifacts can pollute the container and cause builds to fail
       # this helps increase reliability for local builds
-      fvm dart pub global run melos clean
-      fvm dart pub global run melos bootstrap
+      melos clean
+      melos bootstrap
       set -e
 
-      fvm dart pub global run melos generate
+      melos generate
       cd packages/app_center
       fvm flutter build linux --release -v
       mkdir -p $CRAFT_PART_INSTALL/bin/
