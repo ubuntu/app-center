@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Desarrollo",
   "@developmentPageLabel": {},
-  "managePageLabel": "Gestionar los Snaps instalados",
+  "managePageLabel": "Gestionar",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Canal",
   "@snapPageChannelLabel": {},
@@ -450,5 +450,17 @@
   "managePageOwnUpdateAvailable": "Actualización disponible para el centro de aplicaciones",
   "@managePageOwnUpdateAvailable": {},
   "managePageQuitToUpdate": "Cerrar para actualizar",
-  "@managePageQuitToUpdate": {}
+  "@managePageQuitToUpdate": {},
+  "managePageUpdatesFailed": "{n, plural, =1{Una actualización} other{{n} actualizaciones}} fallida(s)",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "No pudimos actualizar estas aplicaciones porque están actualmente ejecutandose.\n\n{snapList}\nCuando cierres las aplicaciones, se actualizarán automáticamente.",
+  "@managePageUpdatesFailedBody": {},
+  "managePageTitle": "Administrar snaps instalados",
+  "@managePageTitle": {}
 }
