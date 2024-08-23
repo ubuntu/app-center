@@ -161,6 +161,32 @@ class MockSnapdClient extends _i1.Mock implements _i2.SnapdClient {
       ) as _i3.Future<_i2.SnapdSystemInfoResponse>);
 
   @override
+  _i3.Future<List<_i2.SnapdNotice>> getNotices({
+    Iterable<_i2.SnapdNoticeType>? types,
+    List<String>? keys,
+    DateTime? after,
+    String? timeout,
+    String? userId,
+    String? users,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getNotices,
+          [],
+          {
+            #types: types,
+            #keys: keys,
+            #after: after,
+            #timeout: timeout,
+            #userId: userId,
+            #users: users,
+          },
+        ),
+        returnValue:
+            _i3.Future<List<_i2.SnapdNotice>>.value(<_i2.SnapdNotice>[]),
+      ) as _i3.Future<List<_i2.SnapdNotice>>);
+
+  @override
   _i3.Future<List<_i2.Snap>> getSnaps({_i2.SnapsFilter? filter}) =>
       (super.noSuchMethod(
         Invocation.method(
