@@ -1,5 +1,5 @@
 arb-dir: lib/src/l10n
 template-arb-file: app_en.arb
-output-localization-file: app_localizations.dart
+output-localization-file: app_localizations.g.dart
 synthetic-package: false
 nullable-getter: false

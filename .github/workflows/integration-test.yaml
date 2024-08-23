@@ -27,6 +27,9 @@ jobs:
       - name: Run melos generate
         run: melos generate
 
+      - name: Run melos gen-l10n
+        run: melos generate
+
       - name: Run integration tests
         run: |
           cd packages/app_center && \

@@ -15,6 +15,7 @@ jobs:
       - uses: Atsumi3/actions-setup-fvm@0.0.3
       - uses: bluefireteam/melos-action@v2
       - run: melos generate
+      - run: melos gen-l10n
       - uses: actions/cache@v3
         with:
           path: .
