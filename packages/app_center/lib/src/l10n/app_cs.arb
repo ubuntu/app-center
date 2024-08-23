@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Vývoj",
   "@developmentPageLabel": {},
-  "managePageLabel": "Spravovat nainstalované Snapy",
+  "managePageLabel": "Spravovat",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanál",
   "@snapPageChannelLabel": {},
@@ -450,5 +450,17 @@
   "managePageOwnUpdateQuitButton": "Ukončit pro aktualizaci",
   "@managePageOwnUpdateQuitButton": {},
   "managePageQuitToUpdate": "Ukončit pro aktualizaci",
-  "@managePageQuitToUpdate": {}
+  "@managePageQuitToUpdate": {},
+  "managePageTitle": "Spravovat nainstalované snapy",
+  "@managePageTitle": {},
+  "managePageUpdatesFailed": "{n, plural, =1{Jedna neúspěšná aktualizace} other{{n} neúspěšných aktualizací}}",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Tyto aplikace jsme nemohli aktualizovat, protože jsou aktuálně spuštěné.\n\n{snapList}\nKdyž aplikace ukončíte, automaticky se aktualizují.",
+  "@managePageUpdatesFailedBody": {}
 }
