@@ -43,6 +43,7 @@ parts:
       fvm dart pub global run melos bootstrap
       set -e
 
+      fvm dart pub global run melos generate
       cd packages/app_center
       fvm flutter build linux --release -v
       mkdir -p $CRAFT_PART_INSTALL/bin/

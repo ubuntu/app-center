@@ -17,9 +17,7 @@ jobs:
       - run: melos generate
       - uses: actions/cache@v3
         with:
-          path: |
-            .*
-            **/*
+          path: .
           key: ${{ runner.os }}-repo-${{ github.sha }}-generated
 
   analyze:
