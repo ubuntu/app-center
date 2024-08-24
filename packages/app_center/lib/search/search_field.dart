@@ -188,7 +188,10 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                       return YaruIconButton(
                         icon: const Icon(YaruIcons.edit_clear, size: 16),
                         onPressed:
-                            controller.text.isEmpty ? null : controller.clear,
+                            controller.text.isEmpty ? null : (){
+                              controller.clear();
+                              node.requestFocus();
+                        },
                       );
                     },
                   ),
