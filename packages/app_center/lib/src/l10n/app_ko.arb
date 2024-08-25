@@ -94,5 +94,7 @@
   "managePageNoUpdatesAvailableDescription": "이용 가능한 업데이트가 없습니다. 모든 애플리케이션이 최신 상태입니다.",
   "@managePageNoUpdatesAvailableDescription": {},
   "snapPagePublishedLabel": "게시됨",
-  "@snapPagePublishedLabel": {}
+  "@snapPagePublishedLabel": {},
+  "snapPageSizeLabel": "크기",
+  "@snapPageSizeLabel": {}
 }
