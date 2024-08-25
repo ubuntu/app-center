@@ -433,7 +433,7 @@
   },
   "errorViewServerErrorAction": "Skontrolujte stav aktualizácií alebo to skúste znova neskôr.",
   "@errorViewServerErrorAction": {},
-  "managePageNoInternet": "Nedá sa pripojiť k serveru, skontrolujte internetové pripojenie alebo to skúste znova neskôr.",
+  "managePageNoInternet": "Nebolo možné sa pripojiť k serveru, skontrolujte internetové pripojenie alebo to skúste znova neskôr.",
   "@managePageNoInternet": {},
   "managePageOwnUpdateAvailable": "K dispozícii je aktualizácia centra aplikácií",
   "@managePageOwnUpdateAvailable": {},
