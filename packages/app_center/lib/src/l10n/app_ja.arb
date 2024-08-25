@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "開発",
   "@developmentPageLabel": {},
-  "managePageLabel": "インストールしたsnapの管理",
+  "managePageLabel": "管理",
   "@managePageLabel": {},
   "snapPageChannelLabel": "チャンネル",
   "@snapPageChannelLabel": {},
@@ -450,5 +450,7 @@
   "errorViewUnknownErrorTitle": "何かがおかしいです",
   "@errorViewUnknownErrorTitle": {},
   "errorViewUnknownErrorDescription": "どんなエラーが起きているのかよくわかっていません。",
-  "@errorViewUnknownErrorDescription": {}
+  "@errorViewUnknownErrorDescription": {},
+  "managePageTitle": "インストールしたsnapの管理",
+  "@managePageTitle": {}
 }
