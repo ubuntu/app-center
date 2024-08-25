@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Programado",
   "@developmentPageLabel": {},
-  "managePageLabel": "Administri instalitajn Snap-pakojn",
+  "managePageLabel": "Administri",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanalo",
   "@snapPageChannelLabel": {},
@@ -450,5 +450,17 @@
   "managePageOwnUpdateAvailable": "Ĝisdatigo de la Programcentro disponeblas",
   "@managePageOwnUpdateAvailable": {},
   "managePageQuitToUpdate": "Forlasi por ĝisdatigi",
-  "@managePageQuitToUpdate": {}
+  "@managePageQuitToUpdate": {},
+  "managePageTitle": "Administri instalitajn Snap-pakojn",
+  "@managePageTitle": {},
+  "managePageUpdatesFailed": "{n, plural, =1{Unu ĝisdatigo} other{{n} ĝisdatigoj}} malsukcesis",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Ne eblis ĝisdatigi la jenajn programojn, ĉar ili estas rulata:\n\n{snapList}\nKiam la ĉi-supraj programoj ĉesos, ili aŭtomate ĝisdatiĝos.",
+  "@managePageUpdatesFailedBody": {}
 }
