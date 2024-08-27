@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Utveckling",
   "@developmentPageLabel": {},
-  "managePageLabel": "Hantera installerade snaps",
+  "managePageLabel": "Hantera",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanal",
   "@snapPageChannelLabel": {},
@@ -131,7 +131,7 @@
   "@searchPageNoResultsHint": {},
   "snapRatingsBandGood": "Bra",
   "@snapRatingsBandGood": {},
-  "snapCategoryFeaturedSlogan": "Utvalda Snaps",
+  "snapCategoryFeaturedSlogan": "Utvalda Snap-paket",
   "@snapCategoryFeaturedSlogan": {},
   "snapSortOrderInstalledDateAsc": "Minst nyligen uppdaterade",
   "@snapSortOrderInstalledDateAsc": {},
@@ -157,7 +157,7 @@
   "@appstreamUrlTypeHomepage": {},
   "managePageCheckingForUpdates": "Söker efter uppdateringar",
   "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Uppdaterades {n} dagar sedan",
+  "managePageUpdatedDaysAgo": "Uppdaterades för {n, plural, =1{{n} dag} other{{n} dagar}} sedan",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -181,7 +181,7 @@
   "@snapConfinementClassic": {},
   "snapRatingsBandPoor": "Dålig",
   "@snapRatingsBandPoor": {},
-  "snapCategoryDevelopmentSlogan": "Måste-ha snaps för utvecklare",
+  "snapCategoryDevelopmentSlogan": "Måste-ha snap-paket för utvecklare",
   "@snapCategoryDevelopmentSlogan": {},
   "searchPageTitle": "Resultat för \"{query}\"",
   "@searchPageTitle": {
@@ -450,5 +450,17 @@
   "managePageOwnUpdateQuitButton": "Avsluta vid uppdatering",
   "@managePageOwnUpdateQuitButton": {},
   "managePageQuitToUpdate": "Avsluta för att uppdatera",
-  "@managePageQuitToUpdate": {}
+  "@managePageQuitToUpdate": {},
+  "managePageTitle": "Hantera installerade snap-paket",
+  "@managePageTitle": {},
+  "managePageUpdatesFailed": "{n, plural, =1{En uppdatering} other{{n} uppdateringar}} misslyckades",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Vi kunde inte uppdatera dessa program eftersom de körs för närvarande.\n\n{snapList}\nNär du avslutar programmen uppdateras de automatiskt.",
+  "@managePageUpdatesFailedBody": {}
 }
