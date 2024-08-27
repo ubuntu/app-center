@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Développement",
   "@developmentPageLabel": {},
-  "managePageLabel": "Gérer les Snaps installés",
+  "managePageLabel": "Gérer",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Canal",
   "@snapPageChannelLabel": {},
@@ -450,5 +450,7 @@
   "errorViewServerErrorAction": "Vérifiez l’état des mises à jour ou réessayez plus tard.",
   "@errorViewServerErrorAction": {},
   "managePageUpdatesFailedBody": "Nous n’avons pas pu mettre à jour ces applications parce qu’elles sont en cours d’exécution.\n\n{snapList}\nLorsque vous quittez les applications, elles seront automatiquement mises à jour.",
-  "@managePageUpdatesFailedBody": {}
+  "@managePageUpdatesFailedBody": {},
+  "managePageTitle": "Gérer les snaps installés",
+  "@managePageTitle": {}
 }
