@@ -2,6 +2,7 @@ import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/store/store_navigator.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -107,11 +108,54 @@ class AppTitle extends StatelessWidget {
           Row(
             children: snapCategories!
                 .whereNot((c) => c.categoryEnum == SnapCategoryEnum.featured)
-                .map((c) => Text(c.categoryEnum.localize(l10n)))
+                .map(_CategoryText.new)
                 .separatedBy(const Text(', ')),
           ),
         ],
       ],
+    );
+  }
+}
+
+class _CategoryText extends StatefulWidget {
+  const _CategoryText(this.category);
+
+  final SnapCategory category;
+
+  @override
+  _CategoryTextState createState() => _CategoryTextState();
+}
+
+class _CategoryTextState extends State<_CategoryText> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final categoryName = widget.category.categoryEnum.localize(l10n);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return GestureDetector(
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Text(
+          categoryName,
+          style: _isHovered
+              ? TextStyle(
+                  color: colorScheme.primary,
+                  decoration: TextDecoration.underline,
+                )
+              : null,
+        ),
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+      ),
+      onTap: () {
+        StoreNavigator.pushSearch(
+          context,
+          category: widget.category.categoryEnum.categoryName,
+        );
+      },
     );
   }
 }
