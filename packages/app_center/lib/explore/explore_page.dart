@@ -25,17 +25,6 @@ class ExplorePage extends ConsumerWidget {
       slivers: [
         SliverList.list(
           children: const [
-            SizedBox(height: kPagePadding),
-            CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
-            SizedBox(height: kPagePadding),
-          ],
-        ),
-        const CategorySnapList(
-          category: SnapCategoryEnum.ubuntuDesktop,
-          hideBannerSnaps: true,
-        ),
-        SliverList.list(
-          children: const [
             SizedBox(height: 56),
             CategoryBanner(category: SnapCategoryEnum.featured),
             SizedBox(height: kPagePadding),
@@ -75,6 +64,17 @@ class ExplorePage extends ConsumerWidget {
         ),
         const CategorySnapList(
           category: SnapCategoryEnum.development,
+          hideBannerSnaps: true,
+        ),
+        SliverList.list(
+          children: const [
+            SizedBox(height: 56),
+            CategoryBanner(category: SnapCategoryEnum.ubuntuDesktop),
+            SizedBox(height: kPagePadding),
+          ],
+        ),
+        const CategorySnapList(
+          category: SnapCategoryEnum.ubuntuDesktop,
           hideBannerSnaps: true,
         ),
         SliverList.list(
