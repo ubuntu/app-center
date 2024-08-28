@@ -358,8 +358,6 @@ class _SnapActionButtons extends ConsumerWidget {
           child: IntrinsicWidth(
             child: ListTile(
               mouseCursor: SystemMouseCursors.click,
-              leading:
-                  action.icon != null ? Icon(action.icon, color: color) : null,
               title: Text(
                 action.label(l10n),
                 style: TextStyle(color: color),
