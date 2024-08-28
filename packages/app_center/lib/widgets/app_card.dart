@@ -114,13 +114,13 @@ class AppCard extends StatelessWidget {
                 child: Text(
                   rating.toString(),
                   style: const TextStyle(
-                    fontSize: 24.0,
+                    fontSize: 16.0,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
               const SizedBox(
-                width: 16,
+                width: 4,
               ),
               Expanded(
                 child: SmallBanner(
