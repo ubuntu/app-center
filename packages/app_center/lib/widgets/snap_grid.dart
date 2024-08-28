@@ -8,7 +8,7 @@ import 'package:snapd/snapd.dart';
 class AppCardGrid extends StatelessWidget {
   const AppCardGrid({
     required this.appCards,
-    this.cardAspectRatio,
+    this.small = false,
     super.key,
   });
 
@@ -37,7 +37,7 @@ class AppCardGrid extends StatelessWidget {
                 rating: entry.key + 1,
               ),
             ),
-        cardAspectRatio: 4.0,
+        small: true,
       );
 
   factory AppCardGrid.fromDebs({
@@ -65,15 +65,31 @@ class AppCardGrid extends StatelessWidget {
       );
 
   final Iterable<AppCard> appCards;
-  final double? cardAspectRatio;
+  final bool small;
 
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout.of(context);
+    var columnCount = layout.cardColumnCount;
+    var cardAspectRatio = layout.cardSize.aspectRatio;
+    if (small) {
+      switch (layout.type) {
+        case ResponsiveLayoutType.small:
+          columnCount = 2;
+          cardAspectRatio = 2.5;
+        case ResponsiveLayoutType.medium:
+          columnCount = 3;
+          cardAspectRatio = 2.5;
+        case ResponsiveLayoutType.large:
+          columnCount = 4;
+          cardAspectRatio = 3.0;
+      }
+    }
+
     return SliverGrid.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: layout.cardColumnCount,
-        childAspectRatio: cardAspectRatio ?? layout.cardSize.aspectRatio,
+        crossAxisCount: columnCount,
+        childAspectRatio: cardAspectRatio,
         mainAxisSpacing: kCardSpacing - 2 * kCardMargin,
         crossAxisSpacing: kCardSpacing - 2 * kCardMargin,
       ),
