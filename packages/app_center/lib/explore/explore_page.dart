@@ -48,6 +48,17 @@ class ExplorePage extends ConsumerWidget {
           onlyFeatured: true,
         ),
         SliverList.list(
+          children: const [
+            SizedBox(height: 56),
+            CategoryBanner(category: SnapCategoryEnum.artAndDesign),
+            SizedBox(height: kPagePadding),
+          ],
+        ),
+        const CategorySnapList(
+          category: SnapCategoryEnum.artAndDesign,
+          hideBannerSnaps: true,
+        ),
+        SliverList.list(
           children: [
             const SizedBox(height: 56),
             _Title(text: l10n.explorePageCategoriesLabel),

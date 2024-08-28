@@ -195,6 +195,7 @@ enum SnapCategoryEnum {
       };
 
   String slogan(AppLocalizations l10n) => switch (this) {
+        artAndDesign => l10n.snapCategoryArtAndDesignSlogan,
         development => l10n.snapCategoryDevelopmentSlogan,
         featured => l10n.snapCategoryFeaturedSlogan,
         games => l10n.snapCategoryGamesSlogan,
@@ -211,6 +212,7 @@ enum SnapCategoryEnum {
 
   String buttonLabel(AppLocalizations l10n) => switch (this) {
         productivity => l10n.snapCategoryProductivityButtonLabel,
+        artAndDesign => l10n.snapCategoryArtAndDesignButtonLabel,
         _ => l10n.snapCategoryDefaultButtonLabel,
       };
 
