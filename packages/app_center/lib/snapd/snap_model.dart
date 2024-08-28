@@ -12,6 +12,15 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 part 'snap_model.g.dart';
 
+typedef CurrentlyInstallingData = ({
+  Snap snap,
+  String changeId,
+});
+final currentlyInstallingProvider =
+    StateProvider<Map<String, CurrentlyInstallingData>>(
+  (_) => {},
+);
+
 @Riverpod(keepAlive: true)
 class SnapModel extends _$SnapModel {
   late final _snapd = getService<SnapdService>();
@@ -88,10 +97,18 @@ class SnapModel extends _$SnapModel {
       classic: storeSnap!.channels[selectedChannel]!.confinement ==
           SnapConfinement.classic,
     );
+    ref.read(currentlyInstallingProvider.notifier).state = {
+      ...ref.read(currentlyInstallingProvider.notifier).state,
+      snapName: (snap: storeSnap, changeId: changeId),
+    };
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, ref);
-    ref.invalidate(updatesModelProvider);
-    ref.invalidate(localSnapFilterProvider);
+    //ref.invalidate(localSnapFilterProvider);
+    ref.read(updatesModelProvider.notifier).addToList(storeSnap);
+    ref.read(filteredLocalSnapsProvider.notifier).addToList(storeSnap);
+    ref.read(currentlyInstallingProvider.notifier).state =
+        Map.from(ref.read(currentlyInstallingProvider.notifier).state)
+          ..remove(snapName);
   }
 
   /// Cancels (aborts) the currently active operation which is tracked by
