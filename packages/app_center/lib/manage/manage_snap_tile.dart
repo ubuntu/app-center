@@ -234,7 +234,6 @@ class _ButtonBarForUpdate extends ConsumerWidget {
             ),
             MenuItemButton(
               onPressed: ref.read(snapModelProvider(snap.name).notifier).remove,
-              leadingIcon: Icon(SnapAction.remove.icon, color: removeColor),
               child: Text(
                 SnapAction.remove.label(l10n),
                 style: TextStyle(color: removeColor),
