@@ -250,6 +250,7 @@ enum SnapCategoryEnum {
 
 // TODO: map remaining categories to colors once the design is ready
   List<Color> get bannerColors => switch (this) {
+        artAndDesign => _kBannerColors[4],
         development => _kBannerColors[9],
         featured => _kBannerColors[2],
         productivity => _kBannerColors[4],
