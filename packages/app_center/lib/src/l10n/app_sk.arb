@@ -462,5 +462,9 @@
   "managePageUpdatesFailedBody": "Nepodarilo sa aktualizovať tieto aplikácie, pretože sú momentálne spustené.\n\n{snapList}\nKeď aplikácie ukončíte, automaticky sa aktualizujú.",
   "@managePageUpdatesFailedBody": {},
   "managePageTitle": "Ovládajte nainštalované snapy",
-  "@managePageTitle": {}
+  "@managePageTitle": {},
+  "snapCategoryArtAndDesignSlogan": "Od prvého náčrtu až po posledný dotyk preskúmajte aplikácie pre umenie a dizajn.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "snapCategoryArtAndDesignButtonLabel": "Začnite s tvorbou",
+  "@snapCategoryArtAndDesignButtonLabel": {}
 }
