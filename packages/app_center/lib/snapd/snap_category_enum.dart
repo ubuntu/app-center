@@ -252,7 +252,7 @@ enum SnapCategoryEnum {
   List<Color> get bannerColors => switch (this) {
         artAndDesign => _kBannerColors[4],
         development => _kBannerColors[9],
-        featured => _kBannerColors[2],
+        featured => _kBannerColors[3],
         productivity => _kBannerColors[4],
         gameDev => _kBannerColors[1],
         gameEmulators => _kBannerColors[2],
