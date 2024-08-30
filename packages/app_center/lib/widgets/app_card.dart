@@ -93,9 +93,10 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final appContent = [
       AppIcon(iconUrl: iconUrl),
-      const SizedBox(width: 16, height: 16),
+      const SizedBox(width: kCardSpacing, height: kCardSpacing),
       Expanded(
         child: _AppCardBody(
           title: title,
@@ -113,10 +114,7 @@ class AppCard extends StatelessWidget {
               Center(
                 child: Text(
                   rating.toString(),
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: theme.textTheme.titleMedium,
                 ),
               ),
               const SizedBox(
