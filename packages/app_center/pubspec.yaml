@@ -44,11 +44,11 @@ dependencies:
   snapcraft_launcher: ^0.1.0
   snapd: ^0.6.4
   snowball_stemmer: ^0.1.0
-  ubuntu_localizations: ^0.4.0
+  ubuntu_localizations: ^0.4.1
   ubuntu_logger: ^0.1.1
   ubuntu_service: ^0.3.2
   ubuntu_test: ^0.1.0-beta.9
-  ubuntu_widgets: ^0.6.0
+  ubuntu_widgets: ^0.6.1
   url_launcher: ^6.2.6
   xdg_directories: ^1.0.4
   yaru: ^4.1.0

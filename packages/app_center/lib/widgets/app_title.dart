@@ -1,11 +1,14 @@
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/store/store_navigator.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
 
 class AppTitle extends StatelessWidget {
@@ -107,20 +110,21 @@ class AppTitle extends StatelessWidget {
           Row(
             children: snapCategories!
                 .whereNot((c) => c.categoryEnum == SnapCategoryEnum.featured)
-                .map((c) => Text(c.categoryEnum.localize(l10n)))
+                .map(
+                  (category) => ClickableText(
+                    category.categoryEnum.localize(l10n),
+                    onTap: () {
+                      StoreNavigator.pushSearch(
+                        context,
+                        category: category.categoryEnum.categoryName,
+                      );
+                    },
+                  ),
+                )
                 .separatedBy(const Text(', ')),
           ),
         ],
       ],
     );
   }
-}
-
-extension on Iterable<Widget> {
-  List<Widget> separatedBy(Widget separator) => [
-        for (var i = 0; i < length; i++) ...[
-          elementAt(i),
-          if (i < length - 1) separator,
-        ],
-      ];
 }
