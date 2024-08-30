@@ -462,5 +462,9 @@
   "managePageUpdatesFailedBody": "Nie mogliśmy zaktualizować tych programów, ponieważ są one obecnie uruchomione.\n\n{snapList}\nPo zamknięciu programów zostaną one automatycznie zaktualizowane.",
   "@managePageUpdatesFailedBody": {},
   "managePageTitle": "Zarządzaj zainstalowanymi snapami",
-  "@managePageTitle": {}
+  "@managePageTitle": {},
+  "snapCategoryArtAndDesignButtonLabel": "Zacznij tworzyć",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Od pierwszego szkicu po ostatni dotyk, eksploruj programy do sztuki i designu.",
+  "@snapCategoryArtAndDesignSlogan": {}
 }
