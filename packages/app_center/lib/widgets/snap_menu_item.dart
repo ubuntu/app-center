@@ -1,9 +1,4 @@
-import 'package:app_center/games/games.dart';
-import 'package:app_center/layout.dart';
-import 'package:app_center/widgets/app_card.dart';
-import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
-import 'package:snapd/snapd.dart';
 
 class SnapMenuItem extends StatelessWidget {
   const SnapMenuItem({
