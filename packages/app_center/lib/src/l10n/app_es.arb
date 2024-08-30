@@ -462,5 +462,9 @@
   "managePageUpdatesFailedBody": "No pudimos actualizar estas aplicaciones porque están actualmente ejecutandose.\n\n{snapList}\nCuando cierres las aplicaciones, se actualizarán automáticamente.",
   "@managePageUpdatesFailedBody": {},
   "managePageTitle": "Administrar snaps instalados",
-  "@managePageTitle": {}
+  "@managePageTitle": {},
+  "snapCategoryArtAndDesignButtonLabel": "Empezar a crear",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Desde tu primer boceto hasta el toque final, explora aplicaciones para arte y diseño.",
+  "@snapCategoryArtAndDesignSlogan": {}
 }
