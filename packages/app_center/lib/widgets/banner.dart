@@ -115,6 +115,7 @@ class _Banner extends StatelessWidget {
                     slogan,
                     style: titleTextStyle.copyWith(color: _kForegroundColor),
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
                   if (buttonLabel != null) ...[
                     const SizedBox(height: 24),
