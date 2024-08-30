@@ -4,6 +4,7 @@ import 'package:app_center/manage/manage_l10n.dart';
 import 'package:app_center/snapd/snap_action.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
+import 'package:app_center/widgets/snap_menu_item.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -220,24 +221,19 @@ class _ButtonBarForUpdate extends ConsumerWidget {
         MenuAnchor(
           menuChildren: [
             if (snapLauncher.isLaunchable)
-              MenuItemButton(
+              SnapMenuItem(
                 onPressed: snapLauncher.open,
-                child: Text(l10n.snapActionOpenLabel),
+                title: l10n.snapActionOpenLabel,
               ),
-            MenuItemButton(
+            SnapMenuItem(
               onPressed: () =>
                   StoreNavigator.pushSnap(context, name: snap.name),
-              child: Text(
-                l10n.managePageShowDetailsLabel,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
+              title: l10n.managePageShowDetailsLabel,
             ),
-            MenuItemButton(
+            SnapMenuItem(
               onPressed: ref.read(snapModelProvider(snap.name).notifier).remove,
-              child: Text(
-                SnapAction.remove.label(l10n),
-                style: TextStyle(color: removeColor),
-              ),
+              title: SnapAction.remove.label(l10n),
+              textStyle: TextStyle(color: removeColor),
             ),
           ],
           builder: (context, controller, child) => YaruOptionButton(
@@ -296,21 +292,15 @@ class _ButtonBarForOpen extends ConsumerWidget {
         const SizedBox(width: 16),
         MenuAnchor(
           menuChildren: [
-            MenuItemButton(
+            SnapMenuItem(
               onPressed: () =>
                   StoreNavigator.pushSnap(context, name: snap.name),
-              child: Text(
-                l10n.managePageShowDetailsLabel,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
+              title: l10n.managePageShowDetailsLabel,
             ),
-            MenuItemButton(
+            SnapMenuItem(
               onPressed: ref.read(snapModelProvider(snap.name).notifier).remove,
-              leadingIcon: Icon(SnapAction.remove.icon, color: removeColor),
-              child: Text(
-                SnapAction.remove.label(l10n),
-                style: TextStyle(color: removeColor),
-              ),
+              title: SnapAction.remove.label(l10n),
+              textStyle: TextStyle(color: removeColor),
             ),
           ],
           builder: (context, controller, child) => YaruOptionButton(
