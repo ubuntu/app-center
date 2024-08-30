@@ -1,4 +1,5 @@
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -7,6 +8,7 @@ import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
 
 class AppTitle extends StatelessWidget {
@@ -108,63 +110,21 @@ class AppTitle extends StatelessWidget {
           Row(
             children: snapCategories!
                 .whereNot((c) => c.categoryEnum == SnapCategoryEnum.featured)
-                .map(_CategoryText.new)
+                .map(
+                  (category) => ClickableText(
+                    category.categoryEnum.localize(l10n),
+                    onTap: () {
+                      StoreNavigator.pushSearch(
+                        context,
+                        category: category.categoryEnum.categoryName,
+                      );
+                    },
+                  ),
+                )
                 .separatedBy(const Text(', ')),
           ),
         ],
       ],
     );
   }
-}
-
-class _CategoryText extends StatefulWidget {
-  const _CategoryText(this.category);
-
-  final SnapCategory category;
-
-  @override
-  _CategoryTextState createState() => _CategoryTextState();
-}
-
-class _CategoryTextState extends State<_CategoryText> {
-  bool _isHovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final categoryName = widget.category.categoryEnum.localize(l10n);
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return GestureDetector(
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: Text(
-          categoryName,
-          style: _isHovered
-              ? TextStyle(
-                  color: colorScheme.primary,
-                  decoration: TextDecoration.underline,
-                )
-              : null,
-        ),
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
-      ),
-      onTap: () {
-        StoreNavigator.pushSearch(
-          context,
-          category: widget.category.categoryEnum.categoryName,
-        );
-      },
-    );
-  }
-}
-
-extension on Iterable<Widget> {
-  List<Widget> separatedBy(Widget separator) => [
-        for (var i = 0; i < length; i++) ...[
-          elementAt(i),
-          if (i < length - 1) separator,
-        ],
-      ];
 }
