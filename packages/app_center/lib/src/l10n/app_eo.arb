@@ -462,5 +462,9 @@
     }
   },
   "managePageUpdatesFailedBody": "Ne eblis ĝisdatigi la jenajn programojn, ĉar ili estas rulata:\n\n{snapList}\nKiam la ĉi-supraj programoj ĉesos, ili aŭtomate ĝisdatiĝos.",
-  "@managePageUpdatesFailedBody": {}
+  "@managePageUpdatesFailedBody": {},
+  "snapCategoryArtAndDesignButtonLabel": "Ekverku",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "De la unua skizo ĝis la fina peniktuŝo, esploru programojn por arto kaj dezajno.",
+  "@snapCategoryArtAndDesignSlogan": {}
 }
