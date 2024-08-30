@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Розробка",
   "@developmentPageLabel": {},
-  "managePageLabel": "Керувати встановленими Snap",
+  "managePageLabel": "Керувати",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Канал",
   "@snapPageChannelLabel": {},
@@ -450,5 +450,21 @@
   "managePageNoInternet": "Не вдалося зв'язатися з сервером, перевірте з'єднання з інтернетом або спробуйте пізніше.",
   "@managePageNoInternet": {},
   "managePageQuitToUpdate": "Вийти, щоб оновити",
-  "@managePageQuitToUpdate": {}
+  "@managePageQuitToUpdate": {},
+  "managePageTitle": "Керувати встановленими snap-пакунками",
+  "@managePageTitle": {},
+  "managePageUpdatesFailed": "Не вдалося виконати {n, plural, =1{одне оновлення update} few{{n} оновлення} many{{n} оновлень} other{{n} оновлення}}",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Ми не змогли оновити ці застосунки, оскільки вони запущені.\n\n{snapList}\nКоли ви закриєте застосунки, вони автоматично оновляться.",
+  "@managePageUpdatesFailedBody": {},
+  "snapCategoryArtAndDesignButtonLabel": "Почніть створювати",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Від першого ескізу до останнього штриха - перегляньте застосунки для мистецтва та дизайну.",
+  "@snapCategoryArtAndDesignSlogan": {}
 }
