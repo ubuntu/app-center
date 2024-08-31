@@ -452,5 +452,19 @@
   "managePageUpdatesFailedBody": "Nous n’avons pas pu mettre à jour ces applications parce qu’elles sont en cours d’exécution.\n\n{snapList}\nLorsque vous quittez les applications, elles seront automatiquement mises à jour.",
   "@managePageUpdatesFailedBody": {},
   "managePageTitle": "Gérer les snaps installés",
-  "@managePageTitle": {}
+  "@managePageTitle": {},
+  "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
+  "@snapCategoryUbuntuDesktop": {},
+  "managePageUpdatesFailed": "{n, plural, =1{une mise à jour} other{{n} mises à jour}} échouée(s)",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryArtAndDesignSlogan": "De votre premier croquis à la touche finale, explorez les applications d'art et de design.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "snapCategoryArtAndDesignButtonLabel": "Commencez à créer",
+  "@snapCategoryArtAndDesignButtonLabel": {}
 }
