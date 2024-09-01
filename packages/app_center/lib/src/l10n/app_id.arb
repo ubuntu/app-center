@@ -350,5 +350,71 @@
     }
   },
   "appstreamUrlTypeFaq": "Pertanyaan Umum",
-  "@appstreamUrlTypeFaq": {}
+  "@appstreamUrlTypeFaq": {},
+  "snapPageSizeLabel": "Ukuran",
+  "@snapPageSizeLabel": {},
+  "appstreamSearchGreylist": "app;aplikasi;paket;program;keluarga;alat;perkakas",
+  "@appstreamSearchGreylist": {},
+  "managePageUpdatedDaysAgo": "Diperbarui {n, plural, =1{{n} hari} other {{n} hari}}yang lalu",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageOwnUpdateAvailable": "Pembaruan Pusat App tersedia",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "Ketika Anda keluar dari aplikasi itu akan secara otomatis diperbarui.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "Pusat app akan secara otomatis memperbarui dalam {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Keluar untuk memperbarui",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageNoInternet": "Tak bisa menjangkau server, periksalah koneksi internet Anda atau coba lagi nanti.",
+  "@managePageNoInternet": {},
+  "managePageDebUpdatesMessage": "Pembaruan paket Debian ditangani oleh Pemutakhir Perangkat Lunak.",
+  "@managePageDebUpdatesMessage": {},
+  "managePageUpdatedWeeksAgo": "Diperbarui {n, plural, =1{{n} minggu} other{{n} minggu}} yang lalu",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "Diperbarui {n, plural, =1{{n} bulan} other{{n} bulan}} yang lalu",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Diperbarui {n, plural, =1{{n} tahun} other{{n} tahun}} yang lalu",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailed": "{n, plural, =1{Satu pembaruan} other{{n} pembaruan}} gagal",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageTitle": "Kelola snap yang terpasang",
+  "@managePageTitle": {},
+  "managePageQuitToUpdate": "Keluar untuk memperbarui",
+  "@managePageQuitToUpdate": {}
 }
