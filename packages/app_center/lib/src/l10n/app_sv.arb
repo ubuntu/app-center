@@ -462,5 +462,9 @@
     }
   },
   "managePageUpdatesFailedBody": "Vi kunde inte uppdatera dessa program eftersom de körs för närvarande.\n\n{snapList}\nNär du avslutar programmen uppdateras de automatiskt.",
-  "@managePageUpdatesFailedBody": {}
+  "@managePageUpdatesFailedBody": {},
+  "snapCategoryArtAndDesignButtonLabel": "Börja skapa",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Från din första skiss till slutresultatet, utforska appar för konst och design.",
+  "@snapCategoryArtAndDesignSlogan": {}
 }
