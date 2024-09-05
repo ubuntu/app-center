@@ -5,7 +5,6 @@ import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_snap_tile.dart';
 import 'package:app_center/manage/updates_model.dart';
-import 'package:app_center/snapd/snap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -90,7 +89,7 @@ class ManagePage extends ConsumerWidget {
                   );
                 },
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: kMarginLarge),
               if (!hasInternet && !isLoading)
                 _MinHeightAsProgressIndicator(
                   child: Text(
@@ -146,6 +145,7 @@ class ManagePage extends ConsumerWidget {
                       .titleMedium!
                       .copyWith(fontWeight: FontWeight.w500),
                 ),
+                const SizedBox(height: kMarginLarge),
               ],
             ),
             SliverList.builder(
@@ -230,7 +230,7 @@ class ManagePage extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: kMarginLarge),
             ],
           ),
           localSnapsModel.when(
@@ -372,7 +372,7 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
       child: YaruInfoBox(
         title: Text(l10n.managePageOwnUpdateAvailable),
         subtitle: Padding(
-          padding: const EdgeInsets.only(right: 24),
+          padding: const EdgeInsets.only(right: kMarginLarge),
           child: Text(l10n.managePageOwnUpdateDescription),
         ),
         trailing: Column(

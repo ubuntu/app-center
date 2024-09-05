@@ -7,6 +7,7 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 part 'local_snap_providers.g.dart';
 
+// TODO: Move these in to the notifier provider
 final localSnapFilterProvider = StateProvider.autoDispose<String>((_) => '');
 final showLocalSystemAppsProvider = StateProvider<bool>((_) => false);
 final localSnapSortOrderProvider =
@@ -36,13 +37,10 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
   /// Used to add a snap from the list without reloading the whole provider.
   /// Should be used when a snap is uninstalled directly from the manage page
   /// list for example.
-  void addToList(Snap snap) {
+  Future<void> addToList(Snap snap) async {
     if (!state.hasValue) return;
-    state = AsyncData(
-      state.value!.copyWith(
-        snaps: state.value!.snaps.toList()..add(snap),
-      ),
-    );
+    final localSnap = await _snapd.getSnap(snap.name);
+    _refreshWithFilters([...state.value!.snaps, localSnap]);
   }
 
   /// Used to remove a snap from the list without reloading the whole provider.

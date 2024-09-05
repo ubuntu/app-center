@@ -103,9 +103,9 @@ class SnapModel extends _$SnapModel {
     };
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, ref);
-    //ref.invalidate(localSnapFilterProvider);
-    ref.read(updatesModelProvider.notifier).addToList(storeSnap);
-    ref.read(filteredLocalSnapsProvider.notifier).addToList(storeSnap);
+    unawaited(
+      ref.read(filteredLocalSnapsProvider.notifier).addToList(storeSnap),
+    );
     ref.read(currentlyInstallingProvider.notifier).state =
         Map.from(ref.read(currentlyInstallingProvider.notifier).state)
           ..remove(snapName);

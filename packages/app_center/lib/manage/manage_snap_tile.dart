@@ -214,7 +214,7 @@ class _ButtonBarForUpdate extends ConsumerWidget {
                 ? null
                 : ref.read(snapModelProvider(snap.name).notifier).refresh,
             child: activeChangeId != null
-                ? ActiveChangeContent(activeChangeId, showText: false)
+                ? ActiveChangeContent(activeChangeId)
                 : const _UpdateButton(),
           ),
         const SizedBox(width: 16),
@@ -273,7 +273,7 @@ class _ButtonBarForOpen extends ConsumerWidget {
             if (activeChangeId != null)
               OutlinedButton(
                 onPressed: null,
-                child: ActiveChangeContent(activeChangeId, showText: false),
+                child: ActiveChangeContent(activeChangeId),
               ),
             Visibility(
               maintainSize: true,

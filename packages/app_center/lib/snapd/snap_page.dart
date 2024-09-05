@@ -652,14 +652,9 @@ class _ChannelDropdownEntry extends StatelessWidget {
 }
 
 class ActiveChangeContent extends ConsumerWidget {
-  const ActiveChangeContent(
-    this.changeId, {
-    this.showText = true,
-    super.key,
-  });
+  const ActiveChangeContent(this.changeId, {super.key});
 
   final String changeId;
-  final bool showText;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -675,14 +670,12 @@ class ActiveChangeContent extends ConsumerWidget {
             strokeWidth: 2,
           ),
         ),
-        if (change != null && showText) ...[
+        if (change != null) ...[
           const SizedBox(width: 8),
-          Flexible(
-            child: Text(
-              change.localize(l10n) ?? '',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+          Text(
+            change.localize(l10n) ?? '',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ],
