@@ -7,7 +7,6 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 part 'local_snap_providers.g.dart';
 
-// TODO: Move these in to the notifier provider
 final localSnapFilterProvider = StateProvider.autoDispose<String>((_) => '');
 final showLocalSystemAppsProvider = StateProvider<bool>((_) => false);
 final localSnapSortOrderProvider =
