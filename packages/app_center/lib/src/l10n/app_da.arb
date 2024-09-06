@@ -386,5 +386,85 @@
         "type": "int"
       }
     }
-  }
+  },
+  "appstreamUrlTypeVcsBrowser": "Kilde",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "managePageDebUpdatesMessage": "Debian pakke opdateringer er håndteret af Software Opdateren.",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Installeret",
+  "@snapActionInstalledLabel": {},
+  "snapPageSizeLabel": "Størrelse",
+  "@snapPageSizeLabel": {},
+  "localDebWarningBody": "Denne pakker er forsynet af en tredjepart. At installere pakker uden fra App-Centeret kan forøge risikoen til dit system og personlige data. Vær sikker på at du stoler på kilden for du fortsætter.",
+  "@localDebWarningBody": {},
+  "localDebWarningTitle": "Potentielt usikker",
+  "@localDebWarningTitle": {},
+  "localDebLearnMore": "Lær mere om tredjeparts pakker",
+  "@localDebLearnMore": {},
+  "localDebDialogConfirmation": "Er du sikker på at du vil installere den?",
+  "@localDebDialogConfirmation": {},
+  "managePageOwnUpdateDescriptionSoon": "App centeret vil automatisk opdatere om {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateAvailable": "App Center opdatering tilgængelig",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateQuitButton": "Forlad til opdatering",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageOwnUpdateDescription": "Når du forlader applikationen vil den automatisk opdatere.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageUpdatesFailedBody": "Vi kunne ikke opdatere disse applikationer fordi de kører.\n\n{snapList}\nNår du forlader applikationerne, vil det automatisk opdatere.",
+  "@managePageUpdatesFailedBody": {},
+  "errorViewNetworkErrorAction": "Check din forbindelse og prøv igen.",
+  "@errorViewNetworkErrorAction": {},
+  "managePageTitle": "Kontroller installerede snaps",
+  "@managePageTitle": {},
+  "managePageUpdatesFailed": "{n, plural, =1{En opdatering} other{{n} opdateringer}} fejlede",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "appstreamUrlTypeContribute": "Bidrag",
+  "@appstreamUrlTypeContribute": {},
+  "localDebDialogMessage": "Denne pakker er forsynet af en tredjepart og kan true dit system og personlige data.",
+  "@localDebDialogMessage": {},
+  "errorViewUnknownErrorAction": "Du kan prøve igen nu, check statussen for opdateringer, eller prøv igen senere.",
+  "@errorViewUnknownErrorAction": {},
+  "snapdExceptionRunningApps": "Vi kunne ikke opdatere {snapName} fordi den kører.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewNetworkErrorTitle": "Forbind til internettet",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "Vi kan ikke loade indholdet i App-Centeret uden en internet forbindelse.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewCheckStatusLabel": "Bemærk: Disse er eksterne værktøjer. De ejes eller distribueres ikke af Canonical.",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewUnknownErrorTitle": "Noget gik galt",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewServerErrorDescription": "Vi er kede af det, vi har nuværende problemer med App-Centeret.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Check statussen for opdateringer eller prøv igen senere.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorDescription": "Vi er kede af det, men vi er ikke sikre på hvad fejlen er.",
+  "@errorViewUnknownErrorDescription": {},
+  "snapCategoryArtAndDesignButtonLabel": "Begynd at skabe",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Fra din første skitse til den sidste berøring, udforsk apps til kunst og design.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageQuitToUpdate": "Forlad til opdatering",
+  "@managePageQuitToUpdate": {},
+  "managePageNoInternet": "Kan ikke forbinde til server, check din internet forbindelse eller prøv igen senere.",
+  "@managePageNoInternet": {}
 }
