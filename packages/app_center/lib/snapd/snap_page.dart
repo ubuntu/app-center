@@ -1,5 +1,6 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
+import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
@@ -173,7 +174,7 @@ class _SnapView extends StatelessWidget {
                         if (snapData.availableChannels != null &&
                             snapData.selectedChannel != null) ...[
                           _ChannelDropdown(snapData: snapData),
-                          const SizedBox(width: 16),
+                          const SizedBox(width: kSpacing),
                         ],
                         Flexible(
                           child: _SnapActionButtons(snapData: snapData),
@@ -191,7 +192,7 @@ class _SnapView extends StatelessWidget {
                       ),
                     ),
                     const Divider(),
-                    const SizedBox(height: 48),
+                    const SizedBox(height: kSectionSpacing),
                     if (snapData.hasGallery) ...[
                       AppPageSection(
                         header: Text(
@@ -202,7 +203,9 @@ class _SnapView extends StatelessWidget {
                               ?.copyWith(fontWeight: FontWeight.w500),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 48),
+                          padding: const EdgeInsets.only(
+                            bottom: kSectionSpacing,
+                          ),
                           child: ScreenshotGallery(
                             title: snapData.storeSnap!.titleOrName,
                             urls: snapData.storeSnap!.screenshotUrls,
@@ -211,7 +214,7 @@ class _SnapView extends StatelessWidget {
                         ),
                       ),
                       const Divider(),
-                      const SizedBox(height: 48),
+                      const SizedBox(height: kSectionSpacing),
                     ],
                     AppPageSection(
                       header: Text(
@@ -392,12 +395,14 @@ class _SnapActionButtons extends ConsumerWidget {
         else if (snapData.isInstalled)
           secondaryActionsButton,
         if (snapData.isInstalled) ...[
-          const SizedBox(width: 8),
           _RatingsActionButtons(
             snap: snapData.snap,
           ),
         ],
-      ].whereNotNull().toList(),
+      ]
+          .whereNotNull()
+          .toList()
+          .separatedBy(const SizedBox(width: kSpacingSmall)),
     );
   }
 }
