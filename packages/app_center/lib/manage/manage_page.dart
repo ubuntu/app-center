@@ -137,7 +137,7 @@ class ManagePage extends ConsumerWidget {
           if (currentlyInstalling.isNotEmpty) ...[
             SliverList.list(
               children: [
-                const SizedBox(height: kPageSectionSpacing),
+                const SizedBox(height: kSectionSpacing),
                 Text(
                   l10n.managePageInstallingLabel(1),
                   style: Theme.of(context)
@@ -162,7 +162,7 @@ class ManagePage extends ConsumerWidget {
           ],
           SliverList.list(
             children: [
-              const SizedBox(height: kPageSectionSpacing),
+              const SizedBox(height: kSectionSpacing),
               Text(
                 l10n.managePageInstalledAndUpdatedLabel,
                 style: Theme.of(context)
@@ -358,7 +358,7 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
         refreshInhibitModel.valueOrNull?.refreshInhibit?.proceedTime;
 
     if (proceedTime == null) {
-      return const SizedBox(height: kPageSectionSpacing);
+      return const SizedBox(height: kSectionSpacing);
     }
 
     final buttonStyle = OutlinedButtonTheme.of(context).style?.copyWith(
