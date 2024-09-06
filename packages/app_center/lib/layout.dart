@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 const kMargin = 4.0;
 const kMarginLarge = 24.0;
 const kCardMargin = 4.0;
+const kCardSpacing = 16.0;
 const kPaneWidth = 204.0;
 const kPagePadding = 24.0;
-const kCardSpacing = 16.0;
+const kSpacingSmall = 8.0;
+const kSpacing = 16.0;
 const kSearchBarWidth = 424.0 - 2 * kCardMargin;
 const kIconSize = 56.0;
-const kPageSectionSpacing = 48.0;
+const kSectionSpacing = 48.0;
 
 const kCardSizeNormal = Size(416.0, 170.0);
 const kCardSizeWide = Size(548.0, 170.0);
