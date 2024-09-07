@@ -251,6 +251,7 @@ class _ButtonBar extends ConsumerWidget {
     final canOpen = snapLauncher.isLaunchable;
     return [
       if (hasActiveChange)
+        // TODO: Add cancel button!
         ActiveChangeContent(activeChangeId)
       else ...[
         if (showUpdateButton)
