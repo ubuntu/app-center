@@ -283,7 +283,7 @@
   "@gamesPageTitle": {},
   "gamesPageTop": "Top-Spiele",
   "@gamesPageTop": {},
-  "appCenterLabel": "App Center",
+  "appCenterLabel": "App-Zentrum",
   "@appCenterLabel": {},
   "gamesPageBundles": "App-Bundles",
   "@gamesPageBundles": {},
@@ -437,7 +437,7 @@
   "@managePageOwnUpdateAvailable": {},
   "managePageOwnUpdateDescription": "Wenn Sie die Anwendung beenden, wird sie automatisch aktualisiert.",
   "@managePageOwnUpdateDescription": {},
-  "managePageOwnUpdateDescriptionSoon": "Das App Center wird automatisch in {time} aktualisiert.",
+  "managePageOwnUpdateDescriptionSoon": "Das App-Zentrum wird in {time} automatisch aktualisiert.",
   "@managePageOwnUpdateDescriptionSoon": {
     "placeholders": {
       "time": {
