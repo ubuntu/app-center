@@ -416,5 +416,19 @@
   "managePageTitle": "Kelola snap yang terpasang",
   "@managePageTitle": {},
   "managePageQuitToUpdate": "Keluar untuk memperbarui",
-  "@managePageQuitToUpdate": {}
+  "@managePageQuitToUpdate": {},
+  "errorViewUnknownErrorAction": "Anda dapat mencoba lagi sekarang, memeriksa status pembaruan, atau mencoba lagi nanti.",
+  "@errorViewUnknownErrorAction": {},
+  "errorViewNetworkErrorDescription": "Kami tak bisa memuat konten dalam Pusat App tanpa suatu koneksi internet.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewServerErrorAction": "Periksa status untuk pembaruan atau coba lagi nanti.",
+  "@errorViewServerErrorAction": {},
+  "errorViewNetworkErrorAction": "Periksa koneksi Anda dan coba lagi.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "Maaf, saat ini kami sedang mengalami masalah dengan Pusat App.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewUnknownErrorDescription": "Maaf, kami tidak yakin apa kesalahannya.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorTitle": "Ada yang tidak beres",
+  "@errorViewUnknownErrorTitle": {}
 }
