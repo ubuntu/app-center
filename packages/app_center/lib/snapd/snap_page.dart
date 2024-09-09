@@ -655,35 +655,3 @@ class _ChannelDropdownEntry extends StatelessWidget {
     );
   }
 }
-
-class ActiveChangeContent extends ConsumerWidget {
-  const ActiveChangeContent(this.changeId, {super.key});
-
-  final String changeId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final change = ref.watch(activeChangeProvider(changeId));
-
-    return Row(
-      children: [
-        SizedBox.square(
-          dimension: kCircularProgressIndicatorHeight,
-          child: YaruCircularProgressIndicator(
-            value: change?.progress,
-            strokeWidth: 2,
-          ),
-        ),
-        if (change != null) ...[
-          const SizedBox(width: 8),
-          Text(
-            change.localize(l10n) ?? '',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ],
-    );
-  }
-}

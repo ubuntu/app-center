@@ -3,7 +3,6 @@ import 'package:app_center/layout.dart';
 import 'package:app_center/manage/manage_l10n.dart';
 import 'package:app_center/snapd/snap_action.dart';
 import 'package:app_center/snapd/snapd.dart';
-import 'package:app_center/src/l10n/app_localizations.g.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/snap_menu_item.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -250,10 +249,10 @@ class _ButtonBar extends ConsumerWidget {
     final hasActiveChange = activeChangeId != null;
     final canOpen = snapLauncher.isLaunchable;
     return [
-      if (hasActiveChange)
-        // TODO: Add cancel button!
-        ActiveChangeContent(activeChangeId)
-      else ...[
+      if (hasActiveChange) ...[
+        ActiveChangeContent(activeChangeId),
+        CancelActiveChangeButton(snapModel.valueOrNull?.name),
+      ] else ...[
         if (showUpdateButton)
           _UpdateButton(snapModel: snapModel, activeChangeId: activeChangeId),
         if (!showUpdateButton && canOpen)
