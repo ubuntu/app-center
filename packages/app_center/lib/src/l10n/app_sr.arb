@@ -1,1 +1,476 @@
-{}
+{
+  "appCenterLabel": "Центар за апликације",
+  "@appCenterLabel": {},
+  "snapPageChannelLabel": "Канал",
+  "@snapPageChannelLabel": {},
+  "snapPageConfinementLabel": "Ограничење",
+  "@snapPageConfinementLabel": {},
+  "snapPageContactPublisherLabel": "Контактирај {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageDescriptionLabel": "Опис",
+  "@snapPageDescriptionLabel": {},
+  "snapPageDownloadSizeLabel": "Величина преузимања",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPageSizeLabel": "Величина",
+  "@snapPageSizeLabel": {},
+  "snapPageLicenseLabel": "Лиценца",
+  "@snapPageLicenseLabel": {},
+  "snapPageLinksLabel": "Везе",
+  "@snapPageLinksLabel": {},
+  "snapPagePublisherLabel": "Издавач",
+  "@snapPagePublisherLabel": {},
+  "snapPagePublishedLabel": "Објављено",
+  "@snapPagePublishedLabel": {},
+  "explorePageLabel": "Истражи",
+  "@explorePageLabel": {},
+  "explorePageCategoriesLabel": "Категорије",
+  "@explorePageCategoriesLabel": {},
+  "managePageOwnUpdateAvailable": "Доступно ажурирање Центра за апликације",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageQuitToUpdate": "Изађи да ажурираш",
+  "@managePageQuitToUpdate": {},
+  "managePageOwnUpdateQuitButton": "Изађи да ажурираш",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageCheckForUpdates": "Провери за ажурирања",
+  "@managePageCheckForUpdates": {},
+  "managePageCheckingForUpdates": "Проверавање ажурирања",
+  "@managePageCheckingForUpdates": {},
+  "managePageInstalledAndUpdatedLabel": "Инсталирано и ажурирано",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "managePageLabel": "Управљај",
+  "@managePageLabel": {},
+  "managePageTitle": "Управљај инсталираним snap-овима",
+  "@managePageTitle": {},
+  "managePageUpdateAllLabel": "Ажурирај све",
+  "@managePageUpdateAllLabel": {},
+  "managePageUpdatedDaysAgo": "Ажурирано пре {n, plural, =1{{n} дан} other{{n} дана}}",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "productivityPageLabel": "Продуктивност",
+  "@productivityPageLabel": {},
+  "gamesPageTop": "Најбоље игре",
+  "@gamesPageTop": {},
+  "gamesPageFeatured": "Истакнути наслови",
+  "@gamesPageFeatured": {},
+  "gamesPageBundles": "Пакети апликација",
+  "@gamesPageBundles": {},
+  "unknownPublisher": "Непознат издавач",
+  "@unknownPublisher": {},
+  "searchFieldDebSection": "Debian пакети",
+  "@searchFieldDebSection": {},
+  "searchPageFilterByLabel": "Филтрирај по",
+  "@searchPageFilterByLabel": {},
+  "searchPageNoResults": "Нема резултата за \"{query}\"",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageContributeLabel": "Доприносите или пријавите грешку",
+  "@aboutPageContributeLabel": {},
+  "aboutPageGitHubLabel": "Пронађите нас на GitHub-у",
+  "@aboutPageGitHubLabel": {},
+  "aboutPagePublishLabel": "Објавите у Snap продавници",
+  "@aboutPagePublishLabel": {},
+  "aboutPageLearnMoreLabel": "Сазнајте више",
+  "@aboutPageLearnMoreLabel": {},
+  "appstreamUrlTypeBugtracker": "Трагач грешака",
+  "@appstreamUrlTypeBugtracker": {},
+  "appstreamUrlTypeContact": "Контакт",
+  "@appstreamUrlTypeContact": {},
+  "appstreamUrlTypeContribute": "Доприносите",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeDonation": "Донаторство",
+  "@appstreamUrlTypeDonation": {},
+  "appstreamUrlTypeFaq": "Честа питања",
+  "@appstreamUrlTypeFaq": {},
+  "appstreamUrlTypeHelp": "Помоћ",
+  "@appstreamUrlTypeHelp": {},
+  "appstreamUrlTypeHomepage": "Почетна страница",
+  "@appstreamUrlTypeHomepage": {},
+  "appstreamUrlTypeTranslate": "Преводи",
+  "@appstreamUrlTypeTranslate": {},
+  "appstreamUrlTypeVcsBrowser": "Извор",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "packageFormatDebLabel": "Debian пакети",
+  "@packageFormatDebLabel": {},
+  "snapActionInstallLabel": "Поступак инсталирања",
+  "@snapActionInstallLabel": {},
+  "snapActionOpenLabel": "Отвори",
+  "@snapActionOpenLabel": {},
+  "snapCategoryGamesSlogan": "Све за вашу ноћ игрица",
+  "@snapCategoryGamesSlogan": {},
+  "snapCategoryGameDevSlogan": "Развој игара",
+  "@snapCategoryGameDevSlogan": {},
+  "snapSortOrderDownloadSizeDesc": "Величина (Највећа до најмања)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "snapRatingsBandVeryGood": "Врло добро",
+  "@snapRatingsBandVeryGood": {},
+  "snapReportSelectReportReasonLabel": "Изаберите разлог за пријаву овог снапа",
+  "@snapReportSelectReportReasonLabel": {},
+  "snapReportOptionCopyrightViolation": "Повреда ауторских права или заштитног знака",
+  "@snapReportOptionCopyrightViolation": {},
+  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical-овим обавештењем о приватности ",
+  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+  "allGamesButtonLabel": "Све игре",
+  "@allGamesButtonLabel": {},
+  "errorViewCheckStatusLabel": "Проверите статус",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "Повежи се на интернет",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewUnknownErrorDescription": "Извините, али нисмо сигурни у чему је грешка.",
+  "@errorViewUnknownErrorDescription": {},
+  "snapCategoryGnomeGamesSlogan": "GNOME пакет игрица",
+  "@snapCategoryGnomeGamesSlogan": {},
+  "snapSortOrderAlphabeticalDesc": "Абецедно (Ш до А)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "snapRatingsVotes": "{n} гласова",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageDebUpdatesMessage": "Ажурирања Debian пакета се обрађују преко Ажурирача програма.",
+  "@managePageDebUpdatesMessage": {},
+  "managePageShowDetailsLabel": "Прикажи детаље",
+  "@managePageShowDetailsLabel": {},
+  "appstreamSearchGreylist": "апл.;апликација;пакет;програм;програм;пакет;алат",
+  "@appstreamSearchGreylist": {},
+  "managePageNoInternet": "Не могу да приступим серверу, проверите своју интернет везу или покушајте поново касније.",
+  "@managePageNoInternet": {},
+  "snapPageDeveloperWebsiteLabel": "Вебсајт програмера",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "managePageOwnUpdateDescription": "Када изађете из апликације, она ће се аутоматски ажурирати.",
+  "@managePageOwnUpdateDescription": {},
+  "snapPageGalleryLabel": "Галерија",
+  "@snapPageGalleryLabel": {},
+  "snapPageShareLinkCopiedMessage": "Веза копирана у клипборд",
+  "@snapPageShareLinkCopiedMessage": {},
+  "managePageUpdatedWeeksAgo": "Ажурирано пре {n, plural, =1{{n} недељу} few{{n} недеље} other{{n} недеља}}",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapActionSwitchChannelLabel": "Промени канал",
+  "@snapActionSwitchChannelLabel": {},
+  "snapActionUpdatingLabel": "Ажурирање",
+  "@snapActionUpdatingLabel": {},
+  "snapPageSummaryLabel": "Резиме",
+  "@snapPageSummaryLabel": {},
+  "snapPageVersionLabel": "Верзија",
+  "@snapPageVersionLabel": {},
+  "managePageDescription": "Провери доступна ажурирања, ажурирај своје апликације и управљај статусом свих својих апликација.",
+  "@managePageDescription": {},
+  "managePageShowSystemSnapsLabel": "Прикажи системске snap-ове",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageNoUpdatesAvailableDescription": "Нема доступних ажурирања. Све ваше апликације су ажуриране.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "managePageSearchFieldSearchHint": "Претражи своје инсталиране апликације",
+  "@managePageSearchFieldSearchHint": {},
+  "managePageUpdatedMonthsAgo": "Ажурирано пре {n, plural, =1{{n} месец} few{{n} месеца} other{{n} месеци}}",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesAvailable": "Доступна ажурирања ({n})",
+  "@managePageUpdatesAvailable": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageOwnUpdateDescriptionSoon": "Центар за апликације ће се аутоматски ажурирати за {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageNoResultsHint": "Покушајте да користите другачије или општије кључне речи",
+  "@searchPageNoResultsHint": {},
+  "searchPageTitle": "Резултати за \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageUpdatesFailed": "{n, plural, =1{Једно ажурирање} other{{n} ажурирања}} није успело",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Ажурирано пре {n, plural, =1{{n} годину} few{{n} године} other{{n} година}}",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "developmentPageLabel": "Развој",
+  "@developmentPageLabel": {},
+  "managePageUpdatesFailedBody": "Нисмо могли да ажурирамо ове апликације јер су тренутно покренуте.\n\n{snapList}\nКада изађете из апликација, оне ће се аутоматски ажурирати.",
+  "@managePageUpdatesFailedBody": {},
+  "gamesPageLabel": "Игре",
+  "@gamesPageLabel": {},
+  "snapActionRemovingLabel": "Деинсталирање",
+  "@snapActionRemovingLabel": {},
+  "snapActionUpdateLabel": "Ажурирај",
+  "@snapActionUpdateLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Од првог цртежа до финалног додира, истражите апликације за уметност и дизајн.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "gamesPageTitle": "Шта је популарно",
+  "@gamesPageTitle": {},
+  "searchPageNoResultsCategory": "Извините, нисмо могли да пронађемо пакете у овој категорији",
+  "@searchPageNoResultsCategory": {},
+  "searchPageSortByLabel": "Сортирај по",
+  "@searchPageSortByLabel": {},
+  "aboutPageLabel": "О",
+  "@aboutPageLabel": {},
+  "searchFieldSearchHint": "Претражи апликације",
+  "@searchFieldSearchHint": {},
+  "searchFieldSearchForLabel": "Погледај све резултате за \"{query}\"",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageNoResultsCategoryHint": "Покушајте другу категорију или користите општије кључне речи",
+  "@searchPageNoResultsCategoryHint": {},
+  "searchPageRelevanceLabel": "Релевантност",
+  "@searchPageRelevanceLabel": {},
+  "searchFieldSnapSection": "Snap пакети",
+  "@searchFieldSnapSection": {},
+  "aboutPageContributorTitle": "Дизајнирано и развијено од:",
+  "@aboutPageContributorTitle": {},
+  "packageFormatSnapLabel": "Snap пакети",
+  "@packageFormatSnapLabel": {},
+  "snapActionCancelLabel": "Откажи",
+  "@snapActionCancelLabel": {},
+  "snapActionInstalledLabel": "Инсталирано",
+  "@snapActionInstalledLabel": {},
+  "snapCategoryAll": "Све категорије",
+  "@snapCategoryAll": {},
+  "aboutPageCommunityTitle": "Будите део заједнице:",
+  "@aboutPageCommunityTitle": {},
+  "snapActionRemoveLabel": "Деинсталирај",
+  "@snapActionRemoveLabel": {},
+  "snapCategoryFinance": "Финансије",
+  "@snapCategoryFinance": {},
+  "snapCategoryHealthAndFitness": "Здравље и фитнес",
+  "@snapCategoryHealthAndFitness": {},
+  "snapActionInstallingLabel": "Инсталирање",
+  "@snapActionInstallingLabel": {},
+  "snapCategoryBooksAndReference": "Књиге и референце",
+  "@snapCategoryBooksAndReference": {},
+  "snapCategoryDevelopment": "Развој",
+  "@snapCategoryDevelopment": {},
+  "snapCategoryArtAndDesign": "Уметност и дизајн",
+  "@snapCategoryArtAndDesign": {},
+  "snapCategoryArtAndDesignButtonLabel": "Почни да ствараш",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryDevelopmentSlogan": "Неопходни снапови за програмере",
+  "@snapCategoryDevelopmentSlogan": {},
+  "snapCategoryEntertainment": "Забава",
+  "@snapCategoryEntertainment": {},
+  "snapCategoryDefaultButtonLabel": "Откријте више",
+  "@snapCategoryDefaultButtonLabel": {},
+  "snapCategoryDevicesAndIot": "Уређаји и IoT",
+  "@snapCategoryDevicesAndIot": {},
+  "snapCategoryEducation": "Образовање",
+  "@snapCategoryEducation": {},
+  "snapCategoryFeatured": "Истакнуто",
+  "@snapCategoryFeatured": {},
+  "snapCategoryGameEmulatorsSlogan": "Емулатори",
+  "@snapCategoryGameEmulatorsSlogan": {},
+  "snapCategoryGnomeGames": "GNOME Игре",
+  "@snapCategoryGnomeGames": {},
+  "snapCategoryGameContentCreation": "Креирање садржаја",
+  "@snapCategoryGameContentCreation": {},
+  "snapCategoryGameContentCreationSlogan": "Креирање садржаја",
+  "@snapCategoryGameContentCreationSlogan": {},
+  "snapCategoryFeaturedSlogan": "Истакнути снапови",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapCategoryGames": "Игре",
+  "@snapCategoryGames": {},
+  "snapCategoryGameDev": "Развој игара",
+  "@snapCategoryGameDev": {},
+  "snapCategoryGameEmulators": "Емулатори",
+  "@snapCategoryGameEmulators": {},
+  "snapCategoryKdeGames": "KDE Игре",
+  "@snapCategoryKdeGames": {},
+  "snapCategoryKdeGamesSlogan": "KDE пакет игрица",
+  "@snapCategoryKdeGamesSlogan": {},
+  "snapCategoryNewsAndWeather": "Вести и време",
+  "@snapCategoryNewsAndWeather": {},
+  "snapCategoryPhotoAndVideo": "Фотографија и видео",
+  "@snapCategoryPhotoAndVideo": {},
+  "snapCategoryProductivity": "Продуктивност",
+  "@snapCategoryProductivity": {},
+  "snapCategoryProductivitySlogan": "Прецртајте једну ствар са своје листе обавеза",
+  "@snapCategoryProductivitySlogan": {},
+  "snapCategorySocial": "Друштвено",
+  "@snapCategorySocial": {},
+  "snapCategoryUbuntuDesktop": "Ubuntu Десктоп",
+  "@snapCategoryUbuntuDesktop": {},
+  "snapCategoryUbuntuDesktopSlogan": "Брзи почетак вашег десктопа",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapConfinementClassic": "Класично",
+  "@snapConfinementClassic": {},
+  "snapRatingsBandInsufficientVotes": "Недовољно гласова",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapCategoryGameLaunchersSlogan": "Покретачи игара",
+  "@snapCategoryGameLaunchersSlogan": {},
+  "snapCategoryGameLaunchers": "Покретачи игара",
+  "@snapCategoryGameLaunchers": {},
+  "snapCategoryMusicAndAudio": "Музика и аудио",
+  "@snapCategoryMusicAndAudio": {},
+  "snapCategoryPersonalisation": "Персонализација",
+  "@snapCategoryPersonalisation": {},
+  "snapCategoryProductivityButtonLabel": "Откријте колекцију за продуктивност",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapCategoryServerAndCloud": "Сервер и облак",
+  "@snapCategoryServerAndCloud": {},
+  "snapCategoryUtilities": "Алатке",
+  "@snapCategoryUtilities": {},
+  "snapConfinementDevmode": "Девмод",
+  "@snapConfinementDevmode": {},
+  "snapConfinementStrict": "Строго",
+  "@snapConfinementStrict": {},
+  "snapSortOrderAlphabeticalAsc": "Абецедно (А до Ш)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "snapSortOrderInstalledSizeAsc": "Величина (Најмања до највећа)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "snapCategoryScience": "Наука",
+  "@snapCategoryScience": {},
+  "snapCategorySecurity": "Безбедност",
+  "@snapCategorySecurity": {},
+  "snapSortOrderDownloadSizeAsc": "Величина (Најмања до највећа)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "snapSortOrderInstalledSizeDesc": "Величина (Највећа до најмања)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapRatingsBandGood": "Добро",
+  "@snapRatingsBandGood": {},
+  "snapSortOrderInstalledDateAsc": "Најмање недавно ажурирано",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapSortOrderInstalledDateDesc": "Највише недавно ажурирано",
+  "@snapSortOrderInstalledDateDesc": {},
+  "snapSortOrderRelevance": "Релевантност",
+  "@snapSortOrderRelevance": {},
+  "snapReportSelectAnOptionLabel": "Изаберите опцију",
+  "@snapReportSelectAnOptionLabel": {},
+  "snapReportOptionStoreViolation": "Кршење услова коришћења Snap продавнице",
+  "@snapReportOptionStoreViolation": {},
+  "snapReportDetailsLabel": "Молимо наведите детаљнији разлог за вашу пријаву",
+  "@snapReportDetailsLabel": {},
+  "debPageErrorNoPackageInfo": "Нису пронађене информације о пакету",
+  "@debPageErrorNoPackageInfo": {},
+  "snapRatingsBandNeutral": "Неутрално",
+  "@snapRatingsBandNeutral": {},
+  "snapRatingsBandPoor": "Лоше",
+  "@snapRatingsBandPoor": {},
+  "snapRatingsBandVeryPoor": "Врло лоше",
+  "@snapRatingsBandVeryPoor": {},
+  "snapReportCancelButtonLabel": "Откажи",
+  "@snapReportCancelButtonLabel": {},
+  "snapReportLabel": "Пријави {snapName}",
+  "@snapReportLabel": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "snapReportOptionalEmailAddressLabel": "Ваша е-пошта (опционално)",
+  "@snapReportOptionalEmailAddressLabel": {},
+  "snapReportEnterValidEmailError": "Унесите важећу е-адресу",
+  "@snapReportEnterValidEmailError": {},
+  "snapReportSubmitButtonLabel": "Пошаљи пријаву",
+  "@snapReportSubmitButtonLabel": {},
+  "snapReportPrivacyAgreementLabel": "Подношењем овог обрасца, потврђујем да сам прочитао и слажем се са ",
+  "@snapReportPrivacyAgreementLabel": {},
+  "snapReportPrivacyAgreementAndLabel": "и ",
+  "@snapReportPrivacyAgreementAndLabel": {},
+  "externalResources": "Додатни ресурси",
+  "@externalResources": {},
+  "snapReportDetailsHint": "Коментар...",
+  "@snapReportDetailsHint": {},
+  "snapReportPrivacyAgreementPrivacyPolicy": "Политиком приватности",
+  "@snapReportPrivacyAgreementPrivacyPolicy": {},
+  "externalResourcesDisclaimer": "Напомена: Ово су све спољашњи алати. Ови алати нису у власништву нити их дистрибуира Canonical.",
+  "@externalResourcesDisclaimer": {},
+  "openInBrowser": "Отвори у прегледачу",
+  "@openInBrowser": {},
+  "externalResourcesButtonLabel": "Откријте више",
+  "@externalResourcesButtonLabel": {},
+  "installAll": "Поступак инсталирања свих",
+  "@installAll": {},
+  "localDebWarningTitle": "Потенцијално небезбедно",
+  "@localDebWarningTitle": {},
+  "localDebWarningBody": "Овај пакет је обезбеђен од стране треће стране. Поступак инсталирања пакета изван Центра апликација може повећати ризик за ваш систем и личне податке. Уверите се да верујете извору пре него што наставите.",
+  "@localDebWarningBody": {},
+  "localDebLearnMore": "Сазнајте више о пакетима трећих страна",
+  "@localDebLearnMore": {},
+  "errorViewNetworkErrorAction": "Проверите своју везу и покушајте поново.",
+  "@errorViewNetworkErrorAction": {},
+  "localDebDialogMessage": "Овај пакет је обезбеђен од стране треће стране и може угрозити ваш систем и личне податке.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "Да ли сте сигурни да желите да га инсталирате?",
+  "@localDebDialogConfirmation": {},
+  "errorViewNetworkErrorDescription": "Не можемо учитати садржај у Центру апликација без интернет везе.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewUnknownErrorTitle": "Нешто је пошло наопако",
+  "@errorViewUnknownErrorTitle": {},
+  "snapdExceptionRunningApps": "Нисмо могли да ажурирамо {snapName} јер је тренутно покренут.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewServerErrorDescription": "Извините, тренутно имамо проблема са Центром апликација.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Проверите статус за ажурирања или покушајте поново касније.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorAction": "Можете покушати поново сада, проверити статус за ажурирања или покушати поново касније.",
+  "@errorViewUnknownErrorAction": {},
+  "aboutPageVersionLabel": "Верзија {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  }
+}
