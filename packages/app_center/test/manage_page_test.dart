@@ -307,8 +307,8 @@ void main() {
 
     final testTile = find.snapTile('Snap with an update');
     expect(testTile, findsOneWidget);
-    final activeChangeContent = find.byType(ActiveChangeContent);
-    expect(activeChangeContent, findsOneWidget);
+    final activeChangeStatus = find.byType(ActiveChangeStatus);
+    expect(activeChangeStatus, findsOneWidget);
     final progressIndicator = find.descendant(
       of: testTile,
       matching: find.byType(YaruCircularProgressIndicator),

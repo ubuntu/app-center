@@ -215,7 +215,7 @@ class _ButtonBar extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         primaryWidget,
-        const SizedBox(width: 16),
+        const SizedBox(width: kSpacing),
         MenuAnchor(
           menuChildren: [
             ...initialWidgets.skip(1),
@@ -249,10 +249,12 @@ class _ButtonBar extends ConsumerWidget {
     final hasActiveChange = activeChangeId != null;
     final canOpen = snapLauncher.isLaunchable;
     return [
-      if (hasActiveChange) ...[
-        ActiveChangeContent(activeChangeId),
-        CancelActiveChangeButton(snapModel.valueOrNull?.name),
-      ] else ...[
+      if (hasActiveChange)
+        ActiveChangeStatus(
+          snapName: snapModel.valueOrNull?.name,
+          activeChangeId: activeChangeId,
+        )
+      else ...[
         if (showUpdateButton)
           _UpdateButton(snapModel: snapModel, activeChangeId: activeChangeId),
         if (!showUpdateButton && canOpen)
@@ -294,20 +296,18 @@ class _UpdateButton extends ConsumerWidget {
         onPressed: activeChangeId != null || !snapModel.hasValue
             ? null
             : ref.read(snapModelProvider(snap!.name).notifier).refresh,
-        child: activeChangeId != null
-            ? ActiveChangeContent(activeChangeId!)
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(YaruIcons.download),
-                  const SizedBox(width: kSpacingSmall),
-                  Text(
-                    l10n.snapActionUpdateLabel,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(YaruIcons.download),
+            const SizedBox(width: kSpacingSmall),
+            Text(
+              l10n.snapActionUpdateLabel,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       );
     }
   }

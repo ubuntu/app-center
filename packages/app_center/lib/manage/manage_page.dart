@@ -5,6 +5,7 @@ import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_snap_tile.dart';
 import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +26,7 @@ class ManagePage extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
     final isLoading = updatesModel.isLoading || localSnapsModel.isLoading;
-    final currentlyInstalling = ref.watch(currentlyInstallingProvider);
+    final currentlyInstalling = ref.watch(currentlyInstallingModelProvider);
     final currentlyInstallingNames = currentlyInstalling.keys.toList();
 
     if (updatesModel.hasError || localSnapsModel.hasError) {

@@ -1,12 +1,35 @@
 import 'package:app_center/constants.dart';
+import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/l10n.dart';
+import 'package:app_center/layout.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 
-class ActiveChangeContent extends ConsumerWidget {
-  const ActiveChangeContent(this.changeId, {super.key});
+class ActiveChangeStatus extends StatelessWidget {
+  const ActiveChangeStatus({
+    required this.snapName,
+    required this.activeChangeId,
+    super.key,
+  });
+
+  final String? snapName;
+  final String activeChangeId;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _ActiveChangeText(activeChangeId),
+        _CancelActiveChangeButton(snapName),
+      ].separatedBy(const SizedBox(width: kSpacing)),
+    );
+  }
+}
+
+class _ActiveChangeText extends ConsumerWidget {
+  const _ActiveChangeText(this.changeId);
 
   final String changeId;
 
@@ -25,9 +48,10 @@ class ActiveChangeContent extends ConsumerWidget {
           ),
         ),
         if (change != null) ...[
-          const SizedBox(width: 8),
+          const SizedBox(width: kSpacingSmall),
           Text(
             change.localize(l10n) ?? '',
+            style: Theme.of(context).textTheme.bodyMedium,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -37,17 +61,32 @@ class ActiveChangeContent extends ConsumerWidget {
   }
 }
 
-class CancelActiveChangeButton extends ConsumerWidget {
-  const CancelActiveChangeButton(this.snapName, {super.key});
+//
+class _CancelActiveChangeButton extends ConsumerStatefulWidget {
+  const _CancelActiveChangeButton(this.snapName);
 
   final String? snapName;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      ConsumerActiveChangeButtonState();
+}
+
+class ConsumerActiveChangeButtonState
+    extends ConsumerState<_CancelActiveChangeButton> {
+  bool isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return OutlinedButton(
-      onPressed: snapName != null
-          ? () => ref.read(snapModelProvider(snapName!).notifier).cancel()
+      onPressed: widget.snapName != null && !isPressed
+          ? () {
+              setState(() {
+                isPressed = true;
+                ref.read(snapModelProvider(widget.snapName!).notifier).cancel();
+              });
+            }
           : null,
       child: Text(
         l10n.snapActionCancelLabel,
