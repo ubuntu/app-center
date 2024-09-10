@@ -162,7 +162,7 @@ class ManageSnapTile extends StatelessWidget {
           ],
         ),
         trailing: SizedBox(
-          width: 300,
+          width: 250,
           child: Align(
             alignment: Alignment.centerRight,
             child: _ButtonBar(snap, showUpdateButton),
