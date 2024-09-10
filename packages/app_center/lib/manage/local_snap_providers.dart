@@ -67,6 +67,7 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
               snap.titleOrName.toLowerCase().contains(filter) &&
               (showSystemApps || snap.apps.isNotEmpty),
         )
+        .toSet()
         .sortedSnaps(sortOrder);
     if (updateState) {
       state = AsyncData(

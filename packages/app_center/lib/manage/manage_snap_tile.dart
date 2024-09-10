@@ -161,7 +161,13 @@ class ManageSnapTile extends StatelessWidget {
               ),
           ],
         ),
-        trailing: _ButtonBar(snap, showUpdateButton),
+        trailing: SizedBox(
+          width: 300,
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: _ButtonBar(snap, showUpdateButton),
+          ),
+        ),
       ),
     );
   }
@@ -206,16 +212,14 @@ class _ButtonBar extends ConsumerWidget {
       activeChangeId: activeChangeId,
       showUpdateButton: showUpdateButton,
     );
-    final primaryWidget = ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: 100),
-      child: initialWidgets.firstOrNull ?? const SizedBox(),
-    );
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        primaryWidget,
-        const SizedBox(width: kSpacing),
+        if (initialWidgets.isNotEmpty) ...[
+          initialWidgets.first,
+          const SizedBox(width: kSpacing),
+        ],
         MenuAnchor(
           menuChildren: [
             ...initialWidgets.skip(1),
