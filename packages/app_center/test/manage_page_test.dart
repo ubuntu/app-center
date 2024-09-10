@@ -302,7 +302,7 @@ void main() {
 
     final refreshButton =
         find.buttonWithText(tester.l10n.snapActionUpdatingLabel);
-    expect(refreshButton, findsExactly(2));
+    expect(refreshButton, findsOneWidget);
     expect(refreshButton, isDisabled);
 
     final testTile = find.snapTile('Snap with an update');
