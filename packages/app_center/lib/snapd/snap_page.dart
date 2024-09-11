@@ -335,15 +335,12 @@ class _SnapActionButtons extends ConsumerWidget {
       primaryAction = SnapAction.install;
     }
 
+    final hasActiveChange = snapData.activeChangeId != null;
     final primaryActionButton = SizedBox(
       width: _kPrimaryButtonMaxWidth,
       child: PushButton.elevated(
-        onPressed: snapData.activeChangeId != null
-            ? null
-            : primaryAction.callback(snapData, snapModel, snapLauncher),
-        child: snapData.activeChangeId != null
-            ? ActiveChangeContent(snapData.activeChangeId!)
-            : Text(primaryAction.label(l10n)),
+        onPressed: primaryAction.callback(snapData, snapModel, snapLauncher),
+        child: Text(primaryAction.label(l10n)),
       ),
     );
 
@@ -381,29 +378,26 @@ class _SnapActionButtons extends ConsumerWidget {
       ),
     );
 
-    final cancelButton = OutlinedButton(
-      onPressed: SnapAction.cancel.callback(snapData, snapModel),
-      child: Text(SnapAction.cancel.label(l10n)),
-    );
-
-    return OverflowBar(
-      overflowSpacing: 8,
-      children: [
-        primaryActionButton,
-        if (snapData.activeChangeId != null)
-          cancelButton
-        else if (snapData.isInstalled)
-          secondaryActionsButton,
-        if (snapData.isInstalled) ...[
-          _RatingsActionButtons(
-            snap: snapData.snap,
-          ),
-        ],
-      ]
-          .whereNotNull()
-          .toList()
-          .separatedBy(const SizedBox(width: kSpacingSmall)),
-    );
+    return hasActiveChange
+        ? ActiveChangeStatus(
+            snapName: snapModel.snapName,
+            activeChangeId: snapData.activeChangeId!,
+          )
+        : OverflowBar(
+            overflowSpacing: 8,
+            children: [
+              primaryActionButton,
+              if (snapData.isInstalled && snapData.activeChangeId == null)
+                secondaryActionsButton,
+              if (snapData.isInstalled)
+                _RatingsActionButtons(
+                  snap: snapData.snap,
+                ),
+            ]
+                .whereNotNull()
+                .toList()
+                .separatedBy(const SizedBox(width: kSpacingSmall)),
+          );
   }
 }
 
@@ -652,45 +646,6 @@ class _ChannelDropdownEntry extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ActiveChangeContent extends ConsumerWidget {
-  const ActiveChangeContent(
-    this.changeId, {
-    this.showText = true,
-    super.key,
-  });
-
-  final String changeId;
-  final bool showText;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final change = ref.watch(activeChangeProvider(changeId));
-
-    return Row(
-      children: [
-        SizedBox.square(
-          dimension: kCircularProgressIndicatorHeight,
-          child: YaruCircularProgressIndicator(
-            value: change?.progress,
-            strokeWidth: 2,
-          ),
-        ),
-        if (change != null && showText) ...[
-          const SizedBox(width: 8),
-          Flexible(
-            child: Text(
-              change.localize(l10n) ?? '',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ],
     );
   }
 }

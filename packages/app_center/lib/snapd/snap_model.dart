@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:collection/collection.dart';
@@ -88,10 +89,12 @@ class SnapModel extends _$SnapModel {
       classic: storeSnap!.channels[selectedChannel]!.confinement ==
           SnapConfinement.classic,
     );
+    ref.read(currentlyInstallingModelProvider.notifier).add(snapName, model!);
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, ref);
-    ref.invalidate(updatesModelProvider);
-    ref.invalidate(localSnapFilterProvider);
+    unawaited(
+      ref.read(filteredLocalSnapsProvider.notifier).addToList(storeSnap),
+    );
   }
 
   /// Cancels (aborts) the currently active operation which is tracked by

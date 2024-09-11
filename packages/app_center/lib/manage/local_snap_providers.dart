@@ -33,6 +33,15 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
     );
   }
 
+  /// Used to add a snap from the list without reloading the whole provider.
+  /// Should be used when a snap is uninstalled directly from the manage page
+  /// list for example.
+  Future<void> addToList(Snap snap) async {
+    if (!state.hasValue) return;
+    final localSnap = await _snapd.getSnap(snap.name);
+    _refreshWithFilters([...state.value!.snaps, localSnap]);
+  }
+
   /// Used to remove a snap from the list without reloading the whole provider.
   /// Should be used when a snap is uninstalled directly from the manage page
   /// list for example.
@@ -58,6 +67,7 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
               snap.titleOrName.toLowerCase().contains(filter) &&
               (showSystemApps || snap.apps.isNotEmpty),
         )
+        .toSet()
         .sortedSnaps(sortOrder);
     if (updateState) {
       state = AsyncData(

@@ -3,12 +3,14 @@ import 'package:app_center/snapd/snap_sort.dart';
 import 'package:snapd/snapd.dart';
 
 extension SnapdChangeL10n on SnapdChange {
-  String? localize(AppLocalizations l10n) => switch (kind) {
-        'install-snap' => l10n.snapActionInstallingLabel,
-        'refresh-snap' => l10n.snapActionUpdatingLabel,
-        'remove-snap' => l10n.snapActionRemovingLabel,
-        _ => null,
-      };
+  String? localize(AppLocalizations l10n) {
+    return switch (kind) {
+      'install-snap' => l10n.snapActionInstallingLabel,
+      'refresh-snap' => l10n.snapActionUpdatingLabel,
+      'remove-snap' => l10n.snapActionRemovingLabel,
+      _ => null,
+    };
+  }
 }
 
 extension SnapConfinementL10n on SnapConfinement {

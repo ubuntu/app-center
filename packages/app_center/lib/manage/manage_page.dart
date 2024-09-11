@@ -5,6 +5,7 @@ import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_snap_tile.dart';
 import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,6 +26,8 @@ class ManagePage extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
     final isLoading = updatesModel.isLoading || localSnapsModel.isLoading;
+    final currentlyInstalling = ref.watch(currentlyInstallingModelProvider);
+    final currentlyInstallingNames = currentlyInstalling.keys.toList();
 
     if (updatesModel.hasError || localSnapsModel.hasError) {
       return ErrorView(
@@ -87,7 +90,7 @@ class ManagePage extends ConsumerWidget {
                   );
                 },
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: kMarginLarge),
               if (!hasInternet && !isLoading)
                 _MinHeightAsProgressIndicator(
                   child: Text(
@@ -132,9 +135,35 @@ class ManagePage extends ConsumerWidget {
               child: Center(child: YaruCircularProgressIndicator()),
             ),
           ),
+          if (currentlyInstalling.isNotEmpty) ...[
+            SliverList.list(
+              children: [
+                const SizedBox(height: kSectionSpacing),
+                Text(
+                  l10n.managePageInstallingLabel(1),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: kMarginLarge),
+              ],
+            ),
+            SliverList.builder(
+              itemCount: currentlyInstalling.length,
+              itemBuilder: (context, index) => ManageSnapTile(
+                snap:
+                    currentlyInstalling[currentlyInstallingNames[index]]!.snap,
+                position: determineTilePosition(
+                  index: index,
+                  length: currentlyInstalling.length,
+                ),
+              ),
+            ),
+          ],
           SliverList.list(
             children: [
-              const SizedBox(height: 48),
+              const SizedBox(height: kSectionSpacing),
               Text(
                 l10n.managePageInstalledAndUpdatedLabel,
                 style: Theme.of(context)
@@ -202,7 +231,7 @@ class ManagePage extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: kMarginLarge),
             ],
           ),
           localSnapsModel.when(
@@ -330,7 +359,7 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
         refreshInhibitModel.valueOrNull?.refreshInhibit?.proceedTime;
 
     if (proceedTime == null) {
-      return const SizedBox(height: 48);
+      return const SizedBox(height: kSectionSpacing);
     }
 
     final buttonStyle = OutlinedButtonTheme.of(context).style?.copyWith(
@@ -344,7 +373,7 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
       child: YaruInfoBox(
         title: Text(l10n.managePageOwnUpdateAvailable),
         subtitle: Padding(
-          padding: const EdgeInsets.only(right: 24),
+          padding: const EdgeInsets.only(right: kMarginLarge),
           child: Text(l10n.managePageOwnUpdateDescription),
         ),
         trailing: Column(

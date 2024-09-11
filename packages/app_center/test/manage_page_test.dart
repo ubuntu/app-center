@@ -4,6 +4,7 @@ import 'package:app_center/manage/manage.dart';
 import 'package:app_center/manage/manage_snap_tile.dart';
 import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -306,8 +307,8 @@ void main() {
 
     final testTile = find.snapTile('Snap with an update');
     expect(testTile, findsOneWidget);
-    final activeChangeContent = find.byType(ActiveChangeContent);
-    expect(activeChangeContent, findsOneWidget);
+    final activeChangeStatus = find.byType(ActiveChangeStatus);
+    expect(activeChangeStatus, findsOneWidget);
     final progressIndicator = find.descendant(
       of: testTile,
       matching: find.byType(YaruCircularProgressIndicator),
