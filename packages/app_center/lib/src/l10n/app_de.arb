@@ -466,5 +466,13 @@
   "snapCategoryArtAndDesignSlogan": "Von der ersten Skizze bis zum letzten Schliff: Entdecken Sie Apps für Kunst und Design.",
   "@snapCategoryArtAndDesignSlogan": {},
   "snapCategoryArtAndDesignButtonLabel": "Mit dem Erstellen beginnen",
-  "@snapCategoryArtAndDesignButtonLabel": {}
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "managePageInstallingLabel": "Wird installiert ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
