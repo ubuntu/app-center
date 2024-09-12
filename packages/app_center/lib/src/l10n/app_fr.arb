@@ -466,5 +466,13 @@
   "snapCategoryArtAndDesignSlogan": "De votre premier croquis à la touche finale, explorez les applications pour l'art et la conception.",
   "@snapCategoryArtAndDesignSlogan": {},
   "snapCategoryArtAndDesignButtonLabel": "Commencez à créer",
-  "@snapCategoryArtAndDesignButtonLabel": {}
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "managePageInstallingLabel": "Installation de ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
