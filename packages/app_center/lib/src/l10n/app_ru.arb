@@ -466,5 +466,13 @@
   "snapCategoryArtAndDesignButtonLabel": "Начать творить",
   "@snapCategoryArtAndDesignButtonLabel": {},
   "snapCategoryArtAndDesignSlogan": "От первого наброска до финального штриха — исследуйте приложения для искусства и дизайна.",
-  "@snapCategoryArtAndDesignSlogan": {}
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageInstallingLabel": "Идёт установка ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
