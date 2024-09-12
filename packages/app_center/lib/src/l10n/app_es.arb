@@ -466,5 +466,13 @@
   "snapCategoryArtAndDesignButtonLabel": "Empezar a crear",
   "@snapCategoryArtAndDesignButtonLabel": {},
   "snapCategoryArtAndDesignSlogan": "Desde tu primer boceto hasta el toque final, explora aplicaciones para arte y diseño.",
-  "@snapCategoryArtAndDesignSlogan": {}
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageInstallingLabel": "Instalando ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
