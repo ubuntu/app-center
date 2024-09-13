@@ -466,5 +466,13 @@
   "snapCategoryArtAndDesignButtonLabel": "Ekverku",
   "@snapCategoryArtAndDesignButtonLabel": {},
   "snapCategoryArtAndDesignSlogan": "De la unua skizo ĝis la fina peniktuŝo, esploru programojn por arto kaj dezajno.",
-  "@snapCategoryArtAndDesignSlogan": {}
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageInstallingLabel": "Instalante ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
