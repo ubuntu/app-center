@@ -63,6 +63,7 @@ final snapSearchProvider =
     yield await snapd.find(
       query: searchParameters.cleanedQuery,
       category: searchParameters.category?.categoryName,
+      scope: SnapFindScope.wide,
     );
   }
 });
