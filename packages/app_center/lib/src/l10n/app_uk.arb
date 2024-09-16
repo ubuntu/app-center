@@ -466,5 +466,13 @@
   "snapCategoryArtAndDesignButtonLabel": "Почніть створювати",
   "@snapCategoryArtAndDesignButtonLabel": {},
   "snapCategoryArtAndDesignSlogan": "Від першого ескізу до останнього штриха - перегляньте застосунки для мистецтва та дизайну.",
-  "@snapCategoryArtAndDesignSlogan": {}
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageInstallingLabel": "Встановлення ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
