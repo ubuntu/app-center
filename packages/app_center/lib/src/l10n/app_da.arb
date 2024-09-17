@@ -466,5 +466,13 @@
   "managePageQuitToUpdate": "Afslut og gå til opdatering",
   "@managePageQuitToUpdate": {},
   "managePageNoInternet": "Kan ikke forbinde til server. Tjek din internetforbindelse eller prøv igen senere.",
-  "@managePageNoInternet": {}
+  "@managePageNoInternet": {},
+  "managePageInstallingLabel": "Installerer ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
