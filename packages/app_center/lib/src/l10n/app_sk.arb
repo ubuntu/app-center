@@ -433,7 +433,7 @@
   },
   "errorViewServerErrorAction": "Skontrolujte stav aktualizácií alebo to skúste znova neskôr.",
   "@errorViewServerErrorAction": {},
-  "managePageNoInternet": "Nedá sa pripojiť k serveru, skontrolujte internetové pripojenie alebo to skúste znova neskôr.",
+  "managePageNoInternet": "Nebolo možné sa pripojiť k serveru, skontrolujte internetové pripojenie alebo to skúste znova neskôr.",
   "@managePageNoInternet": {},
   "managePageOwnUpdateAvailable": "K dispozícii je aktualizácia centra aplikácií",
   "@managePageOwnUpdateAvailable": {},
@@ -462,5 +462,17 @@
   "managePageUpdatesFailedBody": "Nepodarilo sa aktualizovať tieto aplikácie, pretože sú momentálne spustené.\n\n{snapList}\nKeď aplikácie ukončíte, automaticky sa aktualizujú.",
   "@managePageUpdatesFailedBody": {},
   "managePageTitle": "Ovládajte nainštalované snapy",
-  "@managePageTitle": {}
+  "@managePageTitle": {},
+  "snapCategoryArtAndDesignSlogan": "Od prvého náčrtu až po posledný dotyk preskúmajte aplikácie pre umenie a dizajn.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "snapCategoryArtAndDesignButtonLabel": "Začnite s tvorbou",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "managePageInstallingLabel": "Inštaluje sa ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

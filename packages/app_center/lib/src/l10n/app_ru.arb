@@ -123,13 +123,13 @@
   "@snapPagePublishedLabel": {},
   "aboutPageLearnMoreLabel": "Узнать больше",
   "@aboutPageLearnMoreLabel": {},
-  "snapRatingsBandNeutral": "Нейтральный",
+  "snapRatingsBandNeutral": "Нейтральные",
   "@snapRatingsBandNeutral": {},
   "appstreamUrlTypeTranslate": "Локализация",
   "@appstreamUrlTypeTranslate": {},
   "searchPageNoResultsHint": "Попробуйте использовать другие или больше ключевых слов",
   "@searchPageNoResultsHint": {},
-  "snapRatingsBandGood": "Положительный",
+  "snapRatingsBandGood": "Положительные",
   "@snapRatingsBandGood": {},
   "snapCategoryFeaturedSlogan": "Избранные приложения",
   "@snapCategoryFeaturedSlogan": {},
@@ -139,7 +139,7 @@
   "@snapCategoryProductivitySlogan": {},
   "appstreamUrlTypeDonation": "Пожертвование",
   "@appstreamUrlTypeDonation": {},
-  "snapRatingsBandVeryGood": "Очень положительный",
+  "snapRatingsBandVeryGood": "Очень положительные",
   "@snapRatingsBandVeryGood": {},
   "snapActionRemoveLabel": "Удалить",
   "@snapActionRemoveLabel": {},
@@ -167,7 +167,7 @@
   },
   "snapRatingsBandInsufficientVotes": "Недостаточно голосов",
   "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsBandVeryPoor": "Очень отрицательный",
+  "snapRatingsBandVeryPoor": "Очень отрицательные",
   "@snapRatingsBandVeryPoor": {},
   "managePageDescription": "Проверяйте доступность обновлений, обновляйте приложения и управляйте ими.",
   "@managePageDescription": {},
@@ -179,7 +179,7 @@
   "@snapPageDeveloperWebsiteLabel": {},
   "snapConfinementClassic": "Классический",
   "@snapConfinementClassic": {},
-  "snapRatingsBandPoor": "Отрицательный",
+  "snapRatingsBandPoor": "Отрицательные",
   "@snapRatingsBandPoor": {},
   "snapCategoryDevelopmentSlogan": "Приложения для разработчиков",
   "@snapCategoryDevelopmentSlogan": {},
@@ -201,7 +201,7 @@
   "@snapConfinementStrict": {},
   "aboutPageContributeLabel": "Поучаствовать или сообщить о проблеме",
   "@aboutPageContributeLabel": {},
-  "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
+  "snapCategoryUbuntuDesktop": "Настольные задачи с Ubuntu",
   "@snapCategoryUbuntuDesktop": {},
   "managePageUpdatesAvailable": "Доступны обновления ({n})",
   "@managePageUpdatesAvailable": {},
@@ -461,6 +461,18 @@
   },
   "managePageUpdatesFailedBody": "Мы не смогли обновить эти приложения, так как они в данный момент запущены.\n\n{snapList}\nКогда Вы закроете их, обновление произойдёт автоматически.",
   "@managePageUpdatesFailedBody": {},
-  "managePageTitle": "Управление установленными приложениями Snap",
-  "@managePageTitle": {}
+  "managePageTitle": "Управление установленными Snap",
+  "@managePageTitle": {},
+  "snapCategoryArtAndDesignButtonLabel": "Начать творить",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "От первого наброска до финального штриха — исследуйте приложения для искусства и дизайна.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageInstallingLabel": "Идёт установка ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

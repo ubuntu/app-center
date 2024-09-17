@@ -1,7 +1,7 @@
 {
   "snapPageLinksLabel": "Link",
   "@snapPageLinksLabel": {},
-  "snapPageVersionLabel": "Udgave",
+  "snapPageVersionLabel": "Version",
   "@snapPageVersionLabel": {},
   "packageFormatDebLabel": "Debian-pakker",
   "@packageFormatDebLabel": {},
@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Udvikling",
   "@developmentPageLabel": {},
-  "managePageLabel": "Administrér",
+  "managePageLabel": "Håndtér",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanal",
   "@snapPageChannelLabel": {},
@@ -41,7 +41,7 @@
   "@snapActionOpenLabel": {},
   "snapCategoryDevelopment": "Udvikling",
   "@snapCategoryDevelopment": {},
-  "snapCategoryHealthAndFitness": "Helse og form",
+  "snapCategoryHealthAndFitness": "Helse og fitness",
   "@snapCategoryHealthAndFitness": {},
   "appstreamUrlTypeContact": "Kontakt",
   "@appstreamUrlTypeContact": {},
@@ -67,7 +67,7 @@
   "@snapPageLicenseLabel": {},
   "snapCategoryPhotoAndVideo": "Foto og video",
   "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "Forvaring",
+  "snapPageConfinementLabel": "Begrænsning",
   "@snapPageConfinementLabel": {},
   "snapCategoryMusicAndAudio": "Musik og lyd",
   "@snapCategoryMusicAndAudio": {},
@@ -95,7 +95,7 @@
   "@explorePageLabel": {},
   "searchFieldSnapSection": "Snap-pakker",
   "@searchFieldSnapSection": {},
-  "managePageCheckForUpdates": "Kontrollér for opdateringer",
+  "managePageCheckForUpdates": "Søg efter opdateringer",
   "@managePageCheckForUpdates": {},
   "appCenterLabel": "Appcenter",
   "@appCenterLabel": {},
@@ -119,7 +119,7 @@
   "@explorePageCategoriesLabel": {},
   "managePageCheckingForUpdates": "Kontrollerer, om der er opdateringer",
   "@managePageCheckingForUpdates": {},
-  "managePageDescription": "Kontrollér om der er opdateringer, opdatér dine programmer, og håndtér status for alle dine programmer.",
+  "managePageDescription": "Led efter opdateringer, opdatér dine programmer, og håndtér status for alle dine programmer.",
   "@managePageDescription": {},
   "managePageInstalledAndUpdatedLabel": "Installeret og opdateret",
   "@managePageInstalledAndUpdatedLabel": {},
@@ -197,7 +197,7 @@
   "@aboutPageCommunityTitle": {},
   "aboutPageContributeLabel": "Bidrag eller rapportér fejl",
   "@aboutPageContributeLabel": {},
-  "aboutPagePublishLabel": "Udgiv i Snap Store",
+  "aboutPagePublishLabel": "Udgiv i Snapbutikken",
   "@aboutPagePublishLabel": {},
   "aboutPageLearnMoreLabel": "Mere info",
   "@aboutPageLearnMoreLabel": {},
@@ -271,9 +271,9 @@
   "@snapCategoryUbuntuDesktopSlogan": {},
   "snapConfinementDevmode": "Udviklertilstand",
   "@snapConfinementDevmode": {},
-  "snapSortOrderAlphabeticalAsc": "Alfabetisk (A til Z)",
+  "snapSortOrderAlphabeticalAsc": "Alfabetisk (A til Å)",
   "@snapSortOrderAlphabeticalAsc": {},
-  "snapSortOrderAlphabeticalDesc": "Alfabetisk (Z til A)",
+  "snapSortOrderAlphabeticalDesc": "Alfabetisk (Å til A)",
   "@snapSortOrderAlphabeticalDesc": {},
   "snapSortOrderDownloadSizeAsc": "Størrelse (mindste til største)",
   "@snapSortOrderDownloadSizeAsc": {},
@@ -315,13 +315,13 @@
   "@snapReportSelectAnOptionLabel": {},
   "snapReportOptionCopyrightViolation": "Brud på ophavsret eller varemærke",
   "@snapReportOptionCopyrightViolation": {},
-  "snapReportOptionStoreViolation": "Brud på Snap Stores brugsbetingelser",
+  "snapReportOptionStoreViolation": "Brud på Snapbutikkens brugsbetingelser",
   "@snapReportOptionStoreViolation": {},
   "snapReportDetailsLabel": "Angiv venligst en mere uddybende begrundelse for din rapport",
   "@snapReportDetailsLabel": {},
-  "snapReportOptionalEmailAddressLabel": "Din e-postadresse (valgfri)",
+  "snapReportOptionalEmailAddressLabel": "Din e-mail (valgfri)",
   "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportEnterValidEmailError": "Indtast en gyldig e-postadresse",
+  "snapReportEnterValidEmailError": "Indtast en gyldig e-mailadresse",
   "@snapReportEnterValidEmailError": {},
   "snapReportDetailsHint": "Kommentar …",
   "@snapReportDetailsHint": {},
@@ -386,5 +386,85 @@
         "type": "int"
       }
     }
-  }
+  },
+  "appstreamUrlTypeVcsBrowser": "Kilde",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "managePageDebUpdatesMessage": "Debian-pakkeopdateringer håndteres af Softwareopdateringen.",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "Installeret",
+  "@snapActionInstalledLabel": {},
+  "snapPageSizeLabel": "Størrelse",
+  "@snapPageSizeLabel": {},
+  "localDebWarningBody": "Denne pakker leveres af en tredjepart. Installeres pakker, som ikke kommer fra Appcenteret, kan det forøge risikoen for dit system og dine personlige data. Vær sikker på, at du stoler på kilden, før du fortsætter.",
+  "@localDebWarningBody": {},
+  "localDebWarningTitle": "Potentielt usikker",
+  "@localDebWarningTitle": {},
+  "localDebLearnMore": "Lær mere om tredjepartspakker",
+  "@localDebLearnMore": {},
+  "localDebDialogConfirmation": "Er du sikker på, at du vil installere den?",
+  "@localDebDialogConfirmation": {},
+  "managePageOwnUpdateDescriptionSoon": "Appcenteret vil automatisk opdatere om {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateAvailable": "Opdatering til Appcenter tilgængelig",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateQuitButton": "Afslut og gå til opdatering",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageOwnUpdateDescription": "Når du forlader programmet, vil det automatisk blive opdateret.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageUpdatesFailedBody": "Vi kunne ikke opdatere disse programmer, fordi de kører.\n\n{snapList}\nNår du afslutter programmerne, vil de automatisk blive opdateret.",
+  "@managePageUpdatesFailedBody": {},
+  "errorViewNetworkErrorAction": "Tjek din forbindelse og prøv igen.",
+  "@errorViewNetworkErrorAction": {},
+  "managePageTitle": "Håndtér installerede snapper",
+  "@managePageTitle": {},
+  "managePageUpdatesFailed": "{n, plural, =1{En opdatering} other{{n} opdateringer}} mislykkedes",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "appstreamUrlTypeContribute": "Bidrag",
+  "@appstreamUrlTypeContribute": {},
+  "localDebDialogMessage": "Denne pakker leveres af en tredjepart og kan true dit system og dine personlige data.",
+  "@localDebDialogMessage": {},
+  "errorViewUnknownErrorAction": "Du kan prøve igen nu. Tjek status på opdateringer, eller prøv igen senere.",
+  "@errorViewUnknownErrorAction": {},
+  "snapdExceptionRunningApps": "Vi kunne ikke opdatere {snapName}, fordi den kører.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewNetworkErrorTitle": "Forbind til internettet",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "Vi kan ikke indlæse indholdet i Appcenteret uden en internetforbindelse.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewCheckStatusLabel": "Undersøg status",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewUnknownErrorTitle": "Noget gik galt",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewServerErrorDescription": "Vi oplever problemer med Appcenteret for tiden.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Tjek status på opdateringer eller prøv igen senere.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorDescription": "Vi er ikke sikre på, hvad fejlen er.",
+  "@errorViewUnknownErrorDescription": {},
+  "snapCategoryArtAndDesignButtonLabel": "Begynd at skabe",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Udforsk programmer til kunst og design fra din første skitse til den sidste finish.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageQuitToUpdate": "Afslut og gå til opdatering",
+  "@managePageQuitToUpdate": {},
+  "managePageNoInternet": "Kan ikke forbinde til server. Tjek din internetforbindelse eller prøv igen senere.",
+  "@managePageNoInternet": {}
 }

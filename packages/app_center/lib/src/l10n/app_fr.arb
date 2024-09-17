@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Développement",
   "@developmentPageLabel": {},
-  "managePageLabel": "Gérer les Snaps installés",
+  "managePageLabel": "Gérer",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Canal",
   "@snapPageChannelLabel": {},
@@ -83,7 +83,7 @@
   "@searchFieldSearchHint": {},
   "snapCategoryFeatured": "En vedette",
   "@snapCategoryFeatured": {},
-  "managePageSearchFieldSearchHint": "Rechercher vos applications installées",
+  "managePageSearchFieldSearchHint": "Rechercher parmi vos applications installées",
   "@managePageSearchFieldSearchHint": {},
   "snapActionCancelLabel": "Annuler",
   "@snapActionCancelLabel": {},
@@ -115,7 +115,7 @@
   "@searchPageFilterByLabel": {},
   "managePageUpdateAllLabel": "Tout mettre à jour",
   "@managePageUpdateAllLabel": {},
-  "searchFieldSearchForLabel": "Afficher tous les résultats pour \"{query}\"",
+  "searchFieldSearchForLabel": "Afficher tous les résultats pour « {query} »",
   "@searchFieldSearchForLabel": {
     "placeholders": {
       "query": {
@@ -155,13 +155,13 @@
   "@snapCategoryPersonalisation": {},
   "aboutPageContributorTitle": "Conçu et développé par :",
   "@aboutPageContributorTitle": {},
-  "managePageInstalledAndUpdatedLabel": "Installés et mis à jour",
+  "managePageInstalledAndUpdatedLabel": "Installées et mises à jour",
   "@managePageInstalledAndUpdatedLabel": {},
   "appstreamUrlTypeHomepage": "Page d’accueil",
   "@appstreamUrlTypeHomepage": {},
   "managePageCheckingForUpdates": "Recherche de mises à jour",
   "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Mis à jour il y a {n} jours",
+  "managePageUpdatedDaysAgo": "Mise à jour il y a {n} jours",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -173,17 +173,17 @@
   "@snapRatingsBandInsufficientVotes": {},
   "snapRatingsBandVeryPoor": "Très mauvais",
   "@snapRatingsBandVeryPoor": {},
-  "managePageDescription": "Rechercher les mises à jour disponibles, mettre à jour vos applications, et gérer l'état de toutes vos applications.",
+  "managePageDescription": "Rechercher les mises à jour disponibles, mettre à jour vos applications et gérer l'état de toutes vos applications.",
   "@managePageDescription": {},
-  "snapActionRemovingLabel": "Désinstallation en cours",
+  "snapActionRemovingLabel": "Désinstallation",
   "@snapActionRemovingLabel": {},
-  "snapPageDeveloperWebsiteLabel": "Site de développeur",
+  "snapPageDeveloperWebsiteLabel": "Site web du développeur",
   "@snapPageDeveloperWebsiteLabel": {},
   "snapConfinementClassic": "Classique",
   "@snapConfinementClassic": {},
   "snapRatingsBandPoor": "Mauvais",
   "@snapRatingsBandPoor": {},
-  "searchPageTitle": "Résultats pour \"{query}\"",
+  "searchPageTitle": "Résultats pour « {query} »",
   "@searchPageTitle": {
     "placeholders": {
       "query": {
@@ -199,7 +199,7 @@
   "@aboutPageCommunityTitle": {},
   "snapSortOrderAlphabeticalDesc": "Alphabétique (Z à A)",
   "@snapSortOrderAlphabeticalDesc": {},
-  "searchPageNoResultsCategory": "Désolé, nous n'avons pu trouver aucun paquets dans cette catégorie",
+  "searchPageNoResultsCategory": "Désolé, nous n'avons pu trouver aucun paquet dans cette catégorie",
   "@searchPageNoResultsCategory": {},
   "snapRatingsVotes": "{n} votes",
   "@snapRatingsVotes": {
@@ -219,7 +219,7 @@
       }
     }
   },
-  "searchPageNoResults": "Aucun résultat trouvé pour \"{query}\"",
+  "searchPageNoResults": "Aucun résultat trouvé pour « {query} »",
   "@searchPageNoResults": {
     "placeholders": {
       "query": {
@@ -239,9 +239,9 @@
   "@managePageNoUpdatesAvailableDescription": {},
   "snapSortOrderRelevance": "Pertinence",
   "@snapSortOrderRelevance": {},
-  "appstreamUrlTypeBugtracker": "Système de suivi des bogues",
+  "appstreamUrlTypeBugtracker": "Suivi des bogues",
   "@appstreamUrlTypeBugtracker": {},
-  "managePageShowSystemSnapsLabel": "Afficher les paquets snap système",
+  "managePageShowSystemSnapsLabel": "Afficher les snaps système",
   "@managePageShowSystemSnapsLabel": {},
   "snapSortOrderInstalledDateDesc": "Plus récemment mis à jour",
   "@snapSortOrderInstalledDateDesc": {},
@@ -249,13 +249,13 @@
   "@appCenterLabel": {},
   "snapPageShareLinkCopiedMessage": "Lien copié dans le presse-papier",
   "@snapPageShareLinkCopiedMessage": {},
-  "gamesPageTitle": "Qu'est-ce qui est chaud",
+  "gamesPageTitle": "Quoi de neuf ?",
   "@gamesPageTitle": {},
   "gamesPageTop": "Meilleurs jeux",
   "@gamesPageTop": {},
   "gamesPageFeatured": "Titres en vedette",
   "@gamesPageFeatured": {},
-  "gamesPageBundles": "Lots d'applications",
+  "gamesPageBundles": "Catégories d'applications",
   "@gamesPageBundles": {},
   "searchPageNoResultsHint": "Essayez d'utiliser des mots-clés différents ou plus généraux",
   "@searchPageNoResultsHint": {},
@@ -289,7 +289,7 @@
   "@snapCategoryProductivitySlogan": {},
   "snapCategoryProductivityButtonLabel": "Découvrez la collection productivité",
   "@snapCategoryProductivityButtonLabel": {},
-  "snapCategoryUbuntuDesktopSlogan": "Démarrez votre bureau",
+  "snapCategoryUbuntuDesktopSlogan": "Démarrez votre bureau rapidement",
   "@snapCategoryUbuntuDesktopSlogan": {},
   "snapConfinementDevmode": "Mode développement",
   "@snapConfinementDevmode": {},
@@ -337,7 +337,7 @@
   "@externalResources": {},
   "allGamesButtonLabel": "Tous les jeux",
   "@allGamesButtonLabel": {},
-  "managePageUpdatedMonthsAgo": "Mis à jour {n, plural, =1{{n} mois} other{{n} mois}} auparavant",
+  "managePageUpdatedMonthsAgo": "Mise à jour il y a {n, plural, =1{{n} mois} other{{n} mois}}",
   "@managePageUpdatedMonthsAgo": {
     "placeholders": {
       "n": {
@@ -361,7 +361,7 @@
   "@externalResourcesDisclaimer": {},
   "installAll": "Installer tout",
   "@installAll": {},
-  "managePageUpdatedWeeksAgo": "Mis à jour {n, plural, =1{{n} semaine} other{{n} semaines}} auparavant",
+  "managePageUpdatedWeeksAgo": "Mise à jour il y a {n, plural, =1{{n} semaine} other{{n} semaines}}",
   "@managePageUpdatedWeeksAgo": {
     "placeholders": {
       "n": {
@@ -369,7 +369,7 @@
       }
     }
   },
-  "managePageUpdatedYearsAgo": "Mis à jour {n, plural, =1{{n} an} other{{n} ans}} auparavant",
+  "managePageUpdatedYearsAgo": "Mise à jour il y a {n, plural, =1{{n} an} other{{n} ans}}",
   "@managePageUpdatedYearsAgo": {
     "placeholders": {
       "n": {
@@ -383,7 +383,7 @@
   "@snapReportPrivacyAgreementAndLabel": {},
   "snapReportPrivacyAgreementPrivacyPolicy": "Politique de confidentialité",
   "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "openInBrowser": "Ouvrir dans navigateur",
+  "openInBrowser": "Ouvrir dans le navigateur",
   "@openInBrowser": {},
   "snapdExceptionRunningApps": "Nous n’avons pas pu mettre à jour {snapName} car il est actuellement en cours d’exécution.",
   "@snapdExceptionRunningApps": {
@@ -397,7 +397,7 @@
   "@managePageNoInternet": {},
   "errorViewNetworkErrorAction": "Vérifiez votre connexion et réessayez.",
   "@errorViewNetworkErrorAction": {},
-  "errorViewUnknownErrorDescription": "Nous sommes désolés, mais nous ne savons pas quelle est l’erreur.",
+  "errorViewUnknownErrorDescription": "Nous sommes désolés mais nous ne savons pas quelle est l’erreur.",
   "@errorViewUnknownErrorDescription": {},
   "appstreamUrlTypeContribute": "Contribuer",
   "@appstreamUrlTypeContribute": {},
@@ -405,39 +405,39 @@
   "@appstreamUrlTypeVcsBrowser": {},
   "managePageDebUpdatesMessage": "Les mises à jour des paquets Debian sont gérées par le Gestionnaire de mises à jour.",
   "@managePageDebUpdatesMessage": {},
-  "snapActionInstalledLabel": "Installées",
+  "snapActionInstalledLabel": "Installée",
   "@snapActionInstalledLabel": {},
-  "localDebLearnMore": "En savoir plus sur les paquetages tiers",
+  "localDebLearnMore": "En savoir plus sur les paquets tiers",
   "@localDebLearnMore": {},
-  "localDebDialogMessage": "Ce paquetage est fourni par un tiers et pourrait menacer votre système et vos données personnelles.",
+  "localDebDialogMessage": "Ce paquet est fourni par un tiers et pourrait menacer votre système et vos données personnelles.",
   "@localDebDialogMessage": {},
   "snapPageSizeLabel": "Taille",
   "@snapPageSizeLabel": {},
   "localDebWarningTitle": "Potentiellement non sécurisé",
   "@localDebWarningTitle": {},
-  "localDebWarningBody": "Ce paquetage est fourni par un tiers. L’installation de paquetages à l’extérieur du Centre d'applications peut augmenter le risque pour votre système et vos données personnelles. Assurez-vous que la source soit de confiance avant de poursuivre.",
+  "localDebWarningBody": "Ce paquet est fourni par un tiers. L’installation de paquets en dehors du Centre d'applications peut augmenter le risque pour votre système et vos données personnelles. Assurez-vous que la source soit de confiance avant de poursuivre.",
   "@localDebWarningBody": {},
-  "localDebDialogConfirmation": "Vous êtes sûr(e) de vouloir l’installer ?",
+  "localDebDialogConfirmation": "Êtes-vous certain de vouloir l’installer ?",
   "@localDebDialogConfirmation": {},
-  "errorViewCheckStatusLabel": "Vérifier statut",
+  "errorViewCheckStatusLabel": "Vérifier le statut",
   "@errorViewCheckStatusLabel": {},
-  "errorViewNetworkErrorTitle": "Connecte à Internet",
+  "errorViewNetworkErrorTitle": "Se connecter à Internet",
   "@errorViewNetworkErrorTitle": {},
   "errorViewNetworkErrorDescription": "Nous ne pouvons pas charger de contenu dans le Centre d'applications sans connexion Internet.",
   "@errorViewNetworkErrorDescription": {},
   "errorViewServerErrorDescription": "Nous sommes désolés, nous rencontrons actuellement des problèmes avec le Centre d'applications.",
   "@errorViewServerErrorDescription": {},
-  "errorViewUnknownErrorTitle": "Quelque chose n'allait pas",
+  "errorViewUnknownErrorTitle": "Quelque chose n'a pas fonctionné",
   "@errorViewUnknownErrorTitle": {},
-  "errorViewUnknownErrorAction": "Vous pouvez réessayer maintenant, vérifier l’état des mises à jour ou réessayer plus tard.",
+  "errorViewUnknownErrorAction": "Vous pouvez réessayer maintenant, vérifiez l’état des mises à jour ou réessayez plus tard.",
   "@errorViewUnknownErrorAction": {},
   "managePageQuitToUpdate": "Quitter pour mettre à jour",
   "@managePageQuitToUpdate": {},
-  "managePageOwnUpdateAvailable": "Mise à jour du Centre d'Applications disponible",
+  "managePageOwnUpdateAvailable": "Mise à jour du Centre d'applications disponible",
   "@managePageOwnUpdateAvailable": {},
   "managePageOwnUpdateDescription": "Lorsque vous quittez l’application, elle est automatiquement mise à jour.",
   "@managePageOwnUpdateDescription": {},
-  "managePageOwnUpdateDescriptionSoon": "Le centre d’applications se mettra automatiquement à jour dans {time}.",
+  "managePageOwnUpdateDescriptionSoon": "Le Centre d’applications se mettra automatiquement à jour dans {time}.",
   "@managePageOwnUpdateDescriptionSoon": {
     "placeholders": {
       "time": {
@@ -449,6 +449,30 @@
   "@managePageOwnUpdateQuitButton": {},
   "errorViewServerErrorAction": "Vérifiez l’état des mises à jour ou réessayez plus tard.",
   "@errorViewServerErrorAction": {},
-  "managePageUpdatesFailedBody": "Nous n’avons pas pu mettre à jour ces applications parce qu’elles sont en cours d’exécution.\n\n{snapList}\nLorsque vous quittez les applications, elles seront automatiquement mises à jour.",
-  "@managePageUpdatesFailedBody": {}
+  "managePageUpdatesFailedBody": "Nous n’avons pas pu mettre à jour ces applications car elles sont en cours d’exécution.\n\n{snapList}\nLorsque vous quittez les applications, elles sont automatiquement mises à jour.",
+  "@managePageUpdatesFailedBody": {},
+  "managePageTitle": "Gérer les snaps installés",
+  "@managePageTitle": {},
+  "snapCategoryUbuntuDesktop": "Bureau Ubuntu",
+  "@snapCategoryUbuntuDesktop": {},
+  "managePageUpdatesFailed": "{n, plural, =1{Une mise à jour échouée} other{{n} mises à jour échouées}}",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryArtAndDesignSlogan": "De votre premier croquis à la touche finale, explorez les applications pour l'art et la conception.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "snapCategoryArtAndDesignButtonLabel": "Commencez à créer",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "managePageInstallingLabel": "Installation de ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

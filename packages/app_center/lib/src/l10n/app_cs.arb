@@ -462,5 +462,9 @@
     }
   },
   "managePageUpdatesFailedBody": "Tyto aplikace jsme nemohli aktualizovat, protože jsou aktuálně spuštěné.\n\n{snapList}\nKdyž aplikace ukončíte, automaticky se aktualizují.",
-  "@managePageUpdatesFailedBody": {}
+  "@managePageUpdatesFailedBody": {},
+  "snapCategoryArtAndDesignButtonLabel": "Začněte tvořit",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Prozkoumejte aplikace pro umění a design od svého prvního náčrtu až po konečný dotek.",
+  "@snapCategoryArtAndDesignSlogan": {}
 }

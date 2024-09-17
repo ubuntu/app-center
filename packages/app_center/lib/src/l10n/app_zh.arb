@@ -111,7 +111,7 @@
   "@managePageNoUpdatesAvailableDescription": {},
   "managePageShowDetailsLabel": "显示详情",
   "@managePageShowDetailsLabel": {},
-  "managePageShowSystemSnapsLabel": "显示系统 Snap 程序包",
+  "managePageShowSystemSnapsLabel": "显示系统快照",
   "@managePageShowSystemSnapsLabel": {},
   "managePageUpdateAllLabel": "全部更新",
   "@managePageUpdateAllLabel": {},
@@ -386,5 +386,61 @@
         "type": "int"
       }
     }
-  }
+  },
+  "localDebLearnMore": "了解更多有关第三方软件包的信息",
+  "@localDebLearnMore": {},
+  "managePageOwnUpdateQuitButton": "取消更新",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageOwnUpdateAvailable": "有可用的应用中心更新",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "当您退出应用程序时它将自动更新。",
+  "@managePageOwnUpdateDescription": {},
+  "managePageNoInternet": "无法连接到服务器，请检查您的互联网连接或稍后重试。",
+  "@managePageNoInternet": {},
+  "managePageDebUpdatesMessage": "Debian 软件包更新由软件更新程序处理。",
+  "@managePageDebUpdatesMessage": {},
+  "snapActionInstalledLabel": "已安装",
+  "@snapActionInstalledLabel": {},
+  "localDebWarningTitle": "有潜在危险",
+  "@localDebWarningTitle": {},
+  "errorViewCheckStatusLabel": "检查状态",
+  "@errorViewCheckStatusLabel": {},
+  "managePageTitle": "管理已安装的快照",
+  "@managePageTitle": {},
+  "appstreamUrlTypeVcsBrowser": "来源",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "snapdExceptionRunningApps": "我们无法更新{snapName}因为它当前正在运行。",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewServerErrorAction": "检查状态以获取更新或稍后重试。",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "出了点问题",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewNetworkErrorAction": "检查您的连接并重试。",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "很道歉，应用中心目前遇到了问题。",
+  "@errorViewServerErrorDescription": {},
+  "errorViewUnknownErrorAction": "您可以立即重试，检查状态以获取更新，或稍后再试。",
+  "@errorViewUnknownErrorAction": {},
+  "appstreamUrlTypeContribute": "贡献",
+  "@appstreamUrlTypeContribute": {},
+  "managePageQuitToUpdate": "取消更新",
+  "@managePageQuitToUpdate": {},
+  "managePageOwnUpdateDescriptionSoon": "应用中心将会在{time}后自动更新。",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewNetworkErrorTitle": "链接到互联网",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "无互联网链接，我们无法在应用中心加载内容。",
+  "@errorViewNetworkErrorDescription": {}
 }

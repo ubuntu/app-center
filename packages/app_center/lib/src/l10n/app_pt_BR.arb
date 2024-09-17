@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Desenvolvimento",
   "@developmentPageLabel": {},
-  "managePageLabel": "Gerenciar Snaps instalados",
+  "managePageLabel": "Gerenciar",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Canal",
   "@snapPageChannelLabel": {},
@@ -448,5 +448,23 @@
         "type": "String"
       }
     }
-  }
+  },
+  "snapCategoryArtAndDesignButtonLabel": "Comece a criar",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Do seu primeiro esboço ao toque final, explore aplicativos para arte e design.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageTitle": "Gerenciar snaps instalados",
+  "@managePageTitle": {},
+  "managePageUpdatesFailed": "{n, plural, =1{Uma atualização falhou} other{{n} atualizações falharam}}",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Não conseguimos atualizar esses aplicativos porque eles estão em execução no momento.\n\n{snapList}\nQuando você fechar os aplicativos, eles serão atualizados automaticamente.",
+  "@managePageUpdatesFailedBody": {},
+  "managePageQuitToUpdate": "Sair para atualizar",
+  "@managePageQuitToUpdate": {}
 }

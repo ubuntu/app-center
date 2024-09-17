@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Entwicklung",
   "@developmentPageLabel": {},
-  "managePageLabel": "Installierte Snaps verwalten",
+  "managePageLabel": "Verwalten",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanal",
   "@snapPageChannelLabel": {},
@@ -283,7 +283,7 @@
   "@gamesPageTitle": {},
   "gamesPageTop": "Top-Spiele",
   "@gamesPageTop": {},
-  "appCenterLabel": "App Center",
+  "appCenterLabel": "App-Zentrum",
   "@appCenterLabel": {},
   "gamesPageBundles": "App-Bundles",
   "@gamesPageBundles": {},
@@ -437,7 +437,7 @@
   "@managePageOwnUpdateAvailable": {},
   "managePageOwnUpdateDescription": "Wenn Sie die Anwendung beenden, wird sie automatisch aktualisiert.",
   "@managePageOwnUpdateDescription": {},
-  "managePageOwnUpdateDescriptionSoon": "Das App Center wird automatisch in {time} aktualisiert.",
+  "managePageOwnUpdateDescriptionSoon": "Das App-Zentrum wird in {time} automatisch aktualisiert.",
   "@managePageOwnUpdateDescriptionSoon": {
     "placeholders": {
       "time": {
@@ -450,5 +450,29 @@
   "managePageNoInternet": "Der Server kann nicht erreicht werden, überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später noch einmal.",
   "@managePageNoInternet": {},
   "managePageQuitToUpdate": "Beenden, um zu aktualisieren",
-  "@managePageQuitToUpdate": {}
+  "@managePageQuitToUpdate": {},
+  "managePageTitle": "Installierte Snaps verwalten",
+  "@managePageTitle": {},
+  "managePageUpdatesFailed": "{n, plural, =1{Eine Aktualisierung} other{{n} Aktualisierungen}} fehlgeschlagen",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Wir konnten diese Anwendungen nicht aktualisieren, da sie derzeit noch laufen.\n\n{snapList}\nWenn Sie die Anwendungen beenden, werden sie automatisch aktualisiert.",
+  "@managePageUpdatesFailedBody": {},
+  "snapCategoryArtAndDesignSlogan": "Von der ersten Skizze bis zum letzten Schliff: Entdecken Sie Apps für Kunst und Design.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "snapCategoryArtAndDesignButtonLabel": "Mit dem Erstellen beginnen",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "managePageInstallingLabel": "Wird installiert ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
