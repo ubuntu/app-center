@@ -146,9 +146,7 @@ class _StoreAppHome extends ConsumerWidget {
         tileBuilder: (context, index, selected, availableWidth) =>
             pages[index].tileBuilder(context, selected),
         pageBuilder: (context, index) => pages[index].pageBuilder(context),
-        layoutDelegate: const YaruMasterFixedPaneDelegate(
-          paneWidth: kPaneWidth,
-        ),
+        paneLayoutDelegate: const YaruFixedPaneDelegate(paneSize: kPaneWidth),
         breakpoint: 0, // always landscape
         onGenerateRoute: (settings) => switch (StoreRoutes.routeOf(settings)) {
           StoreRoutes.deb => MaterialPageRoute(

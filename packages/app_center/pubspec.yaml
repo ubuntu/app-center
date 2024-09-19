@@ -5,37 +5,37 @@ publish_to: "none"
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
-  flutter: ">=3.19.6"
+  flutter: ">=3.24.3"
 
 dependencies:
   app_center_ratings_client: ^1.0.0
   appstream: ^0.2.9
   args: ^2.5.0
-  cached_network_image: ^3.3.1
+  cached_network_image: ^3.4.1
   clock: ^1.1.1
   collection: ^1.18.0
-  crypto: ^3.0.3
+  crypto: ^3.0.5
   dbus: ^0.7.10
   file: ^7.0.0
   flutter:
     sdk: flutter
-  flutter_cache_manager: ^3.3.2
-  flutter_gen: ^5.3.2
+  flutter_cache_manager: ^3.4.1
+  flutter_gen: ^5.7.0
   flutter_html: ^3.0.0-beta.2
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.7.3+1
   flutter_riverpod: ^2.5.1
   flutter_svg: ^2.0.10+1
-  freezed_annotation: ^2.4.1
+  freezed_annotation: ^2.4.4
   github: ^9.24.0
   glib: ^0.0.1
   gtk: ^2.1.0
   handy_window: ^0.4.0
-  http: ^1.2.1
+  http: ^1.2.2
   intl: any
   jwt_decode: ^0.3.1
-  meta: ^1.11.0
+  meta: ^1.15.0
   package_info_plus: ^8.0.2
   packagekit: ^0.2.6
   path: ^1.9.0
@@ -44,28 +44,28 @@ dependencies:
   snapcraft_launcher: ^0.1.0
   snapd: ^0.6.4
   snowball_stemmer: ^0.1.0
-  ubuntu_localizations: ^0.4.1
-  ubuntu_logger: ^0.1.1
-  ubuntu_service: ^0.3.2
-  ubuntu_test: ^0.1.0-beta.9
-  ubuntu_widgets: ^0.6.1
-  url_launcher: ^6.2.6
+  ubuntu_localizations: ^0.5.0
+  ubuntu_logger: ^0.2.0
+  ubuntu_service: ^0.4.0
+  ubuntu_test: ^0.2.1
+  ubuntu_widgets: ^0.7.0
+  url_launcher: ^6.3.0
   xdg_directories: ^1.0.4
-  yaru: ^4.1.0
-  yaru_test: ^0.1.6
+  yaru: ^5.2.0
+  yaru_test: ^0.2.0
   yaru_window: ^0.2.1
 
 dev_dependencies:
-  analyzer: ^6.4.1
-  build_runner: ^2.4.6
+  analyzer: ^6.7.0
+  build_runner: ^2.4.12
   fake_async: ^1.3.1
   flutter_test:
     sdk: flutter
-  freezed: ^2.5.2
+  freezed: ^2.5.7
   integration_test:
     sdk: flutter
-  mockito: ^5.4.3
-  riverpod_generator: ^2.4.0
+  mockito: ^5.4.4
+  riverpod_generator: ^2.4.3
   ubuntu_lints: ^0.4.0
 
 flutter:
