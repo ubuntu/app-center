@@ -466,5 +466,13 @@
   "snapCategoryArtAndDesignButtonLabel": "Začněte tvořit",
   "@snapCategoryArtAndDesignButtonLabel": {},
   "snapCategoryArtAndDesignSlogan": "Prozkoumejte aplikace pro umění a design od svého prvního náčrtu až po konečný dotek.",
-  "@snapCategoryArtAndDesignSlogan": {}
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageInstallingLabel": "Instaluje se ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
