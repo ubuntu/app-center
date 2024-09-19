@@ -2,7 +2,7 @@ name: app_center
 sdkPath: .fvm/flutter_sdk
 
 packages:
-  - packages/**
+  - packages/*
 
 command:
   bootstrap:
