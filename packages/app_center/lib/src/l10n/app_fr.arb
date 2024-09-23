@@ -161,7 +161,7 @@
   "@appstreamUrlTypeHomepage": {},
   "managePageCheckingForUpdates": "Recherche de mises à jour",
   "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Mise à jour il y a {n} jours",
+  "managePageUpdatedDaysAgo": "Mise à jour il y a {n, plural, =1{{n} jour} other{{n} jours}}",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
