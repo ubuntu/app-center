@@ -447,7 +447,7 @@
   },
   "managePageOwnUpdateQuitButton": "Quitter pour mettre à jour",
   "@managePageOwnUpdateQuitButton": {},
-  "errorViewServerErrorAction": "Vérifiez l’état des mises à jour ou réessayez plus tard.",
+  "errorViewServerErrorAction": "Vérifiez le status des mises à jour ou réessayez plus tard.",
   "@errorViewServerErrorAction": {},
   "managePageUpdatesFailedBody": "Nous n’avons pas pu mettre à jour ces applications car elles sont en cours d’exécution.\n\n{snapList}\nLorsque vous quittez les applications, elles sont automatiquement mises à jour.",
   "@managePageUpdatesFailedBody": {},
