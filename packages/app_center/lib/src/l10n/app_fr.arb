@@ -417,7 +417,7 @@
   "@localDebWarningTitle": {},
   "localDebWarningBody": "Ce paquet est fourni par un tiers. L’installation de paquets en dehors du Centre d'applications peut augmenter le risque pour votre système et vos données personnelles. Assurez-vous que la source soit de confiance avant de poursuivre.",
   "@localDebWarningBody": {},
-  "localDebDialogConfirmation": "Êtes-vous certain de vouloir l’installer ?",
+  "localDebDialogConfirmation": "Voulez-vous vraiment l’installer ?",
   "@localDebDialogConfirmation": {},
   "errorViewCheckStatusLabel": "Vérifier le statut",
   "@errorViewCheckStatusLabel": {},
@@ -455,7 +455,7 @@
   "@managePageTitle": {},
   "snapCategoryUbuntuDesktop": "Bureau Ubuntu",
   "@snapCategoryUbuntuDesktop": {},
-  "managePageUpdatesFailed": "{n, plural, =1{Une mise à jour échouée} other{{n} mises à jour échouées}}",
+  "managePageUpdatesFailed": "{n, plural, =1{Une mise à jour en échec} other{{n} mises à jour en échec}}",
   "@managePageUpdatesFailed": {
     "placeholders": {
       "n": {
