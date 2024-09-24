@@ -2,13 +2,13 @@ name: app_center
 sdkPath: .fvm/flutter_sdk
 
 packages:
-  - packages/**
+  - packages/*
 
 command:
   bootstrap:
     environment:
       sdk: '>=3.1.0 <4.0.0'
-      flutter: '>=3.19.6'
+      flutter: '>=3.24.3'
 
     dev_dependencies:
       ubuntu_lints: ^0.4.0
