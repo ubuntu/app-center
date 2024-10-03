@@ -27,7 +27,6 @@ import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru/yaru.dart';
 
-const _kPrimaryButtonMaxWidth = 136.0;
 const _kChannelDropdownWidth = 220.0;
 
 typedef SnapInfo = ({Widget label, Widget value});
