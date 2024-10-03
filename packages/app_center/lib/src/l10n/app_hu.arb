@@ -73,7 +73,7 @@
   "@explorePageLabel": {},
   "searchFieldSnapSection": "Snap-csomagok",
   "@searchFieldSnapSection": {},
-  "snapCategoryDevicesAndIot": "Eszközök és IoT",
+  "snapCategoryDevicesAndIot": "Eszközök és dolgok internete",
   "@snapCategoryDevicesAndIot": {},
   "managePageCheckForUpdates": "Frissítések keresése",
   "@managePageCheckForUpdates": {},
@@ -462,5 +462,17 @@
     }
   },
   "errorViewNetworkErrorTitle": "Kapcsolódás az internetre",
-  "@errorViewNetworkErrorTitle": {}
+  "@errorViewNetworkErrorTitle": {},
+  "snapCategoryArtAndDesignButtonLabel": "Létrehozás elkezdése",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "managePageInstallingLabel": "Telepítés ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryArtAndDesignSlogan": "A művészeti és tervezői alkalmazások felfedezése az első vázlattól az utolsó simításig.",
+  "@snapCategoryArtAndDesignSlogan": {}
 }

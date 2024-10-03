@@ -451,7 +451,7 @@
   "@managePageOwnUpdateAvailable": {},
   "managePageQuitToUpdate": "Cerrar para actualizar",
   "@managePageQuitToUpdate": {},
-  "managePageUpdatesFailed": "{n, plural, =1{Una actualización} other{{n} actualizaciones}} fallida(s)",
+  "managePageUpdatesFailed": "{n, plural, =1{Una actualización fallida} other{{n} actualizaciones fallidas}}",
   "@managePageUpdatesFailed": {
     "placeholders": {
       "n": {
