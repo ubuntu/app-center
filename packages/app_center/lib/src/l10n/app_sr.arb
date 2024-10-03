@@ -472,5 +472,13 @@
         "type": "String"
       }
     }
+  },
+  "managePageInstallingLabel": "Поступак инсталирања ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
   }
 }

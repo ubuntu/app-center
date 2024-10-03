@@ -386,5 +386,93 @@
         "type": "int"
       }
     }
-  }
+  },
+  "appstreamUrlTypeContribute": "Contribuir",
+  "@appstreamUrlTypeContribute": {},
+  "errorViewNetworkErrorTitle": "Se connectar a Internet",
+  "@errorViewNetworkErrorTitle": {},
+  "snapActionInstalledLabel": "Installada",
+  "@snapActionInstalledLabel": {},
+  "snapPageSizeLabel": "Talha",
+  "@snapPageSizeLabel": {},
+  "localDebWarningTitle": "Potencialament insegura",
+  "@localDebWarningTitle": {},
+  "localDebLearnMore": "Ne saber mai suls paquets tèrces",
+  "@localDebLearnMore": {},
+  "localDebWarningBody": "Aqueste paquet es provesit per un tèrç. L'installacion de paquets dempuèi l'exterior del Centre d'aplicacions pòt aumentar lo risc per vòstre sistèma e vòstras donadas personalas. Asseguratz-vos de vos fisar de la font abans de contunhar.",
+  "@localDebWarningBody": {},
+  "managePageInstallingLabel": "Installacion ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "appstreamUrlTypeVcsBrowser": "Font",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "errorViewCheckStatusLabel": "Verificar l’estat",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorDescription": "Podèm pas cargar lo contengut del Centre d’aplicacions sens connexion Internet.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewServerErrorAction": "Verificatz l’estat de las mesas a jorn o tornatz ensajar mai tard.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "Quicòm a trucat",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorDescription": "O planhèm, mas sabèm pas quina error es.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "Podètz tornar ensajar ara, verificatz l’estat de las mesas a jorn o tornatz ensajar mai tard.",
+  "@errorViewUnknownErrorAction": {},
+  "managePageOwnUpdateDescriptionSoon": "Lo Centre d’aplicacions s’actualizarà automaticament en {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageNoInternet": "Impossible de contactar lo servidor, verificatz la connexion Internet o tornatz ensajar mai tard.",
+  "@managePageNoInternet": {},
+  "managePageOwnUpdateAvailable": "Mesa a jorn del Centre d’aplicacions disponibla",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "Quand quitatz l’aplicacion, serà automaticament mesa a jorn.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateQuitButton": "Quitar per metre a jorn",
+  "@managePageOwnUpdateQuitButton": {},
+  "localDebDialogMessage": "Aqueste paquet es provesit per un tèrç e poiriá amenaçar vòstre sistèma e vòstras donadas personalas.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "Volètz vertadièrament l’installar ?",
+  "@localDebDialogConfirmation": {},
+  "managePageTitle": "Gerir los snaps installats",
+  "@managePageTitle": {},
+  "managePageUpdatesFailed": "{n, plural, =1{Una mesa a jorn fracassada} other{{n} mesas a jorn fracassadas}}",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Avèm pas pogut metre a jorn aquestas aplicacions perque son actualament en cors d'execucion.\n\n{snapList}\nQuand quitatz las aplicacions, se metràn a jorn automaticament.",
+  "@managePageUpdatesFailedBody": {},
+  "snapdExceptionRunningApps": "Avèm pas pogut metre a jorn {snapName} pr’amor qu’es actualament en execucion.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewNetworkErrorAction": "Verificatz la connexion e tornatz ensajar.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "O planhèm, rescontram actualament de problèmas amb lo Centre d’aplicacions.",
+  "@errorViewServerErrorDescription": {},
+  "snapCategoryArtAndDesignButtonLabel": "Començar a crear",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "De vòstre primièr croquís a la tòca finala, exploratz las aplicacions per l’art e la concepcion.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageQuitToUpdate": "Quitar per metre a jorn",
+  "@managePageQuitToUpdate": {},
+  "managePageDebUpdatesMessage": "Las mesas a jorn dels paquets Debian son gerits pel Gestionari de mesas a jorn.",
+  "@managePageDebUpdatesMessage": {}
 }

@@ -67,7 +67,7 @@
   "@snapPageLicenseLabel": {},
   "snapCategoryPhotoAndVideo": "Foto og video",
   "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "Begrænsning",
+  "snapPageConfinementLabel": "Isolering",
   "@snapPageConfinementLabel": {},
   "snapCategoryMusicAndAudio": "Musik og lyd",
   "@snapCategoryMusicAndAudio": {},
@@ -395,7 +395,7 @@
   "@snapActionInstalledLabel": {},
   "snapPageSizeLabel": "Størrelse",
   "@snapPageSizeLabel": {},
-  "localDebWarningBody": "Denne pakker leveres af en tredjepart. Installeres pakker, som ikke kommer fra Appcenteret, kan det forøge risikoen for dit system og dine personlige data. Vær sikker på, at du stoler på kilden, før du fortsætter.",
+  "localDebWarningBody": "Denne pakke leveres af en tredjepart. Installeres pakker, som ikke kommer fra Appcenteret, kan det forøge risikoen for dit system og dine personlige data. Vær sikker på, at du stoler på kilden, før du fortsætter.",
   "@localDebWarningBody": {},
   "localDebWarningTitle": "Potentielt usikker",
   "@localDebWarningTitle": {},
@@ -433,7 +433,7 @@
   },
   "appstreamUrlTypeContribute": "Bidrag",
   "@appstreamUrlTypeContribute": {},
-  "localDebDialogMessage": "Denne pakker leveres af en tredjepart og kan true dit system og dine personlige data.",
+  "localDebDialogMessage": "Denne pakke leveres af en tredjepart, hvilket kan udgøre en sikkerhedsrisiko for dit system og dine personlige data.",
   "@localDebDialogMessage": {},
   "errorViewUnknownErrorAction": "Du kan prøve igen nu. Tjek status på opdateringer, eller prøv igen senere.",
   "@errorViewUnknownErrorAction": {},
@@ -453,7 +453,7 @@
   "@errorViewCheckStatusLabel": {},
   "errorViewUnknownErrorTitle": "Noget gik galt",
   "@errorViewUnknownErrorTitle": {},
-  "errorViewServerErrorDescription": "Vi oplever problemer med Appcenteret for tiden.",
+  "errorViewServerErrorDescription": "Vi oplever desværre problemer med Appcenteret for tiden.",
   "@errorViewServerErrorDescription": {},
   "errorViewServerErrorAction": "Tjek status på opdateringer eller prøv igen senere.",
   "@errorViewServerErrorAction": {},
@@ -466,5 +466,13 @@
   "managePageQuitToUpdate": "Afslut og gå til opdatering",
   "@managePageQuitToUpdate": {},
   "managePageNoInternet": "Kan ikke forbinde til server. Tjek din internetforbindelse eller prøv igen senere.",
-  "@managePageNoInternet": {}
+  "@managePageNoInternet": {},
+  "managePageInstallingLabel": "Installerer ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
