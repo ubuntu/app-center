@@ -2,7 +2,7 @@ name: snap-store
 summary: App Center
 description: App Center
 confinement: strict
-base: core24
+base: core22
 grade: stable
 version: git
 
