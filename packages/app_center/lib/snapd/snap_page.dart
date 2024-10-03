@@ -336,11 +336,13 @@ class _SnapActionButtons extends ConsumerWidget {
     }
 
     final hasActiveChange = snapData.activeChangeId != null;
-    final primaryActionButton = SizedBox(
-      width: _kPrimaryButtonMaxWidth,
+    final primaryActionButton = Flexible(
       child: PushButton.elevated(
         onPressed: primaryAction.callback(snapData, snapModel, snapLauncher),
-        child: Text(primaryAction.label(l10n)),
+        child: Text(
+          primaryAction.label(l10n),
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
 
@@ -383,8 +385,8 @@ class _SnapActionButtons extends ConsumerWidget {
             snapName: snapModel.snapName,
             activeChangeId: snapData.activeChangeId!,
           )
-        : OverflowBar(
-            overflowSpacing: 8,
+        : Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               primaryActionButton,
               if (snapData.isInstalled && snapData.activeChangeId == null)
