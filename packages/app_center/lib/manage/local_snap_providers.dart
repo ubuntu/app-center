@@ -21,7 +21,7 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
     final snapListState = await connectionCheck(_snapd.getSnaps, ref);
     final snaps = snapListState.snaps;
     final refreshableSnaps =
-        (await ref.watch(updatesModelProvider.future)).snaps.map((s) => s.name);
+        (await ref.read(updatesModelProvider.future)).snaps.map((s) => s.name);
     final nonRefreshableSnaps =
         snaps.where((s) => !refreshableSnaps.contains(s.name));
     void refreshFunction(_, __) => _refreshWithFilters(nonRefreshableSnaps);
