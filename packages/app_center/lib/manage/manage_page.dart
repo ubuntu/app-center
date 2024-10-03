@@ -164,17 +164,18 @@ class ManagePage extends ConsumerWidget {
           SliverList.list(
             children: [
               const SizedBox(height: kSectionSpacing),
-              Text(
-                l10n.managePageInstalledAndUpdatedLabel,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 8),
               Row(
                 children: [
-                  Expanded(
+                  Text(
+                    l10n.managePageInstalledAndUpdatedLabel,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(fontWeight: FontWeight.w500),
+                  ),
+                  const Spacer(),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 300),
                     // TODO: refactor - extract common text field decoration from
                     // here and the `SearchField` widget
                     child: TextFormField(
@@ -194,36 +195,35 @@ class ManagePage extends ConsumerWidget {
                           .state = value,
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: kSpacing),
                   Text(l10n.searchPageSortByLabel),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: kSpacingSmall),
                   // TODO: refactor - create proper widget
-                  Expanded(
-                    child: Consumer(
-                      builder: (context, ref, child) {
-                        final sortOrder = ref.watch(localSnapSortOrderProvider);
-                        return MenuButtonBuilder<SnapSortOrder>(
-                          values: const [
-                            SnapSortOrder.alphabeticalAsc,
-                            SnapSortOrder.alphabeticalDesc,
-                            SnapSortOrder.installedDateAsc,
-                            SnapSortOrder.installedDateDesc,
-                            SnapSortOrder.installedSizeAsc,
-                            SnapSortOrder.installedSizeDesc,
-                          ],
-                          itemBuilder: (context, sortOrder, child) =>
-                              Text(sortOrder.localize(l10n)),
-                          onSelected: (value) => ref
-                              .read(localSnapSortOrderProvider.notifier)
-                              .state = value,
-                          child: Text(sortOrder.localize(l10n)),
-                        );
-                      },
-                    ),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final sortOrder = ref.watch(localSnapSortOrderProvider);
+                      return MenuButtonBuilder<SnapSortOrder>(
+                        values: const [
+                          SnapSortOrder.alphabeticalAsc,
+                          SnapSortOrder.alphabeticalDesc,
+                          SnapSortOrder.installedDateAsc,
+                          SnapSortOrder.installedDateDesc,
+                          SnapSortOrder.installedSizeAsc,
+                          SnapSortOrder.installedSizeDesc,
+                        ],
+                        itemBuilder: (context, sortOrder, child) =>
+                            Text(sortOrder.localize(l10n)),
+                        onSelected: (value) => ref
+                            .read(localSnapSortOrderProvider.notifier)
+                            .state = value,
+                        expanded: false,
+                        child: Text(sortOrder.localize(l10n)),
+                      );
+                    },
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: kSpacing),
                   Text(l10n.managePageShowSystemSnapsLabel),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: kSpacingSmall),
                   YaruCheckbox(
                     value: ref.watch(showLocalSystemAppsProvider),
                     onChanged: (value) => ref
