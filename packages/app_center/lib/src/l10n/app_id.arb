@@ -430,5 +430,49 @@
   "errorViewUnknownErrorDescription": "Maaf, kami tidak yakin apa kesalahannya.",
   "@errorViewUnknownErrorDescription": {},
   "errorViewUnknownErrorTitle": "Ada yang tidak beres",
-  "@errorViewUnknownErrorTitle": {}
+  "@errorViewUnknownErrorTitle": {},
+  "managePageInstallingLabel": "Memasang ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapActionInstalledLabel": "Terpasang",
+  "@snapActionInstalledLabel": {},
+  "snapCategoryArtAndDesignButtonLabel": "Mulai menciptakan",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Dari sketsa pertama Anda ke sentuhan akhir, jelajahi aplikasi untuk seni dan desain.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "localDebWarningTitle": "Berpotensi tidak aman",
+  "@localDebWarningTitle": {},
+  "localDebWarningBody": "Paket ini disediakan oleh pihak ketiga. Memasang paket dari luar Pusat Aplikasi dapat meningkatkan risiko sistem dan data pribadi Anda. Pastikan Anda mempercayai sumber sebelum melanjutkan.",
+  "@localDebWarningBody": {},
+  "localDebLearnMore": "Pelajari lebih lanjut tentang paket pihak ketiga",
+  "@localDebLearnMore": {},
+  "localDebDialogMessage": "Paket ini disediakan oleh pihak ketiga dan dapat mengancam sistem dan data pribadi Anda.",
+  "@localDebDialogMessage": {},
+  "gamesPageTitle": "Apa Yang Ramai",
+  "@gamesPageTitle": {},
+  "snapSortOrderInstalledDateAsc": "Paling lama diperbarui",
+  "@snapSortOrderInstalledDateAsc": {},
+  "localDebDialogConfirmation": "Anda yakin ingin memasangnya?",
+  "@localDebDialogConfirmation": {},
+  "snapdExceptionRunningApps": "Kami tidak bisa memperbarui {snapName} karena kini sedang berjalan.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewCheckStatusLabel": "Periksa status",
+  "@errorViewCheckStatusLabel": {},
+  "managePageUpdatesFailedBody": "Kami tidak bisa memperbarui aplikasi ini karena kini sedang berjalan.\n\n{snapList}\nKetika Anda keluar dari aplikasi, mereka akan secara otomatis diperbarui.",
+  "@managePageUpdatesFailedBody": {},
+  "gamesPageFeatured": "Judul Unggulan",
+  "@gamesPageFeatured": {},
+  "errorViewNetworkErrorTitle": "Menyambung ke internet",
+  "@errorViewNetworkErrorTitle": {}
 }

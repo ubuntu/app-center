@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "Kehitystyö",
   "@developmentPageLabel": {},
-  "managePageLabel": "Hallitse asennettuja snap-paketteja",
+  "managePageLabel": "Hallitse",
   "@managePageLabel": {},
   "snapPageChannelLabel": "Kanava",
   "@snapPageChannelLabel": {},
@@ -404,5 +404,71 @@
   "localDebDialogConfirmation": "Haluatko varmasti asentaa sen?",
   "@localDebDialogConfirmation": {},
   "snapPageSizeLabel": "Koko",
-  "@snapPageSizeLabel": {}
+  "@snapPageSizeLabel": {},
+  "managePageInstallingLabel": "Asennetaan ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageTitle": "Hallitse asennettuja snap-paketteja",
+  "@managePageTitle": {},
+  "snapCategoryArtAndDesignButtonLabel": "Aloita luominen",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Ensimmäisestä luonnoksesta viimeiseen silaukseen, selaa sovelluksia taiteiluun ja suunnitteluun.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "snapdExceptionRunningApps": "Sovellusta {snapName} ei voitu päivittää, koska se on käynnissä.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewCheckStatusLabel": "Tarkista tila",
+  "@errorViewCheckStatusLabel": {},
+  "managePageOwnUpdateAvailable": "Sovelluskeskuksen päivitys saatavilla",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "Kun lopetat sovelluksen, se päivittyy automaattisesti.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "Sovelluskeskus päivittyy automaattisesti {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Näitä sovelluksia ei voitu päivittää, koska ne ovat käynnissä.\n\n{snapList}\nKun lopetat sovellukset, ne päivittyvät automaattisesti.",
+  "@managePageUpdatesFailedBody": {},
+  "managePageUpdatesFailed": "{n, plural, =1{Yksi päivitys} other{{n} päivitystä}} epäonnistui",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "errorViewNetworkErrorTitle": "Yhdistä Internetiin",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "Sovelluskeskuksen sisältöä ei voi ladata ilman Internet-yhteyttä.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewUnknownErrorAction": "Voit yrittää uudelleen nyt, tarkistaa päivitysten tilan, tai yrittää uudelleen myöhemmin.",
+  "@errorViewUnknownErrorAction": {},
+  "managePageNoInternet": "Ei yhteyttä palvelimeen. Tarkista Internet-yhteyden tila ja yritä uudelleen.",
+  "@managePageNoInternet": {},
+  "errorViewNetworkErrorAction": "Tarkista yhteyden tila ja yritä uudelleen.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "Sovelluskeskuksessa on valitettavasti ongelmia tällä hetkellä.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewUnknownErrorTitle": "Jokin meni pieleen",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorDescription": "Valitettavasti emme tiedä mistä virheestä on kyse.",
+  "@errorViewUnknownErrorDescription": {},
+  "managePageQuitToUpdate": "Lopeta päivittääksesi",
+  "@managePageQuitToUpdate": {},
+  "managePageOwnUpdateQuitButton": "Lopeta päivittääksesi",
+  "@managePageOwnUpdateQuitButton": {}
 }

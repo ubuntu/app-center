@@ -161,7 +161,7 @@
   "@appstreamUrlTypeHomepage": {},
   "managePageCheckingForUpdates": "Recherche de mises à jour",
   "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Mise à jour il y a {n} jours",
+  "managePageUpdatedDaysAgo": "Mise à jour il y a {n, plural, =1{{n} jour} other{{n} jours}}",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -417,7 +417,7 @@
   "@localDebWarningTitle": {},
   "localDebWarningBody": "Ce paquet est fourni par un tiers. L’installation de paquets en dehors du Centre d'applications peut augmenter le risque pour votre système et vos données personnelles. Assurez-vous que la source soit de confiance avant de poursuivre.",
   "@localDebWarningBody": {},
-  "localDebDialogConfirmation": "Êtes-vous certain de vouloir l’installer ?",
+  "localDebDialogConfirmation": "Voulez-vous vraiment l’installer ?",
   "@localDebDialogConfirmation": {},
   "errorViewCheckStatusLabel": "Vérifier le statut",
   "@errorViewCheckStatusLabel": {},
@@ -447,7 +447,7 @@
   },
   "managePageOwnUpdateQuitButton": "Quitter pour mettre à jour",
   "@managePageOwnUpdateQuitButton": {},
-  "errorViewServerErrorAction": "Vérifiez l’état des mises à jour ou réessayez plus tard.",
+  "errorViewServerErrorAction": "Vérifiez le status des mises à jour ou réessayez plus tard.",
   "@errorViewServerErrorAction": {},
   "managePageUpdatesFailedBody": "Nous n’avons pas pu mettre à jour ces applications car elles sont en cours d’exécution.\n\n{snapList}\nLorsque vous quittez les applications, elles sont automatiquement mises à jour.",
   "@managePageUpdatesFailedBody": {},
@@ -455,7 +455,7 @@
   "@managePageTitle": {},
   "snapCategoryUbuntuDesktop": "Bureau Ubuntu",
   "@snapCategoryUbuntuDesktop": {},
-  "managePageUpdatesFailed": "{n, plural, =1{Une mise à jour échouée} other{{n} mises à jour échouées}}",
+  "managePageUpdatesFailed": "{n, plural, =1{Une mise à jour en échec} other{{n} mises à jour en échec}}",
   "@managePageUpdatesFailed": {
     "placeholders": {
       "n": {
