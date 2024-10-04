@@ -179,10 +179,11 @@ class ManagePage extends ConsumerWidget {
                     // here and the `SearchField` widget
                     child: TextFormField(
                       style: Theme.of(context).textTheme.bodyMedium,
-                      strutStyle: kSearchFieldStrutStyle,
                       textAlignVertical: TextAlignVertical.center,
                       cursorWidth: 1,
                       decoration: InputDecoration(
+                        isDense: true,
+                        contentPadding: kSearchFieldContentPadding,
                         prefixIcon: kSearchFieldPrefixIcon,
                         prefixIconConstraints: kSearchFieldIconConstraints,
                         hintText: l10n.managePageSearchFieldSearchHint,

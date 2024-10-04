@@ -168,7 +168,6 @@ class _SearchFieldState extends ConsumerState<SearchField> {
 
               return TextField(
                 style: Theme.of(context).textTheme.bodyMedium,
-                strutStyle: kSearchFieldStrutStyle,
                 textAlignVertical: TextAlignVertical.center,
                 cursorWidth: 1,
                 focusNode: node,
@@ -178,7 +177,8 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                     ? onFieldSubmitted()
                     : widget.onSearch(query),
                 decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                  isDense: true,
+                  contentPadding: kSearchFieldContentPadding,
                   prefixIcon: kSearchFieldPrefixIcon,
                   prefixIconConstraints: kSearchFieldIconConstraints,
                   hintText: l10n.searchFieldSearchHint,
