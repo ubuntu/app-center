@@ -1,1 +1,484 @@
-{}
+{
+  "appstreamUrlTypeFaq": "Ceisteanna Coitianta",
+  "@appstreamUrlTypeFaq": {},
+  "appstreamUrlTypeHelp": "Cabhair",
+  "@appstreamUrlTypeHelp": {},
+  "appstreamUrlTypeHomepage": "Leathanach baile",
+  "@appstreamUrlTypeHomepage": {},
+  "appstreamUrlTypeTranslate": "Aistriúcháin",
+  "@appstreamUrlTypeTranslate": {},
+  "snapCategoryGameDev": "Forbairt Cluiche",
+  "@snapCategoryGameDev": {},
+  "snapCategoryGameDevSlogan": "Forbairt Cluiche",
+  "@snapCategoryGameDevSlogan": {},
+  "snapCategoryGameEmulators": "Aithriseoirí",
+  "@snapCategoryGameEmulators": {},
+  "snapCategoryGameEmulatorsSlogan": "Aithriseoirí",
+  "@snapCategoryGameEmulatorsSlogan": {},
+  "snapCategoryGnomeGames": "Cluichí GNOME",
+  "@snapCategoryGnomeGames": {},
+  "snapCategoryGnomeGamesSlogan": "Sraith Cluichí GNOME",
+  "@snapCategoryGnomeGamesSlogan": {},
+  "snapCategoryKdeGames": "Cluichí KDE",
+  "@snapCategoryKdeGames": {},
+  "snapCategoryGamesSlogan": "Gach rud le haghaidh oíche cluiche",
+  "@snapCategoryGamesSlogan": {},
+  "snapCategoryUbuntuDesktopSlogan": "Léim tús a chur le do dheasc",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapCategoryUtilities": "Fóntais",
+  "@snapCategoryUtilities": {},
+  "snapConfinementClassic": "Clasaiceach",
+  "@snapConfinementClassic": {},
+  "snapConfinementDevmode": "DevmodeName",
+  "@snapConfinementDevmode": {},
+  "snapConfinementStrict": "Dian",
+  "@snapConfinementStrict": {},
+  "snapSortOrderAlphabeticalAsc": "Aibítreach (A go Z)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "snapSortOrderAlphabeticalDesc": "Aibítreach (Z go A)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "snapSortOrderDownloadSizeAsc": "Méid (Is lú go dtí an ceann is mó)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "snapSortOrderDownloadSizeDesc": "Méid (An ceann is mó go dtí an ceann is lú)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "snapSortOrderInstalledSizeAsc": "Méid (Is lú go dtí an ceann is mó)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "snapSortOrderInstalledSizeDesc": "Méid (An ceann is mó go dtí an ceann is lú)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapSortOrderInstalledDateAsc": "Ar a laghad a nuashonraíodh le déanaí",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapSortOrderInstalledDateDesc": "An ceann is déanaí a nuashonraíodh",
+  "@snapSortOrderInstalledDateDesc": {},
+  "snapSortOrderRelevance": "Ábharthacht",
+  "@snapSortOrderRelevance": {},
+  "snapRatingsBandGood": "Go maith",
+  "@snapRatingsBandGood": {},
+  "snapReportOptionalEmailAddressLabel": "Do r-phost (roghnach)",
+  "@snapReportOptionalEmailAddressLabel": {},
+  "snapReportCancelButtonLabel": "Cuir ar ceal",
+  "@snapReportCancelButtonLabel": {},
+  "snapReportSubmitButtonLabel": "Tuarascáil a chur isteach",
+  "@snapReportSubmitButtonLabel": {},
+  "snapReportEnterValidEmailError": "Iontráil seoladh ríomhphoist bailí",
+  "@snapReportEnterValidEmailError": {},
+  "snapReportDetailsHint": "Nóta Tráchta...",
+  "@snapReportDetailsHint": {},
+  "snapReportPrivacyAgreementLabel": "Agus an fhoirm seo á cur isteach agam, deimhním gur léigh mé agus go n-aontaím ",
+  "@snapReportPrivacyAgreementLabel": {},
+  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Fógra Príobháideachais Canonical ",
+  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+  "snapReportPrivacyAgreementAndLabel": "agus ",
+  "@snapReportPrivacyAgreementAndLabel": {},
+  "snapReportPrivacyAgreementPrivacyPolicy": "Polasaí Príobháideachais",
+  "@snapReportPrivacyAgreementPrivacyPolicy": {},
+  "debPageErrorNoPackageInfo": "Níor aimsíodh aon fhaisnéis phacáiste",
+  "@debPageErrorNoPackageInfo": {},
+  "externalResources": "Acmhainní breise",
+  "@externalResources": {},
+  "externalResourcesButtonLabel": "Tuilleadh eolais",
+  "@externalResourcesButtonLabel": {},
+  "allGamesButtonLabel": "Gach cluichí",
+  "@allGamesButtonLabel": {},
+  "localDebWarningTitle": "D'fhéadfadh sé a bheith neamhshábháilte",
+  "@localDebWarningTitle": {},
+  "snapPageVersionLabel": "Leagan",
+  "@snapPageVersionLabel": {},
+  "snapPageShareLinkCopiedMessage": "Cóipeáladh an nasc go dtí an ghearrthaisce",
+  "@snapPageShareLinkCopiedMessage": {},
+  "explorePageLabel": "Déan iniúchadh",
+  "@explorePageLabel": {},
+  "explorePageCategoriesLabel": "Catagóirí",
+  "@explorePageCategoriesLabel": {},
+  "managePageOwnUpdateAvailable": "Nuashonrú ar an Lárionad Aipeanna ar fáil",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageQuitToUpdate": "Scoir den nuashonrú",
+  "@managePageQuitToUpdate": {},
+  "managePageOwnUpdateDescription": "Nuair a scoireann tú den fheidhmchlár, nuashonróidh sé go huathoibríoch é.",
+  "@managePageOwnUpdateDescription": {},
+  "appCenterLabel": "Lárionad Aipeanna",
+  "@appCenterLabel": {},
+  "appstreamSearchGreylist": "aip; iarratas; pacáiste; clár; an chláir; svuít; uirlis",
+  "@appstreamSearchGreylist": {},
+  "snapPageChannelLabel": "Cainéal",
+  "@snapPageChannelLabel": {},
+  "snapPageConfinementLabel": "Gaibhniú",
+  "@snapPageConfinementLabel": {},
+  "snapPageContactPublisherLabel": "Déan teagmháil le {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageDescriptionLabel": "Cur síos",
+  "@snapPageDescriptionLabel": {},
+  "snapPageDeveloperWebsiteLabel": "Suíomh Gréasáin an fhorbróra",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapPageDownloadSizeLabel": "Méid an íosluchtaithe",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPageSizeLabel": "Méid",
+  "@snapPageSizeLabel": {},
+  "snapPageGalleryLabel": "Gailearaí",
+  "@snapPageGalleryLabel": {},
+  "snapPageLicenseLabel": "Ceadúnas",
+  "@snapPageLicenseLabel": {},
+  "snapPageLinksLabel": "Naisc",
+  "@snapPageLinksLabel": {},
+  "snapPagePublisherLabel": "Foilsitheoir",
+  "@snapPagePublisherLabel": {},
+  "snapPagePublishedLabel": "Foilsithe",
+  "@snapPagePublishedLabel": {},
+  "snapPageSummaryLabel": "Achoimre",
+  "@snapPageSummaryLabel": {},
+  "managePageOwnUpdateDescriptionSoon": "Nuashonróidh an t-ionad feidhmchláir go huathoibríoch i {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "Scoir den nuashonrú",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageCheckForUpdates": "Seiceáil le haghaidh nuashonruithe",
+  "@managePageCheckForUpdates": {},
+  "managePageNoInternet": "Ní féidir teacht ar fhreastalaí, seiceáil do nasc idirlín nó bain triail eile as níos déanaí.",
+  "@managePageNoInternet": {},
+  "managePageCheckingForUpdates": "Ag seiceáil le haghaidh nuashonruithe",
+  "@managePageCheckingForUpdates": {},
+  "productivityPageLabel": "Táirgiúlacht",
+  "@productivityPageLabel": {},
+  "developmentPageLabel": "Forbairt",
+  "@developmentPageLabel": {},
+  "gamesPageLabel": "Cluichí",
+  "@gamesPageLabel": {},
+  "managePageDescription": "Seiceáil le haghaidh nuashonruithe atá ar fáil, nuashonraigh d'fheidhmchláir, agus bainistigh stádas d'fheidhmchláir go léir.",
+  "@managePageDescription": {},
+  "managePageDebUpdatesMessage": "Láimhseálann an Updater Bogearraí nuashonruithe pacáiste Debian.",
+  "@managePageDebUpdatesMessage": {},
+  "gamesPageTitle": "Cad atá Te",
+  "@gamesPageTitle": {},
+  "managePageInstalledAndUpdatedLabel": "Suiteáilte agus nuashonraithe",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "managePageInstallingLabel": "Suiteáil ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageLabel": "Bainistigh",
+  "@managePageLabel": {},
+  "managePageTitle": "Bainistigh snapanna suiteáilte",
+  "@managePageTitle": {},
+  "managePageNoUpdatesAvailableDescription": "Níl aon nuashonruithe ar fáil. Tá d'iarratais cothrom le dáta ar fad.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "managePageSearchFieldSearchHint": "Cuardaigh d'fheidhmchláir suiteáilte",
+  "@managePageSearchFieldSearchHint": {},
+  "managePageShowDetailsLabel": "Taispeáin sonraí",
+  "@managePageShowDetailsLabel": {},
+  "managePageShowSystemSnapsLabel": "Taispeáin snapanna an chórais",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageUpdateAllLabel": "Nuashonraigh gach rud",
+  "@managePageUpdateAllLabel": {},
+  "managePageUpdatesAvailable": "Nuashonruithe ar fáil ({n})",
+  "@managePageUpdatesAvailable": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Ní raibh muid in ann na feidhmchláir seo a nuashonrú toisc go bhfuil siad ag rith faoi láthair.\n\n{snapList}\nNuair a scoireann tú de na feidhmchláir, nuashonróidh siad go huathoibríoch.",
+  "@managePageUpdatesFailedBody": {},
+  "gamesPageTop": "Cluichí Barr",
+  "@gamesPageTop": {},
+  "gamesPageFeatured": "Teidil Faoi Thrácht",
+  "@gamesPageFeatured": {},
+  "unknownPublisher": "Foilsitheoir anaithnid",
+  "@unknownPublisher": {},
+  "searchFieldDebSection": "Pacáistí Debian",
+  "@searchFieldDebSection": {},
+  "searchFieldSearchHint": "Cuardaigh feidhmchláir",
+  "@searchFieldSearchHint": {},
+  "managePageUpdatedWeeksAgo": "Nuashonraithe {n, plural, =1{{n} seachtain} other{{n} seachtainí}} ó shin",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "Nuashonraithe {n, plural, =1{{n} mí} other{{n} mhí}} ó shin",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Nuashonraithe {n, plural, =1{{n} bhliain} other{{n} blianta}} ó shin",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailed": "{n, plural, =1{Theip ar nuashonrú amháin} other{Theip ar {n} nuashonruithe}}",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "gamesPageBundles": "Bundalaí Aip",
+  "@gamesPageBundles": {},
+  "searchFieldSearchForLabel": "Féach na torthaí go léir le haghaidh \"{query}\"",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapActionInstallLabel": "Suiteáil",
+  "@snapActionInstallLabel": {},
+  "searchFieldSnapSection": "Pacáistí Snap",
+  "@searchFieldSnapSection": {},
+  "searchPageFilterByLabel": "Scag de réir",
+  "@searchPageFilterByLabel": {},
+  "searchPageNoResults": "Níor aimsíodh aon torthaí le haghaidh \"{query}\"",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageNoResultsHint": "Bain triail as eochairfhocail éagsúla nó níos ginearálta a úsáid",
+  "@searchPageNoResultsHint": {},
+  "searchPageNoResultsCategory": "Tá brón orm, ní raibh muid in ann teacht ar aon phacáistí sa chatagóir seo",
+  "@searchPageNoResultsCategory": {},
+  "searchPageNoResultsCategoryHint": "Bain triail as catagóir eile nó bain úsáid as eochairfhocail níos ginearálta",
+  "@searchPageNoResultsCategoryHint": {},
+  "searchPageSortByLabel": "Sórtáil de réir",
+  "@searchPageSortByLabel": {},
+  "searchPageRelevanceLabel": "Ábharthacht",
+  "@searchPageRelevanceLabel": {},
+  "searchPageTitle": "Torthaí le haghaidh \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageLabel": "Maidir",
+  "@aboutPageLabel": {},
+  "aboutPageVersionLabel": "Leagan {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageContributorTitle": "Deartha agus forbartha ag:",
+  "@aboutPageContributorTitle": {},
+  "aboutPageCommunityTitle": "Bí mar chuid den phobal:",
+  "@aboutPageCommunityTitle": {},
+  "aboutPageContributeLabel": "Cuir nó tuairiscigh fabht",
+  "@aboutPageContributeLabel": {},
+  "aboutPageGitHubLabel": "Faigh sinn ar GitHub",
+  "@aboutPageGitHubLabel": {},
+  "aboutPagePublishLabel": "Foilsigh chuig an Snap Store",
+  "@aboutPagePublishLabel": {},
+  "aboutPageLearnMoreLabel": "Faigh tuilleadh eolais",
+  "@aboutPageLearnMoreLabel": {},
+  "appstreamUrlTypeBugtracker": "Lorgaire fabhtanna",
+  "@appstreamUrlTypeBugtracker": {},
+  "appstreamUrlTypeContact": "Teagmháil",
+  "@appstreamUrlTypeContact": {},
+  "appstreamUrlTypeContribute": "Cur leis",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeDonation": "Deonaigh",
+  "@appstreamUrlTypeDonation": {},
+  "appstreamUrlTypeVcsBrowser": "Foinse",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "packageFormatDebLabel": "Pacáistí Debian",
+  "@packageFormatDebLabel": {},
+  "packageFormatSnapLabel": "Pacáistí Snap",
+  "@packageFormatSnapLabel": {},
+  "snapActionCancelLabel": "Cuir ar ceal",
+  "@snapActionCancelLabel": {},
+  "snapActionInstalledLabel": "Suiteáilte",
+  "@snapActionInstalledLabel": {},
+  "snapActionOpenLabel": "Oscail",
+  "@snapActionOpenLabel": {},
+  "snapActionRemoveLabel": "Díshuiteáil",
+  "@snapActionRemoveLabel": {},
+  "snapActionSwitchChannelLabel": "Athraigh cainéal",
+  "@snapActionSwitchChannelLabel": {},
+  "snapActionUpdateLabel": "Nuashonrú",
+  "@snapActionUpdateLabel": {},
+  "snapCategoryAll": "Gach catagóir",
+  "@snapCategoryAll": {},
+  "snapCategoryArtAndDesign": "Ealaín agus Dearadh",
+  "@snapCategoryArtAndDesign": {},
+  "snapActionRemovingLabel": "Ag díshuiteáil",
+  "@snapActionRemovingLabel": {},
+  "snapCategoryDevelopmentSlogan": "Ní mór snapanna a bheith agat d'fhorbróirí",
+  "@snapCategoryDevelopmentSlogan": {},
+  "snapCategoryDevicesAndIot": "Gléasanna agus IoT",
+  "@snapCategoryDevicesAndIot": {},
+  "snapCategoryEducation": "Oideachas",
+  "@snapCategoryEducation": {},
+  "snapCategoryEntertainment": "Siamsaíocht",
+  "@snapCategoryEntertainment": {},
+  "snapCategoryFeatured": "Réadmhaoin",
+  "@snapCategoryFeatured": {},
+  "snapCategoryFeaturedSlogan": "Snapanna Réadmhaoin",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapCategoryFinance": "Airgeadas",
+  "@snapCategoryFinance": {},
+  "snapCategoryGames": "Cluichí",
+  "@snapCategoryGames": {},
+  "snapCategoryKdeGamesSlogan": "Svuít Cluichí KDE",
+  "@snapCategoryKdeGamesSlogan": {},
+  "snapCategoryGameLaunchers": "Cluiche Lainseálaithe",
+  "@snapCategoryGameLaunchers": {},
+  "snapCategoryGameLaunchersSlogan": "Cluiche Lainseálaithe",
+  "@snapCategoryGameLaunchersSlogan": {},
+  "snapCategoryGameContentCreation": "Cruthú Ábhar",
+  "@snapCategoryGameContentCreation": {},
+  "snapCategoryArtAndDesignButtonLabel": "Tosaigh ag cruthú",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Ó do chéad sceitse go dtí an teagmháil deiridh, déan iniúchadh ar aipeanna le haghaidh ealaíne agus dearaidh.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "snapCategoryBooksAndReference": "Leabhair agus Tagairtí",
+  "@snapCategoryBooksAndReference": {},
+  "snapCategoryDefaultButtonLabel": "Tuilleadh eolais",
+  "@snapCategoryDefaultButtonLabel": {},
+  "snapCategoryDevelopment": "Forbairt",
+  "@snapCategoryDevelopment": {},
+  "snapCategoryGameContentCreationSlogan": "Cruthú Ábhar",
+  "@snapCategoryGameContentCreationSlogan": {},
+  "snapCategoryHealthAndFitness": "Sláinte agus Folláine",
+  "@snapCategoryHealthAndFitness": {},
+  "snapCategoryMusicAndAudio": "Ceol agus Fuaim",
+  "@snapCategoryMusicAndAudio": {},
+  "snapCategoryNewsAndWeather": "Nuacht agus Aimsir",
+  "@snapCategoryNewsAndWeather": {},
+  "snapCategoryPersonalisation": "Pearsanú",
+  "@snapCategoryPersonalisation": {},
+  "snapCategoryPhotoAndVideo": "Grianghraf agus Físeán",
+  "@snapCategoryPhotoAndVideo": {},
+  "snapCategoryProductivity": "Táirgiúlacht",
+  "@snapCategoryProductivity": {},
+  "snapCategoryProductivityButtonLabel": "Faigh amach an bailiúchán táirgiúlachta",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapCategoryProductivitySlogan": "Trasnaigh rud amháin as do liosta tascanna",
+  "@snapCategoryProductivitySlogan": {},
+  "snapCategoryScience": "Eolaíocht",
+  "@snapCategoryScience": {},
+  "snapCategorySecurity": "Slándáil",
+  "@snapCategorySecurity": {},
+  "snapCategoryServerAndCloud": "Freastalaí agus Cloud",
+  "@snapCategoryServerAndCloud": {},
+  "snapCategorySocial": "Sóisialta",
+  "@snapCategorySocial": {},
+  "snapCategoryUbuntuDesktop": "Deasc Ubuntu",
+  "@snapCategoryUbuntuDesktop": {},
+  "snapRatingsBandVeryGood": "An-mhaith",
+  "@snapRatingsBandVeryGood": {},
+  "snapRatingsBandNeutral": "Neodrach",
+  "@snapRatingsBandNeutral": {},
+  "snapRatingsBandPoor": "Bocht",
+  "@snapRatingsBandPoor": {},
+  "snapRatingsBandVeryPoor": "An-bhocht",
+  "@snapRatingsBandVeryPoor": {},
+  "snapRatingsBandInsufficientVotes": "Easpa vótaí",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsVotes": "{n} vótaí",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapReportLabel": "Tuairiscigh {snapName}",
+  "@snapReportLabel": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "snapReportSelectReportReasonLabel": "Roghnaigh cúis leis an snap seo a thuairisciú",
+  "@snapReportSelectReportReasonLabel": {},
+  "snapReportSelectAnOptionLabel": "Roghnaigh rogha",
+  "@snapReportSelectAnOptionLabel": {},
+  "snapReportOptionCopyrightViolation": "Sárú cóipchirt nó trádmhairc",
+  "@snapReportOptionCopyrightViolation": {},
+  "snapReportOptionStoreViolation": "Téarmaí sáraithe seirbhíse Snap Store",
+  "@snapReportOptionStoreViolation": {},
+  "snapReportDetailsLabel": "Tabhair cúis níos mionsonraithe le do thuarascáil",
+  "@snapReportDetailsLabel": {},
+  "externalResourcesDisclaimer": "Nóta: Is uirlisí seachtracha iad seo go léir. Níl siad seo faoi úinéireacht ná á ndáileadh ag Canonical.",
+  "@externalResourcesDisclaimer": {},
+  "openInBrowser": "Oscail i mbrabhsálaí",
+  "@openInBrowser": {},
+  "installAll": "Suiteáil gach rud",
+  "@installAll": {},
+  "localDebLearnMore": "Foghlaim tuilleadh faoi phacáistí tríú páirtí",
+  "@localDebLearnMore": {},
+  "localDebDialogMessage": "Cuireann tríú páirtí an pacáiste seo ar fáil agus d'fhéadfadh sé do chóras agus do shonraí pearsanta a chur i mbaol.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "An bhfuil tú cinnte go bhfuil fonn ort é a shuiteáil?",
+  "@localDebDialogConfirmation": {},
+  "snapdExceptionRunningApps": "Ní fhéadfaimis {snapName} a nuashonrú toisc go bhfuil sé á rith faoi láthair.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewCheckStatusLabel": "Seiceáil stádas",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "Ceangail leis an idirlíon",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "Ní féidir linn ábhar a luchtú sa App Center gan nasc idirlín.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewNetworkErrorAction": "Seiceáil do nasc agus atriail.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "Tá brón orainn, tá fadhbanna againn leis an App Center faoi láthair.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "Seiceáil stádas na nuashonruithe nó bain triail eile as níos déanaí.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "Chuaigh rud éigin mícheart",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorDescription": "Tá brón orainn, ach nílimid cinnte cad é an earráid.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "Is féidir leat triail a bhaint as anois, an stádas le haghaidh nuashonruithe a sheiceáil, nó triail eile a bhaint as níos déanaí.",
+  "@errorViewUnknownErrorAction": {},
+  "managePageUpdatedDaysAgo": "Nuashonraithe {n, plural, =1{{n} lá} other{{n} lá}} ó shin",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapActionInstallingLabel": "Ag suiteáil",
+  "@snapActionInstallingLabel": {},
+  "snapActionUpdatingLabel": "Ag nuashonrú",
+  "@snapActionUpdatingLabel": {},
+  "localDebWarningBody": "Cuireann tríú páirtí an pacáiste seo ar fáil. Is féidir le pacáistí a shuiteáil ó lasmuigh den Lárionad Aip an riosca le do chóras agus do shonraí pearsanta a mhéadú. Cinntigh go bhfuil muinín agat as an bhfoinse sula dtéann tú ar aghaidh.",
+  "@localDebWarningBody": {}
+}
