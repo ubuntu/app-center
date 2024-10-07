@@ -276,6 +276,7 @@ class ManagePage extends ConsumerWidget {
                   index: index,
                   length: snapListState.snaps.length,
                 ),
+                hasFixedSize: true,
               ),
             ),
             error: (_, __) =>

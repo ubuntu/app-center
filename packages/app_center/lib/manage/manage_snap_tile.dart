@@ -19,12 +19,14 @@ class ManageSnapTile extends StatelessWidget {
     required this.snap,
     this.position = ManageTilePosition.middle,
     this.showUpdateButton = false,
+    this.hasFixedSize = false,
     super.key,
   });
 
   final Snap snap;
   final ManageTilePosition position;
   final bool showUpdateButton;
+  final bool hasFixedSize;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,10 @@ class ManageSnapTile extends StatelessWidget {
         ? DateTime.now().difference(snap.installDate!)
         : null;
     const radius = Radius.circular(8);
+    final buttonBar = Align(
+      alignment: Alignment.centerRight,
+      child: _ButtonBar(snap, showUpdateButton),
+    );
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -162,13 +168,9 @@ class ManageSnapTile extends StatelessWidget {
               ),
           ],
         ),
-        trailing: SizedBox(
-          width: 260,
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: _ButtonBar(snap, showUpdateButton),
-          ),
-        ),
+        trailing: hasFixedSize
+            ? SizedBox(width: 180, child: buttonBar)
+            : IntrinsicWidth(child: buttonBar),
       ),
     );
   }
