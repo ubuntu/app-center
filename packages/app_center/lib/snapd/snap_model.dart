@@ -110,11 +110,13 @@ class SnapModel extends _$SnapModel {
     }
     final changeId = (await _snapd.abortChange(changeIdToAbort)).id;
     _updateChangeId(changeId);
-    return _listenUntilDone(changeId, ref, invalidate: false);
+    await _listenUntilDone(changeId, ref, invalidate: false);
   }
 
   /// Updates the version of the snap.
-  Future<void> refresh() async {
+  ///
+  /// Returns `true` if the snap was updated, `false` otherwise.
+  Future<bool> refresh() async {
     assert(
       state.hasStoreSnap,
       'The snap must be loaded from the store before updating it',
@@ -130,13 +132,7 @@ class SnapModel extends _$SnapModel {
           SnapConfinement.classic,
     );
     _updateChangeId(changeId);
-    await _listenUntilDone(
-      changeId,
-      ref,
-      onSuccess: () {
-        ref.read(updatesModelProvider.notifier).removeFromList(snapData.name);
-      },
-    );
+    return _listenUntilDone(changeId, ref);
   }
 
   /// Uninstalls the snap.
@@ -173,18 +169,20 @@ class SnapModel extends _$SnapModel {
     }
   }
 
-  Future<void> _listenUntilDone(
+  Future<bool> _listenUntilDone(
     String changeId,
     Ref ref, {
     bool invalidate = true,
     void Function()? onSuccess,
   }) async {
+    var completedSuccessfully = false;
     final completer = Completer();
     final subscription = _snapd.watchChange(changeId).listen((event) {
       if (event.err != null) {
         completer.completeError(event.err!);
       } else if (event.ready) {
         completer.complete();
+        completedSuccessfully = true;
         onSuccess?.call();
       }
     });
@@ -195,6 +193,7 @@ class SnapModel extends _$SnapModel {
     if (invalidate) {
       ref.invalidateSelf();
     }
+    return completedSuccessfully;
   }
 }
 

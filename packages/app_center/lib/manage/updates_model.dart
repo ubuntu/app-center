@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
+import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:collection/collection.dart';
@@ -135,7 +136,10 @@ class UpdatesModel extends _$UpdatesModel {
         final refreshFuture =
             ref.read(SnapModelProvider(snapName).notifier).refresh();
         try {
-          await refreshFuture;
+          final completedSuccessfully = await refreshFuture;
+          if (completedSuccessfully) {
+            ref.read(updatesModelProvider.notifier).removeFromList(snapName);
+          }
         } on Exception catch (e) {
           if (e is SnapdException && e.kind == 'auth-cancelled') {
             rethrow;
@@ -164,6 +168,7 @@ class UpdatesModel extends _$UpdatesModel {
             );
       }
       ref.invalidateSelf();
+      ref.invalidate(filteredLocalSnapsProvider);
     }
   }
 
