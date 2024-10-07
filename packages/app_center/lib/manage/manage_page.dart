@@ -126,6 +126,7 @@ class ManagePage extends ConsumerWidget {
                     length: snapListState.snaps.length,
                   ),
                   showUpdateButton: true,
+                  hasFixedSize: false,
                 ),
               );
             },
@@ -158,6 +159,7 @@ class ManagePage extends ConsumerWidget {
                   index: index,
                   length: currentlyInstalling.length,
                 ),
+                hasFixedSize: false,
               ),
             ),
           ],
@@ -276,6 +278,7 @@ class ManagePage extends ConsumerWidget {
                   index: index,
                   length: snapListState.snaps.length,
                 ),
+                hasFixedSize: true,
               ),
             ),
             error: (_, __) =>
