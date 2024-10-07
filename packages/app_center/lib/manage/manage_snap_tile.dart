@@ -19,7 +19,7 @@ class ManageSnapTile extends StatelessWidget {
     required this.snap,
     this.position = ManageTilePosition.middle,
     this.showUpdateButton = false,
-    required this.hasFixedSize,
+    this.hasFixedSize = false,
     super.key,
   });
 
