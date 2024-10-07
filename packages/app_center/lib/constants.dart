@@ -18,5 +18,5 @@ const kSearchFieldIconConstraints = BoxConstraints(
   maxWidth: 32,
   maxHeight: 32,
 );
-const kSearchFieldStrutStyle = StrutStyle(leading: 0.2);
+const kSearchFieldContentPadding = EdgeInsets.all(12);
 const kSearchFieldPrefixIcon = Icon(YaruIcons.search, size: 16);
