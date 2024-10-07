@@ -5,6 +5,7 @@ import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
+import 'package:app_center/manage/update_button.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snap_action.dart';
 import 'package:app_center/snapd/snap_report.dart';
@@ -345,27 +346,43 @@ class _SnapActionButtons extends ConsumerWidget {
     );
 
     final secondaryActions = [
-      if (snapData.hasUpdate) SnapAction.update,
-      SnapAction.remove,
+      (
+        action: SnapAction.update,
+        widget: UpdateButton(
+          snapModel: ref.watch(snapModelProvider(snapData.name)),
+          activeChangeId: snapData.activeChangeId,
+        ),
+      ),
+      (action: SnapAction.remove, widget: null),
     ];
     final secondaryActionsButton = MenuAnchor(
-      menuChildren: secondaryActions.map((action) {
-        final color = action == SnapAction.remove
-            ? Theme.of(context).colorScheme.error
-            : null;
-        return MenuItemButton(
-          onPressed: action.callback(snapData, snapModel, snapLauncher),
-          child: IntrinsicWidth(
-            child: ListTile(
-              mouseCursor: SystemMouseCursors.click,
-              title: Text(
-                action.label(l10n),
-                style: TextStyle(color: color),
-              ),
-            ),
-          ),
-        );
-      }).toList(),
+      menuChildren: [
+        ...secondaryActions.map((entry) {
+          final (:action, :widget) = entry;
+          final color = action == SnapAction.remove
+              ? Theme.of(context).colorScheme.error
+              : null;
+          return widget == null
+              ? MenuItemButton(
+                  onPressed: action.callback(snapData, snapModel, snapLauncher),
+                  child: IntrinsicWidth(
+                    child: ListTile(
+                      mouseCursor: SystemMouseCursors.click,
+                      title: Text(
+                        action.label(l10n),
+                        style: TextStyle(color: color),
+                      ),
+                    ),
+                  ),
+                )
+              : IntrinsicWidth(
+                  child: ListTile(
+                    mouseCursor: SystemMouseCursors.click,
+                    title: widget,
+                  ),
+                );
+        }),
+      ],
       builder: (context, controller, child) => YaruOptionButton(
         onPressed: () {
           if (controller.isOpen) {
