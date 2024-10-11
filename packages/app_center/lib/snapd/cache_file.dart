@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:app_center/ratings/ratings_data.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:flutter/services.dart';
@@ -92,12 +93,27 @@ class CacheFile {
         .toList();
   }
 
+  Future<void> deleteIfExists() async {
+    if (await _file.exists()) {
+      await _file.delete();
+    }
+  }
+
   Future<void> writeSnap(Snap snap) => write(snap.toJson());
 
   void writeSnapSync(Snap snap) => writeSync(snap.toJson());
 
   void writeSnapListSync(List<Snap> snaps) {
     return writeSync(snaps.map((snap) => snap.toJson()).toList());
+  }
+
+  Future<RatingsData?> readRatingsData() async {
+    final data = await read() as Map?;
+    return data != null ? RatingsData.fromJson(data.cast()) : null;
+  }
+
+  void writeRatingsDataSync(RatingsData ratingsData) {
+    return writeSync(ratingsData.toJson());
   }
 }
 
