@@ -34,6 +34,7 @@ dependencies:
   handy_window: ^0.4.0
   http: ^1.2.2
   intl: any
+  json_annotation: ^4.9.0
   jwt_decode: ^0.3.1
   meta: ^1.15.0
   package_info_plus: ^8.0.2
@@ -64,6 +65,7 @@ dev_dependencies:
   freezed: ^2.5.7
   integration_test:
     sdk: flutter
+  json_serializable: ^6.8.0
   mockito: ^5.4.4
   riverpod_generator: ^2.4.3
   ubuntu_lints: ^0.4.0
