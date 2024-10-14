@@ -1,49 +1,118 @@
+import 'package:app_center/constants.dart';
+import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/snapd/snap_action.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/widgets/active_change_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 
-class UpdateButton extends ConsumerWidget {
-  const UpdateButton({
-    required this.snapModel,
-    required this.activeChangeId,
+class SnapActionButtons extends ConsumerWidget {
+  const SnapActionButtons({
+    required this.snapName,
+    required this.isPrimary,
     super.key,
   });
 
-  final AsyncValue<SnapData> snapModel;
-  final String? activeChangeId;
+  final String snapName;
+  final bool isPrimary;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final shouldQuitToUpdate =
-        snapModel.valueOrNull?.localSnap?.refreshInhibit != null;
-    final snap =
-        snapModel.valueOrNull?.localSnap ?? snapModel.valueOrNull?.storeSnap;
-
-    if (shouldQuitToUpdate) {
-      return const QuitToUpdateNotice();
-    } else {
-      return OutlinedButton(
-        onPressed: activeChangeId != null || !snapModel.hasValue
-            ? null
-            : ref.read(snapModelProvider(snap!.name).notifier).refresh,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(YaruIcons.download),
-            const SizedBox(width: kSpacingSmall),
-            Text(
-              l10n.snapActionUpdateLabel,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+    final snapModel = ref.watch(snapModelProvider(snapName));
+    if (!snapModel.hasValue) {
+      return const Center(
+        child: SizedBox.square(
+          dimension: kLoaderMediumHeight,
+          child: YaruCircularProgressIndicator(),
         ),
       );
     }
+    final snapData = snapModel.value!;
+    final shouldQuitToUpdate = snapData.localSnap?.refreshInhibit != null;
+    final snap = snapData.snap;
+    final snapViewModel = ref.watch(snapModelProvider(snap.name).notifier);
+    final snapLauncher = snapData.localSnap == null
+        ? null
+        : ref.watch(launchProvider(snapData.localSnap!));
+    final canOpen = snapLauncher?.isLaunchable ?? false;
+    final hasActiveChange = snapData.activeChangeId != null;
+
+    final SnapAction? primaryAction;
+    if (snapData.isInstalled) {
+      final hasChangedChannel =
+          snapData.selectedChannel != snapData.localSnap!.trackingChannel;
+      final hasUpdate = ref.watch(hasUpdateProvider(snap.name));
+
+      if (hasChangedChannel) {
+        primaryAction = SnapAction.switchChannel;
+      } else if (!shouldQuitToUpdate && hasUpdate) {
+        primaryAction = SnapAction.update;
+      } else if (canOpen) {
+        primaryAction = SnapAction.open;
+      } else {
+        primaryAction = null;
+      }
+    } else {
+      primaryAction = SnapAction.install;
+    }
+
+    final secondaryActions = [
+      SnapAction.open,
+      SnapAction.update,
+      SnapAction.remove,
+    ]..remove(primaryAction ?? SnapAction.open);
+
+    final secondaryActionsWidgets = [
+      ...secondaryActions.map((action) {
+        final color = action == SnapAction.remove
+            ? Theme.of(context).colorScheme.error
+            : null;
+        return PopupMenuItem(
+          onTap: action.callback(snapData, snapViewModel, snapLauncher),
+          child: IntrinsicWidth(
+            child: ListTile(
+              mouseCursor: SystemMouseCursors.click,
+              title: Text(
+                action.label(l10n),
+                style: TextStyle(color: color),
+              ),
+            ),
+          ),
+        );
+      }),
+    ];
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (hasActiveChange)
+          ActiveChangeStatus(
+            snapName: snap.name,
+            activeChangeId: snapData.activeChangeId!,
+          )
+        else ...[
+          if (shouldQuitToUpdate) const QuitToUpdateNotice(),
+          (isPrimary ? YaruSplitButton.new : YaruSplitButton.outlined.call)(
+            items: [
+              if (snapData.isInstalled && snapData.activeChangeId == null)
+                ...secondaryActionsWidgets,
+            ],
+            onPressed: snapData.activeChangeId == null
+                ? primaryAction?.callback(snapData, snapViewModel, snapLauncher)
+                : null,
+            child: Text(
+              primaryAction?.label(l10n) ?? SnapAction.open.label(l10n),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ].separatedBy(const SizedBox(width: kSpacing)),
+    );
   }
 }
 

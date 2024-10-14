@@ -177,7 +177,7 @@ class _DebActionButtons extends ConsumerWidget {
                       .valueOrNull;
                   return Center(
                     child: SizedBox.square(
-                      dimension: kCircularProgressIndicatorHeight,
+                      dimension: kLoaderHeight,
                       child: YaruCircularProgressIndicator(
                         value: (transaction?.percentage ?? 0) / 100.0,
                         strokeWidth: 2,

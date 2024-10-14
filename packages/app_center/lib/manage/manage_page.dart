@@ -125,7 +125,6 @@ class ManagePage extends ConsumerWidget {
                     index: index,
                     length: snapListState.snaps.length,
                   ),
-                  showUpdateButton: true,
                 ),
               );
             },
@@ -461,7 +460,7 @@ class _SmallLoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox.square(
-      dimension: kCircularProgressIndicatorHeight,
+      dimension: kLoaderHeight,
       child: YaruCircularProgressIndicator(
         value: progress,
         strokeWidth: 2,

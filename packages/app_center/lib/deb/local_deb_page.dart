@@ -158,7 +158,7 @@ class _LocalDebActionButtons extends ConsumerWidget {
             ? Row(
                 children: [
                   const SizedBox.square(
-                    dimension: kCircularProgressIndicatorHeight,
+                    dimension: kLoaderHeight,
                     child: YaruCircularProgressIndicator(strokeWidth: 2),
                   ),
                   const SizedBox(width: 8),

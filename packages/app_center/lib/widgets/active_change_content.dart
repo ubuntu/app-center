@@ -41,7 +41,7 @@ class _ActiveChangeText extends ConsumerWidget {
     return Row(
       children: [
         SizedBox.square(
-          dimension: kCircularProgressIndicatorHeight,
+          dimension: kLoaderHeight,
           child: YaruCircularProgressIndicator(
             value: change?.progress,
             strokeWidth: 2,
