@@ -469,7 +469,7 @@ class _ChannelDropdown extends ConsumerWidget {
           l10n.snapPageChannelLabel,
           style: Theme.of(context).textTheme.labelLarge,
         ),
-        const SizedBox(width: 16),
+        const SizedBox(width: kSpacingSmall),
         SizedBox(
           width: _kChannelDropdownWidth,
           child: MenuButtonBuilder(

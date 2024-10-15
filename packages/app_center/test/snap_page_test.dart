@@ -242,7 +242,7 @@ void main() {
     expect(openButton, findsOneWidget);
 
     await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
-    await tester.pump();
+    await tester.pumpAndSettle();
     verify(service.remove(any)).called(1);
 
     expect(
