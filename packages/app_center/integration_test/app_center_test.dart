@@ -106,7 +106,7 @@ Future<void> testRemoveSnap(
   final installButton = find.button(tester.l10n.snapActionInstallLabel);
   expect(installButton, findsNothing);
 
-  await tester.tap(find.iconButton(YaruIcons.pan_down));
+  await tester.tap(find.iconButton(YaruIcons.pan_down).first);
   await tester.pumpAndSettle();
   await tester.tap(find.button(tester.l10n.snapActionRemoveLabel));
   await tester.pumpUntil(installButton);
