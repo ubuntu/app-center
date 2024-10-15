@@ -22,7 +22,7 @@ class AppCard extends StatelessWidget {
     this.compact = false,
     this.iconUrl,
     this.footer,
-    this.rating = 0,
+    this.rank = 0,
   });
 
   AppCard.fromSnap({
@@ -39,7 +39,7 @@ class AppCard extends StatelessWidget {
 
   AppCard.fromRatedSnap({
     required Snap snap,
-    required int rating,
+    required int rank,
     VoidCallback? onTap,
   }) : this(
           key: ValueKey(snap.id),
@@ -48,7 +48,7 @@ class AppCard extends StatelessWidget {
           iconUrl: snap.iconUrl,
           footer: _RatingsInfo(snap: snap),
           onTap: onTap,
-          rating: rating,
+          rank: rank,
         );
 
   AppCard.fromDeb({
@@ -89,7 +89,7 @@ class AppCard extends StatelessWidget {
   final bool compact;
   final String? iconUrl;
   final Widget? footer;
-  final int rating;
+  final int rank;
 
   @override
   Widget build(BuildContext context) {
@@ -100,20 +100,20 @@ class AppCard extends StatelessWidget {
       Expanded(
         child: _AppCardBody(
           title: title,
-          summary: rating > 0 ? '' : summary,
+          summary: rank > 0 ? '' : summary,
           footer: footer,
         ),
       ),
     ];
 
-    return rating > 0
+    return rank > 0
         ? Flex(
             direction: Axis.horizontal,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
                 child: Text(
-                  rating.toString(),
+                  rank.toString(),
                   style: theme.textTheme.titleMedium,
                 ),
               ),

@@ -34,7 +34,7 @@ class AppCardGrid extends StatelessWidget {
               (entry) => AppCard.fromRatedSnap(
                 snap: entry.value,
                 onTap: () => onTap(entry.value),
-                rating: entry.key + 1,
+                rank: entry.key + 1,
               ),
             ),
         small: true,
