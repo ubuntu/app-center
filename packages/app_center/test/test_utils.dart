@@ -156,13 +156,19 @@ MockSnapdService registerMockSnapdService({
       .thenAnswer((_) => Stream.value([if (storeSnap != null) storeSnap]));
   if (localSnap != null) {
     when(service.getSnap(any)).thenAnswer((_) async => localSnap);
-  } else {
+  } else if (storeSnap != null && localSnap == null) {
     when(service.getSnap(any)).thenThrow(
       SnapdException(
         message: 'snap not installed',
         kind: 'snap-not-found',
       ),
     );
+  } else {
+    when(service.getSnap(any)).thenAnswer((invocation) async {
+      final name = invocation.positionalArguments.first as String;
+      return [...?installedSnaps, ...?refreshableSnaps]
+          .firstWhere((s) => s.name == name);
+    });
   }
   when(
     service.install(

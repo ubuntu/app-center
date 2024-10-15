@@ -163,7 +163,7 @@ class ManageSnapTile extends StatelessWidget {
           ],
         ),
         trailing: hasFixedSize
-            ? SizedBox(width: 180, child: actionButtons)
+            ? SizedBox(width: 200, child: actionButtons)
             : IntrinsicWidth(child: actionButtons),
       ),
     );
