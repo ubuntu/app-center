@@ -44,7 +44,7 @@ class SnapActionButtons extends ConsumerWidget {
 
     final SnapAction? primaryAction;
     if (snapData.isInstalled) {
-      final hasChangedChannel =
+      final hasChangedChannel = snapData.selectedChannel != null &&
           snapData.selectedChannel != snapData.localSnap!.trackingChannel;
       final hasUpdate = ref.watch(hasUpdateProvider(snap.name));
 

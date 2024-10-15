@@ -48,7 +48,7 @@ dependencies:
   ubuntu_logger: ^0.2.0
   ubuntu_service: ^0.4.0
   ubuntu_test: ^0.2.1
-  ubuntu_widgets: ^0.7.0
+  ubuntu_widgets: ^0.7.1
   url_launcher: ^6.3.0
   xdg_directories: ^1.0.4
   yaru:
@@ -69,7 +69,7 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.4.4
   riverpod_generator: ^2.4.3
-  ubuntu_lints: ^0.4.0
+  ubuntu_lints: ^0.4.1
 
 dependency_overrides:
   yaru:

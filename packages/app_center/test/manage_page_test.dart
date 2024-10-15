@@ -1,7 +1,7 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage.dart';
-import 'package:app_center/manage/update_button.dart';
+import 'package:app_center/manage/snap_actions_button.dart';
 import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';

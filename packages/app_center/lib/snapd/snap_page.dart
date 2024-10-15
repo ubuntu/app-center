@@ -4,7 +4,7 @@ import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
-import 'package:app_center/manage/update_button.dart';
+import 'package:app_center/manage/snap_actions_button.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snap_report.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -179,8 +179,10 @@ class _SnapView extends StatelessWidget {
                             isPrimary: true,
                           ),
                         ),
-                        const SizedBox(width: kSpacing),
-                        _RatingsActionButtons(snap: snapData.snap),
+                        if (snapData.isInstalled) ...[
+                          const SizedBox(width: kSpacing),
+                          _RatingsActionButtons(snap: snapData.snap),
+                        ],
                       ],
                     ),
                     const SizedBox(height: 32),
@@ -304,7 +306,6 @@ class _SnapInfoBar extends ConsumerWidget {
         ),
       ),
     );
-
     return AppInfoBar(
       appInfos: [if (ratings != null) ratings, ...snapInfos],
       layout: layout,
@@ -316,6 +317,7 @@ class _RatingsActionButtons extends ConsumerWidget {
   const _RatingsActionButtons({required this.snap});
 
   final Snap snap;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ratingsModel = ref.watch(ratingsModelProvider(snap.name));
