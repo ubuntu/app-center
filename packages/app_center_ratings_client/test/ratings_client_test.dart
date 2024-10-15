@@ -73,7 +73,7 @@ void main() {
     final response = await ratingsClient.getChart(
       timeframe,
       token,
-      pb_chart.Category.GAMES.value,
+      pb_chart.Category.GAMES,
     );
     expect(
       response,
