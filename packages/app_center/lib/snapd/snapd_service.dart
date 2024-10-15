@@ -1,5 +1,6 @@
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:app_center/snapd/snapd_watcher.dart';
+import 'package:collection/collection.dart';
 import 'package:snapd/snapd.dart';
 
 class SnapdService extends SnapdClient with SnapdCache, SnapdWatcher {
@@ -17,7 +18,6 @@ class SnapdService extends SnapdClient with SnapdCache, SnapdWatcher {
     final declaration = SnapDeclaration.fromJson(result);
     final findResult = await find(name: declaration.snapName);
     return findResult
-        .where((element) => element.id == declaration.snapId)
-        .firstOrNull;
+        .singleWhereOrNull((element) => element.id == declaration.snapId);
   }
 }
