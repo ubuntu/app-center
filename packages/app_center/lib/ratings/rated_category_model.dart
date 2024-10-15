@@ -20,13 +20,11 @@ class RatedCategoryModel extends _$RatedCategoryModel {
 
     for (final category in categories) {
       final chart = await _ratings.getChart(category);
-      var i = 0;
-      while (snaps.length < numberOfSnaps && i < chart.length) {
+      for (var i = 0; snaps.length < numberOfSnaps && i < chart.length; i++) {
         final snap = await _snapd.findById(chart[i].rating.snapId);
         if (snap != null && snap.screenshotUrls.isNotEmpty) {
           snaps.add(snap);
         }
-        i++;
       }
     }
 
