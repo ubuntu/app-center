@@ -41,13 +41,13 @@ class SnapActionButtons extends ConsumerWidget {
         : ref.watch(launchProvider(snapData.localSnap!));
     final canOpen = snapLauncher?.isLaunchable ?? false;
     final hasActiveChange = snapData.activeChangeId != null;
+    final hasUpdate = ref.watch(hasUpdateProvider(snap.name));
 
     final SnapAction? primaryAction;
     if (snapData.isInstalled) {
       final hasChangedChannel = snapData.selectedChannel != null &&
           snapData.localSnap!.trackingChannel != null &&
           snapData.selectedChannel != snapData.localSnap!.trackingChannel;
-      final hasUpdate = ref.watch(hasUpdateProvider(snap.name));
 
       if (hasChangedChannel) {
         primaryAction = SnapAction.switchChannel;
@@ -64,8 +64,8 @@ class SnapActionButtons extends ConsumerWidget {
 
     final secondaryActions = [
       if (canOpen) SnapAction.open,
-      SnapAction.update,
-      SnapAction.remove,
+      if (!shouldQuitToUpdate && hasUpdate) SnapAction.update,
+      if (snapData.isInstalled) SnapAction.remove,
     ]..remove(primaryAction ?? SnapAction.open);
 
     final secondaryActionsWidgets = [
