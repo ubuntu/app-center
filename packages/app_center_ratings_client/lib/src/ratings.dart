@@ -5,15 +5,17 @@ import 'package:app_center_ratings_client/src/generated/ratings_features_common.
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'ratings.freezed.dart';
+part 'ratings.g.dart';
 
 @freezed
 class Rating with _$Rating {
-  @JsonSerializable(explicitToJson: true)
   const factory Rating({
     required String snapId,
     required int totalVotes,
     required RatingsBand ratingsBand,
   }) = _Rating;
+
+  factory Rating.fromJson(Map<String, dynamic> json) => _$RatingFromJson(json);
 }
 
 enum RatingsBand {

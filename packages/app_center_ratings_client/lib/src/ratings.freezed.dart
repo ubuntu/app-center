@@ -14,11 +14,18 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+Rating _$RatingFromJson(Map<String, dynamic> json) {
+  return _Rating.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Rating {
   String get snapId => throw _privateConstructorUsedError;
   int get totalVotes => throw _privateConstructorUsedError;
   RatingsBand get ratingsBand => throw _privateConstructorUsedError;
+
+  /// Serializes this Rating to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Rating
   /// with the given fields replaced by the non-null parameter values.
@@ -115,13 +122,15 @@ class __$$RatingImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class _$RatingImpl implements _Rating {
   const _$RatingImpl(
       {required this.snapId,
       required this.totalVotes,
       required this.ratingsBand});
+
+  factory _$RatingImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RatingImplFromJson(json);
 
   @override
   final String snapId;
@@ -147,6 +156,7 @@ class _$RatingImpl implements _Rating {
                 other.ratingsBand == ratingsBand));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, snapId, totalVotes, ratingsBand);
 
@@ -157,6 +167,13 @@ class _$RatingImpl implements _Rating {
   @pragma('vm:prefer-inline')
   _$$RatingImplCopyWith<_$RatingImpl> get copyWith =>
       __$$RatingImplCopyWithImpl<_$RatingImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RatingImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Rating implements Rating {
@@ -164,6 +181,8 @@ abstract class _Rating implements Rating {
       {required final String snapId,
       required final int totalVotes,
       required final RatingsBand ratingsBand}) = _$RatingImpl;
+
+  factory _Rating.fromJson(Map<String, dynamic> json) = _$RatingImpl.fromJson;
 
   @override
   String get snapId;
