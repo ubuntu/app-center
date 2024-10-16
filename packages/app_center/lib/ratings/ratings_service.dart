@@ -37,42 +37,10 @@ class RatingsService {
 
   Future<List<ratings.ChartData>> getChart(SnapCategoryEnum category) async {
     await _ensureValidToken();
-
-    final categoryToChart = {
-      SnapCategoryEnum.artAndDesign: ratings.Category.ART_AND_DESIGN,
-      SnapCategoryEnum.booksAndReference: ratings.Category.BOOK_AND_REFERENCE,
-      SnapCategoryEnum.development: ratings.Category.DEVELOPMENT,
-      SnapCategoryEnum.devicesAndIot: ratings.Category.DEVICES_AND_IOT,
-      SnapCategoryEnum.education: ratings.Category.EDUCATION,
-      SnapCategoryEnum.entertainment: ratings.Category.ENTERTAINMENT,
-      SnapCategoryEnum.featured: ratings.Category.FEATURED,
-      SnapCategoryEnum.finance: ratings.Category.FINANCE,
-      SnapCategoryEnum.gameContentCreation: ratings.Category.GAMES,
-      SnapCategoryEnum.gameDev: ratings.Category.GAMES,
-      SnapCategoryEnum.gameEmulators: ratings.Category.GAMES,
-      SnapCategoryEnum.gameLaunchers: ratings.Category.GAMES,
-      SnapCategoryEnum.games: ratings.Category.GAMES,
-      SnapCategoryEnum.gnomeGames: ratings.Category.GAMES,
-      SnapCategoryEnum.healthAndFitness: ratings.Category.HEALTH_AND_FITNESS,
-      SnapCategoryEnum.kdeGames: ratings.Category.GAMES,
-      SnapCategoryEnum.musicAndAudio: ratings.Category.MUSIC_AND_AUDIO,
-      SnapCategoryEnum.newsAndWeather: ratings.Category.NEWS_AND_WEATHER,
-      SnapCategoryEnum.personalisation: ratings.Category.PERSONALISATION,
-      SnapCategoryEnum.photoAndVideo: ratings.Category.PHOTO_AND_VIDEO,
-      SnapCategoryEnum.productivity: ratings.Category.PRODUCTIVITY,
-      SnapCategoryEnum.science: ratings.Category.SCIENCE,
-      SnapCategoryEnum.security: ratings.Category.SECURITY,
-      SnapCategoryEnum.serverAndCloud: ratings.Category.SERVER_AND_CLOUD,
-      SnapCategoryEnum.social: ratings.Category.SOCIAL,
-      // SnapCategoryEnum.ubuntuDesktop: 0, // no valid mapping
-      // SnapCategoryEnum.unknown: 0, // no valid mapping
-      SnapCategoryEnum.utilities: ratings.Category.UTILITIES,
-    };
-
     return client.getChart(
       ratings.Timeframe.unspecified,
       _jwt!,
-      categoryToChart[category],
+      category.toProto(),
     );
   }
 
@@ -95,4 +63,41 @@ class RatingsService {
     await _ensureValidToken();
     return client.getSnapVotes(snapId, _jwt!);
   }
+}
+
+extension CategoryToChartConversion on SnapCategoryEnum {
+  ratings.Category toProto() => switch (this) {
+        SnapCategoryEnum.artAndDesign => ratings.Category.ART_AND_DESIGN,
+        SnapCategoryEnum.booksAndReference =>
+          ratings.Category.BOOK_AND_REFERENCE,
+        SnapCategoryEnum.development => ratings.Category.DEVELOPMENT,
+        SnapCategoryEnum.devicesAndIot => ratings.Category.DEVICES_AND_IOT,
+        SnapCategoryEnum.education => ratings.Category.EDUCATION,
+        SnapCategoryEnum.entertainment => ratings.Category.ENTERTAINMENT,
+        SnapCategoryEnum.featured => ratings.Category.FEATURED,
+        SnapCategoryEnum.finance => ratings.Category.FINANCE,
+        SnapCategoryEnum.gameDev => ratings.Category.GAMES,
+        SnapCategoryEnum.gameEmulators => ratings.Category.GAMES,
+        SnapCategoryEnum.games => ratings.Category.GAMES,
+        SnapCategoryEnum.gnomeGames => ratings.Category.GAMES,
+        SnapCategoryEnum.kdeGames => ratings.Category.GAMES,
+        SnapCategoryEnum.gameLaunchers => ratings.Category.GAMES,
+        SnapCategoryEnum.gameContentCreation => ratings.Category.GAMES,
+        SnapCategoryEnum.healthAndFitness =>
+          ratings.Category.HEALTH_AND_FITNESS,
+        SnapCategoryEnum.musicAndAudio => ratings.Category.MUSIC_AND_AUDIO,
+        SnapCategoryEnum.newsAndWeather => ratings.Category.NEWS_AND_WEATHER,
+        SnapCategoryEnum.personalisation => ratings.Category.PERSONALISATION,
+        SnapCategoryEnum.photoAndVideo => ratings.Category.PHOTO_AND_VIDEO,
+        SnapCategoryEnum.productivity => ratings.Category.PRODUCTIVITY,
+        SnapCategoryEnum.science => ratings.Category.SCIENCE,
+        SnapCategoryEnum.security => ratings.Category.SECURITY,
+        SnapCategoryEnum.serverAndCloud => ratings.Category.SERVER_AND_CLOUD,
+        SnapCategoryEnum.social => ratings.Category.SOCIAL,
+        SnapCategoryEnum.utilities => ratings.Category.UTILITIES,
+        SnapCategoryEnum.unknown =>
+          throw ArgumentError('Category $this cannot be converted'),
+        SnapCategoryEnum.ubuntuDesktop =>
+          throw ArgumentError('Category $this cannot be converted'),
+      };
 }
