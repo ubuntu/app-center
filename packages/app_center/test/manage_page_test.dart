@@ -1,7 +1,7 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage.dart';
-import 'package:app_center/manage/update_button.dart';
+import 'package:app_center/manage/snap_actions_button.dart';
 import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -28,6 +28,7 @@ void main() {
     createSnap(
       name: 'testsnap2',
       title: 'Another Test Snap',
+      type: 'Not an app',
       version: '1.5',
       channel: 'latest/candidate',
     ),
@@ -174,10 +175,12 @@ void main() {
       ),
     );
     await tester.pump();
+    await tester.pump();
 
     final testTile = find.snapTile('Test Snap');
     final testTile2 = find.snapTile('Another Test Snap');
     expect(testTile, findsOneWidget);
+    expect(testTile2, findsOneWidget);
 
     final openButton = find
         .descendant(
@@ -193,9 +196,9 @@ void main() {
         .hitTestable();
 
     expect(openButton, findsOneWidget);
-    expect(openButton2, findsNothing);
-
-    expect(tester.widget<ButtonStyleButton>(openButton).enabled, isTrue);
+    expect(openButton, isEnabled);
+    expect(openButton2, findsOneWidget);
+    expect(openButton2, isDisabled);
 
     await tester.tap(openButton);
     verify(snapLauncher.open()).called(1);
@@ -264,7 +267,7 @@ void main() {
     await tester.pumpAndSettle();
 
     verifyNever(snapd.refresh(any));
-    await tester.tap(find.text(tester.l10n.snapActionUpdateLabel));
+    await tester.tap(find.text(tester.l10n.snapActionUpdateLabel).first);
     verify(snapd.refresh(any, channel: anyNamed('channel'))).called(1);
   });
 

@@ -160,10 +160,13 @@ void main() {
       ),
     ).called(1);
 
-    final viewMoreButton = find.byIcon(YaruIcons.view_more_horizontal);
+    final viewMoreButton = find.descendant(
+      of: find.byType(YaruSplitButton),
+      matching: find.byIcon(YaruIcons.pan_down),
+    );
     expect(viewMoreButton, findsOneWidget);
     await tester.tap(viewMoreButton);
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     final removeButton = find.text(tester.l10n.snapActionRemoveLabel);
     expect(removeButton, findsOneWidget);
@@ -207,9 +210,7 @@ void main() {
     expectSnapInfos(tester, storeSnap, 'latest/edge');
     expect(find.byType(ScreenshotGallery), findsOneWidget);
     expect(find.text(tester.l10n.snapActionInstallLabel), findsNothing);
-
-    await tester.tap(find.text(tester.l10n.snapActionOpenLabel));
-    verify(snapLauncher.open()).called(1);
+    expect(find.text(tester.l10n.snapActionUpdateLabel), findsOneWidget);
 
     await tester.tap(find.byIcon(Icons.thumb_up_outlined));
     verify(
@@ -229,24 +230,29 @@ void main() {
       ),
     ).called(1);
 
-    final viewMoreButton = find.byIcon(YaruIcons.view_more_horizontal);
+    final viewMoreButton = find.descendant(
+      of: find.byType(YaruSplitButton),
+      matching: find.byIcon(YaruIcons.pan_down),
+    );
     expect(viewMoreButton, findsOneWidget);
     await tester.tap(viewMoreButton);
-    await tester.pump();
+    await tester.pumpAndSettle();
 
-    final updateButton = find.text(tester.l10n.snapActionUpdateLabel);
-    expect(updateButton, findsOneWidget);
+    final openButton = find.text(tester.l10n.snapActionOpenLabel);
+    expect(openButton, findsOneWidget);
 
     await tester.tap(find.text(tester.l10n.snapActionRemoveLabel));
-    await tester.pump();
+    await tester.pumpAndSettle();
     verify(service.remove(any)).called(1);
 
-    final l10n = tester.l10n;
     expect(
       find.text(tester.l10n.snapRatingsVotes(snapRating.totalVotes)),
       findsOneWidget,
     );
-    expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
+    expect(
+      find.text(snapRating.ratingsBand.localize(tester.l10n)),
+      findsOneWidget,
+    );
   });
 
   testWidgets('store-only', (tester) async {
@@ -326,15 +332,15 @@ void main() {
     verify(snapLauncher.open()).called(1);
     await tester.pump();
 
-    final findMoreButton = find.byIcon(YaruIcons.view_more_horizontal);
+    final findMoreButton = find.byIcon(YaruIcons.pan_down);
     expect(findMoreButton, findsOneWidget);
     await tester.tap(findMoreButton);
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     final removeButton = find.text(tester.l10n.snapActionRemoveLabel);
     expect(removeButton, findsOneWidget);
     await tester.tap(removeButton);
-    await tester.pump();
+    await tester.pumpAndSettle();
     verify(service.remove(any)).called(1);
 
     expect(find.text(tester.l10n.snapActionUpdateLabel), findsNothing);

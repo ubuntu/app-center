@@ -1,13 +1,11 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
-import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
-import 'package:app_center/manage/update_button.dart';
+import 'package:app_center/manage/snap_actions_button.dart';
 import 'package:app_center/ratings/ratings.dart';
-import 'package:app_center/snapd/snap_action.dart';
 import 'package:app_center/snapd/snap_report.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
@@ -15,7 +13,6 @@ import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/shimmer_placeholder.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -177,8 +174,15 @@ class _SnapView extends StatelessWidget {
                           const SizedBox(width: kSpacing),
                         ],
                         Flexible(
-                          child: _SnapActionButtons(snapData: snapData),
+                          child: SnapActionButtons(
+                            snapName: snapData.name,
+                            isPrimary: true,
+                          ),
                         ),
+                        if (snapData.isInstalled) ...[
+                          const SizedBox(width: kSpacing),
+                          _RatingsActionButtons(snap: snapData.snap),
+                        ],
                       ],
                     ),
                     const SizedBox(height: 32),
@@ -302,7 +306,6 @@ class _SnapInfoBar extends ConsumerWidget {
         ),
       ),
     );
-
     return AppInfoBar(
       appInfos: [if (ratings != null) ratings, ...snapInfos],
       layout: layout,
@@ -310,119 +313,11 @@ class _SnapInfoBar extends ConsumerWidget {
   }
 }
 
-class _SnapActionButtons extends ConsumerWidget {
-  const _SnapActionButtons({required this.snapData});
-
-  final SnapData snapData;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final localSnap = snapData.localSnap;
-    final snapLauncher = snapData.isInstalled && localSnap != null
-        ? ref.watch(launchProvider(localSnap))
-        : null;
-    final snapModel = ref.watch(snapModelProvider(snapData.name).notifier);
-
-    final SnapAction primaryAction;
-    if (snapData.isInstalled) {
-      primaryAction =
-          snapData.selectedChannel == snapData.localSnap!.trackingChannel ||
-                  snapData.storeSnap == null
-              ? SnapAction.open
-              : SnapAction.switchChannel;
-    } else {
-      primaryAction = SnapAction.install;
-    }
-
-    final hasActiveChange = snapData.activeChangeId != null;
-    final primaryActionButton = Flexible(
-      child: PushButton.elevated(
-        onPressed: primaryAction.callback(snapData, snapModel, snapLauncher),
-        child: Text(
-          primaryAction.label(l10n),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    );
-
-    final secondaryActions = [
-      (
-        action: SnapAction.update,
-        widget: UpdateButton(
-          snapModel: ref.watch(snapModelProvider(snapData.name)),
-          activeChangeId: snapData.activeChangeId,
-        ),
-      ),
-      (action: SnapAction.remove, widget: null),
-    ];
-    final secondaryActionsButton = MenuAnchor(
-      menuChildren: [
-        ...secondaryActions.map((entry) {
-          final (:action, :widget) = entry;
-          final color = action == SnapAction.remove
-              ? Theme.of(context).colorScheme.error
-              : null;
-          return widget == null
-              ? MenuItemButton(
-                  onPressed: action.callback(snapData, snapModel, snapLauncher),
-                  child: IntrinsicWidth(
-                    child: ListTile(
-                      mouseCursor: SystemMouseCursors.click,
-                      title: Text(
-                        action.label(l10n),
-                        style: TextStyle(color: color),
-                      ),
-                    ),
-                  ),
-                )
-              : IntrinsicWidth(
-                  child: ListTile(
-                    mouseCursor: SystemMouseCursors.click,
-                    title: widget,
-                  ),
-                );
-        }),
-      ],
-      builder: (context, controller, child) => YaruOptionButton(
-        onPressed: () {
-          if (controller.isOpen) {
-            controller.close();
-          } else {
-            controller.open();
-          }
-        },
-        child: const Icon(YaruIcons.view_more_horizontal),
-      ),
-    );
-
-    return hasActiveChange
-        ? ActiveChangeStatus(
-            snapName: snapModel.snapName,
-            activeChangeId: snapData.activeChangeId!,
-          )
-        : Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              primaryActionButton,
-              if (snapData.isInstalled && snapData.activeChangeId == null)
-                secondaryActionsButton,
-              if (snapData.isInstalled)
-                _RatingsActionButtons(
-                  snap: snapData.snap,
-                ),
-            ]
-                .whereNotNull()
-                .toList()
-                .separatedBy(const SizedBox(width: kSpacingSmall)),
-          );
-  }
-}
-
 class _RatingsActionButtons extends ConsumerWidget {
   const _RatingsActionButtons({required this.snap});
 
   final Snap snap;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ratingsModel = ref.watch(ratingsModelProvider(snap.name));
@@ -574,7 +469,7 @@ class _ChannelDropdown extends ConsumerWidget {
           l10n.snapPageChannelLabel,
           style: Theme.of(context).textTheme.labelLarge,
         ),
-        const SizedBox(width: 16),
+        const SizedBox(width: kSpacingSmall),
         SizedBox(
           width: _kChannelDropdownWidth,
           child: MenuButtonBuilder(

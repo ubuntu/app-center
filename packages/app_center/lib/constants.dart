@@ -11,7 +11,8 @@ const kShimmerBaseDark = Color.fromARGB(255, 51, 51, 51);
 const kShimmerHighLightLight = Color.fromARGB(200, 247, 247, 247);
 const kShimmerHighLightDark = Color.fromARGB(255, 57, 57, 57);
 
-const kCircularProgressIndicatorHeight = 16.0;
+const kLoaderHeight = 16.0;
+const kLoaderMediumHeight = 32.0;
 const kSearchFieldIconConstraints = BoxConstraints(
   minWidth: 32,
   minHeight: 32,

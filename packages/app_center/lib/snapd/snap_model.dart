@@ -116,7 +116,7 @@ class SnapModel extends _$SnapModel {
   /// Updates the version of the snap.
   ///
   /// Returns `true` if the snap was updated, `false` otherwise.
-  Future<bool> refresh() async {
+  Future<bool> refresh({bool removeFromList = false}) async {
     assert(
       state.hasStoreSnap,
       'The snap must be loaded from the store before updating it',
@@ -132,7 +132,15 @@ class SnapModel extends _$SnapModel {
           SnapConfinement.classic,
     );
     _updateChangeId(changeId);
-    return _listenUntilDone(changeId, ref);
+    return _listenUntilDone(changeId, ref).then((completedSuccessfully) {
+      if (removeFromList && completedSuccessfully) {
+        ref.read(updatesModelProvider.notifier).removeFromList(snapData.name);
+        ref
+            .read(filteredLocalSnapsProvider.notifier)
+            .addToList(snapData.localSnap!);
+      }
+      return completedSuccessfully;
+    });
   }
 
   /// Uninstalls the snap.
