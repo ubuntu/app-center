@@ -51,10 +51,7 @@ dependencies:
   ubuntu_widgets: ^0.7.1
   url_launcher: ^6.3.0
   xdg_directories: ^1.0.4
-  yaru:
-    git:
-      url: https://github.com/ubuntu/yaru.dart.git
-      ref: main
+  yaru: ^5.3.0
   yaru_test: ^0.2.0
   yaru_window: ^0.2.1
 
@@ -70,12 +67,6 @@ dev_dependencies:
   mockito: ^5.4.4
   riverpod_generator: ^2.4.3
   ubuntu_lints: ^0.4.1
-
-dependency_overrides:
-  yaru:
-    git:
-      url: https://github.com/ubuntu/yaru.dart.git
-      ref: main
 
 flutter:
   uses-material-design: true
