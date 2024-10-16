@@ -12,9 +12,6 @@ class SmallBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final borderRadius = BorderRadius.circular(kYaruBannerRadius);
-    final light = theme.brightness == Brightness.light;
-    final defaultSurfaceTintColor =
-        light ? theme.cardColor : const Color.fromARGB(255, 126, 126, 126);
 
     return Material(
       color: Colors.transparent,
@@ -25,7 +22,6 @@ class SmallBanner extends StatelessWidget {
         child: Card(
           color: theme.cardColor,
           shadowColor: Colors.transparent,
-          surfaceTintColor: defaultSurfaceTintColor,
           elevation: 1,
           shape: RoundedRectangleBorder(
             borderRadius: borderRadius.inner(const EdgeInsets.all(4.0)),
