@@ -81,7 +81,7 @@ class RatedCategorySnapList extends ConsumerWidget {
         ref.watch(ratedCategoryModelProvider(categories, numberOfSnaps));
 
     return ratedCategoryModel.when(
-      data: (snaps) => AppCardGrid.fromRatedSnaps(
+      data: (snaps) => RankedAppCardGrid.fromRankedSnaps(
         snaps: snaps,
         onTap: (snap) => StoreNavigator.pushSnap(
           context,

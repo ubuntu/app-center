@@ -22,7 +22,6 @@ class AppCard extends StatelessWidget {
     this.compact = false,
     this.iconUrl,
     this.footer,
-    this.rank = 0,
   });
 
   AppCard.fromSnap({
@@ -35,20 +34,6 @@ class AppCard extends StatelessWidget {
           iconUrl: snap.iconUrl,
           footer: _RatingsInfo(snap: snap),
           onTap: onTap,
-        );
-
-  AppCard.fromRatedSnap({
-    required Snap snap,
-    required int rank,
-    VoidCallback? onTap,
-  }) : this(
-          key: ValueKey(snap.id),
-          title: AppTitle.fromSnap(snap),
-          summary: snap.summary,
-          iconUrl: snap.iconUrl,
-          footer: _RatingsInfo(snap: snap),
-          onTap: onTap,
-          rank: rank,
         );
 
   AppCard.fromDeb({
@@ -89,58 +74,104 @@ class AppCard extends StatelessWidget {
   final bool compact;
   final String? iconUrl;
   final Widget? footer;
+
+  @override
+  Widget build(BuildContext context) {
+    return YaruBanner(
+      padding: const EdgeInsets.all(kCardSpacing),
+      onTap: onTap,
+      color: Theme.of(context).cardColor,
+      child: Flex(
+        direction: compact ? Axis.vertical : Axis.horizontal,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppIcon(iconUrl: iconUrl),
+          const SizedBox(width: kCardSpacing, height: kCardSpacing),
+          Expanded(
+            child: _AppCardBody(
+              title: title,
+              summary: summary,
+              footer: footer,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class RankedAppCard extends StatelessWidget {
+  const RankedAppCard({
+    required this.title,
+    required this.summary,
+    required this.rank,
+    this.onTap,
+    this.compact = false,
+    this.iconUrl,
+    this.footer,
+    super.key,
+  });
+
+  RankedAppCard.fromRankedSnap({
+    required Snap snap,
+    required int rank,
+    VoidCallback? onTap,
+  }) : this(
+          key: ValueKey(snap.id),
+          title: AppTitle.fromSnap(snap),
+          summary: snap.summary,
+          iconUrl: snap.iconUrl,
+          footer: _RatingsInfo(snap: snap),
+          onTap: onTap,
+          rank: rank,
+        );
+
+  final AppTitle title;
+  final String summary;
+  final VoidCallback? onTap;
+  final bool compact;
+  final String? iconUrl;
+  final Widget? footer;
   final int rank;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final appContent = [
-      AppIcon(iconUrl: iconUrl),
-      const SizedBox(width: kCardSpacing, height: kCardSpacing),
-      Expanded(
-        child: _AppCardBody(
-          title: title,
-          summary: rank > 0 ? '' : summary,
-          footer: footer,
-        ),
-      ),
-    ];
 
-    return rank > 0
-        ? Flex(
-            direction: Axis.horizontal,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text(
-                  rank.toString(),
-                  style: theme.textTheme.titleMedium,
-                ),
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              Expanded(
-                child: SmallBanner(
-                  onTap: onTap,
-                  child: Flex(
-                    direction: Axis.horizontal,
-                    children: appContent,
+    return Flex(
+      direction: Axis.horizontal,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Center(
+          child: Text(
+            rank.toString(),
+            style: theme.textTheme.titleMedium,
+          ),
+        ),
+        const SizedBox(
+          width: 4,
+        ),
+        Expanded(
+          child: SmallBanner(
+            onTap: onTap,
+            child: Flex(
+              direction: Axis.horizontal,
+              children: [
+                AppIcon(iconUrl: iconUrl),
+                const SizedBox(width: kCardSpacing, height: kCardSpacing),
+                Expanded(
+                  child: _AppCardBody(
+                    title: title,
+                    summary: '',
+                    footer: footer,
                   ),
                 ),
-              ),
-            ],
-          )
-        : YaruBanner(
-            padding: const EdgeInsets.all(kCardSpacing),
-            onTap: onTap,
-            color: Theme.of(context).cardColor,
-            child: Flex(
-              direction: compact ? Axis.vertical : Axis.horizontal,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: appContent,
+              ],
             ),
-          );
+          ),
+        ),
+      ],
+    );
   }
 }
 
