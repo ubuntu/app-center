@@ -1,5 +1,7 @@
+import 'package:app_center/providers/file_system_provider.dart';
 import 'package:app_center/ratings/ratings_data.dart';
 import 'package:app_center/ratings/ratings_service.dart';
+import 'package:app_center/snapd/cache_file.dart';
 import 'package:app_center/snapd/snap_model.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:clock/clock.dart';
@@ -17,6 +19,17 @@ class RatingsModel extends _$RatingsModel {
     final snap = (await ref.watch(snapModelProvider(snapName).future)).snap;
     final snapId = snap.id;
 
+    final cacheFile = _getCacheFile(snapId);
+
+    RatingsData? cachedRatingsData;
+    if (cacheFile.existsSync() && cacheFile.isValidSync()) {
+      cachedRatingsData = await cacheFile.readRatingsData();
+    }
+
+    if (cachedRatingsData != null) {
+      return cachedRatingsData;
+    }
+
     final results = await Future.wait([
       _ratings.getRating(snapId),
       _ratings.getSnapVotes(snapId),
@@ -25,12 +38,15 @@ class RatingsModel extends _$RatingsModel {
     final rating = results[0] as Rating;
     final votes = results[1] as List<Vote>;
 
-    return RatingsData(
+    final ratingsData = RatingsData(
       snapId: snapId,
       snapRevision: snap.revision,
       rating: rating,
       voteStatus: _getUserVote(snap.revision, votes),
     );
+
+    cacheFile.writeRatingsDataSync(ratingsData);
+    return ratingsData;
   }
 
   Future<void> castVote(VoteStatus voteStatus) async {
@@ -47,6 +63,8 @@ class RatingsModel extends _$RatingsModel {
       );
       await _ratings.vote(vote);
       state = AsyncData(ratingsData.copyWith(voteStatus: voteStatus));
+      await _getCacheFile(ratingsData.snapId).deleteIfExists();
+      ref.invalidateSelf();
     }
   }
 
@@ -57,6 +75,14 @@ class RatingsModel extends _$RatingsModel {
       }
     }
     return null;
+  }
+
+  CacheFile _getCacheFile(String snapId) {
+    return CacheFile.fromFileName(
+      'ratings-$snapId',
+      fileSystem: ref.read(fileSystemProvider),
+      expiry: const Duration(days: 1),
+    );
   }
 }
 
