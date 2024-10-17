@@ -15,6 +15,9 @@ class SnapdService extends SnapdClient with SnapdCache, SnapdWatcher {
     };
     final result =
         await getAssertions(assertion: 'snap-declaration', params: queryParams);
+    if (result.isEmpty) {
+      return null;
+    }
     final declaration = SnapDeclaration.fromJson(result);
     final findResult = await find(name: declaration.snapName);
     return findResult
