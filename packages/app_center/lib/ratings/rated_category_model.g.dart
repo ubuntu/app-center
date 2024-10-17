@@ -7,7 +7,7 @@ part of 'rated_category_model.dart';
 // **************************************************************************
 
 String _$ratedCategoryModelHash() =>
-    r'ff7cf67846bd5a4878b79315160604ee9b62df5b';
+    r'5fad0c098fbb1b6f11ea7904a51da353c3826e84';
 
 /// Copied from Dart SDK
 class _SystemHash {
