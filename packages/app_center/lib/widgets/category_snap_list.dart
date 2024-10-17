@@ -88,9 +88,8 @@ class RatedCategorySnapList extends ConsumerWidget {
           name: snap.name,
         ),
       ),
-      error: (error, stackTrace) => SliverToBoxAdapter(
-        child: Text(error.toString()),
-      ),
+      error: (error, stackTrace) =>
+          CategorySnapList(category: categories.first),
       loading: () => const SliverToBoxAdapter(
         child: Center(child: YaruCircularProgressIndicator()),
       ),
