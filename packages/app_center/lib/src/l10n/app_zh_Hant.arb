@@ -23,7 +23,7 @@
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "軟體開發",
   "@developmentPageLabel": {},
-  "managePageLabel": "管理已安裝的 Snap 套件",
+  "managePageLabel": "管理",
   "@managePageLabel": {},
   "snapPageChannelLabel": "釋出頻道",
   "@snapPageChannelLabel": {},
@@ -55,7 +55,7 @@
   "@aboutPageLabel": {},
   "snapPageSummaryLabel": "總結",
   "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "應用;應用軟體;軟體包;套件;程式;程序;套裝軟體;工具",
+  "appstreamSearchGreylist": "應用;應用程式;軟體包;套件;程式;程序;套裝軟體;工具",
   "@appstreamSearchGreylist": {},
   "snapCategoryScience": "科學",
   "@snapCategoryScience": {},
@@ -331,7 +331,7 @@
   "@managePageShowSystemSnapsLabel": {},
   "managePageUpdateAllLabel": "全部更新",
   "@managePageUpdateAllLabel": {},
-  "appCenterLabel": "應用軟體中心",
+  "appCenterLabel": "應用程式中心",
   "@appCenterLabel": {},
   "managePageUpdatedDaysAgo": "{n, plural, =1{{n} 天前更新} other{{n} 天前更新}}",
   "@managePageUpdatedDaysAgo": {
@@ -448,5 +448,31 @@
   "managePageQuitToUpdate": "結束以更新",
   "@managePageQuitToUpdate": {},
   "managePageNoInternet": "無法連線到伺服器，請檢查您的網路連線或稍後再試。",
-  "@managePageNoInternet": {}
+  "@managePageNoInternet": {},
+  "snapCategoryArtAndDesignButtonLabel": "開始建立",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "從第一筆草圖到最後的細節修飾，探索適合藝術與設計的應用程式。",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageInstallingLabel": "正在安裝 ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "我們無法更新這些應用程式，因為它們目前正在執行中。\n\n{snapList}\n當您結束這些應用程式後，它們將會自動更新。",
+  "@managePageUpdatesFailedBody": {},
+  "managePageOwnUpdateAvailable": "應用程式中心有可用更新",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageTitle": "管理已安裝的 Snap 套件",
+  "@managePageTitle": {},
+  "managePageUpdatesFailed": "{n, plural, =1{一項更新} other{{n}項更新}}失敗",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
