@@ -41,7 +41,7 @@ parts:
       fvm dart pub global run melos clean
       fvm dart pub global run melos bootstrap
       set -e
-
+      
       fvm dart pub global run melos exec -c 1 --fail-fast --depends-on=build_runner -- \
       fvm dart run build_runner build --delete-conflicting-outputs
 
@@ -55,9 +55,9 @@ apps:
   snap-store:
     command: bin/snap-store
     environment: &store_env
-      RATINGS_SERVICE_URL: '91.189.95.24'
+      RATINGS_SERVICE_URL: 'ratings.ubuntu.com'
       RATINGS_SERVICE_PORT: '443'
-      RATINGS_SERVICE_USE_TLS: 'false'
+      RATINGS_SERVICE_USE_TLS: 'true'
     desktop: bin/data/flutter_assets/assets/app-center.desktop
     extensions: [gnome]
     plugs: &store_plugs
