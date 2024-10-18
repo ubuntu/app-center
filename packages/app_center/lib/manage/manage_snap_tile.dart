@@ -32,7 +32,7 @@ class ManageSnapTile extends StatelessWidget {
     const radius = Radius.circular(8);
     final actionButtons = Align(
       alignment: Alignment.centerRight,
-      child: SnapActionButtons(snapName: snap.name, isPrimary: false),
+      child: SnapActionsButton(snapName: snap.name, isPrimary: false),
     );
 
     return DecoratedBox(

@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 
-class SnapActionButtons extends ConsumerWidget {
-  const SnapActionButtons({
+class SnapActionsButton extends ConsumerWidget {
+  const SnapActionsButton({
     required this.snapName,
     required this.isPrimary,
     super.key,
