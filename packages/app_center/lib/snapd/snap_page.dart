@@ -174,7 +174,7 @@ class _SnapView extends StatelessWidget {
                           const SizedBox(width: kSpacing),
                         ],
                         Flexible(
-                          child: SnapActionButtons(
+                          child: SnapActionsButton(
                             snapName: snapData.name,
                             isPrimary: true,
                           ),
