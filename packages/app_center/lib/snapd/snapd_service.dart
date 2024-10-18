@@ -16,7 +16,9 @@ class SnapdService extends SnapdClient with SnapdCache, SnapdWatcher {
     Map<String, dynamic> result;
     try {
       result = await getAssertions(
-          assertion: 'snap-declaration', params: queryParams);
+        assertion: 'snap-declaration',
+        params: queryParams,
+      );
     } on Exception catch (_) {
       return null;
     }
