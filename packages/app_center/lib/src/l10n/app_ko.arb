@@ -374,5 +374,7 @@
     }
   },
   "snapSortOrderInstalledSizeAsc": "크기 (오름차순)",
-  "@snapSortOrderInstalledSizeAsc": {}
+  "@snapSortOrderInstalledSizeAsc": {},
+  "aboutPagePublishLabel": "Snap 스토어에 배포하기",
+  "@aboutPagePublishLabel": {}
 }
