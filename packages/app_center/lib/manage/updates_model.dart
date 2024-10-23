@@ -38,7 +38,7 @@ final currentlyRefreshAllSnapsProvider = StateProvider<List<String>>((_) => []);
 final isSilentlyCheckingUpdatesProvider = StateProvider<bool>((_) => false);
 
 @Riverpod(keepAlive: true)
-bool hasUpdate(HasUpdateRef ref, String snapName) {
+bool hasUpdate(Ref ref, String snapName) {
   final updatesModel = ref.watch(updatesModelProvider);
   return updatesModel.whenOrNull(
         data: (updatesData) => updatesData.snaps.any((s) => s.name == snapName),
@@ -49,7 +49,7 @@ bool hasUpdate(HasUpdateRef ref, String snapName) {
 /// Used to see which snaps that are installed but need to be restarted to be
 /// refreshed (or be forced to restart after the proceedTime).
 @riverpod
-Future<List<Snap>> refreshInhibitSnaps(RefreshInhibitSnapsRef ref) async {
+Future<List<Snap>> refreshInhibitSnaps(Ref ref) async {
   final snapd = getService<SnapdService>();
   return snapd.getSnaps(filter: SnapsFilter.refreshInhibited);
 }
