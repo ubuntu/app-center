@@ -6,6 +6,7 @@ packages:
 
 command:
   bootstrap:
+    enforceLockfile: true
     environment:
       sdk: '>=3.1.0 <4.0.0'
       flutter: '>=3.24.3'
