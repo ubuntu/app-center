@@ -415,7 +415,7 @@
   "@errorViewNetworkErrorDescription": {},
   "errorViewServerErrorDescription": "Przepraszamy, obecnie występują problemy z Centrum oprogramowania.",
   "@errorViewServerErrorDescription": {},
-  "errorViewUnknownErrorTitle": "Coś poszło źle",
+  "errorViewUnknownErrorTitle": "Wystąpił problem",
   "@errorViewUnknownErrorTitle": {},
   "errorViewUnknownErrorDescription": "Przepraszamy, ale nie jesteśmy pewni, na czym polega błąd.",
   "@errorViewUnknownErrorDescription": {},
