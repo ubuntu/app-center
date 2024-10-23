@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
@@ -11,7 +12,7 @@ final errorStreamProvider = StreamProvider<Exception>(
 );
 
 @Riverpod(keepAlive: true)
-ErrorStreamController errorStreamController(ErrorStreamControllerRef ref) {
+ErrorStreamController errorStreamController(Ref ref) {
   return getService<ErrorStreamController>();
 }
 
