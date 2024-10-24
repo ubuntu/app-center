@@ -1,1 +1,44 @@
-{}
+{
+  "snapPageDescriptionLabel": "Aprašas",
+  "@snapPageDescriptionLabel": {},
+  "snapPageContactPublisherLabel": "Susisiekti su {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageSizeLabel": "Dydis",
+  "@snapPageSizeLabel": {},
+  "snapPageDownloadSizeLabel": "Atsiuntimo dydis",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPageVersionLabel": "Versija",
+  "@snapPageVersionLabel": {},
+  "managePageShowDetailsLabel": "Rodyti išsamiau",
+  "@managePageShowDetailsLabel": {},
+  "managePageUpdateAllLabel": "Atnaujinti visus",
+  "@managePageUpdateAllLabel": {},
+  "snapPageLicenseLabel": "Licencija",
+  "@snapPageLicenseLabel": {},
+  "snapPageLinksLabel": "Nuorodos",
+  "@snapPageLinksLabel": {},
+  "snapPageSummaryLabel": "Santrauka",
+  "@snapPageSummaryLabel": {},
+  "snapPageShareLinkCopiedMessage": "Nuoroda nukopijuota į iškarpinę",
+  "@snapPageShareLinkCopiedMessage": {},
+  "explorePageCategoriesLabel": "Kategorijos",
+  "@explorePageCategoriesLabel": {},
+  "managePageCheckForUpdates": "Tikrinti, ar yra atnaujinimų",
+  "@managePageCheckForUpdates": {},
+  "managePageCheckingForUpdates": "Tikrinama, ar yra atnaujinimų",
+  "@managePageCheckingForUpdates": {},
+  "managePageInstallingLabel": "Įdiegiama ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
+}
