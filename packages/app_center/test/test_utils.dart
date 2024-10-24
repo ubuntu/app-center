@@ -318,6 +318,7 @@ MockRatingsClient createMockRatingsClient({
   Rating? rating,
   List<Vote>? myVotes,
   List<Vote>? snapVotes,
+  List<ChartData>? chartData,
 }) {
   final client = MockRatingsClient();
   when(client.authenticate(any)).thenAnswer((_) async => token ?? '');
@@ -332,6 +333,7 @@ MockRatingsClient createMockRatingsClient({
   );
   when(client.listMyVotes(any, any)).thenAnswer((_) async => myVotes ?? []);
   when(client.getSnapVotes(any, any)).thenAnswer((_) async => snapVotes ?? []);
+  when(client.getChart(any, any, any)).thenAnswer((_) async => chartData ?? []);
   return client;
 }
 
