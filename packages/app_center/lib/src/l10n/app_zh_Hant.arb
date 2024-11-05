@@ -67,7 +67,7 @@
   "@snapPageLicenseLabel": {},
   "snapCategoryPhotoAndVideo": "照片和影片",
   "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "權限限縮",
+  "snapPageConfinementLabel": "限制權限",
   "@snapPageConfinementLabel": {},
   "snapCategoryMusicAndAudio": "音樂與音訊",
   "@snapCategoryMusicAndAudio": {},
@@ -99,7 +99,7 @@
   "@snapCategoryDevicesAndIot": {},
   "managePageCheckForUpdates": "檢查更新",
   "@managePageCheckForUpdates": {},
-  "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} 週前更新} other{{n} 週前更新}}",
+  "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} 週} other{{n} 週}}前更新",
   "@managePageUpdatedWeeksAgo": {
     "placeholders": {
       "n": {
@@ -107,7 +107,7 @@
       }
     }
   },
-  "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} 個月前更新} other{{n} 個月前更新}}",
+  "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} 個月} other{{n} 個月}}前更新",
   "@managePageUpdatedMonthsAgo": {
     "placeholders": {
       "n": {
@@ -115,7 +115,7 @@
       }
     }
   },
-  "managePageUpdatedYearsAgo": "{n, plural, =1{{n} 年前更新} other{{n} 年前更新}}",
+  "managePageUpdatedYearsAgo": "{n, plural, =1{{n} 年} other{{n} 年}}前更新",
   "@managePageUpdatedYearsAgo": {
     "placeholders": {
       "n": {
@@ -123,7 +123,7 @@
       }
     }
   },
-  "managePageUpdatesAvailable": "可用的更新 ({n})",
+  "managePageUpdatesAvailable": "可用更新 ({n})",
   "@managePageUpdatesAvailable": {},
   "gamesPageTitle": "熱門",
   "@gamesPageTitle": {},
@@ -201,7 +201,7 @@
   "@appstreamUrlTypeTranslate": {},
   "snapActionRemoveLabel": "解除安裝",
   "@snapActionRemoveLabel": {},
-  "snapActionRemovingLabel": "正在解除安裝",
+  "snapActionRemovingLabel": "解除安裝中",
   "@snapActionRemovingLabel": {},
   "snapActionSwitchChannelLabel": "切換頻道",
   "@snapActionSwitchChannelLabel": {},
@@ -251,7 +251,7 @@
   "@snapCategoryUbuntuDesktop": {},
   "snapCategoryUbuntuDesktopSlogan": "快速啟動您的桌面",
   "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapConfinementClassic": "經典",
+  "snapConfinementClassic": "標準",
   "@snapConfinementClassic": {},
   "snapConfinementDevmode": "開發模式",
   "@snapConfinementDevmode": {},
@@ -261,9 +261,9 @@
   "@snapSortOrderAlphabeticalAsc": {},
   "snapSortOrderAlphabeticalDesc": "字母順序 (Z 到 A)",
   "@snapSortOrderAlphabeticalDesc": {},
-  "snapSortOrderDownloadSizeAsc": "大小 (從小到大)",
+  "snapSortOrderDownloadSizeAsc": "下載大小 (從小到大)",
   "@snapSortOrderDownloadSizeAsc": {},
-  "snapSortOrderDownloadSizeDesc": "大小 (從大到小)",
+  "snapSortOrderDownloadSizeDesc": "下載大小 (從大到小)",
   "@snapSortOrderDownloadSizeDesc": {},
   "snapReportLabel": "檢舉 {snapName}",
   "@snapReportLabel": {
@@ -323,7 +323,7 @@
   "@managePageDescription": {},
   "managePageInstalledAndUpdatedLabel": "已安裝並更新",
   "@managePageInstalledAndUpdatedLabel": {},
-  "managePageNoUpdatesAvailableDescription": "沒有可用的更新。您的應用程式都是最新的。",
+  "managePageNoUpdatesAvailableDescription": "無可用的更新。您的應用程式都是最新的。",
   "@managePageNoUpdatesAvailableDescription": {},
   "managePageShowDetailsLabel": "顯示詳細資訊",
   "@managePageShowDetailsLabel": {},
@@ -333,7 +333,7 @@
   "@managePageUpdateAllLabel": {},
   "appCenterLabel": "應用中心",
   "@appCenterLabel": {},
-  "managePageUpdatedDaysAgo": "{n, plural, =1{{n} 天前更新} other{{n} 天前更新}}",
+  "managePageUpdatedDaysAgo": "{n, plural, =1{{n} 天} other{{n} 天}}前更新",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -341,13 +341,13 @@
       }
     }
   },
-  "snapSortOrderInstalledSizeAsc": "大小 (從小到大)",
+  "snapSortOrderInstalledSizeAsc": "安裝大小 (從小到大)",
   "@snapSortOrderInstalledSizeAsc": {},
-  "snapSortOrderInstalledSizeDesc": "大小 (從大到小)",
+  "snapSortOrderInstalledSizeDesc": "安裝大小 (從大到小)",
   "@snapSortOrderInstalledSizeDesc": {},
-  "snapSortOrderInstalledDateAsc": "最早更新",
+  "snapSortOrderInstalledDateAsc": "最先更新",
   "@snapSortOrderInstalledDateAsc": {},
-  "snapSortOrderInstalledDateDesc": "最近更新",
+  "snapSortOrderInstalledDateDesc": "最後更新",
   "@snapSortOrderInstalledDateDesc": {},
   "snapSortOrderRelevance": "關聯性",
   "@snapSortOrderRelevance": {},
@@ -363,7 +363,7 @@
   "@snapRatingsBandVeryPoor": {},
   "snapRatingsBandInsufficientVotes": "票數不足",
   "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsVotes": "{n} 票",
+  "snapRatingsVotes": "{n} 人投票",
   "@snapRatingsVotes": {
     "placeholders": {
       "n": {
