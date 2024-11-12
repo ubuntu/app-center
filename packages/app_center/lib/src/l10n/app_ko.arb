@@ -376,5 +376,57 @@
   "snapSortOrderInstalledSizeAsc": "크기 (오름차순)",
   "@snapSortOrderInstalledSizeAsc": {},
   "aboutPagePublishLabel": "Snap 스토어에 배포하기",
-  "@aboutPagePublishLabel": {}
+  "@aboutPagePublishLabel": {},
+  "snapCategoryProductivityButtonLabel": "생산성 앱들을 만나보세요",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapCategoryKdeGamesSlogan": "KDE 게임 모음",
+  "@snapCategoryKdeGamesSlogan": {},
+  "snapCategoryArtAndDesignSlogan": "스케치부터 후보정까지, 예술과 디자인을 위한 앱을 만나보세요.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "appstreamSearchGreylist": "앱;애플리케이션;프로그램;패키지;소프트웨어;어플;툴;스토어;설치;업데이트;app;application;package;program;programme;suite;tool",
+  "@appstreamSearchGreylist": {},
+  "searchPageRelevanceLabel": "연관성",
+  "@searchPageRelevanceLabel": {},
+  "searchPageTitle": "\"{query}\"에 대한 결과",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageContributorTitle": "디자인 및 개발:",
+  "@aboutPageContributorTitle": {},
+  "aboutPageLearnMoreLabel": "더 알아보기",
+  "@aboutPageLearnMoreLabel": {},
+  "appstreamUrlTypeBugtracker": "버그 트래커",
+  "@appstreamUrlTypeBugtracker": {},
+  "managePageOwnUpdateQuitButton": "종료하여 업데이트하기",
+  "@managePageOwnUpdateQuitButton": {},
+  "snapCategoryFeaturedSlogan": "추천 Snap 패키지",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapCategoryGnomeGamesSlogan": "GNOME 게임 모음",
+  "@snapCategoryGnomeGamesSlogan": {},
+  "snapCategoryGameLaunchers": "게임 런처",
+  "@snapCategoryGameLaunchers": {},
+  "managePageUpdatesFailed": "{n, plural, =1{1개 업데이트} other{{n}개 업데이트}} 실패",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutPageVersionLabel": "버전 {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageCommunityTitle": "커뮤니티에 참여하세요:",
+  "@aboutPageCommunityTitle": {},
+  "aboutPageContributeLabel": "기여 또는 버그 제보",
+  "@aboutPageContributeLabel": {}
 }
