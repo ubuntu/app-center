@@ -1,0 +1,42 @@
+name: Feature request
+description: Suggest an idea for the App Center
+labels:
+  - enhancement
+assignees:
+  - d-loose
+  - sminez
+  - matthew-hagemann
+body:
+- type: checkboxes
+  attributes:
+    label: Is there an existing issue for this?
+    description: |
+      Please search to see if an issue already exists for this feature: https://github.com/canonical/app-center/issues?q=label%3Aenhancement.
+    options:
+    - label: I have searched the existing issues
+      required: true
+- type: textarea
+  attributes:
+    label: Is the feature related to a problem or existing issue?
+    description: |
+      If so, please describe the problem or reference/link the issue number. If not, leave this empty.
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Describe the solution/feature you'd like.
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Describe any alternatives you've considered.
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Additional context
+    description: |
+      Provide any additional context that may be relevant to the feature request.
+  validations:
+    required: false
+
