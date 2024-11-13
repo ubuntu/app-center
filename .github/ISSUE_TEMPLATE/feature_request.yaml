@@ -11,9 +11,9 @@ body:
   attributes:
     label: Is there an existing issue for this?
     description: |
-      Please search to see if an issue already exists for this feature: https://github.com/canonical/app-center/issues?q=label%3Aenhancement.
+      Please check whether an issue already exists for this feature: https://github.com/canonical/app-center/issues?q=label%3Aenhancement.
     options:
-    - label: I have searched the existing issues
+    - label: I have searched the existing issues and found none matching what I'm reporting.
       required: true
 - type: textarea
   attributes:
@@ -24,7 +24,7 @@ body:
     required: false
 - type: textarea
   attributes:
-    label: Describe the solution/feature you'd like.
+    label: Describe the feature, why the feature matters to you, and what benefits the feature will bring about.
   validations:
     required: true
 - type: textarea
