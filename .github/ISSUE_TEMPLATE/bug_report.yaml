@@ -47,8 +47,6 @@ body:
     options:
       - '24.10'
       - 24.04 LTS
-      - 22.04 LTS
-      - 20.04 LTS
       - Other (specify in the last field)
   validations:
     required: false
