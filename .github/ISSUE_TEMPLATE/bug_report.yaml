@@ -1,0 +1,80 @@
+name: Bug report for the App Center
+description: Report an issue to help the development
+labels:
+  - bug
+assignees:
+  - d-loose
+  - sminez
+  - matthew-hagemann
+body:
+- type: checkboxes
+  attributes:
+    label: Is there an existing issue for this?
+    description: |
+      Please check whether an issue already exists for this feature: https://github.com/canonical/app-center/issues.
+    options:
+    - label: I have searched the existing issues and found none matching what I'm reporting.
+      required: true
+- type: textarea
+  attributes:
+    label: Bug Description
+    description: |
+      Describe the bug clearly and concisely. Include what is the bug and attach screenshots or recordings if needed.
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Steps to reproduce the behavior
+    placeholder: |
+      1. Go to '...'
+      2. Click on '....'
+      3. Scroll down to '....'
+      4. See error
+  validations:
+    required: true
+- type: textarea
+  id: expected_behavior
+  attributes:
+    label: Expected behavior
+    description: |
+      A clear and concise description of what you expected to happen.
+  validations:
+    required: false
+- type: dropdown
+  attributes:
+    label: Ubuntu release
+    description: What version of our Ubuntu are you running?
+    options:
+      - '24.10'
+      - 24.04 LTS
+      - Other (specify in the last field)
+  validations:
+    required: false
+- type: dropdown
+  attributes:
+    label: What architecture are you using?
+    multiple: false
+    options:
+      - amd64
+      - arm64
+      - Other (specify in the last field)
+      - I don't know
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: System info
+    description: |
+      Please run this command in your terminal:
+      ```uname -rv && snap info snap-store snapd```
+      and paste the output here. It will give us information about your system such as the kernel version and the versions of the relevant packages.
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Additional context
+    description: |
+      You can attach screenshots, recordings, logs, or any other information that you think might be helpful. Please remember to anonymize any personal data.
+  validations:
+    required: false
+
