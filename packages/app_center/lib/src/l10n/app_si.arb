@@ -1,1 +1,48 @@
-{}
+{
+  "snapPageContactPublisherLabel": "{publisher} අමතන්න",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageDescriptionLabel": "සවිස්තරය",
+  "@snapPageDescriptionLabel": {},
+  "snapPageDeveloperWebsiteLabel": "සංවර්ධක අඩවිය",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapPageDownloadSizeLabel": "බාගැනෙන ප්‍රමාණය",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPageSizeLabel": "ප්‍රමාණය",
+  "@snapPageSizeLabel": {},
+  "snapPageLicenseLabel": "බලපත්‍රය",
+  "@snapPageLicenseLabel": {},
+  "snapPageLinksLabel": "සබැඳි",
+  "@snapPageLinksLabel": {},
+  "snapPageSummaryLabel": "සාරාංශය",
+  "@snapPageSummaryLabel": {},
+  "snapPageVersionLabel": "අනුවාදය",
+  "@snapPageVersionLabel": {},
+  "snapPageShareLinkCopiedMessage": "සබැඳිය පසුරුපුවරුවට පිටපත් විය",
+  "@snapPageShareLinkCopiedMessage": {},
+  "explorePageLabel": "ගවේශනය",
+  "@explorePageLabel": {},
+  "explorePageCategoriesLabel": "ප්‍රවර්ග",
+  "@explorePageCategoriesLabel": {},
+  "snapPagePublishedLabel": "ප්‍රකාශනය",
+  "@snapPagePublishedLabel": {},
+  "snapPagePublisherLabel": "ප්‍රකාශකයා",
+  "@snapPagePublisherLabel": {},
+  "managePageOwnUpdateAvailable": "යෙදුම් මධ්‍යස්ථානයට යාවත්කාලයක් තිබේ",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageCheckForUpdates": "යාවත්කාල බලන්න",
+  "@managePageCheckForUpdates": {},
+  "managePageCheckingForUpdates": "යාවත්කාල සොයමින්",
+  "@managePageCheckingForUpdates": {},
+  "appCenterLabel": "යෙදුම් මධ්‍යස්ථානය",
+  "@appCenterLabel": {},
+  "snapPageChannelLabel": "නාලිකාව",
+  "@snapPageChannelLabel": {},
+  "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool;යෙදුම;යෙදුම්;ඇසුරුම;ඇසුරුම්;මෘදුකාංගය;මෘදුකාංග;කට්ටලය;මෙවලම;මෙවලම්;යෙදවුම;යෙදවුම්",
+  "@appstreamSearchGreylist": {}
+}
