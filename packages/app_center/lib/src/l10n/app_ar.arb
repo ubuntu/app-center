@@ -1,1 +1,484 @@
-{}
+{
+  "snapPageChannelLabel": "قناة",
+  "@snapPageChannelLabel": {},
+  "snapPageConfinementLabel": "الحجر",
+  "@snapPageConfinementLabel": {},
+  "snapPageDeveloperWebsiteLabel": "موقع المطور",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapPageDownloadSizeLabel": "حجم التحميل",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPageSizeLabel": "الحجم",
+  "@snapPageSizeLabel": {},
+  "snapPageGalleryLabel": "المعرض",
+  "@snapPageGalleryLabel": {},
+  "snapPageLicenseLabel": "الرخصة",
+  "@snapPageLicenseLabel": {},
+  "snapPageLinksLabel": "الروابط",
+  "@snapPageLinksLabel": {},
+  "snapPagePublisherLabel": "الناشر",
+  "@snapPagePublisherLabel": {},
+  "snapPagePublishedLabel": "نُشرت",
+  "@snapPagePublishedLabel": {},
+  "snapPageSummaryLabel": "الملخص",
+  "@snapPageSummaryLabel": {},
+  "snapPageVersionLabel": "الإصدار",
+  "@snapPageVersionLabel": {},
+  "snapPageShareLinkCopiedMessage": "تم نسخ الرابط إلى الحافظة",
+  "@snapPageShareLinkCopiedMessage": {},
+  "explorePageLabel": "استكشف",
+  "@explorePageLabel": {},
+  "managePageOwnUpdateDescription": "عند الخروج من التطبيق سيتم تحديثه تلقائيا.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateDescriptionSoon": "سيتم تحديث مركز التطبيق تلقائيًا في {time}.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateQuitButton": "الخروج للتحديث",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageCheckForUpdates": "التحقق من التحديثات",
+  "@managePageCheckForUpdates": {},
+  "managePageNoInternet": "لا يمكن الوصول إلى الخادم، تحقق من اتصالك بالإنترنت أو حاول مرة أخرى لاحقًا.",
+  "@managePageNoInternet": {},
+  "managePageInstalledAndUpdatedLabel": "تم التثبيت والتحديث",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "managePageInstallingLabel": "جاري تثبيت ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageLabel": "إدارة",
+  "@managePageLabel": {},
+  "managePageTitle": "إدارة snaps المثبتة",
+  "@managePageTitle": {},
+  "managePageNoUpdatesAvailableDescription": "لا تتوفر تحديثات. جميع تطبيقاتك محدثة.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "managePageSearchFieldSearchHint": "ابحث عن التطبيقات المثبتة",
+  "@managePageSearchFieldSearchHint": {},
+  "managePageShowDetailsLabel": "عرض التفاصيل",
+  "@managePageShowDetailsLabel": {},
+  "managePageShowSystemSnapsLabel": "عرض snaps النظام",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageUpdateAllLabel": "تحديث الكل",
+  "@managePageUpdateAllLabel": {},
+  "snapPageContactPublisherLabel": "الاتصال ب {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageCheckingForUpdates": "قيد التحقق من التحديثات",
+  "@managePageCheckingForUpdates": {},
+  "managePageUpdatedWeeksAgo": "تم التحديث منذ {n, plural, =1{{n} أسبوع} =2{{n} أسبوعين} other{{n} أسابيع}}",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesAvailable": "التحديثات المتوفرة ({n})",
+  "@managePageUpdatesAvailable": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "لم نتمكن من تحديث هذه التطبيقات لأنها قيد التشغيل حاليًا.\n\n{snapList}\nعند إغلاق التطبيقات، سيتم تحديثها تلقائيًا.",
+  "@managePageUpdatesFailedBody": {},
+  "productivityPageLabel": "الإنتاجية",
+  "@productivityPageLabel": {},
+  "developmentPageLabel": "التطوير",
+  "@developmentPageLabel": {},
+  "gamesPageLabel": "الألعاب",
+  "@gamesPageLabel": {},
+  "managePageUpdatedMonthsAgo": "تم التحديث منذ {n, plural, =1{{n} شهر} =2{{n} شهرين} other{{n} أشهر}}",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "تم التحديث منذ {n, plural, =1{{n} سنة} =2{{n} سنتين} other{{n} سنوات}}",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailed": "{n, plural, =1{{n} فشل تحديث واحد} other{{n} فشل التحديثات}}",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "gamesPageTitle": "الأفضل في الٱونة الاخيرة",
+  "@gamesPageTitle": {},
+  "gamesPageTop": "أفضل الألعاب",
+  "@gamesPageTop": {},
+  "gamesPageFeatured": "العناوين المميزة",
+  "@gamesPageFeatured": {},
+  "gamesPageBundles": "حزم التطبيقات",
+  "@gamesPageBundles": {},
+  "unknownPublisher": "ناشر غير معروف",
+  "@unknownPublisher": {},
+  "searchFieldDebSection": "حزم ال Debian",
+  "@searchFieldDebSection": {},
+  "searchFieldSearchHint": "البحث عن التطبيقات",
+  "@searchFieldSearchHint": {},
+  "searchFieldSearchForLabel": "عرض جميع النتائج لـ \"{query}\"",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchFieldSnapSection": "حزم snap",
+  "@searchFieldSnapSection": {},
+  "searchPageFilterByLabel": "التصفية حسب",
+  "@searchPageFilterByLabel": {},
+  "searchPageNoResults": "لم يتم العثور على نتائج لـ \"{query}\"",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageNoResultsHint": "حاول استخدام كلمات رئيسية عامة أو مختلفة",
+  "@searchPageNoResultsHint": {},
+  "searchPageNoResultsCategory": "عذرًا، لم نتمكن من العثور على أي حزم في هذه الفئة",
+  "@searchPageNoResultsCategory": {},
+  "searchPageNoResultsCategoryHint": "جرب فئة مختلفة أو استخدم كلمات رئيسية عامة",
+  "@searchPageNoResultsCategoryHint": {},
+  "searchPageSortByLabel": "فرز حسب",
+  "@searchPageSortByLabel": {},
+  "searchPageRelevanceLabel": "الصلة",
+  "@searchPageRelevanceLabel": {},
+  "searchPageTitle": "نتائج البحث عن \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageLabel": "حول",
+  "@aboutPageLabel": {},
+  "aboutPageVersionLabel": "النسخة {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageContributorTitle": "تم تصميمه وتطويره بواسطة:",
+  "@aboutPageContributorTitle": {},
+  "aboutPageCommunityTitle": "كن جزءًا من المجتمع:",
+  "@aboutPageCommunityTitle": {},
+  "aboutPageContributeLabel": "المساهمة أو الإبلاغ عن الخطأ",
+  "@aboutPageContributeLabel": {},
+  "aboutPageGitHubLabel": "تجدنا على GitHub",
+  "@aboutPageGitHubLabel": {},
+  "aboutPagePublishLabel": "نشر على متجر Snap",
+  "@aboutPagePublishLabel": {},
+  "aboutPageLearnMoreLabel": "تعرف على المزيد",
+  "@aboutPageLearnMoreLabel": {},
+  "appstreamUrlTypeBugtracker": "متعقب الأخطاء",
+  "@appstreamUrlTypeBugtracker": {},
+  "appstreamUrlTypeContact": "الاتصال",
+  "@appstreamUrlTypeContact": {},
+  "appstreamUrlTypeContribute": "المساهمة",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeDonation": "التبرع",
+  "@appstreamUrlTypeDonation": {},
+  "appstreamUrlTypeFaq": "FAQ",
+  "@appstreamUrlTypeFaq": {},
+  "appstreamUrlTypeHelp": "المساعدة",
+  "@appstreamUrlTypeHelp": {},
+  "appstreamUrlTypeHomepage": "الصفحة الرئيسية",
+  "@appstreamUrlTypeHomepage": {},
+  "appstreamUrlTypeTranslate": "الترجمات",
+  "@appstreamUrlTypeTranslate": {},
+  "appstreamUrlTypeVcsBrowser": "المصدر",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "packageFormatDebLabel": "حزم ال Debian",
+  "@packageFormatDebLabel": {},
+  "packageFormatSnapLabel": "حزم Snap",
+  "@packageFormatSnapLabel": {},
+  "snapActionInstallLabel": "ثبت",
+  "@snapActionInstallLabel": {},
+  "snapActionInstalledLabel": "مثبتة",
+  "@snapActionInstalledLabel": {},
+  "snapActionInstallingLabel": "تثبيت",
+  "@snapActionInstallingLabel": {},
+  "snapActionCancelLabel": "إلغاء",
+  "@snapActionCancelLabel": {},
+  "snapActionOpenLabel": "فتح",
+  "@snapActionOpenLabel": {},
+  "snapActionRemoveLabel": "إلغاء تثبيت",
+  "@snapActionRemoveLabel": {},
+  "snapActionRemovingLabel": "إلغاء التثبيت",
+  "@snapActionRemovingLabel": {},
+  "snapActionSwitchChannelLabel": "تبديل القناة",
+  "@snapActionSwitchChannelLabel": {},
+  "snapActionUpdateLabel": "تحديث",
+  "@snapActionUpdateLabel": {},
+  "snapCategoryAll": "جميع الفئات",
+  "@snapCategoryAll": {},
+  "snapCategoryArtAndDesign": "الفن والتصميم",
+  "@snapCategoryArtAndDesign": {},
+  "snapActionUpdatingLabel": "قيد التحديث",
+  "@snapActionUpdatingLabel": {},
+  "snapCategoryArtAndDesignSlogan": "من الرسم الأولي حتى اللمسة النهائية، استكشف التطبيقات الخاصة بالفن والتصميم.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "snapCategoryBooksAndReference": "الكتب والمراجع",
+  "@snapCategoryBooksAndReference": {},
+  "snapCategoryArtAndDesignButtonLabel": "ابدأ في الإنشاء",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryDefaultButtonLabel": "اكتشف المزيد",
+  "@snapCategoryDefaultButtonLabel": {},
+  "snapCategoryDevelopment": "التطوير",
+  "@snapCategoryDevelopment": {},
+  "snapCategoryDevelopmentSlogan": "snaps ضرورية للمطورين",
+  "@snapCategoryDevelopmentSlogan": {},
+  "snapCategoryDevicesAndIot": "الأجهزة و أنترنت الأشياء",
+  "@snapCategoryDevicesAndIot": {},
+  "snapCategoryEducation": "التعليم",
+  "@snapCategoryEducation": {},
+  "snapCategoryEntertainment": "الترفيه",
+  "@snapCategoryEntertainment": {},
+  "snapCategoryFeatured": "مميزة",
+  "@snapCategoryFeatured": {},
+  "snapCategoryFeaturedSlogan": "snaps مميزة",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapCategoryFinance": "التمويل",
+  "@snapCategoryFinance": {},
+  "snapCategoryGames": "الألعاب",
+  "@snapCategoryGames": {},
+  "snapCategoryGamesSlogan": "كل شيء من أجل ليلة اللعب",
+  "@snapCategoryGamesSlogan": {},
+  "snapCategoryGameDev": "تطوير الألعاب",
+  "@snapCategoryGameDev": {},
+  "snapCategoryGameDevSlogan": "تطوير الألعاب",
+  "@snapCategoryGameDevSlogan": {},
+  "snapCategoryGameEmulators": "‬المحاكيات",
+  "@snapCategoryGameEmulators": {},
+  "snapCategoryGameEmulatorsSlogan": "المحاكيات",
+  "@snapCategoryGameEmulatorsSlogan": {},
+  "snapCategoryGnomeGames": "ألعاب GNOME",
+  "@snapCategoryGnomeGames": {},
+  "snapCategoryGnomeGamesSlogan": "مجموعة ألعاب GNOME",
+  "@snapCategoryGnomeGamesSlogan": {},
+  "snapCategoryKdeGames": "ألعاب KDE",
+  "@snapCategoryKdeGames": {},
+  "snapCategoryKdeGamesSlogan": "مجموعة ألعاب KDE",
+  "@snapCategoryKdeGamesSlogan": {},
+  "snapCategoryGameLaunchers": "مشغلات الألعاب",
+  "@snapCategoryGameLaunchers": {},
+  "snapCategoryGameLaunchersSlogan": "مشغلات الألعاب",
+  "@snapCategoryGameLaunchersSlogan": {},
+  "snapCategoryGameContentCreation": "إنشاء المحتوى",
+  "@snapCategoryGameContentCreation": {},
+  "snapCategoryGameContentCreationSlogan": "إنشاء المحتوى",
+  "@snapCategoryGameContentCreationSlogan": {},
+  "snapCategoryHealthAndFitness": "الصحة و اللياقة البدنية",
+  "@snapCategoryHealthAndFitness": {},
+  "snapCategoryMusicAndAudio": "الموسيقى و الصوت",
+  "@snapCategoryMusicAndAudio": {},
+  "snapCategoryNewsAndWeather": "الأخبار و الطقس",
+  "@snapCategoryNewsAndWeather": {},
+  "snapCategoryPersonalisation": "التخصيص",
+  "@snapCategoryPersonalisation": {},
+  "snapCategoryPhotoAndVideo": "الصور و الفيديو",
+  "@snapCategoryPhotoAndVideo": {},
+  "snapCategoryProductivity": "الإنتاجية",
+  "@snapCategoryProductivity": {},
+  "snapCategoryProductivityButtonLabel": "اكتشف مجموعة الإنتاجية",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapCategoryProductivitySlogan": "اشطب شيئًا واحدًا من قائمة مهامك",
+  "@snapCategoryProductivitySlogan": {},
+  "snapCategoryScience": "العلوم",
+  "@snapCategoryScience": {},
+  "snapCategorySecurity": "الحماية",
+  "@snapCategorySecurity": {},
+  "snapCategoryServerAndCloud": "الخادم و السحابة",
+  "@snapCategoryServerAndCloud": {},
+  "snapCategorySocial": "اجتماعي",
+  "@snapCategorySocial": {},
+  "snapCategoryUbuntuDesktop": "سطح مكتب Ubuntu",
+  "@snapCategoryUbuntuDesktop": {},
+  "snapCategoryUbuntuDesktopSlogan": "ابدأ تشغيل سطح المكتب الخاص بك",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapCategoryUtilities": "المرافق",
+  "@snapCategoryUtilities": {},
+  "snapConfinementClassic": "كلاسيكي",
+  "@snapConfinementClassic": {},
+  "snapConfinementDevmode": "وضع التطوير",
+  "@snapConfinementDevmode": {},
+  "snapConfinementStrict": "حازم",
+  "@snapConfinementStrict": {},
+  "snapSortOrderAlphabeticalAsc": "أبجدي (من الألف إلى الياء)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "snapSortOrderAlphabeticalDesc": "أبجدي (من الياء إلى الألف)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "snapSortOrderDownloadSizeAsc": "الحجم (من الأصغر إلى الأكبر)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "snapSortOrderDownloadSizeDesc": "الحجم (من الأكبر إلى الأصغر)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "snapSortOrderInstalledSizeDesc": "الحجم (من الأكبر إلى الأصغر)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapSortOrderInstalledSizeAsc": "الحجم (من الأصغر إلى الأكبر)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "snapSortOrderInstalledDateAsc": "آخر تحديث",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapSortOrderInstalledDateDesc": "تم التحديث مؤخرا",
+  "@snapSortOrderInstalledDateDesc": {},
+  "snapSortOrderRelevance": "الصلة",
+  "@snapSortOrderRelevance": {},
+  "snapRatingsBandVeryGood": "جيد جدًا",
+  "@snapRatingsBandVeryGood": {},
+  "snapRatingsBandGood": "جيد",
+  "@snapRatingsBandGood": {},
+  "snapRatingsBandNeutral": "حيادي",
+  "@snapRatingsBandNeutral": {},
+  "snapRatingsBandPoor": "سيء",
+  "@snapRatingsBandPoor": {},
+  "snapRatingsBandVeryPoor": "سيء جدًا",
+  "@snapRatingsBandVeryPoor": {},
+  "snapRatingsBandInsufficientVotes": "عدد الأصوات غير كاف",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsVotes": "{n} تصويت",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapReportLabel": "الإبلاغ عن {snapName}",
+  "@snapReportLabel": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "snapReportSelectReportReasonLabel": "اختر سببًا للإبلاغ عن هذه snap",
+  "@snapReportSelectReportReasonLabel": {},
+  "snapReportSelectAnOptionLabel": "حدد خيارا",
+  "@snapReportSelectAnOptionLabel": {},
+  "snapReportOptionCopyrightViolation": "انتهاك حقوق الطبع والنشر أو العلامة التجارية",
+  "@snapReportOptionCopyrightViolation": {},
+  "snapReportOptionStoreViolation": "انتهاك شروط خدمة Snap Store",
+  "@snapReportOptionStoreViolation": {},
+  "snapReportDetailsLabel": "يرجى تقديم سبب أكثر تفصيلا لقرار الابلاغ",
+  "@snapReportDetailsLabel": {},
+  "snapReportOptionalEmailAddressLabel": "بريدك الإلكتروني (اختياري)",
+  "@snapReportOptionalEmailAddressLabel": {},
+  "snapReportCancelButtonLabel": "الغاء",
+  "@snapReportCancelButtonLabel": {},
+  "snapReportSubmitButtonLabel": "إرسال قرار الابلاغ",
+  "@snapReportSubmitButtonLabel": {},
+  "snapReportEnterValidEmailError": "أدخل عنوان بريد إلكتروني صالح",
+  "@snapReportEnterValidEmailError": {},
+  "snapReportDetailsHint": "تعليق...",
+  "@snapReportDetailsHint": {},
+  "snapReportPrivacyAgreementLabel": "بإرسال هذا النموذج، أؤكد أنني قرأت ووافقت على. ",
+  "@snapReportPrivacyAgreementLabel": {},
+  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "إشعار الخصوصية الخاص بشركة Canonical. ",
+  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+  "snapReportPrivacyAgreementAndLabel": "و. ",
+  "@snapReportPrivacyAgreementAndLabel": {},
+  "snapReportPrivacyAgreementPrivacyPolicy": "سياسة الخصوصية",
+  "@snapReportPrivacyAgreementPrivacyPolicy": {},
+  "debPageErrorNoPackageInfo": "لم يتم العثور على معلومات الحزمة",
+  "@debPageErrorNoPackageInfo": {},
+  "externalResources": "الموارد الإضافية",
+  "@externalResources": {},
+  "externalResourcesButtonLabel": "اكتشف المزيد",
+  "@externalResourcesButtonLabel": {},
+  "allGamesButtonLabel": "جميع الألعاب",
+  "@allGamesButtonLabel": {},
+  "externalResourcesDisclaimer": "ملاحظة: هذه كلها أدوات خارجية، ولا تمتلكها شركة Canonical ولا توزعها.",
+  "@externalResourcesDisclaimer": {},
+  "installAll": "تثبيت الكل",
+  "@installAll": {},
+  "localDebWarningTitle": "احتمال غير آمن",
+  "@localDebWarningTitle": {},
+  "localDebLearnMore": "تعرف على المزيد حول حزم الطرف الثالث",
+  "@localDebLearnMore": {},
+  "localDebDialogMessage": "يتم توفير هذه الحزمة بواسطة جهة خارجية وقد تشكل تهديدًا لنظامك وبياناتك الشخصية.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "هل أنت متأكد أنك تريد تثبيته؟",
+  "@localDebDialogConfirmation": {},
+  "snapdExceptionRunningApps": "لم نتمكن من تحديث {snapName} لأنه قيد التشغيل حاليًا.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewCheckStatusLabel": "التحقق من الحالة",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "الاتصال بالانترنت",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorAction": "تحقق من اتصالك ثم حاول مرة أخرى.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "عذرًا، نحن نواجه حاليًا مشاكل مع مركز التطبيقات.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "تحقق من حالة التحديثات أو حاول مرة أخرى لاحقًا.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorDescription": "عذرًا، ولكننا لسنا متأكدين من الخطأ.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorTitle": "لقد حدث خطأ",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorAction": "يمكنك إعادة المحاولة الآن، والتحقق من حالة التحديثات، أو المحاولة مرة أخرى لاحقًا.",
+  "@errorViewUnknownErrorAction": {},
+  "appCenterLabel": "مركز التطبيقات",
+  "@appCenterLabel": {},
+  "snapPageDescriptionLabel": "الوصف",
+  "@snapPageDescriptionLabel": {},
+  "managePageQuitToUpdate": "الخروج للتحديث",
+  "@managePageQuitToUpdate": {},
+  "managePageOwnUpdateAvailable": "تحديث مركز التطبيقات متاح",
+  "@managePageOwnUpdateAvailable": {},
+  "explorePageCategoriesLabel": "الفئات",
+  "@explorePageCategoriesLabel": {},
+  "managePageDescription": "التحقق من التحديثات المتوفرة وتحديث تطبيقاتك وإدارة حالة جميع تطبيقاتك.",
+  "@managePageDescription": {},
+  "managePageDebUpdatesMessage": "يتم التعامل مع تحديثات حزمة الDebian بواسطة محدث البرمجيّات.",
+  "@managePageDebUpdatesMessage": {},
+  "openInBrowser": "فتح في المتصفح",
+  "@openInBrowser": {},
+  "errorViewNetworkErrorDescription": "لا يمكننا تحميل المحتوى في مركز التطبيقات دون اتصال بالانترنت.",
+  "@errorViewNetworkErrorDescription": {},
+  "localDebWarningBody": "يتم توفير هذه الحزمة بواسطة جهة خارجية. قد يؤدي تثبيت الحزم من خارج مركز التطبيقات إلى زيادة المخاطر التي يتعرض لها نظامك وبياناتك الشخصية. تأكد من ثقتك في المصدر قبل المتابعة.",
+  "@localDebWarningBody": {},
+  "managePageUpdatedDaysAgo": "تم التحديث منذ {n, plural, =1{{n} يوم} =2{{n} يومان} other{{n} أيام}}",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "appstreamSearchGreylist": "تطبيقات؛تطبيق؛حزمة؛برمجية؛برنامج؛مجموعة؛أداة",
+  "@appstreamSearchGreylist": {}
+}
