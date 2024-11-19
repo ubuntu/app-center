@@ -131,13 +131,13 @@
   "@searchPageNoResultsHint": {},
   "snapRatingsBandGood": "Dobré",
   "@snapRatingsBandGood": {},
-  "snapCategoryFeaturedSlogan": "Významné Snapy",
+  "snapCategoryFeaturedSlogan": "Významné Snap balíčky",
   "@snapCategoryFeaturedSlogan": {},
   "snapSortOrderInstalledDateAsc": "Nejdéle neaktualizované",
   "@snapSortOrderInstalledDateAsc": {},
   "snapCategoryProductivitySlogan": "Vyškrtněte jednu věc ze svého seznamu úkolů",
   "@snapCategoryProductivitySlogan": {},
-  "appstreamUrlTypeDonation": "Věnovat dar",
+  "appstreamUrlTypeDonation": "Podpořit vývoj darem",
   "@appstreamUrlTypeDonation": {},
   "snapRatingsBandVeryGood": "Velmi dobré",
   "@snapRatingsBandVeryGood": {},
@@ -181,7 +181,7 @@
   "@snapConfinementClassic": {},
   "snapRatingsBandPoor": "Špatné",
   "@snapRatingsBandPoor": {},
-  "snapCategoryDevelopmentSlogan": "Nepostradatelné snapy pro vývojáře",
+  "snapCategoryDevelopmentSlogan": "Nepostradatelné snap balíčky pro vývojáře",
   "@snapCategoryDevelopmentSlogan": {},
   "searchPageTitle": "Výsledky pro „{query}“",
   "@searchPageTitle": {
@@ -211,7 +211,7 @@
   "@searchPageNoResultsCategoryHint": {},
   "snapSortOrderAlphabeticalDesc": "Abecedně (od Z do A)",
   "@snapSortOrderAlphabeticalDesc": {},
-  "searchPageNoResultsCategory": "Litujeme, v této kategorii jsme nenašli žádné balíčky",
+  "searchPageNoResultsCategory": "Je nám líto, v této kategorii jsme nenašli žádné balíčky",
   "@searchPageNoResultsCategory": {},
   "snapRatingsVotes": "{n} hodnocení",
   "@snapRatingsVotes": {
@@ -243,7 +243,7 @@
   },
   "snapConfinementDevmode": "Vývojářský režim",
   "@snapConfinementDevmode": {},
-  "searchPageNoResults": "Nebyly nalezeny žádné výsledky pro dotaz „{query}“",
+  "searchPageNoResults": "Nic nenalezeno pro dotaz „{query}“",
   "@searchPageNoResults": {
     "placeholders": {
       "query": {
@@ -269,9 +269,9 @@
   "@snapSortOrderRelevance": {},
   "snapSortOrderDownloadSizeDesc": "Velikost (od největší po nejmenší)",
   "@snapSortOrderDownloadSizeDesc": {},
-  "appstreamUrlTypeBugtracker": "Bugtracker",
+  "appstreamUrlTypeBugtracker": "Správa hlášení chyb",
   "@appstreamUrlTypeBugtracker": {},
-  "managePageShowSystemSnapsLabel": "Zobrazit systémové snapy",
+  "managePageShowSystemSnapsLabel": "Zobrazit systémové snap balíčky",
   "@managePageShowSystemSnapsLabel": {},
   "searchPageFilterByLabel": "Filtrovat podle",
   "@searchPageFilterByLabel": {},
@@ -343,7 +343,7 @@
   "@snapReportCancelButtonLabel": {},
   "snapReportSubmitButtonLabel": "Odeslat hlášení",
   "@snapReportSubmitButtonLabel": {},
-  "snapReportDetailsHint": "Komentář...",
+  "snapReportDetailsHint": "Komentář…",
   "@snapReportDetailsHint": {},
   "snapReportPrivacyAgreementLabel": "Odesláním tohoto formuláře potvrzuji, že jsem četl(a) a souhlasím s ",
   "@snapReportPrivacyAgreementLabel": {},
@@ -387,7 +387,7 @@
       }
     }
   },
-  "appstreamUrlTypeContribute": "Přispět",
+  "appstreamUrlTypeContribute": "Přispět podílením se",
   "@appstreamUrlTypeContribute": {},
   "appstreamUrlTypeVcsBrowser": "Zdrojový kód",
   "@appstreamUrlTypeVcsBrowser": {},
@@ -401,7 +401,7 @@
   "@localDebLearnMore": {},
   "localDebDialogMessage": "Tento balíček je poskytován třetí stranou a může ohrozit váš systém a osobní data.",
   "@localDebDialogMessage": {},
-  "localDebDialogConfirmation": "Jste si jisti, že jej chcete nainstalovat?",
+  "localDebDialogConfirmation": "Opravdu ho chcete nainstalovat?",
   "@localDebDialogConfirmation": {},
   "managePageDebUpdatesMessage": "Aktualizace balíčků Debian zajišťuje Správce aktualizací.",
   "@managePageDebUpdatesMessage": {},
@@ -451,7 +451,7 @@
   "@managePageOwnUpdateQuitButton": {},
   "managePageQuitToUpdate": "Ukončit pro aktualizaci",
   "@managePageQuitToUpdate": {},
-  "managePageTitle": "Spravovat nainstalované snapy",
+  "managePageTitle": "Spravovat nainstalované snap balíčky",
   "@managePageTitle": {},
   "managePageUpdatesFailed": "{n, plural, =1{Jedna neúspěšná aktualizace} other{{n} neúspěšných aktualizací}}",
   "@managePageUpdatesFailed": {
@@ -461,7 +461,7 @@
       }
     }
   },
-  "managePageUpdatesFailedBody": "Tyto aplikace jsme nemohli aktualizovat, protože jsou aktuálně spuštěné.\n\n{snapList}\nKdyž aplikace ukončíte, automaticky se aktualizují.",
+  "managePageUpdatesFailedBody": "Tyto aplikace jsme nemohli aktualizovat, protože jsou v tuto chvíli spuštěné.\n\n{snapList}\nKdyž aplikace ukončíte, automaticky se aktualizují.",
   "@managePageUpdatesFailedBody": {},
   "snapCategoryArtAndDesignButtonLabel": "Začněte tvořit",
   "@snapCategoryArtAndDesignButtonLabel": {},
