@@ -276,5 +276,33 @@
   "snapCategoryGameContentCreationSlogan": "יצירת תוכן",
   "@snapCategoryGameContentCreationSlogan": {},
   "snapCategoryUbuntuDesktop": "שולחן העבודה של אובונטו",
-  "@snapCategoryUbuntuDesktop": {}
+  "@snapCategoryUbuntuDesktop": {},
+  "errorViewServerErrorAction": "נא לבדוק את מה מצב העדכונים או לנסות שוב מאוחר יותר.",
+  "@errorViewServerErrorAction": {},
+  "errorViewNetworkErrorAction": "נא לבדוק את החיבור שלך ולנסות שוב.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewNetworkErrorDescription": "אין אפשרות לטעון את התוכן במרכז היישומים ללא חיבור לאינטרנט.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewNetworkErrorTitle": "נא להתחבר לאינטרנט",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewCheckStatusLabel": "בדיקת המצב",
+  "@errorViewCheckStatusLabel": {},
+  "localDebLearnMore": "מידע נוסף על חבילות צד־שלישי",
+  "@localDebLearnMore": {},
+  "errorViewUnknownErrorDescription": "אנחנו לא בטוחים מה השגיאה הזאת, סליחה.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewServerErrorDescription": "אנו חווים כרגע בעיות עם מרכז היישומים, סליחה.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewUnknownErrorTitle": "משהו השתבש",
+  "@errorViewUnknownErrorTitle": {},
+  "snapdExceptionRunningApps": "לא הצלחנו לעדכן את {snapName} כיוון שהוא פעיל כרגע.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "localDebDialogConfirmation": "להתקין אותו?",
+  "@localDebDialogConfirmation": {}
 }
