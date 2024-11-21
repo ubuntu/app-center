@@ -55,7 +55,7 @@
   "@aboutPageLabel": {},
   "snapPageSummaryLabel": "總結",
   "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "應用;應用程式;軟體包;套件;程式;程序;套裝軟體;工具",
+  "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool;應用;應用軟體;應用程式;軟體包;軟體套件;套件;程式;程序;套裝軟體;工具",
   "@appstreamSearchGreylist": {},
   "snapCategoryScience": "科學",
   "@snapCategoryScience": {},
