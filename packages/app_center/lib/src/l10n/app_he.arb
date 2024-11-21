@@ -304,5 +304,53 @@
     }
   },
   "localDebDialogConfirmation": "להתקין אותו?",
-  "@localDebDialogConfirmation": {}
+  "@localDebDialogConfirmation": {},
+  "managePageDescription": "לבדוק אם יש עדכונים זמינים, לעדכן את היישומים שלך ולנהל את מצבם של כל היישומים שלך.",
+  "@managePageDescription": {},
+  "managePageShowDetailsLabel": "הצגת פרטים",
+  "@managePageShowDetailsLabel": {},
+  "managePageShowSystemSnapsLabel": "הצגת snapים של המערכת",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageUpdateAllLabel": "לעדכן הכול",
+  "@managePageUpdateAllLabel": {},
+  "managePageUpdatedDaysAgo": "עודכן לפני {n, plural, =1{יום} =2{יומיים} other{{n} ימים}}",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedWeeksAgo": "עודכן לפני {n, plural, =1{שבוע} =2{שבועיים} other{{n} שבועות}}",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "עודכן לפני {n, plural, =1{חודש} =2{חודשיים} other{{n} חודשים}}",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "עודכן לפני {n, plural, =1{שנה} =2{שנתיים} other{{n} שנים}}",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailed": "{n, plural, =1{עדכון נכשל} other{{n} עדכונים נכשלו}}",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
