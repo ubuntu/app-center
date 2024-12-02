@@ -13,9 +13,6 @@ import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru/yaru.dart';
 
-const localDebInfoUrl =
-    'https://ubuntu.com/server/docs/third-party-repository-usage';
-
 class LocalDebPage extends ConsumerWidget {
   const LocalDebPage({required this.path, super.key});
 
@@ -221,7 +218,19 @@ class _Header extends StatelessWidget {
           ),
         ),
         const SizedBox(height: kPagePadding),
-        _LocalDebActionButtons(debData: debData),
+        Row(
+          children: [
+            _LocalDebActionButtons(debData: debData),
+            const SizedBox(width: 32),
+            Html(
+              shrinkWrap: true,
+              data:
+                  '<a href="$debManageDocsUrl">${l10n.debPageDocumentationLinkLabel} &gt;</a>',
+              style: {'body': Style(margin: Margins.zero)},
+              onLinkTap: (url, attributes, element) => launchUrlString(url!),
+            ),
+          ],
+        ),
         const SizedBox(height: kPagePadding),
         const Divider(),
       ],

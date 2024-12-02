@@ -8,8 +8,10 @@ import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru/yaru.dart';
 
 class ManagePage extends ConsumerWidget {
@@ -61,6 +63,20 @@ class ManagePage extends ConsumerWidget {
               Text(
                 l10n.managePageDebUpdatesMessage,
                 style: textTheme.titleMedium,
+              ),
+              Html(
+                shrinkWrap: true,
+                data:
+                    '<a href="$debManageDocsUrl">${l10n.managePageDocumentationLinkLabel}</a>',
+                style: {
+                  'body': Style(
+                    margin: Margins.zero,
+                    fontSize: FontSize(textTheme.titleMedium!.fontSize!),
+                    fontWeight: textTheme.titleMedium!.fontWeight,
+                    lineHeight: LineHeight(textTheme.titleMedium!.height),
+                  ),
+                },
+                onLinkTap: (url, attributes, element) => launchUrlString(url!),
               ),
               _SelfUpdateInfoBox(),
               Builder(

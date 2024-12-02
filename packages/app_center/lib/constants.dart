@@ -21,3 +21,9 @@ const kSearchFieldIconConstraints = BoxConstraints(
 );
 const kSearchFieldContentPadding = EdgeInsets.all(12);
 const kSearchFieldPrefixIcon = Icon(YaruIcons.search, size: 16);
+
+// URLs
+const localDebInfoUrl =
+    'https://ubuntu.com/server/docs/third-party-repository-usage';
+const debManageDocsUrl =
+    'https://documentation.ubuntu.com/server/tutorial/managing-software/#installing-deb-packages';
