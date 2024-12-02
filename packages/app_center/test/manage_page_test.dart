@@ -131,6 +131,15 @@ void main() {
 
     await tester.pumpAndSettle();
     final testTile = find.snapTile('Test Snap');
+
+    // Use the top-level scrollbar to ensure the tiles are visible before testing them.
+    final scrollable = find.byType(Scrollable).first;
+
+    await tester.scrollUntilVisible(
+      testTile,
+      kMinInteractiveDimension / 2,
+      scrollable: scrollable,
+    );
     expect(testTile, findsOneWidget);
     expect(
       find.descendant(of: testTile, matching: find.text('1.0')),
@@ -142,6 +151,11 @@ void main() {
     );
 
     final testTile2 = find.snapTile('Another Test Snap');
+    await tester.scrollUntilVisible(
+      testTile2,
+      kMinInteractiveDimension / 2,
+      scrollable: scrollable,
+    );
     expect(testTile2, findsOneWidget);
     expect(
       find.descendant(of: testTile2, matching: find.text('1.5')),
@@ -195,8 +209,22 @@ void main() {
         )
         .hitTestable();
 
+    // Use the top-level scrollbar to ensure the buttons are visible before testing them.
+    final scrollable = find.byType(Scrollable).first;
+
+    await tester.scrollUntilVisible(
+      openButton,
+      kMinInteractiveDimension / 2,
+      scrollable: scrollable,
+    );
     expect(openButton, findsOneWidget);
     expect(openButton, isEnabled);
+
+    await tester.scrollUntilVisible(
+      openButton2,
+      kMinInteractiveDimension / 2,
+      scrollable: scrollable,
+    );
     expect(openButton2, findsOneWidget);
     expect(openButton2, isDisabled);
 
