@@ -474,5 +474,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "managePageDocumentationLinkLabel": "在文件中了解如何管理 Debian 套件。",
+  "@managePageDocumentationLinkLabel": {},
+  "debPageDocumentationLinkLabel": "了解如何管理 Debian 套件",
+  "@debPageDocumentationLinkLabel": {}
 }
