@@ -238,6 +238,7 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       children: [
         const SizedBox(height: kPagePadding),
@@ -259,9 +260,18 @@ class _Header extends StatelessWidget {
           ],
         ),
         const SizedBox(height: kPagePadding),
-        Align(
-          alignment: AlignmentDirectional.centerStart,
-          child: _DebActionButtons(debModel: debModel),
+        Row(
+          children: [
+            _DebActionButtons(debModel: debModel),
+            const SizedBox(width: 32),
+            Html(
+              shrinkWrap: true,
+              data:
+                  '<a href="$debManageDocsUrl">${l10n.debPageDocumentationLinkLabel} &gt;</a>',
+              style: {'body': Style(margin: Margins.zero)},
+              onLinkTap: (url, attributes, element) => launchUrlString(url!),
+            ),
+          ],
         ),
         const SizedBox(height: 42),
         const Divider(),

@@ -114,6 +114,7 @@
             }
         }
     },
+    "managePageDocumentationLinkLabel": "Learn how to manage Debian packages in the documentation.",
     "productivityPageLabel": "Productivity",
     "developmentPageLabel": "Development",
     "gamesPageLabel": "Games",
@@ -283,6 +284,7 @@
     "snapReportPrivacyAgreementAndLabel": "and ",
     "snapReportPrivacyAgreementPrivacyPolicy": "Privacy Policy",
     "debPageErrorNoPackageInfo": "No package information found",
+    "debPageDocumentationLinkLabel": "Learn about managing Debian packages",
     "externalResources": "Additional resources",
     "externalResourcesButtonLabel": "Discover more",
     "allGamesButtonLabel": "All games",
