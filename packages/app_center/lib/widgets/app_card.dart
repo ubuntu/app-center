@@ -4,6 +4,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/widgets/small_banner.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
@@ -79,12 +80,13 @@ class AppCard extends StatelessWidget {
     return YaruBanner(
       padding: const EdgeInsets.all(kCardSpacing),
       onTap: onTap,
+      color: Theme.of(context).cardColor,
       child: Flex(
         direction: compact ? Axis.vertical : Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppIcon(iconUrl: iconUrl),
-          const SizedBox(width: 16, height: 16),
+          const SizedBox(width: kCardSpacing, height: kCardSpacing),
           Expanded(
             child: _AppCardBody(
               title: title,
@@ -94,6 +96,81 @@ class AppCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class RankedAppCard extends StatelessWidget {
+  const RankedAppCard({
+    required this.title,
+    required this.summary,
+    required this.rank,
+    this.onTap,
+    this.compact = false,
+    this.iconUrl,
+    this.footer,
+    super.key,
+  });
+
+  RankedAppCard.fromRankedSnap({
+    required Snap snap,
+    required int rank,
+    VoidCallback? onTap,
+  }) : this(
+          key: ValueKey(snap.id),
+          title: AppTitle.fromSnap(snap),
+          summary: snap.summary,
+          iconUrl: snap.iconUrl,
+          footer: _RatingsInfo(snap: snap),
+          onTap: onTap,
+          rank: rank,
+        );
+
+  final AppTitle title;
+  final String summary;
+  final VoidCallback? onTap;
+  final bool compact;
+  final String? iconUrl;
+  final Widget? footer;
+  final int rank;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Flex(
+      direction: Axis.horizontal,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Center(
+          child: Text(
+            rank.toString(),
+            style: theme.textTheme.titleMedium,
+          ),
+        ),
+        const SizedBox(
+          width: 4,
+        ),
+        Expanded(
+          child: SmallBanner(
+            onTap: onTap,
+            child: Flex(
+              direction: Axis.horizontal,
+              children: [
+                AppIcon(iconUrl: iconUrl),
+                const SizedBox(width: kCardSpacing, height: kCardSpacing),
+                Expanded(
+                  child: _AppCardBody(
+                    title: title,
+                    summary: '',
+                    footer: footer,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -168,14 +245,16 @@ class _AppCardBody extends StatelessWidget {
             child: title,
           ),
         ),
-        const SizedBox(height: 12),
-        Flexible(
-          child: Text(
-            summary,
-            maxLines: maxlines,
-            overflow: TextOverflow.ellipsis,
+        if (summary.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          Flexible(
+            child: Text(
+              summary,
+              maxLines: maxlines,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
+        ],
         if (footer != null) ...[
           const SizedBox(height: 8),
           footer!,

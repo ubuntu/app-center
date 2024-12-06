@@ -39,8 +39,8 @@ class GamesPage extends ConsumerWidget {
             const SizedBox(height: kPagePadding),
           ],
         ),
-        const CategorySnapList(
-          category: SnapCategoryEnum.games,
+        const RatedCategorySnapList(
+          categories: [SnapCategoryEnum.games],
         ),
         SliverList.list(
           children: [

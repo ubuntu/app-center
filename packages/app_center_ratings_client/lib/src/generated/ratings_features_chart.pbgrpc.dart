@@ -12,49 +12,48 @@
 import 'dart:async' as $async;
 import 'dart:core' as $core;
 
-import 'package:app_center_ratings_client/src/generated/ratings_features_chart.pb.dart'
-    as $0;
 import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
+
+import 'ratings_features_chart.pb.dart' as $0;
 
 export 'ratings_features_chart.pb.dart';
 
 @$pb.GrpcServiceName('ratings.features.chart.Chart')
 class ChartClient extends $grpc.Client {
+  static final _$getChart = $grpc.ClientMethod<$0.GetChartRequest, $0.GetChartResponse>(
+      '/ratings.features.chart.Chart/GetChart',
+      ($0.GetChartRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.GetChartResponse.fromBuffer(value));
+
   ChartClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options, interceptors: interceptors);
-  static final _$getChart =
-      $grpc.ClientMethod<$0.GetChartRequest, $0.GetChartResponse>(
-          '/ratings.features.chart.Chart/GetChart',
-          (value) => value.writeToBuffer(),
-          (value) => $0.GetChartResponse.fromBuffer(value));
+      : super(channel, options: options,
+        interceptors: interceptors);
 
-  $grpc.ResponseFuture<$0.GetChartResponse> getChart($0.GetChartRequest request,
-      {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.GetChartResponse> getChart($0.GetChartRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getChart, request, options: options);
   }
 }
 
 @$pb.GrpcServiceName('ratings.features.chart.Chart')
 abstract class ChartServiceBase extends $grpc.Service {
+  $core.String get $name => 'ratings.features.chart.Chart';
+
   ChartServiceBase() {
     $addMethod($grpc.ServiceMethod<$0.GetChartRequest, $0.GetChartResponse>(
         'GetChart',
         getChart_Pre,
         false,
         false,
-        (value) => $0.GetChartRequest.fromBuffer(value),
-        (value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $0.GetChartRequest.fromBuffer(value),
+        ($0.GetChartResponse value) => value.writeToBuffer()));
   }
-  $core.String get $name => 'ratings.features.chart.Chart';
 
-  $async.Future<$0.GetChartResponse> getChart_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.GetChartRequest> request) async {
+  $async.Future<$0.GetChartResponse> getChart_Pre($grpc.ServiceCall call, $async.Future<$0.GetChartRequest> request) async {
     return getChart(call, await request);
   }
 
-  $async.Future<$0.GetChartResponse> getChart(
-      $grpc.ServiceCall call, $0.GetChartRequest request);
+  $async.Future<$0.GetChartResponse> getChart($grpc.ServiceCall call, $0.GetChartRequest request);
 }

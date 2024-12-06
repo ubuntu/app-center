@@ -1,10 +1,12 @@
 import 'package:app_center/explore/explore_page.dart';
+import 'package:app_center/ratings/rated_category_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yaru/yaru.dart';
 
 class CategorySnapList extends ConsumerWidget {
   const CategorySnapList({
@@ -60,5 +62,37 @@ class CategorySnapList extends ConsumerWidget {
             snaps: snaps,
             onTap: (snap) => StoreNavigator.pushSnap(context, name: snap.name),
           );
+  }
+}
+
+class RatedCategorySnapList extends ConsumerWidget {
+  const RatedCategorySnapList({
+    required this.categories,
+    this.numberOfSnaps = 10,
+    super.key,
+  });
+
+  final List<SnapCategoryEnum> categories;
+  final int numberOfSnaps;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ratedCategoryModel =
+        ref.watch(ratedCategoryModelProvider(categories, numberOfSnaps));
+
+    return ratedCategoryModel.when(
+      data: (snaps) => RankedAppCardGrid.fromRankedSnaps(
+        snaps: snaps,
+        onTap: (snap) => StoreNavigator.pushSnap(
+          context,
+          name: snap.name,
+        ),
+      ),
+      error: (error, stackTrace) =>
+          CategorySnapList(category: categories.first),
+      loading: () => const SliverToBoxAdapter(
+        child: Center(child: YaruCircularProgressIndicator()),
+      ),
+    );
   }
 }
