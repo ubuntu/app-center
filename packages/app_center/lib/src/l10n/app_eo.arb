@@ -474,5 +474,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "managePageDocumentationLinkLabel": "Lernu kiel administri Debian-pakojn per la dokumentaro.",
+  "@managePageDocumentationLinkLabel": {},
+  "debPageDocumentationLinkLabel": "Lernu pri administrado de Debian-pakoj",
+  "@debPageDocumentationLinkLabel": {}
 }
