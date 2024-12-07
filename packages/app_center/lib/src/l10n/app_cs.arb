@@ -474,5 +474,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "managePageDocumentationLinkLabel": "V dokumentaci se dozvíte, jak spravovat balíčky Debian.",
+  "@managePageDocumentationLinkLabel": {},
+  "debPageDocumentationLinkLabel": "Zjistěte, jak spravovat balíčky Debian",
+  "@debPageDocumentationLinkLabel": {}
 }

@@ -474,5 +474,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "debPageDocumentationLinkLabel": "Erfahren Sie mehr über die Verwaltung von Debian-Paketen",
+  "@debPageDocumentationLinkLabel": {},
+  "managePageDocumentationLinkLabel": "In der Dokumentation erfahren Sie, wie Sie Debian-Pakete verwalten können.",
+  "@managePageDocumentationLinkLabel": {}
 }

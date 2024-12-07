@@ -428,5 +428,19 @@
   "aboutPageCommunityTitle": "커뮤니티에 참여하세요:",
   "@aboutPageCommunityTitle": {},
   "aboutPageContributeLabel": "기여 또는 버그 제보",
-  "@aboutPageContributeLabel": {}
+  "@aboutPageContributeLabel": {},
+  "snapCategoryArtAndDesignButtonLabel": "창작 활동 시작하기",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapSortOrderInstalledDateAsc": "가장 최근에 업데이트된",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapConfinementClassic": "클래식",
+  "@snapConfinementClassic": {},
+  "gamesPageFeatured": "추천 타이틀",
+  "@gamesPageFeatured": {},
+  "snapSortOrderInstalledDateDesc": "가장 최근에 업데이트된",
+  "@snapSortOrderInstalledDateDesc": {},
+  "managePageDocumentationLinkLabel": "문서를 통하여 데비안 패키지를 관리하는 방법을 알아보세요.",
+  "@managePageDocumentationLinkLabel": {},
+  "debPageDocumentationLinkLabel": "데비안 패키지 관리 방법 알아보기",
+  "@debPageDocumentationLinkLabel": {}
 }

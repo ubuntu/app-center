@@ -474,5 +474,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "managePageDocumentationLinkLabel": "Aprenda a administrar paquetes Debian en la documentación.",
+  "@managePageDocumentationLinkLabel": {},
+  "debPageDocumentationLinkLabel": "Aprenda a administrar paquetes Debian",
+  "@debPageDocumentationLinkLabel": {}
 }
