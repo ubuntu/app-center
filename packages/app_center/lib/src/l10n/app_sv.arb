@@ -474,5 +474,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "managePageDocumentationLinkLabel": "Lär dig hur du hanterar Debianpaket i denna dokumentationen.",
+  "@managePageDocumentationLinkLabel": {},
+  "debPageDocumentationLinkLabel": "Lär dig hur du hanterar Debianpaket",
+  "@debPageDocumentationLinkLabel": {}
 }
