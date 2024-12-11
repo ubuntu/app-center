@@ -474,5 +474,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "managePageDocumentationLinkLabel": "W dokumentacji dowiesz się, jak zarządzać pakietami Debiana.",
+  "@managePageDocumentationLinkLabel": {},
+  "debPageDocumentationLinkLabel": "Dowiedz się więcej o zarządzaniu pakietami Debiana",
+  "@debPageDocumentationLinkLabel": {}
 }

@@ -403,7 +403,7 @@
   "@localDebWarningTitle": {},
   "localDebLearnMore": "Získajte viac informácií o balíkoch tretích strán",
   "@localDebLearnMore": {},
-  "managePageDebUpdatesMessage": "Aktualizácie balíkov debianu spravuje nástroj na aktualizáciu softvéru.",
+  "managePageDebUpdatesMessage": "Aktualizácie balíkov Debian sú spravované nástrojom na aktualizáciu softvéru.",
   "@managePageDebUpdatesMessage": {},
   "snapActionInstalledLabel": "Nainštalované",
   "@snapActionInstalledLabel": {},
@@ -474,5 +474,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "debPageDocumentationLinkLabel": "Naučte sa spravovať balíky Debian",
+  "@debPageDocumentationLinkLabel": {},
+  "managePageDocumentationLinkLabel": "Naučte sa, ako spravovať balíky Debian v dokumentácii.",
+  "@managePageDocumentationLinkLabel": {}
 }
