@@ -158,69 +158,6 @@ void main() {
     );
   });
 
-  test('list user votes', () async {
-    const snapIdFilter = 'foo';
-    const token = 'bar';
-    final time = DateTime.now().toUtc();
-    final mockVotes = <Vote>[
-      Vote(
-        snapId: 'foo1',
-        snapRevision: 1,
-        voteUp: true,
-        timestamp: Timestamp.fromDateTime(time),
-      ),
-      Vote(
-        snapId: 'foo2',
-        snapRevision: 2,
-        voteUp: false,
-        timestamp: Timestamp.fromDateTime(time),
-      ),
-    ];
-    final expectedResponse = <user.Vote>[
-      user.Vote(
-        snapId: 'foo1',
-        snapRevision: 1,
-        voteUp: true,
-        dateTime: time,
-      ),
-      user.Vote(
-        snapId: 'foo2',
-        snapRevision: 2,
-        voteUp: false,
-        dateTime: time,
-      ),
-    ];
-    final mockResponse = ListMyVotesResponse(votes: mockVotes);
-    final request = ListMyVotesRequest(snapIdFilter: snapIdFilter);
-
-    when(
-      mockUserClient.listMyVotes(
-        request,
-        options: anyNamed('options'),
-      ),
-    ).thenAnswer((_) => MockResponseFuture<ListMyVotesResponse>(mockResponse));
-    final response = await ratingsClient.listMyVotes(
-      snapIdFilter,
-      token,
-    );
-    expect(response, equals(expectedResponse));
-
-    final capturedArgs = verify(
-      mockUserClient.listMyVotes(
-        request,
-        options: captureAnyNamed('options'),
-      ),
-    ).captured;
-    final capturedOptions = capturedArgs.single as CallOptions;
-    expect(
-      capturedOptions.metadata,
-      containsPair(
-        'authorization',
-        'Bearer $token',
-      ),
-    );
-  });
-
   test('user votes', () async {
     const snapId = 'foo';
     const snapRevision = 1;

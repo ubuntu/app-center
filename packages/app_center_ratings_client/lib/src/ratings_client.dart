@@ -94,17 +94,6 @@ class RatingsClient {
     return grpcResponse.votes.map((vote) => vote.fromDTO()).toList();
   }
 
-  Future<List<Vote>> listMyVotes(String snapIdFilter, String token) async {
-    final request = user_pb.ListMyVotesRequest(snapIdFilter: snapIdFilter);
-    final callOptions =
-        CallOptions(metadata: {'authorization': 'Bearer $token'});
-    final grpcResponse = await _userClient.listMyVotes(
-      request,
-      options: callOptions,
-    );
-    return grpcResponse.votes.map((vote) => vote.fromDTO()).toList();
-  }
-
   Future<void> vote(
     String snapId,
     int snapRevision,
