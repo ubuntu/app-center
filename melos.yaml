@@ -72,3 +72,12 @@ scripts:
 
   # run pub upgrade in all packages
   upgrade: melos pub upgrade
+
+  # generate protobuf files in app_center_ratings_client
+  protoc:
+    run: |
+      rm -rf ./packages/app_center_ratings_client/lib/src/generated/* &&
+      protoc \
+          --dart_out=grpc:./packages/app_center_ratings_client/lib/src/generated \
+          -I./packages/app_center_ratings_client/protos ./packages/app_center_ratings_client/protos/*.proto \
+          google/protobuf/timestamp.proto google/protobuf/empty.proto
