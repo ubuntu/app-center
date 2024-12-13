@@ -14,7 +14,7 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'ratings_features_chart.pbenum.dart';
-import 'ratings_features_common.pb.dart' as $1;
+import 'ratings_features_common.pb.dart' as $4;
 
 export 'ratings_features_chart.pbenum.dart';
 
@@ -157,7 +157,7 @@ class GetChartResponse extends $pb.GeneratedMessage {
 class ChartData extends $pb.GeneratedMessage {
   factory ChartData({
     $core.double? rawRating,
-    $1.Rating? rating,
+    $4.Rating? rating,
   }) {
     final $result = create();
     if (rawRating != null) {
@@ -174,7 +174,7 @@ class ChartData extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ChartData', package: const $pb.PackageName(_omitMessageNames ? '' : 'ratings.features.chart'), createEmptyInstance: create)
     ..a<$core.double>(1, _omitFieldNames ? '' : 'rawRating', $pb.PbFieldType.OF)
-    ..aOM<$1.Rating>(2, _omitFieldNames ? '' : 'rating', subBuilder: $1.Rating.create)
+    ..aOM<$4.Rating>(2, _omitFieldNames ? '' : 'rating', subBuilder: $4.Rating.create)
     ..hasRequiredFields = false
   ;
 
@@ -209,15 +209,15 @@ class ChartData extends $pb.GeneratedMessage {
   void clearRawRating() => clearField(1);
 
   @$pb.TagNumber(2)
-  $1.Rating get rating => $_getN(1);
+  $4.Rating get rating => $_getN(1);
   @$pb.TagNumber(2)
-  set rating($1.Rating v) { setField(2, v); }
+  set rating($4.Rating v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasRating() => $_has(1);
   @$pb.TagNumber(2)
   void clearRating() => clearField(2);
   @$pb.TagNumber(2)
-  $1.Rating ensureRating() => $_ensure(1);
+  $4.Rating ensureRating() => $_ensure(1);
 }
 
 

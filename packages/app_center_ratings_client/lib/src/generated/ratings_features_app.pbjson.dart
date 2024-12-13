@@ -29,14 +29,7 @@ final $typed_data.Uint8List getRatingRequestDescriptor = $convert.base64Decode(
 const GetRatingResponse$json = {
   '1': 'GetRatingResponse',
   '2': [
-    {
-      '1': 'rating',
-      '3': 1,
-      '4': 1,
-      '5': 11,
-      '6': '.ratings.features.common.Rating',
-      '10': 'rating'
-    },
+    {'1': 'rating', '3': 1, '4': 1, '5': 11, '6': '.ratings.features.common.Rating', '10': 'rating'},
   ],
 };
 
@@ -44,3 +37,4 @@ const GetRatingResponse$json = {
 final $typed_data.Uint8List getRatingResponseDescriptor = $convert.base64Decode(
     'ChFHZXRSYXRpbmdSZXNwb25zZRI3CgZyYXRpbmcYASABKAsyHy5yYXRpbmdzLmZlYXR1cmVzLm'
     'NvbW1vbi5SYXRpbmdSBnJhdGluZw==');
+
