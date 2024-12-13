@@ -49,7 +49,7 @@ scripts:
 
   # run build_runner to generate code in all packages
   generate: >
-    melos exec -c 1 --fail-fast --depends-on=build_runner -- \
+    melos exec -c 1 --fail-fast --depends-on=build_runner --order-dependents -- \
       fvm dart run build_runner build --delete-conflicting-outputs
 
   # run gen-l10n to generate localizations in all packages
