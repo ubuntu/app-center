@@ -54,11 +54,6 @@ class RatingsService {
     await client.delete(_jwt!);
   }
 
-  Future<List<ratings.Vote>> listMyVotes(String snapFilter) async {
-    await _ensureValidToken();
-    return client.listMyVotes(snapFilter, _jwt!);
-  }
-
   Future<List<ratings.Vote>> getSnapVotes(String snapId) async {
     await _ensureValidToken();
     return client.getSnapVotes(snapId, _jwt!);
