@@ -316,7 +316,6 @@ MockRatingsService registerMockRatingsService({
 MockRatingsClient createMockRatingsClient({
   String? token,
   Rating? rating,
-  List<Vote>? myVotes,
   List<Vote>? snapVotes,
   List<ChartData>? chartData,
 }) {
@@ -331,7 +330,6 @@ MockRatingsClient createMockRatingsClient({
           ratingsBand: RatingsBand.insufficientVotes,
         ),
   );
-  when(client.listMyVotes(any, any)).thenAnswer((_) async => myVotes ?? []);
   when(client.getSnapVotes(any, any)).thenAnswer((_) async => snapVotes ?? []);
   when(client.getChart(any, any, any)).thenAnswer((_) async => chartData ?? []);
   return client;

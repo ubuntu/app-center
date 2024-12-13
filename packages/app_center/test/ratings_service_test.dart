@@ -106,37 +106,6 @@ void main() {
     verify(mockClient.delete('jwt')).called(1);
   });
 
-  test('list my votes', () async {
-    final mockClient = createMockRatingsClient(
-      token: 'jwt',
-      myVotes: [
-        Vote(
-          snapId: 'testsnap',
-          snapRevision: 1,
-          voteUp: false,
-          dateTime: DateTime(1984),
-        ),
-      ],
-    );
-    final service = RatingsService(mockClient, id: 'myId');
-
-    final votes = await service.listMyVotes('testsnap');
-    verify(mockClient.authenticate('myId')).called(1);
-    expect(
-      votes,
-      equals(
-        [
-          Vote(
-            snapId: 'testsnap',
-            snapRevision: 1,
-            voteUp: false,
-            dateTime: DateTime(1984),
-          ),
-        ],
-      ),
-    );
-  });
-
   test('snap votes', () async {
     final mockClient = createMockRatingsClient(
       token: 'jwt',
