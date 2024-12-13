@@ -304,6 +304,7 @@ MockRatingsService registerMockRatingsService({
           snapId: '',
           totalVotes: 0,
           ratingsBand: RatingsBand.insufficientVotes,
+          snapName: '',
         ),
   );
   when(service.getSnapVotes(any)).thenAnswer((_) async => snapVotes ?? []);
@@ -328,6 +329,7 @@ MockRatingsClient createMockRatingsClient({
           snapId: '',
           totalVotes: 0,
           ratingsBand: RatingsBand.insufficientVotes,
+          snapName: '',
         ),
   );
   when(client.getSnapVotes(any, any)).thenAnswer((_) async => snapVotes ?? []);
