@@ -10,7 +10,6 @@ service User {
 
   rpc Delete (google.protobuf.Empty) returns (google.protobuf.Empty) {}
   rpc Vote (VoteRequest) returns (google.protobuf.Empty) {}
-  rpc ListMyVotes (ListMyVotesRequest) returns (ListMyVotesResponse) {}
   rpc GetSnapVotes(GetSnapVotesRequest) returns (GetSnapVotesResponse) {}
 }
 
@@ -43,6 +42,7 @@ message Vote {
   int32 snap_revision = 2;
   bool vote_up = 3;
   google.protobuf.Timestamp timestamp = 4;
+  string snap_name = 5;
 }
 
 message VoteRequest {
