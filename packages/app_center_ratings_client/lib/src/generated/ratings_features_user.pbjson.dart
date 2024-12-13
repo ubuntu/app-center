@@ -22,8 +22,8 @@ const AuthenticateRequest$json = {
 };
 
 /// Descriptor for `AuthenticateRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List authenticateRequestDescriptor = $convert
-    .base64Decode('ChNBdXRoZW50aWNhdGVSZXF1ZXN0Eg4KAmlkGAEgASgJUgJpZA==');
+final $typed_data.Uint8List authenticateRequestDescriptor = $convert.base64Decode(
+    'ChNBdXRoZW50aWNhdGVSZXF1ZXN0Eg4KAmlkGAEgASgJUgJpZA==');
 
 @$core.Deprecated('Use authenticateResponseDescriptor instead')
 const AuthenticateResponse$json = {
@@ -34,9 +34,8 @@ const AuthenticateResponse$json = {
 };
 
 /// Descriptor for `AuthenticateResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List authenticateResponseDescriptor =
-    $convert.base64Decode(
-        'ChRBdXRoZW50aWNhdGVSZXNwb25zZRIUCgV0b2tlbhgBIAEoCVIFdG9rZW4=');
+final $typed_data.Uint8List authenticateResponseDescriptor = $convert.base64Decode(
+    'ChRBdXRoZW50aWNhdGVSZXNwb25zZRIUCgV0b2tlbhgBIAEoCVIFdG9rZW4=');
 
 @$core.Deprecated('Use listMyVotesRequestDescriptor instead')
 const ListMyVotesRequest$json = {
@@ -55,14 +54,7 @@ final $typed_data.Uint8List listMyVotesRequestDescriptor = $convert.base64Decode
 const ListMyVotesResponse$json = {
   '1': 'ListMyVotesResponse',
   '2': [
-    {
-      '1': 'votes',
-      '3': 1,
-      '4': 3,
-      '5': 11,
-      '6': '.ratings.features.user.Vote',
-      '10': 'votes'
-    },
+    {'1': 'votes', '3': 1, '4': 3, '5': 11, '6': '.ratings.features.user.Vote', '10': 'votes'},
   ],
 };
 
@@ -80,22 +72,14 @@ const GetSnapVotesRequest$json = {
 };
 
 /// Descriptor for `GetSnapVotesRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getSnapVotesRequestDescriptor =
-    $convert.base64Decode(
-        'ChNHZXRTbmFwVm90ZXNSZXF1ZXN0EhcKB3NuYXBfaWQYASABKAlSBnNuYXBJZA==');
+final $typed_data.Uint8List getSnapVotesRequestDescriptor = $convert.base64Decode(
+    'ChNHZXRTbmFwVm90ZXNSZXF1ZXN0EhcKB3NuYXBfaWQYASABKAlSBnNuYXBJZA==');
 
 @$core.Deprecated('Use getSnapVotesResponseDescriptor instead')
 const GetSnapVotesResponse$json = {
   '1': 'GetSnapVotesResponse',
   '2': [
-    {
-      '1': 'votes',
-      '3': 1,
-      '4': 3,
-      '5': 11,
-      '6': '.ratings.features.user.Vote',
-      '10': 'votes'
-    },
+    {'1': 'votes', '3': 1, '4': 3, '5': 11, '6': '.ratings.features.user.Vote', '10': 'votes'},
   ],
 };
 
@@ -111,14 +95,8 @@ const Vote$json = {
     {'1': 'snap_id', '3': 1, '4': 1, '5': 9, '10': 'snapId'},
     {'1': 'snap_revision', '3': 2, '4': 1, '5': 5, '10': 'snapRevision'},
     {'1': 'vote_up', '3': 3, '4': 1, '5': 8, '10': 'voteUp'},
-    {
-      '1': 'timestamp',
-      '3': 4,
-      '4': 1,
-      '5': 11,
-      '6': '.google.protobuf.Timestamp',
-      '10': 'timestamp'
-    },
+    {'1': 'timestamp', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
+    {'1': 'snap_name', '3': 5, '4': 1, '5': 9, '10': 'snapName'},
   ],
 };
 
@@ -126,7 +104,8 @@ const Vote$json = {
 final $typed_data.Uint8List voteDescriptor = $convert.base64Decode(
     'CgRWb3RlEhcKB3NuYXBfaWQYASABKAlSBnNuYXBJZBIjCg1zbmFwX3JldmlzaW9uGAIgASgFUg'
     'xzbmFwUmV2aXNpb24SFwoHdm90ZV91cBgDIAEoCFIGdm90ZVVwEjgKCXRpbWVzdGFtcBgEIAEo'
-    'CzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSCXRpbWVzdGFtcA==');
+    'CzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSCXRpbWVzdGFtcBIbCglzbmFwX25hbWUYBS'
+    'ABKAlSCHNuYXBOYW1l');
 
 @$core.Deprecated('Use voteRequestDescriptor instead')
 const VoteRequest$json = {
@@ -142,3 +121,4 @@ const VoteRequest$json = {
 final $typed_data.Uint8List voteRequestDescriptor = $convert.base64Decode(
     'CgtWb3RlUmVxdWVzdBIXCgdzbmFwX2lkGAEgASgJUgZzbmFwSWQSIwoNc25hcF9yZXZpc2lvbh'
     'gCIAEoBVIMc25hcFJldmlzaW9uEhcKB3ZvdGVfdXAYAyABKAhSBnZvdGVVcA==');
+
