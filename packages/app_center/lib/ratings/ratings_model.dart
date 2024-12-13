@@ -43,6 +43,7 @@ class RatingsModel extends _$RatingsModel {
       snapRevision: snap.revision,
       rating: rating,
       voteStatus: _getUserVote(snap.revision, votes),
+      snapName: snapName,
     );
 
     cacheFile.writeRatingsDataSync(ratingsData);
@@ -60,6 +61,7 @@ class RatingsModel extends _$RatingsModel {
         snapRevision: ratingsData.snapRevision,
         voteUp: voteUp,
         dateTime: clock.now(),
+        snapName: ratingsData.snapName,
       );
       await _ratings.vote(vote);
       state = AsyncData(ratingsData.copyWith(voteStatus: voteStatus));

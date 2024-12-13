@@ -13,6 +13,7 @@ class Rating with _$Rating {
     required String snapId,
     required int totalVotes,
     required RatingsBand ratingsBand,
+    required String snapName,
   }) = _Rating;
 
   factory Rating.fromJson(Map<String, dynamic> json) => _$RatingFromJson(json);
@@ -33,6 +34,7 @@ extension RatingFromDTO on pb.Rating {
       snapId: snapId,
       totalVotes: totalVotes.toInt(),
       ratingsBand: ratingsBand.fromDTO(),
+      snapName: snapName,
     );
   }
 }

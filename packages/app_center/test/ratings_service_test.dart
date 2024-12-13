@@ -11,9 +11,10 @@ void main() {
     final mockClient = createMockRatingsClient(
       token: 'jwt',
       rating: const Rating(
-        snapId: 'firefox',
+        snapId: '1234',
         totalVotes: 1337,
         ratingsBand: RatingsBand.veryGood,
+        snapName: 'firefox',
       ),
     );
     final service = RatingsService(mockClient, id: 'myId');
@@ -24,9 +25,10 @@ void main() {
       rating,
       equals(
         const Rating(
-          snapId: 'firefox',
+          snapId: '1234',
           totalVotes: 1337,
           ratingsBand: RatingsBand.veryGood,
+          snapName: 'firefox',
         ),
       ),
     );
@@ -39,17 +41,19 @@ void main() {
         ChartData(
           rawRating: 117,
           rating: Rating(
-            snapId: 'john',
+            snapId: '4321',
             totalVotes: 117,
             ratingsBand: RatingsBand.veryGood,
+            snapName: 'john',
           ),
         ),
         ChartData(
           rawRating: 104,
           rating: Rating(
-            snapId: 'fred',
+            snapId: '5678',
             totalVotes: 104,
             ratingsBand: RatingsBand.veryGood,
+            snapName: 'fred',
           ),
         ),
       ],
@@ -64,17 +68,19 @@ void main() {
         const ChartData(
           rawRating: 117,
           rating: Rating(
-            snapId: 'john',
+            snapId: '4321',
             totalVotes: 117,
             ratingsBand: RatingsBand.veryGood,
+            snapName: 'john',
           ),
         ),
         const ChartData(
           rawRating: 104,
           rating: Rating(
-            snapId: 'fred',
+            snapId: '5678',
             totalVotes: 104,
             ratingsBand: RatingsBand.veryGood,
+            snapName: 'fred',
           ),
         ),
       ]),
@@ -87,14 +93,15 @@ void main() {
 
     await service.vote(
       Vote(
-        snapId: 'thunderbird',
+        snapId: '7890',
         snapRevision: 42,
         voteUp: true,
         dateTime: DateTime(1970),
+        snapName: 'thunderbird',
       ),
     );
     verify(mockClient.authenticate('myId')).called(1);
-    verify(mockClient.vote('thunderbird', 42, true, 'jwt')).called(1);
+    verify(mockClient.vote('7890', 42, true, 'jwt')).called(1);
   });
 
   test('delete', () async {
@@ -111,26 +118,28 @@ void main() {
       token: 'jwt',
       snapVotes: [
         Vote(
-          snapId: 'testsnap2',
+          snapId: '1111',
           snapRevision: 2,
           voteUp: true,
           dateTime: DateTime(1999),
+          snapName: 'testSnap2',
         ),
       ],
     );
     final service = RatingsService(mockClient, id: 'myId');
 
-    final votes = await service.getSnapVotes('testsnap2');
+    final votes = await service.getSnapVotes('testSnap2');
     verify(mockClient.authenticate('myId')).called(1);
     expect(
       votes,
       equals(
         [
           Vote(
-            snapId: 'testsnap2',
+            snapId: '1111',
             snapRevision: 2,
             voteUp: true,
             dateTime: DateTime(1999),
+            snapName: 'testSnap2',
           ),
         ],
       ),

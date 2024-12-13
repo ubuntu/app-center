@@ -33,6 +33,7 @@ void main() {
     const snapId = 'foobar';
     const token = 'bar';
     const timeframe = chart.Timeframe.month;
+    const snapName = 'foobarName';
     final pbChartList = [
       pb_chart.ChartData(
         rawRating: 3,
@@ -40,6 +41,7 @@ void main() {
           snapId: snapId,
           totalVotes: Int64(105),
           ratingsBand: RatingsBand.NEUTRAL,
+          snapName: snapName,
         ),
       ),
     ];
@@ -51,6 +53,7 @@ void main() {
           snapId: snapId,
           totalVotes: 105,
           ratingsBand: ratings.RatingsBand.neutral,
+          snapName: snapName,
         ),
       ),
     ];
@@ -98,15 +101,18 @@ void main() {
   test('get rating', () async {
     const snapId = 'foo';
     const token = 'bar';
+    const snapName = 'fooName';
     final pbRating = Rating(
       snapId: snapId,
       totalVotes: Int64(105),
       ratingsBand: RatingsBand.NEUTRAL,
+      snapName: snapName,
     );
     const expectedResponse = ratings.Rating(
       snapId: snapId,
       totalVotes: 105,
       ratingsBand: ratings.RatingsBand.neutral,
+      snapName: snapName,
     );
     final mockResponse = pb.GetRatingResponse(rating: pbRating);
     final request = pb.GetRatingRequest(snapId: snapId);
@@ -198,8 +204,9 @@ void main() {
   });
 
   test('user votes by snap id', () async {
-    const snapId = 'foo';
+    const snapId = '123';
     const token = 'bar';
+    const snapName = 'foo';
     final time = DateTime.now().toUtc();
     final mockVotes = <Vote>[
       Vote(
@@ -207,12 +214,14 @@ void main() {
         snapRevision: 1,
         voteUp: true,
         timestamp: Timestamp.fromDateTime(time),
+        snapName: snapName,
       ),
       Vote(
         snapId: snapId,
         snapRevision: 2,
         voteUp: false,
         timestamp: Timestamp.fromDateTime(time),
+        snapName: snapName,
       ),
     ];
     final expectedResponse = <user.Vote>[
@@ -221,12 +230,14 @@ void main() {
         snapRevision: 1,
         voteUp: true,
         dateTime: time,
+        snapName: snapName,
       ),
       user.Vote(
         snapId: snapId,
         snapRevision: 2,
         voteUp: false,
         dateTime: time,
+        snapName: snapName,
       ),
     ];
     final mockResponse = GetSnapVotesResponse(votes: mockVotes);
