@@ -297,7 +297,7 @@ MockRatingsService registerMockRatingsService({
   List<Vote>? snapVotes,
 }) {
   final service = MockRatingsService();
-  when(service.getRating(any)).thenAnswer(
+  when(service.getRating(any, any)).thenAnswer(
     (_) async =>
         rating ??
         const Rating(
@@ -322,7 +322,7 @@ MockRatingsClient createMockRatingsClient({
 }) {
   final client = MockRatingsClient();
   when(client.authenticate(any)).thenAnswer((_) async => token ?? '');
-  when(client.getRating(any, any)).thenAnswer(
+  when(client.getRating(any, any, any)).thenAnswer(
     (_) async =>
         rating ??
         const Rating(

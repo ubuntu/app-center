@@ -19,7 +19,7 @@ void main() {
     );
     final service = RatingsService(mockClient, id: 'myId');
 
-    final rating = await service.getRating('firefox');
+    final rating = await service.getRating('firefox', '1234');
     verify(mockClient.authenticate('myId')).called(1);
     expect(
       rating,
@@ -101,7 +101,7 @@ void main() {
       ),
     );
     verify(mockClient.authenticate('myId')).called(1);
-    verify(mockClient.vote('7890', 42, true, 'jwt')).called(1);
+    verify(mockClient.vote('thunderbird', '7890', 42, true, 'jwt')).called(1);
   });
 
   test('delete', () async {
