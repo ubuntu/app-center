@@ -21,10 +21,6 @@ message AuthenticateResponse {
   string token = 1;
 }
 
-message ListMyVotesRequest {
-  string snap_id_filter = 1;
-}
-
 message ListMyVotesResponse {
   repeated Vote votes = 1;
 }
