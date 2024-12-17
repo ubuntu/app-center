@@ -37,19 +37,6 @@ const AuthenticateResponse$json = {
 final $typed_data.Uint8List authenticateResponseDescriptor = $convert.base64Decode(
     'ChRBdXRoZW50aWNhdGVSZXNwb25zZRIUCgV0b2tlbhgBIAEoCVIFdG9rZW4=');
 
-@$core.Deprecated('Use listMyVotesRequestDescriptor instead')
-const ListMyVotesRequest$json = {
-  '1': 'ListMyVotesRequest',
-  '2': [
-    {'1': 'snap_id_filter', '3': 1, '4': 1, '5': 9, '10': 'snapIdFilter'},
-  ],
-};
-
-/// Descriptor for `ListMyVotesRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List listMyVotesRequestDescriptor = $convert.base64Decode(
-    'ChJMaXN0TXlWb3Rlc1JlcXVlc3QSJAoOc25hcF9pZF9maWx0ZXIYASABKAlSDHNuYXBJZEZpbH'
-    'Rlcg==');
-
 @$core.Deprecated('Use listMyVotesResponseDescriptor instead')
 const ListMyVotesResponse$json = {
   '1': 'ListMyVotesResponse',
@@ -68,12 +55,14 @@ const GetSnapVotesRequest$json = {
   '1': 'GetSnapVotesRequest',
   '2': [
     {'1': 'snap_id', '3': 1, '4': 1, '5': 9, '10': 'snapId'},
+    {'1': 'snap_name', '3': 2, '4': 1, '5': 9, '10': 'snapName'},
   ],
 };
 
 /// Descriptor for `GetSnapVotesRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getSnapVotesRequestDescriptor = $convert.base64Decode(
-    'ChNHZXRTbmFwVm90ZXNSZXF1ZXN0EhcKB3NuYXBfaWQYASABKAlSBnNuYXBJZA==');
+    'ChNHZXRTbmFwVm90ZXNSZXF1ZXN0EhcKB3NuYXBfaWQYASABKAlSBnNuYXBJZBIbCglzbmFwX2'
+    '5hbWUYAiABKAlSCHNuYXBOYW1l');
 
 @$core.Deprecated('Use getSnapVotesResponseDescriptor instead')
 const GetSnapVotesResponse$json = {
@@ -114,11 +103,13 @@ const VoteRequest$json = {
     {'1': 'snap_id', '3': 1, '4': 1, '5': 9, '10': 'snapId'},
     {'1': 'snap_revision', '3': 2, '4': 1, '5': 5, '10': 'snapRevision'},
     {'1': 'vote_up', '3': 3, '4': 1, '5': 8, '10': 'voteUp'},
+    {'1': 'snap_name', '3': 4, '4': 1, '5': 9, '10': 'snapName'},
   ],
 };
 
 /// Descriptor for `VoteRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List voteRequestDescriptor = $convert.base64Decode(
     'CgtWb3RlUmVxdWVzdBIXCgdzbmFwX2lkGAEgASgJUgZzbmFwSWQSIwoNc25hcF9yZXZpc2lvbh'
-    'gCIAEoBVIMc25hcFJldmlzaW9uEhcKB3ZvdGVfdXAYAyABKAhSBnZvdGVVcA==');
+    'gCIAEoBVIMc25hcFJldmlzaW9uEhcKB3ZvdGVfdXAYAyABKAhSBnZvdGVVcBIbCglzbmFwX25h'
+    'bWUYBCABKAlSCHNuYXBOYW1l');
 
