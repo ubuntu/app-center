@@ -27,6 +27,7 @@ message ListMyVotesResponse {
 
 message GetSnapVotesRequest {
   string snap_id = 1;
+  string snap_name = 2;
 }
 
 message GetSnapVotesResponse {
@@ -45,4 +46,5 @@ message VoteRequest {
   string snap_id = 1;
   int32 snap_revision = 2;
   bool vote_up = 3;
+  string snap_name = 4;
 }
