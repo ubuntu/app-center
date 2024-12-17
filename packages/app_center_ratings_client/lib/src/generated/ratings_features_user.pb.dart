@@ -115,56 +115,6 @@ class AuthenticateResponse extends $pb.GeneratedMessage {
   void clearToken() => clearField(1);
 }
 
-class ListMyVotesRequest extends $pb.GeneratedMessage {
-  factory ListMyVotesRequest({
-    $core.String? snapIdFilter,
-  }) {
-    final $result = create();
-    if (snapIdFilter != null) {
-      $result.snapIdFilter = snapIdFilter;
-    }
-    return $result;
-  }
-  ListMyVotesRequest._() : super();
-  factory ListMyVotesRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ListMyVotesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ListMyVotesRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'ratings.features.user'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'snapIdFilter')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  ListMyVotesRequest clone() => ListMyVotesRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  ListMyVotesRequest copyWith(void Function(ListMyVotesRequest) updates) => super.copyWith((message) => updates(message as ListMyVotesRequest)) as ListMyVotesRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static ListMyVotesRequest create() => ListMyVotesRequest._();
-  ListMyVotesRequest createEmptyInstance() => create();
-  static $pb.PbList<ListMyVotesRequest> createRepeated() => $pb.PbList<ListMyVotesRequest>();
-  @$core.pragma('dart2js:noInline')
-  static ListMyVotesRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListMyVotesRequest>(create);
-  static ListMyVotesRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get snapIdFilter => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set snapIdFilter($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasSnapIdFilter() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearSnapIdFilter() => clearField(1);
-}
-
 class ListMyVotesResponse extends $pb.GeneratedMessage {
   factory ListMyVotesResponse({
     $core.Iterable<Vote>? votes,
@@ -212,10 +162,14 @@ class ListMyVotesResponse extends $pb.GeneratedMessage {
 class GetSnapVotesRequest extends $pb.GeneratedMessage {
   factory GetSnapVotesRequest({
     $core.String? snapId,
+    $core.String? snapName,
   }) {
     final $result = create();
     if (snapId != null) {
       $result.snapId = snapId;
+    }
+    if (snapName != null) {
+      $result.snapName = snapName;
     }
     return $result;
   }
@@ -225,6 +179,7 @@ class GetSnapVotesRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetSnapVotesRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'ratings.features.user'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'snapId')
+    ..aOS(2, _omitFieldNames ? '' : 'snapName')
     ..hasRequiredFields = false
   ;
 
@@ -257,6 +212,15 @@ class GetSnapVotesRequest extends $pb.GeneratedMessage {
   $core.bool hasSnapId() => $_has(0);
   @$pb.TagNumber(1)
   void clearSnapId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get snapName => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set snapName($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasSnapName() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearSnapName() => clearField(2);
 }
 
 class GetSnapVotesResponse extends $pb.GeneratedMessage {
@@ -416,6 +380,7 @@ class VoteRequest extends $pb.GeneratedMessage {
     $core.String? snapId,
     $core.int? snapRevision,
     $core.bool? voteUp,
+    $core.String? snapName,
   }) {
     final $result = create();
     if (snapId != null) {
@@ -427,6 +392,9 @@ class VoteRequest extends $pb.GeneratedMessage {
     if (voteUp != null) {
       $result.voteUp = voteUp;
     }
+    if (snapName != null) {
+      $result.snapName = snapName;
+    }
     return $result;
   }
   VoteRequest._() : super();
@@ -437,6 +405,7 @@ class VoteRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'snapId')
     ..a<$core.int>(2, _omitFieldNames ? '' : 'snapRevision', $pb.PbFieldType.O3)
     ..aOB(3, _omitFieldNames ? '' : 'voteUp')
+    ..aOS(4, _omitFieldNames ? '' : 'snapName')
     ..hasRequiredFields = false
   ;
 
@@ -487,6 +456,15 @@ class VoteRequest extends $pb.GeneratedMessage {
   $core.bool hasVoteUp() => $_has(2);
   @$pb.TagNumber(3)
   void clearVoteUp() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get snapName => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set snapName($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasSnapName() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearSnapName() => clearField(4);
 }
 
 

@@ -18,12 +18,14 @@ const GetRatingRequest$json = {
   '1': 'GetRatingRequest',
   '2': [
     {'1': 'snap_id', '3': 1, '4': 1, '5': 9, '10': 'snapId'},
+    {'1': 'snap_name', '3': 2, '4': 1, '5': 9, '10': 'snapName'},
   ],
 };
 
 /// Descriptor for `GetRatingRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getRatingRequestDescriptor = $convert.base64Decode(
-    'ChBHZXRSYXRpbmdSZXF1ZXN0EhcKB3NuYXBfaWQYASABKAlSBnNuYXBJZA==');
+    'ChBHZXRSYXRpbmdSZXF1ZXN0EhcKB3NuYXBfaWQYASABKAlSBnNuYXBJZBIbCglzbmFwX25hbW'
+    'UYAiABKAlSCHNuYXBOYW1l');
 
 @$core.Deprecated('Use getRatingResponseDescriptor instead')
 const GetRatingResponse$json = {
