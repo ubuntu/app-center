@@ -10,7 +10,7 @@ import 'test_utils.dart';
 void main() {
   final snap = createSnap(
     name: 'firefox',
-    id: 'firefox',
+    id: '1234',
     revision: 42,
   );
 
@@ -18,16 +18,18 @@ void main() {
     registerMockSnapdService(storeSnap: snap);
     registerMockRatingsService(
       rating: const Rating(
-        snapId: 'firefox',
+        snapId: '1234',
         totalVotes: 1337,
         ratingsBand: RatingsBand.veryGood,
+        snapName: 'firefox',
       ),
       snapVotes: [
         Vote(
-          snapId: 'firefox',
+          snapId: '1234',
           snapRevision: 42,
           voteUp: true,
           dateTime: DateTime(1970),
+          snapName: 'firefox',
         ),
       ],
     );
@@ -43,9 +45,10 @@ void main() {
       ratingsData.rating,
       equals(
         const Rating(
-          snapId: 'firefox',
+          snapId: '1234',
           totalVotes: 1337,
           ratingsBand: RatingsBand.veryGood,
+          snapName: 'firefox',
         ),
       ),
     );
@@ -66,9 +69,10 @@ void main() {
       mockService.vote(
         Vote(
           dateTime: DateTime(1984),
-          snapId: 'firefox',
+          snapId: '1234',
           snapRevision: 42,
           voteUp: false,
+          snapName: 'firefox',
         ),
       ),
     ).called(1);
