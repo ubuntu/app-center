@@ -115,7 +115,7 @@ void main() {
       snapName: snapName,
     );
     final mockResponse = pb.GetRatingResponse(rating: pbRating);
-    final request = pb.GetRatingRequest(snapId: snapId);
+    final request = pb.GetRatingRequest(snapName: snapName, snapId: snapId);
     when(
       mockAppClient.getRating(
         request,
@@ -125,6 +125,7 @@ void main() {
       (_) => MockResponseFuture<pb.GetRatingResponse>(mockResponse),
     );
     final response = await ratingsClient.getRating(
+      snapName,
       snapId,
       token,
     );
@@ -166,10 +167,12 @@ void main() {
 
   test('user votes', () async {
     const snapId = 'foo';
+    const snapName = 'fooName';
     const snapRevision = 1;
     const voteUp = true;
     const token = 'bar';
     final request = VoteRequest(
+      snapName: snapName,
       snapId: snapId,
       snapRevision: snapRevision,
       voteUp: voteUp,
@@ -182,6 +185,7 @@ void main() {
       ),
     ).thenAnswer((_) => MockResponseFuture<Empty>(Empty()));
     await ratingsClient.vote(
+      snapName,
       snapId,
       snapRevision,
       voteUp,

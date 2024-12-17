@@ -70,10 +70,15 @@ class RatingsClient {
   }
 
   Future<Rating> getRating(
+    String snapName,
+    // TODO: remove snapId once the server doesn't require it anymore
     String snapId,
     String token,
   ) async {
-    final request = app_pb.GetRatingRequest(snapId: snapId);
+    final request = app_pb.GetRatingRequest(
+      snapName: snapName,
+      snapId: snapId,
+    );
     final callOptions =
         CallOptions(metadata: {'authorization': 'Bearer $token'});
     final grpcResponse = await _appClient.getRating(
@@ -95,12 +100,15 @@ class RatingsClient {
   }
 
   Future<void> vote(
+    String snapName,
+    // TODO: remove snapId once the server doesn't require it anymore
     String snapId,
     int snapRevision,
     bool voteUp,
     String token,
   ) async {
     final request = user_pb.VoteRequest(
+      snapName: snapName,
       snapId: snapId,
       snapRevision: snapRevision,
       voteUp: voteUp,

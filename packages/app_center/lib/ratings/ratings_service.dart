@@ -30,9 +30,13 @@ class RatingsService {
     }
   }
 
-  Future<ratings.Rating?> getRating(String snapId) async {
+  Future<ratings.Rating?> getRating(
+    String snapName,
+    // TODO: remove snapId once the server doesn't require it anymore
+    String snapId,
+  ) async {
     await _ensureValidToken();
-    return client.getRating(snapId, _jwt!);
+    return client.getRating(snapName, snapId, _jwt!);
   }
 
   Future<List<ratings.ChartData>> getChart(SnapCategoryEnum category) async {
@@ -46,7 +50,13 @@ class RatingsService {
 
   Future<void> vote(ratings.Vote vote) async {
     await _ensureValidToken();
-    await client.vote(vote.snapId, vote.snapRevision, vote.voteUp, _jwt!);
+    await client.vote(
+      vote.snapName,
+      vote.snapId,
+      vote.snapRevision,
+      vote.voteUp,
+      _jwt!,
+    );
   }
 
   Future<void> delete() async {

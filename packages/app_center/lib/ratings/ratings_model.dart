@@ -31,7 +31,7 @@ class RatingsModel extends _$RatingsModel {
     }
 
     final results = await Future.wait([
-      _ratings.getRating(snapId),
+      _ratings.getRating(snapName, snapId),
       _ratings.getSnapVotes(snapId),
     ]);
 
