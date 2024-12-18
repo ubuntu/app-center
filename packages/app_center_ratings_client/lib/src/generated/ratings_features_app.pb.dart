@@ -18,10 +18,14 @@ import 'ratings_features_common.pb.dart' as $4;
 class GetRatingRequest extends $pb.GeneratedMessage {
   factory GetRatingRequest({
     $core.String? snapId,
+    $core.String? snapName,
   }) {
     final $result = create();
     if (snapId != null) {
       $result.snapId = snapId;
+    }
+    if (snapName != null) {
+      $result.snapName = snapName;
     }
     return $result;
   }
@@ -31,6 +35,7 @@ class GetRatingRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRatingRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'ratings.features.app'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'snapId')
+    ..aOS(2, _omitFieldNames ? '' : 'snapName')
     ..hasRequiredFields = false
   ;
 
@@ -63,6 +68,15 @@ class GetRatingRequest extends $pb.GeneratedMessage {
   $core.bool hasSnapId() => $_has(0);
   @$pb.TagNumber(1)
   void clearSnapId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get snapName => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set snapName($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasSnapName() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearSnapName() => clearField(2);
 }
 
 class GetRatingResponse extends $pb.GeneratedMessage {

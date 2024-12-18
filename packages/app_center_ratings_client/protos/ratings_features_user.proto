@@ -21,16 +21,13 @@ message AuthenticateResponse {
   string token = 1;
 }
 
-message ListMyVotesRequest {
-  string snap_id_filter = 1;
-}
-
 message ListMyVotesResponse {
   repeated Vote votes = 1;
 }
 
 message GetSnapVotesRequest {
   string snap_id = 1;
+  string snap_name = 2;
 }
 
 message GetSnapVotesResponse {
@@ -49,4 +46,5 @@ message VoteRequest {
   string snap_id = 1;
   int32 snap_revision = 2;
   bool vote_up = 3;
+  string snap_name = 4;
 }
