@@ -162,5 +162,169 @@
   "managePageUpdateAllLabel": "به‌روز رسانی همه",
   "@managePageUpdateAllLabel": {},
   "managePageCheckingForUpdates": "بررسی کردن برای به‌روز رسانی",
-  "@managePageCheckingForUpdates": {}
+  "@managePageCheckingForUpdates": {},
+  "appstreamUrlTypeContribute": "مشارکت",
+  "@appstreamUrlTypeContribute": {},
+  "snapCategoryAll": "همه دسته‌ها",
+  "@snapCategoryAll": {},
+  "gamesPageTop": "بازی‌های برتر",
+  "@gamesPageTop": {},
+  "searchPageNoResults": "هیچ نتیجه ای برای \"{query}\" یافت نشد",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryKdeGamesSlogan": "مجموعه بازی‌های KDE",
+  "@snapCategoryKdeGamesSlogan": {},
+  "managePageInstallingLabel": "در حال نصب ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageSizeLabel": "اندازه",
+  "@snapPageSizeLabel": {},
+  "snapCategoryGameLaunchers": "راه‌انداز بازی",
+  "@snapCategoryGameLaunchers": {},
+  "managePageDocumentationLinkLabel": "نحوه مدیریت بسته‌های دبیان در مستندات را بیاموزید.",
+  "@managePageDocumentationLinkLabel": {},
+  "searchPageNoResultsHint": "سعی کنید از کلمات کلیدی متفاوت یا کلی‌تر استفاده کنید",
+  "@searchPageNoResultsHint": {},
+  "searchPageNoResultsCategoryHint": "دسته‌بندی دیگری را امتحان کنید یا از کلمات کلیدی عمومی تری استفاده کنید",
+  "@searchPageNoResultsCategoryHint": {},
+  "snapActionInstalledLabel": "نصب‌شده",
+  "@snapActionInstalledLabel": {},
+  "snapCategoryGameDev": "توسعه بازی",
+  "@snapCategoryGameDev": {},
+  "snapCategoryGameDevSlogan": "توسعه بازی",
+  "@snapCategoryGameDevSlogan": {},
+  "snapCategoryKdeGames": "بازی‌های KDE",
+  "@snapCategoryKdeGames": {},
+  "snapCategoryGameLaunchersSlogan": "راه‌اندازهای بازی",
+  "@snapCategoryGameLaunchersSlogan": {},
+  "snapCategoryGameContentCreation": "تولید محتوا",
+  "@snapCategoryGameContentCreation": {},
+  "snapCategoryGameContentCreationSlogan": "تولید محتوا",
+  "@snapCategoryGameContentCreationSlogan": {},
+  "managePageInstalledAndUpdatedLabel": "نصب و آپدیت شده",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "managePageDescription": "به‌روزرسانی‌های موجود را بررسی کنید، برنامه‌های خود را آپدیت کنید و وصعیت تمام برنامه‌های خود را مدیریت کنید.",
+  "@managePageDescription": {},
+  "gamesPageFeatured": "عناوین ویژه",
+  "@gamesPageFeatured": {},
+  "searchPageFilterByLabel": "پالایش براساس",
+  "@searchPageFilterByLabel": {},
+  "searchFieldSearchForLabel": "مشاهده همه نتایج برای \"{query}\"",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageTitle": "نتایج برای \"{query}\"",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageGitHubLabel": "ما را در گیت‌هاب پیدا کنید",
+  "@aboutPageGitHubLabel": {},
+  "aboutPagePublishLabel": "در فروشگاه اسنپ منتشر کنید",
+  "@aboutPagePublishLabel": {},
+  "aboutPageContributeLabel": "مشارکت یا گزارش اشکال",
+  "@aboutPageContributeLabel": {},
+  "snapCategoryDevicesAndIot": "دستگاه‌ها و اینترنت اشیا",
+  "@snapCategoryDevicesAndIot": {},
+  "snapCategoryGnomeGames": "بازی‌های گنوم",
+  "@snapCategoryGnomeGames": {},
+  "snapCategoryProductivityButtonLabel": "مجموعه بهره‌وری را کشف کنید",
+  "@snapCategoryProductivityButtonLabel": {},
+  "managePageOwnUpdateAvailable": "به‌روزرسانی مرکز برنامه در دسترس است",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageDebUpdatesMessage": "به‌روزرسانی پکیج‌های دبیان توسط نرم‌افزار به‌روزرسان انجام می‌شود.",
+  "@managePageDebUpdatesMessage": {},
+  "managePageOwnUpdateDescription": "هنگامی که شما از برنامه خارج می‌شوند، به صورت خودکار آپدیت می‌شود.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateQuitButton": "خروج برای به‌روز‌‌رسانی",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageNoInternet": "امکان دسترسی به سرور نیست، ارتباط اینترنتی خود را بررسی کنید یا بعدا تلاش مجدد کنید.",
+  "@managePageNoInternet": {},
+  "managePageShowSystemSnapsLabel": "نمایش اسنپ‌های سیستم",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageOwnUpdateDescriptionSoon": "مرکز برنامه به‌طور خودکار در {time} به‌روزرسانی می‌شود.",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "unknownPublisher": "ناشر ناشناس",
+  "@unknownPublisher": {},
+  "searchFieldSearchHint": "جستجو برای برنامه‌ها",
+  "@searchFieldSearchHint": {},
+  "aboutPageVersionLabel": "نسخه {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageNoResultsCategory": "متأسفیم، ما نتوانستیم هیچ بسته‌ای در این دسته پیدا کنیم",
+  "@searchPageNoResultsCategory": {},
+  "aboutPageContributorTitle": "طراحی و توسعه توسط:",
+  "@aboutPageContributorTitle": {},
+  "snapCategoryDefaultButtonLabel": "بیش‌تر کشف کنید",
+  "@snapCategoryDefaultButtonLabel": {},
+  "aboutPageCommunityTitle": "بخشی از جامعه باشید:",
+  "@aboutPageCommunityTitle": {},
+  "snapCategoryFeaturedSlogan": "اسنپ‌های ویژه",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapCategoryGamesSlogan": "همه چیز برای شب بازی شما",
+  "@snapCategoryGamesSlogan": {},
+  "snapCategoryGnomeGamesSlogan": "مجموعه بازی‌های گنوم",
+  "@snapCategoryGnomeGamesSlogan": {},
+  "snapCategoryProductivitySlogan": "یک چیز را از لیست کارهای خود حذف کنید",
+  "@snapCategoryProductivitySlogan": {},
+  "snapCategoryUbuntuDesktop": "رومیزی اوبونتو",
+  "@snapCategoryUbuntuDesktop": {},
+  "managePageTitle": "اسنپ های نصب شده را مدیریت کنید",
+  "@managePageTitle": {},
+  "managePageSearchFieldSearchHint": "جستجو برنامه‌های نصب‌شده شما",
+  "@managePageSearchFieldSearchHint": {},
+  "managePageUpdatesAvailable": "به‌روزرسانی‌های موجود ({n})",
+  "@managePageUpdatesAvailable": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageNoUpdatesAvailableDescription": "به‌روزرسانی در دسترس نیست. برنامه‌های شما همه به‌روز هستند.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "aboutPageLearnMoreLabel": "بیش‌تر بدانید",
+  "@aboutPageLearnMoreLabel": {},
+  "appstreamUrlTypeVcsBrowser": "منبع",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "gamesPageBundles": "بسته‌های برنامه",
+  "@gamesPageBundles": {},
+  "snapCategoryDevelopmentSlogan": "اسنپ‌های ضروری برای توسعه‌دهندگان",
+  "@snapCategoryDevelopmentSlogan": {},
+  "snapActionSwitchChannelLabel": "تعویض کانال",
+  "@snapActionSwitchChannelLabel": {},
+  "snapCategoryArtAndDesignButtonLabel": "شروع به ساختن کنید",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "از اولین طرح خود تا آخرین تغییر، برنامه‌های هنری و طراحی را کاوش کنید.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageQuitToUpdate": "خروج برای به‌روزرسانی",
+  "@managePageQuitToUpdate": {}
 }

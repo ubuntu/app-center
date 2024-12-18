@@ -3,7 +3,7 @@
   "@snapPageLinksLabel": {},
   "snapPageVersionLabel": "バージョン",
   "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "Debian パッケージ",
+  "packageFormatDebLabel": "Debianパッケージ",
   "@packageFormatDebLabel": {},
   "snapCategoryBooksAndReference": "本とリファレンス",
   "@snapCategoryBooksAndReference": {},
@@ -19,7 +19,7 @@
   "@snapCategoryNewsAndWeather": {},
   "gamesPageLabel": "ゲーム",
   "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "芸術とデザイン",
+  "snapCategoryArtAndDesign": "アートとデザイン",
   "@snapCategoryArtAndDesign": {},
   "developmentPageLabel": "開発",
   "@developmentPageLabel": {},
@@ -35,7 +35,7 @@
   "@searchPageSortByLabel": {},
   "snapPageGalleryLabel": "ギャラリー",
   "@snapPageGalleryLabel": {},
-  "searchFieldDebSection": "Debian パッケージ",
+  "searchFieldDebSection": "Debianパッケージ",
   "@searchFieldDebSection": {},
   "snapActionOpenLabel": "起動",
   "@snapActionOpenLabel": {},
@@ -51,7 +51,7 @@
   "@snapCategoryFinance": {},
   "snapCategoryServerAndCloud": "サーバーとクラウド",
   "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "アプリ詳細",
+  "aboutPageLabel": "このアプリについて",
   "@aboutPageLabel": {},
   "appstreamSearchGreylist": "アプリ;アプリケーション;プログラム;パッケージ;ソフトウェア;ソフト;ソフトウェアスイート;ツール;ストア;インストール;アップデート;app;application;package;program;programme;suite;tool",
   "@appstreamSearchGreylist": {},
@@ -71,7 +71,7 @@
   "@snapCategoryMusicAndAudio": {},
   "aboutPageGitHubLabel": "GitHubリポジトリ",
   "@aboutPageGitHubLabel": {},
-  "packageFormatSnapLabel": "Snap パッケージ",
+  "packageFormatSnapLabel": "Snapパッケージ",
   "@packageFormatSnapLabel": {},
   "snapCategoryGames": "ゲーム",
   "@snapCategoryGames": {},
@@ -91,7 +91,7 @@
   "@snapPageDescriptionLabel": {},
   "explorePageLabel": "探す",
   "@explorePageLabel": {},
-  "searchFieldSnapSection": "Snap パッケージ",
+  "searchFieldSnapSection": "Snapパッケージ",
   "@searchFieldSnapSection": {},
   "snapCategoryDevicesAndIot": "端末とIoT",
   "@snapCategoryDevicesAndIot": {},
@@ -99,11 +99,11 @@
   "@managePageCheckForUpdates": {},
   "snapPageSummaryLabel": "要約",
   "@snapPageSummaryLabel": {},
-  "snapPageShareLinkCopiedMessage": "クリップボードにリンクをコピー",
+  "snapPageShareLinkCopiedMessage": "クリップボードにリンクをコピーしました",
   "@snapPageShareLinkCopiedMessage": {},
   "explorePageCategoriesLabel": "カテゴリー",
   "@explorePageCategoriesLabel": {},
-  "managePageDescription": "アップデートを確認し、アップデートを行い、すべてのアプリケーションの状況を管理します。",
+  "managePageDescription": "アップデートを確認したり、アプリをアップデートしたり、すべてのアプリケーションの状況を管理します。",
   "@managePageDescription": {},
   "appstreamUrlTypeDonation": "寄付",
   "@appstreamUrlTypeDonation": {},
@@ -149,7 +149,7 @@
   "@snapReportSelectAnOptionLabel": {},
   "snapReportOptionCopyrightViolation": "著作権または商標権違反",
   "@snapReportOptionCopyrightViolation": {},
-  "snapReportEnterValidEmailError": "正しいEメールアドレスを入力してください",
+  "snapReportEnterValidEmailError": "正しいメールアドレスを入力してください",
   "@snapReportEnterValidEmailError": {},
   "appCenterLabel": "アプリセンター",
   "@appCenterLabel": {},
@@ -181,7 +181,7 @@
   "@managePageUpdateAllLabel": {},
   "managePageUpdatesAvailable": "{n} 個のアップデートがあります",
   "@managePageUpdatesAvailable": {},
-  "managePageUpdatedDaysAgo": "{n, plural, =1{{n} 日} other{{n} 日}} 前にアップデート",
+  "managePageUpdatedDaysAgo": "{n, plural, =1{{n} 日} other{{n} 日}}前にアップデート",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -189,7 +189,7 @@
       }
     }
   },
-  "gamesPageTitle": "今アツいの",
+  "gamesPageTitle": "人気のタイトル",
   "@gamesPageTitle": {},
   "gamesPageTop": "トップゲーム",
   "@gamesPageTop": {},
@@ -209,7 +209,7 @@
   },
   "searchPageFilterByLabel": "フィルター",
   "@searchPageFilterByLabel": {},
-  "searchPageNoResults": "”{query}”の検索結果はありませんでした",
+  "searchPageNoResults": "”{query}” の検索結果はありませんでした",
   "@searchPageNoResults": {
     "placeholders": {
       "query": {
@@ -219,7 +219,7 @@
   },
   "searchPageNoResultsHint": "違うもの、あるいはもっと一般的になキーワードにしてみてください",
   "@searchPageNoResultsHint": {},
-  "searchPageNoResultsCategory": "このカテゴリーにはパッケージが見つかりませんでした",
+  "searchPageNoResultsCategory": "このカテゴリにはパッケージが見つかりませんでした",
   "@searchPageNoResultsCategory": {},
   "searchPageNoResultsCategoryHint": "違うカテゴリにするか、もっと一般的なキーワードにしてみてください",
   "@searchPageNoResultsCategoryHint": {},
@@ -311,7 +311,7 @@
   "@snapRatingsBandVeryPoor": {},
   "snapRatingsBandInsufficientVotes": "不十分な投票数",
   "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsVotes": "{n} つの投票",
+  "snapRatingsVotes": "投票数: {n}",
   "@snapRatingsVotes": {
     "placeholders": {
       "n": {
@@ -327,11 +327,11 @@
       }
     }
   },
-  "snapReportSelectReportReasonLabel": "このsnapを報告する理由を選択",
+  "snapReportSelectReportReasonLabel": "このsnapを報告する理由を選択してください",
   "@snapReportSelectReportReasonLabel": {},
   "snapReportOptionStoreViolation": "Snap Store の規約違反",
   "@snapReportOptionStoreViolation": {},
-  "snapReportOptionalEmailAddressLabel": "メールアドレス（オプション）",
+  "snapReportOptionalEmailAddressLabel": "メールアドレス (オプション)",
   "@snapReportOptionalEmailAddressLabel": {},
   "snapReportCancelButtonLabel": "キャンセル",
   "@snapReportCancelButtonLabel": {},
@@ -343,7 +343,7 @@
   "@snapReportDetailsHint": {},
   "snapReportPrivacyAgreementAndLabel": "と ",
   "@snapReportPrivacyAgreementAndLabel": {},
-  "snapReportPrivacyAgreementLabel": "報告にあたり、次の規約を読み、同意する必要があります: ",
+  "snapReportPrivacyAgreementLabel": "報告にあたり、次の規約を読んだ上で同意する必要があります: ",
   "@snapReportPrivacyAgreementLabel": {},
   "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonicalのプライバシー告知 ",
   "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
@@ -363,7 +363,7 @@
   "@openInBrowser": {},
   "installAll": "すべてインストール",
   "@installAll": {},
-  "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} 週} other{{n} 週}} 間前にアップデート",
+  "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} 週} other{{n} 週}}間前にアップデート",
   "@managePageUpdatedWeeksAgo": {
     "placeholders": {
       "n": {
@@ -371,7 +371,7 @@
       }
     }
   },
-  "managePageUpdatedYearsAgo": "{n, plural, =1{{n} 年} other{{n} 年}} 前にアップデート",
+  "managePageUpdatedYearsAgo": "{n, plural, =1{{n} 年} other{{n} 年}}前にアップデート",
   "@managePageUpdatedYearsAgo": {
     "placeholders": {
       "n": {
@@ -379,7 +379,7 @@
       }
     }
   },
-  "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} ヶ月} other{{n} ヶ月}} 前にアップデート",
+  "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} ヶ月} other{{n} ヶ月}}前にアップデート",
   "@managePageUpdatedMonthsAgo": {
     "placeholders": {
       "n": {
@@ -405,7 +405,7 @@
   "@localDebDialogConfirmation": {},
   "managePageOwnUpdateAvailable": "アプリセンターのアップデートが入手できます",
   "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateDescription": "このアプリを終了すると自動的にアップデートが開始します。",
+  "managePageOwnUpdateDescription": "このアプリを終了すると自動的にアップデートが開始されます。",
   "@managePageOwnUpdateDescription": {},
   "managePageOwnUpdateDescriptionSoon": "アプリセンターは {time} に自動的にアップデートします。",
   "@managePageOwnUpdateDescriptionSoon": {
@@ -423,7 +423,7 @@
   "@appstreamUrlTypeVcsBrowser": {},
   "localDebLearnMore": "サードパーティパッケージについての追加情報",
   "@localDebLearnMore": {},
-  "localDebWarningBody": "このパッケージはサードパーティによって提供されています。アプリセンター外からパッケージをインストールすることは、システムと個人データのリスクを増すことになり得ます。続ける前に本当に信用できるソースか確認してください。",
+  "localDebWarningBody": "このパッケージはサードパーティによって提供されています。アプリセンター外からパッケージをインストールすると、システムと個人データについてのリスクが増える可能性があります。続ける前に本当に信用できるソースか確認してください。",
   "@localDebWarningBody": {},
   "errorViewCheckStatusLabel": "状況を確認",
   "@errorViewCheckStatusLabel": {},
@@ -437,7 +437,7 @@
   "@errorViewUnknownErrorAction": {},
   "errorViewNetworkErrorAction": "接続を確認してやり直してください。",
   "@errorViewNetworkErrorAction": {},
-  "snapdExceptionRunningApps": "現在実行中の {snapName} はアップデートできません。",
+  "snapdExceptionRunningApps": "{snapName} は現在実行中のためアップデートできません。",
   "@snapdExceptionRunningApps": {
     "placeholders": {
       "snapName": {
@@ -452,5 +452,23 @@
   "errorViewUnknownErrorDescription": "どんなエラーが起きているのかよくわかっていません。",
   "@errorViewUnknownErrorDescription": {},
   "managePageTitle": "インストールしたsnapの管理",
-  "@managePageTitle": {}
+  "@managePageTitle": {},
+  "managePageDocumentationLinkLabel": "Debianパッケージの使い方についてはドキュメントを参照してください。",
+  "@managePageDocumentationLinkLabel": {},
+  "managePageUpdatesFailed": "{n, plural, =1{1 個のアップデート} other{{n} 個のアップデート}}に失敗しました",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryArtAndDesignSlogan": "最初のスケッチから最後の仕上げまで、アートとデザイン向けアプリを探索。",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "snapCategoryArtAndDesignButtonLabel": "作成を始める",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "debPageDocumentationLinkLabel": "Debianパッケージの管理について知る",
+  "@debPageDocumentationLinkLabel": {},
+  "managePageUpdatesFailedBody": "以下のアプリは現在実行中のためアップデートできません。\n\n{snapList}\nアプリケーションを終了すると自動的にアップデートが開始されます。",
+  "@managePageUpdatesFailedBody": {}
 }

@@ -81,7 +81,7 @@
   "@searchFieldSearchHint": {},
   "snapCategoryFeatured": "特色",
   "@snapCategoryFeatured": {},
-  "managePageSearchFieldSearchHint": "搜索已安装的应用",
+  "managePageSearchFieldSearchHint": "搜索您已安装的应用",
   "@managePageSearchFieldSearchHint": {},
   "snapActionCancelLabel": "取消",
   "@snapActionCancelLabel": {},
@@ -111,7 +111,7 @@
   "@managePageNoUpdatesAvailableDescription": {},
   "managePageShowDetailsLabel": "显示详情",
   "@managePageShowDetailsLabel": {},
-  "managePageShowSystemSnapsLabel": "显示系统快照",
+  "managePageShowSystemSnapsLabel": "显示系统 Snap 软件包",
   "@managePageShowSystemSnapsLabel": {},
   "managePageUpdateAllLabel": "全部更新",
   "@managePageUpdateAllLabel": {},
@@ -191,7 +191,7 @@
   "@snapActionUpdatingLabel": {},
   "snapCategoryDefaultButtonLabel": "发现更多",
   "@snapCategoryDefaultButtonLabel": {},
-  "snapCategoryDevelopmentSlogan": "开发者必备应用",
+  "snapCategoryDevelopmentSlogan": "开发者不可或缺的 Snap 包",
   "@snapCategoryDevelopmentSlogan": {},
   "snapCategoryDevicesAndIot": "设备与物联网",
   "@snapCategoryDevicesAndIot": {},
@@ -217,9 +217,9 @@
   "@snapCategoryGameContentCreationSlogan": {},
   "snapCategoryPersonalisation": "个性化",
   "@snapCategoryPersonalisation": {},
-  "snapCategoryProductivityButtonLabel": "探索生产力集合",
+  "snapCategoryProductivityButtonLabel": "探索可以提升您生产力的应用集合",
   "@snapCategoryProductivityButtonLabel": {},
-  "snapCategoryProductivitySlogan": "从待办列表中划去一项",
+  "snapCategoryProductivitySlogan": "轻松管理和规划您的待办事项",
   "@snapCategoryProductivitySlogan": {},
   "snapCategoryUbuntuDesktop": "Ubuntu 桌面",
   "@snapCategoryUbuntuDesktop": {},
@@ -323,7 +323,7 @@
   "@explorePageCategoriesLabel": {},
   "managePageUpdatesAvailable": "更新可用 ({n})",
   "@managePageUpdatesAvailable": {},
-  "snapCategoryUbuntuDesktopSlogan": "快速启动您的桌面",
+  "snapCategoryUbuntuDesktopSlogan": "让您的桌面更迅捷，更便利",
   "@snapCategoryUbuntuDesktopSlogan": {},
   "searchPageNoResults": "未找到匹配“{query}”的结果",
   "@searchPageNoResults": {
@@ -397,7 +397,7 @@
   "@managePageOwnUpdateDescription": {},
   "managePageNoInternet": "无法连接到服务器，请检查您的互联网连接或稍后重试。",
   "@managePageNoInternet": {},
-  "managePageDebUpdatesMessage": "Debian 软件包更新由软件更新程序处理。",
+  "managePageDebUpdatesMessage": "Debian 软件包更新由软件更新器处理。",
   "@managePageDebUpdatesMessage": {},
   "snapActionInstalledLabel": "已安装",
   "@snapActionInstalledLabel": {},
@@ -405,11 +405,11 @@
   "@localDebWarningTitle": {},
   "errorViewCheckStatusLabel": "检查状态",
   "@errorViewCheckStatusLabel": {},
-  "managePageTitle": "管理已安装的快照",
+  "managePageTitle": "管理已安装的 Snap 软件包",
   "@managePageTitle": {},
   "appstreamUrlTypeVcsBrowser": "来源",
   "@appstreamUrlTypeVcsBrowser": {},
-  "snapdExceptionRunningApps": "我们无法更新{snapName}因为它当前正在运行。",
+  "snapdExceptionRunningApps": "我们无法更新 {snapName} ，因为它当前正在运行。",
   "@snapdExceptionRunningApps": {
     "placeholders": {
       "snapName": {
@@ -417,7 +417,7 @@
       }
     }
   },
-  "errorViewServerErrorAction": "检查状态以获取更新或稍后重试。",
+  "errorViewServerErrorAction": "检查更新状态或稍后重试。",
   "@errorViewServerErrorAction": {},
   "errorViewUnknownErrorTitle": "出了点问题",
   "@errorViewUnknownErrorTitle": {},
@@ -425,13 +425,13 @@
   "@errorViewNetworkErrorAction": {},
   "errorViewServerErrorDescription": "很道歉，应用中心目前遇到了问题。",
   "@errorViewServerErrorDescription": {},
-  "errorViewUnknownErrorAction": "您可以立即重试，检查状态以获取更新，或稍后再试。",
+  "errorViewUnknownErrorAction": "您可以立即重试，检查更新状态，或稍后再试。",
   "@errorViewUnknownErrorAction": {},
   "appstreamUrlTypeContribute": "贡献",
   "@appstreamUrlTypeContribute": {},
   "managePageQuitToUpdate": "取消更新",
   "@managePageQuitToUpdate": {},
-  "managePageOwnUpdateDescriptionSoon": "应用中心将会在{time}后自动更新。",
+  "managePageOwnUpdateDescriptionSoon": "应用中心将会在 {time} 后自动更新。",
   "@managePageOwnUpdateDescriptionSoon": {
     "placeholders": {
       "time": {
@@ -439,8 +439,44 @@
       }
     }
   },
-  "errorViewNetworkErrorTitle": "链接到互联网",
+  "errorViewNetworkErrorTitle": "连接到互联网",
   "@errorViewNetworkErrorTitle": {},
-  "errorViewNetworkErrorDescription": "无互联网链接，我们无法在应用中心加载内容。",
-  "@errorViewNetworkErrorDescription": {}
+  "errorViewNetworkErrorDescription": "没有可用的互联网连接，我们无法在应用中心加载内容。",
+  "@errorViewNetworkErrorDescription": {},
+  "localDebDialogConfirmation": "您确定要安装吗？",
+  "@localDebDialogConfirmation": {},
+  "snapPageSizeLabel": "安装大小",
+  "@snapPageSizeLabel": {},
+  "localDebWarningBody": "该软件包由第三方提供。安装应用中心以外的软件包会增加您遭遇系统崩溃和个人数据泄露的风险。在安装之前，请确认您信任该软件包的来源。",
+  "@localDebWarningBody": {},
+  "localDebDialogMessage": "该软件包由第三方提供，可能会威胁您的系统和个人数据。",
+  "@localDebDialogMessage": {},
+  "managePageInstallingLabel": "正在安装 ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "以下应用正在运行中，我们无法更新：\n\n{snapList}\n当您退出这些应用程序时，它们将自动更新。",
+  "@managePageUpdatesFailedBody": {},
+  "managePageUpdatesFailed": "{n, plural, =1{一项更新} other{{n} 项更新}} 失败",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "errorViewUnknownErrorDescription": "非常抱歉，我们无法确定错误所在。",
+  "@errorViewUnknownErrorDescription": {},
+  "snapCategoryArtAndDesignButtonLabel": "发挥创造力",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "从绘画之始至润色之终，在这里探索您艺术创造和挥洒创意的应用。",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "debPageDocumentationLinkLabel": "了解如何管理 Debian 软件包",
+  "@debPageDocumentationLinkLabel": {},
+  "managePageDocumentationLinkLabel": "从文档中了解如何管理 Debian 软件包。",
+  "@managePageDocumentationLinkLabel": {}
 }

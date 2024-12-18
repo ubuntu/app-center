@@ -480,5 +480,9 @@
   "snapActionUpdatingLabel": "Ag nuashonrú",
   "@snapActionUpdatingLabel": {},
   "localDebWarningBody": "Cuireann tríú páirtí an pacáiste seo ar fáil. Is féidir le pacáistí a shuiteáil ó lasmuigh den Lárionad Aip an riosca le do chóras agus do shonraí pearsanta a mhéadú. Cinntigh go bhfuil muinín agat as an bhfoinse sula dtéann tú ar aghaidh.",
-  "@localDebWarningBody": {}
+  "@localDebWarningBody": {},
+  "managePageDocumentationLinkLabel": "Foghlaim conas pacáistí Debian a bhainistiú sa doiciméadú.",
+  "@managePageDocumentationLinkLabel": {},
+  "debPageDocumentationLinkLabel": "Foghlaim faoi phacáistí Debian a bhainistiú",
+  "@debPageDocumentationLinkLabel": {}
 }
