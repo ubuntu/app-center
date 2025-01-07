@@ -68,7 +68,7 @@ class CategorySnapList extends ConsumerWidget {
 class RatedCategorySnapList extends ConsumerWidget {
   const RatedCategorySnapList({
     required this.categories,
-    this.numberOfSnaps = 10,
+    this.numberOfSnaps = 12,
     super.key,
   });
 
