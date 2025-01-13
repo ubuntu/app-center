@@ -1,1 +1,8 @@
-{}
+{
+  "appCenterLabel": "Rakendustepood",
+  "@appCenterLabel": {},
+  "appstreamSearchGreylist": "äpp;rakendus;pakett;programm;tarvik;töövahend;tarvikud;app;äpid",
+  "@appstreamSearchGreylist": {},
+  "snapPageChannelLabel": "Kanal",
+  "@snapPageChannelLabel": {}
+}
