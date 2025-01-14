@@ -8,11 +8,14 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_logger/ubuntu_logger.dart';
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
 
 @visibleForTesting
 final cachePath =
     '${xdg.cacheHome.path}/${p.basename(Platform.resolvedExecutable)}/snapd';
+
+final _log = Logger('cache_file');
 
 class CacheFile {
   CacheFile(
@@ -109,7 +112,14 @@ class CacheFile {
 
   Future<RatingsData?> readRatingsData() async {
     final data = await read() as Map?;
-    return data != null ? RatingsData.fromJson(data.cast()) : null;
+    if (data == null) return null;
+
+    try {
+      return RatingsData.fromJson(data.cast());
+    } on Error catch (e) {
+      _log.debug('Caught error while reading ratings cache data: $e');
+      return null;
+    }
   }
 
   void writeRatingsDataSync(RatingsData ratingsData) {
