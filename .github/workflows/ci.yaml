@@ -98,3 +98,13 @@ jobs:
       - uses: codecov/codecov-action@v3
         with:
           token: ${{secrets.CODECOV_TOKEN}}
+
+      - name: Run TICS analysis
+        if: github.event_name == 'push'
+        uses: tiobe/tics-github-action@v3
+        with:
+          mode: qserver
+          project: app-center
+          viewerUrl: https://canonical.tiobe.com/tiobeweb/TICS/api/cfg?name=default
+          ticsAuthToken: ${{ secrets.TICSAUTHTOKEN }}
+          installTics: true
