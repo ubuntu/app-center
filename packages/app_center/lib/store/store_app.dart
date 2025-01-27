@@ -38,15 +38,11 @@ class StoreApp extends ConsumerStatefulWidget {
 }
 
 class _StoreAppState extends ConsumerState<StoreApp> {
-  @override
-  void initState() {
-    super.initState();
-    _focusScope.requestFocus();
-  }
+  
 
   final _navigatorKey = GlobalKey<NavigatorState>();
   final searchFocus = FocusNode();
-  final _focusScope = FocusNode();
+ 
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
