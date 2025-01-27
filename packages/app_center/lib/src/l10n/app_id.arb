@@ -474,5 +474,9 @@
   "gamesPageFeatured": "Judul Unggulan",
   "@gamesPageFeatured": {},
   "errorViewNetworkErrorTitle": "Menyambung ke internet",
-  "@errorViewNetworkErrorTitle": {}
+  "@errorViewNetworkErrorTitle": {},
+  "managePageDocumentationLinkLabel": "Pelajari cara mengelola paket Debian dalam dokumentasi.",
+  "@managePageDocumentationLinkLabel": {},
+  "debPageDocumentationLinkLabel": "Pelajari tentang mengelola paket Debian",
+  "@debPageDocumentationLinkLabel": {}
 }
