@@ -38,8 +38,15 @@ class StoreApp extends ConsumerStatefulWidget {
 }
 
 class _StoreAppState extends ConsumerState<StoreApp> {
+  @override
+  void initState() {
+    super.initState();
+    _focusScope.requestFocus();
+  }
+
   final _navigatorKey = GlobalKey<NavigatorState>();
   final searchFocus = FocusNode();
+  final _focusScope = FocusNode();
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
@@ -53,31 +60,43 @@ class _StoreAppState extends ConsumerState<StoreApp> {
       bindings: <ShortcutActivator, VoidCallback>{
         LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF): () {
           searchFocus.requestFocus();
+
           searchFocus.nextFocus();
         },
       },
-      child: YaruTheme(
-        builder: (context, yaru, child) => MaterialApp(
-          theme: yaru.theme,
-          darkTheme: yaru.darkTheme,
-          highContrastTheme: yaruHighContrastLight,
-          highContrastDarkTheme: yaruHighContrastDark,
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: localizationsDelegates,
-          navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
-          supportedLocales: supportedLocales,
-          scrollBehavior: const MaterialScrollBehavior().copyWith(
-            dragDevices: {
-              PointerDeviceKind.mouse,
-              PointerDeviceKind.touch,
-              PointerDeviceKind.stylus,
-              PointerDeviceKind.unknown,
-              PointerDeviceKind.trackpad,
-            },
-          ),
-          home: _StoreAppHome(
-            navigatorKey: _navigatorKey,
-            searchFocus: searchFocus,
+      child: KeyboardListener(
+        onKeyEvent: (event) {
+          if (event is KeyDownEvent) {
+            if (event.character != null && event.character!.isNotEmpty) {
+              searchFocus.requestFocus();
+              searchFocus.nextFocus();
+            }
+          }
+        },
+        focusNode: FocusNode(),
+        child: YaruTheme(
+          builder: (context, yaru, child) => MaterialApp(
+            theme: yaru.theme,
+            darkTheme: yaru.darkTheme,
+            highContrastTheme: yaruHighContrastLight,
+            highContrastDarkTheme: yaruHighContrastDark,
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: localizationsDelegates,
+            navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
+            supportedLocales: supportedLocales,
+            scrollBehavior: const MaterialScrollBehavior().copyWith(
+              dragDevices: {
+                PointerDeviceKind.mouse,
+                PointerDeviceKind.touch,
+                PointerDeviceKind.stylus,
+                PointerDeviceKind.unknown,
+                PointerDeviceKind.trackpad,
+              },
+            ),
+            home: _StoreAppHome(
+              navigatorKey: _navigatorKey,
+              searchFocus: searchFocus,
+            ),
           ),
         ),
       ),
