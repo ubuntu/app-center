@@ -34,8 +34,6 @@ void main() {
 
       expect(result, isTrue,
           reason: 'Expected the search box to gain focus when typing.');
-      expect(result, isTrue,
-          reason: 'Expected the search box to gain focus when typing.');
     });
   });
 }

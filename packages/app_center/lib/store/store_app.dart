@@ -40,6 +40,7 @@ class StoreApp extends ConsumerStatefulWidget {
 class _StoreAppState extends ConsumerState<StoreApp> {
   final _navigatorKey = GlobalKey<NavigatorState>();
   final searchFocus = FocusNode();
+  final keyboardListenerFocus = FocusNode();
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
@@ -53,20 +54,20 @@ class _StoreAppState extends ConsumerState<StoreApp> {
       bindings: <ShortcutActivator, VoidCallback>{
         LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF): () {
           searchFocus.requestFocus();
-
           searchFocus.nextFocus();
         },
       },
       child: KeyboardListener(
         onKeyEvent: (event) {
-          if (event is KeyDownEvent) {
-            if (event.character != null && event.character!.isNotEmpty) {
+          if (event is KeyDownEvent && (event.character?.isNotEmpty ?? false)) {
+            final currentFocus = FocusManager.instance.primaryFocus;
+            if (currentFocus?.context?.widget is FocusScope) {
               searchFocus.requestFocus();
               searchFocus.nextFocus();
             }
           }
         },
-        focusNode: FocusNode(),
+        focusNode: keyboardListenerFocus,
         child: YaruTheme(
           builder: (context, yaru, child) => MaterialApp(
             theme: yaru.theme,
