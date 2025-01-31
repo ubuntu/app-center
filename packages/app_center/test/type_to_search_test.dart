@@ -22,8 +22,11 @@ void main() {
       );
 
       final searchBoxFinder = find.byType(TextField);
-      expect(searchBoxFinder, findsOneWidget,
-          reason: 'Expected to find a search box in the app.');
+      expect(
+        searchBoxFinder,
+        findsOneWidget,
+        reason: 'Expected to find a search box in the app.',
+      );
 
       await tester.sendKeyEvent(LogicalKeyboardKey.keyA);
 
@@ -32,8 +35,11 @@ void main() {
       final focusNode = searchBoxWidget.focusNode;
       final result = focusNode != null && focusNode.hasFocus;
 
-      expect(result, isTrue,
-          reason: 'Expected the search box to gain focus when typing.');
+      expect(
+        result,
+        isTrue,
+        reason: 'Expected the search box to gain focus when typing.',
+      );
     });
   });
 }
