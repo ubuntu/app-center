@@ -1,1 +1,144 @@
-{}
+{
+  "appCenterLabel": "অ্যাপ সেন্টার",
+  "@appCenterLabel": {},
+  "snapPageChannelLabel": "চ্যানেল",
+  "@snapPageChannelLabel": {},
+  "snapPageConfinementLabel": "দ্বন্দ্ব",
+  "@snapPageConfinementLabel": {},
+  "snapPageDescriptionLabel": "বর্ননা",
+  "@snapPageDescriptionLabel": {},
+  "snapPageDeveloperWebsiteLabel": "ডেভেলপার ওয়েবসাইট",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapPageSizeLabel": "আকার",
+  "@snapPageSizeLabel": {},
+  "snapPageGalleryLabel": "গ্যালারি",
+  "@snapPageGalleryLabel": {},
+  "snapPageLicenseLabel": "লাইসেন্স",
+  "@snapPageLicenseLabel": {},
+  "snapPageLinksLabel": "লিংক",
+  "@snapPageLinksLabel": {},
+  "snapPagePublisherLabel": "প্রকাশক",
+  "@snapPagePublisherLabel": {},
+  "snapPagePublishedLabel": "প্রকাশিত",
+  "@snapPagePublishedLabel": {},
+  "snapPageSummaryLabel": "সংক্ষেপে",
+  "@snapPageSummaryLabel": {},
+  "snapPageVersionLabel": "ভার্সন",
+  "@snapPageVersionLabel": {},
+  "explorePageLabel": "অনুসন্ধান কর",
+  "@explorePageLabel": {},
+  "explorePageCategoriesLabel": "ক্যাটাগরি",
+  "@explorePageCategoriesLabel": {},
+  "managePageOwnUpdateAvailable": "অ্যাপ সেন্টার আপডেটের জন্য প্রস্তুত",
+  "@managePageOwnUpdateAvailable": {},
+  "snapPageContactPublisherLabel": "{publisher} এর সাথে যোগাযোগ",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateDescription": "যখন তুমি অ্যাপ থেকে বের হয়ে যাবে, তখন সয়ংক্রয়ভাবে আপডেট হয়ে যাবে।",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateQuitButton": "আপডেট থেকে প্রস্থান",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageCheckForUpdates": "আপডেট চেক কর",
+  "@managePageCheckForUpdates": {},
+  "managePageCheckingForUpdates": "আপডেট খোজা হচ্ছে",
+  "@managePageCheckingForUpdates": {},
+  "managePageNoInternet": "সার্ভারে পৌঁছানো সম্ভব হচ্ছে না, তোমার ইন্টারনেট কানেকশন পরীক্ষা করো অথবা আবার চেষ্টা করো।",
+  "@managePageNoInternet": {},
+  "managePageInstalledAndUpdatedLabel": "ইন্সটল এবং আপডেট করা হয়েছে",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "managePageInstallingLabel": "ইন্সটল করা হচ্ছে ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageLabel": "নিয়ন্ত্রণ কর",
+  "@managePageLabel": {},
+  "managePageTitle": "ইন্সটল করা snap নিয়ন্ত্রণ করো",
+  "@managePageTitle": {},
+  "managePageSearchFieldSearchHint": "ইন্সটল করা অ্যাপ খোঁজ",
+  "@managePageSearchFieldSearchHint": {},
+  "managePageShowDetailsLabel": "বিস্তারিত দেখাও",
+  "@managePageShowDetailsLabel": {},
+  "managePageShowSystemSnapsLabel": "system snap দেখাও",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageUpdateAllLabel": "সবগুলো আপডেট করো",
+  "@managePageUpdateAllLabel": {},
+  "managePageUpdatedWeeksAgo": "আপডেট করা হয়েছে {n, plural, =1{{n} সপ্তাহ} other{{n} সপ্তাহ}} আগে",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "আপডেট করা হয়েছে {n, plural, =1{{n} বছর} other{{n} বছর}} age",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesAvailable": "নতুন আপডেট অবশিষ্ট আছে ({n})",
+  "@managePageUpdatesAvailable": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageQuitToUpdate": "আপডেট করতে প্রস্থান কর",
+  "@managePageQuitToUpdate": {},
+  "managePageNoUpdatesAvailableDescription": "কোনো নতুন আপডেট নেই। তোমার অ্যাপ্লিকেশনগুলো হালনাগাদ করা আছে।",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "managePageDescription": "অবশিষ্ট আপডেট চেক করো, অ্যাপগুলো আপডেট করো, এবং সকল অ্যাপের মান নিয়ন্ত্রণ করুন।",
+  "@managePageDescription": {},
+  "appstreamSearchGreylist": "অ্যাপ;অ্যাপ্লিকেশন;প্যাকেজ;প্রোগ্রাম;টুল",
+  "@appstreamSearchGreylist": {},
+  "snapPageShareLinkCopiedMessage": "লিংক ক্লিপবোর্ড-এ কপি করা হয়েছে",
+  "@snapPageShareLinkCopiedMessage": {},
+  "snapPageDownloadSizeLabel": "ডাউনলোডের আকার",
+  "@snapPageDownloadSizeLabel": {},
+  "managePageOwnUpdateDescriptionSoon": "অ্যাপ সেন্টার সয়ংক্রয়ভাবে {time} সময়ে আপডেট হবে।",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageDebUpdatesMessage": "Debian package গুলি Software Updater দ্বারা পরিচালিত হয়।",
+  "@managePageDebUpdatesMessage": {},
+  "managePageUpdatedDaysAgo": "আপডেট করা হয়েছে {n, plural, =1{{n} দিন} other{{n} দিন}} আগে",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "আপডেট করা হয়েছে {n, plural, =1{{n} মাস} other{{n} মাস}} আগে",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailed": "{n, plural, =1{একটি আপডেট} other{{n} আপডেট}} অকৃতকার্য হলো।",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
+}
