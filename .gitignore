@@ -57,3 +57,4 @@ app.*.map.json
 **/*.freezed.dart
 **/*.g.dart
 **/*.mocks.dart
+*.code-workspace
