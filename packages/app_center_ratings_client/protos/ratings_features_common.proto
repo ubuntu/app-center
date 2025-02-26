@@ -6,6 +6,7 @@ message Rating {
   string snap_id = 1;
   uint64 total_votes = 2;
   RatingsBand ratings_band = 3;
+  string snap_name = 4;
 }
 
 enum RatingsBand {

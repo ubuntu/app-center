@@ -7,7 +7,8 @@ import 'package:app_center_ratings_client/src/generated/google/protobuf/empty.pb
 import 'package:app_center_ratings_client/src/generated/google/protobuf/timestamp.pb.dart';
 import 'package:app_center_ratings_client/src/generated/ratings_features_app.pbgrpc.dart'
     as pb;
-import 'package:app_center_ratings_client/src/generated/ratings_features_chart.pbgrpc.dart';
+import 'package:app_center_ratings_client/src/generated/ratings_features_chart.pbgrpc.dart'
+    as pb_chart;
 import 'package:app_center_ratings_client/src/generated/ratings_features_common.pb.dart';
 import 'package:app_center_ratings_client/src/generated/ratings_features_user.pbgrpc.dart';
 import 'package:app_center_ratings_client/src/ratings.dart' as ratings;
@@ -20,7 +21,7 @@ import 'package:test/test.dart';
 
 import 'ratings_client_test.mocks.dart';
 
-@GenerateMocks([pb.AppClient, UserClient, ChartClient])
+@GenerateMocks([pb.AppClient, UserClient, pb_chart.ChartClient])
 void main() {
   final mockAppClient = MockAppClient();
   final mockUserClient = MockUserClient();
@@ -32,13 +33,15 @@ void main() {
     const snapId = 'foobar';
     const token = 'bar';
     const timeframe = chart.Timeframe.month;
+    const snapName = 'foobarName';
     final pbChartList = [
-      ChartData(
+      pb_chart.ChartData(
         rawRating: 3,
         rating: Rating(
           snapId: snapId,
           totalVotes: Int64(105),
           ratingsBand: RatingsBand.NEUTRAL,
+          snapName: snapName,
         ),
       ),
     ];
@@ -50,21 +53,31 @@ void main() {
           snapId: snapId,
           totalVotes: 105,
           ratingsBand: ratings.RatingsBand.neutral,
+          snapName: snapName,
         ),
       ),
     ];
-    final mockResponse = GetChartResponse(
-      timeframe: Timeframe.TIMEFRAME_MONTH,
+    final mockResponse = pb_chart.GetChartResponse(
+      timeframe: pb_chart.Timeframe.TIMEFRAME_MONTH,
       orderedChartData: pbChartList,
     );
-    final request = GetChartRequest(timeframe: Timeframe.TIMEFRAME_MONTH);
+    final request = pb_chart.GetChartRequest(
+      timeframe: pb_chart.Timeframe.TIMEFRAME_MONTH,
+      category: pb_chart.Category.GAMES,
+    );
     when(
       mockChartClient.getChart(
         request,
         options: anyNamed('options'),
       ),
-    ).thenAnswer((_) => MockResponseFuture<GetChartResponse>(mockResponse));
-    final response = await ratingsClient.getChart(timeframe, token);
+    ).thenAnswer(
+      (_) => MockResponseFuture<pb_chart.GetChartResponse>(mockResponse),
+    );
+    final response = await ratingsClient.getChart(
+      timeframe,
+      token,
+      pb_chart.Category.GAMES,
+    );
     expect(
       response,
       equals(expectedResponse),
@@ -88,18 +101,21 @@ void main() {
   test('get rating', () async {
     const snapId = 'foo';
     const token = 'bar';
+    const snapName = 'fooName';
     final pbRating = Rating(
       snapId: snapId,
       totalVotes: Int64(105),
       ratingsBand: RatingsBand.NEUTRAL,
+      snapName: snapName,
     );
     const expectedResponse = ratings.Rating(
       snapId: snapId,
       totalVotes: 105,
       ratingsBand: ratings.RatingsBand.neutral,
+      snapName: snapName,
     );
     final mockResponse = pb.GetRatingResponse(rating: pbRating);
-    final request = pb.GetRatingRequest(snapId: snapId);
+    final request = pb.GetRatingRequest(snapName: snapName, snapId: snapId);
     when(
       mockAppClient.getRating(
         request,
@@ -109,6 +125,7 @@ void main() {
       (_) => MockResponseFuture<pb.GetRatingResponse>(mockResponse),
     );
     final response = await ratingsClient.getRating(
+      snapName,
       snapId,
       token,
     );
@@ -148,75 +165,14 @@ void main() {
     );
   });
 
-  test('list user votes', () async {
-    const snapIdFilter = 'foo';
-    const token = 'bar';
-    final time = DateTime.now().toUtc();
-    final mockVotes = <Vote>[
-      Vote(
-        snapId: 'foo1',
-        snapRevision: 1,
-        voteUp: true,
-        timestamp: Timestamp.fromDateTime(time),
-      ),
-      Vote(
-        snapId: 'foo2',
-        snapRevision: 2,
-        voteUp: false,
-        timestamp: Timestamp.fromDateTime(time),
-      ),
-    ];
-    final expectedResponse = <user.Vote>[
-      user.Vote(
-        snapId: 'foo1',
-        snapRevision: 1,
-        voteUp: true,
-        dateTime: time,
-      ),
-      user.Vote(
-        snapId: 'foo2',
-        snapRevision: 2,
-        voteUp: false,
-        dateTime: time,
-      ),
-    ];
-    final mockResponse = ListMyVotesResponse(votes: mockVotes);
-    final request = ListMyVotesRequest(snapIdFilter: snapIdFilter);
-
-    when(
-      mockUserClient.listMyVotes(
-        request,
-        options: anyNamed('options'),
-      ),
-    ).thenAnswer((_) => MockResponseFuture<ListMyVotesResponse>(mockResponse));
-    final response = await ratingsClient.listMyVotes(
-      snapIdFilter,
-      token,
-    );
-    expect(response, equals(expectedResponse));
-
-    final capturedArgs = verify(
-      mockUserClient.listMyVotes(
-        request,
-        options: captureAnyNamed('options'),
-      ),
-    ).captured;
-    final capturedOptions = capturedArgs.single as CallOptions;
-    expect(
-      capturedOptions.metadata,
-      containsPair(
-        'authorization',
-        'Bearer $token',
-      ),
-    );
-  });
-
   test('user votes', () async {
     const snapId = 'foo';
+    const snapName = 'fooName';
     const snapRevision = 1;
     const voteUp = true;
     const token = 'bar';
     final request = VoteRequest(
+      snapName: snapName,
       snapId: snapId,
       snapRevision: snapRevision,
       voteUp: voteUp,
@@ -229,6 +185,7 @@ void main() {
       ),
     ).thenAnswer((_) => MockResponseFuture<Empty>(Empty()));
     await ratingsClient.vote(
+      snapName,
       snapId,
       snapRevision,
       voteUp,
@@ -251,8 +208,9 @@ void main() {
   });
 
   test('user votes by snap id', () async {
-    const snapId = 'foo';
+    const snapId = '123';
     const token = 'bar';
+    const snapName = 'foo';
     final time = DateTime.now().toUtc();
     final mockVotes = <Vote>[
       Vote(
@@ -260,12 +218,14 @@ void main() {
         snapRevision: 1,
         voteUp: true,
         timestamp: Timestamp.fromDateTime(time),
+        snapName: snapName,
       ),
       Vote(
         snapId: snapId,
         snapRevision: 2,
         voteUp: false,
         timestamp: Timestamp.fromDateTime(time),
+        snapName: snapName,
       ),
     ];
     final expectedResponse = <user.Vote>[
@@ -274,12 +234,14 @@ void main() {
         snapRevision: 1,
         voteUp: true,
         dateTime: time,
+        snapName: snapName,
       ),
       user.Vote(
         snapId: snapId,
         snapRevision: 2,
         voteUp: false,
         dateTime: time,
+        snapName: snapName,
       ),
     ];
     final mockResponse = GetSnapVotesResponse(votes: mockVotes);

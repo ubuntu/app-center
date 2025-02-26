@@ -37,14 +37,8 @@ const Rating$json = {
   '2': [
     {'1': 'snap_id', '3': 1, '4': 1, '5': 9, '10': 'snapId'},
     {'1': 'total_votes', '3': 2, '4': 1, '5': 4, '10': 'totalVotes'},
-    {
-      '1': 'ratings_band',
-      '3': 3,
-      '4': 1,
-      '5': 14,
-      '6': '.ratings.features.common.RatingsBand',
-      '10': 'ratingsBand'
-    },
+    {'1': 'ratings_band', '3': 3, '4': 1, '5': 14, '6': '.ratings.features.common.RatingsBand', '10': 'ratingsBand'},
+    {'1': 'snap_name', '3': 4, '4': 1, '5': 9, '10': 'snapName'},
   ],
 };
 
@@ -52,4 +46,6 @@ const Rating$json = {
 final $typed_data.Uint8List ratingDescriptor = $convert.base64Decode(
     'CgZSYXRpbmcSFwoHc25hcF9pZBgBIAEoCVIGc25hcElkEh8KC3RvdGFsX3ZvdGVzGAIgASgEUg'
     'p0b3RhbFZvdGVzEkcKDHJhdGluZ3NfYmFuZBgDIAEoDjIkLnJhdGluZ3MuZmVhdHVyZXMuY29t'
-    'bW9uLlJhdGluZ3NCYW5kUgtyYXRpbmdzQmFuZA==');
+    'bW9uLlJhdGluZ3NCYW5kUgtyYXRpbmdzQmFuZBIbCglzbmFwX25hbWUYBCABKAlSCHNuYXBOYW'
+    '1l');
+

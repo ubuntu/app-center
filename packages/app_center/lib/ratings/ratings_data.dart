@@ -12,6 +12,7 @@ class RatingsData with _$RatingsData {
     required int snapRevision,
     required Rating? rating,
     required VoteStatus? voteStatus,
+    required String snapName,
   }) = _RatingsData;
 
   factory RatingsData.fromJson(Map<String, dynamic> json) =>

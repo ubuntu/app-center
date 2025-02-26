@@ -14,10 +14,12 @@ import 'test_utils.dart';
 import 'test_utils.mocks.dart';
 
 const snapId = 'r4LxMVp7zWramXsJQAKdamxy6TAWlaDD';
+const snapName = 'signal-desktop';
 const snapRating = Rating(
   snapId: snapId,
   totalVotes: 123,
   ratingsBand: RatingsBand.good,
+  snapName: snapName,
 );
 
 void main() {

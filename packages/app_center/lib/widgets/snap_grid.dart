@@ -53,10 +53,64 @@ class AppCardGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout.of(context);
+
     return SliverGrid.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: layout.cardColumnCount,
         childAspectRatio: layout.cardSize.aspectRatio,
+        mainAxisSpacing: kCardSpacing - 2 * kCardMargin,
+        crossAxisSpacing: kCardSpacing - 2 * kCardMargin,
+      ),
+      itemCount: appCards.length,
+      itemBuilder: (context, index) => appCards.elementAt(index),
+    );
+  }
+}
+
+class RankedAppCardGrid extends StatelessWidget {
+  const RankedAppCardGrid({
+    required this.appCards,
+    super.key,
+  });
+
+  factory RankedAppCardGrid.fromRankedSnaps({
+    required List<Snap> snaps,
+    required ValueChanged<Snap> onTap,
+  }) =>
+      RankedAppCardGrid(
+        appCards: snaps.asMap().entries.map(
+              (entry) => RankedAppCard.fromRankedSnap(
+                snap: entry.value,
+                onTap: () => onTap(entry.value),
+                rank: entry.key + 1,
+              ),
+            ),
+      );
+
+  final Iterable<RankedAppCard> appCards;
+
+  @override
+  Widget build(BuildContext context) {
+    final layout = ResponsiveLayout.of(context);
+    var columnCount = layout.cardColumnCount;
+    var cardAspectRatio = layout.cardSize.aspectRatio;
+
+    switch (layout.type) {
+      case ResponsiveLayoutType.small:
+        columnCount = 2;
+        cardAspectRatio = 2.5;
+      case ResponsiveLayoutType.medium:
+        columnCount = 3;
+        cardAspectRatio = 2.5;
+      case ResponsiveLayoutType.large:
+        columnCount = 4;
+        cardAspectRatio = 3.0;
+    }
+
+    return SliverGrid.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: columnCount,
+        childAspectRatio: cardAspectRatio,
         mainAxisSpacing: kCardSpacing - 2 * kCardMargin,
         crossAxisSpacing: kCardSpacing - 2 * kCardMargin,
       ),
