@@ -193,7 +193,7 @@
   },
   "managePageUpdatesFailedBody": "Ní raibh muid in ann na feidhmchláir seo a nuashonrú toisc go bhfuil siad ag rith faoi láthair.\n\n{snapList}\nNuair a scoireann tú de na feidhmchláir, nuashonróidh siad go huathoibríoch.",
   "@managePageUpdatesFailedBody": {},
-  "gamesPageTop": "Cluichí Barr",
+  "gamesPageTop": "Barr rátáil",
   "@gamesPageTop": {},
   "gamesPageFeatured": "Teidil Faoi Thrácht",
   "@gamesPageFeatured": {},
