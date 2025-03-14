@@ -133,12 +133,64 @@
       }
     }
   },
-  "managePageUpdatesFailed": "{n, plural, =1{একটি আপডেট} other{{n} আপডেট}} অকৃতকার্য হলো।",
+  "managePageUpdatesFailed": "{n, plural, =1{একটি আপডেট} other{{n} updates}} অকৃতকার্য।",
   "@managePageUpdatesFailed": {
     "placeholders": {
       "n": {
         "type": "int"
       }
     }
-  }
+  },
+  "searchPageNoResultsCategory": "দুঃখিত, আমরা এই ক্যাটাগরির কোনো প্যাকেজ খুঁজে পাইনি",
+  "@searchPageNoResultsCategory": {},
+  "developmentPageLabel": "Development",
+  "@developmentPageLabel": {},
+  "searchFieldSearchForLabel": "\"{query}\"-এর সকল ফলাফল দেখুন",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageFilterByLabel": "ফিল্টার",
+  "@searchPageFilterByLabel": {},
+  "searchPageNoResultsHint": "অন্য কোনো শব্দ অথবা আরো সাধারণ শব্দ দিয়ে চেষ্টা করুন",
+  "@searchPageNoResultsHint": {},
+  "managePageDocumentationLinkLabel": "Debian Package নিয়ন্ত্রণ করা শিখুন।",
+  "@managePageDocumentationLinkLabel": {},
+  "gamesPageFeatured": "Featured Titles",
+  "@gamesPageFeatured": {},
+  "gamesPageBundles": "App Bundles",
+  "@gamesPageBundles": {},
+  "unknownPublisher": "অজানা প্রকাশক",
+  "@unknownPublisher": {},
+  "searchFieldDebSection": "ডেবিয়ান প্যাকেজ",
+  "@searchFieldDebSection": {},
+  "searchFieldSearchHint": "অ্যাপ খুঁজুন",
+  "@searchFieldSearchHint": {},
+  "searchPageNoResultsCategoryHint": "অন্য কোনো ক্যাটাগরি দিয়ে আবার চেষ্টা করুন",
+  "@searchPageNoResultsCategoryHint": {},
+  "managePageUpdatesFailedBody": "আমরা অ্যাপগুলো আপডেট করতে পারিনি। কারন সেগুলো এই মুহুর্তে চলমান অবস্থায় আছে।\n\n{snapList}\nযখন আপনি অ্যাপ থেকে প্রস্থান করবেন, তখন অ্যাপগুলো সয়ংক্রয়ভাবে আপডেট হবে।",
+  "@managePageUpdatesFailedBody": {},
+  "searchPageSortByLabel": "সাজানো",
+  "@searchPageSortByLabel": {},
+  "searchFieldSnapSection": "Snap প্যাকেজ",
+  "@searchFieldSnapSection": {},
+  "searchPageNoResults": "\"{query}\"- এর জন্য কোনো ফলাফল পাওয়া যায় নি",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageRelevanceLabel": "সম্পর্কিত",
+  "@searchPageRelevanceLabel": {},
+  "gamesPageTitle": "কোনটি আকর্ষণীয়",
+  "@gamesPageTitle": {},
+  "gamesPageLabel": "Games",
+  "@gamesPageLabel": {},
+  "gamesPageTop": "উচ্চ Rated",
+  "@gamesPageTop": {}
 }
