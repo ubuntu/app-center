@@ -192,5 +192,13 @@
   "gamesPageLabel": "Games",
   "@gamesPageLabel": {},
   "gamesPageTop": "উচ্চ Rated",
-  "@gamesPageTop": {}
+  "@gamesPageTop": {},
+  "searchPageTitle": "\"{query}\" এর জন্য ফলাফল",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  }
 }
