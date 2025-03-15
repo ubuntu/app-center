@@ -60,5 +60,143 @@
   "managePageCheckForUpdates": "Kontrolli uuendusi",
   "@managePageCheckForUpdates": {},
   "managePageCheckingForUpdates": "Kontrollin uuendusi",
-  "@managePageCheckingForUpdates": {}
+  "@managePageCheckingForUpdates": {},
+  "appstreamUrlTypeContact": "Kontaktandmed",
+  "@appstreamUrlTypeContact": {},
+  "appstreamUrlTypeTranslate": "Tõlked",
+  "@appstreamUrlTypeTranslate": {},
+  "managePageInstallingLabel": "Paigaldamisel ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageLabel": "Halda",
+  "@managePageLabel": {},
+  "managePageSearchFieldSearchHint": "Otsi oma paigaldatud rakendusi",
+  "@managePageSearchFieldSearchHint": {},
+  "appstreamUrlTypeHomepage": "Koduleht",
+  "@appstreamUrlTypeHomepage": {},
+  "snapActionInstalledLabel": "Paigaldatud",
+  "@snapActionInstalledLabel": {},
+  "searchFieldSnapSection": "Snapi paketid",
+  "@searchFieldSnapSection": {},
+  "appstreamUrlTypeBugtracker": "Veahaldus",
+  "@appstreamUrlTypeBugtracker": {},
+  "managePageInstalledAndUpdatedLabel": "Paigaldatud ja uuendatud",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "snapActionUpdatingLabel": "Uuendamisel",
+  "@snapActionUpdatingLabel": {},
+  "searchFieldSearchForLabel": "Vaata kõiki „{query}“ otsingu vastuseid",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageShowDetailsLabel": "Näita üksikasju",
+  "@managePageShowDetailsLabel": {},
+  "managePageUpdatedMonthsAgo": "Uuendatud {n, plural, =1{{n} kuu} other{{n} kuu}} eest",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "packageFormatSnapLabel": "Snapi paketid",
+  "@packageFormatSnapLabel": {},
+  "managePageDocumentationLinkLabel": "Debiani pakettide halduse kohta leiad teavet dokumentatsioonist.",
+  "@managePageDocumentationLinkLabel": {},
+  "searchFieldSearchHint": "Otsi rakendusi",
+  "@searchFieldSearchHint": {},
+  "appstreamUrlTypeContribute": "Kaastöö võimalused",
+  "@appstreamUrlTypeContribute": {},
+  "managePageNoInternet": "Server pole leitav. Palun kontrolli, et arvuti internetiühendus toimib ja proovi siis uuesti.",
+  "@managePageNoInternet": {},
+  "managePageDescription": "Kontrolli uuenduste olemasolu, uuenda omi rakendusi ja halda nende olekut.",
+  "@managePageDescription": {},
+  "managePageTitle": "Halda paigaldatud snap-pakette",
+  "@managePageTitle": {},
+  "managePageShowSystemSnapsLabel": "Näita süsteemseid snapi rakendusi",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageNoUpdatesAvailableDescription": "Uuendusi ei leidu. Juba kasutad kõikide rakenduste viimaseid versioone.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "searchFieldDebSection": "Debiani paketid",
+  "@searchFieldDebSection": {},
+  "managePageUpdateAllLabel": "Uuenda kõik",
+  "@managePageUpdateAllLabel": {},
+  "managePageUpdatedDaysAgo": "Uuendatud {n, plural, =1{{n} päev} other{{n} päeva}} tagasi",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedWeeksAgo": "Uuendatud {n, plural, =1{{n} nädala} other{{n} nädala}} eest",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Uuendatud {n, plural, =1{{n} aasta} other{{n} aastat}} tagasi",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesAvailable": "Uuendused on saadaval ({n})",
+  "@managePageUpdatesAvailable": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailed": "{n, plural, =1{Üks uuendamine} other{{n} uuendamist}} ei õnnestunud",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Kuna antud rakendused hetkel töötavad, siis nende uuendamine polnud võimalik.\n\n{snapList}\nKui väljud neist rakendustest, siis tehakse uuendused automaatselt ära.",
+  "@managePageUpdatesFailedBody": {},
+  "appstreamUrlTypeDonation": "Toeta rahaliselt",
+  "@appstreamUrlTypeDonation": {},
+  "appstreamUrlTypeFaq": "KKK",
+  "@appstreamUrlTypeFaq": {},
+  "appstreamUrlTypeHelp": "Abiteave",
+  "@appstreamUrlTypeHelp": {},
+  "packageFormatDebLabel": "Debiani paketid",
+  "@packageFormatDebLabel": {},
+  "appstreamUrlTypeVcsBrowser": "Lähtekood",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "snapActionCancelLabel": "Katkesta",
+  "@snapActionCancelLabel": {},
+  "snapActionInstallLabel": "Paigalda",
+  "@snapActionInstallLabel": {},
+  "snapActionInstallingLabel": "Paigaldamisel",
+  "@snapActionInstallingLabel": {},
+  "snapActionOpenLabel": "Ava",
+  "@snapActionOpenLabel": {},
+  "snapActionRemoveLabel": "Eemalda rakendus",
+  "@snapActionRemoveLabel": {},
+  "snapActionUpdateLabel": "Uuenda",
+  "@snapActionUpdateLabel": {},
+  "snapActionRemovingLabel": "Rakendus on eemaldamisel",
+  "@snapActionRemovingLabel": {},
+  "snapActionSwitchChannelLabel": "Vaheta kanalit",
+  "@snapActionSwitchChannelLabel": {},
+  "snapCategoryAll": "Kõik kategooriad",
+  "@snapCategoryAll": {}
 }
