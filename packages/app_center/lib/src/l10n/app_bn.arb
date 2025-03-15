@@ -1,1 +1,298 @@
-{}
+{
+  "appCenterLabel": "অ্যাপ সেন্টার",
+  "@appCenterLabel": {},
+  "snapPageChannelLabel": "চ্যানেল",
+  "@snapPageChannelLabel": {},
+  "snapPageConfinementLabel": "দ্বন্দ্ব",
+  "@snapPageConfinementLabel": {},
+  "snapPageDescriptionLabel": "বর্ননা",
+  "@snapPageDescriptionLabel": {},
+  "snapPageDeveloperWebsiteLabel": "ডেভেলপার ওয়েবসাইট",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapPageSizeLabel": "আকার",
+  "@snapPageSizeLabel": {},
+  "snapPageGalleryLabel": "গ্যালারি",
+  "@snapPageGalleryLabel": {},
+  "snapPageLicenseLabel": "লাইসেন্স",
+  "@snapPageLicenseLabel": {},
+  "snapPageLinksLabel": "লিংক",
+  "@snapPageLinksLabel": {},
+  "snapPagePublisherLabel": "প্রকাশক",
+  "@snapPagePublisherLabel": {},
+  "snapPagePublishedLabel": "প্রকাশিত",
+  "@snapPagePublishedLabel": {},
+  "snapPageSummaryLabel": "সংক্ষেপে",
+  "@snapPageSummaryLabel": {},
+  "snapPageVersionLabel": "ভার্সন",
+  "@snapPageVersionLabel": {},
+  "explorePageLabel": "অনুসন্ধান কর",
+  "@explorePageLabel": {},
+  "explorePageCategoriesLabel": "ক্যাটাগরি",
+  "@explorePageCategoriesLabel": {},
+  "managePageOwnUpdateAvailable": "অ্যাপ সেন্টার আপডেটের জন্য প্রস্তুত",
+  "@managePageOwnUpdateAvailable": {},
+  "snapPageContactPublisherLabel": "{publisher} এর সাথে যোগাযোগ",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateDescription": "যখন তুমি অ্যাপ থেকে বের হয়ে যাবে, তখন সয়ংক্রয়ভাবে আপডেট হয়ে যাবে।",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateQuitButton": "আপডেট থেকে প্রস্থান",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageCheckForUpdates": "আপডেট চেক কর",
+  "@managePageCheckForUpdates": {},
+  "managePageCheckingForUpdates": "আপডেট খোজা হচ্ছে",
+  "@managePageCheckingForUpdates": {},
+  "managePageNoInternet": "সার্ভারে পৌঁছানো সম্ভব হচ্ছে না, তোমার ইন্টারনেট কানেকশন পরীক্ষা করো অথবা আবার চেষ্টা করো।",
+  "@managePageNoInternet": {},
+  "managePageInstalledAndUpdatedLabel": "ইন্সটল এবং আপডেট করা হয়েছে",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "managePageInstallingLabel": "ইন্সটল করা হচ্ছে ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageLabel": "নিয়ন্ত্রণ কর",
+  "@managePageLabel": {},
+  "managePageTitle": "ইন্সটল করা snap নিয়ন্ত্রণ করো",
+  "@managePageTitle": {},
+  "managePageSearchFieldSearchHint": "ইন্সটল করা অ্যাপ খোঁজ",
+  "@managePageSearchFieldSearchHint": {},
+  "managePageShowDetailsLabel": "বিস্তারিত দেখাও",
+  "@managePageShowDetailsLabel": {},
+  "managePageShowSystemSnapsLabel": "system snap দেখাও",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageUpdateAllLabel": "সবগুলো আপডেট করো",
+  "@managePageUpdateAllLabel": {},
+  "managePageUpdatedWeeksAgo": "আপডেট করা হয়েছে {n, plural, =1{{n} সপ্তাহ} other{{n} সপ্তাহ}} আগে",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "আপডেট করা হয়েছে {n, plural, =1{{n} বছর} other{{n} বছর}} age",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesAvailable": "নতুন আপডেট অবশিষ্ট আছে ({n})",
+  "@managePageUpdatesAvailable": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageQuitToUpdate": "আপডেট করতে প্রস্থান কর",
+  "@managePageQuitToUpdate": {},
+  "managePageNoUpdatesAvailableDescription": "কোনো নতুন আপডেট নেই। তোমার অ্যাপ্লিকেশনগুলো হালনাগাদ করা আছে।",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "managePageDescription": "অবশিষ্ট আপডেট চেক করো, অ্যাপগুলো আপডেট করো, এবং সকল অ্যাপের মান নিয়ন্ত্রণ করুন।",
+  "@managePageDescription": {},
+  "appstreamSearchGreylist": "অ্যাপ;অ্যাপ্লিকেশন;প্যাকেজ;প্রোগ্রাম;টুল",
+  "@appstreamSearchGreylist": {},
+  "snapPageShareLinkCopiedMessage": "লিংক ক্লিপবোর্ড-এ কপি করা হয়েছে",
+  "@snapPageShareLinkCopiedMessage": {},
+  "snapPageDownloadSizeLabel": "ডাউনলোডের আকার",
+  "@snapPageDownloadSizeLabel": {},
+  "managePageOwnUpdateDescriptionSoon": "অ্যাপ সেন্টার সয়ংক্রয়ভাবে {time} সময়ে আপডেট হবে।",
+  "@managePageOwnUpdateDescriptionSoon": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageDebUpdatesMessage": "Debian package গুলি Software Updater দ্বারা পরিচালিত হয়।",
+  "@managePageDebUpdatesMessage": {},
+  "managePageUpdatedDaysAgo": "আপডেট করা হয়েছে {n, plural, =1{{n} দিন} other{{n} দিন}} আগে",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "আপডেট করা হয়েছে {n, plural, =1{{n} মাস} other{{n} মাস}} আগে",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailed": "{n, plural, =1{একটি আপডেট} other{{n} updates}} অকৃতকার্য।",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "searchPageNoResultsCategory": "দুঃখিত, আমরা এই ক্যাটাগরির কোনো প্যাকেজ খুঁজে পাইনি",
+  "@searchPageNoResultsCategory": {},
+  "developmentPageLabel": "Development",
+  "@developmentPageLabel": {},
+  "searchFieldSearchForLabel": "\"{query}\"-এর সকল ফলাফল দেখুন",
+  "@searchFieldSearchForLabel": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageFilterByLabel": "ফিল্টার",
+  "@searchPageFilterByLabel": {},
+  "searchPageNoResultsHint": "অন্য কোনো শব্দ অথবা আরো সাধারণ শব্দ দিয়ে চেষ্টা করুন",
+  "@searchPageNoResultsHint": {},
+  "managePageDocumentationLinkLabel": "Debian Package নিয়ন্ত্রণ করা শিখুন।",
+  "@managePageDocumentationLinkLabel": {},
+  "gamesPageFeatured": "Featured Titles",
+  "@gamesPageFeatured": {},
+  "gamesPageBundles": "App Bundles",
+  "@gamesPageBundles": {},
+  "unknownPublisher": "অজানা প্রকাশক",
+  "@unknownPublisher": {},
+  "searchFieldDebSection": "ডেবিয়ান প্যাকেজ",
+  "@searchFieldDebSection": {},
+  "searchFieldSearchHint": "অ্যাপ খুঁজুন",
+  "@searchFieldSearchHint": {},
+  "searchPageNoResultsCategoryHint": "অন্য কোনো ক্যাটাগরি দিয়ে আবার চেষ্টা করুন",
+  "@searchPageNoResultsCategoryHint": {},
+  "managePageUpdatesFailedBody": "আমরা অ্যাপগুলো আপডেট করতে পারিনি। কারন সেগুলো এই মুহুর্তে চলমান অবস্থায় আছে।\n\n{snapList}\nযখন আপনি অ্যাপ থেকে প্রস্থান করবেন, তখন অ্যাপগুলো সয়ংক্রয়ভাবে আপডেট হবে।",
+  "@managePageUpdatesFailedBody": {},
+  "searchPageSortByLabel": "সাজানো",
+  "@searchPageSortByLabel": {},
+  "searchFieldSnapSection": "Snap প্যাকেজ",
+  "@searchFieldSnapSection": {},
+  "searchPageNoResults": "\"{query}\"- এর জন্য কোনো ফলাফল পাওয়া যায় নি",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageRelevanceLabel": "সম্পর্কিত",
+  "@searchPageRelevanceLabel": {},
+  "gamesPageTitle": "কোনটি আকর্ষণীয়",
+  "@gamesPageTitle": {},
+  "gamesPageLabel": "Games",
+  "@gamesPageLabel": {},
+  "gamesPageTop": "উচ্চ Rated",
+  "@gamesPageTop": {},
+  "searchPageTitle": "\"{query}\" এর জন্য ফলাফল",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryDevelopmentSlogan": "ডেভেলপারদের snap থাকা উচিত",
+  "@snapCategoryDevelopmentSlogan": {},
+  "snapActionRemoveLabel": "আন-ইনস্টল",
+  "@snapActionRemoveLabel": {},
+  "snapActionSwitchChannelLabel": "channel পরিবর্তন করুন",
+  "@snapActionSwitchChannelLabel": {},
+  "snapActionRemovingLabel": "সরানো হচ্ছে",
+  "@snapActionRemovingLabel": {},
+  "snapActionUpdateLabel": "আপডেট করুন",
+  "@snapActionUpdateLabel": {},
+  "snapCategoryAll": "সকল category",
+  "@snapCategoryAll": {},
+  "snapActionUpdatingLabel": "আপডেট হচ্ছ",
+  "@snapActionUpdatingLabel": {},
+  "snapCategoryArtAndDesign": "Art and Design",
+  "@snapCategoryArtAndDesign": {},
+  "snapCategoryArtAndDesignButtonLabel": "তৈরি করা শুরু করুন",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "আপনার প্রথম স্কেচ থেকে চূড়ান্ত স্পর্শ পর্যন্ত, শিল্প এবং ডিজাইনের জন্য অ্যাপগুলি এক্সপ্লোর করুন।",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "snapCategoryDevicesAndIot": "ডিভাইস এবং IoT",
+  "@snapCategoryDevicesAndIot": {},
+  "snapCategoryBooksAndReference": "বই এবং রেফারেন্স",
+  "@snapCategoryBooksAndReference": {},
+  "snapActionInstallingLabel": "ইন্সটল হচ্ছে",
+  "@snapActionInstallingLabel": {},
+  "snapActionOpenLabel": "চালু করুন",
+  "@snapActionOpenLabel": {},
+  "snapCategoryDefaultButtonLabel": "আরো খুঁজুন",
+  "@snapCategoryDefaultButtonLabel": {},
+  "snapCategoryDevelopment": "Development",
+  "@snapCategoryDevelopment": {},
+  "aboutPageVersionLabel": "ভার্সন {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageContributorTitle": "ডিজাইন এবং ডেভেলপমেন্ট-কারী:",
+  "@aboutPageContributorTitle": {},
+  "aboutPageCommunityTitle": "কমিউনিটিতে যোগ দিন:",
+  "@aboutPageCommunityTitle": {},
+  "aboutPageGitHubLabel": "আমাদের GitHub Page",
+  "@aboutPageGitHubLabel": {},
+  "aboutPagePublishLabel": "Snap Store এ প্রকাশ করুন",
+  "@aboutPagePublishLabel": {},
+  "aboutPageLearnMoreLabel": "আরো জানুন",
+  "@aboutPageLearnMoreLabel": {},
+  "appstreamUrlTypeBugtracker": "Bug সনাক্তকারী",
+  "@appstreamUrlTypeBugtracker": {},
+  "appstreamUrlTypeContact": "যোগাযোগ",
+  "@appstreamUrlTypeContact": {},
+  "appstreamUrlTypeContribute": "Contribute করুন",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeDonation": "দান করুন",
+  "@appstreamUrlTypeDonation": {},
+  "snapCategoryEducation": "শিক্ষা",
+  "@snapCategoryEducation": {},
+  "appstreamUrlTypeFaq": "অত্যধিক জিজ্ঞেস করা প্রশ্ন",
+  "@appstreamUrlTypeFaq": {},
+  "appstreamUrlTypeHelp": "সাহায্য",
+  "@appstreamUrlTypeHelp": {},
+  "appstreamUrlTypeHomepage": "Homepage",
+  "@appstreamUrlTypeHomepage": {},
+  "appstreamUrlTypeTranslate": "অনুবাদ",
+  "@appstreamUrlTypeTranslate": {},
+  "snapCategoryEntertainment": "বিনোদন",
+  "@snapCategoryEntertainment": {},
+  "snapCategoryFeatured": "Featured",
+  "@snapCategoryFeatured": {},
+  "snapCategoryFeaturedSlogan": "Featured Snaps",
+  "@snapCategoryFeaturedSlogan": {},
+  "snapCategoryFinance": "আর্থিক",
+  "@snapCategoryFinance": {},
+  "snapCategoryGames": "খেলা",
+  "@snapCategoryGames": {},
+  "aboutPageLabel": "About",
+  "@aboutPageLabel": {},
+  "appstreamUrlTypeVcsBrowser": "উৎস",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "packageFormatDebLabel": "ডেবিয়ান প্যাকেজ",
+  "@packageFormatDebLabel": {},
+  "packageFormatSnapLabel": "Snap প্যাকেজ",
+  "@packageFormatSnapLabel": {},
+  "snapActionCancelLabel": "বাতিল",
+  "@snapActionCancelLabel": {},
+  "aboutPageContributeLabel": "অবদান রাখুন অথবা সমস্যা রিপোর্ট করুন",
+  "@aboutPageContributeLabel": {},
+  "snapActionInstallLabel": "ইন্সটল",
+  "@snapActionInstallLabel": {},
+  "snapActionInstalledLabel": "ইন্সটলড",
+  "@snapActionInstalledLabel": {}
+}
