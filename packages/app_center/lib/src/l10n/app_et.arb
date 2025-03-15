@@ -198,5 +198,15 @@
   "snapActionSwitchChannelLabel": "Vaheta kanalit",
   "@snapActionSwitchChannelLabel": {},
   "snapCategoryAll": "Kõik kategooriad",
-  "@snapCategoryAll": {}
+  "@snapCategoryAll": {},
+  "installAll": "Paigalda kõik",
+  "@installAll": {},
+  "errorViewUnknownErrorTitle": "Midagi läks valesti",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorDescription": "Vabandust, aga me pole kindlad selles, mis veaga on tegemist.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "Sa võid proovida kohe uuesti või jälgida uuenduste olekuid ning teavet ja proovida uuesti hiljem.",
+  "@errorViewUnknownErrorAction": {},
+  "openInBrowser": "Ava veebibrauseris",
+  "@openInBrowser": {}
 }
