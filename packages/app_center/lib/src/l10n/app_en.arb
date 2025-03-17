@@ -28,14 +28,6 @@
     "managePageOwnUpdateAvailable": "App Center update available",
     "managePageQuitToUpdate": "Quit to update",
     "managePageOwnUpdateDescription": "When you quit the application it will automatically update.",
-    "managePageOwnUpdateDescriptionSoon": "The app center will automatically update in {time}.",
-    "@managePageOwnUpdateDescriptionSoon": {
-        "placeholders": {
-            "time": {
-                "type": "String"
-            }
-        }
-    },
     "managePageOwnUpdateQuitButton": "Quit to update",
     "managePageCheckForUpdates": "Check for updates",
     "managePageCheckingForUpdates": "Checking for updates",
