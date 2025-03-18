@@ -452,5 +452,7 @@
   "snapCategoryUtilities": "Tarvikud",
   "@snapCategoryUtilities": {},
   "externalResources": "Täiendavad vahendid",
-  "@externalResources": {}
+  "@externalResources": {},
+  "externalResourcesDisclaimer": "Märkus: tegemist on välise tarkvara ja teabega, mida Canonical ei omista ega levita.",
+  "@externalResourcesDisclaimer": {}
 }
