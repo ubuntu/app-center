@@ -278,5 +278,7 @@
   "aboutPageLearnMoreLabel": "Lisateave",
   "@aboutPageLearnMoreLabel": {},
   "aboutPagePublishLabel": "Avalda rakendus Snap Store rakendustepoes",
-  "@aboutPagePublishLabel": {}
+  "@aboutPagePublishLabel": {},
+  "snapCategoryArtAndDesign": "Kunst ja kujundus",
+  "@snapCategoryArtAndDesign": {}
 }
