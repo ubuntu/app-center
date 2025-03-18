@@ -454,5 +454,7 @@
   "externalResources": "Täiendavad vahendid",
   "@externalResources": {},
   "externalResourcesDisclaimer": "Märkus: tegemist on välise tarkvara ja teabega, mida Canonical ei omista ega levita.",
-  "@externalResourcesDisclaimer": {}
+  "@externalResourcesDisclaimer": {},
+  "localDebWarningTitle": "Võib olla ebaturvaline",
+  "@localDebWarningTitle": {}
 }
