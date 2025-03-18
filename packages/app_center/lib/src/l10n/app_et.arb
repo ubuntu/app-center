@@ -274,5 +274,9 @@
         "type": "String"
       }
     }
-  }
+  },
+  "aboutPageLearnMoreLabel": "Lisateave",
+  "@aboutPageLearnMoreLabel": {},
+  "aboutPagePublishLabel": "Avalda rakendus Snap Store rakendustepoes",
+  "@aboutPagePublishLabel": {}
 }
