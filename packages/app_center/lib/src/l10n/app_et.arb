@@ -226,5 +226,53 @@
   "unknownPublisher": "Tundmatu väljaandja",
   "@unknownPublisher": {},
   "gamesPageTitle": "Populaarsed mängud",
-  "@gamesPageTitle": {}
+  "@gamesPageTitle": {},
+  "searchPageFilterByLabel": "Paketi tüüp",
+  "@searchPageFilterByLabel": {},
+  "searchPageNoResults": "Otsingul „{query}“ puuduvad vastused",
+  "@searchPageNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchPageNoResultsHint": "Palun muuda otsingusõna üldisemaks või proovi otsida muid sõnu",
+  "@searchPageNoResultsHint": {},
+  "snapPageConfinementLabel": "Eraldatud konteineris",
+  "@snapPageConfinementLabel": {},
+  "searchPageNoResultsCategoryHint": "Palun muuda otsingusõna üldisemaks või proovi otsida muust kategooriast",
+  "@searchPageNoResultsCategoryHint": {},
+  "searchPageSortByLabel": "Järjestus",
+  "@searchPageSortByLabel": {},
+  "searchPageRelevanceLabel": "Teemakohasus",
+  "@searchPageRelevanceLabel": {},
+  "aboutPageLabel": "Rakenduse teave",
+  "@aboutPageLabel": {},
+  "searchPageNoResultsCategory": "Vabandust, sellest kategooriast ei leidnud me ühtegi paketti",
+  "@searchPageNoResultsCategory": {},
+  "aboutPageVersionLabel": "Versioon {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageContributorTitle": "Projekteerijad ja arendajad:",
+  "@aboutPageContributorTitle": {},
+  "aboutPageCommunityTitle": "Osale kogukonna tegevuses:",
+  "@aboutPageCommunityTitle": {},
+  "aboutPageContributeLabel": "Tee kaastööd või teata vigadest",
+  "@aboutPageContributeLabel": {},
+  "aboutPageGitHubLabel": "Leiad meid GitHubist",
+  "@aboutPageGitHubLabel": {},
+  "searchPageTitle": "Tulemused päringule „{query}“",
+  "@searchPageTitle": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  }
 }
