@@ -308,5 +308,41 @@
   "snapSortOrderInstalledDateDesc": "Hiljuti uuendatud",
   "@snapSortOrderInstalledDateDesc": {},
   "snapSortOrderRelevance": "Teemakohasus",
-  "@snapSortOrderRelevance": {}
+  "@snapSortOrderRelevance": {},
+  "snapRatingsBandVeryGood": "Väga hea",
+  "@snapRatingsBandVeryGood": {},
+  "snapRatingsBandGood": "Hea",
+  "@snapRatingsBandGood": {},
+  "snapRatingsBandInsufficientVotes": "Pole piisavalt hindajaid",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsVotes": "{n} hinnangut",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapReportLabel": "Teata rakendusest: {snapName}",
+  "@snapReportLabel": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "snapReportSelectReportReasonLabel": "Vali rakendusest teatamise põhjus",
+  "@snapReportSelectReportReasonLabel": {},
+  "snapReportSelectAnOptionLabel": "Vali üks põhjus",
+  "@snapReportSelectAnOptionLabel": {},
+  "snapReportOptionCopyrightViolation": "Autoriõiguste või kaubamärgi kasutustingimuste rikkumine",
+  "@snapReportOptionCopyrightViolation": {},
+  "snapReportOptionStoreViolation": "Snap Store rakendustepoe kasutustingimuste rikkumine",
+  "@snapReportOptionStoreViolation": {},
+  "snapRatingsBandNeutral": "Tavaline",
+  "@snapRatingsBandNeutral": {},
+  "snapRatingsBandPoor": "Kehv",
+  "@snapRatingsBandPoor": {},
+  "snapRatingsBandVeryPoor": "Väga kehv",
+  "@snapRatingsBandVeryPoor": {}
 }
