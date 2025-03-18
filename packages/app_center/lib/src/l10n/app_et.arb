@@ -456,5 +456,33 @@
   "externalResourcesDisclaimer": "Märkus: tegemist on välise tarkvara ja teabega, mida Canonical ei omista ega levita.",
   "@externalResourcesDisclaimer": {},
   "localDebWarningTitle": "Võib olla ebaturvaline",
-  "@localDebWarningTitle": {}
+  "@localDebWarningTitle": {},
+  "localDebDialogMessage": "See rakendus on lisatud kolmanda osapoole poolt suurendab sinu arvutiga ja isiklike andmetega seotud riske.",
+  "@localDebDialogMessage": {},
+  "localDebWarningBody": "See rakendus on lisatud kolmanda osapoole poolt. Rakenduste paigaldamine väljastpoolt Rakendustekeskust suurendab sinu arvutiga ja isiklike andmetega seotud riske. Enne paigaldamist palun kontrolli, et usaldad lähteallikat.",
+  "@localDebWarningBody": {},
+  "errorViewNetworkErrorAction": "Kontrolli internetiühenduse toimivust ja proovi uuesti.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "Vabandame, hetkel on Rakenduste keskuse töös probleeme.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewNetworkErrorTitle": "Loo internetiühendus",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "Rakenduste keskuse sisu laadimine ilma toimiva internetiühenduseta pole võimalik.",
+  "@errorViewNetworkErrorDescription": {},
+  "localDebLearnMore": "Lisateave kolmandate osapoolte pakettide kohta",
+  "@localDebLearnMore": {},
+  "localDebDialogConfirmation": "Kas sa oled kindel, et soovid ta paigaldada?",
+  "@localDebDialogConfirmation": {},
+  "errorViewCheckStatusLabel": "Kontrolli olekut",
+  "@errorViewCheckStatusLabel": {},
+  "snapdExceptionRunningApps": "Kuna rakendus hetkel töötab, siis me ei saanud „{snapName}“ paketti uuendada.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewServerErrorAction": "Palun kontrolli uuenduste olekuid ja proovi hiljem uuesti.",
+  "@errorViewServerErrorAction": {}
 }
