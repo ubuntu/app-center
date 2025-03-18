@@ -280,5 +280,11 @@
   "aboutPagePublishLabel": "Avalda rakendus Snap Store rakendustepoes",
   "@aboutPagePublishLabel": {},
   "snapCategoryArtAndDesign": "Kunst ja kujundus",
-  "@snapCategoryArtAndDesign": {}
+  "@snapCategoryArtAndDesign": {},
+  "snapConfinementClassic": "Klassikaline",
+  "@snapConfinementClassic": {},
+  "snapCategoryArtAndDesignButtonLabel": "Alusta loomisega",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "Alates esimeste visandite tegemisest kuni viimase täpini „i“ peal, on sul olemas kõik vajalik kunsti ja kujunduse jaoks.",
+  "@snapCategoryArtAndDesignSlogan": {}
 }
