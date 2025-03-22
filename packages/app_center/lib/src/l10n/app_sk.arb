@@ -213,7 +213,7 @@
   "@snapSortOrderAlphabeticalDesc": {},
   "searchPageNoResultsCategory": "Ľutujeme, v tejto kategórii sme nenašli žiadne balíky",
   "@searchPageNoResultsCategory": {},
-  "snapRatingsVotes": "{n} hlasov",
+  "snapRatingsVotes": "Hlasov ({n})",
   "@snapRatingsVotes": {
     "placeholders": {
       "n": {
