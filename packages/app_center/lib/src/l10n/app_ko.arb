@@ -464,5 +464,7 @@
   "errorViewCheckStatusLabel": "상태 확인",
   "@errorViewCheckStatusLabel": {},
   "snapConfinementDevmode": "개발 모드",
-  "@snapConfinementDevmode": {}
+  "@snapConfinementDevmode": {},
+  "errorViewNetworkErrorTitle": "인터넷에 연결",
+  "@errorViewNetworkErrorTitle": {}
 }
