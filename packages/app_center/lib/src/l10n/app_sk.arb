@@ -213,7 +213,7 @@
   "@snapSortOrderAlphabeticalDesc": {},
   "searchPageNoResultsCategory": "Ľutujeme, v tejto kategórii sme nenašli žiadne balíky",
   "@searchPageNoResultsCategory": {},
-  "snapRatingsVotes": "{n} hlasov",
+  "snapRatingsVotes": "Hlasov ({n})",
   "@snapRatingsVotes": {
     "placeholders": {
       "n": {
@@ -281,7 +281,7 @@
   "@appCenterLabel": {},
   "gamesPageTitle": "Populárne",
   "@gamesPageTitle": {},
-  "gamesPageTop": "Najlepšie hry",
+  "gamesPageTop": "Najlepšie hodnotené",
   "@gamesPageTop": {},
   "snapCategoryGameDevSlogan": "Vývoj hier",
   "@snapCategoryGameDevSlogan": {},
@@ -463,7 +463,7 @@
   "@managePageUpdatesFailedBody": {},
   "managePageTitle": "Ovládajte nainštalované snapy",
   "@managePageTitle": {},
-  "snapCategoryArtAndDesignSlogan": "Od prvého náčrtu až po posledný dotyk preskúmajte aplikácie pre umenie a dizajn.",
+  "snapCategoryArtAndDesignSlogan": "Od prvého náčrtu až po finálny dotyk, objavte aplikácie pre umenie a dizajn.",
   "@snapCategoryArtAndDesignSlogan": {},
   "snapCategoryArtAndDesignButtonLabel": "Začnite s tvorbou",
   "@snapCategoryArtAndDesignButtonLabel": {},
