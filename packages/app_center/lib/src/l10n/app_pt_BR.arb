@@ -468,5 +468,15 @@
   "managePageQuitToUpdate": "Sair para atualizar",
   "@managePageQuitToUpdate": {},
   "managePageDocumentationLinkLabel": "Saiba como gerenciar pacotes Debian na documentação.",
-  "@managePageDocumentationLinkLabel": {}
+  "@managePageDocumentationLinkLabel": {},
+  "managePageInstallingLabel": "Instalando {n}",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "debPageDocumentationLinkLabel": "Aprenda sobre gerenciamento de pacotes Debian",
+  "@debPageDocumentationLinkLabel": {}
 }
