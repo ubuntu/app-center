@@ -249,11 +249,17 @@ class _MaybeBackButton extends ConsumerWidget {
 
 extension StoreAppThemeX on ThemeData {
   ThemeData customize({bool highContrast = false}) {
-    return copyWith(
+    final base = copyWith(
       inputDecorationTheme: inputDecorationTheme.copyWith(
         fillColor: colorScheme.surface,
         hoverColor: colorScheme.surface,
       ),
     );
+
+    final highContrastTheme = base.copyWith(
+      hintColor: colorScheme.onSurface,
+    );
+
+    return highContrast ? highContrastTheme : base;
   }
 }
