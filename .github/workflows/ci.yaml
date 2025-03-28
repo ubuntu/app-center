@@ -99,6 +99,18 @@ jobs:
         with:
           token: ${{secrets.CODECOV_TOKEN}}
 
+      - name: Convert Flutter coverage files to cobertura XML
+        run: |
+          dart pub global activate cobertura
+          mkdir coverage
+          for package in app_center app_center_ratings_client; do
+            pushd packages/$package
+            cobertura convert
+            sed -i 's/branches-covered/decisions-covered/g' coverage/cobertura.xml
+            mv coverage/cobertura.xml ../../coverage/$package.xml
+            popd
+          done
+
       - name: Run TICS analysis
         # if: github.event_name == 'push'
         uses: tiobe/tics-github-action@v3
