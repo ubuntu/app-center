@@ -58,10 +58,12 @@ class _StoreAppState extends ConsumerState<StoreApp> {
       },
       child: YaruTheme(
         builder: (context, yaru, child) => MaterialApp(
-          theme: yaru.theme,
-          darkTheme: yaru.darkTheme,
-          highContrastTheme: yaruHighContrastLight,
-          highContrastDarkTheme: yaruHighContrastDark,
+          theme: yaru.theme?.customize(),
+          darkTheme: yaru.darkTheme?.customize(),
+          highContrastTheme:
+              yaruHighContrastLight.customize(highContrast: true),
+          highContrastDarkTheme:
+              yaruHighContrastDark.customize(highContrast: true),
           debugShowCheckedModeBanner: false,
           localizationsDelegates: localizationsDelegates,
           navigatorKey: ref.watch(materialAppNavigatorKeyProvider),
@@ -242,5 +244,22 @@ class _MaybeBackButton extends ConsumerWidget {
             onPressed: navigatorKey.currentState?.pop,
           )
         : const SizedBox();
+  }
+}
+
+extension StoreAppThemeX on ThemeData {
+  ThemeData customize({bool highContrast = false}) {
+    final base = copyWith(
+      inputDecorationTheme: inputDecorationTheme.copyWith(
+        fillColor: colorScheme.surface,
+        hoverColor: colorScheme.surface,
+      ),
+    );
+
+    final highContrastTheme = base.copyWith(
+      hintColor: colorScheme.onSurface,
+    );
+
+    return highContrast ? highContrastTheme : base;
   }
 }
