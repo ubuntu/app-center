@@ -111,6 +111,14 @@ jobs:
             popd
           done
 
+      - name: Install dependencies for TICS analysis
+        if: github.event_name == 'push'
+        run: sudo apt update && sudo apt install -y clang cmake libglib2.0-dev libgtk-3-dev liblzma-dev ninja-build pkg-config
+
+      - name: Build flutter packages for TICS analysis
+        if: github.event_name == 'push'
+        run: melos build
+
       - name: Run TICS analysis
         # if: github.event_name == 'push'
         uses: tiobe/tics-github-action@v3
