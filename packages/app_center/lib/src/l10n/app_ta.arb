@@ -67,7 +67,7 @@
   "@managePageShowSystemSnapsLabel": {},
   "managePageUpdateAllLabel": "அனைத்தையும் புதுப்பிக்கவும்",
   "@managePageUpdateAllLabel": {},
-  "managePageUpdatedDaysAgo": "புதுப்பிக்கப்பட்டது {n, பன்மை, = 1 {{n} நாள்} பிற {{n} நாட்கள்}} முன்பு",
+  "managePageUpdatedDaysAgo": "புதுப்பிக்கப்பட்டது {n, plural, =1{{n} நாள்} other{{n} நாட்கள்}} முன்பு",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -75,7 +75,7 @@
       }
     }
   },
-  "managePageUpdatedWeeksAgo": "புதுப்பிக்கப்பட்டது {மற்றும், பன்மை, = 1} வாரம்} பிற {{n} வாரங்கள்}} முன்பு",
+  "managePageUpdatedWeeksAgo": "Updated {n, plural, =1{{n} week} other{{n} weeks}} ago",
   "@managePageUpdatedWeeksAgo": {
     "placeholders": {
       "n": {
@@ -83,7 +83,7 @@
       }
     }
   },
-  "managePageUpdatedMonthsAgo": "புதுப்பிக்கப்பட்டது {n, பன்மை, = 1 {{n} மாதம்} பிற {{n} மாதங்கள்}} முன்பு",
+  "managePageUpdatedMonthsAgo": "புதுப்பிக்கப்பட்டது {n, plural, =1{{n} மாதம்} other{{n} மாதங்கள்}} முன்பு",
   "@managePageUpdatedMonthsAgo": {
     "placeholders": {
       "n": {
@@ -91,7 +91,7 @@
       }
     }
   },
-  "managePageUpdatedYearsAgo": "புதுப்பிக்கப்பட்டது {n, பன்மை, = 1 {{n} ஆண்டு} பிற {{n} ஆண்டுகள்}} முன்பு",
+  "managePageUpdatedYearsAgo": "புதுப்பிக்கப்பட்டது {n, plural, =1{{n} ஆண்டு} other{{n} ஆண்டுகள்}} முன்பு",
   "@managePageUpdatedYearsAgo": {
     "placeholders": {
       "n": {
@@ -107,7 +107,7 @@
       }
     }
   },
-  "managePageUpdatesFailed": "{n, பன்மை, = 1 {One update} பிற {{n} புதுப்பிப்புகள்}} தோல்வியுற்றது",
+  "managePageUpdatesFailed": "{n, plural, =1 {One update} other{{n} புதுப்பிப்புகள்}} தோல்வியுற்றது",
   "@managePageUpdatesFailed": {
     "placeholders": {
       "n": {
