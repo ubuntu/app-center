@@ -163,7 +163,7 @@
       }
     }
   },
-  "managePageUpdatesFailedBody": "De volgende applicaties zijn niet bijgewerkt omdat ze momenteel actief zijn.\n\n{snapList}\nWanneer u de applicaties afsluit, worden ze automatisch bijgewerkt.",
+  "managePageUpdatesFailedBody": "De volgende applicaties zijn niet bijgewerkt omdat ze momenteel actief zijn.\n\n{snapList}\nWanneer je de applicaties afsluit, worden ze automatisch bijgewerkt.",
   "@managePageUpdatesFailedBody": {},
   "snapActionInstalledLabel": "Geïnstalleerd",
   "@snapActionInstalledLabel": {},
