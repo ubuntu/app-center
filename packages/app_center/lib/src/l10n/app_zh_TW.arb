@@ -127,7 +127,7 @@
   "@managePageUpdatesAvailable": {},
   "gamesPageTitle": "熱門",
   "@gamesPageTitle": {},
-  "gamesPageTop": "熱門遊戲",
+  "gamesPageTop": "最受好評",
   "@gamesPageTop": {},
   "gamesPageFeatured": "精選遊戲",
   "@gamesPageFeatured": {},
@@ -475,8 +475,8 @@
       }
     }
   },
-  "managePageDocumentationLinkLabel": "在文件中了解如何管理 Debian 套件。",
+  "managePageDocumentationLinkLabel": "在文件中了解如何管理 Debian 軟體包。",
   "@managePageDocumentationLinkLabel": {},
-  "debPageDocumentationLinkLabel": "了解如何管理 Debian 套件",
+  "debPageDocumentationLinkLabel": "了解如何管理 Debian 軟體包",
   "@debPageDocumentationLinkLabel": {}
 }
