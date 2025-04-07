@@ -84,7 +84,6 @@ class _SnapReportState extends State<SnapReport> {
                   textAlignVertical: TextAlignVertical.top,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                    fillColor: Theme.of(context).dividerColor,
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                     isDense: true,
                     hintText: l10n.snapReportDetailsHint,
@@ -106,7 +105,6 @@ class _SnapReportState extends State<SnapReport> {
               TextFormField(
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                  fillColor: Theme.of(context).dividerColor,
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   hintText: 'email@exemple.com',
                 ),

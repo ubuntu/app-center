@@ -205,6 +205,9 @@ class _CommunityTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final markdownTheme = MarkdownStyleSheet.fromTheme(theme);
+
     return YaruTile(
       // TODO: icon
       title: Text(
@@ -214,6 +217,11 @@ class _CommunityTile extends StatelessWidget {
       subtitle: MarkdownBody(
         data: '[$subtitle]($href)',
         onTapLink: (_, href, __) => launchUrlString(href!),
+        styleSheet: markdownTheme.copyWith(
+          a: markdownTheme.a?.copyWith(
+            decoration: TextDecoration.underline,
+          ),
+        ),
       ),
       padding: EdgeInsets.zero,
     );
