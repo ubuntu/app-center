@@ -297,13 +297,14 @@ MockRatingsService registerMockRatingsService({
   List<Vote>? snapVotes,
 }) {
   final service = MockRatingsService();
-  when(service.getRating(any)).thenAnswer(
+  when(service.getRating(any, any)).thenAnswer(
     (_) async =>
         rating ??
         const Rating(
           snapId: '',
           totalVotes: 0,
           ratingsBand: RatingsBand.insufficientVotes,
+          snapName: '',
         ),
   );
   when(service.getSnapVotes(any)).thenAnswer((_) async => snapVotes ?? []);
@@ -316,22 +317,23 @@ MockRatingsService registerMockRatingsService({
 MockRatingsClient createMockRatingsClient({
   String? token,
   Rating? rating,
-  List<Vote>? myVotes,
   List<Vote>? snapVotes,
+  List<ChartData>? chartData,
 }) {
   final client = MockRatingsClient();
   when(client.authenticate(any)).thenAnswer((_) async => token ?? '');
-  when(client.getRating(any, any)).thenAnswer(
+  when(client.getRating(any, any, any)).thenAnswer(
     (_) async =>
         rating ??
         const Rating(
           snapId: '',
           totalVotes: 0,
           ratingsBand: RatingsBand.insufficientVotes,
+          snapName: '',
         ),
   );
-  when(client.listMyVotes(any, any)).thenAnswer((_) async => myVotes ?? []);
   when(client.getSnapVotes(any, any)).thenAnswer((_) async => snapVotes ?? []);
+  when(client.getChart(any, any, any)).thenAnswer((_) async => chartData ?? []);
   return client;
 }
 

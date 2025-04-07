@@ -217,7 +217,7 @@
   "@snapReportSelectAnOptionLabel": {},
   "externalResourcesButtonLabel": "Továbbiak felfedezése",
   "@externalResourcesButtonLabel": {},
-  "gamesPageTop": "Legjobb játékok",
+  "gamesPageTop": "Legjobbra értékelt",
   "@gamesPageTop": {},
   "gamesPageFeatured": "Kiemelt címek",
   "@gamesPageFeatured": {},
@@ -474,5 +474,9 @@
     }
   },
   "snapCategoryArtAndDesignSlogan": "A művészeti és tervezői alkalmazások felfedezése az első vázlattól az utolsó simításig.",
-  "@snapCategoryArtAndDesignSlogan": {}
+  "@snapCategoryArtAndDesignSlogan": {},
+  "managePageDocumentationLinkLabel": "Ismerje meg a Debian-csomagok kezelésének módját a dokumentációból.",
+  "@managePageDocumentationLinkLabel": {},
+  "debPageDocumentationLinkLabel": "Ismerje meg a Debian-csomagok kezelésének módját",
+  "@debPageDocumentationLinkLabel": {}
 }

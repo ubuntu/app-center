@@ -11,6 +11,7 @@ class Vote with _$Vote {
     required int snapRevision,
     required bool voteUp,
     required DateTime dateTime,
+    required String snapName,
   }) = _Vote;
 }
 
@@ -21,6 +22,7 @@ extension VoteFromDTO on pb.Vote {
       snapRevision: snapRevision,
       voteUp: voteUp,
       dateTime: timestamp.toDateTime(),
+      snapName: snapName,
     );
   }
 }

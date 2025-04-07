@@ -257,3 +257,20 @@ class _MaybeBackButton extends ConsumerWidget {
         : const SizedBox();
   }
 }
+
+extension StoreAppThemeX on ThemeData {
+  ThemeData customize({bool highContrast = false}) {
+    final base = copyWith(
+      inputDecorationTheme: inputDecorationTheme.copyWith(
+        fillColor: colorScheme.surface,
+        hoverColor: colorScheme.surface,
+      ),
+    );
+
+    final highContrastTheme = base.copyWith(
+      hintColor: colorScheme.onSurface,
+    );
+
+    return highContrast ? highContrastTheme : base;
+  }
+}

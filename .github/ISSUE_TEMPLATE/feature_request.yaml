@@ -4,7 +4,6 @@ labels:
   - enhancement
 assignees:
   - d-loose
-  - sminez
   - matthew-hagemann
 body:
 - type: checkboxes

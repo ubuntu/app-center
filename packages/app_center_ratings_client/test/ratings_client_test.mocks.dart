@@ -255,27 +255,6 @@ class MockUserClient extends _i1.Mock implements _i7.UserClient {
       ) as _i2.ResponseFuture<_i9.Empty>);
 
   @override
-  _i2.ResponseFuture<_i8.ListMyVotesResponse> listMyVotes(
-    _i8.ListMyVotesRequest? request, {
-    _i2.CallOptions? options,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #listMyVotes,
-          [request],
-          {#options: options},
-        ),
-        returnValue: _FakeResponseFuture_0<_i8.ListMyVotesResponse>(
-          this,
-          Invocation.method(
-            #listMyVotes,
-            [request],
-            {#options: options},
-          ),
-        ),
-      ) as _i2.ResponseFuture<_i8.ListMyVotesResponse>);
-
-  @override
   _i2.ResponseFuture<_i8.GetSnapVotesResponse> getSnapVotes(
     _i8.GetSnapVotesRequest? request, {
     _i2.CallOptions? options,

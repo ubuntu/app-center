@@ -10,6 +10,7 @@ service App {
 
 message GetRatingRequest {
   string snap_id = 1;
+  string snap_name = 2;
 }
 
 message GetRatingResponse {
