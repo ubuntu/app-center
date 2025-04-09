@@ -111,6 +111,12 @@ jobs:
             popd
           done
 
+      - name: Cleanup
+        run: |
+          melos clean
+          melos exec -c 1 fvm flutter clean
+          rm -rf .fvm
+
       - name: Run TICS analysis
         # if: github.event_name == 'push'
         uses: tiobe/tics-github-action@v3
