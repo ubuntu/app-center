@@ -107,6 +107,7 @@ jobs:
             pushd packages/$package
             cobertura convert
             sed -i 's/branches-covered/decisions-covered/g' coverage/cobertura.xml
+            sed -i "s|lib/|$(pwd)/lib/|g" coverage/cobertura.xml
             mv coverage/cobertura.xml ../../coverage/$package.xml
             popd
           done
