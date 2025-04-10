@@ -99,15 +99,28 @@ jobs:
         with:
           token: ${{secrets.CODECOV_TOKEN}}
 
-      # FIXME: uncomment once the configuration on the TiCS side is updated to use
-      #        the correct branch name
-      # - name: Run TICS analysis
-      #   if: github.event_name == 'push'
-      #   uses: tiobe/tics-github-action@v3
-      #   with:
-      #     mode: qserver
-      #     project: app-center
-      #     viewerUrl: https://canonical.tiobe.com/tiobeweb/TICS/api/cfg?name=default
-      #     ticsAuthToken: ${{ secrets.TICSAUTHTOKEN }}
-      #     installTics: true
-      #     branchname: main
+      - name: Process coverage output
+        run: |
+          mkdir coverage
+          for package in app_center app_center_ratings_client; do
+            pushd packages/$package
+            sed -i "s|lib/|$(pwd)/lib/|g" coverage/lcov.info
+            mv coverage/lcov.info ../../coverage/$package.info
+            popd
+          done
+
+      - name: Cleanup
+        run: |
+          melos clean
+          melos exec -c 1 fvm flutter clean
+          rm -rf .fvm
+
+      - name: Run TICS analysis
+        if: github.event_name == 'push'
+        uses: tiobe/tics-github-action@v3
+        with:
+          mode: qserver
+          project: app-center
+          viewerUrl: https://canonical.tiobe.com/tiobeweb/TICS/api/cfg?name=default
+          ticsAuthToken: ${{ secrets.TICSAUTHTOKEN }}
+          installTics: true
