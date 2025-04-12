@@ -276,5 +276,43 @@
         "type": "int"
       }
     }
-  }
+  },
+  "managePageDebUpdatesMessage": "As atualizações do pacote Debian são geridas pelo Atualizador de Software.",
+  "@managePageDebUpdatesMessage": {},
+  "managePageUpdatedMonthsAgo": "Atualizado há {n, plural, =1{{n} mês} other{{n} meses}}",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "gamesPageTitle": "Em alta",
+  "@gamesPageTitle": {},
+  "gamesPageTop": "Mais bem avaliados",
+  "@gamesPageTop": {},
+  "managePageOwnUpdateAvailable": "Atualização do App Center disponível",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageOwnUpdateDescription": "Ao sair da aplicação, ela será atualizada automaticamente.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageUpdatesFailed": "{n, plural, =1{Uma atualização} other{{n} atualizações}} falhou",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Atualizado há {n, plural, =1{{n} ano} other{{n} anos}}",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageDocumentationLinkLabel": "Aprenda a gerenciar pacotes Debian na documentação.",
+  "@managePageDocumentationLinkLabel": {},
+  "managePageUpdatesFailedBody": "Não conseguimos atualizar estas aplicações porque estão atualmente em execução.\n\n{snapList}\nQuando sair das aplicações, elas serão atualizadas automaticamente.",
+  "@managePageUpdatesFailedBody": {}
 }
