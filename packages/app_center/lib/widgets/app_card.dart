@@ -80,7 +80,6 @@ class AppCard extends StatelessWidget {
     return YaruBanner(
       padding: const EdgeInsets.all(kCardSpacing),
       onTap: onTap,
-      color: Theme.of(context).cardColor,
       child: Flex(
         direction: compact ? Axis.vertical : Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.start,
