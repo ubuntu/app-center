@@ -75,7 +75,7 @@ mixin SnapdCache on SnapdClient {
         ),
       ),
     );
-    yield cachedSnaps.values.whereNotNull().toList();
+    yield cachedSnaps.values.nonNulls.toList();
 
     // Fetch and yield snaps from the store if necessary
     final writeToCache = <String, Snap>{};
@@ -101,7 +101,7 @@ mixin SnapdCache on SnapdClient {
         },
       ),
     );
-    yield storeSnaps.whereNotNull().toList();
+    yield storeSnaps.nonNulls.toList();
 
     // Save fetched snaps in the cache
     for (final e in writeToCache.entries) {
