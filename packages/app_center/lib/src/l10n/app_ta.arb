@@ -29,7 +29,7 @@
   "@managePageQuitToUpdate": {},
   "managePageOwnUpdateDescription": "நீங்கள் பயன்பாட்டை விட்டு வெளியேறும்போது அது தானாகவே புதுப்பிக்கப்படும்.",
   "@managePageOwnUpdateDescription": {},
-  "appstreamSearchGreylist": "பயன்பாடு; பயன்பாடு; தொகுப்பு; நிரல்; நிரல்; தொகுப்பு; கருவி",
+  "appstreamSearchGreylist": "பயன்; பயன்பாடு; தொகுப்பு; நிகழ்ச்சி; நிரல்; தொகுப்பு; கருவி",
   "@appstreamSearchGreylist": {},
   "snapPageChannelLabel": "வாய்க்கால்",
   "@snapPageChannelLabel": {},
@@ -75,7 +75,7 @@
       }
     }
   },
-  "managePageUpdatedWeeksAgo": "Updated {n, plural, =1{{n} week} other{{n} weeks}} ago",
+  "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} வாரம்} other{{n} வாரங்கள்}}முன்பு புதிப்பிக்கப்பட்டது",
   "@managePageUpdatedWeeksAgo": {
     "placeholders": {
       "n": {
