@@ -46,7 +46,7 @@ dependencies:
   snapd: ^0.6.4
   snowball_stemmer: ^0.1.0
   ubuntu_localizations: ^0.5.2+1
-  ubuntu_logger: ^0.2.0
+  ubuntu_logger: ^0.2.1
   ubuntu_service: ^0.4.0
   ubuntu_test: ^0.2.3
   ubuntu_widgets: ^0.7.2
