@@ -177,7 +177,7 @@ class SafeNetworkImage extends StatelessWidget {
         Icon(
           YaruIcons.image,
           size: 60,
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
         );
     if (url == null) return fallBack;
     return CachedNetworkImage(
