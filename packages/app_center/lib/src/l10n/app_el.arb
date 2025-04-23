@@ -165,7 +165,7 @@
   "@managePageLabel": {},
   "managePageTitle": "Διαχείριση εγκατεστημένων εφαρμογών",
   "@managePageTitle": {},
-  "managePageNoUpdatesAvailableDescription": "Δεν υπάρχουν διαθέσιμες ενημερώσεις.Οι εφαρμογές σας είναι ενημερωμένες",
+  "managePageNoUpdatesAvailableDescription": "Δεν υπάρχουν διαθέσιμες ενημερώσεις.Οι εφαρμογές σας είναι ενημερωμένες.",
   "@managePageNoUpdatesAvailableDescription": {},
   "managePageSearchFieldSearchHint": "Αναζήτηση Εφαρμογών",
   "@managePageSearchFieldSearchHint": {},
@@ -212,5 +212,113 @@
   "snapRatingsBandGood": "Καλά",
   "@snapRatingsBandGood": {},
   "snapRatingsBandPoor": "Φτωχό",
-  "@snapRatingsBandPoor": {}
+  "@snapRatingsBandPoor": {},
+  "snapCategoryArtAndDesignButtonLabel": "Ξεκινήστε να δημιουργείτε",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapReportLabel": "Αναφορά {snapName}",
+  "@snapReportLabel": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "snapReportOptionalEmailAddressLabel": "Το email σας (προαιρετικό)",
+  "@snapReportOptionalEmailAddressLabel": {},
+  "debPageDocumentationLinkLabel": "Μάθετε περισσότερα σχετικά με τα πακέτα Debian",
+  "@debPageDocumentationLinkLabel": {},
+  "errorViewNetworkErrorTitle": "Συνδεθείτε στο διαδίκτυο",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewServerErrorAction": "Ελέγξτε την κατάσταση για ενημερώσεις η προσπαθήστε ξανά.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "Κάτι πήγε στραβά",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorDescription": "Συγνώμη,δεν είμαστε σίγουροι ποιο είναι το λάθος.",
+  "@errorViewUnknownErrorDescription": {},
+  "managePageQuitToUpdate": "Κλείσιμο για ενημέρωση",
+  "@managePageQuitToUpdate": {},
+  "managePageOwnUpdateDescription": "Όταν κλείσετε την εφαρμογή θα ενημερωθεί αυτόματα.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateQuitButton": "Κλείσιμο για ενημέρωση",
+  "@managePageOwnUpdateQuitButton": {},
+  "snapCategoryGameDevSlogan": "Ανάπτυξη Παιχνιδιών",
+  "@snapCategoryGameDevSlogan": {},
+  "snapReportCancelButtonLabel": "Ακύρωση",
+  "@snapReportCancelButtonLabel": {},
+  "snapReportSubmitButtonLabel": "Στείλτε αναφορά",
+  "@snapReportSubmitButtonLabel": {},
+  "snapReportEnterValidEmailError": "Εισάγετε μια έγκυρη διεύθυνση email",
+  "@snapReportEnterValidEmailError": {},
+  "snapReportPrivacyAgreementPrivacyPolicy": "Πολιτική Απορρήτου",
+  "@snapReportPrivacyAgreementPrivacyPolicy": {},
+  "externalResources": "Περισσότερες πηγές",
+  "@externalResources": {},
+  "externalResourcesButtonLabel": "Ανακαλύψτε κι άλλα",
+  "@externalResourcesButtonLabel": {},
+  "allGamesButtonLabel": "Όλα τα παιχνίδια",
+  "@allGamesButtonLabel": {},
+  "localDebWarningTitle": "Πιθανός μη ασφαλή",
+  "@localDebWarningTitle": {},
+  "openInBrowser": "Άνοιγμα στον browser",
+  "@openInBrowser": {},
+  "installAll": "Εγκατάσταση όλων",
+  "@installAll": {},
+  "errorViewUnknownErrorAction": "Μπορείτε να δοκιμάσετε ξανά τώρα,ελέγξτε την κατάσταση των ενημερώσεων η προσπαθήστε ξανά.",
+  "@errorViewUnknownErrorAction": {},
+  "snapdExceptionRunningApps": "Δεν μπορούσαμε να ενημερώσουμε το {snapName} επειδή τρέχει ήδη.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryUtilities": "Εργαλεία",
+  "@snapCategoryUtilities": {},
+  "errorViewCheckStatusLabel": "Ελέγξετε κατάσταση",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewServerErrorDescription": "Συγνώμη,αντιμετωπίζουμε προβλήματα στο Κέντρο Λογισμικού.",
+  "@errorViewServerErrorDescription": {},
+  "localDebDialogConfirmation": "Είσαι σίγουρος ότι θέλεις να το εγκαταστήσεις?",
+  "@localDebDialogConfirmation": {},
+  "snapCategoryFeaturedSlogan": "Προτεινόμενα Snaps",
+  "@snapCategoryFeaturedSlogan": {},
+  "aboutPageContributeLabel": "Συνεισφέρετε η κάντε αναφορά λάθος",
+  "@aboutPageContributeLabel": {},
+  "aboutPageVersionLabel": "Έκδοση {version}",
+  "@aboutPageVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageShowDetailsLabel": "Δείξε λεπτομέριες",
+  "@managePageShowDetailsLabel": {},
+  "managePageShowSystemSnapsLabel": "Δείξε snap πακέτα",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageUpdatesAvailable": "Υπάρχουν ενημερώσεις {n}",
+  "@managePageUpdatesAvailable": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapCategoryFeatured": "Προτείνεται",
+  "@snapCategoryFeatured": {},
+  "appstreamUrlTypeContribute": "Συνεισφέρετε",
+  "@appstreamUrlTypeContribute": {},
+  "gamesPageFeatured": "Προτεινόμενοι Τίτλοι",
+  "@gamesPageFeatured": {},
+  "productivityPageLabel": "Ανάπτυξη",
+  "@productivityPageLabel": {},
+  "searchPageNoResultsHint": "Δοκιμάστε διαφορετικές η περισσότερες γενικές λέξεις",
+  "@searchPageNoResultsHint": {},
+  "errorViewNetworkErrorDescription": "Δεν μπορούμε να φορτώσουμε το περιεχόμενο στο Κέντρο Λογισμικού χωρίς σύνδεση στο διαδίκτυο.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewNetworkErrorAction": "Ελέγξτε την σύνδεση σας και προσπαθήστε ξανά.",
+  "@errorViewNetworkErrorAction": {},
+  "externalResourcesDisclaimer": "Σημείωση: Αυτά είναι εξωτερικά εργαλεία.Αυτά δεν ανήκουν η δεν διανέμονται από την Canonical.",
+  "@externalResourcesDisclaimer": {}
 }
