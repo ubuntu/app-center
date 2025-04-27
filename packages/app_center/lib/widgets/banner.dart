@@ -38,7 +38,7 @@ class CategoryBanner extends ConsumerWidget {
             .map(
               (name) => snaps?.singleWhereOrNull((snap) => snap.name == name),
             )
-            .whereNotNull()
+            .nonNulls
         : snaps;
     final l10n = AppLocalizations.of(context);
     return _Banner(

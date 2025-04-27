@@ -468,7 +468,7 @@ class _MinHeightAsProgressIndicator extends StatelessWidget {
 }
 
 class _SmallLoadingIndicator extends StatelessWidget {
-  // ignore: unused_element
+  // ignore: unused_element_parameter
   const _SmallLoadingIndicator({this.progress});
 
   final double? progress;
