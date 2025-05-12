@@ -297,7 +297,7 @@
   "@snapPageShareLinkCopiedMessage": {},
   "gamesPageTitle": "Nousussa",
   "@gamesPageTitle": {},
-  "gamesPageTop": "Suosituimmat pelit",
+  "gamesPageTop": "Parhaiten arvioidut",
   "@gamesPageTop": {},
   "gamesPageFeatured": "Suositut nimikkeet",
   "@gamesPageFeatured": {},
@@ -470,5 +470,13 @@
   "managePageQuitToUpdate": "Lopeta päivittääksesi",
   "@managePageQuitToUpdate": {},
   "managePageOwnUpdateQuitButton": "Lopeta päivittääksesi",
-  "@managePageOwnUpdateQuitButton": {}
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageDocumentationLinkLabel": "Lue Debian-pakettien hallitsemisesta dokumentaatiosta.",
+  "@managePageDocumentationLinkLabel": {},
+  "localDebWarningBody": "Tämä paketti on kolmannen osapuolen tarjoama. Sovelluskeskuksen ulkopuolelta pakettien asentaminen voi olla riski järjestelmälle ja henkilökohtaisille tiedoille. Varmista, että luotat paketin lähteeseen ennen jatkamista.",
+  "@localDebWarningBody": {},
+  "debPageDocumentationLinkLabel": "Lue Debian-pakettien hallitsemisesta",
+  "@debPageDocumentationLinkLabel": {},
+  "errorViewServerErrorAction": "Tarkista tila päivitysten varalta tai yritä myöhemmin uudelleen.",
+  "@errorViewServerErrorAction": {}
 }
