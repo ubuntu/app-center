@@ -238,5 +238,9 @@
   "snapActionUpdatingLabel": "Güncelleniyor",
   "@snapActionUpdatingLabel": {},
   "snapCategoryDefaultButtonLabel": "Daha fazlasını keşfet",
-  "@snapCategoryDefaultButtonLabel": {}
+  "@snapCategoryDefaultButtonLabel": {},
+  "snapPageSizeLabel": "Boyut",
+  "@snapPageSizeLabel": {},
+  "snapPageConfinementLabel": "Kısıtlama",
+  "@snapPageConfinementLabel": {}
 }
