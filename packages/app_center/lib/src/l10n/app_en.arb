@@ -23,6 +23,8 @@
     "snapPageSummaryLabel": "Summary",
     "snapPageVersionLabel": "Version",
     "snapPageShareLinkCopiedMessage": "Link copied to clipboard",
+    "snapPageShareLabel": "Share this snap",
+    "snapPageReportLabel": "Report this snap",
     "explorePageLabel": "Explore",
     "explorePageCategoriesLabel": "Categories",
     "managePageOwnUpdateAvailable": "App Center update available",

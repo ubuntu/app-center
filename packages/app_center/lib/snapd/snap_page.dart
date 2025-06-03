@@ -423,7 +423,10 @@ class _IconRow extends ConsumerWidget {
       children: [
         if (snap.website != null)
           YaruIconButton(
-            icon: const Icon(YaruIcons.share),
+            icon: Icon(
+              YaruIcons.share,
+              semanticLabel: l10n.snapPageShareLabel,
+            ),
             onPressed: () {
               final navigationKey = ref.watch(materialAppNavigatorKeyProvider);
 
@@ -436,7 +439,10 @@ class _IconRow extends ConsumerWidget {
             },
           ),
         YaruIconButton(
-          icon: const Icon(YaruIcons.flag),
+          icon: Icon(
+            YaruIcons.flag,
+            semanticLabel: l10n.snapPageReportLabel,
+          ),
           onPressed: () {
             showDialog(
               context: context,
