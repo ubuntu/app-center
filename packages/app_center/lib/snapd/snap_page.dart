@@ -199,13 +199,7 @@ class _SnapView extends StatelessWidget {
                     const SizedBox(height: kSectionSpacing),
                     if (snapData.hasGallery) ...[
                       AppPageSection(
-                        header: Text(
-                          l10n.snapPageGalleryLabel,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(fontWeight: FontWeight.w500),
-                        ),
+                        header: l10n.snapPageGalleryLabel,
                         child: Padding(
                           padding: const EdgeInsets.only(
                             bottom: kSectionSpacing,
@@ -221,13 +215,7 @@ class _SnapView extends StatelessWidget {
                       const SizedBox(height: kSectionSpacing),
                     ],
                     AppPageSection(
-                      header: Text(
-                        l10n.snapPageDescriptionLabel,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w500),
-                      ),
+                      header: l10n.snapPageDescriptionLabel,
                       child: SizedBox(
                         width: double.infinity,
                         child: Column(

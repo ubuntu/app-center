@@ -1,5 +1,5 @@
 import 'package:app_center/l10n.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:yaru/yaru.dart';
 
 class AppPageSection extends StatefulWidget {
@@ -9,7 +9,7 @@ class AppPageSection extends StatefulWidget {
     super.key,
   });
 
-  final Widget header;
+  final String header;
   final Widget child;
 
   @override
@@ -27,11 +27,18 @@ class _AppPageSectionState extends State<AppPageSection> {
       expandButtonPosition: YaruExpandableButtonPosition.start,
       gapHeight: 24,
       isExpanded: expanded,
-      header: widget.header,
+      header: Text(
+        widget.header,
+        style: Theme.of(context)
+            .textTheme
+            .titleMedium
+            ?.copyWith(fontWeight: FontWeight.w500),
+      ),
       expandIcon: Icon(
         YaruIcons.pan_end,
-        semanticLabel:
-            expanded ? l10n.sectionCollapseLabel : l10n.sectionExpandLabel,
+        semanticLabel: expanded
+            ? l10n.sectionCollapseSemanticLabel(widget.header)
+            : l10n.sectionExpandSemanticLabel(widget.header),
       ),
       onChange: (expanded) => setState(() {
         this.expanded = expanded;

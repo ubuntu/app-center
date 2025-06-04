@@ -25,8 +25,22 @@
     "snapPageShareLinkCopiedMessage": "Link copied to clipboard",
     "snapPageShareLabel": "Share this snap",
     "snapPageReportLabel": "Report this snap",
-    "sectionExpandLabel": "Expand section",
-    "sectionCollapseLabel": "Collapse section",
+    "sectionExpandSemanticLabel": "Expand {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Collapse {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
     "explorePageLabel": "Explore",
     "explorePageCategoriesLabel": "Categories",
     "managePageOwnUpdateAvailable": "App Center update available",

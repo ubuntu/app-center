@@ -126,7 +126,7 @@ class _DebView extends StatelessWidget {
                       AppInfoBar(appInfos: debInfos, layout: layout),
                       if (debModel.component.screenshotUrls.isNotEmpty)
                         AppPageSection(
-                          header: Text(l10n.snapPageGalleryLabel),
+                          header: l10n.snapPageGalleryLabel,
                           child: ScreenshotGallery(
                             title: debModel.component.getLocalizedName(),
                             urls: debModel.component.screenshotUrls,
@@ -134,7 +134,7 @@ class _DebView extends StatelessWidget {
                           ),
                         ),
                       AppPageSection(
-                        header: Text(l10n.snapPageDescriptionLabel),
+                        header: l10n.snapPageDescriptionLabel,
                         child: Html(
                           data: debModel.component.getLocalizedDescription(),
                         ),
