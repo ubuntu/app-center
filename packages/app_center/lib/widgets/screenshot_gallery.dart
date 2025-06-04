@@ -1,3 +1,4 @@
+import 'package:app_center/l10n.dart';
 import 'package:app_center/xdg_cache_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +19,19 @@ class ScreenshotGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return YaruCarousel(
       height: height ?? 500,
       width: double.infinity,
-      nextIcon: const Icon(YaruIcons.go_next),
-      previousIcon: const Icon(YaruIcons.go_previous),
+      nextIcon: Icon(
+        YaruIcons.go_next,
+        semanticLabel: l10n.snapPageGalleryNextSemanticLabel,
+      ),
+      previousIcon: Icon(
+        YaruIcons.go_previous,
+        semanticLabel: l10n.snapPageGalleryPreviousSemanticLabel,
+      ),
       navigationControls: urls.length > 1,
       children: [
         for (int i = 0; i < urls.length; i++)

@@ -16,6 +16,8 @@
     "snapPageDownloadSizeLabel": "Download size",
     "snapPageSizeLabel": "Size",
     "snapPageGalleryLabel": "Gallery",
+    "snapPageGalleryNextSemanticLabel": "Next image",
+    "snapPageGalleryPreviousSemanticLabel": "Previous image",
     "snapPageLicenseLabel": "License",
     "snapPageLinksLabel": "Links",
     "snapPagePublisherLabel": "Publisher",
