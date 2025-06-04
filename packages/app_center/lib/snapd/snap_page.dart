@@ -503,6 +503,7 @@ class _ChannelDropdown extends ConsumerWidget {
             ),
             child: Text(
               '${snapData.selectedChannel} ${snapData.availableChannels![snapData.selectedChannel]!.version}',
+              semanticsLabel: l10n.snapPageChannelLabel,
             ),
           ),
         ),
