@@ -249,7 +249,10 @@ class _Header extends StatelessWidget {
             Expanded(child: AppTitle.fromDeb(debModel.component)),
             if (debModel.component.website != null)
               YaruIconButton(
-                icon: const Icon(YaruIcons.share),
+                icon: Icon(
+                  YaruIcons.share,
+                  semanticLabel: l10n.debPageShareSemanticLabel,
+                ),
                 onPressed: () {
                   Clipboard.setData(
                     ClipboardData(text: debModel.component.website!),

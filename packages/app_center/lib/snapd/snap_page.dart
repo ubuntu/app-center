@@ -413,7 +413,7 @@ class _IconRow extends ConsumerWidget {
           YaruIconButton(
             icon: Icon(
               YaruIcons.share,
-              semanticLabel: l10n.snapPageShareLabel,
+              semanticLabel: l10n.snapPageShareSemanticLabel,
             ),
             onPressed: () {
               final navigationKey = ref.watch(materialAppNavigatorKeyProvider);
@@ -429,7 +429,7 @@ class _IconRow extends ConsumerWidget {
         YaruIconButton(
           icon: Icon(
             YaruIcons.flag,
-            semanticLabel: l10n.snapPageReportLabel,
+            semanticLabel: l10n.snapPageReportSemanticLabel,
           ),
           onPressed: () {
             showDialog(
