@@ -8,6 +8,7 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
@@ -230,13 +231,13 @@ enum DebAction {
       };
 }
 
-class _Header extends StatelessWidget {
+class _Header extends ConsumerWidget {
   const _Header({required this.debModel});
 
   final DebModel debModel;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     return Column(
       children: [
@@ -254,6 +255,15 @@ class _Header extends StatelessWidget {
                   semanticLabel: l10n.debPageShareSemanticLabel,
                 ),
                 onPressed: () {
+                  final navigationKey =
+                      ref.watch(materialAppNavigatorKeyProvider);
+
+                  ScaffoldMessenger.of(navigationKey.currentContext!)
+                      .showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.snapPageShareLinkCopiedMessage),
+                    ),
+                  );
                   Clipboard.setData(
                     ClipboardData(text: debModel.component.website!),
                   );
