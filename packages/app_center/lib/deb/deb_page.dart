@@ -8,6 +8,7 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +127,7 @@ class _DebView extends StatelessWidget {
                       AppInfoBar(appInfos: debInfos, layout: layout),
                       if (debModel.component.screenshotUrls.isNotEmpty)
                         AppPageSection(
-                          header: Text(l10n.snapPageGalleryLabel),
+                          header: l10n.snapPageGalleryLabel,
                           child: ScreenshotGallery(
                             title: debModel.component.getLocalizedName(),
                             urls: debModel.component.screenshotUrls,
@@ -134,7 +135,7 @@ class _DebView extends StatelessWidget {
                           ),
                         ),
                       AppPageSection(
-                        header: Text(l10n.snapPageDescriptionLabel),
+                        header: l10n.snapPageDescriptionLabel,
                         child: Html(
                           data: debModel.component.getLocalizedDescription(),
                         ),
@@ -230,13 +231,13 @@ enum DebAction {
       };
 }
 
-class _Header extends StatelessWidget {
+class _Header extends ConsumerWidget {
   const _Header({required this.debModel});
 
   final DebModel debModel;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     return Column(
       children: [
@@ -249,8 +250,20 @@ class _Header extends StatelessWidget {
             Expanded(child: AppTitle.fromDeb(debModel.component)),
             if (debModel.component.website != null)
               YaruIconButton(
-                icon: const Icon(YaruIcons.share),
+                icon: Icon(
+                  YaruIcons.share,
+                  semanticLabel: l10n.debPageShareSemanticLabel,
+                ),
                 onPressed: () {
+                  final navigationKey =
+                      ref.watch(materialAppNavigatorKeyProvider);
+
+                  ScaffoldMessenger.of(navigationKey.currentContext!)
+                      .showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.snapPageShareLinkCopiedMessage),
+                    ),
+                  );
                   Clipboard.setData(
                     ClipboardData(text: debModel.component.website!),
                   );
