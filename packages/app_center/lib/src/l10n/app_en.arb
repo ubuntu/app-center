@@ -23,8 +23,8 @@
     "snapPageSummaryLabel": "Summary",
     "snapPageVersionLabel": "Version",
     "snapPageShareLinkCopiedMessage": "Link copied to clipboard",
-    "snapPageShareSemanticLabel": "Share this snap",
-    "snapPageReportSemanticLabel": "Report this snap",
+    "snapPageShareSemanticLabel": "Copy link",
+    "snapPageReportSemanticLabel": "Report",
     "sectionExpandSemanticLabel": "Expand {section}",
     "@sectionExpandSemanticLabel": {
         "placeholders": {
@@ -296,7 +296,7 @@
     "debPageErrorNoPackageInfo": "No package information found",
     "debPageDocumentationLinkLabel": "Learn about managing Debian packages",
     "debPageShareLinkCopiedMessage": "Link copied to clipboard",
-    "debPageShareSemanticLabel": "Share this deb",
+    "debPageShareSemanticLabel": "Copy link",
     "externalResources": "Additional resources",
     "externalResourcesButtonLabel": "Discover more",
     "allGamesButtonLabel": "All games",
