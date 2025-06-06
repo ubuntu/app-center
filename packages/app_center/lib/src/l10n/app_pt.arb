@@ -293,7 +293,7 @@
   "@gamesPageTop": {},
   "managePageOwnUpdateAvailable": "Atualização do App Center disponível",
   "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateDescription": "Ao sair da aplicação, ela será atualizada automaticamente.",
+  "managePageOwnUpdateDescription": "Quando você sair do aplicativo, ele será atualizado automaticamente.",
   "@managePageOwnUpdateDescription": {},
   "managePageUpdatesFailed": "{n, plural, =1{Uma atualização} other{{n} atualizações}} falhou",
   "@managePageUpdatesFailed": {
