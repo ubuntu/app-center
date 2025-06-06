@@ -1,5 +1,5 @@
 {
-  "snapPageLinksLabel": "Ligações",
+  "snapPageLinksLabel": "Links",
   "@snapPageLinksLabel": {},
   "snapPageVersionLabel": "Versão",
   "@snapPageVersionLabel": {},
@@ -73,7 +73,7 @@
   "@packageFormatSnapLabel": {},
   "snapCategoryGames": "Jogos",
   "@snapCategoryGames": {},
-  "snapActionInstallingLabel": "A instalar",
+  "snapActionInstallingLabel": "Instalando",
   "@snapActionInstallingLabel": {},
   "snapCategoryFeatured": "Em Destaque",
   "@snapCategoryFeatured": {},
@@ -107,7 +107,7 @@
   "@snapPagePublishedLabel": {},
   "snapPageSummaryLabel": "Resumo",
   "@snapPageSummaryLabel": {},
-  "snapPageShareLinkCopiedMessage": "Ligação copiada para a área de transferência",
+  "snapPageShareLinkCopiedMessage": "Link copiado para a área de transferência",
   "@snapPageShareLinkCopiedMessage": {},
   "explorePageCategoriesLabel": "Categorias",
   "@explorePageCategoriesLabel": {},
@@ -219,7 +219,7 @@
   "@appstreamUrlTypeTranslate": {},
   "snapActionRemoveLabel": "Desinstalar",
   "@snapActionRemoveLabel": {},
-  "snapActionRemovingLabel": "A desinstalar",
+  "snapActionRemovingLabel": "Desinstalando",
   "@snapActionRemovingLabel": {},
   "snapActionSwitchChannelLabel": "Mudar de canal",
   "@snapActionSwitchChannelLabel": {},
@@ -295,7 +295,7 @@
   "@managePageOwnUpdateAvailable": {},
   "managePageOwnUpdateDescription": "Quando você sair do aplicativo, ele será atualizado automaticamente.",
   "@managePageOwnUpdateDescription": {},
-  "managePageUpdatesFailed": "{n, plural, =1{Uma atualização} other{{n} atualizações}} falhou",
+  "managePageUpdatesFailed": "{n, plural, =1{Uma atualização falhou} other{{n} atualizações falharam}}",
   "@managePageUpdatesFailed": {
     "placeholders": {
       "n": {
@@ -313,7 +313,7 @@
   },
   "managePageDocumentationLinkLabel": "Aprenda a gerenciar pacotes Debian na documentação.",
   "@managePageDocumentationLinkLabel": {},
-  "managePageUpdatesFailedBody": "Não conseguimos atualizar estas aplicações porque estão atualmente em execução.\n\n{snapList}\nQuando sair das aplicações, elas serão atualizadas automaticamente.",
+  "managePageUpdatesFailedBody": "Não conseguimos atualizar estas aplicações, porque elas estão atualmente em execução.\n\n{snapList}\nQuando sair das aplicações, elas serão atualizadas automaticamente.",
   "@managePageUpdatesFailedBody": {},
   "appstreamUrlTypeVcsBrowser": "Fonte",
   "@appstreamUrlTypeVcsBrowser": {},
