@@ -23,6 +23,24 @@
     "snapPageSummaryLabel": "Summary",
     "snapPageVersionLabel": "Version",
     "snapPageShareLinkCopiedMessage": "Link copied to clipboard",
+    "snapPageShareSemanticLabel": "Copy link",
+    "snapPageReportSemanticLabel": "Report",
+    "sectionExpandSemanticLabel": "Expand {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Collapse {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
     "explorePageLabel": "Explore",
     "explorePageCategoriesLabel": "Categories",
     "managePageOwnUpdateAvailable": "App Center update available",
@@ -277,6 +295,8 @@
     "snapReportPrivacyAgreementPrivacyPolicy": "Privacy Policy",
     "debPageErrorNoPackageInfo": "No package information found",
     "debPageDocumentationLinkLabel": "Learn about managing Debian packages",
+    "debPageShareLinkCopiedMessage": "Link copied to clipboard",
+    "debPageShareSemanticLabel": "Copy link",
     "externalResources": "Additional resources",
     "externalResourcesButtonLabel": "Discover more",
     "allGamesButtonLabel": "All games",
