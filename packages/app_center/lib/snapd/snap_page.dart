@@ -497,6 +497,7 @@ class _ChannelDropdown extends ConsumerWidget {
             ),
             child: Text(
               '${snapData.selectedChannel} ${snapData.availableChannels![snapData.selectedChannel]!.version}',
+              semanticsLabel: l10n.snapPageChannelLabel,
             ),
           ),
         ),
@@ -513,6 +514,14 @@ class _ChannelDropdownEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+
+    final channelInfo = {
+      l10n.snapPageChannelLabel: channelEntry.key,
+      l10n.snapPageVersionLabel: channelEntry.value.version,
+      l10n.snapPagePublishedLabel:
+          DateFormat.yMd().format(channelEntry.value.releasedAt),
+    };
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: DefaultTextStyle(
@@ -521,35 +530,36 @@ class _ChannelDropdownEntry extends StatelessWidget {
             ),
         child: SizedBox(
           width: _kChannelDropdownWidth - 24,
-          child: Row(
-            children: [
-              DefaultTextStyle.merge(
-                style: TextStyle(
-                  color: Theme.of(context).hintColor,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(l10n.snapPageChannelLabel),
-                    Text(l10n.snapPageVersionLabel),
-                    Text(l10n.snapPagePublishedLabel),
-                  ],
-                ),
+          child: Semantics(
+            button: true,
+            label:
+                channelInfo.entries.map((e) => '${e.key} ${e.value}').join(' '),
+            child: ExcludeSemantics(
+              child: Row(
+                children: [
+                  DefaultTextStyle.merge(
+                    style: TextStyle(
+                      color: Theme.of(context).hintColor,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: channelInfo.keys.map(Text.new).toList(),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: channelInfo.values.nonNulls
+                          .map((e) => Text(e, maxLines: 1))
+                          .toList(),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    channelEntry.key,
-                    channelEntry.value.version,
-                    DateFormat.yMd().format(channelEntry.value.releasedAt),
-                  ].nonNulls.map((e) => Text(e, maxLines: 1)).toList(),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
