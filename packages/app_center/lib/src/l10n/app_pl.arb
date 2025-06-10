@@ -478,5 +478,41 @@
   "managePageDocumentationLinkLabel": "W dokumentacji dowiesz się, jak zarządzać pakietami Debiana.",
   "@managePageDocumentationLinkLabel": {},
   "debPageDocumentationLinkLabel": "Dowiedz się więcej o zarządzaniu pakietami Debiana",
-  "@debPageDocumentationLinkLabel": {}
+  "@debPageDocumentationLinkLabel": {},
+  "sectionCollapseSemanticLabel": "Zwiń {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageGalleryImageSemanticLabel": "Obraz {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageGalleryPreviousSemanticLabel": "Poprzedni obraz",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageShareSemanticLabel": "Skopiuj łącze",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Zgłoś",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Rozwiń {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "Łącze skopiowane do schowka",
+  "@debPageShareLinkCopiedMessage": {},
+  "snapPageGalleryNextSemanticLabel": "Następny obraz",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "debPageShareSemanticLabel": "Skopiuj łącze",
+  "@debPageShareSemanticLabel": {}
 }
