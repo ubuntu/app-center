@@ -478,5 +478,11 @@
   "debPageDocumentationLinkLabel": "Дізнайтеся про керування пакунками Debian",
   "@debPageDocumentationLinkLabel": {},
   "managePageDocumentationLinkLabel": "Дізнайтеся, як керувати пакунками Debian у документації.",
-  "@managePageDocumentationLinkLabel": {}
+  "@managePageDocumentationLinkLabel": {},
+  "snapPageShareSemanticLabel": "Копіювати посилання",
+  "@snapPageShareSemanticLabel": {},
+  "debPageShareLinkCopiedMessage": "Посилання скопійовано до буферу обміну",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "Копіювати посилання",
+  "@debPageShareSemanticLabel": {}
 }
