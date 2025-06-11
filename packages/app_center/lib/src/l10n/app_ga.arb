@@ -484,5 +484,41 @@
   "managePageDocumentationLinkLabel": "Foghlaim conas pacáistí Debian a bhainistiú sa doiciméadú.",
   "@managePageDocumentationLinkLabel": {},
   "debPageDocumentationLinkLabel": "Foghlaim faoi phacáistí Debian a bhainistiú",
-  "@debPageDocumentationLinkLabel": {}
+  "@debPageDocumentationLinkLabel": {},
+  "sectionExpandSemanticLabel": "Leathnaigh {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Cóipeáil nasc",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Íomhá roimhe seo",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "sectionCollapseSemanticLabel": "Laghdaigh {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageReportSemanticLabel": "Tuairisc",
+  "@snapPageReportSemanticLabel": {},
+  "debPageShareSemanticLabel": "Cóipeáil nasc",
+  "@debPageShareSemanticLabel": {},
+  "debPageShareLinkCopiedMessage": "Nasc cóipeáilte chuig an ghearrthaisce",
+  "@debPageShareLinkCopiedMessage": {},
+  "snapPageGalleryNextSemanticLabel": "An chéad íomhá eile",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Íomhá {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
