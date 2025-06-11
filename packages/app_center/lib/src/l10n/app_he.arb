@@ -484,5 +484,41 @@
   "managePageDocumentationLinkLabel": "ניתן למצוא מידע על ניהול חבילות דביאן בתיעוד.",
   "@managePageDocumentationLinkLabel": {},
   "debPageDocumentationLinkLabel": "מידע על ניהול חבילות דביאן",
-  "@debPageDocumentationLinkLabel": {}
+  "@debPageDocumentationLinkLabel": {},
+  "debPageShareLinkCopiedMessage": "הקישור הועתק ללוח הגזירים",
+  "@debPageShareLinkCopiedMessage": {},
+  "snapPageGalleryNextSemanticLabel": "התמונה הבאה",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "התמונה הקודמת",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageReportSemanticLabel": "דיווח",
+  "@snapPageReportSemanticLabel": {},
+  "snapPageShareSemanticLabel": "העתקת קישור",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "תמונה {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "sectionExpandSemanticLabel": "הרחבת {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "צמצום {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareSemanticLabel": "העתקת קישור",
+  "@debPageShareSemanticLabel": {}
 }
