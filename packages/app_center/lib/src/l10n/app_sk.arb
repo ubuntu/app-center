@@ -478,5 +478,41 @@
   "debPageDocumentationLinkLabel": "Naučte sa spravovať balíky Debian",
   "@debPageDocumentationLinkLabel": {},
   "managePageDocumentationLinkLabel": "Naučte sa, ako spravovať balíky Debian v dokumentácii.",
-  "@managePageDocumentationLinkLabel": {}
+  "@managePageDocumentationLinkLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Predchádzajúci obrázok",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Obrázok {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageReportSemanticLabel": "Nahlásiť",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Rozbaliť {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "Odkaz skopírovaný do schránky",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "Kopírovať odkaz",
+  "@debPageShareSemanticLabel": {},
+  "snapPageGalleryNextSemanticLabel": "Ďalší obrázok",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageShareSemanticLabel": "Kopírovať odkaz",
+  "@snapPageShareSemanticLabel": {},
+  "sectionCollapseSemanticLabel": "Zbaliť {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  }
 }
