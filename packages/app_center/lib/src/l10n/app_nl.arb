@@ -476,5 +476,41 @@
   "snapReportSelectReportReasonLabel": "Kies een reden om deze snap te melden",
   "@snapReportSelectReportReasonLabel": {},
   "snapReportPrivacyAgreementLabel": "Met de indiening van dit formulier, bevestig ik dat ik heb gelezen en akkoord ga met ",
-  "@snapReportPrivacyAgreementLabel": {}
+  "@snapReportPrivacyAgreementLabel": {},
+  "snapPageGalleryNextSemanticLabel": "Volgende afbeelding",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Vorige afbeelding",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Afbeelding {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Link kopiëren",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Melden",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Uitvouwen {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Inklappen {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "Link gekopieerd naar klembord",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "Link kopiëren",
+  "@debPageShareSemanticLabel": {}
 }
