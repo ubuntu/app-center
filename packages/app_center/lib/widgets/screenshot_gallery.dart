@@ -1,3 +1,4 @@
+import 'package:app_center/l10n.dart';
 import 'package:app_center/xdg_cache_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -18,16 +19,25 @@ class ScreenshotGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return YaruCarousel(
       height: height ?? 500,
       width: double.infinity,
-      nextIcon: const Icon(YaruIcons.go_next),
-      previousIcon: const Icon(YaruIcons.go_previous),
+      nextIcon: Icon(
+        YaruIcons.go_next,
+        semanticLabel: l10n.snapPageGalleryNextSemanticLabel,
+      ),
+      previousIcon: Icon(
+        YaruIcons.go_previous,
+        semanticLabel: l10n.snapPageGalleryPreviousSemanticLabel,
+      ),
       navigationControls: urls.length > 1,
       children: [
         for (int i = 0; i < urls.length; i++)
           MediaTile(
             url: urls[i],
+            semanticLabel: l10n.snapPageGalleryImageSemanticLabel(i + 1),
             onTap: () => showDialog(
               context: context,
               builder: (_) => _CarouselDialog(
@@ -46,11 +56,13 @@ class MediaTile extends StatelessWidget {
   const MediaTile({
     required this.url,
     required this.onTap,
+    required this.semanticLabel,
     super.key,
     this.fit = BoxFit.contain,
   });
 
   final String url;
+  final String semanticLabel;
   final BoxFit fit;
   final VoidCallback onTap;
 
@@ -62,16 +74,20 @@ class MediaTile extends StatelessWidget {
     return Center(
       child: Material(
         color: Colors.transparent,
-        child: InkWell(
-          borderRadius: borderRadius.outer(padding),
-          excludeFromSemantics: true,
-          onTap: onTap,
-          child: Padding(
-            padding: padding,
-            child: ClipRRect(
-              borderRadius: borderRadius,
-              child: SafeNetworkImage(
-                url: url,
+        child: Semantics(
+          button: true,
+          child: InkWell(
+            borderRadius: borderRadius.outer(padding),
+            excludeFromSemantics: true,
+            onTap: onTap,
+            child: Padding(
+              padding: padding,
+              child: ClipRRect(
+                borderRadius: borderRadius,
+                child: SafeNetworkImage(
+                  url: url,
+                  semanticLabel: semanticLabel,
+                ),
               ),
             ),
           ),
@@ -116,6 +132,8 @@ class _CarouselDialogState extends State<_CarouselDialog> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final l10n = AppLocalizations.of(context);
+
     return KeyboardListener(
       focusNode: FocusNode(),
       onKeyEvent: (value) {
@@ -143,10 +161,12 @@ class _CarouselDialogState extends State<_CarouselDialog> {
               width: size.width,
               placeIndicatorMarginTop: 20.0,
               children: [
-                for (final url in widget.urls)
+                for (int i = 0; i < widget.urls.length; i++)
                   SafeNetworkImage(
-                    url: url,
+                    url: widget.urls[i],
                     fit: BoxFit.fitWidth,
+                    semanticLabel:
+                        l10n.snapPageGalleryImageSemanticLabel(i + 1),
                   ),
               ],
             ),
@@ -164,12 +184,14 @@ class SafeNetworkImage extends StatelessWidget {
     this.filterQuality = FilterQuality.medium,
     this.fit = BoxFit.fitHeight,
     this.fallBackIcon,
+    this.semanticLabel,
   });
 
   final String? url;
   final FilterQuality filterQuality;
   final BoxFit fit;
   final Widget? fallBackIcon;
+  final String? semanticLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -189,6 +211,7 @@ class SafeNetworkImage extends StatelessWidget {
         image: imageProvider,
         filterQuality: filterQuality,
         fit: fit,
+        semanticLabel: semanticLabel,
       ),
       placeholder: (context, url) => fallBack,
       errorWidget: (context, url, error) => fallBack,

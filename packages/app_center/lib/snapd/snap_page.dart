@@ -199,13 +199,7 @@ class _SnapView extends StatelessWidget {
                     const SizedBox(height: kSectionSpacing),
                     if (snapData.hasGallery) ...[
                       AppPageSection(
-                        header: Text(
-                          l10n.snapPageGalleryLabel,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(fontWeight: FontWeight.w500),
-                        ),
+                        header: l10n.snapPageGalleryLabel,
                         child: Padding(
                           padding: const EdgeInsets.only(
                             bottom: kSectionSpacing,
@@ -221,13 +215,7 @@ class _SnapView extends StatelessWidget {
                       const SizedBox(height: kSectionSpacing),
                     ],
                     AppPageSection(
-                      header: Text(
-                        l10n.snapPageDescriptionLabel,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w500),
-                      ),
+                      header: l10n.snapPageDescriptionLabel,
                       child: SizedBox(
                         width: double.infinity,
                         child: Column(
@@ -423,7 +411,10 @@ class _IconRow extends ConsumerWidget {
       children: [
         if (snap.website != null)
           YaruIconButton(
-            icon: const Icon(YaruIcons.share),
+            icon: Icon(
+              YaruIcons.share,
+              semanticLabel: l10n.snapPageShareSemanticLabel,
+            ),
             onPressed: () {
               final navigationKey = ref.watch(materialAppNavigatorKeyProvider);
 
@@ -436,7 +427,10 @@ class _IconRow extends ConsumerWidget {
             },
           ),
         YaruIconButton(
-          icon: const Icon(YaruIcons.flag),
+          icon: Icon(
+            YaruIcons.flag,
+            semanticLabel: l10n.snapPageReportSemanticLabel,
+          ),
           onPressed: () {
             showDialog(
               context: context,
@@ -503,6 +497,7 @@ class _ChannelDropdown extends ConsumerWidget {
             ),
             child: Text(
               '${snapData.selectedChannel} ${snapData.availableChannels![snapData.selectedChannel]!.version}',
+              semanticsLabel: l10n.snapPageChannelLabel,
             ),
           ),
         ),
@@ -519,6 +514,14 @@ class _ChannelDropdownEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+
+    final channelInfo = {
+      l10n.snapPageChannelLabel: channelEntry.key,
+      l10n.snapPageVersionLabel: channelEntry.value.version,
+      l10n.snapPagePublishedLabel:
+          DateFormat.yMd().format(channelEntry.value.releasedAt),
+    };
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: DefaultTextStyle(
@@ -527,35 +530,36 @@ class _ChannelDropdownEntry extends StatelessWidget {
             ),
         child: SizedBox(
           width: _kChannelDropdownWidth - 24,
-          child: Row(
-            children: [
-              DefaultTextStyle.merge(
-                style: TextStyle(
-                  color: Theme.of(context).hintColor,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(l10n.snapPageChannelLabel),
-                    Text(l10n.snapPageVersionLabel),
-                    Text(l10n.snapPagePublishedLabel),
-                  ],
-                ),
+          child: Semantics(
+            button: true,
+            label:
+                channelInfo.entries.map((e) => '${e.key} ${e.value}').join(' '),
+            child: ExcludeSemantics(
+              child: Row(
+                children: [
+                  DefaultTextStyle.merge(
+                    style: TextStyle(
+                      color: Theme.of(context).hintColor,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: channelInfo.keys.map(Text.new).toList(),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: channelInfo.values.nonNulls
+                          .map((e) => Text(e, maxLines: 1))
+                          .toList(),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    channelEntry.key,
-                    channelEntry.value.version,
-                    DateFormat.yMd().format(channelEntry.value.releasedAt),
-                  ].nonNulls.map((e) => Text(e, maxLines: 1)).toList(),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
