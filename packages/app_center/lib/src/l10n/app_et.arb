@@ -484,5 +484,41 @@
     }
   },
   "errorViewServerErrorAction": "Palun kontrolli uuenduste olekuid ja proovi hiljem uuesti.",
-  "@errorViewServerErrorAction": {}
+  "@errorViewServerErrorAction": {},
+  "debPageShareSemanticLabel": "Kopeeri link",
+  "@debPageShareSemanticLabel": {},
+  "debPageShareLinkCopiedMessage": "Link on kopeeritud lõikelauale",
+  "@debPageShareLinkCopiedMessage": {},
+  "snapPageGalleryNextSemanticLabel": "Järgmine pilt",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Eelmine pilt",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "{n}. pilt",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Kopeeri link",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Teata",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Laienda lõik: {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Ahenda lõik: {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  }
 }
