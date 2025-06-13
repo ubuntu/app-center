@@ -478,5 +478,41 @@
   "debPageDocumentationLinkLabel": "Erfahren Sie mehr über die Verwaltung von Debian-Paketen",
   "@debPageDocumentationLinkLabel": {},
   "managePageDocumentationLinkLabel": "In der Dokumentation erfahren Sie, wie Sie Debian-Pakete verwalten können.",
-  "@managePageDocumentationLinkLabel": {}
+  "@managePageDocumentationLinkLabel": {},
+  "snapPageReportSemanticLabel": "Melden",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "{section} aufklappen",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "{section} einklappen",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageGalleryNextSemanticLabel": "Nächstes Bild",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Vorheriges Bild",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Bild {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Link kopieren",
+  "@snapPageShareSemanticLabel": {},
+  "debPageShareSemanticLabel": "Link kopieren",
+  "@debPageShareSemanticLabel": {},
+  "debPageShareLinkCopiedMessage": "Link in die Zwischenablage kopiert",
+  "@debPageShareLinkCopiedMessage": {}
 }
