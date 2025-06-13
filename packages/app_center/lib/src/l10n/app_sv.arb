@@ -478,5 +478,41 @@
   "managePageDocumentationLinkLabel": "Lär dig hur du hanterar Debianpaket i denna dokumentationen.",
   "@managePageDocumentationLinkLabel": {},
   "debPageDocumentationLinkLabel": "Lär dig hur du hanterar Debianpaket",
-  "@debPageDocumentationLinkLabel": {}
+  "@debPageDocumentationLinkLabel": {},
+  "debPageShareLinkCopiedMessage": "Länk kopierad till urklipp",
+  "@debPageShareLinkCopiedMessage": {},
+  "snapPageGalleryNextSemanticLabel": "Nästa bild",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "sectionCollapseSemanticLabel": "Fäll ihop {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageGalleryImageSemanticLabel": "Bild {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "sectionExpandSemanticLabel": "Expandera {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareSemanticLabel": "Kopiera länk",
+  "@debPageShareSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Föregående bild",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageShareSemanticLabel": "Kopiera länk",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Rapportera",
+  "@snapPageReportSemanticLabel": {}
 }
