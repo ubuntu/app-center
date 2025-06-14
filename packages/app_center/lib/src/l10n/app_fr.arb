@@ -478,5 +478,41 @@
   "debPageDocumentationLinkLabel": "Apprendre à gérer les paquets Debian",
   "@debPageDocumentationLinkLabel": {},
   "managePageDocumentationLinkLabel": "Apprenez comment gérer les paquets Debian dans la documentation.",
-  "@managePageDocumentationLinkLabel": {}
+  "@managePageDocumentationLinkLabel": {},
+  "debPageShareLinkCopiedMessage": "Lien copié dans presse-papiers",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "Copier lien",
+  "@debPageShareSemanticLabel": {},
+  "snapPageGalleryNextSemanticLabel": "Image suivante",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Image précédente",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Image {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Copier lien",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Signaler",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Étendre {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Réduire {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  }
 }
