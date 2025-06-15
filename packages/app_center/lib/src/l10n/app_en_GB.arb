@@ -478,5 +478,41 @@
   "managePageDocumentationLinkLabel": "Learn how to manage Debian packages in the documentation.",
   "@managePageDocumentationLinkLabel": {},
   "snapCategoryArtAndDesignButtonLabel": "Start creating",
-  "@snapCategoryArtAndDesignButtonLabel": {}
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapPageGalleryNextSemanticLabel": "Next image",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Previous image",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageShareSemanticLabel": "Copy link",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Report",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Expand {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Collapse {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "Link copied to clipboard",
+  "@debPageShareLinkCopiedMessage": {},
+  "snapPageGalleryImageSemanticLabel": "Image {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "debPageShareSemanticLabel": "Copy link",
+  "@debPageShareSemanticLabel": {}
 }
