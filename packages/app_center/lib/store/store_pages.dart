@@ -21,11 +21,18 @@ typedef StorePage = ({
   WidgetBuilder pageBuilder,
 });
 
+BoxDecoration yaruMasterTileFocusRing(BuildContext context) => BoxDecoration(
+      border: Border.all(color: Theme.of(context).primaryColor, width: 2),
+      borderRadius: const BorderRadius.all(Radius.circular(kYaruButtonRadius)),
+      color: Theme.of(context).cardColor,
+    );
+
 final pages = <StorePage>[
   (
     tileBuilder: (context, selected) => YaruMasterTile(
           leading: Icon(ExplorePage.icon(selected)),
           title: Text(ExplorePage.label(context)),
+          focusDecoration: yaruMasterTileFocusRing(context),
         ),
     pageBuilder: (_) => const ExplorePage(),
   ),
@@ -34,6 +41,7 @@ final pages = <StorePage>[
       tileBuilder: (context, selected) => YaruMasterTile(
             leading: Icon(category.icon(selected)),
             title: Text(category.localize(AppLocalizations.of(context))),
+            focusDecoration: yaruMasterTileFocusRing(context),
           ),
       pageBuilder: (_) => SearchPage(category: category.categoryName),
     ),
@@ -41,6 +49,7 @@ final pages = <StorePage>[
     tileBuilder: (context, selected) => YaruMasterTile(
           leading: Icon(GamesPage.icon(selected)),
           title: Text(GamesPage.label(context)),
+          focusDecoration: yaruMasterTileFocusRing(context),
         ),
     pageBuilder: (_) => const GamesPage(),
   ),
@@ -56,6 +65,7 @@ final pages = <StorePage>[
     tileBuilder: (context, selected) => YaruMasterTile(
           leading: Icon(ManagePage.icon(selected)),
           title: Text(ManagePage.label(context)),
+          focusDecoration: yaruMasterTileFocusRing(context),
           trailing: Consumer(
             builder: (context, ref, child) {
               return ref.watch(updatesModelProvider).when(
@@ -74,6 +84,7 @@ final pages = <StorePage>[
     tileBuilder: (context, selected) => YaruMasterTile(
           leading: Icon(AboutPage.icon(selected)),
           title: Text(AboutPage.label(context)),
+          focusDecoration: yaruMasterTileFocusRing(context),
         ),
     pageBuilder: (_) => const AboutPage(),
   ),
