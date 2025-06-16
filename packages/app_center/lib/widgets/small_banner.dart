@@ -11,7 +11,7 @@ class SmallBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final borderRadius = BorderRadius.circular(kYaruBannerRadius);
+    final borderRadius = BorderRadius.circular(kYaruContainerRadius);
 
     return Material(
       color: Colors.transparent,

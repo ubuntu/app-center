@@ -34,12 +34,9 @@ class _AppPageSectionState extends State<AppPageSection> {
             .titleMedium
             ?.copyWith(fontWeight: FontWeight.w500),
       ),
-      expandIcon: Icon(
-        YaruIcons.pan_end,
-        semanticLabel: expanded
-            ? l10n.sectionCollapseSemanticLabel(widget.header)
-            : l10n.sectionExpandSemanticLabel(widget.header),
-      ),
+      expandIconSemanticLabel: expanded
+          ? l10n.sectionCollapseSemanticLabel(widget.header)
+          : l10n.sectionExpandSemanticLabel(widget.header),
       onChange: (expanded) => setState(() {
         this.expanded = expanded;
       }),

@@ -193,7 +193,7 @@ class SnapImageCard extends StatelessWidget {
             flex: 160, // based on mockups
             child: ClipRRect(
               borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(kYaruBannerRadius),
+                top: Radius.circular(kYaruContainerRadius),
               ),
               child: SafeNetworkImage(
                 url: snap.screenshotUrls.first,
