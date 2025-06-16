@@ -77,23 +77,27 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruBanner(
-      padding: const EdgeInsets.all(kCardSpacing),
-      onTap: onTap,
-      child: Flex(
-        direction: compact ? Axis.vertical : Axis.horizontal,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppIcon(iconUrl: iconUrl),
-          const SizedBox(width: kCardSpacing, height: kCardSpacing),
-          Expanded(
-            child: _AppCardBody(
-              title: title,
-              summary: summary,
-              footer: footer,
+    return Semantics(
+      button: true,
+      label: title.title,
+      child: YaruBanner(
+        padding: const EdgeInsets.all(kCardSpacing),
+        onTap: onTap,
+        child: Flex(
+          direction: compact ? Axis.vertical : Axis.horizontal,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppIcon(iconUrl: iconUrl),
+            const SizedBox(width: kCardSpacing, height: kCardSpacing),
+            Expanded(
+              child: _AppCardBody(
+                title: title,
+                summary: summary,
+                footer: footer,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -183,37 +187,43 @@ class SnapImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruBanner(
-      padding: EdgeInsets.zero,
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            flex: 160, // based on mockups
-            child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(kYaruContainerRadius),
-              ),
-              child: SafeNetworkImage(
-                url: snap.screenshotUrls.first,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 306 - 160, // based on mockups
-            child: Padding(
-              padding: const EdgeInsets.all(kCardSpacing),
-              child: _AppCardBody(
-                title: AppTitle.fromSnap(snap),
-                summary: snap.summary,
-                footer: _RatingsInfo(snap: snap),
-                maxlines: 1,
+    final appTitle = AppTitle.fromSnap(snap);
+
+    return Semantics(
+      button: true,
+      label: appTitle.title,
+      child: YaruBanner(
+        padding: EdgeInsets.zero,
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 160, // based on mockups
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(kYaruContainerRadius),
+                ),
+                child: SafeNetworkImage(
+                  url: snap.screenshotUrls.first,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-        ],
+            Expanded(
+              flex: 306 - 160, // based on mockups
+              child: Padding(
+                padding: const EdgeInsets.all(kCardSpacing),
+                child: _AppCardBody(
+                  title: appTitle,
+                  summary: snap.summary,
+                  footer: _RatingsInfo(snap: snap),
+                  maxlines: 1,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
