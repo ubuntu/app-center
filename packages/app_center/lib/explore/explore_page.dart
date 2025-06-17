@@ -133,25 +133,28 @@ class _CategoryList extends StatelessWidget {
       children: SnapCategoryEnum.values
           .whereNot((category) => category.hidden)
           .map(
-            (category) => InkWell(
-              borderRadius: BorderRadius.circular(kYaruButtonRadius),
-              onTap: () => StoreNavigator.pushSearch(
-                context,
-                category: category.categoryName,
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(category.icon(true)),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      category.localize(AppLocalizations.of(context)),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+            (category) => Semantics(
+              button: true,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(kYaruButtonRadius),
+                onTap: () => StoreNavigator.pushSearch(
+                  context,
+                  category: category.categoryName,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(category.icon(true)),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        category.localize(AppLocalizations.of(context)),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           )
