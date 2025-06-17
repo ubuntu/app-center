@@ -478,5 +478,41 @@
   "managePageDocumentationLinkLabel": "在文件中了解如何管理 Debian 軟體包。",
   "@managePageDocumentationLinkLabel": {},
   "debPageDocumentationLinkLabel": "了解如何管理 Debian 軟體包",
-  "@debPageDocumentationLinkLabel": {}
+  "@debPageDocumentationLinkLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "上一張圖片",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "圖片 {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "複製連結",
+  "@snapPageShareSemanticLabel": {},
+  "sectionCollapseSemanticLabel": "摺疊 {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageReportSemanticLabel": "報告",
+  "@snapPageReportSemanticLabel": {},
+  "debPageShareSemanticLabel": "複製連結",
+  "@debPageShareSemanticLabel": {},
+  "debPageShareLinkCopiedMessage": "連結已複製到剪貼簿",
+  "@debPageShareLinkCopiedMessage": {},
+  "sectionExpandSemanticLabel": "展開 {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageGalleryNextSemanticLabel": "下一張圖片",
+  "@snapPageGalleryNextSemanticLabel": {}
 }
