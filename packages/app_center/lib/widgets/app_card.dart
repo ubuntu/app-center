@@ -155,21 +155,25 @@ class RankedAppCard extends StatelessWidget {
           width: 4,
         ),
         Expanded(
-          child: SmallBanner(
-            onTap: onTap,
-            child: Flex(
-              direction: Axis.horizontal,
-              children: [
-                AppIcon(iconUrl: iconUrl),
-                const SizedBox(width: kCardSpacing, height: kCardSpacing),
-                Expanded(
-                  child: _AppCardBody(
-                    title: title,
-                    summary: '',
-                    footer: footer,
+          child: Semantics(
+            button: true,
+            label: title.title,
+            child: SmallBanner(
+              onTap: onTap,
+              child: Flex(
+                direction: Axis.horizontal,
+                children: [
+                  AppIcon(iconUrl: iconUrl),
+                  const SizedBox(width: kCardSpacing, height: kCardSpacing),
+                  Expanded(
+                    child: _AppCardBody(
+                      title: title,
+                      summary: '',
+                      footer: footer,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
