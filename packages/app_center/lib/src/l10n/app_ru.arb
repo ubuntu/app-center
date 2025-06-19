@@ -478,5 +478,41 @@
   "managePageDocumentationLinkLabel": "Узнайте в документации, как управлять пакетами Debian.",
   "@managePageDocumentationLinkLabel": {},
   "debPageDocumentationLinkLabel": "Узнайте об управлении пакетами Debian",
-  "@debPageDocumentationLinkLabel": {}
+  "@debPageDocumentationLinkLabel": {},
+  "snapPageGalleryNextSemanticLabel": "Следующее изображение",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Предыдущее изображение",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Изображение {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Копировать ссылку",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Отчёт",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Развернуть {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "Ссылка скопирована в буфер обмена",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "Копировать ссылку",
+  "@debPageShareSemanticLabel": {},
+  "sectionCollapseSemanticLabel": "Свернуть {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  }
 }
