@@ -213,6 +213,22 @@
     "snapActionUpdateLabel": "Update",
     "snapCategoryAll": "All categories",
     "snapActionUpdatingLabel": "Updating",
+    "appCardPublisherSemanticLabel": "Published by {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Rating {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
     "snapCategoryArtAndDesign": "Art and Design",
     "snapCategoryArtAndDesignButtonLabel": "Start creating",
     "snapCategoryArtAndDesignSlogan": "From your first sketch to the final touch, explore apps for art and design.",
