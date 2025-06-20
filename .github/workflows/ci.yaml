@@ -115,6 +115,6 @@ jobs:
         with:
           mode: qserver
           project: app-center
-          viewerUrl: https://canonical.tiobe.com/tiobeweb/TICS/api/cfg?name=default
+          viewerUrl: https://canonical.tiobe.com/tiobeweb/TICS/api/cfg?name=GoProjects
           ticsAuthToken: ${{ secrets.TICSAUTHTOKEN }}
           installTics: true
