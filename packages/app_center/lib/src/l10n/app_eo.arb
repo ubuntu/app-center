@@ -478,5 +478,41 @@
   "managePageDocumentationLinkLabel": "Lernu kiel administri Debian-pakojn per la dokumentaro.",
   "@managePageDocumentationLinkLabel": {},
   "debPageDocumentationLinkLabel": "Lernu pri administrado de Debian-pakoj",
-  "@debPageDocumentationLinkLabel": {}
+  "@debPageDocumentationLinkLabel": {},
+  "snapPageGalleryNextSemanticLabel": "Sekva bildo",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Antaŭa bildo",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageShareSemanticLabel": "Kopii hiperligon",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Raporti",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Malkaŝi {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Kaŝi {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareSemanticLabel": "Kopii hiperligon",
+  "@debPageShareSemanticLabel": {},
+  "debPageShareLinkCopiedMessage": "Hiperligo kopiiĝis",
+  "@debPageShareLinkCopiedMessage": {},
+  "snapPageGalleryImageSemanticLabel": "Bildo {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
