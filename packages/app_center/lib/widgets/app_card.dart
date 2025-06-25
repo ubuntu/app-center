@@ -151,44 +151,56 @@ class RankedAppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+    final cardLabel = [
+      '$rank.',
+      '${title.title}.',
+      title.publisher != null
+          ? l10n.appCardPublisherSemanticLabel(title.publisher!)
+          : null,
+    ].nonNulls.join(' ');
 
-    return Flex(
-      direction: Axis.horizontal,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Center(
-          child: Text(
-            rank.toString(),
-            style: theme.textTheme.titleMedium,
-          ),
-        ),
-        const SizedBox(
-          width: 4,
-        ),
-        Expanded(
-          child: Semantics(
-            button: true,
-            label: title.title,
-            child: SmallBanner(
-              onTap: onTap,
-              child: Flex(
-                direction: Axis.horizontal,
-                children: [
-                  AppIcon(iconUrl: iconUrl),
-                  const SizedBox(width: kCardSpacing, height: kCardSpacing),
-                  Expanded(
-                    child: _AppCardBody(
-                      title: title,
-                      summary: '',
-                      footer: footer,
-                    ),
-                  ),
-                ],
+    return MergeSemantics(
+      child: Semantics(
+        button: true,
+        label: cardLabel,
+        child: Flex(
+          direction: Axis.horizontal,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: ExcludeSemantics(
+                child: Text(
+                  rank.toString(),
+                  style: theme.textTheme.titleMedium,
+                ),
               ),
             ),
-          ),
+            const SizedBox(
+              width: 4,
+            ),
+            Expanded(
+              child: SmallBanner(
+                onTap: onTap,
+                child: Flex(
+                  direction: Axis.horizontal,
+                  children: [
+                    AppIcon(iconUrl: iconUrl),
+                    const SizedBox(width: kCardSpacing, height: kCardSpacing),
+                    Expanded(
+                      child: _AppCardBody(
+                        title: title,
+                        summary: '',
+                        footer: footer,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
