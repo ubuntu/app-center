@@ -77,23 +77,38 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruBanner(
-      padding: const EdgeInsets.all(kCardSpacing),
-      onTap: onTap,
-      child: Flex(
-        direction: compact ? Axis.vertical : Axis.horizontal,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppIcon(iconUrl: iconUrl),
-          const SizedBox(width: kCardSpacing, height: kCardSpacing),
-          Expanded(
-            child: _AppCardBody(
-              title: title,
-              summary: summary,
-              footer: footer,
-            ),
+    final l10n = AppLocalizations.of(context);
+    final cardLabel = [
+      '${title.title}.',
+      title.publisher != null
+          ? l10n.appCardPublisherSemanticLabel(title.publisher!)
+          : null,
+      '$summary.',
+    ].nonNulls.join(' ');
+
+    return MergeSemantics(
+      child: Semantics(
+        button: true,
+        label: cardLabel,
+        child: YaruBanner(
+          padding: const EdgeInsets.all(kCardSpacing),
+          onTap: onTap,
+          child: Flex(
+            direction: compact ? Axis.vertical : Axis.horizontal,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppIcon(iconUrl: iconUrl),
+              const SizedBox(width: kCardSpacing, height: kCardSpacing),
+              Expanded(
+                child: _AppCardBody(
+                  title: title,
+                  summary: summary,
+                  footer: footer,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -136,40 +151,56 @@ class RankedAppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+    final cardLabel = [
+      '$rank.',
+      '${title.title}.',
+      title.publisher != null
+          ? l10n.appCardPublisherSemanticLabel(title.publisher!)
+          : null,
+    ].nonNulls.join(' ');
 
-    return Flex(
-      direction: Axis.horizontal,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Center(
-          child: Text(
-            rank.toString(),
-            style: theme.textTheme.titleMedium,
-          ),
-        ),
-        const SizedBox(
-          width: 4,
-        ),
-        Expanded(
-          child: SmallBanner(
-            onTap: onTap,
-            child: Flex(
-              direction: Axis.horizontal,
-              children: [
-                AppIcon(iconUrl: iconUrl),
-                const SizedBox(width: kCardSpacing, height: kCardSpacing),
-                Expanded(
-                  child: _AppCardBody(
-                    title: title,
-                    summary: '',
-                    footer: footer,
-                  ),
+    return MergeSemantics(
+      child: Semantics(
+        button: true,
+        label: cardLabel,
+        child: Flex(
+          direction: Axis.horizontal,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: ExcludeSemantics(
+                child: Text(
+                  rank.toString(),
+                  style: theme.textTheme.titleMedium,
                 ),
-              ],
+              ),
             ),
-          ),
+            const SizedBox(
+              width: 4,
+            ),
+            Expanded(
+              child: SmallBanner(
+                onTap: onTap,
+                child: Flex(
+                  direction: Axis.horizontal,
+                  children: [
+                    AppIcon(iconUrl: iconUrl),
+                    const SizedBox(width: kCardSpacing, height: kCardSpacing),
+                    Expanded(
+                      child: _AppCardBody(
+                        title: title,
+                        summary: '',
+                        footer: footer,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -183,37 +214,43 @@ class SnapImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruBanner(
-      padding: EdgeInsets.zero,
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            flex: 160, // based on mockups
-            child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(kYaruContainerRadius),
-              ),
-              child: SafeNetworkImage(
-                url: snap.screenshotUrls.first,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 306 - 160, // based on mockups
-            child: Padding(
-              padding: const EdgeInsets.all(kCardSpacing),
-              child: _AppCardBody(
-                title: AppTitle.fromSnap(snap),
-                summary: snap.summary,
-                footer: _RatingsInfo(snap: snap),
-                maxlines: 1,
+    final appTitle = AppTitle.fromSnap(snap);
+
+    return Semantics(
+      button: true,
+      label: appTitle.title,
+      child: YaruBanner(
+        padding: EdgeInsets.zero,
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 160, // based on mockups
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(kYaruContainerRadius),
+                ),
+                child: SafeNetworkImage(
+                  url: snap.screenshotUrls.first,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-        ],
+            Expanded(
+              flex: 306 - 160, // based on mockups
+              child: Padding(
+                padding: const EdgeInsets.all(kCardSpacing),
+                child: _AppCardBody(
+                  title: appTitle,
+                  summary: snap.summary,
+                  footer: _RatingsInfo(snap: snap),
+                  maxlines: 1,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -237,20 +274,24 @@ class _AppCardBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: kIconSize,
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: title,
+        ExcludeSemantics(
+          child: SizedBox(
+            height: kIconSize,
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: title,
+            ),
           ),
         ),
         if (summary.isNotEmpty) ...[
           const SizedBox(height: 12),
           Flexible(
-            child: Text(
-              summary,
-              maxLines: maxlines,
-              overflow: TextOverflow.ellipsis,
+            child: ExcludeSemantics(
+              child: Text(
+                summary,
+                maxLines: maxlines,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ],
@@ -276,21 +317,32 @@ class _RatingsInfo extends ConsumerWidget {
     return ratingsModel.when(
       data: (ratingsData) {
         final rating = ratingsData.rating;
+        final ratingLabel = rating?.ratingsBand.localize(l10n) ?? ' ';
+        final votesLabel = l10n.snapRatingsVotes(rating?.totalVotes ?? 0);
+
         return Wrap(
           children: [
-            Text(
-              rating?.ratingsBand.localize(l10n) ?? ' ',
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: rating?.ratingsBand.getColor(context),
-                    fontSize: 12,
-                  ),
+            Semantics(
+              label: l10n.appCardRatingSemanticLabel(ratingLabel),
+              excludeSemantics: true,
+              child: Text(
+                ratingLabel,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: rating?.ratingsBand.getColor(context),
+                      fontSize: 12,
+                    ),
+              ),
             ),
             const SizedBox(width: 2),
             if (rating?.totalVotes != null) ...[
               const SizedBox(width: 2),
-              Text(
-                ' | ${l10n.snapRatingsVotes(rating?.totalVotes ?? 0)}',
-                style: Theme.of(context).textTheme.bodySmall,
+              Semantics(
+                label: votesLabel,
+                excludeSemantics: true,
+                child: Text(
+                  ' | $votesLabel',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ),
             ],
           ],
