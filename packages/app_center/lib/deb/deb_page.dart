@@ -9,6 +9,7 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/store/store_app.dart';
+import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,6 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru/yaru.dart';
 
 class DebPage extends ConsumerStatefulWidget {
@@ -88,6 +88,7 @@ class _DebView extends StatelessWidget {
         (
           label: Text(l10n.snapPageLinksLabel),
           value: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: debModel.component.urls
                 .where(
                   (url) => [
@@ -96,11 +97,9 @@ class _DebView extends StatelessWidget {
                   ].contains(url.type),
                 )
                 .map(
-                  (url) => Html(
-                    data: '<a href="${url.url}">${url.type.localize(l10n)}</a>',
-                    style: {'body': Style(margin: Margins.zero)},
-                    onLinkTap: (url, attributes, element) =>
-                        launchUrlString(url!),
+                  (url) => HyperlinkText(
+                    text: url.type.localize(l10n),
+                    link: url.url,
                   ),
                 )
                 .toList(),
@@ -276,12 +275,9 @@ class _Header extends ConsumerWidget {
           children: [
             _DebActionButtons(debModel: debModel),
             const SizedBox(width: 32),
-            Html(
-              shrinkWrap: true,
-              data:
-                  '<a href="$debManageDocsUrl">${l10n.debPageDocumentationLinkLabel} &gt;</a>',
-              style: {'body': Style(margin: Margins.zero)},
-              onLinkTap: (url, attributes, element) => launchUrlString(url!),
+            HyperlinkText(
+              text: '${l10n.debPageDocumentationLinkLabel} >',
+              link: debManageDocsUrl,
             ),
           ],
         ),
