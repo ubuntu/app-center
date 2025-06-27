@@ -514,5 +514,21 @@
   "snapPageGalleryNextSemanticLabel": "Następny obraz",
   "@snapPageGalleryNextSemanticLabel": {},
   "debPageShareSemanticLabel": "Skopiuj łącze",
-  "@debPageShareSemanticLabel": {}
+  "@debPageShareSemanticLabel": {},
+  "appCardRatingSemanticLabel": "Ocena {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "Opublikowano przez {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  }
 }
