@@ -51,7 +51,7 @@
   "@snapCategoryFinance": {},
   "snapCategoryServerAndCloud": "Серверы и облака",
   "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "Инфо",
+  "aboutPageLabel": "Сведения",
   "@aboutPageLabel": {},
   "snapPageSummaryLabel": "Главное",
   "@snapPageSummaryLabel": {},
@@ -111,7 +111,7 @@
   },
   "explorePageCategoriesLabel": "Категории",
   "@explorePageCategoriesLabel": {},
-  "snapCategoryDefaultButtonLabel": "Исследовать больше",
+  "snapCategoryDefaultButtonLabel": "Просмотреть ещё",
   "@snapCategoryDefaultButtonLabel": {},
   "managePageShowDetailsLabel": "Подробнее",
   "@managePageShowDetailsLabel": {},
@@ -191,7 +191,7 @@
       }
     }
   },
-  "snapCategoryGamesSlogan": "Всё для ночной игры",
+  "snapCategoryGamesSlogan": "Всё для геймеров",
   "@snapCategoryGamesSlogan": {},
   "snapActionSwitchChannelLabel": "Переключить канал",
   "@snapActionSwitchChannelLabel": {},
@@ -511,6 +511,22 @@
   "@sectionCollapseSemanticLabel": {
     "placeholders": {
       "section": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "Опубликовано {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Рейтинг {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
         "type": "String"
       }
     }
