@@ -514,5 +514,21 @@
         "type": "String"
       }
     }
+  },
+  "appCardPublisherSemanticLabel": "Vydané vydavateľom {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Ohodnotenie {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
   }
 }
