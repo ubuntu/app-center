@@ -512,5 +512,21 @@
   "debPageShareLinkCopiedMessage": "Link gekopieerd naar klembord",
   "@debPageShareLinkCopiedMessage": {},
   "debPageShareSemanticLabel": "Link kopiëren",
-  "@debPageShareSemanticLabel": {}
+  "@debPageShareSemanticLabel": {},
+  "appCardRatingSemanticLabel": "Waardering {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "Gepubliceerd door {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  }
 }
