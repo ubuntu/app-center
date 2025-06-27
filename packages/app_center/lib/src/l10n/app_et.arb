@@ -520,5 +520,21 @@
         "type": "String"
       }
     }
+  },
+  "appCardRatingSemanticLabel": "Hinnang {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "Väljaandja: {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
   }
 }
