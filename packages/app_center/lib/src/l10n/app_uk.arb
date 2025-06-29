@@ -484,5 +484,13 @@
   "debPageShareLinkCopiedMessage": "Посилання скопійовано до буферу обміну",
   "@debPageShareLinkCopiedMessage": {},
   "debPageShareSemanticLabel": "Копіювати посилання",
-  "@debPageShareSemanticLabel": {}
+  "@debPageShareSemanticLabel": {},
+  "appCardPublisherSemanticLabel": "Опубліковано {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  }
 }
