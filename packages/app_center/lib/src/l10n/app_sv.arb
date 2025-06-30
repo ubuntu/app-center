@@ -514,5 +514,21 @@
   "snapPageShareSemanticLabel": "Kopiera länk",
   "@snapPageShareSemanticLabel": {},
   "snapPageReportSemanticLabel": "Rapportera",
-  "@snapPageReportSemanticLabel": {}
+  "@snapPageReportSemanticLabel": {},
+  "appCardPublisherSemanticLabel": "Publicerad av {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Betyg {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  }
 }
