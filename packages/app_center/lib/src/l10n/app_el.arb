@@ -320,5 +320,45 @@
   "errorViewNetworkErrorAction": "Ελέγξτε την σύνδεση σας και προσπαθήστε ξανά.",
   "@errorViewNetworkErrorAction": {},
   "externalResourcesDisclaimer": "Σημείωση: Αυτά είναι εξωτερικά εργαλεία.Αυτά δεν ανήκουν η δεν διανέμονται από την Canonical.",
-  "@externalResourcesDisclaimer": {}
+  "@externalResourcesDisclaimer": {},
+  "snapPageGalleryNextSemanticLabel": "Επόμενη εικόνα",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Προηγούμενη εικόνα",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Εικόνα{n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Αντιγραφή συνδέσμου",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Αναφορά",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Ανάπτυξή{section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Κατάρευση{section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageInstallingLabel": "Γίνεται Εγκατάστασή{n}",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
