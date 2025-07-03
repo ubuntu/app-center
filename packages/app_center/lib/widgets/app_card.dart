@@ -80,7 +80,7 @@ class AppCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final cardLabel = [
       '${title.title}.',
-      title.publisher != null
+      title.publisher != null && title.publisher != ''
           ? l10n.appCardPublisherSemanticLabel(title.publisher!)
           : null,
       '$summary.',
@@ -155,7 +155,7 @@ class RankedAppCard extends StatelessWidget {
     final cardLabel = [
       '$rank.',
       '${title.title}.',
-      title.publisher != null
+      title.publisher != null && title.publisher != ''
           ? l10n.appCardPublisherSemanticLabel(title.publisher!)
           : null,
     ].nonNulls.join(' ');
