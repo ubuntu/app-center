@@ -476,5 +476,57 @@
   "externalResourcesDisclaimer": "குறிப்பு: இவை அனைத்தும் வெளிப்புற கருவிகள். இவை நியமனத்தால் சொந்தமானவை அல்லது விநியோகிக்கப்படவில்லை.",
   "@externalResourcesDisclaimer": {},
   "snapCategoryAll": "அனைத்து பிரிவுகளும்",
-  "@snapCategoryAll": {}
+  "@snapCategoryAll": {},
+  "snapPageGalleryNextSemanticLabel": "அடுத்த படம்",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "முந்தைய படம்",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "படம் {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "இணைப்பை நகலெடுக்கவும்",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "அறிக்கை",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "விரிவாக்கு {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "சரிவு {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "{publisher} ஆல் வெளியிடப்பட்டது.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "மதிப்பீடு {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "கிளிப்போர்டில் இணைப்பு நகலெடுக்கப்பட்டது",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "இணைப்பை நகலெடுக்கவும்",
+  "@debPageShareSemanticLabel": {}
 }
