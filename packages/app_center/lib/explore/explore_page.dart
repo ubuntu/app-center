@@ -24,10 +24,14 @@ class ExplorePage extends ConsumerWidget {
     return ResponsiveLayoutScrollView(
       slivers: [
         SliverList.list(
-          children: const [
-            SizedBox(height: 56),
-            CategoryBanner(category: SnapCategoryEnum.featured),
-            SizedBox(height: kPagePadding),
+          children: [
+            const SizedBox(height: 56),
+            Semantics(
+              focused: true,
+              header: true,
+              child: const CategoryBanner(category: SnapCategoryEnum.featured),
+            ),
+            const SizedBox(height: kPagePadding),
           ],
         ),
         const CategorySnapList(

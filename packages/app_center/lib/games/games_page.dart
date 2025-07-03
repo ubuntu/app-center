@@ -193,7 +193,11 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: Theme.of(context).textTheme.headlineSmall);
+    return Semantics(
+      header: true,
+      focused: true,
+      child: Text(text, style: Theme.of(context).textTheme.headlineSmall),
+    );
   }
 }
 
