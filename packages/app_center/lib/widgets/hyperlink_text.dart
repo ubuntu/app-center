@@ -1,7 +1,6 @@
 import 'package:app_center/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:yaru/yaru.dart';
 
 /// A [Text] widget formatted as an accessible hyperlink.
 class HyperlinkText extends StatefulWidget {
@@ -28,11 +27,13 @@ class _HyperlinkTextState extends State<HyperlinkText> {
     return Semantics(
       link: true,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(kYaruButtonRadius)),
-          border: BoxBorder.all(
-            color: focused ? theme.primaryColor : Colors.transparent,
-            width: 2,
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: focused ? theme.primaryColor : Colors.transparent,
+              width: 2,
+              strokeAlign: 2,
+            ),
           ),
         ),
         child: InkWell(
