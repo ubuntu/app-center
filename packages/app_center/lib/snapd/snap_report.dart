@@ -1,11 +1,10 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/snapd/logger.dart';
-import 'package:flutter/gestures.dart';
+import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class SnapReport extends StatefulWidget {
   const SnapReport({required this.name, super.key});
@@ -122,46 +121,20 @@ class _SnapReportState extends State<SnapReport> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: kPagePadding),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: l10n.snapReportPrivacyAgreementLabel,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      TextSpan(
-                        text: l10n
-                            .snapReportPrivacyAgreementCanonicalPrivacyNotice,
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          decoration: TextDecoration.underline,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () async {
-                            await launchUrlString(
-                              'https://ubuntu.com/legal/data-privacy/contact',
-                            );
-                          },
-                      ),
-                      TextSpan(
-                        text: l10n.snapReportPrivacyAgreementAndLabel,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      TextSpan(
-                        text: l10n.snapReportPrivacyAgreementPrivacyPolicy,
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          decoration: TextDecoration.underline,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () async {
-                            await launchUrlString(
-                              'https://ubuntu.com/legal/data-privacy',
-                            );
-                          },
-                      ),
-                    ],
-                  ),
+                child: Wrap(
+                  children: [
+                    Text(l10n.snapReportPrivacyAgreementLabel),
+                    HyperlinkText(
+                      text:
+                          l10n.snapReportPrivacyAgreementCanonicalPrivacyNotice,
+                      link: 'https://ubuntu.com/legal/data-privacy/contact',
+                    ),
+                    Text(l10n.snapReportPrivacyAgreementAndLabel),
+                    HyperlinkText(
+                      text: l10n.snapReportPrivacyAgreementPrivacyPolicy,
+                      link: 'https://ubuntu.com/legal/data-privacy',
+                    ),
+                  ],
                 ),
               ),
               Row(
