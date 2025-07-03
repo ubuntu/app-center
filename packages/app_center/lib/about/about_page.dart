@@ -69,9 +69,16 @@ class _AboutHeader extends ConsumerWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              kAppName,
-              style: Theme.of(context).textTheme.headlineSmall,
+            MergeSemantics(
+              child: Semantics(
+                header: true,
+                focused: true,
+                label: l10n.aboutPageLabel,
+                child: Text(
+                  kAppName,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+              ),
             ),
             const SizedBox(height: 8),
             ref.watch(versionProvider).maybeWhen(

@@ -50,9 +50,13 @@ class ManagePage extends ConsumerWidget {
         slivers: [
           SliverList.list(
             children: [
-              Text(
-                l10n.managePageTitle,
-                style: textTheme.headlineSmall,
+              Semantics(
+                header: true,
+                focused: true,
+                child: Text(
+                  l10n.managePageTitle,
+                  style: textTheme.headlineSmall,
+                ),
               ),
               const SizedBox(height: kMargin),
               Text(
