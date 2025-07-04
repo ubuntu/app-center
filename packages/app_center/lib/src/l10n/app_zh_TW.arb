@@ -514,5 +514,21 @@
     }
   },
   "snapPageGalleryNextSemanticLabel": "下一張圖片",
-  "@snapPageGalleryNextSemanticLabel": {}
+  "@snapPageGalleryNextSemanticLabel": {},
+  "appCardPublisherSemanticLabel": "由 {publisher} 發行。",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "評價 {rating}。",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  }
 }
