@@ -520,5 +520,21 @@
         "type": "int"
       }
     }
+  },
+  "appCardPublisherSemanticLabel": "Foilsithe ag {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Rátáil {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
   }
 }
