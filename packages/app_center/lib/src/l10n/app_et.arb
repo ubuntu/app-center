@@ -153,7 +153,7 @@
       }
     }
   },
-  "managePageUpdatesAvailable": "Uuendused on saadaval ({n})",
+  "managePageUpdatesAvailable": "Saadaval uuendusi: {n}",
   "@managePageUpdatesAvailable": {
     "placeholders": {
       "n": {
@@ -484,5 +484,57 @@
     }
   },
   "errorViewServerErrorAction": "Palun kontrolli uuenduste olekuid ja proovi hiljem uuesti.",
-  "@errorViewServerErrorAction": {}
+  "@errorViewServerErrorAction": {},
+  "debPageShareSemanticLabel": "Kopeeri link",
+  "@debPageShareSemanticLabel": {},
+  "debPageShareLinkCopiedMessage": "Link on kopeeritud lõikelauale",
+  "@debPageShareLinkCopiedMessage": {},
+  "snapPageGalleryNextSemanticLabel": "Järgmine pilt",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Eelmine pilt",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "{n}. pilt",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Kopeeri link",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Teata",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Laienda lõik: {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Ahenda lõik: {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Hinnang {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "Väljaandja: {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  }
 }
