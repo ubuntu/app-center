@@ -160,7 +160,14 @@ class _SnapView extends StatelessWidget {
                         AppIcon(iconUrl: snapData.snap.iconUrl, size: 96),
                         const SizedBox(width: 16),
                         Expanded(
-                          child: AppTitle.fromSnap(snapData.snap, large: true),
+                          child: Semantics(
+                            header: true,
+                            focused: true,
+                            child: AppTitle.fromSnap(
+                              snapData.snap,
+                              large: true,
+                            ),
+                          ),
                         ),
                         _IconRow(snapData: snapData),
                       ],

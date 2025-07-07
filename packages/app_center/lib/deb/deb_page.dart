@@ -247,7 +247,13 @@ class _Header extends ConsumerWidget {
           children: [
             AppIcon(iconUrl: debModel.component.icon, size: 96),
             const SizedBox(width: 16),
-            Expanded(child: AppTitle.fromDeb(debModel.component)),
+            Expanded(
+              child: Semantics(
+                header: true,
+                focused: true,
+                child: AppTitle.fromDeb(debModel.component),
+              ),
+            ),
             if (debModel.component.website != null)
               YaruIconButton(
                 icon: Icon(

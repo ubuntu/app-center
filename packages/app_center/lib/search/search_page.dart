@@ -36,14 +36,22 @@ class SearchPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (query != null)
-                  Text(
-                    l10n.searchPageTitle(query!),
-                    style: Theme.of(context).textTheme.headlineSmall,
+                  Semantics(
+                    focused: true,
+                    header: true,
+                    child: Text(
+                      l10n.searchPageTitle(query!),
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
                   ),
                 if (initialCategory != null)
-                  Text(
-                    initialCategory.localize(l10n),
-                    style: Theme.of(context).textTheme.headlineSmall,
+                  Semantics(
+                    focused: true,
+                    header: true,
+                    child: Text(
+                      initialCategory.localize(l10n),
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
                   ),
                 const SizedBox(height: 8),
                 Row(
