@@ -2,6 +2,7 @@ import 'package:app_center/about/about_providers.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -212,24 +213,14 @@ class _CommunityTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final markdownTheme = MarkdownStyleSheet.fromTheme(theme);
-
     return YaruTile(
       // TODO: icon
+      style: YaruTileStyle.banner,
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
       ),
-      subtitle: MarkdownBody(
-        data: '[$subtitle]($href)',
-        onTapLink: (_, href, __) => launchUrlString(href!),
-        styleSheet: markdownTheme.copyWith(
-          a: markdownTheme.a?.copyWith(
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ),
+      subtitle: HyperlinkText(text: subtitle, link: href),
       padding: EdgeInsets.zero,
     );
   }
