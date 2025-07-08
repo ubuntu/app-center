@@ -75,7 +75,7 @@
   "@developmentPageLabel": {},
   "gamesPageLabel": "משחקים",
   "@gamesPageLabel": {},
-  "gamesPageTitle": "מה לוהט",
+  "gamesPageTitle": "משחקים",
   "@gamesPageTitle": {},
   "gamesPageTop": "בראש הדירוג",
   "@gamesPageTop": {},
@@ -520,5 +520,21 @@
     }
   },
   "debPageShareSemanticLabel": "העתקת קישור",
-  "@debPageShareSemanticLabel": {}
+  "@debPageShareSemanticLabel": {},
+  "appCardPublisherSemanticLabel": "פורסם על ידי {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "דירוג {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  }
 }
