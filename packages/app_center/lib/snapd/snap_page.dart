@@ -423,13 +423,15 @@ class _IconRow extends ConsumerWidget {
             ),
             onPressed: () {
               final navigationKey = ref.watch(materialAppNavigatorKeyProvider);
+              final snapStoreUrl = '$snapStoreBaseUrl/${snapData.name}';
 
               ScaffoldMessenger.of(navigationKey.currentContext!).showSnackBar(
                 SnackBar(
                   content: Text(l10n.snapPageShareLinkCopiedMessage),
                 ),
               );
-              Clipboard.setData(ClipboardData(text: snap.website!));
+                Clipboard.setData(ClipboardData(text: snapStoreUrl));
+
             },
           ),
         YaruIconButton(
