@@ -425,7 +425,7 @@
   "@localDebDialogMessage": {},
   "snapRatingsBandVeryPoor": "Muito pobre",
   "@snapRatingsBandVeryPoor": {},
-  "errorViewUnknownErrorAction": "Você pode tentar novamente agora, verificar o status das atualizações ou tentar novamente mais tarde.",
+  "errorViewUnknownErrorAction": "Pode tentar novamente agora, verificar o estado das atualizações, ou tentar novamente mais tarde.",
   "@errorViewUnknownErrorAction": {},
   "snapRatingsBandPoor": "Pobre",
   "@snapRatingsBandPoor": {},
@@ -449,7 +449,7 @@
       }
     }
   },
-  "errorViewServerErrorAction": "Verifique o status das atualizações ou tente novamente mais tarde.",
+  "errorViewServerErrorAction": "Verifique o estado das atualizações ou tente novamente mais tarde.",
   "@errorViewServerErrorAction": {},
   "errorViewNetworkErrorAction": "Verifique a sua ligação e tente novamente.",
   "@errorViewNetworkErrorAction": {},
@@ -463,7 +463,7 @@
   "@snapSortOrderInstalledDateDesc": {},
   "debPageErrorNoPackageInfo": "Nenhuma informação de pacote encontrada",
   "@debPageErrorNoPackageInfo": {},
-  "errorViewServerErrorDescription": "Desculpe, de momento, nós estamos com problemas no \"Centro de aplicações\".",
+  "errorViewServerErrorDescription": "Desculpe, de momento, nós estamos com problemas no \"Centro de Aplicações\".",
   "@errorViewServerErrorDescription": {},
   "snapCategoryArtAndDesignButtonLabel": "Comece a criar",
   "@snapCategoryArtAndDesignButtonLabel": {},
@@ -473,7 +473,7 @@
   "@snapReportOptionStoreViolation": {},
   "externalResourcesDisclaimer": "Nota: estas são todas ferramentas externas. Elas não são propriedade, nem distribuição da Canonical.",
   "@externalResourcesDisclaimer": {},
-  "errorViewUnknownErrorDescription": "Lamentamos, mas não temos certeza de qual é o erro.",
+  "errorViewUnknownErrorDescription": "Desculpe, mas nós não temos a certeza de qual é o erro.",
   "@errorViewUnknownErrorDescription": {},
   "snapRatingsBandGood": "Bom",
   "@snapRatingsBandGood": {},
@@ -528,5 +528,7 @@
   "debPageShareLinkCopiedMessage": "Hiperligação copiada para a área de transferência",
   "@debPageShareLinkCopiedMessage": {},
   "debPageShareSemanticLabel": "Copiar hiperligação",
-  "@debPageShareSemanticLabel": {}
+  "@debPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Reportar",
+  "@snapPageReportSemanticLabel": {}
 }
