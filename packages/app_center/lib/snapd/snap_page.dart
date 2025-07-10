@@ -425,7 +425,6 @@ class _IconRow extends ConsumerWidget {
               final navigationKey = ref.watch(materialAppNavigatorKeyProvider);
               final snapStoreUrl = '$snapStoreBaseUrl/${snapData.name}';
 
-
               ScaffoldMessenger.of(navigationKey.currentContext!).showSnackBar(
                 SnackBar(
                   content: Text(l10n.snapPageShareLinkCopiedMessage),
