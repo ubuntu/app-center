@@ -249,7 +249,7 @@
   "@appCenterLabel": {},
   "snapPageShareLinkCopiedMessage": "Lien copié dans le presse-papier",
   "@snapPageShareLinkCopiedMessage": {},
-  "gamesPageTitle": "Quoi de neuf ?",
+  "gamesPageTitle": "Jeux",
   "@gamesPageTitle": {},
   "gamesPageTop": "Les mieux notés",
   "@gamesPageTop": {},
@@ -511,6 +511,22 @@
   "@sectionCollapseSemanticLabel": {
     "placeholders": {
       "section": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "Publié(e) par {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Notation {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
         "type": "String"
       }
     }
