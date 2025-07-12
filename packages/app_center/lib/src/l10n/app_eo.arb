@@ -279,7 +279,7 @@
   "@snapSortOrderInstalledDateDesc": {},
   "appCenterLabel": "Programcentro",
   "@appCenterLabel": {},
-  "gamesPageTitle": "Kio popularas",
+  "gamesPageTitle": "Ludoj",
   "@gamesPageTitle": {},
   "gamesPageFeatured": "Elstaraj ludoj",
   "@gamesPageFeatured": {},
@@ -512,6 +512,22 @@
     "placeholders": {
       "n": {
         "type": "int"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "Eldonita de {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Takso {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
       }
     }
   }
