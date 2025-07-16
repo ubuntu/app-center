@@ -393,6 +393,100 @@
   "@snapRatingsBandVeryGood": {},
   "snapRatingsBandGood": "İyi",
   "@snapRatingsBandGood": {},
-  "snapRatingsBandNeutral": "Tarafsız",
-  "@snapRatingsBandNeutral": {}
+  "snapRatingsBandNeutral": "Doğal",
+  "@snapRatingsBandNeutral": {},
+  "snapRatingsBandPoor": "Kötü",
+  "@snapRatingsBandPoor": {},
+  "snapRatingsBandVeryPoor": "Çok kötü",
+  "@snapRatingsBandVeryPoor": {},
+  "snapRatingsBandInsufficientVotes": "Yetersiz oy",
+  "@snapRatingsBandInsufficientVotes": {},
+  "snapRatingsVotes": "{n} oy",
+  "@snapRatingsVotes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapReportLabel": "{snapName} Raporla",
+  "@snapReportLabel": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "snapReportSelectReportReasonLabel": "Bu snap'i bildirmek için bir neden seçin",
+  "@snapReportSelectReportReasonLabel": {},
+  "snapReportSelectAnOptionLabel": "Bir seçenek seçin",
+  "@snapReportSelectAnOptionLabel": {},
+  "snapReportOptionCopyrightViolation": "Telif hakkı veya ticari marka ihlali",
+  "@snapReportOptionCopyrightViolation": {},
+  "snapReportOptionStoreViolation": "Snap Mağazası hizmet şartlarının ihlali",
+  "@snapReportOptionStoreViolation": {},
+  "snapReportDetailsLabel": "Lütfen raporunuzun nedenini daha ayrıntılı olarak belirtin",
+  "@snapReportDetailsLabel": {},
+  "snapReportOptionalEmailAddressLabel": "E-postanız (isteğe bağlı)",
+  "@snapReportOptionalEmailAddressLabel": {},
+  "snapReportCancelButtonLabel": "Vazgeç",
+  "@snapReportCancelButtonLabel": {},
+  "snapReportSubmitButtonLabel": "Rapor gönder",
+  "@snapReportSubmitButtonLabel": {},
+  "snapReportEnterValidEmailError": "Geçerli bir e-posta adresi girin",
+  "@snapReportEnterValidEmailError": {},
+  "snapReportDetailsHint": "Yorum...",
+  "@snapReportDetailsHint": {},
+  "snapReportPrivacyAgreementLabel": "Bu formu göndererek, okuduğumu ve kabul ettiğimi onaylıyorum. ",
+  "@snapReportPrivacyAgreementLabel": {},
+  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical'ın Gizlilik Bildirimi ",
+  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+  "snapReportPrivacyAgreementAndLabel": "ve ",
+  "@snapReportPrivacyAgreementAndLabel": {},
+  "snapReportPrivacyAgreementPrivacyPolicy": "Gizlilik Politikası",
+  "@snapReportPrivacyAgreementPrivacyPolicy": {},
+  "debPageErrorNoPackageInfo": "Paket bilgisi bulunamadı",
+  "@debPageErrorNoPackageInfo": {},
+  "debPageDocumentationLinkLabel": "Debian paketlerini yönetme hakkında bilgi edinin",
+  "@debPageDocumentationLinkLabel": {},
+  "debPageShareLinkCopiedMessage": "Bağlantı panoya kopyalandı",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "Bağlantıyı kopyala",
+  "@debPageShareSemanticLabel": {},
+  "externalResources": "Ek kaynaklar",
+  "@externalResources": {},
+  "externalResourcesButtonLabel": "Daha fazlasını keşfet",
+  "@externalResourcesButtonLabel": {},
+  "allGamesButtonLabel": "Tüm oyunlar",
+  "@allGamesButtonLabel": {},
+  "externalResourcesDisclaimer": "Not: Bunların hepsi harici araçlardır. Canonical'a ait değildir ve Canonical tarafından dağıtılmamaktadır.",
+  "@externalResourcesDisclaimer": {},
+  "openInBrowser": "Tarayıcıda aç",
+  "@openInBrowser": {},
+  "installAll": "Tümünü yükle",
+  "@installAll": {},
+  "localDebWarningTitle": "Potansiyel olarak güvenli değil",
+  "@localDebWarningTitle": {},
+  "localDebWarningBody": "Bu paket üçüncü bir tarafça sağlanmaktadır. Paketleri Uygulama Merkezi dışından yüklemek, sisteminiz ve kişisel verileriniz için riski artırabilir. Devam etmeden önce kaynağa güvendiğinizden emin olun.",
+  "@localDebWarningBody": {},
+  "localDebLearnMore": "Üçüncü taraf paketleri hakkında daha fazla bilgi edinin",
+  "@localDebLearnMore": {},
+  "localDebDialogMessage": "Bu paket üçüncü bir tarafça sağlanmaktadır ve sisteminizi ve kişisel verilerinizi tehdit edebilir.",
+  "@localDebDialogMessage": {},
+  "localDebDialogConfirmation": "Yüklemek istediğinize emin misiniz?",
+  "@localDebDialogConfirmation": {},
+  "snapdExceptionRunningApps": "{snapName} şu anda çalıştığı için güncellenemedi.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewCheckStatusLabel": "Durumu kontrol et",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "İnternete bağlan",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "İnternet bağlantısı olmadan Uygulama Merkezi'ndeki içeriği yükleyemeyiz.",
+  "@errorViewNetworkErrorDescription": {}
 }
