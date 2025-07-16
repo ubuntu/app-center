@@ -143,7 +143,7 @@
   },
   "gamesPageTop": "En iyi Oyunlar",
   "@gamesPageTop": {},
-  "appstreamSearchGreylist": "uygulama;uygulama;paket;program;program;?;araç",
+  "appstreamSearchGreylist": "uygulama;uygulama;paket;program;program paketi;araç",
   "@appstreamSearchGreylist": {},
   "gamesPageTitle": "En İyiler",
   "@gamesPageTitle": {},
@@ -242,5 +242,59 @@
   "snapPageSizeLabel": "Boyut",
   "@snapPageSizeLabel": {},
   "snapPageConfinementLabel": "Kısıtlama",
-  "@snapPageConfinementLabel": {}
+  "@snapPageConfinementLabel": {},
+  "snapPageGalleryNextSemanticLabel": "Sonraki resim",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Önceki resim",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Resim {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Bağlantıyı kopyala",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Raporla",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "{section} genişlet",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "{section} daralt",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "managePageOwnUpdateAvailable": "Uygulama Merkezi güncellemesi mevcut",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageQuitToUpdate": "Güncellemek için çık",
+  "@managePageQuitToUpdate": {},
+  "managePageOwnUpdateDescription": "Uygulamadan çıktığınızda otomatik olarak güncellenecektir.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateQuitButton": "Güncellemek için çık",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageNoInternet": "Sunucuya ulaşılamıyor. İnternet bağlantınızı kontrol edin veya daha sonra tekrar deneyin.",
+  "@managePageNoInternet": {},
+  "managePageDebUpdatesMessage": "Debian paket güncellemeleri Yazılım Güncelleyici tarafından işlenir.",
+  "@managePageDebUpdatesMessage": {},
+  "managePageInstallingLabel": "({n}) yükleniyor",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageTitle": "Yüklü anlık görüntüleri yönetin",
+  "@managePageTitle": {}
 }
