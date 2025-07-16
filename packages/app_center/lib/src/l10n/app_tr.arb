@@ -103,11 +103,11 @@
   "@managePageSearchFieldSearchHint": {},
   "managePageShowDetailsLabel": "Ayrıntıları göster",
   "@managePageShowDetailsLabel": {},
-  "managePageShowSystemSnapsLabel": "System Snap'lerini göster",
+  "managePageShowSystemSnapsLabel": "Sistem Snap'lerini göster",
   "@managePageShowSystemSnapsLabel": {},
   "managePageUpdateAllLabel": "Tümünü güncelle",
   "@managePageUpdateAllLabel": {},
-  "managePageUpdatedDaysAgo": "{n} gün önce güncellendi",
+  "managePageUpdatedDaysAgo": "{n, plural, =1{{n} gün} other{{n} gün}} önce güncellendi",
   "@managePageUpdatedDaysAgo": {
     "placeholders": {
       "n": {
@@ -117,7 +117,7 @@
   },
   "managePageUpdatesAvailable": "Güncellemeler mevcut ({n})",
   "@managePageUpdatesAvailable": {},
-  "managePageUpdatedYearsAgo": "{n} yıl önce güncellendi",
+  "managePageUpdatedYearsAgo": "{n, plural, =1{{n} yıl} other{{n} yıl}} önce güncellendi",
   "@managePageUpdatedYearsAgo": {
     "placeholders": {
       "n": {
@@ -125,7 +125,7 @@
       }
     }
   },
-  "managePageUpdatedWeeksAgo": "{n} hafta önce güncellendi",
+  "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} hafta} other{{n} hafta}} önce güncellendi",
   "@managePageUpdatedWeeksAgo": {
     "placeholders": {
       "n": {
@@ -133,7 +133,7 @@
       }
     }
   },
-  "managePageUpdatedMonthsAgo": "{n} ay önce güncellendi",
+  "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} ay} other{{n} ay}} önce güncellendi",
   "@managePageUpdatedMonthsAgo": {
     "placeholders": {
       "n": {
@@ -141,11 +141,11 @@
       }
     }
   },
-  "gamesPageTop": "En iyi Oyunlar",
+  "gamesPageTop": "En İyi Dereceli",
   "@gamesPageTop": {},
   "appstreamSearchGreylist": "uygulama;uygulama;paket;program;program paketi;araç",
   "@appstreamSearchGreylist": {},
-  "gamesPageTitle": "En İyiler",
+  "gamesPageTitle": "Oyunlar",
   "@gamesPageTitle": {},
   "searchPageNoResults": "\"{query}\" araması için sonuç bulunamadı",
   "@searchPageNoResults": {
@@ -165,7 +165,7 @@
   "@appstreamUrlTypeHelp": {},
   "unknownPublisher": "Bilinmeyen yayıncı",
   "@unknownPublisher": {},
-  "gamesPageFeatured": "Öne Çıkanlar",
+  "gamesPageFeatured": "Öne Çıkan Başlıklar",
   "@gamesPageFeatured": {},
   "gamesPageBundles": "Uygulama Paketleri",
   "@gamesPageBundles": {},
@@ -211,7 +211,7 @@
   "@aboutPageContributeLabel": {},
   "aboutPageGitHubLabel": "GitHub'da bizi bulun",
   "@aboutPageGitHubLabel": {},
-  "aboutPagePublishLabel": "Snap Mağazası'na yayınla",
+  "aboutPagePublishLabel": "Snap Mağazası'nda yayınla",
   "@aboutPagePublishLabel": {},
   "appstreamUrlTypeBugtracker": "Hata izleyici",
   "@appstreamUrlTypeBugtracker": {},
@@ -295,6 +295,104 @@
       }
     }
   },
-  "managePageTitle": "Yüklü snaplari yönetin",
-  "@managePageTitle": {}
+  "managePageTitle": "Yüklü snap'lari yönetin",
+  "@managePageTitle": {},
+  "managePageUpdatesFailed": "{n, plural, =1{Bir güncelleme} other{{n} güncelleme}} başarısız oldu",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailedBody": "Bu uygulamaları güncelleyemedik çünkü şu anda çalışıyorlar.\n\n{snapList}\nUygulamalardan çıktığınızda otomatik olarak güncellenecektir.",
+  "@managePageUpdatesFailedBody": {},
+  "managePageDocumentationLinkLabel": "Debian paketlerinin nasıl yönetileceğini belgelerden öğrenin.",
+  "@managePageDocumentationLinkLabel": {},
+  "appstreamUrlTypeContribute": "Katkıda bulun",
+  "@appstreamUrlTypeContribute": {},
+  "appstreamUrlTypeVcsBrowser": "Kaynak",
+  "@appstreamUrlTypeVcsBrowser": {},
+  "snapActionInstalledLabel": "Yüklü",
+  "@snapActionInstalledLabel": {},
+  "appCardPublisherSemanticLabel": "{publisher} tarafından yayınlandı.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Derecelendirme {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "snapCategoryArtAndDesignButtonLabel": "Oluşturmaya başla",
+  "@snapCategoryArtAndDesignButtonLabel": {},
+  "snapCategoryArtAndDesignSlogan": "İlk çiziminizden son rötuşlara kadar sanat ve tasarım uygulamalarını keşfedin.",
+  "@snapCategoryArtAndDesignSlogan": {},
+  "snapCategoryGnomeGamesSlogan": "GNOME Oyun Paketi",
+  "@snapCategoryGnomeGamesSlogan": {},
+  "snapCategoryKdeGames": "KDE Oyunları",
+  "@snapCategoryKdeGames": {},
+  "snapCategoryKdeGamesSlogan": "KDE Oyun Paketi",
+  "@snapCategoryKdeGamesSlogan": {},
+  "snapCategoryGameLaunchers": "Oyun Başlatıcıları",
+  "@snapCategoryGameLaunchers": {},
+  "snapCategoryGameLaunchersSlogan": "Oyun Başlatıcıları",
+  "@snapCategoryGameLaunchersSlogan": {},
+  "snapCategoryGameContentCreation": "İçerik Oluşturma",
+  "@snapCategoryGameContentCreation": {},
+  "snapCategoryGameContentCreationSlogan": "İçerik Oluşturma",
+  "@snapCategoryGameContentCreationSlogan": {},
+  "snapCategoryHealthAndFitness": "Sağlık ve Zindelik",
+  "@snapCategoryHealthAndFitness": {},
+  "snapCategoryNewsAndWeather": "Haberler ve Hava Durumu",
+  "@snapCategoryNewsAndWeather": {},
+  "snapCategoryPersonalisation": "Kişiselleştirme",
+  "@snapCategoryPersonalisation": {},
+  "snapCategoryProductivityButtonLabel": "Üretkenlik koleksiyonunu keşfedin",
+  "@snapCategoryProductivityButtonLabel": {},
+  "snapCategoryProductivitySlogan": "Yapılacaklar listenizden bir şeyi silin",
+  "@snapCategoryProductivitySlogan": {},
+  "snapCategoryUbuntuDesktop": "Ubuntu Masaüstü",
+  "@snapCategoryUbuntuDesktop": {},
+  "snapCategoryUbuntuDesktopSlogan": "Masaüstünüzü hızla başlatın",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapCategoryUtilities": "Yardımcı programlar",
+  "@snapCategoryUtilities": {},
+  "snapConfinementClassic": "Klasik",
+  "@snapConfinementClassic": {},
+  "snapConfinementDevmode": "Geliştirme modu",
+  "@snapConfinementDevmode": {},
+  "snapConfinementStrict": "Sıkı",
+  "@snapConfinementStrict": {},
+  "snapSortOrderAlphabeticalAsc": "Alfabetik (A'dan Z'ye)",
+  "@snapSortOrderAlphabeticalAsc": {},
+  "snapSortOrderAlphabeticalDesc": "Alfabetik (Z'den A'ya)",
+  "@snapSortOrderAlphabeticalDesc": {},
+  "snapSortOrderDownloadSizeAsc": "Boyut (En küçükten en büyüğe)",
+  "@snapSortOrderDownloadSizeAsc": {},
+  "snapSortOrderDownloadSizeDesc": "Boyut (En büyükten en küçüğe)",
+  "@snapSortOrderDownloadSizeDesc": {},
+  "snapSortOrderInstalledSizeAsc": "Boyut (En küçükten en büyüğe)",
+  "@snapSortOrderInstalledSizeAsc": {},
+  "snapSortOrderInstalledSizeDesc": "Boyut (En büyükten en küçüğe)",
+  "@snapSortOrderInstalledSizeDesc": {},
+  "snapSortOrderInstalledDateAsc": "En son güncellenen",
+  "@snapSortOrderInstalledDateAsc": {},
+  "snapSortOrderInstalledDateDesc": "En son güncellenen",
+  "@snapSortOrderInstalledDateDesc": {},
+  "snapSortOrderRelevance": "Alakalı",
+  "@snapSortOrderRelevance": {},
+  "snapRatingsBandVeryGood": "Çok iyi",
+  "@snapRatingsBandVeryGood": {},
+  "snapRatingsBandGood": "İyi",
+  "@snapRatingsBandGood": {},
+  "snapRatingsBandNeutral": "Tarafsız",
+  "@snapRatingsBandNeutral": {}
 }
