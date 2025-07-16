@@ -478,5 +478,9 @@
   "debPageDocumentationLinkLabel": "了解如何管理 Debian 软件包",
   "@debPageDocumentationLinkLabel": {},
   "managePageDocumentationLinkLabel": "从文档中了解如何管理 Debian 软件包。",
-  "@managePageDocumentationLinkLabel": {}
+  "@managePageDocumentationLinkLabel": {},
+  "snapPageGalleryNextSemanticLabel": "下一张图",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "上一张",
+  "@snapPageGalleryPreviousSemanticLabel": {}
 }
