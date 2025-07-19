@@ -514,5 +514,21 @@
     }
   },
   "snapPageGalleryNextSemanticLabel": "Další obrázek",
-  "@snapPageGalleryNextSemanticLabel": {}
+  "@snapPageGalleryNextSemanticLabel": {},
+  "appCardPublisherSemanticLabel": "Vydal {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Hodnocení {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  }
 }
