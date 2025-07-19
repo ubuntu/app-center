@@ -317,7 +317,7 @@
   "@snapReportPrivacyAgreementAndLabel": {},
   "snapReportPrivacyAgreementPrivacyPolicy": "zásadami ochrany osobních údajů",
   "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "gamesPageTitle": "Co je populární",
+  "gamesPageTitle": "Hry",
   "@gamesPageTitle": {},
   "gamesPageTop": "Nejlépe hodnocené",
   "@gamesPageTop": {},
@@ -417,7 +417,7 @@
   },
   "errorViewCheckStatusLabel": "Zkontrolovat stav",
   "@errorViewCheckStatusLabel": {},
-  "errorViewNetworkErrorTitle": "Připojit k internetu",
+  "errorViewNetworkErrorTitle": "Připojit k Internetu",
   "@errorViewNetworkErrorTitle": {},
   "errorViewNetworkErrorDescription": "Bez připojení k internetu nemůžeme načíst obsah Centra aplikací.",
   "@errorViewNetworkErrorDescription": {},
@@ -478,5 +478,41 @@
   "managePageDocumentationLinkLabel": "V dokumentaci se dozvíte, jak spravovat balíčky Debian.",
   "@managePageDocumentationLinkLabel": {},
   "debPageDocumentationLinkLabel": "Zjistěte, jak spravovat balíčky Debian",
-  "@debPageDocumentationLinkLabel": {}
+  "@debPageDocumentationLinkLabel": {},
+  "snapPageReportSemanticLabel": "Nahlásit",
+  "@snapPageReportSemanticLabel": {},
+  "debPageShareSemanticLabel": "Zkopírovat odkaz",
+  "@debPageShareSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Obrázek {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageGalleryPreviousSemanticLabel": "Předchozí obrázek",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageShareSemanticLabel": "Zkopírovat odkaz",
+  "@snapPageShareSemanticLabel": {},
+  "sectionCollapseSemanticLabel": "Sbalit {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "Odkaz zkopírován do schránky",
+  "@debPageShareLinkCopiedMessage": {},
+  "sectionExpandSemanticLabel": "Rozbalit {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageGalleryNextSemanticLabel": "Další obrázek",
+  "@snapPageGalleryNextSemanticLabel": {}
 }
