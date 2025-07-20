@@ -45,7 +45,7 @@
   "@snapCategoryHealthAndFitness": {},
   "appstreamUrlTypeContact": "Kontakt",
   "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "Bezpečnost",
+  "snapCategorySecurity": "Zabezpečení",
   "@snapCategorySecurity": {},
   "snapCategoryFinance": "Finance",
   "@snapCategoryFinance": {},
@@ -61,7 +61,7 @@
   "@snapCategoryScience": {},
   "snapCategoryEntertainment": "Zábava",
   "@snapCategoryEntertainment": {},
-  "snapActionInstallLabel": "Instalovat",
+  "snapActionInstallLabel": "Nainstalovat",
   "@snapActionInstallLabel": {},
   "snapPageLicenseLabel": "Licence",
   "@snapPageLicenseLabel": {},
@@ -169,7 +169,7 @@
   "@snapRatingsBandInsufficientVotes": {},
   "snapRatingsBandVeryPoor": "Velmi špatné",
   "@snapRatingsBandVeryPoor": {},
-  "managePageDescription": "Zkontrolujte dostupné aktualizace, aktualizujte své aplikace a spravujte stav všech svých aplikací.",
+  "managePageDescription": "Zkontrolujte dostupné aktualizace, aktualizujte nainstalované aplikace a spravujte jejich stav.",
   "@managePageDescription": {},
   "snapActionRemovingLabel": "Odinstalace",
   "@snapActionRemovingLabel": {},
@@ -199,7 +199,7 @@
   "@appstreamUrlTypeFaq": {},
   "snapConfinementStrict": "Striktní",
   "@snapConfinementStrict": {},
-  "aboutPageContributeLabel": "Přispějte nebo nahlaste chybu",
+  "aboutPageContributeLabel": "Zapojte se nebo nahlaste chybu",
   "@aboutPageContributeLabel": {},
   "snapCategoryUbuntuDesktop": "Uživatelské prostředí Ubuntu",
   "@snapCategoryUbuntuDesktop": {},
@@ -275,7 +275,7 @@
   "@managePageShowSystemSnapsLabel": {},
   "searchPageFilterByLabel": "Filtrovat podle",
   "@searchPageFilterByLabel": {},
-  "snapSortOrderInstalledDateDesc": "Naposledy aktualizované",
+  "snapSortOrderInstalledDateDesc": "Nejnověji aktualizované",
   "@snapSortOrderInstalledDateDesc": {},
   "appCenterLabel": "Centrum aplikací",
   "@appCenterLabel": {},
@@ -355,7 +355,7 @@
   "@externalResourcesDisclaimer": {},
   "openInBrowser": "Otevřít v prohlížeči",
   "@openInBrowser": {},
-  "installAll": "Instalovat vše",
+  "installAll": "Nainstalovat vše",
   "@installAll": {},
   "debPageErrorNoPackageInfo": "Nenalezeny žádné informace o balíčku",
   "@debPageErrorNoPackageInfo": {},
@@ -387,7 +387,7 @@
       }
     }
   },
-  "appstreamUrlTypeContribute": "Přispět podílením se",
+  "appstreamUrlTypeContribute": "Zapojit se",
   "@appstreamUrlTypeContribute": {},
   "appstreamUrlTypeVcsBrowser": "Zdrojový kód",
   "@appstreamUrlTypeVcsBrowser": {},
@@ -407,7 +407,7 @@
   "@managePageDebUpdatesMessage": {},
   "snapActionInstalledLabel": "Nainstalováno",
   "@snapActionInstalledLabel": {},
-  "snapdExceptionRunningApps": "Nemohli jsme aktualizovat {snapName}, protože je aktuálně spuštěn.",
+  "snapdExceptionRunningApps": "Nebylo možné aktualizovat {snapName}, protože je aktuálně spuštěné.",
   "@snapdExceptionRunningApps": {
     "placeholders": {
       "snapName": {
@@ -419,7 +419,7 @@
   "@errorViewCheckStatusLabel": {},
   "errorViewNetworkErrorTitle": "Připojit k Internetu",
   "@errorViewNetworkErrorTitle": {},
-  "errorViewNetworkErrorDescription": "Bez připojení k internetu nemůžeme načíst obsah Centra aplikací.",
+  "errorViewNetworkErrorDescription": "Bez připojení k Internetu není možné načíst obsah Centra aplikací.",
   "@errorViewNetworkErrorDescription": {},
   "errorViewNetworkErrorAction": "Zkontrolujte připojení a zkuste to znovu.",
   "@errorViewNetworkErrorAction": {},
@@ -435,7 +435,7 @@
   "@errorViewUnknownErrorAction": {},
   "managePageOwnUpdateAvailable": "Je k dispozici aktualizace Centra aplikací",
   "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateDescription": "Když aplikaci ukončíte, automaticky se aktualizuje.",
+  "managePageOwnUpdateDescription": "Když aplikaci ukončíte, bude automaticky aktualizována.",
   "@managePageOwnUpdateDescription": {},
   "managePageOwnUpdateDescriptionSoon": "Centrum aplikací se automaticky aktualizuje za {time}.",
   "@managePageOwnUpdateDescriptionSoon": {
@@ -445,7 +445,7 @@
       }
     }
   },
-  "managePageNoInternet": "Nelze se připojit k serveru, zkontrolujte připojení k internetu nebo to zkuste znovu později.",
+  "managePageNoInternet": "Nelze se připojit k serveru – zkontrolujte připojení k Internetu nebo to zkuste znovu později.",
   "@managePageNoInternet": {},
   "managePageOwnUpdateQuitButton": "Ukončit pro aktualizaci",
   "@managePageOwnUpdateQuitButton": {},
@@ -461,11 +461,11 @@
       }
     }
   },
-  "managePageUpdatesFailedBody": "Tyto aplikace jsme nemohli aktualizovat, protože jsou v tuto chvíli spuštěné.\n\n{snapList}\nKdyž aplikace ukončíte, automaticky se aktualizují.",
+  "managePageUpdatesFailedBody": "Tyto aplikace nebylo možné aktualizovat, protože jsou v tuto chvíli spuštěné.\n\n{snapList}\nAž aplikace ukončíte, automaticky budou aktualizovány.",
   "@managePageUpdatesFailedBody": {},
   "snapCategoryArtAndDesignButtonLabel": "Začněte tvořit",
   "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "Prozkoumejte aplikace pro umění a design od svého prvního náčrtu až po konečný dotek.",
+  "snapCategoryArtAndDesignSlogan": "Prozkoumejte aplikace pro umění a design – pro vše od prvotního náčrtu až po doladění detailů.",
   "@snapCategoryArtAndDesignSlogan": {},
   "managePageInstallingLabel": "Instaluje se ({n})",
   "@managePageInstallingLabel": {
