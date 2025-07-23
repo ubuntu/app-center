@@ -1,4 +1,58 @@
 {
   "appCenterLabel": "Centro de aplicacións",
-  "@appCenterLabel": {}
+  "@appCenterLabel": {},
+  "snapPageSizeLabel": "Tamaño",
+  "@snapPageSizeLabel": {},
+  "snapPageGalleryLabel": "Galería",
+  "@snapPageGalleryLabel": {},
+  "snapPageGalleryNextSemanticLabel": "Próxima imaxe",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Imaxe anterior",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Imaxe {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageLicenseLabel": "Licenza",
+  "@snapPageLicenseLabel": {},
+  "snapPageLinksLabel": "Ligazóns",
+  "@snapPageLinksLabel": {},
+  "snapPagePublishedLabel": "Publicado",
+  "@snapPagePublishedLabel": {},
+  "snapPageSummaryLabel": "Resumo",
+  "@snapPageSummaryLabel": {},
+  "snapPageVersionLabel": "Versión",
+  "@snapPageVersionLabel": {},
+  "snapPageShareLinkCopiedMessage": "Ligazón copiada ao portapapeis",
+  "@snapPageShareLinkCopiedMessage": {},
+  "snapPageShareSemanticLabel": "Copiar ligazón",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Reportar",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Expandir {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Colapsar {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "explorePageLabel": "Explorar",
+  "@explorePageLabel": {},
+  "explorePageCategoriesLabel": "Categorías",
+  "@explorePageCategoriesLabel": {},
+  "managePageOwnUpdateAvailable": "Actualización do centro de aplicacións dispoñible",
+  "@managePageOwnUpdateAvailable": {}
 }
