@@ -49,6 +49,8 @@ app.*.map.json
 
 # Melos generated files
 **/pubspec_overrides.yaml
+# Temporarily added for https://github.com/flutter/flutter/issues/172918
+!packages/app_center/pubspec_overrides.yaml
 
 # FVM Version Cache
 .fvm/
