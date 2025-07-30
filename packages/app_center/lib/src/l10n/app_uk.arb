@@ -221,7 +221,7 @@
   "@openInBrowser": {},
   "installAll": "Встановити все",
   "@installAll": {},
-  "gamesPageTitle": "Актуальне",
+  "gamesPageTitle": "Ігри",
   "@gamesPageTitle": {},
   "gamesPageBundles": "Пакети застосунків",
   "@gamesPageBundles": {},
@@ -489,6 +489,36 @@
   "@appCardPublisherSemanticLabel": {
     "placeholders": {
       "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageGalleryNextSemanticLabel": "Наступне зображення",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Попереднє зображення",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Зображення {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageReportSemanticLabel": "Звіт",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Розгорнути {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Згорнути {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
         "type": "String"
       }
     }
