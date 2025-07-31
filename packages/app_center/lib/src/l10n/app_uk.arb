@@ -522,5 +522,13 @@
         "type": "String"
       }
     }
+  },
+  "appCardRatingSemanticLabel": "Оцінка {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
   }
 }
