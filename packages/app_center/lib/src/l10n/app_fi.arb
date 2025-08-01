@@ -295,7 +295,7 @@
   "@appCenterLabel": {},
   "snapPageShareLinkCopiedMessage": "Linkki kopioitu leikepöydälle",
   "@snapPageShareLinkCopiedMessage": {},
-  "gamesPageTitle": "Nousussa",
+  "gamesPageTitle": "Pelit",
   "@gamesPageTitle": {},
   "gamesPageTop": "Parhaiten arvioidut",
   "@gamesPageTop": {},
@@ -478,5 +478,57 @@
   "debPageDocumentationLinkLabel": "Lue Debian-pakettien hallitsemisesta",
   "@debPageDocumentationLinkLabel": {},
   "errorViewServerErrorAction": "Tarkista tila päivitysten varalta tai yritä myöhemmin uudelleen.",
-  "@errorViewServerErrorAction": {}
+  "@errorViewServerErrorAction": {},
+  "snapPageGalleryNextSemanticLabel": "Seuraava kuva",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Edellinen kuva",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Kuva {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Kopioi linkki",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Raportti",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Laajenna {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Supista {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "Julkaisijana {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Luokitus {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "Linkki kopioitu leikepöydälle",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "Kopioi linkki",
+  "@debPageShareSemanticLabel": {}
 }
