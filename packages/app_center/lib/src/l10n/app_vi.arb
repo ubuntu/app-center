@@ -1,4 +1,166 @@
 {
-  "appCenterLabel": "",
-  "@appCenterLabel": {}
+  "appCenterLabel": "Trung tâm ứng dụng",
+  "@appCenterLabel": {},
+  "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
+  "@appstreamSearchGreylist": {},
+  "snapPageChannelLabel": "Channel",
+  "@snapPageChannelLabel": {},
+  "snapPageDescriptionLabel": "Mô tả",
+  "@snapPageDescriptionLabel": {},
+  "snapPageContactPublisherLabel": "Liên hệ {publisher}",
+  "@snapPageContactPublisherLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageDeveloperWebsiteLabel": "Trang web của nhà phát triển",
+  "@snapPageDeveloperWebsiteLabel": {},
+  "snapPageDownloadSizeLabel": "Kích thước tải xuống",
+  "@snapPageDownloadSizeLabel": {},
+  "snapPageSizeLabel": "Kích thước",
+  "@snapPageSizeLabel": {},
+  "snapPageGalleryLabel": "Thư viện ảnh",
+  "@snapPageGalleryLabel": {},
+  "snapPageGalleryNextSemanticLabel": "Ảnh sau",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Ảnh trước",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Ảnh {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageLicenseLabel": "Giấy phép",
+  "@snapPageLicenseLabel": {},
+  "snapPageLinksLabel": "Liên kết",
+  "@snapPageLinksLabel": {},
+  "snapPagePublisherLabel": "Nhà phát hành",
+  "@snapPagePublisherLabel": {},
+  "snapPagePublishedLabel": "Đã phát hành",
+  "@snapPagePublishedLabel": {},
+  "snapPageSummaryLabel": "Tóm tắt",
+  "@snapPageSummaryLabel": {},
+  "snapPageVersionLabel": "Phiên bản",
+  "@snapPageVersionLabel": {},
+  "snapPageShareLinkCopiedMessage": "Đã sao chép liên kết vào bộ nhớ tạm",
+  "@snapPageShareLinkCopiedMessage": {},
+  "snapPageShareSemanticLabel": "Sao chép liên kết",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Báo cáo",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Mở rộng phần {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Thu gọn phần {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "explorePageLabel": "Khám phá",
+  "@explorePageLabel": {},
+  "explorePageCategoriesLabel": "Phân loại",
+  "@explorePageCategoriesLabel": {},
+  "managePageOwnUpdateAvailable": "Đã có bản cập nhật cho Trung tâm Ứng dụng",
+  "@managePageOwnUpdateAvailable": {},
+  "managePageQuitToUpdate": "Thoát để cập nhật",
+  "@managePageQuitToUpdate": {},
+  "managePageOwnUpdateDescription": "Sau khi bạn thoát ứng dụng, nó sẽ tự động cập nhật.",
+  "@managePageOwnUpdateDescription": {},
+  "managePageOwnUpdateQuitButton": "Thoát để cập nhật",
+  "@managePageOwnUpdateQuitButton": {},
+  "managePageCheckForUpdates": "Kiểm tra các bản cập nhật",
+  "@managePageCheckForUpdates": {},
+  "managePageCheckingForUpdates": "Đang kiểm tra cập nhật...",
+  "@managePageCheckingForUpdates": {},
+  "managePageNoInternet": "Không thể kết nối đến máy chủ, hãy kiểm tra kết nối mạng của bạn hoặc thử lại sau.",
+  "@managePageNoInternet": {},
+  "managePageDescription": "Kiểm tra các bản cập nhật khả dụng, cập nhật ứng dụng và quản lý trạng thái của tất cả ứng dụng.",
+  "@managePageDescription": {},
+  "managePageDebUpdatesMessage": "Các bản cập nhật gói Debian được xử lý bởi Trình cập nhật phần mềm.",
+  "@managePageDebUpdatesMessage": {},
+  "managePageInstalledAndUpdatedLabel": "Đã cài đặt và cập nhật",
+  "@managePageInstalledAndUpdatedLabel": {},
+  "managePageInstallingLabel": "Đang cài đặt ({n})",
+  "@managePageInstallingLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageLabel": "Quản lý",
+  "@managePageLabel": {},
+  "managePageTitle": "Quản lý các phiên bản đã cài đặt",
+  "@managePageTitle": {},
+  "managePageNoUpdatesAvailableDescription": "Không tìm thấy bản cập nhật mới. Tất cả ứng dụng đều đã được cập nhật.",
+  "@managePageNoUpdatesAvailableDescription": {},
+  "managePageSearchFieldSearchHint": "Tìm kiếm những ứng dụng đã cài đặt",
+  "@managePageSearchFieldSearchHint": {},
+  "managePageShowDetailsLabel": "Hiện chi tiết",
+  "@managePageShowDetailsLabel": {},
+  "managePageShowSystemSnapsLabel": "Hiển thị các phiên bản hệ thống",
+  "@managePageShowSystemSnapsLabel": {},
+  "managePageUpdateAllLabel": "Cập nhật tất cả",
+  "@managePageUpdateAllLabel": {},
+  "managePageUpdatedDaysAgo": "Đã cập nhật {n, plural, =1{{n} ngày} other{{n} ngày}} trước",
+  "@managePageUpdatedDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedWeeksAgo": "Đã cập nhật {n, plural, =1{{n} tuần} other{{n} tuần}} trước",
+  "@managePageUpdatedWeeksAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedMonthsAgo": "Đã cập nhật {n, plural, =1{{n} tháng} other{{n} tháng}} trước",
+  "@managePageUpdatedMonthsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatedYearsAgo": "Updated {n, plural, =1{{n} năm} other{{n} năm}} trước",
+  "@managePageUpdatedYearsAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesAvailable": "Bản cập nhật khả dụng ({n})",
+  "@managePageUpdatesAvailable": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "managePageUpdatesFailed": "{n, plural, =1{Một cài đặt} other{{n} cài đặt}} thất bại",
+  "@managePageUpdatesFailed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }
