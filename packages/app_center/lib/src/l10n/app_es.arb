@@ -277,7 +277,7 @@
   "@searchPageFilterByLabel": {},
   "snapSortOrderInstalledDateDesc": "Lo más reciente",
   "@snapSortOrderInstalledDateDesc": {},
-  "gamesPageTitle": "Populares",
+  "gamesPageTitle": "Juegos",
   "@gamesPageTitle": {},
   "gamesPageTop": "Mejor valorados",
   "@gamesPageTop": {},
@@ -478,5 +478,57 @@
   "managePageDocumentationLinkLabel": "Aprenda a administrar paquetes Debian en la documentación.",
   "@managePageDocumentationLinkLabel": {},
   "debPageDocumentationLinkLabel": "Aprenda a administrar paquetes Debian",
-  "@debPageDocumentationLinkLabel": {}
+  "@debPageDocumentationLinkLabel": {},
+  "snapPageGalleryNextSemanticLabel": "Siguiente imagen",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Imagen anterior",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Imagen {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Copiar enlace",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Reportar",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Expandir {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Colapsar {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "Publicado por {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Valoración {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "Enlace copiado al portapapeles",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "Copiar enlace",
+  "@debPageShareSemanticLabel": {}
 }
