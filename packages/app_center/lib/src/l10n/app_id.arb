@@ -453,7 +453,7 @@
   "@localDebLearnMore": {},
   "localDebDialogMessage": "Paket ini disediakan oleh pihak ketiga dan dapat mengancam sistem dan data pribadi Anda.",
   "@localDebDialogMessage": {},
-  "gamesPageTitle": "Apa Yang Ramai",
+  "gamesPageTitle": "Permainan",
   "@gamesPageTitle": {},
   "snapSortOrderInstalledDateAsc": "Paling lama diperbarui",
   "@snapSortOrderInstalledDateAsc": {},
@@ -478,5 +478,57 @@
   "managePageDocumentationLinkLabel": "Pelajari cara mengelola paket Debian dalam dokumentasi.",
   "@managePageDocumentationLinkLabel": {},
   "debPageDocumentationLinkLabel": "Pelajari tentang mengelola paket Debian",
-  "@debPageDocumentationLinkLabel": {}
+  "@debPageDocumentationLinkLabel": {},
+  "snapPageGalleryNextSemanticLabel": "Gambar berikutnya",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Gambar sebelumnya",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Gambar {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Salin tautan",
+  "@snapPageShareSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Memperluas {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "Kuncupkan {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "snapPageReportSemanticLabel": "Laporkan",
+  "@snapPageReportSemanticLabel": {},
+  "appCardPublisherSemanticLabel": "Diterbitkan oleh {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Peringkat {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "Tautan disalin ke papan klip",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "Salin tautan",
+  "@debPageShareSemanticLabel": {}
 }

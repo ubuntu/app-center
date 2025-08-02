@@ -203,7 +203,7 @@
   },
   "gamesPageTop": "평점 높은 항목",
   "@gamesPageTop": {},
-  "gamesPageTitle": "추천",
+  "gamesPageTitle": "게임",
   "@gamesPageTitle": {},
   "gamesPageBundles": "앱 번들",
   "@gamesPageBundles": {},
@@ -217,7 +217,7 @@
       }
     }
   },
-  "searchPageNoResultsCategory": "죄송합니다. 이 카테고리에서 패키지를 찾을 수 없습니다.",
+  "searchPageNoResultsCategory": "죄송합니다. 이 카테고리에서 패키지를 찾을 수 없습니다",
   "@searchPageNoResultsCategory": {},
   "appstreamUrlTypeHelp": "도움말",
   "@appstreamUrlTypeHelp": {},
@@ -365,7 +365,7 @@
       }
     }
   },
-  "managePageUpdatedYearsAgo": "({n})년 전 업데이트됨",
+  "managePageUpdatedYearsAgo": "{n, plural, =1{작년에} other{{n}년 전}} 업데이트됨",
   "@managePageUpdatedYearsAgo": {
     "placeholders": {
       "n": {
@@ -484,5 +484,57 @@
   "snapCategoryUbuntuDesktopSlogan": "데스크톱을 손쉽게 시작하세요",
   "@snapCategoryUbuntuDesktopSlogan": {},
   "errorViewNetworkErrorAction": "연결 상태를 확인하고 다시 시도해 주세요.",
-  "@errorViewNetworkErrorAction": {}
+  "@errorViewNetworkErrorAction": {},
+  "snapPageGalleryNextSemanticLabel": "다음 이미지",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "이전 이미지",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "{n}번째 이미지",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "링크 복사",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "신고",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "{section} 더 보기",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "{section} 접기",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "{publisher}가 배포함.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "평점 {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "클립보드에 링크 복사됨",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "링크 복사",
+  "@debPageShareSemanticLabel": {}
 }
