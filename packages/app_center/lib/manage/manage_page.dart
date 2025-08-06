@@ -44,7 +44,7 @@ class ManagePage extends ConsumerWidget {
     final hasInternet = updatesModel.valueOrNull?.hasInternet ?? true;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: kPagePadding),
+      padding: const EdgeInsets.symmetric(vertical: 2), // padding changed from kPagePadding to 2 as it somewhat makes the padding below searchbar consistent with the explore page.
       child: ResponsiveLayoutScrollView(
         slivers: [
           SliverList.list(
