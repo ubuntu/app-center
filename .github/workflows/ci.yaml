@@ -109,18 +109,12 @@ jobs:
             popd
           done
 
-      - name: Cleanup
-        run: |
-          melos clean
-          melos exec -c 1 fvm flutter clean
-          rm -rf .fvm
-
       - name: Run TICS analysis
         if: github.event_name == 'push'
         uses: tiobe/tics-github-action@v3
         with:
           mode: qserver
           project: app-center
-          viewerUrl: https://canonical.tiobe.com/tiobeweb/TICS/api/cfg?name=default
+          viewerUrl: https://canonical.tiobe.com/tiobeweb/TICS/api/cfg?name=GoProjects
           ticsAuthToken: ${{ secrets.TICSAUTHTOKEN }}
           installTics: true

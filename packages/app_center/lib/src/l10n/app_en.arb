@@ -138,7 +138,7 @@
     "productivityPageLabel": "Productivity",
     "developmentPageLabel": "Development",
     "gamesPageLabel": "Games",
-    "gamesPageTitle": "What's Hot",
+    "gamesPageTitle": "Games",
     "gamesPageTop": "Top Rated",
     "gamesPageFeatured": "Featured Titles",
     "gamesPageBundles": "App Bundles",
@@ -213,6 +213,22 @@
     "snapActionUpdateLabel": "Update",
     "snapCategoryAll": "All categories",
     "snapActionUpdatingLabel": "Updating",
+    "appCardPublisherSemanticLabel": "Published by {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Rating {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
     "snapCategoryArtAndDesign": "Art and Design",
     "snapCategoryArtAndDesignButtonLabel": "Start creating",
     "snapCategoryArtAndDesignSlogan": "From your first sketch to the final touch, explore apps for art and design.",

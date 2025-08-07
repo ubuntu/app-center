@@ -82,7 +82,7 @@ class _CarouselCard extends StatelessWidget {
       onTap: () => onTap(snap),
       child: ClipRRect(
         borderRadius:
-            const BorderRadius.all(Radius.circular(kYaruBannerRadius)),
+            const BorderRadius.all(Radius.circular(kYaruContainerRadius)),
         child: Stack(
           alignment: Alignment.center,
           fit: StackFit.expand,

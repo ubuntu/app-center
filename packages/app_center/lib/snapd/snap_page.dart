@@ -10,19 +10,18 @@ import 'package:app_center/snapd/snap_report.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:app_center/store/store_app.dart';
+import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/shimmer_placeholder.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru/yaru.dart';
 
 const _kChannelDropdownWidth = 220.0;
@@ -120,22 +119,22 @@ class _SnapView extends StatelessWidget {
       (
         label: Text(l10n.snapPageLinksLabel),
         value: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (snapData.snap.website?.isNotEmpty ?? false)
-              '<a href="${snapData.snap.website}">${l10n.snapPageDeveloperWebsiteLabel}</a>',
+              HyperlinkText(
+                text: l10n.snapPageDeveloperWebsiteLabel,
+                link: snapData.snap.website ?? '',
+              ),
             if ((snapData.snap.contact.isNotEmpty) &&
                 snapData.snap.publisher != null)
-              '<a href="${snapData.snap.contact}">${l10n.snapPageContactPublisherLabel(snapData.snap.publisher!.displayName)}</a>',
-          ]
-              .map(
-                (link) => Html(
-                  data: link,
-                  style: {'body': Style(margin: Margins.zero)},
-                  onLinkTap: (url, attributes, element) =>
-                      launchUrlString(url!),
+              HyperlinkText(
+                text: l10n.snapPageContactPublisherLabel(
+                  snapData.snap.publisher!.displayName,
                 ),
-              )
-              .toList(),
+                link: snapData.snap.contact,
+              ),
+          ],
         ),
       ),
     ];
@@ -160,7 +159,14 @@ class _SnapView extends StatelessWidget {
                         AppIcon(iconUrl: snapData.snap.iconUrl, size: 96),
                         const SizedBox(width: 16),
                         Expanded(
-                          child: AppTitle.fromSnap(snapData.snap, large: true),
+                          child: Semantics(
+                            header: true,
+                            focused: true,
+                            child: AppTitle.fromSnap(
+                              snapData.snap,
+                              large: true,
+                            ),
+                          ),
                         ),
                         _IconRow(snapData: snapData),
                       ],
@@ -417,13 +423,14 @@ class _IconRow extends ConsumerWidget {
             ),
             onPressed: () {
               final navigationKey = ref.watch(materialAppNavigatorKeyProvider);
+              final snapStoreUrl = '$snapStoreBaseUrl/${snapData.name}';
 
               ScaffoldMessenger.of(navigationKey.currentContext!).showSnackBar(
                 SnackBar(
                   content: Text(l10n.snapPageShareLinkCopiedMessage),
                 ),
               );
-              Clipboard.setData(ClipboardData(text: snap.website!));
+              Clipboard.setData(ClipboardData(text: snapStoreUrl));
             },
           ),
         YaruIconButton(

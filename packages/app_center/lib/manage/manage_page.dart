@@ -7,11 +7,10 @@ import 'package:app_center/manage/manage_snap_tile.dart';
 import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:app_center/snapd/snapd.dart';
+import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaru/yaru.dart';
 
 class ManagePage extends ConsumerWidget {
@@ -50,9 +49,13 @@ class ManagePage extends ConsumerWidget {
         slivers: [
           SliverList.list(
             children: [
-              Text(
-                l10n.managePageTitle,
-                style: textTheme.headlineSmall,
+              Semantics(
+                header: true,
+                focused: true,
+                child: Text(
+                  l10n.managePageTitle,
+                  style: textTheme.headlineSmall,
+                ),
               ),
               const SizedBox(height: kMargin),
               Text(
@@ -64,19 +67,15 @@ class ManagePage extends ConsumerWidget {
                 l10n.managePageDebUpdatesMessage,
                 style: textTheme.titleMedium,
               ),
-              Html(
-                shrinkWrap: true,
-                data:
-                    '<a href="$debManageDocsUrl">${l10n.managePageDocumentationLinkLabel}</a>',
-                style: {
-                  'body': Style(
-                    margin: Margins.zero,
-                    fontSize: FontSize(textTheme.titleMedium!.fontSize!),
-                    fontWeight: textTheme.titleMedium!.fontWeight,
-                    lineHeight: LineHeight(textTheme.titleMedium!.height),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: DefaultTextStyle(
+                  style: textTheme.titleMedium!,
+                  child: HyperlinkText(
+                    text: l10n.managePageDocumentationLinkLabel,
+                    link: debManageDocsUrl,
                   ),
-                },
-                onLinkTap: (url, attributes, element) => launchUrlString(url!),
+                ),
               ),
               _SelfUpdateInfoBox(),
               Builder(
