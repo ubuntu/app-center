@@ -17,6 +17,11 @@ extension RatingsBandL10n on RatingsBand {
 
   Color getColor(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+
+    if (MediaQuery.highContrastOf(context)) {
+      return colors.primary;
+    }
+
     return switch (this) {
       RatingsBand.veryGood => colors.success,
       RatingsBand.good => colors.success,
