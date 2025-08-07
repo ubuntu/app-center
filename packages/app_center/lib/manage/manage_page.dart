@@ -21,290 +21,291 @@ class ManagePage extends ConsumerWidget {
       AppLocalizations.of(context).managePageLabel;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final updatesModel = ref.watch(updatesModelProvider);
-    final localSnapsModel = ref.watch(filteredLocalSnapsProvider);
-    final l10n = AppLocalizations.of(context);
-    final textTheme = Theme.of(context).textTheme;
-    final isLoading = updatesModel.isLoading || localSnapsModel.isLoading;
-    final currentlyInstalling = ref.watch(currentlyInstallingModelProvider);
-    final currentlyInstallingNames = currentlyInstalling.keys.toList();
+Widget build(BuildContext context, WidgetRef ref) {
+  final updatesModel = ref.watch(updatesModelProvider);
+  final localSnapsModel = ref.watch(filteredLocalSnapsProvider);
+  final l10n = AppLocalizations.of(context);
+  final textTheme = Theme.of(context).textTheme;
+  final isLoading = updatesModel.isLoading || localSnapsModel.isLoading;
+  final currentlyInstalling = ref.watch(currentlyInstallingModelProvider);
+  final currentlyInstallingNames = currentlyInstalling.keys.toList();
 
-    if (updatesModel.hasError || localSnapsModel.hasError) {
-      return ErrorView(
-        error: updatesModel.error ?? localSnapsModel.error,
-        onRetry: () {
-          ref.invalidate(updatesModelProvider);
-          ref.invalidate(filteredLocalSnapsProvider);
-        },
-      );
-    }
+  if (updatesModel.hasError || localSnapsModel.hasError) {
+    return ErrorView(
+      error: updatesModel.error ?? localSnapsModel.error,
+      onRetry: () {
+        ref.invalidate(updatesModelProvider);
+        ref.invalidate(filteredLocalSnapsProvider);
+      },
+    );
+  }
 
-    final refreshableSnaps = updatesModel.valueOrNull?.snaps ?? [];
-    final hasInternet = updatesModel.valueOrNull?.hasInternet ?? true;
+  final refreshableSnaps = updatesModel.valueOrNull?.snaps ?? [];
+  final hasInternet = updatesModel.valueOrNull?.hasInternet ?? true;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2), // padding changed from kPagePadding to 2 as it somewhat makes the padding below searchbar consistent with the explore page.
-      child: ResponsiveLayoutScrollView(
-        slivers: [
-          SliverList.list(
-            children: [
-              Semantics(
-                header: true,
-                focused: true,
-                child: Text(
-                  l10n.managePageTitle,
-                  style: textTheme.headlineSmall,
+  return ResponsiveLayoutScrollView(
+    slivers: [
+      SliverPadding(
+        padding: const EdgeInsets.only(top: kPagePadding),
+        sliver: SliverList.list(
+          children: [
+            Semantics(
+              header: true,
+              focused: true,
+              child: Text(
+                l10n.managePageTitle,
+                style: textTheme.headlineSmall,
+              ),
+            ),
+            const SizedBox(height: kMargin),
+            Text(
+              l10n.managePageDescription,
+              style: textTheme.titleMedium,
+            ),
+            const SizedBox(height: kMargin),
+            Text(
+              l10n.managePageDebUpdatesMessage,
+              style: textTheme.titleMedium,
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: DefaultTextStyle(
+                style: textTheme.titleMedium!,
+                child: HyperlinkText(
+                  text: l10n.managePageDocumentationLinkLabel,
+                  link: debManageDocsUrl,
                 ),
               ),
-              const SizedBox(height: kMargin),
-              Text(
-                l10n.managePageDescription,
-                style: textTheme.titleMedium,
-              ),
-              const SizedBox(height: kMargin),
-              Text(
-                l10n.managePageDebUpdatesMessage,
-                style: textTheme.titleMedium,
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: DefaultTextStyle(
-                  style: textTheme.titleMedium!,
-                  child: HyperlinkText(
-                    text: l10n.managePageDocumentationLinkLabel,
-                    link: debManageDocsUrl,
-                  ),
-                ),
-              ),
-              _SelfUpdateInfoBox(),
-              Builder(
-                builder: (context) {
-                  final compact = ResponsiveLayout.of(context).type ==
-                      ResponsiveLayoutType.small;
-                  return Flex(
-                    direction: compact ? Axis.vertical : Axis.horizontal,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: compact
-                        ? CrossAxisAlignment.start
-                        : CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        l10n.managePageUpdatesAvailable(
-                          refreshableSnaps.length,
-                        ),
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontWeight: FontWeight.w500),
+            ),
+            _SelfUpdateInfoBox(),
+            Builder(
+              builder: (context) {
+                final compact = ResponsiveLayout.of(context).type ==
+                    ResponsiveLayoutType.small;
+                return Flex(
+                  direction: compact ? Axis.vertical : Axis.horizontal,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: compact
+                      ? CrossAxisAlignment.start
+                      : CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      l10n.managePageUpdatesAvailable(
+                        refreshableSnaps.length,
                       ),
-                      if (compact) const SizedBox(height: 16),
-                      const Flexible(child: _ActionButtons()),
-                    ],
-                  );
-                },
-              ),
-              const SizedBox(height: kMarginLarge),
-              if (!hasInternet && !isLoading)
-                _MinHeightAsProgressIndicator(
-                  child: Text(
-                    l10n.managePageNoInternet,
-                    style: textTheme.titleMedium,
-                  ),
-                )
-              else if (refreshableSnaps.isEmpty && !isLoading)
-                _MinHeightAsProgressIndicator(
-                  child: Text(
-                    l10n.managePageNoUpdatesAvailableDescription,
-                    style: textTheme.titleMedium,
-                  ),
-                ),
-            ],
-          ),
-          updatesModel.when(
-            data: (snapListState) {
-              // Due to the updates model loading a lot faster than the
-              // local filtered snaps we force this list to show the loading
-              // state too.
-              if (localSnapsModel.isLoading) {
-                return const SliverToBoxAdapter(
-                  child: Center(child: YaruCircularProgressIndicator()),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(fontWeight: FontWeight.w500),
+                    ),
+                    if (compact) const SizedBox(height: 16),
+                    const Flexible(child: _ActionButtons()),
+                  ],
                 );
-              }
-              return SliverList.builder(
-                itemCount: snapListState.snaps.length,
-                itemBuilder: (context, index) => ManageSnapTile(
-                  snap: snapListState.snaps.elementAt(index),
-                  position: determineTilePosition(
-                    index: index,
-                    length: snapListState.snaps.length,
-                  ),
+              },
+            ),
+            const SizedBox(height: kMarginLarge),
+            if (!hasInternet && !isLoading)
+              _MinHeightAsProgressIndicator(
+                child: Text(
+                  l10n.managePageNoInternet,
+                  style: textTheme.titleMedium,
+                ),
+              )
+            else if (refreshableSnaps.isEmpty && !isLoading)
+              _MinHeightAsProgressIndicator(
+                child: Text(
+                  l10n.managePageNoUpdatesAvailableDescription,
+                  style: textTheme.titleMedium,
+                ),
+              ),
+          ],
+        ),
+      ),
+
+      updatesModel.when(
+        data: (snapListState) {
+          if (localSnapsModel.isLoading) {
+            return const SliverToBoxAdapter(
+              child: Center(child: YaruCircularProgressIndicator()),
+            );
+          }
+          return SliverList.builder(
+            itemCount: snapListState.snaps.length,
+            itemBuilder: (context, index) => ManageSnapTile(
+              snap: snapListState.snaps.elementAt(index),
+              position: determineTilePosition(
+                index: index,
+                length: snapListState.snaps.length,
+              ),
+            ),
+          );
+        },
+        error: (error, stack) =>
+            const SliverToBoxAdapter(child: SizedBox.shrink()),
+        loading: () => const SliverToBoxAdapter(
+          child: Center(child: YaruCircularProgressIndicator()),
+        ),
+      ),
+
+      if (currentlyInstalling.isNotEmpty) ...[
+        SliverList.list(
+          children: [
+            const SizedBox(height: kSectionSpacing),
+            Text(
+              l10n.managePageInstallingLabel(1),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: kMarginLarge),
+          ],
+        ),
+        SliverList.builder(
+          itemCount: currentlyInstalling.length,
+          itemBuilder: (context, index) => ManageSnapTile(
+            snap: currentlyInstalling[currentlyInstallingNames[index]]!.snap,
+            position: determineTilePosition(
+              index: index,
+              length: currentlyInstalling.length,
+            ),
+          ),
+        ),
+      ],
+
+      SliverList.list(
+        children: [
+          const SizedBox(height: kSectionSpacing),
+          Builder(
+            builder: (context) {
+              final compact = ResponsiveLayout.of(context).type ==
+                  ResponsiveLayoutType.small;
+              return ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 80),
+                child: Flex(
+                  direction: compact ? Axis.vertical : Axis.horizontal,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: compact
+                      ? CrossAxisAlignment.start
+                      : CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      l10n.managePageInstalledAndUpdatedLabel,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox.square(dimension: kSpacing),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Flexible(
+                            child: ConstrainedBox(
+                              constraints:
+                                  const BoxConstraints(maxWidth: 300),
+                              child: TextFormField(
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                textAlignVertical: TextAlignVertical.center,
+                                cursorWidth: 1,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: kSearchFieldContentPadding,
+                                  prefixIcon: kSearchFieldPrefixIcon,
+                                  prefixIconConstraints:
+                                      kSearchFieldIconConstraints,
+                                  hintText: l10n
+                                      .managePageSearchFieldSearchHint,
+                                ),
+                                initialValue:
+                                    ref.watch(localSnapFilterProvider),
+                                onChanged: (value) => ref
+                                    .read(localSnapFilterProvider.notifier)
+                                    .state = value,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: kSpacing),
+                          Text(l10n.searchPageSortByLabel),
+                          const SizedBox(width: kSpacingSmall),
+                          Consumer(
+                            builder: (context, ref, child) {
+                              final sortOrder =
+                                  ref.watch(localSnapSortOrderProvider);
+                              return MenuButtonBuilder<SnapSortOrder>(
+                                values: const [
+                                  SnapSortOrder.alphabeticalAsc,
+                                  SnapSortOrder.alphabeticalDesc,
+                                  SnapSortOrder.installedDateAsc,
+                                  SnapSortOrder.installedDateDesc,
+                                  SnapSortOrder.installedSizeAsc,
+                                  SnapSortOrder.installedSizeDesc,
+                                ],
+                                itemBuilder: (context, sortOrder, child) =>
+                                    Text(sortOrder.localize(l10n)),
+                                onSelected: (value) => ref
+                                    .read(
+                                      localSnapSortOrderProvider.notifier,
+                                    )
+                                    .state = value,
+                                expanded: false,
+                                child: Text(sortOrder.localize(l10n)),
+                              );
+                            },
+                          ),
+                          const SizedBox(width: kSpacing),
+                          Text(l10n.managePageShowSystemSnapsLabel),
+                          const SizedBox(width: kSpacingSmall),
+                          YaruCheckbox(
+                            value: ref.watch(showLocalSystemAppsProvider),
+                            onChanged: (value) => ref
+                                .read(showLocalSystemAppsProvider.notifier)
+                                .state = value ?? false,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
-            error: (error, stack) =>
-                const SliverToBoxAdapter(child: SizedBox.shrink()),
-            loading: () => const SliverToBoxAdapter(
-              child: Center(child: YaruCircularProgressIndicator()),
-            ),
           ),
-          if (currentlyInstalling.isNotEmpty) ...[
-            SliverList.list(
-              children: [
-                const SizedBox(height: kSectionSpacing),
-                Text(
-                  l10n.managePageInstallingLabel(1),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(fontWeight: FontWeight.w500),
-                ),
-                const SizedBox(height: kMarginLarge),
-              ],
-            ),
-            SliverList.builder(
-              itemCount: currentlyInstalling.length,
-              itemBuilder: (context, index) => ManageSnapTile(
-                snap:
-                    currentlyInstalling[currentlyInstallingNames[index]]!.snap,
-                position: determineTilePosition(
-                  index: index,
-                  length: currentlyInstalling.length,
-                ),
-              ),
-            ),
-          ],
-          SliverList.list(
-            children: [
-              const SizedBox(height: kSectionSpacing),
-              Builder(
-                builder: (context) {
-                  final compact = ResponsiveLayout.of(context).type ==
-                      ResponsiveLayoutType.small;
-                  return ConstrainedBox(
-                    constraints: const BoxConstraints(maxHeight: 80),
-                    child: Flex(
-                      direction: compact ? Axis.vertical : Axis.horizontal,
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: compact
-                          ? CrossAxisAlignment.start
-                          : CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          l10n.managePageInstalledAndUpdatedLabel,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontWeight: FontWeight.w500),
-                        ),
-                        const SizedBox.square(dimension: kSpacing),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Flexible(
-                                child: ConstrainedBox(
-                                  constraints:
-                                      const BoxConstraints(maxWidth: 300),
-                                  // TODO: refactor - extract common text field decoration from
-                                  // here and the `SearchField` widget
-                                  child: TextFormField(
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                    textAlignVertical: TextAlignVertical.center,
-                                    cursorWidth: 1,
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      contentPadding:
-                                          kSearchFieldContentPadding,
-                                      prefixIcon: kSearchFieldPrefixIcon,
-                                      prefixIconConstraints:
-                                          kSearchFieldIconConstraints,
-                                      hintText:
-                                          l10n.managePageSearchFieldSearchHint,
-                                    ),
-                                    initialValue:
-                                        ref.watch(localSnapFilterProvider),
-                                    onChanged: (value) => ref
-                                        .read(localSnapFilterProvider.notifier)
-                                        .state = value,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: kSpacing),
-                              Text(l10n.searchPageSortByLabel),
-                              const SizedBox(width: kSpacingSmall),
-                              // TODO: refactor - create proper widget
-                              Consumer(
-                                builder: (context, ref, child) {
-                                  final sortOrder =
-                                      ref.watch(localSnapSortOrderProvider);
-                                  return MenuButtonBuilder<SnapSortOrder>(
-                                    values: const [
-                                      SnapSortOrder.alphabeticalAsc,
-                                      SnapSortOrder.alphabeticalDesc,
-                                      SnapSortOrder.installedDateAsc,
-                                      SnapSortOrder.installedDateDesc,
-                                      SnapSortOrder.installedSizeAsc,
-                                      SnapSortOrder.installedSizeDesc,
-                                    ],
-                                    itemBuilder: (context, sortOrder, child) =>
-                                        Text(sortOrder.localize(l10n)),
-                                    onSelected: (value) => ref
-                                        .read(
-                                          localSnapSortOrderProvider.notifier,
-                                        )
-                                        .state = value,
-                                    expanded: false,
-                                    child: Text(sortOrder.localize(l10n)),
-                                  );
-                                },
-                              ),
-                              const SizedBox(width: kSpacing),
-                              Text(l10n.managePageShowSystemSnapsLabel),
-                              const SizedBox(width: kSpacingSmall),
-                              YaruCheckbox(
-                                value: ref.watch(showLocalSystemAppsProvider),
-                                onChanged: (value) => ref
-                                    .read(showLocalSystemAppsProvider.notifier)
-                                    .state = value ?? false,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: kMarginLarge),
-            ],
-          ),
-          localSnapsModel.when(
-            data: (snapListState) => SliverList.builder(
-              itemCount: snapListState.snaps.length,
-              itemBuilder: (context, index) => ManageSnapTile(
-                snap: snapListState.snaps.elementAt(index),
-                position: determineTilePosition(
-                  index: index,
-                  length: snapListState.snaps.length,
-                ),
-                hasFixedSize: true,
-              ),
-            ),
-            error: (_, __) =>
-                const SliverToBoxAdapter(child: SizedBox.shrink()),
-            loading: () => const SliverToBoxAdapter(
-              child: Center(
-                child: YaruCircularProgressIndicator(),
-              ),
-            ),
-          ),
+          const SizedBox(height: kMarginLarge),
         ],
       ),
-    );
-  }
+
+      localSnapsModel.when(
+        data: (snapListState) => SliverList.builder(
+          itemCount: snapListState.snaps.length,
+          itemBuilder: (context, index) => ManageSnapTile(
+            snap: snapListState.snaps.elementAt(index),
+            position: determineTilePosition(
+              index: index,
+              length: snapListState.snaps.length,
+            ),
+            hasFixedSize: true,
+          ),
+        ),
+        error: (_, __) =>
+            const SliverToBoxAdapter(child: SizedBox.shrink()),
+        loading: () => const SliverToBoxAdapter(
+          child: Center(
+            child: YaruCircularProgressIndicator(),
+          ),
+        ),
+      ),
+
+      // Bottom spacing
+      const SliverPadding(
+        padding: EdgeInsets.only(bottom: kPagePadding),
+      ),
+    ],
+  );
+}
+
 }
 
 // TODO: refactor/generalize - similar to `_SnapActionButtons`
