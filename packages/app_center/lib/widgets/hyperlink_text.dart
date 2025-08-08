@@ -23,6 +23,11 @@ class _HyperlinkTextState extends State<HyperlinkText> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final brightness = theme.brightness;
+    final hyperlinkColor = MediaQuery.highContrastOf(context)
+        ? theme.colorScheme.primary
+        : brightness == Brightness.dark
+            ? kHyperlinkDark
+            : kHyperlinkLight;
 
     return Semantics(
       link: true,
@@ -50,9 +55,7 @@ class _HyperlinkTextState extends State<HyperlinkText> {
             widget.text,
             style: TextStyle(
               decoration: TextDecoration.underline,
-              color: brightness == Brightness.dark
-                  ? kHyperlinkDark
-                  : kHyperlinkLight,
+              color: hyperlinkColor,
             ),
           ),
         ),
