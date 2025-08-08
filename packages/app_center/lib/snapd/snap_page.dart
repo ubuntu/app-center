@@ -463,6 +463,8 @@ class _ChannelDropdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final channelText =
+        '${snapData.selectedChannel} ${snapData.availableChannels![snapData.selectedChannel]!.version}';
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -503,8 +505,8 @@ class _ChannelDropdown extends ConsumerWidget {
               maximumSize: const Size.fromHeight(100),
             ),
             child: Text(
-              '${snapData.selectedChannel} ${snapData.availableChannels![snapData.selectedChannel]!.version}',
-              semanticsLabel: l10n.snapPageChannelLabel,
+              channelText,
+              semanticsLabel: '${l10n.snapPageChannelLabel} $channelText',
             ),
           ),
         ),
