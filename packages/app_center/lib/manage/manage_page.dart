@@ -126,6 +126,9 @@ class ManagePage extends ConsumerWidget {
 
         updatesModel.when(
           data: (snapListState) {
+            // Due to the updates model loading a lot faster than the
+            // local filtered snaps we force this list to show the loading
+            // state too.
             if (localSnapsModel.isLoading) {
               return const SliverToBoxAdapter(
                 child: Center(child: YaruCircularProgressIndicator()),
@@ -207,6 +210,8 @@ class ManagePage extends ConsumerWidget {
                               child: ConstrainedBox(
                                 constraints:
                                     const BoxConstraints(maxWidth: 300),
+                                  // TODO: refactor - extract common text field decoration from
+                                  // here and the `SearchField` widget
                                 child: TextFormField(
                                   style: Theme.of(context).textTheme.bodyMedium,
                                   textAlignVertical: TextAlignVertical.center,
@@ -231,6 +236,7 @@ class ManagePage extends ConsumerWidget {
                             const SizedBox(width: kSpacing),
                             Text(l10n.searchPageSortByLabel),
                             const SizedBox(width: kSpacingSmall),
+                            // TODO: refactor - create proper widget
                             Consumer(
                               builder: (context, ref, child) {
                                 final sortOrder =
