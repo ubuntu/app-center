@@ -105,7 +105,7 @@ class _SnapReportState extends State<SnapReport> {
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
                   floatingLabelBehavior: FloatingLabelBehavior.never,
-                  hintText: 'email@exemple.com',
+                  hintText: 'email@example.com',
                 ),
                 validator: (value) {
                   const pattern =
