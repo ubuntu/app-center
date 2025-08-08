@@ -175,20 +175,33 @@ class _BannerIconState extends State<_BannerIcon> {
   static const _kHoverDelay = Duration(milliseconds: 100);
   static const _kScaleLarge = 1.5;
 
+  final tooltipKey = GlobalKey<TooltipState>();
+
   double scale = 1.0;
+
+  void _toggleFocus(bool state) {
+    setState(() {
+      state
+          ? tooltipKey.currentState!.ensureTooltipVisible()
+          : Tooltip.dismissAllToolTips();
+
+      scale = state ? _kScaleLarge : 1.0;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Tooltip(
+      key: tooltipKey,
       waitDuration: Duration.zero,
       showDuration: Duration.zero,
       verticalOffset: widget.maxSize.height / 2,
       message: widget.snap.titleOrName,
+      triggerMode: TooltipTriggerMode.manual,
       child: InkWell(
         onTap: () => StoreNavigator.pushSnap(context, name: widget.snap.name),
-        onHover: (hover) {
-          setState(() => scale = hover ? _kScaleLarge : 1.0);
-        },
+        onHover: _toggleFocus,
+        onFocusChange: _toggleFocus,
         child: SizedBox(
           height: widget.maxSize.height,
           width: widget.maxSize.width,
