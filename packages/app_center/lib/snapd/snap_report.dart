@@ -40,84 +40,111 @@ class _SnapReportState extends State<SnapReport> {
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: Divider(),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: kCardMargin),
-                child: Text(l10n.snapReportSelectReportReasonLabel),
-              ),
-              MenuButtonBuilder(
-                entries: <String>[
-                  l10n.snapReportOptionCopyrightViolation,
-                  l10n.snapReportOptionStoreViolation,
-                ].map<MenuButtonEntry<String>>((value) {
-                  return MenuButtonEntry<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                itemBuilder: (context, value, child) => Text(value),
-                selected: selectedReason,
-                onSelected: (value) {
-                  setState(() {
-                    selectedReason = value;
-                  });
-                },
-                menuPosition: PopupMenuPosition.under,
-                itemStyle: MenuItemButton.styleFrom(
-                  maximumSize: const Size.fromHeight(100),
-                ),
-                child: Text(
-                  selectedReason ?? l10n.snapReportSelectAnOptionLabel,
-                ),
-              ),
-              const SizedBox(
-                height: kPagePadding,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: kCardMargin),
-                child: Text(l10n.snapReportDetailsLabel),
-              ),
-              SizedBox(
-                height: 100,
-                child: TextField(
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  textAlignVertical: TextAlignVertical.top,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    isDense: true,
-                    hintText: l10n.snapReportDetailsHint,
-                  ),
-                  controller: _detailsController,
-                  expands: true,
-                  maxLines: null,
+              MergeSemantics(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: kCardMargin),
+                      child: Text(l10n.snapReportSelectReportReasonLabel),
+                    ),
+                    MenuButtonBuilder(
+                      entries: <String>[
+                        l10n.snapReportOptionCopyrightViolation,
+                        l10n.snapReportOptionStoreViolation,
+                      ].map<MenuButtonEntry<String>>((value) {
+                        return MenuButtonEntry<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      itemBuilder: (context, value, child) => Text(value),
+                      selected: selectedReason,
+                      onSelected: (value) {
+                        setState(() {
+                          selectedReason = value;
+                        });
+                      },
+                      menuPosition: PopupMenuPosition.under,
+                      itemStyle: MenuItemButton.styleFrom(
+                        maximumSize: const Size.fromHeight(100),
+                      ),
+                      child: Text(
+                        selectedReason ?? l10n.snapReportSelectAnOptionLabel,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(
                 height: kPagePadding,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: kCardMargin),
-                child: Text(
-                  l10n.snapReportOptionalEmailAddressLabel,
+              MergeSemantics(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: kCardMargin),
+                      child: Text(l10n.snapReportDetailsLabel),
+                    ),
+                    SizedBox(
+                      height: 100,
+                      child: Semantics(
+                        child: TextField(
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          textAlignVertical: TextAlignVertical.top,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            isDense: true,
+                            hintText: l10n.snapReportDetailsHint,
+                          ),
+                          controller: _detailsController,
+                          expands: true,
+                          maxLines: null,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              TextFormField(
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  hintText: 'email@example.com',
+              const SizedBox(
+                height: kPagePadding,
+              ),
+              MergeSemantics(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: kCardMargin),
+                      child: Text(
+                        l10n.snapReportOptionalEmailAddressLabel,
+                      ),
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        hintText: 'email@example.com',
+                      ),
+                      validator: (value) {
+                        const pattern =
+                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                        final regex = RegExp(pattern);
+                        if (!regex.hasMatch(value!)) {
+                          return l10n.snapReportEnterValidEmailError;
+                        } else {
+                          return null;
+                        }
+                      },
+                      controller: _emailController,
+                    ),
+                  ],
                 ),
-                validator: (value) {
-                  const pattern =
-                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                  final regex = RegExp(pattern);
-                  if (!regex.hasMatch(value!)) {
-                    return l10n.snapReportEnterValidEmailError;
-                  } else {
-                    return null;
-                  }
-                },
-                controller: _emailController,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: kPagePadding),
