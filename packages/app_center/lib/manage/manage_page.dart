@@ -210,8 +210,8 @@ class ManagePage extends ConsumerWidget {
                               child: ConstrainedBox(
                                 constraints:
                                     const BoxConstraints(maxWidth: 300),
-                                  // TODO: refactor - extract common text field decoration from
-                                  // here and the `SearchField` widget
+                                // TODO: refactor - extract common text field decoration from
+                                // here and the `SearchField` widget
                                 child: TextFormField(
                                   style: Theme.of(context).textTheme.bodyMedium,
                                   textAlignVertical: TextAlignVertical.center,
