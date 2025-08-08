@@ -29,6 +29,7 @@ class AppInfoBar extends StatelessWidget {
                 children: [
                   info.label,
                   SelectionArea(
+                    focusNode: FocusNode(canRequestFocus: false),
                     child: DefaultTextStyle.merge(
                       style: const TextStyle(fontWeight: FontWeight.w500),
                       child: info.value,
