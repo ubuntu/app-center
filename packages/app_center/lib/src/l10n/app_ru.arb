@@ -51,7 +51,7 @@
   "@snapCategoryFinance": {},
   "snapCategoryServerAndCloud": "Серверы и облака",
   "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "Инфо",
+  "aboutPageLabel": "Сведения",
   "@aboutPageLabel": {},
   "snapPageSummaryLabel": "Главное",
   "@snapPageSummaryLabel": {},
@@ -111,7 +111,7 @@
   },
   "explorePageCategoriesLabel": "Категории",
   "@explorePageCategoriesLabel": {},
-  "snapCategoryDefaultButtonLabel": "Исследовать больше",
+  "snapCategoryDefaultButtonLabel": "Просмотреть ещё",
   "@snapCategoryDefaultButtonLabel": {},
   "managePageShowDetailsLabel": "Подробнее",
   "@managePageShowDetailsLabel": {},
@@ -121,7 +121,7 @@
   "@snapCategoryProductivityButtonLabel": {},
   "snapPagePublishedLabel": "Опубликовано",
   "@snapPagePublishedLabel": {},
-  "aboutPageLearnMoreLabel": "Узнать больше",
+  "aboutPageLearnMoreLabel": "Подробнее",
   "@aboutPageLearnMoreLabel": {},
   "snapRatingsBandNeutral": "Нейтральные",
   "@snapRatingsBandNeutral": {},
@@ -191,7 +191,7 @@
       }
     }
   },
-  "snapCategoryGamesSlogan": "Всё для ночной игры",
+  "snapCategoryGamesSlogan": "Всё для геймеров",
   "@snapCategoryGamesSlogan": {},
   "snapActionSwitchChannelLabel": "Переключить канал",
   "@snapActionSwitchChannelLabel": {},
@@ -279,7 +279,7 @@
   "@snapSortOrderInstalledDateDesc": {},
   "appCenterLabel": "Центр приложений",
   "@appCenterLabel": {},
-  "gamesPageTitle": "Актуальное",
+  "gamesPageTitle": "Игры",
   "@gamesPageTitle": {},
   "snapCategoryGameEmulators": "Эмуляторы",
   "@snapCategoryGameEmulators": {},
@@ -393,7 +393,7 @@
   "@appstreamUrlTypeVcsBrowser": {},
   "localDebWarningBody": "Этот пакет предоставлен третьей стороной. Установка пакетов не из каталога Центра приложений может повысить риск для Вашей системы и персональных данных. Прежде чем приступить к установке, убедитесь, что доверяете источнику.",
   "@localDebWarningBody": {},
-  "localDebLearnMore": "Узнайте больше о сторонних пакетах",
+  "localDebLearnMore": "Подробнее о сторонних пакетах",
   "@localDebLearnMore": {},
   "snapPageSizeLabel": "Размер",
   "@snapPageSizeLabel": {},
@@ -478,5 +478,57 @@
   "managePageDocumentationLinkLabel": "Узнайте в документации, как управлять пакетами Debian.",
   "@managePageDocumentationLinkLabel": {},
   "debPageDocumentationLinkLabel": "Узнайте об управлении пакетами Debian",
-  "@debPageDocumentationLinkLabel": {}
+  "@debPageDocumentationLinkLabel": {},
+  "snapPageGalleryNextSemanticLabel": "Следующее изображение",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "Предыдущее изображение",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "Изображение {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "Копировать ссылку",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "Отчёт",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "Развернуть {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "Ссылка скопирована в буфер обмена",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "Копировать ссылку",
+  "@debPageShareSemanticLabel": {},
+  "sectionCollapseSemanticLabel": "Свернуть {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "Опубликовано {publisher}.",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "Рейтинг {rating}.",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  }
 }
