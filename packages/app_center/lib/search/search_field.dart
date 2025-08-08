@@ -186,7 +186,12 @@ class _SearchFieldState extends ConsumerState<SearchField> {
                     animation: controller,
                     builder: (context, child) {
                       return YaruIconButton(
-                        icon: const Icon(YaruIcons.edit_clear, size: 16),
+                        icon: Icon(
+                          YaruIcons.edit_clear,
+                          size: 16,
+                          color:
+                              Theme.of(context).inputDecorationTheme.iconColor,
+                        ),
                         onPressed: controller.text.isEmpty
                             ? null
                             : () {
