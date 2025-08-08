@@ -1,0 +1,6 @@
+# melos_managed_dependency_overrides: app_center_ratings_client
+dependency_overrides:
+  yaru:
+    git:
+      url: "https://github.com/ashuntu/yaru.dart.git"
+      ref: "combo-box-role-tmp"

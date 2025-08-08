@@ -2,7 +2,7 @@ name: snap-store
 summary: App Center
 description: App Center
 confinement: strict
-base: core22
+base: core24
 grade: stable
 version: git
 
@@ -11,9 +11,10 @@ parts:
     plugin: nil
     source: .
     override-build: |
-      bash $CRAFT_PART_SRC/scripts/install-fvm.sh
+      bash $CRAFT_PART_SRC/scripts/install-fvm.sh 4.0.0-beta.1
       fvm install
       fvm flutter doctor
+      echo "combo-box-role-tmp" > ~/fvm/versions/combo-box-role-tmp/version
     build-packages:
       - clang
       - cmake
