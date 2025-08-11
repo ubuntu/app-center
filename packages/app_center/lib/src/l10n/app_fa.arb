@@ -496,5 +496,45 @@
   "openInBrowser": "گشودن در مرورگر",
   "@openInBrowser": {},
   "installAll": "نصب همه",
-  "@installAll": {}
+  "@installAll": {},
+  "localDebWarningTitle": "احتمالاً ناامن",
+  "@localDebWarningTitle": {},
+  "localDebLearnMore": "دانستن بیش‌تر دربارهٔ بسته‌های سوم‌شخص",
+  "@localDebLearnMore": {},
+  "localDebDialogConfirmation": "مطمئنید که می‌خواهید نصبش کنید؟",
+  "@localDebDialogConfirmation": {},
+  "snapdExceptionRunningApps": "نمی‌توانیم {snapName} را به‌روز کنیم چرا که در حال اجراست.",
+  "@snapdExceptionRunningApps": {
+    "placeholders": {
+      "snapName": {
+        "type": "String"
+      }
+    }
+  },
+  "errorViewCheckStatusLabel": "بررسی وضعیت",
+  "@errorViewCheckStatusLabel": {},
+  "errorViewNetworkErrorTitle": "وصل شدن به اینترنت",
+  "@errorViewNetworkErrorTitle": {},
+  "errorViewNetworkErrorDescription": "نمی‌توانیم بدون اتّصال اینترنتی محتوای مرکز کاره را بار کنیم.",
+  "@errorViewNetworkErrorDescription": {},
+  "errorViewNetworkErrorAction": "بررسی اتّصالتان و تلاش دوباره.",
+  "@errorViewNetworkErrorAction": {},
+  "errorViewServerErrorDescription": "متأسفّانه هم‌اکنون با مشکلاتی در مرکز کاره مواجهیم.",
+  "@errorViewServerErrorDescription": {},
+  "errorViewServerErrorAction": "بررسی وضعیت به‌روز رسانی‌ها یا تلاش دوباره.",
+  "@errorViewServerErrorAction": {},
+  "errorViewUnknownErrorTitle": "چیزی اشتباه پیش رفت",
+  "@errorViewUnknownErrorTitle": {},
+  "errorViewUnknownErrorDescription": "متأسفّانه مطمئن نیستیم که خطا چیست.",
+  "@errorViewUnknownErrorDescription": {},
+  "errorViewUnknownErrorAction": "اکنون می‌توانید دوباره تلاش کرده، وضعیت به‌روز رسانی‌ها را بررسی کرده یا دوباره تلاش کنید.",
+  "@errorViewUnknownErrorAction": {},
+  "snapCategoryUbuntuDesktopSlogan": "پرش به آغاز میزکارتان",
+  "@snapCategoryUbuntuDesktopSlogan": {},
+  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "یادداشت محرمانگی کنونیکال ",
+  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+  "localDebDialogMessage": "این بسته از سوی سوم‌شخص‌ها فراهم شده و می‌تواند سامانه و داده‌های شخصیتان را تهدید کند.",
+  "@localDebDialogMessage": {},
+  "localDebWarningBody": "این بسته به دست سوم‌شخص‌ها فراهم شده. نصب کردن بسته‌ها از بیرون مرکز کاره می‌تواند احتمال خطر برای سامانه و داده‌های شخصیتان را افزایش دهد. اطمینان از اعتماد به منبع پیش از ادامه.",
+  "@localDebWarningBody": {}
 }
