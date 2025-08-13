@@ -1,6 +1,9 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
+import 'package:snapd/snapd.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
 
@@ -99,5 +102,96 @@ class _Dialog<T> extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Widget confirmDialogContent(
+  BuildContext context, {
+  required String title,
+  required String message,
+}) =>
+    Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 8),
+        Text(message),
+      ],
+    );
+
+Future<void> confirmRevertAndRun(
+  BuildContext context,
+  SnapData snapData,
+  SnapModel model,
+) async {
+  if (!context.mounted) return;
+  final l10n = AppLocalizations.of(context);
+
+  // Try to compute version/revision information for the dialog title
+  String title;
+  try {
+    final revisions =
+        await getService<SnapdService>().getLocalRevisions(snapData.name);
+    final current =
+        revisions.firstWhere((r) => r.active, orElse: () => revisions.first);
+    final previous = revisions.firstWhere(
+      (r) => !r.active && r.revision < current.revision,
+      orElse: () => current,
+    );
+
+    if (previous != current && !previous.active) {
+      // Show exact versions: "Revert from 143.0.4-1 (rev 6966) to 143.0.3-1 (rev 6933)?"
+      title = l10n.snapRevertConfirmTitleWithVersions(
+        current.version,
+        current.revision,
+        previous.version,
+        previous.revision,
+      );
+    } else {
+      title = l10n.snapRevertConfirmTitle;
+    }
+  } on Object catch (_) {
+    title = l10n.snapRevertConfirmTitle;
+  }
+
+  if (!context.mounted) return;
+
+  final confirmed = await showYaruInfoDialog<bool>(
+    context: context,
+    type: YaruInfoType.warning,
+    actions: [
+      DialogAction(value: false, label: l10n.snapRevertConfirmCancel),
+      DialogAction(
+        value: true,
+        label: l10n.snapRevertConfirmRevert,
+        isPrimary: true,
+      ),
+    ],
+    child: confirmDialogContent(
+      context,
+      title: title,
+      message: l10n.snapRevertConfirmMessage,
+    ),
+  );
+
+  if (confirmed != true) return;
+
+  try {
+    await model.revert();
+  } on SnapdException catch (e) {
+    if (e.statusCode == 400 && e.message.contains('no revision to revert to')) {
+      if (!context.mounted) return;
+      await showErrorDialog(
+        context: context,
+        title: l10n.snapRevertConfirmTitle,
+        message: l10n.snapRevertNoPreviousRevisionMessage,
+      );
+      return;
+    }
+    rethrow;
   }
 }

@@ -209,6 +209,22 @@
     "snapActionOpenLabel": "Open",
     "snapActionRemoveLabel": "Uninstall",
     "snapActionRemovingLabel": "Uninstalling",
+    "snapActionRevertLabel": "Revert",
+    "snapActionRevertingLabel": "Reverting",
+    "snapRevertConfirmTitle": "Revert to previous version?",
+    "snapRevertConfirmMessage": "You are about to downgrade to your previous local version. Do you want to continue?",
+    "snapRevertConfirmRevert": "Revert",
+    "snapRevertConfirmCancel": "Cancel",
+    "snapRevertConfirmTitleWithVersions": "Revert from {currentVersion} (rev {currentRevision}) to {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+      "placeholders": {
+        "currentVersion": {"type": "String"},
+        "currentRevision": {"type": "int"},
+        "previousVersion": {"type": "String"},
+        "previousRevision": {"type": "int"}
+      }
+    },
+    "snapRevertNoPreviousRevisionMessage": "No previous local revision is available to revert to.",
     "snapActionSwitchChannelLabel": "Switch channel",
     "snapActionUpdateLabel": "Update",
     "snapCategoryAll": "All categories",

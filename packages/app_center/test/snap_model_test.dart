@@ -300,4 +300,58 @@ void main() {
       );
     }
   });
+
+  group('revert', () {
+    const snapName = 'testsnap';
+
+    test('revert installed snap', () async {
+      final container = createContainer();
+      final oldVersion = '1.0.0';
+      final newVersion = '2.0.0';
+      final oldRevision = 100;
+      final newRevision = 200;
+
+      // Create snap with old version (simulating after revert)
+      final revertedSnap = createSnap(
+        name: snapName,
+        version: oldVersion,
+        revision: oldRevision,
+      );
+
+      final service = registerMockSnapdService(
+        localSnap: createSnap(
+          name: snapName,
+          version: newVersion,
+          revision: newRevision,
+        ),
+      );
+
+      // Mock the revert to return the old version
+      when(service.getSnap(snapName)).thenAnswer((_) async => revertedSnap);
+
+      final model = container.read(snapModelProvider(snapName).notifier);
+      await container.read(snapModelProvider(snapName).future);
+
+      await model.revert();
+
+      verify(service.revert(snapName)).called(1);
+
+      // Verify the snap was refreshed after revert
+      final snapData = await container.read(snapModelProvider(snapName).future);
+      expect(snapData.localSnap?.version, equals(oldVersion));
+      expect(snapData.localSnap?.revision, equals(oldRevision));
+    });
+
+    test('cannot revert uninstalled snap', () async {
+      final container = createContainer();
+      registerMockSnapdService(storeSnap: storeSnap);
+      final model = container.read(snapModelProvider(snapName).notifier);
+      await container.read(snapModelProvider(snapName).future);
+
+      expect(
+        model.revert,
+        throwsA(isA<AssertionError>()),
+      );
+    });
+  });
 }

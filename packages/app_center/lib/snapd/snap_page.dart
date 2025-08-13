@@ -106,7 +106,11 @@ class _SnapView extends StatelessWidget {
       ),
       (
         label: Text(l10n.snapPageVersionLabel),
-        value: Text(snapData.channelInfo?.version ?? snapData.snap.version),
+        value: Text(
+          snapData.isInstalled
+              ? snapData.localSnap!.version
+              : (snapData.channelInfo?.version ?? snapData.snap.version),
+        ),
       ),
       (
         label: Text(l10n.snapPagePublishedLabel),
