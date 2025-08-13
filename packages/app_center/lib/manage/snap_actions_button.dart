@@ -123,19 +123,26 @@ class QuitToUpdateNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = theme.colorScheme;
+    final isHighContrast = MediaQuery.highContrastOf(context);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(YaruIcons.warning_filled, color: colorScheme.warning),
+        Icon(
+          YaruIcons.warning_filled,
+          color: isHighContrast
+              ? theme.textTheme.bodyMedium?.color
+              : colorScheme.warning,
+        ),
         const SizedBox(width: 8),
         Text(
           l10n.managePageQuitToUpdate,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: theme.textTheme.bodyMedium,
         ),
       ],
     );
