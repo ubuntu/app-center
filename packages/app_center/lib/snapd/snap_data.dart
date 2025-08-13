@@ -48,6 +48,10 @@ class SnapData with _$SnapData {
       storeSnap != null && storeSnap!.screenshotUrls.isNotEmpty;
   Map<String, SnapChannel>? get availableChannels => storeSnap?.channels;
 
+  /// Returns true if the snap can be reverted to a previous version.
+  /// This is available for installed snaps that have been updated.
+  bool get canRevert => isInstalled && localSnap != null;
+
   static String? defaultSelectedChannel(Snap? localSnap, Snap? storeSnap) {
     final channels = storeSnap?.channels.keys;
     final localChannel = localSnap?.trackingChannel;

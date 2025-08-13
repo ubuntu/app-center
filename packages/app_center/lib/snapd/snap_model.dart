@@ -1,15 +1,19 @@
 import 'dart:async';
 
+import 'package:app_center/l10n.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
+import 'package:app_center/widgets/dialogs.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:yaru/yaru.dart';
 
 part 'snap_model.g.dart';
 
@@ -151,6 +155,58 @@ class SnapModel extends _$SnapModel {
     await _listenUntilDone(changeId, ref);
     ref.read(updatesModelProvider.notifier).removeFromList(snapName);
     ref.read(filteredLocalSnapsProvider.notifier).removeFromList(snapName);
+  }
+
+  /// Reverts the snap to its previous version.
+  /// Shows a confirmation dialog before proceeding with the revert.
+  Future<void> revert([BuildContext? context]) async {
+    assert(state.hasValue, 'The snap must be loaded before reverting it');
+    assert(
+      state.value?.isInstalled == true,
+      'The snap must be installed before reverting it',
+    );
+
+    // If context is provided, show confirmation dialog
+    if (context != null) {
+      final l10n = AppLocalizations.of(context);
+      final confirmed = await showYaruInfoDialog<bool>(
+        context: context,
+        type: YaruInfoType.warning,
+        actions: [
+          DialogAction(
+            value: false,
+            label: l10n.snapRevertConfirmCancel,
+          ),
+          DialogAction(
+            value: true,
+            label: l10n.snapRevertConfirmRevert,
+            isPrimary: true,
+          ),
+        ],
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.snapRevertConfirmTitle,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(l10n.snapRevertConfirmMessage),
+          ],
+        ),
+      );
+
+      if (confirmed != true) {
+        return; // User cancelled the revert
+      }
+    }
+
+    final changeId = await _snapd.revert(snapName);
+    _updateChangeId(changeId);
+    await _listenUntilDone(changeId, ref);
+    // After revert, refresh the snap data to reflect the new version
+    ref.invalidateSelf();
   }
 
   /// Changes the selected channel.
