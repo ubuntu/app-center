@@ -2,7 +2,6 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:yaru/yaru.dart';
 
 import 'test_utils.dart';
@@ -23,57 +22,52 @@ void main() {
       expect(SnapAction.revert.icon, equals(YaruIcons.undo));
     });
 
-    testWidgets('revert callback is available for installed snaps', (tester) async {
+    test('revert callback is available when a previous local revision exists', () async {
       final container = createContainer();
-      final service = registerMockSnapdService(localSnap: createSnap(name: 'test'));
+      registerMockSnapdService(localSnap: createSnap(name: 'test'));
       final model = container.read(snapModelProvider('test').notifier);
-      await container.read(snapModelProvider('test').future);
-      final snapData = container.read(snapModelProvider('test')).value!;
-
-      await tester.pumpApp(
-        (context) {
-          final callback = SnapAction.revert.callback(snapData, model, null, context);
-          expect(callback, isNotNull);
-          return const SizedBox.shrink();
-        },
+      final snapData = SnapData(
+        name: 'test',
+        localSnap: createSnap(name: 'test'),
+        storeSnap: null,
+        hasUpdate: false,
+        hasPreviousLocalRevision: true,
       );
+
+      final callback = SnapAction.revert.callback(snapData, model, null, null);
+      expect(callback, isNotNull);
     });
 
-    testWidgets('revert callback is null for uninstalled snaps', (tester) async {
+    test('revert callback is null for uninstalled snaps', () async {
       final container = createContainer();
       registerMockSnapdService(storeSnap: createSnap(name: 'test'));
       final model = container.read(snapModelProvider('test').notifier);
-      await container.read(snapModelProvider('test').future);
-      final snapData = container.read(snapModelProvider('test')).value!;
-
-      await tester.pumpApp(
-        (context) {
-          final callback = SnapAction.revert.callback(snapData, model, null, context);
-          expect(callback, isNull);
-          return const SizedBox.shrink();
-        },
+      final snapData = SnapData(
+        name: 'test',
+        localSnap: null,
+        storeSnap: createSnap(name: 'test'),
+        hasUpdate: false,
+        hasPreviousLocalRevision: false,
       );
+
+      final callback = SnapAction.revert.callback(snapData, model, null, null);
+      expect(callback, isNull);
     });
 
-    testWidgets('revert callback calls model.revert with context', (tester) async {
+    test('revert callback is null when no previous revision', () async {
       final container = createContainer();
-      final service = registerMockSnapdService(localSnap: createSnap(name: 'test'));
+      registerMockSnapdService(storeSnap: createSnap(name: 'test'));
       final model = container.read(snapModelProvider('test').notifier);
-      await container.read(snapModelProvider('test').future);
-      final snapData = container.read(snapModelProvider('test')).value!;
-
-      await tester.pumpApp(
-        (context) {
-          final callback = SnapAction.revert.callback(snapData, model, null, context);
-          expect(callback, isNotNull);
-
-          // Note: We can't easily test the actual callback execution here
-          // because it would require mocking the confirmation dialog
-          // This test just verifies that the callback is created correctly
-
-          return const SizedBox.shrink();
-        },
+      final snapData = SnapData(
+        name: 'test',
+        localSnap: null,
+        storeSnap: createSnap(name: 'test'),
+        hasUpdate: false,
+        hasPreviousLocalRevision: false,
       );
+
+      final callback = SnapAction.revert.callback(snapData, model, null, null);
+      expect(callback, isNull);
     });
   });
 }
