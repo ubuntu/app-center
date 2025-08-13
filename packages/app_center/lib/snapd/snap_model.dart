@@ -60,6 +60,9 @@ class SnapModel extends _$SnapModel {
     }
     final hasUpdate = ref.watch(hasUpdateProvider(snapName));
 
+    // Determine if a previous local revision exists to enable revert
+    final hasPrev = await _snapd.hasPreviousRevision(snapName);
+
     return SnapData(
       name: snapName,
       localSnap: localSnap,
@@ -70,6 +73,7 @@ class SnapModel extends _$SnapModel {
         storeSnap,
       ),
       hasUpdate: hasUpdate,
+      hasPreviousLocalRevision: hasPrev,
     );
   }
 
@@ -166,9 +170,29 @@ class SnapModel extends _$SnapModel {
       'The snap must be installed before reverting it',
     );
 
-    // If context is provided, show confirmation dialog
+    // Compute current and previous version/revision for the dialog.
+    LocalRevisionInfo? current;
+    LocalRevisionInfo? previous;
+    try {
+      final revisions = await _snapd.getLocalRevisions(snapName);
+      if (revisions.isNotEmpty) {
+        current = revisions.firstWhere((r) => r.active, orElse: () => revisions.first);
+        previous = revisions.firstWhere((r) => !r.active, orElse: () => current!);
+        if (previous == current || (previous?.active ?? true)) {
+          previous = null; // No real previous available
+        }
+      }
+    } catch (_) {
+      // If we fail to fetch revisions, fall back to generic dialog text
+    }
+
+    // If context is provided, show confirmation dialog with version info
     if (context != null) {
       final l10n = AppLocalizations.of(context);
+      final title = (current != null && previous != null)
+          ? 'Revert from ${current!.version} (rev ${current!.revision}) to ${previous!.version} (rev ${previous!.revision})?'
+          : l10n.snapRevertConfirmTitle;
+
       final confirmed = await showYaruInfoDialog<bool>(
         context: context,
         type: YaruInfoType.warning,
@@ -188,7 +212,7 @@ class SnapModel extends _$SnapModel {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              l10n.snapRevertConfirmTitle,
+              title,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
@@ -202,9 +226,39 @@ class SnapModel extends _$SnapModel {
       }
     }
 
-    final changeId = await _snapd.revert(snapName);
-    _updateChangeId(changeId);
-    await _listenUntilDone(changeId, ref);
+    // Optimistically hide the Revert action to prevent multiple consecutive reverts
+    final currentData = state.value!;
+    state = AsyncData(currentData.copyWith(hasPreviousLocalRevision: false));
+
+    try {
+      final changeId = await _snapd.revert(snapName);
+      _updateChangeId(changeId);
+      await _listenUntilDone(changeId, ref);
+    } on SnapdException catch (e) {
+      // If snapd says there is no revision to revert to, show a friendly message
+      if (e.statusCode == 400 && e.message.contains('no revision to revert to')) {
+        if (context != null) {
+          await showYaruInfoDialog<void>(
+            context: context,
+            type: YaruInfoType.danger,
+            actions: [
+              DialogAction(value: null, label: 'OK', isPrimary: true),
+            ],
+            child: const Text(
+              'No previous local revision is available to revert to.',
+            ),
+          );
+        }
+        // Keep the revert option hidden (matches product decision)
+        ref.invalidateSelf();
+        return;
+      }
+
+      // For other errors, restore previous state and rethrow to be handled upstream
+      state = AsyncData(currentData.copyWith(hasPreviousLocalRevision: true));
+      rethrow;
+    }
+
     // After revert, refresh the snap data to reflect the new version
     ref.invalidateSelf();
   }
