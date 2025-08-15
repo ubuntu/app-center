@@ -9,13 +9,11 @@ import 'test_utils.dart';
 void main() {
   group('SnapAction', () {
     testWidgets('revert action has correct label', (tester) async {
-      await tester.pumpApp(
-        (context) {
-          final l10n = AppLocalizations.of(context);
-          expect(SnapAction.revert.label(l10n), equals(l10n.snapActionRevertLabel));
-          return const SizedBox.shrink();
-        },
-      );
+      await tester.pumpApp((context) {
+        final l10n = AppLocalizations.of(context);
+        expect(SnapAction.revert.label(l10n), equals(l10n.snapActionRevertLabel));
+        return const SizedBox.shrink();
+      });
     });
 
     test('revert action has correct icon', () {
@@ -30,11 +28,10 @@ void main() {
         name: 'test',
         localSnap: createSnap(name: 'test'),
         storeSnap: null,
-        hasUpdate: false,
-        hasPreviousLocalRevision: true,
+        hasPreviousLocalRevision: true, // defaults are fine
       );
 
-      final callback = SnapAction.revert.callback(snapData, model, null, null);
+      final callback = SnapAction.revert.callback(snapData, model);
       expect(callback, isNotNull);
     });
 
@@ -46,11 +43,9 @@ void main() {
         name: 'test',
         localSnap: null,
         storeSnap: createSnap(name: 'test'),
-        hasUpdate: false,
-        hasPreviousLocalRevision: false,
       );
 
-      final callback = SnapAction.revert.callback(snapData, model, null, null);
+      final callback = SnapAction.revert.callback(snapData, model);
       expect(callback, isNull);
     });
 
@@ -62,11 +57,9 @@ void main() {
         name: 'test',
         localSnap: null,
         storeSnap: createSnap(name: 'test'),
-        hasUpdate: false,
-        hasPreviousLocalRevision: false,
       );
 
-      final callback = SnapAction.revert.callback(snapData, model, null, null);
+      final callback = SnapAction.revert.callback(snapData, model);
       expect(callback, isNull);
     });
   });

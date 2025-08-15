@@ -332,9 +332,7 @@ void main() {
       final model = container.read(snapModelProvider(snapName).notifier);
       await container.read(snapModelProvider(snapName).future);
 
-      expect(
-        () => model.revert(),
-        throwsA(isA<AssertionError>()),
+      expect(model.revert, throwsA(isA<AssertionError>()),
       );
     });
 

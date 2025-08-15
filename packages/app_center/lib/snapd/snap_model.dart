@@ -166,7 +166,7 @@ class SnapModel extends _$SnapModel {
   Future<void> revert([BuildContext? context]) async {
     assert(state.hasValue, 'The snap must be loaded before reverting it');
     assert(
-      state.value?.isInstalled == true,
+      state.value!.isInstalled, // safe: hasValue asserted above
       'The snap must be installed before reverting it',
     );
 
@@ -178,19 +178,20 @@ class SnapModel extends _$SnapModel {
       if (revisions.isNotEmpty) {
         current = revisions.firstWhere((r) => r.active, orElse: () => revisions.first);
         previous = revisions.firstWhere((r) => !r.active, orElse: () => current!);
-        if (previous == current || (previous?.active ?? true)) {
+        if (previous == current || previous.active) {
           previous = null; // No real previous available
         }
       }
-    } catch (_) {
+    } on Object {
       // If we fail to fetch revisions, fall back to generic dialog text
     }
 
     // If context is provided, show confirmation dialog with version info
     if (context != null) {
+      if (!context.mounted) return;
       final l10n = AppLocalizations.of(context);
       final title = (current != null && previous != null)
-          ? 'Revert from ${current!.version} (rev ${current!.revision}) to ${previous!.version} (rev ${previous!.revision})?'
+          ? 'Revert from ${current.version} (rev ${current.revision}) to ${previous.version} (rev ${previous.revision})?'
           : l10n.snapRevertConfirmTitle;
 
       final confirmed = await showYaruInfoDialog<bool>(
@@ -207,17 +208,19 @@ class SnapModel extends _$SnapModel {
             isPrimary: true,
           ),
         ],
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 8),
-            Text(l10n.snapRevertConfirmMessage),
-          ],
+        child: Builder(
+          builder: (dialogContext) => Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: Theme.of(dialogContext).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              Text(l10n.snapRevertConfirmMessage),
+            ],
+          ),
         ),
       );
 
@@ -238,6 +241,7 @@ class SnapModel extends _$SnapModel {
       // If snapd says there is no revision to revert to, show a friendly message
       if (e.statusCode == 400 && e.message.contains('no revision to revert to')) {
         if (context != null) {
+          if (!context.mounted) return;
           await showYaruInfoDialog<void>(
             context: context,
             type: YaruInfoType.danger,

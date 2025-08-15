@@ -42,7 +42,7 @@ class SnapdService extends SnapdClient with SnapdCache, SnapdWatcher {
   }
 
   /// Returns all locally installed revisions for [name].
-  /// Uses snapd REST: GET /v2/snaps?select=all&name=<name>
+  /// Uses snapd REST: GET /v2/snaps?select=all&name={name}.
   Future<List<LocalRevisionInfo>> getLocalRevisions(String name) async {
     final encodedName = Uri.encodeComponent(name);
 
@@ -75,20 +75,20 @@ class SnapdService extends SnapdClient with SnapdCache, SnapdWatcher {
       if (result is! List) return const [];
 
       return result
-          .whereType<Map>()
+          .whereType<Map<String, dynamic>>()
           .where((e) => e['name'] == name)
-          .map((raw) {
-            final e = Map<String, dynamic>.from(raw as Map);
+          .map((e) {
             final revVal = e['revision'];
-            final int revision = switch (revVal) {
-              int v => v,
-              num v => v.toInt(),
-              String s => int.tryParse(s) ?? 0,
+            final revision = switch (revVal) {
+              final int v => v,
+              final num v => v.toInt(),
+              final String s => int.tryParse(s) ?? 0,
+              null => 0, // ignore: prefer_final_locals
               _ => 0,
             };
             final version = (e['version'] is String) ? e['version'] as String : '${e['version'] ?? ''}';
             final status = e['status'];
-            final active = status == 'active';
+            final active = status == 'active'; // ignore: prefer_final_locals
             return LocalRevisionInfo(
               revision: revision,
               version: version,

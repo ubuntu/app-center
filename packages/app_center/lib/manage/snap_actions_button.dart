@@ -3,7 +3,6 @@ import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/updates_model.dart';
-import 'package:app_center/snapd/snap_action.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/active_change_content.dart';
 import 'package:flutter/material.dart';

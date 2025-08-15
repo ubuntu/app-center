@@ -38,8 +38,8 @@ class SnapData with _$SnapData {
     required Snap? storeSnap,
     required String? selectedChannel,
     required bool hasUpdate,
-    String? activeChangeId,
     required bool hasPreviousLocalRevision,
+    String? activeChangeId,
   }) = _SnapData;
 
   SnapData._();
