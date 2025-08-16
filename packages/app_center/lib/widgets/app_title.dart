@@ -62,12 +62,18 @@ class AppTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final textTheme = Theme.of(context).textTheme;
+    final textTheme = theme.textTheme;
     final titleTextStyle =
         large ? textTheme.headlineSmall! : textTheme.titleMedium!;
     final publisherTextStyle =
         large ? textTheme.bodyMedium! : textTheme.bodyMedium!;
+    final publisherIconColor = verifiedPublisher
+        ? theme.colorScheme.success
+        : theme.colorScheme.warning;
+    final isHighContrast = MediaQuery.highContrastOf(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -85,7 +91,7 @@ class AppTitle extends StatelessWidget {
                 child: Text(
                   publisher ?? l10n.unknownPublisher,
                   style: publisherTextStyle.copyWith(
-                    color: Theme.of(context).hintColor,
+                    color: theme.hintColor,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -97,9 +103,8 @@ class AppTitle extends StatelessWidget {
                   child: Icon(
                     verifiedPublisher ? Icons.verified : Icons.stars,
                     size: publisherTextStyle.fontSize,
-                    color: verifiedPublisher
-                        ? Theme.of(context).colorScheme.success
-                        : Theme.of(context).colorScheme.warning,
+                    color:
+                        isHighContrast ? theme.hintColor : publisherIconColor,
                   ),
                 ),
             ],
