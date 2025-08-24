@@ -132,4 +132,3 @@ This project is covered by the [GPL-3.0](LICENSE) license.
 ## Getting Help
 
 Join us in the [Ubuntu Community](https://discourse.ubuntu.com/c/desktop/8) and post your question there with a descriptive tag.
-'
