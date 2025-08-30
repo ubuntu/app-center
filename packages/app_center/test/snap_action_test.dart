@@ -11,7 +11,8 @@ void main() {
     testWidgets('revert action has correct label', (tester) async {
       await tester.pumpApp((context) {
         final l10n = AppLocalizations.of(context);
-        expect(SnapAction.revert.label(l10n), equals(l10n.snapActionRevertLabel));
+        expect(
+            SnapAction.revert.label(l10n), equals(l10n.snapActionRevertLabel));
         return const SizedBox.shrink();
       });
     });
@@ -20,7 +21,8 @@ void main() {
       expect(SnapAction.revert.icon, equals(YaruIcons.undo));
     });
 
-    test('revert callback is available when a previous local revision exists', () async {
+    test('revert callback is available when a previous local revision exists',
+        () async {
       final container = createContainer();
       registerMockSnapdService(localSnap: createSnap(name: 'test'));
       final model = container.read(snapModelProvider('test').notifier);

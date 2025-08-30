@@ -41,9 +41,8 @@ enum SnapAction {
       SnapAction.open =>
         launcher?.isLaunchable ?? false ? launcher!.open : null,
       SnapAction.remove => model.remove,
-      SnapAction.revert => (snapData?.canRevert ?? false)
-        ? () => model.revert(context)
-        : null,
+      SnapAction.revert =>
+        (snapData?.canRevert ?? false) ? () => model.revert(context) : null,
       SnapAction.switchChannel =>
         snapData?.storeSnap != null ? model.refresh : null,
       SnapAction.update => snapData?.storeSnap != null ? model.refresh : null,

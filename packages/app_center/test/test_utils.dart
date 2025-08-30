@@ -187,7 +187,8 @@ MockSnapdService registerMockSnapdService({
   when(service.refreshMany(any)).thenAnswer((_) async => 'id');
   when(service.remove(any)).thenAnswer((_) async => 'id');
   when(service.revert(any)).thenAnswer((_) async => 'id');
-  when(service.hasPreviousRevision(any)).thenAnswer((_) async => localSnap != null);
+  when(service.hasPreviousRevision(any))
+      .thenAnswer((_) async => localSnap != null);
   when(service.find(filter: SnapFindFilter.refresh))
       .thenAnswer((_) async => refreshableSnaps ?? []);
   when(service.find(name: anyNamed('name')))

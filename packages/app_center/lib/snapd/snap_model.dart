@@ -176,8 +176,10 @@ class SnapModel extends _$SnapModel {
     try {
       final revisions = await _snapd.getLocalRevisions(snapName);
       if (revisions.isNotEmpty) {
-        current = revisions.firstWhere((r) => r.active, orElse: () => revisions.first);
-        previous = revisions.firstWhere((r) => !r.active, orElse: () => current!);
+        current = revisions.firstWhere((r) => r.active,
+            orElse: () => revisions.first);
+        previous =
+            revisions.firstWhere((r) => !r.active, orElse: () => current!);
         if (previous == current || previous.active) {
           previous = null; // No real previous available
         }
@@ -239,7 +241,8 @@ class SnapModel extends _$SnapModel {
       await _listenUntilDone(changeId, ref);
     } on SnapdException catch (e) {
       // If snapd says there is no revision to revert to, show a friendly message
-      if (e.statusCode == 400 && e.message.contains('no revision to revert to')) {
+      if (e.statusCode == 400 &&
+          e.message.contains('no revision to revert to')) {
         if (context != null) {
           if (!context.mounted) return;
           await showYaruInfoDialog<void>(

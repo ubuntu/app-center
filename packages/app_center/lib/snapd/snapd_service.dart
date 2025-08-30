@@ -78,24 +78,25 @@ class SnapdService extends SnapdClient with SnapdCache, SnapdWatcher {
           .whereType<Map<String, dynamic>>()
           .where((e) => e['name'] == name)
           .map((e) {
-            final revVal = e['revision'];
-            final revision = switch (revVal) {
-              final int v => v,
-              final num v => v.toInt(),
-              final String s => int.tryParse(s) ?? 0,
-              null => 0, // ignore: prefer_final_locals
-              _ => 0,
-            };
-            final version = (e['version'] is String) ? e['version'] as String : '${e['version'] ?? ''}';
-            final status = e['status'];
-            final active = status == 'active'; // ignore: prefer_final_locals
-            return LocalRevisionInfo(
-              revision: revision,
-              version: version,
-              active: active,
-            );
-          })
-          .toList();
+        final revVal = e['revision'];
+        final revision = switch (revVal) {
+          final int v => v,
+          final num v => v.toInt(),
+          final String s => int.tryParse(s) ?? 0,
+          null => 0, // ignore: prefer_final_locals
+          _ => 0,
+        };
+        final version = (e['version'] is String)
+            ? e['version'] as String
+            : '${e['version'] ?? ''}';
+        final status = e['status'];
+        final active = status == 'active'; // ignore: prefer_final_locals
+        return LocalRevisionInfo(
+          revision: revision,
+          version: version,
+          active: active,
+        );
+      }).toList();
     } finally {
       httpClient.close();
     }
@@ -114,12 +115,14 @@ class SnapdService extends SnapdClient with SnapdCache, SnapdWatcher {
     // Create a new HTTP client with Unix socket connection
     final httpClient = HttpClient();
     httpClient.connectionFactory = (uri, proxyHost, proxyPort) {
-      final address = InternetAddress('/var/run/snapd.socket', type: InternetAddressType.unix);
+      final address = InternetAddress('/var/run/snapd.socket',
+          type: InternetAddressType.unix);
       return Socket.startConnect(address, 0);
     };
 
     try {
-      final httpRequest = await httpClient.post('localhost', 0, '/v2/snaps/$encodedName');
+      final httpRequest =
+          await httpClient.post('localhost', 0, '/v2/snaps/$encodedName');
 
       // Set headers similar to SnapdClient
       if (userAgent != null) {

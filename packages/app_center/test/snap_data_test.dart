@@ -5,7 +5,9 @@ import 'test_utils.dart';
 
 void main() {
   group('SnapData', () {
-    test('canRevert returns true for installed snaps with previous local revision', () {
+    test(
+        'canRevert returns true for installed snaps with previous local revision',
+        () {
       final localSnap = createSnap(name: 'test', version: '1.0.0');
       final snapData = SnapData(
         name: 'test',
@@ -28,7 +30,9 @@ void main() {
       expect(snapData.canRevert, isFalse);
     });
 
-    test('canRevert returns true for installed snaps with store data and previous local revision', () {
+    test(
+        'canRevert returns true for installed snaps with store data and previous local revision',
+        () {
       final localSnap = createSnap(name: 'test', version: '2.0.0');
       final storeSnap = createSnap(name: 'test', version: '1.0.0');
       final snapData = SnapData(

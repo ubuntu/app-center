@@ -70,11 +70,13 @@ class SnapActionsButton extends ConsumerWidget {
 
     final secondaryActionsWidgets = [
       ...secondaryActions.map((action) {
-        final color = (action == SnapAction.remove || action == SnapAction.revert)
-            ? Theme.of(context).colorScheme.error
-            : null;
+        final color =
+            (action == SnapAction.remove || action == SnapAction.revert)
+                ? Theme.of(context).colorScheme.error
+                : null;
         return PopupMenuItem(
-          onTap: action.callback(snapData, snapViewModel, snapLauncher, context),
+          onTap:
+              action.callback(snapData, snapViewModel, snapLauncher, context),
           child: IntrinsicWidth(
             child: ListTile(
               mouseCursor: SystemMouseCursors.click,
@@ -104,7 +106,8 @@ class SnapActionsButton extends ConsumerWidget {
                 ...secondaryActionsWidgets,
             ],
             onPressed: snapData.activeChangeId == null
-                ? primaryAction?.callback(snapData, snapViewModel, snapLauncher, context)
+                ? primaryAction?.callback(
+                    snapData, snapViewModel, snapLauncher, context)
                 : null,
             child: Text(
               primaryAction?.label(l10n) ?? SnapAction.open.label(l10n),
