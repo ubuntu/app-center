@@ -116,6 +116,8 @@ class _StoreAppHome extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     YaruWindow.of(context).setTitle(l10n.appCenterLabel);
 
+    final textScalar = MediaQuery.textScalerOf(context);
+
     ref.listen(errorStreamProvider, (_, error) {
       if (error.hasValue && error.value is SnapdException) {
         final snapdError = error.value as SnapdException;
@@ -127,106 +129,96 @@ class _StoreAppHome extends ConsumerWidget {
       }
     });
 
-    return Scaffold(
-      appBar: _TitleBar(
-        leading: _MaybeBackButton(navigatorKey),
-        title: SizedBox(
-          width: kSearchBarWidth,
-          child: SearchField(
-            onSearch: (query) => navigator.pushAndRemoveSearch(query: query),
-            onSnapSelected: (name) => navigator.pushSnap(name: name),
-            onDebSelected: (id) => navigator.pushDeb(id: id),
-            searchFocus: searchFocus,
-          ),
+    final searchField = YaruWindowTitleBar(
+      border: BorderSide.none,
+      leading: _MaybeBackButton(navigatorKey),
+      title: SizedBox(
+        width: kSearchBarWidth,
+        child: SearchField(
+          onSearch: (query) => navigator.pushAndRemoveSearch(query: query),
+          onSnapSelected: (name) => navigator.pushSnap(name: name),
+          onDebSelected: (id) => navigator.pushDeb(id: id),
+          searchFocus: searchFocus,
         ),
       ),
-      body: YaruMasterDetailPage(
-        navigatorKey: navigatorKey,
-        navigatorObservers: [StoreObserver(ref)],
-        initialRoute: ref.watch(initialRouteProvider),
-        controller: ref.watch(yaruPageControllerProvider),
-        tileBuilder: (context, index, selected, availableWidth) =>
-            pages[index].tileBuilder(context, selected),
-        pageBuilder: (context, index) => pages[index].pageBuilder(context),
-        paneLayoutDelegate: const YaruFixedPaneDelegate(paneSize: kPaneWidth),
-        breakpoint: 0, // always landscape
-        onGenerateRoute: (settings) => switch (StoreRoutes.routeOf(settings)) {
-          StoreRoutes.deb => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => DebPage(
+    );
+
+    return YaruMasterDetailPage(
+      navigatorKey: navigatorKey,
+      navigatorObservers: [StoreObserver(ref)],
+      initialRoute: ref.watch(initialRouteProvider),
+      controller: ref.watch(yaruPageControllerProvider),
+      tileBuilder: (context, index, selected, availableWidth) =>
+          pages[index].tileBuilder(context, selected),
+      pageBuilder: (context, index) =>
+          pages[index].pageBuilder(context, searchField),
+      paneLayoutDelegate: YaruResizablePaneDelegate(
+        initialPaneSize: kPaneWidth * textScalar.scale(1),
+        minPaneSize: kPaneWidth * textScalar.scale(1),
+        minPageSize: kCardSizeWide.width + (kPagePadding * 2),
+      ),
+      appBar: YaruWindowTitleBar(
+        title: Text(l10n.appCenterLabel),
+        border: BorderSide.none,
+        backgroundColor: YaruMasterDetailTheme.of(context).sideBarColor,
+      ),
+      breakpoint: 0, // always landscape
+      onGenerateRoute: (settings) => switch (StoreRoutes.routeOf(settings)) {
+        StoreRoutes.deb => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: DebPage(
                 id: StoreRoutes.debOf(settings)!,
               ),
             ),
-          StoreRoutes.localDeb => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => LocalDebPage(
+          ),
+        StoreRoutes.localDeb => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: LocalDebPage(
                 path: StoreRoutes.localDebOf(settings)!,
               ),
             ),
-          StoreRoutes.snap => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => SnapPage(
+          ),
+        StoreRoutes.snap => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: SnapPage(
                 snapName: StoreRoutes.snapOf(settings)!,
               ),
             ),
-          StoreRoutes.search => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => SearchPage(
+          ),
+        StoreRoutes.search => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: SearchPage(
                 query: StoreRoutes.queryOf(settings),
                 category: StoreRoutes.categoryOf(settings),
               ),
             ),
-          StoreRoutes.externalTools => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => const ExternalTools(),
+          ),
+        StoreRoutes.externalTools => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: const ExternalTools(),
             ),
-          StoreRoutes.manage => MaterialPageRoute(
-              settings: settings,
-              builder: (_) => const ManagePage(),
+          ),
+        StoreRoutes.manage => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => YaruDetailPage(
+              appBar: searchField,
+              body: const ManagePage(),
             ),
-          _ => null,
-        },
-      ),
+          ),
+        _ => null,
+      },
     );
   }
-}
-
-class _TitleBar extends StatelessWidget implements PreferredSizeWidget {
-  const _TitleBar({required this.title, required this.leading});
-
-  final Widget title;
-  final Widget leading;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: kPaneWidth,
-          child: YaruWindowTitleBar(
-            style: YaruTitleBarStyle.undecorated,
-            border: BorderSide.none,
-            backgroundColor: YaruMasterDetailTheme.of(context).sideBarColor,
-          ),
-        ),
-        const SizedBox(
-          height: kYaruTitleBarHeight,
-          child: VerticalDivider(),
-        ),
-        Expanded(
-          child: YaruWindowTitleBar(
-            border: BorderSide.none,
-            backgroundColor: Colors.transparent,
-            title: title,
-            leading: leading,
-          ),
-        ),
-      ],
-    );
-  }
-
-  @override
-  Size get preferredSize => const Size(0, kYaruTitleBarHeight);
 }
 
 class _MaybeBackButton extends ConsumerWidget {
