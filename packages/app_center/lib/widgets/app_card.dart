@@ -275,8 +275,8 @@ class _AppCardBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ExcludeSemantics(
-          child: SizedBox(
-            height: kIconSize,
+          child: Container(
+            constraints: BoxConstraints(minHeight: kIconSize),
             child: Align(
               alignment: Alignment.bottomLeft,
               child: title,
@@ -288,7 +288,7 @@ class _AppCardBody extends StatelessWidget {
           Flexible(
             child: ExcludeSemantics(
               child: Text(
-                summary,
+                '$summary\n',
                 maxLines: maxlines,
                 overflow: TextOverflow.ellipsis,
               ),
