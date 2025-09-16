@@ -53,11 +53,12 @@ class AppCardGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout.of(context);
+    final scalar = MediaQuery.textScalerOf(context);
 
     return SliverGrid.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: layout.cardColumnCount,
-        childAspectRatio: layout.cardSize.aspectRatio,
+        childAspectRatio: layout.cardSize.aspectRatio / scalar.scale(1),
         mainAxisSpacing: kCardSpacing - 2 * kCardMargin,
         crossAxisSpacing: kCardSpacing - 2 * kCardMargin,
       ),

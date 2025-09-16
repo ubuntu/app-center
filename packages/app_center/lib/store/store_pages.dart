@@ -63,7 +63,7 @@ final displayedCategories = [
 
 typedef StorePage = ({
   Widget Function(BuildContext context, bool selected) tileBuilder,
-  WidgetBuilder pageBuilder,
+  Widget Function(BuildContext context, YaruWindowTitleBar title) pageBuilder,
 });
 
 final pages = <StorePage>[
@@ -72,7 +72,10 @@ final pages = <StorePage>[
           leading: Icon(ExplorePage.icon(selected)),
           title: Text(ExplorePage.label(context)),
         ),
-    pageBuilder: (_) => const ExplorePage(),
+    pageBuilder: (_, title) => YaruDetailPage(
+          appBar: title,
+          body: const ExplorePage(),
+        ),
   ),
   for (final category in displayedCategories)
     (
@@ -80,22 +83,28 @@ final pages = <StorePage>[
             leading: Icon(category.icon(selected)),
             title: Text(category.localize(AppLocalizations.of(context))),
           ),
-      pageBuilder: (_) => SearchPage(category: category.categoryName),
+      pageBuilder: (_, title) => YaruDetailPage(
+            appBar: title,
+            body: SearchPage(category: category.categoryName),
+          ),
     ),
   (
     tileBuilder: (context, selected) => _NavigationTile(
           leading: Icon(GamesPage.icon(selected)),
           title: Text(GamesPage.label(context)),
         ),
-    pageBuilder: (_) => const GamesPage(),
+    pageBuilder: (_, title) => YaruDetailPage(
+          appBar: title,
+          body: const GamesPage(),
+        ),
   ),
   (
     tileBuilder: (context, selected) => const Spacer(),
-    pageBuilder: (_) => const SizedBox.shrink(),
+    pageBuilder: (_, title) => const SizedBox.shrink(),
   ),
   (
     tileBuilder: (context, selected) => const Divider(),
-    pageBuilder: (_) => const SizedBox.shrink(),
+    pageBuilder: (_, title) => const SizedBox.shrink(),
   ),
   (
     tileBuilder: (context, selected) => _NavigationTile(
@@ -113,13 +122,19 @@ final pages = <StorePage>[
             },
           ),
         ),
-    pageBuilder: (_) => const ManagePage(),
+    pageBuilder: (_, title) => YaruDetailPage(
+          appBar: title,
+          body: const ManagePage(),
+        ),
   ),
   (
     tileBuilder: (context, selected) => _NavigationTile(
           leading: Icon(AboutPage.icon(selected)),
           title: Text(AboutPage.label(context)),
         ),
-    pageBuilder: (_) => const AboutPage(),
+    pageBuilder: (_, title) => YaruDetailPage(
+          appBar: title,
+          body: const AboutPage(),
+        ),
   ),
 ];
