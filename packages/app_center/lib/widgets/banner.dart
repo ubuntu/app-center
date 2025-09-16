@@ -10,11 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 
+const _kDefaultBannerHeight = 240.0;
+
 class CategoryBanner extends ConsumerWidget {
   const CategoryBanner({
     required this.category,
     this.padding = const EdgeInsets.all(48),
-    this.height = 240,
+    this.height = _kDefaultBannerHeight,
     this.maxSize = const Size(88.0, 88.0),
     this.iconSize = const Size(48.0, 48.0),
     this.kNumberOfBannerSnaps = 3,
@@ -124,10 +126,6 @@ class _Banner extends StatelessWidget {
                       style: OutlinedButton.styleFrom(
                         foregroundColor: _kForegroundColor,
                         side: const BorderSide(color: _kForegroundColor),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
                       ),
                       child: Text(buttonLabel!),
                     ),
@@ -259,7 +257,7 @@ class ToolsBanner extends ConsumerWidget {
           colors: SnapCategoryEnum.games.bannerColors,
         ),
       ),
-      height: 185,
+      height: _kDefaultBannerHeight,
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -284,10 +282,10 @@ class ToolsBanner extends ConsumerWidget {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.white,
                       side: const BorderSide(color: Colors.white),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
+                      // padding: const EdgeInsets.symmetric(
+                      //   horizontal: 16,
+                      //   vertical: 8,
+                      // ),
                     ),
                     child: Text(buttonText),
                   ),
