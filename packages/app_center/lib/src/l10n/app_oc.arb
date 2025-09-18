@@ -1,482 +1,534 @@
 {
-  "snapPageLinksLabel": "Ligams",
-  "@snapPageLinksLabel": {},
-  "snapPageVersionLabel": "Version",
-  "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "Paquets Debian",
-  "@packageFormatDebLabel": {},
-  "snapCategoryBooksAndReference": "Libres e referéncias",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryProductivity": "Productivitat",
-  "@snapCategoryProductivity": {},
-  "snapCategoryUtilities": "Utilitaris",
-  "@snapCategoryUtilities": {},
-  "snapCategorySocial": "Socializacion",
-  "@snapCategorySocial": {},
-  "productivityPageLabel": "Productivitat",
-  "@productivityPageLabel": {},
-  "snapCategoryNewsAndWeather": "Informacions e metèo",
-  "@snapCategoryNewsAndWeather": {},
-  "gamesPageLabel": "Jòcs",
-  "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "Arts e concepcion",
-  "@snapCategoryArtAndDesign": {},
-  "developmentPageLabel": "Desvolopament",
-  "@developmentPageLabel": {},
-  "managePageLabel": "Gerir",
-  "@managePageLabel": {},
-  "snapPageChannelLabel": "Canal",
-  "@snapPageChannelLabel": {},
-  "snapCategoryEducation": "Educacion",
-  "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "Metre a jorn",
-  "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "Triar per",
-  "@searchPageSortByLabel": {},
-  "snapPageGalleryLabel": "Galariá",
-  "@snapPageGalleryLabel": {},
-  "searchFieldDebSection": "Paquets Debian",
-  "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "Dobrir",
-  "@snapActionOpenLabel": {},
-  "snapCategoryDevelopment": "Desvolopament",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryHealthAndFitness": "Santat e espòrt",
-  "@snapCategoryHealthAndFitness": {},
-  "appstreamUrlTypeContact": "Contacte",
-  "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "Seguretat",
-  "@snapCategorySecurity": {},
-  "snapCategoryFinance": "Finança",
-  "@snapCategoryFinance": {},
-  "snapCategoryServerAndCloud": "Servidor e cloud",
-  "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "A prepaus",
-  "@aboutPageLabel": {},
-  "snapPageSummaryLabel": "Resumit",
-  "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "app;aplicacion;paquet;programa;aisinas;esplech;utilitari;logicial;aplech;otís",
-  "@appstreamSearchGreylist": {},
-  "snapCategoryScience": "Sciéncia",
-  "@snapCategoryScience": {},
-  "snapCategoryEntertainment": "Léser",
-  "@snapCategoryEntertainment": {},
-  "snapActionInstallLabel": "Installar",
-  "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "Licéncia",
-  "@snapPageLicenseLabel": {},
-  "snapCategoryPhotoAndVideo": "Fòtos e vidèo",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "Isolacion",
-  "@snapPageConfinementLabel": {},
-  "snapCategoryMusicAndAudio": "Musica e àudio",
-  "@snapCategoryMusicAndAudio": {},
-  "aboutPageGitHubLabel": "Nos retrobar sus Github",
-  "@aboutPageGitHubLabel": {},
-  "packageFormatSnapLabel": "Paquet Snap",
-  "@packageFormatSnapLabel": {},
-  "snapCategoryGames": "Jòcs",
-  "@snapCategoryGames": {},
-  "snapActionInstallingLabel": "Installacion",
-  "@snapActionInstallingLabel": {},
-  "searchFieldSearchHint": "Cercar d’aplicacions",
-  "@searchFieldSearchHint": {},
-  "snapCategoryFeatured": "Mesas en avant",
-  "@snapCategoryFeatured": {},
-  "managePageSearchFieldSearchHint": "Cercar dins las aplicacions installadas",
-  "@managePageSearchFieldSearchHint": {},
-  "snapActionCancelLabel": "Anullar",
-  "@snapActionCancelLabel": {},
-  "snapPagePublisherLabel": "Editor",
-  "@snapPagePublisherLabel": {},
-  "snapPageDescriptionLabel": "Descripcion",
-  "@snapPageDescriptionLabel": {},
-  "explorePageLabel": "Explorar",
-  "@explorePageLabel": {},
-  "searchFieldSnapSection": "Paquet Snap",
-  "@searchFieldSnapSection": {},
-  "snapCategoryDevicesAndIot": "Aparelh e Internet dels objèctes",
-  "@snapCategoryDevicesAndIot": {},
-  "managePageCheckForUpdates": "Verificar las mesas a jorn",
-  "@managePageCheckForUpdates": {},
-  "managePageUpdateAllLabel": "Tot metre a jorn",
-  "@managePageUpdateAllLabel": {},
-  "searchFieldSearchForLabel": "Veire totes los resultats per la recèrca de « {query} »",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "explorePageCategoriesLabel": "Categorias",
-  "@explorePageCategoriesLabel": {},
-  "snapCategoryDefaultButtonLabel": "Ne descobrir mai",
-  "@snapCategoryDefaultButtonLabel": {},
-  "managePageShowDetailsLabel": "Veire los detalhs",
-  "@managePageShowDetailsLabel": {},
-  "snapPageDownloadSizeLabel": "Talha del telecargament",
-  "@snapPageDownloadSizeLabel": {},
-  "snapCategoryProductivityButtonLabel": "Descobrir la colleccion de productivitat",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapPagePublishedLabel": "Publicacion",
-  "@snapPagePublishedLabel": {},
-  "aboutPageLearnMoreLabel": "Ne saber mai",
-  "@aboutPageLearnMoreLabel": {},
-  "snapRatingsBandNeutral": "Neutra",
-  "@snapRatingsBandNeutral": {},
-  "appstreamUrlTypeTranslate": "Traduccions",
-  "@appstreamUrlTypeTranslate": {},
-  "searchPageNoResultsHint": "Ensajatz de mots clau diferents o mai generals",
-  "@searchPageNoResultsHint": {},
-  "snapRatingsBandGood": "Bona",
-  "@snapRatingsBandGood": {},
-  "snapCategoryFeaturedSlogan": "Snaps meses en avant",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapSortOrderInstalledDateAsc": "Mens recentament mes a jorn",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapCategoryProductivitySlogan": "Marcatz una causa de vòstra lista de prètzfaches en cors",
-  "@snapCategoryProductivitySlogan": {},
-  "appstreamUrlTypeDonation": "Far un don",
-  "@appstreamUrlTypeDonation": {},
-  "snapRatingsBandVeryGood": "Plan bona",
-  "@snapRatingsBandVeryGood": {},
-  "snapActionRemoveLabel": "Desinstallar",
-  "@snapActionRemoveLabel": {},
-  "appstreamUrlTypeHelp": "Ajuda",
-  "@appstreamUrlTypeHelp": {},
-  "snapCategoryPersonalisation": "Personalizacion",
-  "@snapCategoryPersonalisation": {},
-  "aboutPagePublishLabel": "Publicar a la botiga de Snap",
-  "@aboutPagePublishLabel": {},
-  "aboutPageContributorTitle": "Concepcion e desvelopament per :",
-  "@aboutPageContributorTitle": {},
-  "managePageInstalledAndUpdatedLabel": "Installat e mes a jorn",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "appstreamUrlTypeHomepage": "Pagina d’acuèlh",
-  "@appstreamUrlTypeHomepage": {},
-  "managePageCheckingForUpdates": "Verificacion de mesas a jorn",
-  "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Mes a jorn fa {n} jorns",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapRatingsBandInsufficientVotes": "Nombre de vòtes insufisents",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsBandVeryPoor": "Plan febla",
-  "@snapRatingsBandVeryPoor": {},
-  "managePageDescription": "Verificatz se de mesas a jorn o nivèl son disponiblas per vòstras aplicacions e gerissètz l’estat de vòstras aplicacions.",
-  "@managePageDescription": {},
-  "snapActionRemovingLabel": "Desinstallacion",
-  "@snapActionRemovingLabel": {},
-  "snapSortOrderInstalledSizeDesc": "Talha (de la màger a la mendre)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapPageDeveloperWebsiteLabel": "Site web dels desvolopaires",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapConfinementClassic": "Classic",
-  "@snapConfinementClassic": {},
-  "snapRatingsBandPoor": "Febla",
-  "@snapRatingsBandPoor": {},
-  "snapCategoryDevelopmentSlogan": "Snaps indispensables pels desvolopaires",
-  "@snapCategoryDevelopmentSlogan": {},
-  "searchPageTitle": "Resultats per « {query} »",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapCategoryGamesSlogan": "Tot per vòstras nuèches de jòc",
-  "@snapCategoryGamesSlogan": {},
-  "snapActionSwitchChannelLabel": "Cambiar de canal",
-  "@snapActionSwitchChannelLabel": {},
-  "appstreamUrlTypeFaq": "FAQ",
-  "@appstreamUrlTypeFaq": {},
-  "snapConfinementStrict": "Estrict",
-  "@snapConfinementStrict": {},
-  "aboutPageContributeLabel": "Contribuir e senhalar de bugs",
-  "@aboutPageContributeLabel": {},
-  "snapCategoryUbuntuDesktop": "Burèu Ubuntu",
-  "@snapCategoryUbuntuDesktop": {},
-  "managePageUpdatesAvailable": "Mesas a jorn disponiblas ({n})",
-  "@managePageUpdatesAvailable": {},
-  "aboutPageCommunityTitle": "Formatz part de la comunitat :",
-  "@aboutPageCommunityTitle": {},
-  "searchPageNoResultsCategoryHint": "Ensajatz una autra categoria o utilizatz de mots clau mai generals",
-  "@searchPageNoResultsCategoryHint": {},
-  "snapSortOrderAlphabeticalDesc": "Alfabetic (Z a A)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "searchPageNoResultsCategory": "Avèm pas trobat cap de paquet per aquesta categoria",
-  "@searchPageNoResultsCategory": {},
-  "snapRatingsVotes": "{n} vòtes",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapCategoryAll": "Totas las categorias",
-  "@snapCategoryAll": {},
-  "snapSortOrderInstalledSizeAsc": "Talha (de la mendre a la màger)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "aboutPageVersionLabel": "Version {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageContactPublisherLabel": "Contactar {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapConfinementDevmode": "Mòde dev",
-  "@snapConfinementDevmode": {},
-  "searchPageNoResults": "Cap de resultat pas trobat per « {query} »",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapSortOrderDownloadSizeAsc": "Talha (de la mendre a la màger)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "unknownPublisher": "Editor desconegut",
-  "@unknownPublisher": {},
-  "snapCategoryUbuntuDesktopSlogan": "Amodatz lo burèu",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapActionUpdatingLabel": "Mesa a jorn",
-  "@snapActionUpdatingLabel": {},
-  "searchPageRelevanceLabel": "Importància",
-  "@searchPageRelevanceLabel": {},
-  "snapSortOrderAlphabeticalAsc": "Alfabetic (A a Z)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "managePageNoUpdatesAvailableDescription": "Cap de mesa a jorn pas disponibla. Las aplicacions son a jorn.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "snapSortOrderRelevance": "Importància",
-  "@snapSortOrderRelevance": {},
-  "snapSortOrderDownloadSizeDesc": "Talha (de la màger a la mendre)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "appstreamUrlTypeBugtracker": "Registre d’avarias",
-  "@appstreamUrlTypeBugtracker": {},
-  "managePageShowSystemSnapsLabel": "Veire los snaps sistèma",
-  "@managePageShowSystemSnapsLabel": {},
-  "searchPageFilterByLabel": "Filtrar per",
-  "@searchPageFilterByLabel": {},
-  "snapSortOrderInstalledDateDesc": "Mai recentament mes a jorn",
-  "@snapSortOrderInstalledDateDesc": {},
-  "appCenterLabel": "Logitèca",
-  "@appCenterLabel": {},
-  "snapPageShareLinkCopiedMessage": "Ligam copiat al quichapapièrs",
-  "@snapPageShareLinkCopiedMessage": {},
-  "gamesPageTop": "Mai avalorats",
-  "@gamesPageTop": {},
-  "gamesPageFeatured": "Títols en evidéncia",
-  "@gamesPageFeatured": {},
-  "snapCategoryGameDev": "Desvelopament de jòcs",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameDevSlogan": "Desvelopament de jòcs",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryGameEmulators": "Emulators",
-  "@snapCategoryGameEmulators": {},
-  "snapCategoryGameEmulatorsSlogan": "Emulators",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryGnomeGames": "Jòcs GNOME",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryGnomeGamesSlogan": "Compilacion de jòcs de GNOME",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryKdeGames": "Jòcs de KDE",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryGameLaunchers": "Aviadors de jòcs",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryGameContentCreationSlogan": "Creacion de contengut",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapReportSelectAnOptionLabel": "Seleccionatz una opcion",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportOptionCopyrightViolation": "Violacion de dreches d’autor o marca depausada",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportDetailsLabel": "Se vos plau, provesissètz una rason mai detalhada per vòstre senhalament",
-  "@snapReportDetailsLabel": {},
-  "snapReportOptionalEmailAddressLabel": "Vòstra adreça electronica (opcionala)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportSubmitButtonLabel": "Enviar lo senhalament",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportPrivacyAgreementLabel": "En enviant aqueste formula, confirmi qu’ai legit e acceptat ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "gamesPageTitle": "Jòcs",
-  "@gamesPageTitle": {},
-  "gamesPageBundles": "Paquets d’aplicacion",
-  "@gamesPageBundles": {},
-  "snapCategoryKdeGamesSlogan": "Compilacion de jòcs de KDE",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapReportCancelButtonLabel": "Anullar",
-  "@snapReportCancelButtonLabel": {},
-  "snapCategoryGameLaunchersSlogan": "Aviadors de jòcs",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapReportOptionStoreViolation": "Violacion dels tèrmes de servici de Snap Store",
-  "@snapReportOptionStoreViolation": {},
-  "snapCategoryGameContentCreation": "Creacion de contengut",
-  "@snapCategoryGameContentCreation": {},
-  "snapReportLabel": "Senhalar {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportEnterValidEmailError": "Picatz una adreça electronica valida",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Avís de confidencialitat de Canonical ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "debPageErrorNoPackageInfo": "Cap d’informacions sul paquet pas trobada",
-  "@debPageErrorNoPackageInfo": {},
-  "snapReportSelectReportReasonLabel": "Causissètz una rason pel senhalament d’aqueste snap",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportDetailsHint": "Comentari...",
-  "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementAndLabel": "e ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "Politica de confidencialitat",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "externalResources": "Ressorsas addicionalas",
-  "@externalResources": {},
-  "externalResourcesDisclaimer": "Nòta : totas aquestas son d’aisinas extèrnas. Son pas la proprietat nimai distribuida per Canonical.",
-  "@externalResourcesDisclaimer": {},
-  "externalResourcesButtonLabel": "Ne descobrir mai",
-  "@externalResourcesButtonLabel": {},
-  "openInBrowser": "Dobrir dins lo navegador",
-  "@openInBrowser": {},
-  "installAll": "Tot installar",
-  "@installAll": {},
-  "allGamesButtonLabel": "Totes los jòcs",
-  "@allGamesButtonLabel": {},
-  "managePageUpdatedMonthsAgo": "Actualizat fa {n, plural, =1{{n} mes} other{{n} meses}}",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedWeeksAgo": "Actualizat fa {n, plural, =1{{n} sermana} other{{n} setmanas}}",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedYearsAgo": "Actualizat fa {n, plural, =1{{n} an} other{{n} ans}}",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "appstreamUrlTypeContribute": "Contribuir",
-  "@appstreamUrlTypeContribute": {},
-  "errorViewNetworkErrorTitle": "Se connectar a Internet",
-  "@errorViewNetworkErrorTitle": {},
-  "snapActionInstalledLabel": "Installada",
-  "@snapActionInstalledLabel": {},
-  "snapPageSizeLabel": "Talha",
-  "@snapPageSizeLabel": {},
-  "localDebWarningTitle": "Potencialament insegura",
-  "@localDebWarningTitle": {},
-  "localDebLearnMore": "Ne saber mai suls paquets tèrces",
-  "@localDebLearnMore": {},
-  "localDebWarningBody": "Aqueste paquet es provesit per un tèrç. L'installacion de paquets dempuèi l'exterior del Centre d'aplicacions pòt aumentar lo risc per vòstre sistèma e vòstras donadas personalas. Asseguratz-vos de vos fisar de la font abans de contunhar.",
-  "@localDebWarningBody": {},
-  "managePageInstallingLabel": "Installacion ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "appstreamUrlTypeVcsBrowser": "Font",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "errorViewCheckStatusLabel": "Verificar l’estat",
-  "@errorViewCheckStatusLabel": {},
-  "errorViewNetworkErrorDescription": "Podèm pas cargar lo contengut del Centre d’aplicacions sens connexion Internet.",
-  "@errorViewNetworkErrorDescription": {},
-  "errorViewServerErrorAction": "Verificatz l’estat de las mesas a jorn o tornatz ensajar mai tard.",
-  "@errorViewServerErrorAction": {},
-  "errorViewUnknownErrorTitle": "Quicòm a trucat",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewUnknownErrorDescription": "O planhèm, mas sabèm pas quina error es.",
-  "@errorViewUnknownErrorDescription": {},
-  "errorViewUnknownErrorAction": "Podètz tornar ensajar ara, verificatz l’estat de las mesas a jorn o tornatz ensajar mai tard.",
-  "@errorViewUnknownErrorAction": {},
-  "managePageOwnUpdateDescriptionSoon": "Lo Centre d’aplicacions s’actualizarà automaticament en {time}.",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "managePageNoInternet": "Impossible de contactar lo servidor, verificatz la connexion Internet o tornatz ensajar mai tard.",
-  "@managePageNoInternet": {},
-  "managePageOwnUpdateAvailable": "Mesa a jorn del Centre d’aplicacions disponibla",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateDescription": "Quand quitatz l’aplicacion, serà automaticament mesa a jorn.",
-  "@managePageOwnUpdateDescription": {},
-  "managePageOwnUpdateQuitButton": "Quitar per metre a jorn",
-  "@managePageOwnUpdateQuitButton": {},
-  "localDebDialogMessage": "Aqueste paquet es provesit per un tèrç e poiriá amenaçar vòstre sistèma e vòstras donadas personalas.",
-  "@localDebDialogMessage": {},
-  "localDebDialogConfirmation": "Volètz vertadièrament l’installar ?",
-  "@localDebDialogConfirmation": {},
-  "managePageTitle": "Gerir los snaps installats",
-  "@managePageTitle": {},
-  "managePageUpdatesFailed": "{n, plural, =1{Una mesa a jorn fracassada} other{{n} mesas a jorn fracassadas}}",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailedBody": "Avèm pas pogut metre a jorn aquestas aplicacions perque son actualament en cors d'execucion.\n\n{snapList}\nQuand quitatz las aplicacions, se metràn a jorn automaticament.",
-  "@managePageUpdatesFailedBody": {},
-  "snapdExceptionRunningApps": "Avèm pas pogut metre a jorn {snapName} pr’amor qu’es actualament en execucion.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewNetworkErrorAction": "Verificatz la connexion e tornatz ensajar.",
-  "@errorViewNetworkErrorAction": {},
-  "errorViewServerErrorDescription": "O planhèm, rescontram actualament de problèmas amb lo Centre d’aplicacions.",
-  "@errorViewServerErrorDescription": {},
-  "snapCategoryArtAndDesignButtonLabel": "Començar a crear",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "De vòstre primièr croquís a la tòca finala, exploratz las aplicacions per l’art e la concepcion.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "managePageQuitToUpdate": "Quitar per metre a jorn",
-  "@managePageQuitToUpdate": {},
-  "managePageDebUpdatesMessage": "Las mesas a jorn dels paquets Debian son gerits pel Gestionari de mesas a jorn.",
-  "@managePageDebUpdatesMessage": {},
-  "managePageDocumentationLinkLabel": "Aprenètz cossí gerir los paquets Debian dins la documentacion.",
-  "@managePageDocumentationLinkLabel": {},
-  "debPageDocumentationLinkLabel": "Aprendre a gerir los paquets Debian",
-  "@debPageDocumentationLinkLabel": {}
+    "snapPageLinksLabel": "Ligams",
+    "@snapPageLinksLabel": {},
+    "snapPageVersionLabel": "Version",
+    "@snapPageVersionLabel": {},
+    "packageFormatDebLabel": "Paquets Debian",
+    "@packageFormatDebLabel": {},
+    "snapCategoryBooksAndReference": "Libres e referéncias",
+    "@snapCategoryBooksAndReference": {},
+    "snapCategoryProductivity": "Productivitat",
+    "@snapCategoryProductivity": {},
+    "snapCategoryUtilities": "Utilitaris",
+    "@snapCategoryUtilities": {},
+    "snapCategorySocial": "Socializacion",
+    "@snapCategorySocial": {},
+    "productivityPageLabel": "Productivitat",
+    "@productivityPageLabel": {},
+    "snapCategoryNewsAndWeather": "Informacions e metèo",
+    "@snapCategoryNewsAndWeather": {},
+    "gamesPageLabel": "Jòcs",
+    "@gamesPageLabel": {},
+    "snapCategoryArtAndDesign": "Arts e concepcion",
+    "@snapCategoryArtAndDesign": {},
+    "developmentPageLabel": "Desvolopament",
+    "@developmentPageLabel": {},
+    "managePageLabel": "Gerir",
+    "@managePageLabel": {},
+    "snapPageChannelLabel": "Canal",
+    "@snapPageChannelLabel": {},
+    "snapCategoryEducation": "Educacion",
+    "@snapCategoryEducation": {},
+    "snapActionUpdateLabel": "Metre a jorn",
+    "@snapActionUpdateLabel": {},
+    "searchPageSortByLabel": "Triar per",
+    "@searchPageSortByLabel": {},
+    "snapPageGalleryLabel": "Galariá",
+    "@snapPageGalleryLabel": {},
+    "searchFieldDebSection": "Paquets Debian",
+    "@searchFieldDebSection": {},
+    "snapActionOpenLabel": "Dobrir",
+    "@snapActionOpenLabel": {},
+    "snapCategoryDevelopment": "Desvolopament",
+    "@snapCategoryDevelopment": {},
+    "snapCategoryHealthAndFitness": "Santat e espòrt",
+    "@snapCategoryHealthAndFitness": {},
+    "appstreamUrlTypeContact": "Contacte",
+    "@appstreamUrlTypeContact": {},
+    "snapCategorySecurity": "Seguretat",
+    "@snapCategorySecurity": {},
+    "snapCategoryFinance": "Finança",
+    "@snapCategoryFinance": {},
+    "snapCategoryServerAndCloud": "Servidor e cloud",
+    "@snapCategoryServerAndCloud": {},
+    "aboutPageLabel": "A prepaus",
+    "@aboutPageLabel": {},
+    "snapPageSummaryLabel": "Resumit",
+    "@snapPageSummaryLabel": {},
+    "appstreamSearchGreylist": "app;aplicacion;paquet;programa;aisinas;esplech;utilitari;logicial;aplech;otís",
+    "@appstreamSearchGreylist": {},
+    "snapCategoryScience": "Sciéncia",
+    "@snapCategoryScience": {},
+    "snapCategoryEntertainment": "Léser",
+    "@snapCategoryEntertainment": {},
+    "snapActionInstallLabel": "Installar",
+    "@snapActionInstallLabel": {},
+    "snapPageLicenseLabel": "Licéncia",
+    "@snapPageLicenseLabel": {},
+    "snapCategoryPhotoAndVideo": "Fòtos e vidèo",
+    "@snapCategoryPhotoAndVideo": {},
+    "snapPageConfinementLabel": "Isolacion",
+    "@snapPageConfinementLabel": {},
+    "snapCategoryMusicAndAudio": "Musica e àudio",
+    "@snapCategoryMusicAndAudio": {},
+    "aboutPageGitHubLabel": "Nos retrobar sus Github",
+    "@aboutPageGitHubLabel": {},
+    "packageFormatSnapLabel": "Paquet Snap",
+    "@packageFormatSnapLabel": {},
+    "snapCategoryGames": "Jòcs",
+    "@snapCategoryGames": {},
+    "snapActionInstallingLabel": "Installacion",
+    "@snapActionInstallingLabel": {},
+    "searchFieldSearchHint": "Cercar d’aplicacions",
+    "@searchFieldSearchHint": {},
+    "snapCategoryFeatured": "Mesas en avant",
+    "@snapCategoryFeatured": {},
+    "managePageSearchFieldSearchHint": "Cercar dins las aplicacions installadas",
+    "@managePageSearchFieldSearchHint": {},
+    "snapActionCancelLabel": "Anullar",
+    "@snapActionCancelLabel": {},
+    "snapPagePublisherLabel": "Editor",
+    "@snapPagePublisherLabel": {},
+    "snapPageDescriptionLabel": "Descripcion",
+    "@snapPageDescriptionLabel": {},
+    "explorePageLabel": "Explorar",
+    "@explorePageLabel": {},
+    "searchFieldSnapSection": "Paquet Snap",
+    "@searchFieldSnapSection": {},
+    "snapCategoryDevicesAndIot": "Aparelh e Internet dels objèctes",
+    "@snapCategoryDevicesAndIot": {},
+    "managePageCheckForUpdates": "Verificar las mesas a jorn",
+    "@managePageCheckForUpdates": {},
+    "managePageUpdateAllLabel": "Tot metre a jorn",
+    "@managePageUpdateAllLabel": {},
+    "searchFieldSearchForLabel": "Veire totes los resultats per la recèrca de « {query} »",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageCategoriesLabel": "Categorias",
+    "@explorePageCategoriesLabel": {},
+    "snapCategoryDefaultButtonLabel": "Ne descobrir mai",
+    "@snapCategoryDefaultButtonLabel": {},
+    "managePageShowDetailsLabel": "Veire los detalhs",
+    "@managePageShowDetailsLabel": {},
+    "snapPageDownloadSizeLabel": "Talha del telecargament",
+    "@snapPageDownloadSizeLabel": {},
+    "snapCategoryProductivityButtonLabel": "Descobrir la colleccion de productivitat",
+    "@snapCategoryProductivityButtonLabel": {},
+    "snapPagePublishedLabel": "Publicacion",
+    "@snapPagePublishedLabel": {},
+    "aboutPageLearnMoreLabel": "Ne saber mai",
+    "@aboutPageLearnMoreLabel": {},
+    "snapRatingsBandNeutral": "Neutra",
+    "@snapRatingsBandNeutral": {},
+    "appstreamUrlTypeTranslate": "Traduccions",
+    "@appstreamUrlTypeTranslate": {},
+    "searchPageNoResultsHint": "Ensajatz de mots clau diferents o mai generals",
+    "@searchPageNoResultsHint": {},
+    "snapRatingsBandGood": "Bona",
+    "@snapRatingsBandGood": {},
+    "snapCategoryFeaturedSlogan": "Snaps meses en avant",
+    "@snapCategoryFeaturedSlogan": {},
+    "snapSortOrderInstalledDateAsc": "Mens recentament mes a jorn",
+    "@snapSortOrderInstalledDateAsc": {},
+    "snapCategoryProductivitySlogan": "Marcatz una causa de vòstra lista de prètzfaches en cors",
+    "@snapCategoryProductivitySlogan": {},
+    "appstreamUrlTypeDonation": "Far un don",
+    "@appstreamUrlTypeDonation": {},
+    "snapRatingsBandVeryGood": "Plan bona",
+    "@snapRatingsBandVeryGood": {},
+    "snapActionRemoveLabel": "Desinstallar",
+    "@snapActionRemoveLabel": {},
+    "appstreamUrlTypeHelp": "Ajuda",
+    "@appstreamUrlTypeHelp": {},
+    "snapCategoryPersonalisation": "Personalizacion",
+    "@snapCategoryPersonalisation": {},
+    "aboutPagePublishLabel": "Publicar a la botiga de Snap",
+    "@aboutPagePublishLabel": {},
+    "aboutPageContributorTitle": "Concepcion e desvolopament per :",
+    "@aboutPageContributorTitle": {},
+    "managePageInstalledAndUpdatedLabel": "Installat e mes a jorn",
+    "@managePageInstalledAndUpdatedLabel": {},
+    "appstreamUrlTypeHomepage": "Pagina d’acuèlh",
+    "@appstreamUrlTypeHomepage": {},
+    "managePageCheckingForUpdates": "Verificacion de mesas a jorn",
+    "@managePageCheckingForUpdates": {},
+    "managePageUpdatedDaysAgo": "Actualizat fa {n, plural, =1{{n} jorn} other{{n} jorns}}",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRatingsBandInsufficientVotes": "Nombre de vòtes insufisents",
+    "@snapRatingsBandInsufficientVotes": {},
+    "snapRatingsBandVeryPoor": "Plan febla",
+    "@snapRatingsBandVeryPoor": {},
+    "managePageDescription": "Verificatz se de mesas a jorn o nivèl son disponiblas per vòstras aplicacions e gerissètz l’estat de vòstras aplicacions.",
+    "@managePageDescription": {},
+    "snapActionRemovingLabel": "Desinstallacion",
+    "@snapActionRemovingLabel": {},
+    "snapSortOrderInstalledSizeDesc": "Talha (de la màger a la mendre)",
+    "@snapSortOrderInstalledSizeDesc": {},
+    "snapPageDeveloperWebsiteLabel": "Site web dels desvolopaires",
+    "@snapPageDeveloperWebsiteLabel": {},
+    "snapConfinementClassic": "Classic",
+    "@snapConfinementClassic": {},
+    "snapRatingsBandPoor": "Febla",
+    "@snapRatingsBandPoor": {},
+    "snapCategoryDevelopmentSlogan": "Snaps indispensables pels desvolopaires",
+    "@snapCategoryDevelopmentSlogan": {},
+    "searchPageTitle": "Resultats per « {query} »",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryGamesSlogan": "Tot per vòstras nuèches de jòc",
+    "@snapCategoryGamesSlogan": {},
+    "snapActionSwitchChannelLabel": "Cambiar de canal",
+    "@snapActionSwitchChannelLabel": {},
+    "appstreamUrlTypeFaq": "FAQ",
+    "@appstreamUrlTypeFaq": {},
+    "snapConfinementStrict": "Estrict",
+    "@snapConfinementStrict": {},
+    "aboutPageContributeLabel": "Contribuir e senhalar de bugs",
+    "@aboutPageContributeLabel": {},
+    "snapCategoryUbuntuDesktop": "Burèu Ubuntu",
+    "@snapCategoryUbuntuDesktop": {},
+    "managePageUpdatesAvailable": "Mesas a jorn disponiblas ({n})",
+    "@managePageUpdatesAvailable": {},
+    "aboutPageCommunityTitle": "Formatz part de la comunitat :",
+    "@aboutPageCommunityTitle": {},
+    "searchPageNoResultsCategoryHint": "Ensajatz una autra categoria o utilizatz de mots clau mai generals",
+    "@searchPageNoResultsCategoryHint": {},
+    "snapSortOrderAlphabeticalDesc": "Alfabetic (Z a A)",
+    "@snapSortOrderAlphabeticalDesc": {},
+    "searchPageNoResultsCategory": "Avèm pas trobat cap de paquet per aquesta categoria",
+    "@searchPageNoResultsCategory": {},
+    "snapRatingsVotes": "{n} vòtes",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapCategoryAll": "Totas las categorias",
+    "@snapCategoryAll": {},
+    "snapSortOrderInstalledSizeAsc": "Talha (de la mendre a la màger)",
+    "@snapSortOrderInstalledSizeAsc": {},
+    "aboutPageVersionLabel": "Version {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageContactPublisherLabel": "Contactar {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapConfinementDevmode": "Mòde dev",
+    "@snapConfinementDevmode": {},
+    "searchPageNoResults": "Cap de resultat pas trobat per « {query} »",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapSortOrderDownloadSizeAsc": "Talha (de la mendre a la màger)",
+    "@snapSortOrderDownloadSizeAsc": {},
+    "unknownPublisher": "Editor desconegut",
+    "@unknownPublisher": {},
+    "snapCategoryUbuntuDesktopSlogan": "Amodatz lo burèu",
+    "@snapCategoryUbuntuDesktopSlogan": {},
+    "snapActionUpdatingLabel": "Mesa a jorn",
+    "@snapActionUpdatingLabel": {},
+    "searchPageRelevanceLabel": "Importància",
+    "@searchPageRelevanceLabel": {},
+    "snapSortOrderAlphabeticalAsc": "Alfabetic (A a Z)",
+    "@snapSortOrderAlphabeticalAsc": {},
+    "managePageNoUpdatesAvailableDescription": "Cap de mesa a jorn pas disponibla. Las aplicacions son a jorn.",
+    "@managePageNoUpdatesAvailableDescription": {},
+    "snapSortOrderRelevance": "Importància",
+    "@snapSortOrderRelevance": {},
+    "snapSortOrderDownloadSizeDesc": "Talha (de la màger a la mendre)",
+    "@snapSortOrderDownloadSizeDesc": {},
+    "appstreamUrlTypeBugtracker": "Registre d’avarias",
+    "@appstreamUrlTypeBugtracker": {},
+    "managePageShowSystemSnapsLabel": "Veire los snaps sistèma",
+    "@managePageShowSystemSnapsLabel": {},
+    "searchPageFilterByLabel": "Filtrar per",
+    "@searchPageFilterByLabel": {},
+    "snapSortOrderInstalledDateDesc": "Mai recentament mes a jorn",
+    "@snapSortOrderInstalledDateDesc": {},
+    "appCenterLabel": "Logitèca",
+    "@appCenterLabel": {},
+    "snapPageShareLinkCopiedMessage": "Ligam copiat al quichapapièrs",
+    "@snapPageShareLinkCopiedMessage": {},
+    "gamesPageTop": "Mai avalorats",
+    "@gamesPageTop": {},
+    "gamesPageFeatured": "Títols en evidéncia",
+    "@gamesPageFeatured": {},
+    "snapCategoryGameDev": "Desvolopament de jòcs",
+    "@snapCategoryGameDev": {},
+    "snapCategoryGameDevSlogan": "Desvolopament de jòcs",
+    "@snapCategoryGameDevSlogan": {},
+    "snapCategoryGameEmulators": "Emulators",
+    "@snapCategoryGameEmulators": {},
+    "snapCategoryGameEmulatorsSlogan": "Emulators",
+    "@snapCategoryGameEmulatorsSlogan": {},
+    "snapCategoryGnomeGames": "Jòcs GNOME",
+    "@snapCategoryGnomeGames": {},
+    "snapCategoryGnomeGamesSlogan": "Compilacion de jòcs de GNOME",
+    "@snapCategoryGnomeGamesSlogan": {},
+    "snapCategoryKdeGames": "Jòcs de KDE",
+    "@snapCategoryKdeGames": {},
+    "snapCategoryGameLaunchers": "Aviadors de jòcs",
+    "@snapCategoryGameLaunchers": {},
+    "snapCategoryGameContentCreationSlogan": "Creacion de contengut",
+    "@snapCategoryGameContentCreationSlogan": {},
+    "snapReportSelectAnOptionLabel": "Seleccionatz una opcion",
+    "@snapReportSelectAnOptionLabel": {},
+    "snapReportOptionCopyrightViolation": "Violacion de dreches d’autor o marca depausada",
+    "@snapReportOptionCopyrightViolation": {},
+    "snapReportDetailsLabel": "Se vos plau, provesissètz una rason mai detalhada per vòstre senhalament",
+    "@snapReportDetailsLabel": {},
+    "snapReportOptionalEmailAddressLabel": "Vòstra adreça electronica (opcionala)",
+    "@snapReportOptionalEmailAddressLabel": {},
+    "snapReportSubmitButtonLabel": "Enviar lo senhalament",
+    "@snapReportSubmitButtonLabel": {},
+    "snapReportPrivacyAgreementLabel": "En enviant aqueste formula, confirmi qu’ai legit e acceptat ",
+    "@snapReportPrivacyAgreementLabel": {},
+    "gamesPageTitle": "Jòcs",
+    "@gamesPageTitle": {},
+    "gamesPageBundles": "Paquets d’aplicacion",
+    "@gamesPageBundles": {},
+    "snapCategoryKdeGamesSlogan": "Compilacion de jòcs de KDE",
+    "@snapCategoryKdeGamesSlogan": {},
+    "snapReportCancelButtonLabel": "Anullar",
+    "@snapReportCancelButtonLabel": {},
+    "snapCategoryGameLaunchersSlogan": "Aviadors de jòcs",
+    "@snapCategoryGameLaunchersSlogan": {},
+    "snapReportOptionStoreViolation": "Violacion dels tèrmes de servici de Snap Store",
+    "@snapReportOptionStoreViolation": {},
+    "snapCategoryGameContentCreation": "Creacion de contengut",
+    "@snapCategoryGameContentCreation": {},
+    "snapReportLabel": "Senhalar {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportEnterValidEmailError": "Picatz una adreça electronica valida",
+    "@snapReportEnterValidEmailError": {},
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Avís de confidencialitat de Canonical ",
+    "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+    "debPageErrorNoPackageInfo": "Cap d’informacions sul paquet pas trobada",
+    "@debPageErrorNoPackageInfo": {},
+    "snapReportSelectReportReasonLabel": "Causissètz una rason pel senhalament d’aqueste snap",
+    "@snapReportSelectReportReasonLabel": {},
+    "snapReportDetailsHint": "Comentari...",
+    "@snapReportDetailsHint": {},
+    "snapReportPrivacyAgreementAndLabel": "e ",
+    "@snapReportPrivacyAgreementAndLabel": {},
+    "snapReportPrivacyAgreementPrivacyPolicy": "Politica de confidencialitat",
+    "@snapReportPrivacyAgreementPrivacyPolicy": {},
+    "externalResources": "Ressorsas addicionalas",
+    "@externalResources": {},
+    "externalResourcesDisclaimer": "Nòta : totas aquestas son d’aisinas extèrnas. Son pas la proprietat nimai distribuida per Canonical.",
+    "@externalResourcesDisclaimer": {},
+    "externalResourcesButtonLabel": "Ne descobrir mai",
+    "@externalResourcesButtonLabel": {},
+    "openInBrowser": "Dobrir dins lo navegador",
+    "@openInBrowser": {},
+    "installAll": "Tot installar",
+    "@installAll": {},
+    "allGamesButtonLabel": "Totes los jòcs",
+    "@allGamesButtonLabel": {},
+    "managePageUpdatedMonthsAgo": "Actualizat fa {n, plural, =1{{n} mes} other{{n} meses}}",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "Actualizat fa {n, plural, =1{{n} sermana} other{{n} setmanas}}",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Actualizat fa {n, plural, =1{{n} an} other{{n} ans}}",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "appstreamUrlTypeContribute": "Contribuir",
+    "@appstreamUrlTypeContribute": {},
+    "errorViewNetworkErrorTitle": "Se connectar a Internet",
+    "@errorViewNetworkErrorTitle": {},
+    "snapActionInstalledLabel": "Installada",
+    "@snapActionInstalledLabel": {},
+    "snapPageSizeLabel": "Talha",
+    "@snapPageSizeLabel": {},
+    "localDebWarningTitle": "Potencialament insegura",
+    "@localDebWarningTitle": {},
+    "localDebLearnMore": "Ne saber mai suls paquets tèrces",
+    "@localDebLearnMore": {},
+    "localDebWarningBody": "Aqueste paquet es provesit per un tèrç. L'installacion de paquets dempuèi l'exterior del Centre d'aplicacions pòt aumentar lo risc per vòstre sistèma e vòstras donadas personalas. Asseguratz-vos de vos fisar de la font abans de contunhar.",
+    "@localDebWarningBody": {},
+    "managePageInstallingLabel": "Installacion ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "appstreamUrlTypeVcsBrowser": "Font",
+    "@appstreamUrlTypeVcsBrowser": {},
+    "errorViewCheckStatusLabel": "Verificar l’estat",
+    "@errorViewCheckStatusLabel": {},
+    "errorViewNetworkErrorDescription": "Podèm pas cargar lo contengut del Centre d’aplicacions sens connexion Internet.",
+    "@errorViewNetworkErrorDescription": {},
+    "errorViewServerErrorAction": "Verificatz l’estat de las mesas a jorn o tornatz ensajar mai tard.",
+    "@errorViewServerErrorAction": {},
+    "errorViewUnknownErrorTitle": "Quicòm a trucat",
+    "@errorViewUnknownErrorTitle": {},
+    "errorViewUnknownErrorDescription": "O planhèm, mas sabèm pas quina error es.",
+    "@errorViewUnknownErrorDescription": {},
+    "errorViewUnknownErrorAction": "Podètz tornar ensajar ara, verificatz l’estat de las mesas a jorn o tornatz ensajar mai tard.",
+    "@errorViewUnknownErrorAction": {},
+    "managePageOwnUpdateDescriptionSoon": "Lo Centre d’aplicacions s’actualizarà automaticament en {time}.",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageNoInternet": "Impossible de contactar lo servidor, verificatz la connexion Internet o tornatz ensajar mai tard.",
+    "@managePageNoInternet": {},
+    "managePageOwnUpdateAvailable": "Mesa a jorn del Centre d’aplicacions disponibla",
+    "@managePageOwnUpdateAvailable": {},
+    "managePageOwnUpdateDescription": "Quand quitatz l’aplicacion, serà automaticament mesa a jorn.",
+    "@managePageOwnUpdateDescription": {},
+    "managePageOwnUpdateQuitButton": "Quitar per metre a jorn",
+    "@managePageOwnUpdateQuitButton": {},
+    "localDebDialogMessage": "Aqueste paquet es provesit per un tèrç e poiriá amenaçar vòstre sistèma e vòstras donadas personalas.",
+    "@localDebDialogMessage": {},
+    "localDebDialogConfirmation": "Volètz vertadièrament l’installar ?",
+    "@localDebDialogConfirmation": {},
+    "managePageTitle": "Gerir los snaps installats",
+    "@managePageTitle": {},
+    "managePageUpdatesFailed": "{n, plural, =1{Una mesa a jorn fracassada} other{{n} mesas a jorn fracassadas}}",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "Avèm pas pogut metre a jorn aquestas aplicacions perque son actualament en cors d'execucion.\n\n{snapList}\nQuand quitatz las aplicacions, se metràn a jorn automaticament.",
+    "@managePageUpdatesFailedBody": {},
+    "snapdExceptionRunningApps": "Avèm pas pogut metre a jorn {snapName} pr’amor qu’es actualament en execucion.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewNetworkErrorAction": "Verificatz la connexion e tornatz ensajar.",
+    "@errorViewNetworkErrorAction": {},
+    "errorViewServerErrorDescription": "O planhèm, rescontram actualament de problèmas amb lo Centre d’aplicacions.",
+    "@errorViewServerErrorDescription": {},
+    "snapCategoryArtAndDesignButtonLabel": "Començar a crear",
+    "@snapCategoryArtAndDesignButtonLabel": {},
+    "snapCategoryArtAndDesignSlogan": "De vòstre primièr croquís a la tòca finala, exploratz las aplicacions per l’art e la concepcion.",
+    "@snapCategoryArtAndDesignSlogan": {},
+    "managePageQuitToUpdate": "Quitar per metre a jorn",
+    "@managePageQuitToUpdate": {},
+    "managePageDebUpdatesMessage": "Las mesas a jorn dels paquets Debian son gerits pel Gestionari de mesas a jorn.",
+    "@managePageDebUpdatesMessage": {},
+    "managePageDocumentationLinkLabel": "Aprenètz cossí gerir los paquets Debian dins la documentacion.",
+    "@managePageDocumentationLinkLabel": {},
+    "debPageDocumentationLinkLabel": "Aprendre a gerir los paquets Debian",
+    "@debPageDocumentationLinkLabel": {},
+    "snapPageGalleryNextSemanticLabel": "Imatge seguent",
+    "@snapPageGalleryNextSemanticLabel": {},
+    "snapPageGalleryPreviousSemanticLabel": "Image precedent",
+    "@snapPageGalleryPreviousSemanticLabel": {},
+    "snapPageGalleryImageSemanticLabel": "Imatge {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageShareSemanticLabel": "Copiar lo ligam",
+    "@snapPageShareSemanticLabel": {},
+    "snapPageReportSemanticLabel": "Senhalar",
+    "@snapPageReportSemanticLabel": {},
+    "sectionExpandSemanticLabel": "Espandir {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Plegar {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardPublisherSemanticLabel": "Publicat per {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Notacion {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareLinkCopiedMessage": "Ligam copiat al quichapapièrs",
+    "@debPageShareLinkCopiedMessage": {},
+    "debPageShareSemanticLabel": "Copiar lo ligam",
+    "@debPageShareSemanticLabel": {}
 }
