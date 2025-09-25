@@ -104,48 +104,62 @@ class _SearchFieldState extends ConsumerState<SearchField> {
             elevation: 4.0,
             child: SizedBox(
               width: _optionsWidth,
-              child: ListView(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                children: [
-                  if (snapOptions.isNotEmpty) ...[
-                    ListTile(
-                      title: Text(
-                        l10n.searchFieldSnapSection,
-                        style: Theme.of(context).textTheme.bodyMedium,
+              child: FocusTraversalGroup(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  children: [
+                    if (snapOptions.isNotEmpty)
+                      Semantics(
+                        container: true,
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                l10n.searchFieldSnapSection,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                            ...snapOptions.map(
+                              (e) => _AutoCompleteTile(
+                                option: e,
+                                onTap: () => onSelected(e),
+                                selected: e == highlightedOption,
+                              ),
+                            ),
+                            const Divider(),
+                          ],
+                        ),
                       ),
-                    ),
-                    ...snapOptions.map(
-                      (e) => _AutoCompleteTile(
-                        option: e,
-                        onTap: () => onSelected(e),
-                        selected: e == highlightedOption,
+                    if (debOptions.isNotEmpty)
+                      Semantics(
+                        container: true,
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                l10n.searchFieldDebSection,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                            ...debOptions.map(
+                              (e) => _AutoCompleteTile(
+                                option: e,
+                                onTap: () => onSelected(e),
+                                selected: e == highlightedOption,
+                              ),
+                            ),
+                            const Divider(),
+                          ],
+                        ),
                       ),
+                    _AutoCompleteTile(
+                      option: searchOption,
+                      onTap: () => onSelected(searchOption),
+                      selected: searchOption == highlightedOption,
                     ),
-                    const Divider(),
                   ],
-                  if (debOptions.isNotEmpty) ...[
-                    ListTile(
-                      title: Text(
-                        l10n.searchFieldDebSection,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ),
-                    ...debOptions.map(
-                      (e) => _AutoCompleteTile(
-                        option: e,
-                        onTap: () => onSelected(e),
-                        selected: e == highlightedOption,
-                      ),
-                    ),
-                    const Divider(),
-                  ],
-                  _AutoCompleteTile(
-                    option: searchOption,
-                    onTap: () => onSelected(searchOption),
-                    selected: searchOption == highlightedOption,
-                  ),
-                ],
+                ),
               ),
             ),
           ),
@@ -228,33 +242,36 @@ class _AutoCompleteTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return switch (option) {
-      AutoCompleteSnapOption(snap: final snap) => ListTile(
-          selected: selected,
-          title: Text(snap.titleOrName),
-          leading: AppIcon(
-            size: _iconSize,
-            iconUrl: snap.iconUrl,
+    return Semantics(
+      selected: selected,
+      child: switch (option) {
+        AutoCompleteSnapOption(snap: final snap) => ListTile(
+            selected: selected,
+            title: Text(snap.titleOrName),
+            leading: AppIcon(
+              size: _iconSize,
+              iconUrl: snap.iconUrl,
+            ),
+            onTap: onTap,
           ),
-          onTap: onTap,
-        ),
-      AutoCompleteDebOption(deb: final deb) => ListTile(
-          selected: selected,
-          title: Text(deb.getLocalizedName()),
-          leading: AppIcon(
-            size: _iconSize,
-            iconUrl:
-                deb.icons.whereType<AppstreamRemoteIcon>().firstOrNull?.url,
+        AutoCompleteDebOption(deb: final deb) => ListTile(
+            selected: selected,
+            title: Text(deb.getLocalizedName()),
+            leading: AppIcon(
+              size: _iconSize,
+              iconUrl:
+                  deb.icons.whereType<AppstreamRemoteIcon>().firstOrNull?.url,
+            ),
+            onTap: onTap,
           ),
-          onTap: onTap,
-        ),
-      AutoCompleteSearchOption(query: final query) => ListTile(
-          selected: selected,
-          title: Text(
-            l10n.searchFieldSearchForLabel(query),
+        AutoCompleteSearchOption(query: final query) => ListTile(
+            selected: selected,
+            title: Text(
+              l10n.searchFieldSearchForLabel(query),
+            ),
+            onTap: onTap,
           ),
-          onTap: onTap,
-        ),
-    };
+      },
+    );
   }
 }
