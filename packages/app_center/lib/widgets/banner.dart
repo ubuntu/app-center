@@ -282,10 +282,6 @@ class ToolsBanner extends ConsumerWidget {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.white,
                       side: const BorderSide(color: Colors.white),
-                      // padding: const EdgeInsets.symmetric(
-                      //   horizontal: 16,
-                      //   vertical: 8,
-                      // ),
                     ),
                     child: Text(buttonText),
                   ),
