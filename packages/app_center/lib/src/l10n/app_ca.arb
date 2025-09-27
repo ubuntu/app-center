@@ -476,5 +476,57 @@
     "errorViewNetworkErrorTitle": "Connecta a internet",
     "@errorViewNetworkErrorTitle": {},
     "errorViewServerErrorAction": "Comproveu l'estat de les actualitzacions i torneu-ho a provar més tard.",
-    "@errorViewServerErrorAction": {}
+    "@errorViewServerErrorAction": {},
+    "snapPageGalleryNextSemanticLabel": "Imatge següent",
+    "@snapPageGalleryNextSemanticLabel": {},
+    "snapPageGalleryPreviousSemanticLabel": "Imatge anterior",
+    "@snapPageGalleryPreviousSemanticLabel": {},
+    "snapPageGalleryImageSemanticLabel": "Imatge {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageShareSemanticLabel": "Copia l'enllaç",
+    "@snapPageShareSemanticLabel": {},
+    "snapPageReportSemanticLabel": "Informa",
+    "@snapPageReportSemanticLabel": {},
+    "sectionExpandSemanticLabel": "Expandeix {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Col·lapsa {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardPublisherSemanticLabel": "Publicat per {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Valoració {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareLinkCopiedMessage": "S'ha copiat l'enllaç al portaretalls",
+    "@debPageShareLinkCopiedMessage": {},
+    "debPageShareSemanticLabel": "Copia l'enllaç",
+    "@debPageShareSemanticLabel": {}
 }
