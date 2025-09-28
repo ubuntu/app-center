@@ -337,8 +337,5 @@ void main() {
         throwsA(isA<AssertionError>()),
       );
     });
-
-    // Note: Test for change ID update is skipped due to timing issues in test environment
-    // The functionality works correctly in the actual implementation
   });
 }
