@@ -157,8 +157,6 @@ class SnapModel extends _$SnapModel {
     ref.read(filteredLocalSnapsProvider.notifier).removeFromList(snapName);
   }
 
-  /// Reverts the snap to its previous version.
-  /// No UI side-effects here; UI should confirm and handle errors.
   Future<void> revert() async {
     assert(state.hasValue, 'The snap must be loaded before reverting it');
     assert(
