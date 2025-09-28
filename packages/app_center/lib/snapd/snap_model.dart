@@ -1,19 +1,15 @@
 import 'dart:async';
 
-import 'package:app_center/l10n.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
-import 'package:app_center/widgets/dialogs.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:yaru/yaru.dart';
 
 part 'snap_model.g.dart';
 
@@ -162,76 +158,13 @@ class SnapModel extends _$SnapModel {
   }
 
   /// Reverts the snap to its previous version.
-  /// Shows a confirmation dialog before proceeding with the revert.
-  Future<void> revert([BuildContext? context]) async {
+  /// No UI side-effects here; UI should confirm and handle errors.
+  Future<void> revert() async {
     assert(state.hasValue, 'The snap must be loaded before reverting it');
     assert(
       state.value!.isInstalled, // safe: hasValue asserted above
       'The snap must be installed before reverting it',
     );
-
-    // Compute current and previous version/revision for the dialog.
-    LocalRevisionInfo? current;
-    LocalRevisionInfo? previous;
-    try {
-      final revisions = await _snapd.getLocalRevisions(snapName);
-      if (revisions.isNotEmpty) {
-        current = revisions.firstWhere(
-          (r) => r.active,
-          orElse: () => revisions.first,
-        );
-        previous =
-            revisions.firstWhere((r) => !r.active, orElse: () => current!);
-        if (previous == current || previous.active) {
-          previous = null; // No real previous available
-        }
-      }
-    } on Object {
-      // If we fail to fetch revisions, fall back to generic dialog text
-    }
-
-    // If context is provided, show confirmation dialog with version info
-    if (context != null) {
-      if (!context.mounted) return;
-      final l10n = AppLocalizations.of(context);
-      final title = (current != null && previous != null)
-          ? 'Revert from ${current.version} (rev ${current.revision}) to ${previous.version} (rev ${previous.revision})?'
-          : l10n.snapRevertConfirmTitle;
-
-      final confirmed = await showYaruInfoDialog<bool>(
-        context: context,
-        type: YaruInfoType.warning,
-        actions: [
-          DialogAction(
-            value: false,
-            label: l10n.snapRevertConfirmCancel,
-          ),
-          DialogAction(
-            value: true,
-            label: l10n.snapRevertConfirmRevert,
-            isPrimary: true,
-          ),
-        ],
-        child: Builder(
-          builder: (dialogContext) => Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: Theme.of(dialogContext).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 8),
-              Text(l10n.snapRevertConfirmMessage),
-            ],
-          ),
-        ),
-      );
-
-      if (confirmed != true) {
-        return; // User cancelled the revert
-      }
-    }
 
     // Optimistically hide the Revert action to prevent multiple consecutive reverts
     final currentData = state.value!;
@@ -242,23 +175,9 @@ class SnapModel extends _$SnapModel {
       _updateChangeId(changeId);
       await _listenUntilDone(changeId, ref);
     } on SnapdException catch (e) {
-      // If snapd says there is no revision to revert to, show a friendly message
+      // If snapd says there is no revision to revert to, keep UI consistent
       if (e.statusCode == 400 &&
           e.message.contains('no revision to revert to')) {
-        if (context != null) {
-          if (!context.mounted) return;
-          await showYaruInfoDialog<void>(
-            context: context,
-            type: YaruInfoType.danger,
-            actions: [
-              DialogAction(value: null, label: 'OK', isPrimary: true),
-            ],
-            child: const Text(
-              'No previous local revision is available to revert to.',
-            ),
-          );
-        }
-        // Keep the revert option hidden (matches product decision)
         ref.invalidateSelf();
         return;
       }
