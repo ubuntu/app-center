@@ -162,10 +162,10 @@ Future<void> confirmRevertAndRun(
     actions: [
       DialogAction(value: false, label: l10n.snapRevertConfirmCancel),
       DialogAction(
-          value: true,
-          label: l10n.snapRevertConfirmRevert,
-          isPrimary: true,
-        ),
+        value: true,
+        label: l10n.snapRevertConfirmRevert,
+        isPrimary: true,
+      ),
     ],
     child: confirmDialogContent(
       context,
