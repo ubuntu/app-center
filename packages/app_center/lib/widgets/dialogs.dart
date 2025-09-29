@@ -134,9 +134,12 @@ Future<void> confirmRevertAndRun(
   // Try to compute version/revision information for the dialog title
   String title;
   try {
-    final revisions = await getService<SnapdService>().getLocalRevisions(snapData.name);
-    final current = revisions.firstWhere((r) => r.active, orElse: () => revisions.first);
-    final previous = revisions.firstWhere((r) => !r.active, orElse: () => current);
+    final revisions =
+        await getService<SnapdService>().getLocalRevisions(snapData.name);
+    final current =
+        revisions.firstWhere((r) => r.active, orElse: () => revisions.first);
+    final previous =
+        revisions.firstWhere((r) => !r.active, orElse: () => current);
     if (!previous.active && previous != current) {
       title = l10n.snapRevertConfirmTitleWithVersions(
         current.version,
@@ -158,7 +161,8 @@ Future<void> confirmRevertAndRun(
     type: YaruInfoType.warning,
     actions: [
       DialogAction(value: false, label: l10n.snapRevertConfirmCancel),
-      DialogAction(value: true, label: l10n.snapRevertConfirmRevert, isPrimary: true),
+      DialogAction(
+          value: true, label: l10n.snapRevertConfirmRevert, isPrimary: true),
     ],
     child: confirmDialogContent(
       context,
@@ -182,7 +186,5 @@ Future<void> confirmRevertAndRun(
       return;
     }
     rethrow;
-
-
   }
 }
