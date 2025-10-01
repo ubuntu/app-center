@@ -76,10 +76,10 @@ packages:
     dependency: transitive
     description:
       name: assorted_layout_widgets
-      sha256: "86eacbd25f7dd14a8182003935b07d94205ae4b0e6bedee03bde1404746bb7a9"
+      sha256: "86c6942f569f7f70bfb03b9cb0ada9bf5aee72264aaefdb0e2be0fbee70cfb06"
       url: "https://pub.dev"
     source: hosted
-    version: "10.7.0"
+    version: "11.0.0"
   async:
     dependency: transitive
     description:
@@ -1508,10 +1508,10 @@ packages:
     dependency: transitive
     description:
       name: window_manager
-      sha256: "732896e1416297c63c9e3fb95aea72d0355f61390263982a47fd519169dc5059"
+      sha256: "7eb6d6c4164ec08e1bf978d6e733f3cebe792e2a23fb07cbca25c2872bfdbdcd"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.3"
+    version: "0.5.1"
   xdg_directories:
     dependency: "direct main"
     description:
@@ -1540,10 +1540,10 @@ packages:
     dependency: "direct main"
     description:
       name: yaru
-      sha256: d9149e87ddcbabd6214fe629bfd0b6a94b9d81ca55a5618949ffc47a3d8a7b69
+      sha256: "6a29b6b0bd51d7dfe6c535fee095bcff453c5e49f03f2bc9f844ff809632b954"
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.0"
+    version: "8.2.0"
   yaru_test:
     dependency: "direct main"
     description:
@@ -1556,42 +1556,42 @@ packages:
     dependency: "direct main"
     description:
       name: yaru_window
-      sha256: bc2a1df3c6f33477b47f84bf0a9325df411dbb7bd483ac88e5bc1c019d2f2560
+      sha256: "58539a9abe9901891dadce142c7a5d303920b780dd0f7bd21f076a80adeeb744"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1+1"
+    version: "0.2.2"
   yaru_window_linux:
     dependency: transitive
     description:
       name: yaru_window_linux
-      sha256: "46a1a0743dfd45794cdaf8c5b3a48771ab73632b50a693f59c83b07988e96689"
+      sha256: "885ad0ba5832d350c42862ce02da478599ef550280eb7f6b15285481fcff6f53"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1"
+    version: "0.2.2"
   yaru_window_manager:
     dependency: transitive
     description:
       name: yaru_window_manager
-      sha256: b36c909fa082a7cb6e2f259d4357e16f08d3d8ab086685b81d1916e457100d1e
+      sha256: "6288fd6ccd8bb9d5be56073c6f277e2da08dd38e346507bf88bc9332b08dd180"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.2+1"
+    version: "0.1.3"
   yaru_window_platform_interface:
     dependency: transitive
     description:
       name: yaru_window_platform_interface
-      sha256: "93493d7e17a9e887ffa94c518bc5a4b3eb5425c009446e3294c689cb1a87b7e1"
+      sha256: d514387cc96750112ecf1933b6f12a1912beca199178d00052c0e87a94e232fa
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.2+1"
+    version: "0.1.3"
   yaru_window_web:
     dependency: transitive
     description:
       name: yaru_window_web
-      sha256: "31468aeb515f72d5eeddcd62773094a4f48fee96f7f0494f8ce53ad3b38054f1"
+      sha256: cf4d79e0760fbdcb78d4bbca3b5563f99518629224b9e5611f0ebd592befe1d9
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.3+1"
+    version: "0.0.4"
 sdks:
   dart: ">=3.8.0 <4.0.0"
-  flutter: ">=3.32.0"
+  flutter: ">=3.32.7"
