@@ -5,7 +5,7 @@ publish_to: "none"
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
-  flutter: ">=3.35.3"
+  flutter: ">=3.24.3"
 
 dependencies:
   app_center_ratings_client: ^1.0.0
@@ -52,7 +52,7 @@ dependencies:
   ubuntu_widgets: ^0.7.2
   url_launcher: ^6.3.0
   xdg_directories: ^1.0.4
-  yaru: ^8.3.0
+  yaru: ^8.0.0
   yaru_test: ^0.3.2
   yaru_window: ^0.2.1+1
 
