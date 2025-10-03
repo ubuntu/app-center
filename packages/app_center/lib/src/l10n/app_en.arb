@@ -350,5 +350,9 @@
     "errorViewServerErrorAction": "Check the status for updates or try again later.",
     "errorViewUnknownErrorTitle": "Something went wrong",
     "errorViewUnknownErrorDescription": "We're sorry, but we’re not sure what the error is.",
-    "errorViewUnknownErrorAction": "You can retry now, check the status for updates, or try again later."
+    "errorViewUnknownErrorAction": "You can retry now, check the status for updates, or try again later.",
+    "codecPageTitle": "Missing media codecs",
+    "codecPageDescription": "You need to install the following codecs for handling certain video and audio formats:",
+    "codecProprietaryDisclaimer": "Some of the recommended codecs could be proprietary.",
+    "codecInstallAllButton": "Install recommended codecs"
 }
