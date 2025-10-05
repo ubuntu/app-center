@@ -463,7 +463,7 @@
     "@explorePageCategoriesLabel": {},
     "managePageDescription": "التحقق من التحديثات المتوفرة وتحديث تطبيقاتك وإدارة حالة جميع تطبيقاتك.",
     "@managePageDescription": {},
-    "managePageDebUpdatesMessage": "يتم التعامل مع تحديثات حزمة الDebian بواسطة محدث البرمجيّات.",
+    "managePageDebUpdatesMessage": "يتم التعامل مع تحديثات حزمة دبيان بواسطة محدث البرمجيّات.",
     "@managePageDebUpdatesMessage": {},
     "openInBrowser": "فتح في المتصفح",
     "@openInBrowser": {},
@@ -495,7 +495,7 @@
     },
     "snapPageShareSemanticLabel": "نسخ الرابط",
     "@snapPageShareSemanticLabel": {},
-    "snapPageReportSemanticLabel": "إبلاغ",
+    "snapPageReportSemanticLabel": "تبليغ",
     "@snapPageReportSemanticLabel": {},
     "sectionExpandSemanticLabel": "توسيع {section}",
     "@sectionExpandSemanticLabel": {
