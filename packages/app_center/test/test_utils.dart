@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/deb_model.dart';
+import 'package:app_center/gstreamer/gstreamer_model.dart';
+import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
@@ -131,6 +133,17 @@ DebModel createMockDebModel({
   when(model.activeTransactionId).thenReturn(null);
   when(model.errorStream)
       .thenAnswer((_) => errorStream ?? const Stream.empty());
+  return model;
+}
+
+@GenerateMocks([GstreamerModel])
+GstreamerModel createMockGstreamerModel({
+  required List<GstResource> resources,
+}) {
+  final model = MockGstreamerModel();
+  when(model.resources).thenReturn(resources);
+  when(model.state)
+      .thenReturn(AsyncValue.data(GStreamerData(packageInfos: [])));
   return model;
 }
 
@@ -288,6 +301,8 @@ MockPackageKitTransaction createMockPackageKitTransaction({
       .thenAnswer((_) async => unawaited(emitEvents()));
   when(transaction.getDetailsLocal(any))
       .thenAnswer((_) async => unawaited(emitEvents()));
+  when(transaction.whatProvides(any))
+      .thenAnswer((_) async => unawaited(emitEvents()));
   return transaction;
 }
 
@@ -362,6 +377,7 @@ MockAppstreamService createMockAppstreamService({
 MockPackageKitService createMockPackageKitService({
   PackageKitPackageInfo? packageInfo,
   PackageKitPackageDetails? packageDetails,
+  Iterable<PackageKitPackageEvent>? packageEvents,
   int transactionId = 0,
   Future<void>? waitTransaction,
   Stream<PackageKitServiceError> errorStream = const Stream.empty(),
@@ -370,7 +386,9 @@ MockPackageKitService createMockPackageKitService({
   when(packageKit.resolve(any)).thenAnswer((_) async => packageInfo);
   when(packageKit.getDetailsLocal(any)).thenAnswer((_) async => packageDetails);
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.installAll(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installLocal(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.whatProvides(any)).thenAnswer((_) async => packageEvents!);
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);
   when(packageKit.waitTransaction(any))

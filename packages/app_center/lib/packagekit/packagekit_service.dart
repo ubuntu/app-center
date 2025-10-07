@@ -134,6 +134,8 @@ class PackageKitService {
         action: (transaction) => transaction.installPackages([packageId]),
       );
 
+  /// Creates a transaction that installs all of the given packages by
+  /// `packageId` and returns the transaction ID.
   Future<int> installAll(Iterable<PackageKitPackageId> packageId) async =>
       _createTransaction(
         action: (transaction) => transaction.installPackages(packageId),
@@ -146,6 +148,7 @@ class PackageKitService {
             transaction.installFiles([_getAbsolutePath(path)]),
       );
 
+  /// Get the packages that provide the given id (usually a codec string).
   Future<Iterable<PackageKitPackageInfo>> whatProvides(String id) async {
     final info = <PackageKitPackageInfo>[];
     await _createTransaction(

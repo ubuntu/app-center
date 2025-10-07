@@ -1,6 +1,5 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/deb/deb_providers.dart';
-import 'package:app_center/error/error_view.dart';
 import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/gstreamer/gstreamer.dart';
 import 'package:app_center/gstreamer/gstreamer_model.dart';
@@ -43,8 +42,17 @@ class GStreamerPage extends ConsumerWidget {
               padding: EdgeInsetsGeometry.symmetric(horizontal: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children:
-                    resources.map((r) => Text('\u2022  ${r.name}')).toList(),
+                children: resources
+                    .map(
+                      (r) => Row(
+                        children: [
+                          Text('\u2022'),
+                          SizedBox(width: kSpacingSmall),
+                          Text(r.name),
+                        ],
+                      ),
+                    )
+                    .toList(),
               ),
             ),
             const SizedBox(height: kPagePadding),
@@ -70,10 +78,7 @@ class _GstreamerActions extends ConsumerWidget {
 
     return gstreamer.when(
       data: (data) => _GStreamerActionButton(resources: resources, data: data),
-      error: (error, stackTrace) => ErrorView(
-        error: error,
-        onRetry: () => ref.invalidate(gstreamerModelProvider(resources)),
-      ),
+      error: (error, stackTrace) => Text(error.toString()),
       loading: () => YaruSplitButton(
         child: Stack(
           alignment: AlignmentDirectional.center,
