@@ -1,32 +1,74 @@
 import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:collection/collection.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
+part 'gstreamer_model.freezed.dart';
 part 'gstreamer_model.g.dart';
+
+@freezed
+class GStreamerData with _$GStreamerData {
+  factory GStreamerData({
+    required List<PackageKitPackageEvent> packageInfos,
+    int? activeTransactionId,
+  }) = _GStreamerData;
+
+  GStreamerData._();
+
+  bool get isInstalled =>
+      packageInfos.every((p) => p.info == PackageKitInfo.installed);
+
+  bool get canInstall => !isInstalled && activeTransactionId == null;
+  bool get canCancel => activeTransactionId != null;
+}
 
 @riverpod
 class GstreamerModel extends _$GstreamerModel {
   @override
-  Future<int?> build(
+  Future<GStreamerData> build(
     List<GstResource> resources,
   ) async {
     final packageKit = getService<PackageKitService>();
     await packageKit.activateService();
 
-    return null;
+    return _getPackageInfos();
   }
 
-  Future<void> installAll() async {
+  Future<GStreamerData> _getPackageInfos() async {
     final packageKit = getService<PackageKitService>();
 
     final providers = await Future.wait(
       resources.map((resource) => packageKit.whatProvides(resource.id)),
     );
     final packageIds = providers.flattened.map((p) => p.packageId);
-    state = AsyncData(await packageKit.installAll(packageIds));
-    await packageKit.waitTransaction(state.value!);
-    state = AsyncData(null);
+    final packages =
+        await Future.wait(packageIds.map((id) => packageKit.resolve(id.name)));
+    return GStreamerData(packageInfos: packages.nonNulls.toList());
+  }
+
+  Future<void> installAll() async {
+    final packageKit = getService<PackageKitService>();
+
+    final installTransaction = await packageKit
+        .installAll(state.value!.packageInfos.nonNulls.map((p) => p.packageId));
+    state = AsyncData(
+      state.value!.copyWith(activeTransactionId: installTransaction),
+    );
+    await packageKit.waitTransaction(installTransaction);
+    state = AsyncData(await _getPackageInfos());
+  }
+
+  Future<void> cancel() async {
+    assert(
+      state.value?.activeTransactionId != null,
+      'cancel() called without active transaction',
+    );
+
+    final packageKit = getService<PackageKitService>();
+    await packageKit.cancelTransaction(state.value!.activeTransactionId!);
+    state = AsyncData(await _getPackageInfos());
   }
 }

@@ -1,4 +1,7 @@
+import 'package:app_center/constants.dart';
+import 'package:app_center/deb/deb_providers.dart';
 import 'package:app_center/error/error_view.dart';
+import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/gstreamer/gstreamer.dart';
 import 'package:app_center/gstreamer/gstreamer_model.dart';
 import 'package:app_center/l10n.dart';
@@ -66,19 +69,114 @@ class _GstreamerActions extends ConsumerWidget {
     final gstreamer = ref.watch(gstreamerModelProvider(resources));
 
     return gstreamer.when(
-      data: (_) => YaruSplitButton(
-        onPressed: gstreamer.value == null
+      data: (data) => _GStreamerActionButton(resources: resources, data: data),
+      error: (error, stackTrace) => ErrorView(
+        error: error,
+        onRetry: () => ref.invalidate(gstreamerModelProvider(resources)),
+      ),
+      loading: () => YaruSplitButton(
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            Visibility(
+              visible: false,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              child: Text(l10n.codecInstallAllButton),
+            ),
+            Center(
+              child: SizedBox(
+                height: kLoaderHeight,
+                child: YaruCircularProgressIndicator(strokeWidth: 2),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GStreamerActionButton extends ConsumerWidget {
+  const _GStreamerActionButton({
+    required this.resources,
+    required this.data,
+  });
+
+  final List<GstResource> resources;
+  final GStreamerData data;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+
+    if (data.canInstall) {
+      return YaruSplitButton(
+        onPressed: data.canInstall
             ? () => ref
                 .read(gstreamerModelProvider(resources).notifier)
                 .installAll()
             : null,
         child: Text(l10n.codecInstallAllButton),
+      );
+    }
+
+    if (data.canCancel) {
+      return Row(
+        children: [
+          _TransactionSpinner(activeTransactionId: data.activeTransactionId!),
+          YaruSplitButton.outlined(
+            onPressed: data.canCancel
+                ? () => ref
+                    .read(gstreamerModelProvider(resources).notifier)
+                    .cancel()
+                : null,
+            child: Text(l10n.snapActionCancelLabel),
+          ),
+        ].separatedBy(const SizedBox(width: kSpacing)),
+      );
+    }
+
+    return YaruSplitButton.outlined(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.check),
+          Text(l10n.snapActionInstalledLabel),
+        ].separatedBy(const SizedBox(width: kSpacingSmall)),
       ),
-      error: (error, stackTrace) => ErrorView(
-        error: error,
-        onRetry: () => ref.invalidate(gstreamerModelProvider(resources)),
-      ),
-      loading: SizedBox.shrink,
+    );
+  }
+}
+
+class _TransactionSpinner extends ConsumerWidget {
+  const _TransactionSpinner({required this.activeTransactionId});
+
+  final int activeTransactionId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final transaction =
+        ref.watch(transactionProvider(activeTransactionId)).valueOrNull;
+
+    return Row(
+      children: [
+        SizedBox.square(
+          dimension: kLoaderHeight,
+          child: YaruCircularProgressIndicator(
+            value: (transaction?.percentage ?? 0) / 100.0,
+            strokeWidth: 2,
+          ),
+        ),
+        const SizedBox(width: kSpacingSmall),
+        Text(
+          l10n.snapActionInstallingLabel,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
     );
   }
 }
