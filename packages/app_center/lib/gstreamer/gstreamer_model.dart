@@ -1,6 +1,7 @@
 import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:collection/collection.dart';
+import 'package:dbus/dbus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -49,6 +50,24 @@ class GstreamerModel extends _$GstreamerModel {
     return GStreamerData(packageInfos: packages.nonNulls.toList());
   }
 
+  Future<void> _emitInstallationFinishedSignal() async {
+    final client = DBusClient.session();
+    final object = DBusObject(
+      DBusObjectPath('/io/snapcraft/Store/PackageKitInstaller/GStreamer'),
+    );
+
+    await client.registerObject(object);
+    await object.emitSignal(
+      'io.snapcraft.Store.PackageKitInstaller',
+      'InstallationFinished',
+      [
+        DBusArray.string(resources.map((r) => r.id)),
+      ],
+    );
+
+    await client.close();
+  }
+
   Future<void> installAll() async {
     final packageKit = getService<PackageKitService>();
 
@@ -58,7 +77,13 @@ class GstreamerModel extends _$GstreamerModel {
       state.value!.copyWith(activeTransactionId: installTransaction),
     );
     await packageKit.waitTransaction(installTransaction);
-    state = AsyncData(await _getPackageInfos());
+
+    final latestPackageInfo = await _getPackageInfos();
+    if (latestPackageInfo.isInstalled) {
+      await _emitInstallationFinishedSignal();
+    }
+
+    state = AsyncData(latestPackageInfo);
   }
 
   Future<void> cancel() async {
