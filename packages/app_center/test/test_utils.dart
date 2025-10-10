@@ -141,7 +141,7 @@ GstreamerModel createMockGstreamerModel({
   required List<GstResource> resources,
 }) {
   final model = MockGstreamerModel();
-  when(model.resources).thenReturn(resources);
+  when(model.resources).thenReturn(GstResourceCollection(resources));
   when(model.state)
       .thenReturn(AsyncValue.data(GStreamerData(packageInfos: [])));
   return model;

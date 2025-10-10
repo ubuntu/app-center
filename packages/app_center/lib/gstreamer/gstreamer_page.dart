@@ -74,7 +74,8 @@ class _GstreamerActions extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final gstreamer = ref.watch(gstreamerModelProvider(resources));
+    final gstreamer =
+        ref.watch(gstreamerModelProvider(GstResourceCollection(resources)));
 
     return gstreamer.when(
       data: (data) => _GStreamerActionButton(resources: resources, data: data),
@@ -120,7 +121,10 @@ class _GStreamerActionButton extends ConsumerWidget {
       return YaruSplitButton(
         onPressed: data.canInstall
             ? () => ref
-                .read(gstreamerModelProvider(resources).notifier)
+                .read(
+                  gstreamerModelProvider(GstResourceCollection(resources))
+                      .notifier,
+                )
                 .installAll()
             : null,
         child: Text(l10n.codecInstallAllButton),
@@ -134,7 +138,10 @@ class _GStreamerActionButton extends ConsumerWidget {
           YaruSplitButton.outlined(
             onPressed: data.canCancel
                 ? () => ref
-                    .read(gstreamerModelProvider(resources).notifier)
+                    .read(
+                      gstreamerModelProvider(GstResourceCollection(resources))
+                          .notifier,
+                    )
                     .cancel()
                 : null,
             child: Text(l10n.snapActionCancelLabel),

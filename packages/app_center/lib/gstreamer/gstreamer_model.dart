@@ -30,7 +30,7 @@ class GStreamerData with _$GStreamerData {
 class GstreamerModel extends _$GstreamerModel {
   @override
   Future<GStreamerData> build(
-    List<GstResource> resources,
+    GstResourceCollection resources,
   ) async {
     final packageKit = getService<PackageKitService>();
     await packageKit.activateService();
@@ -42,7 +42,7 @@ class GstreamerModel extends _$GstreamerModel {
     final packageKit = getService<PackageKitService>();
 
     final providers = await Future.wait(
-      resources.map((resource) => packageKit.whatProvides(resource.id)),
+      resources.list.map((resource) => packageKit.whatProvides(resource.id)),
     );
     final packageIds = providers.flattened.map((p) => p.packageId);
     final packages =
@@ -61,7 +61,7 @@ class GstreamerModel extends _$GstreamerModel {
       'io.snapcraft.Store.PackageKitInstaller',
       'InstallationFinished',
       [
-        DBusArray.string(resources.map((r) => r.id)),
+        DBusArray.string(resources.list.map((r) => r.id)),
       ],
     );
 
