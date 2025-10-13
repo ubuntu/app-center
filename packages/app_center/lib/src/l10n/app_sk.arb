@@ -115,7 +115,7 @@
     "@snapCategoryDefaultButtonLabel": {},
     "managePageShowDetailsLabel": "Zobraziť podrobnosti",
     "@managePageShowDetailsLabel": {},
-    "snapPageDownloadSizeLabel": "Veľkosť preberania",
+    "snapPageDownloadSizeLabel": "Veľkosť na stiahnutie",
     "@snapPageDownloadSizeLabel": {},
     "snapCategoryProductivityButtonLabel": "Objavte zbierku produktivity",
     "@snapCategoryProductivityButtonLabel": {},
@@ -135,7 +135,7 @@
     "@snapCategoryFeaturedSlogan": {},
     "snapSortOrderInstalledDateAsc": "Najmenej aktualizované",
     "@snapSortOrderInstalledDateAsc": {},
-    "snapCategoryProductivitySlogan": "Vyškrtnite jednu vec zo zoznamu úloh",
+    "snapCategoryProductivitySlogan": "Zvládnite viac s nástrojmi na produktivitu",
     "@snapCategoryProductivitySlogan": {},
     "appstreamUrlTypeDonation": "Darovať",
     "@appstreamUrlTypeDonation": {},
@@ -143,7 +143,7 @@
     "@snapRatingsBandVeryGood": {},
     "snapActionRemoveLabel": "Odinštalovať",
     "@snapActionRemoveLabel": {},
-    "appstreamUrlTypeHelp": "Pomocník",
+    "appstreamUrlTypeHelp": "Pomoc",
     "@appstreamUrlTypeHelp": {},
     "snapCategoryPersonalisation": "Prispôsobenie",
     "@snapCategoryPersonalisation": {},
@@ -191,7 +191,7 @@
             }
         }
     },
-    "snapCategoryGamesSlogan": "Všetko pre váš herný večer",
+    "snapCategoryGamesSlogan": "Všetko, čo potrebujete na herný večer",
     "@snapCategoryGamesSlogan": {},
     "snapActionSwitchChannelLabel": "Prepnúť kanál",
     "@snapActionSwitchChannelLabel": {},
@@ -211,7 +211,7 @@
     "@searchPageNoResultsCategoryHint": {},
     "snapSortOrderAlphabeticalDesc": "Abecedy (od Z po A)",
     "@snapSortOrderAlphabeticalDesc": {},
-    "searchPageNoResultsCategory": "Ľutujeme, v tejto kategórii sme nenašli žiadne balíky",
+    "searchPageNoResultsCategory": "Ľutujeme, v tejto kategórii sa nenašli žiadne balíky",
     "@searchPageNoResultsCategory": {},
     "snapRatingsVotes": "Hlasov ({n})",
     "@snapRatingsVotes": {
@@ -243,7 +243,7 @@
     },
     "snapConfinementDevmode": "Vývojové",
     "@snapConfinementDevmode": {},
-    "searchPageNoResults": "Nenašli sa žiadne výsledky pre „{query}“",
+    "searchPageNoResults": "Neboli nájdené žiadne výsledky pre „{query}“",
     "@searchPageNoResults": {
         "placeholders": {
             "query": {
@@ -269,7 +269,7 @@
     "@snapSortOrderRelevance": {},
     "snapSortOrderDownloadSizeDesc": "Veľkosti (od najväčšieho po najmenší)",
     "@snapSortOrderDownloadSizeDesc": {},
-    "appstreamUrlTypeBugtracker": "Sledovanie chýb",
+    "appstreamUrlTypeBugtracker": "Nahlasovanie chýb",
     "@appstreamUrlTypeBugtracker": {},
     "managePageShowSystemSnapsLabel": "Zobraziť systémové snapy",
     "@managePageShowSystemSnapsLabel": {},
@@ -361,7 +361,7 @@
     "@snapReportOptionStoreViolation": {},
     "snapCategoryGnomeGamesSlogan": "Zostava hier GNOME",
     "@snapCategoryGnomeGamesSlogan": {},
-    "externalResourcesDisclaimer": "Poznámka: Toto všetko sú externé nástroje. Nie sú vlastnené ani distribuované spoločnosťou Canonical.",
+    "externalResourcesDisclaimer": "Poznámka: Všetky tieto nástroje sú externé. Nie sú vo vlastníctve ani spravované spoločnosťou Canonical.",
     "@externalResourcesDisclaimer": {},
     "managePageUpdatedMonthsAgo": "Obnovené pred {n, plural, =1{{n} mesiacom} other{{n} mesiacmi}}",
     "@managePageUpdatedMonthsAgo": {
@@ -391,7 +391,7 @@
     "@appstreamUrlTypeContribute": {},
     "appstreamUrlTypeVcsBrowser": "Zdroj",
     "@appstreamUrlTypeVcsBrowser": {},
-    "localDebWarningBody": "Tento balík poskytuje tretia strana. Inštalácia balíkov mimo Centra aplikácií môže zvýšiť riziko pre váš systém a osobné údaje. Pred pokračovaním sa uistite, že zdroju dôverujete.",
+    "localDebWarningBody": "Tento balík poskytuje tretia strana. Inštalácia balíkov mimo Centra aplikácií môže zvýšiť riziko pre váš systém a osobné údaje. Pred pokračovaním sa uistite, že zdroj je dôveryhodný.",
     "@localDebWarningBody": {},
     "localDebDialogMessage": "Tento balík poskytuje tretia strana a môže ohroziť váš systém a osobné údaje.",
     "@localDebDialogMessage": {},
@@ -415,7 +415,7 @@
     "@errorViewUnknownErrorTitle": {},
     "errorViewUnknownErrorDescription": "Ľutujeme, ale nie sme si istí, v čom je chyba.",
     "@errorViewUnknownErrorDescription": {},
-    "errorViewUnknownErrorAction": "Môžete to skúsiť znova, skontrolovať stav aktualizácií alebo to skúsiť znova neskôr.",
+    "errorViewUnknownErrorAction": "Môžete to skúsiť znova, skontrolovať stav aktualizácií alebo to skúste neskôr.",
     "@errorViewUnknownErrorAction": {},
     "errorViewCheckStatusLabel": "Skontrolovať stav",
     "@errorViewCheckStatusLabel": {},
@@ -431,7 +431,7 @@
             }
         }
     },
-    "errorViewServerErrorAction": "Skontrolujte stav aktualizácií alebo to skúste znova neskôr.",
+    "errorViewServerErrorAction": "Skontrolujte stav služby alebo to skúste znova neskôr.",
     "@errorViewServerErrorAction": {},
     "managePageNoInternet": "Nebolo možné sa pripojiť k serveru, skontrolujte internetové pripojenie alebo to skúste znova neskôr.",
     "@managePageNoInternet": {},
@@ -463,7 +463,7 @@
     "@managePageUpdatesFailedBody": {},
     "managePageTitle": "Ovládajte nainštalované snapy",
     "@managePageTitle": {},
-    "snapCategoryArtAndDesignSlogan": "Od prvého náčrtu až po finálny dotyk, objavte aplikácie pre umenie a dizajn.",
+    "snapCategoryArtAndDesignSlogan": "Od prvého náčrtu až po posledný dotyk, objavte aplikácie pre umenie a dizajn.",
     "@snapCategoryArtAndDesignSlogan": {},
     "snapCategoryArtAndDesignButtonLabel": "Začnite s tvorbou",
     "@snapCategoryArtAndDesignButtonLabel": {},
