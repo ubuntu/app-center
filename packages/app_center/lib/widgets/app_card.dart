@@ -273,10 +273,11 @@ class _AppCardBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ExcludeSemantics(
-          child: SizedBox(
-            height: kIconSize,
+          child: Container(
+            constraints: BoxConstraints(minHeight: kIconSize),
             child: Align(
               alignment: Alignment.bottomLeft,
               child: title,
@@ -284,11 +285,10 @@ class _AppCardBody extends StatelessWidget {
           ),
         ),
         if (summary.isNotEmpty) ...[
-          const SizedBox(height: 12),
           Flexible(
             child: ExcludeSemantics(
               child: Text(
-                summary,
+                '$summary\n',
                 maxLines: maxlines,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -296,7 +296,6 @@ class _AppCardBody extends StatelessWidget {
           ),
         ],
         if (footer != null) ...[
-          const SizedBox(height: 8),
           footer!,
         ],
       ],
