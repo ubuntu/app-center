@@ -104,6 +104,32 @@ void main() {
     expect(packageKit.getTransaction(id), isNull);
   });
 
+  test('installAll', () async {
+    final completer = Completer();
+    final mockTransaction = createMockPackageKitTransaction(
+      start: completer.future,
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final packages = [
+      const PackageKitPackageId(name: 'foo', version: '1.0'),
+      const PackageKitPackageId(name: 'bar', version: '2.0'),
+    ];
+    final id = await packageKit.installAll(packages);
+    verify(mockTransaction.installPackages(packages)).called(1);
+    final transaction = packageKit.getTransaction(id);
+    expect(transaction, isNotNull);
+    completer.complete();
+    await packageKit.waitTransaction(id);
+    expect(packageKit.getTransaction(id), isNull);
+  });
+
   test('install local package', () async {
     final completer = Completer();
     final mockTransaction = createMockPackageKitTransaction(
@@ -126,6 +152,36 @@ void main() {
     completer.complete();
     await packageKit.waitTransaction(id);
     expect(packageKit.getTransaction(id), isNull);
+  });
+
+  test('whatProvides', () async {
+    const mockInfo = PackageKitPackageEvent(
+      info: PackageKitInfo.available,
+      packageId: PackageKitPackageId(
+        name: 'foo',
+        version: '1.0',
+        arch: 'amd64',
+      ),
+      summary: 'summary',
+    );
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [mockInfo],
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final packages = await packageKit
+        .whatProvides('gstreamer1(decoder-video/x-h265)()(64bit)');
+    verify(
+      mockTransaction
+          .whatProvides(['gstreamer1(decoder-video/x-h265)()(64bit)']),
+    ).called(1);
+    expect(packages, contains(mockInfo));
   });
 
   test('remove', () async {

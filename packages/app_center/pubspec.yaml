@@ -38,7 +38,7 @@ dependencies:
   jwt_decode: ^0.3.1
   meta: ^1.15.0
   package_info_plus: ^8.0.2
-  packagekit: ^0.2.6
+  packagekit: ^0.2.7
   path: ^1.9.0
   riverpod_annotation: ^2.6.1
   shimmer: ^3.0.0

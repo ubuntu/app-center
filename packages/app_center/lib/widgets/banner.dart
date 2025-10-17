@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 
-const _kDefaultBannerHeight = 240.0;
+const _kDefaultBannerHeight = 242.0;
 
 class CategoryBanner extends ConsumerWidget {
   const CategoryBanner({

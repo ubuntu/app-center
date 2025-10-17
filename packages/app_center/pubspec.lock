@@ -831,10 +831,10 @@ packages:
     dependency: "direct main"
     description:
       name: packagekit
-      sha256: "06c98bfcf9bc7f3d53417dcde783e1ca371d08d195318f0313791f849f004fa3"
+      sha256: "63a8bfa152fdd94a02f724b5ff66735c3e969d70e0029b5df2d7ea858ec02db1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.6"
+    version: "0.2.7"
   password_strength:
     dependency: transitive
     description:
