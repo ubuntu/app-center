@@ -1115,11 +1115,12 @@ packages:
   snapd:
     dependency: "direct main"
     description:
-      name: snapd
-      sha256: da7575a196f84a6e653adb2949ad8d11ebf6ef77cd4f5a7fd21ffd435aeca6ec
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.4"
+      path: "."
+      ref: "feature/snap-revert-1164"
+      resolved-ref: cbc81c9c141b44cbc001e9def9d25723ba4f136c
+      url: "https://github.com/gajeshbhat/snapd.dart"
+    source: git
+    version: "0.7.3"
   snowball_stemmer:
     dependency: "direct main"
     description:
