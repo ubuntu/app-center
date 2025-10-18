@@ -9,7 +9,7 @@ command:
     enforceLockfile: true
     environment:
       sdk: '>=3.1.0 <4.0.0'
-      flutter: '>=3.35.3'
+      flutter: '>=3.32.7'
 
     dev_dependencies:
       ubuntu_lints: ^0.4.1
