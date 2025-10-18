@@ -131,16 +131,16 @@ Future<void> confirmRevertAndRun(
   if (!context.mounted) return;
   final l10n = AppLocalizations.of(context);
 
-  // Try to compute version/revision information for the dialog title
+  // Get exact version information for the dialog title
   String title;
   try {
     final revisions =
         await getService<SnapdService>().getLocalRevisions(snapData.name);
-    final current =
-        revisions.firstWhere((r) => r.active, orElse: () => revisions.first);
-    final previous =
-        revisions.firstWhere((r) => !r.active, orElse: () => current);
-    if (!previous.active && previous != current) {
+    final current = revisions.firstWhere((r) => r.active, orElse: () => revisions.first);
+    final previous = revisions.firstWhere((r) => !r.active && r.revision < current.revision, orElse: () => current);
+
+    if (previous != current && !previous.active) {
+      // Show exact versions: "Revert from 143.0.4-1 (rev 6966) to 143.0.3-1 (rev 6933)?"
       title = l10n.snapRevertConfirmTitleWithVersions(
         current.version,
         current.revision,

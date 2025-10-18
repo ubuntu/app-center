@@ -1117,7 +1117,7 @@ packages:
     description:
       path: "."
       ref: "feature/snap-revert-1164"
-      resolved-ref: bab6083bbacb16512156a72bb1fa645dd73eca10
+      resolved-ref: cbc81c9c141b44cbc001e9def9d25723ba4f136c
       url: "https://github.com/gajeshbhat/snapd.dart"
     source: git
     version: "0.7.3"

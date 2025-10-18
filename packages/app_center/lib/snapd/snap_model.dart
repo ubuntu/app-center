@@ -172,6 +172,9 @@ class SnapModel extends _$SnapModel {
       final changeId = await _snapd.revert(snapName);
       _updateChangeId(changeId);
       await _listenUntilDone(changeId, ref);
+
+      // After successful revert, force refresh to update version and revert availability
+      ref.invalidateSelf();
     } on SnapdException catch (e) {
       // If snapd says there is no revision to revert to, keep UI consistent
       if (e.statusCode == 400 &&
@@ -184,9 +187,6 @@ class SnapModel extends _$SnapModel {
       state = AsyncData(currentData.copyWith(hasPreviousLocalRevision: true));
       rethrow;
     }
-
-    // After revert, refresh the snap data to reflect the new version
-    ref.invalidateSelf();
   }
 
   /// Changes the selected channel.
