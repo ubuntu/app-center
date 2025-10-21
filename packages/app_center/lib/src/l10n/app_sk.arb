@@ -157,7 +157,7 @@
     "@appstreamUrlTypeHomepage": {},
     "managePageCheckingForUpdates": "Kontrolujú sa aktualizácie",
     "@managePageCheckingForUpdates": {},
-    "managePageUpdatedDaysAgo": "Obnovené pred {n, plural, =1{{n} dňom} other{{n} dňami}}",
+    "managePageUpdatedDaysAgo": "Upravené pred {n, plural, =1{{n} dňom} other{{n} dňami}}",
     "@managePageUpdatedDaysAgo": {
         "placeholders": {
             "n": {
@@ -201,7 +201,7 @@
     "@snapConfinementStrict": {},
     "aboutPageContributeLabel": "Prispejte alebo nahláste chybu",
     "@aboutPageContributeLabel": {},
-    "snapCategoryUbuntuDesktop": "Softvér určený pre pracovnú plochu Ubuntu",
+    "snapCategoryUbuntuDesktop": "Softvér určený pre pracovnú plochu",
     "@snapCategoryUbuntuDesktop": {},
     "managePageUpdatesAvailable": "Dostupné aktualizácie ({n})",
     "@managePageUpdatesAvailable": {},
@@ -363,7 +363,7 @@
     "@snapCategoryGnomeGamesSlogan": {},
     "externalResourcesDisclaimer": "Poznámka: Všetky tieto nástroje sú externé. Nie sú vo vlastníctve ani spravované spoločnosťou Canonical.",
     "@externalResourcesDisclaimer": {},
-    "managePageUpdatedMonthsAgo": "Obnovené pred {n, plural, =1{{n} mesiacom} other{{n} mesiacmi}}",
+    "managePageUpdatedMonthsAgo": "Upravené pred {n, plural, =1{{n} mesiacom} other{{n} mesiacmi}}",
     "@managePageUpdatedMonthsAgo": {
         "placeholders": {
             "n": {
@@ -371,7 +371,7 @@
             }
         }
     },
-    "managePageUpdatedYearsAgo": "Obnovené pred {n, plural, =1{{n} rokom} other{{n} rokmi}}",
+    "managePageUpdatedYearsAgo": "Upravené pred {n, plural, =1{{n} rokom} other{{n} rokmi}}",
     "@managePageUpdatedYearsAgo": {
         "placeholders": {
             "n": {
@@ -379,7 +379,7 @@
             }
         }
     },
-    "managePageUpdatedWeeksAgo": "Obnovené pred {n, plural, =1{{n} týždňom} other{{n} týždňami}}",
+    "managePageUpdatedWeeksAgo": "Upravené pred {n, plural, =1{{n} týždňom} other{{n} týždňami}}",
     "@managePageUpdatedWeeksAgo": {
         "placeholders": {
             "n": {
