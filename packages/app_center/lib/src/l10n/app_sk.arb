@@ -530,5 +530,13 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "codecPageDescription": "Na prehrávanie niektorých video a audio formátov je potrebné nainštalovať tieto kodeky:",
+    "@codecPageDescription": {},
+    "codecPageTitle": "Chýbajúce mediálne kodeky",
+    "@codecPageTitle": {},
+    "codecProprietaryDisclaimer": "Niektoré odporúčané kodeky môžu vyžadovať samostatnú licenciu.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "Nainštalovať odporúčané kodeky",
+    "@codecInstallAllButton": {}
 }
