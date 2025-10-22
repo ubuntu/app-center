@@ -51,6 +51,12 @@ parts:
       mkdir -p $CRAFT_PART_INSTALL/bin/
       cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/bin/
 
+  packagekit-session-installer:
+    source: ./packagekit-session-installer
+    plugin: meson
+    meson-parameters:
+      - --prefix=/
+
 apps:
   snap-store:
     command: bin/snap-store
@@ -58,6 +64,8 @@ apps:
       RATINGS_SERVICE_URL: 'ratings.ubuntu.com'
       RATINGS_SERVICE_PORT: '443'
       RATINGS_SERVICE_USE_TLS: 'true'
+      # temporary fix for https://github.com/canonical/snapcraft-desktop-integration/pull/35
+      GIO_LAUNCH_DESKTOP: "$SNAP_DESKTOP_RUNTIME/usr/libexec/gio-launch-desktop"
     desktop: bin/data/flutter_assets/assets/app-center.desktop
     extensions: [gnome]
     plugs: &store_plugs
@@ -79,8 +87,18 @@ apps:
     extensions: [gnome]
     plugs: *store_plugs
 
+  packagekit-session-installer:
+    command: bin/packagekit-session-installer
+    desktop: bin/data/flutter_assets/assets/app-center-packagekit.desktop
+    daemon: dbus
+    daemon-scope: user
+    activates-on: [packagekit-session]
+    environment: *store_env
+    extensions: [gnome]
+    plugs: *store_plugs
+
 slots:
-  packagekit-svc:
+  packagekit-session:
     interface: dbus
     bus: session
     name: org.freedesktop.PackageKit

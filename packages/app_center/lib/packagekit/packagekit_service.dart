@@ -134,12 +134,33 @@ class PackageKitService {
         action: (transaction) => transaction.installPackages([packageId]),
       );
 
+  /// Creates a transaction that installs all of the given packages by
+  /// `packageId` and returns the transaction ID.
+  Future<int> installAll(Iterable<PackageKitPackageId> packageId) async =>
+      _createTransaction(
+        action: (transaction) => transaction.installPackages(packageId),
+      );
+
   /// Creates a transaction that installs the local package given by `path` and
   /// returns the transaction ID.
   Future<int> installLocal(String path) async => _createTransaction(
         action: (transaction) =>
             transaction.installFiles([_getAbsolutePath(path)]),
       );
+
+  /// Get the packages that provide the given id (usually a codec string).
+  Future<Iterable<PackageKitPackageInfo>> whatProvides(String id) async {
+    final info = <PackageKitPackageInfo>[];
+    await _createTransaction(
+      action: (transaction) => transaction.whatProvides([id]),
+      listener: (event) {
+        if (event is PackageKitPackageEvent) {
+          info.add(event);
+        }
+      },
+    ).then(waitTransaction);
+    return info;
+  }
 
   /// Creates a transaction that removes the package given by `packageId` and
   /// returns the transaction ID.

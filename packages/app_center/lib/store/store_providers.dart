@@ -29,6 +29,12 @@ String? _parseRoute(List<String>? args) {
   parser.addOption('snap', valueHelp: 'name', help: 'Show snap details');
   parser.addOption('search', valueHelp: 'query', help: 'Search for snaps');
   parser.addFlag('updates', negatable: false, help: 'Show manage page');
+  parser.addMultiOption(
+    'gst',
+    splitCommas: false,
+    valueHelp: 'gstreamer resource tuple',
+    help: 'Install a set of gstreamer resources',
+  );
 
   try {
     if (args?.firstOrNull?.startsWith(_kUrlPrefix) ?? false) {
@@ -57,6 +63,11 @@ String? _parseRoute(List<String>? args) {
 
     if (result.flag('updates')) {
       return StoreRoutes.manage;
+    }
+
+    final gstResources = result.multiOption('gst');
+    if (gstResources.isNotEmpty) {
+      return StoreRoutes.namedGStreamer(resources: gstResources);
     }
   } on FormatException {
     // TODO: print usage

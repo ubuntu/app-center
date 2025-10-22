@@ -40,6 +40,13 @@ class StoreNavigator {
   static Future<void> pushExternalTools(BuildContext context) {
     return Navigator.of(context).pushExternalTools();
   }
+
+  static Future<void> pushGStreamer(
+    BuildContext context, {
+    required List<String> resources,
+  }) {
+    return Navigator.of(context).pushGStreamer(resources: resources);
+  }
 }
 
 extension StoreNavigatorState on NavigatorState {
@@ -78,5 +85,9 @@ extension StoreNavigatorState on NavigatorState {
 
   Future<void> pushExternalTools({String? query, String? category}) {
     return pushNamed(StoreRoutes.externalTools);
+  }
+
+  Future<void> pushGStreamer({required List<String> resources}) {
+    return pushNamed(StoreRoutes.namedGStreamer(resources: resources));
   }
 }

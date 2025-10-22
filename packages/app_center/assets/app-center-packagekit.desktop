@@ -1,0 +1,26 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Exec=snap-store %U
+Icon=bin/data/flutter_assets/assets/app-center.png
+Terminal=false
+Categories=System;Utility;PackageManager;SoftwareManagement;Network;Settings;
+Keywords=Ubuntu;Applications;Apps;Store;Software;Snaps;
+MimeType=x-scheme-handler/snap;application/vnd.debian.binary-package;
+NoDisplay=true
+Name=App Center
+Name[ar]=مركز التطبيقات
+Name[cs]=Centrum aplikací
+Name[de]=Anwendungszentrum
+Name[en_CA]=App Center
+Name[en_GB]=App Centre
+Name[es]=Centro de aplicaciones
+Name[fr]=Centre d'applications
+Name[hi]=ऐप सेंटर
+Name[ja]=アプリセンター
+Name[pl]=Centrum programów
+Name[pt_BR]=Centro de Aplicações
+Name[ru]=Центр приложений
+Name[sk]=Centrum aplikácií
+Name[sv]=Appcentral
+Name[zh_CN]=应用中心
