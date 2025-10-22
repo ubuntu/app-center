@@ -528,5 +528,13 @@
     "debPageShareLinkCopiedMessage": "S'ha copiat l'enllaç al portaretalls",
     "@debPageShareLinkCopiedMessage": {},
     "debPageShareSemanticLabel": "Copia l'enllaç",
-    "@debPageShareSemanticLabel": {}
+    "@debPageShareSemanticLabel": {},
+    "codecPageTitle": "Falten còdecs multimèdia",
+    "@codecPageTitle": {},
+    "codecPageDescription": "Necessiteu instal·lar els següents còdecs per a gestionar certs formats d'àudio i video:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "Alguns dels còdecs recomanats podrien ser propietaris.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "Instal·la els còdecs recomanats",
+    "@codecInstallAllButton": {}
 }
