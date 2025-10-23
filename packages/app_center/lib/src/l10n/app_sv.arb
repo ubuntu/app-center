@@ -1,534 +1,540 @@
 {
-  "snapPageLinksLabel": "Länkar",
-  "@snapPageLinksLabel": {},
-  "snapPageVersionLabel": "Version",
-  "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "Debian paket",
-  "@packageFormatDebLabel": {},
-  "snapCategoryBooksAndReference": "Böcker och Referens",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryProductivity": "Produktivitet",
-  "@snapCategoryProductivity": {},
-  "snapCategoryUtilities": "Verktyg",
-  "@snapCategoryUtilities": {},
-  "snapCategorySocial": "Social",
-  "@snapCategorySocial": {},
-  "productivityPageLabel": "Produktivitet",
-  "@productivityPageLabel": {},
-  "snapCategoryNewsAndWeather": "Nyheter och väder",
-  "@snapCategoryNewsAndWeather": {},
-  "gamesPageLabel": "Spel",
-  "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "Konst och Design",
-  "@snapCategoryArtAndDesign": {},
-  "developmentPageLabel": "Utveckling",
-  "@developmentPageLabel": {},
-  "managePageLabel": "Hantera",
-  "@managePageLabel": {},
-  "snapPageChannelLabel": "Kanal",
-  "@snapPageChannelLabel": {},
-  "snapCategoryEducation": "Utbildning",
-  "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "Uppdatera",
-  "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "Sortera efter",
-  "@searchPageSortByLabel": {},
-  "snapPageGalleryLabel": "Galleri",
-  "@snapPageGalleryLabel": {},
-  "searchFieldDebSection": "Debian paket",
-  "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "Öppna",
-  "@snapActionOpenLabel": {},
-  "snapCategoryDevelopment": "Utveckling",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryHealthAndFitness": "Hälsa och träning",
-  "@snapCategoryHealthAndFitness": {},
-  "appstreamUrlTypeContact": "Kontakta",
-  "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "Säkerhet",
-  "@snapCategorySecurity": {},
-  "snapCategoryFinance": "Finans",
-  "@snapCategoryFinance": {},
-  "snapCategoryServerAndCloud": "Server och moln",
-  "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "Om",
-  "@aboutPageLabel": {},
-  "snapPageSummaryLabel": "Sammanfattning",
-  "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "app;program;paket;svit;verktyg",
-  "@appstreamSearchGreylist": {},
-  "snapCategoryScience": "Vetenskap",
-  "@snapCategoryScience": {},
-  "snapCategoryEntertainment": "Underhållning",
-  "@snapCategoryEntertainment": {},
-  "snapActionInstallLabel": "Installera",
-  "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "Licens",
-  "@snapPageLicenseLabel": {},
-  "snapCategoryPhotoAndVideo": "Foto och Video",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "Isolering",
-  "@snapPageConfinementLabel": {},
-  "snapCategoryMusicAndAudio": "Musik och Ljud",
-  "@snapCategoryMusicAndAudio": {},
-  "aboutPageGitHubLabel": "Hitta oss på GitHub",
-  "@aboutPageGitHubLabel": {},
-  "packageFormatSnapLabel": "Snap paket",
-  "@packageFormatSnapLabel": {},
-  "snapCategoryGames": "Spel",
-  "@snapCategoryGames": {},
-  "snapActionInstallingLabel": "Installerar",
-  "@snapActionInstallingLabel": {},
-  "searchFieldSearchHint": "Sök efter program",
-  "@searchFieldSearchHint": {},
-  "snapCategoryFeatured": "Utvalda",
-  "@snapCategoryFeatured": {},
-  "managePageSearchFieldSearchHint": "Sök bland dina installerade program",
-  "@managePageSearchFieldSearchHint": {},
-  "snapActionCancelLabel": "Avbryt",
-  "@snapActionCancelLabel": {},
-  "snapPagePublisherLabel": "Utgivare",
-  "@snapPagePublisherLabel": {},
-  "snapPageDescriptionLabel": "Beskrivning",
-  "@snapPageDescriptionLabel": {},
-  "explorePageLabel": "Utforska",
-  "@explorePageLabel": {},
-  "searchFieldSnapSection": "Snap paket",
-  "@searchFieldSnapSection": {},
-  "snapCategoryDevicesAndIot": "Enheter och IoT",
-  "@snapCategoryDevicesAndIot": {},
-  "managePageCheckForUpdates": "Sök efter uppdateringar",
-  "@managePageCheckForUpdates": {},
-  "managePageUpdateAllLabel": "Uppdatera alla",
-  "@managePageUpdateAllLabel": {},
-  "searchFieldSearchForLabel": "Se alla resultat för \"{query}\"",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "explorePageCategoriesLabel": "Kategorier",
-  "@explorePageCategoriesLabel": {},
-  "snapCategoryDefaultButtonLabel": "Upptäck mer",
-  "@snapCategoryDefaultButtonLabel": {},
-  "managePageShowDetailsLabel": "Visa detaljer",
-  "@managePageShowDetailsLabel": {},
-  "snapPageDownloadSizeLabel": "Nedladdningsstorlek",
-  "@snapPageDownloadSizeLabel": {},
-  "snapCategoryProductivityButtonLabel": "Upptäck produktivitets samlingen",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapPagePublishedLabel": "Publicerades",
-  "@snapPagePublishedLabel": {},
-  "aboutPageLearnMoreLabel": "Läs mer",
-  "@aboutPageLearnMoreLabel": {},
-  "snapRatingsBandNeutral": "Neutral",
-  "@snapRatingsBandNeutral": {},
-  "appstreamUrlTypeTranslate": "Översättningar",
-  "@appstreamUrlTypeTranslate": {},
-  "searchPageNoResultsHint": "Prova att använda andra eller mer allmänna nyckelord",
-  "@searchPageNoResultsHint": {},
-  "snapRatingsBandGood": "Bra",
-  "@snapRatingsBandGood": {},
-  "snapCategoryFeaturedSlogan": "Utvalda Snap-paket",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapSortOrderInstalledDateAsc": "Minst nyligen uppdaterade",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapCategoryProductivitySlogan": "Stryk en sak från din att göra-lista",
-  "@snapCategoryProductivitySlogan": {},
-  "appstreamUrlTypeDonation": "Donera",
-  "@appstreamUrlTypeDonation": {},
-  "snapRatingsBandVeryGood": "Väldigt bra",
-  "@snapRatingsBandVeryGood": {},
-  "snapActionRemoveLabel": "Avinstallera",
-  "@snapActionRemoveLabel": {},
-  "appstreamUrlTypeHelp": "Hjälp",
-  "@appstreamUrlTypeHelp": {},
-  "snapCategoryPersonalisation": "Personalisering",
-  "@snapCategoryPersonalisation": {},
-  "aboutPagePublishLabel": "Publicera till Snap Store",
-  "@aboutPagePublishLabel": {},
-  "aboutPageContributorTitle": "Designad och utvecklad av:",
-  "@aboutPageContributorTitle": {},
-  "managePageInstalledAndUpdatedLabel": "Installerade och uppdaterade",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "appstreamUrlTypeHomepage": "Hemsida",
-  "@appstreamUrlTypeHomepage": {},
-  "managePageCheckingForUpdates": "Söker efter uppdateringar",
-  "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Uppdaterades för {n, plural, =1{{n} dag} other{{n} dagar}} sedan",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapRatingsBandInsufficientVotes": "Inte tillräckligt med röster",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsBandVeryPoor": "Väldigt dålig",
-  "@snapRatingsBandVeryPoor": {},
-  "managePageDescription": "Sök efter tillgängliga uppdateringar, uppdatera dina appar och hantera statusen för alla dina appar.",
-  "@managePageDescription": {},
-  "snapActionRemovingLabel": "Avinstallerar",
-  "@snapActionRemovingLabel": {},
-  "snapSortOrderInstalledSizeDesc": "Storlek (största till minsta)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapPageDeveloperWebsiteLabel": "Utvecklarens webbplats",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapConfinementClassic": "Klassisk",
-  "@snapConfinementClassic": {},
-  "snapRatingsBandPoor": "Dålig",
-  "@snapRatingsBandPoor": {},
-  "snapCategoryDevelopmentSlogan": "Måste-ha snap-paket för utvecklare",
-  "@snapCategoryDevelopmentSlogan": {},
-  "searchPageTitle": "Resultat för \"{query}\"",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapCategoryGamesSlogan": "Allt för din spelkväll",
-  "@snapCategoryGamesSlogan": {},
-  "snapActionSwitchChannelLabel": "Byt kanal",
-  "@snapActionSwitchChannelLabel": {},
-  "appstreamUrlTypeFaq": "FAQ",
-  "@appstreamUrlTypeFaq": {},
-  "snapConfinementStrict": "Strikt",
-  "@snapConfinementStrict": {},
-  "aboutPageContributeLabel": "Bidra eller rapportera fel",
-  "@aboutPageContributeLabel": {},
-  "snapCategoryUbuntuDesktop": "Ubuntu skrivbord",
-  "@snapCategoryUbuntuDesktop": {},
-  "managePageUpdatesAvailable": "Uppdateringar tillgängliga ({n})",
-  "@managePageUpdatesAvailable": {},
-  "aboutPageCommunityTitle": "Var en del av gemenskapen:",
-  "@aboutPageCommunityTitle": {},
-  "searchPageNoResultsCategoryHint": "Prova en annan kategori eller använd mer allmänna nyckelord",
-  "@searchPageNoResultsCategoryHint": {},
-  "snapSortOrderAlphabeticalDesc": "Alfabetisk (Z till A)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "snapRatingsVotes": "{n} röster",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapCategoryAll": "Alla kategorier",
-  "@snapCategoryAll": {},
-  "snapSortOrderInstalledSizeAsc": "Storlek (minsta till största)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "aboutPageVersionLabel": "Version {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageContactPublisherLabel": "Kontakt {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapConfinementDevmode": "Utvecklarläge",
-  "@snapConfinementDevmode": {},
-  "searchPageNoResults": "Inga resultat för \"{query}\"",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapSortOrderDownloadSizeAsc": "Storlek (minst till störst)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "snapCategoryUbuntuDesktopSlogan": "Sätt igång ditt skrivbord",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapActionUpdatingLabel": "Uppdaterar",
-  "@snapActionUpdatingLabel": {},
-  "searchPageRelevanceLabel": "Relevans",
-  "@searchPageRelevanceLabel": {},
-  "snapSortOrderAlphabeticalAsc": "Alfabetisk (A till Ö)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "managePageNoUpdatesAvailableDescription": "Inga uppdateringar tillgängliga. Dina applikationer är redan alla uppdaterade.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "snapSortOrderRelevance": "Relevans",
-  "@snapSortOrderRelevance": {},
-  "snapSortOrderDownloadSizeDesc": "Storlek (störst till minst)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "appstreamUrlTypeBugtracker": "Felspårare",
-  "@appstreamUrlTypeBugtracker": {},
-  "managePageShowSystemSnapsLabel": "Visa systemets snap-paket",
-  "@managePageShowSystemSnapsLabel": {},
-  "searchPageFilterByLabel": "Filtrera efter",
-  "@searchPageFilterByLabel": {},
-  "snapSortOrderInstalledDateDesc": "Mest senast uppdaterade",
-  "@snapSortOrderInstalledDateDesc": {},
-  "searchPageNoResultsCategory": "Vi kunde tyvärr inte hitta några paket i den här kategorin",
-  "@searchPageNoResultsCategory": {},
-  "unknownPublisher": "Okänd utgivare",
-  "@unknownPublisher": {},
-  "appCenterLabel": "Appcentral",
-  "@appCenterLabel": {},
-  "gamesPageTop": "Topprankat",
-  "@gamesPageTop": {},
-  "gamesPageBundles": "Programbundlingar",
-  "@gamesPageBundles": {},
-  "snapCategoryGameEmulators": "Emulatorer",
-  "@snapCategoryGameEmulators": {},
-  "snapCategoryGameEmulatorsSlogan": "Emulatorer",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryGnomeGamesSlogan": "GNOME spelsvit",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryKdeGames": "KDE spel",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryKdeGamesSlogan": "KDE spelsvit",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapCategoryGameLaunchers": "Spelstartare",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryGameLaunchersSlogan": "Spelstartare",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapReportLabel": "Rapportera {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportSelectReportReasonLabel": "Välj en anledning varför du vill rapportera denna snap",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportOptionStoreViolation": "Överträdelse av användarvillkoren för Snap Store",
-  "@snapReportOptionStoreViolation": {},
-  "snapReportDetailsLabel": "Vänligen ange en mer detaljerad anledning till din rapport",
-  "@snapReportDetailsLabel": {},
-  "snapReportOptionalEmailAddressLabel": "Din e-postadress (valfritt)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportCancelButtonLabel": "Avbryt",
-  "@snapReportCancelButtonLabel": {},
-  "snapReportDetailsHint": "Kommentar...",
-  "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonicals integritetsmeddelande ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "snapReportPrivacyAgreementAndLabel": "och ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "Integritetspolicy",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "debPageErrorNoPackageInfo": "Ingen paketinformation hittades",
-  "@debPageErrorNoPackageInfo": {},
-  "snapPageShareLinkCopiedMessage": "Länk kopierad till urklipp",
-  "@snapPageShareLinkCopiedMessage": {},
-  "gamesPageTitle": "Spel",
-  "@gamesPageTitle": {},
-  "gamesPageFeatured": "Utvalda titlar",
-  "@gamesPageFeatured": {},
-  "snapCategoryGameDev": "Spelutveckling",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameDevSlogan": "Spelutveckling",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryGnomeGames": "GNOME spel",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryGameContentCreation": "Innehållsskapande",
-  "@snapCategoryGameContentCreation": {},
-  "snapCategoryGameContentCreationSlogan": "Innehållsskapande",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapReportSelectAnOptionLabel": "Välj ett alternativ",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportOptionCopyrightViolation": "Upphovsrätts eller varumärkesintrång",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportSubmitButtonLabel": "Skicka in rapport",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportEnterValidEmailError": "Ange en giltig e-postadress",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportPrivacyAgreementLabel": "Genom att skicka in detta formulär bekräftar jag att jag har läst och godkänner ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "externalResources": "Ytterligare resurser",
-  "@externalResources": {},
-  "externalResourcesButtonLabel": "Upptäck mer",
-  "@externalResourcesButtonLabel": {},
-  "allGamesButtonLabel": "Alla spel",
-  "@allGamesButtonLabel": {},
-  "externalResourcesDisclaimer": "Obs: Dessa är alla externa verktyg. Dessa ägs eller distribueras inte av Canonical.",
-  "@externalResourcesDisclaimer": {},
-  "openInBrowser": "Öppna i webbläsare",
-  "@openInBrowser": {},
-  "installAll": "Installera alla",
-  "@installAll": {},
-  "managePageUpdatedWeeksAgo": "Uppdaterades för {n, plural, =1{{n} vecka} other{{n} veckor}} sedan",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedMonthsAgo": "Uppdaterades för {n, plural, =1{{n} månad} other{{n} månader}} sedan",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedYearsAgo": "Uppdaterades för {n, plural, =1{{n} år} other{{n} år}} sedan",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "appstreamUrlTypeVcsBrowser": "Källkod",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "appstreamUrlTypeContribute": "Bidra",
-  "@appstreamUrlTypeContribute": {},
-  "localDebLearnMore": "Läs mer om paket från tredje part",
-  "@localDebLearnMore": {},
-  "localDebWarningTitle": "Potentiellt osäkert",
-  "@localDebWarningTitle": {},
-  "snapPageSizeLabel": "Storlek",
-  "@snapPageSizeLabel": {},
-  "localDebWarningBody": "Detta paket tillhandahålls av en tredje part. Att installera paket utanför App Center kan öka risken för ditt system och dina personuppgifter. Se till att du litar på källan innan du fortsätter.",
-  "@localDebWarningBody": {},
-  "localDebDialogMessage": "Detta paket tillhandahålls av en tredje part och kan hota ditt system och dina personuppgifter.",
-  "@localDebDialogMessage": {},
-  "localDebDialogConfirmation": "Är du säker på att du vill installera det?",
-  "@localDebDialogConfirmation": {},
-  "snapActionInstalledLabel": "Installerad",
-  "@snapActionInstalledLabel": {},
-  "managePageDebUpdatesMessage": "Debian paket uppdateringar hanteras av Appcentralen.",
-  "@managePageDebUpdatesMessage": {},
-  "errorViewCheckStatusLabel": "Kolla status",
-  "@errorViewCheckStatusLabel": {},
-  "errorViewNetworkErrorDescription": "Vi kan inte ladda innehåll i Appcentral utan en internetanslutning.",
-  "@errorViewNetworkErrorDescription": {},
-  "errorViewServerErrorDescription": "Vi är ledsna, vi har för närvarande problem med Appcentral.",
-  "@errorViewServerErrorDescription": {},
-  "errorViewServerErrorAction": "Kontrollera status för uppdateringar eller försök igen senare.",
-  "@errorViewServerErrorAction": {},
-  "errorViewUnknownErrorTitle": "Någonting gick fel",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewUnknownErrorAction": "Du kan försöka igen nu, kontrollera status för uppdateringar eller försöka igen senare.",
-  "@errorViewUnknownErrorAction": {},
-  "errorViewNetworkErrorTitle": "Anslut till internet",
-  "@errorViewNetworkErrorTitle": {},
-  "snapdExceptionRunningApps": "Vi kunde inte uppdatera {snapName} eftersom det körs just nu.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewNetworkErrorAction": "Kontrollera din uppkoppling och försök igen.",
-  "@errorViewNetworkErrorAction": {},
-  "errorViewUnknownErrorDescription": "Vi är ledsna, men vi är inte säkra på vad felet är.",
-  "@errorViewUnknownErrorDescription": {},
-  "managePageNoInternet": "Kan inte nå servern, kontrollera din internetanslutning eller försök igen senare.",
-  "@managePageNoInternet": {},
-  "managePageOwnUpdateAvailable": "Appcentral uppdatering är tillgänglig",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateDescription": "När du avslutar programmet uppdateras det automatiskt.",
-  "@managePageOwnUpdateDescription": {},
-  "managePageOwnUpdateDescriptionSoon": "Appcentral kommer automatiskt att uppdateras om {time}.",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "managePageOwnUpdateQuitButton": "Avsluta vid uppdatering",
-  "@managePageOwnUpdateQuitButton": {},
-  "managePageQuitToUpdate": "Avsluta för att uppdatera",
-  "@managePageQuitToUpdate": {},
-  "managePageTitle": "Hantera installerade snap-paket",
-  "@managePageTitle": {},
-  "managePageUpdatesFailed": "{n, plural, =1{En uppdatering} other{{n} uppdateringar}} misslyckades",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailedBody": "Vi kunde inte uppdatera dessa program eftersom de körs för närvarande.\n\n{snapList}\nNär du avslutar programmen uppdateras de automatiskt.",
-  "@managePageUpdatesFailedBody": {},
-  "snapCategoryArtAndDesignButtonLabel": "Börja skapa",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "Från din första skiss till slutresultatet, utforska appar för konst och design.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "managePageInstallingLabel": "Installerar ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageDocumentationLinkLabel": "Lär dig hur du hanterar Debianpaket i denna dokumentationen.",
-  "@managePageDocumentationLinkLabel": {},
-  "debPageDocumentationLinkLabel": "Lär dig hur du hanterar Debianpaket",
-  "@debPageDocumentationLinkLabel": {},
-  "debPageShareLinkCopiedMessage": "Länk kopierad till urklipp",
-  "@debPageShareLinkCopiedMessage": {},
-  "snapPageGalleryNextSemanticLabel": "Nästa bild",
-  "@snapPageGalleryNextSemanticLabel": {},
-  "sectionCollapseSemanticLabel": "Fäll ihop {section}",
-  "@sectionCollapseSemanticLabel": {
-    "placeholders": {
-      "section": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageGalleryImageSemanticLabel": "Bild {n}",
-  "@snapPageGalleryImageSemanticLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "sectionExpandSemanticLabel": "Expandera {section}",
-  "@sectionExpandSemanticLabel": {
-    "placeholders": {
-      "section": {
-        "type": "String"
-      }
-    }
-  },
-  "debPageShareSemanticLabel": "Kopiera länk",
-  "@debPageShareSemanticLabel": {},
-  "snapPageGalleryPreviousSemanticLabel": "Föregående bild",
-  "@snapPageGalleryPreviousSemanticLabel": {},
-  "snapPageShareSemanticLabel": "Kopiera länk",
-  "@snapPageShareSemanticLabel": {},
-  "snapPageReportSemanticLabel": "Rapportera",
-  "@snapPageReportSemanticLabel": {},
-  "appCardPublisherSemanticLabel": "Publicerad av {publisher}.",
-  "@appCardPublisherSemanticLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "appCardRatingSemanticLabel": "Betyg {rating}.",
-  "@appCardRatingSemanticLabel": {
-    "placeholders": {
-      "rating": {
-        "type": "String"
-      }
-    }
-  }
+    "snapPageLinksLabel": "Länkar",
+    "@snapPageLinksLabel": {},
+    "snapPageVersionLabel": "Version",
+    "@snapPageVersionLabel": {},
+    "packageFormatDebLabel": "Debian paket",
+    "@packageFormatDebLabel": {},
+    "snapCategoryBooksAndReference": "Böcker och Referens",
+    "@snapCategoryBooksAndReference": {},
+    "snapCategoryProductivity": "Produktivitet",
+    "@snapCategoryProductivity": {},
+    "snapCategoryUtilities": "Verktyg",
+    "@snapCategoryUtilities": {},
+    "snapCategorySocial": "Social",
+    "@snapCategorySocial": {},
+    "productivityPageLabel": "Produktivitet",
+    "@productivityPageLabel": {},
+    "snapCategoryNewsAndWeather": "Nyheter och väder",
+    "@snapCategoryNewsAndWeather": {},
+    "gamesPageLabel": "Spel",
+    "@gamesPageLabel": {},
+    "snapCategoryArtAndDesign": "Konst och Design",
+    "@snapCategoryArtAndDesign": {},
+    "developmentPageLabel": "Utveckling",
+    "@developmentPageLabel": {},
+    "managePageLabel": "Hantera",
+    "@managePageLabel": {},
+    "snapPageChannelLabel": "Kanal",
+    "@snapPageChannelLabel": {},
+    "snapCategoryEducation": "Utbildning",
+    "@snapCategoryEducation": {},
+    "snapActionUpdateLabel": "Uppdatera",
+    "@snapActionUpdateLabel": {},
+    "searchPageSortByLabel": "Sortera efter",
+    "@searchPageSortByLabel": {},
+    "snapPageGalleryLabel": "Galleri",
+    "@snapPageGalleryLabel": {},
+    "searchFieldDebSection": "Debian paket",
+    "@searchFieldDebSection": {},
+    "snapActionOpenLabel": "Öppna",
+    "@snapActionOpenLabel": {},
+    "snapCategoryDevelopment": "Utveckling",
+    "@snapCategoryDevelopment": {},
+    "snapCategoryHealthAndFitness": "Hälsa och träning",
+    "@snapCategoryHealthAndFitness": {},
+    "appstreamUrlTypeContact": "Kontakta",
+    "@appstreamUrlTypeContact": {},
+    "snapCategorySecurity": "Säkerhet",
+    "@snapCategorySecurity": {},
+    "snapCategoryFinance": "Finans",
+    "@snapCategoryFinance": {},
+    "snapCategoryServerAndCloud": "Server och moln",
+    "@snapCategoryServerAndCloud": {},
+    "aboutPageLabel": "Om",
+    "@aboutPageLabel": {},
+    "snapPageSummaryLabel": "Sammanfattning",
+    "@snapPageSummaryLabel": {},
+    "appstreamSearchGreylist": "app;program;paket;svit;verktyg",
+    "@appstreamSearchGreylist": {},
+    "snapCategoryScience": "Vetenskap",
+    "@snapCategoryScience": {},
+    "snapCategoryEntertainment": "Underhållning",
+    "@snapCategoryEntertainment": {},
+    "snapActionInstallLabel": "Installera",
+    "@snapActionInstallLabel": {},
+    "snapPageLicenseLabel": "Licens",
+    "@snapPageLicenseLabel": {},
+    "snapCategoryPhotoAndVideo": "Foto och Video",
+    "@snapCategoryPhotoAndVideo": {},
+    "snapPageConfinementLabel": "Isolering",
+    "@snapPageConfinementLabel": {},
+    "snapCategoryMusicAndAudio": "Musik och Ljud",
+    "@snapCategoryMusicAndAudio": {},
+    "aboutPageGitHubLabel": "Hitta oss på GitHub",
+    "@aboutPageGitHubLabel": {},
+    "packageFormatSnapLabel": "Snap paket",
+    "@packageFormatSnapLabel": {},
+    "snapCategoryGames": "Spel",
+    "@snapCategoryGames": {},
+    "snapActionInstallingLabel": "Installerar",
+    "@snapActionInstallingLabel": {},
+    "searchFieldSearchHint": "Sök efter program",
+    "@searchFieldSearchHint": {},
+    "snapCategoryFeatured": "Utvalda",
+    "@snapCategoryFeatured": {},
+    "managePageSearchFieldSearchHint": "Sök bland dina installerade program",
+    "@managePageSearchFieldSearchHint": {},
+    "snapActionCancelLabel": "Avbryt",
+    "@snapActionCancelLabel": {},
+    "snapPagePublisherLabel": "Utgivare",
+    "@snapPagePublisherLabel": {},
+    "snapPageDescriptionLabel": "Beskrivning",
+    "@snapPageDescriptionLabel": {},
+    "explorePageLabel": "Utforska",
+    "@explorePageLabel": {},
+    "searchFieldSnapSection": "Snap paket",
+    "@searchFieldSnapSection": {},
+    "snapCategoryDevicesAndIot": "Enheter och IoT",
+    "@snapCategoryDevicesAndIot": {},
+    "managePageCheckForUpdates": "Sök efter uppdateringar",
+    "@managePageCheckForUpdates": {},
+    "managePageUpdateAllLabel": "Uppdatera alla",
+    "@managePageUpdateAllLabel": {},
+    "searchFieldSearchForLabel": "Se alla resultat för \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageCategoriesLabel": "Kategorier",
+    "@explorePageCategoriesLabel": {},
+    "snapCategoryDefaultButtonLabel": "Upptäck mer",
+    "@snapCategoryDefaultButtonLabel": {},
+    "managePageShowDetailsLabel": "Visa detaljer",
+    "@managePageShowDetailsLabel": {},
+    "snapPageDownloadSizeLabel": "Nedladdningsstorlek",
+    "@snapPageDownloadSizeLabel": {},
+    "snapCategoryProductivityButtonLabel": "Upptäck produktivitets samlingen",
+    "@snapCategoryProductivityButtonLabel": {},
+    "snapPagePublishedLabel": "Publicerades",
+    "@snapPagePublishedLabel": {},
+    "aboutPageLearnMoreLabel": "Läs mer",
+    "@aboutPageLearnMoreLabel": {},
+    "snapRatingsBandNeutral": "Neutral",
+    "@snapRatingsBandNeutral": {},
+    "appstreamUrlTypeTranslate": "Översättningar",
+    "@appstreamUrlTypeTranslate": {},
+    "searchPageNoResultsHint": "Prova att använda andra eller mer allmänna nyckelord",
+    "@searchPageNoResultsHint": {},
+    "snapRatingsBandGood": "Bra",
+    "@snapRatingsBandGood": {},
+    "snapCategoryFeaturedSlogan": "Utvalda Snap-paket",
+    "@snapCategoryFeaturedSlogan": {},
+    "snapSortOrderInstalledDateAsc": "Minst nyligen uppdaterade",
+    "@snapSortOrderInstalledDateAsc": {},
+    "snapCategoryProductivitySlogan": "Stryk en sak från din att göra-lista",
+    "@snapCategoryProductivitySlogan": {},
+    "appstreamUrlTypeDonation": "Donera",
+    "@appstreamUrlTypeDonation": {},
+    "snapRatingsBandVeryGood": "Väldigt bra",
+    "@snapRatingsBandVeryGood": {},
+    "snapActionRemoveLabel": "Avinstallera",
+    "@snapActionRemoveLabel": {},
+    "appstreamUrlTypeHelp": "Hjälp",
+    "@appstreamUrlTypeHelp": {},
+    "snapCategoryPersonalisation": "Personalisering",
+    "@snapCategoryPersonalisation": {},
+    "aboutPagePublishLabel": "Publicera till Snap Store",
+    "@aboutPagePublishLabel": {},
+    "aboutPageContributorTitle": "Designad och utvecklad av:",
+    "@aboutPageContributorTitle": {},
+    "managePageInstalledAndUpdatedLabel": "Installerade och uppdaterade",
+    "@managePageInstalledAndUpdatedLabel": {},
+    "appstreamUrlTypeHomepage": "Hemsida",
+    "@appstreamUrlTypeHomepage": {},
+    "managePageCheckingForUpdates": "Söker efter uppdateringar",
+    "@managePageCheckingForUpdates": {},
+    "managePageUpdatedDaysAgo": "Uppdaterades för {n, plural, =1{{n} dag} other{{n} dagar}} sedan",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRatingsBandInsufficientVotes": "Inte tillräckligt med röster",
+    "@snapRatingsBandInsufficientVotes": {},
+    "snapRatingsBandVeryPoor": "Väldigt dålig",
+    "@snapRatingsBandVeryPoor": {},
+    "managePageDescription": "Sök efter tillgängliga uppdateringar, uppdatera dina appar och hantera statusen för alla dina appar.",
+    "@managePageDescription": {},
+    "snapActionRemovingLabel": "Avinstallerar",
+    "@snapActionRemovingLabel": {},
+    "snapSortOrderInstalledSizeDesc": "Storlek (största till minsta)",
+    "@snapSortOrderInstalledSizeDesc": {},
+    "snapPageDeveloperWebsiteLabel": "Utvecklarens webbplats",
+    "@snapPageDeveloperWebsiteLabel": {},
+    "snapConfinementClassic": "Klassisk",
+    "@snapConfinementClassic": {},
+    "snapRatingsBandPoor": "Dålig",
+    "@snapRatingsBandPoor": {},
+    "snapCategoryDevelopmentSlogan": "Måste-ha snap-paket för utvecklare",
+    "@snapCategoryDevelopmentSlogan": {},
+    "searchPageTitle": "Resultat för \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryGamesSlogan": "Allt för din spelkväll",
+    "@snapCategoryGamesSlogan": {},
+    "snapActionSwitchChannelLabel": "Byt kanal",
+    "@snapActionSwitchChannelLabel": {},
+    "appstreamUrlTypeFaq": "FAQ",
+    "@appstreamUrlTypeFaq": {},
+    "snapConfinementStrict": "Strikt",
+    "@snapConfinementStrict": {},
+    "aboutPageContributeLabel": "Bidra eller rapportera fel",
+    "@aboutPageContributeLabel": {},
+    "snapCategoryUbuntuDesktop": "Ubuntu skrivbord",
+    "@snapCategoryUbuntuDesktop": {},
+    "managePageUpdatesAvailable": "Uppdateringar tillgängliga ({n})",
+    "@managePageUpdatesAvailable": {},
+    "aboutPageCommunityTitle": "Var en del av gemenskapen:",
+    "@aboutPageCommunityTitle": {},
+    "searchPageNoResultsCategoryHint": "Prova en annan kategori eller använd mer allmänna nyckelord",
+    "@searchPageNoResultsCategoryHint": {},
+    "snapSortOrderAlphabeticalDesc": "Alfabetisk (Z till A)",
+    "@snapSortOrderAlphabeticalDesc": {},
+    "snapRatingsVotes": "{n} röster",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapCategoryAll": "Alla kategorier",
+    "@snapCategoryAll": {},
+    "snapSortOrderInstalledSizeAsc": "Storlek (minsta till största)",
+    "@snapSortOrderInstalledSizeAsc": {},
+    "aboutPageVersionLabel": "Version {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageContactPublisherLabel": "Kontakt {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapConfinementDevmode": "Utvecklarläge",
+    "@snapConfinementDevmode": {},
+    "searchPageNoResults": "Inga resultat för \"{query}\"",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapSortOrderDownloadSizeAsc": "Storlek (minst till störst)",
+    "@snapSortOrderDownloadSizeAsc": {},
+    "snapCategoryUbuntuDesktopSlogan": "Sätt igång ditt skrivbord",
+    "@snapCategoryUbuntuDesktopSlogan": {},
+    "snapActionUpdatingLabel": "Uppdaterar",
+    "@snapActionUpdatingLabel": {},
+    "searchPageRelevanceLabel": "Relevans",
+    "@searchPageRelevanceLabel": {},
+    "snapSortOrderAlphabeticalAsc": "Alfabetisk (A till Ö)",
+    "@snapSortOrderAlphabeticalAsc": {},
+    "managePageNoUpdatesAvailableDescription": "Inga uppdateringar tillgängliga. Dina applikationer är redan alla uppdaterade.",
+    "@managePageNoUpdatesAvailableDescription": {},
+    "snapSortOrderRelevance": "Relevans",
+    "@snapSortOrderRelevance": {},
+    "snapSortOrderDownloadSizeDesc": "Storlek (störst till minst)",
+    "@snapSortOrderDownloadSizeDesc": {},
+    "appstreamUrlTypeBugtracker": "Felspårare",
+    "@appstreamUrlTypeBugtracker": {},
+    "managePageShowSystemSnapsLabel": "Visa systemets snap-paket",
+    "@managePageShowSystemSnapsLabel": {},
+    "searchPageFilterByLabel": "Filtrera efter",
+    "@searchPageFilterByLabel": {},
+    "snapSortOrderInstalledDateDesc": "Mest senast uppdaterade",
+    "@snapSortOrderInstalledDateDesc": {},
+    "searchPageNoResultsCategory": "Vi kunde tyvärr inte hitta några paket i den här kategorin",
+    "@searchPageNoResultsCategory": {},
+    "unknownPublisher": "Okänd utgivare",
+    "@unknownPublisher": {},
+    "appCenterLabel": "Appcentral",
+    "@appCenterLabel": {},
+    "gamesPageTop": "Topprankat",
+    "@gamesPageTop": {},
+    "gamesPageBundles": "Programbundlingar",
+    "@gamesPageBundles": {},
+    "snapCategoryGameEmulators": "Emulatorer",
+    "@snapCategoryGameEmulators": {},
+    "snapCategoryGameEmulatorsSlogan": "Emulatorer",
+    "@snapCategoryGameEmulatorsSlogan": {},
+    "snapCategoryGnomeGamesSlogan": "GNOME spelsvit",
+    "@snapCategoryGnomeGamesSlogan": {},
+    "snapCategoryKdeGames": "KDE spel",
+    "@snapCategoryKdeGames": {},
+    "snapCategoryKdeGamesSlogan": "KDE spelsvit",
+    "@snapCategoryKdeGamesSlogan": {},
+    "snapCategoryGameLaunchers": "Spelstartare",
+    "@snapCategoryGameLaunchers": {},
+    "snapCategoryGameLaunchersSlogan": "Spelstartare",
+    "@snapCategoryGameLaunchersSlogan": {},
+    "snapReportLabel": "Rapportera {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "Välj en anledning varför du vill rapportera denna snap",
+    "@snapReportSelectReportReasonLabel": {},
+    "snapReportOptionStoreViolation": "Överträdelse av användarvillkoren för Snap Store",
+    "@snapReportOptionStoreViolation": {},
+    "snapReportDetailsLabel": "Vänligen ange en mer detaljerad anledning till din rapport",
+    "@snapReportDetailsLabel": {},
+    "snapReportOptionalEmailAddressLabel": "Din e-postadress (valfritt)",
+    "@snapReportOptionalEmailAddressLabel": {},
+    "snapReportCancelButtonLabel": "Avbryt",
+    "@snapReportCancelButtonLabel": {},
+    "snapReportDetailsHint": "Kommentar...",
+    "@snapReportDetailsHint": {},
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonicals integritetsmeddelande ",
+    "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+    "snapReportPrivacyAgreementAndLabel": "och ",
+    "@snapReportPrivacyAgreementAndLabel": {},
+    "snapReportPrivacyAgreementPrivacyPolicy": "Integritetspolicy",
+    "@snapReportPrivacyAgreementPrivacyPolicy": {},
+    "debPageErrorNoPackageInfo": "Ingen paketinformation hittades",
+    "@debPageErrorNoPackageInfo": {},
+    "snapPageShareLinkCopiedMessage": "Länk kopierad till urklipp",
+    "@snapPageShareLinkCopiedMessage": {},
+    "gamesPageTitle": "Spel",
+    "@gamesPageTitle": {},
+    "gamesPageFeatured": "Utvalda titlar",
+    "@gamesPageFeatured": {},
+    "snapCategoryGameDev": "Spelutveckling",
+    "@snapCategoryGameDev": {},
+    "snapCategoryGameDevSlogan": "Spelutveckling",
+    "@snapCategoryGameDevSlogan": {},
+    "snapCategoryGnomeGames": "GNOME spel",
+    "@snapCategoryGnomeGames": {},
+    "snapCategoryGameContentCreation": "Innehållsskapande",
+    "@snapCategoryGameContentCreation": {},
+    "snapCategoryGameContentCreationSlogan": "Innehållsskapande",
+    "@snapCategoryGameContentCreationSlogan": {},
+    "snapReportSelectAnOptionLabel": "Välj ett alternativ",
+    "@snapReportSelectAnOptionLabel": {},
+    "snapReportOptionCopyrightViolation": "Upphovsrätts eller varumärkesintrång",
+    "@snapReportOptionCopyrightViolation": {},
+    "snapReportSubmitButtonLabel": "Skicka in rapport",
+    "@snapReportSubmitButtonLabel": {},
+    "snapReportEnterValidEmailError": "Ange en giltig e-postadress",
+    "@snapReportEnterValidEmailError": {},
+    "snapReportPrivacyAgreementLabel": "Genom att skicka in detta formulär bekräftar jag att jag har läst och godkänner ",
+    "@snapReportPrivacyAgreementLabel": {},
+    "externalResources": "Ytterligare resurser",
+    "@externalResources": {},
+    "externalResourcesButtonLabel": "Upptäck mer",
+    "@externalResourcesButtonLabel": {},
+    "allGamesButtonLabel": "Alla spel",
+    "@allGamesButtonLabel": {},
+    "externalResourcesDisclaimer": "Obs: Dessa är alla externa verktyg. Dessa ägs eller distribueras inte av Canonical.",
+    "@externalResourcesDisclaimer": {},
+    "openInBrowser": "Öppna i webbläsare",
+    "@openInBrowser": {},
+    "installAll": "Installera alla",
+    "@installAll": {},
+    "managePageUpdatedWeeksAgo": "Uppdaterades för {n, plural, =1{{n} vecka} other{{n} veckor}} sedan",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "Uppdaterades för {n, plural, =1{{n} månad} other{{n} månader}} sedan",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Uppdaterades för {n, plural, =1{{n} år} other{{n} år}} sedan",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "appstreamUrlTypeVcsBrowser": "Källkod",
+    "@appstreamUrlTypeVcsBrowser": {},
+    "appstreamUrlTypeContribute": "Bidra",
+    "@appstreamUrlTypeContribute": {},
+    "localDebLearnMore": "Läs mer om paket från tredje part",
+    "@localDebLearnMore": {},
+    "localDebWarningTitle": "Potentiellt osäkert",
+    "@localDebWarningTitle": {},
+    "snapPageSizeLabel": "Storlek",
+    "@snapPageSizeLabel": {},
+    "localDebWarningBody": "Detta paket tillhandahålls av en tredje part. Att installera paket utanför App Center kan öka risken för ditt system och dina personuppgifter. Se till att du litar på källan innan du fortsätter.",
+    "@localDebWarningBody": {},
+    "localDebDialogMessage": "Detta paket tillhandahålls av en tredje part och kan hota ditt system och dina personuppgifter.",
+    "@localDebDialogMessage": {},
+    "localDebDialogConfirmation": "Är du säker på att du vill installera det?",
+    "@localDebDialogConfirmation": {},
+    "snapActionInstalledLabel": "Installerad",
+    "@snapActionInstalledLabel": {},
+    "managePageDebUpdatesMessage": "Debian paket uppdateringar hanteras av Appcentralen.",
+    "@managePageDebUpdatesMessage": {},
+    "errorViewCheckStatusLabel": "Kolla status",
+    "@errorViewCheckStatusLabel": {},
+    "errorViewNetworkErrorDescription": "Vi kan inte ladda innehåll i Appcentral utan en internetanslutning.",
+    "@errorViewNetworkErrorDescription": {},
+    "errorViewServerErrorDescription": "Vi är ledsna, vi har för närvarande problem med Appcentral.",
+    "@errorViewServerErrorDescription": {},
+    "errorViewServerErrorAction": "Kontrollera status för uppdateringar eller försök igen senare.",
+    "@errorViewServerErrorAction": {},
+    "errorViewUnknownErrorTitle": "Någonting gick fel",
+    "@errorViewUnknownErrorTitle": {},
+    "errorViewUnknownErrorAction": "Du kan försöka igen nu, kontrollera status för uppdateringar eller försöka igen senare.",
+    "@errorViewUnknownErrorAction": {},
+    "errorViewNetworkErrorTitle": "Anslut till internet",
+    "@errorViewNetworkErrorTitle": {},
+    "snapdExceptionRunningApps": "Vi kunde inte uppdatera {snapName} eftersom det körs just nu.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewNetworkErrorAction": "Kontrollera din uppkoppling och försök igen.",
+    "@errorViewNetworkErrorAction": {},
+    "errorViewUnknownErrorDescription": "Vi är ledsna, men vi är inte säkra på vad felet är.",
+    "@errorViewUnknownErrorDescription": {},
+    "managePageNoInternet": "Kan inte nå servern, kontrollera din internetanslutning eller försök igen senare.",
+    "@managePageNoInternet": {},
+    "managePageOwnUpdateAvailable": "Appcentral uppdatering är tillgänglig",
+    "@managePageOwnUpdateAvailable": {},
+    "managePageOwnUpdateDescription": "När du avslutar programmet uppdateras det automatiskt.",
+    "@managePageOwnUpdateDescription": {},
+    "managePageOwnUpdateDescriptionSoon": "Appcentral kommer automatiskt att uppdateras om {time}.",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageOwnUpdateQuitButton": "Avsluta vid uppdatering",
+    "@managePageOwnUpdateQuitButton": {},
+    "managePageQuitToUpdate": "Avsluta för att uppdatera",
+    "@managePageQuitToUpdate": {},
+    "managePageTitle": "Hantera installerade snap-paket",
+    "@managePageTitle": {},
+    "managePageUpdatesFailed": "{n, plural, =1{En uppdatering} other{{n} uppdateringar}} misslyckades",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "Vi kunde inte uppdatera dessa program eftersom de körs för närvarande.\n\n{snapList}\nNär du avslutar programmen uppdateras de automatiskt.",
+    "@managePageUpdatesFailedBody": {},
+    "snapCategoryArtAndDesignButtonLabel": "Börja skapa",
+    "@snapCategoryArtAndDesignButtonLabel": {},
+    "snapCategoryArtAndDesignSlogan": "Från din första skiss till slutresultatet, utforska appar för konst och design.",
+    "@snapCategoryArtAndDesignSlogan": {},
+    "managePageInstallingLabel": "Installerar ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageDocumentationLinkLabel": "Lär dig hur du hanterar Debianpaket i denna dokumentationen.",
+    "@managePageDocumentationLinkLabel": {},
+    "debPageDocumentationLinkLabel": "Lär dig hur du hanterar Debianpaket",
+    "@debPageDocumentationLinkLabel": {},
+    "debPageShareLinkCopiedMessage": "Länk kopierad till urklipp",
+    "@debPageShareLinkCopiedMessage": {},
+    "snapPageGalleryNextSemanticLabel": "Nästa bild",
+    "@snapPageGalleryNextSemanticLabel": {},
+    "sectionCollapseSemanticLabel": "Fäll ihop {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageGalleryImageSemanticLabel": "Bild {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "sectionExpandSemanticLabel": "Expandera {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareSemanticLabel": "Kopiera länk",
+    "@debPageShareSemanticLabel": {},
+    "snapPageGalleryPreviousSemanticLabel": "Föregående bild",
+    "@snapPageGalleryPreviousSemanticLabel": {},
+    "snapPageShareSemanticLabel": "Kopiera länk",
+    "@snapPageShareSemanticLabel": {},
+    "snapPageReportSemanticLabel": "Rapportera",
+    "@snapPageReportSemanticLabel": {},
+    "appCardPublisherSemanticLabel": "Publicerad av {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Betyg {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "codecPageDescription": "Du behöver installera följande kodekar för att hantera vissa video- och ljudformat:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "Vissa av de rekommenderade kodekarna kan vara prioprietära.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "Installera rekommenderade kodekar",
+    "@codecInstallAllButton": {}
 }
