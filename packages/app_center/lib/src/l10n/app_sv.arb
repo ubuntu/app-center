@@ -536,5 +536,7 @@
     "codecProprietaryDisclaimer": "Vissa av de rekommenderade kodekarna kan vara prioprietära.",
     "@codecProprietaryDisclaimer": {},
     "codecInstallAllButton": "Installera rekommenderade kodekar",
-    "@codecInstallAllButton": {}
+    "@codecInstallAllButton": {},
+    "codecPageTitle": "Saknar mediakodekar",
+    "@codecPageTitle": {}
 }
