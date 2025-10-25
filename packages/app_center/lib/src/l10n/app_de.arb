@@ -530,5 +530,13 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "codecPageTitle": "Fehlende Medien-Codecs",
+    "@codecPageTitle": {},
+    "codecPageDescription": "Sie müssen die folgenden Codecs installieren, damit bestimmte Video- und Audioformate verarbeitet werden können:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "Manche der empfohlenen Codecs könnten proprietär sein.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "Empfohlene Codecs installieren",
+    "@codecInstallAllButton": {}
 }
