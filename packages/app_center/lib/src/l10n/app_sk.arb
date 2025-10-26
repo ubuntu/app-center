@@ -151,13 +151,13 @@
     "@aboutPagePublishLabel": {},
     "aboutPageContributorTitle": "Navrhnuté a vyvinuté:",
     "@aboutPageContributorTitle": {},
-    "managePageInstalledAndUpdatedLabel": "Nainštalované a aktualizované",
+    "managePageInstalledAndUpdatedLabel": "Aktualizované",
     "@managePageInstalledAndUpdatedLabel": {},
     "appstreamUrlTypeHomepage": "Domovská stránka",
     "@appstreamUrlTypeHomepage": {},
     "managePageCheckingForUpdates": "Kontrolujú sa aktualizácie",
     "@managePageCheckingForUpdates": {},
-    "managePageUpdatedDaysAgo": "Upravené pred {n, plural, =1{{n} dňom} other{{n} dňami}}",
+    "managePageUpdatedDaysAgo": "Pred {n, plural, =1{{n} dňom} other{{n} dňami}}",
     "@managePageUpdatedDaysAgo": {
         "placeholders": {
             "n": {
@@ -335,7 +335,7 @@
     "@openInBrowser": {},
     "installAll": "Inštalovať všetko",
     "@installAll": {},
-    "snapPageShareLinkCopiedMessage": "Odkaz bol skopírovaný do schránky",
+    "snapPageShareLinkCopiedMessage": "Odkaz skopírovaný do schránky",
     "@snapPageShareLinkCopiedMessage": {},
     "gamesPageFeatured": "Odporúčané tituly",
     "@gamesPageFeatured": {},
@@ -363,7 +363,7 @@
     "@snapCategoryGnomeGamesSlogan": {},
     "externalResourcesDisclaimer": "Poznámka: Všetky tieto nástroje sú externé. Nie sú vo vlastníctve ani spravované spoločnosťou Canonical.",
     "@externalResourcesDisclaimer": {},
-    "managePageUpdatedMonthsAgo": "Upravené pred {n, plural, =1{{n} mesiacom} other{{n} mesiacmi}}",
+    "managePageUpdatedMonthsAgo": "Pred {n, plural, =1{{n} mesiacom} other{{n} mesiacmi}}",
     "@managePageUpdatedMonthsAgo": {
         "placeholders": {
             "n": {
@@ -371,7 +371,7 @@
             }
         }
     },
-    "managePageUpdatedYearsAgo": "Upravené pred {n, plural, =1{{n} rokom} other{{n} rokmi}}",
+    "managePageUpdatedYearsAgo": "Pred {n, plural, =1{{n} rokom} other{{n} rokmi}}",
     "@managePageUpdatedYearsAgo": {
         "placeholders": {
             "n": {
@@ -379,7 +379,7 @@
             }
         }
     },
-    "managePageUpdatedWeeksAgo": "Upravené pred {n, plural, =1{{n} týždňom} other{{n} týždňami}}",
+    "managePageUpdatedWeeksAgo": "Pred {n, plural, =1{{n} týždňom} other{{n} týždňami}}",
     "@managePageUpdatedWeeksAgo": {
         "placeholders": {
             "n": {
@@ -421,7 +421,7 @@
     "@errorViewCheckStatusLabel": {},
     "errorViewNetworkErrorAction": "Skontrolujte pripojenie a skúste to znova.",
     "@errorViewNetworkErrorAction": {},
-    "errorViewNetworkErrorTitle": "Pripojenie na internet",
+    "errorViewNetworkErrorTitle": "Pripojte sa k internetu",
     "@errorViewNetworkErrorTitle": {},
     "snapdExceptionRunningApps": "Nepodarilo sa aktualizovať {snapName}, pretože je momentálne spustený.",
     "@snapdExceptionRunningApps": {
