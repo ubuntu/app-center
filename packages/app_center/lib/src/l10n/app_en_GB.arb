@@ -530,5 +530,13 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "codecPageTitle": "Missing media codecs",
+    "@codecPageTitle": {},
+    "codecPageDescription": "You need to install the following codecs for handling certain video and audio formats:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "Some of the recommended codecs could be proprietary.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "Install recommended codecs",
+    "@codecInstallAllButton": {}
 }
