@@ -1,534 +1,542 @@
 {
-  "snapPageLinksLabel": "Linkit",
-  "@snapPageLinksLabel": {},
-  "snapPageVersionLabel": "Julkaisu",
-  "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "Debian-paketit",
-  "@packageFormatDebLabel": {},
-  "snapCategoryBooksAndReference": "Kirjat ja viitteet",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryProductivity": "Tuotteliaisuus",
-  "@snapCategoryProductivity": {},
-  "snapCategoryUtilities": "Apuohjelmat",
-  "@snapCategoryUtilities": {},
-  "snapCategorySocial": "Some",
-  "@snapCategorySocial": {},
-  "productivityPageLabel": "Tuotteliaisuus",
-  "@productivityPageLabel": {},
-  "snapCategoryNewsAndWeather": "Uutiset ja sää",
-  "@snapCategoryNewsAndWeather": {},
-  "gamesPageLabel": "Pelit",
-  "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "Taiteet ja suunnittelu",
-  "@snapCategoryArtAndDesign": {},
-  "developmentPageLabel": "Kehitystyö",
-  "@developmentPageLabel": {},
-  "managePageLabel": "Hallitse",
-  "@managePageLabel": {},
-  "snapPageChannelLabel": "Kanava",
-  "@snapPageChannelLabel": {},
-  "snapCategoryEducation": "Opiskelu",
-  "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "Päivitä",
-  "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "Järjestä",
-  "@searchPageSortByLabel": {},
-  "snapPageGalleryLabel": "Galleria",
-  "@snapPageGalleryLabel": {},
-  "searchFieldDebSection": "Debian-paketit",
-  "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "Avaa",
-  "@snapActionOpenLabel": {},
-  "snapCategoryDevelopment": "Kehitystyö",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryHealthAndFitness": "Terveys ja kunto",
-  "@snapCategoryHealthAndFitness": {},
-  "appstreamUrlTypeContact": "Yhteys",
-  "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "Tietoturva",
-  "@snapCategorySecurity": {},
-  "snapCategoryFinance": "Rahatalous",
-  "@snapCategoryFinance": {},
-  "snapCategoryServerAndCloud": "Palvelin ja pilvi",
-  "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "Tietoja",
-  "@aboutPageLabel": {},
-  "snapPageSummaryLabel": "Yhteenveto",
-  "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool;sovellus;ohjelma;paketti;työkalu;äppi",
-  "@appstreamSearchGreylist": {},
-  "snapCategoryScience": "Tiede",
-  "@snapCategoryScience": {},
-  "snapCategoryEntertainment": "Viihde",
-  "@snapCategoryEntertainment": {},
-  "snapActionInstallLabel": "Asenna",
-  "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "Lisenssi",
-  "@snapPageLicenseLabel": {},
-  "snapCategoryPhotoAndVideo": "Kuva ja video",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "Eristys",
-  "@snapPageConfinementLabel": {},
-  "snapCategoryMusicAndAudio": "Musiikki ja ääni",
-  "@snapCategoryMusicAndAudio": {},
-  "aboutPageGitHubLabel": "Löydät meidät GitHubista",
-  "@aboutPageGitHubLabel": {},
-  "packageFormatSnapLabel": "Snap-paketit",
-  "@packageFormatSnapLabel": {},
-  "snapCategoryGames": "Pelit",
-  "@snapCategoryGames": {},
-  "snapActionInstallingLabel": "Asennetaan",
-  "@snapActionInstallingLabel": {},
-  "searchFieldSearchHint": "Etsi sovelluksia",
-  "@searchFieldSearchHint": {},
-  "snapCategoryFeatured": "Nyt esillä",
-  "@snapCategoryFeatured": {},
-  "managePageSearchFieldSearchHint": "Etsi asennettuja sovelluksia",
-  "@managePageSearchFieldSearchHint": {},
-  "snapActionCancelLabel": "Peru",
-  "@snapActionCancelLabel": {},
-  "snapPagePublisherLabel": "Julkaisija",
-  "@snapPagePublisherLabel": {},
-  "snapPageDescriptionLabel": "Kuvaus",
-  "@snapPageDescriptionLabel": {},
-  "explorePageLabel": "Tutustu",
-  "@explorePageLabel": {},
-  "searchFieldSnapSection": "Snap-paketit",
-  "@searchFieldSnapSection": {},
-  "snapCategoryDevicesAndIot": "Laitteet ja IoT",
-  "@snapCategoryDevicesAndIot": {},
-  "managePageCheckForUpdates": "Tarkista päivitykset",
-  "@managePageCheckForUpdates": {},
-  "managePageUpdateAllLabel": "Päivitä kaikki",
-  "@managePageUpdateAllLabel": {},
-  "searchFieldSearchForLabel": "Näytä kaikki haun \"{query}\" tulokset",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "explorePageCategoriesLabel": "Luokat",
-  "@explorePageCategoriesLabel": {},
-  "snapCategoryDefaultButtonLabel": "Löydä enemmän",
-  "@snapCategoryDefaultButtonLabel": {},
-  "managePageShowDetailsLabel": "Näytä tiedot",
-  "@managePageShowDetailsLabel": {},
-  "snapPageDownloadSizeLabel": "Latauksen koko",
-  "@snapPageDownloadSizeLabel": {},
-  "snapCategoryProductivityButtonLabel": "Tutustu tuottavuuskokoelmaan",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapPagePublishedLabel": "Julkaistu",
-  "@snapPagePublishedLabel": {},
-  "aboutPageLearnMoreLabel": "Lue lisää",
-  "@aboutPageLearnMoreLabel": {},
-  "snapRatingsBandNeutral": "Neutraali",
-  "@snapRatingsBandNeutral": {},
-  "appstreamUrlTypeTranslate": "Käännökset",
-  "@appstreamUrlTypeTranslate": {},
-  "searchPageNoResultsHint": "Käytä eri hakuehtoja tai yleisempiä avainsanoja",
-  "@searchPageNoResultsHint": {},
-  "snapRatingsBandGood": "Hyvä",
-  "@snapRatingsBandGood": {},
-  "snapCategoryFeaturedSlogan": "Esittelyssä olevat snapit",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapSortOrderInstalledDateAsc": "Pisin aika viime päivityksestä",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapCategoryProductivitySlogan": "Yksi asia vähemmän tehtävälistalla",
-  "@snapCategoryProductivitySlogan": {},
-  "appstreamUrlTypeDonation": "Lahjoita",
-  "@appstreamUrlTypeDonation": {},
-  "snapRatingsBandVeryGood": "Erittäin hyvä",
-  "@snapRatingsBandVeryGood": {},
-  "snapActionRemoveLabel": "Poista asennus",
-  "@snapActionRemoveLabel": {},
-  "appstreamUrlTypeHelp": "Tuki",
-  "@appstreamUrlTypeHelp": {},
-  "snapCategoryPersonalisation": "Mukauttaminen",
-  "@snapCategoryPersonalisation": {},
-  "aboutPagePublishLabel": "Julkaise Snap-kauppaan",
-  "@aboutPagePublishLabel": {},
-  "aboutPageContributorTitle": "Suunnitellut ja kehittänyt:",
-  "@aboutPageContributorTitle": {},
-  "managePageInstalledAndUpdatedLabel": "Asennettu ja päivitetty",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "appstreamUrlTypeHomepage": "Verkkosivusto",
-  "@appstreamUrlTypeHomepage": {},
-  "managePageCheckingForUpdates": "Tarkistetaan päivityksiä",
-  "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Päivitetty {n, plural, =1{{n} päivä} other{{n} päivää}} sitten",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapRatingsBandInsufficientVotes": "Ei riittävästi ääniä",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsBandVeryPoor": "Erittäin heikko",
-  "@snapRatingsBandVeryPoor": {},
-  "managePageDescription": "Tarkista saatavilla olevat päivitykset, päivitä sovellukset ja hallitse kaikkien sovellusten tilaa.",
-  "@managePageDescription": {},
-  "snapActionRemovingLabel": "Poistetaan asennus",
-  "@snapActionRemovingLabel": {},
-  "snapSortOrderInstalledSizeDesc": "Koko (suurimmasta pienimpään)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapPageDeveloperWebsiteLabel": "Kehittäjän sivusto",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapConfinementClassic": "Klassinen",
-  "@snapConfinementClassic": {},
-  "snapRatingsBandPoor": "Heikko",
-  "@snapRatingsBandPoor": {},
-  "snapCategoryDevelopmentSlogan": "Tärkeimmät snapit kehittäjille",
-  "@snapCategoryDevelopmentSlogan": {},
-  "searchPageTitle": "Tulokset haulla \"{query}\"",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapCategoryGamesSlogan": "Kaikkea peli-iltaa varten",
-  "@snapCategoryGamesSlogan": {},
-  "snapActionSwitchChannelLabel": "Vaihda kanavaa",
-  "@snapActionSwitchChannelLabel": {},
-  "appstreamUrlTypeFaq": "UKK",
-  "@appstreamUrlTypeFaq": {},
-  "snapConfinementStrict": "Tiukka",
-  "@snapConfinementStrict": {},
-  "aboutPageContributeLabel": "Osallistu tai ilmoita virheestä",
-  "@aboutPageContributeLabel": {},
-  "snapCategoryUbuntuDesktop": "Ubuntu-työpöytä",
-  "@snapCategoryUbuntuDesktop": {},
-  "managePageUpdatesAvailable": "Päivityksiä saatavilla ({n})",
-  "@managePageUpdatesAvailable": {},
-  "aboutPageCommunityTitle": "Ole osa yhteisöä:",
-  "@aboutPageCommunityTitle": {},
-  "searchPageNoResultsCategoryHint": "Etsi eri luokasta tai käytä yleisempiä avainsanoja",
-  "@searchPageNoResultsCategoryHint": {},
-  "snapSortOrderAlphabeticalDesc": "Aakkosjärjestys (Ö-A)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "searchPageNoResultsCategory": "Valitettavasti tästä luokasta ei löytynyt paketteja",
-  "@searchPageNoResultsCategory": {},
-  "snapRatingsVotes": "{n} ääntä",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapCategoryAll": "Kaikki luokat",
-  "@snapCategoryAll": {},
-  "snapSortOrderInstalledSizeAsc": "Koko (pienimmästä suurimpaan)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "aboutPageVersionLabel": "Versio {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageContactPublisherLabel": "Ota yhteys julkaisijaan {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapConfinementDevmode": "Kehitystila",
-  "@snapConfinementDevmode": {},
-  "searchPageNoResults": "Haku \"{query}\" ei tuottanut tuloksia",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapSortOrderDownloadSizeAsc": "Koko (pienimmästä suurimpaan)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "unknownPublisher": "Tuntematon julkaisija",
-  "@unknownPublisher": {},
-  "snapCategoryUbuntuDesktopSlogan": "Hyppy työpöydälle",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapActionUpdatingLabel": "Päivitetään",
-  "@snapActionUpdatingLabel": {},
-  "searchPageRelevanceLabel": "Asiaankuuluvuus",
-  "@searchPageRelevanceLabel": {},
-  "snapSortOrderAlphabeticalAsc": "Aakkosjärjestys (A-Ö)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "managePageNoUpdatesAvailableDescription": "Päivityksiä ei ole saatavilla. Kaikki sovellukset ovat ajan tasalla.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "snapSortOrderRelevance": "Asiaankuuluvuus",
-  "@snapSortOrderRelevance": {},
-  "snapSortOrderDownloadSizeDesc": "Koko (suurimmasta pienimpään)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "appstreamUrlTypeBugtracker": "Vianseuranta",
-  "@appstreamUrlTypeBugtracker": {},
-  "managePageShowSystemSnapsLabel": "Näytä järjestelmä-snapit",
-  "@managePageShowSystemSnapsLabel": {},
-  "searchPageFilterByLabel": "Suodata",
-  "@searchPageFilterByLabel": {},
-  "snapSortOrderInstalledDateDesc": "Lyhyin aika viime päivityksestä",
-  "@snapSortOrderInstalledDateDesc": {},
-  "snapReportOptionCopyrightViolation": "Tekijänoikeuden tai tavaramerkin loukkaus",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportSelectReportReasonLabel": "Valitse syy, miksi teet ilmoituksen tästä snapista",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonicalin tietosuojakäytännön ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "externalResourcesDisclaimer": "Huomio: nämä ovat ulkoisia työkaluja. Canonical ei omista tai jakele niitä.",
-  "@externalResourcesDisclaimer": {},
-  "externalResources": "Lisäresurssit",
-  "@externalResources": {},
-  "externalResourcesButtonLabel": "Löydä lisää",
-  "@externalResourcesButtonLabel": {},
-  "allGamesButtonLabel": "Kaikki pelit",
-  "@allGamesButtonLabel": {},
-  "appCenterLabel": "Sovelluskeskus",
-  "@appCenterLabel": {},
-  "snapPageShareLinkCopiedMessage": "Linkki kopioitu leikepöydälle",
-  "@snapPageShareLinkCopiedMessage": {},
-  "gamesPageTitle": "Pelit",
-  "@gamesPageTitle": {},
-  "gamesPageTop": "Parhaiten arvioidut",
-  "@gamesPageTop": {},
-  "gamesPageFeatured": "Suositut nimikkeet",
-  "@gamesPageFeatured": {},
-  "gamesPageBundles": "Sovelluskokoelmat",
-  "@gamesPageBundles": {},
-  "snapCategoryGameDev": "Pelikehitys",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameDevSlogan": "Pelikehitys",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryGameEmulators": "Emulaattorit",
-  "@snapCategoryGameEmulators": {},
-  "snapCategoryGameEmulatorsSlogan": "Emulaattorit",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryGnomeGames": "Gnomen pelit",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryGnomeGamesSlogan": "Gnomen pelikokoelma",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryKdeGames": "KDE:n pelit",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryKdeGamesSlogan": "KDE:n pelikokoelma",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapCategoryGameLaunchers": "Pelikäynnistimet",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryGameLaunchersSlogan": "Pelikäynnistimet",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapCategoryGameContentCreation": "Sisällöntuotanto",
-  "@snapCategoryGameContentCreation": {},
-  "snapCategoryGameContentCreationSlogan": "Sisällöntuotanto",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapReportLabel": "Ilmoita {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportSelectAnOptionLabel": "Valitse yksi",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportOptionStoreViolation": "Snap-kaupan käyttöehtojen rikkominen",
-  "@snapReportOptionStoreViolation": {},
-  "snapReportDetailsLabel": "Anna lisätietoja ilmoitukseen",
-  "@snapReportDetailsLabel": {},
-  "snapReportOptionalEmailAddressLabel": "Sähköpostiosoitteesi (valinnainen)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportCancelButtonLabel": "Peru",
-  "@snapReportCancelButtonLabel": {},
-  "snapReportSubmitButtonLabel": "Lähetä ilmoitus",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportEnterValidEmailError": "Kirjoita kelvollinen sähköpostiosoite",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportDetailsHint": "Kommentti...",
-  "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementLabel": "Lähettämällä tämän lomakkeen vahvistan lukeneeni ja hyväksyväni ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "snapReportPrivacyAgreementAndLabel": "ja ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "tietosuojakäytännön",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "debPageErrorNoPackageInfo": "Paketin tietoja ei löytynyt",
-  "@debPageErrorNoPackageInfo": {},
-  "openInBrowser": "Avaa selaimessa",
-  "@openInBrowser": {},
-  "installAll": "Asenna kaikki",
-  "@installAll": {},
-  "managePageUpdatedWeeksAgo": "Päivitetty {n, plural, =1{{n} viikko} other{{n} viikkoa}} sitten",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedMonthsAgo": "Päivitetty {n, plural, =1{{n} kuukausi} other{{n}kuukautta}} sitten",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedYearsAgo": "Päivitetty {n, plural, =1{{n} vuosi} other{{n} vuotta}} sitten",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageDebUpdatesMessage": "Debian-pakettien päivityksistä vastaa Ohjelmistojen päivitys.",
-  "@managePageDebUpdatesMessage": {},
-  "snapActionInstalledLabel": "Asennettu",
-  "@snapActionInstalledLabel": {},
-  "appstreamUrlTypeContribute": "Osallistu",
-  "@appstreamUrlTypeContribute": {},
-  "appstreamUrlTypeVcsBrowser": "Lähde",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "localDebDialogMessage": "Tämän paketin tarjoaa kolmas osapuoli, ja se saattaa olla uhka järjestelmän turvallisuudelle sekä henkilökohtaisille tiedoille.",
-  "@localDebDialogMessage": {},
-  "localDebWarningTitle": "Mahdollisesti turvaton",
-  "@localDebWarningTitle": {},
-  "localDebLearnMore": "Lue lisää kolmansien osapuolten paketeista",
-  "@localDebLearnMore": {},
-  "localDebDialogConfirmation": "Haluatko varmasti asentaa sen?",
-  "@localDebDialogConfirmation": {},
-  "snapPageSizeLabel": "Koko",
-  "@snapPageSizeLabel": {},
-  "managePageInstallingLabel": "Asennetaan ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageTitle": "Hallitse asennettuja snap-paketteja",
-  "@managePageTitle": {},
-  "snapCategoryArtAndDesignButtonLabel": "Aloita luominen",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "Ensimmäisestä luonnoksesta viimeiseen silaukseen, selaa sovelluksia taiteiluun ja suunnitteluun.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "snapdExceptionRunningApps": "Sovellusta {snapName} ei voitu päivittää, koska se on käynnissä.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewCheckStatusLabel": "Tarkista tila",
-  "@errorViewCheckStatusLabel": {},
-  "managePageOwnUpdateAvailable": "Sovelluskeskuksen päivitys saatavilla",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateDescription": "Kun lopetat sovelluksen, se päivittyy automaattisesti.",
-  "@managePageOwnUpdateDescription": {},
-  "managePageOwnUpdateDescriptionSoon": "Sovelluskeskus päivittyy automaattisesti {time}.",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "managePageUpdatesFailedBody": "Näitä sovelluksia ei voitu päivittää, koska ne ovat käynnissä.\n\n{snapList}\nKun lopetat sovellukset, ne päivittyvät automaattisesti.",
-  "@managePageUpdatesFailedBody": {},
-  "managePageUpdatesFailed": "{n, plural, =1{Yksi päivitys} other{{n} päivitystä}} epäonnistui",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "errorViewNetworkErrorTitle": "Yhdistä Internetiin",
-  "@errorViewNetworkErrorTitle": {},
-  "errorViewNetworkErrorDescription": "Sovelluskeskuksen sisältöä ei voi ladata ilman Internet-yhteyttä.",
-  "@errorViewNetworkErrorDescription": {},
-  "errorViewUnknownErrorAction": "Voit yrittää uudelleen nyt, tarkistaa päivitysten tilan, tai yrittää uudelleen myöhemmin.",
-  "@errorViewUnknownErrorAction": {},
-  "managePageNoInternet": "Ei yhteyttä palvelimeen. Tarkista Internet-yhteyden tila ja yritä uudelleen.",
-  "@managePageNoInternet": {},
-  "errorViewNetworkErrorAction": "Tarkista yhteyden tila ja yritä uudelleen.",
-  "@errorViewNetworkErrorAction": {},
-  "errorViewServerErrorDescription": "Sovelluskeskuksessa on valitettavasti ongelmia tällä hetkellä.",
-  "@errorViewServerErrorDescription": {},
-  "errorViewUnknownErrorTitle": "Jokin meni pieleen",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewUnknownErrorDescription": "Valitettavasti emme tiedä mistä virheestä on kyse.",
-  "@errorViewUnknownErrorDescription": {},
-  "managePageQuitToUpdate": "Lopeta päivittääksesi",
-  "@managePageQuitToUpdate": {},
-  "managePageOwnUpdateQuitButton": "Lopeta päivittääksesi",
-  "@managePageOwnUpdateQuitButton": {},
-  "managePageDocumentationLinkLabel": "Lue Debian-pakettien hallitsemisesta dokumentaatiosta.",
-  "@managePageDocumentationLinkLabel": {},
-  "localDebWarningBody": "Tämä paketti on kolmannen osapuolen tarjoama. Sovelluskeskuksen ulkopuolelta pakettien asentaminen voi olla riski järjestelmälle ja henkilökohtaisille tiedoille. Varmista, että luotat paketin lähteeseen ennen jatkamista.",
-  "@localDebWarningBody": {},
-  "debPageDocumentationLinkLabel": "Lue Debian-pakettien hallitsemisesta",
-  "@debPageDocumentationLinkLabel": {},
-  "errorViewServerErrorAction": "Tarkista tila päivitysten varalta tai yritä myöhemmin uudelleen.",
-  "@errorViewServerErrorAction": {},
-  "snapPageGalleryNextSemanticLabel": "Seuraava kuva",
-  "@snapPageGalleryNextSemanticLabel": {},
-  "snapPageGalleryPreviousSemanticLabel": "Edellinen kuva",
-  "@snapPageGalleryPreviousSemanticLabel": {},
-  "snapPageGalleryImageSemanticLabel": "Kuva {n}",
-  "@snapPageGalleryImageSemanticLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapPageShareSemanticLabel": "Kopioi linkki",
-  "@snapPageShareSemanticLabel": {},
-  "snapPageReportSemanticLabel": "Raportti",
-  "@snapPageReportSemanticLabel": {},
-  "sectionExpandSemanticLabel": "Laajenna {section}",
-  "@sectionExpandSemanticLabel": {
-    "placeholders": {
-      "section": {
-        "type": "String"
-      }
-    }
-  },
-  "sectionCollapseSemanticLabel": "Supista {section}",
-  "@sectionCollapseSemanticLabel": {
-    "placeholders": {
-      "section": {
-        "type": "String"
-      }
-    }
-  },
-  "appCardPublisherSemanticLabel": "Julkaisijana {publisher}.",
-  "@appCardPublisherSemanticLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "appCardRatingSemanticLabel": "Luokitus {rating}.",
-  "@appCardRatingSemanticLabel": {
-    "placeholders": {
-      "rating": {
-        "type": "String"
-      }
-    }
-  },
-  "debPageShareLinkCopiedMessage": "Linkki kopioitu leikepöydälle",
-  "@debPageShareLinkCopiedMessage": {},
-  "debPageShareSemanticLabel": "Kopioi linkki",
-  "@debPageShareSemanticLabel": {}
+    "snapPageLinksLabel": "Linkit",
+    "@snapPageLinksLabel": {},
+    "snapPageVersionLabel": "Julkaisu",
+    "@snapPageVersionLabel": {},
+    "packageFormatDebLabel": "Debian-paketit",
+    "@packageFormatDebLabel": {},
+    "snapCategoryBooksAndReference": "Kirjat ja viitteet",
+    "@snapCategoryBooksAndReference": {},
+    "snapCategoryProductivity": "Tuotteliaisuus",
+    "@snapCategoryProductivity": {},
+    "snapCategoryUtilities": "Apuohjelmat",
+    "@snapCategoryUtilities": {},
+    "snapCategorySocial": "Some",
+    "@snapCategorySocial": {},
+    "productivityPageLabel": "Tuotteliaisuus",
+    "@productivityPageLabel": {},
+    "snapCategoryNewsAndWeather": "Uutiset ja sää",
+    "@snapCategoryNewsAndWeather": {},
+    "gamesPageLabel": "Pelit",
+    "@gamesPageLabel": {},
+    "snapCategoryArtAndDesign": "Taiteet ja suunnittelu",
+    "@snapCategoryArtAndDesign": {},
+    "developmentPageLabel": "Kehitystyö",
+    "@developmentPageLabel": {},
+    "managePageLabel": "Hallitse",
+    "@managePageLabel": {},
+    "snapPageChannelLabel": "Kanava",
+    "@snapPageChannelLabel": {},
+    "snapCategoryEducation": "Opiskelu",
+    "@snapCategoryEducation": {},
+    "snapActionUpdateLabel": "Päivitä",
+    "@snapActionUpdateLabel": {},
+    "searchPageSortByLabel": "Järjestä",
+    "@searchPageSortByLabel": {},
+    "snapPageGalleryLabel": "Galleria",
+    "@snapPageGalleryLabel": {},
+    "searchFieldDebSection": "Debian-paketit",
+    "@searchFieldDebSection": {},
+    "snapActionOpenLabel": "Avaa",
+    "@snapActionOpenLabel": {},
+    "snapCategoryDevelopment": "Kehitystyö",
+    "@snapCategoryDevelopment": {},
+    "snapCategoryHealthAndFitness": "Terveys ja kunto",
+    "@snapCategoryHealthAndFitness": {},
+    "appstreamUrlTypeContact": "Yhteys",
+    "@appstreamUrlTypeContact": {},
+    "snapCategorySecurity": "Tietoturva",
+    "@snapCategorySecurity": {},
+    "snapCategoryFinance": "Rahatalous",
+    "@snapCategoryFinance": {},
+    "snapCategoryServerAndCloud": "Palvelin ja pilvi",
+    "@snapCategoryServerAndCloud": {},
+    "aboutPageLabel": "Tietoja",
+    "@aboutPageLabel": {},
+    "snapPageSummaryLabel": "Yhteenveto",
+    "@snapPageSummaryLabel": {},
+    "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool;sovellus;ohjelma;paketti;työkalu;äppi",
+    "@appstreamSearchGreylist": {},
+    "snapCategoryScience": "Tiede",
+    "@snapCategoryScience": {},
+    "snapCategoryEntertainment": "Viihde",
+    "@snapCategoryEntertainment": {},
+    "snapActionInstallLabel": "Asenna",
+    "@snapActionInstallLabel": {},
+    "snapPageLicenseLabel": "Lisenssi",
+    "@snapPageLicenseLabel": {},
+    "snapCategoryPhotoAndVideo": "Kuva ja video",
+    "@snapCategoryPhotoAndVideo": {},
+    "snapPageConfinementLabel": "Eristys",
+    "@snapPageConfinementLabel": {},
+    "snapCategoryMusicAndAudio": "Musiikki ja ääni",
+    "@snapCategoryMusicAndAudio": {},
+    "aboutPageGitHubLabel": "Löydät meidät GitHubista",
+    "@aboutPageGitHubLabel": {},
+    "packageFormatSnapLabel": "Snap-paketit",
+    "@packageFormatSnapLabel": {},
+    "snapCategoryGames": "Pelit",
+    "@snapCategoryGames": {},
+    "snapActionInstallingLabel": "Asennetaan",
+    "@snapActionInstallingLabel": {},
+    "searchFieldSearchHint": "Etsi sovelluksia",
+    "@searchFieldSearchHint": {},
+    "snapCategoryFeatured": "Nyt esillä",
+    "@snapCategoryFeatured": {},
+    "managePageSearchFieldSearchHint": "Etsi asennettuja sovelluksia",
+    "@managePageSearchFieldSearchHint": {},
+    "snapActionCancelLabel": "Peru",
+    "@snapActionCancelLabel": {},
+    "snapPagePublisherLabel": "Julkaisija",
+    "@snapPagePublisherLabel": {},
+    "snapPageDescriptionLabel": "Kuvaus",
+    "@snapPageDescriptionLabel": {},
+    "explorePageLabel": "Tutustu",
+    "@explorePageLabel": {},
+    "searchFieldSnapSection": "Snap-paketit",
+    "@searchFieldSnapSection": {},
+    "snapCategoryDevicesAndIot": "Laitteet ja IoT",
+    "@snapCategoryDevicesAndIot": {},
+    "managePageCheckForUpdates": "Tarkista päivitykset",
+    "@managePageCheckForUpdates": {},
+    "managePageUpdateAllLabel": "Päivitä kaikki",
+    "@managePageUpdateAllLabel": {},
+    "searchFieldSearchForLabel": "Näytä kaikki haun \"{query}\" tulokset",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageCategoriesLabel": "Luokat",
+    "@explorePageCategoriesLabel": {},
+    "snapCategoryDefaultButtonLabel": "Löydä enemmän",
+    "@snapCategoryDefaultButtonLabel": {},
+    "managePageShowDetailsLabel": "Näytä tiedot",
+    "@managePageShowDetailsLabel": {},
+    "snapPageDownloadSizeLabel": "Latauksen koko",
+    "@snapPageDownloadSizeLabel": {},
+    "snapCategoryProductivityButtonLabel": "Tutustu tuottavuuskokoelmaan",
+    "@snapCategoryProductivityButtonLabel": {},
+    "snapPagePublishedLabel": "Julkaistu",
+    "@snapPagePublishedLabel": {},
+    "aboutPageLearnMoreLabel": "Lue lisää",
+    "@aboutPageLearnMoreLabel": {},
+    "snapRatingsBandNeutral": "Neutraali",
+    "@snapRatingsBandNeutral": {},
+    "appstreamUrlTypeTranslate": "Käännökset",
+    "@appstreamUrlTypeTranslate": {},
+    "searchPageNoResultsHint": "Käytä eri hakuehtoja tai yleisempiä avainsanoja",
+    "@searchPageNoResultsHint": {},
+    "snapRatingsBandGood": "Hyvä",
+    "@snapRatingsBandGood": {},
+    "snapCategoryFeaturedSlogan": "Esittelyssä olevat snapit",
+    "@snapCategoryFeaturedSlogan": {},
+    "snapSortOrderInstalledDateAsc": "Pisin aika viime päivityksestä",
+    "@snapSortOrderInstalledDateAsc": {},
+    "snapCategoryProductivitySlogan": "Yksi asia vähemmän tehtävälistalla",
+    "@snapCategoryProductivitySlogan": {},
+    "appstreamUrlTypeDonation": "Lahjoita",
+    "@appstreamUrlTypeDonation": {},
+    "snapRatingsBandVeryGood": "Erittäin hyvä",
+    "@snapRatingsBandVeryGood": {},
+    "snapActionRemoveLabel": "Poista asennus",
+    "@snapActionRemoveLabel": {},
+    "appstreamUrlTypeHelp": "Tuki",
+    "@appstreamUrlTypeHelp": {},
+    "snapCategoryPersonalisation": "Mukauttaminen",
+    "@snapCategoryPersonalisation": {},
+    "aboutPagePublishLabel": "Julkaise Snap-kauppaan",
+    "@aboutPagePublishLabel": {},
+    "aboutPageContributorTitle": "Suunnitellut ja kehittänyt:",
+    "@aboutPageContributorTitle": {},
+    "managePageInstalledAndUpdatedLabel": "Asennettu ja päivitetty",
+    "@managePageInstalledAndUpdatedLabel": {},
+    "appstreamUrlTypeHomepage": "Verkkosivusto",
+    "@appstreamUrlTypeHomepage": {},
+    "managePageCheckingForUpdates": "Tarkistetaan päivityksiä",
+    "@managePageCheckingForUpdates": {},
+    "managePageUpdatedDaysAgo": "Päivitetty {n, plural, =1{{n} päivä} other{{n} päivää}} sitten",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRatingsBandInsufficientVotes": "Ei riittävästi ääniä",
+    "@snapRatingsBandInsufficientVotes": {},
+    "snapRatingsBandVeryPoor": "Erittäin heikko",
+    "@snapRatingsBandVeryPoor": {},
+    "managePageDescription": "Tarkista saatavilla olevat päivitykset, päivitä sovellukset ja hallitse kaikkien sovellusten tilaa.",
+    "@managePageDescription": {},
+    "snapActionRemovingLabel": "Poistetaan asennus",
+    "@snapActionRemovingLabel": {},
+    "snapSortOrderInstalledSizeDesc": "Koko (suurimmasta pienimpään)",
+    "@snapSortOrderInstalledSizeDesc": {},
+    "snapPageDeveloperWebsiteLabel": "Kehittäjän sivusto",
+    "@snapPageDeveloperWebsiteLabel": {},
+    "snapConfinementClassic": "Klassinen",
+    "@snapConfinementClassic": {},
+    "snapRatingsBandPoor": "Heikko",
+    "@snapRatingsBandPoor": {},
+    "snapCategoryDevelopmentSlogan": "Tärkeimmät snapit kehittäjille",
+    "@snapCategoryDevelopmentSlogan": {},
+    "searchPageTitle": "Tulokset haulla \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryGamesSlogan": "Kaikkea peli-iltaa varten",
+    "@snapCategoryGamesSlogan": {},
+    "snapActionSwitchChannelLabel": "Vaihda kanavaa",
+    "@snapActionSwitchChannelLabel": {},
+    "appstreamUrlTypeFaq": "UKK",
+    "@appstreamUrlTypeFaq": {},
+    "snapConfinementStrict": "Tiukka",
+    "@snapConfinementStrict": {},
+    "aboutPageContributeLabel": "Osallistu tai ilmoita virheestä",
+    "@aboutPageContributeLabel": {},
+    "snapCategoryUbuntuDesktop": "Ubuntu-työpöytä",
+    "@snapCategoryUbuntuDesktop": {},
+    "managePageUpdatesAvailable": "Päivityksiä saatavilla ({n})",
+    "@managePageUpdatesAvailable": {},
+    "aboutPageCommunityTitle": "Ole osa yhteisöä:",
+    "@aboutPageCommunityTitle": {},
+    "searchPageNoResultsCategoryHint": "Etsi eri luokasta tai käytä yleisempiä avainsanoja",
+    "@searchPageNoResultsCategoryHint": {},
+    "snapSortOrderAlphabeticalDesc": "Aakkosjärjestys (Ö-A)",
+    "@snapSortOrderAlphabeticalDesc": {},
+    "searchPageNoResultsCategory": "Valitettavasti tästä luokasta ei löytynyt paketteja",
+    "@searchPageNoResultsCategory": {},
+    "snapRatingsVotes": "{n} ääntä",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapCategoryAll": "Kaikki luokat",
+    "@snapCategoryAll": {},
+    "snapSortOrderInstalledSizeAsc": "Koko (pienimmästä suurimpaan)",
+    "@snapSortOrderInstalledSizeAsc": {},
+    "aboutPageVersionLabel": "Versio {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageContactPublisherLabel": "Ota yhteys julkaisijaan {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapConfinementDevmode": "Kehitystila",
+    "@snapConfinementDevmode": {},
+    "searchPageNoResults": "Haku \"{query}\" ei tuottanut tuloksia",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapSortOrderDownloadSizeAsc": "Koko (pienimmästä suurimpaan)",
+    "@snapSortOrderDownloadSizeAsc": {},
+    "unknownPublisher": "Tuntematon julkaisija",
+    "@unknownPublisher": {},
+    "snapCategoryUbuntuDesktopSlogan": "Hyppy työpöydälle",
+    "@snapCategoryUbuntuDesktopSlogan": {},
+    "snapActionUpdatingLabel": "Päivitetään",
+    "@snapActionUpdatingLabel": {},
+    "searchPageRelevanceLabel": "Asiaankuuluvuus",
+    "@searchPageRelevanceLabel": {},
+    "snapSortOrderAlphabeticalAsc": "Aakkosjärjestys (A-Ö)",
+    "@snapSortOrderAlphabeticalAsc": {},
+    "managePageNoUpdatesAvailableDescription": "Päivityksiä ei ole saatavilla. Kaikki sovellukset ovat ajan tasalla.",
+    "@managePageNoUpdatesAvailableDescription": {},
+    "snapSortOrderRelevance": "Asiaankuuluvuus",
+    "@snapSortOrderRelevance": {},
+    "snapSortOrderDownloadSizeDesc": "Koko (suurimmasta pienimpään)",
+    "@snapSortOrderDownloadSizeDesc": {},
+    "appstreamUrlTypeBugtracker": "Vianseuranta",
+    "@appstreamUrlTypeBugtracker": {},
+    "managePageShowSystemSnapsLabel": "Näytä järjestelmä-snapit",
+    "@managePageShowSystemSnapsLabel": {},
+    "searchPageFilterByLabel": "Suodata",
+    "@searchPageFilterByLabel": {},
+    "snapSortOrderInstalledDateDesc": "Lyhyin aika viime päivityksestä",
+    "@snapSortOrderInstalledDateDesc": {},
+    "snapReportOptionCopyrightViolation": "Tekijänoikeuden tai tavaramerkin loukkaus",
+    "@snapReportOptionCopyrightViolation": {},
+    "snapReportSelectReportReasonLabel": "Valitse syy, miksi teet ilmoituksen tästä snapista",
+    "@snapReportSelectReportReasonLabel": {},
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonicalin tietosuojakäytännön ",
+    "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+    "externalResourcesDisclaimer": "Huomio: nämä ovat ulkoisia työkaluja. Canonical ei omista tai jakele niitä.",
+    "@externalResourcesDisclaimer": {},
+    "externalResources": "Lisäresurssit",
+    "@externalResources": {},
+    "externalResourcesButtonLabel": "Löydä lisää",
+    "@externalResourcesButtonLabel": {},
+    "allGamesButtonLabel": "Kaikki pelit",
+    "@allGamesButtonLabel": {},
+    "appCenterLabel": "Sovelluskeskus",
+    "@appCenterLabel": {},
+    "snapPageShareLinkCopiedMessage": "Linkki kopioitu leikepöydälle",
+    "@snapPageShareLinkCopiedMessage": {},
+    "gamesPageTitle": "Pelit",
+    "@gamesPageTitle": {},
+    "gamesPageTop": "Parhaiten arvioidut",
+    "@gamesPageTop": {},
+    "gamesPageFeatured": "Suositut nimikkeet",
+    "@gamesPageFeatured": {},
+    "gamesPageBundles": "Sovelluskokoelmat",
+    "@gamesPageBundles": {},
+    "snapCategoryGameDev": "Pelikehitys",
+    "@snapCategoryGameDev": {},
+    "snapCategoryGameDevSlogan": "Pelikehitys",
+    "@snapCategoryGameDevSlogan": {},
+    "snapCategoryGameEmulators": "Emulaattorit",
+    "@snapCategoryGameEmulators": {},
+    "snapCategoryGameEmulatorsSlogan": "Emulaattorit",
+    "@snapCategoryGameEmulatorsSlogan": {},
+    "snapCategoryGnomeGames": "Gnomen pelit",
+    "@snapCategoryGnomeGames": {},
+    "snapCategoryGnomeGamesSlogan": "Gnomen pelikokoelma",
+    "@snapCategoryGnomeGamesSlogan": {},
+    "snapCategoryKdeGames": "KDE:n pelit",
+    "@snapCategoryKdeGames": {},
+    "snapCategoryKdeGamesSlogan": "KDE:n pelikokoelma",
+    "@snapCategoryKdeGamesSlogan": {},
+    "snapCategoryGameLaunchers": "Pelikäynnistimet",
+    "@snapCategoryGameLaunchers": {},
+    "snapCategoryGameLaunchersSlogan": "Pelikäynnistimet",
+    "@snapCategoryGameLaunchersSlogan": {},
+    "snapCategoryGameContentCreation": "Sisällöntuotanto",
+    "@snapCategoryGameContentCreation": {},
+    "snapCategoryGameContentCreationSlogan": "Sisällöntuotanto",
+    "@snapCategoryGameContentCreationSlogan": {},
+    "snapReportLabel": "Ilmoita {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectAnOptionLabel": "Valitse yksi",
+    "@snapReportSelectAnOptionLabel": {},
+    "snapReportOptionStoreViolation": "Snap-kaupan käyttöehtojen rikkominen",
+    "@snapReportOptionStoreViolation": {},
+    "snapReportDetailsLabel": "Anna lisätietoja ilmoitukseen",
+    "@snapReportDetailsLabel": {},
+    "snapReportOptionalEmailAddressLabel": "Sähköpostiosoitteesi (valinnainen)",
+    "@snapReportOptionalEmailAddressLabel": {},
+    "snapReportCancelButtonLabel": "Peru",
+    "@snapReportCancelButtonLabel": {},
+    "snapReportSubmitButtonLabel": "Lähetä ilmoitus",
+    "@snapReportSubmitButtonLabel": {},
+    "snapReportEnterValidEmailError": "Kirjoita kelvollinen sähköpostiosoite",
+    "@snapReportEnterValidEmailError": {},
+    "snapReportDetailsHint": "Kommentti...",
+    "@snapReportDetailsHint": {},
+    "snapReportPrivacyAgreementLabel": "Lähettämällä tämän lomakkeen vahvistan lukeneeni ja hyväksyväni ",
+    "@snapReportPrivacyAgreementLabel": {},
+    "snapReportPrivacyAgreementAndLabel": "ja ",
+    "@snapReportPrivacyAgreementAndLabel": {},
+    "snapReportPrivacyAgreementPrivacyPolicy": "tietosuojakäytännön",
+    "@snapReportPrivacyAgreementPrivacyPolicy": {},
+    "debPageErrorNoPackageInfo": "Paketin tietoja ei löytynyt",
+    "@debPageErrorNoPackageInfo": {},
+    "openInBrowser": "Avaa selaimessa",
+    "@openInBrowser": {},
+    "installAll": "Asenna kaikki",
+    "@installAll": {},
+    "managePageUpdatedWeeksAgo": "Päivitetty {n, plural, =1{{n} viikko} other{{n} viikkoa}} sitten",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "Päivitetty {n, plural, =1{{n} kuukausi} other{{n}kuukautta}} sitten",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Päivitetty {n, plural, =1{{n} vuosi} other{{n} vuotta}} sitten",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageDebUpdatesMessage": "Debian-pakettien päivityksistä vastaa Ohjelmistojen päivitys.",
+    "@managePageDebUpdatesMessage": {},
+    "snapActionInstalledLabel": "Asennettu",
+    "@snapActionInstalledLabel": {},
+    "appstreamUrlTypeContribute": "Osallistu",
+    "@appstreamUrlTypeContribute": {},
+    "appstreamUrlTypeVcsBrowser": "Lähde",
+    "@appstreamUrlTypeVcsBrowser": {},
+    "localDebDialogMessage": "Tämän paketin tarjoaa kolmas osapuoli, ja se saattaa olla uhka järjestelmän turvallisuudelle sekä henkilökohtaisille tiedoille.",
+    "@localDebDialogMessage": {},
+    "localDebWarningTitle": "Mahdollisesti turvaton",
+    "@localDebWarningTitle": {},
+    "localDebLearnMore": "Lue lisää kolmansien osapuolten paketeista",
+    "@localDebLearnMore": {},
+    "localDebDialogConfirmation": "Haluatko varmasti asentaa sen?",
+    "@localDebDialogConfirmation": {},
+    "snapPageSizeLabel": "Koko",
+    "@snapPageSizeLabel": {},
+    "managePageInstallingLabel": "Asennetaan ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageTitle": "Hallitse asennettuja snap-paketteja",
+    "@managePageTitle": {},
+    "snapCategoryArtAndDesignButtonLabel": "Aloita luominen",
+    "@snapCategoryArtAndDesignButtonLabel": {},
+    "snapCategoryArtAndDesignSlogan": "Ensimmäisestä luonnoksesta viimeiseen silaukseen, selaa sovelluksia taiteiluun ja suunnitteluun.",
+    "@snapCategoryArtAndDesignSlogan": {},
+    "snapdExceptionRunningApps": "Sovellusta {snapName} ei voitu päivittää, koska se on käynnissä.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "Tarkista tila",
+    "@errorViewCheckStatusLabel": {},
+    "managePageOwnUpdateAvailable": "Sovelluskeskuksen päivitys saatavilla",
+    "@managePageOwnUpdateAvailable": {},
+    "managePageOwnUpdateDescription": "Kun lopetat sovelluksen, se päivittyy automaattisesti.",
+    "@managePageOwnUpdateDescription": {},
+    "managePageOwnUpdateDescriptionSoon": "Sovelluskeskus päivittyy automaattisesti {time}.",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "Näitä sovelluksia ei voitu päivittää, koska ne ovat käynnissä.\n\n{snapList}\nKun lopetat sovellukset, ne päivittyvät automaattisesti.",
+    "@managePageUpdatesFailedBody": {},
+    "managePageUpdatesFailed": "{n, plural, =1{Yksi päivitys} other{{n} päivitystä}} epäonnistui",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "errorViewNetworkErrorTitle": "Yhdistä Internetiin",
+    "@errorViewNetworkErrorTitle": {},
+    "errorViewNetworkErrorDescription": "Sovelluskeskuksen sisältöä ei voi ladata ilman Internet-yhteyttä.",
+    "@errorViewNetworkErrorDescription": {},
+    "errorViewUnknownErrorAction": "Voit yrittää uudelleen nyt, tarkistaa päivitysten tilan, tai yrittää uudelleen myöhemmin.",
+    "@errorViewUnknownErrorAction": {},
+    "managePageNoInternet": "Ei yhteyttä palvelimeen. Tarkista Internet-yhteyden tila ja yritä uudelleen.",
+    "@managePageNoInternet": {},
+    "errorViewNetworkErrorAction": "Tarkista yhteyden tila ja yritä uudelleen.",
+    "@errorViewNetworkErrorAction": {},
+    "errorViewServerErrorDescription": "Sovelluskeskuksessa on valitettavasti ongelmia tällä hetkellä.",
+    "@errorViewServerErrorDescription": {},
+    "errorViewUnknownErrorTitle": "Jokin meni pieleen",
+    "@errorViewUnknownErrorTitle": {},
+    "errorViewUnknownErrorDescription": "Valitettavasti emme tiedä mistä virheestä on kyse.",
+    "@errorViewUnknownErrorDescription": {},
+    "managePageQuitToUpdate": "Lopeta päivittääksesi",
+    "@managePageQuitToUpdate": {},
+    "managePageOwnUpdateQuitButton": "Lopeta päivittääksesi",
+    "@managePageOwnUpdateQuitButton": {},
+    "managePageDocumentationLinkLabel": "Lue Debian-pakettien hallitsemisesta dokumentaatiosta.",
+    "@managePageDocumentationLinkLabel": {},
+    "localDebWarningBody": "Tämä paketti on kolmannen osapuolen tarjoama. Sovelluskeskuksen ulkopuolelta pakettien asentaminen voi olla riski järjestelmälle ja henkilökohtaisille tiedoille. Varmista, että luotat paketin lähteeseen ennen jatkamista.",
+    "@localDebWarningBody": {},
+    "debPageDocumentationLinkLabel": "Lue Debian-pakettien hallitsemisesta",
+    "@debPageDocumentationLinkLabel": {},
+    "errorViewServerErrorAction": "Tarkista tila päivitysten varalta tai yritä myöhemmin uudelleen.",
+    "@errorViewServerErrorAction": {},
+    "snapPageGalleryNextSemanticLabel": "Seuraava kuva",
+    "@snapPageGalleryNextSemanticLabel": {},
+    "snapPageGalleryPreviousSemanticLabel": "Edellinen kuva",
+    "@snapPageGalleryPreviousSemanticLabel": {},
+    "snapPageGalleryImageSemanticLabel": "Kuva {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageShareSemanticLabel": "Kopioi linkki",
+    "@snapPageShareSemanticLabel": {},
+    "snapPageReportSemanticLabel": "Raportoi",
+    "@snapPageReportSemanticLabel": {},
+    "sectionExpandSemanticLabel": "Laajenna {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Supista {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardPublisherSemanticLabel": "Julkaisija {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Luokitus {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareLinkCopiedMessage": "Linkki kopioitu leikepöydälle",
+    "@debPageShareLinkCopiedMessage": {},
+    "debPageShareSemanticLabel": "Kopioi linkki",
+    "@debPageShareSemanticLabel": {},
+    "codecPageTitle": "Puuttuvia mediakoodekkeja",
+    "@codecPageTitle": {},
+    "codecPageDescription": "Seuraavat koodekit tulee asentaa, jotta tiettyjä video- ja äänimuotoja voidaan käsitellä:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "Jotkin suositelluista koodekeista saattavat olla suljettua lähdekoodia.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "Asenna suositellut koodekit",
+    "@codecInstallAllButton": {}
 }
