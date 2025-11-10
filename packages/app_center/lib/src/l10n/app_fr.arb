@@ -530,5 +530,13 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "codecPageTitle": "Codecs médias manquants",
+    "@codecPageTitle": {},
+    "codecPageDescription": "Vous devez installer les codecs suivants afin de gérer certains formats vidéo et audio :",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "Certains des codecs recommandés pourraient être propriétaires.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "Installer codecs recommandés",
+    "@codecInstallAllButton": {}
 }
