@@ -123,7 +123,7 @@
     "@aboutPageLabel": {},
     "aboutPageLearnMoreLabel": "מידע נוסף",
     "@aboutPageLearnMoreLabel": {},
-    "aboutPagePublishLabel": "פרסום בחנות יישומי ה־Snap",
+    "aboutPagePublishLabel": "פרסום בחנות חבילות ה־Snap",
     "@aboutPagePublishLabel": {},
     "aboutPageGitHubLabel": "הנוכחות שלנו ב־GitHub",
     "@aboutPageGitHubLabel": {},
@@ -181,7 +181,7 @@
     "@snapCategoryEntertainment": {},
     "snapCategoryFeatured": "מומלצים",
     "@snapCategoryFeatured": {},
-    "snapCategoryFeaturedSlogan": "יישומי Snap מומלצים",
+    "snapCategoryFeaturedSlogan": "חבילות Snap מומלצות",
     "@snapCategoryFeaturedSlogan": {},
     "snapCategoryGames": "משחקים",
     "@snapCategoryGames": {},
@@ -309,7 +309,7 @@
     "@managePageDescription": {},
     "managePageShowDetailsLabel": "הצגת פרטים",
     "@managePageShowDetailsLabel": {},
-    "managePageShowSystemSnapsLabel": "הצגת יישומי Snap של המערכת",
+    "managePageShowSystemSnapsLabel": "הצגת חבילות Snap של המערכת",
     "@managePageShowSystemSnapsLabel": {},
     "managePageUpdateAllLabel": "לעדכן הכול",
     "@managePageUpdateAllLabel": {},
@@ -371,7 +371,7 @@
     },
     "appstreamUrlTypeBugtracker": "עוקב תקלות",
     "@appstreamUrlTypeBugtracker": {},
-    "snapCategoryDevelopmentSlogan": "יישומי Snap שהם בגדר חובה למתכנתים",
+    "snapCategoryDevelopmentSlogan": "חבילות Snap שהן בגדר חובה למתכנתים",
     "@snapCategoryDevelopmentSlogan": {},
     "snapCategoryFinance": "כלכלה",
     "@snapCategoryFinance": {},
@@ -538,5 +538,11 @@
         }
     },
     "codecPageTitle": "חסרים מפענחי מדיה",
-    "@codecPageTitle": {}
+    "@codecPageTitle": {},
+    "codecPageDescription": "צריך להתקין את המפענחים הבאים לטיפול בסוגים מסוימים של וידאו ושל שמע:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "חלק מהמפענחים המומלצים עלולים להיות קנייניים.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "התקנת מפענחים מומלצים",
+    "@codecInstallAllButton": {}
 }
