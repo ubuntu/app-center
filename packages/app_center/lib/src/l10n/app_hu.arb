@@ -530,5 +530,9 @@
     "debPageShareLinkCopiedMessage": "A hivatkozás a vágólapra másolva",
     "@debPageShareLinkCopiedMessage": {},
     "debPageShareSemanticLabel": "Hivatkozás másolása",
-    "@debPageShareSemanticLabel": {}
+    "@debPageShareSemanticLabel": {},
+    "codecPageTitle": "Hiányzó média kódoló",
+    "@codecPageTitle": {},
+    "codecPageDescription": "Telepítened kell a következző kódolókat hogy bizonyos videó és hang formátumokra:",
+    "@codecPageDescription": {}
 }
