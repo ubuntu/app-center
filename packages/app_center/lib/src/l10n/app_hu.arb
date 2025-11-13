@@ -531,8 +531,12 @@
     "@debPageShareLinkCopiedMessage": {},
     "debPageShareSemanticLabel": "Hivatkozás másolása",
     "@debPageShareSemanticLabel": {},
-    "codecPageTitle": "Hiányzó média kódoló",
+    "codecPageTitle": "Hiányzó médiakodekek",
     "@codecPageTitle": {},
-    "codecPageDescription": "Telepítened kell a következző kódolókat hogy bizonyos videó és hang formátumokra:",
-    "@codecPageDescription": {}
+    "codecPageDescription": "Bizonyos video- és audioformátumok kezeléséhez telepítenie kell a következő kodekeket:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "Az ajánlott kodekek közül néhány tulajdonosi jogokkal védett lehet.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "Ajánlott kodekek telepítése",
+    "@codecInstallAllButton": {}
 }
