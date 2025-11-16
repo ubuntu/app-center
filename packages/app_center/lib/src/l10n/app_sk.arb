@@ -151,13 +151,13 @@
     "@aboutPagePublishLabel": {},
     "aboutPageContributorTitle": "Navrhnuté a vyvinuté:",
     "@aboutPageContributorTitle": {},
-    "managePageInstalledAndUpdatedLabel": "Aktualizované",
+    "managePageInstalledAndUpdatedLabel": "Nainštalované a aktualizované",
     "@managePageInstalledAndUpdatedLabel": {},
     "appstreamUrlTypeHomepage": "Domovská stránka",
     "@appstreamUrlTypeHomepage": {},
     "managePageCheckingForUpdates": "Kontrolujú sa aktualizácie",
     "@managePageCheckingForUpdates": {},
-    "managePageUpdatedDaysAgo": "Pred {n, plural, =1{{n} dňom} other{{n} dňami}}",
+    "managePageUpdatedDaysAgo": "Upravené pred {n, plural, =1{{n} dňom} other{{n} dňami}}",
     "@managePageUpdatedDaysAgo": {
         "placeholders": {
             "n": {
@@ -363,7 +363,7 @@
     "@snapCategoryGnomeGamesSlogan": {},
     "externalResourcesDisclaimer": "Poznámka: Všetky tieto nástroje sú externé. Nie sú vo vlastníctve ani spravované spoločnosťou Canonical.",
     "@externalResourcesDisclaimer": {},
-    "managePageUpdatedMonthsAgo": "Pred {n, plural, =1{{n} mesiacom} other{{n} mesiacmi}}",
+    "managePageUpdatedMonthsAgo": "Upravené pred {n, plural, =1{{n} mesiacom} other{{n} mesiacmi}}",
     "@managePageUpdatedMonthsAgo": {
         "placeholders": {
             "n": {
@@ -371,7 +371,7 @@
             }
         }
     },
-    "managePageUpdatedYearsAgo": "Pred {n, plural, =1{{n} rokom} other{{n} rokmi}}",
+    "managePageUpdatedYearsAgo": "Upravené pred {n, plural, =1{{n} rokom} other{{n} rokmi}}",
     "@managePageUpdatedYearsAgo": {
         "placeholders": {
             "n": {
@@ -379,7 +379,7 @@
             }
         }
     },
-    "managePageUpdatedWeeksAgo": "Pred {n, plural, =1{{n} týždňom} other{{n} týždňami}}",
+    "managePageUpdatedWeeksAgo": "Upravené pred {n, plural, =1{{n} týždňom} other{{n} týždňami}}",
     "@managePageUpdatedWeeksAgo": {
         "placeholders": {
             "n": {
