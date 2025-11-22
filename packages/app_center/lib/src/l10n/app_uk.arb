@@ -1,534 +1,542 @@
 {
-  "snapPageLinksLabel": "Посилання",
-  "@snapPageLinksLabel": {},
-  "snapPageVersionLabel": "Версія",
-  "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "Пакети Debian",
-  "@packageFormatDebLabel": {},
-  "snapCategoryBooksAndReference": "Книги та довідники",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryProductivity": "Продуктивність",
-  "@snapCategoryProductivity": {},
-  "snapCategoryUtilities": "Утиліти",
-  "@snapCategoryUtilities": {},
-  "snapCategorySocial": "Соціальні мережі",
-  "@snapCategorySocial": {},
-  "productivityPageLabel": "Продуктивність",
-  "@productivityPageLabel": {},
-  "snapCategoryNewsAndWeather": "Новини й погода",
-  "@snapCategoryNewsAndWeather": {},
-  "gamesPageLabel": "Ігри",
-  "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "Дизайн і мистецтво",
-  "@snapCategoryArtAndDesign": {},
-  "developmentPageLabel": "Розробка",
-  "@developmentPageLabel": {},
-  "managePageLabel": "Керувати",
-  "@managePageLabel": {},
-  "snapPageChannelLabel": "Канал",
-  "@snapPageChannelLabel": {},
-  "snapCategoryEducation": "Освіта й навчання",
-  "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "Оновити",
-  "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "Сортувати за",
-  "@searchPageSortByLabel": {},
-  "snapPageGalleryLabel": "Галерея",
-  "@snapPageGalleryLabel": {},
-  "searchFieldDebSection": "Пакети Debian",
-  "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "Відкрити",
-  "@snapActionOpenLabel": {},
-  "snapCategoryDevelopment": "Розробка",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryHealthAndFitness": "Здоров'я та спорт",
-  "@snapCategoryHealthAndFitness": {},
-  "appstreamUrlTypeContact": "Контакт",
-  "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "Безпека",
-  "@snapCategorySecurity": {},
-  "snapCategoryFinance": "Фінанси",
-  "@snapCategoryFinance": {},
-  "snapCategoryServerAndCloud": "Сервера та мережі",
-  "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "Про",
-  "@aboutPageLabel": {},
-  "snapPageSummaryLabel": "Підсумок",
-  "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "програма;додаток;застосунок;пакет;інструмент;засіб;засоби;app;application;package;program;suite;tool",
-  "@appstreamSearchGreylist": {},
-  "snapCategoryScience": "Наука",
-  "@snapCategoryScience": {},
-  "snapCategoryEntertainment": "Розваги",
-  "@snapCategoryEntertainment": {},
-  "snapActionInstallLabel": "Встановити",
-  "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "Ліцензія",
-  "@snapPageLicenseLabel": {},
-  "snapCategoryPhotoAndVideo": "Фотографії й відео",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "Обмеження",
-  "@snapPageConfinementLabel": {},
-  "snapCategoryMusicAndAudio": "Музика й звуки",
-  "@snapCategoryMusicAndAudio": {},
-  "aboutPageGitHubLabel": "Знаходьте нас на GitHub",
-  "@aboutPageGitHubLabel": {},
-  "packageFormatSnapLabel": "Пакети Snap",
-  "@packageFormatSnapLabel": {},
-  "snapCategoryGames": "Ігри",
-  "@snapCategoryGames": {},
-  "snapActionInstallingLabel": "Встановлення",
-  "@snapActionInstallingLabel": {},
-  "searchFieldSearchHint": "Пошук застосунків",
-  "@searchFieldSearchHint": {},
-  "snapCategoryFeatured": "Обране",
-  "@snapCategoryFeatured": {},
-  "managePageSearchFieldSearchHint": "Пошук встановлених застосунків",
-  "@managePageSearchFieldSearchHint": {},
-  "snapActionCancelLabel": "Скасувати",
-  "@snapActionCancelLabel": {},
-  "snapPagePublisherLabel": "Видавець",
-  "@snapPagePublisherLabel": {},
-  "snapPageDescriptionLabel": "Опис",
-  "@snapPageDescriptionLabel": {},
-  "explorePageLabel": "Цікаве",
-  "@explorePageLabel": {},
-  "searchFieldSnapSection": "Пакети Snap",
-  "@searchFieldSnapSection": {},
-  "managePageCheckForUpdates": "Перевірити наявність оновлень",
-  "@managePageCheckForUpdates": {},
-  "snapCategoryGameEmulators": "Емулятори",
-  "@snapCategoryGameEmulators": {},
-  "snapCategoryGnomeGames": "Ігри GNOME",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryKdeGamesSlogan": "Набір ігор KDE",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapCategoryGameLaunchersSlogan": "Запускачі ігор",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapCategoryProductivitySlogan": "Викресліть одну річ зі свого списку справ",
-  "@snapCategoryProductivitySlogan": {},
-  "snapCategoryUbuntuDesktop": "Стільниця Ubuntu",
-  "@snapCategoryUbuntuDesktop": {},
-  "snapSortOrderDownloadSizeDesc": "Розмір (від найбільшого до найменшого)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "snapSortOrderInstalledDateDesc": "Останні оновлення",
-  "@snapSortOrderInstalledDateDesc": {},
-  "managePageUpdatedWeeksAgo": "Оновлено {n, plural, =1{{n} тиждень} few{{n} тижні} many{{n} тижнів} other{{n} тиждень}} тому",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapRatingsBandNeutral": "Нейтрально",
-  "@snapRatingsBandNeutral": {},
-  "managePageUpdatedMonthsAgo": "Оновлено {n, plural, =1{{n} місяць} few{{n} місяці} many{{n} місяців} other{{n} місяць}} тому",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapRatingsBandPoor": "Погано",
-  "@snapRatingsBandPoor": {},
-  "managePageUpdatedYearsAgo": "Оновлено {n, plural, =1{{n} рік} few{{n} роки} many{{n} років} other{{n} рік}} тому",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapReportOptionStoreViolation": "Порушення умов надання послуг Snap Store",
-  "@snapReportOptionStoreViolation": {},
-  "snapReportDetailsLabel": "Будь ласка, надайте більш детальну причину вашої скарги",
-  "@snapReportDetailsLabel": {},
-  "managePageUpdatesAvailable": "Доступні оновлення ({n})",
-  "@managePageUpdatesAvailable": {},
-  "snapReportPrivacyAgreementLabel": "Відправляючи цю форму, я підтверджую ознайомлення та свою згоду з ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "gamesPageTop": "Найвищий рейтинг",
-  "@gamesPageTop": {},
-  "gamesPageFeatured": "Обрані найменування",
-  "@gamesPageFeatured": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "Політикою приватності",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "searchPageNoResultsCategory": "На жаль, ми не знайшли жодного пакету в цій категорії",
-  "@searchPageNoResultsCategory": {},
-  "searchPageNoResultsCategoryHint": "Спробуйте іншу категорію або використовуйте більш загальні ключові слова",
-  "@searchPageNoResultsCategoryHint": {},
-  "aboutPageContributeLabel": "Зробити внесок або повідомити про ваду",
-  "@aboutPageContributeLabel": {},
-  "snapActionRemoveLabel": "Видалити",
-  "@snapActionRemoveLabel": {},
-  "snapActionRemovingLabel": "Видалення",
-  "@snapActionRemovingLabel": {},
-  "snapCategoryGamesSlogan": "Все для вашого ігрового вечора",
-  "@snapCategoryGamesSlogan": {},
-  "snapPageContactPublisherLabel": "Зв'язатися з {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageDeveloperWebsiteLabel": "Вебсайт розробника",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapPageDownloadSizeLabel": "Розмір завантаження",
-  "@snapPageDownloadSizeLabel": {},
-  "snapPagePublishedLabel": "Опубліковано",
-  "@snapPagePublishedLabel": {},
-  "appCenterLabel": "Центр програмного забезпечення",
-  "@appCenterLabel": {},
-  "snapPageShareLinkCopiedMessage": "Посилання скопійовано в буфер обміну",
-  "@snapPageShareLinkCopiedMessage": {},
-  "explorePageCategoriesLabel": "Категорії",
-  "@explorePageCategoriesLabel": {},
-  "managePageCheckingForUpdates": "Перевірка наявності оновлень",
-  "@managePageCheckingForUpdates": {},
-  "managePageDescription": "Перевіряйте наявність доступних оновлень, оновлюйте програми та керуйте їхнім станом.",
-  "@managePageDescription": {},
-  "managePageInstalledAndUpdatedLabel": "Встановлено та оновлено",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "managePageNoUpdatesAvailableDescription": "Оновлення відсутні. Усі ваші застосунки актуальні.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "managePageShowDetailsLabel": "Показати подробиці",
-  "@managePageShowDetailsLabel": {},
-  "managePageUpdateAllLabel": "Оновити все",
-  "@managePageUpdateAllLabel": {},
-  "managePageUpdatedDaysAgo": "Оновлено {n, plural, =1{{n} день} few{{n} дні} many{{n} днів} other{{n} день}} тому",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageShowSystemSnapsLabel": "Показати системні пакунки snap",
-  "@managePageShowSystemSnapsLabel": {},
-  "appstreamUrlTypeFaq": "ЧаПи",
-  "@appstreamUrlTypeFaq": {},
-  "externalResourcesButtonLabel": "Знайти більше",
-  "@externalResourcesButtonLabel": {},
-  "allGamesButtonLabel": "Всі ігри",
-  "@allGamesButtonLabel": {},
-  "externalResourcesDisclaimer": "Примітка: Це все зовнішні інструменти. Вони не належать і не розповсюджуються компанією Canonical.",
-  "@externalResourcesDisclaimer": {},
-  "openInBrowser": "Відкрити в браузері",
-  "@openInBrowser": {},
-  "installAll": "Встановити все",
-  "@installAll": {},
-  "gamesPageTitle": "Ігри",
-  "@gamesPageTitle": {},
-  "gamesPageBundles": "Пакети застосунків",
-  "@gamesPageBundles": {},
-  "unknownPublisher": "Невідомий видавець",
-  "@unknownPublisher": {},
-  "searchFieldSearchForLabel": "Переглянути всі результати для \"{query}\"",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchPageFilterByLabel": "Фільтрувати за",
-  "@searchPageFilterByLabel": {},
-  "searchPageNoResults": "За запитом \"{query}\" нічого не знайдено",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchPageNoResultsHint": "Спробуйте використовувати інші або більш загальні ключові слова",
-  "@searchPageNoResultsHint": {},
-  "searchPageRelevanceLabel": "Актуальність",
-  "@searchPageRelevanceLabel": {},
-  "searchPageTitle": "Результати за запитом \"{query}\"",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageVersionLabel": "Версія {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageContributorTitle": "Спроектовано та розроблено:",
-  "@aboutPageContributorTitle": {},
-  "aboutPageCommunityTitle": "Станьте частиною спільноти:",
-  "@aboutPageCommunityTitle": {},
-  "aboutPagePublishLabel": "Опублікувати в Snap Store",
-  "@aboutPagePublishLabel": {},
-  "aboutPageLearnMoreLabel": "Докладніше",
-  "@aboutPageLearnMoreLabel": {},
-  "appstreamUrlTypeBugtracker": "Багтрекер",
-  "@appstreamUrlTypeBugtracker": {},
-  "appstreamUrlTypeDonation": "Підтримати",
-  "@appstreamUrlTypeDonation": {},
-  "appstreamUrlTypeHelp": "Довідка",
-  "@appstreamUrlTypeHelp": {},
-  "appstreamUrlTypeHomepage": "Головна сторінка",
-  "@appstreamUrlTypeHomepage": {},
-  "appstreamUrlTypeTranslate": "Переклади",
-  "@appstreamUrlTypeTranslate": {},
-  "snapActionSwitchChannelLabel": "Перемкнути канал",
-  "@snapActionSwitchChannelLabel": {},
-  "snapCategoryAll": "Усі категорії",
-  "@snapCategoryAll": {},
-  "snapActionUpdatingLabel": "Оновлення",
-  "@snapActionUpdatingLabel": {},
-  "snapCategoryDefaultButtonLabel": "Знайти більше",
-  "@snapCategoryDefaultButtonLabel": {},
-  "snapCategoryDevelopmentSlogan": "Обов'язкові пакунки snap для розробників",
-  "@snapCategoryDevelopmentSlogan": {},
-  "snapCategoryDevicesAndIot": "Пристрої та IoT",
-  "@snapCategoryDevicesAndIot": {},
-  "snapCategoryFeaturedSlogan": "Обрані Snap-пакунки",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapCategoryGameDev": "Розробка ігор",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameDevSlogan": "Розробка ігор",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryGameEmulatorsSlogan": "Емулятори",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryGnomeGamesSlogan": "Набір ігор GNOME",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryKdeGames": "Ігри KDE",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryGameLaunchers": "Запускачі ігор",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryGameContentCreation": "Створення контенту",
-  "@snapCategoryGameContentCreation": {},
-  "snapCategoryGameContentCreationSlogan": "Створення контенту",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapCategoryPersonalisation": "Персоналізація",
-  "@snapCategoryPersonalisation": {},
-  "snapCategoryProductivityButtonLabel": "Відкрийте для себе колекцію продуктивності",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapCategoryUbuntuDesktopSlogan": "Швидкий старт для вашої стільниці",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapConfinementClassic": "Класичний",
-  "@snapConfinementClassic": {},
-  "snapConfinementDevmode": "Режим розробника",
-  "@snapConfinementDevmode": {},
-  "snapConfinementStrict": "Суворий",
-  "@snapConfinementStrict": {},
-  "snapSortOrderAlphabeticalAsc": "За абеткою (від А до Я)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "snapSortOrderAlphabeticalDesc": "За абеткою (від Я до А)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "snapSortOrderDownloadSizeAsc": "Розмір (від найменшого до найбільшого)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "snapSortOrderInstalledSizeAsc": "Розмір (від найменшого до найбільшого)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "snapSortOrderInstalledSizeDesc": "Розмір (від найбільшого до найменшого)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapSortOrderInstalledDateAsc": "Найдавніші оновлення",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapSortOrderRelevance": "Актуальність",
-  "@snapSortOrderRelevance": {},
-  "snapRatingsBandVeryGood": "Дуже добре",
-  "@snapRatingsBandVeryGood": {},
-  "snapRatingsBandGood": "Добре",
-  "@snapRatingsBandGood": {},
-  "snapRatingsBandVeryPoor": "Дуже погано",
-  "@snapRatingsBandVeryPoor": {},
-  "snapRatingsBandInsufficientVotes": "Недостатньо голосів",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsVotes": "Голосів: {n}",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapReportLabel": "Поскаржитися на {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportSelectReportReasonLabel": "Виберіть причину для скарги про цей snap",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportSelectAnOptionLabel": "Оберіть опцію",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportOptionCopyrightViolation": "Порушення авторського права або торгової марки",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportOptionalEmailAddressLabel": "Ваша електронна пошта (необов'язково)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportCancelButtonLabel": "Скасувати",
-  "@snapReportCancelButtonLabel": {},
-  "snapReportSubmitButtonLabel": "Надіслати скаргу",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportEnterValidEmailError": "Введіть дійсну адресу електронної пошти",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportDetailsHint": "Коментар...",
-  "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Повідомленням про приватність компанії Canonical ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "snapReportPrivacyAgreementAndLabel": "та ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "debPageErrorNoPackageInfo": "Інформація про пакет не знайдена",
-  "@debPageErrorNoPackageInfo": {},
-  "externalResources": "Додаткові ресурси",
-  "@externalResources": {},
-  "appstreamUrlTypeContribute": "Зробити внесок",
-  "@appstreamUrlTypeContribute": {},
-  "snapPageSizeLabel": "Розмір",
-  "@snapPageSizeLabel": {},
-  "appstreamUrlTypeVcsBrowser": "Джерело",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "localDebWarningTitle": "Потенційно небезпечно",
-  "@localDebWarningTitle": {},
-  "localDebLearnMore": "Дізнайтеся більше про сторонні пакети",
-  "@localDebLearnMore": {},
-  "localDebDialogMessage": "Цей пакет надається третьою стороною і може загрожувати вашій системі та персональним даним.",
-  "@localDebDialogMessage": {},
-  "localDebDialogConfirmation": "Ви впевнені, що ви хочете його встановити?",
-  "@localDebDialogConfirmation": {},
-  "localDebWarningBody": "Цей пакунок наданий третьою стороною. Встановлення пакунків ззовні Центру програмного забезпечення може підвищити ризик для вашої системи та особистих даних. Перед продовженням переконайтеся, що ви довіряєте джерелу.",
-  "@localDebWarningBody": {},
-  "managePageDebUpdatesMessage": "Оновлення пакунків Debian виконує оновлювач програмного забезпечення.",
-  "@managePageDebUpdatesMessage": {},
-  "snapActionInstalledLabel": "Встановлено",
-  "@snapActionInstalledLabel": {},
-  "errorViewNetworkErrorDescription": "Без з'єднання з інтернетом ми не зможемо завантажити вміст до Центру програмного забезпечення.",
-  "@errorViewNetworkErrorDescription": {},
-  "errorViewUnknownErrorTitle": "Щось пішло не так",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewCheckStatusLabel": "Перевірити стан",
-  "@errorViewCheckStatusLabel": {},
-  "errorViewNetworkErrorAction": "Перевірте з'єднання та спробуйте ще раз.",
-  "@errorViewNetworkErrorAction": {},
-  "errorViewServerErrorDescription": "Нам дуже шкода, але у нас зараз виникли проблеми з Центром програмного забезпечення.",
-  "@errorViewServerErrorDescription": {},
-  "errorViewServerErrorAction": "Перевірте стан оновлень або спробуйте пізніше.",
-  "@errorViewServerErrorAction": {},
-  "errorViewUnknownErrorDescription": "Вибачте, але ми не впевнені, в чому саме полягає помилка.",
-  "@errorViewUnknownErrorDescription": {},
-  "errorViewUnknownErrorAction": "Ви можете повторити спробу зараз, перевірити стан оновлень або спробувати пізніше.",
-  "@errorViewUnknownErrorAction": {},
-  "snapdExceptionRunningApps": "Ми не змогли оновити {snapName}, оскільки він наразі запущений.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewNetworkErrorTitle": "Під'єднатися до інтернету",
-  "@errorViewNetworkErrorTitle": {},
-  "managePageOwnUpdateAvailable": "Доступне оновлення центру програмного забезпечення",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateDescriptionSoon": "Центр програмного забезпечення автоматично оновиться за {time}.",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "managePageOwnUpdateQuitButton": "Вийти, щоб оновити",
-  "@managePageOwnUpdateQuitButton": {},
-  "managePageOwnUpdateDescription": "Застосунок оновиться автоматично після виходу з нього.",
-  "@managePageOwnUpdateDescription": {},
-  "managePageNoInternet": "Не вдалося зв'язатися з сервером, перевірте з'єднання з інтернетом або спробуйте пізніше.",
-  "@managePageNoInternet": {},
-  "managePageQuitToUpdate": "Вийти, щоб оновити",
-  "@managePageQuitToUpdate": {},
-  "managePageTitle": "Керувати встановленими snap-пакунками",
-  "@managePageTitle": {},
-  "managePageUpdatesFailed": "Не вдалося виконати {n, plural, =1{одне оновлення update} few{{n} оновлення} many{{n} оновлень} other{{n} оновлення}}",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailedBody": "Ми не змогли оновити ці застосунки, оскільки вони зараз працюють.\n\n{snapList}\nВони оновляться автоматично після закриття.",
-  "@managePageUpdatesFailedBody": {},
-  "snapCategoryArtAndDesignButtonLabel": "Почніть створювати",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "Від першого ескізу до останнього дотику — відкрийте для себе застосунки для мистецтва та дизайну.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "managePageInstallingLabel": "Встановлення ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "debPageDocumentationLinkLabel": "Дізнайтеся про керування пакунками Debian",
-  "@debPageDocumentationLinkLabel": {},
-  "managePageDocumentationLinkLabel": "Дізнайтеся, як керувати пакунками Debian у документації.",
-  "@managePageDocumentationLinkLabel": {},
-  "snapPageShareSemanticLabel": "Копіювати посилання",
-  "@snapPageShareSemanticLabel": {},
-  "debPageShareLinkCopiedMessage": "Посилання скопійовано до буферу обміну",
-  "@debPageShareLinkCopiedMessage": {},
-  "debPageShareSemanticLabel": "Копіювати посилання",
-  "@debPageShareSemanticLabel": {},
-  "appCardPublisherSemanticLabel": "Опубліковано {publisher}.",
-  "@appCardPublisherSemanticLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageGalleryNextSemanticLabel": "Наступне зображення",
-  "@snapPageGalleryNextSemanticLabel": {},
-  "snapPageGalleryPreviousSemanticLabel": "Попереднє зображення",
-  "@snapPageGalleryPreviousSemanticLabel": {},
-  "snapPageGalleryImageSemanticLabel": "Зображення {n}",
-  "@snapPageGalleryImageSemanticLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapPageReportSemanticLabel": "Звіт",
-  "@snapPageReportSemanticLabel": {},
-  "sectionExpandSemanticLabel": "Розгорнути {section}",
-  "@sectionExpandSemanticLabel": {
-    "placeholders": {
-      "section": {
-        "type": "String"
-      }
-    }
-  },
-  "sectionCollapseSemanticLabel": "Згорнути {section}",
-  "@sectionCollapseSemanticLabel": {
-    "placeholders": {
-      "section": {
-        "type": "String"
-      }
-    }
-  },
-  "appCardRatingSemanticLabel": "Оцінка {rating}.",
-  "@appCardRatingSemanticLabel": {
-    "placeholders": {
-      "rating": {
-        "type": "String"
-      }
-    }
-  }
+    "snapPageLinksLabel": "Посилання",
+    "@snapPageLinksLabel": {},
+    "snapPageVersionLabel": "Версія",
+    "@snapPageVersionLabel": {},
+    "packageFormatDebLabel": "Пакети Debian",
+    "@packageFormatDebLabel": {},
+    "snapCategoryBooksAndReference": "Книги та довідники",
+    "@snapCategoryBooksAndReference": {},
+    "snapCategoryProductivity": "Продуктивність",
+    "@snapCategoryProductivity": {},
+    "snapCategoryUtilities": "Утиліти",
+    "@snapCategoryUtilities": {},
+    "snapCategorySocial": "Соціальні мережі",
+    "@snapCategorySocial": {},
+    "productivityPageLabel": "Продуктивність",
+    "@productivityPageLabel": {},
+    "snapCategoryNewsAndWeather": "Новини й погода",
+    "@snapCategoryNewsAndWeather": {},
+    "gamesPageLabel": "Ігри",
+    "@gamesPageLabel": {},
+    "snapCategoryArtAndDesign": "Дизайн і мистецтво",
+    "@snapCategoryArtAndDesign": {},
+    "developmentPageLabel": "Розробка",
+    "@developmentPageLabel": {},
+    "managePageLabel": "Керувати",
+    "@managePageLabel": {},
+    "snapPageChannelLabel": "Канал",
+    "@snapPageChannelLabel": {},
+    "snapCategoryEducation": "Освіта й навчання",
+    "@snapCategoryEducation": {},
+    "snapActionUpdateLabel": "Оновити",
+    "@snapActionUpdateLabel": {},
+    "searchPageSortByLabel": "Сортувати за",
+    "@searchPageSortByLabel": {},
+    "snapPageGalleryLabel": "Галерея",
+    "@snapPageGalleryLabel": {},
+    "searchFieldDebSection": "Пакети Debian",
+    "@searchFieldDebSection": {},
+    "snapActionOpenLabel": "Відкрити",
+    "@snapActionOpenLabel": {},
+    "snapCategoryDevelopment": "Розробка",
+    "@snapCategoryDevelopment": {},
+    "snapCategoryHealthAndFitness": "Здоров'я та спорт",
+    "@snapCategoryHealthAndFitness": {},
+    "appstreamUrlTypeContact": "Контакт",
+    "@appstreamUrlTypeContact": {},
+    "snapCategorySecurity": "Безпека",
+    "@snapCategorySecurity": {},
+    "snapCategoryFinance": "Фінанси",
+    "@snapCategoryFinance": {},
+    "snapCategoryServerAndCloud": "Сервера та мережі",
+    "@snapCategoryServerAndCloud": {},
+    "aboutPageLabel": "Про",
+    "@aboutPageLabel": {},
+    "snapPageSummaryLabel": "Підсумок",
+    "@snapPageSummaryLabel": {},
+    "appstreamSearchGreylist": "програма;додаток;застосунок;пакет;інструмент;засіб;засоби;app;application;package;program;suite;tool",
+    "@appstreamSearchGreylist": {},
+    "snapCategoryScience": "Наука",
+    "@snapCategoryScience": {},
+    "snapCategoryEntertainment": "Розваги",
+    "@snapCategoryEntertainment": {},
+    "snapActionInstallLabel": "Встановити",
+    "@snapActionInstallLabel": {},
+    "snapPageLicenseLabel": "Ліцензія",
+    "@snapPageLicenseLabel": {},
+    "snapCategoryPhotoAndVideo": "Фотографії й відео",
+    "@snapCategoryPhotoAndVideo": {},
+    "snapPageConfinementLabel": "Обмеження",
+    "@snapPageConfinementLabel": {},
+    "snapCategoryMusicAndAudio": "Музика й звуки",
+    "@snapCategoryMusicAndAudio": {},
+    "aboutPageGitHubLabel": "Знаходьте нас на GitHub",
+    "@aboutPageGitHubLabel": {},
+    "packageFormatSnapLabel": "Пакети Snap",
+    "@packageFormatSnapLabel": {},
+    "snapCategoryGames": "Ігри",
+    "@snapCategoryGames": {},
+    "snapActionInstallingLabel": "Встановлення",
+    "@snapActionInstallingLabel": {},
+    "searchFieldSearchHint": "Пошук застосунків",
+    "@searchFieldSearchHint": {},
+    "snapCategoryFeatured": "Обране",
+    "@snapCategoryFeatured": {},
+    "managePageSearchFieldSearchHint": "Пошук встановлених застосунків",
+    "@managePageSearchFieldSearchHint": {},
+    "snapActionCancelLabel": "Скасувати",
+    "@snapActionCancelLabel": {},
+    "snapPagePublisherLabel": "Видавець",
+    "@snapPagePublisherLabel": {},
+    "snapPageDescriptionLabel": "Опис",
+    "@snapPageDescriptionLabel": {},
+    "explorePageLabel": "Цікаве",
+    "@explorePageLabel": {},
+    "searchFieldSnapSection": "Пакети Snap",
+    "@searchFieldSnapSection": {},
+    "managePageCheckForUpdates": "Перевірити наявність оновлень",
+    "@managePageCheckForUpdates": {},
+    "snapCategoryGameEmulators": "Емулятори",
+    "@snapCategoryGameEmulators": {},
+    "snapCategoryGnomeGames": "Ігри GNOME",
+    "@snapCategoryGnomeGames": {},
+    "snapCategoryKdeGamesSlogan": "Набір ігор KDE",
+    "@snapCategoryKdeGamesSlogan": {},
+    "snapCategoryGameLaunchersSlogan": "Запускачі ігор",
+    "@snapCategoryGameLaunchersSlogan": {},
+    "snapCategoryProductivitySlogan": "Викресліть одну річ зі свого списку справ",
+    "@snapCategoryProductivitySlogan": {},
+    "snapCategoryUbuntuDesktop": "Стільниця Ubuntu",
+    "@snapCategoryUbuntuDesktop": {},
+    "snapSortOrderDownloadSizeDesc": "Розмір (від найбільшого до найменшого)",
+    "@snapSortOrderDownloadSizeDesc": {},
+    "snapSortOrderInstalledDateDesc": "Останні оновлення",
+    "@snapSortOrderInstalledDateDesc": {},
+    "managePageUpdatedWeeksAgo": "Оновлено {n, plural, =1{{n} тиждень} few{{n} тижні} many{{n} тижнів} other{{n} тиждень}} тому",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRatingsBandNeutral": "Нейтрально",
+    "@snapRatingsBandNeutral": {},
+    "managePageUpdatedMonthsAgo": "Оновлено {n, plural, =1{{n} місяць} few{{n} місяці} many{{n} місяців} other{{n} місяць}} тому",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRatingsBandPoor": "Погано",
+    "@snapRatingsBandPoor": {},
+    "managePageUpdatedYearsAgo": "Оновлено {n, plural, =1{{n} рік} few{{n} роки} many{{n} років} other{{n} рік}} тому",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportOptionStoreViolation": "Порушення умов надання послуг Snap Store",
+    "@snapReportOptionStoreViolation": {},
+    "snapReportDetailsLabel": "Будь ласка, надайте більш детальну причину вашої скарги",
+    "@snapReportDetailsLabel": {},
+    "managePageUpdatesAvailable": "Доступні оновлення ({n})",
+    "@managePageUpdatesAvailable": {},
+    "snapReportPrivacyAgreementLabel": "Відправляючи цю форму, я підтверджую ознайомлення та свою згоду з ",
+    "@snapReportPrivacyAgreementLabel": {},
+    "gamesPageTop": "Найвищий рейтинг",
+    "@gamesPageTop": {},
+    "gamesPageFeatured": "Обрані найменування",
+    "@gamesPageFeatured": {},
+    "snapReportPrivacyAgreementPrivacyPolicy": "Політикою приватності",
+    "@snapReportPrivacyAgreementPrivacyPolicy": {},
+    "searchPageNoResultsCategory": "На жаль, ми не знайшли жодного пакету в цій категорії",
+    "@searchPageNoResultsCategory": {},
+    "searchPageNoResultsCategoryHint": "Спробуйте іншу категорію або використовуйте більш загальні ключові слова",
+    "@searchPageNoResultsCategoryHint": {},
+    "aboutPageContributeLabel": "Зробити внесок або повідомити про ваду",
+    "@aboutPageContributeLabel": {},
+    "snapActionRemoveLabel": "Видалити",
+    "@snapActionRemoveLabel": {},
+    "snapActionRemovingLabel": "Видалення",
+    "@snapActionRemovingLabel": {},
+    "snapCategoryGamesSlogan": "Все для вашого ігрового вечора",
+    "@snapCategoryGamesSlogan": {},
+    "snapPageContactPublisherLabel": "Зв'язатися з {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDeveloperWebsiteLabel": "Вебсайт розробника",
+    "@snapPageDeveloperWebsiteLabel": {},
+    "snapPageDownloadSizeLabel": "Розмір завантаження",
+    "@snapPageDownloadSizeLabel": {},
+    "snapPagePublishedLabel": "Опубліковано",
+    "@snapPagePublishedLabel": {},
+    "appCenterLabel": "Центр програмного забезпечення",
+    "@appCenterLabel": {},
+    "snapPageShareLinkCopiedMessage": "Посилання скопійовано в буфер обміну",
+    "@snapPageShareLinkCopiedMessage": {},
+    "explorePageCategoriesLabel": "Категорії",
+    "@explorePageCategoriesLabel": {},
+    "managePageCheckingForUpdates": "Перевірка наявності оновлень",
+    "@managePageCheckingForUpdates": {},
+    "managePageDescription": "Перевіряйте наявність доступних оновлень, оновлюйте програми та керуйте їхнім станом.",
+    "@managePageDescription": {},
+    "managePageInstalledAndUpdatedLabel": "Встановлено та оновлено",
+    "@managePageInstalledAndUpdatedLabel": {},
+    "managePageNoUpdatesAvailableDescription": "Оновлення відсутні. Усі ваші застосунки актуальні.",
+    "@managePageNoUpdatesAvailableDescription": {},
+    "managePageShowDetailsLabel": "Показати подробиці",
+    "@managePageShowDetailsLabel": {},
+    "managePageUpdateAllLabel": "Оновити все",
+    "@managePageUpdateAllLabel": {},
+    "managePageUpdatedDaysAgo": "Оновлено {n, plural, =1{{n} день} few{{n} дні} many{{n} днів} other{{n} день}} тому",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageShowSystemSnapsLabel": "Показати системні пакунки snap",
+    "@managePageShowSystemSnapsLabel": {},
+    "appstreamUrlTypeFaq": "ЧаПи",
+    "@appstreamUrlTypeFaq": {},
+    "externalResourcesButtonLabel": "Знайти більше",
+    "@externalResourcesButtonLabel": {},
+    "allGamesButtonLabel": "Всі ігри",
+    "@allGamesButtonLabel": {},
+    "externalResourcesDisclaimer": "Примітка: Це все зовнішні інструменти. Вони не належать і не розповсюджуються компанією Canonical.",
+    "@externalResourcesDisclaimer": {},
+    "openInBrowser": "Відкрити в браузері",
+    "@openInBrowser": {},
+    "installAll": "Встановити все",
+    "@installAll": {},
+    "gamesPageTitle": "Ігри",
+    "@gamesPageTitle": {},
+    "gamesPageBundles": "Пакети застосунків",
+    "@gamesPageBundles": {},
+    "unknownPublisher": "Невідомий видавець",
+    "@unknownPublisher": {},
+    "searchFieldSearchForLabel": "Переглянути всі результати для \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageFilterByLabel": "Фільтрувати за",
+    "@searchPageFilterByLabel": {},
+    "searchPageNoResults": "За запитом \"{query}\" нічого не знайдено",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "Спробуйте використовувати інші або більш загальні ключові слова",
+    "@searchPageNoResultsHint": {},
+    "searchPageRelevanceLabel": "Актуальність",
+    "@searchPageRelevanceLabel": {},
+    "searchPageTitle": "Результати за запитом \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageVersionLabel": "Версія {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "Спроектовано та розроблено:",
+    "@aboutPageContributorTitle": {},
+    "aboutPageCommunityTitle": "Станьте частиною спільноти:",
+    "@aboutPageCommunityTitle": {},
+    "aboutPagePublishLabel": "Опублікувати в Snap Store",
+    "@aboutPagePublishLabel": {},
+    "aboutPageLearnMoreLabel": "Докладніше",
+    "@aboutPageLearnMoreLabel": {},
+    "appstreamUrlTypeBugtracker": "Багтрекер",
+    "@appstreamUrlTypeBugtracker": {},
+    "appstreamUrlTypeDonation": "Підтримати",
+    "@appstreamUrlTypeDonation": {},
+    "appstreamUrlTypeHelp": "Довідка",
+    "@appstreamUrlTypeHelp": {},
+    "appstreamUrlTypeHomepage": "Головна сторінка",
+    "@appstreamUrlTypeHomepage": {},
+    "appstreamUrlTypeTranslate": "Переклади",
+    "@appstreamUrlTypeTranslate": {},
+    "snapActionSwitchChannelLabel": "Перемкнути канал",
+    "@snapActionSwitchChannelLabel": {},
+    "snapCategoryAll": "Усі категорії",
+    "@snapCategoryAll": {},
+    "snapActionUpdatingLabel": "Оновлення",
+    "@snapActionUpdatingLabel": {},
+    "snapCategoryDefaultButtonLabel": "Знайти більше",
+    "@snapCategoryDefaultButtonLabel": {},
+    "snapCategoryDevelopmentSlogan": "Обов'язкові пакунки snap для розробників",
+    "@snapCategoryDevelopmentSlogan": {},
+    "snapCategoryDevicesAndIot": "Пристрої та IoT",
+    "@snapCategoryDevicesAndIot": {},
+    "snapCategoryFeaturedSlogan": "Обрані Snap-пакунки",
+    "@snapCategoryFeaturedSlogan": {},
+    "snapCategoryGameDev": "Розробка ігор",
+    "@snapCategoryGameDev": {},
+    "snapCategoryGameDevSlogan": "Розробка ігор",
+    "@snapCategoryGameDevSlogan": {},
+    "snapCategoryGameEmulatorsSlogan": "Емулятори",
+    "@snapCategoryGameEmulatorsSlogan": {},
+    "snapCategoryGnomeGamesSlogan": "Набір ігор GNOME",
+    "@snapCategoryGnomeGamesSlogan": {},
+    "snapCategoryKdeGames": "Ігри KDE",
+    "@snapCategoryKdeGames": {},
+    "snapCategoryGameLaunchers": "Запускачі ігор",
+    "@snapCategoryGameLaunchers": {},
+    "snapCategoryGameContentCreation": "Створення контенту",
+    "@snapCategoryGameContentCreation": {},
+    "snapCategoryGameContentCreationSlogan": "Створення контенту",
+    "@snapCategoryGameContentCreationSlogan": {},
+    "snapCategoryPersonalisation": "Персоналізація",
+    "@snapCategoryPersonalisation": {},
+    "snapCategoryProductivityButtonLabel": "Відкрийте для себе колекцію продуктивності",
+    "@snapCategoryProductivityButtonLabel": {},
+    "snapCategoryUbuntuDesktopSlogan": "Швидкий старт для вашої стільниці",
+    "@snapCategoryUbuntuDesktopSlogan": {},
+    "snapConfinementClassic": "Класичний",
+    "@snapConfinementClassic": {},
+    "snapConfinementDevmode": "Режим розробника",
+    "@snapConfinementDevmode": {},
+    "snapConfinementStrict": "Суворий",
+    "@snapConfinementStrict": {},
+    "snapSortOrderAlphabeticalAsc": "За абеткою (від А до Я)",
+    "@snapSortOrderAlphabeticalAsc": {},
+    "snapSortOrderAlphabeticalDesc": "За абеткою (від Я до А)",
+    "@snapSortOrderAlphabeticalDesc": {},
+    "snapSortOrderDownloadSizeAsc": "Розмір (від найменшого до найбільшого)",
+    "@snapSortOrderDownloadSizeAsc": {},
+    "snapSortOrderInstalledSizeAsc": "Розмір (від найменшого до найбільшого)",
+    "@snapSortOrderInstalledSizeAsc": {},
+    "snapSortOrderInstalledSizeDesc": "Розмір (від найбільшого до найменшого)",
+    "@snapSortOrderInstalledSizeDesc": {},
+    "snapSortOrderInstalledDateAsc": "Найдавніші оновлення",
+    "@snapSortOrderInstalledDateAsc": {},
+    "snapSortOrderRelevance": "Актуальність",
+    "@snapSortOrderRelevance": {},
+    "snapRatingsBandVeryGood": "Дуже добре",
+    "@snapRatingsBandVeryGood": {},
+    "snapRatingsBandGood": "Добре",
+    "@snapRatingsBandGood": {},
+    "snapRatingsBandVeryPoor": "Дуже погано",
+    "@snapRatingsBandVeryPoor": {},
+    "snapRatingsBandInsufficientVotes": "Недостатньо голосів",
+    "@snapRatingsBandInsufficientVotes": {},
+    "snapRatingsVotes": "Голосів: {n}",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "Поскаржитися на {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "Виберіть причину для скарги про цей snap",
+    "@snapReportSelectReportReasonLabel": {},
+    "snapReportSelectAnOptionLabel": "Оберіть опцію",
+    "@snapReportSelectAnOptionLabel": {},
+    "snapReportOptionCopyrightViolation": "Порушення авторського права або торгової марки",
+    "@snapReportOptionCopyrightViolation": {},
+    "snapReportOptionalEmailAddressLabel": "Ваша електронна пошта (необов'язково)",
+    "@snapReportOptionalEmailAddressLabel": {},
+    "snapReportCancelButtonLabel": "Скасувати",
+    "@snapReportCancelButtonLabel": {},
+    "snapReportSubmitButtonLabel": "Надіслати скаргу",
+    "@snapReportSubmitButtonLabel": {},
+    "snapReportEnterValidEmailError": "Введіть дійсну адресу електронної пошти",
+    "@snapReportEnterValidEmailError": {},
+    "snapReportDetailsHint": "Коментар...",
+    "@snapReportDetailsHint": {},
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Повідомленням про приватність компанії Canonical ",
+    "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+    "snapReportPrivacyAgreementAndLabel": "та ",
+    "@snapReportPrivacyAgreementAndLabel": {},
+    "debPageErrorNoPackageInfo": "Інформація про пакет не знайдена",
+    "@debPageErrorNoPackageInfo": {},
+    "externalResources": "Додаткові ресурси",
+    "@externalResources": {},
+    "appstreamUrlTypeContribute": "Зробити внесок",
+    "@appstreamUrlTypeContribute": {},
+    "snapPageSizeLabel": "Розмір",
+    "@snapPageSizeLabel": {},
+    "appstreamUrlTypeVcsBrowser": "Джерело",
+    "@appstreamUrlTypeVcsBrowser": {},
+    "localDebWarningTitle": "Потенційно небезпечно",
+    "@localDebWarningTitle": {},
+    "localDebLearnMore": "Дізнайтеся більше про сторонні пакети",
+    "@localDebLearnMore": {},
+    "localDebDialogMessage": "Цей пакет надається третьою стороною і може загрожувати вашій системі та персональним даним.",
+    "@localDebDialogMessage": {},
+    "localDebDialogConfirmation": "Ви впевнені, що ви хочете його встановити?",
+    "@localDebDialogConfirmation": {},
+    "localDebWarningBody": "Цей пакунок наданий третьою стороною. Встановлення пакунків ззовні Центру програмного забезпечення може підвищити ризик для вашої системи та особистих даних. Перед продовженням переконайтеся, що ви довіряєте джерелу.",
+    "@localDebWarningBody": {},
+    "managePageDebUpdatesMessage": "Оновлення пакунків Debian виконує оновлювач програмного забезпечення.",
+    "@managePageDebUpdatesMessage": {},
+    "snapActionInstalledLabel": "Встановлено",
+    "@snapActionInstalledLabel": {},
+    "errorViewNetworkErrorDescription": "Без з'єднання з інтернетом ми не зможемо завантажити вміст до Центру програмного забезпечення.",
+    "@errorViewNetworkErrorDescription": {},
+    "errorViewUnknownErrorTitle": "Щось пішло не так",
+    "@errorViewUnknownErrorTitle": {},
+    "errorViewCheckStatusLabel": "Перевірити стан",
+    "@errorViewCheckStatusLabel": {},
+    "errorViewNetworkErrorAction": "Перевірте з'єднання та спробуйте ще раз.",
+    "@errorViewNetworkErrorAction": {},
+    "errorViewServerErrorDescription": "Нам дуже шкода, але у нас зараз виникли проблеми з Центром програмного забезпечення.",
+    "@errorViewServerErrorDescription": {},
+    "errorViewServerErrorAction": "Перевірте стан оновлень або спробуйте пізніше.",
+    "@errorViewServerErrorAction": {},
+    "errorViewUnknownErrorDescription": "Вибачте, але ми не впевнені, в чому саме полягає помилка.",
+    "@errorViewUnknownErrorDescription": {},
+    "errorViewUnknownErrorAction": "Ви можете повторити спробу зараз, перевірити стан оновлень або спробувати пізніше.",
+    "@errorViewUnknownErrorAction": {},
+    "snapdExceptionRunningApps": "Ми не змогли оновити {snapName}, оскільки він наразі запущений.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewNetworkErrorTitle": "Під'єднатися до інтернету",
+    "@errorViewNetworkErrorTitle": {},
+    "managePageOwnUpdateAvailable": "Доступне оновлення центру програмного забезпечення",
+    "@managePageOwnUpdateAvailable": {},
+    "managePageOwnUpdateDescriptionSoon": "Центр програмного забезпечення автоматично оновиться за {time}.",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageOwnUpdateQuitButton": "Вийти, щоб оновити",
+    "@managePageOwnUpdateQuitButton": {},
+    "managePageOwnUpdateDescription": "Застосунок оновиться автоматично після виходу з нього.",
+    "@managePageOwnUpdateDescription": {},
+    "managePageNoInternet": "Не вдалося зв'язатися з сервером, перевірте з'єднання з інтернетом або спробуйте пізніше.",
+    "@managePageNoInternet": {},
+    "managePageQuitToUpdate": "Вийти, щоб оновити",
+    "@managePageQuitToUpdate": {},
+    "managePageTitle": "Керувати встановленими snap-пакунками",
+    "@managePageTitle": {},
+    "managePageUpdatesFailed": "Не вдалося виконати {n, plural, =1{одне оновлення update} few{{n} оновлення} many{{n} оновлень} other{{n} оновлення}}",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "Ми не змогли оновити ці застосунки, оскільки вони зараз працюють.\n\n{snapList}\nВони оновляться автоматично після закриття.",
+    "@managePageUpdatesFailedBody": {},
+    "snapCategoryArtAndDesignButtonLabel": "Почніть створювати",
+    "@snapCategoryArtAndDesignButtonLabel": {},
+    "snapCategoryArtAndDesignSlogan": "Від першого ескізу до останнього дотику — відкрийте для себе застосунки для мистецтва та дизайну.",
+    "@snapCategoryArtAndDesignSlogan": {},
+    "managePageInstallingLabel": "Встановлення ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "debPageDocumentationLinkLabel": "Дізнайтеся про керування пакунками Debian",
+    "@debPageDocumentationLinkLabel": {},
+    "managePageDocumentationLinkLabel": "Дізнайтеся, як керувати пакунками Debian у документації.",
+    "@managePageDocumentationLinkLabel": {},
+    "snapPageShareSemanticLabel": "Копіювати посилання",
+    "@snapPageShareSemanticLabel": {},
+    "debPageShareLinkCopiedMessage": "Посилання скопійовано до буферу обміну",
+    "@debPageShareLinkCopiedMessage": {},
+    "debPageShareSemanticLabel": "Копіювати посилання",
+    "@debPageShareSemanticLabel": {},
+    "appCardPublisherSemanticLabel": "Опубліковано {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageGalleryNextSemanticLabel": "Наступне зображення",
+    "@snapPageGalleryNextSemanticLabel": {},
+    "snapPageGalleryPreviousSemanticLabel": "Попереднє зображення",
+    "@snapPageGalleryPreviousSemanticLabel": {},
+    "snapPageGalleryImageSemanticLabel": "Зображення {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageReportSemanticLabel": "Звіт",
+    "@snapPageReportSemanticLabel": {},
+    "sectionExpandSemanticLabel": "Розгорнути {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Згорнути {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Оцінка {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "codecPageTitle": "Відсутні медіакодеки",
+    "@codecPageTitle": {},
+    "codecPageDescription": "Для роботи з певними форматами відео та аудіо необхідно встановити наступні кодеки:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "Деякі з рекомендованих кодеків можуть бути пропрієтарними.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "Встановити рекомендовані кодеки",
+    "@codecInstallAllButton": {}
 }
