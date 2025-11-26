@@ -1,1 +1,540 @@
-{}
+{
+    "appCenterLabel": "ສູນລວມແອັບ",
+    "@appCenterLabel": {},
+    "appstreamSearchGreylist": "ແອັບ;ແອັບພລິເຄຊັນ;ແພັກເກດ;ໂປຣແກຣມ;ຊຸດ;ເຄື່ອງມື",
+    "@appstreamSearchGreylist": {},
+    "snapPageChannelLabel": "ຊ່ອງທາງ",
+    "@snapPageChannelLabel": {},
+    "snapPageConfinementLabel": "ການຈຳກັດຂອບເຂດ",
+    "@snapPageConfinementLabel": {},
+    "snapPageContactPublisherLabel": "ຕິດຕໍ່ {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDescriptionLabel": "ຄຳອະທິບາຍ",
+    "@snapPageDescriptionLabel": {},
+    "snapPageDeveloperWebsiteLabel": "ເວັບໄຊນັກພັດທະນາ",
+    "@snapPageDeveloperWebsiteLabel": {},
+    "snapPageDownloadSizeLabel": "ຂະໜາດດາວໂຫຼດ",
+    "@snapPageDownloadSizeLabel": {},
+    "snapPageSizeLabel": "ຂະໜາດ",
+    "@snapPageSizeLabel": {},
+    "snapPageGalleryLabel": "ຄັງຮູບ",
+    "@snapPageGalleryLabel": {},
+    "snapPageGalleryNextSemanticLabel": "ຮູບຖັດໄປ",
+    "@snapPageGalleryNextSemanticLabel": {},
+    "snapPageGalleryPreviousSemanticLabel": "ຮູບກ່ອນໜ້າ",
+    "@snapPageGalleryPreviousSemanticLabel": {},
+    "snapPageGalleryImageSemanticLabel": "ຮູບທີ {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageLicenseLabel": "ໃບອະນຸຍາດ",
+    "@snapPageLicenseLabel": {},
+    "snapPageLinksLabel": "ລິ້ງ",
+    "@snapPageLinksLabel": {},
+    "snapPagePublisherLabel": "ຜູ້ເຜີຍແຜ່",
+    "@snapPagePublisherLabel": {},
+    "snapPagePublishedLabel": "ເຜີຍແຜ່ແລ້ວ",
+    "@snapPagePublishedLabel": {},
+    "snapPageSummaryLabel": "ສະຫຼຸບຫຍໍ້",
+    "@snapPageSummaryLabel": {},
+    "snapPageVersionLabel": "ເວີຊັນ",
+    "@snapPageVersionLabel": {},
+    "snapPageShareLinkCopiedMessage": "ຄັດລອກລິ້ງໃສ່ຄລິບບອດແລ້ວ",
+    "@snapPageShareLinkCopiedMessage": {},
+    "snapPageShareSemanticLabel": "ຄັດລອກລິ້ງ",
+    "@snapPageShareSemanticLabel": {},
+    "snapPageReportSemanticLabel": "ລາຍງານ",
+    "@snapPageReportSemanticLabel": {},
+    "sectionExpandSemanticLabel": "ຂະຫຍາຍ {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "ຫຍໍ້ {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageLabel": "ສຳຫຼວດ",
+    "@explorePageLabel": {},
+    "explorePageCategoriesLabel": "ໝວດໝູ່",
+    "@explorePageCategoriesLabel": {},
+    "managePageOwnUpdateAvailable": "ມີການອັບເດດສູນລວມແອັບ",
+    "@managePageOwnUpdateAvailable": {},
+    "managePageQuitToUpdate": "ອອກຈາກໂປຣແກຣມເພື່ອອັບເດດ",
+    "@managePageQuitToUpdate": {},
+    "managePageOwnUpdateDescription": "ເມື່ອທ່ານອອກຈາກແອັບພລິເຄຊັນ ມັນຈະທຳການອັບເດດໂດຍອັດຕະໂນມັດ.",
+    "@managePageOwnUpdateDescription": {},
+    "managePageOwnUpdateQuitButton": "ອອກຈາກໂປຣແກຣມເພື່ອອັບເດດ",
+    "@managePageOwnUpdateQuitButton": {},
+    "managePageCheckForUpdates": "ກວດສອບການອັບເດດ",
+    "@managePageCheckForUpdates": {},
+    "managePageCheckingForUpdates": "ກຳລັງກວດສອບການອັບເດດ",
+    "@managePageCheckingForUpdates": {},
+    "managePageNoInternet": "ບໍ່ສາມາດຕິດຕໍ່ເຊີເວີໄດ້, ກະລຸນາກວດສອບການເຊື່ອມຕໍ່ອິນເຕີເນັດຂອງທ່ານ ຫຼື ລອງໃໝ່ອີກຄັ້ງໃນພາຍຫຼັງ.",
+    "@managePageNoInternet": {},
+    "managePageDescription": "ກວດສອບການອັບເດດທີ່ມີ, ອັບເດດແອັບຂອງທ່ານ ແລະ ຈັດການສະຖານະຂອງແອັບທັງໝົດຂອງທ່ານ.",
+    "@managePageDescription": {},
+    "managePageDebUpdatesMessage": "ການອັບເດດແພັກເກດ Debian ຈະຖືກຈັດການໂດຍຕົວອັບເດດຊອບແວ.",
+    "@managePageDebUpdatesMessage": {},
+    "managePageInstalledAndUpdatedLabel": "ຕິດຕັ້ງ ແລະ ອັບເດດແລ້ວ",
+    "@managePageInstalledAndUpdatedLabel": {},
+    "managePageInstallingLabel": "ກຳລັງຕິດຕັ້ງ ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageLabel": "ຈັດການ",
+    "@managePageLabel": {},
+    "managePageTitle": "ຈັດການ Snaps ທີ່ຕິດຕັ້ງແລ້ວ",
+    "@managePageTitle": {},
+    "managePageNoUpdatesAvailableDescription": "ບໍ່ມີການອັບເດດ. ແອັບພລິເຄຊັນຂອງທ່ານທັງໝົດເປັນເວີຊັນລ່າສຸດແລ້ວ.",
+    "@managePageNoUpdatesAvailableDescription": {},
+    "managePageSearchFieldSearchHint": "ຄົ້ນຫາແອັບທີ່ຕິດຕັ້ງແລ້ວຂອງທ່ານ",
+    "@managePageSearchFieldSearchHint": {},
+    "managePageShowDetailsLabel": "ສະແດງລາຍລະອຽດ",
+    "@managePageShowDetailsLabel": {},
+    "managePageShowSystemSnapsLabel": "ສະແດງ Snaps ຂອງລະບົບ",
+    "@managePageShowSystemSnapsLabel": {},
+    "managePageUpdateAllLabel": "ອັບເດດທັງໝົດ",
+    "@managePageUpdateAllLabel": {},
+    "managePageUpdatedDaysAgo": "ອັບເດດເມື່ອ {n, plural, other{{n} ມື້}} ກ່ອນ",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "ອັບເດດເມື່ອ {n, plural, other{{n} ອາທິດ}} ກ່ອນ",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "ອັບເດດເມື່ອ {n, plural, other{{n} ເດືອນ}} ກ່ອນ",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "ອັບເດດເມື່ອ {n, plural, other{{n} ປີ}} ກ່ອນ",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "ມີການອັບເດດ ({n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, other{ການອັບເດດ {n} ລາຍການ}} ລົ້ມເຫຼວ",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "ພວກເຮົາບໍ່ສາມາດອັບເດດແອັບພລິເຄຊັນເຫຼົ່ານີ້ໄດ້ ເນື່ອງຈາກມັນກຳລັງເຮັດວຽກຢູ່.\n\n{snapList}\nເມື່ອທ່ານອອກຈາກແອັບພລິເຄຊັນ, ພວກມັນຈະອັບເດດໂດຍອັດຕະໂນມັດ.",
+    "@managePageUpdatesFailedBody": {},
+    "managePageDocumentationLinkLabel": "ຮຽນຮູ້ວິທີຈັດການແພັກເກດ Debian ໃນເອກະສານຄູ່ມື.",
+    "@managePageDocumentationLinkLabel": {},
+    "productivityPageLabel": "ປະສິດທິພາບການເຮັດວຽກ",
+    "@productivityPageLabel": {},
+    "developmentPageLabel": "ການພັດທະນາ",
+    "@developmentPageLabel": {},
+    "gamesPageLabel": "ເກມ",
+    "@gamesPageLabel": {},
+    "gamesPageTitle": "ເກມ",
+    "@gamesPageTitle": {},
+    "gamesPageTop": "ອັນດັບຍອດນິຍົມ",
+    "@gamesPageTop": {},
+    "gamesPageFeatured": "ຫົວຂໍ້ແນະນຳ",
+    "@gamesPageFeatured": {},
+    "gamesPageBundles": "ຊຸດແອັບ",
+    "@gamesPageBundles": {},
+    "unknownPublisher": "ບໍ່ຮູ້ຈັກຜູ້ເຜີຍແຜ່",
+    "@unknownPublisher": {},
+    "searchFieldDebSection": "ແພັກເກດ Debian",
+    "@searchFieldDebSection": {},
+    "searchFieldSearchHint": "ຄົ້ນຫາແອັບ",
+    "@searchFieldSearchHint": {},
+    "searchFieldSearchForLabel": "ເບິ່ງຜົນການຄົ້ນຫາທັງໝົດສຳລັບ \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSnapSection": "ແພັກເກດ Snap",
+    "@searchFieldSnapSection": {},
+    "searchPageFilterByLabel": "ກັ່ນຕອງໂດຍ",
+    "@searchPageFilterByLabel": {},
+    "searchPageNoResults": "ບໍ່ພົບຜົນການຄົ້ນຫາສຳລັບ \"{query}\"",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "ລອງໃຊ້ຄຳຄົ້ນຫາທີ່ແຕກຕ່າງ ຫຼື ທົ່ວໄປກວ່ານີ້",
+    "@searchPageNoResultsHint": {},
+    "searchPageNoResultsCategory": "ຂໍອະໄພ, ພວກເຮົາບໍ່ພົບແພັກເກດໃດໆໃນໝວດໝູ່ນີ້",
+    "@searchPageNoResultsCategory": {},
+    "searchPageNoResultsCategoryHint": "ລອງໝວດໝູ່ອື່ນ ຫຼື ໃຊ້ຄຳຄົ້ນຫາທີ່ທົ່ວໄປກວ່ານີ້",
+    "@searchPageNoResultsCategoryHint": {},
+    "searchPageSortByLabel": "ຈັດລຽງຕາມ",
+    "@searchPageSortByLabel": {},
+    "searchPageRelevanceLabel": "ຄວາມກ່ຽວຂ້ອງ",
+    "@searchPageRelevanceLabel": {},
+    "searchPageTitle": "ຜົນການຄົ້ນຫາສຳລັບ \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageLabel": "ກ່ຽວກັບ",
+    "@aboutPageLabel": {},
+    "aboutPageVersionLabel": "ເວີຊັນ {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "ອອກແບບ ແລະ ພັດທະນາໂດຍ:",
+    "@aboutPageContributorTitle": {},
+    "aboutPageCommunityTitle": "ເຂົ້າມາເປັນສ່ວນໜຶ່ງຂອງຊຸມຊົນ:",
+    "@aboutPageCommunityTitle": {},
+    "aboutPageContributeLabel": "ປະກອບສ່ວນ ຫຼື ລາຍງານຂໍ້ຜິດພາດ",
+    "@aboutPageContributeLabel": {},
+    "aboutPageGitHubLabel": "ພົບກັບພວກເຮົາໄດ້ທີ່ GitHub",
+    "@aboutPageGitHubLabel": {},
+    "aboutPagePublishLabel": "ເຜີຍແຜ່ລົງໃນ Snap Store",
+    "@aboutPagePublishLabel": {},
+    "aboutPageLearnMoreLabel": "ຮຽນຮູ້ເພີ່ມເຕີມ",
+    "@aboutPageLearnMoreLabel": {},
+    "appstreamUrlTypeBugtracker": "ລະບົບຕິດຕາມຂໍ້ຜິດພາດ",
+    "@appstreamUrlTypeBugtracker": {},
+    "appstreamUrlTypeContact": "ຕິດຕໍ່",
+    "@appstreamUrlTypeContact": {},
+    "appstreamUrlTypeContribute": "ປະກອບສ່ວນ",
+    "@appstreamUrlTypeContribute": {},
+    "appstreamUrlTypeDonation": "ບໍລິຈາກ",
+    "@appstreamUrlTypeDonation": {},
+    "appstreamUrlTypeFaq": "ຄຳຖາມທີ່ພົບເລື້ອຍ",
+    "@appstreamUrlTypeFaq": {},
+    "appstreamUrlTypeHelp": "ຊ່ວຍເຫຼືອ",
+    "@appstreamUrlTypeHelp": {},
+    "appstreamUrlTypeHomepage": "ໜ້າຫຼັກ",
+    "@appstreamUrlTypeHomepage": {},
+    "appstreamUrlTypeTranslate": "ການແປພາສາ",
+    "@appstreamUrlTypeTranslate": {},
+    "appstreamUrlTypeVcsBrowser": "ຊອດໂຄ້ດ",
+    "@appstreamUrlTypeVcsBrowser": {},
+    "packageFormatDebLabel": "ແພັກເກດ Debian",
+    "@packageFormatDebLabel": {},
+    "packageFormatSnapLabel": "ແພັກເກດ Snap",
+    "@packageFormatSnapLabel": {},
+    "snapActionCancelLabel": "ຍົກເລີກ",
+    "@snapActionCancelLabel": {},
+    "snapActionInstallLabel": "ຕິດຕັ້ງ",
+    "@snapActionInstallLabel": {},
+    "snapActionInstalledLabel": "ຕິດຕັ້ງແລ້ວ",
+    "@snapActionInstalledLabel": {},
+    "snapActionInstallingLabel": "ກຳລັງຕິດຕັ້ງ",
+    "@snapActionInstallingLabel": {},
+    "snapActionOpenLabel": "ເປີດ",
+    "@snapActionOpenLabel": {},
+    "snapActionRemoveLabel": "ຖອນການຕິດຕັ້ງ",
+    "@snapActionRemoveLabel": {},
+    "snapActionRemovingLabel": "ກຳລັງຖອນການຕິດຕັ້ງ",
+    "@snapActionRemovingLabel": {},
+    "snapActionSwitchChannelLabel": "ສະລັບຊ່ອງທາງ",
+    "@snapActionSwitchChannelLabel": {},
+    "snapActionUpdateLabel": "ອັບເດດ",
+    "@snapActionUpdateLabel": {},
+    "snapCategoryAll": "ທຸກໝວດໝູ່",
+    "@snapCategoryAll": {},
+    "snapActionUpdatingLabel": "ກຳລັງອັບເດດ",
+    "@snapActionUpdatingLabel": {},
+    "appCardPublisherSemanticLabel": "ເຜີຍແຜ່ໂດຍ {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "ຄະແນນ {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryArtAndDesign": "ສິລະປະ ແລະ ການອອກແບບ",
+    "@snapCategoryArtAndDesign": {},
+    "snapCategoryArtAndDesignButtonLabel": "ເລີ່ມສ້າງສັນຜົນງານ",
+    "@snapCategoryArtAndDesignButtonLabel": {},
+    "snapCategoryArtAndDesignSlogan": "ຕັ້ງແຕ່ການຮ່າງແບບທຳອິດຂອງທ່ານ ຈົນເຖິງຂັ້ນຕອນສຸດທ້າຍ, ສຳຫຼວດແອັບສຳລັບສິລະປະ ແລະ ການອອກແບບ.",
+    "@snapCategoryArtAndDesignSlogan": {},
+    "snapCategoryBooksAndReference": "ປຶ້ມ ແລະ ການອ້າງອີງ",
+    "@snapCategoryBooksAndReference": {},
+    "snapCategoryDefaultButtonLabel": "ຄົ້ນພົບເພີ່ມເຕີມ",
+    "@snapCategoryDefaultButtonLabel": {},
+    "snapCategoryDevelopment": "ການພັດທະນາ",
+    "@snapCategoryDevelopment": {},
+    "snapCategoryDevelopmentSlogan": "Snaps ທີ່ຕ້ອງມີສຳລັບນັກພັດທະນາ",
+    "@snapCategoryDevelopmentSlogan": {},
+    "snapCategoryDevicesAndIot": "ອຸປະກອນ ແລະ IoT",
+    "@snapCategoryDevicesAndIot": {},
+    "snapCategoryEducation": "ການສຶກສາ",
+    "@snapCategoryEducation": {},
+    "snapCategoryEntertainment": "ຄວາມບັນເທີງ",
+    "@snapCategoryEntertainment": {},
+    "snapCategoryFeatured": "ແນະນຳ",
+    "@snapCategoryFeatured": {},
+    "snapCategoryFeaturedSlogan": "Snaps ແນະນຳ",
+    "@snapCategoryFeaturedSlogan": {},
+    "snapCategoryFinance": "ການເງິນ",
+    "@snapCategoryFinance": {},
+    "snapCategoryGames": "ເກມ",
+    "@snapCategoryGames": {},
+    "snapCategoryGamesSlogan": "ທຸກຢ່າງສຳລັບຄືນຫຼິ້ນເກມຂອງທ່ານ",
+    "@snapCategoryGamesSlogan": {},
+    "snapCategoryGameDev": "ການພັດທະນາເກມ",
+    "@snapCategoryGameDev": {},
+    "snapCategoryGameDevSlogan": "ການພັດທະນາເກມ",
+    "@snapCategoryGameDevSlogan": {},
+    "snapCategoryGameEmulators": "ໂປຣແກຣມຈຳລອງ",
+    "@snapCategoryGameEmulators": {},
+    "snapCategoryGameEmulatorsSlogan": "ໂປຣແກຣມຈຳລອງ",
+    "@snapCategoryGameEmulatorsSlogan": {},
+    "snapCategoryGnomeGames": "ເກມ GNOME",
+    "@snapCategoryGnomeGames": {},
+    "snapCategoryGnomeGamesSlogan": "ຊຸດເກມ GNOME",
+    "@snapCategoryGnomeGamesSlogan": {},
+    "snapCategoryKdeGames": "ເກມ KDE",
+    "@snapCategoryKdeGames": {},
+    "snapCategoryKdeGamesSlogan": "ຊຸດເກມ KDE",
+    "@snapCategoryKdeGamesSlogan": {},
+    "snapCategoryGameLaunchers": "ຕົວເປີດເກມ",
+    "@snapCategoryGameLaunchers": {},
+    "snapCategoryGameLaunchersSlogan": "ຕົວເປີດເກມ",
+    "@snapCategoryGameLaunchersSlogan": {},
+    "snapCategoryGameContentCreation": "ການສ້າງເນື້ອຫາ",
+    "@snapCategoryGameContentCreation": {},
+    "snapCategoryGameContentCreationSlogan": "ການສ້າງເນື້ອຫາ",
+    "@snapCategoryGameContentCreationSlogan": {},
+    "snapCategoryHealthAndFitness": "ສຸຂະພາບ ແລະ ການອອກກຳລັງກາຍ",
+    "@snapCategoryHealthAndFitness": {},
+    "snapCategoryMusicAndAudio": "ເພງ ແລະ ສຽງ",
+    "@snapCategoryMusicAndAudio": {},
+    "snapCategoryNewsAndWeather": "ຂ່າວສານ ແລະ ສະພາບອາກາດ",
+    "@snapCategoryNewsAndWeather": {},
+    "snapCategoryPersonalisation": "ການປັບແຕ່ງສ່ວນຕົວ",
+    "@snapCategoryPersonalisation": {},
+    "snapCategoryPhotoAndVideo": "ຮູບພາບ ແລະ ວິດີໂອ",
+    "@snapCategoryPhotoAndVideo": {},
+    "snapCategoryProductivity": "ປະສິດທິພາບການເຮັດວຽກ",
+    "@snapCategoryProductivity": {},
+    "snapCategoryProductivityButtonLabel": "ຄົ້ນພົບຄອນເລັກຊັນເພີ່ມປະສິດທິພາບການເຮັດວຽກ",
+    "@snapCategoryProductivityButtonLabel": {},
+    "snapCategoryProductivitySlogan": "ເຮັດໃຫ້ສຳເລັດໜຶ່ງຢ່າງຈາກລາຍການທີ່ຕ້ອງເຮັດຂອງທ່ານ",
+    "@snapCategoryProductivitySlogan": {},
+    "snapCategoryScience": "ວິທະຍາສາດ",
+    "@snapCategoryScience": {},
+    "snapCategorySecurity": "ຄວາມປອດໄພ",
+    "@snapCategorySecurity": {},
+    "snapCategoryServerAndCloud": "ເຊີເວີ ແລະ ຄລາວ",
+    "@snapCategoryServerAndCloud": {},
+    "snapCategorySocial": "ສັງຄົມ",
+    "@snapCategorySocial": {},
+    "snapCategoryUbuntuDesktop": "ເດັສທັອບ Ubuntu",
+    "@snapCategoryUbuntuDesktop": {},
+    "snapCategoryUbuntuDesktopSlogan": "ເລີ່ມຕົ້ນການໃຊ້ງານເດັສທັອບຂອງທ່ານ",
+    "@snapCategoryUbuntuDesktopSlogan": {},
+    "snapCategoryUtilities": "ເຄື່ອງມືອຳນວຍຄວາມສະດວກ",
+    "@snapCategoryUtilities": {},
+    "snapConfinementClassic": "ຄລາສສິກ",
+    "@snapConfinementClassic": {},
+    "snapConfinementDevmode": "Devmode",
+    "@snapConfinementDevmode": {},
+    "snapConfinementStrict": "ເຂັ້ມງວດ",
+    "@snapConfinementStrict": {},
+    "snapSortOrderAlphabeticalAsc": "ຕາມຕົວອັກສອນ (A ຫາ Z)",
+    "@snapSortOrderAlphabeticalAsc": {},
+    "snapSortOrderAlphabeticalDesc": "ຕາມຕົວອັກສອນ (Z ຫາ A)",
+    "@snapSortOrderAlphabeticalDesc": {},
+    "snapSortOrderDownloadSizeAsc": "ຂະໜາດ (ນ້ອຍຫາໃຫຍ່)",
+    "@snapSortOrderDownloadSizeAsc": {},
+    "snapSortOrderDownloadSizeDesc": "ຂະໜາດ (ໃຫຍ່ຫານ້ອຍ)",
+    "@snapSortOrderDownloadSizeDesc": {},
+    "snapSortOrderInstalledSizeAsc": "ຂະໜາດ (ນ້ອຍຫາໃຫຍ່)",
+    "@snapSortOrderInstalledSizeAsc": {},
+    "snapSortOrderInstalledSizeDesc": "ຂະໜາດ (ໃຫຍ່ຫານ້ອຍ)",
+    "@snapSortOrderInstalledSizeDesc": {},
+    "snapSortOrderInstalledDateAsc": "ອັບເດດດົນນານມາແລ້ວ",
+    "@snapSortOrderInstalledDateAsc": {},
+    "snapSortOrderInstalledDateDesc": "ອັບເດດລ່າສຸດ",
+    "@snapSortOrderInstalledDateDesc": {},
+    "snapSortOrderRelevance": "ຄວາມກ່ຽວຂ້ອງ",
+    "@snapSortOrderRelevance": {},
+    "snapRatingsBandVeryGood": "ດີຫຼາຍ",
+    "@snapRatingsBandVeryGood": {},
+    "snapRatingsBandGood": "ດີ",
+    "@snapRatingsBandGood": {},
+    "snapRatingsBandNeutral": "ປານກາງ",
+    "@snapRatingsBandNeutral": {},
+    "snapRatingsBandPoor": "ບໍ່ດີ",
+    "@snapRatingsBandPoor": {},
+    "snapRatingsBandVeryPoor": "ບໍ່ດີຫຼາຍ",
+    "@snapRatingsBandVeryPoor": {},
+    "snapRatingsBandInsufficientVotes": "ຄະແນນໂຫວດບໍ່ພຽງພໍ",
+    "@snapRatingsBandInsufficientVotes": {},
+    "snapRatingsVotes": "{n} ໂຫວດ",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "ລາຍງານ {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "ເລືອກເຫດຜົນສຳລັບການລາຍງານ snap ນີ້",
+    "@snapReportSelectReportReasonLabel": {},
+    "snapReportSelectAnOptionLabel": "ເລືອກຕົວເລືອກ",
+    "@snapReportSelectAnOptionLabel": {},
+    "snapReportOptionCopyrightViolation": "ການລະເມີດລິຂະສິດ ຫຼື ເຄື່ອງໝາຍການຄ້າ",
+    "@snapReportOptionCopyrightViolation": {},
+    "snapReportOptionStoreViolation": "ການລະເມີດເງື່ອນໄຂການໃຫ້ບໍລິການຂອງ Snap Store",
+    "@snapReportOptionStoreViolation": {},
+    "snapReportDetailsLabel": "ກະລຸນາລະບຸເຫດຜົນລະອຽດເພີ່ມເຕີມໃນການລາຍງານຂອງທ່ານ",
+    "@snapReportDetailsLabel": {},
+    "snapReportOptionalEmailAddressLabel": "ອີເມວຂອງທ່ານ (ທາງເລືອກ)",
+    "@snapReportOptionalEmailAddressLabel": {},
+    "snapReportCancelButtonLabel": "ຍົກເລີກ",
+    "@snapReportCancelButtonLabel": {},
+    "snapReportSubmitButtonLabel": "ສົ່ງລາຍງານ",
+    "@snapReportSubmitButtonLabel": {},
+    "snapReportEnterValidEmailError": "ປ້ອນທີ່ຢູອີເມວທີ່ຖືກຕ້ອງ",
+    "@snapReportEnterValidEmailError": {},
+    "snapReportDetailsHint": "ຄຳເຫັນ...",
+    "@snapReportDetailsHint": {},
+    "snapReportPrivacyAgreementLabel": "ໃນການສົ່ງແບບຟອມນີ້, ຂ້າພະເຈົ້າຍືນຍັນວ່າຂ້າພະເຈົ້າໄດ້ອ່ານ ແລະ ຕົກລົງເຫັນດີກັບ ",
+    "@snapReportPrivacyAgreementLabel": {},
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "ແຈ້ງການຄວາມເປັນສ່ວນຕົວຂອງ Canonical ",
+    "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+    "snapReportPrivacyAgreementAndLabel": "ແລະ ",
+    "@snapReportPrivacyAgreementAndLabel": {},
+    "snapReportPrivacyAgreementPrivacyPolicy": "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ",
+    "@snapReportPrivacyAgreementPrivacyPolicy": {},
+    "debPageErrorNoPackageInfo": "ບໍ່ພົບຂໍ້ມູນແພັກເກດ",
+    "@debPageErrorNoPackageInfo": {},
+    "debPageDocumentationLinkLabel": "ຮຽນຮູ້ກ່ຽວກັບການຈັດການແພັກເກດ Debian",
+    "@debPageDocumentationLinkLabel": {},
+    "debPageShareLinkCopiedMessage": "ຄັດລອກລິ້ງໃສ່ຄລິບບອດແລ້ວ",
+    "@debPageShareLinkCopiedMessage": {},
+    "debPageShareSemanticLabel": "ຄັດລອກລິ້ງ",
+    "@debPageShareSemanticLabel": {},
+    "externalResources": "ຊັບພະຍາກອນເພີ່ມເຕີມ",
+    "@externalResources": {},
+    "externalResourcesButtonLabel": "ຄົ້ນພົບເພີ່ມເຕີມ",
+    "@externalResourcesButtonLabel": {},
+    "allGamesButtonLabel": "ເກມທັງໝົດ",
+    "@allGamesButtonLabel": {},
+    "externalResourcesDisclaimer": "ໝາຍເຫດ: ເຫຼົ່ານີ້ແມ່ນເຄື່ອງມືພາຍນອກທັງໝົດ. ສິ່ງເຫຼົ່ານີ້ບໍ່ໄດ້ເປັນເຈົ້າຂອງ ຫຼື ແຈກຢາຍໂດຍ Canonical.",
+    "@externalResourcesDisclaimer": {},
+    "openInBrowser": "ເປີດໃນບຣາວເຊີ",
+    "@openInBrowser": {},
+    "installAll": "ຕິດຕັ້ງທັງໝົດ",
+    "@installAll": {},
+    "localDebWarningTitle": "ອາດຈະບໍ່ປອດໄພ",
+    "@localDebWarningTitle": {},
+    "localDebWarningBody": "ແພັກເກດນີ້ຖືກສະໜອງໃຫ້ໂດຍພາກສ່ວນທີສາມ. ການຕິດຕັ້ງແພັກເກດຈາກພາຍນອກສູນລວມແອັບສາມາດເພີ່ມຄວາມສ່ຽງຕໍ່ລະບົບ ແລະ ຂໍ້ມູນສ່ວນຕົວຂອງທ່ານ. ກະລຸນາຮັບປະກັນວ່າທ່ານເຊື່ອຖືແຫຼ່ງທີ່ມາກ່ອນດຳເນີນການ.",
+    "@localDebWarningBody": {},
+    "localDebLearnMore": "ຮຽນຮູ້ເພີ່ມເຕີມກ່ຽວກັບແພັກເກດພາກສ່ວນທີສາມ",
+    "@localDebLearnMore": {},
+    "localDebDialogMessage": "ແພັກເກດນີ້ຖືກສະໜອງໃຫ້ໂດຍພາກສ່ວນທີສາມ ແລະ ອາດຈະເປັນໄພຄຸກຄາມຕໍ່ລະບົບ ແລະ ຂໍ້ມູນສ່ວນຕົວຂອງທ່ານ.",
+    "@localDebDialogMessage": {},
+    "localDebDialogConfirmation": "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການຕິດຕັ້ງມັນ?",
+    "@localDebDialogConfirmation": {},
+    "snapdExceptionRunningApps": "ພວກເຮົາບໍ່ສາມາດອັບເດດ {snapName} ໄດ້ ເນື່ອງຈາກມັນກຳລັງເຮັດວຽກຢູ່.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "ກວດສອບສະຖານະ",
+    "@errorViewCheckStatusLabel": {},
+    "errorViewNetworkErrorTitle": "ເຊື່ອມຕໍ່ອິນເຕີເນັດ",
+    "@errorViewNetworkErrorTitle": {},
+    "errorViewNetworkErrorDescription": "ພວກເຮົາບໍ່ສາມາດໂຫຼດເນື້ອຫາໃນສູນລວມແອັບໄດ້ຫາກບໍ່ມີການເຊື່ອມຕໍ່ອິນເຕີເນັດ.",
+    "@errorViewNetworkErrorDescription": {},
+    "errorViewNetworkErrorAction": "ກວດສອບການເຊື່ອມຕໍ່ຂອງທ່ານ ແລະ ລອງໃໝ່.",
+    "@errorViewNetworkErrorAction": {},
+    "errorViewServerErrorDescription": "ຂໍອະໄພ, ຂະນະນີ້ພວກເຮົາກຳລັງປະສົບບັນຫາກັບສູນລວມແອັບ.",
+    "@errorViewServerErrorDescription": {},
+    "errorViewServerErrorAction": "ກວດສອບສະຖານະການອັບເດດ ຫຼື ລອງໃໝ່ອີກຄັ້ງໃນພາຍຫຼັງ.",
+    "@errorViewServerErrorAction": {},
+    "errorViewUnknownErrorTitle": "ມີບາງຢ່າງຜິດພາດ",
+    "@errorViewUnknownErrorTitle": {},
+    "errorViewUnknownErrorDescription": "ຂໍອະໄພ, ແຕ່ພວກເຮົາບໍ່ແນ່ໃຈວ່າຂໍ້ຜິດພາດແມ່ນຫຍັງ.",
+    "@errorViewUnknownErrorDescription": {},
+    "errorViewUnknownErrorAction": "ທ່ານສາມາດລອງໃໝ່ດຽວນີ້, ກວດສອບສະຖານະການອັບເດດ ຫຼື ລອງໃໝ່ອີກຄັ້ງໃນພາຍຫຼັງ.",
+    "@errorViewUnknownErrorAction": {},
+    "codecPageTitle": "ບໍ່ມີ Codecs ສື່",
+    "@codecPageTitle": {},
+    "codecPageDescription": "ທ່ານຈຳເປັນຕ້ອງຕິດຕັ້ງ Codecs ຕໍ່ໄປນີ້ເພື່ອຈັດການຮູບແບບວິດີໂອ ແລະ ສຽງບາງປະເພດ:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "Codecs ທີ່ແນະນຳບາງອັນອາດເປັນຊັບສິນທາງປັນຍາ.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "ຕິດຕັ້ງ Codecs ທີ່ແນະນຳ",
+    "@codecInstallAllButton": {}
+}
