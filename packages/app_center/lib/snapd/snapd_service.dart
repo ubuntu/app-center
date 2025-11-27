@@ -28,11 +28,13 @@ class SnapdService extends SnapdClient with SnapdCache, SnapdWatcher {
       // Filter to only the snap we're interested in and convert to LocalRevisionInfo
       final revisions = allSnaps
           .where((snap) => snap.name == name)
-          .map((snap) => LocalRevisionInfo(
-                revision: snap.revision,
-                version: snap.version,
-                active: snap.status == SnapStatus.active,
-              ),)
+          .map(
+            (snap) => LocalRevisionInfo(
+              revision: snap.revision,
+              version: snap.version,
+              active: snap.status == SnapStatus.active,
+            ),
+          )
           .toList();
 
       // Sort by revision descending (newest first)

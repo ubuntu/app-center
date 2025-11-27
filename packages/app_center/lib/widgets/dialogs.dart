@@ -136,8 +136,11 @@ Future<void> confirmRevertAndRun(
   try {
     final revisions =
         await getService<SnapdService>().getLocalRevisions(snapData.name);
-    final current = revisions.firstWhere((r) => r.active, orElse: () => revisions.first);
-    final previous = revisions.firstWhere((r) => !r.active && r.revision < current.revision, orElse: () => current);
+    final current =
+        revisions.firstWhere((r) => r.active, orElse: () => revisions.first);
+    final previous = revisions.firstWhere(
+        (r) => !r.active && r.revision < current.revision,
+        orElse: () => current);
 
     if (previous != current && !previous.active) {
       // Show exact versions: "Revert from 143.0.4-1 (rev 6966) to 143.0.3-1 (rev 6933)?"
