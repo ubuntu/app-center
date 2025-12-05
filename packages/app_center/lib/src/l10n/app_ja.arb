@@ -530,5 +530,13 @@
     "debPageShareLinkCopiedMessage": "クリップボードにリンクをコピー",
     "@debPageShareLinkCopiedMessage": {},
     "debPageShareSemanticLabel": "リンクのコピー",
-    "@debPageShareSemanticLabel": {}
+    "@debPageShareSemanticLabel": {},
+    "codecPageTitle": "メディアコーデックがありません",
+    "@codecPageTitle": {},
+    "codecPageDescription": "特定のビデオおよびオーディオ形式を扱うには、以下のコーデックをインストールする必要があります:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "推奨されるコーデックにはプロプライエタリなものが含まれている可能性があります。",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "推奨コーデックをインストール",
+    "@codecInstallAllButton": {}
 }
