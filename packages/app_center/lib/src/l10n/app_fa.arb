@@ -1,540 +1,548 @@
 {
-  "snapPageVersionLabel": "نگارش",
-  "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "بسته‌های دبیان",
-  "@packageFormatDebLabel": {},
-  "snapCategoryBooksAndReference": "کتاب‌ها و ارجاع",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryProductivity": "بهره‌وری",
-  "@snapCategoryProductivity": {},
-  "snapCategoryUtilities": "ابزارها",
-  "@snapCategoryUtilities": {},
-  "snapCategorySocial": "اجتماعی",
-  "@snapCategorySocial": {},
-  "productivityPageLabel": "بهره‌وری",
-  "@productivityPageLabel": {},
-  "snapCategoryNewsAndWeather": "اخبار و هواشناسی",
-  "@snapCategoryNewsAndWeather": {},
-  "gamesPageLabel": "بازی‌ها",
-  "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "هنر و طراحی",
-  "@snapCategoryArtAndDesign": {},
-  "developmentPageLabel": "توسعه",
-  "@developmentPageLabel": {},
-  "snapPageChannelLabel": "کانال",
-  "@snapPageChannelLabel": {},
-  "snapCategoryEducation": "تحصیلات",
-  "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "به‌روز رسانی",
-  "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "مرتب‌سازی بر اساس",
-  "@searchPageSortByLabel": {},
-  "searchFieldDebSection": "بسته‌های دبیان",
-  "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "گشودن",
-  "@snapActionOpenLabel": {},
-  "snapCategoryDevelopment": "توسعه",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryHealthAndFitness": "سلامتی و تندرستی",
-  "@snapCategoryHealthAndFitness": {},
-  "appstreamUrlTypeContact": "ارتباط",
-  "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "امنیت",
-  "@snapCategorySecurity": {},
-  "snapCategoryFinance": "مالی",
-  "@snapCategoryFinance": {},
-  "snapCategoryServerAndCloud": "کارساز و ابر",
-  "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "درباره",
-  "@aboutPageLabel": {},
-  "snapCategoryScience": "علمی",
-  "@snapCategoryScience": {},
-  "snapCategoryEntertainment": "سرگرمی",
-  "@snapCategoryEntertainment": {},
-  "snapActionInstallLabel": "نصب",
-  "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "پروانه",
-  "@snapPageLicenseLabel": {},
-  "snapCategoryPhotoAndVideo": "تصویر و ویدیو",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "محدودیت",
-  "@snapPageConfinementLabel": {},
-  "snapCategoryMusicAndAudio": "آهنگ و صدا",
-  "@snapCategoryMusicAndAudio": {},
-  "packageFormatSnapLabel": "بسته‌های اسنب",
-  "@packageFormatSnapLabel": {},
-  "snapCategoryGames": "بازی‌ها",
-  "@snapCategoryGames": {},
-  "snapCategoryFeatured": "ویژه",
-  "@snapCategoryFeatured": {},
-  "snapPageDescriptionLabel": "توضیحات",
-  "@snapPageDescriptionLabel": {},
-  "explorePageLabel": "کاوش",
-  "@explorePageLabel": {},
-  "searchFieldSnapSection": "بسته‌های اسنب",
-  "@searchFieldSnapSection": {},
-  "appCenterLabel": "مرکز کاره",
-  "@appCenterLabel": {},
-  "snapPageContactPublisherLabel": "تماس با {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageGalleryLabel": "جُنگ",
-  "@snapPageGalleryLabel": {},
-  "snapPageShareLinkCopiedMessage": "پیوند در تخته‌گیره رونوشت شد",
-  "@snapPageShareLinkCopiedMessage": {},
-  "explorePageCategoriesLabel": "دسته‌ها",
-  "@explorePageCategoriesLabel": {},
-  "managePageCheckForUpdates": "بررسی برای به‌روز رسانی",
-  "@managePageCheckForUpdates": {},
-  "snapPageDeveloperWebsiteLabel": "پایگاه وب توسعه‌دهنده",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapPageDownloadSizeLabel": "اندازهٔ بارگیری",
-  "@snapPageDownloadSizeLabel": {},
-  "snapPageLinksLabel": "پیوندها",
-  "@snapPageLinksLabel": {},
-  "snapPagePublisherLabel": "ناشر",
-  "@snapPagePublisherLabel": {},
-  "snapPagePublishedLabel": "منتشر شده",
-  "@snapPagePublishedLabel": {},
-  "snapPageSummaryLabel": "خلاصه",
-  "@snapPageSummaryLabel": {},
-  "managePageLabel": "مدیریت",
-  "@managePageLabel": {},
-  "managePageShowDetailsLabel": "نمایش جزییات",
-  "@managePageShowDetailsLabel": {},
-  "gamesPageTitle": "بازی‌ها",
-  "@gamesPageTitle": {},
-  "searchPageRelevanceLabel": "ارتباط",
-  "@searchPageRelevanceLabel": {},
-  "appstreamUrlTypeDonation": "اعانه",
-  "@appstreamUrlTypeDonation": {},
-  "appstreamUrlTypeFaq": "پ‌پ",
-  "@appstreamUrlTypeFaq": {},
-  "snapActionCancelLabel": "لغو",
-  "@snapActionCancelLabel": {},
-  "snapActionInstallingLabel": "نصب",
-  "@snapActionInstallingLabel": {},
-  "snapActionRemoveLabel": "لغو نصب",
-  "@snapActionRemoveLabel": {},
-  "snapActionRemovingLabel": "لغو کردن نصب",
-  "@snapActionRemovingLabel": {},
-  "snapActionUpdatingLabel": "به‌روز رساندن",
-  "@snapActionUpdatingLabel": {},
-  "snapCategoryGameEmulators": "شبیه‌سازها",
-  "@snapCategoryGameEmulators": {},
-  "snapConfinementStrict": "شدید",
-  "@snapConfinementStrict": {},
-  "snapRatingsBandGood": "خوب",
-  "@snapRatingsBandGood": {},
-  "snapRatingsBandNeutral": "متوسط",
-  "@snapRatingsBandNeutral": {},
-  "snapRatingsBandPoor": "ضعیف",
-  "@snapRatingsBandPoor": {},
-  "snapReportCancelButtonLabel": "لغو",
-  "@snapReportCancelButtonLabel": {},
-  "snapReportPrivacyAgreementAndLabel": "و ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "appstreamUrlTypeBugtracker": "ردیاب مشکل",
-  "@appstreamUrlTypeBugtracker": {},
-  "appstreamUrlTypeHelp": "راهنما",
-  "@appstreamUrlTypeHelp": {},
-  "appstreamUrlTypeHomepage": "آغازه",
-  "@appstreamUrlTypeHomepage": {},
-  "appstreamUrlTypeTranslate": "ترجمه‌ها",
-  "@appstreamUrlTypeTranslate": {},
-  "snapCategoryGameEmulatorsSlogan": "شبیه‌سازها",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryPersonalisation": "شخصی‌سازی",
-  "@snapCategoryPersonalisation": {},
-  "snapConfinementClassic": "کلاسیک",
-  "@snapConfinementClassic": {},
-  "snapConfinementDevmode": "حالت توسعه",
-  "@snapConfinementDevmode": {},
-  "snapSortOrderRelevance": "ارتباط",
-  "@snapSortOrderRelevance": {},
-  "snapReportDetailsHint": "نظر…",
-  "@snapReportDetailsHint": {},
-  "managePageUpdateAllLabel": "به‌روز رسانی همه",
-  "@managePageUpdateAllLabel": {},
-  "managePageCheckingForUpdates": "بررسی کردن برای به‌روز رسانی",
-  "@managePageCheckingForUpdates": {},
-  "appstreamUrlTypeContribute": "مشارکت",
-  "@appstreamUrlTypeContribute": {},
-  "snapCategoryAll": "همه دسته‌ها",
-  "@snapCategoryAll": {},
-  "gamesPageTop": "بیش‌ترین امتیاز",
-  "@gamesPageTop": {},
-  "searchPageNoResults": "هیچ نتیجه ای برای \"{query}\" یافت نشد",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapCategoryKdeGamesSlogan": "مجموعه بازی‌های KDE",
-  "@snapCategoryKdeGamesSlogan": {},
-  "managePageInstallingLabel": "در حال نصب ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapPageSizeLabel": "اندازه",
-  "@snapPageSizeLabel": {},
-  "snapCategoryGameLaunchers": "راه‌انداز بازی",
-  "@snapCategoryGameLaunchers": {},
-  "managePageDocumentationLinkLabel": "نحوه مدیریت بسته‌های دبیان در مستندات را بیاموزید.",
-  "@managePageDocumentationLinkLabel": {},
-  "searchPageNoResultsHint": "سعی کنید از کلمات کلیدی متفاوت یا کلی‌تر استفاده کنید",
-  "@searchPageNoResultsHint": {},
-  "searchPageNoResultsCategoryHint": "دسته‌بندی دیگری را امتحان کنید یا از کلمات کلیدی عمومی تری استفاده کنید",
-  "@searchPageNoResultsCategoryHint": {},
-  "snapActionInstalledLabel": "نصب‌شده",
-  "@snapActionInstalledLabel": {},
-  "snapCategoryGameDev": "توسعه بازی",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameDevSlogan": "توسعه بازی",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryKdeGames": "بازی‌های KDE",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryGameLaunchersSlogan": "راه‌اندازهای بازی",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapCategoryGameContentCreation": "تولید محتوا",
-  "@snapCategoryGameContentCreation": {},
-  "snapCategoryGameContentCreationSlogan": "تولید محتوا",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "managePageInstalledAndUpdatedLabel": "نصب و آپدیت شده",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "managePageDescription": "به‌روزرسانی‌های موجود را بررسی کنید، برنامه‌های خود را آپدیت کنید و وصعیت تمام برنامه‌های خود را مدیریت کنید.",
-  "@managePageDescription": {},
-  "gamesPageFeatured": "عناوین ویژه",
-  "@gamesPageFeatured": {},
-  "searchPageFilterByLabel": "پالایش براساس",
-  "@searchPageFilterByLabel": {},
-  "searchFieldSearchForLabel": "مشاهده همه نتایج برای \"{query}\"",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchPageTitle": "نتایج برای \"{query}\"",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageGitHubLabel": "ما را در گیت‌هاب پیدا کنید",
-  "@aboutPageGitHubLabel": {},
-  "aboutPagePublishLabel": "در فروشگاه اسنپ منتشر کنید",
-  "@aboutPagePublishLabel": {},
-  "aboutPageContributeLabel": "مشارکت یا گزارش اشکال",
-  "@aboutPageContributeLabel": {},
-  "snapCategoryDevicesAndIot": "دستگاه‌ها و اینترنت اشیا",
-  "@snapCategoryDevicesAndIot": {},
-  "snapCategoryGnomeGames": "بازی‌های گنوم",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryProductivityButtonLabel": "مجموعه بهره‌وری را کشف کنید",
-  "@snapCategoryProductivityButtonLabel": {},
-  "managePageOwnUpdateAvailable": "به‌روزرسانی مرکز برنامه در دسترس است",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageDebUpdatesMessage": "به‌روزرسانی پکیج‌های دبیان توسط نرم‌افزار به‌روزرسان انجام می‌شود.",
-  "@managePageDebUpdatesMessage": {},
-  "managePageOwnUpdateDescription": "هنگامی که شما از برنامه خارج می‌شوند، به صورت خودکار آپدیت می‌شود.",
-  "@managePageOwnUpdateDescription": {},
-  "managePageOwnUpdateQuitButton": "خروج برای به‌روز‌‌رسانی",
-  "@managePageOwnUpdateQuitButton": {},
-  "managePageNoInternet": "امکان دسترسی به سرور نیست، ارتباط اینترنتی خود را بررسی کنید یا بعدا تلاش مجدد کنید.",
-  "@managePageNoInternet": {},
-  "managePageShowSystemSnapsLabel": "نمایش اسنپ‌های سیستم",
-  "@managePageShowSystemSnapsLabel": {},
-  "managePageOwnUpdateDescriptionSoon": "مرکز برنامه به‌طور خودکار در {time} به‌روزرسانی می‌شود.",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "unknownPublisher": "ناشر ناشناس",
-  "@unknownPublisher": {},
-  "searchFieldSearchHint": "جستجو برای برنامه‌ها",
-  "@searchFieldSearchHint": {},
-  "aboutPageVersionLabel": "نسخه {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "searchPageNoResultsCategory": "متأسفیم، ما نتوانستیم هیچ بسته‌ای در این دسته پیدا کنیم",
-  "@searchPageNoResultsCategory": {},
-  "aboutPageContributorTitle": "طراحی و توسعه توسط:",
-  "@aboutPageContributorTitle": {},
-  "snapCategoryDefaultButtonLabel": "کشف بیش‌تر",
-  "@snapCategoryDefaultButtonLabel": {},
-  "aboutPageCommunityTitle": "بخشی از جامعه باشید:",
-  "@aboutPageCommunityTitle": {},
-  "snapCategoryFeaturedSlogan": "اسنپ‌های ویژه",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapCategoryGamesSlogan": "همه چیز برای شب بازی شما",
-  "@snapCategoryGamesSlogan": {},
-  "snapCategoryGnomeGamesSlogan": "مجموعه بازی‌های گنوم",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryProductivitySlogan": "یک چیز را از لیست کارهای خود حذف کنید",
-  "@snapCategoryProductivitySlogan": {},
-  "snapCategoryUbuntuDesktop": "رومیزی اوبونتو",
-  "@snapCategoryUbuntuDesktop": {},
-  "managePageTitle": "اسنپ های نصب شده را مدیریت کنید",
-  "@managePageTitle": {},
-  "managePageSearchFieldSearchHint": "جستجو برنامه‌های نصب‌شده شما",
-  "@managePageSearchFieldSearchHint": {},
-  "managePageUpdatesAvailable": "به‌روزرسانی‌های موجود ({n})",
-  "@managePageUpdatesAvailable": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageNoUpdatesAvailableDescription": "به‌روزرسانی در دسترس نیست. برنامه‌های شما همه به‌روز هستند.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "aboutPageLearnMoreLabel": "دانستن بیش‌تر",
-  "@aboutPageLearnMoreLabel": {},
-  "appstreamUrlTypeVcsBrowser": "منبع",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "gamesPageBundles": "بسته‌های برنامه",
-  "@gamesPageBundles": {},
-  "snapCategoryDevelopmentSlogan": "اسنپ‌های ضروری برای توسعه‌دهندگان",
-  "@snapCategoryDevelopmentSlogan": {},
-  "snapActionSwitchChannelLabel": "تعویض کانال",
-  "@snapActionSwitchChannelLabel": {},
-  "snapCategoryArtAndDesignButtonLabel": "شروع به ساختن کنید",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "از اولین طرح خود تا آخرین تغییر، برنامه‌های هنری و طراحی را کاوش کنید.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "managePageQuitToUpdate": "خروج برای به‌روزرسانی",
-  "@managePageQuitToUpdate": {},
-  "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool;کاره;برنامه;بسته;ابزار",
-  "@appstreamSearchGreylist": {},
-  "snapPageGalleryNextSemanticLabel": "تصویر بعدی",
-  "@snapPageGalleryNextSemanticLabel": {},
-  "snapPageGalleryPreviousSemanticLabel": "تصویر پیشین",
-  "@snapPageGalleryPreviousSemanticLabel": {},
-  "snapPageGalleryImageSemanticLabel": "تصویر {n}",
-  "@snapPageGalleryImageSemanticLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapPageShareSemanticLabel": "رونوشت از پیوند",
-  "@snapPageShareSemanticLabel": {},
-  "snapPageReportSemanticLabel": "گزارش",
-  "@snapPageReportSemanticLabel": {},
-  "sectionExpandSemanticLabel": "گسترش {section}",
-  "@sectionExpandSemanticLabel": {
-    "placeholders": {
-      "section": {
-        "type": "String"
-      }
-    }
-  },
-  "sectionCollapseSemanticLabel": "جمع کردن {section}",
-  "@sectionCollapseSemanticLabel": {
-    "placeholders": {
-      "section": {
-        "type": "String"
-      }
-    }
-  },
-  "managePageUpdatedDaysAgo": "به‌روز شده در {n, plural, =1{دیروز} other{{n} روز پیش}}",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedWeeksAgo": "به‌روز شده در {n, plural, =1{یک} other{{n}}} هفتهٔ پیش",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedMonthsAgo": "به‌روز شده در {n, plural, =1{یک} other{{n}}} ماه پیش",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedYearsAgo": "به‌روز شده در {n, plural, =1{پارسال} other{{n} سال پیش}}",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailed": "{n, plural, =1{یک} other{{n}}} به‌روز رسانی شکست خورد",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailedBody": "نتوانستیم ایم برنامه‌ها را به‌روز کنیم چرا که در حال اجرایند.\n\n{snapList}\nوقتی از برنامه خارج شوید به صورت خودکار به‌روز خواهند شد.",
-  "@managePageUpdatesFailedBody": {},
-  "appCardPublisherSemanticLabel": "منتشر شده به دست {publisher}.",
-  "@appCardPublisherSemanticLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "appCardRatingSemanticLabel": "رتبه بندی {rating}.",
-  "@appCardRatingSemanticLabel": {
-    "placeholders": {
-      "rating": {
-        "type": "String"
-      }
-    }
-  },
-  "snapSortOrderAlphabeticalAsc": "الفبایی (آ تا ی)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "snapSortOrderAlphabeticalDesc": "الفبایی (ی تا آ)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "snapSortOrderDownloadSizeAsc": "اندازه (کوچک به بزرگ)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "snapSortOrderDownloadSizeDesc": "اندازه (بزرگ به کوچک)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "snapSortOrderInstalledSizeAsc": "اندازه (کوچک به بزرگ)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "snapSortOrderInstalledSizeDesc": "اندازه (بزرگ به کوچک)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapSortOrderInstalledDateAsc": "دیرترین به‌روز رسانی",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapSortOrderInstalledDateDesc": "زودترین به‌روز رسانی",
-  "@snapSortOrderInstalledDateDesc": {},
-  "snapRatingsBandVeryGood": "خیلی خوب",
-  "@snapRatingsBandVeryGood": {},
-  "snapRatingsBandVeryPoor": "خیلی ضعیف",
-  "@snapRatingsBandVeryPoor": {},
-  "snapRatingsBandInsufficientVotes": "بدون رأی کافی",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsVotes": "تعداد {n} رأی",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapReportLabel": "گزارش {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportSelectReportReasonLabel": "گزینش دلیلی برای گزارش این اسنپ",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportSelectAnOptionLabel": "گزینش یک گزینه",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportOptionCopyrightViolation": "زیر پا گذاشتت حق رونوشت یا نشان تجاری",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportOptionStoreViolation": "زیر پا گذاشتن شرابط خدمت فروشگاه اسنپ",
-  "@snapReportOptionStoreViolation": {},
-  "snapReportDetailsLabel": "فراهم کردن جزییات بیش‌تر برای گزارشتان",
-  "@snapReportDetailsLabel": {},
-  "snapReportOptionalEmailAddressLabel": "رایانامه‌تان (اختیاری)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportSubmitButtonLabel": "ثبت گزارش",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportEnterValidEmailError": "ورود نشانی رایانامه‌ای معتبر",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportPrivacyAgreementLabel": "هنگام ثبت این گزارش تأیید می‌کنم که خوانده و موافقم: ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "سیاست محرمانگی",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "debPageErrorNoPackageInfo": "هیچ اطّلاعاتی از بسته پیدا نشد",
-  "@debPageErrorNoPackageInfo": {},
-  "debPageDocumentationLinkLabel": "دانستن بیش‌تر دربارهٔ مدیریت بسته‌های دبیانی",
-  "@debPageDocumentationLinkLabel": {},
-  "debPageShareLinkCopiedMessage": "پیوند در تخته‌گیره رونوشت شد",
-  "@debPageShareLinkCopiedMessage": {},
-  "debPageShareSemanticLabel": "رونوشت از پیوند",
-  "@debPageShareSemanticLabel": {},
-  "externalResources": "منابع اضافی",
-  "@externalResources": {},
-  "externalResourcesButtonLabel": "کشف بیش‌تر",
-  "@externalResourcesButtonLabel": {},
-  "allGamesButtonLabel": "همهٔ بازی‌ها",
-  "@allGamesButtonLabel": {},
-  "externalResourcesDisclaimer": "یادداشت: این‌ها ابزارهای خارجی بوده و در مالکیت یا تحت انتشار کنونیکال نیستند.",
-  "@externalResourcesDisclaimer": {},
-  "openInBrowser": "گشودن در مرورگر",
-  "@openInBrowser": {},
-  "installAll": "نصب همه",
-  "@installAll": {},
-  "localDebWarningTitle": "احتمالاً ناامن",
-  "@localDebWarningTitle": {},
-  "localDebLearnMore": "دانستن بیش‌تر دربارهٔ بسته‌های سوم‌شخص",
-  "@localDebLearnMore": {},
-  "localDebDialogConfirmation": "مطمئنید که می‌خواهید نصبش کنید؟",
-  "@localDebDialogConfirmation": {},
-  "snapdExceptionRunningApps": "نمی‌توانیم {snapName} را به‌روز کنیم چرا که در حال اجراست.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewCheckStatusLabel": "بررسی وضعیت",
-  "@errorViewCheckStatusLabel": {},
-  "errorViewNetworkErrorTitle": "وصل شدن به اینترنت",
-  "@errorViewNetworkErrorTitle": {},
-  "errorViewNetworkErrorDescription": "نمی‌توانیم بدون اتّصال اینترنتی محتوای مرکز کاره را بار کنیم.",
-  "@errorViewNetworkErrorDescription": {},
-  "errorViewNetworkErrorAction": "بررسی اتّصالتان و تلاش دوباره.",
-  "@errorViewNetworkErrorAction": {},
-  "errorViewServerErrorDescription": "متأسفّانه هم‌اکنون با مشکلاتی در مرکز کاره مواجهیم.",
-  "@errorViewServerErrorDescription": {},
-  "errorViewServerErrorAction": "بررسی وضعیت به‌روز رسانی‌ها یا تلاش دوباره.",
-  "@errorViewServerErrorAction": {},
-  "errorViewUnknownErrorTitle": "چیزی اشتباه پیش رفت",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewUnknownErrorDescription": "متأسفّانه مطمئن نیستیم که خطا چیست.",
-  "@errorViewUnknownErrorDescription": {},
-  "errorViewUnknownErrorAction": "اکنون می‌توانید دوباره تلاش کرده، وضعیت به‌روز رسانی‌ها را بررسی کرده یا دوباره تلاش کنید.",
-  "@errorViewUnknownErrorAction": {},
-  "snapCategoryUbuntuDesktopSlogan": "پرش به آغاز میزکارتان",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "یادداشت محرمانگی کنونیکال ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "localDebDialogMessage": "این بسته از سوی سوم‌شخص‌ها فراهم شده و می‌تواند سامانه و داده‌های شخصیتان را تهدید کند.",
-  "@localDebDialogMessage": {},
-  "localDebWarningBody": "این بسته به دست سوم‌شخص‌ها فراهم شده. نصب کردن بسته‌ها از بیرون مرکز کاره می‌تواند احتمال خطر برای سامانه و داده‌های شخصیتان را افزایش دهد. اطمینان از اعتماد به منبع پیش از ادامه.",
-  "@localDebWarningBody": {}
+    "snapPageVersionLabel": "نگارش",
+    "@snapPageVersionLabel": {},
+    "packageFormatDebLabel": "بسته‌های دبیان",
+    "@packageFormatDebLabel": {},
+    "snapCategoryBooksAndReference": "کتاب‌ها و ارجاع",
+    "@snapCategoryBooksAndReference": {},
+    "snapCategoryProductivity": "بهره‌وری",
+    "@snapCategoryProductivity": {},
+    "snapCategoryUtilities": "ابزارها",
+    "@snapCategoryUtilities": {},
+    "snapCategorySocial": "اجتماعی",
+    "@snapCategorySocial": {},
+    "productivityPageLabel": "بهره‌وری",
+    "@productivityPageLabel": {},
+    "snapCategoryNewsAndWeather": "اخبار و هواشناسی",
+    "@snapCategoryNewsAndWeather": {},
+    "gamesPageLabel": "بازی‌ها",
+    "@gamesPageLabel": {},
+    "snapCategoryArtAndDesign": "هنر و طراحی",
+    "@snapCategoryArtAndDesign": {},
+    "developmentPageLabel": "توسعه",
+    "@developmentPageLabel": {},
+    "snapPageChannelLabel": "کانال",
+    "@snapPageChannelLabel": {},
+    "snapCategoryEducation": "تحصیلات",
+    "@snapCategoryEducation": {},
+    "snapActionUpdateLabel": "به‌روز رسانی",
+    "@snapActionUpdateLabel": {},
+    "searchPageSortByLabel": "مرتب‌سازی بر اساس",
+    "@searchPageSortByLabel": {},
+    "searchFieldDebSection": "بسته‌های دبیان",
+    "@searchFieldDebSection": {},
+    "snapActionOpenLabel": "گشودن",
+    "@snapActionOpenLabel": {},
+    "snapCategoryDevelopment": "توسعه",
+    "@snapCategoryDevelopment": {},
+    "snapCategoryHealthAndFitness": "سلامتی و تندرستی",
+    "@snapCategoryHealthAndFitness": {},
+    "appstreamUrlTypeContact": "ارتباط",
+    "@appstreamUrlTypeContact": {},
+    "snapCategorySecurity": "امنیت",
+    "@snapCategorySecurity": {},
+    "snapCategoryFinance": "مالی",
+    "@snapCategoryFinance": {},
+    "snapCategoryServerAndCloud": "کارساز و ابر",
+    "@snapCategoryServerAndCloud": {},
+    "aboutPageLabel": "درباره",
+    "@aboutPageLabel": {},
+    "snapCategoryScience": "علمی",
+    "@snapCategoryScience": {},
+    "snapCategoryEntertainment": "سرگرمی",
+    "@snapCategoryEntertainment": {},
+    "snapActionInstallLabel": "نصب",
+    "@snapActionInstallLabel": {},
+    "snapPageLicenseLabel": "پروانه",
+    "@snapPageLicenseLabel": {},
+    "snapCategoryPhotoAndVideo": "تصویر و ویدیو",
+    "@snapCategoryPhotoAndVideo": {},
+    "snapPageConfinementLabel": "محدودیت",
+    "@snapPageConfinementLabel": {},
+    "snapCategoryMusicAndAudio": "آهنگ و صدا",
+    "@snapCategoryMusicAndAudio": {},
+    "packageFormatSnapLabel": "بسته‌های اسنب",
+    "@packageFormatSnapLabel": {},
+    "snapCategoryGames": "بازی‌ها",
+    "@snapCategoryGames": {},
+    "snapCategoryFeatured": "ویژه",
+    "@snapCategoryFeatured": {},
+    "snapPageDescriptionLabel": "توضیحات",
+    "@snapPageDescriptionLabel": {},
+    "explorePageLabel": "کاوش",
+    "@explorePageLabel": {},
+    "searchFieldSnapSection": "بسته‌های اسنب",
+    "@searchFieldSnapSection": {},
+    "appCenterLabel": "مرکز کاره",
+    "@appCenterLabel": {},
+    "snapPageContactPublisherLabel": "تماس با {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageGalleryLabel": "جُنگ",
+    "@snapPageGalleryLabel": {},
+    "snapPageShareLinkCopiedMessage": "پیوند در تخته‌گیره رونوشت شد",
+    "@snapPageShareLinkCopiedMessage": {},
+    "explorePageCategoriesLabel": "دسته‌ها",
+    "@explorePageCategoriesLabel": {},
+    "managePageCheckForUpdates": "بررسی برای به‌روز رسانی",
+    "@managePageCheckForUpdates": {},
+    "snapPageDeveloperWebsiteLabel": "پایگاه وب توسعه‌دهنده",
+    "@snapPageDeveloperWebsiteLabel": {},
+    "snapPageDownloadSizeLabel": "اندازهٔ بارگیری",
+    "@snapPageDownloadSizeLabel": {},
+    "snapPageLinksLabel": "پیوندها",
+    "@snapPageLinksLabel": {},
+    "snapPagePublisherLabel": "ناشر",
+    "@snapPagePublisherLabel": {},
+    "snapPagePublishedLabel": "منتشر شده",
+    "@snapPagePublishedLabel": {},
+    "snapPageSummaryLabel": "خلاصه",
+    "@snapPageSummaryLabel": {},
+    "managePageLabel": "مدیریت",
+    "@managePageLabel": {},
+    "managePageShowDetailsLabel": "نمایش جزییات",
+    "@managePageShowDetailsLabel": {},
+    "gamesPageTitle": "بازی‌ها",
+    "@gamesPageTitle": {},
+    "searchPageRelevanceLabel": "ارتباط",
+    "@searchPageRelevanceLabel": {},
+    "appstreamUrlTypeDonation": "اعانه",
+    "@appstreamUrlTypeDonation": {},
+    "appstreamUrlTypeFaq": "پ‌پ",
+    "@appstreamUrlTypeFaq": {},
+    "snapActionCancelLabel": "لغو",
+    "@snapActionCancelLabel": {},
+    "snapActionInstallingLabel": "نصب",
+    "@snapActionInstallingLabel": {},
+    "snapActionRemoveLabel": "لغو نصب",
+    "@snapActionRemoveLabel": {},
+    "snapActionRemovingLabel": "لغو کردن نصب",
+    "@snapActionRemovingLabel": {},
+    "snapActionUpdatingLabel": "به‌روز رساندن",
+    "@snapActionUpdatingLabel": {},
+    "snapCategoryGameEmulators": "شبیه‌سازها",
+    "@snapCategoryGameEmulators": {},
+    "snapConfinementStrict": "شدید",
+    "@snapConfinementStrict": {},
+    "snapRatingsBandGood": "خوب",
+    "@snapRatingsBandGood": {},
+    "snapRatingsBandNeutral": "متوسط",
+    "@snapRatingsBandNeutral": {},
+    "snapRatingsBandPoor": "ضعیف",
+    "@snapRatingsBandPoor": {},
+    "snapReportCancelButtonLabel": "لغو",
+    "@snapReportCancelButtonLabel": {},
+    "snapReportPrivacyAgreementAndLabel": "و ",
+    "@snapReportPrivacyAgreementAndLabel": {},
+    "appstreamUrlTypeBugtracker": "ردیاب مشکل",
+    "@appstreamUrlTypeBugtracker": {},
+    "appstreamUrlTypeHelp": "راهنما",
+    "@appstreamUrlTypeHelp": {},
+    "appstreamUrlTypeHomepage": "آغازه",
+    "@appstreamUrlTypeHomepage": {},
+    "appstreamUrlTypeTranslate": "ترجمه‌ها",
+    "@appstreamUrlTypeTranslate": {},
+    "snapCategoryGameEmulatorsSlogan": "شبیه‌سازها",
+    "@snapCategoryGameEmulatorsSlogan": {},
+    "snapCategoryPersonalisation": "شخصی‌سازی",
+    "@snapCategoryPersonalisation": {},
+    "snapConfinementClassic": "کلاسیک",
+    "@snapConfinementClassic": {},
+    "snapConfinementDevmode": "حالت توسعه",
+    "@snapConfinementDevmode": {},
+    "snapSortOrderRelevance": "ارتباط",
+    "@snapSortOrderRelevance": {},
+    "snapReportDetailsHint": "نظر…",
+    "@snapReportDetailsHint": {},
+    "managePageUpdateAllLabel": "به‌روز رسانی همه",
+    "@managePageUpdateAllLabel": {},
+    "managePageCheckingForUpdates": "بررسی کردن برای به‌روز رسانی",
+    "@managePageCheckingForUpdates": {},
+    "appstreamUrlTypeContribute": "مشارکت",
+    "@appstreamUrlTypeContribute": {},
+    "snapCategoryAll": "همه دسته‌ها",
+    "@snapCategoryAll": {},
+    "gamesPageTop": "بیش‌ترین امتیاز",
+    "@gamesPageTop": {},
+    "searchPageNoResults": "هیچ نتیجه ای برای \"{query}\" یافت نشد",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryKdeGamesSlogan": "مجموعه بازی‌های KDE",
+    "@snapCategoryKdeGamesSlogan": {},
+    "managePageInstallingLabel": "در حال نصب ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageSizeLabel": "اندازه",
+    "@snapPageSizeLabel": {},
+    "snapCategoryGameLaunchers": "راه‌انداز بازی",
+    "@snapCategoryGameLaunchers": {},
+    "managePageDocumentationLinkLabel": "نحوه مدیریت بسته‌های دبیان در مستندات را بیاموزید.",
+    "@managePageDocumentationLinkLabel": {},
+    "searchPageNoResultsHint": "سعی کنید از کلمات کلیدی متفاوت یا کلی‌تر استفاده کنید",
+    "@searchPageNoResultsHint": {},
+    "searchPageNoResultsCategoryHint": "دسته‌بندی دیگری را امتحان کنید یا از کلمات کلیدی عمومی تری استفاده کنید",
+    "@searchPageNoResultsCategoryHint": {},
+    "snapActionInstalledLabel": "نصب‌شده",
+    "@snapActionInstalledLabel": {},
+    "snapCategoryGameDev": "توسعه بازی",
+    "@snapCategoryGameDev": {},
+    "snapCategoryGameDevSlogan": "توسعه بازی",
+    "@snapCategoryGameDevSlogan": {},
+    "snapCategoryKdeGames": "بازی‌های KDE",
+    "@snapCategoryKdeGames": {},
+    "snapCategoryGameLaunchersSlogan": "راه‌اندازهای بازی",
+    "@snapCategoryGameLaunchersSlogan": {},
+    "snapCategoryGameContentCreation": "تولید محتوا",
+    "@snapCategoryGameContentCreation": {},
+    "snapCategoryGameContentCreationSlogan": "تولید محتوا",
+    "@snapCategoryGameContentCreationSlogan": {},
+    "managePageInstalledAndUpdatedLabel": "نصب و آپدیت شده",
+    "@managePageInstalledAndUpdatedLabel": {},
+    "managePageDescription": "به‌روزرسانی‌های موجود را بررسی کنید، برنامه‌های خود را آپدیت کنید و وصعیت تمام برنامه‌های خود را مدیریت کنید.",
+    "@managePageDescription": {},
+    "gamesPageFeatured": "عناوین ویژه",
+    "@gamesPageFeatured": {},
+    "searchPageFilterByLabel": "پالایش براساس",
+    "@searchPageFilterByLabel": {},
+    "searchFieldSearchForLabel": "مشاهده همه نتایج برای \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageTitle": "نتایج برای \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageGitHubLabel": "ما را در گیت‌هاب پیدا کنید",
+    "@aboutPageGitHubLabel": {},
+    "aboutPagePublishLabel": "در فروشگاه اسنپ منتشر کنید",
+    "@aboutPagePublishLabel": {},
+    "aboutPageContributeLabel": "مشارکت یا گزارش اشکال",
+    "@aboutPageContributeLabel": {},
+    "snapCategoryDevicesAndIot": "دستگاه‌ها و اینترنت اشیا",
+    "@snapCategoryDevicesAndIot": {},
+    "snapCategoryGnomeGames": "بازی‌های گنوم",
+    "@snapCategoryGnomeGames": {},
+    "snapCategoryProductivityButtonLabel": "مجموعه بهره‌وری را کشف کنید",
+    "@snapCategoryProductivityButtonLabel": {},
+    "managePageOwnUpdateAvailable": "به‌روزرسانی مرکز برنامه در دسترس است",
+    "@managePageOwnUpdateAvailable": {},
+    "managePageDebUpdatesMessage": "به‌روزرسانی پکیج‌های دبیان توسط نرم‌افزار به‌روزرسان انجام می‌شود.",
+    "@managePageDebUpdatesMessage": {},
+    "managePageOwnUpdateDescription": "هنگامی که شما از برنامه خارج می‌شوند، به صورت خودکار آپدیت می‌شود.",
+    "@managePageOwnUpdateDescription": {},
+    "managePageOwnUpdateQuitButton": "خروج برای به‌روز‌‌رسانی",
+    "@managePageOwnUpdateQuitButton": {},
+    "managePageNoInternet": "امکان دسترسی به سرور نیست، ارتباط اینترنتی خود را بررسی کنید یا بعدا تلاش مجدد کنید.",
+    "@managePageNoInternet": {},
+    "managePageShowSystemSnapsLabel": "نمایش اسنپ‌های سیستم",
+    "@managePageShowSystemSnapsLabel": {},
+    "managePageOwnUpdateDescriptionSoon": "مرکز برنامه به‌طور خودکار در {time} به‌روزرسانی می‌شود.",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "unknownPublisher": "ناشر ناشناس",
+    "@unknownPublisher": {},
+    "searchFieldSearchHint": "جستجو برای برنامه‌ها",
+    "@searchFieldSearchHint": {},
+    "aboutPageVersionLabel": "نسخه {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsCategory": "متأسفیم، ما نتوانستیم هیچ بسته‌ای در این دسته پیدا کنیم",
+    "@searchPageNoResultsCategory": {},
+    "aboutPageContributorTitle": "طراحی و توسعه توسط:",
+    "@aboutPageContributorTitle": {},
+    "snapCategoryDefaultButtonLabel": "کشف بیش‌تر",
+    "@snapCategoryDefaultButtonLabel": {},
+    "aboutPageCommunityTitle": "بخشی از جامعه باشید:",
+    "@aboutPageCommunityTitle": {},
+    "snapCategoryFeaturedSlogan": "اسنپ‌های ویژه",
+    "@snapCategoryFeaturedSlogan": {},
+    "snapCategoryGamesSlogan": "همه چیز برای شب بازی شما",
+    "@snapCategoryGamesSlogan": {},
+    "snapCategoryGnomeGamesSlogan": "مجموعه بازی‌های گنوم",
+    "@snapCategoryGnomeGamesSlogan": {},
+    "snapCategoryProductivitySlogan": "یک چیز را از لیست کارهای خود حذف کنید",
+    "@snapCategoryProductivitySlogan": {},
+    "snapCategoryUbuntuDesktop": "رومیزی اوبونتو",
+    "@snapCategoryUbuntuDesktop": {},
+    "managePageTitle": "اسنپ های نصب شده را مدیریت کنید",
+    "@managePageTitle": {},
+    "managePageSearchFieldSearchHint": "جستجو برنامه‌های نصب‌شده شما",
+    "@managePageSearchFieldSearchHint": {},
+    "managePageUpdatesAvailable": "به‌روزرسانی‌های موجود ({n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageNoUpdatesAvailableDescription": "به‌روزرسانی در دسترس نیست. برنامه‌های شما همه به‌روز هستند.",
+    "@managePageNoUpdatesAvailableDescription": {},
+    "aboutPageLearnMoreLabel": "دانستن بیش‌تر",
+    "@aboutPageLearnMoreLabel": {},
+    "appstreamUrlTypeVcsBrowser": "منبع",
+    "@appstreamUrlTypeVcsBrowser": {},
+    "gamesPageBundles": "بسته‌های برنامه",
+    "@gamesPageBundles": {},
+    "snapCategoryDevelopmentSlogan": "اسنپ‌های ضروری برای توسعه‌دهندگان",
+    "@snapCategoryDevelopmentSlogan": {},
+    "snapActionSwitchChannelLabel": "تعویض کانال",
+    "@snapActionSwitchChannelLabel": {},
+    "snapCategoryArtAndDesignButtonLabel": "شروع به ساختن کنید",
+    "@snapCategoryArtAndDesignButtonLabel": {},
+    "snapCategoryArtAndDesignSlogan": "از اولین طرح خود تا آخرین تغییر، برنامه‌های هنری و طراحی را کاوش کنید.",
+    "@snapCategoryArtAndDesignSlogan": {},
+    "managePageQuitToUpdate": "خروج برای به‌روزرسانی",
+    "@managePageQuitToUpdate": {},
+    "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool;کاره;برنامه;بسته;ابزار",
+    "@appstreamSearchGreylist": {},
+    "snapPageGalleryNextSemanticLabel": "تصویر بعدی",
+    "@snapPageGalleryNextSemanticLabel": {},
+    "snapPageGalleryPreviousSemanticLabel": "تصویر پیشین",
+    "@snapPageGalleryPreviousSemanticLabel": {},
+    "snapPageGalleryImageSemanticLabel": "تصویر {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageShareSemanticLabel": "رونوشت از پیوند",
+    "@snapPageShareSemanticLabel": {},
+    "snapPageReportSemanticLabel": "گزارش",
+    "@snapPageReportSemanticLabel": {},
+    "sectionExpandSemanticLabel": "گسترش {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "جمع کردن {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageUpdatedDaysAgo": "به‌روز شده در {n, plural, =1{دیروز} other{{n} روز پیش}}",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "به‌روز شده در {n, plural, =1{یک} other{{n}}} هفتهٔ پیش",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "به‌روز شده در {n, plural, =1{یک} other{{n}}} ماه پیش",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "به‌روز شده در {n, plural, =1{پارسال} other{{n} سال پیش}}",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{یک} other{{n}}} به‌روز رسانی شکست خورد",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "نتوانستیم ایم برنامه‌ها را به‌روز کنیم چرا که در حال اجرایند.\n\n{snapList}\nوقتی از برنامه خارج شوید به صورت خودکار به‌روز خواهند شد.",
+    "@managePageUpdatesFailedBody": {},
+    "appCardPublisherSemanticLabel": "منتشر شده به دست {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "رتبه بندی {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "snapSortOrderAlphabeticalAsc": "الفبایی (آ تا ی)",
+    "@snapSortOrderAlphabeticalAsc": {},
+    "snapSortOrderAlphabeticalDesc": "الفبایی (ی تا آ)",
+    "@snapSortOrderAlphabeticalDesc": {},
+    "snapSortOrderDownloadSizeAsc": "اندازه (کوچک به بزرگ)",
+    "@snapSortOrderDownloadSizeAsc": {},
+    "snapSortOrderDownloadSizeDesc": "اندازه (بزرگ به کوچک)",
+    "@snapSortOrderDownloadSizeDesc": {},
+    "snapSortOrderInstalledSizeAsc": "اندازه (کوچک به بزرگ)",
+    "@snapSortOrderInstalledSizeAsc": {},
+    "snapSortOrderInstalledSizeDesc": "اندازه (بزرگ به کوچک)",
+    "@snapSortOrderInstalledSizeDesc": {},
+    "snapSortOrderInstalledDateAsc": "دیرترین به‌روز رسانی",
+    "@snapSortOrderInstalledDateAsc": {},
+    "snapSortOrderInstalledDateDesc": "زودترین به‌روز رسانی",
+    "@snapSortOrderInstalledDateDesc": {},
+    "snapRatingsBandVeryGood": "خیلی خوب",
+    "@snapRatingsBandVeryGood": {},
+    "snapRatingsBandVeryPoor": "خیلی ضعیف",
+    "@snapRatingsBandVeryPoor": {},
+    "snapRatingsBandInsufficientVotes": "بدون رأی کافی",
+    "@snapRatingsBandInsufficientVotes": {},
+    "snapRatingsVotes": "تعداد {n} رأی",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "گزارش {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "گزینش دلیلی برای گزارش این اسنپ",
+    "@snapReportSelectReportReasonLabel": {},
+    "snapReportSelectAnOptionLabel": "گزینش یک گزینه",
+    "@snapReportSelectAnOptionLabel": {},
+    "snapReportOptionCopyrightViolation": "زیر پا گذاشتت حق رونوشت یا نشان تجاری",
+    "@snapReportOptionCopyrightViolation": {},
+    "snapReportOptionStoreViolation": "زیر پا گذاشتن شرابط خدمت فروشگاه اسنپ",
+    "@snapReportOptionStoreViolation": {},
+    "snapReportDetailsLabel": "فراهم کردن جزییات بیش‌تر برای گزارشتان",
+    "@snapReportDetailsLabel": {},
+    "snapReportOptionalEmailAddressLabel": "رایانامه‌تان (اختیاری)",
+    "@snapReportOptionalEmailAddressLabel": {},
+    "snapReportSubmitButtonLabel": "ثبت گزارش",
+    "@snapReportSubmitButtonLabel": {},
+    "snapReportEnterValidEmailError": "ورود نشانی رایانامه‌ای معتبر",
+    "@snapReportEnterValidEmailError": {},
+    "snapReportPrivacyAgreementLabel": "هنگام ثبت این گزارش تأیید می‌کنم که خوانده و موافقم: ",
+    "@snapReportPrivacyAgreementLabel": {},
+    "snapReportPrivacyAgreementPrivacyPolicy": "سیاست محرمانگی",
+    "@snapReportPrivacyAgreementPrivacyPolicy": {},
+    "debPageErrorNoPackageInfo": "هیچ اطّلاعاتی از بسته پیدا نشد",
+    "@debPageErrorNoPackageInfo": {},
+    "debPageDocumentationLinkLabel": "دانستن بیش‌تر دربارهٔ مدیریت بسته‌های دبیانی",
+    "@debPageDocumentationLinkLabel": {},
+    "debPageShareLinkCopiedMessage": "پیوند در تخته‌گیره رونوشت شد",
+    "@debPageShareLinkCopiedMessage": {},
+    "debPageShareSemanticLabel": "رونوشت از پیوند",
+    "@debPageShareSemanticLabel": {},
+    "externalResources": "منابع اضافی",
+    "@externalResources": {},
+    "externalResourcesButtonLabel": "کشف بیش‌تر",
+    "@externalResourcesButtonLabel": {},
+    "allGamesButtonLabel": "همهٔ بازی‌ها",
+    "@allGamesButtonLabel": {},
+    "externalResourcesDisclaimer": "یادداشت: این‌ها ابزارهای خارجی بوده و در مالکیت یا تحت انتشار کنونیکال نیستند.",
+    "@externalResourcesDisclaimer": {},
+    "openInBrowser": "گشودن در مرورگر",
+    "@openInBrowser": {},
+    "installAll": "نصب همه",
+    "@installAll": {},
+    "localDebWarningTitle": "احتمالاً ناامن",
+    "@localDebWarningTitle": {},
+    "localDebLearnMore": "دانستن بیش‌تر دربارهٔ بسته‌های سوم‌شخص",
+    "@localDebLearnMore": {},
+    "localDebDialogConfirmation": "مطمئنید که می‌خواهید نصبش کنید؟",
+    "@localDebDialogConfirmation": {},
+    "snapdExceptionRunningApps": "نمی‌توانیم {snapName} را به‌روز کنیم چرا که در حال اجراست.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "بررسی وضعیت",
+    "@errorViewCheckStatusLabel": {},
+    "errorViewNetworkErrorTitle": "وصل شدن به اینترنت",
+    "@errorViewNetworkErrorTitle": {},
+    "errorViewNetworkErrorDescription": "نمی‌توانیم بدون اتّصال اینترنتی محتوای مرکز کاره را بار کنیم.",
+    "@errorViewNetworkErrorDescription": {},
+    "errorViewNetworkErrorAction": "بررسی اتّصالتان و تلاش دوباره.",
+    "@errorViewNetworkErrorAction": {},
+    "errorViewServerErrorDescription": "متأسفّانه هم‌اکنون با مشکلاتی در مرکز کاره مواجهیم.",
+    "@errorViewServerErrorDescription": {},
+    "errorViewServerErrorAction": "بررسی وضعیت به‌روز رسانی‌ها یا تلاش دوباره.",
+    "@errorViewServerErrorAction": {},
+    "errorViewUnknownErrorTitle": "چیزی اشتباه پیش رفت",
+    "@errorViewUnknownErrorTitle": {},
+    "errorViewUnknownErrorDescription": "متأسفّانه مطمئن نیستیم که خطا چیست.",
+    "@errorViewUnknownErrorDescription": {},
+    "errorViewUnknownErrorAction": "اکنون می‌توانید دوباره تلاش کرده، وضعیت به‌روز رسانی‌ها را بررسی کرده یا دوباره تلاش کنید.",
+    "@errorViewUnknownErrorAction": {},
+    "snapCategoryUbuntuDesktopSlogan": "پرش به آغاز میزکارتان",
+    "@snapCategoryUbuntuDesktopSlogan": {},
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "یادداشت محرمانگی کنونیکال ",
+    "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+    "localDebDialogMessage": "این بسته از سوی سوم‌شخص‌ها فراهم شده و می‌تواند سامانه و داده‌های شخصیتان را تهدید کند.",
+    "@localDebDialogMessage": {},
+    "localDebWarningBody": "این بسته به دست سوم‌شخص‌ها فراهم شده. نصب کردن بسته‌ها از بیرون مرکز کاره می‌تواند احتمال خطر برای سامانه و داده‌های شخصیتان را افزایش دهد. اطمینان از اعتماد به منبع پیش از ادامه.",
+    "@localDebWarningBody": {},
+    "codecPageTitle": "رمزینه‌های رسانه‌ای غایب",
+    "@codecPageTitle": {},
+    "codecPageDescription": "برای مدیریت قالب‌های صوتی و تصویری خاص باید رمزینه‌های زیر را نصب کنید:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "ممکن است برخی رمزینه‌های پیشنهادی مالکیتی باشند.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "نصب رمزینه‌های پیشنهادی",
+    "@codecInstallAllButton": {}
 }
