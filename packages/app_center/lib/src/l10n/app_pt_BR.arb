@@ -353,7 +353,7 @@
             }
         }
     },
-    "gamesPageTitle": "Novidades",
+    "gamesPageTitle": "Jogos",
     "@gamesPageTitle": {},
     "gamesPageTop": "Mais bem avaliados",
     "@gamesPageTop": {},
@@ -469,7 +469,7 @@
     "@managePageQuitToUpdate": {},
     "managePageDocumentationLinkLabel": "Saiba como gerenciar pacotes Debian na documentação.",
     "@managePageDocumentationLinkLabel": {},
-    "managePageInstallingLabel": "Instalando {n}",
+    "managePageInstallingLabel": "Instalando ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
             "n": {
@@ -492,5 +492,51 @@
         }
     },
     "snapPageShareSemanticLabel": "Copiar link",
-    "@snapPageShareSemanticLabel": {}
+    "@snapPageShareSemanticLabel": {},
+    "snapPageReportSemanticLabel": "Reportar",
+    "@snapPageReportSemanticLabel": {},
+    "sectionExpandSemanticLabel": "Expandir {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Recolher {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardPublisherSemanticLabel": "Publicado por {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Classificação {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareLinkCopiedMessage": "Link copiado para a área de transferência",
+    "@debPageShareLinkCopiedMessage": {},
+    "debPageShareSemanticLabel": "Copiar link",
+    "@debPageShareSemanticLabel": {},
+    "codecPageTitle": "Codecs de mídia ausentes",
+    "@codecPageTitle": {},
+    "codecPageDescription": "Você precisa instalar os seguintes codecs para lidar com determinados formatos de vídeo e áudio:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "Alguns dos codecs recomendados podem ser proprietários.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "Instale os codecs recomendados",
+    "@codecInstallAllButton": {}
 }
