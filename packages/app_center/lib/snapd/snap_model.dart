@@ -56,6 +56,9 @@ class SnapModel extends _$SnapModel {
     }
     final hasUpdate = ref.watch(hasUpdateProvider(snapName));
 
+    // Determine if a previous local revision exists to enable revert
+    final hasPrev = await _snapd.hasPreviousRevision(snapName);
+
     return SnapData(
       name: snapName,
       localSnap: localSnap,
@@ -66,6 +69,7 @@ class SnapModel extends _$SnapModel {
         storeSnap,
       ),
       hasUpdate: hasUpdate,
+      hasPreviousLocalRevision: hasPrev,
     );
   }
 
@@ -151,6 +155,38 @@ class SnapModel extends _$SnapModel {
     await _listenUntilDone(changeId, ref);
     ref.read(updatesModelProvider.notifier).removeFromList(snapName);
     ref.read(filteredLocalSnapsProvider.notifier).removeFromList(snapName);
+  }
+
+  Future<void> revert() async {
+    assert(state.hasValue, 'The snap must be loaded before reverting it');
+    assert(
+      state.value!.isInstalled, // safe: hasValue asserted above
+      'The snap must be installed before reverting it',
+    );
+
+    // Optimistically hide the Revert action to prevent multiple consecutive reverts
+    final currentData = state.value!;
+    state = AsyncData(currentData.copyWith(hasPreviousLocalRevision: false));
+
+    try {
+      final changeId = await _snapd.revert(snapName);
+      _updateChangeId(changeId);
+      await _listenUntilDone(changeId, ref);
+
+      // After successful revert, force refresh to update version and revert availability
+      ref.invalidateSelf();
+    } on SnapdException catch (e) {
+      // If snapd says there is no revision to revert to, keep UI consistent
+      if (e.statusCode == 400 &&
+          e.message.contains('no revision to revert to')) {
+        ref.invalidateSelf();
+        return;
+      }
+
+      // For other errors, restore previous state and rethrow to be handled upstream
+      state = AsyncData(currentData.copyWith(hasPreviousLocalRevision: true));
+      rethrow;
+    }
   }
 
   /// Changes the selected channel.
