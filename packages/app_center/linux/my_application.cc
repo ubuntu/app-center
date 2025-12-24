@@ -52,7 +52,28 @@ static void my_application_activate(GApplication* application) {
   gtk_widget_show(GTK_WIDGET(view));
   gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(view));
 
-  fl_register_plugins(FL_PLUGIN_REGISTRY(view));
+  // FIX: Check if BOTH Flutter engine AND messenger are ready before registering plugins
+  // This prevents the race condition where plugins try to set message handlers
+  // before the messenger is initialized, which occurs on systems with slower
+  // GPU initialization (e.g., Ubuntu Asahi, ARM systems with experimental drivers)
+  // 
+  // The engine pointer may exist, but the binary messenger inside might not be
+  // initialized yet. We need to check both to avoid the FlBinaryMessenger error.
+  FlEngine* engine = fl_view_get_engine(view);
+  FlBinaryMessenger* messenger = nullptr;
+  
+  if (engine != nullptr) {
+    messenger = fl_engine_get_binary_messenger(engine);
+  }
+  
+  if (engine != nullptr && messenger != nullptr) {
+    fl_register_plugins(FL_PLUGIN_REGISTRY(view));
+  } else {
+    g_warning("Flutter engine or messenger not ready for plugin registration. "
+              "Engine: %s, Messenger: %s",
+              engine ? "available" : "NULL",
+              messenger ? "available" : "NULL");
+  }
 
   gtk_widget_grab_focus(GTK_WIDGET(view));
 }
