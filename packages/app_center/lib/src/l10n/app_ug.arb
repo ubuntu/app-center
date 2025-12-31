@@ -1,1 +1,540 @@
-{}
+{
+    "appCenterLabel": "ئەپ مەركىزى",
+    "@appCenterLabel": {},
+    "appstreamSearchGreylist": "ئەپ؛قوللىنىشچان پىروگرامما؛بوغچا؛پىروگرامما؛يۈرۈشلۈك؛قورال",
+    "@appstreamSearchGreylist": {},
+    "snapPageChannelLabel": "قانال",
+    "@snapPageChannelLabel": {},
+    "snapPageConfinementLabel": "چەكلىمە",
+    "@snapPageConfinementLabel": {},
+    "snapPageContactPublisherLabel": "ئالاقە{publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDescriptionLabel": "چۈشەندۈرۈش",
+    "@snapPageDescriptionLabel": {},
+    "snapPageDeveloperWebsiteLabel": "ئىجادكار تور بېكىتى",
+    "@snapPageDeveloperWebsiteLabel": {},
+    "snapPageDownloadSizeLabel": "چۈشۈرۈش چوڭلۇقى",
+    "@snapPageDownloadSizeLabel": {},
+    "snapPageSizeLabel": "چوڭلۇقى",
+    "@snapPageSizeLabel": {},
+    "snapPageGalleryLabel": "سۈرەتدان",
+    "@snapPageGalleryLabel": {},
+    "snapPageGalleryNextSemanticLabel": "كېيىنكى سۈرەت",
+    "@snapPageGalleryNextSemanticLabel": {},
+    "snapPageGalleryPreviousSemanticLabel": "ئالدىنقى سۈرەت",
+    "@snapPageGalleryPreviousSemanticLabel": {},
+    "snapPageGalleryImageSemanticLabel": "{n}-سۈرەت",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageLicenseLabel": "ئىجازەتنامە",
+    "@snapPageLicenseLabel": {},
+    "snapPageLinksLabel": "ئۇلانما",
+    "@snapPageLinksLabel": {},
+    "snapPagePublisherLabel": "تارقاتقۇچى",
+    "@snapPagePublisherLabel": {},
+    "snapPagePublishedLabel": "تارقىتىلدى",
+    "@snapPagePublishedLabel": {},
+    "snapPageSummaryLabel": "ئۈزۈندە",
+    "@snapPageSummaryLabel": {},
+    "snapPageVersionLabel": "نەشرى",
+    "@snapPageVersionLabel": {},
+    "snapPageShareLinkCopiedMessage": "ئۇلانما چاپلاش تاختىسىغا كۆچۈرۈلدى",
+    "@snapPageShareLinkCopiedMessage": {},
+    "snapPageShareSemanticLabel": "ئۇلانما كۆچۈر",
+    "@snapPageShareSemanticLabel": {},
+    "snapPageReportSemanticLabel": "دوكلات",
+    "@snapPageReportSemanticLabel": {},
+    "sectionExpandSemanticLabel": "{section} نى ياي",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "{section} نى يىغ",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageLabel": "كۆز يۈگۈرت",
+    "@explorePageLabel": {},
+    "explorePageCategoriesLabel": "سەھىپە",
+    "@explorePageCategoriesLabel": {},
+    "managePageOwnUpdateAvailable": "ئەپ مەركىزىدە يېڭىلانما بار",
+    "@managePageOwnUpdateAvailable": {},
+    "managePageQuitToUpdate": "يېڭىلاشتىن چېكىن",
+    "@managePageQuitToUpdate": {},
+    "managePageOwnUpdateDescription": "پىروگراممىدىن چېكىنسىڭىز ئۆزلۈكىدىن يېڭىلىنىدۇ.",
+    "@managePageOwnUpdateDescription": {},
+    "managePageOwnUpdateQuitButton": "يېڭىلاشتىن چېكىن",
+    "@managePageOwnUpdateQuitButton": {},
+    "managePageCheckForUpdates": "يېڭىلاش تەكشۈر",
+    "@managePageCheckForUpdates": {},
+    "managePageCheckingForUpdates": "يېڭىلانمىنى تەكشۈرۈۋاتىدۇ",
+    "@managePageCheckingForUpdates": {},
+    "managePageNoInternet": "مۇلازىمېتىرنى زىيارەت قىلالمىدى، ئىنتېرنېت باغلىنىشىنى تەكشۈرۈڭ ياكى سەل تۇرۇپ قايتا سىناڭ.",
+    "@managePageNoInternet": {},
+    "managePageDescription": "يېڭىلانما بار يوقلۇقىنى تەكشۈرۈپ، ئەپنى يېڭىلاپ، ھەممە ئەپلىرىڭىزنىڭ ھالىتىنى باشقۇرىدۇ.",
+    "@managePageDescription": {},
+    "managePageDebUpdatesMessage": "Debian بوغچا يېڭىلاشنى يۇمشاق دېتال يېڭىلىغۇچ بىر تەرەپ قىلىدۇ.",
+    "@managePageDebUpdatesMessage": {},
+    "managePageInstalledAndUpdatedLabel": "ئورنىتىپ ۋە يېڭىلىدى",
+    "@managePageInstalledAndUpdatedLabel": {},
+    "managePageInstallingLabel": "ئورنىتىۋاتقىنى ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageLabel": "باشقۇرۇش",
+    "@managePageLabel": {},
+    "managePageTitle": "ئورنىتىلغان بوغچىنى باشقۇرىدۇ",
+    "@managePageTitle": {},
+    "managePageNoUpdatesAvailableDescription": "يېڭىلانما يوق. ھەممە ئەپلىرىڭىز يېڭى ھالەتتە.",
+    "@managePageNoUpdatesAvailableDescription": {},
+    "managePageSearchFieldSearchHint": "ئورناتقان ئەپلىرىڭىزنى ئىزدەيدۇ",
+    "@managePageSearchFieldSearchHint": {},
+    "managePageShowDetailsLabel": "تەپسىلاتىنى كۆرسەت",
+    "@managePageShowDetailsLabel": {},
+    "managePageShowSystemSnapsLabel": "سىستېما بوغچىنى كۆرسەت",
+    "@managePageShowSystemSnapsLabel": {},
+    "managePageUpdateAllLabel": "ھەممىنى يېڭىلا",
+    "@managePageUpdateAllLabel": {},
+    "managePageUpdatedDaysAgo": "{n, plural, =1{{n} كۈن} other{{n} كۈن}} ئىلگىرى يېڭىلاندى",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} ھەپتە} other{{n} ھەپتە}} ئىلگىرى يېڭىلاندى",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} ئاي} other{{n} ئاي}} ئىلگىرى يېڭىلاندى",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "{n, plural, =1{{n} يىل} other{{n} يىل}} ئىلگىرى يېڭىلاندى",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "يېڭىلانما بار ({n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{بىر يېڭىلانما} other{{n} يېڭىلانما}} مەغلۇپ بولدى",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "بۇ ئەپنى يېڭىلىيالمايمىز چۈنكى ئۇ ھازىر ئىجرا قىلىنىۋاتىدۇ.\n\n{snapList}\nسىز ئەپتىن چېكىنگەندە، ئۆزلۈكىدىن يېڭىلىنىدۇ.",
+    "@managePageUpdatesFailedBody": {},
+    "managePageDocumentationLinkLabel": "Debian بوغچىسىنى قانداق باشقۇرۇشنى قوللانمىدىن ئۆگىتىدۇ.",
+    "@managePageDocumentationLinkLabel": {},
+    "productivityPageLabel": "ئىشلەپچىقىرىش ئۈنۈمى",
+    "@productivityPageLabel": {},
+    "developmentPageLabel": "ئىجادىيەت",
+    "@developmentPageLabel": {},
+    "gamesPageLabel": "ئويۇن",
+    "@gamesPageLabel": {},
+    "gamesPageTitle": "ئويۇن",
+    "@gamesPageTitle": {},
+    "gamesPageTop": "يۇقىرى باھالانغان",
+    "@gamesPageTop": {},
+    "gamesPageFeatured": "تەۋسىيەلىك تېما",
+    "@gamesPageFeatured": {},
+    "gamesPageBundles": "ئەپ توپلىمى",
+    "@gamesPageBundles": {},
+    "unknownPublisher": "نامەلۇم تارقاتقۇچى",
+    "@unknownPublisher": {},
+    "searchFieldDebSection": "Debian بوغچىسى",
+    "@searchFieldDebSection": {},
+    "searchFieldSearchHint": "ئەپ ئىزدە",
+    "@searchFieldSearchHint": {},
+    "searchFieldSearchForLabel": "«{query}» نىڭ بارلىق نەتىجىسىنى كۆرسەت",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSnapSection": "Snap بوغچىسى",
+    "@searchFieldSnapSection": {},
+    "searchPageFilterByLabel": "سۈزگۈچ",
+    "@searchPageFilterByLabel": {},
+    "searchPageNoResults": "«{query}» نىڭ ھېچقانداق نەتىجىسىنى تېپىلمىدى",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "پەرقلىق ياكى تېخىمۇ كۆپ ئىشلىتىلىدىغان ھالقىلىق سۆزنى سىناڭ",
+    "@searchPageNoResultsHint": {},
+    "searchPageNoResultsCategory": "كەچۈرۈڭ، بۇ سەھىپىدە ھېچقانداق بوغچا تاپالمىدۇق",
+    "@searchPageNoResultsCategory": {},
+    "searchPageNoResultsCategoryHint": "پەرقلىق سەھىپە ياكى تېخىمۇ كۆپ ئىشلىتىلىدىغان ھالقىلىق سۆزنى سىناڭ",
+    "@searchPageNoResultsCategoryHint": {},
+    "searchPageSortByLabel": "تەرتىپى",
+    "@searchPageSortByLabel": {},
+    "searchPageRelevanceLabel": "مۇناسىۋىتى",
+    "@searchPageRelevanceLabel": {},
+    "searchPageTitle": "«{query}» نىڭ نەتىجىسى",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageLabel": "ھەققىدە",
+    "@aboutPageLabel": {},
+    "aboutPageVersionLabel": "نەشرى {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "لايىھە ۋە ئىجادىيەت:",
+    "@aboutPageContributorTitle": {},
+    "aboutPageCommunityTitle": "جامائەتنىڭ بىر پارچىسى:",
+    "@aboutPageCommunityTitle": {},
+    "aboutPageContributeLabel": "ئىجادىيەت ياكى خاتالىق دوكلاتى",
+    "@aboutPageContributeLabel": {},
+    "aboutPageGitHubLabel": "بىزنى GitHub تىن ئىزدەڭ",
+    "@aboutPageGitHubLabel": {},
+    "aboutPagePublishLabel": "Snap دۇكىنىغا تارقات",
+    "@aboutPagePublishLabel": {},
+    "aboutPageLearnMoreLabel": "مول بىلىم",
+    "@aboutPageLearnMoreLabel": {},
+    "appstreamUrlTypeBugtracker": "كەمتۈك ئىزلىغۇچ",
+    "@appstreamUrlTypeBugtracker": {},
+    "appstreamUrlTypeContact": "ئالاقەداش",
+    "@appstreamUrlTypeContact": {},
+    "appstreamUrlTypeContribute": "تۆھپە",
+    "@appstreamUrlTypeContribute": {},
+    "appstreamUrlTypeDonation": "ئىئانە",
+    "@appstreamUrlTypeDonation": {},
+    "appstreamUrlTypeFaq": "كۆپ سورالغان سوئال",
+    "@appstreamUrlTypeFaq": {},
+    "appstreamUrlTypeHelp": "ياردەم",
+    "@appstreamUrlTypeHelp": {},
+    "appstreamUrlTypeHomepage": "باش بەت",
+    "@appstreamUrlTypeHomepage": {},
+    "appstreamUrlTypeTranslate": "تەرجىمە",
+    "@appstreamUrlTypeTranslate": {},
+    "appstreamUrlTypeVcsBrowser": "مەنبە",
+    "@appstreamUrlTypeVcsBrowser": {},
+    "packageFormatDebLabel": "Debian بوغچىسى",
+    "@packageFormatDebLabel": {},
+    "packageFormatSnapLabel": "Snap بوغچىسى",
+    "@packageFormatSnapLabel": {},
+    "snapActionCancelLabel": "ۋاز كەچ",
+    "@snapActionCancelLabel": {},
+    "snapActionInstallLabel": "ئورنات",
+    "@snapActionInstallLabel": {},
+    "snapActionInstalledLabel": "ئورنىتىلغان",
+    "@snapActionInstalledLabel": {},
+    "snapActionInstallingLabel": "ئورنىتىۋاتىدۇ",
+    "@snapActionInstallingLabel": {},
+    "snapActionOpenLabel": "ئاچ",
+    "@snapActionOpenLabel": {},
+    "snapActionRemoveLabel": "سۆك",
+    "@snapActionRemoveLabel": {},
+    "snapActionRemovingLabel": "سۆكۈۋاتىدۇ",
+    "@snapActionRemovingLabel": {},
+    "snapActionSwitchChannelLabel": "قانال ئالماشتۇر",
+    "@snapActionSwitchChannelLabel": {},
+    "snapActionUpdateLabel": "يېڭىلا",
+    "@snapActionUpdateLabel": {},
+    "snapCategoryAll": "ھەممە سەھىپە",
+    "@snapCategoryAll": {},
+    "snapActionUpdatingLabel": "يېڭىلاۋاتىدۇ",
+    "@snapActionUpdatingLabel": {},
+    "appCardPublisherSemanticLabel": "تارقاتقۇچى {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "باھالىنىشى {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryArtAndDesign": "سەنئەت ۋە لايىھە",
+    "@snapCategoryArtAndDesign": {},
+    "snapCategoryArtAndDesignButtonLabel": "قۇرۇشنى باشلاش",
+    "@snapCategoryArtAndDesignButtonLabel": {},
+    "snapCategoryArtAndDesignSlogan": "تۇنجى ئۇچرىشىشىڭىزدىن تارتىپ ئاخىرقىسىغىچە ئەپنىڭ سەنئەت ۋە لايىھەلىنىشى ئۈستىدە ئىزدىنىڭ.",
+    "@snapCategoryArtAndDesignSlogan": {},
+    "snapCategoryBooksAndReference": "كىتاب ۋە پايدىلانما",
+    "@snapCategoryBooksAndReference": {},
+    "snapCategoryDefaultButtonLabel": "تېخىمۇ كۆپ بايقاش",
+    "@snapCategoryDefaultButtonLabel": {},
+    "snapCategoryDevelopment": "ئىجادىيەت",
+    "@snapCategoryDevelopment": {},
+    "snapCategoryDevelopmentSlogan": "ئىجادكارلار ئۈچۈن snaps بولۇشى كېرەك",
+    "@snapCategoryDevelopmentSlogan": {},
+    "snapCategoryDevicesAndIot": "ئۈسكۈنە ۋە ئورنى",
+    "@snapCategoryDevicesAndIot": {},
+    "snapCategoryEducation": "مائارىپ",
+    "@snapCategoryEducation": {},
+    "snapCategoryEntertainment": "كۆڭۈل ئېچىش",
+    "@snapCategoryEntertainment": {},
+    "snapCategoryFeatured": "تەۋسىيەلىك",
+    "@snapCategoryFeatured": {},
+    "snapCategoryFeaturedSlogan": "تەۋسىيە Snap بوغچا",
+    "@snapCategoryFeaturedSlogan": {},
+    "snapCategoryFinance": "پۇل-مۇئامىلە",
+    "@snapCategoryFinance": {},
+    "snapCategoryGames": "ئويۇن",
+    "@snapCategoryGames": {},
+    "snapCategoryGamesSlogan": "ھەممىسى ئويۇن كېچىلىكى ئۈچۈن",
+    "@snapCategoryGamesSlogan": {},
+    "snapCategoryGameDev": "ئويۇن ئىجادىيىتى",
+    "@snapCategoryGameDev": {},
+    "snapCategoryGameDevSlogan": "ئويۇن ئىجادىيىتى",
+    "@snapCategoryGameDevSlogan": {},
+    "snapCategoryGameEmulators": "تەقلىدلەشتۈرگۈچ",
+    "@snapCategoryGameEmulators": {},
+    "snapCategoryGameEmulatorsSlogan": "تەقلىدلەشتۈرگۈچ",
+    "@snapCategoryGameEmulatorsSlogan": {},
+    "snapCategoryGnomeGames": "GNOME ئويۇنى",
+    "@snapCategoryGnomeGames": {},
+    "snapCategoryGnomeGamesSlogan": "GNOME ئويۇن يۈرۈشلۈكى",
+    "@snapCategoryGnomeGamesSlogan": {},
+    "snapCategoryKdeGames": "KDE ئويۇنى",
+    "@snapCategoryKdeGames": {},
+    "snapCategoryKdeGamesSlogan": "KDE ئويۇن يۈرۈشلۈكى",
+    "@snapCategoryKdeGamesSlogan": {},
+    "snapCategoryGameLaunchers": "ئويۇن قوزغاتقۇچ",
+    "@snapCategoryGameLaunchers": {},
+    "snapCategoryGameLaunchersSlogan": "ئويۇن قوزغاتقۇچ",
+    "@snapCategoryGameLaunchersSlogan": {},
+    "snapCategoryGameContentCreation": "مەزمۇن ھاسىللىغۇچ",
+    "@snapCategoryGameContentCreation": {},
+    "snapCategoryGameContentCreationSlogan": "مەزمۇن ھاسىللىغۇچ",
+    "@snapCategoryGameContentCreationSlogan": {},
+    "snapCategoryHealthAndFitness": "ساقلىق ۋە ساغلاملىق",
+    "@snapCategoryHealthAndFitness": {},
+    "snapCategoryMusicAndAudio": "نەغمە ۋە ئۈن",
+    "@snapCategoryMusicAndAudio": {},
+    "snapCategoryNewsAndWeather": "خەۋەر ۋە ھاۋا رايى",
+    "@snapCategoryNewsAndWeather": {},
+    "snapCategoryPersonalisation": "خاسلاشتۇرۇش",
+    "@snapCategoryPersonalisation": {},
+    "snapCategoryPhotoAndVideo": "سۈرەت ۋە سىن",
+    "@snapCategoryPhotoAndVideo": {},
+    "snapCategoryProductivity": "ئىشلەپچىقىرىش ئۈنۈمى",
+    "@snapCategoryProductivity": {},
+    "snapCategoryProductivityButtonLabel": "ئۈنۈم توپلىمىنى بايقاش",
+    "@snapCategoryProductivityButtonLabel": {},
+    "snapCategoryProductivitySlogan": "بېجىرىدىغان ئىش تىزىمىڭىز تامام",
+    "@snapCategoryProductivitySlogan": {},
+    "snapCategoryScience": "ئىلىم-پەن",
+    "@snapCategoryScience": {},
+    "snapCategorySecurity": "بىخەتەرلىك",
+    "@snapCategorySecurity": {},
+    "snapCategoryServerAndCloud": "مۇلازىمېتىر ۋە بۇلۇت",
+    "@snapCategoryServerAndCloud": {},
+    "snapCategorySocial": "ئىجتىمائىي تاراتقۇ",
+    "@snapCategorySocial": {},
+    "snapCategoryUbuntuDesktop": "Ubuntu ئۈستەلئۈستى",
+    "@snapCategoryUbuntuDesktop": {},
+    "snapCategoryUbuntuDesktopSlogan": "ئۈستەلئۈستى مەسىلىسى",
+    "@snapCategoryUbuntuDesktopSlogan": {},
+    "snapCategoryUtilities": "قورال",
+    "@snapCategoryUtilities": {},
+    "snapConfinementClassic": "ئەنئەنىۋى",
+    "@snapConfinementClassic": {},
+    "snapConfinementDevmode": "ئىجادىيەت ھالىتى",
+    "@snapConfinementDevmode": {},
+    "snapConfinementStrict": "قاتتىق",
+    "@snapConfinementStrict": {},
+    "snapSortOrderAlphabeticalAsc": "ئېلىپبە تەرتىپى(A دىن Z غا)",
+    "@snapSortOrderAlphabeticalAsc": {},
+    "snapSortOrderAlphabeticalDesc": "ئېلىپبە تەرتىپى(Z دىن A غا)",
+    "@snapSortOrderAlphabeticalDesc": {},
+    "snapSortOrderDownloadSizeAsc": "چوڭلۇقى (كىچىكتىن چوڭغا)",
+    "@snapSortOrderDownloadSizeAsc": {},
+    "snapSortOrderDownloadSizeDesc": "چوڭلۇقى (چوڭدىن كىچىككە)",
+    "@snapSortOrderDownloadSizeDesc": {},
+    "snapSortOrderInstalledSizeAsc": "چوڭلۇقى (كىچىكتىن چوڭغا)",
+    "@snapSortOrderInstalledSizeAsc": {},
+    "snapSortOrderInstalledSizeDesc": "چوڭلۇقى (چوڭدىن كىچىككە)",
+    "@snapSortOrderInstalledSizeDesc": {},
+    "snapSortOrderInstalledDateAsc": "پات يېقىندا يېڭىلانغان",
+    "@snapSortOrderInstalledDateAsc": {},
+    "snapSortOrderInstalledDateDesc": "ئەڭ يېقىندا يېڭىلانغان",
+    "@snapSortOrderInstalledDateDesc": {},
+    "snapSortOrderRelevance": "مۇناسىۋىتى",
+    "@snapSortOrderRelevance": {},
+    "snapRatingsBandVeryGood": "بەك ياخشى",
+    "@snapRatingsBandVeryGood": {},
+    "snapRatingsBandGood": "ياخشى",
+    "@snapRatingsBandGood": {},
+    "snapRatingsBandNeutral": "ئادەتتىكى",
+    "@snapRatingsBandNeutral": {},
+    "snapRatingsBandPoor": "ناچار",
+    "@snapRatingsBandPoor": {},
+    "snapRatingsBandVeryPoor": "بەك ناچار",
+    "@snapRatingsBandVeryPoor": {},
+    "snapRatingsBandInsufficientVotes": "ئىناۋەتسىز بىلەت",
+    "@snapRatingsBandInsufficientVotes": {},
+    "snapRatingsVotes": "{n} بىلەت",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "دوكلات {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "بۇ بوغچىنى مەلۇم قىلىش سەۋەبى تاللىنىدۇ",
+    "@snapReportSelectReportReasonLabel": {},
+    "snapReportSelectAnOptionLabel": "تاللانما تاللىنىدۇ",
+    "@snapReportSelectAnOptionLabel": {},
+    "snapReportOptionCopyrightViolation": "نەشر ھوقۇقى ياكى تاۋار ماركىسىغا دەخلى-تەرۇز قىلىش",
+    "@snapReportOptionCopyrightViolation": {},
+    "snapReportOptionStoreViolation": "Snap دۇكىنىڭ مۇلازىمەت كېلىشىمىنىڭ ماددىسىغا خىلاپلىق قىلىش",
+    "@snapReportOptionStoreViolation": {},
+    "snapReportDetailsLabel": "مەلۇماتىڭىزنىڭ تېخىمۇ تەپسىلىي سەۋەبىنى تەمىنلەڭ",
+    "@snapReportDetailsLabel": {},
+    "snapReportOptionalEmailAddressLabel": "ئېلخەت ئادرېسىڭىز (تاللاشچان)",
+    "@snapReportOptionalEmailAddressLabel": {},
+    "snapReportCancelButtonLabel": "ۋاز كەچ",
+    "@snapReportCancelButtonLabel": {},
+    "snapReportSubmitButtonLabel": "دوكلات يوللا",
+    "@snapReportSubmitButtonLabel": {},
+    "snapReportEnterValidEmailError": "ئىناۋەتلىك ئېلخەت ئادرېسىنى كىرگۈزۈڭ",
+    "@snapReportEnterValidEmailError": {},
+    "snapReportDetailsHint": "ئىزاھ…",
+    "@snapReportDetailsHint": {},
+    "snapReportPrivacyAgreementLabel": "بۇ جەدۋەلنى يوللاشتا ئوقۇپ ۋە قوشۇلغانلىقىمنى جەزملەشتۈرىمەن ",
+    "@snapReportPrivacyAgreementLabel": {},
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical نىڭ شەخسىيەت ئۇقتۇرۇشى ",
+    "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+    "snapReportPrivacyAgreementAndLabel": "ۋە ",
+    "@snapReportPrivacyAgreementAndLabel": {},
+    "snapReportPrivacyAgreementPrivacyPolicy": "شەخسىيەت تۈزۈمى",
+    "@snapReportPrivacyAgreementPrivacyPolicy": {},
+    "debPageErrorNoPackageInfo": "ھېچقانداق بولاق ئۇچۇرى تېپىلمىدى",
+    "@debPageErrorNoPackageInfo": {},
+    "debPageDocumentationLinkLabel": "Debian بوغچىسىنى باشقۇرۇش ھەققىدىكى بىلىم",
+    "@debPageDocumentationLinkLabel": {},
+    "debPageShareLinkCopiedMessage": "ئۇلانما چاپلاش تاختىسىغا كۆچۈرۈلدى",
+    "@debPageShareLinkCopiedMessage": {},
+    "debPageShareSemanticLabel": "ئۇلانما كۆچۈر",
+    "@debPageShareSemanticLabel": {},
+    "externalResources": "قوشۇمچە مەنبە",
+    "@externalResources": {},
+    "externalResourcesButtonLabel": "تېخىمۇ كۆپ بايقاش",
+    "@externalResourcesButtonLabel": {},
+    "allGamesButtonLabel": "ھەممە ئويۇن",
+    "@allGamesButtonLabel": {},
+    "externalResourcesDisclaimer": "دىققەت: بۇلارنىڭ ھەممىسى سىرتقى قورال. بۇلارنى ئىگىدارى ياكى تۆھپىكارى Canonical شىركىتى ئەمەس.",
+    "@externalResourcesDisclaimer": {},
+    "openInBrowser": "تور كۆرگۈدە ئاچ",
+    "@openInBrowser": {},
+    "installAll": "ھەممىنى ئورنات",
+    "@installAll": {},
+    "localDebWarningTitle": "يوشۇرۇن خەتىرى بار",
+    "@localDebWarningTitle": {},
+    "localDebWarningBody": "بۇ بوغچىنى ئۈچىنچى تەرەپ تەمىنلىگەن. بوغچىنى ئەپ مەركىزىنىڭ سىرتىدىن ئورنىتىش سىستېما ۋە شەخسىي سانلىق مەلۇماتىڭىزغا خەتەر ئېلىپ كېلىش ئېھتىماللىقىنى ئۆستۈرۈۋېتىدۇ. داۋاملاشتۇرۇشتىن ئىلگىرى مەنبەگە ئىشىنىدىغانلىقىڭىزنى جەزملەڭ.",
+    "@localDebWarningBody": {},
+    "localDebLearnMore": "ئۈچىنچى تەرەپ بوغچىسى ھەققىدىكى مول بىلىم",
+    "@localDebLearnMore": {},
+    "localDebDialogMessage": "بۇ بوغچىنى ئۈچىنچى تەرەپ تەمىنلىگەن، سىستېما ۋە شەخسىي سانلىق مەلۇماتىڭىزغا تەھدىت ئېلىپ كېلىشى مۇمكىن.",
+    "@localDebDialogMessage": {},
+    "localDebDialogConfirmation": "ئۇنى راستتىنلا ئورنىتامسىز؟",
+    "@localDebDialogConfirmation": {},
+    "snapdExceptionRunningApps": "{snapName} نى يېڭىلىيالمايدۇ چۈنكى ئۇ ھازىر ئىجرا قىلىنىۋاتىدۇ.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "ھالىتىنى تەكشۈر",
+    "@errorViewCheckStatusLabel": {},
+    "errorViewNetworkErrorTitle": "ئىنتېرنېتقا باغلا",
+    "@errorViewNetworkErrorTitle": {},
+    "errorViewNetworkErrorDescription": "ئىنتېرنېت باغلىنىشى بولمىسا ئەپ مەركىزىدىكى مەزمۇنلارنى يۈكلىيەلمەيدۇ.",
+    "@errorViewNetworkErrorDescription": {},
+    "errorViewNetworkErrorAction": "باغلىنىشىڭىزنى تەكشۈرۈپ ئاندىن قايتا سىناڭ.",
+    "@errorViewNetworkErrorAction": {},
+    "errorViewServerErrorDescription": "كەچۈرۈڭ، ھازىر ئەپ مەركىزىدە مەسىلە كۆرۈلدى.",
+    "@errorViewServerErrorDescription": {},
+    "errorViewServerErrorAction": "يېڭىلاش ھالىتىنى تەكشۈرۈڭ ياكى سەل تۇرۇپ قايتا سىناڭ.",
+    "@errorViewServerErrorAction": {},
+    "errorViewUnknownErrorTitle": "كاشىلا كۆرۈلدى",
+    "@errorViewUnknownErrorTitle": {},
+    "errorViewUnknownErrorDescription": "كەچۈرۈڭ، قانداق خاتالىق كۆرۈلگەنلىكى ئېنىق ئەمەس.",
+    "@errorViewUnknownErrorDescription": {},
+    "errorViewUnknownErrorAction": "ھازىر قايتا سىنىيالايسىز، يېڭىلاش ھالىتىنى تەكشۈرۈڭ ياكى سەل تۇرۇپ قايتا سىناڭ.",
+    "@errorViewUnknownErrorAction": {},
+    "codecPageTitle": "ۋاسىتە كودلىغۇچ كەم",
+    "@codecPageTitle": {},
+    "codecPageDescription": "سىز نۆۋەتتىكى سىن ۋە ئۈن پىچىمىنى بىر تەرەپ قىلىدىغان تۆۋەندىكى كودلىغۇچنى ئورنىتىشقا موھتاج:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "بەزى تەۋسىيەلىك كودلىغۇچ مەخسۇس ئىشلىتىلىدىغان بولۇشى مۇمكىن.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "تەۋسىيەلىك كودلىغۇچنى ئورنات",
+    "@codecInstallAllButton": {}
+}
