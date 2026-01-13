@@ -1,1 +1,540 @@
-{}
+{
+    "appCenterLabel": "ಅಪ್ಲಿಕೇಶನ್ ಕೇಂದ್ರ",
+    "@appCenterLabel": {},
+    "appstreamSearchGreylist": "ಅಪ್ಲಿಕೇಶನ್;ಅಪ್ಲಿಕೇಶನ್;ಪ್ಯಾಕೇಜ್;ಪ್ರೋಗ್ರಾಂ;ಪ್ರೋಗ್ರಾಂ;ಸೂಟ್;ಟೂಲ್",
+    "@appstreamSearchGreylist": {},
+    "snapPageChannelLabel": "ಚಾನಲ್",
+    "@snapPageChannelLabel": {},
+    "snapPageConfinementLabel": "ಬಂಧನ",
+    "@snapPageConfinementLabel": {},
+    "snapPageContactPublisherLabel": "{publisher} ಅನ್ನು ಸಂಪರ್ಕಿಸಿ",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDescriptionLabel": "ವಿವರಣೆ",
+    "@snapPageDescriptionLabel": {},
+    "snapPageDeveloperWebsiteLabel": "ಡೆವಲಪರ್ ವೆಬ್‌ಸೈಟ್",
+    "@snapPageDeveloperWebsiteLabel": {},
+    "snapPageDownloadSizeLabel": "ಡೌನ್‌ಲೋಡ್ ಗಾತ್ರ",
+    "@snapPageDownloadSizeLabel": {},
+    "snapPageSizeLabel": "ಗಾತ್ರ",
+    "@snapPageSizeLabel": {},
+    "snapPageGalleryLabel": "ಗ್ಯಾಲರಿ",
+    "@snapPageGalleryLabel": {},
+    "snapPageGalleryNextSemanticLabel": "ಮುಂದಿನ ಚಿತ್ರ",
+    "@snapPageGalleryNextSemanticLabel": {},
+    "snapPageGalleryPreviousSemanticLabel": "ಹಿಂದಿನ ಚಿತ್ರ",
+    "@snapPageGalleryPreviousSemanticLabel": {},
+    "snapPageGalleryImageSemanticLabel": "ಚಿತ್ರ {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageLicenseLabel": "ಪರವಾನಗಿ",
+    "@snapPageLicenseLabel": {},
+    "snapPageLinksLabel": "ಲಿಂಕ್‌ಗಳು",
+    "@snapPageLinksLabel": {},
+    "snapPagePublisherLabel": "ಪ್ರಕಾಶಕರು",
+    "@snapPagePublisherLabel": {},
+    "snapPagePublishedLabel": "ಪ್ರಕಟಿಸಲಾಗಿದೆ",
+    "@snapPagePublishedLabel": {},
+    "snapPageSummaryLabel": "ಸಾರಾಂಶ",
+    "@snapPageSummaryLabel": {},
+    "snapPageVersionLabel": "ಆವೃತ್ತಿ",
+    "@snapPageVersionLabel": {},
+    "snapPageShareLinkCopiedMessage": "ಲಿಂಕ್ ಅನ್ನು ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸಲಾಗಿದೆ",
+    "@snapPageShareLinkCopiedMessage": {},
+    "snapPageShareSemanticLabel": "ಲಿಂಕ್ ನಕಲಿಸಿ",
+    "@snapPageShareSemanticLabel": {},
+    "snapPageReportSemanticLabel": "ವರದಿ",
+    "@snapPageReportSemanticLabel": {},
+    "sectionExpandSemanticLabel": "{section} ಅನ್ನು ವಿಸ್ತರಿಸಿ",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "ಸಂಕುಚಿಸಿ {ವಿಭಾಗ}ಸಂಕುಚಿಸಿ {ವಿಭಾಗ}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageLabel": "ಅನ್ವೇಷಿಸಿ",
+    "@explorePageLabel": {},
+    "explorePageCategoriesLabel": "ವರ್ಗಗಳು",
+    "@explorePageCategoriesLabel": {},
+    "managePageOwnUpdateAvailable": "ಅಪ್ಲಿಕೇಶನ್ ಕೇಂದ್ರದ ನವೀಕರಣ ಲಭ್ಯವಿದೆ",
+    "@managePageOwnUpdateAvailable": {},
+    "managePageQuitToUpdate": "ನವೀಕರಿಸಲು ನಿರ್ಗಮಿಸಿ",
+    "@managePageQuitToUpdate": {},
+    "managePageOwnUpdateDescription": "ನೀವು ಅಪ್ಲಿಕೇಶನ್ ತೊರೆದಾಗ ಅದು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ನವೀಕರಿಸುತ್ತದೆ.",
+    "@managePageOwnUpdateDescription": {},
+    "managePageOwnUpdateQuitButton": "ನವೀಕರಿಸಲು ನಿರ್ಗಮಿಸಿ",
+    "@managePageOwnUpdateQuitButton": {},
+    "managePageCheckForUpdates": "ನವೀಕರಣಗಳಿಗಾಗಿ ಪರಿಶೀಲಿಸಿ",
+    "@managePageCheckForUpdates": {},
+    "managePageCheckingForUpdates": "ನವೀಕರಣಗಳಿಗಾಗಿ ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ",
+    "@managePageCheckingForUpdates": {},
+    "managePageNoInternet": "ಸರ್ವರ್ ಅನ್ನು ತಲುಪಲು ಸಾಧ್ಯವಿಲ್ಲ, ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ ಅಥವಾ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    "@managePageNoInternet": {},
+    "managePageDescription": "ಲಭ್ಯವಿರುವ ನವೀಕರಣಗಳಿಗಾಗಿ ಪರಿಶೀಲಿಸಿ, ನಿಮ್ಮ ಅಪ್ಲಿಕೇಶನ್‌ಗಳನ್ನು ನವೀಕರಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಎಲ್ಲಾ ಅಪ್ಲಿಕೇಶನ್‌ಗಳ ಸ್ಥಿತಿಯನ್ನು ನಿರ್ವಹಿಸಿ.",
+    "@managePageDescription": {},
+    "managePageDebUpdatesMessage": "ಡೆಬಿಯನ್ ಪ್ಯಾಕೇಜ್ ನವೀಕರಣಗಳನ್ನು ಸಾಫ್ಟ್‌ವೇರ್ ಅಪ್‌ಡೇಟರ್ ನಿರ್ವಹಿಸುತ್ತದೆ.",
+    "@managePageDebUpdatesMessage": {},
+    "managePageInstalledAndUpdatedLabel": "ಸ್ಥಾಪಿಸಲಾಗಿದೆ ಮತ್ತು ನವೀಕರಿಸಲಾಗಿದೆ",
+    "@managePageInstalledAndUpdatedLabel": {},
+    "managePageInstallingLabel": "ಸ್ಥಾಪಿಸಲಾಗುತ್ತಿದೆ ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageLabel": "ನಿರ್ವಹಿಸಿ",
+    "@managePageLabel": {},
+    "managePageTitle": "ಸ್ಥಾಪಿಸಲಾದ ಸ್ನ್ಯಾಪ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸಿ",
+    "@managePageTitle": {},
+    "managePageNoUpdatesAvailableDescription": "ಯಾವುದೇ ನವೀಕರಣಗಳು ಲಭ್ಯವಿಲ್ಲ. ನಿಮ್ಮ ಅಪ್ಲಿಕೇಶನ್‌ಗಳೆಲ್ಲವೂ ನವೀಕೃತವಾಗಿವೆ.",
+    "@managePageNoUpdatesAvailableDescription": {},
+    "managePageSearchFieldSearchHint": "ನಿಮ್ಮ ಸ್ಥಾಪಿಸಲಾದ ಅಪ್ಲಿಕೇಶನ್‌ಗಳನ್ನು ಹುಡುಕಿ",
+    "@managePageSearchFieldSearchHint": {},
+    "managePageShowDetailsLabel": "ವಿವರಗಳನ್ನು ತೋರಿಸಿ",
+    "@managePageShowDetailsLabel": {},
+    "managePageShowSystemSnapsLabel": "ಸಿಸ್ಟಮ್ ಸ್ನ್ಯಾಪ್‌ಗಳನ್ನು ತೋರಿಸಿ",
+    "@managePageShowSystemSnapsLabel": {},
+    "managePageUpdateAllLabel": "ಎಲ್ಲವನ್ನೂ ನವೀಕರಿಸಿ",
+    "@managePageUpdateAllLabel": {},
+    "managePageUpdatedDaysAgo": "{n, plural, =1{{n} ದಿನ} ಇತರೆ {{n} ದಿನಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ{n, plural, =1{{n} ದಿನ} ಇತರೆ {{n} ದಿನಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} ವಾರ} ಇತರೆ {{n} ವಾರಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ{n, plural, =1{{n} ವಾರ} ಇತರೆ {{n} ವಾರಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} ತಿಂಗಳು} ಇತರೆ {{n} ತಿಂಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ{n, plural, =1{{n} ತಿಂಗಳು} ಇತರೆ {{n} ತಿಂಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "{n, plural, =1{{n} ವರ್ಷ} ಇತರೆ {{n} ವರ್ಷಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ{n, plural, =1{{n} ವರ್ಷ} ಇತರೆ {{n} ವರ್ಷಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "ನವೀಕರಣಗಳು ಲಭ್ಯವಿದೆ ({n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{ಒಂದು ನವೀಕರಣ} ಇತರೆ{{n} ನವೀಕರಣಗಳು}} ವಿಫಲವಾಗಿದೆ{n, plural, =1{ಒಂದು ನವೀಕರಣ} ಇತರೆ{{n} ನವೀಕರಣಗಳು}} ವಿಫಲವಾಗಿದೆ",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "ಈ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು ಪ್ರಸ್ತುತ ಚಾಲನೆಯಲ್ಲಿರುವ ಕಾರಣ ನಮಗೆ ಅವುಗಳನ್ನು ನವೀಕರಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.{snapList}ನೀವು ಅಪ್ಲಿಕೇಶನ್‌ಗಳನ್ನು ತೊರೆದಾಗ, ಅವುಗಳು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ನವೀಕರಿಸಲ್ಪಡುತ್ತವೆ.ಈ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು ಪ್ರಸ್ತುತ ಚಾಲನೆಯಲ್ಲಿರುವ ಕಾರಣ ನಮಗೆ ಅವುಗಳನ್ನು ನವೀಕರಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.{snapList}ನೀವು ಅಪ್ಲಿಕೇಶನ್‌ಗಳನ್ನು ತೊರೆದಾಗ, ಅವುಗಳು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ನವೀಕರಿಸಲ್ಪಡುತ್ತವೆ.",
+    "@managePageUpdatesFailedBody": {},
+    "managePageDocumentationLinkLabel": "ಡಾಕ್ಯುಮೆಂಟೇಶನ್‌ನಲ್ಲಿ ಡೆಬಿಯನ್ ಪ್ಯಾಕೇಜುಗಳನ್ನು ಹೇಗೆ ನಿರ್ವಹಿಸುವುದು ಎಂದು ತಿಳಿಯಿರಿ.",
+    "@managePageDocumentationLinkLabel": {},
+    "productivityPageLabel": "ಉತ್ಪಾದಕತೆ",
+    "@productivityPageLabel": {},
+    "developmentPageLabel": "ಅಭಿವೃದ್ಧಿ",
+    "@developmentPageLabel": {},
+    "gamesPageLabel": "ಆಟಗಳು",
+    "@gamesPageLabel": {},
+    "gamesPageTitle": "ಆಟಗಳು",
+    "@gamesPageTitle": {},
+    "gamesPageTop": "ಟಾಪ್ ರೇಟಿಂಗ್",
+    "@gamesPageTop": {},
+    "gamesPageFeatured": "ವೈಶಿಷ್ಟ್ಯಗೊಳಿಸಿದ ಶೀರ್ಷಿಕೆಗಳು",
+    "@gamesPageFeatured": {},
+    "gamesPageBundles": "ಅಪ್ಲಿಕೇಶನ್ ಬಂಡಲ್‌ಗಳು",
+    "@gamesPageBundles": {},
+    "unknownPublisher": "ಅಜ್ಞಾತ ಪ್ರಕಾಶಕರು",
+    "@unknownPublisher": {},
+    "searchFieldDebSection": "ಡೆಬಿಯನ್ ಪ್ಯಾಕೇಜುಗಳು",
+    "@searchFieldDebSection": {},
+    "searchFieldSearchHint": "ಅಪ್ಲಿಕೇಶನ್‌ಗಳಿಗಾಗಿ ಹುಡುಕಿ",
+    "@searchFieldSearchHint": {},
+    "searchFieldSearchForLabel": "\"{query}\" ಗಾಗಿ ಎಲ್ಲಾ ಫಲಿತಾಂಶಗಳನ್ನು ನೋಡಿ",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSnapSection": "ಸ್ನ್ಯಾಪ್ ಪ್ಯಾಕೇಜ್‌ಗಳು",
+    "@searchFieldSnapSection": {},
+    "searchPageFilterByLabel": "ಇದರ ಮೂಲಕ ಫಿಲ್ಟರ್ ಮಾಡಿ",
+    "@searchPageFilterByLabel": {},
+    "searchPageNoResults": "\"{query}\" ಗಾಗಿ ಯಾವುದೇ ಫಲಿತಾಂಶಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "ವಿಭಿನ್ನ ಅಥವಾ ಹೆಚ್ಚು ಸಾಮಾನ್ಯ ಕೀವರ್ಡ್‌ಗಳನ್ನು ಬಳಸಲು ಪ್ರಯತ್ನಿಸಿ",
+    "@searchPageNoResultsHint": {},
+    "searchPageNoResultsCategory": "ಕ್ಷಮಿಸಿ, ಈ ವರ್ಗದಲ್ಲಿ ನಮಗೆ ಯಾವುದೇ ಪ್ಯಾಕೇಜ್‌ಗಳನ್ನು ಹುಡುಕಲಾಗಲಿಲ್ಲ",
+    "@searchPageNoResultsCategory": {},
+    "searchPageNoResultsCategoryHint": "ಬೇರೆ ವರ್ಗವನ್ನು ಪ್ರಯತ್ನಿಸಿ ಅಥವಾ ಹೆಚ್ಚು ಸಾಮಾನ್ಯ ಕೀವರ್ಡ್‌ಗಳನ್ನು ಬಳಸಿ",
+    "@searchPageNoResultsCategoryHint": {},
+    "searchPageSortByLabel": "ವಿಂಗಡಿಸಿ",
+    "@searchPageSortByLabel": {},
+    "searchPageRelevanceLabel": "ಪ್ರಸ್ತುತತೆ",
+    "@searchPageRelevanceLabel": {},
+    "searchPageTitle": "\"{query}\" ಗಾಗಿ ಫಲಿತಾಂಶಗಳು",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageLabel": "ಬಗ್ಗೆ",
+    "@aboutPageLabel": {},
+    "aboutPageVersionLabel": "ಆವೃತ್ತಿ {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "ಇವರಿಂದ ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ ಮತ್ತು ಅಭಿವೃದ್ಧಿಪಡಿಸಲಾಗಿದೆ:",
+    "@aboutPageContributorTitle": {},
+    "aboutPageCommunityTitle": "ಸಮುದಾಯದ ಭಾಗವಾಗಿರಿ:",
+    "@aboutPageCommunityTitle": {},
+    "aboutPageContributeLabel": "ಬಗ್ ಅನ್ನು ಕೊಡುಗೆ ನೀಡಿ ಅಥವಾ ವರದಿ ಮಾಡಿ",
+    "@aboutPageContributeLabel": {},
+    "aboutPageGitHubLabel": "GitHub ನಲ್ಲಿ ನಮ್ಮನ್ನು ಹುಡುಕಿ",
+    "@aboutPageGitHubLabel": {},
+    "aboutPagePublishLabel": "Snap ಸ್ಟೋರ್‌ಗೆ ಪ್ರಕಟಿಸಿ",
+    "@aboutPagePublishLabel": {},
+    "aboutPageLearnMoreLabel": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
+    "@aboutPageLearnMoreLabel": {},
+    "appstreamUrlTypeBugtracker": "ಬಗ್ಟ್ರ್ಯಾಕರ್",
+    "@appstreamUrlTypeBugtracker": {},
+    "appstreamUrlTypeContact": "ಸಂಪರ್ಕಿಸಿ",
+    "@appstreamUrlTypeContact": {},
+    "appstreamUrlTypeContribute": "ಕೊಡುಗೆ ನೀಡಿ",
+    "@appstreamUrlTypeContribute": {},
+    "appstreamUrlTypeDonation": "ದಾನ ಮಾಡಿ",
+    "@appstreamUrlTypeDonation": {},
+    "appstreamUrlTypeFaq": "FAQ",
+    "@appstreamUrlTypeFaq": {},
+    "appstreamUrlTypeHelp": "ಸಹಾಯ",
+    "@appstreamUrlTypeHelp": {},
+    "appstreamUrlTypeHomepage": "ಮುಖಪುಟ",
+    "@appstreamUrlTypeHomepage": {},
+    "appstreamUrlTypeTranslate": "ಅನುವಾದಗಳು",
+    "@appstreamUrlTypeTranslate": {},
+    "appstreamUrlTypeVcsBrowser": "ಮೂಲ",
+    "@appstreamUrlTypeVcsBrowser": {},
+    "packageFormatDebLabel": "ಡೆಬಿಯನ್ ಪ್ಯಾಕೇಜುಗಳು",
+    "@packageFormatDebLabel": {},
+    "packageFormatSnapLabel": "ಸ್ನ್ಯಾಪ್ ಪ್ಯಾಕೇಜ್‌ಗಳು",
+    "@packageFormatSnapLabel": {},
+    "snapActionCancelLabel": "ರದ್ದುಮಾಡಿ",
+    "@snapActionCancelLabel": {},
+    "snapActionInstallLabel": "ಸ್ಥಾಪಿಸಿ",
+    "@snapActionInstallLabel": {},
+    "snapActionInstalledLabel": "ಸ್ಥಾಪಿಸಲಾಗಿದೆ",
+    "@snapActionInstalledLabel": {},
+    "snapActionInstallingLabel": "ಸ್ಥಾಪಿಸಲಾಗುತ್ತಿದೆ",
+    "@snapActionInstallingLabel": {},
+    "snapActionOpenLabel": "ತೆರೆಯಿರಿ",
+    "@snapActionOpenLabel": {},
+    "snapActionRemoveLabel": "ಅನ್‌ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ",
+    "@snapActionRemoveLabel": {},
+    "snapActionRemovingLabel": "ಅನ್‌ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲಾಗುತ್ತಿದೆ",
+    "@snapActionRemovingLabel": {},
+    "snapActionSwitchChannelLabel": "ಚಾನಲ್ ಬದಲಿಸಿ",
+    "@snapActionSwitchChannelLabel": {},
+    "snapActionUpdateLabel": "ನವೀಕರಿಸಿ",
+    "@snapActionUpdateLabel": {},
+    "snapCategoryAll": "ಎಲ್ಲಾ ವರ್ಗಗಳು",
+    "@snapCategoryAll": {},
+    "snapActionUpdatingLabel": "ನವೀಕರಿಸಲಾಗುತ್ತಿದೆ",
+    "@snapActionUpdatingLabel": {},
+    "appCardPublisherSemanticLabel": "{publisher} ಅವರಿಂದ ಪ್ರಕಟಿಸಲಾಗಿದೆ.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "ರೇಟಿಂಗ್ {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryArtAndDesign": "ಕಲೆ ಮತ್ತು ವಿನ್ಯಾಸ",
+    "@snapCategoryArtAndDesign": {},
+    "snapCategoryArtAndDesignButtonLabel": "ರಚಿಸಲು ಪ್ರಾರಂಭಿಸಿ",
+    "@snapCategoryArtAndDesignButtonLabel": {},
+    "snapCategoryArtAndDesignSlogan": "ನಿಮ್ಮ ಮೊದಲ ಸ್ಕೆಚ್‌ನಿಂದ ಅಂತಿಮ ಸ್ಪರ್ಶದವರೆಗೆ, ಕಲೆ ಮತ್ತು ವಿನ್ಯಾಸಕ್ಕಾಗಿ ಅಪ್ಲಿಕೇಶನ್‌ಗಳನ್ನು ಅನ್ವೇಷಿಸಿ.",
+    "@snapCategoryArtAndDesignSlogan": {},
+    "snapCategoryBooksAndReference": "ಪುಸ್ತಕಗಳು ಮತ್ತು ಉಲ್ಲೇಖ",
+    "@snapCategoryBooksAndReference": {},
+    "snapCategoryDefaultButtonLabel": "ಇನ್ನಷ್ಟು ಅನ್ವೇಷಿಸಿ",
+    "@snapCategoryDefaultButtonLabel": {},
+    "snapCategoryDevelopment": "ಅಭಿವೃದ್ಧಿ",
+    "@snapCategoryDevelopment": {},
+    "snapCategoryDevelopmentSlogan": "ಡೆವಲಪರ್‌ಗಳಿಗಾಗಿ ಸ್ನ್ಯಾಪ್‌ಗಳನ್ನು ಹೊಂದಿರಬೇಕು",
+    "@snapCategoryDevelopmentSlogan": {},
+    "snapCategoryDevicesAndIot": "ಸಾಧನಗಳು ಮತ್ತು IoT",
+    "@snapCategoryDevicesAndIot": {},
+    "snapCategoryEducation": "ಶಿಕ್ಷಣ",
+    "@snapCategoryEducation": {},
+    "snapCategoryEntertainment": "ಮನರಂಜನೆ",
+    "@snapCategoryEntertainment": {},
+    "snapCategoryFeatured": "ವೈಶಿಷ್ಟ್ಯಗೊಳಿಸಲಾಗಿದೆ",
+    "@snapCategoryFeatured": {},
+    "snapCategoryFeaturedSlogan": "ವೈಶಿಷ್ಟ್ಯಗೊಳಿಸಿದ ಸ್ನ್ಯಾಪ್‌ಗಳು",
+    "@snapCategoryFeaturedSlogan": {},
+    "snapCategoryFinance": "ಹಣಕಾಸು",
+    "@snapCategoryFinance": {},
+    "snapCategoryGames": "ಆಟಗಳು",
+    "@snapCategoryGames": {},
+    "snapCategoryGamesSlogan": "ನಿಮ್ಮ ಆಟದ ರಾತ್ರಿಗಾಗಿ ಎಲ್ಲವೂ",
+    "@snapCategoryGamesSlogan": {},
+    "snapCategoryGameDev": "ಆಟದ ಅಭಿವೃದ್ಧಿ",
+    "@snapCategoryGameDev": {},
+    "snapCategoryGameDevSlogan": "ಆಟದ ಅಭಿವೃದ್ಧಿ",
+    "@snapCategoryGameDevSlogan": {},
+    "snapCategoryGameEmulators": "ಎಮ್ಯುಲೇಟರ್ಗಳು",
+    "@snapCategoryGameEmulators": {},
+    "snapCategoryGameEmulatorsSlogan": "ಎಮ್ಯುಲೇಟರ್ಗಳು",
+    "@snapCategoryGameEmulatorsSlogan": {},
+    "snapCategoryGnomeGames": "GNOME ಆಟಗಳು",
+    "@snapCategoryGnomeGames": {},
+    "snapCategoryGnomeGamesSlogan": "ಗ್ನೋಮ್ ಗೇಮ್ಸ್ ಸೂಟ್",
+    "@snapCategoryGnomeGamesSlogan": {},
+    "snapCategoryKdeGames": "ಕೆಡಿಇ ಆಟಗಳು",
+    "@snapCategoryKdeGames": {},
+    "snapCategoryKdeGamesSlogan": "ಕೆಡಿಇ ಗೇಮ್ಸ್ ಸೂಟ್",
+    "@snapCategoryKdeGamesSlogan": {},
+    "snapCategoryGameLaunchers": "ಗೇಮ್ ಲಾಂಚರ್ಸ್",
+    "@snapCategoryGameLaunchers": {},
+    "snapCategoryGameLaunchersSlogan": "ಗೇಮ್ ಲಾಂಚರ್ಸ್",
+    "@snapCategoryGameLaunchersSlogan": {},
+    "snapCategoryGameContentCreation": "ವಿಷಯ ರಚನೆ",
+    "@snapCategoryGameContentCreation": {},
+    "snapCategoryGameContentCreationSlogan": "ವಿಷಯ ರಚನೆ",
+    "@snapCategoryGameContentCreationSlogan": {},
+    "snapCategoryHealthAndFitness": "ಆರೋಗ್ಯ ಮತ್ತು ಫಿಟ್ನೆಸ್",
+    "@snapCategoryHealthAndFitness": {},
+    "snapCategoryMusicAndAudio": "ಸಂಗೀತ ಮತ್ತು ಆಡಿಯೋ",
+    "@snapCategoryMusicAndAudio": {},
+    "snapCategoryNewsAndWeather": "ಸುದ್ದಿ ಮತ್ತು ಹವಾಮಾನ",
+    "@snapCategoryNewsAndWeather": {},
+    "snapCategoryPersonalisation": "ವೈಯಕ್ತೀಕರಣ",
+    "@snapCategoryPersonalisation": {},
+    "snapCategoryPhotoAndVideo": "ಫೋಟೋ ಮತ್ತು ವಿಡಿಯೋ",
+    "@snapCategoryPhotoAndVideo": {},
+    "snapCategoryProductivity": "ಉತ್ಪಾದಕತೆ",
+    "@snapCategoryProductivity": {},
+    "snapCategoryProductivityButtonLabel": "ಉತ್ಪಾದಕತೆಯ ಸಂಗ್ರಹವನ್ನು ಅನ್ವೇಷಿಸಿ",
+    "@snapCategoryProductivityButtonLabel": {},
+    "snapCategoryProductivitySlogan": "ನಿಮ್ಮ ಮಾಡಬೇಕಾದ ಪಟ್ಟಿಯಿಂದ ಒಂದು ವಿಷಯವನ್ನು ದಾಟಿಸಿ",
+    "@snapCategoryProductivitySlogan": {},
+    "snapCategoryScience": "ವಿಜ್ಞಾನ",
+    "@snapCategoryScience": {},
+    "snapCategorySecurity": "ಭದ್ರತೆ",
+    "@snapCategorySecurity": {},
+    "snapCategoryServerAndCloud": "ಸರ್ವರ್ ಮತ್ತು ಮೇಘ",
+    "@snapCategoryServerAndCloud": {},
+    "snapCategorySocial": "ಸಾಮಾಜಿಕ",
+    "@snapCategorySocial": {},
+    "snapCategoryUbuntuDesktop": "ಉಬುಂಟು ಡೆಸ್ಕ್‌ಟಾಪ್",
+    "@snapCategoryUbuntuDesktop": {},
+    "snapCategoryUbuntuDesktopSlogan": "ನಿಮ್ಮ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಪ್ರಾರಂಭಿಸಿ",
+    "@snapCategoryUbuntuDesktopSlogan": {},
+    "snapCategoryUtilities": "ಉಪಯುಕ್ತತೆಗಳು",
+    "@snapCategoryUtilities": {},
+    "snapConfinementClassic": "ಕ್ಲಾಸಿಕ್",
+    "@snapConfinementClassic": {},
+    "snapConfinementDevmode": "ದೇವ್ಮೋಡ್",
+    "@snapConfinementDevmode": {},
+    "snapConfinementStrict": "ಕಟ್ಟುನಿಟ್ಟಾದ",
+    "@snapConfinementStrict": {},
+    "snapSortOrderAlphabeticalAsc": "ವರ್ಣಮಾಲೆಯ (A ನಿಂದ Z)",
+    "@snapSortOrderAlphabeticalAsc": {},
+    "snapSortOrderAlphabeticalDesc": "ವರ್ಣಮಾಲೆಯ (Z ನಿಂದ A)",
+    "@snapSortOrderAlphabeticalDesc": {},
+    "snapSortOrderDownloadSizeAsc": "ವರ್ಣಮಾಲೆಯ (Z ನಿಂದ A)ವರ್ಣಮಾಲೆಯ (Z ನಿಂದ A)",
+    "@snapSortOrderDownloadSizeAsc": {},
+    "snapSortOrderDownloadSizeDesc": "ಗಾತ್ರ (ದೊಡ್ಡದು ಚಿಕ್ಕದು)",
+    "@snapSortOrderDownloadSizeDesc": {},
+    "snapSortOrderInstalledSizeAsc": "ಗಾತ್ರ (ಚಿಕ್ಕದಿಂದ ದೊಡ್ಡದಕ್ಕೆ)",
+    "@snapSortOrderInstalledSizeAsc": {},
+    "snapSortOrderInstalledSizeDesc": "ಗಾತ್ರ (ದೊಡ್ಡದು ಚಿಕ್ಕದು)",
+    "@snapSortOrderInstalledSizeDesc": {},
+    "snapSortOrderInstalledDateAsc": "ಇತ್ತೀಚೆಗೆ ನವೀಕರಿಸಲಾಗಿದೆ",
+    "@snapSortOrderInstalledDateAsc": {},
+    "snapSortOrderInstalledDateDesc": "ತೀರಾ ಇತ್ತೀಚೆಗೆ ನವೀಕರಿಸಲಾಗಿದೆ",
+    "@snapSortOrderInstalledDateDesc": {},
+    "snapSortOrderRelevance": "ಪ್ರಸ್ತುತತೆ",
+    "@snapSortOrderRelevance": {},
+    "snapRatingsBandVeryGood": "ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ",
+    "@snapRatingsBandVeryGood": {},
+    "snapRatingsBandGood": "ಒಳ್ಳೆಯದು",
+    "@snapRatingsBandGood": {},
+    "snapRatingsBandNeutral": "ತಟಸ್ಥ",
+    "@snapRatingsBandNeutral": {},
+    "snapRatingsBandPoor": "ಬಡವ",
+    "@snapRatingsBandPoor": {},
+    "snapRatingsBandVeryPoor": "ತುಂಬಾ ಬಡವ",
+    "@snapRatingsBandVeryPoor": {},
+    "snapRatingsBandInsufficientVotes": "ಸಾಕಷ್ಟು ಮತಗಳು",
+    "@snapRatingsBandInsufficientVotes": {},
+    "snapRatingsVotes": "{n} ಮತಗಳು",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "ವರದಿ {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "ಈ ಸ್ನ್ಯಾಪ್ ಅನ್ನು ವರದಿ ಮಾಡಲು ಕಾರಣವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+    "@snapReportSelectReportReasonLabel": {},
+    "snapReportSelectAnOptionLabel": "ಒಂದು ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ",
+    "@snapReportSelectAnOptionLabel": {},
+    "snapReportOptionCopyrightViolation": "ಹಕ್ಕುಸ್ವಾಮ್ಯ ಅಥವಾ ಟ್ರೇಡ್‌ಮಾರ್ಕ್ ಉಲ್ಲಂಘನೆ",
+    "@snapReportOptionCopyrightViolation": {},
+    "snapReportOptionStoreViolation": "Snap Store ಸೇವಾ ನಿಯಮಗಳ ಉಲ್ಲಂಘನೆ",
+    "@snapReportOptionStoreViolation": {},
+    "snapReportDetailsLabel": "ದಯವಿಟ್ಟು ನಿಮ್ಮ ವರದಿಗೆ ಹೆಚ್ಚು ವಿವರವಾದ ಕಾರಣವನ್ನು ಒದಗಿಸಿ",
+    "@snapReportDetailsLabel": {},
+    "snapReportOptionalEmailAddressLabel": "ನಿಮ್ಮ ಇಮೇಲ್ (ಐಚ್ಛಿಕ)",
+    "@snapReportOptionalEmailAddressLabel": {},
+    "snapReportCancelButtonLabel": "ರದ್ದುಮಾಡು",
+    "@snapReportCancelButtonLabel": {},
+    "snapReportSubmitButtonLabel": "ವರದಿ ಸಲ್ಲಿಸಿ",
+    "@snapReportSubmitButtonLabel": {},
+    "snapReportEnterValidEmailError": "ಮಾನ್ಯವಾದ ಇಮೇಲ್ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ",
+    "@snapReportEnterValidEmailError": {},
+    "snapReportDetailsHint": "ಕಾಮೆಂಟ್ ಮಾಡಿ...",
+    "@snapReportDetailsHint": {},
+    "snapReportPrivacyAgreementLabel": "ಈ ಫಾರ್ಮ್ ಅನ್ನು ಸಲ್ಲಿಸುವಾಗ, ನಾನು ಓದಿದ್ದೇನೆ ಮತ್ತು ಒಪ್ಪುತ್ತೇನೆ ಎಂದು ದೃಢೀಕರಿಸುತ್ತೇನೆ ",
+    "@snapReportPrivacyAgreementLabel": {},
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "ಈ ಫಾರ್ಮ್ ಅನ್ನು ಸಲ್ಲಿಸುವಾಗ, ನಾನು ಓದಿದ್ದೇನೆ ಮತ್ತು ಒಪ್ಪುತ್ತೇನೆ ಎಂದು ದೃಢೀಕರಿಸುತ್ತೇನೆ ಕ್ಯಾನೊನಿಕಲ್‌ನ ಗೌಪ್ಯತೆ ಸೂಚನೆ ",
+    "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+    "snapReportPrivacyAgreementAndLabel": "ಮತ್ತು ",
+    "@snapReportPrivacyAgreementAndLabel": {},
+    "snapReportPrivacyAgreementPrivacyPolicy": "ಗೌಪ್ಯತೆ ನೀತಿ",
+    "@snapReportPrivacyAgreementPrivacyPolicy": {},
+    "debPageErrorNoPackageInfo": "ಯಾವುದೇ ಪ್ಯಾಕೇಜ್ ಮಾಹಿತಿ ಕಂಡುಬಂದಿಲ್ಲ",
+    "@debPageErrorNoPackageInfo": {},
+    "debPageDocumentationLinkLabel": "ಡೆಬಿಯನ್ ಪ್ಯಾಕೇಜುಗಳನ್ನು ನಿರ್ವಹಿಸುವ ಬಗ್ಗೆ ತಿಳಿಯಿರಿ",
+    "@debPageDocumentationLinkLabel": {},
+    "debPageShareLinkCopiedMessage": "ಲಿಂಕ್ ಅನ್ನು ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸಲಾಗಿದೆ",
+    "@debPageShareLinkCopiedMessage": {},
+    "debPageShareSemanticLabel": "ಲಿಂಕ್ ನಕಲಿಸಿ",
+    "@debPageShareSemanticLabel": {},
+    "externalResources": "ಹೆಚ್ಚುವರಿ ಸಂಪನ್ಮೂಲಗಳು",
+    "@externalResources": {},
+    "externalResourcesButtonLabel": "ಇನ್ನಷ್ಟು ಅನ್ವೇಷಿಸಿ",
+    "@externalResourcesButtonLabel": {},
+    "allGamesButtonLabel": "ಎಲ್ಲಾ ಆಟಗಳು",
+    "@allGamesButtonLabel": {},
+    "externalResourcesDisclaimer": "ಗಮನಿಸಿ: ಇವೆಲ್ಲವೂ ಬಾಹ್ಯ ಉಪಕರಣಗಳು. ಇವುಗಳು ಕ್ಯಾನೊನಿಕಲ್‌ನಿಂದ ಮಾಲೀಕತ್ವ ಹೊಂದಿಲ್ಲ ಅಥವಾ ವಿತರಿಸಲ್ಪಟ್ಟಿಲ್ಲ.",
+    "@externalResourcesDisclaimer": {},
+    "openInBrowser": "ಬ್ರೌಸರ್‌ನಲ್ಲಿ ತೆರೆಯಿರಿ",
+    "@openInBrowser": {},
+    "installAll": "ಎಲ್ಲವನ್ನೂ ಸ್ಥಾಪಿಸಿ",
+    "@installAll": {},
+    "localDebWarningTitle": "ಸಂಭಾವ್ಯವಾಗಿ ಅಸುರಕ್ಷಿತ",
+    "@localDebWarningTitle": {},
+    "localDebWarningBody": "ಈ ಪ್ಯಾಕೇಜ್ ಅನ್ನು ಮೂರನೇ ವ್ಯಕ್ತಿಯಿಂದ ಒದಗಿಸಲಾಗಿದೆ. ಅಪ್ಲಿಕೇಶನ್ ಕೇಂದ್ರದ ಹೊರಗಿನಿಂದ ಪ್ಯಾಕೇಜ್‌ಗಳನ್ನು ಸ್ಥಾಪಿಸುವುದು ನಿಮ್ಮ ಸಿಸ್ಟಮ್ ಮತ್ತು ವೈಯಕ್ತಿಕ ಡೇಟಾಗೆ ಅಪಾಯವನ್ನು ಹೆಚ್ಚಿಸಬಹುದು. ಮುಂದುವರಿಯುವ ಮೊದಲು ನೀವು ಮೂಲವನ್ನು ನಂಬುತ್ತೀರಾ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
+    "@localDebWarningBody": {},
+    "localDebLearnMore": "ಮೂರನೇ ವ್ಯಕ್ತಿಯ ಪ್ಯಾಕೇಜ್‌ಗಳ ಕುರಿತು ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
+    "@localDebLearnMore": {},
+    "localDebDialogMessage": "ಈ ಪ್ಯಾಕೇಜ್ ಅನ್ನು ಮೂರನೇ ವ್ಯಕ್ತಿಯಿಂದ ಒದಗಿಸಲಾಗಿದೆ ಮತ್ತು ನಿಮ್ಮ ಸಿಸ್ಟಮ್ ಮತ್ತು ವೈಯಕ್ತಿಕ ಡೇಟಾಗೆ ಬೆದರಿಕೆ ಹಾಕಬಹುದು.",
+    "@localDebDialogMessage": {},
+    "localDebDialogConfirmation": "ನೀವು ಅದನ್ನು ಸ್ಥಾಪಿಸಲು ಖಚಿತವಾಗಿ ಬಯಸುವಿರಾ?",
+    "@localDebDialogConfirmation": {},
+    "snapdExceptionRunningApps": "ನಾವು {snapName} ಅನ್ನು ನವೀಕರಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ ಏಕೆಂದರೆ ಅದು ಪ್ರಸ್ತುತ ಚಾಲನೆಯಲ್ಲಿದೆ.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "ಸ್ಥಿತಿಯನ್ನು ಪರಿಶೀಲಿಸಿ",
+    "@errorViewCheckStatusLabel": {},
+    "errorViewNetworkErrorTitle": "ಇಂಟರ್ನೆಟ್‌ಗೆ ಸಂಪರ್ಕಪಡಿಸಿ",
+    "@errorViewNetworkErrorTitle": {},
+    "errorViewNetworkErrorDescription": "ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕವಿಲ್ಲದೆ ನಾವು ಅಪ್ಲಿಕೇಶನ್ ಕೇಂದ್ರದಲ್ಲಿ ವಿಷಯವನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.",
+    "@errorViewNetworkErrorDescription": {},
+    "errorViewNetworkErrorAction": "ನಿಮ್ಮ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಮರುಪ್ರಯತ್ನಿಸಿ.",
+    "@errorViewNetworkErrorAction": {},
+    "errorViewServerErrorDescription": "ನಮ್ಮನ್ನು ಕ್ಷಮಿಸಿ, ನಾವು ಪ್ರಸ್ತುತ ಅಪ್ಲಿಕೇಶನ್ ಕೇಂದ್ರದಲ್ಲಿ ಸಮಸ್ಯೆಗಳನ್ನು ಎದುರಿಸುತ್ತಿದ್ದೇವೆ.",
+    "@errorViewServerErrorDescription": {},
+    "errorViewServerErrorAction": "ನವೀಕರಣಗಳಿಗಾಗಿ ಸ್ಥಿತಿಯನ್ನು ಪರಿಶೀಲಿಸಿ ಅಥವಾ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    "@errorViewServerErrorAction": {},
+    "errorViewUnknownErrorTitle": "ಏನೋ ತಪ್ಪಾಗಿದೆ",
+    "@errorViewUnknownErrorTitle": {},
+    "errorViewUnknownErrorDescription": "ನಮ್ಮನ್ನು ಕ್ಷಮಿಸಿ, ಆದರೆ ದೋಷ ಏನೆಂದು ನಮಗೆ ಖಚಿತವಾಗಿಲ್ಲ.",
+    "@errorViewUnknownErrorDescription": {},
+    "errorViewUnknownErrorAction": "ನೀವು ಇದೀಗ ಮರುಪ್ರಯತ್ನಿಸಬಹುದು, ನವೀಕರಣಗಳಿಗಾಗಿ ಸ್ಥಿತಿಯನ್ನು ಪರಿಶೀಲಿಸಬಹುದು ಅಥವಾ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    "@errorViewUnknownErrorAction": {},
+    "codecPageTitle": "ಮಾಧ್ಯಮ ಕೊಡೆಕ್‌ಗಳು ಕಾಣೆಯಾಗಿದೆ",
+    "@codecPageTitle": {},
+    "codecPageDescription": "ಕೆಲವು ವೀಡಿಯೊ ಮತ್ತು ಆಡಿಯೊ ಸ್ವರೂಪಗಳನ್ನು ನಿರ್ವಹಿಸಲು ನೀವು ಈ ಕೆಳಗಿನ ಕೊಡೆಕ್‌ಗಳನ್ನು ಸ್ಥಾಪಿಸುವ ಅಗತ್ಯವಿದೆ:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "ಶಿಫಾರಸು ಮಾಡಲಾದ ಕೆಲವು ಕೊಡೆಕ್‌ಗಳು ಸ್ವಾಮ್ಯದ ಆಗಿರಬಹುದು.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "ಶಿಫಾರಸು ಮಾಡಲಾದ ಕೋಡೆಕ್‌ಗಳನ್ನು ಸ್ಥಾಪಿಸಿ",
+    "@codecInstallAllButton": {}
+}
