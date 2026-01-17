@@ -533,7 +533,7 @@
     },
     "codecPageTitle": "Відсутні медіакодеки",
     "@codecPageTitle": {},
-    "codecPageDescription": "Для роботи з певними форматами відео та аудіо необхідно встановити наступні кодеки:",
+    "codecPageDescription": "Для роботи з певними форматами відео та аудіо необхідно встановити такі кодеки:",
     "@codecPageDescription": {},
     "codecProprietaryDisclaimer": "Деякі з рекомендованих кодеків можуть бути пропрієтарними.",
     "@codecProprietaryDisclaimer": {},
