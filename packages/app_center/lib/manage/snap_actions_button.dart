@@ -70,10 +70,9 @@ class SnapActionsButton extends ConsumerWidget {
 
     final secondaryActionsWidgets = [
       ...secondaryActions.map((action) {
-        final color =
-            (action == SnapAction.remove || action == SnapAction.revert)
-                ? Theme.of(context).colorScheme.error
-                : null;
+        final color = action == SnapAction.remove
+            ? Theme.of(context).colorScheme.error
+            : null;
         return PopupMenuItem(
           onTap:
               action.callback(snapData, snapViewModel, snapLauncher, context),
