@@ -4,6 +4,7 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -90,6 +91,9 @@ class _Description extends StatelessWidget {
         const SizedBox(height: kPagePadding),
         MarkdownBody(
           selectable: true,
+          builders: {
+            'a': HyperlinkTextMarkdown(),
+          },
           data: debData.details.description.escapedMarkdown(),
         ),
       ],

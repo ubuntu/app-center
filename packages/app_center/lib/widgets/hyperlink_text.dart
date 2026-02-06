@@ -1,5 +1,7 @@
 import 'package:app_center/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:url_launcher/url_launcher_string.dart';
 
 /// A [Text] widget formatted as an accessible hyperlink.
@@ -61,5 +63,12 @@ class _HyperlinkTextState extends State<HyperlinkText> {
         ),
       ),
     );
+  }
+}
+
+class HyperlinkTextMarkdown extends MarkdownElementBuilder {
+  @override
+  Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {
+    return HyperlinkText(text: element.textContent, link: element.textContent);
   }
 }
