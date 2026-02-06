@@ -66,6 +66,7 @@ class _HyperlinkTextState extends State<HyperlinkText> {
   }
 }
 
+/// Custom builder for link texts on Markdown
 class HyperlinkTextMarkdown extends MarkdownElementBuilder {
   @override
   Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {
