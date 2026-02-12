@@ -209,6 +209,22 @@
     "snapActionOpenLabel": "Open",
     "snapActionRemoveLabel": "Uninstall",
     "snapActionRemovingLabel": "Uninstalling",
+    "snapActionRevertLabel": "Revert update",
+    "snapActionRevertingLabel": "Reverting update",
+    "snapRevertConfirmTitle": "Revert to previous version?",
+    "snapRevertConfirmMessage": "Automatic updates will resume when a new version is available.",
+    "snapRevertConfirmRevert": "Revert",
+    "snapRevertConfirmCancel": "Cancel",
+    "snapRevertConfirmTitleWithVersions": "Revert from {currentVersion} (rev {currentRevision}) to {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+      "placeholders": {
+        "currentVersion": {"type": "String"},
+        "currentRevision": {"type": "int"},
+        "previousVersion": {"type": "String"},
+        "previousRevision": {"type": "int"}
+      }
+    },
+    "snapRevertNoPreviousRevisionMessage": "No previous local revision is available to revert to.",
     "snapActionSwitchChannelLabel": "Switch channel",
     "snapActionUpdateLabel": "Update",
     "snapCategoryAll": "All categories",

@@ -15,6 +15,7 @@ class SnapData with _$SnapData {
     String? selectedChannel,
     String? activeChangeId,
     bool hasUpdate = false,
+    bool hasPreviousLocalRevision = false,
   }) {
     return _SnapData(
       name: name,
@@ -24,6 +25,7 @@ class SnapData with _$SnapData {
           selectedChannel ?? defaultSelectedChannel(localSnap, storeSnap),
       activeChangeId: activeChangeId,
       hasUpdate: hasUpdate,
+      hasPreviousLocalRevision: hasPreviousLocalRevision,
     );
   }
 
@@ -36,6 +38,7 @@ class SnapData with _$SnapData {
     required Snap? storeSnap,
     required String? selectedChannel,
     required bool hasUpdate,
+    required bool hasPreviousLocalRevision,
     String? activeChangeId,
   }) = _SnapData;
 
@@ -47,6 +50,10 @@ class SnapData with _$SnapData {
   bool get hasGallery =>
       storeSnap != null && storeSnap!.screenshotUrls.isNotEmpty;
   Map<String, SnapChannel>? get availableChannels => storeSnap?.channels;
+
+  /// Returns true if the snap can be reverted to a previous version.
+  /// Only true when an older local revision exists.
+  bool get canRevert => isInstalled && hasPreviousLocalRevision;
 
   static String? defaultSelectedChannel(Snap? localSnap, Snap? storeSnap) {
     final channels = storeSnap?.channels.keys;

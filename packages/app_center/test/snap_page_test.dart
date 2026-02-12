@@ -354,6 +354,45 @@ void main() {
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
   });
 
+  testWidgets('revert button appears in dropdown when previous revision exists',
+      (tester) async {
+    final service = registerMockSnapdService(
+      localSnap: localSnap,
+      storeSnap: storeSnap,
+    );
+
+    when(service.hasPreviousRevision(any)).thenAnswer((_) async => true);
+
+    final snapLauncher = createMockSnapLauncher(isLaunchable: true);
+
+    final container = createContainer(
+      overrides: [
+        launchProvider.overrideWith((ref, arg) => snapLauncher),
+      ],
+    );
+
+    await tester.pumpApp(
+      (_) => UncontrolledProviderScope(
+        container: container,
+        child: const SnapPage(snapName: 'testsnap'),
+      ),
+    );
+    await container.read(snapModelProvider('testsnap').future);
+    await container.read(ratingsModelProvider('testsnap').future);
+    await tester.pumpAndSettle();
+
+    final viewMoreButton = find.descendant(
+      of: find.byType(YaruSplitButton),
+      matching: find.byIcon(YaruIcons.pan_down),
+    );
+    expect(viewMoreButton, findsOneWidget);
+    await tester.tap(viewMoreButton);
+    await tester.pumpAndSettle();
+
+    final revertButton = find.text(tester.l10n.snapActionRevertLabel);
+    expect(revertButton, findsOneWidget);
+  });
+
   testWidgets('loading', (tester) async {
     registerMockSnapdService(localSnap: localSnap, storeSnap: storeSnap);
     final snapLauncher = createMockSnapLauncher(isLaunchable: true);
