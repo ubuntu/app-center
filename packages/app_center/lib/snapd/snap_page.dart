@@ -208,41 +208,21 @@ class _SnapView extends StatelessWidget {
                     const Divider(),
                     const SizedBox(height: kSectionSpacing),
                     if (snapData.hasGallery) ...[
-                      AppPageSection(
-                        header: l10n.snapPageGalleryLabel,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: kSectionSpacing,
-                          ),
-                          child: ScreenshotGallery(
-                            title: snapData.storeSnap!.titleOrName,
-                            urls: snapData.storeSnap!.screenshotUrls,
-                            height: layout.totalWidth / 2,
-                          ),
-                        ),
+                      ScreenshotGallery(
+                        title: snapData.storeSnap!.titleOrName,
+                        urls: snapData.storeSnap!.screenshotUrls,
+                        height: layout.totalWidth / 2,
                       ),
-                      const Divider(),
                       const SizedBox(height: kSectionSpacing),
                     ],
-                    AppPageSection(
-                      header: l10n.snapPageDescriptionLabel,
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              snapData.snap.summary,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            const SizedBox(height: kPagePadding),
-                            MarkdownBody(
-                              selectable: true,
-                              data: snapData.snap.description.escapedMarkdown(),
-                            ),
-                          ],
-                        ),
-                      ),
+                    Text(
+                      snapData.snap.summary,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: kPagePadding),
+                    MarkdownBody(
+                      selectable: true,
+                      data: snapData.snap.description.escapedMarkdown(),
                     ),
                     const SizedBox(height: kPagePadding),
                   ],
