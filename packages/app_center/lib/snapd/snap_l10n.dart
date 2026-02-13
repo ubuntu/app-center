@@ -8,6 +8,7 @@ extension SnapdChangeL10n on SnapdChange {
       'install-snap' => l10n.snapActionInstallingLabel,
       'refresh-snap' => l10n.snapActionUpdatingLabel,
       'remove-snap' => l10n.snapActionRemovingLabel,
+      'revert-snap' => l10n.snapActionRevertingLabel,
       _ => null,
     };
   }

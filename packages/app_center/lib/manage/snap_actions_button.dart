@@ -3,7 +3,6 @@ import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/updates_model.dart';
-import 'package:app_center/snapd/snap_action.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/active_change_content.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +64,7 @@ class SnapActionsButton extends ConsumerWidget {
     final secondaryActions = [
       if (canOpen) SnapAction.open,
       if (!shouldQuitToUpdate && hasUpdate) SnapAction.update,
+      if (snapData.canRevert) SnapAction.revert,
       if (snapData.isInstalled) SnapAction.remove,
     ]..remove(primaryAction ?? SnapAction.open);
 
@@ -74,7 +74,8 @@ class SnapActionsButton extends ConsumerWidget {
             ? Theme.of(context).colorScheme.error
             : null;
         return PopupMenuItem(
-          onTap: action.callback(snapData, snapViewModel, snapLauncher),
+          onTap:
+              action.callback(snapData, snapViewModel, snapLauncher, context),
           child: IntrinsicWidth(
             child: ListTile(
               mouseCursor: SystemMouseCursors.click,
@@ -104,7 +105,12 @@ class SnapActionsButton extends ConsumerWidget {
                 ...secondaryActionsWidgets,
             ],
             onPressed: snapData.activeChangeId == null
-                ? primaryAction?.callback(snapData, snapViewModel, snapLauncher)
+                ? primaryAction?.callback(
+                    snapData,
+                    snapViewModel,
+                    snapLauncher,
+                    context,
+                  )
                 : null,
             child: Text(
               primaryAction?.label(l10n) ?? SnapAction.open.label(l10n),

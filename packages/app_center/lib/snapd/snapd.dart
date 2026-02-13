@@ -1,3 +1,4 @@
+export 'snap_action.dart';
 export 'snap_category_enum.dart';
 export 'snap_data.dart';
 export 'snap_l10n.dart';
