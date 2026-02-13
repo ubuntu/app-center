@@ -238,6 +238,9 @@ class _SnapView extends StatelessWidget {
                             const SizedBox(height: kPagePadding),
                             MarkdownBody(
                               selectable: true,
+                              builders: {
+                                'a': HyperlinkTextMarkdown(),
+                              },
                               data: snapData.snap.description.escapedMarkdown(),
                             ),
                           ],
