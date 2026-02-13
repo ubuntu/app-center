@@ -348,5 +348,29 @@
     "codecPageTitle": "Отсутствуют мультимедиа-кодеки",
     "codecPageDescription": "Для обработки определенных видео и аудиоформатов вам необходимо установить следующие кодеки:",
     "codecProprietaryDisclaimer": "Некоторые из рекомендуемых кодеков могут быть проприетарными.",
-    "codecInstallAllButton": "Установить рекомендуемые кодеки"
+    "codecInstallAllButton": "Установить рекомендуемые кодеки",
+    "snapActionRevertLabel": "Откатить обновление",
+    "snapActionRevertingLabel": "Откат обновления",
+    "snapRevertConfirmTitle": "Выполнить откат к предыдущей версии?",
+    "snapRevertConfirmMessage": "Автоматические обновления возобновятся, когда будет доступна новая версия.",
+    "snapRevertConfirmRevert": "Откатить",
+    "snapRevertConfirmCancel": "Отмена",
+    "snapRevertConfirmTitleWithVersions": "Вернуться с {currentVersion} (ред. {currentRevision}) на {previousVersion} (ред. {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Нет доступных предыдущих локальных редакций, к которым можно было бы вернуться."
 }
