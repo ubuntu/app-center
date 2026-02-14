@@ -350,5 +350,27 @@
     "codecInstallAllButton": "Installera rekommenderade kodekar",
     "codecPageTitle": "Mediakodekar saknas",
     "snapRevertConfirmMessage": "Automatiska uppdateringar kommer att återupptas när en ny version är tillgänglig.",
-    "snapRevertConfirmCancel": "Avbryt"
+    "snapRevertConfirmCancel": "Avbryt",
+    "snapActionRevertLabel": "Återställ uppdatering",
+    "snapActionRevertingLabel": "Återställer uppdatering",
+    "snapRevertConfirmTitle": "Återställ till föregående version?",
+    "snapRevertConfirmRevert": "Återställ",
+    "snapRevertConfirmTitleWithVersions": "Återställ från {currentVersion} (rev {currentRevision}) till {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Ingen tidigare lokal revision finns tillgänglig att återställa till."
 }
