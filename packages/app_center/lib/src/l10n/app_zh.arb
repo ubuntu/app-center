@@ -123,9 +123,9 @@
       }
     }
   },
-  "gamesPageTitle": "热门",
+  "gamesPageTitle": "游戏",
   "@gamesPageTitle": {},
-  "gamesPageTop": "热门游戏",
+  "gamesPageTop": "最受好评",
   "@gamesPageTop": {},
   "gamesPageFeatured": "特色游戏",
   "@gamesPageFeatured": {},
@@ -478,5 +478,57 @@
   "debPageDocumentationLinkLabel": "了解如何管理 Debian 软件包",
   "@debPageDocumentationLinkLabel": {},
   "managePageDocumentationLinkLabel": "从文档中了解如何管理 Debian 软件包。",
-  "@managePageDocumentationLinkLabel": {}
+  "@managePageDocumentationLinkLabel": {},
+  "snapPageGalleryNextSemanticLabel": "下一张图片",
+  "@snapPageGalleryNextSemanticLabel": {},
+  "snapPageGalleryPreviousSemanticLabel": "上一张图片",
+  "@snapPageGalleryPreviousSemanticLabel": {},
+  "snapPageGalleryImageSemanticLabel": "图片 {n}",
+  "@snapPageGalleryImageSemanticLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "snapPageShareSemanticLabel": "复制链接",
+  "@snapPageShareSemanticLabel": {},
+  "snapPageReportSemanticLabel": "报告",
+  "@snapPageReportSemanticLabel": {},
+  "sectionExpandSemanticLabel": "展开 {section}",
+  "@sectionExpandSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "sectionCollapseSemanticLabel": "收起 {section}",
+  "@sectionCollapseSemanticLabel": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardPublisherSemanticLabel": "由 {publisher} 出版。",
+  "@appCardPublisherSemanticLabel": {
+    "placeholders": {
+      "publisher": {
+        "type": "String"
+      }
+    }
+  },
+  "appCardRatingSemanticLabel": "评分 {rating}。",
+  "@appCardRatingSemanticLabel": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "debPageShareLinkCopiedMessage": "链接已复制到粘贴板",
+  "@debPageShareLinkCopiedMessage": {},
+  "debPageShareSemanticLabel": "复制链接",
+  "@debPageShareSemanticLabel": {}
 }

@@ -1,482 +1,542 @@
 {
-  "snapPageLinksLabel": "Links",
-  "@snapPageLinksLabel": {},
-  "snapPageVersionLabel": "Versão",
-  "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "Pacotes debian",
-  "@packageFormatDebLabel": {},
-  "snapCategoryBooksAndReference": "Livros e Referências",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryProductivity": "Produtividade",
-  "@snapCategoryProductivity": {},
-  "snapCategoryUtilities": "Utilitários",
-  "@snapCategoryUtilities": {},
-  "snapCategorySocial": "Social",
-  "@snapCategorySocial": {},
-  "productivityPageLabel": "Produtividade",
-  "@productivityPageLabel": {},
-  "snapCategoryNewsAndWeather": "Notícias e Clima",
-  "@snapCategoryNewsAndWeather": {},
-  "gamesPageLabel": "Jogos",
-  "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "Arte e Design",
-  "@snapCategoryArtAndDesign": {},
-  "developmentPageLabel": "Desenvolvimento",
-  "@developmentPageLabel": {},
-  "managePageLabel": "Gerenciar",
-  "@managePageLabel": {},
-  "snapPageChannelLabel": "Canal",
-  "@snapPageChannelLabel": {},
-  "snapCategoryEducation": "Educação",
-  "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "Atualizar",
-  "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "Ordenar por",
-  "@searchPageSortByLabel": {},
-  "snapPageGalleryLabel": "Galeria",
-  "@snapPageGalleryLabel": {},
-  "searchFieldDebSection": "Pacotes debian",
-  "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "Abrir",
-  "@snapActionOpenLabel": {},
-  "snapCategoryDevelopment": "Desenvolvimento",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryHealthAndFitness": "Saúde e Fitness",
-  "@snapCategoryHealthAndFitness": {},
-  "appstreamUrlTypeContact": "Contato",
-  "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "Segurança",
-  "@snapCategorySecurity": {},
-  "snapCategoryFinance": "Finanças",
-  "@snapCategoryFinance": {},
-  "snapCategoryServerAndCloud": "Servidores e Nuvem",
-  "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "Sobre",
-  "@aboutPageLabel": {},
-  "snapPageSummaryLabel": "Resumo",
-  "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "app;aplicativo;pacote;programa;software;suite;ferramenta",
-  "@appstreamSearchGreylist": {},
-  "snapCategoryScience": "Ciência",
-  "@snapCategoryScience": {},
-  "snapCategoryEntertainment": "Entretenimento",
-  "@snapCategoryEntertainment": {},
-  "snapActionInstallLabel": "Instalar",
-  "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "Licença",
-  "@snapPageLicenseLabel": {},
-  "snapCategoryPhotoAndVideo": "Foto e Vídeo",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "Confinamento",
-  "@snapPageConfinementLabel": {},
-  "snapCategoryMusicAndAudio": "Música e Áudio",
-  "@snapCategoryMusicAndAudio": {},
-  "aboutPageGitHubLabel": "Encontre-nos no Github",
-  "@aboutPageGitHubLabel": {},
-  "packageFormatSnapLabel": "Pacotes snap",
-  "@packageFormatSnapLabel": {},
-  "snapCategoryGames": "Jogos",
-  "@snapCategoryGames": {},
-  "snapActionInstallingLabel": "Instalando",
-  "@snapActionInstallingLabel": {},
-  "searchFieldSearchHint": "Procurar por aplicativos",
-  "@searchFieldSearchHint": {},
-  "snapCategoryFeatured": "Em Destaque",
-  "@snapCategoryFeatured": {},
-  "managePageSearchFieldSearchHint": "Procurar em seus aplicativos instalados",
-  "@managePageSearchFieldSearchHint": {},
-  "snapActionCancelLabel": "Cancelar",
-  "@snapActionCancelLabel": {},
-  "snapPagePublisherLabel": "Editor",
-  "@snapPagePublisherLabel": {},
-  "snapPageDescriptionLabel": "Descrição",
-  "@snapPageDescriptionLabel": {},
-  "explorePageLabel": "Explorar",
-  "@explorePageLabel": {},
-  "searchFieldSnapSection": "Pacotes snap",
-  "@searchFieldSnapSection": {},
-  "snapCategoryDevicesAndIot": "Dispositivos e IoT",
-  "@snapCategoryDevicesAndIot": {},
-  "managePageCheckForUpdates": "Verificar se há atualizações",
-  "@managePageCheckForUpdates": {},
-  "managePageUpdateAllLabel": "Atualizar tudo",
-  "@managePageUpdateAllLabel": {},
-  "searchFieldSearchForLabel": "Ver todos os resultados para \"{query}\"",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "explorePageCategoriesLabel": "Categorias",
-  "@explorePageCategoriesLabel": {},
-  "snapCategoryDefaultButtonLabel": "Descobrir mais",
-  "@snapCategoryDefaultButtonLabel": {},
-  "managePageShowDetailsLabel": "Mostrar detalhes",
-  "@managePageShowDetailsLabel": {},
-  "snapPageDownloadSizeLabel": "Tamanho da transferência",
-  "@snapPageDownloadSizeLabel": {},
-  "snapCategoryProductivityButtonLabel": "Descubra a coleção de produtividade",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapPagePublishedLabel": "Publicado",
-  "@snapPagePublishedLabel": {},
-  "aboutPageLearnMoreLabel": "Saiba mais",
-  "@aboutPageLearnMoreLabel": {},
-  "snapRatingsBandNeutral": "Neutro",
-  "@snapRatingsBandNeutral": {},
-  "appstreamUrlTypeTranslate": "Traduções",
-  "@appstreamUrlTypeTranslate": {},
-  "searchPageNoResultsHint": "Tente usar palavras-chave diferentes ou mais gerais",
-  "@searchPageNoResultsHint": {},
-  "snapRatingsBandGood": "Bom",
-  "@snapRatingsBandGood": {},
-  "snapCategoryFeaturedSlogan": "Snaps em Destaque",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapSortOrderInstalledDateAsc": "Atualizado menos recentemente",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapCategoryProductivitySlogan": "Risque uma coisa da sua lista de tarefas",
-  "@snapCategoryProductivitySlogan": {},
-  "appstreamUrlTypeDonation": "Doar",
-  "@appstreamUrlTypeDonation": {},
-  "snapRatingsBandVeryGood": "Muito bom",
-  "@snapRatingsBandVeryGood": {},
-  "snapActionRemoveLabel": "Desinstalar",
-  "@snapActionRemoveLabel": {},
-  "appstreamUrlTypeHelp": "Ajuda",
-  "@appstreamUrlTypeHelp": {},
-  "snapCategoryPersonalisation": "Personalização",
-  "@snapCategoryPersonalisation": {},
-  "aboutPagePublishLabel": "Publicar para a Snap Store",
-  "@aboutPagePublishLabel": {},
-  "aboutPageContributorTitle": "Projetado e desenvolvido por:",
-  "@aboutPageContributorTitle": {},
-  "managePageInstalledAndUpdatedLabel": "Instalado e atualizado",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "appstreamUrlTypeHomepage": "Página inicial",
-  "@appstreamUrlTypeHomepage": {},
-  "managePageCheckingForUpdates": "Verificando se há atualizações",
-  "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Atualizado {n, plural, =1{{n} dia} other{{n} dias}} atrás",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapRatingsBandInsufficientVotes": "Votos insuficientes",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsBandVeryPoor": "Muito ruim",
-  "@snapRatingsBandVeryPoor": {},
-  "managePageDescription": "Verifique se há atualizações disponíveis, atualize seus aplicativos e gerencie o status de todos os seus aplicativos.",
-  "@managePageDescription": {},
-  "snapActionRemovingLabel": "Desinstalando",
-  "@snapActionRemovingLabel": {},
-  "snapSortOrderInstalledSizeDesc": "Tamanho (do maior ao menor)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapPageDeveloperWebsiteLabel": "Site do desenvolvedor",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapConfinementClassic": "Clássico",
-  "@snapConfinementClassic": {},
-  "snapRatingsBandPoor": "Ruim",
-  "@snapRatingsBandPoor": {},
-  "snapCategoryDevelopmentSlogan": "Snaps indispensáveis para desenvolvedores",
-  "@snapCategoryDevelopmentSlogan": {},
-  "searchPageTitle": "Resultados para \"{query}\"",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapCategoryGamesSlogan": "Tudo para a sua noite de jogo",
-  "@snapCategoryGamesSlogan": {},
-  "snapActionSwitchChannelLabel": "Mudar de canal",
-  "@snapActionSwitchChannelLabel": {},
-  "appstreamUrlTypeFaq": "FAQ",
-  "@appstreamUrlTypeFaq": {},
-  "snapConfinementStrict": "Estrito",
-  "@snapConfinementStrict": {},
-  "aboutPageContributeLabel": "Contribuir ou reportar bug",
-  "@aboutPageContributeLabel": {},
-  "snapCategoryUbuntuDesktop": "Área de Trabalho Ubuntu",
-  "@snapCategoryUbuntuDesktop": {},
-  "managePageUpdatesAvailable": "Atualizações disponíveis ({n})",
-  "@managePageUpdatesAvailable": {},
-  "aboutPageCommunityTitle": "Faça parte da comunidade:",
-  "@aboutPageCommunityTitle": {},
-  "searchPageNoResultsCategoryHint": "Tente uma categoria diferente ou use palavras-chave mais gerais",
-  "@searchPageNoResultsCategoryHint": {},
-  "snapSortOrderAlphabeticalDesc": "Alfabética (Z a A)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "searchPageNoResultsCategory": "Desculpe, não conseguimos encontrar nenhum pacote nesta categoria",
-  "@searchPageNoResultsCategory": {},
-  "snapRatingsVotes": "{n} votos",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapCategoryAll": "Todas as categorias",
-  "@snapCategoryAll": {},
-  "snapSortOrderInstalledSizeAsc": "Tamanho (do menor ao maior)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "aboutPageVersionLabel": "Versão {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageContactPublisherLabel": "Entre em contato com {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapConfinementDevmode": "Modo de desenvolvimento",
-  "@snapConfinementDevmode": {},
-  "searchPageNoResults": "Nenhum resultado encontrado para \"{query}\"",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapSortOrderDownloadSizeAsc": "Tamanho (do menor ao maior)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "unknownPublisher": "Editor desconhecido",
-  "@unknownPublisher": {},
-  "snapCategoryUbuntuDesktopSlogan": "Inicie rapidamente a sua área de trabalho",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapActionUpdatingLabel": "Atualizando",
-  "@snapActionUpdatingLabel": {},
-  "searchPageRelevanceLabel": "Relevância",
-  "@searchPageRelevanceLabel": {},
-  "snapSortOrderAlphabeticalAsc": "Alfabética (A a Z)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "managePageNoUpdatesAvailableDescription": "Não há atualizações disponíveis. Todos os seus aplicativos estão atualizados.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "snapSortOrderRelevance": "Relevância",
-  "@snapSortOrderRelevance": {},
-  "snapSortOrderDownloadSizeDesc": "Tamanho (do maior ao menor)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "appstreamUrlTypeBugtracker": "Rastreador de bugs",
-  "@appstreamUrlTypeBugtracker": {},
-  "managePageShowSystemSnapsLabel": "Mostrar snaps do sistema",
-  "@managePageShowSystemSnapsLabel": {},
-  "searchPageFilterByLabel": "Filtrar por",
-  "@searchPageFilterByLabel": {},
-  "snapSortOrderInstalledDateDesc": "Atualizado mais recentemente",
-  "@snapSortOrderInstalledDateDesc": {},
-  "appCenterLabel": "Centro de Aplicativos",
-  "@appCenterLabel": {},
-  "snapCategoryGameLaunchersSlogan": "Lançadores de Jogos",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapCategoryGameContentCreation": "Criação de Conteúdo",
-  "@snapCategoryGameContentCreation": {},
-  "snapCategoryGameContentCreationSlogan": "Criação de Conteúdo",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapReportLabel": "Relatar {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportOptionCopyrightViolation": "Violação de direitos autorais ou marca registrada",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportSelectAnOptionLabel": "Selecione uma opção",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportDetailsLabel": "Forneça um motivo mais detalhado para seu relatório",
-  "@snapReportDetailsLabel": {},
-  "snapReportOptionalEmailAddressLabel": "Seu e-mail (opcional)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportSubmitButtonLabel": "Enviar relatório",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportEnterValidEmailError": "Digite um endereço de e-mail válido",
-  "@snapReportEnterValidEmailError": {},
-  "installAll": "Instalar tudo",
-  "@installAll": {},
-  "managePageUpdatedYearsAgo": "Atualizado há {n, plural, =1{{n} ano} other{{n} anos}}",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "gamesPageFeatured": "Títulos em Destaque",
-  "@gamesPageFeatured": {},
-  "snapCategoryGameEmulatorsSlogan": "Emuladores",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryKdeGames": "Jogos KDE",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryKdeGamesSlogan": "Suíte de Jogos KDE",
-  "@snapCategoryKdeGamesSlogan": {},
-  "gamesPageBundles": "Pacotes de Aplicativos",
-  "@gamesPageBundles": {},
-  "snapCategoryGnomeGames": "Jogos GNOME",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryGameLaunchers": "Lançadores de Jogos",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryGnomeGamesSlogan": "Suíte de Jogos GNOME",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapPageShareLinkCopiedMessage": "Link copiado para a área de transferência",
-  "@snapPageShareLinkCopiedMessage": {},
-  "snapReportOptionStoreViolation": "Violação dos termos de serviço da Snap Store",
-  "@snapReportOptionStoreViolation": {},
-  "snapReportCancelButtonLabel": "Cancelar",
-  "@snapReportCancelButtonLabel": {},
-  "managePageUpdatedWeeksAgo": "Atualizado há {n, plural, =1{{n} semana} other{{n} semanas}} atrás",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedMonthsAgo": "Atualizado há {n, plural, =1{{n} mês} other{{n} meses}} atrás",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "gamesPageTitle": "Novidades",
-  "@gamesPageTitle": {},
-  "gamesPageTop": "Jogos mais Populares",
-  "@gamesPageTop": {},
-  "snapCategoryGameDev": "Desenvolvimento de Jogos",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameDevSlogan": "Desenvolvimento de Jogos",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryGameEmulators": "Emuladores",
-  "@snapCategoryGameEmulators": {},
-  "snapReportSelectReportReasonLabel": "Escolha um motivo para relatar este snap",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportDetailsHint": "Comente...",
-  "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementLabel": "Ao enviar este formulário, confirmo que li e concordo com ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Aviso de privacidade da Canonical ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "snapReportPrivacyAgreementAndLabel": "e ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "Política de Privacidade",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "debPageErrorNoPackageInfo": "Nenhuma informação de pacote encontrada",
-  "@debPageErrorNoPackageInfo": {},
-  "externalResources": "Recursos adicionais",
-  "@externalResources": {},
-  "externalResourcesButtonLabel": "Descobrir mais",
-  "@externalResourcesButtonLabel": {},
-  "allGamesButtonLabel": "Todos os jogos",
-  "@allGamesButtonLabel": {},
-  "externalResourcesDisclaimer": "Nota: Todas essas são ferramentas externas. Eles não pertencem nem são distribuídas pela Canonical.",
-  "@externalResourcesDisclaimer": {},
-  "openInBrowser": "Abrir no navegador",
-  "@openInBrowser": {},
-  "appstreamUrlTypeContribute": "Contribuir",
-  "@appstreamUrlTypeContribute": {},
-  "managePageDebUpdatesMessage": "Atualizações dos pacotes Debian são gerenciadas pelo Atualizador de Software.",
-  "@managePageDebUpdatesMessage": {},
-  "snapActionInstalledLabel": "Instalado",
-  "@snapActionInstalledLabel": {},
-  "snapPageSizeLabel": "Tamanho",
-  "@snapPageSizeLabel": {},
-  "localDebWarningTitle": "Potencialmente inseguro",
-  "@localDebWarningTitle": {},
-  "localDebLearnMore": "Saiba mais sobre pacotes de terceiros",
-  "@localDebLearnMore": {},
-  "localDebWarningBody": "Esse pacote é fornecido por terceiros. Instalar pacotes fora da Central de Aplicativos pode representar um risco para o seu sistema e dados pessoais. Só prossiga se a fonte for confiável.",
-  "@localDebWarningBody": {},
-  "localDebDialogMessage": "Esse pacote é fornecido por terceiros e pode colocar o seu sistema e dados pessoais em risco.",
-  "@localDebDialogMessage": {},
-  "localDebDialogConfirmation": "Tem certeza de que deseja instalá-lo?",
-  "@localDebDialogConfirmation": {},
-  "appstreamUrlTypeVcsBrowser": "Fonte",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "errorViewUnknownErrorDescription": "Lamentamos, mas não sabemos qual é o erro.",
-  "@errorViewUnknownErrorDescription": {},
-  "errorViewUnknownErrorAction": "Você pode tentar novamente agora, verifique o status de atualizações, ou tente novamente mais tarde.",
-  "@errorViewUnknownErrorAction": {},
-  "managePageNoInternet": "Não pode chegar ao servidor, verifique sua conexão de internet ou tentar novamente mais tarde.",
-  "@managePageNoInternet": {},
-  "snapdExceptionRunningApps": "Não conseguimos atualizar {snapName} porque ele está sendo executado atualmente.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewNetworkErrorTitle": "Conecte-se à internet",
-  "@errorViewNetworkErrorTitle": {},
-  "errorViewNetworkErrorDescription": "Não podemos carregar conteúdo no App Center sem conexão com a internet.",
-  "@errorViewNetworkErrorDescription": {},
-  "errorViewNetworkErrorAction": "Verifique sua conexão e tente novamente.",
-  "@errorViewNetworkErrorAction": {},
-  "errorViewServerErrorDescription": "Lamentamos, estamos tendo problemas com o App Center.",
-  "@errorViewServerErrorDescription": {},
-  "errorViewServerErrorAction": "Verifique o status de atualizações ou tente novamente mais tarde.",
-  "@errorViewServerErrorAction": {},
-  "errorViewUnknownErrorTitle": "Algo deu errado",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewCheckStatusLabel": "Verificar o status",
-  "@errorViewCheckStatusLabel": {},
-  "managePageOwnUpdateAvailable": "Atualização do App Center disponível",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateQuitButton": "Saia para atualizar",
-  "@managePageOwnUpdateQuitButton": {},
-  "managePageOwnUpdateDescription": "Quando você parar o aplicativo ele irá atualizar automaticamente.",
-  "@managePageOwnUpdateDescription": {},
-  "managePageOwnUpdateDescriptionSoon": "O centro de aplicativos será atualizado automaticamente em {time}.",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "snapCategoryArtAndDesignButtonLabel": "Comece a criar",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "Do seu primeiro esboço ao toque final, explore aplicativos para arte e design.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "managePageTitle": "Gerenciar snaps instalados",
-  "@managePageTitle": {},
-  "managePageUpdatesFailed": "{n, plural, =1{Uma atualização falhou} other{{n} atualizações falharam}}",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailedBody": "Não conseguimos atualizar esses aplicativos porque eles estão em execução no momento.\n\n{snapList}\nQuando você fechar os aplicativos, eles serão atualizados automaticamente.",
-  "@managePageUpdatesFailedBody": {},
-  "managePageQuitToUpdate": "Sair para atualizar",
-  "@managePageQuitToUpdate": {},
-  "managePageDocumentationLinkLabel": "Saiba como gerenciar pacotes Debian na documentação.",
-  "@managePageDocumentationLinkLabel": {},
-  "managePageInstallingLabel": "Instalando {n}",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "debPageDocumentationLinkLabel": "Aprenda sobre gerenciamento de pacotes Debian",
-  "@debPageDocumentationLinkLabel": {}
+    "snapPageLinksLabel": "Links",
+    "@snapPageLinksLabel": {},
+    "snapPageVersionLabel": "Versão",
+    "@snapPageVersionLabel": {},
+    "packageFormatDebLabel": "Pacotes debian",
+    "@packageFormatDebLabel": {},
+    "snapCategoryBooksAndReference": "Livros e Referências",
+    "@snapCategoryBooksAndReference": {},
+    "snapCategoryProductivity": "Produtividade",
+    "@snapCategoryProductivity": {},
+    "snapCategoryUtilities": "Utilitários",
+    "@snapCategoryUtilities": {},
+    "snapCategorySocial": "Social",
+    "@snapCategorySocial": {},
+    "productivityPageLabel": "Produtividade",
+    "@productivityPageLabel": {},
+    "snapCategoryNewsAndWeather": "Notícias e Clima",
+    "@snapCategoryNewsAndWeather": {},
+    "gamesPageLabel": "Jogos",
+    "@gamesPageLabel": {},
+    "snapCategoryArtAndDesign": "Arte e Design",
+    "@snapCategoryArtAndDesign": {},
+    "developmentPageLabel": "Desenvolvimento",
+    "@developmentPageLabel": {},
+    "managePageLabel": "Gerenciar",
+    "@managePageLabel": {},
+    "snapPageChannelLabel": "Canal",
+    "@snapPageChannelLabel": {},
+    "snapCategoryEducation": "Educação",
+    "@snapCategoryEducation": {},
+    "snapActionUpdateLabel": "Atualizar",
+    "@snapActionUpdateLabel": {},
+    "searchPageSortByLabel": "Ordenar por",
+    "@searchPageSortByLabel": {},
+    "snapPageGalleryLabel": "Galeria",
+    "@snapPageGalleryLabel": {},
+    "searchFieldDebSection": "Pacotes debian",
+    "@searchFieldDebSection": {},
+    "snapActionOpenLabel": "Abrir",
+    "@snapActionOpenLabel": {},
+    "snapCategoryDevelopment": "Desenvolvimento",
+    "@snapCategoryDevelopment": {},
+    "snapCategoryHealthAndFitness": "Saúde e Fitness",
+    "@snapCategoryHealthAndFitness": {},
+    "appstreamUrlTypeContact": "Contato",
+    "@appstreamUrlTypeContact": {},
+    "snapCategorySecurity": "Segurança",
+    "@snapCategorySecurity": {},
+    "snapCategoryFinance": "Finanças",
+    "@snapCategoryFinance": {},
+    "snapCategoryServerAndCloud": "Servidores e Nuvem",
+    "@snapCategoryServerAndCloud": {},
+    "aboutPageLabel": "Sobre",
+    "@aboutPageLabel": {},
+    "snapPageSummaryLabel": "Resumo",
+    "@snapPageSummaryLabel": {},
+    "appstreamSearchGreylist": "app;aplicativo;pacote;programa;software;suite;ferramenta",
+    "@appstreamSearchGreylist": {},
+    "snapCategoryScience": "Ciência",
+    "@snapCategoryScience": {},
+    "snapCategoryEntertainment": "Entretenimento",
+    "@snapCategoryEntertainment": {},
+    "snapActionInstallLabel": "Instalar",
+    "@snapActionInstallLabel": {},
+    "snapPageLicenseLabel": "Licença",
+    "@snapPageLicenseLabel": {},
+    "snapCategoryPhotoAndVideo": "Foto e Vídeo",
+    "@snapCategoryPhotoAndVideo": {},
+    "snapPageConfinementLabel": "Confinamento",
+    "@snapPageConfinementLabel": {},
+    "snapCategoryMusicAndAudio": "Música e Áudio",
+    "@snapCategoryMusicAndAudio": {},
+    "aboutPageGitHubLabel": "Encontre-nos no Github",
+    "@aboutPageGitHubLabel": {},
+    "packageFormatSnapLabel": "Pacotes snap",
+    "@packageFormatSnapLabel": {},
+    "snapCategoryGames": "Jogos",
+    "@snapCategoryGames": {},
+    "snapActionInstallingLabel": "Instalando",
+    "@snapActionInstallingLabel": {},
+    "searchFieldSearchHint": "Procurar por aplicativos",
+    "@searchFieldSearchHint": {},
+    "snapCategoryFeatured": "Em Destaque",
+    "@snapCategoryFeatured": {},
+    "managePageSearchFieldSearchHint": "Procurar em seus aplicativos instalados",
+    "@managePageSearchFieldSearchHint": {},
+    "snapActionCancelLabel": "Cancelar",
+    "@snapActionCancelLabel": {},
+    "snapPagePublisherLabel": "Editor",
+    "@snapPagePublisherLabel": {},
+    "snapPageDescriptionLabel": "Descrição",
+    "@snapPageDescriptionLabel": {},
+    "explorePageLabel": "Explorar",
+    "@explorePageLabel": {},
+    "searchFieldSnapSection": "Pacotes snap",
+    "@searchFieldSnapSection": {},
+    "snapCategoryDevicesAndIot": "Dispositivos e IoT",
+    "@snapCategoryDevicesAndIot": {},
+    "managePageCheckForUpdates": "Verificar se há atualizações",
+    "@managePageCheckForUpdates": {},
+    "managePageUpdateAllLabel": "Atualizar tudo",
+    "@managePageUpdateAllLabel": {},
+    "searchFieldSearchForLabel": "Ver todos os resultados para \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageCategoriesLabel": "Categorias",
+    "@explorePageCategoriesLabel": {},
+    "snapCategoryDefaultButtonLabel": "Descobrir mais",
+    "@snapCategoryDefaultButtonLabel": {},
+    "managePageShowDetailsLabel": "Mostrar detalhes",
+    "@managePageShowDetailsLabel": {},
+    "snapPageDownloadSizeLabel": "Tamanho da transferência",
+    "@snapPageDownloadSizeLabel": {},
+    "snapCategoryProductivityButtonLabel": "Descubra a coleção de produtividade",
+    "@snapCategoryProductivityButtonLabel": {},
+    "snapPagePublishedLabel": "Publicado",
+    "@snapPagePublishedLabel": {},
+    "aboutPageLearnMoreLabel": "Saiba mais",
+    "@aboutPageLearnMoreLabel": {},
+    "snapRatingsBandNeutral": "Neutro",
+    "@snapRatingsBandNeutral": {},
+    "appstreamUrlTypeTranslate": "Traduções",
+    "@appstreamUrlTypeTranslate": {},
+    "searchPageNoResultsHint": "Tente usar palavras-chave diferentes ou mais gerais",
+    "@searchPageNoResultsHint": {},
+    "snapRatingsBandGood": "Bom",
+    "@snapRatingsBandGood": {},
+    "snapCategoryFeaturedSlogan": "Snaps em Destaque",
+    "@snapCategoryFeaturedSlogan": {},
+    "snapSortOrderInstalledDateAsc": "Atualizado menos recentemente",
+    "@snapSortOrderInstalledDateAsc": {},
+    "snapCategoryProductivitySlogan": "Risque uma coisa da sua lista de tarefas",
+    "@snapCategoryProductivitySlogan": {},
+    "appstreamUrlTypeDonation": "Doar",
+    "@appstreamUrlTypeDonation": {},
+    "snapRatingsBandVeryGood": "Muito bom",
+    "@snapRatingsBandVeryGood": {},
+    "snapActionRemoveLabel": "Desinstalar",
+    "@snapActionRemoveLabel": {},
+    "appstreamUrlTypeHelp": "Ajuda",
+    "@appstreamUrlTypeHelp": {},
+    "snapCategoryPersonalisation": "Personalização",
+    "@snapCategoryPersonalisation": {},
+    "aboutPagePublishLabel": "Publicar para a Snap Store",
+    "@aboutPagePublishLabel": {},
+    "aboutPageContributorTitle": "Projetado e desenvolvido por:",
+    "@aboutPageContributorTitle": {},
+    "managePageInstalledAndUpdatedLabel": "Instalado e atualizado",
+    "@managePageInstalledAndUpdatedLabel": {},
+    "appstreamUrlTypeHomepage": "Página inicial",
+    "@appstreamUrlTypeHomepage": {},
+    "managePageCheckingForUpdates": "Verificando se há atualizações",
+    "@managePageCheckingForUpdates": {},
+    "managePageUpdatedDaysAgo": "Atualizado {n, plural, =1{{n} dia} other{{n} dias}} atrás",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRatingsBandInsufficientVotes": "Votos insuficientes",
+    "@snapRatingsBandInsufficientVotes": {},
+    "snapRatingsBandVeryPoor": "Muito ruim",
+    "@snapRatingsBandVeryPoor": {},
+    "managePageDescription": "Verifique se há atualizações disponíveis, atualize seus aplicativos e gerencie o status de todos os seus aplicativos.",
+    "@managePageDescription": {},
+    "snapActionRemovingLabel": "Desinstalando",
+    "@snapActionRemovingLabel": {},
+    "snapSortOrderInstalledSizeDesc": "Tamanho (do maior ao menor)",
+    "@snapSortOrderInstalledSizeDesc": {},
+    "snapPageDeveloperWebsiteLabel": "Site do desenvolvedor",
+    "@snapPageDeveloperWebsiteLabel": {},
+    "snapConfinementClassic": "Clássico",
+    "@snapConfinementClassic": {},
+    "snapRatingsBandPoor": "Ruim",
+    "@snapRatingsBandPoor": {},
+    "snapCategoryDevelopmentSlogan": "Snaps indispensáveis para desenvolvedores",
+    "@snapCategoryDevelopmentSlogan": {},
+    "searchPageTitle": "Resultados para \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryGamesSlogan": "Tudo para a sua noite de jogo",
+    "@snapCategoryGamesSlogan": {},
+    "snapActionSwitchChannelLabel": "Mudar de canal",
+    "@snapActionSwitchChannelLabel": {},
+    "appstreamUrlTypeFaq": "FAQ",
+    "@appstreamUrlTypeFaq": {},
+    "snapConfinementStrict": "Estrito",
+    "@snapConfinementStrict": {},
+    "aboutPageContributeLabel": "Contribuir ou reportar bug",
+    "@aboutPageContributeLabel": {},
+    "snapCategoryUbuntuDesktop": "Área de Trabalho Ubuntu",
+    "@snapCategoryUbuntuDesktop": {},
+    "managePageUpdatesAvailable": "Atualizações disponíveis ({n})",
+    "@managePageUpdatesAvailable": {},
+    "aboutPageCommunityTitle": "Faça parte da comunidade:",
+    "@aboutPageCommunityTitle": {},
+    "searchPageNoResultsCategoryHint": "Tente uma categoria diferente ou use palavras-chave mais gerais",
+    "@searchPageNoResultsCategoryHint": {},
+    "snapSortOrderAlphabeticalDesc": "Alfabética (Z a A)",
+    "@snapSortOrderAlphabeticalDesc": {},
+    "searchPageNoResultsCategory": "Desculpe, não conseguimos encontrar nenhum pacote nesta categoria",
+    "@searchPageNoResultsCategory": {},
+    "snapRatingsVotes": "{n} votos",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapCategoryAll": "Todas as categorias",
+    "@snapCategoryAll": {},
+    "snapSortOrderInstalledSizeAsc": "Tamanho (do menor ao maior)",
+    "@snapSortOrderInstalledSizeAsc": {},
+    "aboutPageVersionLabel": "Versão {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageContactPublisherLabel": "Entre em contato com {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapConfinementDevmode": "Modo de desenvolvimento",
+    "@snapConfinementDevmode": {},
+    "searchPageNoResults": "Nenhum resultado encontrado para \"{query}\"",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapSortOrderDownloadSizeAsc": "Tamanho (do menor ao maior)",
+    "@snapSortOrderDownloadSizeAsc": {},
+    "unknownPublisher": "Editor desconhecido",
+    "@unknownPublisher": {},
+    "snapCategoryUbuntuDesktopSlogan": "Inicie rapidamente a sua área de trabalho",
+    "@snapCategoryUbuntuDesktopSlogan": {},
+    "snapActionUpdatingLabel": "Atualizando",
+    "@snapActionUpdatingLabel": {},
+    "searchPageRelevanceLabel": "Relevância",
+    "@searchPageRelevanceLabel": {},
+    "snapSortOrderAlphabeticalAsc": "Alfabética (A a Z)",
+    "@snapSortOrderAlphabeticalAsc": {},
+    "managePageNoUpdatesAvailableDescription": "Não há atualizações disponíveis. Todos os seus aplicativos estão atualizados.",
+    "@managePageNoUpdatesAvailableDescription": {},
+    "snapSortOrderRelevance": "Relevância",
+    "@snapSortOrderRelevance": {},
+    "snapSortOrderDownloadSizeDesc": "Tamanho (do maior ao menor)",
+    "@snapSortOrderDownloadSizeDesc": {},
+    "appstreamUrlTypeBugtracker": "Rastreador de bugs",
+    "@appstreamUrlTypeBugtracker": {},
+    "managePageShowSystemSnapsLabel": "Mostrar snaps do sistema",
+    "@managePageShowSystemSnapsLabel": {},
+    "searchPageFilterByLabel": "Filtrar por",
+    "@searchPageFilterByLabel": {},
+    "snapSortOrderInstalledDateDesc": "Atualizado mais recentemente",
+    "@snapSortOrderInstalledDateDesc": {},
+    "appCenterLabel": "Centro de Aplicativos",
+    "@appCenterLabel": {},
+    "snapCategoryGameLaunchersSlogan": "Lançadores de Jogos",
+    "@snapCategoryGameLaunchersSlogan": {},
+    "snapCategoryGameContentCreation": "Criação de Conteúdo",
+    "@snapCategoryGameContentCreation": {},
+    "snapCategoryGameContentCreationSlogan": "Criação de Conteúdo",
+    "@snapCategoryGameContentCreationSlogan": {},
+    "snapReportLabel": "Relatar {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportOptionCopyrightViolation": "Violação de direitos autorais ou marca registrada",
+    "@snapReportOptionCopyrightViolation": {},
+    "snapReportSelectAnOptionLabel": "Selecione uma opção",
+    "@snapReportSelectAnOptionLabel": {},
+    "snapReportDetailsLabel": "Forneça um motivo mais detalhado para seu relatório",
+    "@snapReportDetailsLabel": {},
+    "snapReportOptionalEmailAddressLabel": "Seu e-mail (opcional)",
+    "@snapReportOptionalEmailAddressLabel": {},
+    "snapReportSubmitButtonLabel": "Enviar relatório",
+    "@snapReportSubmitButtonLabel": {},
+    "snapReportEnterValidEmailError": "Digite um endereço de e-mail válido",
+    "@snapReportEnterValidEmailError": {},
+    "installAll": "Instalar tudo",
+    "@installAll": {},
+    "managePageUpdatedYearsAgo": "Atualizado há {n, plural, =1{{n} ano} other{{n} anos}}",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "gamesPageFeatured": "Títulos em Destaque",
+    "@gamesPageFeatured": {},
+    "snapCategoryGameEmulatorsSlogan": "Emuladores",
+    "@snapCategoryGameEmulatorsSlogan": {},
+    "snapCategoryKdeGames": "Jogos KDE",
+    "@snapCategoryKdeGames": {},
+    "snapCategoryKdeGamesSlogan": "Suíte de Jogos KDE",
+    "@snapCategoryKdeGamesSlogan": {},
+    "gamesPageBundles": "Pacotes de Aplicativos",
+    "@gamesPageBundles": {},
+    "snapCategoryGnomeGames": "Jogos GNOME",
+    "@snapCategoryGnomeGames": {},
+    "snapCategoryGameLaunchers": "Lançadores de Jogos",
+    "@snapCategoryGameLaunchers": {},
+    "snapCategoryGnomeGamesSlogan": "Suíte de Jogos GNOME",
+    "@snapCategoryGnomeGamesSlogan": {},
+    "snapPageShareLinkCopiedMessage": "Link copiado para a área de transferência",
+    "@snapPageShareLinkCopiedMessage": {},
+    "snapReportOptionStoreViolation": "Violação dos termos de serviço da Snap Store",
+    "@snapReportOptionStoreViolation": {},
+    "snapReportCancelButtonLabel": "Cancelar",
+    "@snapReportCancelButtonLabel": {},
+    "managePageUpdatedWeeksAgo": "Atualizado há {n, plural, =1{{n} semana} other{{n} semanas}} atrás",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "Atualizado há {n, plural, =1{{n} mês} other{{n} meses}} atrás",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "gamesPageTitle": "Jogos",
+    "@gamesPageTitle": {},
+    "gamesPageTop": "Mais bem avaliados",
+    "@gamesPageTop": {},
+    "snapCategoryGameDev": "Desenvolvimento de Jogos",
+    "@snapCategoryGameDev": {},
+    "snapCategoryGameDevSlogan": "Desenvolvimento de Jogos",
+    "@snapCategoryGameDevSlogan": {},
+    "snapCategoryGameEmulators": "Emuladores",
+    "@snapCategoryGameEmulators": {},
+    "snapReportSelectReportReasonLabel": "Escolha um motivo para relatar este snap",
+    "@snapReportSelectReportReasonLabel": {},
+    "snapReportDetailsHint": "Comente...",
+    "@snapReportDetailsHint": {},
+    "snapReportPrivacyAgreementLabel": "Ao enviar este formulário, confirmo que li e concordo com ",
+    "@snapReportPrivacyAgreementLabel": {},
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Aviso de privacidade da Canonical ",
+    "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+    "snapReportPrivacyAgreementAndLabel": "e ",
+    "@snapReportPrivacyAgreementAndLabel": {},
+    "snapReportPrivacyAgreementPrivacyPolicy": "Política de Privacidade",
+    "@snapReportPrivacyAgreementPrivacyPolicy": {},
+    "debPageErrorNoPackageInfo": "Nenhuma informação de pacote encontrada",
+    "@debPageErrorNoPackageInfo": {},
+    "externalResources": "Recursos adicionais",
+    "@externalResources": {},
+    "externalResourcesButtonLabel": "Descobrir mais",
+    "@externalResourcesButtonLabel": {},
+    "allGamesButtonLabel": "Todos os jogos",
+    "@allGamesButtonLabel": {},
+    "externalResourcesDisclaimer": "Nota: Todas essas são ferramentas externas. Eles não pertencem nem são distribuídas pela Canonical.",
+    "@externalResourcesDisclaimer": {},
+    "openInBrowser": "Abrir no navegador",
+    "@openInBrowser": {},
+    "appstreamUrlTypeContribute": "Contribuir",
+    "@appstreamUrlTypeContribute": {},
+    "managePageDebUpdatesMessage": "Atualizações dos pacotes Debian são gerenciadas pelo Atualizador de Software.",
+    "@managePageDebUpdatesMessage": {},
+    "snapActionInstalledLabel": "Instalado",
+    "@snapActionInstalledLabel": {},
+    "snapPageSizeLabel": "Tamanho",
+    "@snapPageSizeLabel": {},
+    "localDebWarningTitle": "Potencialmente inseguro",
+    "@localDebWarningTitle": {},
+    "localDebLearnMore": "Saiba mais sobre pacotes de terceiros",
+    "@localDebLearnMore": {},
+    "localDebWarningBody": "Esse pacote é fornecido por terceiros. Instalar pacotes fora da Central de Aplicativos pode representar um risco para o seu sistema e dados pessoais. Só prossiga se a fonte for confiável.",
+    "@localDebWarningBody": {},
+    "localDebDialogMessage": "Esse pacote é fornecido por terceiros e pode colocar o seu sistema e dados pessoais em risco.",
+    "@localDebDialogMessage": {},
+    "localDebDialogConfirmation": "Tem certeza de que deseja instalá-lo?",
+    "@localDebDialogConfirmation": {},
+    "appstreamUrlTypeVcsBrowser": "Fonte",
+    "@appstreamUrlTypeVcsBrowser": {},
+    "errorViewUnknownErrorDescription": "Lamentamos, mas não sabemos qual é o erro.",
+    "@errorViewUnknownErrorDescription": {},
+    "errorViewUnknownErrorAction": "Você pode tentar novamente agora, verifique o status de atualizações, ou tente novamente mais tarde.",
+    "@errorViewUnknownErrorAction": {},
+    "managePageNoInternet": "Não pode chegar ao servidor, verifique sua conexão de internet ou tentar novamente mais tarde.",
+    "@managePageNoInternet": {},
+    "snapdExceptionRunningApps": "Não conseguimos atualizar {snapName} porque ele está sendo executado atualmente.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewNetworkErrorTitle": "Conecte-se à internet",
+    "@errorViewNetworkErrorTitle": {},
+    "errorViewNetworkErrorDescription": "Não podemos carregar conteúdo no App Center sem conexão com a internet.",
+    "@errorViewNetworkErrorDescription": {},
+    "errorViewNetworkErrorAction": "Verifique sua conexão e tente novamente.",
+    "@errorViewNetworkErrorAction": {},
+    "errorViewServerErrorDescription": "Lamentamos, estamos tendo problemas com o App Center.",
+    "@errorViewServerErrorDescription": {},
+    "errorViewServerErrorAction": "Verifique o status de atualizações ou tente novamente mais tarde.",
+    "@errorViewServerErrorAction": {},
+    "errorViewUnknownErrorTitle": "Algo deu errado",
+    "@errorViewUnknownErrorTitle": {},
+    "errorViewCheckStatusLabel": "Verificar o status",
+    "@errorViewCheckStatusLabel": {},
+    "managePageOwnUpdateAvailable": "Atualização do App Center disponível",
+    "@managePageOwnUpdateAvailable": {},
+    "managePageOwnUpdateQuitButton": "Saia para atualizar",
+    "@managePageOwnUpdateQuitButton": {},
+    "managePageOwnUpdateDescription": "Quando você parar o aplicativo ele irá atualizar automaticamente.",
+    "@managePageOwnUpdateDescription": {},
+    "managePageOwnUpdateDescriptionSoon": "O centro de aplicativos será atualizado automaticamente em {time}.",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryArtAndDesignButtonLabel": "Comece a criar",
+    "@snapCategoryArtAndDesignButtonLabel": {},
+    "snapCategoryArtAndDesignSlogan": "Do seu primeiro esboço ao toque final, explore aplicativos para arte e design.",
+    "@snapCategoryArtAndDesignSlogan": {},
+    "managePageTitle": "Gerenciar snaps instalados",
+    "@managePageTitle": {},
+    "managePageUpdatesFailed": "{n, plural, =1{Uma atualização falhou} other{{n} atualizações falharam}}",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "Não conseguimos atualizar esses aplicativos porque eles estão em execução no momento.\n\n{snapList}\nQuando você fechar os aplicativos, eles serão atualizados automaticamente.",
+    "@managePageUpdatesFailedBody": {},
+    "managePageQuitToUpdate": "Sair para atualizar",
+    "@managePageQuitToUpdate": {},
+    "managePageDocumentationLinkLabel": "Saiba como gerenciar pacotes Debian na documentação.",
+    "@managePageDocumentationLinkLabel": {},
+    "managePageInstallingLabel": "Instalando ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "debPageDocumentationLinkLabel": "Aprenda sobre gerenciamento de pacotes Debian",
+    "@debPageDocumentationLinkLabel": {},
+    "snapPageGalleryNextSemanticLabel": "Próxima imagem",
+    "@snapPageGalleryNextSemanticLabel": {},
+    "snapPageGalleryPreviousSemanticLabel": "Imagem anterior",
+    "@snapPageGalleryPreviousSemanticLabel": {},
+    "snapPageGalleryImageSemanticLabel": "Imagem {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageShareSemanticLabel": "Copiar link",
+    "@snapPageShareSemanticLabel": {},
+    "snapPageReportSemanticLabel": "Reportar",
+    "@snapPageReportSemanticLabel": {},
+    "sectionExpandSemanticLabel": "Expandir {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Recolher {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardPublisherSemanticLabel": "Publicado por {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Classificação {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareLinkCopiedMessage": "Link copiado para a área de transferência",
+    "@debPageShareLinkCopiedMessage": {},
+    "debPageShareSemanticLabel": "Copiar link",
+    "@debPageShareSemanticLabel": {},
+    "codecPageTitle": "Codecs de mídia ausentes",
+    "@codecPageTitle": {},
+    "codecPageDescription": "Você precisa instalar os seguintes codecs para lidar com determinados formatos de vídeo e áudio:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "Alguns dos codecs recomendados podem ser proprietários.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "Instale os codecs recomendados",
+    "@codecInstallAllButton": {}
 }

@@ -1,480 +1,540 @@
 {
-  "snapPageContactPublisherLabel": "தொடர்பு {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageDescriptionLabel": "விவரம்",
-  "@snapPageDescriptionLabel": {},
-  "snapPageDeveloperWebsiteLabel": "உருவாக்குபவர் வலைத்தளம்",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapPageDownloadSizeLabel": "பதிவிறக்க அளவு",
-  "@snapPageDownloadSizeLabel": {},
-  "snapPageSizeLabel": "அளவு",
-  "@snapPageSizeLabel": {},
-  "snapPageGalleryLabel": "கேலரி",
-  "@snapPageGalleryLabel": {},
-  "snapPageShareLinkCopiedMessage": "கிளிப்போர்டில் இணைப்பு நகலெடுக்கப்பட்டது",
-  "@snapPageShareLinkCopiedMessage": {},
-  "explorePageLabel": "ஆராயுங்கள்",
-  "@explorePageLabel": {},
-  "explorePageCategoriesLabel": "வகைகள்",
-  "@explorePageCategoriesLabel": {},
-  "managePageOwnUpdateAvailable": "பயன்பாட்டு மைய புதுப்பிப்பு கிடைக்கிறது",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageQuitToUpdate": "புதுப்பிக்க விட்டுவிடுங்கள்",
-  "@managePageQuitToUpdate": {},
-  "managePageOwnUpdateDescription": "நீங்கள் பயன்பாட்டை விட்டு வெளியேறும்போது அது தானாகவே புதுப்பிக்கப்படும்.",
-  "@managePageOwnUpdateDescription": {},
-  "appstreamSearchGreylist": "பயன்பாடு; பயன்பாடு; தொகுப்பு; நிரல்; நிரல்; தொகுப்பு; கருவி",
-  "@appstreamSearchGreylist": {},
-  "snapPageChannelLabel": "வாய்க்கால்",
-  "@snapPageChannelLabel": {},
-  "snapPageConfinementLabel": "சிறைவாசம்",
-  "@snapPageConfinementLabel": {},
-  "managePageOwnUpdateQuitButton": "புதுப்பிக்க விட்டுவிடுங்கள்",
-  "@managePageOwnUpdateQuitButton": {},
-  "managePageCheckForUpdates": "புதுப்பிப்புகளை சரிபார்க்கவும்",
-  "@managePageCheckForUpdates": {},
-  "managePageCheckingForUpdates": "புதுப்பிப்புகளைச் சரிபார்க்கிறது",
-  "@managePageCheckingForUpdates": {},
-  "managePageDebUpdatesMessage": "டெபியன் தொகுப்பு புதுப்பிப்புகள் மென்பொருள் புதுப்பிப்பாளரால் கையாளப்படுகின்றன.",
-  "@managePageDebUpdatesMessage": {},
-  "managePageInstalledAndUpdatedLabel": "நிறுவப்பட்டு புதுப்பிக்கப்பட்டது",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "managePageInstallingLabel": "நிறுவுதல் ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageLabel": "நிர்வகிக்கவும்",
-  "@managePageLabel": {},
-  "managePageTitle": "நிறுவப்பட்ட புகைப்படங்களை நிர்வகிக்கவும்",
-  "@managePageTitle": {},
-  "managePageNoUpdatesAvailableDescription": "புதுப்பிப்புகள் எதுவும் கிடைக்கவில்லை. உங்கள் விண்ணப்பங்கள் அனைத்தும் புதுப்பித்தவை.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "managePageSearchFieldSearchHint": "உங்கள் நிறுவப்பட்ட பயன்பாடுகளைத் தேடுங்கள்",
-  "@managePageSearchFieldSearchHint": {},
-  "managePageShowDetailsLabel": "விவரங்களைக் காட்டு",
-  "@managePageShowDetailsLabel": {},
-  "managePageShowSystemSnapsLabel": "கணினி புகைப்படங்களைக் காட்டு",
-  "@managePageShowSystemSnapsLabel": {},
-  "managePageUpdateAllLabel": "அனைத்தையும் புதுப்பிக்கவும்",
-  "@managePageUpdateAllLabel": {},
-  "managePageUpdatedDaysAgo": "புதுப்பிக்கப்பட்டது {n, plural, =1{{n} நாள்} other{{n} நாட்கள்}} முன்பு",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedWeeksAgo": "Updated {n, plural, =1{{n} week} other{{n} weeks}} ago",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedMonthsAgo": "புதுப்பிக்கப்பட்டது {n, plural, =1{{n} மாதம்} other{{n} மாதங்கள்}} முன்பு",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedYearsAgo": "புதுப்பிக்கப்பட்டது {n, plural, =1{{n} ஆண்டு} other{{n} ஆண்டுகள்}} முன்பு",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesAvailable": "புதுப்பிப்புகள் கிடைக்கின்றன ({n})",
-  "@managePageUpdatesAvailable": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailed": "{n, plural, =1 {One update} other{{n} புதுப்பிப்புகள்}} தோல்வியுற்றது",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailedBody": "இந்த பயன்பாடுகள் தற்போது இயங்குவதால் எங்களால் புதுப்பிக்க முடியவில்லை.\n\n {snapList}\n நீங்கள் பயன்பாடுகளை விட்டு வெளியேறும்போது, அவை தானாகவே புதுப்பிக்கப்படும்.",
-  "@managePageUpdatesFailedBody": {},
-  "managePageDocumentationLinkLabel": "ஆவணத்தில் டெபியன் தொகுப்புகளை எவ்வாறு நிர்வகிப்பது என்பதை அறிக.",
-  "@managePageDocumentationLinkLabel": {},
-  "developmentPageLabel": "வளர்ச்சி",
-  "@developmentPageLabel": {},
-  "gamesPageLabel": "விளையாட்டுகள்",
-  "@gamesPageLabel": {},
-  "gamesPageTitle": "என்ன சூடாக இருக்கிறது",
-  "@gamesPageTitle": {},
-  "gamesPageTop": "மேல் மதிப்பிடப்பட்ட",
-  "@gamesPageTop": {},
-  "gamesPageFeatured": "சிறப்பு தலைப்புகள்",
-  "@gamesPageFeatured": {},
-  "gamesPageBundles": "பயன்பாட்டு மூட்டைகள்",
-  "@gamesPageBundles": {},
-  "unknownPublisher": "தெரியாத வெளியீட்டாளர்",
-  "@unknownPublisher": {},
-  "searchFieldDebSection": "டெபியன் தொகுப்புகள்",
-  "@searchFieldDebSection": {},
-  "searchPageNoResultsCategory": "மன்னிக்கவும், இந்த வகையில் எந்த தொகுப்புகளையும் எங்களால் கண்டுபிடிக்க முடியவில்லை",
-  "@searchPageNoResultsCategory": {},
-  "searchPageNoResultsCategoryHint": "வேறு வகையை முயற்சிக்கவும் அல்லது பொதுவான முக்கிய வார்த்தைகளைப் பயன்படுத்தவும்",
-  "@searchPageNoResultsCategoryHint": {},
-  "searchPageSortByLabel": "வரிசைப்படுத்தவும்",
-  "@searchPageSortByLabel": {},
-  "aboutPageContributorTitle": "வடிவமைக்கப்பட்டு உருவாக்கப்பட்டது:",
-  "@aboutPageContributorTitle": {},
-  "aboutPageLearnMoreLabel": "மேலும் அறிக",
-  "@aboutPageLearnMoreLabel": {},
-  "appstreamUrlTypeBugtracker": "பிழைத்திருத்தம்",
-  "@appstreamUrlTypeBugtracker": {},
-  "appstreamUrlTypeContact": "தொடர்பு",
-  "@appstreamUrlTypeContact": {},
-  "snapActionInstalledLabel": "நிறுவப்பட்டது",
-  "@snapActionInstalledLabel": {},
-  "snapActionInstallingLabel": "நிறுவுகிறது",
-  "@snapActionInstallingLabel": {},
-  "snapActionUpdateLabel": "புதுப்பிப்பு",
-  "@snapActionUpdateLabel": {},
-  "snapActionUpdatingLabel": "புதுப்பித்தல்",
-  "@snapActionUpdatingLabel": {},
-  "snapCategoryArtAndDesign": "கலை மற்றும் வடிவமைப்பு",
-  "@snapCategoryArtAndDesign": {},
-  "snapCategoryArtAndDesignButtonLabel": "உருவாக்கத் தொடங்குங்கள்",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "உங்கள் முதல் ஓவியத்திலிருந்து இறுதி தொடுதல் வரை, கலை மற்றும் வடிவமைப்பிற்கான பயன்பாடுகளை ஆராயுங்கள்.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "snapCategoryBooksAndReference": "புத்தகங்கள் மற்றும் குறிப்பு",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryDefaultButtonLabel": "மேலும் கண்டறியவும்",
-  "@snapCategoryDefaultButtonLabel": {},
-  "snapCategoryDevelopment": "வளர்ச்சி",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryDevelopmentSlogan": "டெவலப்பர்களுக்கு புகைப்படங்கள் இருக்க வேண்டும்",
-  "@snapCategoryDevelopmentSlogan": {},
-  "snapCategoryDevicesAndIot": "சாதனங்கள் மற்றும் ஐஓடி",
-  "@snapCategoryDevicesAndIot": {},
-  "snapCategoryGameEmulatorsSlogan": "முன்மாதிரிகள்",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryGnomeGames": "க்னோம் விளையாட்டுகள்",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryGnomeGamesSlogan": "க்னோம் கேம்ச் சூட்",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryKdeGames": "விளையாட்டுகள்",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryKdeGamesSlogan": "கே.டி.இ கேம்ச் சூட்",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapCategoryGameLaunchers": "விளையாட்டு லாஞ்சர்கள்",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryGameLaunchersSlogan": "விளையாட்டு லாஞ்சர்கள்",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapCategoryNewsAndWeather": "செய்தி மற்றும் வானிலை",
-  "@snapCategoryNewsAndWeather": {},
-  "snapCategoryPersonalisation": "தனிப்பயனாக்கம்",
-  "@snapCategoryPersonalisation": {},
-  "snapCategoryPhotoAndVideo": "புகைப்படம் மற்றும் வீடியோ",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapCategoryProductivity": "உற்பத்தித்திறன்",
-  "@snapCategoryProductivity": {},
-  "snapCategoryProductivityButtonLabel": "உற்பத்தித்திறன் சேகரிப்பைக் கண்டறியவும்",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapCategoryProductivitySlogan": "நீங்கள் செய்ய வேண்டிய பட்டியலில் இருந்து ஒரு விசயத்தைக் கடக்கவும்",
-  "@snapCategoryProductivitySlogan": {},
-  "snapCategoryScience": "அறிவியல்",
-  "@snapCategoryScience": {},
-  "snapCategorySecurity": "பாதுகாப்பு",
-  "@snapCategorySecurity": {},
-  "snapCategoryServerAndCloud": "சேவையகம் மற்றும் முகில்",
-  "@snapCategoryServerAndCloud": {},
-  "snapCategorySocial": "சமூக",
-  "@snapCategorySocial": {},
-  "snapCategoryUbuntuDesktop": "உபுண்டு டெச்க்டாப்",
-  "@snapCategoryUbuntuDesktop": {},
-  "snapCategoryUbuntuDesktopSlogan": "உங்கள் டெச்க்டாப்பைத் தொடங்கவும்",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapCategoryUtilities": "பயன்பாடுகள்",
-  "@snapCategoryUtilities": {},
-  "snapConfinementClassic": "கிளாசிக்",
-  "@snapConfinementClassic": {},
-  "snapSortOrderDownloadSizeAsc": "அளவு (மிகச்சிறிய முதல் மிகப்பெரியது)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "snapSortOrderDownloadSizeDesc": "அளவு (மிகப்பெரியது முதல் சிறியது)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "snapSortOrderInstalledSizeAsc": "அளவு (மிகச்சிறிய முதல் மிகப்பெரியது)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "snapSortOrderInstalledSizeDesc": "அளவு (மிகப்பெரியது முதல் சிறியது)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapRatingsBandVeryGood": "மிகவும் நல்லது",
-  "@snapRatingsBandVeryGood": {},
-  "snapRatingsVotes": "{n} வாக்குகள்",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapReportLabel": "அறிக்கை {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportOptionCopyrightViolation": "பதிப்புரிமை அல்லது வர்த்தக முத்திரை மீறல்",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportOptionStoreViolation": "பணி மீறல் விதிமுறைகளை ச்னாப் செய்யுங்கள்",
-  "@snapReportOptionStoreViolation": {},
-  "snapReportDetailsLabel": "உங்கள் அறிக்கைக்கு மேலும் விரிவான காரணத்தை வழங்கவும்",
-  "@snapReportDetailsLabel": {},
-  "snapReportOptionalEmailAddressLabel": "உங்கள் மின்னஞ்சல் (விரும்பினால்)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportCancelButtonLabel": "ரத்துசெய்",
-  "@snapReportCancelButtonLabel": {},
-  "snapReportPrivacyAgreementLabel": "இந்த படிவத்தை சமர்ப்பிப்பதில், நான் படித்து ஒப்புக்கொள்கிறேன் என்பதை உறுதிப்படுத்துகிறேன் ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "externalResourcesButtonLabel": "மேலும் கண்டறியவும்",
-  "@externalResourcesButtonLabel": {},
-  "allGamesButtonLabel": "அனைத்து விளையாட்டுகளும்",
-  "@allGamesButtonLabel": {},
-  "openInBrowser": "உலாவியில் திற",
-  "@openInBrowser": {},
-  "installAll": "அனைத்தையும் நிறுவவும்",
-  "@installAll": {},
-  "localDebWarningTitle": "பாதுகாப்பற்றது",
-  "@localDebWarningTitle": {},
-  "localDebWarningBody": "இந்த தொகுப்பு மூன்றாம் தரப்பினரால் வழங்கப்படுகிறது. பயன்பாட்டு மையத்திற்கு வெளியில் இருந்து தொகுப்புகளை நிறுவுவது உங்கள் கணினி மற்றும் தனிப்பட்ட தரவுகளுக்கு ஆபத்தை அதிகரிக்கும். தொடர்வதற்கு முன் மூலத்தை நம்புவதை உறுதிசெய்க.",
-  "@localDebWarningBody": {},
-  "localDebLearnMore": "மூன்றாம் தரப்பு தொகுப்புகள் பற்றி மேலும் அறிக",
-  "@localDebLearnMore": {},
-  "localDebDialogMessage": "இந்த தொகுப்பு மூன்றாம் தரப்பினரால் வழங்கப்படுகிறது, மேலும் இது உங்கள் கணினி மற்றும் தனிப்பட்ட தரவை அச்சுறுத்தக்கூடும்.",
-  "@localDebDialogMessage": {},
-  "localDebDialogConfirmation": "நீங்கள் அதை நிறுவ விரும்புகிறீர்களா?",
-  "@localDebDialogConfirmation": {},
-  "snapdExceptionRunningApps": "{snapName} புதுப்பிக்க முடியவில்லை, ஏனெனில் அது தற்போது இயங்குகிறது.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewNetworkErrorDescription": "இணைய இணைப்பு இல்லாமல் பயன்பாட்டு மையத்தில் உள்ளடக்கத்தை ஏற்ற முடியாது.",
-  "@errorViewNetworkErrorDescription": {},
-  "errorViewNetworkErrorAction": "உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.",
-  "@errorViewNetworkErrorAction": {},
-  "errorViewUnknownErrorAction": "நீங்கள் இப்போது மீண்டும் முயற்சிக்கலாம், புதுப்பிப்புகளுக்கான நிலையை சரிபார்க்கலாம் அல்லது பின்னர் மீண்டும் முயற்சிக்கவும்.",
-  "@errorViewUnknownErrorAction": {},
-  "productivityPageLabel": "உற்பத்தித்திறன்",
-  "@productivityPageLabel": {},
-  "searchFieldSearchHint": "பயன்பாடுகளைத் தேடுங்கள்",
-  "@searchFieldSearchHint": {},
-  "searchFieldSearchForLabel": "\"{query}\" க்கான அனைத்து முடிவுகளையும் காண்க",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchFieldSnapSection": "தொகுப்புகள்",
-  "@searchFieldSnapSection": {},
-  "searchPageFilterByLabel": "மூலம் வடிகட்டவும்",
-  "@searchPageFilterByLabel": {},
-  "searchPageNoResults": "\"{query}\" க்கு முடிவுகள் எதுவும் கிடைக்கவில்லை",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchPageNoResultsHint": "வெவ்வேறு அல்லது அதற்கு மேற்பட்ட பொதுவான சொற்களைப் பயன்படுத்த முயற்சிக்கவும்",
-  "@searchPageNoResultsHint": {},
-  "searchPageRelevanceLabel": "பொருத்தமானது",
-  "@searchPageRelevanceLabel": {},
-  "searchPageTitle": "\"{query}\" க்கான முடிவுகள்",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageLabel": "பற்றி",
-  "@aboutPageLabel": {},
-  "aboutPageVersionLabel": "பதிப்பு {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageCommunityTitle": "சமூகத்தின் ஒரு பகுதியாக இருங்கள்:",
-  "@aboutPageCommunityTitle": {},
-  "aboutPageContributeLabel": "பிழையை பங்களிக்கவும் அல்லது புகாரளிக்கவும்",
-  "@aboutPageContributeLabel": {},
-  "aboutPageGitHubLabel": "கிதுபில் எங்களை கண்டுபிடி",
-  "@aboutPageGitHubLabel": {},
-  "aboutPagePublishLabel": "ச்னாப் கடைக்கு வெளியிடுங்கள்",
-  "@aboutPagePublishLabel": {},
-  "appstreamUrlTypeContribute": "பங்களிப்பு",
-  "@appstreamUrlTypeContribute": {},
-  "appstreamUrlTypeDonation": "நன்கொடை",
-  "@appstreamUrlTypeDonation": {},
-  "appstreamUrlTypeFaq": "கேள்விகள்",
-  "@appstreamUrlTypeFaq": {},
-  "appstreamUrlTypeHelp": "உதவி",
-  "@appstreamUrlTypeHelp": {},
-  "appstreamUrlTypeHomepage": "முகப்புப்பக்கம்",
-  "@appstreamUrlTypeHomepage": {},
-  "appstreamUrlTypeTranslate": "மொழிபெயர்ப்புகள்",
-  "@appstreamUrlTypeTranslate": {},
-  "appstreamUrlTypeVcsBrowser": "மூலம்",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "packageFormatDebLabel": "டெபியன் தொகுப்புகள்",
-  "@packageFormatDebLabel": {},
-  "packageFormatSnapLabel": "தொகுப்புகள்",
-  "@packageFormatSnapLabel": {},
-  "snapActionCancelLabel": "ரத்துசெய்",
-  "@snapActionCancelLabel": {},
-  "snapActionInstallLabel": "நிறுவவும்",
-  "@snapActionInstallLabel": {},
-  "snapActionRemoveLabel": "நிறுவல் நீக்க",
-  "@snapActionRemoveLabel": {},
-  "snapActionRemovingLabel": "நிறுவல் நீக்குதல்",
-  "@snapActionRemovingLabel": {},
-  "snapActionSwitchChannelLabel": "சேனல் சுவிட்ச்",
-  "@snapActionSwitchChannelLabel": {},
-  "snapCategoryEducation": "கல்வி",
-  "@snapCategoryEducation": {},
-  "snapCategoryEntertainment": "பொழுதுபோக்கு",
-  "@snapCategoryEntertainment": {},
-  "snapCategoryFeatured": "இடம்பெற்றது",
-  "@snapCategoryFeatured": {},
-  "snapCategoryFeaturedSlogan": "பிரத்யேக புகைப்படங்கள்",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapCategoryFinance": "பொருள்",
-  "@snapCategoryFinance": {},
-  "snapCategoryGameDevSlogan": "விளையாட்டு வளர்ச்சி",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryGames": "விளையாட்டுகள்",
-  "@snapCategoryGames": {},
-  "snapCategoryGamesSlogan": "உங்கள் விளையாட்டு இரவுக்கான எல்லாம்",
-  "@snapCategoryGamesSlogan": {},
-  "snapCategoryGameDev": "விளையாட்டு வளர்ச்சி",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameEmulators": "முன்மாதிரிகள்",
-  "@snapCategoryGameEmulators": {},
-  "snapCategoryGameContentCreation": "உள்ளடக்க உருவாக்கம்",
-  "@snapCategoryGameContentCreation": {},
-  "snapCategoryGameContentCreationSlogan": "உள்ளடக்க உருவாக்கம்",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapCategoryHealthAndFitness": "உடல்நலம் மற்றும் உடற்பயிற்சி",
-  "@snapCategoryHealthAndFitness": {},
-  "snapCategoryMusicAndAudio": "இசை மற்றும் ஆடியோ",
-  "@snapCategoryMusicAndAudio": {},
-  "snapConfinementDevmode": "இறையன்பு",
-  "@snapConfinementDevmode": {},
-  "snapConfinementStrict": "கண்டிப்பான",
-  "@snapConfinementStrict": {},
-  "snapSortOrderAlphabeticalAsc": "அகரவரிசை (A முதல் சட் வரை)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "snapSortOrderAlphabeticalDesc": "அகரவரிசை (z முதல் A வரை)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "snapSortOrderInstalledDateAsc": "குறைந்தது அண்மைக் காலத்தில் புதுப்பிக்கப்பட்டது",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapSortOrderInstalledDateDesc": "மிக அண்மைக் காலத்தில் புதுப்பிக்கப்பட்டது",
-  "@snapSortOrderInstalledDateDesc": {},
-  "snapSortOrderRelevance": "பொருத்தமானது",
-  "@snapSortOrderRelevance": {},
-  "snapRatingsBandGood": "நல்லது",
-  "@snapRatingsBandGood": {},
-  "snapRatingsBandNeutral": "நடுநிலை",
-  "@snapRatingsBandNeutral": {},
-  "snapRatingsBandPoor": "ஏழை",
-  "@snapRatingsBandPoor": {},
-  "snapRatingsBandVeryPoor": "மிகவும் ஏழை",
-  "@snapRatingsBandVeryPoor": {},
-  "snapRatingsBandInsufficientVotes": "போதிய வாக்குகள்",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapReportSelectReportReasonLabel": "இந்த புகைப்படத்தைப் புகாரளிப்பதற்கான காரணத்தைத் தேர்வுசெய்க",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportSelectAnOptionLabel": "ஒரு விருப்பத்தைத் தேர்ந்தெடுக்கவும்",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportSubmitButtonLabel": "அறிக்கையை சமர்ப்பிக்கவும்",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportEnterValidEmailError": "சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportDetailsHint": "கருத்து ...",
-  "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "நியமனத்தின் தனியுரிமை அறிவிப்பு ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "snapReportPrivacyAgreementAndLabel": "மற்றும் ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "தனியுரிமைக் கொள்கை",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "debPageErrorNoPackageInfo": "தொகுப்பு தகவல்கள் எதுவும் கிடைக்கவில்லை",
-  "@debPageErrorNoPackageInfo": {},
-  "debPageDocumentationLinkLabel": "டெபியன் தொகுப்புகளை நிர்வகிப்பது பற்றி அறிக",
-  "@debPageDocumentationLinkLabel": {},
-  "externalResources": "கூடுதல் ஆதாரங்கள்",
-  "@externalResources": {},
-  "errorViewCheckStatusLabel": "நிலையை சரிபார்க்கவும்",
-  "@errorViewCheckStatusLabel": {},
-  "errorViewNetworkErrorTitle": "இணையத்துடன் இணைக்கவும்",
-  "@errorViewNetworkErrorTitle": {},
-  "errorViewServerErrorAction": "புதுப்பிப்புகளுக்கான நிலையை சரிபார்க்கவும் அல்லது பின்னர் மீண்டும் முயற்சிக்கவும்.",
-  "@errorViewServerErrorAction": {},
-  "errorViewUnknownErrorTitle": "ஏதோ தவறு நடந்தது",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewServerErrorDescription": "மன்னிக்கவும், நாங்கள் தற்போது பயன்பாட்டு மையத்தில் சிக்கல்களை சந்தித்து வருகிறோம்.",
-  "@errorViewServerErrorDescription": {},
-  "errorViewUnknownErrorDescription": "மன்னிக்கவும், ஆனால் பிழை என்னவென்று எங்களுக்குத் தெரியவில்லை.",
-  "@errorViewUnknownErrorDescription": {},
-  "appCenterLabel": "பயன்பாட்டு நடுவண்",
-  "@appCenterLabel": {},
-  "snapPageLicenseLabel": "உரிமம்",
-  "@snapPageLicenseLabel": {},
-  "snapPageLinksLabel": "இணைப்புகள்",
-  "@snapPageLinksLabel": {},
-  "snapPagePublisherLabel": "வெளியீட்டாளர்",
-  "@snapPagePublisherLabel": {},
-  "snapPagePublishedLabel": "வெளியிடப்பட்டது",
-  "@snapPagePublishedLabel": {},
-  "snapPageSummaryLabel": "சுருக்கம்",
-  "@snapPageSummaryLabel": {},
-  "snapPageVersionLabel": "பதிப்பு",
-  "@snapPageVersionLabel": {},
-  "managePageNoInternet": "சேவையகத்தை அடைய முடியாது, உங்கள் இணைய இணைப்பை சரிபார்க்கவும் அல்லது பின்னர் மீண்டும் முயற்சிக்கவும்.",
-  "@managePageNoInternet": {},
-  "managePageDescription": "கிடைக்கக்கூடிய புதுப்பிப்புகளைச் சரிபார்க்கவும், உங்கள் பயன்பாடுகளைப் புதுப்பிக்கவும், உங்கள் எல்லா பயன்பாடுகளின் நிலையை நிர்வகிக்கவும்.",
-  "@managePageDescription": {},
-  "snapActionOpenLabel": "திற",
-  "@snapActionOpenLabel": {},
-  "externalResourcesDisclaimer": "குறிப்பு: இவை அனைத்தும் வெளிப்புற கருவிகள். இவை நியமனத்தால் சொந்தமானவை அல்லது விநியோகிக்கப்படவில்லை.",
-  "@externalResourcesDisclaimer": {},
-  "snapCategoryAll": "அனைத்து பிரிவுகளும்",
-  "@snapCategoryAll": {}
+    "snapPageContactPublisherLabel": "தொடர்பு {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDescriptionLabel": "விவரம்",
+    "@snapPageDescriptionLabel": {},
+    "snapPageDeveloperWebsiteLabel": "உருவாக்குபவர் வலைத்தளம்",
+    "@snapPageDeveloperWebsiteLabel": {},
+    "snapPageDownloadSizeLabel": "பதிவிறக்க அளவு",
+    "@snapPageDownloadSizeLabel": {},
+    "snapPageSizeLabel": "அளவு",
+    "@snapPageSizeLabel": {},
+    "snapPageGalleryLabel": "கேலரி",
+    "@snapPageGalleryLabel": {},
+    "snapPageShareLinkCopiedMessage": "கிளிப்போர்டில் இணைப்பு நகலெடுக்கப்பட்டது",
+    "@snapPageShareLinkCopiedMessage": {},
+    "explorePageLabel": "ஆராயுங்கள்",
+    "@explorePageLabel": {},
+    "explorePageCategoriesLabel": "வகைகள்",
+    "@explorePageCategoriesLabel": {},
+    "managePageOwnUpdateAvailable": "பயன்பாட்டு மைய புதுப்பிப்பு கிடைக்கிறது",
+    "@managePageOwnUpdateAvailable": {},
+    "managePageQuitToUpdate": "புதுப்பிக்க விட்டுவிடுங்கள்",
+    "@managePageQuitToUpdate": {},
+    "managePageOwnUpdateDescription": "நீங்கள் பயன்பாட்டை விட்டு வெளியேறும்போது அது தானாகவே புதுப்பிக்கப்படும்.",
+    "@managePageOwnUpdateDescription": {},
+    "appstreamSearchGreylist": "பயன்; பயன்பாடு; தொகுப்பு; நிகழ்ச்சி; நிரல்; தொகுப்பு; கருவி",
+    "@appstreamSearchGreylist": {},
+    "snapPageChannelLabel": "வாய்க்கால்",
+    "@snapPageChannelLabel": {},
+    "snapPageConfinementLabel": "சிறைவாசம்",
+    "@snapPageConfinementLabel": {},
+    "managePageOwnUpdateQuitButton": "புதுப்பிக்க விட்டுவிடுங்கள்",
+    "@managePageOwnUpdateQuitButton": {},
+    "managePageCheckForUpdates": "புதுப்பிப்புகளை சரிபார்க்கவும்",
+    "@managePageCheckForUpdates": {},
+    "managePageCheckingForUpdates": "புதுப்பிப்புகளைச் சரிபார்க்கிறது",
+    "@managePageCheckingForUpdates": {},
+    "managePageDebUpdatesMessage": "டெபியன் தொகுப்பு புதுப்பிப்புகள் மென்பொருள் புதுப்பிப்பாளரால் கையாளப்படுகின்றன.",
+    "@managePageDebUpdatesMessage": {},
+    "managePageInstalledAndUpdatedLabel": "நிறுவப்பட்டு புதுப்பிக்கப்பட்டது",
+    "@managePageInstalledAndUpdatedLabel": {},
+    "managePageInstallingLabel": "நிறுவுதல் ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageLabel": "நிர்வகிக்கவும்",
+    "@managePageLabel": {},
+    "managePageTitle": "நிறுவப்பட்ட புகைப்படங்களை நிர்வகிக்கவும்",
+    "@managePageTitle": {},
+    "managePageNoUpdatesAvailableDescription": "புதுப்பிப்புகள் எதுவும் கிடைக்கவில்லை. உங்கள் விண்ணப்பங்கள் அனைத்தும் புதுப்பித்தவை.",
+    "@managePageNoUpdatesAvailableDescription": {},
+    "managePageSearchFieldSearchHint": "உங்கள் நிறுவப்பட்ட பயன்பாடுகளைத் தேடுங்கள்",
+    "@managePageSearchFieldSearchHint": {},
+    "managePageShowDetailsLabel": "விவரங்களைக் காட்டு",
+    "@managePageShowDetailsLabel": {},
+    "managePageShowSystemSnapsLabel": "கணினி புகைப்படங்களைக் காட்டு",
+    "@managePageShowSystemSnapsLabel": {},
+    "managePageUpdateAllLabel": "அனைத்தையும் புதுப்பிக்கவும்",
+    "@managePageUpdateAllLabel": {},
+    "managePageUpdatedDaysAgo": "புதுப்பிக்கப்பட்டது {n, plural, =1{{n} நாள்} other{{n} நாட்கள்}} முன்பு",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} வாரம்} other{{n} வாரங்கள்}}முன்பு புதிப்பிக்கப்பட்டது",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "புதுப்பிக்கப்பட்டது {n, plural, =1{{n} மாதம்} other{{n} மாதங்கள்}} முன்பு",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "புதுப்பிக்கப்பட்டது {n, plural, =1{{n} ஆண்டு} other{{n} ஆண்டுகள்}} முன்பு",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "புதுப்பிப்புகள் கிடைக்கின்றன ({n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1 {One update} other{{n} புதுப்பிப்புகள்}} தோல்வியுற்றது",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "இந்த பயன்பாடுகள் தற்போது இயங்குவதால் எங்களால் புதுப்பிக்க முடியவில்லை.\n\n {snapList}\n நீங்கள் பயன்பாடுகளை விட்டு வெளியேறும்போது, அவை தானாகவே புதுப்பிக்கப்படும்.",
+    "@managePageUpdatesFailedBody": {},
+    "managePageDocumentationLinkLabel": "ஆவணத்தில் டெபியன் தொகுப்புகளை எவ்வாறு நிர்வகிப்பது என்பதை அறிக.",
+    "@managePageDocumentationLinkLabel": {},
+    "developmentPageLabel": "வளர்ச்சி",
+    "@developmentPageLabel": {},
+    "gamesPageLabel": "விளையாட்டுகள்",
+    "@gamesPageLabel": {},
+    "gamesPageTitle": "விளையாட்டுகள்",
+    "@gamesPageTitle": {},
+    "gamesPageTop": "மேல் மதிப்பிடப்பட்ட",
+    "@gamesPageTop": {},
+    "gamesPageFeatured": "சிறப்பு தலைப்புகள்",
+    "@gamesPageFeatured": {},
+    "gamesPageBundles": "பயன்பாட்டு மூட்டைகள்",
+    "@gamesPageBundles": {},
+    "unknownPublisher": "தெரியாத வெளியீட்டாளர்",
+    "@unknownPublisher": {},
+    "searchFieldDebSection": "டெபியன் தொகுப்புகள்",
+    "@searchFieldDebSection": {},
+    "searchPageNoResultsCategory": "மன்னிக்கவும், இந்த வகையில் எந்த தொகுப்புகளையும் எங்களால் கண்டுபிடிக்க முடியவில்லை",
+    "@searchPageNoResultsCategory": {},
+    "searchPageNoResultsCategoryHint": "வேறு வகையை முயற்சிக்கவும் அல்லது பொதுவான முக்கிய வார்த்தைகளைப் பயன்படுத்தவும்",
+    "@searchPageNoResultsCategoryHint": {},
+    "searchPageSortByLabel": "வரிசைப்படுத்தவும்",
+    "@searchPageSortByLabel": {},
+    "aboutPageContributorTitle": "வடிவமைக்கப்பட்டு உருவாக்கப்பட்டது:",
+    "@aboutPageContributorTitle": {},
+    "aboutPageLearnMoreLabel": "மேலும் அறிக",
+    "@aboutPageLearnMoreLabel": {},
+    "appstreamUrlTypeBugtracker": "பிழைத்திருத்தம்",
+    "@appstreamUrlTypeBugtracker": {},
+    "appstreamUrlTypeContact": "தொடர்பு",
+    "@appstreamUrlTypeContact": {},
+    "snapActionInstalledLabel": "நிறுவப்பட்டது",
+    "@snapActionInstalledLabel": {},
+    "snapActionInstallingLabel": "நிறுவுகிறது",
+    "@snapActionInstallingLabel": {},
+    "snapActionUpdateLabel": "புதுப்பிப்பு",
+    "@snapActionUpdateLabel": {},
+    "snapActionUpdatingLabel": "புதுப்பித்தல்",
+    "@snapActionUpdatingLabel": {},
+    "snapCategoryArtAndDesign": "கலை மற்றும் வடிவமைப்பு",
+    "@snapCategoryArtAndDesign": {},
+    "snapCategoryArtAndDesignButtonLabel": "உருவாக்கத் தொடங்குங்கள்",
+    "@snapCategoryArtAndDesignButtonLabel": {},
+    "snapCategoryArtAndDesignSlogan": "உங்கள் முதல் ஓவியத்திலிருந்து இறுதி தொடுதல் வரை, கலை மற்றும் வடிவமைப்பிற்கான பயன்பாடுகளை ஆராயுங்கள்.",
+    "@snapCategoryArtAndDesignSlogan": {},
+    "snapCategoryBooksAndReference": "புத்தகங்கள் மற்றும் குறிப்பு",
+    "@snapCategoryBooksAndReference": {},
+    "snapCategoryDefaultButtonLabel": "மேலும் கண்டறியவும்",
+    "@snapCategoryDefaultButtonLabel": {},
+    "snapCategoryDevelopment": "வளர்ச்சி",
+    "@snapCategoryDevelopment": {},
+    "snapCategoryDevelopmentSlogan": "டெவலப்பர்களுக்கு புகைப்படங்கள் இருக்க வேண்டும்",
+    "@snapCategoryDevelopmentSlogan": {},
+    "snapCategoryDevicesAndIot": "சாதனங்கள் மற்றும் ஐஓடி",
+    "@snapCategoryDevicesAndIot": {},
+    "snapCategoryGameEmulatorsSlogan": "முன்மாதிரிகள்",
+    "@snapCategoryGameEmulatorsSlogan": {},
+    "snapCategoryGnomeGames": "க்னோம் விளையாட்டுகள்",
+    "@snapCategoryGnomeGames": {},
+    "snapCategoryGnomeGamesSlogan": "க்னோம் கேம்ச் சூட்",
+    "@snapCategoryGnomeGamesSlogan": {},
+    "snapCategoryKdeGames": "கேடிஇ விளையாட்டுகள்",
+    "@snapCategoryKdeGames": {},
+    "snapCategoryKdeGamesSlogan": "கே.டி.இ கேம்ச் சூட்",
+    "@snapCategoryKdeGamesSlogan": {},
+    "snapCategoryGameLaunchers": "விளையாட்டு லாஞ்சர்கள்",
+    "@snapCategoryGameLaunchers": {},
+    "snapCategoryGameLaunchersSlogan": "விளையாட்டு லாஞ்சர்கள்",
+    "@snapCategoryGameLaunchersSlogan": {},
+    "snapCategoryNewsAndWeather": "செய்தி மற்றும் வானிலை",
+    "@snapCategoryNewsAndWeather": {},
+    "snapCategoryPersonalisation": "தனிப்பயனாக்கம்",
+    "@snapCategoryPersonalisation": {},
+    "snapCategoryPhotoAndVideo": "புகைப்படம் மற்றும் வீடியோ",
+    "@snapCategoryPhotoAndVideo": {},
+    "snapCategoryProductivity": "உற்பத்தித்திறன்",
+    "@snapCategoryProductivity": {},
+    "snapCategoryProductivityButtonLabel": "உற்பத்தித்திறன் சேகரிப்பைக் கண்டறியவும்",
+    "@snapCategoryProductivityButtonLabel": {},
+    "snapCategoryProductivitySlogan": "நீங்கள் செய்ய வேண்டிய பட்டியலில் இருந்து ஒரு விசயத்தைக் கடக்கவும்",
+    "@snapCategoryProductivitySlogan": {},
+    "snapCategoryScience": "அறிவியல்",
+    "@snapCategoryScience": {},
+    "snapCategorySecurity": "பாதுகாப்பு",
+    "@snapCategorySecurity": {},
+    "snapCategoryServerAndCloud": "சேவையகம் மற்றும் முகில்",
+    "@snapCategoryServerAndCloud": {},
+    "snapCategorySocial": "சமூக",
+    "@snapCategorySocial": {},
+    "snapCategoryUbuntuDesktop": "உபுண்டு டெச்க்டாப்",
+    "@snapCategoryUbuntuDesktop": {},
+    "snapCategoryUbuntuDesktopSlogan": "உங்கள் டெச்க்டாப்பைத் தொடங்கவும்",
+    "@snapCategoryUbuntuDesktopSlogan": {},
+    "snapCategoryUtilities": "பயன்பாடுகள்",
+    "@snapCategoryUtilities": {},
+    "snapConfinementClassic": "கிளாசிக்",
+    "@snapConfinementClassic": {},
+    "snapSortOrderDownloadSizeAsc": "அளவு (மிகச்சிறிய முதல் மிகப்பெரியது)",
+    "@snapSortOrderDownloadSizeAsc": {},
+    "snapSortOrderDownloadSizeDesc": "அளவு (மிகப்பெரியது முதல் சிறியது)",
+    "@snapSortOrderDownloadSizeDesc": {},
+    "snapSortOrderInstalledSizeAsc": "அளவு (மிகச்சிறிய முதல் மிகப்பெரியது)",
+    "@snapSortOrderInstalledSizeAsc": {},
+    "snapSortOrderInstalledSizeDesc": "அளவு (மிகப்பெரியது முதல் சிறியது)",
+    "@snapSortOrderInstalledSizeDesc": {},
+    "snapRatingsBandVeryGood": "மிகவும் நல்லது",
+    "@snapRatingsBandVeryGood": {},
+    "snapRatingsVotes": "{n} வாக்குகள்",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "அறிக்கை {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportOptionCopyrightViolation": "பதிப்புரிமை அல்லது வர்த்தக முத்திரை மீறல்",
+    "@snapReportOptionCopyrightViolation": {},
+    "snapReportOptionStoreViolation": "பணி மீறல் விதிமுறைகளை ச்னாப் செய்யுங்கள்",
+    "@snapReportOptionStoreViolation": {},
+    "snapReportDetailsLabel": "உங்கள் அறிக்கைக்கு மேலும் விரிவான காரணத்தை வழங்கவும்",
+    "@snapReportDetailsLabel": {},
+    "snapReportOptionalEmailAddressLabel": "உங்கள் மின்னஞ்சல் (விரும்பினால்)",
+    "@snapReportOptionalEmailAddressLabel": {},
+    "snapReportCancelButtonLabel": "ரத்துசெய்",
+    "@snapReportCancelButtonLabel": {},
+    "snapReportPrivacyAgreementLabel": "இந்த படிவத்தை சமர்ப்பிப்பதில், நான் படித்து ஒப்புக்கொள்கிறேன் என்பதை உறுதிப்படுத்துகிறேன் ",
+    "@snapReportPrivacyAgreementLabel": {},
+    "externalResourcesButtonLabel": "மேலும் கண்டறியவும்",
+    "@externalResourcesButtonLabel": {},
+    "allGamesButtonLabel": "அனைத்து விளையாட்டுகளும்",
+    "@allGamesButtonLabel": {},
+    "openInBrowser": "உலாவியில் திற",
+    "@openInBrowser": {},
+    "installAll": "அனைத்தையும் நிறுவவும்",
+    "@installAll": {},
+    "localDebWarningTitle": "பாதுகாப்பற்றது",
+    "@localDebWarningTitle": {},
+    "localDebWarningBody": "இந்த தொகுப்பு மூன்றாம் தரப்பினரால் வழங்கப்படுகிறது. பயன்பாட்டு மையத்திற்கு வெளியில் இருந்து தொகுப்புகளை நிறுவுவது உங்கள் கணினி மற்றும் தனிப்பட்ட தரவுகளுக்கு ஆபத்தை அதிகரிக்கும். தொடர்வதற்கு முன் மூலத்தை நம்புவதை உறுதிசெய்க.",
+    "@localDebWarningBody": {},
+    "localDebLearnMore": "மூன்றாம் தரப்பு தொகுப்புகள் பற்றி மேலும் அறிக",
+    "@localDebLearnMore": {},
+    "localDebDialogMessage": "இந்த தொகுப்பு மூன்றாம் தரப்பினரால் வழங்கப்படுகிறது, மேலும் இது உங்கள் கணினி மற்றும் தனிப்பட்ட தரவை அச்சுறுத்தக்கூடும்.",
+    "@localDebDialogMessage": {},
+    "localDebDialogConfirmation": "நீங்கள் அதை நிறுவ விரும்புகிறீர்களா?",
+    "@localDebDialogConfirmation": {},
+    "snapdExceptionRunningApps": "{snapName} புதுப்பிக்க முடியவில்லை, ஏனெனில் அது தற்போது இயங்குகிறது.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewNetworkErrorDescription": "இணைய இணைப்பு இல்லாமல் பயன்பாட்டு மையத்தில் உள்ளடக்கத்தை ஏற்ற முடியாது.",
+    "@errorViewNetworkErrorDescription": {},
+    "errorViewNetworkErrorAction": "உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.",
+    "@errorViewNetworkErrorAction": {},
+    "errorViewUnknownErrorAction": "நீங்கள் இப்போது மீண்டும் முயற்சிக்கலாம், புதுப்பிப்புகளுக்கான நிலையை சரிபார்க்கலாம் அல்லது பின்னர் மீண்டும் முயற்சிக்கவும்.",
+    "@errorViewUnknownErrorAction": {},
+    "productivityPageLabel": "உற்பத்தித்திறன்",
+    "@productivityPageLabel": {},
+    "searchFieldSearchHint": "பயன்பாடுகளைத் தேடுங்கள்",
+    "@searchFieldSearchHint": {},
+    "searchFieldSearchForLabel": "\"{query}\" க்கான அனைத்து முடிவுகளையும் காண்க",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSnapSection": "தொகுப்புகள்",
+    "@searchFieldSnapSection": {},
+    "searchPageFilterByLabel": "மூலம் வடிகட்டவும்",
+    "@searchPageFilterByLabel": {},
+    "searchPageNoResults": "\"{query}\" க்கு முடிவுகள் எதுவும் கிடைக்கவில்லை",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "வெவ்வேறு அல்லது அதற்கு மேற்பட்ட பொதுவான சொற்களைப் பயன்படுத்த முயற்சிக்கவும்",
+    "@searchPageNoResultsHint": {},
+    "searchPageRelevanceLabel": "பொருத்தமானது",
+    "@searchPageRelevanceLabel": {},
+    "searchPageTitle": "\"{query}\" க்கான முடிவுகள்",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageLabel": "பற்றி",
+    "@aboutPageLabel": {},
+    "aboutPageVersionLabel": "பதிப்பு {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageCommunityTitle": "சமூகத்தின் ஒரு பகுதியாக இருங்கள்:",
+    "@aboutPageCommunityTitle": {},
+    "aboutPageContributeLabel": "பிழையை பங்களிக்கவும் அல்லது புகாரளிக்கவும்",
+    "@aboutPageContributeLabel": {},
+    "aboutPageGitHubLabel": "கிதுபில் எங்களை கண்டுபிடி",
+    "@aboutPageGitHubLabel": {},
+    "aboutPagePublishLabel": "ச்னாப் கடைக்கு வெளியிடுங்கள்",
+    "@aboutPagePublishLabel": {},
+    "appstreamUrlTypeContribute": "பங்களிப்பு",
+    "@appstreamUrlTypeContribute": {},
+    "appstreamUrlTypeDonation": "நன்கொடை",
+    "@appstreamUrlTypeDonation": {},
+    "appstreamUrlTypeFaq": "கேள்விகள்",
+    "@appstreamUrlTypeFaq": {},
+    "appstreamUrlTypeHelp": "உதவி",
+    "@appstreamUrlTypeHelp": {},
+    "appstreamUrlTypeHomepage": "முகப்புப்பக்கம்",
+    "@appstreamUrlTypeHomepage": {},
+    "appstreamUrlTypeTranslate": "மொழிபெயர்ப்புகள்",
+    "@appstreamUrlTypeTranslate": {},
+    "appstreamUrlTypeVcsBrowser": "மூலம்",
+    "@appstreamUrlTypeVcsBrowser": {},
+    "packageFormatDebLabel": "டெபியன் தொகுப்புகள்",
+    "@packageFormatDebLabel": {},
+    "packageFormatSnapLabel": "தொகுப்புகள்",
+    "@packageFormatSnapLabel": {},
+    "snapActionCancelLabel": "ரத்துசெய்",
+    "@snapActionCancelLabel": {},
+    "snapActionInstallLabel": "நிறுவவும்",
+    "@snapActionInstallLabel": {},
+    "snapActionRemoveLabel": "நிறுவல் நீக்க",
+    "@snapActionRemoveLabel": {},
+    "snapActionRemovingLabel": "நிறுவல் நீக்குதல்",
+    "@snapActionRemovingLabel": {},
+    "snapActionSwitchChannelLabel": "சேனல் சுவிட்ச்",
+    "@snapActionSwitchChannelLabel": {},
+    "snapCategoryEducation": "கல்வி",
+    "@snapCategoryEducation": {},
+    "snapCategoryEntertainment": "பொழுதுபோக்கு",
+    "@snapCategoryEntertainment": {},
+    "snapCategoryFeatured": "இடம்பெற்றது",
+    "@snapCategoryFeatured": {},
+    "snapCategoryFeaturedSlogan": "பிரத்யேக புகைப்படங்கள்",
+    "@snapCategoryFeaturedSlogan": {},
+    "snapCategoryFinance": "பொருள்",
+    "@snapCategoryFinance": {},
+    "snapCategoryGameDevSlogan": "விளையாட்டு வளர்ச்சி",
+    "@snapCategoryGameDevSlogan": {},
+    "snapCategoryGames": "விளையாட்டுகள்",
+    "@snapCategoryGames": {},
+    "snapCategoryGamesSlogan": "உங்கள் விளையாட்டு இரவுக்கான எல்லாம்",
+    "@snapCategoryGamesSlogan": {},
+    "snapCategoryGameDev": "விளையாட்டு வளர்ச்சி",
+    "@snapCategoryGameDev": {},
+    "snapCategoryGameEmulators": "முன்மாதிரிகள்",
+    "@snapCategoryGameEmulators": {},
+    "snapCategoryGameContentCreation": "உள்ளடக்க உருவாக்கம்",
+    "@snapCategoryGameContentCreation": {},
+    "snapCategoryGameContentCreationSlogan": "உள்ளடக்க உருவாக்கம்",
+    "@snapCategoryGameContentCreationSlogan": {},
+    "snapCategoryHealthAndFitness": "உடல்நலம் மற்றும் உடற்பயிற்சி",
+    "@snapCategoryHealthAndFitness": {},
+    "snapCategoryMusicAndAudio": "இசை மற்றும் ஆடியோ",
+    "@snapCategoryMusicAndAudio": {},
+    "snapConfinementDevmode": "இறையன்பு",
+    "@snapConfinementDevmode": {},
+    "snapConfinementStrict": "கண்டிப்பான",
+    "@snapConfinementStrict": {},
+    "snapSortOrderAlphabeticalAsc": "அகரவரிசை (A முதல் சட் வரை)",
+    "@snapSortOrderAlphabeticalAsc": {},
+    "snapSortOrderAlphabeticalDesc": "அகரவரிசை (z முதல் A வரை)",
+    "@snapSortOrderAlphabeticalDesc": {},
+    "snapSortOrderInstalledDateAsc": "குறைந்தது அண்மைக் காலத்தில் புதுப்பிக்கப்பட்டது",
+    "@snapSortOrderInstalledDateAsc": {},
+    "snapSortOrderInstalledDateDesc": "மிக அண்மைக் காலத்தில் புதுப்பிக்கப்பட்டது",
+    "@snapSortOrderInstalledDateDesc": {},
+    "snapSortOrderRelevance": "பொருத்தமானது",
+    "@snapSortOrderRelevance": {},
+    "snapRatingsBandGood": "நல்லது",
+    "@snapRatingsBandGood": {},
+    "snapRatingsBandNeutral": "நடுநிலை",
+    "@snapRatingsBandNeutral": {},
+    "snapRatingsBandPoor": "ஏழை",
+    "@snapRatingsBandPoor": {},
+    "snapRatingsBandVeryPoor": "மிகவும் ஏழை",
+    "@snapRatingsBandVeryPoor": {},
+    "snapRatingsBandInsufficientVotes": "போதிய வாக்குகள்",
+    "@snapRatingsBandInsufficientVotes": {},
+    "snapReportSelectReportReasonLabel": "இந்த புகைப்படத்தைப் புகாரளிப்பதற்கான காரணத்தைத் தேர்வுசெய்க",
+    "@snapReportSelectReportReasonLabel": {},
+    "snapReportSelectAnOptionLabel": "ஒரு விருப்பத்தைத் தேர்ந்தெடுக்கவும்",
+    "@snapReportSelectAnOptionLabel": {},
+    "snapReportSubmitButtonLabel": "அறிக்கையை சமர்ப்பிக்கவும்",
+    "@snapReportSubmitButtonLabel": {},
+    "snapReportEnterValidEmailError": "சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்",
+    "@snapReportEnterValidEmailError": {},
+    "snapReportDetailsHint": "கருத்து ...",
+    "@snapReportDetailsHint": {},
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "நியமனத்தின் தனியுரிமை அறிவிப்பு ",
+    "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
+    "snapReportPrivacyAgreementAndLabel": "மற்றும் ",
+    "@snapReportPrivacyAgreementAndLabel": {},
+    "snapReportPrivacyAgreementPrivacyPolicy": "தனியுரிமைக் கொள்கை",
+    "@snapReportPrivacyAgreementPrivacyPolicy": {},
+    "debPageErrorNoPackageInfo": "தொகுப்பு தகவல்கள் எதுவும் கிடைக்கவில்லை",
+    "@debPageErrorNoPackageInfo": {},
+    "debPageDocumentationLinkLabel": "டெபியன் தொகுப்புகளை நிர்வகிப்பது பற்றி அறிக",
+    "@debPageDocumentationLinkLabel": {},
+    "externalResources": "கூடுதல் ஆதாரங்கள்",
+    "@externalResources": {},
+    "errorViewCheckStatusLabel": "நிலையை சரிபார்க்கவும்",
+    "@errorViewCheckStatusLabel": {},
+    "errorViewNetworkErrorTitle": "இணையத்துடன் இணைக்கவும்",
+    "@errorViewNetworkErrorTitle": {},
+    "errorViewServerErrorAction": "புதுப்பிப்புகளுக்கான நிலையை சரிபார்க்கவும் அல்லது பின்னர் மீண்டும் முயற்சிக்கவும்.",
+    "@errorViewServerErrorAction": {},
+    "errorViewUnknownErrorTitle": "ஏதோ தவறு நடந்தது",
+    "@errorViewUnknownErrorTitle": {},
+    "errorViewServerErrorDescription": "மன்னிக்கவும், நாங்கள் தற்போது பயன்பாட்டு மையத்தில் சிக்கல்களை சந்தித்து வருகிறோம்.",
+    "@errorViewServerErrorDescription": {},
+    "errorViewUnknownErrorDescription": "மன்னிக்கவும், ஆனால் பிழை என்னவென்று எங்களுக்குத் தெரியவில்லை.",
+    "@errorViewUnknownErrorDescription": {},
+    "appCenterLabel": "பயன்பாட்டு நடுவண்",
+    "@appCenterLabel": {},
+    "snapPageLicenseLabel": "உரிமம்",
+    "@snapPageLicenseLabel": {},
+    "snapPageLinksLabel": "இணைப்புகள்",
+    "@snapPageLinksLabel": {},
+    "snapPagePublisherLabel": "வெளியீட்டாளர்",
+    "@snapPagePublisherLabel": {},
+    "snapPagePublishedLabel": "வெளியிடப்பட்டது",
+    "@snapPagePublishedLabel": {},
+    "snapPageSummaryLabel": "சுருக்கம்",
+    "@snapPageSummaryLabel": {},
+    "snapPageVersionLabel": "பதிப்பு",
+    "@snapPageVersionLabel": {},
+    "managePageNoInternet": "சேவையகத்தை அடைய முடியாது, உங்கள் இணைய இணைப்பை சரிபார்க்கவும் அல்லது பின்னர் மீண்டும் முயற்சிக்கவும்.",
+    "@managePageNoInternet": {},
+    "managePageDescription": "கிடைக்கக்கூடிய புதுப்பிப்புகளைச் சரிபார்க்கவும், உங்கள் பயன்பாடுகளைப் புதுப்பிக்கவும், உங்கள் எல்லா பயன்பாடுகளின் நிலையை நிர்வகிக்கவும்.",
+    "@managePageDescription": {},
+    "snapActionOpenLabel": "திற",
+    "@snapActionOpenLabel": {},
+    "externalResourcesDisclaimer": "குறிப்பு: இவை அனைத்தும் வெளிப்புற கருவிகள். இவை நியமனத்தால் சொந்தமானவை அல்லது விநியோகிக்கப்படவில்லை.",
+    "@externalResourcesDisclaimer": {},
+    "snapCategoryAll": "அனைத்து பிரிவுகளும்",
+    "@snapCategoryAll": {},
+    "snapPageGalleryNextSemanticLabel": "அடுத்த படம்",
+    "@snapPageGalleryNextSemanticLabel": {},
+    "snapPageGalleryPreviousSemanticLabel": "முந்தைய படம்",
+    "@snapPageGalleryPreviousSemanticLabel": {},
+    "snapPageGalleryImageSemanticLabel": "படம் {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageShareSemanticLabel": "இணைப்பை நகலெடுக்கவும்",
+    "@snapPageShareSemanticLabel": {},
+    "snapPageReportSemanticLabel": "அறிக்கை",
+    "@snapPageReportSemanticLabel": {},
+    "sectionExpandSemanticLabel": "விரிவாக்கு {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "சரிவு {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardPublisherSemanticLabel": "{publisher} ஆல் வெளியிடப்பட்டது.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "மதிப்பீடு {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareLinkCopiedMessage": "கிளிப்போர்டில் இணைப்பு நகலெடுக்கப்பட்டது",
+    "@debPageShareLinkCopiedMessage": {},
+    "debPageShareSemanticLabel": "இணைப்பை நகலெடுக்கவும்",
+    "@debPageShareSemanticLabel": {},
+    "codecPageTitle": "மீடியா கோடெக்குகள் இல்லை",
+    "@codecPageTitle": {},
+    "codecPageDescription": "சில வீடியோ மற்றும் ஆடியோ வடிவங்களைக் கையாள, பின்வரும் கோடெக்குகளை நிறுவ வேண்டும்:",
+    "@codecPageDescription": {},
+    "codecProprietaryDisclaimer": "பரிந்துரைக்கப்பட்ட சில கோடெக்குகள் தனியுரிமமாக இருக்கலாம்.",
+    "@codecProprietaryDisclaimer": {},
+    "codecInstallAllButton": "பரிந்துரைக்கப்பட்ட கோடெக்குகளை நிறுவவும்",
+    "@codecInstallAllButton": {}
 }
