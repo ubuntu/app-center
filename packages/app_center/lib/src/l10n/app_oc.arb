@@ -346,5 +346,31 @@
     "debPageShareLinkCopiedMessage": "Ligam copiat al quichapapièrs",
     "debPageShareSemanticLabel": "Copiar lo ligam",
     "snapRevertConfirmMessage": "Las actualizacions automaticas reprendràn quand una version novèla siá disponibla.",
-    "snapRevertConfirmCancel": "Anullar"
+    "snapRevertConfirmCancel": "Anullar",
+    "snapActionRevertLabel": "Anullar l’actualizacion",
+    "snapActionRevertingLabel": "Anullacion de l’actualizacion",
+    "snapRevertConfirmTitle": "Repassar a la version precedenta ?",
+    "snapRevertConfirmRevert": "Retrogradar",
+    "snapRevertConfirmTitleWithVersions": "Retrogradar de {currentVersion} (rev {currentRevision}) a {previousVersion} (rev {previousRevision}) ?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "I a pas cap de revision anteriora locala sus la quala bascular.",
+    "codecPageTitle": "Còdecs multimèdias mancants",
+    "codecPageDescription": "Devètz installar los còdecs seguents per gerir d’unes formats vidèo e àudio :",
+    "codecProprietaryDisclaimer": "D’unes còdecs recomandats poirián èsser proprietaris.",
+    "codecInstallAllButton": "Installar los còdecs recomandats"
 }
