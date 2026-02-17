@@ -355,7 +355,7 @@
     "snapRevertConfirmMessage": "Автоматичні оновлення відновляться, коли стане доступна нова версія.",
     "snapRevertConfirmRevert": "Повернути",
     "snapRevertConfirmCancel": "Скасувати",
-    "snapRevertConfirmTitleWithVersions": "Повернутися з {currentVersion} (rev {currentRevision}) до {previousVersion} (rev {previousRevision})?",
+    "snapRevertConfirmTitleWithVersions": "Повернутися з {currentVersion} (рев. {currentRevision}) до {previousVersion} (рев. {previousRevision})?",
     "@snapRevertConfirmTitleWithVersions": {
         "placeholders": {
             "currentVersion": {
