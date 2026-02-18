@@ -217,7 +217,7 @@ class _SnapView extends StatelessWidget {
                     ],
                     Text(
                       snapData.snap.summary,
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(height: kPagePadding),
                     MarkdownBody(
