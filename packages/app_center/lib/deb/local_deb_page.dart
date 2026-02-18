@@ -76,14 +76,6 @@ class _Description extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppLocalizations.of(context).snapPageDescriptionLabel,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: kPagePadding),
-        Text(
           debData.details.summary,
           style: Theme.of(context).textTheme.bodyLarge,
         ),

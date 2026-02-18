@@ -124,20 +124,17 @@ class _DebView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppInfoBar(appInfos: debInfos, layout: layout),
-                      if (debModel.component.screenshotUrls.isNotEmpty)
-                        AppPageSection(
-                          header: l10n.snapPageGalleryLabel,
-                          child: ScreenshotGallery(
-                            title: debModel.component.getLocalizedName(),
-                            urls: debModel.component.screenshotUrls,
-                            height: layout.totalWidth / 2,
-                          ),
+                      const SizedBox(height: kSectionSpacing),
+                      if (debModel.component.screenshotUrls.isNotEmpty) ...[
+                        ScreenshotGallery(
+                          title: debModel.component.getLocalizedName(),
+                          urls: debModel.component.screenshotUrls,
+                          height: layout.totalWidth / 2,
                         ),
-                      AppPageSection(
-                        header: l10n.snapPageDescriptionLabel,
-                        child: Html(
-                          data: debModel.component.getLocalizedDescription(),
-                        ),
+                        const SizedBox(height: kSectionSpacing),
+                      ],
+                      Html(
+                        data: debModel.component.getLocalizedDescription(),
                       ),
                     ],
                   ),
