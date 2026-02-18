@@ -17,7 +17,6 @@ class _NavigationTile extends StatelessWidget {
     this.trailing,
   });
 
-  final bool? selected = false;
   final Widget? leading;
   final Widget? title;
   final Widget? trailing;
@@ -27,7 +26,7 @@ class _NavigationTile extends StatelessWidget {
     final theme = Theme.of(context);
     final listTileTheme = theme.listTileTheme;
     final scope = YaruMasterTileScope.maybeOf(context);
-    final isSelected = selected ?? scope?.selected ?? false;
+    final isSelected = scope?.selected ?? false;
 
     final backgroundColor =
         isSelected ? listTileTheme.selectedTileColor : listTileTheme.tileColor;
