@@ -1,1 +1,373 @@
-{}
+{
+    "appCenterLabel": "Aplikazioen zentroa",
+    "appstreamSearchGreylist": "app;aplikazioak;aplikazio;pakete;paketeak;programa;programak;softwarea;tresna;tresnak",
+    "snapPageChannelLabel": "Kanala",
+    "snapPageConfinementLabel": "Konfinamendua",
+    "snapPageContactPublisherLabel": "Kontaktatu {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDeveloperWebsiteLabel": "Garatzailearen webgunea",
+    "snapPageDownloadSizeLabel": "Deskargaren tamaina",
+    "snapPageSizeLabel": "Tamaina",
+    "snapPageGalleryNextSemanticLabel": "Hurrengo irudia",
+    "snapPageGalleryPreviousSemanticLabel": "Aurreko irudia",
+    "snapPageGalleryImageSemanticLabel": "{n}. irudia",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageLicenseLabel": "Lizentzia",
+    "snapPageLinksLabel": "Estekak",
+    "snapPagePublisherLabel": "Argitaratzailea",
+    "snapPagePublishedLabel": "Argitaratua",
+    "snapPageSummaryLabel": "Laburpena",
+    "snapPageVersionLabel": "Bertsioa",
+    "snapPageShareLinkCopiedMessage": "Esteka arbelera kopiatu da",
+    "snapPageShareSemanticLabel": "Kopiatu esteka",
+    "snapPageReportSemanticLabel": "Salatu",
+    "sectionExpandSemanticLabel": "Zabaldu {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Tolestu {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageLabel": "Arakatu",
+    "explorePageCategoriesLabel": "Kategoriak",
+    "managePageOwnUpdateAvailable": "Aplikazioen zentroaren eguneratzea erabilgarri",
+    "managePageQuitToUpdate": "Irten eguneratzeko",
+    "managePageOwnUpdateDescription": "Aplikaziotik irteten zarenean automatikoki eguneratuko da.",
+    "managePageOwnUpdateQuitButton": "Irten eguneratzeko",
+    "managePageCheckForUpdates": "Bilatu eguneratzeak",
+    "managePageCheckingForUpdates": "Eguneratzeak bilatzen",
+    "managePageNoInternet": "Ezin izan da zerbitzaria atzitu, egiaztatu Internetera konexioa eta saiatu berriz geroago.",
+    "managePageDescription": "Bilatu eguneratze erabilgarriak, eguneratu aplikazioak eta kudeatu aplikazio guztien egoera.",
+    "managePageDebUpdatesMessage": "Debian paketeen eguneratzeak Software eguneratzailearekin kudeatzen dira.",
+    "managePageInstalledAndUpdatedLabel": "Instalatua eta egunean",
+    "managePageInstallingLabel": "Instalatzen ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageLabel": "Kudeatu",
+    "managePageTitle": "Kudeatu instalatutako snapak",
+    "managePageNoUpdatesAvailableDescription": "Ez dago eguneratzerik erabilgarri. Aplikazio guztiak egunean daude.",
+    "managePageSearchFieldSearchHint": "Bilatu instalatutako aplikazioak",
+    "managePageShowDetailsLabel": "Erakutsi xehetasunak",
+    "managePageShowSystemSnapsLabel": "Erakutsi sistemako snapak",
+    "managePageUpdateAllLabel": "Eguneratu dena",
+    "managePageUpdatedDaysAgo": "Orain dela {n, plural, =1{egun {n}} other{{n} egun}} eguneratua",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "Orain dela {n, plural, =1{astebete} other{{n} aste}} eguneratua",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "Orain dela {n, plural, =1{hilabete} other{{n} hil}} eguneratua",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Orain dela {n, plural, =1{urtebete} other{{n} urte}} eguneratua",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "Eguneratzeak erabilgarri ({n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{Eguneratze batek huts egin du} other{{n} eguneratzek huts egin dute}}",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "Ezin izan dira aplikazio hauek eguneratu, exekutatzen ari direlako.\n\n{snapList}\nAplikazioetatik irteten zarenean, automatikoki eguneratuko dira.",
+    "managePageDocumentationLinkLabel": "Ikasi nola kudeatu Debian paketeak dokumentazioa irakurrita.",
+    "productivityPageLabel": "Produktibitatea",
+    "developmentPageLabel": "Garapena",
+    "gamesPageLabel": "Jokoak",
+    "gamesPageTitle": "Jokoak",
+    "gamesPageTop": "Balorazio onenekoak",
+    "gamesPageFeatured": "Nabarmenduak",
+    "gamesPageBundles": "Aplikazio sortak",
+    "unknownPublisher": "Argitaratzaile ezezaguna",
+    "searchFieldDebSection": "Debian paketeak",
+    "searchFieldSearchHint": "Bilatu aplikazioak",
+    "searchFieldSearchForLabel": "Ikusi \"{query}\" bilaketarekin bat datozen emaitza guztiak",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSnapSection": "Snap paketeak",
+    "searchPageFilterByLabel": "Iragazteko irizpidea",
+    "searchPageNoResults": "Ez da emaitzarik aurkitu \"{query}\" bilaketarentzat",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "Saiatu gako-hitz ezberdinak edo orokorragoak erabilita",
+    "searchPageNoResultsCategory": "Ezin izan dugu kategoria honetako paketerik aurkitu",
+    "searchPageNoResultsCategoryHint": "Saiatu beste kategoria batekin, edo erabili gako-hitz orokorragoak",
+    "searchPageSortByLabel": "Ordenatzeko irizpidea",
+    "searchPageRelevanceLabel": "Egokitasuna",
+    "searchPageTitle": "\"{query}\" bilaketarentzako emaitzak",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageLabel": "Honi buruz",
+    "aboutPageVersionLabel": "{version} bertsioa",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "Diseinua eta garapena:",
+    "aboutPageCommunityTitle": "Parte hartu komunitatean:",
+    "aboutPageContributeLabel": "Lagundu edo eman arazo baten berri",
+    "aboutPageGitHubLabel": "Aurki gaitzazu GitHuben",
+    "aboutPagePublishLabel": "Argitaratu Snap Storen",
+    "aboutPageLearnMoreLabel": "Informazio gehiago",
+    "appstreamUrlTypeContact": "Kontaktua",
+    "appstreamUrlTypeContribute": "Eman laguntza",
+    "appstreamUrlTypeDonation": "Egin dohaintza",
+    "appstreamUrlTypeFaq": "Ohiko galderak",
+    "appstreamUrlTypeHelp": "Laguntza",
+    "appstreamUrlTypeHomepage": "Webgunea",
+    "appstreamUrlTypeTranslate": "Itzulpenak",
+    "appstreamUrlTypeVcsBrowser": "Iturburu-kodea",
+    "packageFormatDebLabel": "Debian paketeak",
+    "packageFormatSnapLabel": "Snap paketeak",
+    "snapActionCancelLabel": "Utzi",
+    "snapActionInstallLabel": "Instalatu",
+    "snapActionInstalledLabel": "Instalatua",
+    "snapActionInstallingLabel": "Instalatzen",
+    "snapActionOpenLabel": "Ireki",
+    "snapActionRemoveLabel": "Desinstalatu",
+    "snapActionRemovingLabel": "Desinstalatzen",
+    "snapActionRevertLabel": "Desegin eguneratzea",
+    "snapActionRevertingLabel": "Eguneratzea desegiten",
+    "snapRevertConfirmTitle": "Aurreko bertsiora deseguneratu?",
+    "snapRevertConfirmMessage": "Eguneratze automatikoak berraktibatuko dira bertsio berri bat erabilgarri egotean.",
+    "snapRevertConfirmRevert": "Deseguneratu",
+    "snapRevertConfirmCancel": "Utzi",
+    "snapRevertConfirmTitleWithVersions": "Deseguneratu {currentVersion} ({currentRevision} berrikuspena) bertsiotik {previousVersion} ({previousRevision} berrikuspena) bertsiora?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Ez dago tokiko berrikuspen zaharragorik erabilgarri, bertara deseguneratzeko.",
+    "snapActionSwitchChannelLabel": "Aldatu kanala",
+    "snapActionUpdateLabel": "Eguneratu",
+    "snapCategoryAll": "Kategoria guztiak",
+    "snapActionUpdatingLabel": "Eguneratzen",
+    "appCardPublisherSemanticLabel": "Argitaratzailea: {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Balorazioa: {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryArtAndDesign": "Artea eta diseinua",
+    "snapCategoryArtAndDesignButtonLabel": "Hasi sortzen",
+    "snapCategoryArtAndDesignSlogan": "Aurreneko zirriborrotik azken ukituetara, arakatu arte eta diseinurako aplikazioak.",
+    "snapCategoryBooksAndReference": "Liburuak eta erreferentziak",
+    "snapCategoryDefaultButtonLabel": "Deskubritu gehiago",
+    "snapCategoryDevelopment": "Garapena",
+    "snapCategoryDevelopmentSlogan": "Garatzaileek eduki beharreko snapak",
+    "snapCategoryDevicesAndIot": "Gailuak eta IoT",
+    "snapCategoryEducation": "Hezkuntza",
+    "snapCategoryEntertainment": "Entretenimendua",
+    "snapCategoryFeatured": "Nabarmenduak",
+    "snapCategoryFeaturedSlogan": "Snap nabarmenduak",
+    "snapCategoryFinance": "Finantzak",
+    "snapCategoryGames": "Jokoak",
+    "snapCategoryGamesSlogan": "Zure bideojoko gauerako behar duzun guztia",
+    "snapCategoryGameDev": "Jokoen garapena",
+    "snapCategoryGameDevSlogan": "Jokoen garapena",
+    "snapCategoryGameEmulators": "Emulatzaileak",
+    "snapCategoryGameEmulatorsSlogan": "Emulatzaileak",
+    "snapCategoryGnomeGames": "GNOME jokoak",
+    "snapCategoryGnomeGamesSlogan": "GNOME jokoen sorta",
+    "snapCategoryKdeGames": "KDE jokoak",
+    "snapCategoryKdeGamesSlogan": "KDE jokoen sorta",
+    "snapCategoryGameLaunchers": "Joko abiarazleak",
+    "snapCategoryGameLaunchersSlogan": "Joko abiarazleak",
+    "snapCategoryGameContentCreation": "Edukien sorkuntza",
+    "snapCategoryGameContentCreationSlogan": "Edukien sorkuntza",
+    "snapCategoryHealthAndFitness": "Osasuna eta ongizatea",
+    "snapCategoryMusicAndAudio": "Musika eta audioa",
+    "snapCategoryNewsAndWeather": "Albisteak eta eguraldia",
+    "snapCategoryPersonalisation": "Pertsonalizazioa",
+    "snapCategoryPhotoAndVideo": "Argazkia eta bideoa",
+    "snapCategoryProductivity": "Produktibitatea",
+    "snapCategoryProductivityButtonLabel": "Deskubritu produktibitaterako bilduma",
+    "snapCategoryProductivitySlogan": "Kendu gauza bat egitekoen zerrendatik",
+    "snapCategoryScience": "Zientzia",
+    "snapCategorySecurity": "Segurtasuna",
+    "snapCategoryServerAndCloud": "Zerbitzaria eta hodeia",
+    "snapCategorySocial": "Aplikazio sozialak",
+    "snapCategoryUbuntuDesktop": "Ubuntu mahaigaina",
+    "snapCategoryUbuntuDesktopSlogan": "Atera zukua zure mahaigainari",
+    "snapCategoryUtilities": "Tresnak",
+    "snapConfinementClassic": "Klasikoa",
+    "snapConfinementDevmode": "Garapen modua",
+    "snapConfinementStrict": "Zorrotza",
+    "snapSortOrderAlphabeticalAsc": "Alfabetikoa (Atik Zra)",
+    "snapSortOrderAlphabeticalDesc": "Alfabetikoa (Ztik Ara)",
+    "snapSortOrderDownloadSizeAsc": "Tamaina (txikitik handira)",
+    "snapSortOrderDownloadSizeDesc": "Tamaina (handitik txikira)",
+    "snapSortOrderInstalledSizeAsc": "Tamaina (txikitik handira)",
+    "snapSortOrderInstalledSizeDesc": "Tamaina (handitik txikira)",
+    "snapSortOrderRelevance": "Egokitasuna",
+    "snapRatingsBandVeryGood": "Oso ona",
+    "snapRatingsBandGood": "Ona",
+    "snapRatingsBandNeutral": "Neutrala",
+    "snapRatingsBandPoor": "Exkaxa",
+    "snapRatingsBandVeryPoor": "Oso exkaxa",
+    "snapRatingsBandInsufficientVotes": "Bozka gutxiegi",
+    "snapRatingsVotes": "{n} bozka",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "Salatu {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "Aukeratu snap hau salatzeko arrazoia",
+    "snapReportSelectAnOptionLabel": "Hautatu aukera bat",
+    "snapReportOptionCopyrightViolation": "Copyright edo marka erregistratuaren urraketa",
+    "snapReportOptionStoreViolation": "Snap Storearen zerbitzu-baldintzen urraketa",
+    "snapReportDetailsLabel": "Eman zure salaketaren arrazoiaren xehetasun gehiago",
+    "snapReportOptionalEmailAddressLabel": "Zure email helbidea (hautazkoa)",
+    "snapReportCancelButtonLabel": "Utzi",
+    "snapReportSubmitButtonLabel": "Bidali salaketa",
+    "snapReportEnterValidEmailError": "Sartu email helbide baliozkoa",
+    "snapReportDetailsHint": "Iruzkina...",
+    "snapReportPrivacyAgreementLabel": "Formulario hau bidaliz, berresten dut irakurri dudala eta onartzen dudala ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonicalen pribatutasun-oharra ",
+    "snapReportPrivacyAgreementAndLabel": "eta ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "pribatutasun politika",
+    "debPageErrorNoPackageInfo": "Ez da paketearen informaziorik aurkitu",
+    "debPageDocumentationLinkLabel": "Ikasi nola kudeatu Debian paketeak",
+    "debPageShareLinkCopiedMessage": "Esteka arbelera kopiatu da",
+    "debPageShareSemanticLabel": "Kopiatu esteka",
+    "externalResources": "Baliabide gehigarriak",
+    "externalResourcesButtonLabel": "Deskubritu gehiago",
+    "allGamesButtonLabel": "Joko guztiak",
+    "externalResourcesDisclaimer": "Oharra: tresna guzti hauek hirugarrenenak dira. Canonical ez da ez hauen jabea, ez banatzailea.",
+    "openInBrowser": "Ireki nabigatzailean",
+    "installAll": "Instalatu dena",
+    "localDebWarningTitle": "Potentzialki arriskutsua",
+    "localDebLearnMore": "Ikasi gehiago hirugarrenen paketeei buruz",
+    "localDebDialogMessage": "Pakete hau hirugarren batek hornitzen du, eta zure sistema eta datu pertsonalak arriskuan jar ditzake.",
+    "localDebDialogConfirmation": "Ziur instalatu nahi duzula?",
+    "snapdExceptionRunningApps": "Ezin izan dugu {snapName} eguneratu, exekutatzen ari delako.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "Egiaztatu egoera",
+    "errorViewNetworkErrorTitle": "Konektatu Internetera",
+    "errorViewNetworkErrorDescription": "Ezin dugu Aplikazioen zentroko edukia kargatu Interneterako konexiorik gabe.",
+    "errorViewNetworkErrorAction": "Egiaztatu zure konexioa eta saiatu berriz.",
+    "errorViewServerErrorDescription": "Sentitzen dugu, arazoak izaten ari gara Aplikazioen zentroarekin.",
+    "errorViewServerErrorAction": "Egiaztatu eguneratzeen egoera eta saiatu berriz geroago.",
+    "errorViewUnknownErrorTitle": "Arazoren bat egon da",
+    "errorViewUnknownErrorDescription": "Sentitzen dugu, baina ez dakigu ziur zein den errorea.",
+    "errorViewUnknownErrorAction": "Berriro saia zaitezke, eguneratzeen egoera egiaztatu, edo bestela, geroago berriro saiatu.",
+    "codecPageTitle": "Euskarrien kodekak falta dira",
+    "codecPageDescription": "Ondorengo kodekak instalatu beharko dituzu zenbait bideo eta audio formatu erabiltzeko:",
+    "codecProprietaryDisclaimer": "Baliteke gomendatutako kodek batzuk pribatiboak izatea.",
+    "codecInstallAllButton": "Instalatu gomendatutako kodekak",
+    "appstreamUrlTypeBugtracker": "Akatsen aztarnaria",
+    "snapSortOrderInstalledDateAsc": "Eguneratze zaharrenekoak",
+    "snapSortOrderInstalledDateDesc": "Eguneratze berrienekoak",
+    "localDebWarningBody": "Pakete hau hirugarren batek hornitzen du. Aplikazioen zentrotik kanpoko paketeak instalatzeak zure sistema eta datu pertsonalak arriskuan jar ditzake. Ziurtatu jatorria fidagarria dela aurrera egin baino lehen."
+}
