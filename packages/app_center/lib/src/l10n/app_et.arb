@@ -1,488 +1,383 @@
 {
-  "appCenterLabel": "Rakendustekeskus",
-  "@appCenterLabel": {},
-  "appstreamSearchGreylist": "äpp;rakendus;pakett;programm;tarvik;töövahend;tarvikud;app;äpid",
-  "@appstreamSearchGreylist": {},
-  "snapPageChannelLabel": "Kanal",
-  "@snapPageChannelLabel": {},
-  "snapPageContactPublisherLabel": "Võta ühendust väljaandjaga {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageDescriptionLabel": "Kirjeldus",
-  "@snapPageDescriptionLabel": {},
-  "snapPageDeveloperWebsiteLabel": "Arendaja veebisait",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapPageDownloadSizeLabel": "Allalaaditava faili suurus",
-  "@snapPageDownloadSizeLabel": {},
-  "snapPageSizeLabel": "Suurus",
-  "@snapPageSizeLabel": {},
-  "snapPageGalleryLabel": "Galerii",
-  "@snapPageGalleryLabel": {},
-  "snapPageLicenseLabel": "Litsents",
-  "@snapPageLicenseLabel": {},
-  "snapPageLinksLabel": "Lingid",
-  "@snapPageLinksLabel": {},
-  "snapPagePublisherLabel": "Väljaandja",
-  "@snapPagePublisherLabel": {},
-  "snapPagePublishedLabel": "Avaldatud",
-  "@snapPagePublishedLabel": {},
-  "snapPageSummaryLabel": "Kokkuvõte",
-  "@snapPageSummaryLabel": {},
-  "snapPageVersionLabel": "Versioon",
-  "@snapPageVersionLabel": {},
-  "snapPageShareLinkCopiedMessage": "Link on kopeeritud lõikelauale",
-  "@snapPageShareLinkCopiedMessage": {},
-  "explorePageLabel": "Uuri",
-  "@explorePageLabel": {},
-  "explorePageCategoriesLabel": "Kategooriad",
-  "@explorePageCategoriesLabel": {},
-  "managePageOwnUpdateAvailable": "Saadaval on Rakendustekeskuse uuendus",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageQuitToUpdate": "Uuendamiseks välju",
-  "@managePageQuitToUpdate": {},
-  "managePageOwnUpdateDescription": "Rakendusest väljumisel uuendatakse ta automaatselt.",
-  "@managePageOwnUpdateDescription": {},
-  "managePageOwnUpdateDescriptionSoon": "Rakendustepood uuendatakse automaatselt {time}.",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "managePageOwnUpdateQuitButton": "Uuendamiseks välju",
-  "@managePageOwnUpdateQuitButton": {},
-  "managePageCheckForUpdates": "Kontrolli uuendusi",
-  "@managePageCheckForUpdates": {},
-  "managePageCheckingForUpdates": "Kontrollin uuendusi",
-  "@managePageCheckingForUpdates": {},
-  "appstreamUrlTypeContact": "Kontaktandmed",
-  "@appstreamUrlTypeContact": {},
-  "appstreamUrlTypeTranslate": "Tõlked",
-  "@appstreamUrlTypeTranslate": {},
-  "managePageInstallingLabel": "Paigaldamisel ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageLabel": "Halda",
-  "@managePageLabel": {},
-  "managePageSearchFieldSearchHint": "Otsi oma paigaldatud rakendusi",
-  "@managePageSearchFieldSearchHint": {},
-  "appstreamUrlTypeHomepage": "Koduleht",
-  "@appstreamUrlTypeHomepage": {},
-  "snapActionInstalledLabel": "Paigaldatud",
-  "@snapActionInstalledLabel": {},
-  "searchFieldSnapSection": "Snapi paketid",
-  "@searchFieldSnapSection": {},
-  "appstreamUrlTypeBugtracker": "Veahaldus",
-  "@appstreamUrlTypeBugtracker": {},
-  "managePageInstalledAndUpdatedLabel": "Paigaldatud ja uuendatud",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "snapActionUpdatingLabel": "Uuendamisel",
-  "@snapActionUpdatingLabel": {},
-  "searchFieldSearchForLabel": "Vaata kõiki „{query}“ otsingu vastuseid",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "managePageShowDetailsLabel": "Näita üksikasju",
-  "@managePageShowDetailsLabel": {},
-  "managePageUpdatedMonthsAgo": "Uuendatud {n, plural, =1{{n} kuu} other{{n} kuu}} eest",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "packageFormatSnapLabel": "Snapi paketid",
-  "@packageFormatSnapLabel": {},
-  "managePageDocumentationLinkLabel": "Debiani pakettide halduse kohta leiad teavet dokumentatsioonist.",
-  "@managePageDocumentationLinkLabel": {},
-  "searchFieldSearchHint": "Otsi rakendusi",
-  "@searchFieldSearchHint": {},
-  "appstreamUrlTypeContribute": "Kaastöö võimalused",
-  "@appstreamUrlTypeContribute": {},
-  "managePageNoInternet": "Server pole leitav. Palun kontrolli, et arvuti internetiühendus toimib ja proovi siis uuesti.",
-  "@managePageNoInternet": {},
-  "managePageDescription": "Kontrolli uuenduste olemasolu, uuenda omi rakendusi ja halda nende olekut.",
-  "@managePageDescription": {},
-  "managePageTitle": "Halda paigaldatud snap-pakette",
-  "@managePageTitle": {},
-  "managePageShowSystemSnapsLabel": "Näita süsteemseid snapi rakendusi",
-  "@managePageShowSystemSnapsLabel": {},
-  "managePageNoUpdatesAvailableDescription": "Uuendusi ei leidu. Juba kasutad kõikide rakenduste viimaseid versioone.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "searchFieldDebSection": "Debiani paketid",
-  "@searchFieldDebSection": {},
-  "managePageUpdateAllLabel": "Uuenda kõik",
-  "@managePageUpdateAllLabel": {},
-  "managePageUpdatedDaysAgo": "Uuendatud {n, plural, =1{{n} päev} other{{n} päeva}} tagasi",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedWeeksAgo": "Uuendatud {n, plural, =1{{n} nädala} other{{n} nädala}} eest",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedYearsAgo": "Uuendatud {n, plural, =1{{n} aasta} other{{n} aastat}} tagasi",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesAvailable": "Uuendused on saadaval ({n})",
-  "@managePageUpdatesAvailable": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailed": "{n, plural, =1{Üks uuendamine} other{{n} uuendamist}} ei õnnestunud",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailedBody": "Kuna antud rakendused hetkel töötavad, siis nende uuendamine polnud võimalik.\n\n{snapList}\nKui väljud neist rakendustest, siis tehakse uuendused automaatselt ära.",
-  "@managePageUpdatesFailedBody": {},
-  "appstreamUrlTypeDonation": "Toeta rahaliselt",
-  "@appstreamUrlTypeDonation": {},
-  "appstreamUrlTypeFaq": "KKK",
-  "@appstreamUrlTypeFaq": {},
-  "appstreamUrlTypeHelp": "Abiteave",
-  "@appstreamUrlTypeHelp": {},
-  "packageFormatDebLabel": "Debiani paketid",
-  "@packageFormatDebLabel": {},
-  "appstreamUrlTypeVcsBrowser": "Lähtekood",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "snapActionCancelLabel": "Katkesta",
-  "@snapActionCancelLabel": {},
-  "snapActionInstallLabel": "Paigalda",
-  "@snapActionInstallLabel": {},
-  "snapActionInstallingLabel": "Paigaldamisel",
-  "@snapActionInstallingLabel": {},
-  "snapActionOpenLabel": "Ava",
-  "@snapActionOpenLabel": {},
-  "snapActionRemoveLabel": "Eemalda rakendus",
-  "@snapActionRemoveLabel": {},
-  "snapActionUpdateLabel": "Uuenda",
-  "@snapActionUpdateLabel": {},
-  "snapActionRemovingLabel": "Rakendus on eemaldamisel",
-  "@snapActionRemovingLabel": {},
-  "snapActionSwitchChannelLabel": "Vaheta kanalit",
-  "@snapActionSwitchChannelLabel": {},
-  "snapCategoryAll": "Kõik kategooriad",
-  "@snapCategoryAll": {},
-  "installAll": "Paigalda kõik",
-  "@installAll": {},
-  "errorViewUnknownErrorTitle": "Midagi läks valesti",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewUnknownErrorDescription": "Vabandust, aga me pole kindlad selles, mis veaga on tegemist.",
-  "@errorViewUnknownErrorDescription": {},
-  "errorViewUnknownErrorAction": "Sa võid proovida kohe uuesti või jälgida uuenduste olekuid ning teavet ja proovida uuesti hiljem.",
-  "@errorViewUnknownErrorAction": {},
-  "openInBrowser": "Ava veebibrauseris",
-  "@openInBrowser": {},
-  "gamesPageTop": "Parimate hinnangutega",
-  "@gamesPageTop": {},
-  "managePageDebUpdatesMessage": "Debiani pakettide uuendusi teeb rakendus „Tarkvara ja uuendused“.",
-  "@managePageDebUpdatesMessage": {},
-  "developmentPageLabel": "Arendus",
-  "@developmentPageLabel": {},
-  "gamesPageLabel": "Mängud",
-  "@gamesPageLabel": {},
-  "productivityPageLabel": "Põhirakendused",
-  "@productivityPageLabel": {},
-  "gamesPageFeatured": "Esiletõstetud",
-  "@gamesPageFeatured": {},
-  "gamesPageBundles": "Rakenduste komplektid",
-  "@gamesPageBundles": {},
-  "unknownPublisher": "Tundmatu väljaandja",
-  "@unknownPublisher": {},
-  "gamesPageTitle": "Populaarsed mängud",
-  "@gamesPageTitle": {},
-  "searchPageFilterByLabel": "Paketi tüüp",
-  "@searchPageFilterByLabel": {},
-  "searchPageNoResults": "Otsingul „{query}“ puuduvad vastused",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchPageNoResultsHint": "Palun muuda otsingusõna üldisemaks või proovi otsida muid sõnu",
-  "@searchPageNoResultsHint": {},
-  "snapPageConfinementLabel": "Eraldatud konteiner",
-  "@snapPageConfinementLabel": {},
-  "searchPageNoResultsCategoryHint": "Palun muuda otsingusõna üldisemaks või proovi otsida muust kategooriast",
-  "@searchPageNoResultsCategoryHint": {},
-  "searchPageSortByLabel": "Järjestus",
-  "@searchPageSortByLabel": {},
-  "searchPageRelevanceLabel": "Teemakohasus",
-  "@searchPageRelevanceLabel": {},
-  "aboutPageLabel": "Rakenduse teave",
-  "@aboutPageLabel": {},
-  "searchPageNoResultsCategory": "Vabandust, sellest kategooriast ei leidnud me ühtegi paketti",
-  "@searchPageNoResultsCategory": {},
-  "aboutPageVersionLabel": "Versioon {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageContributorTitle": "Projekteerijad ja arendajad:",
-  "@aboutPageContributorTitle": {},
-  "aboutPageCommunityTitle": "Osale kogukonna tegevuses:",
-  "@aboutPageCommunityTitle": {},
-  "aboutPageContributeLabel": "Tee kaastööd või teata vigadest",
-  "@aboutPageContributeLabel": {},
-  "aboutPageGitHubLabel": "Leiad meid GitHubist",
-  "@aboutPageGitHubLabel": {},
-  "searchPageTitle": "Tulemused päringule „{query}“",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageLearnMoreLabel": "Lisateave",
-  "@aboutPageLearnMoreLabel": {},
-  "aboutPagePublishLabel": "Avalda rakendus Snap Store rakendustepoes",
-  "@aboutPagePublishLabel": {},
-  "snapCategoryArtAndDesign": "Kunst ja kujundus",
-  "@snapCategoryArtAndDesign": {},
-  "snapConfinementClassic": "Klassikaline",
-  "@snapConfinementClassic": {},
-  "snapCategoryArtAndDesignButtonLabel": "Alusta loomisega",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "Alates esimeste visandite tegemisest kuni viimase täpini „i“ peal, on sul olemas kõik vajalik kunsti ja kujunduse jaoks.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "snapSortOrderInstalledSizeDesc": "Suurus (suuremast väiksemani)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapSortOrderInstalledDateAsc": "Ammu uuendatud",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapSortOrderAlphabeticalDesc": "Tähestikuline (Z kuni A)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "snapSortOrderDownloadSizeAsc": "Suurus (väiksemast suuremani)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "snapSortOrderDownloadSizeDesc": "Suurus (suuremast väiksemani)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "snapSortOrderInstalledSizeAsc": "Suurus (väiksemast suuremani)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "snapConfinementDevmode": "Arendusrežiim",
-  "@snapConfinementDevmode": {},
-  "snapConfinementStrict": "Range",
-  "@snapConfinementStrict": {},
-  "snapSortOrderAlphabeticalAsc": "Tähestikuline (A kuni Z)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "snapSortOrderInstalledDateDesc": "Hiljuti uuendatud",
-  "@snapSortOrderInstalledDateDesc": {},
-  "snapSortOrderRelevance": "Teemakohasus",
-  "@snapSortOrderRelevance": {},
-  "snapRatingsBandVeryGood": "Väga hea",
-  "@snapRatingsBandVeryGood": {},
-  "snapRatingsBandGood": "Hea",
-  "@snapRatingsBandGood": {},
-  "snapRatingsBandInsufficientVotes": "Pole piisavalt hindajaid",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsVotes": "{n} hinnangut",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapReportLabel": "Teata rakendusest: {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportSelectReportReasonLabel": "Vali rakendusest teatamise põhjus",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportSelectAnOptionLabel": "Vali üks põhjus",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportOptionCopyrightViolation": "Autoriõiguste või kaubamärgi kasutustingimuste rikkumine",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportOptionStoreViolation": "Snap Store rakendustepoe kasutustingimuste rikkumine",
-  "@snapReportOptionStoreViolation": {},
-  "snapRatingsBandNeutral": "Tavaline",
-  "@snapRatingsBandNeutral": {},
-  "snapRatingsBandPoor": "Kehv",
-  "@snapRatingsBandPoor": {},
-  "snapRatingsBandVeryPoor": "Väga kehv",
-  "@snapRatingsBandVeryPoor": {},
-  "snapReportDetailsLabel": "Palun lisa täiendavat teavet põhjuse kohta (inglise keeles)",
-  "@snapReportDetailsLabel": {},
-  "snapReportOptionalEmailAddressLabel": "Sinu e-posti aadress (kui soovid lisada)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportCancelButtonLabel": "Katkesta",
-  "@snapReportCancelButtonLabel": {},
-  "snapReportSubmitButtonLabel": "Saada teade",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportEnterValidEmailError": "Palun sisesta kehtiv e-posti aadress",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportDetailsHint": "Lisa kirjeldus...",
-  "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonicali privaatsusmärge ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "andmekaitse reeglid",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "debPageErrorNoPackageInfo": "Paketi teavet ei leidunud",
-  "@debPageErrorNoPackageInfo": {},
-  "snapReportPrivacyAgreementLabel": "Selle teate edastamisel ma kinnitan, et olen lugenud järgnevaid dokumente ja nõustun nende tingimustega: ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "snapReportPrivacyAgreementAndLabel": "ja ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "debPageDocumentationLinkLabel": "Lisateave Debiani pakettide halduse kohta",
-  "@debPageDocumentationLinkLabel": {},
-  "snapCategoryDefaultButtonLabel": "Vaata edasi",
-  "@snapCategoryDefaultButtonLabel": {},
-  "snapCategoryGnomeGames": "GNOME'i mängud",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryGnomeGamesSlogan": "GNOME'i mängude kogumik",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryDevelopment": "Arendus",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryDevelopmentSlogan": "Vajalikud paketid arendajatele",
-  "@snapCategoryDevelopmentSlogan": {},
-  "snapCategoryDevicesAndIot": "Seadmed ja nutistu",
-  "@snapCategoryDevicesAndIot": {},
-  "snapCategoryGameContentCreation": "Sisuloome",
-  "@snapCategoryGameContentCreation": {},
-  "snapCategoryGameContentCreationSlogan": "Sisuloome",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapCategoryGameLaunchers": "Mängude käivitajad",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryGameLaunchersSlogan": "Mängude käivitajad",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapCategoryNewsAndWeather": "Uudised ja ilmateade",
-  "@snapCategoryNewsAndWeather": {},
-  "snapCategoryPersonalisation": "Kohandamine sulle sobivaks",
-  "@snapCategoryPersonalisation": {},
-  "snapCategoryProductivityButtonLabel": "Tutvu meie tarbetarkvaraga ja kontoritöö rakendustega",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapCategoryHealthAndFitness": "Tervis ja vormisolek",
-  "@snapCategoryHealthAndFitness": {},
-  "snapCategoryMusicAndAudio": "Muusika ja helimaailm",
-  "@snapCategoryMusicAndAudio": {},
-  "snapCategoryScience": "Teadus",
-  "@snapCategoryScience": {},
-  "snapCategoryServerAndCloud": "Serverid ja pilveteenused",
-  "@snapCategoryServerAndCloud": {},
-  "snapCategoryProductivitySlogan": "Lahenda ülesandeid eesmärgipäraselt",
-  "@snapCategoryProductivitySlogan": {},
-  "snapCategorySecurity": "Turvalisus",
-  "@snapCategorySecurity": {},
-  "snapCategorySocial": "Sotsiaalmeedia",
-  "@snapCategorySocial": {},
-  "snapCategoryUbuntuDesktop": "Ubuntu töölaud",
-  "@snapCategoryUbuntuDesktop": {},
-  "snapCategoryUbuntuDesktopSlogan": "Asu töölaual toimetama",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "externalResourcesButtonLabel": "Leia veel huvitavat",
-  "@externalResourcesButtonLabel": {},
-  "snapCategoryEducation": "Haridus",
-  "@snapCategoryEducation": {},
-  "snapCategoryPhotoAndVideo": "Fotod ja videod",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapCategoryProductivity": "Tarbetarkvara",
-  "@snapCategoryProductivity": {},
-  "allGamesButtonLabel": "Kõik mängud",
-  "@allGamesButtonLabel": {},
-  "snapCategoryBooksAndReference": "Raamatud ja viitematerjalid",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryEntertainment": "Meelelahutus",
-  "@snapCategoryEntertainment": {},
-  "snapCategoryFeatured": "Esiletõstetud",
-  "@snapCategoryFeatured": {},
-  "snapCategoryFeaturedSlogan": "Esiletõstetud paketid",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapCategoryFinance": "Rahandus",
-  "@snapCategoryFinance": {},
-  "snapCategoryGames": "Mängud",
-  "@snapCategoryGames": {},
-  "snapCategoryGamesSlogan": "Kõik vajalik sinu mängude õhtu jaoks",
-  "@snapCategoryGamesSlogan": {},
-  "snapCategoryGameDev": "Mängude arendus",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameDevSlogan": "Mängude arendus",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryGameEmulators": "Emulaatorid",
-  "@snapCategoryGameEmulators": {},
-  "snapCategoryGameEmulatorsSlogan": "Emulaatorid",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryKdeGames": "KDE mängud",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryKdeGamesSlogan": "KDE mängude kogumik",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapCategoryUtilities": "Tarvikud",
-  "@snapCategoryUtilities": {},
-  "externalResources": "Täiendavad vahendid",
-  "@externalResources": {},
-  "externalResourcesDisclaimer": "Märkus: tegemist on välise tarkvara ja teabega, mida Canonical ei omista ega levita.",
-  "@externalResourcesDisclaimer": {},
-  "localDebWarningTitle": "Võib olla ebaturvaline",
-  "@localDebWarningTitle": {},
-  "localDebDialogMessage": "See rakendus on lisatud kolmanda osapoole poolt suurendab sinu arvutiga ja isiklike andmetega seotud riske.",
-  "@localDebDialogMessage": {},
-  "localDebWarningBody": "See rakendus on lisatud kolmanda osapoole poolt. Rakenduste paigaldamine väljastpoolt Rakendustekeskust suurendab sinu arvutiga ja isiklike andmetega seotud riske. Enne paigaldamist palun kontrolli, et usaldad lähteallikat.",
-  "@localDebWarningBody": {},
-  "errorViewNetworkErrorAction": "Kontrolli internetiühenduse toimivust ja proovi uuesti.",
-  "@errorViewNetworkErrorAction": {},
-  "errorViewServerErrorDescription": "Vabandame, hetkel on Rakendustekeskuse töös probleeme.",
-  "@errorViewServerErrorDescription": {},
-  "errorViewNetworkErrorTitle": "Loo internetiühendus",
-  "@errorViewNetworkErrorTitle": {},
-  "errorViewNetworkErrorDescription": "Rakendustekeskuse sisu laadimine ilma toimiva internetiühenduseta pole võimalik.",
-  "@errorViewNetworkErrorDescription": {},
-  "localDebLearnMore": "Lisateave kolmandate osapoolte pakettide kohta",
-  "@localDebLearnMore": {},
-  "localDebDialogConfirmation": "Kas sa oled kindel, et soovid ta paigaldada?",
-  "@localDebDialogConfirmation": {},
-  "errorViewCheckStatusLabel": "Kontrolli olekut",
-  "@errorViewCheckStatusLabel": {},
-  "snapdExceptionRunningApps": "Kuna rakendus hetkel töötab, siis me ei saanud „{snapName}“ paketti uuendada.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewServerErrorAction": "Palun kontrolli uuenduste olekuid ja proovi hiljem uuesti.",
-  "@errorViewServerErrorAction": {}
+    "appCenterLabel": "Rakendustekeskus",
+    "appstreamSearchGreylist": "äpp;rakendus;pakett;programm;tarvik;töövahend;tarvikud;app;äpid",
+    "snapPageChannelLabel": "Kanal",
+    "snapPageContactPublisherLabel": "Võta ühendust väljaandjaga {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDescriptionLabel": "Kirjeldus",
+    "snapPageDeveloperWebsiteLabel": "Arendaja veebisait",
+    "snapPageDownloadSizeLabel": "Allalaaditava faili suurus",
+    "snapPageSizeLabel": "Suurus",
+    "snapPageGalleryLabel": "Galerii",
+    "snapPageLicenseLabel": "Litsents",
+    "snapPageLinksLabel": "Lingid",
+    "snapPagePublisherLabel": "Väljaandja",
+    "snapPagePublishedLabel": "Avaldatud",
+    "snapPageSummaryLabel": "Kokkuvõte",
+    "snapPageVersionLabel": "Versioon",
+    "snapPageShareLinkCopiedMessage": "Link on kopeeritud lõikelauale",
+    "explorePageLabel": "Uuri",
+    "explorePageCategoriesLabel": "Kategooriad",
+    "managePageOwnUpdateAvailable": "Saadaval on Rakendustekeskuse uuendus",
+    "managePageQuitToUpdate": "Uuendamiseks välju",
+    "managePageOwnUpdateDescription": "Rakendusest väljumisel uuendatakse ta automaatselt.",
+    "managePageOwnUpdateDescriptionSoon": "Rakendustepood uuendatakse automaatselt {time}.",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageOwnUpdateQuitButton": "Uuendamiseks välju",
+    "managePageCheckForUpdates": "Kontrolli uuendusi",
+    "managePageCheckingForUpdates": "Kontrollin uuendusi",
+    "appstreamUrlTypeContact": "Kontaktandmed",
+    "appstreamUrlTypeTranslate": "Tõlked",
+    "managePageInstallingLabel": "Paigaldamisel ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageLabel": "Halda",
+    "managePageSearchFieldSearchHint": "Otsi oma paigaldatud rakendusi",
+    "appstreamUrlTypeHomepage": "Koduleht",
+    "snapActionInstalledLabel": "Paigaldatud",
+    "searchFieldSnapSection": "Snapi paketid",
+    "appstreamUrlTypeBugtracker": "Veahaldus",
+    "managePageInstalledAndUpdatedLabel": "Paigaldatud ja uuendatud",
+    "snapActionUpdatingLabel": "Uuendamisel",
+    "searchFieldSearchForLabel": "Vaata kõiki „{query}“ otsingu vastuseid",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageShowDetailsLabel": "Näita üksikasju",
+    "managePageUpdatedMonthsAgo": "Uuendatud {n, plural, =1{{n} kuu} other{{n} kuu}} eest",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "packageFormatSnapLabel": "Snapi paketid",
+    "managePageDocumentationLinkLabel": "Debiani pakettide halduse kohta leiad teavet dokumentatsioonist.",
+    "searchFieldSearchHint": "Otsi rakendusi",
+    "appstreamUrlTypeContribute": "Kaastöö võimalused",
+    "managePageNoInternet": "Server pole leitav. Palun kontrolli, et arvuti internetiühendus toimib ja proovi siis uuesti.",
+    "managePageDescription": "Kontrolli uuenduste olemasolu, uuenda omi rakendusi ja halda nende olekut.",
+    "managePageTitle": "Halda paigaldatud snap-pakette",
+    "managePageShowSystemSnapsLabel": "Näita süsteemseid snapi rakendusi",
+    "managePageNoUpdatesAvailableDescription": "Uuendusi ei leidu. Juba kasutad kõikide rakenduste viimaseid versioone.",
+    "searchFieldDebSection": "Debiani paketid",
+    "managePageUpdateAllLabel": "Uuenda kõik",
+    "managePageUpdatedDaysAgo": "Uuendatud {n, plural, =1{{n} päev} other{{n} päeva}} tagasi",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "Uuendatud {n, plural, =1{{n} nädala} other{{n} nädala}} eest",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Uuendatud {n, plural, =1{{n} aasta} other{{n} aastat}} tagasi",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "Saadaval uuendusi: {n}",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{Üks uuendamine} other{{n} uuendamist}} ei õnnestunud",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "Kuna antud rakendused hetkel töötavad, siis nende uuendamine polnud võimalik.\n\n{snapList}\nKui väljud neist rakendustest, siis tehakse uuendused automaatselt ära.",
+    "appstreamUrlTypeDonation": "Toeta rahaliselt",
+    "appstreamUrlTypeFaq": "KKK",
+    "appstreamUrlTypeHelp": "Abiteave",
+    "packageFormatDebLabel": "Debiani paketid",
+    "appstreamUrlTypeVcsBrowser": "Lähtekood",
+    "snapActionCancelLabel": "Katkesta",
+    "snapActionInstallLabel": "Paigalda",
+    "snapActionInstallingLabel": "Paigaldamisel",
+    "snapActionOpenLabel": "Ava",
+    "snapActionRemoveLabel": "Eemalda rakendus",
+    "snapActionUpdateLabel": "Uuenda",
+    "snapActionRemovingLabel": "Rakendus on eemaldamisel",
+    "snapActionSwitchChannelLabel": "Vaheta kanalit",
+    "snapCategoryAll": "Kõik kategooriad",
+    "installAll": "Paigalda kõik",
+    "errorViewUnknownErrorTitle": "Midagi läks valesti",
+    "errorViewUnknownErrorDescription": "Vabandust, aga me pole kindlad selles, mis veaga on tegemist.",
+    "errorViewUnknownErrorAction": "Sa võid proovida kohe uuesti või jälgida uuenduste olekuid ning teavet ja proovida uuesti hiljem.",
+    "openInBrowser": "Ava veebibrauseris",
+    "gamesPageTop": "Parimate hinnangutega",
+    "managePageDebUpdatesMessage": "Debiani pakettide uuendusi teeb rakendus „Tarkvara ja uuendused“.",
+    "developmentPageLabel": "Arendus",
+    "gamesPageLabel": "Mängud",
+    "productivityPageLabel": "Tarbetarkvara",
+    "gamesPageFeatured": "Esiletõstetud",
+    "gamesPageBundles": "Rakenduste komplektid",
+    "unknownPublisher": "Tundmatu väljaandja",
+    "gamesPageTitle": "Mängud",
+    "searchPageFilterByLabel": "Paketi tüüp",
+    "searchPageNoResults": "Otsingul „{query}“ puuduvad vastused",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "Palun muuda otsingusõna üldisemaks või proovi otsida muid sõnu",
+    "snapPageConfinementLabel": "Eraldatud konteiner",
+    "searchPageNoResultsCategoryHint": "Palun muuda otsingusõna üldisemaks või proovi otsida muust kategooriast",
+    "searchPageSortByLabel": "Järjestus",
+    "searchPageRelevanceLabel": "Teemakohasus",
+    "aboutPageLabel": "Rakenduse teave",
+    "searchPageNoResultsCategory": "Vabandust, sellest kategooriast ei leidnud me ühtegi paketti",
+    "aboutPageVersionLabel": "Versioon {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "Projekteerijad ja arendajad:",
+    "aboutPageCommunityTitle": "Osale kogukonna tegevuses:",
+    "aboutPageContributeLabel": "Tee kaastööd või teata vigadest",
+    "aboutPageGitHubLabel": "Leiad meid GitHubist",
+    "searchPageTitle": "Tulemused päringule „{query}“",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageLearnMoreLabel": "Lisateave",
+    "aboutPagePublishLabel": "Avalda rakendus Snap Store rakendustepoes",
+    "snapCategoryArtAndDesign": "Kunst ja kujundus",
+    "snapConfinementClassic": "Klassikaline",
+    "snapCategoryArtAndDesignButtonLabel": "Alusta loomisega",
+    "snapCategoryArtAndDesignSlogan": "Alates esimeste visandite tegemisest kuni viimase täpini „i“ peal, on sul olemas kõik vajalik kunsti ja kujunduse jaoks.",
+    "snapSortOrderInstalledSizeDesc": "Suurus (suuremast väiksemani)",
+    "snapSortOrderInstalledDateAsc": "Ammu uuendatud",
+    "snapSortOrderAlphabeticalDesc": "Tähestikuline (Z kuni A)",
+    "snapSortOrderDownloadSizeAsc": "Suurus (väiksemast suuremani)",
+    "snapSortOrderDownloadSizeDesc": "Suurus (suuremast väiksemani)",
+    "snapSortOrderInstalledSizeAsc": "Suurus (väiksemast suuremani)",
+    "snapConfinementDevmode": "Arendusrežiim",
+    "snapConfinementStrict": "Range",
+    "snapSortOrderAlphabeticalAsc": "Tähestikuline (A kuni Z)",
+    "snapSortOrderInstalledDateDesc": "Hiljuti uuendatud",
+    "snapSortOrderRelevance": "Teemakohasus",
+    "snapRatingsBandVeryGood": "Väga hea",
+    "snapRatingsBandGood": "Hea",
+    "snapRatingsBandInsufficientVotes": "Pole piisavalt hindajaid",
+    "snapRatingsVotes": "{n} hinnangut",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "Teata rakendusest: {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "Vali rakendusest teatamise põhjus",
+    "snapReportSelectAnOptionLabel": "Vali üks põhjus",
+    "snapReportOptionCopyrightViolation": "Autoriõiguste või kaubamärgi kasutustingimuste rikkumine",
+    "snapReportOptionStoreViolation": "Snap Store rakendustepoe kasutustingimuste rikkumine",
+    "snapRatingsBandNeutral": "Tavaline",
+    "snapRatingsBandPoor": "Kehv",
+    "snapRatingsBandVeryPoor": "Väga kehv",
+    "snapReportDetailsLabel": "Palun lisa täiendavat teavet põhjuse kohta (inglise keeles)",
+    "snapReportOptionalEmailAddressLabel": "Sinu e-posti aadress (kui soovid lisada)",
+    "snapReportCancelButtonLabel": "Katkesta",
+    "snapReportSubmitButtonLabel": "Saada teade",
+    "snapReportEnterValidEmailError": "Palun sisesta kehtiv e-posti aadress",
+    "snapReportDetailsHint": "Lisa kirjeldus...",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonicali privaatsusmärge ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "andmekaitse reeglid",
+    "debPageErrorNoPackageInfo": "Paketi teavet ei leidunud",
+    "snapReportPrivacyAgreementLabel": "Selle teate edastamisel ma kinnitan, et olen lugenud järgnevaid dokumente ja nõustun nende tingimustega: ",
+    "snapReportPrivacyAgreementAndLabel": "ja ",
+    "debPageDocumentationLinkLabel": "Lisateave Debiani pakettide halduse kohta",
+    "snapCategoryDefaultButtonLabel": "Vaata edasi",
+    "snapCategoryGnomeGames": "GNOME'i mängud",
+    "snapCategoryGnomeGamesSlogan": "GNOME'i mängude kogumik",
+    "snapCategoryDevelopment": "Arendus",
+    "snapCategoryDevelopmentSlogan": "Vajalikud paketid arendajatele",
+    "snapCategoryDevicesAndIot": "Seadmed ja nutistu",
+    "snapCategoryGameContentCreation": "Sisuloome",
+    "snapCategoryGameContentCreationSlogan": "Sisuloome",
+    "snapCategoryGameLaunchers": "Mängude käivitajad",
+    "snapCategoryGameLaunchersSlogan": "Mängude käivitajad",
+    "snapCategoryNewsAndWeather": "Uudised ja ilmateade",
+    "snapCategoryPersonalisation": "Kohandamine sulle sobivaks",
+    "snapCategoryProductivityButtonLabel": "Tutvu meie tarbetarkvaraga ja kontoritöö rakendustega",
+    "snapCategoryHealthAndFitness": "Tervis ja vormisolek",
+    "snapCategoryMusicAndAudio": "Muusika ja helimaailm",
+    "snapCategoryScience": "Teadus",
+    "snapCategoryServerAndCloud": "Serverid ja pilveteenused",
+    "snapCategoryProductivitySlogan": "Lahenda ülesandeid eesmärgipäraselt",
+    "snapCategorySecurity": "Turvalisus",
+    "snapCategorySocial": "Sotsiaalmeedia",
+    "snapCategoryUbuntuDesktop": "Ubuntu töölaud",
+    "snapCategoryUbuntuDesktopSlogan": "Asu töölaual toimetama",
+    "externalResourcesButtonLabel": "Leia veel huvitavat",
+    "snapCategoryEducation": "Haridus",
+    "snapCategoryPhotoAndVideo": "Fotod ja videod",
+    "snapCategoryProductivity": "Tarbetarkvara",
+    "allGamesButtonLabel": "Kõik mängud",
+    "snapCategoryBooksAndReference": "Raamatud ja viitematerjalid",
+    "snapCategoryEntertainment": "Meelelahutus",
+    "snapCategoryFeatured": "Esiletõstetud",
+    "snapCategoryFeaturedSlogan": "Esiletõstetud paketid",
+    "snapCategoryFinance": "Rahandus",
+    "snapCategoryGames": "Mängud",
+    "snapCategoryGamesSlogan": "Kõik vajalik sinu mängude õhtu jaoks",
+    "snapCategoryGameDev": "Mängude arendus",
+    "snapCategoryGameDevSlogan": "Mängude arendus",
+    "snapCategoryGameEmulators": "Emulaatorid",
+    "snapCategoryGameEmulatorsSlogan": "Emulaatorid",
+    "snapCategoryKdeGames": "KDE mängud",
+    "snapCategoryKdeGamesSlogan": "KDE mängude kogumik",
+    "snapCategoryUtilities": "Tarvikud",
+    "externalResources": "Täiendavad vahendid",
+    "externalResourcesDisclaimer": "Märkus: tegemist on välise tarkvara ja teabega, mida Canonical ei omista ega levita.",
+    "localDebWarningTitle": "Võib olla ebaturvaline",
+    "localDebDialogMessage": "See rakendus on lisatud kolmanda osapoole poolt suurendab sinu arvutiga ja isiklike andmetega seotud riske.",
+    "localDebWarningBody": "See rakendus on lisatud kolmanda osapoole poolt. Rakenduste paigaldamine väljastpoolt Rakendustekeskust suurendab sinu arvutiga ja isiklike andmetega seotud riske. Enne paigaldamist palun kontrolli, et usaldad lähteallikat.",
+    "errorViewNetworkErrorAction": "Kontrolli internetiühenduse toimivust ja proovi uuesti.",
+    "errorViewServerErrorDescription": "Vabandame, hetkel on Rakendustekeskuse töös probleeme.",
+    "errorViewNetworkErrorTitle": "Loo internetiühendus",
+    "errorViewNetworkErrorDescription": "Rakendustekeskuse sisu laadimine ilma toimiva internetiühenduseta pole võimalik.",
+    "localDebLearnMore": "Lisateave kolmandate osapoolte pakettide kohta",
+    "localDebDialogConfirmation": "Kas sa oled kindel, et soovid ta paigaldada?",
+    "errorViewCheckStatusLabel": "Kontrolli olekut",
+    "snapdExceptionRunningApps": "Kuna rakendus hetkel töötab, siis me ei saanud „{snapName}“ paketti uuendada.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewServerErrorAction": "Palun kontrolli uuenduste olekuid ja proovi hiljem uuesti.",
+    "debPageShareSemanticLabel": "Kopeeri link",
+    "debPageShareLinkCopiedMessage": "Link on kopeeritud lõikelauale",
+    "snapPageGalleryNextSemanticLabel": "Järgmine pilt",
+    "snapPageGalleryPreviousSemanticLabel": "Eelmine pilt",
+    "snapPageGalleryImageSemanticLabel": "{n}. pilt",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageShareSemanticLabel": "Kopeeri link",
+    "snapPageReportSemanticLabel": "Teata",
+    "sectionExpandSemanticLabel": "Laienda lõik: {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Ahenda lõik: {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Hinnang {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardPublisherSemanticLabel": "Väljaandja: {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "codecPageTitle": "Meediakoodekid on puudu",
+    "codecPageDescription": "Mõnede video- ja helivormingute kasutamiseks pead paigaldama järgnevad koodekid:",
+    "codecProprietaryDisclaimer": "Mõned soovitatud koodekuid võivad olla avaldatud suletud litsentsi alusel.",
+    "codecInstallAllButton": "Paigalda soovitatud koodekid",
+    "snapActionRevertLabel": "Pööra uuendus tagasi",
+    "snapActionRevertingLabel": "Pööran uuendust tagasi",
+    "snapRevertConfirmTitle": "Kas taastame eelmise versiooni?",
+    "snapRevertConfirmMessage": "Kui uus versioon on saadaval, siis automaatsed uuendused jätkuvad.",
+    "snapRevertConfirmRevert": "Pööra muudatus tagasi",
+    "snapRevertConfirmCancel": "Katkesta",
+    "snapRevertConfirmTitleWithVersions": "Kas pöörame tagasi: „{currentVersion} (rev {currentRevision})“ → „{previousVersion} (rev {previousRevision})“?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Ei leidu eelmist kohalikus seadmes paigaldatud versiooni, kuhu tagasi pöörata."
 }

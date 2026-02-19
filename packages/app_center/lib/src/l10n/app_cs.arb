@@ -1,482 +1,376 @@
 {
-  "snapPageLinksLabel": "Odkazy",
-  "@snapPageLinksLabel": {},
-  "snapPageVersionLabel": "Verze",
-  "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "Balíčky Debian",
-  "@packageFormatDebLabel": {},
-  "snapCategoryBooksAndReference": "Knihy a reference",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryProductivity": "Kancelář",
-  "@snapCategoryProductivity": {},
-  "snapCategoryUtilities": "Nástroje",
-  "@snapCategoryUtilities": {},
-  "snapCategorySocial": "Sociální",
-  "@snapCategorySocial": {},
-  "productivityPageLabel": "Kancelář",
-  "@productivityPageLabel": {},
-  "snapCategoryNewsAndWeather": "Zprávy a počasí",
-  "@snapCategoryNewsAndWeather": {},
-  "gamesPageLabel": "Hry",
-  "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "Umění a design",
-  "@snapCategoryArtAndDesign": {},
-  "developmentPageLabel": "Vývoj",
-  "@developmentPageLabel": {},
-  "managePageLabel": "Spravovat",
-  "@managePageLabel": {},
-  "snapPageChannelLabel": "Kanál",
-  "@snapPageChannelLabel": {},
-  "snapCategoryEducation": "Výuka",
-  "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "Aktualizovat",
-  "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "Řadit podle",
-  "@searchPageSortByLabel": {},
-  "snapPageGalleryLabel": "Galerie",
-  "@snapPageGalleryLabel": {},
-  "searchFieldDebSection": "Balíčky Debian",
-  "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "Otevřít",
-  "@snapActionOpenLabel": {},
-  "snapCategoryDevelopment": "Vývoj",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryHealthAndFitness": "Zdraví a fitness",
-  "@snapCategoryHealthAndFitness": {},
-  "appstreamUrlTypeContact": "Kontakt",
-  "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "Bezpečnost",
-  "@snapCategorySecurity": {},
-  "snapCategoryFinance": "Finance",
-  "@snapCategoryFinance": {},
-  "snapCategoryServerAndCloud": "Server a cloud",
-  "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "O aplikaci",
-  "@aboutPageLabel": {},
-  "snapPageSummaryLabel": "Shrnutí",
-  "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "aplikace;balíček;program;sada;nástroj",
-  "@appstreamSearchGreylist": {},
-  "snapCategoryScience": "Věda",
-  "@snapCategoryScience": {},
-  "snapCategoryEntertainment": "Zábava",
-  "@snapCategoryEntertainment": {},
-  "snapActionInstallLabel": "Instalovat",
-  "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "Licence",
-  "@snapPageLicenseLabel": {},
-  "snapCategoryPhotoAndVideo": "Fotografie a video",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "Režim ohraničení",
-  "@snapPageConfinementLabel": {},
-  "snapCategoryMusicAndAudio": "Hudba a zvuk",
-  "@snapCategoryMusicAndAudio": {},
-  "aboutPageGitHubLabel": "Najděte si nás na GitHubu",
-  "@aboutPageGitHubLabel": {},
-  "packageFormatSnapLabel": "Balíčky Snap",
-  "@packageFormatSnapLabel": {},
-  "snapCategoryGames": "Hry",
-  "@snapCategoryGames": {},
-  "snapActionInstallingLabel": "Instaluje se",
-  "@snapActionInstallingLabel": {},
-  "searchFieldSearchHint": "Hledat aplikace",
-  "@searchFieldSearchHint": {},
-  "snapCategoryFeatured": "Významné",
-  "@snapCategoryFeatured": {},
-  "managePageSearchFieldSearchHint": "Hledat nainstalované aplikace",
-  "@managePageSearchFieldSearchHint": {},
-  "snapActionCancelLabel": "Zrušit",
-  "@snapActionCancelLabel": {},
-  "snapPagePublisherLabel": "Vydavatel",
-  "@snapPagePublisherLabel": {},
-  "snapPageDescriptionLabel": "Popis",
-  "@snapPageDescriptionLabel": {},
-  "explorePageLabel": "Procházet",
-  "@explorePageLabel": {},
-  "searchFieldSnapSection": "Balíčky Snap",
-  "@searchFieldSnapSection": {},
-  "snapCategoryDevicesAndIot": "Zařízení a IoT",
-  "@snapCategoryDevicesAndIot": {},
-  "managePageCheckForUpdates": "Zkontrolovat aktualizace",
-  "@managePageCheckForUpdates": {},
-  "managePageUpdateAllLabel": "Aktualizovat vše",
-  "@managePageUpdateAllLabel": {},
-  "searchFieldSearchForLabel": "Zobrazit všechny výsledky pro dotaz „{query}“",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "explorePageCategoriesLabel": "Kategorie",
-  "@explorePageCategoriesLabel": {},
-  "snapCategoryDefaultButtonLabel": "Objevit více",
-  "@snapCategoryDefaultButtonLabel": {},
-  "managePageShowDetailsLabel": "Zobrazit podrobnosti",
-  "@managePageShowDetailsLabel": {},
-  "snapPageDownloadSizeLabel": "Stahovaná velikost",
-  "@snapPageDownloadSizeLabel": {},
-  "snapCategoryProductivityButtonLabel": "Objevte sbírku pro produktivitu",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapPagePublishedLabel": "Publikováno",
-  "@snapPagePublishedLabel": {},
-  "aboutPageLearnMoreLabel": "Dozvědět se více",
-  "@aboutPageLearnMoreLabel": {},
-  "snapRatingsBandNeutral": "Neutrální",
-  "@snapRatingsBandNeutral": {},
-  "appstreamUrlTypeTranslate": "Překlady",
-  "@appstreamUrlTypeTranslate": {},
-  "searchPageNoResultsHint": "Zkuste použít jiná nebo obecnější klíčová slova",
-  "@searchPageNoResultsHint": {},
-  "snapRatingsBandGood": "Dobré",
-  "@snapRatingsBandGood": {},
-  "snapCategoryFeaturedSlogan": "Významné Snap balíčky",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapSortOrderInstalledDateAsc": "Nejdéle neaktualizované",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapCategoryProductivitySlogan": "Vyškrtněte jednu věc ze svého seznamu úkolů",
-  "@snapCategoryProductivitySlogan": {},
-  "appstreamUrlTypeDonation": "Podpořit vývoj darem",
-  "@appstreamUrlTypeDonation": {},
-  "snapRatingsBandVeryGood": "Velmi dobré",
-  "@snapRatingsBandVeryGood": {},
-  "snapActionRemoveLabel": "Odinstalovat",
-  "@snapActionRemoveLabel": {},
-  "appstreamUrlTypeHelp": "Nápověda",
-  "@appstreamUrlTypeHelp": {},
-  "snapCategoryPersonalisation": "Přizpůsobení",
-  "@snapCategoryPersonalisation": {},
-  "aboutPagePublishLabel": "Publikovat ve Snap Store",
-  "@aboutPagePublishLabel": {},
-  "aboutPageContributorTitle": "Navrženo a vyvinuto:",
-  "@aboutPageContributorTitle": {},
-  "managePageInstalledAndUpdatedLabel": "Nainstalováno a aktualizováno",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "appstreamUrlTypeHomepage": "Domovská stránka",
-  "@appstreamUrlTypeHomepage": {},
-  "managePageCheckingForUpdates": "Kontrolují se aktualizace",
-  "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Aktualizováno před {n, plural, =1{{n} dnem} other{{n} dny}}",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapRatingsBandInsufficientVotes": "Nedostatek hodnocení",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsBandVeryPoor": "Velmi špatné",
-  "@snapRatingsBandVeryPoor": {},
-  "managePageDescription": "Zkontrolujte dostupné aktualizace, aktualizujte své aplikace a spravujte stav všech svých aplikací.",
-  "@managePageDescription": {},
-  "snapActionRemovingLabel": "Odinstalace",
-  "@snapActionRemovingLabel": {},
-  "snapSortOrderInstalledSizeDesc": "Velikost (od největší po nejmenší)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapPageDeveloperWebsiteLabel": "Webové stránky vývojáře",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapConfinementClassic": "Klasický",
-  "@snapConfinementClassic": {},
-  "snapRatingsBandPoor": "Špatné",
-  "@snapRatingsBandPoor": {},
-  "snapCategoryDevelopmentSlogan": "Nepostradatelné snap balíčky pro vývojáře",
-  "@snapCategoryDevelopmentSlogan": {},
-  "searchPageTitle": "Výsledky pro „{query}“",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapCategoryGamesSlogan": "Vše pro vaši herní noc",
-  "@snapCategoryGamesSlogan": {},
-  "snapActionSwitchChannelLabel": "Přepnout kanál",
-  "@snapActionSwitchChannelLabel": {},
-  "appstreamUrlTypeFaq": "Často kladené dotazy",
-  "@appstreamUrlTypeFaq": {},
-  "snapConfinementStrict": "Striktní",
-  "@snapConfinementStrict": {},
-  "aboutPageContributeLabel": "Přispějte nebo nahlaste chybu",
-  "@aboutPageContributeLabel": {},
-  "snapCategoryUbuntuDesktop": "Uživatelské prostředí Ubuntu",
-  "@snapCategoryUbuntuDesktop": {},
-  "managePageUpdatesAvailable": "Dostupné aktualizace ({n})",
-  "@managePageUpdatesAvailable": {},
-  "aboutPageCommunityTitle": "Staňte se součástí komunity:",
-  "@aboutPageCommunityTitle": {},
-  "searchPageNoResultsCategoryHint": "Zkuste jinou kategorii nebo použijte obecnější klíčová slova",
-  "@searchPageNoResultsCategoryHint": {},
-  "snapSortOrderAlphabeticalDesc": "Abecedně (od Z do A)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "searchPageNoResultsCategory": "Je nám líto, v této kategorii jsme nenašli žádné balíčky",
-  "@searchPageNoResultsCategory": {},
-  "snapRatingsVotes": "{n} hodnocení",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapCategoryAll": "Všechny kategorie",
-  "@snapCategoryAll": {},
-  "snapSortOrderInstalledSizeAsc": "Velikost (od nejmenší po největší)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "aboutPageVersionLabel": "Verze {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageContactPublisherLabel": "Kontaktovat {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapConfinementDevmode": "Vývojářský režim",
-  "@snapConfinementDevmode": {},
-  "searchPageNoResults": "Nic nenalezeno pro dotaz „{query}“",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapSortOrderDownloadSizeAsc": "Velikost (od nejmenší po největší)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "unknownPublisher": "Neznámý vydavatel",
-  "@unknownPublisher": {},
-  "snapCategoryUbuntuDesktopSlogan": "Vylepšete své uživatelské prostředí",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapActionUpdatingLabel": "Aktualizace",
-  "@snapActionUpdatingLabel": {},
-  "searchPageRelevanceLabel": "Relevance",
-  "@searchPageRelevanceLabel": {},
-  "snapSortOrderAlphabeticalAsc": "Abecedně (od A do Z)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "managePageNoUpdatesAvailableDescription": "Nejsou k dispozici žádné aktualizace. Všechny vaše aplikace jsou aktuální.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "snapSortOrderRelevance": "Relevance",
-  "@snapSortOrderRelevance": {},
-  "snapSortOrderDownloadSizeDesc": "Velikost (od největší po nejmenší)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "appstreamUrlTypeBugtracker": "Správa hlášení chyb",
-  "@appstreamUrlTypeBugtracker": {},
-  "managePageShowSystemSnapsLabel": "Zobrazit systémové snap balíčky",
-  "@managePageShowSystemSnapsLabel": {},
-  "searchPageFilterByLabel": "Filtrovat podle",
-  "@searchPageFilterByLabel": {},
-  "snapSortOrderInstalledDateDesc": "Naposledy aktualizované",
-  "@snapSortOrderInstalledDateDesc": {},
-  "appCenterLabel": "Centrum aplikací",
-  "@appCenterLabel": {},
-  "snapPageShareLinkCopiedMessage": "Odkaz zkopírován do schránky",
-  "@snapPageShareLinkCopiedMessage": {},
-  "gamesPageFeatured": "Vybrané tituly",
-  "@gamesPageFeatured": {},
-  "snapCategoryGameDevSlogan": "Vývoj her",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryGameEmulators": "Emulátory",
-  "@snapCategoryGameEmulators": {},
-  "snapCategoryGnomeGames": "Hry GNOME",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryGnomeGamesSlogan": "Sada her GNOME",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryGameLaunchers": "Spouštěče her",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryGameContentCreation": "Tvorba obsahu",
-  "@snapCategoryGameContentCreation": {},
-  "snapCategoryGameContentCreationSlogan": "Tvorba obsahu",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapReportLabel": "Nahlásit {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportOptionCopyrightViolation": "Porušení autorských práv nebo ochranné známky",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportDetailsLabel": "Uveďte prosím podrobnější důvod svého hlášení",
-  "@snapReportDetailsLabel": {},
-  "snapReportOptionalEmailAddressLabel": "Váš e-mail (volitelné)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportEnterValidEmailError": "Zadejte platnou e-mailovou adresu",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportPrivacyAgreementAndLabel": "a ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "zásadami ochrany osobních údajů",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "gamesPageTitle": "Co je populární",
-  "@gamesPageTitle": {},
-  "gamesPageTop": "Nejlépe hodnocené",
-  "@gamesPageTop": {},
-  "gamesPageBundles": "Balíčky aplikací",
-  "@gamesPageBundles": {},
-  "snapCategoryGameDev": "Vývoj her",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameEmulatorsSlogan": "Emulátory",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryKdeGames": "Hry KDE",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryKdeGamesSlogan": "Sada her KDE",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapCategoryGameLaunchersSlogan": "Spouštěče her",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapReportSelectReportReasonLabel": "Vyberte důvod nahlášení tohoto snapu",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportSelectAnOptionLabel": "Vyberte možnost",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportOptionStoreViolation": "Porušení podmínek služby Snap Store",
-  "@snapReportOptionStoreViolation": {},
-  "snapReportCancelButtonLabel": "Zrušit",
-  "@snapReportCancelButtonLabel": {},
-  "snapReportSubmitButtonLabel": "Odeslat hlášení",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportDetailsHint": "Komentář…",
-  "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementLabel": "Odesláním tohoto formuláře potvrzuji, že jsem četl(a) a souhlasím s ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "prohlášením společnosti Canonical o ochraně osobních údajů ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "externalResources": "Další zdroje",
-  "@externalResources": {},
-  "externalResourcesDisclaimer": "Poznámka: Všechny tyto nástroje jsou externí. Nejsou vlastněny ani distribuovány společností Canonical.",
-  "@externalResourcesDisclaimer": {},
-  "openInBrowser": "Otevřít v prohlížeči",
-  "@openInBrowser": {},
-  "installAll": "Instalovat vše",
-  "@installAll": {},
-  "debPageErrorNoPackageInfo": "Nenalezeny žádné informace o balíčku",
-  "@debPageErrorNoPackageInfo": {},
-  "externalResourcesButtonLabel": "Objevit více",
-  "@externalResourcesButtonLabel": {},
-  "allGamesButtonLabel": "Všechny hry",
-  "@allGamesButtonLabel": {},
-  "managePageUpdatedWeeksAgo": "Aktualizováno před {n, plural, =1{{n} týdnem} other{{n} týdny}}",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedMonthsAgo": "Aktualizováno před {n, plural, =1{{n} měsícem} other{{n} měsíci}}",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedYearsAgo": "Aktualizováno před {n, plural, =1{{n} rokem} other{{n} lety}}",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "appstreamUrlTypeContribute": "Přispět podílením se",
-  "@appstreamUrlTypeContribute": {},
-  "appstreamUrlTypeVcsBrowser": "Zdrojový kód",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "localDebWarningBody": "Tento balíček poskytuje třetí strana. Instalace balíčků mimo Centrum aplikací může zvýšit riziko pro váš systém a osobní data. Než budete pokračovat, ujistěte se, že zdroji důvěřujete.",
-  "@localDebWarningBody": {},
-  "snapPageSizeLabel": "Velikost",
-  "@snapPageSizeLabel": {},
-  "localDebWarningTitle": "Potenciálně nebezpečné",
-  "@localDebWarningTitle": {},
-  "localDebLearnMore": "Dozvědět se více o balíčcích třetích stran",
-  "@localDebLearnMore": {},
-  "localDebDialogMessage": "Tento balíček je poskytován třetí stranou a může ohrozit váš systém a osobní data.",
-  "@localDebDialogMessage": {},
-  "localDebDialogConfirmation": "Opravdu ho chcete nainstalovat?",
-  "@localDebDialogConfirmation": {},
-  "managePageDebUpdatesMessage": "Aktualizace balíčků Debian zajišťuje Správce aktualizací.",
-  "@managePageDebUpdatesMessage": {},
-  "snapActionInstalledLabel": "Nainstalováno",
-  "@snapActionInstalledLabel": {},
-  "snapdExceptionRunningApps": "Nemohli jsme aktualizovat {snapName}, protože je aktuálně spuštěn.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewCheckStatusLabel": "Zkontrolovat stav",
-  "@errorViewCheckStatusLabel": {},
-  "errorViewNetworkErrorTitle": "Připojit k internetu",
-  "@errorViewNetworkErrorTitle": {},
-  "errorViewNetworkErrorDescription": "Bez připojení k internetu nemůžeme načíst obsah Centra aplikací.",
-  "@errorViewNetworkErrorDescription": {},
-  "errorViewNetworkErrorAction": "Zkontrolujte připojení a zkuste to znovu.",
-  "@errorViewNetworkErrorAction": {},
-  "errorViewServerErrorDescription": "Je nám líto, ale v současné době dochází k problémům s Centrem aplikací.",
-  "@errorViewServerErrorDescription": {},
-  "errorViewServerErrorAction": "Zkontrolujte aktualizace stavu nebo to zkuste znovu později.",
-  "@errorViewServerErrorAction": {},
-  "errorViewUnknownErrorTitle": "Něco se nepovedlo",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewUnknownErrorDescription": "Je nám líto, ale nejsme si jisti, o jakou chybu se jedná.",
-  "@errorViewUnknownErrorDescription": {},
-  "errorViewUnknownErrorAction": "Můžete to nyní zopakovat, zkontrolovat aktualizace stavu nebo to zkusit znovu později.",
-  "@errorViewUnknownErrorAction": {},
-  "managePageOwnUpdateAvailable": "Je k dispozici aktualizace Centra aplikací",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateDescription": "Když aplikaci ukončíte, automaticky se aktualizuje.",
-  "@managePageOwnUpdateDescription": {},
-  "managePageOwnUpdateDescriptionSoon": "Centrum aplikací se automaticky aktualizuje za {time}.",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "managePageNoInternet": "Nelze se připojit k serveru, zkontrolujte připojení k internetu nebo to zkuste znovu později.",
-  "@managePageNoInternet": {},
-  "managePageOwnUpdateQuitButton": "Ukončit pro aktualizaci",
-  "@managePageOwnUpdateQuitButton": {},
-  "managePageQuitToUpdate": "Ukončit pro aktualizaci",
-  "@managePageQuitToUpdate": {},
-  "managePageTitle": "Spravovat nainstalované snap balíčky",
-  "@managePageTitle": {},
-  "managePageUpdatesFailed": "{n, plural, =1{Jedna neúspěšná aktualizace} other{{n} neúspěšných aktualizací}}",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailedBody": "Tyto aplikace jsme nemohli aktualizovat, protože jsou v tuto chvíli spuštěné.\n\n{snapList}\nKdyž aplikace ukončíte, automaticky se aktualizují.",
-  "@managePageUpdatesFailedBody": {},
-  "snapCategoryArtAndDesignButtonLabel": "Začněte tvořit",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "Prozkoumejte aplikace pro umění a design od svého prvního náčrtu až po konečný dotek.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "managePageInstallingLabel": "Instaluje se ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageDocumentationLinkLabel": "V dokumentaci se dozvíte, jak spravovat balíčky Debian.",
-  "@managePageDocumentationLinkLabel": {},
-  "debPageDocumentationLinkLabel": "Zjistěte, jak spravovat balíčky Debian",
-  "@debPageDocumentationLinkLabel": {}
+    "snapPageLinksLabel": "Odkazy",
+    "snapPageVersionLabel": "Verze",
+    "packageFormatDebLabel": "Balíčky Debian",
+    "snapCategoryBooksAndReference": "Knihy a reference",
+    "snapCategoryProductivity": "Kancelář",
+    "snapCategoryUtilities": "Nástroje",
+    "snapCategorySocial": "Sociální",
+    "productivityPageLabel": "Kancelář",
+    "snapCategoryNewsAndWeather": "Zprávy a počasí",
+    "gamesPageLabel": "Hry",
+    "snapCategoryArtAndDesign": "Umění a design",
+    "developmentPageLabel": "Vývoj",
+    "managePageLabel": "Spravovat",
+    "snapPageChannelLabel": "Kanál",
+    "snapCategoryEducation": "Výuka",
+    "snapActionUpdateLabel": "Aktualizovat",
+    "searchPageSortByLabel": "Řadit podle",
+    "snapPageGalleryLabel": "Galerie",
+    "searchFieldDebSection": "Balíčky Debian",
+    "snapActionOpenLabel": "Otevřít",
+    "snapCategoryDevelopment": "Vývoj",
+    "snapCategoryHealthAndFitness": "Zdraví a fitness",
+    "appstreamUrlTypeContact": "Kontakt",
+    "snapCategorySecurity": "Zabezpečení",
+    "snapCategoryFinance": "Finance",
+    "snapCategoryServerAndCloud": "Server a cloud",
+    "aboutPageLabel": "O aplikaci",
+    "snapPageSummaryLabel": "Shrnutí",
+    "appstreamSearchGreylist": "aplikace;balíček;program;sada;nástroj",
+    "snapCategoryScience": "Věda",
+    "snapCategoryEntertainment": "Zábava",
+    "snapActionInstallLabel": "Nainstalovat",
+    "snapPageLicenseLabel": "Licence",
+    "snapCategoryPhotoAndVideo": "Fotografie a video",
+    "snapPageConfinementLabel": "Režim ohraničení",
+    "snapCategoryMusicAndAudio": "Hudba a zvuk",
+    "aboutPageGitHubLabel": "Najděte si nás na GitHubu",
+    "packageFormatSnapLabel": "Balíčky Snap",
+    "snapCategoryGames": "Hry",
+    "snapActionInstallingLabel": "Instaluje se",
+    "searchFieldSearchHint": "Hledat aplikace",
+    "snapCategoryFeatured": "Významné",
+    "managePageSearchFieldSearchHint": "Hledat nainstalované aplikace",
+    "snapActionCancelLabel": "Zrušit",
+    "snapPagePublisherLabel": "Vydavatel",
+    "snapPageDescriptionLabel": "Popis",
+    "explorePageLabel": "Procházet",
+    "searchFieldSnapSection": "Balíčky Snap",
+    "snapCategoryDevicesAndIot": "Zařízení a IoT",
+    "managePageCheckForUpdates": "Zkontrolovat aktualizace",
+    "managePageUpdateAllLabel": "Aktualizovat vše",
+    "searchFieldSearchForLabel": "Zobrazit všechny výsledky pro dotaz „{query}“",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageCategoriesLabel": "Kategorie",
+    "snapCategoryDefaultButtonLabel": "Objevit více",
+    "managePageShowDetailsLabel": "Zobrazit podrobnosti",
+    "snapPageDownloadSizeLabel": "Stahovaná velikost",
+    "snapCategoryProductivityButtonLabel": "Objevte sbírku pro produktivitu",
+    "snapPagePublishedLabel": "Publikováno",
+    "aboutPageLearnMoreLabel": "Dozvědět se více",
+    "snapRatingsBandNeutral": "Neutrální",
+    "appstreamUrlTypeTranslate": "Překlady",
+    "searchPageNoResultsHint": "Zkuste použít jiná nebo obecnější klíčová slova",
+    "snapRatingsBandGood": "Dobré",
+    "snapCategoryFeaturedSlogan": "Významné Snap balíčky",
+    "snapSortOrderInstalledDateAsc": "Nejdéle neaktualizované",
+    "snapCategoryProductivitySlogan": "Vyškrtněte jednu věc ze svého seznamu úkolů",
+    "appstreamUrlTypeDonation": "Podpořit vývoj darem",
+    "snapRatingsBandVeryGood": "Velmi dobré",
+    "snapActionRemoveLabel": "Odinstalovat",
+    "appstreamUrlTypeHelp": "Nápověda",
+    "snapCategoryPersonalisation": "Přizpůsobení",
+    "aboutPagePublishLabel": "Publikovat ve Snap Store",
+    "aboutPageContributorTitle": "Navrženo a vyvinuto:",
+    "managePageInstalledAndUpdatedLabel": "Nainstalováno a aktualizováno",
+    "appstreamUrlTypeHomepage": "Domovská stránka",
+    "managePageCheckingForUpdates": "Kontrolují se aktualizace",
+    "managePageUpdatedDaysAgo": "Aktualizováno před {n, plural, =1{{n} dnem} other{{n} dny}}",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRatingsBandInsufficientVotes": "Nedostatek hodnocení",
+    "snapRatingsBandVeryPoor": "Velmi špatné",
+    "managePageDescription": "Zkontrolujte dostupné aktualizace, aktualizujte nainstalované aplikace a spravujte jejich stav.",
+    "snapActionRemovingLabel": "Odinstalace",
+    "snapSortOrderInstalledSizeDesc": "Velikost (od největší po nejmenší)",
+    "snapPageDeveloperWebsiteLabel": "Webové stránky vývojáře",
+    "snapConfinementClassic": "Klasický",
+    "snapRatingsBandPoor": "Špatné",
+    "snapCategoryDevelopmentSlogan": "Nepostradatelné snap balíčky pro vývojáře",
+    "searchPageTitle": "Výsledky pro „{query}“",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryGamesSlogan": "Vše pro vaši herní noc",
+    "snapActionSwitchChannelLabel": "Přepnout kanál",
+    "appstreamUrlTypeFaq": "Často kladené dotazy",
+    "snapConfinementStrict": "Striktní",
+    "aboutPageContributeLabel": "Zapojte se nebo nahlaste chybu",
+    "snapCategoryUbuntuDesktop": "Uživatelské prostředí Ubuntu",
+    "managePageUpdatesAvailable": "Dostupné aktualizace ({n})",
+    "aboutPageCommunityTitle": "Staňte se součástí komunity:",
+    "searchPageNoResultsCategoryHint": "Zkuste jinou kategorii nebo použijte obecnější klíčová slova",
+    "snapSortOrderAlphabeticalDesc": "Abecedně (od Z do A)",
+    "searchPageNoResultsCategory": "Je nám líto, v této kategorii jsme nenašli žádné balíčky",
+    "snapRatingsVotes": "{n} hodnocení",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapCategoryAll": "Všechny kategorie",
+    "snapSortOrderInstalledSizeAsc": "Velikost (od nejmenší po největší)",
+    "aboutPageVersionLabel": "Verze {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageContactPublisherLabel": "Kontaktovat {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapConfinementDevmode": "Vývojářský režim",
+    "searchPageNoResults": "Nic nenalezeno pro dotaz „{query}“",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapSortOrderDownloadSizeAsc": "Velikost (od nejmenší po největší)",
+    "unknownPublisher": "Neznámý vydavatel",
+    "snapCategoryUbuntuDesktopSlogan": "Vylepšete své uživatelské prostředí",
+    "snapActionUpdatingLabel": "Aktualizace",
+    "searchPageRelevanceLabel": "Relevance",
+    "snapSortOrderAlphabeticalAsc": "Abecedně (od A do Z)",
+    "managePageNoUpdatesAvailableDescription": "Nejsou k dispozici žádné aktualizace. Všechny vaše aplikace jsou aktuální.",
+    "snapSortOrderRelevance": "Relevance",
+    "snapSortOrderDownloadSizeDesc": "Velikost (od největší po nejmenší)",
+    "appstreamUrlTypeBugtracker": "Správa hlášení chyb",
+    "managePageShowSystemSnapsLabel": "Zobrazit systémové snap balíčky",
+    "searchPageFilterByLabel": "Filtrovat podle",
+    "snapSortOrderInstalledDateDesc": "Nejnověji aktualizované",
+    "appCenterLabel": "Centrum aplikací",
+    "snapPageShareLinkCopiedMessage": "Odkaz zkopírován do schránky",
+    "gamesPageFeatured": "Vybrané tituly",
+    "snapCategoryGameDevSlogan": "Vývoj her",
+    "snapCategoryGameEmulators": "Emulátory",
+    "snapCategoryGnomeGames": "Hry GNOME",
+    "snapCategoryGnomeGamesSlogan": "Sada her GNOME",
+    "snapCategoryGameLaunchers": "Spouštěče her",
+    "snapCategoryGameContentCreation": "Tvorba obsahu",
+    "snapCategoryGameContentCreationSlogan": "Tvorba obsahu",
+    "snapReportLabel": "Nahlásit {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportOptionCopyrightViolation": "Porušení autorských práv nebo ochranné známky",
+    "snapReportDetailsLabel": "Uveďte prosím podrobnější důvod svého hlášení",
+    "snapReportOptionalEmailAddressLabel": "Váš e-mail (volitelné)",
+    "snapReportEnterValidEmailError": "Zadejte platnou e-mailovou adresu",
+    "snapReportPrivacyAgreementAndLabel": "a ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "zásadami ochrany osobních údajů",
+    "gamesPageTitle": "Hry",
+    "gamesPageTop": "Nejlépe hodnocené",
+    "gamesPageBundles": "Balíčky aplikací",
+    "snapCategoryGameDev": "Vývoj her",
+    "snapCategoryGameEmulatorsSlogan": "Emulátory",
+    "snapCategoryKdeGames": "Hry KDE",
+    "snapCategoryKdeGamesSlogan": "Sada her KDE",
+    "snapCategoryGameLaunchersSlogan": "Spouštěče her",
+    "snapReportSelectReportReasonLabel": "Vyberte důvod nahlášení tohoto snapu",
+    "snapReportSelectAnOptionLabel": "Vyberte možnost",
+    "snapReportOptionStoreViolation": "Porušení podmínek služby Snap Store",
+    "snapReportCancelButtonLabel": "Zrušit",
+    "snapReportSubmitButtonLabel": "Odeslat hlášení",
+    "snapReportDetailsHint": "Komentář…",
+    "snapReportPrivacyAgreementLabel": "Odesláním tohoto formuláře potvrzuji, že jsem četl(a) a souhlasím s ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "prohlášením společnosti Canonical o ochraně osobních údajů ",
+    "externalResources": "Další zdroje",
+    "externalResourcesDisclaimer": "Poznámka: Všechny tyto nástroje jsou externí. Nejsou vlastněny ani distribuovány společností Canonical.",
+    "openInBrowser": "Otevřít v prohlížeči",
+    "installAll": "Nainstalovat vše",
+    "debPageErrorNoPackageInfo": "Nenalezeny žádné informace o balíčku",
+    "externalResourcesButtonLabel": "Objevit více",
+    "allGamesButtonLabel": "Všechny hry",
+    "managePageUpdatedWeeksAgo": "Aktualizováno před {n, plural, =1{{n} týdnem} other{{n} týdny}}",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "Aktualizováno před {n, plural, =1{{n} měsícem} other{{n} měsíci}}",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Aktualizováno před {n, plural, =1{{n} rokem} other{{n} lety}}",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "appstreamUrlTypeContribute": "Zapojit se",
+    "appstreamUrlTypeVcsBrowser": "Zdrojový kód",
+    "localDebWarningBody": "Tento balíček poskytuje třetí strana. Instalace balíčků mimo Centrum aplikací může zvýšit riziko pro váš systém a osobní data. Než budete pokračovat, ujistěte se, že zdroji důvěřujete.",
+    "snapPageSizeLabel": "Velikost",
+    "localDebWarningTitle": "Potenciálně nebezpečné",
+    "localDebLearnMore": "Dozvědět se více o balíčcích třetích stran",
+    "localDebDialogMessage": "Tento balíček je poskytován třetí stranou a může ohrozit váš systém a osobní data.",
+    "localDebDialogConfirmation": "Opravdu ho chcete nainstalovat?",
+    "managePageDebUpdatesMessage": "Aktualizace balíčků Debian zajišťuje Správce aktualizací.",
+    "snapActionInstalledLabel": "Nainstalováno",
+    "snapdExceptionRunningApps": "Nebylo možné aktualizovat {snapName}, protože je aktuálně spuštěné.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "Zkontrolovat stav",
+    "errorViewNetworkErrorTitle": "Připojit k Internetu",
+    "errorViewNetworkErrorDescription": "Bez připojení k Internetu není možné načíst obsah Centra aplikací.",
+    "errorViewNetworkErrorAction": "Zkontrolujte připojení a zkuste to znovu.",
+    "errorViewServerErrorDescription": "Je nám líto, ale v současné době dochází k problémům s Centrem aplikací.",
+    "errorViewServerErrorAction": "Zkontrolujte aktualizace stavu nebo to zkuste znovu později.",
+    "errorViewUnknownErrorTitle": "Něco se nepovedlo",
+    "errorViewUnknownErrorDescription": "Je nám líto, ale nejsme si jisti, o jakou chybu se jedná.",
+    "errorViewUnknownErrorAction": "Můžete to nyní zopakovat, zkontrolovat aktualizace stavu nebo to zkusit znovu později.",
+    "managePageOwnUpdateAvailable": "Je k dispozici aktualizace Centra aplikací",
+    "managePageOwnUpdateDescription": "Když aplikaci ukončíte, bude automaticky aktualizována.",
+    "managePageOwnUpdateDescriptionSoon": "Centrum aplikací se automaticky aktualizuje za {time}.",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageNoInternet": "Nelze se připojit k serveru – zkontrolujte připojení k Internetu nebo to zkuste znovu později.",
+    "managePageOwnUpdateQuitButton": "Ukončit pro aktualizaci",
+    "managePageQuitToUpdate": "Ukončit pro aktualizaci",
+    "managePageTitle": "Spravovat nainstalované snap balíčky",
+    "managePageUpdatesFailed": "{n, plural, =1{Jedna neúspěšná aktualizace} other{{n} neúspěšných aktualizací}}",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "Tyto aplikace nebylo možné aktualizovat, protože jsou v tuto chvíli spuštěné.\n\n{snapList}\nAž aplikace ukončíte, automaticky budou aktualizovány.",
+    "snapCategoryArtAndDesignButtonLabel": "Začněte tvořit",
+    "snapCategoryArtAndDesignSlogan": "Prozkoumejte aplikace pro umění a design – pro vše od prvotního náčrtu až po doladění detailů.",
+    "managePageInstallingLabel": "Instaluje se ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageDocumentationLinkLabel": "V dokumentaci se dozvíte, jak spravovat balíčky Debian.",
+    "debPageDocumentationLinkLabel": "Zjistěte, jak spravovat balíčky Debian",
+    "snapPageReportSemanticLabel": "Nahlásit",
+    "debPageShareSemanticLabel": "Zkopírovat odkaz",
+    "snapPageGalleryImageSemanticLabel": "Obrázek {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageGalleryPreviousSemanticLabel": "Předchozí obrázek",
+    "snapPageShareSemanticLabel": "Zkopírovat odkaz",
+    "sectionCollapseSemanticLabel": "Sbalit {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareLinkCopiedMessage": "Odkaz zkopírován do schránky",
+    "sectionExpandSemanticLabel": "Rozbalit {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageGalleryNextSemanticLabel": "Další obrázek",
+    "appCardPublisherSemanticLabel": "Vydal {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Hodnocení {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "codecPageTitle": "Chybějící kodeky multimédií",
+    "codecPageDescription": "Potřebujete nainstalovat následující kodeky pro obsluhování určitých formátů videa a zvuku:",
+    "codecProprietaryDisclaimer": "Některé z doporučovaných kodeků by mohly být proprietární.",
+    "codecInstallAllButton": "Nainstalovat doporučené kodeky",
+    "snapActionRevertLabel": "Vrátit aktualizaci",
+    "snapActionRevertingLabel": "Vracení aktualizace",
+    "snapRevertConfirmTitle": "Vrátit se k předchozí verzi?",
+    "snapRevertConfirmMessage": "Automatické aktualizace se obnoví, jakmile bude k dispozici nová verze.",
+    "snapRevertConfirmRevert": "Vrátit zpět",
+    "snapRevertConfirmCancel": "Zrušit",
+    "snapRevertConfirmTitleWithVersions": "Vrátit z verze {currentVersion} (rev {currentRevision}) na {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Není k dispozici žádná předchozí lokální revize, ke které by se dalo vrátit."
 }
