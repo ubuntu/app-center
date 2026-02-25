@@ -40,19 +40,34 @@ class DebModel extends ChangeNotifier {
   PackageKitPackageInfo? packageInfo;
   bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
 
+  bool hasUpdate = false;
+
   Stream<PackageKitServiceError> get errorStream => packageKit.errorStream;
 
   Future<void> init() async {
     _state = await AsyncValue.guard(() async {
       await packageKit.activateService();
       await _getPackageInfo();
-
-      notifyListeners();
     });
   }
 
   Future<void> _getPackageInfo() async {
     packageInfo = await packageKit.resolve(component.package ?? id);
+
+    final detailsEvent = await packageKit.getUpdates(packageInfo!.packageId);
+    // a package will list itself in its updates if its up-to-date, so ignore those
+    final updates =
+        detailsEvent?.updates.where((pid) => pid != packageInfo?.packageId);
+    var hasUpdate = false;
+
+    for (final packageUpdate in updates ?? <PackageKitPackageId>[]) {
+      final package = await packageKit.resolve(packageUpdate.toString());
+      hasUpdate = package?.info == PackageKitInfo.installed;
+      break;
+    }
+
+    this.hasUpdate = hasUpdate;
+    notifyListeners();
   }
 
   Future<void> _packageKitAction(Future<int> Function() action) async {
@@ -73,6 +88,11 @@ class DebModel extends ChangeNotifier {
   Future<void> remove() {
     assert(packageInfo != null);
     return _packageKitAction(() => packageKit.remove(packageInfo!.packageId));
+  }
+
+  Future<void> update() {
+    assert(packageInfo != null);
+    return _packageKitAction(() => packageKit.update(packageInfo!.packageId));
   }
 
   Future<void> cancel() async {

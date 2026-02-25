@@ -113,6 +113,7 @@ DebModel createMockDebModel({
   PackageKitPackageInfo? packageInfo,
   AsyncValue<void>? state,
   Stream<PackageKitServiceError>? errorStream,
+  bool? hasUpdate,
 }) {
   final model = MockDebModel();
   when(model.id).thenReturn(id ?? '');
@@ -130,6 +131,7 @@ DebModel createMockDebModel({
   when(model.packageInfo).thenReturn(packageInfo);
   when(model.isInstalled)
       .thenReturn(packageInfo?.info == PackageKitInfo.installed);
+  when(model.hasUpdate).thenReturn(hasUpdate ?? false);
   when(model.activeTransactionId).thenReturn(null);
   when(model.errorStream)
       .thenAnswer((_) => errorStream ?? const Stream.empty());
@@ -380,6 +382,7 @@ MockAppstreamService createMockAppstreamService({
 MockPackageKitService createMockPackageKitService({
   PackageKitPackageInfo? packageInfo,
   PackageKitPackageDetails? packageDetails,
+  PackageKitUpdateDetailEvent? packageUpdates,
   Iterable<PackageKitPackageEvent>? packageEvents,
   int transactionId = 0,
   Future<void>? waitTransaction,
@@ -391,6 +394,8 @@ MockPackageKitService createMockPackageKitService({
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installAll(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installLocal(any)).thenAnswer((_) async => transactionId);
+  when(packageKit.getUpdates(any)).thenAnswer((_) async => packageUpdates);
+  when(packageKit.update(any)).thenAnswer((_) async => transactionId);
   when(packageKit.whatProvides(any)).thenAnswer((_) async => packageEvents!);
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);
   when(packageKit.errorStream).thenAnswer((_) => errorStream);

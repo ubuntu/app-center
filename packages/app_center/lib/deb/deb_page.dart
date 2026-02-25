@@ -157,8 +157,12 @@ class _DebActionButtons extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
 
-    final primaryAction =
-        debModel.isInstalled ? DebAction.remove : DebAction.install;
+    final primaryAction = debModel.hasUpdate
+        ? DebAction.update
+        : debModel.isInstalled
+            ? DebAction.remove
+            : DebAction.install;
+
     final primaryActionButton = SizedBox(
       width: kPrimaryButtonMaxWidth,
       child: PushButton.elevated(
@@ -207,11 +211,13 @@ class _DebActionButtons extends ConsumerWidget {
 enum DebAction {
   cancel,
   install,
+  update,
   remove;
 
   String label(AppLocalizations l10n) => switch (this) {
         cancel => l10n.snapActionCancelLabel,
         install => l10n.snapActionInstallLabel,
+        update => l10n.snapActionUpdateLabel,
         remove => l10n.snapActionRemoveLabel,
       };
 
@@ -223,6 +229,7 @@ enum DebAction {
   VoidCallback? callback(DebModel model) => switch (this) {
         cancel => model.cancel,
         install => model.install,
+        update => model.update,
         remove => model.remove,
       };
 }
