@@ -169,6 +169,10 @@ class PackageKitService {
         action: (transaction) => transaction.removePackages([packageId]),
       );
 
+  Future<int> update(PackageKitPackageId packageId) async => _createTransaction(
+        action: (transaction) => transaction.updatePackages([packageId]),
+      );
+
   static Future<String> _getNativeArchitecture() async {
     final snapArch = Platform.environment['SNAP_ARCH'];
     if (snapArch != null) {
@@ -206,6 +210,24 @@ class PackageKitService {
       );
     }
     return info;
+  }
+
+  Future<PackageKitUpdateDetailEvent?> getUpdates(
+    PackageKitPackageId packageId,
+  ) async {
+    PackageKitUpdateDetailEvent? details;
+    await _createTransaction(
+      action: (transaction) => transaction.getUpdateDetail([packageId]),
+      listener: (event) {
+        if (event is PackageKitUpdateDetailEvent) {
+          details = event;
+        }
+      },
+    ).then(waitTransaction);
+    if (details == null) {
+      log.error('Couldn\'t get update details for package $packageId');
+    }
+    return details;
   }
 
   Future<PackageKitPackageDetails?> getDetailsLocal(String path) async {

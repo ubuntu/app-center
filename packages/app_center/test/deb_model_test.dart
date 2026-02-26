@@ -62,6 +62,34 @@ void main() {
       ),
     ).called(1);
   });
+
+  test('update', () async {
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+      packageUpdates:
+          PackageKitUpdateDetailEvent(packageId: packageInfo.packageId),
+    );
+    final appstream = createMockAppstreamService(component: component);
+    final model = DebModel(
+      appstream: appstream,
+      packageKit: packageKit,
+      id: 'testdeb',
+    );
+
+    await model.init();
+    await model.update();
+
+    verify(
+      packageKit.update(
+        const PackageKitPackageId(
+          name: 'testdeb',
+          version: '1.0',
+        ),
+      ),
+    ).called(1);
+  });
+
   test('remove', () async {
     final packageKit = createMockPackageKitService(
       packageInfo: packageInfo,
