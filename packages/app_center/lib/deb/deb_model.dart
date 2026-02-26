@@ -40,7 +40,8 @@ class DebModel extends ChangeNotifier {
   PackageKitPackageInfo? packageInfo;
   bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
 
-  bool hasUpdate = false;
+  bool _hasUpdate = false;
+  bool get hasUpdate => _hasUpdate;
 
   Stream<PackageKitServiceError> get errorStream => packageKit.errorStream;
 
@@ -48,6 +49,7 @@ class DebModel extends ChangeNotifier {
     _state = await AsyncValue.guard(() async {
       await packageKit.activateService();
       await _getPackageInfo();
+      notifyListeners();
     });
   }
 
@@ -66,8 +68,7 @@ class DebModel extends ChangeNotifier {
       break;
     }
 
-    this.hasUpdate = hasUpdate;
-    notifyListeners();
+    _hasUpdate = hasUpdate;
   }
 
   Future<void> _packageKitAction(Future<int> Function() action) async {
