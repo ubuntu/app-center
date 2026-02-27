@@ -1,5 +1,4 @@
 import 'package:app_center/appstream/appstream.dart';
-import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/deb_page.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:appstream/appstream.dart';
@@ -28,15 +27,11 @@ const component = AppstreamComponent(
 
 void main() {
   testWidgets('metadata', (tester) async {
-    final debModel = createMockDebModel(
-      id: 'testdeb',
-      component: component,
-      packageInfo: packageInfo,
-    );
+    createMockPackageKitService(packageInfo: packageInfo);
+    createMockAppstreamService(component: component);
 
     await tester.pumpApp(
       (_) => ProviderScope(
-        overrides: [debModelProvider.overrideWith((_, __) => debModel)],
         child: const DebPage(id: 'testdeb'),
       ),
     );
@@ -49,9 +44,7 @@ void main() {
   });
 
   testWidgets('error dialog', (tester) async {
-    final debModel = createMockDebModel(
-      id: 'testdeb',
-      component: component,
+    createMockPackageKitService(
       packageInfo: packageInfo,
       errorStream: Stream.value(
         const PackageKitServiceError(
@@ -60,14 +53,14 @@ void main() {
         ),
       ),
     );
+    createMockAppstreamService(component: component);
 
     await tester.pumpApp(
       (_) => ProviderScope(
-        overrides: [debModelProvider.overrideWith((_, __) => debModel)],
         child: const DebPage(id: 'testdeb'),
       ),
     );
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     expect(find.text('internal error'), findsOneWidget);
     expect(

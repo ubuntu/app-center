@@ -1,6 +1,7 @@
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:appstream/appstream.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
@@ -24,18 +25,19 @@ const component = AppstreamComponent(
 void main() {
   test('init', () async {
     final packageKit = createMockPackageKitService(packageInfo: packageInfo);
-    final appstream = createMockAppstreamService(component: component);
-    final model = DebModel(
-      appstream: appstream,
-      packageKit: packageKit,
-      id: 'testdeb',
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final provider = container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
     );
 
-    await model.init();
-
     verify(packageKit.activateService()).called(1);
-    expect(model.state.hasValue, isTrue);
-    expect(model.packageInfo, equals(packageInfo));
+
+    expect(provider.read().hasValue, isTrue);
+    expect(provider.read().value!.packageInfo, equals(packageInfo));
   });
 
   test('install', () async {
@@ -43,15 +45,16 @@ void main() {
       packageInfo: packageInfo,
       transactionId: 42,
     );
-    final appstream = createMockAppstreamService(component: component);
-    final model = DebModel(
-      appstream: appstream,
-      packageKit: packageKit,
-      id: 'testdeb',
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
     );
 
-    await model.init();
-    await model.install();
+    await container.read(debModelProvider('testdeb').notifier).installDeb();
 
     verify(
       packageKit.install(
@@ -70,15 +73,16 @@ void main() {
       packageUpdates:
           PackageKitUpdateDetailEvent(packageId: packageInfo.packageId),
     );
-    final appstream = createMockAppstreamService(component: component);
-    final model = DebModel(
-      appstream: appstream,
-      packageKit: packageKit,
-      id: 'testdeb',
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
     );
 
-    await model.init();
-    await model.update();
+    await container.read(debModelProvider('testdeb').notifier).updateDeb();
 
     verify(
       packageKit.update(
@@ -95,15 +99,16 @@ void main() {
       packageInfo: packageInfo,
       transactionId: 42,
     );
-    final appstream = createMockAppstreamService(component: component);
-    final model = DebModel(
-      appstream: appstream,
-      packageKit: packageKit,
-      id: 'testdeb',
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
     );
 
-    await model.init();
-    await model.remove();
+    await container.read(debModelProvider('testdeb').notifier).removeDeb();
 
     verify(
       packageKit.remove(
@@ -116,7 +121,7 @@ void main() {
   });
 
   test('error stream', () async {
-    final packageKit = createMockPackageKitService(
+    createMockPackageKitService(
       packageInfo: packageInfo,
       errorStream: Stream.value(
         const PackageKitServiceError(
@@ -125,22 +130,24 @@ void main() {
         ),
       ),
     );
-    final appstream = createMockAppstreamService(component: component);
-    final model = DebModel(
-      appstream: appstream,
-      packageKit: packageKit,
-      id: 'testdeb',
+    createMockAppstreamService(component: component);
+    final container = ProviderContainer();
+    final provider = container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
     );
 
-    model.errorStream.listen(
-      expectAsync1<void, PackageKitServiceError>(
-        (e) {
-          expect(e.code, equals(PackageKitError.noNetwork));
-          expect(e.details, equals('error details'));
-        },
-      ),
+    expect(provider.read().value?.error, isNotNull);
+    expect(
+      provider.read().value!.error!.code,
+      equals(PackageKitError.noNetwork),
     );
-    await model.init();
+    expect(
+      provider.read().value!.error!.details,
+      equals('error details'),
+    );
   });
 
   // TODO: test `activeTransactionId` and `cancel()`
