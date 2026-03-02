@@ -3,63 +3,99 @@ import 'dart:async';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:appstream/appstream.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-final debModelProvider =
-    ChangeNotifierProvider.family.autoDispose<DebModel, String>(
-  (ref, id) => DebModel(
-    appstream: getService<AppstreamService>(),
-    packageKit: getService<PackageKitService>(),
-    id: id,
-  )..init(),
-);
+part 'deb_model.freezed.dart';
+part 'deb_model.g.dart';
 
-class DebModel extends ChangeNotifier {
-  DebModel({
-    required this.appstream,
-    required this.packageKit,
-    required this.id,
-  })  : _state = const AsyncValue.loading(),
-        component = appstream.getFromId(id),
-        assert(appstream.initialized, 'appstream has not been initialized');
+@freezed
+class DebData with _$DebData {
+  factory DebData({
+    required String id,
+    required AppstreamComponent component,
+    required bool hasUpdate,
+    required StreamSubscription<PackageKitServiceError> errorStream,
+    PackageKitPackageEvent? packageInfo,
+    int? activeTransactionId,
+    PackageKitServiceError? error,
+  }) = _DebData;
 
-  final AppstreamService appstream;
-  final PackageKitService packageKit;
-  final String id;
-  final AppstreamComponent component;
+  DebData._();
 
-  int? get activeTransactionId => _activeTransactionId;
-  int? _activeTransactionId;
-
-  AsyncValue<void> get state => _state;
-  AsyncValue<void> _state;
-
-  PackageKitPackageInfo? packageInfo;
   bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
+}
 
-  bool _hasUpdate = false;
-  bool get hasUpdate => _hasUpdate;
+@riverpod
+class DebModel extends _$DebModel {
+  final packageKit = getService<PackageKitService>();
 
-  Stream<PackageKitServiceError> get errorStream => packageKit.errorStream;
+  @override
+  Future<DebData> build(String id) async {
+    final appstream = getService<AppstreamService>();
+    final component = appstream.getFromId(id);
 
-  Future<void> init() async {
-    _state = await AsyncValue.guard(() async {
-      await packageKit.activateService();
-      await _getPackageInfo();
-      notifyListeners();
-    });
+    await packageKit.activateService();
+
+    final packageInfo = await _getPackageInfo(component);
+    final hasUpdate = await _getUpdates(packageInfo!);
+
+    final errorListener = packageKit.errorStream.listen(_onError);
+    ref.onDispose(errorListener.cancel);
+
+    return DebData(
+      id: id,
+      component: component,
+      packageInfo: packageInfo,
+      hasUpdate: hasUpdate,
+      errorStream: errorListener,
+    );
   }
 
-  Future<void> _getPackageInfo() async {
-    packageInfo = await packageKit.resolve(component.package ?? id);
+  Future<void> installDeb() {
+    assert(state.valueOrNull?.packageInfo != null);
+    return _packageKitAction(
+      () => packageKit.install(state.value!.packageInfo!.packageId),
+    );
+  }
 
-    final detailsEvent = await packageKit.getUpdates(packageInfo!.packageId);
+  Future<void> removeDeb() {
+    assert(state.valueOrNull?.packageInfo != null);
+    return _packageKitAction(
+      () => packageKit.remove(state.value!.packageInfo!.packageId),
+    );
+  }
+
+  Future<void> updateDeb() {
+    assert(state.valueOrNull?.packageInfo != null);
+    return _packageKitAction(
+      () => packageKit.update(state.value!.packageInfo!.packageId),
+    );
+  }
+
+  Future<void> cancelTransaction() async {
+    if (state.value?.activeTransactionId == null) return;
+    await packageKit.cancelTransaction(state.value!.activeTransactionId!);
+  }
+
+  Future<void> _onError(PackageKitServiceError error) async {
+    state = AsyncValue.data(state.value!.copyWith(error: error));
+  }
+
+  Future<PackageKitPackageEvent?> _getPackageInfo(
+    AppstreamComponent component,
+  ) async {
+    final packageInfo = await packageKit.resolve(component.package ?? id);
+    return packageInfo;
+  }
+
+  Future<bool> _getUpdates(PackageKitPackageEvent packageInfo) async {
+    final detailsEvent = await packageKit.getUpdates(packageInfo.packageId);
     // a package will list itself in its updates if its up-to-date, so ignore those
     final updates =
-        detailsEvent?.updates.where((pid) => pid != packageInfo?.packageId);
+        detailsEvent?.updates.where((pid) => pid != packageInfo.packageId);
     var hasUpdate = false;
 
     for (final packageUpdate in updates ?? <PackageKitPackageId>[]) {
@@ -68,36 +104,15 @@ class DebModel extends ChangeNotifier {
       break;
     }
 
-    _hasUpdate = hasUpdate;
+    return hasUpdate;
   }
 
   Future<void> _packageKitAction(Future<int> Function() action) async {
     final transactionId = await action.call();
-    _activeTransactionId = transactionId;
-    notifyListeners();
+    state = AsyncValue.data(
+      state.value!.copyWith(activeTransactionId: transactionId),
+    );
     await packageKit.waitTransaction(transactionId);
-    await _getPackageInfo();
-    _activeTransactionId = null;
-    notifyListeners();
-  }
-
-  Future<void> install() {
-    assert(packageInfo != null);
-    return _packageKitAction(() => packageKit.install(packageInfo!.packageId));
-  }
-
-  Future<void> remove() {
-    assert(packageInfo != null);
-    return _packageKitAction(() => packageKit.remove(packageInfo!.packageId));
-  }
-
-  Future<void> update() {
-    assert(packageInfo != null);
-    return _packageKitAction(() => packageKit.update(packageInfo!.packageId));
-  }
-
-  Future<void> cancel() async {
-    if (activeTransactionId == null) return;
-    await packageKit.cancelTransaction(activeTransactionId!);
+    ref.invalidateSelf();
   }
 }

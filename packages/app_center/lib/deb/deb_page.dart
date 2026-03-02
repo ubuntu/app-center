@@ -16,53 +16,43 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:packagekit/packagekit.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
 
-class DebPage extends ConsumerStatefulWidget {
+class DebPage extends ConsumerWidget {
   const DebPage({required this.id, super.key});
+
   final String id;
 
-  @override
-  ConsumerState<DebPage> createState() => _DebPageState();
-}
-
-class _DebPageState extends ConsumerState<DebPage> {
-  StreamSubscription<PackageKitErrorCodeEvent>? _errorSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _errorSubscription =
-        ref.read(debModelProvider(widget.id)).errorStream.listen(showError);
-  }
-
-  @override
-  void dispose() {
-    _errorSubscription?.cancel();
-    _errorSubscription = null;
-    super.dispose();
-  }
-
-  Future<void> showError(PackageKitServiceError e) => showErrorDialog(
+  Future<void> showError(BuildContext context, PackageKitServiceError e) =>
+      showErrorDialog(
         context: context,
         title: 'PackageKit error: ${e.code}',
         message: e.details,
       );
+
   @override
-  Widget build(BuildContext context) {
-    final debModel = ref.watch(debModelProvider(widget.id));
-    return debModel.state.when(
-      data: (_) => ResponsiveLayoutBuilder(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final debModel = ref.watch(debModelProvider(id));
+
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => debModel.whenOrNull(
+        data: (data) {
+          if (data.error == null) return;
+          showError(context, data.error!);
+        },
+      ),
+    );
+
+    return debModel.when(
+      data: (data) => ResponsiveLayoutBuilder(
         builder: (context) => _DebView(
-          debModel: debModel,
+          debModel: data,
         ),
       ),
       error: (error, stackTrace) => ErrorView(
         error: error,
-        onRetry: () => ref.invalidate(debModelProvider(widget.id)),
+        onRetry: () => ref.invalidate(debModelProvider(id)),
       ),
       loading: () => const Center(child: YaruCircularProgressIndicator()),
     );
@@ -72,7 +62,7 @@ class _DebPageState extends ConsumerState<DebPage> {
 class _DebView extends StatelessWidget {
   const _DebView({required this.debModel});
 
-  final DebModel debModel;
+  final DebData debModel;
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +141,7 @@ class _DebView extends StatelessWidget {
 class _DebActionButtons extends ConsumerWidget {
   const _DebActionButtons({required this.debModel});
 
-  final DebModel debModel;
+  final DebData debModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -168,7 +158,7 @@ class _DebActionButtons extends ConsumerWidget {
       child: PushButton.elevated(
         onPressed: debModel.activeTransactionId != null
             ? null
-            : primaryAction.callback(debModel),
+            : primaryAction.callback(ref, debModel),
         child: debModel.activeTransactionId != null
             ? Consumer(
                 builder: (context, ref, child) {
@@ -191,7 +181,7 @@ class _DebActionButtons extends ConsumerWidget {
     );
 
     final cancelButton = OutlinedButton(
-      onPressed: DebAction.cancel.callback(debModel),
+      onPressed: DebAction.cancel.callback(ref, debModel),
       child: Text(DebAction.cancel.label(l10n)),
     );
 
@@ -226,18 +216,21 @@ enum DebAction {
         _ => null,
       };
 
-  VoidCallback? callback(DebModel model) => switch (this) {
-        cancel => model.cancel,
-        install => model.install,
-        update => model.update,
-        remove => model.remove,
-      };
+  VoidCallback? callback(WidgetRef ref, DebData data) {
+    final provider = ref.read(debModelProvider(data.id).notifier);
+    return switch (this) {
+      cancel => provider.cancelTransaction,
+      install => provider.installDeb,
+      update => provider.updateDeb,
+      remove => provider.removeDeb,
+    };
+  }
 }
 
 class _Header extends ConsumerWidget {
   const _Header({required this.debModel});
 
-  final DebModel debModel;
+  final DebData debModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

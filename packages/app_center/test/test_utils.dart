@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:app_center/appstream/appstream.dart';
-import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/gstreamer/gstreamer_model.dart';
 import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:app_center/l10n.dart';
@@ -104,38 +103,6 @@ SnapLauncher createMockSnapLauncher({
   final launcher = MockSnapLauncher();
   when(launcher.isLaunchable).thenReturn(isLaunchable);
   return launcher;
-}
-
-@GenerateMocks([DebModel])
-DebModel createMockDebModel({
-  String? id,
-  AppstreamComponent? component,
-  PackageKitPackageInfo? packageInfo,
-  AsyncValue<void>? state,
-  Stream<PackageKitServiceError>? errorStream,
-  bool? hasUpdate,
-}) {
-  final model = MockDebModel();
-  when(model.id).thenReturn(id ?? '');
-  when(model.state).thenReturn(state ?? AsyncValue.data(() {}()));
-  when(model.component).thenReturn(
-    component ??
-        const AppstreamComponent(
-          id: '',
-          type: AppstreamComponentType.desktopApplication,
-          package: '',
-          name: {'C': ''},
-          summary: {'C': ''},
-        ),
-  );
-  when(model.packageInfo).thenReturn(packageInfo);
-  when(model.isInstalled)
-      .thenReturn(packageInfo?.info == PackageKitInfo.installed);
-  when(model.hasUpdate).thenReturn(hasUpdate ?? false);
-  when(model.activeTransactionId).thenReturn(null);
-  when(model.errorStream)
-      .thenAnswer((_) => errorStream ?? const Stream.empty());
-  return model;
 }
 
 @GenerateMocks([GstreamerModel])
@@ -375,6 +342,9 @@ MockAppstreamService createMockAppstreamService({
           summary: {},
         ),
   );
+
+  registerMockService<AppstreamService>(appstream);
+  addTearDown(unregisterService<AppstreamService>);
   return appstream;
 }
 
@@ -401,6 +371,9 @@ MockPackageKitService createMockPackageKitService({
   when(packageKit.errorStream).thenAnswer((_) => errorStream);
   when(packageKit.waitTransaction(any))
       .thenAnswer((_) async => waitTransaction);
+
+  registerMockService<PackageKitService>(packageKit);
+  addTearDown(unregisterService<PackageKitService>);
   return packageKit;
 }
 
