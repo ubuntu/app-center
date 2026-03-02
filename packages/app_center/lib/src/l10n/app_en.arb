@@ -190,12 +190,19 @@
     "aboutPagePublishLabel": "Publish to the Snap Store",
     "aboutPageLearnMoreLabel": "Learn more",
     "appstreamUrlTypeBugtracker": "Bugtracker",
-    "appstreamUrlTypeContact": "Contact",
+    "appstreamUrlTypeContact": "Contact {publisher}",
+    "@appstreamUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
     "appstreamUrlTypeContribute": "Contribute",
     "appstreamUrlTypeDonation": "Donate",
     "appstreamUrlTypeFaq": "FAQ",
     "appstreamUrlTypeHelp": "Help",
-    "appstreamUrlTypeHomepage": "Homepage",
+    "appstreamUrlTypeHomepage": "Developer website",
     "appstreamUrlTypeTranslate": "Translations",
     "appstreamUrlTypeVcsBrowser": "Source",
     "packageFormatDebLabel": "Debian packages",
