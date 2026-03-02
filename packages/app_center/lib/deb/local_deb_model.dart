@@ -1,4 +1,6 @@
+import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:appstream/appstream.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -8,7 +10,7 @@ part 'local_deb_model.freezed.dart';
 part 'local_deb_model.g.dart';
 
 @freezed
-class LocalDebData with _$LocalDebData {
+class LocalDebData extends AppMetadata with _$LocalDebData {
   factory LocalDebData({
     required String path,
     required PackageKitDetailsEvent details,
@@ -19,6 +21,29 @@ class LocalDebData with _$LocalDebData {
   LocalDebData._();
 
   bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
+
+  @override
+  AppConfinement? get confinement => AppConfinement.fromDeb();
+
+  @override
+  String? get publisher => details.packageId.name;
+
+  @override
+  int? get downloadSize => details.size;
+
+  @override
+  String? get license => details.license;
+
+  @override
+  Map<AppstreamUrlType, String>? get links => {
+        AppstreamUrlType.homepage: details.url,
+      };
+
+  @override
+  DateTime? get published => null;
+
+  @override
+  String? get version => details.packageId.version;
 }
 
 @riverpod
