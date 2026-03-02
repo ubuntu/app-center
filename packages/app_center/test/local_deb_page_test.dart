@@ -44,7 +44,7 @@ void main() {
     expect(find.text('description'), findsOneWidget);
     expect(find.text('license'), findsOneWidget);
     expect(find.text(tester.context.formatByteSize(42)), findsOneWidget);
-    expect(find.text('url'), findsOneWidget);
+    expect(find.text(tester.l10n.appstreamUrlTypeHomepage), findsOneWidget);
     expect(find.button(tester.l10n.snapActionInstallLabel), findsOneWidget);
   });
 
