@@ -349,10 +349,10 @@
     "codecPageTitle": "Chýbajúce multimediálne kodeky",
     "codecProprietaryDisclaimer": "Niektoré odporúčané kodeky môžu vyžadovať samostatnú licenciu.",
     "codecInstallAllButton": "Nainštalovať odporúčané kodeky",
-    "snapActionRevertLabel": "Vrátiť aktualizáciu",
-    "snapActionRevertingLabel": "Vracia sa aktualizácia",
-    "snapRevertConfirmTitle": "Vrátiť sa k predchádzajúcej verzii?",
-    "snapRevertConfirmMessage": "Automatické aktualizácie sa obnovia, keď bude dostupná nová verzia.",
+    "snapActionRevertLabel": "Vrátiť verziu",
+    "snapActionRevertingLabel": "Prebieha návrat",
+    "snapRevertConfirmTitle": "Vrátiť staršiu verziu?",
+    "snapRevertConfirmMessage": "Automatické aktualizácie sa obnovia po vydaní novej verzie.",
     "snapRevertConfirmRevert": "Vrátiť",
     "snapRevertConfirmCancel": "Zrušiť",
     "snapRevertConfirmTitleWithVersions": "Vrátiť z {currentVersion} (rev {currentRevision}) na {previousVersion} (rev {previousRevision})?",
@@ -372,5 +372,5 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Nie je dostupná žiadna predchádzajúca lokálna revízia, ku ktorej by sa dalo vrátiť."
+    "snapRevertNoPreviousRevisionMessage": "Žiadna staršia verzia nie je k dispozícii."
 }
