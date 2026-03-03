@@ -369,8 +369,8 @@
     },
     "snapRevertConfirmCancel": "Annuler",
     "snapRevertConfirmMessage": "Les mises à jour automatiques reprendront lorsqu'une nouvelle version sera disponible.",
-    "snapRevertConfirmTitle": "Retourner à la version précédente ?",
+    "snapRevertConfirmTitle": "Retourner à version précédente ?",
     "snapActionRevertLabel": "Défaire la mise à jour",
-    "snapActionRevertingLabel": "Annulation de la mise à jour",
+    "snapActionRevertingLabel": "Annulation mise à jour",
     "snapRevertConfirmRevert": "Défaire"
 }
