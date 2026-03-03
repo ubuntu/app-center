@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:appstream/appstream.dart';
@@ -12,7 +13,7 @@ part 'deb_model.freezed.dart';
 part 'deb_model.g.dart';
 
 @freezed
-class DebData with _$DebData {
+class DebData extends AppMetadata with _$DebData {
   factory DebData({
     required String id,
     required AppstreamComponent component,
@@ -26,6 +27,36 @@ class DebData with _$DebData {
   DebData._();
 
   bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
+
+  @override
+  AppConfinement? get confinement => AppConfinement.fromDeb();
+
+  @override
+  String? get publisher => component.getLocalizedName();
+
+  @override
+  int? get downloadSize => null;
+
+  @override
+  String? get license => component.projectLicense;
+
+  @override
+  Map<AppstreamUrlType, String>? get links => Map.fromEntries(
+        component.urls
+            .where(
+              (url) => [
+                AppstreamUrlType.contact,
+                AppstreamUrlType.homepage,
+              ].contains(url.type),
+            )
+            .map((url) => MapEntry(url.type, url.url)),
+      );
+
+  @override
+  DateTime? get published => null;
+
+  @override
+  String? get version => packageInfo?.packageId.version ?? '';
 }
 
 @riverpod

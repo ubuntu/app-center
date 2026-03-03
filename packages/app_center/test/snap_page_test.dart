@@ -1,3 +1,4 @@
+import 'package:app_center/apps/apps.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -89,7 +90,9 @@ void expectSnapInfos(
   final snapChannel = snap.channels[channel];
   if (snapChannel != null) {
     expect(
-      find.text(snapChannel.confinement.localize(tester.l10n)),
+      find.text(
+        AppConfinement.fromSnap(snapChannel.confinement).localize(tester.l10n),
+      ),
       findsOneWidget,
     );
     expect(find.text(tester.l10n.snapPageDownloadSizeLabel), findsOneWidget);
