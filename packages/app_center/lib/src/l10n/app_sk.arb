@@ -372,5 +372,5 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Žiadna staršia verzia nie je k dispozícii."
+    "snapRevertNoPreviousRevisionMessage": "Žiadna staršia verzia nie je k dispozícii na vrátenie."
 }
