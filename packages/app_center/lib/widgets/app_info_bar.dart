@@ -23,14 +23,12 @@ typedef AppInfo = ({Widget label, Widget value});
 class AppInfoBar extends StatelessWidget {
   const AppInfoBar({
     required this.appInfos,
-    required this.layout,
     super.key,
   });
 
   factory AppInfoBar.fromSnap({
     required BuildContext context,
     required SnapData snapData,
-    required ResponsiveLayout layout,
   }) =>
       AppInfoBar(
         appInfos: [
@@ -42,26 +40,22 @@ class AppInfoBar extends StatelessWidget {
           _AppInfoItem.published(context: context, appData: snapData),
           _AppInfoItem.links(context: context, appData: snapData),
         ],
-        layout: layout,
       );
 
   factory AppInfoBar.fromDeb({
     required BuildContext context,
     required DebData debData,
-    required ResponsiveLayout layout,
   }) =>
       AppInfoBar(
         appInfos: [
           _AppInfoItem.version(context: context, appData: debData),
           _AppInfoItem.links(context: context, appData: debData),
         ],
-        layout: layout,
       );
 
   factory AppInfoBar.fromLocalDeb({
     required BuildContext context,
     required LocalDebData localDebData,
-    required ResponsiveLayout layout,
   }) =>
       AppInfoBar(
         appInfos: [
@@ -69,11 +63,9 @@ class AppInfoBar extends StatelessWidget {
           _AppInfoItem.license(context: context, appData: localDebData),
           _AppInfoItem.links(context: context, appData: localDebData),
         ],
-        layout: layout,
       );
 
   final List<Widget> appInfos;
-  final ResponsiveLayout layout;
 
   @override
   Widget build(BuildContext context) {

@@ -126,7 +126,6 @@ class _SnapView extends StatelessWidget {
                       child: AppInfoBar.fromSnap(
                         context: context,
                         snapData: snapData,
-                        layout: layout,
                       ),
                     ),
                     const Divider(),

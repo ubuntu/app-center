@@ -86,7 +86,6 @@ class _DebView extends StatelessWidget {
                       AppInfoBar.fromDeb(
                         context: context,
                         debData: debModel,
-                        layout: layout,
                       ),
                       const SizedBox(height: kSectionSpacing),
                       if (debModel.component.screenshotUrls.isNotEmpty) ...[
