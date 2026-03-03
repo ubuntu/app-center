@@ -62,7 +62,6 @@ class _LocalDebPage extends StatelessWidget {
                           AppInfoBar.fromLocalDeb(
                             context: context,
                             localDebData: debData,
-                            layout: layout,
                           ),
                           const SizedBox(height: kPagePadding),
                           const Divider(),
