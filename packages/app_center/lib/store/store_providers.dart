@@ -38,9 +38,15 @@ String? _parseRoute(List<String>? args) {
 
   try {
     if (args?.firstOrNull?.startsWith(_kUrlPrefix) ?? false) {
-      final snap = args!.first.split(_kUrlPrefix)[1];
+      final uri = Uri.parse(args!.first);
+      final snap = uri.path;
       if (snap.isNotEmpty) {
-        return StoreRoutes.namedSnap(name: snap);
+        final channel = uri.queryParameters['channel'];
+        if (channel != null) {
+          return StoreRoutes.namedSnap(name: snap, channel: channel);
+        } else {
+          return StoreRoutes.namedSnap(name: snap);
+        }
       }
     }
 
