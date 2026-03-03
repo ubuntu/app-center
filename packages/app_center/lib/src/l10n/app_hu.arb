@@ -350,9 +350,27 @@
     "codecProprietaryDisclaimer": "Az ajánlott kodekek közül néhány tulajdonosi jogokkal védett lehet.",
     "codecInstallAllButton": "Ajánlott kodekek telepítése",
     "snapActionRevertLabel": "Frissítés visszaállítása",
-    "snapActionRevertingLabel": "Frissítés visszaállítása folyamatban",
+    "snapActionRevertingLabel": "Frissítés visszaállítása",
     "snapRevertConfirmTitle": "Visszaáll az előző verzióra?",
-    "snapRevertConfirmMessage": "Az automatikus frissítések ismét engedélyezve lesznek amikor megjelenik egy új verzió.",
+    "snapRevertConfirmMessage": "Az automatikus frissítések akkor folytatódnak, ha új verzió érhető el.",
     "snapRevertConfirmRevert": "Visszaállítás",
-    "snapRevertConfirmCancel": "Mégse"
+    "snapRevertConfirmCancel": "Mégse",
+    "snapRevertConfirmTitleWithVersions": "Visszaáll a(z) {currentVersion} (revízió: {currentRevision}) verzióról a(z) {previousVersion} (revízió: {previousRevision}) verzióra?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Nem érhető el korábbi helyi revízió, amelyre vissza lehetne állni."
 }
