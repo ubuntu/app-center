@@ -272,7 +272,7 @@
     "managePageOwnUpdateDescription": "Quand quitatz l’aplicacion, serà automaticament mesa a jorn.",
     "managePageOwnUpdateQuitButton": "Quitar per metre a jorn",
     "localDebDialogMessage": "Aqueste paquet es provesit per un tèrç e poiriá amenaçar vòstre sistèma e vòstras donadas personalas.",
-    "localDebDialogConfirmation": "Volètz vertadièrament l’installar ?",
+    "localDebDialogConfirmation": "Volètz vertadièrament l’installar ?",
     "managePageTitle": "Gerir los snaps installats",
     "managePageUpdatesFailed": "{n, plural, =1{Una mesa a jorn fracassada} other{{n} mesas a jorn fracassadas}}",
     "@managePageUpdatesFailed": {
@@ -349,9 +349,9 @@
     "snapRevertConfirmCancel": "Anullar",
     "snapActionRevertLabel": "Anullar l’actualizacion",
     "snapActionRevertingLabel": "Anullacion de l’actualizacion",
-    "snapRevertConfirmTitle": "Repassar a la version precedenta ?",
+    "snapRevertConfirmTitle": "Repassar a la version precedenta ?",
     "snapRevertConfirmRevert": "Retrogradar",
-    "snapRevertConfirmTitleWithVersions": "Retrogradar de {currentVersion} (rev {currentRevision}) a {previousVersion} (rev {previousRevision}) ?",
+    "snapRevertConfirmTitleWithVersions": "Retrogradar de {currentVersion} (rev {currentRevision}) a {previousVersion} (rev {previousRevision}) ?",
     "@snapRevertConfirmTitleWithVersions": {
         "placeholders": {
             "currentVersion": {
