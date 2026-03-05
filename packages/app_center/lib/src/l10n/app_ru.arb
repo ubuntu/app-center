@@ -1,482 +1,376 @@
 {
-  "snapPageLinksLabel": "Ссылки",
-  "@snapPageLinksLabel": {},
-  "snapPageVersionLabel": "Версия",
-  "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "Debian-пакеты",
-  "@packageFormatDebLabel": {},
-  "snapCategoryBooksAndReference": "Книги и справочники",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryProductivity": "Работа",
-  "@snapCategoryProductivity": {},
-  "snapCategoryUtilities": "Утилиты",
-  "@snapCategoryUtilities": {},
-  "snapCategorySocial": "Социальность",
-  "@snapCategorySocial": {},
-  "productivityPageLabel": "Работа",
-  "@productivityPageLabel": {},
-  "snapCategoryNewsAndWeather": "Новости и погода",
-  "@snapCategoryNewsAndWeather": {},
-  "gamesPageLabel": "Игры",
-  "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "Дизайн и искусство",
-  "@snapCategoryArtAndDesign": {},
-  "developmentPageLabel": "Разработка",
-  "@developmentPageLabel": {},
-  "managePageLabel": "Управление",
-  "@managePageLabel": {},
-  "snapPageChannelLabel": "Канал",
-  "@snapPageChannelLabel": {},
-  "snapCategoryEducation": "Образование",
-  "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "Обновить",
-  "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "Сортировка",
-  "@searchPageSortByLabel": {},
-  "snapPageGalleryLabel": "Галерея",
-  "@snapPageGalleryLabel": {},
-  "searchFieldDebSection": "Debian-пакеты",
-  "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "Открыть",
-  "@snapActionOpenLabel": {},
-  "snapCategoryDevelopment": "Разработка",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryHealthAndFitness": "Здоровье и фитнес",
-  "@snapCategoryHealthAndFitness": {},
-  "appstreamUrlTypeContact": "Связаться",
-  "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "Безопасность",
-  "@snapCategorySecurity": {},
-  "snapCategoryFinance": "Финансы",
-  "@snapCategoryFinance": {},
-  "snapCategoryServerAndCloud": "Серверы и облака",
-  "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "Инфо",
-  "@aboutPageLabel": {},
-  "snapPageSummaryLabel": "Главное",
-  "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "приложение;програма;программа;пакет;программы;приложения;инструмент",
-  "@appstreamSearchGreylist": {},
-  "snapCategoryScience": "Наука",
-  "@snapCategoryScience": {},
-  "snapCategoryEntertainment": "Развлечения",
-  "@snapCategoryEntertainment": {},
-  "snapActionInstallLabel": "Установить",
-  "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "Лицензия",
-  "@snapPageLicenseLabel": {},
-  "snapCategoryPhotoAndVideo": "Фото и видео",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "Уровень изоляции",
-  "@snapPageConfinementLabel": {},
-  "snapCategoryMusicAndAudio": "Музыка и аудио",
-  "@snapCategoryMusicAndAudio": {},
-  "aboutPageGitHubLabel": "Проект на GitHub",
-  "@aboutPageGitHubLabel": {},
-  "packageFormatSnapLabel": "Snap-пакеты",
-  "@packageFormatSnapLabel": {},
-  "snapCategoryGames": "Игры",
-  "@snapCategoryGames": {},
-  "snapActionInstallingLabel": "Установка",
-  "@snapActionInstallingLabel": {},
-  "searchFieldSearchHint": "Поиск приложений",
-  "@searchFieldSearchHint": {},
-  "snapCategoryFeatured": "Избранное",
-  "@snapCategoryFeatured": {},
-  "managePageSearchFieldSearchHint": "Поиск установленных приложений",
-  "@managePageSearchFieldSearchHint": {},
-  "snapActionCancelLabel": "Отменить",
-  "@snapActionCancelLabel": {},
-  "snapPagePublisherLabel": "Издатель",
-  "@snapPagePublisherLabel": {},
-  "snapPageDescriptionLabel": "Описание",
-  "@snapPageDescriptionLabel": {},
-  "explorePageLabel": "Обзор",
-  "@explorePageLabel": {},
-  "searchFieldSnapSection": "Snap-пакеты",
-  "@searchFieldSnapSection": {},
-  "snapCategoryDevicesAndIot": "Устройства и IoT",
-  "@snapCategoryDevicesAndIot": {},
-  "managePageCheckForUpdates": "Проверить наличие обновлений",
-  "@managePageCheckForUpdates": {},
-  "managePageUpdateAllLabel": "Обновить всё",
-  "@managePageUpdateAllLabel": {},
-  "searchFieldSearchForLabel": "Показать все результаты для \"{query}\"",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "explorePageCategoriesLabel": "Категории",
-  "@explorePageCategoriesLabel": {},
-  "snapCategoryDefaultButtonLabel": "Исследовать больше",
-  "@snapCategoryDefaultButtonLabel": {},
-  "managePageShowDetailsLabel": "Подробнее",
-  "@managePageShowDetailsLabel": {},
-  "snapPageDownloadSizeLabel": "Размер загрузки",
-  "@snapPageDownloadSizeLabel": {},
-  "snapCategoryProductivityButtonLabel": "Исследовать коллекцию для работы",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapPagePublishedLabel": "Опубликовано",
-  "@snapPagePublishedLabel": {},
-  "aboutPageLearnMoreLabel": "Узнать больше",
-  "@aboutPageLearnMoreLabel": {},
-  "snapRatingsBandNeutral": "Нейтральные",
-  "@snapRatingsBandNeutral": {},
-  "appstreamUrlTypeTranslate": "Локализация",
-  "@appstreamUrlTypeTranslate": {},
-  "searchPageNoResultsHint": "Попробуйте использовать другие или больше ключевых слов",
-  "@searchPageNoResultsHint": {},
-  "snapRatingsBandGood": "Положительные",
-  "@snapRatingsBandGood": {},
-  "snapCategoryFeaturedSlogan": "Избранные приложения",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapSortOrderInstalledDateAsc": "Обновлено давно",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapCategoryProductivitySlogan": "Вычеркните из списка дел",
-  "@snapCategoryProductivitySlogan": {},
-  "appstreamUrlTypeDonation": "Пожертвование",
-  "@appstreamUrlTypeDonation": {},
-  "snapRatingsBandVeryGood": "Очень положительные",
-  "@snapRatingsBandVeryGood": {},
-  "snapActionRemoveLabel": "Удалить",
-  "@snapActionRemoveLabel": {},
-  "appstreamUrlTypeHelp": "Помощь",
-  "@appstreamUrlTypeHelp": {},
-  "snapCategoryPersonalisation": "Персонализация",
-  "@snapCategoryPersonalisation": {},
-  "aboutPagePublishLabel": "Публикация приложений в Snap Store",
-  "@aboutPagePublishLabel": {},
-  "aboutPageContributorTitle": "Участники разработки:",
-  "@aboutPageContributorTitle": {},
-  "managePageInstalledAndUpdatedLabel": "Установлено и обновлено",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "appstreamUrlTypeHomepage": "Домашняя страница",
-  "@appstreamUrlTypeHomepage": {},
-  "managePageCheckingForUpdates": "Проверка обновлений",
-  "@managePageCheckingForUpdates": {},
-  "managePageUpdatedDaysAgo": "Обновлено {n, plural, =1{{n} день} other{{n} дн}} назад",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapRatingsBandInsufficientVotes": "Недостаточно голосов",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsBandVeryPoor": "Очень отрицательные",
-  "@snapRatingsBandVeryPoor": {},
-  "managePageDescription": "Проверяйте доступность обновлений, обновляйте приложения и управляйте ими.",
-  "@managePageDescription": {},
-  "snapActionRemovingLabel": "Удаление",
-  "@snapActionRemovingLabel": {},
-  "snapSortOrderInstalledSizeDesc": "по Размеру (от бол. к мен.)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapPageDeveloperWebsiteLabel": "Веб-сайт разработчика",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapConfinementClassic": "Классический",
-  "@snapConfinementClassic": {},
-  "snapRatingsBandPoor": "Отрицательные",
-  "@snapRatingsBandPoor": {},
-  "snapCategoryDevelopmentSlogan": "Приложения для разработчиков",
-  "@snapCategoryDevelopmentSlogan": {},
-  "searchPageTitle": "Результаты для \"{query}\"",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapCategoryGamesSlogan": "Всё для ночной игры",
-  "@snapCategoryGamesSlogan": {},
-  "snapActionSwitchChannelLabel": "Переключить канал",
-  "@snapActionSwitchChannelLabel": {},
-  "appstreamUrlTypeFaq": "ЧаВо",
-  "@appstreamUrlTypeFaq": {},
-  "snapConfinementStrict": "Строгий",
-  "@snapConfinementStrict": {},
-  "aboutPageContributeLabel": "Поучаствовать или сообщить о проблеме",
-  "@aboutPageContributeLabel": {},
-  "snapCategoryUbuntuDesktop": "Настольные задачи с Ubuntu",
-  "@snapCategoryUbuntuDesktop": {},
-  "managePageUpdatesAvailable": "Доступны обновления ({n})",
-  "@managePageUpdatesAvailable": {},
-  "aboutPageCommunityTitle": "Будьте частью сообщества:",
-  "@aboutPageCommunityTitle": {},
-  "searchPageNoResultsCategoryHint": "Попробуйте поискать в другой категории, или используйте другие ключевые слова",
-  "@searchPageNoResultsCategoryHint": {},
-  "snapSortOrderAlphabeticalDesc": "по Алфавиту (от Я до А)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "searchPageNoResultsCategory": "Извините, мы не смогли найти никаких пакетов в этой категории",
-  "@searchPageNoResultsCategory": {},
-  "snapRatingsVotes": "{n} голосов",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapCategoryAll": "Все категории",
-  "@snapCategoryAll": {},
-  "snapSortOrderInstalledSizeAsc": "по Размеру (от мен. к бол.)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "aboutPageVersionLabel": "Версия {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageContactPublisherLabel": "Связаться с {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapConfinementDevmode": "Режим разработчика (Devmode)",
-  "@snapConfinementDevmode": {},
-  "searchPageNoResults": "Нет результатов для \"{query}\"",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapSortOrderDownloadSizeAsc": "по Размеру (от мен. к бол.)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "unknownPublisher": "Неизвестный издатель",
-  "@unknownPublisher": {},
-  "snapCategoryUbuntuDesktopSlogan": "Всё для начала работы",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapActionUpdatingLabel": "Обновление",
-  "@snapActionUpdatingLabel": {},
-  "searchPageRelevanceLabel": "по Релевантности",
-  "@searchPageRelevanceLabel": {},
-  "snapSortOrderAlphabeticalAsc": "по Алфавиту (от А до Я)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "managePageNoUpdatesAvailableDescription": "Нет доступных обновлений. Все Ваши приложения актуальны.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "snapSortOrderRelevance": "по Релевантности",
-  "@snapSortOrderRelevance": {},
-  "snapSortOrderDownloadSizeDesc": "по Размеру (от бол. к мен.)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "appstreamUrlTypeBugtracker": "Багтрекер",
-  "@appstreamUrlTypeBugtracker": {},
-  "managePageShowSystemSnapsLabel": "Показать системные",
-  "@managePageShowSystemSnapsLabel": {},
-  "searchPageFilterByLabel": "Фильтр",
-  "@searchPageFilterByLabel": {},
-  "snapSortOrderInstalledDateDesc": "Обновлено недавно",
-  "@snapSortOrderInstalledDateDesc": {},
-  "appCenterLabel": "Центр приложений",
-  "@appCenterLabel": {},
-  "gamesPageTitle": "Актуальное",
-  "@gamesPageTitle": {},
-  "snapCategoryGameEmulators": "Эмуляторы",
-  "@snapCategoryGameEmulators": {},
-  "snapCategoryGameEmulatorsSlogan": "Эмуляторы",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryKdeGamesSlogan": "Набор игр KDE",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapCategoryKdeGames": "Игры KDE",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryGnomeGamesSlogan": "Набор игр GNOME",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryGnomeGames": "Игры GNOME",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryGameLaunchers": "Программы запуска игр",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryGameContentCreation": "Создание контента",
-  "@snapCategoryGameContentCreation": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "Политикой конфиденциальности",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Уведомлением о конфиденциальности Canonical ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "snapReportEnterValidEmailError": "Введите действительный адрес электронной почты",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportSubmitButtonLabel": "Отправить жалобу",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportOptionalEmailAddressLabel": "Ваш адрес электронной почты (необязательно)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportDetailsLabel": "Предоставьте более подробное обоснование к жалобе",
-  "@snapReportDetailsLabel": {},
-  "snapReportLabel": "Пожаловаться на {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportSelectAnOptionLabel": "Выберите пункт",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportSelectReportReasonLabel": "Выберите причину жалобы на этот snap-пакет",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportDetailsHint": "Комментарий...",
-  "@snapReportDetailsHint": {},
-  "installAll": "Установить все",
-  "@installAll": {},
-  "openInBrowser": "Открыть в браузере",
-  "@openInBrowser": {},
-  "externalResourcesDisclaimer": "Примечание. Всё это внешние инструменты. Они не принадлежат и не распространяются Canonical.",
-  "@externalResourcesDisclaimer": {},
-  "allGamesButtonLabel": "Все игры",
-  "@allGamesButtonLabel": {},
-  "externalResourcesButtonLabel": "Исследовать",
-  "@externalResourcesButtonLabel": {},
-  "externalResources": "Дополнительные ресурсы",
-  "@externalResources": {},
-  "snapPageShareLinkCopiedMessage": "Ссылка скопирована в буфер обмена",
-  "@snapPageShareLinkCopiedMessage": {},
-  "gamesPageTop": "С высоким рейтингом",
-  "@gamesPageTop": {},
-  "debPageErrorNoPackageInfo": "Информация о пакете не найдена",
-  "@debPageErrorNoPackageInfo": {},
-  "snapReportPrivacyAgreementAndLabel": "и ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "snapReportPrivacyAgreementLabel": "Отправляя эту форму, я подтверждаю, что соглашаюсь с ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "snapReportCancelButtonLabel": "Отменить",
-  "@snapReportCancelButtonLabel": {},
-  "snapReportOptionCopyrightViolation": "Нарушение авторских прав или товарных знаков",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportOptionStoreViolation": "Нарушение условий обслуживания Snap Store",
-  "@snapReportOptionStoreViolation": {},
-  "snapCategoryGameDev": "Разработка игр",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameDevSlogan": "Разработка игр",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryGameLaunchersSlogan": "Игровые лаунчеры",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapCategoryGameContentCreationSlogan": "Создание контента",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "gamesPageFeatured": "Избранные наименования",
-  "@gamesPageFeatured": {},
-  "gamesPageBundles": "Наборы приложений",
-  "@gamesPageBundles": {},
-  "managePageUpdatedWeeksAgo": "Обновлено {n, plural, =1{{n} неделю} other{{n} нед}} назад",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedYearsAgo": "Обновлено {n, plural, =1{{n} год} other{{n} г}} назад",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedMonthsAgo": "Обновлено {n, plural, =1{{n} месяц} other{{n} мес}} назад",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "appstreamUrlTypeContribute": "Участие",
-  "@appstreamUrlTypeContribute": {},
-  "appstreamUrlTypeVcsBrowser": "Исходный код",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "localDebWarningBody": "Этот пакет предоставлен третьей стороной. Установка пакетов не из каталога Центра приложений может повысить риск для Вашей системы и персональных данных. Прежде чем приступить к установке, убедитесь, что доверяете источнику.",
-  "@localDebWarningBody": {},
-  "localDebLearnMore": "Узнайте больше о сторонних пакетах",
-  "@localDebLearnMore": {},
-  "snapPageSizeLabel": "Размер",
-  "@snapPageSizeLabel": {},
-  "localDebWarningTitle": "Потенциально небезопасно",
-  "@localDebWarningTitle": {},
-  "localDebDialogMessage": "Этот пакет предоставляется третьей стороной и может представлять угрозу для Вашей системы и персональных данных.",
-  "@localDebDialogMessage": {},
-  "localDebDialogConfirmation": "Вы уверены, что хотите установить его?",
-  "@localDebDialogConfirmation": {},
-  "snapActionInstalledLabel": "Установлено",
-  "@snapActionInstalledLabel": {},
-  "managePageDebUpdatesMessage": "Обновление пакетов Debian осуществляется с помощью программы «Обновление приложений».",
-  "@managePageDebUpdatesMessage": {},
-  "errorViewCheckStatusLabel": "Проверить состояние",
-  "@errorViewCheckStatusLabel": {},
-  "errorViewNetworkErrorTitle": "Подключитесь к Интернету",
-  "@errorViewNetworkErrorTitle": {},
-  "errorViewNetworkErrorAction": "Проверьте соединение и повторите попытку.",
-  "@errorViewNetworkErrorAction": {},
-  "errorViewServerErrorAction": "Проверьте состояние служб для сведения или повторите попытку позже.",
-  "@errorViewServerErrorAction": {},
-  "errorViewUnknownErrorTitle": "Что-то пошло не так",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewUnknownErrorDescription": "Нам жаль, но мы не уверены, в чем заключается проблема.",
-  "@errorViewUnknownErrorDescription": {},
-  "errorViewUnknownErrorAction": "Вы можете повторить попытку сейчас, проверить состояние служб для сведения или повторить попытку позже.",
-  "@errorViewUnknownErrorAction": {},
-  "snapdExceptionRunningApps": "Мы не смогли обновить приложение {snapName}, так как оно сейчас запущено.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewNetworkErrorDescription": "Мы не можем загрузить каталог Центра приложений без подключения к Интернету.",
-  "@errorViewNetworkErrorDescription": {},
-  "errorViewServerErrorDescription": "Мы сожалеем, но в настоящее время у нас возникли проблемы с Центром приложений.",
-  "@errorViewServerErrorDescription": {},
-  "managePageNoInternet": "Не удалось подключиться к серверу. Проверьте подключение к Интернету или повторите попытку позже.",
-  "@managePageNoInternet": {},
-  "managePageOwnUpdateDescriptionSoon": "Центр приложений будет автоматически обновлён через {time}.",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "managePageOwnUpdateAvailable": "Доступно обновление Центра приложений",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateDescription": "Обновление произойдёт автоматически, когда Вы закроете приложение.",
-  "@managePageOwnUpdateDescription": {},
-  "managePageOwnUpdateQuitButton": "Закрыть и обновить",
-  "@managePageOwnUpdateQuitButton": {},
-  "managePageQuitToUpdate": "Закройте для обновления",
-  "@managePageQuitToUpdate": {},
-  "managePageUpdatesFailed": "{n, plural, =1{Одно приложение} other{{n} приложения(-й)}} обновить не удалось",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailedBody": "Мы не смогли обновить эти приложения, так как они в данный момент запущены.\n\n{snapList}\nКогда Вы закроете их, обновление произойдёт автоматически.",
-  "@managePageUpdatesFailedBody": {},
-  "managePageTitle": "Управление установленными Snap",
-  "@managePageTitle": {},
-  "snapCategoryArtAndDesignButtonLabel": "Начать творить",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "От первого наброска до финального штриха — исследуйте приложения для искусства и дизайна.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "managePageInstallingLabel": "Идёт установка ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageDocumentationLinkLabel": "Узнайте в документации, как управлять пакетами Debian.",
-  "@managePageDocumentationLinkLabel": {},
-  "debPageDocumentationLinkLabel": "Узнайте об управлении пакетами Debian",
-  "@debPageDocumentationLinkLabel": {}
+    "snapPageLinksLabel": "Ссылки",
+    "snapPageVersionLabel": "Версия",
+    "packageFormatDebLabel": "Debian-пакеты",
+    "snapCategoryBooksAndReference": "Книги и справочники",
+    "snapCategoryProductivity": "Работа",
+    "snapCategoryUtilities": "Утилиты",
+    "snapCategorySocial": "Общение",
+    "productivityPageLabel": "Работа",
+    "snapCategoryNewsAndWeather": "Новости и погода",
+    "gamesPageLabel": "Игры",
+    "snapCategoryArtAndDesign": "Дизайн и искусство",
+    "developmentPageLabel": "Разработка",
+    "managePageLabel": "Управление",
+    "snapPageChannelLabel": "Канал",
+    "snapCategoryEducation": "Образование",
+    "snapActionUpdateLabel": "Обновить",
+    "searchPageSortByLabel": "Сортировка",
+    "snapPageGalleryLabel": "Галерея",
+    "searchFieldDebSection": "Debian-пакеты",
+    "snapActionOpenLabel": "Открыть",
+    "snapCategoryDevelopment": "Разработка",
+    "snapCategoryHealthAndFitness": "Здоровье и фитнес",
+    "appstreamUrlTypeContact": "Связаться",
+    "snapCategorySecurity": "Безопасность",
+    "snapCategoryFinance": "Финансы",
+    "snapCategoryServerAndCloud": "Серверы и облака",
+    "aboutPageLabel": "Сведения",
+    "snapPageSummaryLabel": "Главное",
+    "appstreamSearchGreylist": "приложение;програма;программа;пакет;программы;приложения;инструмент",
+    "snapCategoryScience": "Наука",
+    "snapCategoryEntertainment": "Развлечения",
+    "snapActionInstallLabel": "Установить",
+    "snapPageLicenseLabel": "Лицензия",
+    "snapCategoryPhotoAndVideo": "Фото и видео",
+    "snapPageConfinementLabel": "Уровень изоляции",
+    "snapCategoryMusicAndAudio": "Музыка и аудио",
+    "aboutPageGitHubLabel": "Проект на GitHub",
+    "packageFormatSnapLabel": "Snap-пакеты",
+    "snapCategoryGames": "Игры",
+    "snapActionInstallingLabel": "Установка",
+    "searchFieldSearchHint": "Поиск приложений",
+    "snapCategoryFeatured": "Избранное",
+    "managePageSearchFieldSearchHint": "Поиск установленных приложений",
+    "snapActionCancelLabel": "Отменить",
+    "snapPagePublisherLabel": "Издатель",
+    "snapPageDescriptionLabel": "Описание",
+    "explorePageLabel": "Обзор",
+    "searchFieldSnapSection": "Snap-пакеты",
+    "snapCategoryDevicesAndIot": "Устройства и IoT",
+    "managePageCheckForUpdates": "Проверить наличие обновлений",
+    "managePageUpdateAllLabel": "Обновить всё",
+    "searchFieldSearchForLabel": "Показать все результаты для \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "explorePageCategoriesLabel": "Категории",
+    "snapCategoryDefaultButtonLabel": "Просмотреть ещё",
+    "managePageShowDetailsLabel": "Подробнее",
+    "snapPageDownloadSizeLabel": "Размер загрузки",
+    "snapCategoryProductivityButtonLabel": "Исследовать коллекцию для работы",
+    "snapPagePublishedLabel": "Опубликовано",
+    "aboutPageLearnMoreLabel": "Подробнее",
+    "snapRatingsBandNeutral": "Нейтральные",
+    "appstreamUrlTypeTranslate": "Локализация",
+    "searchPageNoResultsHint": "Попробуйте использовать другие или больше ключевых слов",
+    "snapRatingsBandGood": "Положительные",
+    "snapCategoryFeaturedSlogan": "Избранные приложения",
+    "snapSortOrderInstalledDateAsc": "Обновлено давно",
+    "snapCategoryProductivitySlogan": "Вычеркните из списка дел",
+    "appstreamUrlTypeDonation": "Пожертвование",
+    "snapRatingsBandVeryGood": "Очень положительные",
+    "snapActionRemoveLabel": "Удалить",
+    "appstreamUrlTypeHelp": "Помощь",
+    "snapCategoryPersonalisation": "Персонализация",
+    "aboutPagePublishLabel": "Публикация приложений в Snap Store",
+    "aboutPageContributorTitle": "Участники разработки:",
+    "managePageInstalledAndUpdatedLabel": "Установлено и обновлено",
+    "appstreamUrlTypeHomepage": "Домашняя страница",
+    "managePageCheckingForUpdates": "Проверка обновлений",
+    "managePageUpdatedDaysAgo": "Обновлено {n, plural, =1{{n} день} other{{n} дн}} назад",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRatingsBandInsufficientVotes": "Недостаточно голосов",
+    "snapRatingsBandVeryPoor": "Очень отрицательные",
+    "managePageDescription": "Проверяйте доступность обновлений, обновляйте приложения и управляйте ими.",
+    "snapActionRemovingLabel": "Удаление",
+    "snapSortOrderInstalledSizeDesc": "по Размеру (от бол. к мен.)",
+    "snapPageDeveloperWebsiteLabel": "Веб-сайт разработчика",
+    "snapConfinementClassic": "Классический",
+    "snapRatingsBandPoor": "Отрицательные",
+    "snapCategoryDevelopmentSlogan": "Приложения для разработчиков",
+    "searchPageTitle": "Результаты для \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryGamesSlogan": "Всё для геймеров",
+    "snapActionSwitchChannelLabel": "Переключить канал",
+    "appstreamUrlTypeFaq": "ЧаВо",
+    "snapConfinementStrict": "Строгий",
+    "aboutPageContributeLabel": "Поучаствовать или сообщить о проблеме",
+    "snapCategoryUbuntuDesktop": "Настольные задачи с Ubuntu",
+    "managePageUpdatesAvailable": "Доступны обновления ({n})",
+    "aboutPageCommunityTitle": "Будьте частью сообщества:",
+    "searchPageNoResultsCategoryHint": "Попробуйте поискать в другой категории, или используйте другие ключевые слова",
+    "snapSortOrderAlphabeticalDesc": "по Алфавиту (от Я до А)",
+    "searchPageNoResultsCategory": "Извините, мы не смогли найти никаких пакетов в этой категории",
+    "snapRatingsVotes": "{n} голосов",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapCategoryAll": "Все категории",
+    "snapSortOrderInstalledSizeAsc": "по Размеру (от мен. к бол.)",
+    "aboutPageVersionLabel": "Версия {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageContactPublisherLabel": "Связаться с {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapConfinementDevmode": "Режим разработчика (Devmode)",
+    "searchPageNoResults": "Нет результатов для \"{query}\"",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapSortOrderDownloadSizeAsc": "по Размеру (от мен. к бол.)",
+    "unknownPublisher": "Неизвестный издатель",
+    "snapCategoryUbuntuDesktopSlogan": "Всё для начала работы",
+    "snapActionUpdatingLabel": "Обновление",
+    "searchPageRelevanceLabel": "по Релевантности",
+    "snapSortOrderAlphabeticalAsc": "по Алфавиту (от А до Я)",
+    "managePageNoUpdatesAvailableDescription": "Нет доступных обновлений. Все Ваши приложения актуальны.",
+    "snapSortOrderRelevance": "по Релевантности",
+    "snapSortOrderDownloadSizeDesc": "по Размеру (от бол. к мен.)",
+    "appstreamUrlTypeBugtracker": "Багтрекер",
+    "managePageShowSystemSnapsLabel": "Показать системные",
+    "searchPageFilterByLabel": "Фильтр",
+    "snapSortOrderInstalledDateDesc": "Обновлено недавно",
+    "appCenterLabel": "Центр приложений",
+    "gamesPageTitle": "Игры",
+    "snapCategoryGameEmulators": "Эмуляторы",
+    "snapCategoryGameEmulatorsSlogan": "Эмуляторы",
+    "snapCategoryKdeGamesSlogan": "Набор игр KDE",
+    "snapCategoryKdeGames": "Игры KDE",
+    "snapCategoryGnomeGamesSlogan": "Набор игр GNOME",
+    "snapCategoryGnomeGames": "Игры GNOME",
+    "snapCategoryGameLaunchers": "Программы запуска игр",
+    "snapCategoryGameContentCreation": "Создание контента",
+    "snapReportPrivacyAgreementPrivacyPolicy": "Политикой конфиденциальности",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Уведомлением о конфиденциальности Canonical ",
+    "snapReportEnterValidEmailError": "Введите действительный адрес электронной почты",
+    "snapReportSubmitButtonLabel": "Отправить жалобу",
+    "snapReportOptionalEmailAddressLabel": "Ваш адрес электронной почты (необязательно)",
+    "snapReportDetailsLabel": "Предоставьте более подробное обоснование к жалобе",
+    "snapReportLabel": "Пожаловаться на {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectAnOptionLabel": "Выберите пункт",
+    "snapReportSelectReportReasonLabel": "Выберите причину жалобы на этот snap-пакет",
+    "snapReportDetailsHint": "Комментарий...",
+    "installAll": "Установить все",
+    "openInBrowser": "Открыть в браузере",
+    "externalResourcesDisclaimer": "Примечание. Всё это внешние инструменты. Они не принадлежат и не распространяются Canonical.",
+    "allGamesButtonLabel": "Все игры",
+    "externalResourcesButtonLabel": "Просмотреть",
+    "externalResources": "Дополнительные ресурсы",
+    "snapPageShareLinkCopiedMessage": "Ссылка скопирована в буфер обмена",
+    "gamesPageTop": "С высоким рейтингом",
+    "debPageErrorNoPackageInfo": "Информация о пакете не найдена",
+    "snapReportPrivacyAgreementAndLabel": "и ",
+    "snapReportPrivacyAgreementLabel": "Отправляя эту форму, я подтверждаю, что соглашаюсь с ",
+    "snapReportCancelButtonLabel": "Отменить",
+    "snapReportOptionCopyrightViolation": "Нарушение авторских прав или товарных знаков",
+    "snapReportOptionStoreViolation": "Нарушение условий обслуживания Snap Store",
+    "snapCategoryGameDev": "Разработка игр",
+    "snapCategoryGameDevSlogan": "Разработка игр",
+    "snapCategoryGameLaunchersSlogan": "Игровые лаунчеры",
+    "snapCategoryGameContentCreationSlogan": "Создание контента",
+    "gamesPageFeatured": "Избранные наименования",
+    "gamesPageBundles": "Наборы приложений",
+    "managePageUpdatedWeeksAgo": "Обновлено {n, plural, =1{{n} неделю} other{{n} нед}} назад",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Обновлено {n, plural, =1{{n} год} other{{n} г}} назад",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "Обновлено {n, plural, =1{{n} месяц} other{{n} мес}} назад",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "appstreamUrlTypeContribute": "Участие",
+    "appstreamUrlTypeVcsBrowser": "Исходный код",
+    "localDebWarningBody": "Этот пакет предоставлен третьей стороной. Установка пакетов не из каталога Центра приложений может повысить риск для Вашей системы и персональных данных. Прежде чем приступить к установке, убедитесь, что доверяете источнику.",
+    "localDebLearnMore": "Подробнее о сторонних пакетах",
+    "snapPageSizeLabel": "Размер",
+    "localDebWarningTitle": "Потенциально небезопасно",
+    "localDebDialogMessage": "Этот пакет предоставляется третьей стороной и может представлять угрозу для Вашей системы и персональных данных.",
+    "localDebDialogConfirmation": "Вы уверены, что хотите установить его?",
+    "snapActionInstalledLabel": "Установлено",
+    "managePageDebUpdatesMessage": "Обновление пакетов Debian осуществляется с помощью программы «Обновление приложений».",
+    "errorViewCheckStatusLabel": "Проверить состояние",
+    "errorViewNetworkErrorTitle": "Подключитесь к Интернету",
+    "errorViewNetworkErrorAction": "Проверьте соединение и повторите попытку.",
+    "errorViewServerErrorAction": "Проверьте состояние служб для сведения или повторите попытку позже.",
+    "errorViewUnknownErrorTitle": "Что-то пошло не так",
+    "errorViewUnknownErrorDescription": "Нам жаль, но мы не уверены, в чем заключается проблема.",
+    "errorViewUnknownErrorAction": "Вы можете повторить попытку сейчас, проверить состояние служб для сведения или повторить попытку позже.",
+    "snapdExceptionRunningApps": "Мы не смогли обновить приложение {snapName}, так как оно сейчас запущено.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewNetworkErrorDescription": "Мы не можем загрузить каталог Центра приложений без подключения к Интернету.",
+    "errorViewServerErrorDescription": "Мы сожалеем, но в настоящее время у нас возникли проблемы с Центром приложений.",
+    "managePageNoInternet": "Не удалось подключиться к серверу. Проверьте подключение к Интернету или повторите попытку позже.",
+    "managePageOwnUpdateDescriptionSoon": "Центр приложений будет автоматически обновлён через {time}.",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageOwnUpdateAvailable": "Доступно обновление Центра приложений",
+    "managePageOwnUpdateDescription": "Обновление произойдёт автоматически, когда Вы закроете приложение.",
+    "managePageOwnUpdateQuitButton": "Закрыть и обновить",
+    "managePageQuitToUpdate": "Закройте для обновления",
+    "managePageUpdatesFailed": "{n, plural, =1{Одно приложение} other{{n} приложения(-й)}} обновить не удалось",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "Мы не смогли обновить эти приложения, так как они в данный момент запущены.\n\n{snapList}\nКогда Вы закроете их, обновление произойдёт автоматически.",
+    "managePageTitle": "Управление установленными Snap",
+    "snapCategoryArtAndDesignButtonLabel": "Начать творить",
+    "snapCategoryArtAndDesignSlogan": "От первого наброска до финального штриха — исследуйте приложения для искусства и дизайна.",
+    "managePageInstallingLabel": "Идёт установка ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageDocumentationLinkLabel": "Узнайте в документации, как управлять пакетами Debian.",
+    "debPageDocumentationLinkLabel": "Узнайте об управлении пакетами Debian",
+    "snapPageGalleryNextSemanticLabel": "Следующее изображение",
+    "snapPageGalleryPreviousSemanticLabel": "Предыдущее изображение",
+    "snapPageGalleryImageSemanticLabel": "Изображение {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageShareSemanticLabel": "Копировать ссылку",
+    "snapPageReportSemanticLabel": "Отчёт",
+    "sectionExpandSemanticLabel": "Развернуть {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareLinkCopiedMessage": "Ссылка скопирована в буфер обмена",
+    "debPageShareSemanticLabel": "Копировать ссылку",
+    "sectionCollapseSemanticLabel": "Свернуть {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardPublisherSemanticLabel": "Опубликовано {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Рейтинг {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "codecPageTitle": "Отсутствуют мультимедиа-кодеки",
+    "codecPageDescription": "Для обработки определенных видео и аудиоформатов вам необходимо установить следующие кодеки:",
+    "codecProprietaryDisclaimer": "Некоторые из рекомендуемых кодеков могут быть проприетарными.",
+    "codecInstallAllButton": "Установить рекомендуемые кодеки",
+    "snapActionRevertLabel": "Откатить обновление",
+    "snapActionRevertingLabel": "Откат обновления",
+    "snapRevertConfirmTitle": "Выполнить откат к предыдущей версии?",
+    "snapRevertConfirmMessage": "Автоматические обновления возобновятся, когда будет доступна новая версия.",
+    "snapRevertConfirmRevert": "Откатить",
+    "snapRevertConfirmCancel": "Отмена",
+    "snapRevertConfirmTitleWithVersions": "Вернуться с {currentVersion} (ред. {currentRevision}) на {previousVersion} (ред. {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Нет доступных предыдущих локальных редакций, к которым можно было бы вернуться."
 }

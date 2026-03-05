@@ -1,488 +1,383 @@
 {
-  "appCenterLabel": "מרכז היישומים",
-  "@appCenterLabel": {},
-  "appstreamSearchGreylist": "יישום;תוכנית;אפליקציה;תוכנה;חבילה;כלי;ערכה;תכנית;תכנה;תוכנות;תכניות",
-  "@appstreamSearchGreylist": {},
-  "snapPageChannelLabel": "ערוץ",
-  "@snapPageChannelLabel": {},
-  "snapPageContactPublisherLabel": "ליצור קשר עם {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
+    "appCenterLabel": "מרכז היישומים",
+    "appstreamSearchGreylist": "יישום;תוכנית;אפליקציה;תוכנה;חבילה;כלי;ערכה;תכנית;תכנה;תוכנות;תכניות",
+    "snapPageChannelLabel": "ערוץ",
+    "snapPageContactPublisherLabel": "ליצור קשר עם {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDescriptionLabel": "תיאור",
+    "snapPageDeveloperWebsiteLabel": "אתר המפתחים",
+    "snapPageDownloadSizeLabel": "גודל הורדה",
+    "snapPageSizeLabel": "גודל",
+    "snapPageGalleryLabel": "גלריה",
+    "snapPageLicenseLabel": "רישיון",
+    "snapPageLinksLabel": "קישורים",
+    "snapPagePublisherLabel": "מפיץ",
+    "snapPagePublishedLabel": "מועד פרסום",
+    "snapPageSummaryLabel": "תקציר",
+    "snapPageVersionLabel": "גרסה",
+    "snapPageShareLinkCopiedMessage": "הקישור הועתק ללוח הגזירים",
+    "explorePageLabel": "סיור",
+    "explorePageCategoriesLabel": "קטגוריות",
+    "managePageOwnUpdateAvailable": "יש עדכון למרכז היישומים",
+    "managePageQuitToUpdate": "יש לצאת כדי לעדכן",
+    "managePageOwnUpdateDescriptionSoon": "מרכז היישומים יתעדכן אוטומטית בעוד {time}.",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageOwnUpdateQuitButton": "יש לצאת כדי לעדכן",
+    "snapPageConfinementLabel": "בידוד",
+    "managePageNoInternet": "לא ניתן להגיע לשרת, נא לבדוק את החיבור שלך לאינטרנט ולנסות שוב בהמשך.",
+    "managePageSearchFieldSearchHint": "חיפוש ביישומים המותקנים",
+    "managePageTitle": "ניהול חבילות Snap מותקנות",
+    "managePageLabel": "ניהול",
+    "managePageInstalledAndUpdatedLabel": "מותקן ועדכני",
+    "managePageDebUpdatesMessage": "עדכוני חבילות דביאן הן בטיפול מעדכן התוכנה.",
+    "productivityPageLabel": "הפקה",
+    "developmentPageLabel": "פיתוח",
+    "gamesPageLabel": "משחקים",
+    "gamesPageTitle": "משחקים",
+    "gamesPageTop": "בראש הדירוג",
+    "gamesPageFeatured": "כותרים מומלצים",
+    "gamesPageBundles": "מאגדי יישומים",
+    "unknownPublisher": "מפיץ לא מוכר",
+    "searchFieldDebSection": "חבילות דביאן",
+    "searchFieldSearchHint": "חיפוש יישומים",
+    "searchFieldSnapSection": "חבילות Snap",
+    "searchPageFilterByLabel": "סינון לפני",
+    "searchPageNoResults": "לא נמצאו תוצאות לחיפוש אחר „{query}”",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageSortByLabel": "מיון לפי",
+    "searchPageRelevanceLabel": "התאמה",
+    "aboutPageVersionLabel": "גרסה {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "עוצב ופותח על ידי:",
+    "aboutPageCommunityTitle": "הצטרפות לקהילה:",
+    "aboutPageContributeLabel": "תרומה או דיווח על תקלה",
+    "aboutPageLabel": "על אודות",
+    "aboutPageLearnMoreLabel": "מידע נוסף",
+    "aboutPagePublishLabel": "פרסום בחנות חבילות ה־Snap",
+    "aboutPageGitHubLabel": "הנוכחות שלנו ב־GitHub",
+    "appstreamUrlTypeContact": "יצירת קשר",
+    "appstreamUrlTypeContribute": "התנדבות",
+    "appstreamUrlTypeDonation": "תרומה",
+    "appstreamUrlTypeFaq": "שו״ת",
+    "appstreamUrlTypeHelp": "עזרה",
+    "appstreamUrlTypeHomepage": "דף הבית",
+    "appstreamUrlTypeTranslate": "תרגומים",
+    "appstreamUrlTypeVcsBrowser": "קוד מקור",
+    "packageFormatDebLabel": "חבילות דביאן",
+    "packageFormatSnapLabel": "חבילות Snap",
+    "snapActionInstallLabel": "התקנה",
+    "snapActionInstallingLabel": "בהתקנה",
+    "snapActionOpenLabel": "פתיחה",
+    "snapActionRemoveLabel": "הסרה",
+    "snapActionRemovingLabel": "מתבצעת הסרה",
+    "snapActionSwitchChannelLabel": "החלפת ערוץ",
+    "snapActionUpdateLabel": "עדכון",
+    "snapCategoryAll": "כל הקטגוריות",
+    "snapActionUpdatingLabel": "מתבצע עדכון",
+    "snapCategoryArtAndDesign": "אומנות ועיצוב",
+    "snapCategoryArtAndDesignButtonLabel": "להתחיל ליצור",
+    "snapCategoryArtAndDesignSlogan": "מהשרבוט הראשוני ועד לנגיעה הסופית, סיור בין יישומים לאומנות ולעיצוב.",
+    "snapCategoryDevelopment": "פיתוח",
+    "snapCategoryDevicesAndIot": "התקנים ו־IoT (אינטרנט החפצים)",
+    "snapCategoryEducation": "לימוד",
+    "snapCategoryEntertainment": "בידור",
+    "snapCategoryFeatured": "מומלצים",
+    "snapCategoryFeaturedSlogan": "חבילות Snap מומלצות",
+    "snapCategoryGames": "משחקים",
+    "snapCategoryGameDev": "פיתוח משחקים",
+    "snapCategoryGameDevSlogan": "פיתוח משחקים",
+    "snapCategoryGameEmulators": "הדמיה",
+    "snapCategoryGameEmulatorsSlogan": "הדמיה",
+    "snapCategoryGnomeGamesSlogan": "חבילת המשחקים של GNOME",
+    "snapCategoryKdeGames": "משחקי KDE",
+    "snapCategoryKdeGamesSlogan": "חבילת המשחקים של KDE",
+    "snapCategoryGameLaunchers": "משגרי משחקים",
+    "snapCategoryGameLaunchersSlogan": "משגרי משחקים",
+    "snapCategoryHealthAndFitness": "בריאות וחיטוב",
+    "snapCategoryMusicAndAudio": "מוזיקה ושמע",
+    "snapCategoryNewsAndWeather": "חדשות ומזג אוויר",
+    "snapCategoryPersonalisation": "התאמה אישית",
+    "snapCategoryPhotoAndVideo": "תמונות וסרטונים",
+    "snapCategoryProductivity": "הפקה",
+    "snapCategoryScience": "מדעים",
+    "snapCategorySecurity": "אבטחה",
+    "snapCategoryServerAndCloud": "שרת וענן",
+    "snapCategorySocial": "חברתי",
+    "snapCategoryUtilities": "עזרים",
+    "snapConfinementDevmode": "מצב פיתוח",
+    "managePageOwnUpdateDescription": "יציאה מהיישום תעדכן אותו אוטומטית.",
+    "managePageCheckForUpdates": "איתור עדכונים",
+    "managePageCheckingForUpdates": "מתבצע איתור עדכונים",
+    "errorViewUnknownErrorAction": "אפשר לנסות שוב עכשיו, לבדוק מה מצב העדכונים או לנסות שוב מאוחר יותר.",
+    "managePageNoUpdatesAvailableDescription": "אין עדכונים זמינים. כל היישומים שלך עדכניים.",
+    "managePageUpdatesAvailable": "יש עדכונים ({n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageInstallingLabel": "בהתקנה ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "searchFieldSearchForLabel": "הצגת כל התוצאות לחיפוש אחר „{query}”",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapActionCancelLabel": "ביטול",
+    "snapActionInstalledLabel": "מותקן",
+    "snapCategoryDefaultButtonLabel": "היחשפות לעוד",
+    "snapCategoryBooksAndReference": "ספרים וסימוכין",
+    "snapCategoryGnomeGames": "משחקי GNOME",
+    "snapCategoryGameContentCreation": "יצירת תוכן",
+    "snapCategoryGameContentCreationSlogan": "יצירת תוכן",
+    "snapCategoryUbuntuDesktop": "שולחן העבודה של אובונטו",
+    "errorViewServerErrorAction": "נא לבדוק את מה מצב העדכונים או לנסות שוב מאוחר יותר.",
+    "errorViewNetworkErrorAction": "נא לבדוק את החיבור שלך ולנסות שוב.",
+    "errorViewNetworkErrorDescription": "אין אפשרות לטעון את התוכן במרכז היישומים ללא חיבור לאינטרנט.",
+    "errorViewNetworkErrorTitle": "נא להתחבר לאינטרנט",
+    "errorViewCheckStatusLabel": "בדיקת המצב",
+    "localDebLearnMore": "מידע נוסף על חבילות צד־שלישי",
+    "errorViewUnknownErrorDescription": "אנחנו לא בטוחים מה השגיאה הזאת, סליחה.",
+    "errorViewServerErrorDescription": "אנו חווים כרגע בעיות עם מרכז היישומים, סליחה.",
+    "errorViewUnknownErrorTitle": "משהו השתבש",
+    "snapdExceptionRunningApps": "לא הצלחנו לעדכן את {snapName} כיוון שהוא פעיל כרגע.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "localDebDialogConfirmation": "להתקין אותו?",
+    "managePageDescription": "לבדוק אם יש עדכונים זמינים, לעדכן את היישומים שלך ולנהל את מצבם של כל היישומים שלך.",
+    "managePageShowDetailsLabel": "הצגת פרטים",
+    "managePageShowSystemSnapsLabel": "הצגת חבילות Snap של המערכת",
+    "managePageUpdateAllLabel": "לעדכן הכול",
+    "managePageUpdatedDaysAgo": "עודכן לפני {n, plural, =1{יום} =2{יומיים} other{{n} ימים}}",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "עודכן לפני {n, plural, =1{שבוע} =2{שבועיים} other{{n} שבועות}}",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "עודכן לפני {n, plural, =1{חודש} =2{חודשיים} other{{n} חודשים}}",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "עודכן לפני {n, plural, =1{שנה} =2{שנתיים} other{{n} שנים}}",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{עדכון נכשל} other{{n} עדכונים נכשלו}}",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "לא הצלחנו לעדכן את היישומים האלה כי הם פועלים כרגע.\n\n{snapList}\nיציאה מהם תעדכן אותם אוטומטית.",
+    "searchPageNoResultsHint": "נא לנסות להשתמש במילות מפתח אחרות או כלליות יותר",
+    "searchPageNoResultsCategory": "לא הצלחנו למצוא חבילות בקטגוריה הזאת, סליחה",
+    "searchPageNoResultsCategoryHint": "נא לנסות קטגוריה אחרת או להשתמש במילות מפתח כלליות יותר",
+    "searchPageTitle": "תוצאות לחיפוש אחר „{query}”",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "appstreamUrlTypeBugtracker": "עוקב תקלות",
+    "snapCategoryDevelopmentSlogan": "חבילות Snap שהן בגדר חובה למתכנתים",
+    "snapCategoryFinance": "כלכלה",
+    "snapCategoryGamesSlogan": "כל מה שצריך ללילה של משחקים",
+    "snapCategoryProductivityButtonLabel": "חשיפת אוסף יישומי ההפקה",
+    "snapCategoryProductivitySlogan": "דבר אחד פחות ברשימת המטלות",
+    "snapCategoryUbuntuDesktopSlogan": "לתת בראש לשולחן העבודה שלך",
+    "snapConfinementClassic": "קלסי",
+    "snapConfinementStrict": "נוקשה",
+    "snapSortOrderAlphabeticalAsc": "אלפביתי (א׳ עד ת׳)",
+    "snapSortOrderAlphabeticalDesc": "אלפביתי (ת׳ עד א׳)",
+    "snapSortOrderDownloadSizeAsc": "גודל (מהקטן לגדול)",
+    "snapSortOrderDownloadSizeDesc": "גודל (מהגדול לקטן)",
+    "snapSortOrderInstalledSizeAsc": "גודל (מהקטן לגדול)",
+    "snapSortOrderInstalledSizeDesc": "גודל (מהגדול לקטן)",
+    "snapSortOrderInstalledDateAsc": "הכי פחות עדכני",
+    "snapSortOrderInstalledDateDesc": "הכי עדכני",
+    "snapSortOrderRelevance": "התאמה",
+    "snapRatingsBandVeryGood": "טובה מאוד",
+    "snapRatingsBandGood": "טובה",
+    "snapRatingsBandNeutral": "ככה־ככה",
+    "snapRatingsBandPoor": "לא טובה",
+    "snapRatingsBandVeryPoor": "גרועה",
+    "snapRatingsBandInsufficientVotes": "אין מספיק קולות",
+    "snapRatingsVotes": "{n} קולות",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "דיווח על {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "נא לבחור את סיבת הדיווח על ה־snap הזה",
+    "snapReportSelectAnOptionLabel": "נא לבחור אפשרות",
+    "snapReportOptionCopyrightViolation": "הפרה של זכויות יוצרים או סימני מסחר",
+    "snapReportOptionStoreViolation": "הפרה של תנאי שירות חנות ה־Snap",
+    "snapReportDetailsLabel": "נא לספק פירוט נוסף על מדוע בחרת לדווח",
+    "snapReportOptionalEmailAddressLabel": "כתובת הדוא״ל שלך (רשות)",
+    "snapReportCancelButtonLabel": "ביטול",
+    "snapReportSubmitButtonLabel": "הגשת דוח",
+    "snapReportEnterValidEmailError": "נא למלא כתובת דוא״ל תקנית",
+    "snapReportDetailsHint": "הערה…",
+    "localDebDialogMessage": "החבילה הזאת מסופקת על ידי גורם צד־שלישי ועלולה לסכן את המערכת והנתונים האישיים שלך.",
+    "localDebWarningBody": "החבילה הזאת מסופקת על ידי גורם צד־שלישי. התקנת חבילה מחוץ למרכז היישומים יכולה להגביר את הסיכון לשלום המערכת והנתונים האישיים שלך. נא לוודא שזה מקור אמין לפני המשך בהתהליך.",
+    "localDebWarningTitle": "כנראה מפוקפק",
+    "installAll": "להתקין הכול",
+    "openInBrowser": "פתיחה בדפדפן",
+    "externalResourcesDisclaimer": "לתשומת ליבך: כל אלו הם כלים חיצוניים. הם לא בבעלות או בהפצת קנוניקל.",
+    "allGamesButtonLabel": "כל המשחקים",
+    "externalResourcesButtonLabel": "לגלות עוד",
+    "externalResources": "משאבים נוספים",
+    "snapReportPrivacyAgreementAndLabel": "ול ",
+    "snapReportPrivacyAgreementLabel": "הגשת הטופס הזה מהווה את הסכמתי לכך שקראתי והסכמתי ל ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "הצהרת הפרטיות של קנוניקל ",
+    "debPageErrorNoPackageInfo": "לא נמצאו פרטי חבילה",
+    "snapReportPrivacyAgreementPrivacyPolicy": "מדיניות הפרטיות",
+    "managePageDocumentationLinkLabel": "ניתן למצוא מידע על ניהול חבילות דביאן בתיעוד.",
+    "debPageDocumentationLinkLabel": "מידע על ניהול חבילות דביאן",
+    "debPageShareLinkCopiedMessage": "הקישור הועתק ללוח הגזירים",
+    "snapPageGalleryNextSemanticLabel": "התמונה הבאה",
+    "snapPageGalleryPreviousSemanticLabel": "התמונה הקודמת",
+    "snapPageReportSemanticLabel": "דיווח",
+    "snapPageShareSemanticLabel": "העתקת קישור",
+    "snapPageGalleryImageSemanticLabel": "תמונה {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "sectionExpandSemanticLabel": "הרחבת {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "צמצום {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareSemanticLabel": "העתקת קישור",
+    "appCardPublisherSemanticLabel": "פורסם על ידי {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "דירוג {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "codecPageTitle": "חסרים מפענחי מדיה",
+    "codecPageDescription": "צריך להתקין את המפענחים הבאים לטיפול בסוגים מסוימים של וידאו ושל שמע:",
+    "codecProprietaryDisclaimer": "חלק מהמפענחים המומלצים עלולים להיות קנייניים.",
+    "codecInstallAllButton": "התקנת מפענחים מומלצים",
+    "snapRevertNoPreviousRevisionMessage": "אין מהדורה מקומית קודמת זמינה לחזור אליה.",
+    "snapActionRevertLabel": "החזרת עדכון",
+    "snapActionRevertingLabel": "עדכון מוחזר אחורה",
+    "snapRevertConfirmTitle": "לחזור לגרסה קודמת?",
+    "snapRevertConfirmMessage": "עדכונים אוטומטיים יתחדשו כשגרסה חדשה זמינה.",
+    "snapRevertConfirmRevert": "החזרה",
+    "snapRevertConfirmCancel": "ביטול",
+    "snapRevertConfirmTitleWithVersions": "להחזיר מ־{currentVersion} (מהדורה {currentRevision}) ל־{previousVersion} (מהדורה {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
     }
-  },
-  "snapPageDescriptionLabel": "תיאור",
-  "@snapPageDescriptionLabel": {},
-  "snapPageDeveloperWebsiteLabel": "אתר המפתחים",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapPageDownloadSizeLabel": "גודל הורדה",
-  "@snapPageDownloadSizeLabel": {},
-  "snapPageSizeLabel": "גודל",
-  "@snapPageSizeLabel": {},
-  "snapPageGalleryLabel": "גלריה",
-  "@snapPageGalleryLabel": {},
-  "snapPageLicenseLabel": "רישיון",
-  "@snapPageLicenseLabel": {},
-  "snapPageLinksLabel": "קישורים",
-  "@snapPageLinksLabel": {},
-  "snapPagePublisherLabel": "מפיץ",
-  "@snapPagePublisherLabel": {},
-  "snapPagePublishedLabel": "מועד פרסום",
-  "@snapPagePublishedLabel": {},
-  "snapPageSummaryLabel": "תקציר",
-  "@snapPageSummaryLabel": {},
-  "snapPageVersionLabel": "גרסה",
-  "@snapPageVersionLabel": {},
-  "snapPageShareLinkCopiedMessage": "הקישור הועתק ללוח הגזירים",
-  "@snapPageShareLinkCopiedMessage": {},
-  "explorePageLabel": "סיור",
-  "@explorePageLabel": {},
-  "explorePageCategoriesLabel": "קטגוריות",
-  "@explorePageCategoriesLabel": {},
-  "managePageOwnUpdateAvailable": "יש עדכון למרכז היישומים",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageQuitToUpdate": "יש לצאת כדי לעדכן",
-  "@managePageQuitToUpdate": {},
-  "managePageOwnUpdateDescriptionSoon": "מרכז היישומים יתעדכן אוטומטית בעוד {time}.",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "managePageOwnUpdateQuitButton": "יש לצאת כדי לעדכן",
-  "@managePageOwnUpdateQuitButton": {},
-  "snapPageConfinementLabel": "בידוד",
-  "@snapPageConfinementLabel": {},
-  "managePageNoInternet": "לא ניתן להגיע לשרת, נא לבדוק את החיבור שלך לאינטרנט ולנסות שוב בהמשך.",
-  "@managePageNoInternet": {},
-  "managePageSearchFieldSearchHint": "חיפוש ביישומים המותקנים",
-  "@managePageSearchFieldSearchHint": {},
-  "managePageTitle": "ניהול snapים מותקנים",
-  "@managePageTitle": {},
-  "managePageLabel": "ניהול",
-  "@managePageLabel": {},
-  "managePageInstalledAndUpdatedLabel": "מותקן ועדכני",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "managePageDebUpdatesMessage": "עדכוני חבילות דביאן הן בטיפול מעדכן התוכנה.",
-  "@managePageDebUpdatesMessage": {},
-  "productivityPageLabel": "הפקה",
-  "@productivityPageLabel": {},
-  "developmentPageLabel": "פיתוח",
-  "@developmentPageLabel": {},
-  "gamesPageLabel": "משחקים",
-  "@gamesPageLabel": {},
-  "gamesPageTitle": "מה לוהט",
-  "@gamesPageTitle": {},
-  "gamesPageTop": "בראש הדירוג",
-  "@gamesPageTop": {},
-  "gamesPageFeatured": "כותרים מומלצים",
-  "@gamesPageFeatured": {},
-  "gamesPageBundles": "מאגדי יישומים",
-  "@gamesPageBundles": {},
-  "unknownPublisher": "מפיץ לא מוכר",
-  "@unknownPublisher": {},
-  "searchFieldDebSection": "חבילות דביאן",
-  "@searchFieldDebSection": {},
-  "searchFieldSearchHint": "חיפוש יישומים",
-  "@searchFieldSearchHint": {},
-  "searchFieldSnapSection": "חבילות Snap",
-  "@searchFieldSnapSection": {},
-  "searchPageFilterByLabel": "סינון לפני",
-  "@searchPageFilterByLabel": {},
-  "searchPageNoResults": "לא נמצאו תוצאות לחיפוש אחר „{query}”",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchPageSortByLabel": "מיון לפי",
-  "@searchPageSortByLabel": {},
-  "searchPageRelevanceLabel": "התאמה",
-  "@searchPageRelevanceLabel": {},
-  "aboutPageVersionLabel": "גרסה {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageContributorTitle": "עוצב ופותח על ידי:",
-  "@aboutPageContributorTitle": {},
-  "aboutPageCommunityTitle": "הצטרפות לקהילה:",
-  "@aboutPageCommunityTitle": {},
-  "aboutPageContributeLabel": "תרומה או דיווח על תקלה",
-  "@aboutPageContributeLabel": {},
-  "aboutPageLabel": "על אודות",
-  "@aboutPageLabel": {},
-  "aboutPageLearnMoreLabel": "מידע נוסף",
-  "@aboutPageLearnMoreLabel": {},
-  "aboutPagePublishLabel": "פרסום לחנות ה־Snapים",
-  "@aboutPagePublishLabel": {},
-  "aboutPageGitHubLabel": "הנוכחות שלנו ב־GitHub",
-  "@aboutPageGitHubLabel": {},
-  "appstreamUrlTypeContact": "יצירת קשר",
-  "@appstreamUrlTypeContact": {},
-  "appstreamUrlTypeContribute": "התנדבות",
-  "@appstreamUrlTypeContribute": {},
-  "appstreamUrlTypeDonation": "תרומה",
-  "@appstreamUrlTypeDonation": {},
-  "appstreamUrlTypeFaq": "שו״ת",
-  "@appstreamUrlTypeFaq": {},
-  "appstreamUrlTypeHelp": "עזרה",
-  "@appstreamUrlTypeHelp": {},
-  "appstreamUrlTypeHomepage": "דף הבית",
-  "@appstreamUrlTypeHomepage": {},
-  "appstreamUrlTypeTranslate": "תרגומים",
-  "@appstreamUrlTypeTranslate": {},
-  "appstreamUrlTypeVcsBrowser": "קוד מקור",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "packageFormatDebLabel": "חבילות דביאן",
-  "@packageFormatDebLabel": {},
-  "packageFormatSnapLabel": "חבילות Snap",
-  "@packageFormatSnapLabel": {},
-  "snapActionInstallLabel": "התקנה",
-  "@snapActionInstallLabel": {},
-  "snapActionInstallingLabel": "בהתקנה",
-  "@snapActionInstallingLabel": {},
-  "snapActionOpenLabel": "פתיחה",
-  "@snapActionOpenLabel": {},
-  "snapActionRemoveLabel": "הסרה",
-  "@snapActionRemoveLabel": {},
-  "snapActionRemovingLabel": "מתבצעת הסרה",
-  "@snapActionRemovingLabel": {},
-  "snapActionSwitchChannelLabel": "החלפת ערוץ",
-  "@snapActionSwitchChannelLabel": {},
-  "snapActionUpdateLabel": "עדכון",
-  "@snapActionUpdateLabel": {},
-  "snapCategoryAll": "כל הקטגוריות",
-  "@snapCategoryAll": {},
-  "snapActionUpdatingLabel": "מתבצע עדכון",
-  "@snapActionUpdatingLabel": {},
-  "snapCategoryArtAndDesign": "אומנות ועיצוב",
-  "@snapCategoryArtAndDesign": {},
-  "snapCategoryArtAndDesignButtonLabel": "להתחיל ליצור",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "מהשרבוט הראשוני ועד לנגיעה הסופית, סיור בין יישומים לאומנות ולעיצוב.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "snapCategoryDevelopment": "פיתוח",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryDevicesAndIot": "התקנים ו־IoT (אינטרנט החפצים)",
-  "@snapCategoryDevicesAndIot": {},
-  "snapCategoryEducation": "לימוד",
-  "@snapCategoryEducation": {},
-  "snapCategoryEntertainment": "בידור",
-  "@snapCategoryEntertainment": {},
-  "snapCategoryFeatured": "מומלצים",
-  "@snapCategoryFeatured": {},
-  "snapCategoryFeaturedSlogan": "Snapים מומלצים",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapCategoryGames": "משחקים",
-  "@snapCategoryGames": {},
-  "snapCategoryGameDev": "פיתוח משחקים",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameDevSlogan": "פיתוח משחקים",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryGameEmulators": "הדמיה",
-  "@snapCategoryGameEmulators": {},
-  "snapCategoryGameEmulatorsSlogan": "הדמיה",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryGnomeGamesSlogan": "חבילת המשחקים של GNOME",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryKdeGames": "משחקי KDE",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryKdeGamesSlogan": "חבילת המשחקים של KDE",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapCategoryGameLaunchers": "משגרי משחקים",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryGameLaunchersSlogan": "משגרי משחקים",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapCategoryHealthAndFitness": "בריאות וחיטוב",
-  "@snapCategoryHealthAndFitness": {},
-  "snapCategoryMusicAndAudio": "מוזיקה ושמע",
-  "@snapCategoryMusicAndAudio": {},
-  "snapCategoryNewsAndWeather": "חדשות ומזג אוויר",
-  "@snapCategoryNewsAndWeather": {},
-  "snapCategoryPersonalisation": "התאמה אישית",
-  "@snapCategoryPersonalisation": {},
-  "snapCategoryPhotoAndVideo": "תמונות וסרטונים",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapCategoryProductivity": "הפקה",
-  "@snapCategoryProductivity": {},
-  "snapCategoryScience": "מדעים",
-  "@snapCategoryScience": {},
-  "snapCategorySecurity": "אבטחה",
-  "@snapCategorySecurity": {},
-  "snapCategoryServerAndCloud": "שרת וענן",
-  "@snapCategoryServerAndCloud": {},
-  "snapCategorySocial": "חברתי",
-  "@snapCategorySocial": {},
-  "snapCategoryUtilities": "עזרים",
-  "@snapCategoryUtilities": {},
-  "snapConfinementDevmode": "מצב פיתוח",
-  "@snapConfinementDevmode": {},
-  "managePageOwnUpdateDescription": "יציאה מהיישום תעדכן אותו אוטומטית.",
-  "@managePageOwnUpdateDescription": {},
-  "managePageCheckForUpdates": "איתור עדכונים",
-  "@managePageCheckForUpdates": {},
-  "managePageCheckingForUpdates": "מתבצע איתור עדכונים",
-  "@managePageCheckingForUpdates": {},
-  "errorViewUnknownErrorAction": "אפשר לנסות שוב עכשיו, לבדוק מה מצב העדכונים או לנסות שוב מאוחר יותר.",
-  "@errorViewUnknownErrorAction": {},
-  "managePageNoUpdatesAvailableDescription": "אין עדכונים זמינים. כל היישומים שלך עדכניים.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "managePageUpdatesAvailable": "יש עדכונים ({n})",
-  "@managePageUpdatesAvailable": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageInstallingLabel": "בהתקנה ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "searchFieldSearchForLabel": "הצגת כל התוצאות לחיפוש אחר „{query}”",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "snapActionCancelLabel": "ביטול",
-  "@snapActionCancelLabel": {},
-  "snapActionInstalledLabel": "מותקן",
-  "@snapActionInstalledLabel": {},
-  "snapCategoryDefaultButtonLabel": "היחשפות לעוד",
-  "@snapCategoryDefaultButtonLabel": {},
-  "snapCategoryBooksAndReference": "ספרים וסימוכין",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryGnomeGames": "משחקי GNOME",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryGameContentCreation": "יצירת תוכן",
-  "@snapCategoryGameContentCreation": {},
-  "snapCategoryGameContentCreationSlogan": "יצירת תוכן",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapCategoryUbuntuDesktop": "שולחן העבודה של אובונטו",
-  "@snapCategoryUbuntuDesktop": {},
-  "errorViewServerErrorAction": "נא לבדוק את מה מצב העדכונים או לנסות שוב מאוחר יותר.",
-  "@errorViewServerErrorAction": {},
-  "errorViewNetworkErrorAction": "נא לבדוק את החיבור שלך ולנסות שוב.",
-  "@errorViewNetworkErrorAction": {},
-  "errorViewNetworkErrorDescription": "אין אפשרות לטעון את התוכן במרכז היישומים ללא חיבור לאינטרנט.",
-  "@errorViewNetworkErrorDescription": {},
-  "errorViewNetworkErrorTitle": "נא להתחבר לאינטרנט",
-  "@errorViewNetworkErrorTitle": {},
-  "errorViewCheckStatusLabel": "בדיקת המצב",
-  "@errorViewCheckStatusLabel": {},
-  "localDebLearnMore": "מידע נוסף על חבילות צד־שלישי",
-  "@localDebLearnMore": {},
-  "errorViewUnknownErrorDescription": "אנחנו לא בטוחים מה השגיאה הזאת, סליחה.",
-  "@errorViewUnknownErrorDescription": {},
-  "errorViewServerErrorDescription": "אנו חווים כרגע בעיות עם מרכז היישומים, סליחה.",
-  "@errorViewServerErrorDescription": {},
-  "errorViewUnknownErrorTitle": "משהו השתבש",
-  "@errorViewUnknownErrorTitle": {},
-  "snapdExceptionRunningApps": "לא הצלחנו לעדכן את {snapName} כיוון שהוא פעיל כרגע.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "localDebDialogConfirmation": "להתקין אותו?",
-  "@localDebDialogConfirmation": {},
-  "managePageDescription": "לבדוק אם יש עדכונים זמינים, לעדכן את היישומים שלך ולנהל את מצבם של כל היישומים שלך.",
-  "@managePageDescription": {},
-  "managePageShowDetailsLabel": "הצגת פרטים",
-  "@managePageShowDetailsLabel": {},
-  "managePageShowSystemSnapsLabel": "הצגת snapים של המערכת",
-  "@managePageShowSystemSnapsLabel": {},
-  "managePageUpdateAllLabel": "לעדכן הכול",
-  "@managePageUpdateAllLabel": {},
-  "managePageUpdatedDaysAgo": "עודכן לפני {n, plural, =1{יום} =2{יומיים} other{{n} ימים}}",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedWeeksAgo": "עודכן לפני {n, plural, =1{שבוע} =2{שבועיים} other{{n} שבועות}}",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedMonthsAgo": "עודכן לפני {n, plural, =1{חודש} =2{חודשיים} other{{n} חודשים}}",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedYearsAgo": "עודכן לפני {n, plural, =1{שנה} =2{שנתיים} other{{n} שנים}}",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailed": "{n, plural, =1{עדכון נכשל} other{{n} עדכונים נכשלו}}",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailedBody": "לא הצלחנו לעדכן את היישומים האלה כי הם פועלים כרגע.\n\n{snapList}\nיציאה מהם תעדכן אותם אוטומטית.",
-  "@managePageUpdatesFailedBody": {},
-  "searchPageNoResultsHint": "נא לנסות להשתמש במילות מפתח אחרות או כלליות יותר",
-  "@searchPageNoResultsHint": {},
-  "searchPageNoResultsCategory": "לא הצלחנו למצוא חבילות בקטגוריה הזאת, סליחה",
-  "@searchPageNoResultsCategory": {},
-  "searchPageNoResultsCategoryHint": "נא לנסות קטגוריה אחרת או להשתמש במילות מפתח כלליות יותר",
-  "@searchPageNoResultsCategoryHint": {},
-  "searchPageTitle": "תוצאות לחיפוש אחר „{query}”",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "appstreamUrlTypeBugtracker": "עוקב תקלות",
-  "@appstreamUrlTypeBugtracker": {},
-  "snapCategoryDevelopmentSlogan": "snapים שהם בגדר חובה למתכנתים",
-  "@snapCategoryDevelopmentSlogan": {},
-  "snapCategoryFinance": "כלכלה",
-  "@snapCategoryFinance": {},
-  "snapCategoryGamesSlogan": "כל מה שצריך ללילה של משחקים",
-  "@snapCategoryGamesSlogan": {},
-  "snapCategoryProductivityButtonLabel": "חשיפת אוסף יישומי ההפקה",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapCategoryProductivitySlogan": "דבר אחד פחות ברשימת המטלות",
-  "@snapCategoryProductivitySlogan": {},
-  "snapCategoryUbuntuDesktopSlogan": "לתת בראש לשולחן העבודה שלך",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "snapConfinementClassic": "קלסי",
-  "@snapConfinementClassic": {},
-  "snapConfinementStrict": "נוקשה",
-  "@snapConfinementStrict": {},
-  "snapSortOrderAlphabeticalAsc": "אלפביתי (א׳ עד ת׳)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "snapSortOrderAlphabeticalDesc": "אלפביתי (ת׳ עד א׳)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "snapSortOrderDownloadSizeAsc": "גודל (מהקטן לגדול)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "snapSortOrderDownloadSizeDesc": "גודל (מהגדול לקטן)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "snapSortOrderInstalledSizeAsc": "גודל (מהקטן לגדול)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "snapSortOrderInstalledSizeDesc": "גודל (מהגדול לקטן)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapSortOrderInstalledDateAsc": "הכי פחות עדכני",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapSortOrderInstalledDateDesc": "הכי עדכני",
-  "@snapSortOrderInstalledDateDesc": {},
-  "snapSortOrderRelevance": "התאמה",
-  "@snapSortOrderRelevance": {},
-  "snapRatingsBandVeryGood": "טובה מאוד",
-  "@snapRatingsBandVeryGood": {},
-  "snapRatingsBandGood": "טובה",
-  "@snapRatingsBandGood": {},
-  "snapRatingsBandNeutral": "ככה ככה",
-  "@snapRatingsBandNeutral": {},
-  "snapRatingsBandPoor": "לא טובה",
-  "@snapRatingsBandPoor": {},
-  "snapRatingsBandVeryPoor": "גרועה",
-  "@snapRatingsBandVeryPoor": {},
-  "snapRatingsBandInsufficientVotes": "אין מספיק קולות",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsVotes": "{n} קולות",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapReportLabel": "דיווח על {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportSelectReportReasonLabel": "נא לבחור את סיבת הדיווח על ה־snap הזה",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportSelectAnOptionLabel": "נא לבחור אפשרות",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportOptionCopyrightViolation": "הפרה של זכויות יוצרים או סימני מסחר",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportOptionStoreViolation": "הפרה של תנאי שירות חנות ה־Snap",
-  "@snapReportOptionStoreViolation": {},
-  "snapReportDetailsLabel": "נא לספק פירוט נוסף על מדוע בחרת לדווח",
-  "@snapReportDetailsLabel": {},
-  "snapReportOptionalEmailAddressLabel": "כתובת הדוא״ל שלך (רשות)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportCancelButtonLabel": "ביטול",
-  "@snapReportCancelButtonLabel": {},
-  "snapReportSubmitButtonLabel": "הגשת דוח",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportEnterValidEmailError": "נא למלא כתובת דוא״ל תקנית",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportDetailsHint": "הערה…",
-  "@snapReportDetailsHint": {},
-  "localDebDialogMessage": "החבילה הזאת מסופקת על ידי גורם צד־שלישי ועלולה לסכן את המערכת והנתונים האישיים שלך.",
-  "@localDebDialogMessage": {},
-  "localDebWarningBody": "החבילה הזאת מסופקת על ידי גורם צד־שלישי. התקנת חבילה מחוץ למרכז היישומים יכולה להגביר את הסיכון לשלום המערכת והנתונים האישיים שלך. נא לוודא שזה מקור אמין לפני המשך בהתהליך.",
-  "@localDebWarningBody": {},
-  "localDebWarningTitle": "כנראה מפוקפק",
-  "@localDebWarningTitle": {},
-  "installAll": "להתקין הכול",
-  "@installAll": {},
-  "openInBrowser": "פתיחה בדפדפן",
-  "@openInBrowser": {},
-  "externalResourcesDisclaimer": "לתשומת ליבך: כל אלו הם כלים חיצוניים. הם לא בבעלות או בהפצת קנוניקל.",
-  "@externalResourcesDisclaimer": {},
-  "allGamesButtonLabel": "כל המשחקים",
-  "@allGamesButtonLabel": {},
-  "externalResourcesButtonLabel": "לגלות עוד",
-  "@externalResourcesButtonLabel": {},
-  "externalResources": "משאבים נוספים",
-  "@externalResources": {},
-  "snapReportPrivacyAgreementAndLabel": "ול ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "snapReportPrivacyAgreementLabel": "הגשת הטופס הזה מהווה את הסכמתי לכך שקראתי והסכמתי ל ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "הצהרת הפרטיות של קנוניקל ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "debPageErrorNoPackageInfo": "לא נמצאו פרטי חבילה",
-  "@debPageErrorNoPackageInfo": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "מדיניות הפרטיות",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "managePageDocumentationLinkLabel": "ניתן למצוא מידע על ניהול חבילות דביאן בתיעוד.",
-  "@managePageDocumentationLinkLabel": {},
-  "debPageDocumentationLinkLabel": "מידע על ניהול חבילות דביאן",
-  "@debPageDocumentationLinkLabel": {}
 }
