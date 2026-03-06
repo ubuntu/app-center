@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:app_center/apps/app_page.dart';
+import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/deb/deb_model.dart';
@@ -58,52 +60,74 @@ class DebPage extends ConsumerWidget {
   }
 }
 
-class _DebView extends StatelessWidget {
+class _DebView extends ConsumerWidget {
   const _DebView({required this.debModel});
 
   final DebData debModel;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final layout = ResponsiveLayout.of(context);
+    final l10n = AppLocalizations.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: kPagePadding),
-      child: Column(
-        children: [
-          SizedBox(
-            width: layout.totalWidth,
-            child: _Header(debModel: debModel),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Center(
-                child: SizedBox(
-                  width: layout.totalWidth,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppInfoBar.fromDeb(
-                        context: context,
-                        debData: debModel,
-                      ),
-                      const SizedBox(height: kSectionSpacing),
-                      if (debModel.component.screenshotUrls.isNotEmpty) ...[
-                        ScreenshotGallery(
-                          title: debModel.component.getLocalizedName(),
-                          urls: debModel.component.screenshotUrls,
-                          height: layout.totalWidth / 2,
-                        ),
-                        const SizedBox(height: kSectionSpacing),
-                      ],
-                      Html(
-                        data: debModel.component.getLocalizedDescription(),
-                      ),
-                    ],
-                  ),
+    return AppPage(
+      titleBar: AppTitleBar.fromDeb(
+        debModel,
+        actions: debModel.component.website != null
+            ? YaruIconButton(
+                icon: Icon(
+                  YaruIcons.share,
+                  semanticLabel: l10n.debPageShareSemanticLabel,
                 ),
-              ),
+                onPressed: () {
+                  final navigationKey =
+                      ref.watch(materialAppNavigatorKeyProvider);
+
+                  ScaffoldMessenger.of(navigationKey.currentContext!)
+                      .showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.snapPageShareLinkCopiedMessage),
+                    ),
+                  );
+                  Clipboard.setData(
+                    ClipboardData(text: debModel.component.website!),
+                  );
+                },
+              )
+            : null,
+      ),
+      actionBar: Row(
+        children: [
+          _DebActionButtons(debModel: debModel),
+          const SizedBox(width: 32),
+          HyperlinkText(
+            text: '${l10n.debPageDocumentationLinkLabel} >',
+            link: debManageDocsUrl,
+          ),
+        ],
+      ),
+      infoBar: AppInfoBar.fromDeb(
+        context: context,
+        debData: debModel,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (debModel.component.screenshotUrls.isNotEmpty) ...[
+            ScreenshotGallery(
+              title: debModel.component.getLocalizedName(),
+              urls: debModel.component.screenshotUrls,
+              height: layout.totalWidth / 2,
             ),
+            const SizedBox(height: kSectionSpacing),
+          ],
+          Text(
+            debModel.component.getLocalizedSummary(),
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: kPagePadding),
+          Html(
+            data: debModel.component.getLocalizedDescription(),
           ),
         ],
       ),
@@ -197,69 +221,5 @@ enum DebAction {
       update => provider.updateDeb,
       remove => provider.removeDeb,
     };
-  }
-}
-
-class _Header extends ConsumerWidget {
-  const _Header({required this.debModel});
-
-  final DebData debModel;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    return Column(
-      children: [
-        const SizedBox(height: kPagePadding),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppIcon(iconUrl: debModel.component.icon, size: 96),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Semantics(
-                header: true,
-                focused: true,
-                child: AppTitle.fromDeb(debModel.component),
-              ),
-            ),
-            if (debModel.component.website != null)
-              YaruIconButton(
-                icon: Icon(
-                  YaruIcons.share,
-                  semanticLabel: l10n.debPageShareSemanticLabel,
-                ),
-                onPressed: () {
-                  final navigationKey =
-                      ref.watch(materialAppNavigatorKeyProvider);
-
-                  ScaffoldMessenger.of(navigationKey.currentContext!)
-                      .showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.snapPageShareLinkCopiedMessage),
-                    ),
-                  );
-                  Clipboard.setData(
-                    ClipboardData(text: debModel.component.website!),
-                  );
-                },
-              ),
-          ],
-        ),
-        const SizedBox(height: kPagePadding),
-        Row(
-          children: [
-            _DebActionButtons(debModel: debModel),
-            const SizedBox(width: 32),
-            HyperlinkText(
-              text: '${l10n.debPageDocumentationLinkLabel} >',
-              link: debManageDocsUrl,
-            ),
-          ],
-        ),
-        const SizedBox(height: 42),
-        const Divider(),
-      ],
-    );
   }
 }
