@@ -1,3 +1,5 @@
+import 'package:app_center/apps/app_page.dart';
+import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/extensions/string_extensions.dart';
@@ -10,16 +12,12 @@ import 'package:app_center/snapd/snap_report.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
 import 'package:app_center/store/store_app.dart';
-import 'package:app_center/widgets/hyperlink_text.dart';
-import 'package:app_center/widgets/shimmer_placeholder.dart';
 import 'package:app_center/widgets/widgets.dart';
-import 'package:app_center_ratings_client/app_center_ratings_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
@@ -71,222 +69,56 @@ class _SnapView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    final snapInfos = <SnapInfo>[
-      (
-        label: Text(l10n.snapPageConfinementLabel),
-        value: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              snapData.channelInfo?.confinement.localize(l10n) ??
-                  snapData.snap.confinement.localize(l10n),
-            ),
-            if ((snapData.channelInfo?.confinement ??
-                    snapData.snap.confinement) ==
-                SnapConfinement.strict) ...const [
-              SizedBox(width: 2),
-              Icon(YaruIcons.shield, size: 12),
-            ],
-          ],
-        ),
-      ),
-      (
-        label: Text(l10n.snapPageDownloadSizeLabel),
-        value: Text(
-          snapData.channelInfo != null
-              ? context.formatByteSize(snapData.channelInfo!.size)
-              : '',
-        ),
-      ),
-      (
-        label: Text(l10n.snapPageLicenseLabel),
-        value: Text(snapData.snap.license ?? ''),
-      ),
-      (
-        label: Text(l10n.snapPageVersionLabel),
-        value: Text(
-          snapData.isInstalled
-              ? snapData.localSnap!.version
-              : (snapData.channelInfo?.version ?? snapData.snap.version),
-        ),
-      ),
-      (
-        label: Text(l10n.snapPagePublishedLabel),
-        value: Text(
-          snapData.channelInfo != null
-              ? DateFormat.yMMMd().format(snapData.channelInfo!.releasedAt)
-              : '',
-        ),
-      ),
-      (
-        label: Text(l10n.snapPageLinksLabel),
-        value: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (snapData.snap.website?.isNotEmpty ?? false)
-              HyperlinkText(
-                text: l10n.snapPageDeveloperWebsiteLabel,
-                link: snapData.snap.website ?? '',
-              ),
-            if ((snapData.snap.contact.isNotEmpty) &&
-                snapData.snap.publisher != null)
-              HyperlinkText(
-                text: l10n.snapPageContactPublisherLabel(
-                  snapData.snap.publisher!.displayName,
-                ),
-                link: snapData.snap.contact,
-              ),
-          ],
-        ),
-      ),
-    ];
-
     final layout = ResponsiveLayout.of(context);
 
-    return Column(
-      children: [
-        const SizedBox(height: kPagePadding),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Center(
-              child: SizedBox(
-                width: layout.totalWidth,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: kPagePadding),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppIcon(iconUrl: snapData.snap.iconUrl, size: 96),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Semantics(
-                            header: true,
-                            focused: true,
-                            child: AppTitle.fromSnap(
-                              snapData.snap,
-                              large: true,
-                            ),
-                          ),
-                        ),
-                        _IconRow(snapData: snapData),
-                      ],
-                    ),
-                    const SizedBox(height: kPagePadding),
-                    Row(
-                      children: [
-                        if (snapData.availableChannels != null &&
-                            snapData.selectedChannel != null) ...[
-                          _ChannelDropdown(snapData: snapData),
-                          const SizedBox(width: kSpacing),
-                        ],
-                        Flexible(
-                          child: SnapActionsButton(
-                            snapName: snapData.name,
-                            isPrimary: true,
-                          ),
-                        ),
-                        if (snapData.isInstalled) ...[
-                          const SizedBox(width: kSpacing),
-                          _RatingsActionButtons(snap: snapData.snap),
-                        ],
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                    const Divider(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 32),
-                      child: _SnapInfoBar(
-                        snapInfos: snapInfos,
-                        snap: snapData.snap,
-                        layout: layout,
-                      ),
-                    ),
-                    const Divider(),
-                    const SizedBox(height: kSectionSpacing),
-                    if (snapData.hasGallery) ...[
-                      ScreenshotGallery(
-                        title: snapData.storeSnap!.titleOrName,
-                        urls: snapData.storeSnap!.screenshotUrls,
-                        height: layout.totalWidth / 2,
-                      ),
-                      const SizedBox(height: kSectionSpacing),
-                    ],
-                    Text(
-                      snapData.snap.summary,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    const SizedBox(height: kPagePadding),
-                    MarkdownBody(
-                      selectable: true,
-                      data: snapData.snap.description.escapedMarkdown(),
-                    ),
-                    const SizedBox(height: kPagePadding),
-                  ],
-                ),
-              ),
+    return AppPage(
+      titleBar:
+          AppTitleBar.fromSnap(snapData, actions: _IconRow(snapData: snapData)),
+      actionBar: Row(
+        children: [
+          if (snapData.availableChannels != null &&
+              snapData.selectedChannel != null) ...[
+            _ChannelDropdown(snapData: snapData),
+            const SizedBox(width: kSpacing),
+          ],
+          Flexible(
+            child: SnapActionsButton(
+              snapName: snapData.name,
+              isPrimary: true,
             ),
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class _SnapInfoBar extends ConsumerWidget {
-  const _SnapInfoBar({
-    required this.snapInfos,
-    required this.snap,
-    required this.layout,
-  });
-
-  final List<SnapInfo> snapInfos;
-  final ResponsiveLayout layout;
-  final Snap snap;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final ratingsModel = ref.watch(ratingsModelProvider(snap.name));
-    final isLightTheme = Theme.of(context).brightness == Brightness.light;
-
-    final ratings = ratingsModel.whenOrNull(
-      data: (ratingsData) => (
-        label: Text(l10n.snapRatingsVotes(ratingsData.rating?.totalVotes ?? 0)),
-        value: Text(
-          ratingsData.rating?.ratingsBand.localize(l10n) ?? '',
-          style: TextStyle(
-            color: ratingsData.rating?.ratingsBand.getColor(context),
-          ),
-        ),
+          if (snapData.isInstalled) ...[
+            const SizedBox(width: kSpacing),
+            _RatingsActionButtons(snap: snapData.snap),
+          ],
+        ],
       ),
-      loading: () => (
-        label: Shimmer.fromColors(
-          baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
-          highlightColor:
-              isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
-          child: ShimmerPlaceholder(
-            child: Text(l10n.snapRatingsVotes(0)),
-          ),
-        ),
-        value: Shimmer.fromColors(
-          baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
-          highlightColor:
-              isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
-          child: ShimmerPlaceholder(
-            child: Text(
-              RatingsBand.insufficientVotes.localize(l10n),
+      infoBar: AppInfoBar.fromSnap(
+        context: context,
+        snapData: snapData,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (snapData.hasGallery) ...[
+            ScreenshotGallery(
+              title: snapData.storeSnap!.titleOrName,
+              urls: snapData.storeSnap!.screenshotUrls,
+              height: layout.totalWidth / 2,
             ),
+            const SizedBox(height: kSectionSpacing),
+          ],
+          Text(
+            snapData.snap.summary,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
-        ),
+          const SizedBox(height: kPagePadding),
+          MarkdownBody(
+            selectable: true,
+            data: snapData.snap.description.escapedMarkdown(),
+          ),
+        ],
       ),
-    );
-    return AppInfoBar(
-      appInfos: [if (ratings != null) ratings, ...snapInfos],
-      layout: layout,
     );
   }
 }

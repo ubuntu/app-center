@@ -43,7 +43,7 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.text('https://example.com/appcenter-testdeb'),
+      find.text(tester.l10n.appstreamUrlTypeHomepage),
       findsOneWidget,
     );
 
