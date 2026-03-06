@@ -1,4 +1,5 @@
 import 'package:app_center/appstream/appstream.dart';
+import 'package:app_center/deb/local_deb_model.dart';
 import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
@@ -39,6 +40,15 @@ class AppTitle extends StatelessWidget {
       AppTitle(
         title: component.getLocalizedName(),
         publisher: component.getLocalizedDeveloperName(),
+        large: large,
+      );
+
+  factory AppTitle.fromLocalDeb(
+    LocalDebData localDebData, {
+    bool large = false,
+  }) =>
+      AppTitle(
+        title: localDebData.details.packageId.name,
         large: large,
       );
 
