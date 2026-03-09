@@ -123,10 +123,7 @@ class _SnapView extends StatelessWidget {
                     const Divider(),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 32),
-                      child: AppInfoBar.fromSnap(
-                        context: context,
-                        snapData: snapData,
-                      ),
+                      child: SnapInfoBar(snapData: snapData),
                     ),
                     const Divider(),
                     const SizedBox(height: kSectionSpacing),

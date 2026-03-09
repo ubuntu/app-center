@@ -83,10 +83,7 @@ class _DebView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AppInfoBar.fromDeb(
-                        context: context,
-                        debData: debModel,
-                      ),
+                      DebInfoBar(debData: debModel),
                       const SizedBox(height: kSectionSpacing),
                       if (debModel.component.screenshotUrls.isNotEmpty) ...[
                         ScreenshotGallery(
