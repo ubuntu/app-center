@@ -32,7 +32,7 @@ class DebData extends AppMetadata with _$DebData {
   AppConfinement? get confinement => AppConfinement.fromDeb();
 
   @override
-  String? get publisher => component.getLocalizedName();
+  String? get publisher => component.getLocalizedDeveloperName();
 
   @override
   int? get downloadSize => null;
@@ -41,7 +41,7 @@ class DebData extends AppMetadata with _$DebData {
   String? get license => component.projectLicense;
 
   @override
-  Map<AppstreamUrlType, String>? get links => Map.fromEntries(
+  Map<AppLink, String>? get links => Map.fromEntries(
         component.urls
             .where(
               (url) => [
@@ -49,7 +49,7 @@ class DebData extends AppMetadata with _$DebData {
                 AppstreamUrlType.homepage,
               ].contains(url.type),
             )
-            .map((url) => MapEntry(url.type, url.url)),
+            .map((url) => MapEntry(AppLink.fromAppstream(url.type), url.url)),
       );
 
   @override

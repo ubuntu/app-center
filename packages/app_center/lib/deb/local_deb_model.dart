@@ -1,6 +1,5 @@
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/packagekit/packagekit.dart';
-import 'package:appstream/appstream.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -35,8 +34,8 @@ class LocalDebData extends AppMetadata with _$LocalDebData {
   String? get license => details.license;
 
   @override
-  Map<AppstreamUrlType, String>? get links => {
-        AppstreamUrlType.homepage: details.url,
+  Map<AppLink, String>? get links => {
+        AppLink.homepage: details.url,
       };
 
   @override

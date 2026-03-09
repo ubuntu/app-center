@@ -1,5 +1,4 @@
 import 'package:app_center/apps/apps_utils.dart';
-import 'package:app_center/appstream/appstream_utils.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/local_deb_model.dart';

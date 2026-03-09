@@ -189,22 +189,16 @@
     "aboutPageGitHubLabel": "Find us on GitHub",
     "aboutPagePublishLabel": "Publish to the Snap Store",
     "aboutPageLearnMoreLabel": "Learn more",
-    "appstreamUrlTypeBugtracker": "Bugtracker",
-    "appstreamUrlTypeContact": "Contact {publisher}",
-    "@appstreamUrlTypeContact": {
+    "appUrlTypeContact": "Contact {publisher}",
+    "@appUrlTypeContact": {
         "placeholders": {
             "publisher": {
                 "type": "String"
             }
         }
     },
-    "appstreamUrlTypeContribute": "Contribute",
-    "appstreamUrlTypeDonation": "Donate",
-    "appstreamUrlTypeFaq": "FAQ",
-    "appstreamUrlTypeHelp": "Help",
-    "appstreamUrlTypeHomepage": "Developer website",
-    "appstreamUrlTypeTranslate": "Translations",
-    "appstreamUrlTypeVcsBrowser": "Source",
+    "appUrlTypeHomepage": "Developer website",
+    "appUrlTypeUnknown": "Link",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
     "snapActionCancelLabel": "Cancel",
