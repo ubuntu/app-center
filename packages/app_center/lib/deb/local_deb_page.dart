@@ -59,10 +59,7 @@ class _LocalDebPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AppInfoBar.fromLocalDeb(
-                            context: context,
-                            localDebData: debData,
-                          ),
+                          LocalDebInfoBar(localDebData: debData),
                           const SizedBox(height: kPagePadding),
                           const Divider(),
                           const SizedBox(height: kPagePadding),

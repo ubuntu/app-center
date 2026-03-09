@@ -15,55 +15,106 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:snapd/snapd.dart';
 import 'package:yaru/yaru.dart';
 
-typedef AppInfo = ({Widget label, Widget value});
+/// Metadata bar for debs.
+class DebInfoBar extends ConsumerWidget {
+  const DebInfoBar({required this.debData, super.key});
 
-class AppInfoBar extends StatelessWidget {
-  const AppInfoBar({
+  final DebData debData;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return _AppInfoBar(
+      appInfos: [
+        _AppInfoItem.version(context: context, appData: debData),
+        _AppInfoItem.links(context: context, appData: debData),
+      ],
+    );
+  }
+}
+
+/// Metadata bar for local debs.
+class LocalDebInfoBar extends ConsumerWidget {
+  const LocalDebInfoBar({required this.localDebData, super.key});
+
+  final LocalDebData localDebData;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return _AppInfoBar(
+      appInfos: [
+        _AppInfoItem.downloadSize(context: context, appData: localDebData),
+        _AppInfoItem.license(context: context, appData: localDebData),
+        _AppInfoItem.links(context: context, appData: localDebData),
+      ],
+    );
+  }
+}
+
+/// Metadata bar for Snaps.
+class SnapInfoBar extends ConsumerWidget {
+  const SnapInfoBar({required this.snapData, super.key});
+
+  final SnapData snapData;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final ratingsModel = ref.watch(ratingsModelProvider(snapData.snap.name));
+    final isLightTheme = Theme.of(context).brightness == Brightness.light;
+
+    final ratingsInfoItem = ratingsModel.when(
+      data: (ratingsData) => _AppInfoItem(
+        label: Text(l10n.snapRatingsVotes(ratingsData.rating?.totalVotes ?? 0)),
+        value: Text(
+          ratingsData.rating?.ratingsBand.localize(l10n) ?? '',
+          style: TextStyle(
+            color: ratingsData.rating?.ratingsBand.getColor(context),
+          ),
+        ),
+      ),
+      loading: () => _AppInfoItem(
+        label: Shimmer.fromColors(
+          baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
+          highlightColor:
+              isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
+          child: ShimmerPlaceholder(
+            child: Text(l10n.snapRatingsVotes(0)),
+          ),
+        ),
+        value: Shimmer.fromColors(
+          baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
+          highlightColor:
+              isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
+          child: ShimmerPlaceholder(
+            child: Text(
+              RatingsBand.insufficientVotes.localize(l10n),
+            ),
+          ),
+        ),
+      ),
+      error: (error, stackTrace) => null,
+    );
+
+    return _AppInfoBar(
+      appInfos: [
+        if (ratingsInfoItem != null) ratingsInfoItem,
+        _AppInfoItem.confinement(context: context, appData: snapData),
+        _AppInfoItem.downloadSize(context: context, appData: snapData),
+        _AppInfoItem.license(context: context, appData: snapData),
+        _AppInfoItem.version(context: context, appData: snapData),
+        _AppInfoItem.published(context: context, appData: snapData),
+        _AppInfoItem.links(context: context, appData: snapData),
+      ],
+    );
+  }
+}
+
+class _AppInfoBar extends StatelessWidget {
+  const _AppInfoBar({
     required this.appInfos,
-    super.key,
   });
-
-  factory AppInfoBar.fromSnap({
-    required BuildContext context,
-    required SnapData snapData,
-  }) =>
-      AppInfoBar(
-        appInfos: [
-          _SnapRatingsItem(snap: snapData.snap),
-          _AppInfoItem.confinement(context: context, appData: snapData),
-          _AppInfoItem.downloadSize(context: context, appData: snapData),
-          _AppInfoItem.license(context: context, appData: snapData),
-          _AppInfoItem.version(context: context, appData: snapData),
-          _AppInfoItem.published(context: context, appData: snapData),
-          _AppInfoItem.links(context: context, appData: snapData),
-        ],
-      );
-
-  factory AppInfoBar.fromDeb({
-    required BuildContext context,
-    required DebData debData,
-  }) =>
-      AppInfoBar(
-        appInfos: [
-          _AppInfoItem.version(context: context, appData: debData),
-          _AppInfoItem.links(context: context, appData: debData),
-        ],
-      );
-
-  factory AppInfoBar.fromLocalDeb({
-    required BuildContext context,
-    required LocalDebData localDebData,
-  }) =>
-      AppInfoBar(
-        appInfos: [
-          _AppInfoItem.downloadSize(context: context, appData: localDebData),
-          _AppInfoItem.license(context: context, appData: localDebData),
-          _AppInfoItem.links(context: context, appData: localDebData),
-        ],
-      );
 
   final List<Widget> appInfos;
 
@@ -187,54 +238,6 @@ class _AppInfoItem extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _SnapRatingsItem extends ConsumerWidget {
-  const _SnapRatingsItem({
-    required this.snap,
-  });
-
-  final Snap snap;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final ratingsModel = ref.watch(ratingsModelProvider(snap.name));
-    final isLightTheme = Theme.of(context).brightness == Brightness.light;
-
-    return ratingsModel.when(
-      data: (ratingsData) => _AppInfoItem(
-        label: Text(l10n.snapRatingsVotes(ratingsData.rating?.totalVotes ?? 0)),
-        value: Text(
-          ratingsData.rating?.ratingsBand.localize(l10n) ?? '',
-          style: TextStyle(
-            color: ratingsData.rating?.ratingsBand.getColor(context),
-          ),
-        ),
-      ),
-      loading: () => _AppInfoItem(
-        label: Shimmer.fromColors(
-          baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
-          highlightColor:
-              isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
-          child: ShimmerPlaceholder(
-            child: Text(l10n.snapRatingsVotes(0)),
-          ),
-        ),
-        value: Shimmer.fromColors(
-          baseColor: isLightTheme ? kShimmerBaseLight : kShimmerBaseDark,
-          highlightColor:
-              isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
-          child: ShimmerPlaceholder(
-            child: Text(
-              RatingsBand.insufficientVotes.localize(l10n),
-            ),
-          ),
-        ),
-      ),
-      error: (error, stackTrace) => SizedBox.shrink(),
     );
   }
 }
