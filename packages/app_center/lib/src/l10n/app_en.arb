@@ -207,7 +207,6 @@
     "appstreamUrlTypeVcsBrowser": "Source",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
-    "snapActionUpdateLabel": "Update",
     "snapActionCancelLabel": "Cancel",
     "snapActionInstallLabel": "Install",
     "snapActionInstalledLabel": "Installed",
