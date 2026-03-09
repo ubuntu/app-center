@@ -1,6 +1,5 @@
 import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/snapd/snapd.dart';
-import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:snapd/snapd.dart';
@@ -91,12 +90,12 @@ class SnapData extends AppMetadata with _$SnapData {
       AppConfinement.fromSnap(channelInfo?.confinement ?? snap.confinement);
 
   @override
-  Map<AppstreamUrlType, String>? get links => {
+  Map<AppLink, String>? get links => {
         if (snap.website?.isNotEmpty ?? false) ...{
-          AppstreamUrlType.homepage: snap.website!,
+          AppLink.homepage: snap.website!,
         },
         if ((snap.contact.isNotEmpty) && snap.publisher != null) ...{
-          AppstreamUrlType.contact: snap.contact,
+          AppLink.contact: snap.contact,
         },
       };
 }

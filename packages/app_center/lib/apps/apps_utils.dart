@@ -20,6 +20,29 @@ enum AppConfinement {
   factory AppConfinement.fromDeb() => AppConfinement.unrestricted;
 }
 
+enum AppLink {
+  unknown,
+  homepage,
+  contact;
+
+  factory AppLink.fromAppstream(AppstreamUrlType appstreamUrlType) =>
+      switch (appstreamUrlType) {
+        AppstreamUrlType.homepage => AppLink.homepage,
+        AppstreamUrlType.contact => AppLink.contact,
+        _ => AppLink.unknown,
+      };
+}
+
+extension AppLinkL10n on AppLink {
+  String localize(AppLocalizations l10n, AppMetadata data) {
+    return switch (this) {
+      AppLink.unknown => l10n.appUrlTypeUnknown,
+      AppLink.homepage => l10n.appUrlTypeHomepage,
+      AppLink.contact => l10n.appUrlTypeContact(data.publisher ?? ''),
+    };
+  }
+}
+
 /// Common metadata found between package types.
 abstract class AppMetadata {
   String? get publisher;
@@ -28,10 +51,10 @@ abstract class AppMetadata {
   String? get version;
   DateTime? get published;
   int? get downloadSize;
-  Map<AppstreamUrlType, String>? get links;
+  Map<AppLink, String>? get links;
 }
 
-extension SnapConfinementL10n on AppConfinement {
+extension AppConfinementL10n on AppConfinement {
   String localize(AppLocalizations l10n) => switch (this) {
         AppConfinement.classic => l10n.snapConfinementClassic,
         AppConfinement.development => l10n.snapConfinementDevmode,

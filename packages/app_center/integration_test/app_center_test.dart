@@ -43,7 +43,7 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.text(tester.l10n.appstreamUrlTypeHomepage),
+      find.text(tester.l10n.appUrlTypeHomepage),
       findsOneWidget,
     );
 
