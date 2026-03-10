@@ -372,5 +372,15 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Нет доступных предыдущих локальных редакций, к которым можно было бы вернуться."
+    "snapRevertNoPreviousRevisionMessage": "Нет доступных предыдущих локальных редакций, к которым можно было бы вернуться.",
+    "appUrlTypeContact": "Связаться с {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Веб-сайт разработчика",
+    "appUrlTypeUnknown": "Ссылка"
 }
