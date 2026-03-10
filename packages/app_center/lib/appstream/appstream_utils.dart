@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:app_center/l10n.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 
@@ -72,22 +71,6 @@ extension LocalizedComponent on AppstreamComponent {
     }
 
     return null;
-  }
-}
-
-extension AppstreamUrlTypeL10n on AppstreamUrlType {
-  String localize(AppLocalizations l10n) {
-    return switch (this) {
-      AppstreamUrlType.bugtracker => l10n.appstreamUrlTypeBugtracker,
-      AppstreamUrlType.contact => l10n.appstreamUrlTypeContact,
-      AppstreamUrlType.donation => l10n.appstreamUrlTypeDonation,
-      AppstreamUrlType.faq => l10n.appstreamUrlTypeFaq,
-      AppstreamUrlType.help => l10n.appstreamUrlTypeHelp,
-      AppstreamUrlType.homepage => l10n.appstreamUrlTypeHomepage,
-      AppstreamUrlType.translate => l10n.appstreamUrlTypeTranslate,
-      AppstreamUrlType.vcsBrowser => l10n.appstreamUrlTypeVcsBrowser,
-      AppstreamUrlType.contribute => l10n.appstreamUrlTypeContribute,
-    };
   }
 }
 
