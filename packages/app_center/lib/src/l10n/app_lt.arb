@@ -1,6 +1,5 @@
 {
     "snapPageDescriptionLabel": "Aprašas",
-    "@snapPageDescriptionLabel": {},
     "snapPageContactPublisherLabel": "Susisiekti su {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
@@ -10,29 +9,17 @@
         }
     },
     "snapPageSizeLabel": "Dydis",
-    "@snapPageSizeLabel": {},
     "snapPageDownloadSizeLabel": "Atsiuntimo dydis",
-    "@snapPageDownloadSizeLabel": {},
     "snapPageVersionLabel": "Versija",
-    "@snapPageVersionLabel": {},
     "managePageShowDetailsLabel": "Rodyti išsamiau",
-    "@managePageShowDetailsLabel": {},
     "managePageUpdateAllLabel": "Atnaujinti visus",
-    "@managePageUpdateAllLabel": {},
     "snapPageLicenseLabel": "Licencija",
-    "@snapPageLicenseLabel": {},
     "snapPageLinksLabel": "Nuorodos",
-    "@snapPageLinksLabel": {},
     "snapPageSummaryLabel": "Santrauka",
-    "@snapPageSummaryLabel": {},
     "snapPageShareLinkCopiedMessage": "Nuoroda nukopijuota į iškarpinę",
-    "@snapPageShareLinkCopiedMessage": {},
     "explorePageCategoriesLabel": "Kategorijos",
-    "@explorePageCategoriesLabel": {},
     "managePageCheckForUpdates": "Tikrinti, ar yra atnaujinimų",
-    "@managePageCheckForUpdates": {},
     "managePageCheckingForUpdates": "Tikrinama, ar yra atnaujinimų",
-    "@managePageCheckingForUpdates": {},
     "managePageInstallingLabel": "Įdiegiama ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -42,7 +29,8 @@
         }
     },
     "snapPageChannelLabel": "Kanalas",
-    "@snapPageChannelLabel": {},
     "snapPageDeveloperWebsiteLabel": "Plėtotojo internetinė svetainė",
-    "@snapPageDeveloperWebsiteLabel": {}
+    "appCenterLabel": "Programų centras",
+    "appstreamSearchGreylist": "programa;programėlė;aplikacija;paketas;komplektas;rinkinys;įrankis",
+    "snapPageConfinementLabel": "Izoliavimas"
 }
