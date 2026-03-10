@@ -372,5 +372,15 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Es ist keine frühere lokale Revision verfügbar, zu der zurückgekehrt werden könnte."
+    "snapRevertNoPreviousRevisionMessage": "Es ist keine frühere lokale Revision verfügbar, zu der zurückgekehrt werden könnte.",
+    "appUrlTypeContact": "{publisher} kontaktieren",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Entwickler-Website",
+    "appUrlTypeUnknown": "Link"
 }
