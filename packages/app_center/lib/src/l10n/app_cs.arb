@@ -372,5 +372,15 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Není k dispozici žádná předchozí lokální revize, ke které by se dalo vrátit."
+    "snapRevertNoPreviousRevisionMessage": "Není k dispozici žádná předchozí lokální revize, ke které by se dalo vrátit.",
+    "appUrlTypeContact": "Kontaktovat {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Webové stránky vývojáře",
+    "appUrlTypeUnknown": "Odkaz"
 }
