@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/providers/installed_snaps_provider.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
@@ -97,7 +97,7 @@ class SnapModel extends _$SnapModel {
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, ref);
     unawaited(
-      ref.read(filteredLocalSnapsProvider.notifier).addToList(storeSnap),
+      ref.read(installedSnapsProvider.notifier).addToList(storeSnap),
     );
   }
 
@@ -140,7 +140,7 @@ class SnapModel extends _$SnapModel {
       if (removeFromList && completedSuccessfully) {
         ref.read(updatesModelProvider.notifier).removeFromList(snapData.name);
         ref
-            .read(filteredLocalSnapsProvider.notifier)
+            .read(installedSnapsProvider.notifier)
             .addToList(snapData.localSnap!);
       }
       return completedSuccessfully;
@@ -154,7 +154,7 @@ class SnapModel extends _$SnapModel {
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, ref);
     ref.read(updatesModelProvider.notifier).removeFromList(snapName);
-    ref.read(filteredLocalSnapsProvider.notifier).removeFromList(snapName);
+    ref.read(installedSnapsProvider.notifier).removeFromList(snapName);
   }
 
   Future<void> revert() async {
