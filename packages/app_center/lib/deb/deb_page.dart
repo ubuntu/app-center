@@ -11,7 +11,6 @@ import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/widgets.dart';
-import 'package:appstream/appstream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -67,35 +66,6 @@ class _DebView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout.of(context);
-    final l10n = AppLocalizations.of(context);
-
-    final debInfos = <AppInfo>[
-      (
-        label: Text(l10n.snapPageVersionLabel),
-        value: Text(debModel.packageInfo?.packageId.version ?? '')
-      ),
-      if (debModel.component.urls.isNotEmpty)
-        (
-          label: Text(l10n.snapPageLinksLabel),
-          value: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: debModel.component.urls
-                .where(
-                  (url) => [
-                    AppstreamUrlType.contact,
-                    AppstreamUrlType.homepage,
-                  ].contains(url.type),
-                )
-                .map(
-                  (url) => HyperlinkText(
-                    text: url.type.localize(l10n),
-                    link: url.url,
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-    ];
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: kPagePadding),
@@ -113,7 +83,7 @@ class _DebView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AppInfoBar(appInfos: debInfos, layout: layout),
+                      DebInfoBar(debData: debModel),
                       const SizedBox(height: kSectionSpacing),
                       if (debModel.component.screenshotUrls.isNotEmpty) ...[
                         ScreenshotGallery(

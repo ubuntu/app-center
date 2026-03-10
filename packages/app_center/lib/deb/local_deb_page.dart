@@ -39,28 +39,41 @@ class _LocalDebPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return AppPage(
-      appInfos: [
-        (
-          label: Text(l10n.snapPageSizeLabel),
-          value: Text(context.formatByteSize(debData.details.size))
-        ),
-        (
-          label: Text(l10n.snapPageLicenseLabel),
-          value: Text(debData.details.license)
-        ),
-        (
-          label: Text(l10n.snapPageLinksLabel),
-          value: Html(
-            data: '<a href="${debData.details.url}">${debData.details.url}</a>',
-            style: {'body': Style(margin: Margins.zero)},
-            onLinkTap: (url, attributes, element) => launchUrlString(url!),
-          )
-        ),
-      ],
-      header: _Header(debData: debData),
-      children: [_Description(debData: debData)],
+    return ResponsiveLayoutBuilder(
+      builder: (context) {
+        final layout = ResponsiveLayout.of(context);
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: kPagePadding),
+          child: Column(
+            children: [
+              SizedBox(
+                width: layout.totalWidth,
+                child: _Header(debData: debData),
+              ),
+              const SizedBox(height: kPagePadding),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Center(
+                    child: SizedBox(
+                      width: layout.totalWidth,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          LocalDebInfoBar(localDebData: debData),
+                          const SizedBox(height: kPagePadding),
+                          const Divider(),
+                          const SizedBox(height: kPagePadding),
+                          _Description(debData: debData),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
