@@ -372,5 +372,15 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Žiadna staršia verzia nie je k dispozícii na vrátenie."
+    "snapRevertNoPreviousRevisionMessage": "Žiadna staršia verzia nie je k dispozícii na vrátenie.",
+    "appUrlTypeContact": "Kontaktovať {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Stránka vývojára",
+    "appUrlTypeUnknown": "Odkaz"
 }
