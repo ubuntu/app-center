@@ -5,17 +5,27 @@ import 'package:yaru/yaru.dart';
 
 /// A [Text] widget formatted as an accessible hyperlink.
 class HyperlinkText extends StatelessWidget {
-  const HyperlinkText({required this.text, required this.link, super.key});
+  const HyperlinkText({
+    required this.text,
+    this.link,
+    this.onTap,
+    super.key,
+  }) : assert(
+          (link != null) ^ (onTap != null),
+          'Exactly one of link or onTap should be provided',
+        );
 
   /// The data of the [Text] underlying widget.
   final String text;
 
   /// URL to open on click.
-  final String link;
+  final String? link;
+
+  /// See [InkWell.onTap].
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     final theme = Theme.of(context);
     final brightness = theme.brightness;
     final hyperlinkColor = MediaQuery.highContrastOf(context)
@@ -31,7 +41,7 @@ class HyperlinkText extends StatelessWidget {
         child: InkWell(
           hoverColor: Colors.transparent,
           focusColor: Colors.transparent,
-          onTap: () => launchUrlString(link),
+          onTap: onTap ?? () => launchUrlString(link!),
           child: Text(
             text,
             style: textStyle.style.copyWith(
