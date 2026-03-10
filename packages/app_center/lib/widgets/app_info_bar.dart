@@ -65,13 +65,14 @@ class SnapInfoBar extends ConsumerWidget {
 
     final ratingsInfoItem = ratingsModel.when(
       data: (ratingsData) => _AppInfoItem(
-        label: Text(l10n.snapRatingsVotes(ratingsData.rating?.totalVotes ?? 0)),
-        value: Text(
+        label: Text(
           ratingsData.rating?.ratingsBand.localize(l10n) ?? '',
           style: TextStyle(
             color: ratingsData.rating?.ratingsBand.getColor(context),
+            fontWeight: FontWeight.w500,
           ),
         ),
+        value: Text(l10n.snapRatingsVotes(ratingsData.rating?.totalVotes ?? 0)),
       ),
       loading: () => _AppInfoItem(
         label: Shimmer.fromColors(
@@ -79,7 +80,9 @@ class SnapInfoBar extends ConsumerWidget {
           highlightColor:
               isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
           child: ShimmerPlaceholder(
-            child: Text(l10n.snapRatingsVotes(0)),
+            child: Text(
+              RatingsBand.insufficientVotes.localize(l10n),
+            ),
           ),
         ),
         value: Shimmer.fromColors(
@@ -87,9 +90,7 @@ class SnapInfoBar extends ConsumerWidget {
           highlightColor:
               isLightTheme ? kShimmerHighLightLight : kShimmerHighLightDark,
           child: ShimmerPlaceholder(
-            child: Text(
-              RatingsBand.insufficientVotes.localize(l10n),
-            ),
+            child: Text(l10n.snapRatingsVotes(0)),
           ),
         ),
       ),
