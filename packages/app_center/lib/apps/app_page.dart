@@ -1,6 +1,5 @@
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/layout.dart';
-import 'package:app_center/widgets/app_info_bar.dart';
 import 'package:flutter/material.dart';
 
 /// A page layout to display a single app and its associated actions.
@@ -19,7 +18,7 @@ class AppPage extends StatelessWidget {
   /// Widget for package-specific actions like install, uninstall, etc.
   final Widget actionBar;
 
-  /// [AppInfoBar] for app metadata.
+  /// App info bar for app metadata.
   final Widget infoBar;
 
   /// Extended app description and image content.
