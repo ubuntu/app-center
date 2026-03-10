@@ -372,5 +372,15 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Немає попередньої локальної редакції, до якої можна повернутися."
+    "snapRevertNoPreviousRevisionMessage": "Немає попередньої локальної редакції, до якої можна повернутися.",
+    "appUrlTypeContact": "Зв'язатися з {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Вебсайт розробника",
+    "appUrlTypeUnknown": "Посилання"
 }
