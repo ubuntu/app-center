@@ -372,5 +372,15 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "appUrlTypeContact": "Kontakti {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Retejo de aŭtoro",
+    "appUrlTypeUnknown": "Hiperligo"
 }
