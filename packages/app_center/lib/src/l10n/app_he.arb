@@ -379,5 +379,15 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "appUrlTypeContact": "יצירת קשר עם {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "אתר האינטרנט של המפתחים",
+    "appUrlTypeUnknown": "קישור"
 }
