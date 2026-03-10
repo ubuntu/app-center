@@ -372,5 +372,15 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Nie ma możliwości cofnięcia do poprzedniej wersji lokalnej."
+    "snapRevertNoPreviousRevisionMessage": "Nie ma możliwości cofnięcia do poprzedniej wersji lokalnej.",
+    "appUrlTypeContact": "Skontaktuj się z {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Witryna twórców",
+    "appUrlTypeUnknown": "Łącze"
 }
