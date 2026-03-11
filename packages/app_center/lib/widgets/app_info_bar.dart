@@ -48,6 +48,9 @@ class LocalDebInfoBar extends ConsumerWidget {
     return _AppInfoBar(
       appInfos: [
         _AppInfoItem.downloadSize(context: context, appData: localDebData),
+        _AppInfoItem.confinement(context: context, appData: localDebData),
+        _AppInfoItem.version(context: context, appData: localDebData),
+        _AppInfoItem.published(context: context, appData: localDebData),
         _AppInfoItem.license(context: context, appData: localDebData),
         _AppInfoItem.links(context: context, appData: localDebData),
       ],
