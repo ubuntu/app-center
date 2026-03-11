@@ -2,6 +2,7 @@ import 'package:app_center/constants.dart';
 import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/manage/quit_to_update_notice.dart';
 import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/active_change_content.dart';
@@ -119,38 +120,6 @@ class SnapActionsButton extends ConsumerWidget {
           ),
         ],
       ].separatedBy(const SizedBox(width: kSpacing)),
-    );
-  }
-}
-
-@visibleForTesting
-class QuitToUpdateNotice extends StatelessWidget {
-  const QuitToUpdateNotice({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context);
-    final colorScheme = theme.colorScheme;
-    final isHighContrast = MediaQuery.highContrastOf(context);
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          YaruIcons.warning_filled,
-          color: isHighContrast
-              ? theme.textTheme.bodyMedium?.color
-              : colorScheme.warning,
-        ),
-        const SizedBox(width: 8),
-        Text(
-          l10n.managePageQuitToUpdate,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: theme.textTheme.bodyMedium,
-        ),
-      ],
     );
   }
 }
