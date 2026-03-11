@@ -2,15 +2,17 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/manage_app_actions.dart';
 import 'package:app_center/manage/manage_l10n.dart';
+import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
 
 enum ManageTilePosition { first, middle, last, single }
 
-class ManageSnapTile extends StatelessWidget {
+class ManageSnapTile extends ConsumerWidget {
   const ManageSnapTile({
     required this.snap,
     this.position = ManageTilePosition.middle,
@@ -25,7 +27,7 @@ class ManageSnapTile extends StatelessWidget {
   final bool hasFixedSize;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final border = BorderSide(color: Theme.of(context).colorScheme.outline);
     final dateTimeSinceUpdate = snap.installDate != null
@@ -131,7 +133,7 @@ class ManageSnapTile extends StatelessWidget {
               children: [
                 Text(snap.channel),
                 const SizedBox(width: 4),
-                Text(snap.version),
+                _VersionDisplay(snap: snap),
               ],
             ),
             if (ResponsiveLayout.of(context).type == ResponsiveLayoutType.small)
@@ -190,5 +192,24 @@ ManageTilePosition determineTilePosition({
     return ManageTilePosition.first;
   } else {
     return ManageTilePosition.middle;
+  }
+}
+
+class _VersionDisplay extends ConsumerWidget {
+  const _VersionDisplay({required this.snap});
+
+  final Snap snap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final localVersion =
+        ref.watch(localVersionProvider(snap.name)).valueOrNull ?? snap.version;
+    final updateVersion = ref.watch(updateVersionProvider(snap.name));
+
+    if (updateVersion != null) {
+      return Text('$localVersion → $updateVersion');
+    }
+
+    return Text(localVersion);
   }
 }

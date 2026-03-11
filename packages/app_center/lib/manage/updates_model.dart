@@ -46,6 +46,28 @@ bool hasUpdate(Ref ref, String snapName) {
       false;
 }
 
+/// Returns the available update version for a snap, if an update exists.
+/// The version returned is from the store (the version to update TO).
+@riverpod
+String? updateVersion(Ref ref, String snapName) {
+  final updatesModel = ref.watch(updatesModelProvider);
+  return updatesModel.whenOrNull(
+    data: (updatesData) => updatesData.getSnap(snapName)?.version,
+  );
+}
+
+/// Returns the currently installed version for a snap.
+@riverpod
+Future<String?> localVersion(Ref ref, String snapName) async {
+  final snapd = getService<SnapdService>();
+  try {
+    final localSnap = await snapd.getSnap(snapName);
+    return localSnap.version;
+  } on SnapdException {
+    return null;
+  }
+}
+
 /// Used to see which snaps that are installed but need to be restarted to be
 /// refreshed (or be forced to restart after the proceedTime).
 @riverpod
