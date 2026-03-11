@@ -1,7 +1,7 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/manage/manage_app_actions.dart';
 import 'package:app_center/manage/manage_l10n.dart';
-import 'package:app_center/manage/snap_actions_button.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
@@ -14,12 +14,14 @@ class ManageSnapTile extends StatelessWidget {
   const ManageSnapTile({
     required this.snap,
     this.position = ManageTilePosition.middle,
+    this.showOnlyUpdate = false,
     this.hasFixedSize = false,
     super.key,
   });
 
   final Snap snap;
   final ManageTilePosition position;
+  final bool showOnlyUpdate;
   final bool hasFixedSize;
 
   @override
@@ -32,7 +34,9 @@ class ManageSnapTile extends StatelessWidget {
     const radius = Radius.circular(8);
     final actionButtons = Align(
       alignment: Alignment.centerRight,
-      child: SnapActionsButton(snapName: snap.name, isPrimary: false),
+      child: IntrinsicWidth(
+        child: ManageAppActions(snapName: snap.name, showOnlyUpdate: showOnlyUpdate),
+      ),
     );
 
     return DecoratedBox(
