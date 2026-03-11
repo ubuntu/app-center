@@ -140,11 +140,15 @@ class _AppInfoItem extends StatelessWidget {
         value: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(appData.confinement!.localize(AppLocalizations.of(context))),
             if (appData.confinement == AppConfinement.strict) ...const [
+              Icon(
+                YaruIcons.shield,
+                size: 12,
+                fontWeight: FontWeight.bold,
+              ),
               SizedBox(width: 2),
-              Icon(YaruIcons.shield, size: 12),
             ],
+            Text(appData.confinement!.localize(AppLocalizations.of(context))),
           ],
         ),
       );
