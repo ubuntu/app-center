@@ -372,5 +372,15 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Ingen tidigare lokal revision finns tillgänglig att återställa till."
+    "snapRevertNoPreviousRevisionMessage": "Ingen tidigare lokal revision finns tillgänglig att återställa till.",
+    "appUrlTypeUnknown": "Länk",
+    "appUrlTypeContact": "Kontakta {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Utvecklarens webbplats"
 }
