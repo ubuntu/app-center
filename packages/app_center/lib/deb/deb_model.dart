@@ -57,7 +57,7 @@ class DebData extends AppMetadata with _$DebData {
   DateTime? get published => component.releases.firstOrNull?.date;
 
   @override
-  String? get version => packageInfo?.packageId.version ?? '';
+  String? get version => packageInfo?.packageId.version;
 }
 
 @riverpod

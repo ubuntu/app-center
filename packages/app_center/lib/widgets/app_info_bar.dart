@@ -188,7 +188,7 @@ class _AppInfoItem extends StatelessWidget {
   }) =>
       _AppInfoItem(
         label: Text(AppLocalizations.of(context).snapPageVersionLabel),
-        value: Text(appData.version!),
+        value: Text(appData.version ?? ''),
       );
 
   factory _AppInfoItem.published({
