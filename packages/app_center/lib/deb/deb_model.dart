@@ -20,6 +20,7 @@ class DebData extends AppMetadata with _$DebData {
     required bool hasUpdate,
     required StreamSubscription<PackageKitServiceError> errorStream,
     PackageKitPackageEvent? packageInfo,
+    PackageKitDetailsEvent? details,
     int? activeTransactionId,
     PackageKitServiceError? error,
   }) = _DebData;
@@ -35,7 +36,7 @@ class DebData extends AppMetadata with _$DebData {
   String? get publisher => component.getLocalizedDeveloperName();
 
   @override
-  int? get downloadSize => null;
+  int? get downloadSize => details?.size;
 
   @override
   String? get license => component.projectLicense;
@@ -53,7 +54,7 @@ class DebData extends AppMetadata with _$DebData {
       );
 
   @override
-  DateTime? get published => null;
+  DateTime? get published => component.releases.firstOrNull?.date;
 
   @override
   String? get version => packageInfo?.packageId.version ?? '';
@@ -72,6 +73,7 @@ class DebModel extends _$DebModel {
 
     final packageInfo = await _getPackageInfo(component);
     final hasUpdate = await _getUpdates(packageInfo!);
+    final details = await packageKit.getDetails(packageInfo.packageId);
 
     final errorListener = packageKit.errorStream.listen(_onError);
     ref.onDispose(errorListener.cancel);
@@ -80,6 +82,7 @@ class DebModel extends _$DebModel {
       id: id,
       component: component,
       packageInfo: packageInfo,
+      details: details,
       hasUpdate: hasUpdate,
       errorStream: errorListener,
     );

@@ -26,7 +26,11 @@ class DebInfoBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return _AppInfoBar(
       appInfos: [
+        _AppInfoItem.downloadSize(context: context, appData: debData),
+        _AppInfoItem.confinement(context: context, appData: debData),
         _AppInfoItem.version(context: context, appData: debData),
+        _AppInfoItem.published(context: context, appData: debData),
+        _AppInfoItem.license(context: context, appData: debData),
         _AppInfoItem.links(context: context, appData: debData),
       ],
     );
