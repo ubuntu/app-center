@@ -59,8 +59,8 @@ class _StoreAppState extends ConsumerState<StoreApp> {
       },
       child: YaruTheme(
         builder: (context, yaru, child) => MaterialApp(
-          theme: yaru.theme?.customize(),
-          darkTheme: yaru.darkTheme?.customize(),
+          theme: yaru.theme.customize(),
+          darkTheme: yaru.darkTheme.customize(),
           highContrastTheme:
               yaruHighContrastLight.customize(highContrast: true),
           highContrastDarkTheme:

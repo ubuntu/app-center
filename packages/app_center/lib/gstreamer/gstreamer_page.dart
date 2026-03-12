@@ -1,6 +1,5 @@
 import 'package:app_center/constants.dart';
 import 'package:app_center/deb/deb_providers.dart';
-import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/gstreamer/gstreamer.dart';
 import 'package:app_center/gstreamer/gstreamer_model.dart';
 import 'package:app_center/l10n.dart';

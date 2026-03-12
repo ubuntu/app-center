@@ -213,15 +213,14 @@ class _CommunityTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruTile(
+    return YaruListTile(
+      contentPadding: EdgeInsets.zero,
       // TODO: icon
-      style: YaruTileStyle.banner,
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: HyperlinkText(text: subtitle, link: href),
-      padding: EdgeInsets.zero,
     );
   }
 }
