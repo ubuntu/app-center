@@ -74,7 +74,11 @@
     "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
     "managePageSearchFieldSearchHint": "Search your installed apps",
     "managePageShowDetailsLabel": "Show details",
-    "managePageShowSystemSnapsLabel": "Show system snaps",
+    "managePageShowSystemSnapsLabel": "Show system apps",
+    "managePagePackageTypeLabel": "Package type",
+    "managePagePackageTypeAll": "All",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
     "managePageUpdateAllLabel": "Update all",
     "managePageUpdatedDaysAgo": "Updated {n, plural, =1{{n} day} other{{n} days}} ago",
     "@managePageUpdatedDaysAgo": {
@@ -133,6 +137,7 @@
         }
     },
     "managePageDocumentationLinkLabel": "Learn how to manage Debian packages in the documentation.",
+    "managePageDebSourceLabel": "Deb",
     "productivityPageLabel": "Productivity",
     "developmentPageLabel": "Development",
     "gamesPageLabel": "Games",

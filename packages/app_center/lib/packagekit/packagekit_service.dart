@@ -244,12 +244,6 @@ class PackageKitService {
       },
     ).then(waitTransaction);
 
-    for (final entry in results.entries) {
-      if (entry.value == null) {
-        log.error('Couldn\'t resolve package ${entry.key}');
-      }
-    }
-
     return results;
   }
 
