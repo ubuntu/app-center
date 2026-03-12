@@ -46,8 +46,8 @@ class GstreamerModel extends _$GstreamerModel {
     );
     final packageIds = providers.flattened.map((p) => p.packageId);
     final packages =
-        await Future.wait(packageIds.map((id) => packageKit.resolve(id.name)));
-    return GStreamerData(packageInfos: packages.nonNulls.toList());
+        await packageKit.resolve(packageIds.map((id) => id.name).toList());
+    return GStreamerData(packageInfos: packages.values.nonNulls.toList());
   }
 
   Future<void> _emitInstallationFinishedSignal() async {
