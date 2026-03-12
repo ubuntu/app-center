@@ -1,3 +1,5 @@
+import 'package:app_center/apps/app_page.dart';
+import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/extensions/string_extensions.dart';
@@ -69,89 +71,51 @@ class _SnapView extends StatelessWidget {
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout.of(context);
 
-    return Column(
-      children: [
-        const SizedBox(height: kPagePadding),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Center(
-              child: SizedBox(
-                width: layout.totalWidth,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: kPagePadding),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppIcon(iconUrl: snapData.snap.iconUrl, size: 96),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Semantics(
-                            header: true,
-                            focused: true,
-                            child: AppTitle.fromSnap(
-                              snapData.snap,
-                              large: true,
-                            ),
-                          ),
-                        ),
-                        _IconRow(snapData: snapData),
-                      ],
-                    ),
-                    const SizedBox(height: kPagePadding),
-                    Row(
-                      children: [
-                        if (snapData.availableChannels != null &&
-                            snapData.selectedChannel != null) ...[
-                          _ChannelDropdown(snapData: snapData),
-                          const SizedBox(width: kSpacing),
-                        ],
-                        Flexible(
-                          child: SnapActionsButton(
-                            snapName: snapData.name,
-                            isPrimary: true,
-                          ),
-                        ),
-                        if (snapData.isInstalled) ...[
-                          const SizedBox(width: kSpacing),
-                          _RatingsActionButtons(snap: snapData.snap),
-                        ],
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                    const Divider(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 32),
-                      child: SnapInfoBar(snapData: snapData),
-                    ),
-                    const Divider(),
-                    const SizedBox(height: kSectionSpacing),
-                    if (snapData.hasGallery) ...[
-                      ScreenshotGallery(
-                        title: snapData.storeSnap!.titleOrName,
-                        urls: snapData.storeSnap!.screenshotUrls,
-                        height: layout.totalWidth / 2,
-                      ),
-                      const SizedBox(height: kSectionSpacing),
-                    ],
-                    Text(
-                      snapData.snap.summary,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    const SizedBox(height: kPagePadding),
-                    MarkdownBody(
-                      selectable: true,
-                      data: snapData.snap.description.escapedMarkdown(),
-                    ),
-                    const SizedBox(height: kPagePadding),
-                  ],
-                ),
-              ),
+    return AppPage(
+      titleBar:
+          AppTitleBar.fromSnap(snapData, actions: _IconRow(snapData: snapData)),
+      actionBar: Row(
+        children: [
+          if (snapData.availableChannels != null &&
+              snapData.selectedChannel != null) ...[
+            _ChannelDropdown(snapData: snapData),
+            const SizedBox(width: kSpacing),
+          ],
+          Flexible(
+            child: SnapActionsButton(
+              snapName: snapData.name,
+              isPrimary: true,
             ),
           ),
-        ),
-      ],
+          if (snapData.isInstalled) ...[
+            const SizedBox(width: kSpacing),
+            _RatingsActionButtons(snap: snapData.snap),
+          ],
+        ],
+      ),
+      infoBar: SnapInfoBar(snapData: snapData),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (snapData.hasGallery) ...[
+            ScreenshotGallery(
+              title: snapData.storeSnap!.titleOrName,
+              urls: snapData.storeSnap!.screenshotUrls,
+              height: layout.totalWidth / 2,
+            ),
+            const SizedBox(height: kSectionSpacing),
+          ],
+          Text(
+            snapData.snap.summary,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: kPagePadding),
+          MarkdownBody(
+            selectable: true,
+            data: snapData.snap.description.escapedMarkdown(),
+          ),
+        ],
+      ),
     );
   }
 }
