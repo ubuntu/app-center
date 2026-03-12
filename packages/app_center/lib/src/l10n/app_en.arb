@@ -205,6 +205,7 @@
     "appConfinementClassic": "Unrestricted",
     "appConfinementUnrestricted": "Unrestricted",
     "appLicenseUnknown": "Unknown",
+    "appPublishedUnknown": "Unknown",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
     "snapActionCancelLabel": "Cancel",

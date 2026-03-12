@@ -31,7 +31,8 @@ class DebInfoBar extends ConsumerWidget {
         _AppInfoItem.version(context: context, appData: debData),
         _AppInfoItem.published(context: context, appData: debData),
         _AppInfoItem.license(context: context, appData: debData),
-        _AppInfoItem.links(context: context, appData: debData),
+        if (debData.links?.isNotEmpty ?? false)
+          _AppInfoItem.links(context: context, appData: debData),
       ],
     );
   }
@@ -52,7 +53,8 @@ class LocalDebInfoBar extends ConsumerWidget {
         _AppInfoItem.version(context: context, appData: localDebData),
         _AppInfoItem.published(context: context, appData: localDebData),
         _AppInfoItem.license(context: context, appData: localDebData),
-        _AppInfoItem.links(context: context, appData: localDebData),
+        if (localDebData.links?.isNotEmpty ?? false)
+          _AppInfoItem.links(context: context, appData: localDebData),
       ],
     );
   }
@@ -112,7 +114,8 @@ class SnapInfoBar extends ConsumerWidget {
         _AppInfoItem.version(context: context, appData: snapData),
         _AppInfoItem.published(context: context, appData: snapData),
         _AppInfoItem.license(context: context, appData: snapData),
-        _AppInfoItem.links(context: context, appData: snapData),
+        if (snapData.links?.isNotEmpty ?? false)
+          _AppInfoItem.links(context: context, appData: snapData),
       ],
     );
   }
@@ -179,7 +182,9 @@ class _AppInfoItem extends StatelessWidget {
   }) =>
       _AppInfoItem(
         label: Text(AppLocalizations.of(context).snapPageLicenseLabel),
-        value: Text(appData.license ?? ''),
+        value: Text(
+          appData.license ?? AppLocalizations.of(context).appLicenseUnknown,
+        ),
       );
 
   factory _AppInfoItem.version({
@@ -200,7 +205,7 @@ class _AppInfoItem extends StatelessWidget {
         value: Text(
           appData.published != null
               ? DateFormat.yMMMd().format(appData.published!)
-              : '',
+              : AppLocalizations.of(context).appPublishedUnknown,
         ),
       );
 
