@@ -1,9 +1,10 @@
 import 'package:app_center/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:yaru/yaru.dart';
 
 /// A [Text] widget formatted as an accessible hyperlink.
-class HyperlinkText extends StatefulWidget {
+class HyperlinkText extends StatelessWidget {
   const HyperlinkText({required this.text, required this.link, super.key});
 
   /// The data of the [Text] underlying widget.
@@ -13,14 +14,8 @@ class HyperlinkText extends StatefulWidget {
   final String link;
 
   @override
-  State<HyperlinkText> createState() => _HyperlinkTextState();
-}
-
-class _HyperlinkTextState extends State<HyperlinkText> {
-  bool focused = false;
-
-  @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     final theme = Theme.of(context);
     final brightness = theme.brightness;
     final hyperlinkColor = MediaQuery.highContrastOf(context)
@@ -28,34 +23,20 @@ class _HyperlinkTextState extends State<HyperlinkText> {
         : brightness == Brightness.dark
             ? kHyperlinkDark
             : kHyperlinkLight;
+    final textStyle = DefaultTextStyle.of(context);
 
-    return Semantics(
-      link: true,
-      child: DecoratedBox(
-        decoration: ShapeDecoration(
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: focused ? theme.primaryColor : Colors.transparent,
-              width: 2,
-              strokeAlign: 2,
-            ),
-          ),
-        ),
+    return YaruFocusBorder(
+      child: Semantics(
+        link: true,
         child: InkWell(
-          onTap: () async {
-            await launchUrlString(widget.link);
-          },
+          hoverColor: Colors.transparent,
           focusColor: Colors.transparent,
-          onFocusChange: (value) {
-            setState(() {
-              focused = value;
-            });
-          },
+          onTap: () => launchUrlString(link),
           child: Text(
-            widget.text,
-            style: TextStyle(
-              decoration: TextDecoration.underline,
+            text,
+            style: textStyle.style.copyWith(
               color: hyperlinkColor,
+              decoration: TextDecoration.underline,
             ),
           ),
         ),
