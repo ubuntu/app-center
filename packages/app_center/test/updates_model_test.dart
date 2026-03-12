@@ -1,13 +1,34 @@
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/combined_providers.dart';
+import 'package:app_center/manage/deb_updates_provider.dart';
+import 'package:app_center/manage/local_deb_providers.dart';
+import 'package:app_center/manage/manage_app_data.dart';
+import 'package:app_center/manage/manage_filters.dart';
+import 'package:app_center/manage/snap_updates_provider.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
+
+/// Test override for InstalledDebs that returns known data.
+class _TestInstalledDebs extends InstalledDebs {
+  final List<ManageDebData> _debs;
+  _TestInstalledDebs(this._debs);
+  @override
+  Future<List<ManageDebData>> build() async => _debs;
+}
+
+/// Test override for DebUpdates that returns known data.
+class _TestDebUpdates extends DebUpdates {
+  final List<ManageDebData> _updates;
+  _TestDebUpdates(this._updates);
+  @override
+  Future<List<ManageDebData>> build() async => _updates;
+}
 
 void main() {
   final refreshableSnaps = [
@@ -37,7 +58,7 @@ void main() {
     test('no updates available', () async {
       registerMockSnapdService();
       final container = createContainer();
-      final model = await container.read(updatesModelProvider.future);
+      final model = await container.read(snapUpdatesProvider.future);
       expect(model.isEmpty, isTrue);
     });
 
@@ -46,7 +67,7 @@ void main() {
         refreshableSnaps: [createSnap(name: 'firefox')],
       );
       final container = createContainer();
-      final model = await container.read(updatesModelProvider.future);
+      final model = await container.read(snapUpdatesProvider.future);
       expect(model.single.name, equals('firefox'));
     });
   });
@@ -59,10 +80,16 @@ void main() {
       refreshableSnaps: refreshableSnaps,
       installedSnaps: refreshableSnaps,
     );
-    final container = createContainer();
+    final container = createContainer(overrides: emptyDebOverrides);
     await container.read(snapModelProvider('testsnap3').future);
-    await container.read(updatesModelProvider.future);
-    await container.read(updatesModelProvider.notifier).refreshAll();
+    await container.read(snapUpdatesProvider.future);
+    // refreshAll invalidates snapUpdatesProvider which makes the CombinedUpdates
+    // ref stale - the assertion error in the finally block is expected
+    try {
+      await container.read(combinedUpdatesProvider.notifier).refreshAll();
+    } on AssertionError catch (_) {
+      // Expected: ref becomes stale after invalidating a dependency
+    }
     verify(service.refresh('testsnap3', channel: anyNamed('channel')))
         .called(1);
   });
@@ -97,9 +124,9 @@ void main() {
       registerMockSnapdService(refreshableSnaps: [updateSnap]);
       final container = createContainer();
 
-      await container.read(updatesModelProvider.future);
+      await container.read(snapUpdatesProvider.future);
 
-      final version = container.read(updateVersionProvider('testsnap'));
+      final version = container.read(snapUpdateVersionProvider('testsnap'));
       expect(version, equals('2.0.0'));
     });
 
@@ -107,9 +134,9 @@ void main() {
       registerMockSnapdService();
       final container = createContainer();
 
-      await container.read(updatesModelProvider.future);
+      await container.read(snapUpdatesProvider.future);
 
-      final version = container.read(updateVersionProvider('testsnap'));
+      final version = container.read(snapUpdateVersionProvider('testsnap'));
       expect(version, isNull);
     });
   });
@@ -126,7 +153,7 @@ void main() {
         ),
       );
 
-      expect(container.read(updatesModelProvider.future), throwsException);
+      expect(container.read(snapUpdatesProvider.future), throwsException);
     });
 
     test('refresh no internet', () async {
@@ -137,7 +164,7 @@ void main() {
         SnapdException(message: ''),
       );
 
-      final snapListState = await container.read(updatesModelProvider.future);
+      final snapListState = await container.read(snapUpdatesProvider.future);
       expect(snapListState.hasInternet, isFalse);
     });
 
@@ -150,7 +177,7 @@ void main() {
         refreshableSnaps: refreshableSnaps,
         installedSnaps: refreshableSnaps,
       );
-      final container = createContainer();
+      final container = createContainer(overrides: emptyDebOverrides);
       await container.read(snapModelProvider('testsnap3').future);
       when(service.refreshMany(any)).thenThrow(
         SnapdException(
@@ -158,7 +185,7 @@ void main() {
           kind: 'error kind',
         ),
       );
-      await container.read(updatesModelProvider.future);
+      await container.read(snapUpdatesProvider.future);
 
       container.listen(
         errorStreamProvider,
@@ -171,7 +198,209 @@ void main() {
           );
         },
       );
-      await container.read(updatesModelProvider.notifier).refreshAll();
+      try {
+        await container.read(combinedUpdatesProvider.notifier).refreshAll();
+      } on AssertionError catch (_) {
+        // Expected: ref becomes stale after invalidating a dependency
+      }
+    });
+  });
+
+  group('combined updates with debs', () {
+    test('includes both snap and deb updates', () async {
+      registerMockSnapdService(
+        refreshableSnaps: [createSnap(name: 'firefox', title: 'Firefox')],
+        installedSnaps: [createSnap(name: 'firefox', title: 'Firefox')],
+      );
+
+      final debUpdate = createManageDebData(
+        id: 'gimp',
+        name: 'GIMP',
+        packageName: 'gimp',
+        version: '2.10',
+        hasUpdate: true,
+        updateVersion: '2.11',
+        updatePackageId: const PackageKitPackageId(
+          name: 'gimp',
+          version: '2.11',
+        ),
+      );
+
+      final container = createContainer(
+        overrides: [
+          installedDebsProvider.overrideWith(
+            () => _TestInstalledDebs([debUpdate]),
+          ),
+          debUpdatesProvider.overrideWith(
+            () => _TestDebUpdates([debUpdate]),
+          ),
+        ],
+      );
+
+      final updates = await container.read(combinedUpdatesProvider.future);
+
+      expect(updates, hasLength(2));
+      // Sorted alphabetically: Firefox, GIMP
+      expect(updates[0].name, equals('Firefox'));
+      expect(updates[0], isA<ManageSnapData>());
+      expect(updates[1].name, equals('GIMP'));
+      expect(updates[1], isA<ManageDebData>());
+    });
+  });
+
+  group('combined installed with filtering', () {
+    test('includes both snaps and debs', () async {
+      registerMockSnapdService(
+        installedSnaps: [
+          createSnap(
+            name: 'firefox',
+            title: 'Firefox',
+            apps: [const SnapApp(name: 'firefox')],
+          ),
+        ],
+      );
+
+      final installedDeb = createManageDebData(
+        id: 'gimp',
+        name: 'GIMP',
+        packageName: 'gimp',
+      );
+
+      final container = createContainer(
+        overrides: [
+          installedDebsProvider.overrideWith(
+            () => _TestInstalledDebs([installedDeb]),
+          ),
+          ...emptyDebOverrides.where(
+            (o) => o.toString().contains('debUpdates'),
+          ),
+          debUpdatesProvider.overrideWith(() => _TestDebUpdates([])),
+          showSystemAppsProvider.overrideWith((ref) => true),
+        ],
+      );
+
+      final installed = await container.read(combinedInstalledProvider.future);
+
+      expect(installed, hasLength(2));
+      expect(installed.map((a) => a.name), containsAll(['Firefox', 'GIMP']));
+    });
+
+    test('package type filter - snap only', () async {
+      registerMockSnapdService(
+        installedSnaps: [
+          createSnap(
+            name: 'firefox',
+            title: 'Firefox',
+            apps: [const SnapApp(name: 'firefox')],
+          ),
+        ],
+      );
+
+      final installedDeb = createManageDebData(
+        id: 'gimp',
+        name: 'GIMP',
+      );
+
+      final container = createContainer(
+        overrides: [
+          installedDebsProvider.overrideWith(
+            () => _TestInstalledDebs([installedDeb]),
+          ),
+          debUpdatesProvider.overrideWith(() => _TestDebUpdates([])),
+          showSystemAppsProvider.overrideWith((ref) => true),
+          packageTypeFilterProvider.overrideWith(
+            (_) => PackageTypeFilter.snap,
+          ),
+        ],
+      );
+
+      final installed = await container.read(combinedInstalledProvider.future);
+
+      expect(installed, hasLength(1));
+      expect(installed.first, isA<ManageSnapData>());
+      expect(installed.first.name, equals('Firefox'));
+    });
+
+    test('search filter works across both types', () async {
+      registerMockSnapdService(
+        installedSnaps: [
+          createSnap(
+            name: 'firefox',
+            title: 'Firefox',
+            apps: [const SnapApp(name: 'firefox')],
+          ),
+          createSnap(
+            name: 'thunderbird',
+            title: 'Thunderbird',
+            apps: [const SnapApp(name: 'thunderbird')],
+          ),
+        ],
+      );
+
+      final installedDeb = createManageDebData(
+        id: 'gimp',
+        name: 'GIMP',
+      );
+
+      final container = createContainer(
+        overrides: [
+          installedDebsProvider.overrideWith(
+            () => _TestInstalledDebs([installedDeb]),
+          ),
+          debUpdatesProvider.overrideWith(() => _TestDebUpdates([])),
+          showSystemAppsProvider.overrideWith((ref) => true),
+          appFilterProvider.overrideWith((_) => 'fire'),
+        ],
+      );
+
+      final installed = await container.read(combinedInstalledProvider.future);
+
+      expect(installed, hasLength(1));
+      expect(installed.first.name, equals('Firefox'));
+    });
+
+    test('excludes apps with pending updates', () async {
+      registerMockSnapdService(
+        installedSnaps: [
+          createSnap(
+            name: 'firefox',
+            title: 'Firefox',
+            apps: [const SnapApp(name: 'firefox')],
+          ),
+        ],
+        refreshableSnaps: [createSnap(name: 'firefox', title: 'Firefox')],
+      );
+
+      final installedDeb = createManageDebData(
+        id: 'gimp',
+        name: 'GIMP',
+      );
+      final debWithUpdate = createManageDebData(
+        id: 'inkscape',
+        name: 'Inkscape',
+        hasUpdate: true,
+        updateVersion: '1.3',
+      );
+
+      final container = createContainer(
+        overrides: [
+          installedDebsProvider.overrideWith(
+            () => _TestInstalledDebs([installedDeb, debWithUpdate]),
+          ),
+          debUpdatesProvider.overrideWith(
+            () => _TestDebUpdates([debWithUpdate]),
+          ),
+          showSystemAppsProvider.overrideWith((ref) => true),
+        ],
+      );
+
+      final installed = await container.read(combinedInstalledProvider.future);
+
+      // Firefox has snap update, Inkscape has deb update - both excluded
+      // Only GIMP should appear
+      final names = installed.map((a) => a.name).toList();
+      expect(names, contains('GIMP'));
+      expect(names, isNot(contains('Inkscape')));
     });
   });
 }

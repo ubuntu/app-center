@@ -232,9 +232,9 @@ void main() {
         fs: MemoryFileSystem.test(),
       );
       await packageKit.activateService();
-      final info = await packageKit.resolve('foo', 'amd64');
+      final info = await packageKit.resolve(['foo'], architecture: 'amd64');
       verify(mockTransaction.resolve(['foo'])).called(1);
-      expect(info, equals(mockInfo));
+      expect(info['foo'], equals(mockInfo));
     });
 
     test('multiple architectures', () async {
@@ -268,8 +268,38 @@ void main() {
         fs: MemoryFileSystem.test(),
       );
       await packageKit.activateService();
-      final info = await packageKit.resolve('foo', 'amd64');
-      expect(info!.packageId.arch, equals('amd64'));
+      final info = await packageKit.resolve(['foo'], architecture: 'amd64');
+      expect(info['foo']!.packageId.arch, equals('amd64'));
+    });
+
+    test('installedOnly filters out non-installed packages', () async {
+      final mockTransaction = createMockPackageKitTransaction(
+        events: const [
+          PackageKitPackageEvent(
+            info: PackageKitInfo.available,
+            packageId: PackageKitPackageId(
+              name: 'foo',
+              version: '1.0',
+              arch: 'amd64',
+            ),
+            summary: 'summary',
+          ),
+        ],
+      );
+      final mockClient =
+          createMockPackageKitClient(transaction: mockTransaction);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final info = await packageKit.resolve(
+        ['foo'],
+        architecture: 'amd64',
+        installedOnly: true,
+      );
+      expect(info['foo'], isNull);
     });
 
     test('architecture \'all\'', () async {
@@ -294,8 +324,8 @@ void main() {
         fs: MemoryFileSystem.test(),
       );
       await packageKit.activateService();
-      final info = await packageKit.resolve('foo', 'all');
-      expect(info!.packageId.arch, equals('all'));
+      final info = await packageKit.resolve(['foo'], architecture: 'all');
+      expect(info['foo']!.packageId.arch, equals('all'));
     });
   });
 
@@ -354,6 +384,110 @@ void main() {
     expect(packageKit.getTransaction(id), isNull);
   });
 
+  test('update', () async {
+    final completer = Completer();
+    final mockTransaction = createMockPackageKitTransaction(
+      start: completer.future,
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+    final id = await packageKit
+        .update(const PackageKitPackageId(name: 'foo', version: '2.0'));
+    verify(
+      mockTransaction.updatePackages(
+        [const PackageKitPackageId(name: 'foo', version: '2.0')],
+      ),
+    ).called(1);
+    final transaction = packageKit.getTransaction(id);
+    expect(transaction, isNotNull);
+    completer.complete();
+    await packageKit.waitTransaction(id);
+    expect(packageKit.getTransaction(id), isNull);
+  });
+
+  test('getAllAvailableUpdates', () async {
+    const mockUpdate = PackageKitPackageEvent(
+      info: PackageKitInfo.security,
+      packageId: PackageKitPackageId(
+        name: 'foo',
+        version: '2.0',
+        arch: 'amd64',
+      ),
+      summary: 'Security update',
+    );
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [mockUpdate],
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final updates = await packageKit.getAllAvailableUpdates();
+    verify(mockTransaction.getUpdates()).called(1);
+    expect(updates, hasLength(1));
+    expect(updates.first, equals(mockUpdate));
+  });
+
+  test('getDetailsMany', () async {
+    final mockDetails1 = PackageKitDetailsEvent(
+      packageId: const PackageKitPackageId(
+        name: 'foo',
+        version: '1.0',
+        arch: 'amd64',
+      ),
+      size: 50000,
+    );
+    final mockDetails2 = PackageKitDetailsEvent(
+      packageId: const PackageKitPackageId(
+        name: 'bar',
+        version: '2.0',
+        arch: 'amd64',
+      ),
+      size: 30000,
+    );
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [mockDetails1, mockDetails2],
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final packageIds = [
+      const PackageKitPackageId(name: 'foo', version: '1.0', arch: 'amd64'),
+      const PackageKitPackageId(name: 'bar', version: '2.0', arch: 'amd64'),
+    ];
+    final details = await packageKit.getDetailsMany(packageIds);
+    verify(mockTransaction.getDetails(packageIds)).called(1);
+    expect(details, hasLength(2));
+    expect(details['foo'], equals(mockDetails1));
+    expect(details['bar'], equals(mockDetails2));
+  });
+
+  test('getDetailsMany empty', () async {
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: createMockPackageKitClient(),
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final details = await packageKit.getDetailsMany([]);
+    expect(details, isEmpty);
+  });
+
   test('error stream', () async {
     const mockError = PackageKitErrorCodeEvent(
       code: PackageKitError.noNetwork,
@@ -378,8 +512,8 @@ void main() {
         },
       ),
     );
-    final info = await packageKit.resolve('foo');
-    expect(info, isNull);
+    final info = await packageKit.resolve(['foo']);
+    expect(info['foo'], isNull);
   });
 }
 

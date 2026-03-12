@@ -53,8 +53,9 @@ void main() {
       );
       registerMockService<RatingsService>(registerMockRatingsService());
       await tester.pumpApp(
-        (_) => const ProviderScope(
-          child: StoreApp(),
+        (_) => ProviderScope(
+          overrides: emptyDebOverrides,
+          child: const StoreApp(),
         ),
       );
       await tester.pump();

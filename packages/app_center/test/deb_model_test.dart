@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:appstream/appstream.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
@@ -26,7 +27,7 @@ void main() {
   test('init', () async {
     final packageKit = createMockPackageKitService(packageInfo: packageInfo);
     createMockAppstreamService(component: component);
-    final container = ProviderContainer();
+    final container = createContainer(overrides: emptyDebOverrides);
     final provider = container.listen(debModelProvider('testdeb'), (_, __) {});
 
     await expectLater(
@@ -46,7 +47,7 @@ void main() {
       transactionId: 42,
     );
     createMockAppstreamService(component: component);
-    final container = ProviderContainer();
+    final container = createContainer(overrides: emptyDebOverrides);
     container.listen(debModelProvider('testdeb'), (_, __) {});
 
     await expectLater(
@@ -74,7 +75,7 @@ void main() {
           PackageKitUpdateDetailEvent(packageId: packageInfo.packageId),
     );
     createMockAppstreamService(component: component);
-    final container = ProviderContainer();
+    final container = createContainer(overrides: emptyDebOverrides);
     container.listen(debModelProvider('testdeb'), (_, __) {});
 
     await expectLater(
@@ -82,16 +83,15 @@ void main() {
       completes,
     );
 
-    await container.read(debModelProvider('testdeb').notifier).updateDeb();
+    const updatePackageId = PackageKitPackageId(
+      name: 'testdeb',
+      version: '2.0',
+    );
+    await container
+        .read(debModelProvider('testdeb').notifier)
+        .updateDeb(updatePackageId);
 
-    verify(
-      packageKit.update(
-        const PackageKitPackageId(
-          name: 'testdeb',
-          version: '1.0',
-        ),
-      ),
-    ).called(1);
+    verify(packageKit.update(updatePackageId)).called(1);
   });
 
   test('remove', () async {
@@ -100,7 +100,7 @@ void main() {
       transactionId: 42,
     );
     createMockAppstreamService(component: component);
-    final container = ProviderContainer();
+    final container = createContainer(overrides: emptyDebOverrides);
     container.listen(debModelProvider('testdeb'), (_, __) {});
 
     await expectLater(
@@ -120,6 +120,73 @@ void main() {
     ).called(1);
   });
 
+  test('active transaction id is set during operation', () async {
+    final completer = Completer<void>();
+    createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+      waitTransaction: completer.future,
+    );
+    createMockAppstreamService(component: component);
+    final container = createContainer(overrides: emptyDebOverrides);
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    // Before any operation, no active transaction
+    expect(
+      container.read(debModelProvider('testdeb')).value!.activeTransactionId,
+      isNull,
+    );
+
+    // Start the operation but don't let it complete yet
+    final installFuture =
+        container.read(debModelProvider('testdeb').notifier).installDeb();
+
+    // Allow microtasks to run so the model sets the transaction id
+    await Future<void>.delayed(Duration.zero);
+
+    // During the operation, activeTransactionId should be set
+    expect(
+      container.read(debModelProvider('testdeb')).value!.activeTransactionId,
+      equals(42),
+    );
+
+    // Let the transaction complete
+    completer.complete();
+    await installFuture;
+
+    // After operation completes, activeTransactionId should be cleared
+    expect(
+      container.read(debModelProvider('testdeb')).value!.activeTransactionId,
+      isNull,
+    );
+  });
+
+  test('cancel transaction', () async {
+    final packageKit = createMockPackageKitService(
+      packageInfo: packageInfo,
+      transactionId: 42,
+    );
+    createMockAppstreamService(component: component);
+    final container = createContainer(overrides: emptyDebOverrides);
+    container.listen(debModelProvider('testdeb'), (_, __) {});
+
+    await expectLater(
+      container.read(debModelProvider('testdeb').future),
+      completes,
+    );
+
+    // cancelTransaction should not throw when there's no active transaction
+    await container
+        .read(debModelProvider('testdeb').notifier)
+        .cancelTransaction();
+    verifyNever(packageKit.cancelTransaction(any));
+  });
+
   test('error stream', () async {
     createMockPackageKitService(
       packageInfo: packageInfo,
@@ -131,7 +198,7 @@ void main() {
       ),
     );
     createMockAppstreamService(component: component);
-    final container = ProviderContainer();
+    final container = createContainer(overrides: emptyDebOverrides);
     final provider = container.listen(debModelProvider('testdeb'), (_, __) {});
 
     await expectLater(
@@ -149,6 +216,4 @@ void main() {
       equals('error details'),
     );
   });
-
-  // TODO: test `activeTransactionId` and `cancel()`
 }
