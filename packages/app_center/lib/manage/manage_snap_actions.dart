@@ -2,15 +2,15 @@ import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/snap_updates_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/active_change_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 
-class ManageAppActions extends ConsumerWidget {
-  const ManageAppActions({
+class ManageSnapActions extends ConsumerWidget {
+  const ManageSnapActions({
     required this.snapName,
     this.showOnlyUpdate = false,
     super.key,
@@ -40,7 +40,7 @@ class ManageAppActions extends ConsumerWidget {
         : ref.watch(launchProvider(snapData.localSnap!));
     final canOpen = snapLauncher?.isLaunchable ?? false;
     final hasActiveChange = snapData.activeChangeId != null;
-    final hasUpdate = ref.watch(hasUpdateProvider(snap.name));
+    final hasUpdate = ref.watch(snapHasUpdateProvider(snap.name));
 
     final primaryAction = switch ((hasUpdate && !shouldQuitToUpdate, canOpen)) {
       (true, _) => SnapAction.update,

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app_center/manage/local_snap_providers.dart';
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/snap_updates_provider.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/snapd/snapd_cache.dart';
@@ -54,7 +54,7 @@ class SnapModel extends _$SnapModel {
       // regarding it.
       throw SnapDataNotFoundException(snapName);
     }
-    final hasUpdate = ref.watch(hasUpdateProvider(snapName));
+    final hasUpdate = ref.watch(snapHasUpdateProvider(snapName));
 
     // Determine if a previous local revision exists to enable revert
     final hasPrev = await _snapd.hasPreviousRevision(snapName);
@@ -97,7 +97,7 @@ class SnapModel extends _$SnapModel {
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, ref);
     unawaited(
-      ref.read(filteredLocalSnapsProvider.notifier).addToList(storeSnap),
+      ref.read(localSnapsProvider.notifier).addToList(storeSnap),
     );
   }
 
@@ -138,9 +138,9 @@ class SnapModel extends _$SnapModel {
     _updateChangeId(changeId);
     return _listenUntilDone(changeId, ref).then((completedSuccessfully) {
       if (removeFromList && completedSuccessfully) {
-        ref.read(updatesModelProvider.notifier).removeFromList(snapData.name);
+        ref.read(snapUpdatesProvider.notifier).removeFromList(snapData.name);
         ref
-            .read(filteredLocalSnapsProvider.notifier)
+            .read(localSnapsProvider.notifier)
             .addToList(snapData.localSnap!);
       }
       return completedSuccessfully;
@@ -153,8 +153,8 @@ class SnapModel extends _$SnapModel {
     final changeId = await _snapd.remove(snapName);
     _updateChangeId(changeId);
     await _listenUntilDone(changeId, ref);
-    ref.read(updatesModelProvider.notifier).removeFromList(snapName);
-    ref.read(filteredLocalSnapsProvider.notifier).removeFromList(snapName);
+    ref.read(snapUpdatesProvider.notifier).removeFromList(snapName);
+    ref.read(localSnapsProvider.notifier).removeFromList(snapName);
   }
 
   Future<void> revert() async {

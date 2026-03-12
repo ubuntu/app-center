@@ -1,1 +1,10 @@
+export 'combined_providers.dart';
+export 'deb_updates_provider.dart';
+export 'local_deb_providers.dart';
+export 'manage_app_data.dart';
+export 'manage_app_tile.dart';
+export 'manage_deb_actions.dart';
+export 'manage_filters.dart';
 export 'manage_page.dart';
+export 'manage_snap_actions.dart';
+export 'snap_updates_provider.dart';
