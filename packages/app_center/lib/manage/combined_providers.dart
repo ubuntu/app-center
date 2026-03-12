@@ -29,9 +29,8 @@ class CombinedUpdates extends _$CombinedUpdates {
 
     final combined = <ManageAppData>[
       ...snapUpdates.snaps.map((storeSnap) {
-        final localSnap = localSnaps.snaps
-            .where((s) => s.name == storeSnap.name)
-            .firstOrNull;
+        final localSnap =
+            localSnaps.snaps.where((s) => s.name == storeSnap.name).firstOrNull;
         return ManageSnapData(
           snap: localSnap ?? storeSnap,
           hasUpdate: true,
@@ -69,9 +68,7 @@ class CombinedUpdates extends _$CombinedUpdates {
             try {
               final completedSuccessfully = await refreshFuture;
               if (completedSuccessfully) {
-                ref
-                    .read(snapUpdatesProvider.notifier)
-                    .removeFromList(snapName);
+                ref.read(snapUpdatesProvider.notifier).removeFromList(snapName);
               }
             } on Exception catch (e) {
               if (e is SnapdException && e.kind == 'auth-cancelled') {

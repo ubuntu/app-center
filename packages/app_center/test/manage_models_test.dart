@@ -20,8 +20,7 @@ void main() {
       final container = createContainer();
       final nonRefreshableSnaps =
           await container.read(localSnapsProvider.future);
-      final refreshableSnaps =
-          await container.read(snapUpdatesProvider.future);
+      final refreshableSnaps = await container.read(snapUpdatesProvider.future);
 
       expect(
         nonRefreshableSnaps,
@@ -49,8 +48,7 @@ void main() {
       );
       final container = createContainer();
       final installedSnaps = await container.read(localSnapsProvider.future);
-      final refreshableSnaps =
-          await container.read(snapUpdatesProvider.future);
+      final refreshableSnaps = await container.read(snapUpdatesProvider.future);
 
       // Refreshable snaps appear in BOTH lists - installed list contains all snaps
       expect(

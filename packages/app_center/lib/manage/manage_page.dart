@@ -57,7 +57,8 @@ class ManagePage extends ConsumerWidget {
                   focused: true,
                   child: Text(
                     l10n.managePageLabel,
-                    style: textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+                    style: textTheme.titleMedium!
+                        .copyWith(fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
@@ -154,7 +155,8 @@ class ManagePage extends ConsumerWidget {
           SliverList.builder(
             itemCount: currentlyInstalling.length,
             itemBuilder: (context, index) {
-              final snapData = currentlyInstalling[currentlyInstallingNames[index]]!;
+              final snapData =
+                  currentlyInstalling[currentlyInstallingNames[index]]!;
               return ManageAppTile(
                 app: ManageSnapData(snap: snapData.snap),
                 position: determineTilePosition(
@@ -194,9 +196,8 @@ class ManagePage extends ConsumerWidget {
                         hintText: l10n.managePageSearchFieldSearchHint,
                       ),
                       initialValue: ref.watch(appFilterProvider),
-                      onChanged: (value) => ref
-                          .read(appFilterProvider.notifier)
-                          .state = value,
+                      onChanged: (value) =>
+                          ref.read(appFilterProvider.notifier).state = value,
                     ),
                   ),
                 ),
@@ -245,9 +246,8 @@ class ManagePage extends ConsumerWidget {
                       ],
                       itemBuilder: (context, sortOrder, child) =>
                           Text(sortOrder.localize(l10n)),
-                      onSelected: (value) => ref
-                          .read(appSortOrderProvider.notifier)
-                          .state = value,
+                      onSelected: (value) =>
+                          ref.read(appSortOrderProvider.notifier).state = value,
                       expanded: false,
                       child: Text(sortOrder.localize(l10n)),
                     );
@@ -335,12 +335,11 @@ class _ActionButtons extends ConsumerWidget {
         ),
         PushButton.elevated(
           onPressed: combinedUpdates.whenOrNull(
-                data: (updates) => updates.isNotEmpty &&
-                        !isRefreshingAll &&
-                        hasInternet
+            data: (updates) =>
+                updates.isNotEmpty && !isRefreshingAll && hasInternet
                     ? ref.read(combinedUpdatesProvider.notifier).refreshAll
                     : null,
-              ),
+          ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

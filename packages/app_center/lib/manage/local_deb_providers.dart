@@ -27,11 +27,10 @@ class InstalledDebs extends _$InstalledDebs {
     }
 
     // Batch resolve all Appstream package names in one transaction
-    final resolvedPackages =
-        await packageKit.resolve(
-          appstreamPackages.keys.toList(),
-          installedOnly: true,
-        );
+    final resolvedPackages = await packageKit.resolve(
+      appstreamPackages.keys.toList(),
+      installedOnly: true,
+    );
 
     // Get package IDs for installed packages to fetch details
     final installedPackageIds = resolvedPackages.values
@@ -40,8 +39,7 @@ class InstalledDebs extends _$InstalledDebs {
         .toList();
 
     // Fetch details (including size) for all installed packages
-    final packageDetails =
-        await packageKit.getDetailsMany(installedPackageIds);
+    final packageDetails = await packageKit.getDetailsMany(installedPackageIds);
 
     // Build list of installed debs
     final debs = <ManageDebData>[];

@@ -139,9 +139,7 @@ class SnapModel extends _$SnapModel {
     return _listenUntilDone(changeId, ref).then((completedSuccessfully) {
       if (removeFromList && completedSuccessfully) {
         ref.read(snapUpdatesProvider.notifier).removeFromList(snapData.name);
-        ref
-            .read(localSnapsProvider.notifier)
-            .addToList(snapData.localSnap!);
+        ref.read(localSnapsProvider.notifier).addToList(snapData.localSnap!);
       }
       return completedSuccessfully;
     });

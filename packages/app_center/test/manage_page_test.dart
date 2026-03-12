@@ -502,14 +502,6 @@ void main() {
     expect(
       find.descendant(
         of: debTile,
-        matching: find.text(tester.l10n.managePageDebSourceLabel),
-      ),
-      findsOneWidget,
-    );
-
-    expect(
-      find.descendant(
-        of: debTile,
         matching: find.text('2.10 \u2192 2.11'),
       ),
       findsOneWidget,
@@ -544,14 +536,6 @@ void main() {
 
     final debTile = find.snapTile('GIMP');
     expect(debTile, findsOneWidget);
-
-    expect(
-      find.descendant(
-        of: debTile,
-        matching: find.text(tester.l10n.managePageDebSourceLabel),
-      ),
-      findsOneWidget,
-    );
 
     expect(
       find.descendant(of: debTile, matching: find.text('2.10')),

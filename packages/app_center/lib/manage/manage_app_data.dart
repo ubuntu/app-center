@@ -73,11 +73,13 @@ class ManageDebData with _$ManageDebData implements ManageAppData {
   String? get iconUrl => component.icon;
 
   @override
-  bool get isLaunchable =>
-      component.launchables.whereType<AppstreamLaunchableDesktopId>().isNotEmpty;
+  bool get isLaunchable => component.launchables
+      .whereType<AppstreamLaunchableDesktopId>()
+      .isNotEmpty;
 
   @override
-  DateTime? get installDate => null; // No clean way of getting this from info currently
+  DateTime? get installDate =>
+      null; // No clean way of getting this from info currently
 
   @override
   int? get installedSize => size;

@@ -53,22 +53,23 @@ extension AppSortOrderL10n on AppSortOrder {
 extension AppSort on List<ManageAppData> {
   List<ManageAppData> sortedApps(AppSortOrder order) {
     final sorted = List<ManageAppData>.from(this);
-    sorted.sort((a, b) => switch (order) {
-          AppSortOrder.alphabeticalAsc =>
-            a.name.toLowerCase().compareTo(b.name.toLowerCase()),
-          AppSortOrder.alphabeticalDesc =>
-            b.name.toLowerCase().compareTo(a.name.toLowerCase()),
-          AppSortOrder.installedDateAsc => _compareDates(a, b, ascending: true),
-          AppSortOrder.installedDateDesc =>
-            _compareDates(a, b, ascending: false),
-          AppSortOrder.installedSizeAsc => _compareSizes(a, b, ascending: true),
-          AppSortOrder.installedSizeDesc =>
-            _compareSizes(a, b, ascending: false),
-        },);
+    sorted.sort(
+      (a, b) => switch (order) {
+        AppSortOrder.alphabeticalAsc =>
+          a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+        AppSortOrder.alphabeticalDesc =>
+          b.name.toLowerCase().compareTo(a.name.toLowerCase()),
+        AppSortOrder.installedDateAsc => _compareDates(a, b, ascending: true),
+        AppSortOrder.installedDateDesc => _compareDates(a, b, ascending: false),
+        AppSortOrder.installedSizeAsc => _compareSizes(a, b, ascending: true),
+        AppSortOrder.installedSizeDesc => _compareSizes(a, b, ascending: false),
+      },
+    );
     return sorted;
   }
 
-  int _compareDates(ManageAppData a, ManageAppData b, {required bool ascending}) {
+  int _compareDates(ManageAppData a, ManageAppData b,
+      {required bool ascending}) {
     final dateA = a.installDate;
     final dateB = b.installDate;
 
@@ -81,7 +82,8 @@ extension AppSort on List<ManageAppData> {
     return ascending ? dateA.compareTo(dateB) : dateB.compareTo(dateA);
   }
 
-  int _compareSizes(ManageAppData a, ManageAppData b, {required bool ascending}) {
+  int _compareSizes(ManageAppData a, ManageAppData b,
+      {required bool ascending}) {
     final sizeA = a.installedSize;
     final sizeB = b.installedSize;
 

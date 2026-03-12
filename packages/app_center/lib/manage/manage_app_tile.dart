@@ -123,9 +123,8 @@ class _ManageTileLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final border = BorderSide(color: Theme.of(context).colorScheme.outline);
-    final dateTimeSinceUpdate = installDate != null
-        ? DateTime.now().difference(installDate!)
-        : null;
+    final dateTimeSinceUpdate =
+        installDate != null ? DateTime.now().difference(installDate!) : null;
     const radius = Radius.circular(8);
 
     return DecoratedBox(
@@ -292,21 +291,12 @@ class _DebSourceDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final version = deb.version;
     final updateVersion = deb.updateVersion;
 
-    return Row(
-      children: [
-        Text(l10n.managePageDebSourceLabel),
-        const SizedBox(width: 4),
-        const Text('\u00b7'),
-        const SizedBox(width: 4),
-        if (updateVersion != null)
-          Text('$version \u2192 $updateVersion')
-        else
-          Text(version),
-      ],
-    );
+    if (updateVersion != null) {
+      return Text('$version \u2192 $updateVersion');
+    }
+    return Text(version);
   }
 }
