@@ -55,8 +55,9 @@ class LocalDebModel extends _$LocalDebModel {
     if (details == null) {
       throw Exception('Failed to get package details');
     }
-    final packageInfo = await packageKit.resolve(details.packageId.name);
-    return LocalDebData(path: path, details: details, packageInfo: packageInfo);
+    final name = details.packageId.name;
+    final resolved = await packageKit.resolve([name]);
+    return LocalDebData(path: path, details: details, packageInfo: resolved[name]);
   }
 
   Future<void> install() async {

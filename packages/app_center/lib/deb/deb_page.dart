@@ -215,7 +215,9 @@ enum DebAction {
     return switch (this) {
       cancel => provider.cancelTransaction,
       install => provider.installDeb,
-      update => provider.updateDeb,
+      update => data.updatePackageId != null
+          ? () => provider.updateDeb(data.updatePackageId!)
+          : null,
       remove => provider.removeDeb,
     };
   }

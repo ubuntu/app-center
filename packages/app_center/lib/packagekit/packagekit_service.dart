@@ -125,7 +125,7 @@ class PackageKitService {
       (event) {
         if (event is PackageKitFinishedEvent) {
           if (event.exit == PackageKitExit.success) {
-          completer.complete();
+            completer.complete();
           } else {
             completer.completeError(
               PackageKitTransactionError(
@@ -247,7 +247,7 @@ class PackageKitService {
     for (final entry in results.entries) {
       if (entry.value == null) {
         log.error('Couldn\'t resolve package ${entry.key}');
-    }
+      }
     }
 
     return results;

@@ -1,31 +1,68 @@
 import 'package:app_center/snapd/snapd.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 part 'local_snap_providers.g.dart';
+part 'local_snap_providers.freezed.dart';
 
-final localSnapFilterProvider = StateProvider.autoDispose<String>((_) => '');
-final showLocalSystemAppsProvider = StateProvider<bool>((_) => false);
-final localSnapSortOrderProvider =
-    StateProvider<SnapSortOrder>((_) => SnapSortOrder.alphabeticalAsc);
+@freezed
+class SnapListState with _$SnapListState {
+  factory SnapListState({
+    @Default([]) Iterable<Snap> snaps,
+    @Default(true) bool hasInternet,
+  }) = _snapListState;
 
+  const SnapListState._();
+
+  bool get isNotEmpty => snaps.isNotEmpty;
+  bool get isEmpty => snaps.isEmpty;
+  int get length => snaps.length;
+  Snap get single => snaps.single;
+
+  Snap? getSnap(String snapName) {
+    return snaps.firstWhereOrNull((snap) => snap.name == snapName);
+  }
+}
+
+/// This runs the [function] and if it throws an exception that indicates that
+/// there is a network problem it returns a [SnapListState] with an empty list
+/// and `SnapListState.hasInternet` as false.
+///
+/// Any other exceptions will be rethrown.
+Future<SnapListState> connectionCheck(
+  Future<Iterable<Snap>> Function() function,
+  Ref ref,
+) async {
+  try {
+    return SnapListState(snaps: await function());
+  } on SnapdException catch (e) {
+    switch (e.kind) {
+      // When kind is null it is most likely a problem with the internet
+      // connection.
+      case 'network-timeout':
+      case null:
+        return Future.value(SnapListState(hasInternet: false));
+      // Since the snap is just not installed when 'snap-not-found is thrown
+      // we can ignore this exception.
+      default:
+        rethrow;
+    }
+  }
+}
+
+/// Provider for all locally installed snaps.
+/// Filtering and sorting is handled by `CombinedInstalled` in combined_providers.dart.
 @riverpod
-class FilteredLocalSnaps extends _$FilteredLocalSnaps {
+class LocalSnaps extends _$LocalSnaps {
   late final _snapd = getService<SnapdService>();
 
   @override
   Future<SnapListState> build() async {
-    final snapListState = await connectionCheck(_snapd.getSnaps, ref);
-    final snaps = snapListState.snaps;
-    void refreshFunction(_, __) => _refreshWithFilters(snaps);
-    ref.listen(localSnapFilterProvider, refreshFunction);
-    ref.listen(showLocalSystemAppsProvider, refreshFunction);
-    ref.listen(localSnapSortOrderProvider, refreshFunction);
-    return snapListState.copyWith(
-      snaps: _refreshWithFilters(snaps, updateState: false),
-    );
+    return connectionCheck(_snapd.getSnaps, ref);
   }
 
   /// Used to add a snap from the list without reloading the whole provider.
@@ -34,12 +71,15 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
   Future<void> addToList(Snap snap) async {
     if (!state.hasValue) return;
     final localSnap = await _snapd.getSnap(snap.name);
-    _refreshWithFilters([...state.value!.snaps, localSnap]);
+    state = AsyncData(
+      state.value!.copyWith(
+        snaps: [...state.value!.snaps, localSnap],
+      ),
+    );
   }
 
   /// Used to remove a snap from the list without reloading the whole provider.
-  /// Should be used when a snap is uninstalled directly from the manage page
-  /// list for example.
+  /// Should be used when a snap is uninstalled directly from the manage page.
   void removeFromList(String snapName) {
     if (!state.hasValue) return;
     state = AsyncData(
@@ -47,31 +87,5 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
         snaps: state.value!.snaps.where((s) => s.name != snapName),
       ),
     );
-  }
-
-  Iterable<Snap> _refreshWithFilters(
-    Iterable<Snap> allSnaps, {
-    bool updateState = true,
-  }) {
-    final filter = ref.read(localSnapFilterProvider).toLowerCase();
-    final showSystemApps = ref.read(showLocalSystemAppsProvider);
-    final sortOrder = ref.read(localSnapSortOrderProvider);
-    final filteredSnaps = allSnaps
-        .where(
-          (snap) =>
-              snap.titleOrName.toLowerCase().contains(filter) &&
-              (showSystemApps || snap.apps.isNotEmpty),
-        )
-        .toSet()
-        .sortedSnaps(sortOrder);
-    if (updateState) {
-      state = AsyncData(
-        SnapListState(
-          snaps: filteredSnaps,
-          hasInternet: state.value?.hasInternet ?? true,
-        ),
-      );
-    }
-    return filteredSnaps;
   }
 }
