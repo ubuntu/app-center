@@ -2,6 +2,8 @@ import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/layout.dart';
 import 'package:flutter/material.dart';
 
+const _infoBarPadding = 32.0;
+
 /// A page layout to display a single app and its associated actions.
 class AppPage extends StatelessWidget {
   const AppPage({
@@ -45,13 +47,13 @@ class AppPage extends StatelessWidget {
                         titleBar,
                         const SizedBox(height: kPagePadding),
                         actionBar,
-                        const SizedBox(height: 32),
+                        const SizedBox(height: _infoBarPadding),
                         const Divider(),
-                        const SizedBox(height: 32),
+                        const SizedBox(height: _infoBarPadding),
                         infoBar,
-                        const SizedBox(height: 32),
+                        const SizedBox(height: _infoBarPadding),
                         const Divider(),
-                        const SizedBox(height: 32),
+                        const SizedBox(height: _infoBarPadding),
                         body,
                         const SizedBox(height: kPagePadding),
                       ],
