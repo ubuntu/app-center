@@ -2,6 +2,7 @@ import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/providers/installed_snaps_provider.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/multisnap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -271,11 +272,18 @@ class _SnapSearchResults extends ConsumerWidget {
         ),
       ),
     );
+
+    final installedSnapsModel = ref.watch(installedSnapsProvider);
+
+    final installedSnapsIds =
+        installedSnapsModel.value?.snaps.map((s) => s.id).toList() ?? [];
+
     return results.when(
       data: (data) => data.isNotEmpty
           ? ResponsiveLayoutScrollView(
               slivers: [
                 AppCardGrid.fromSnaps(
+                  installedIds: installedSnapsIds,
                   snaps: data,
                   onTap: (snap) => StoreNavigator.pushSearchSnap(
                     context,

@@ -1,4 +1,5 @@
 import 'package:app_center/explore/explore_page.dart';
+import 'package:app_center/providers/installed_snaps_provider.dart';
 import 'package:app_center/ratings/rated_category_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
@@ -53,14 +54,22 @@ class CategorySnapList extends ConsumerWidget {
             ?.take(numberOfSnaps)
             .toList() ??
         [];
+
+    final installedSnapsModel = ref.watch(installedSnapsProvider);
+
+    final installedSnapsIds =
+        installedSnapsModel.value?.snaps.map((s) => s.id).toList() ?? [];
+
     return showScreenshots
         ? SnapImageCardGrid(
             snaps: snaps,
             onTap: (snap) => StoreNavigator.pushSnap(context, name: snap.name),
+            installedIds: installedSnapsIds,
           )
         : AppCardGrid.fromSnaps(
             snaps: snaps,
             onTap: (snap) => StoreNavigator.pushSnap(context, name: snap.name),
+            installedIds: installedSnapsIds,
           );
   }
 }

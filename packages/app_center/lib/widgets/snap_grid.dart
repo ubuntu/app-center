@@ -14,11 +14,13 @@ class AppCardGrid extends StatelessWidget {
   factory AppCardGrid.fromSnaps({
     required List<Snap> snaps,
     required ValueChanged<Snap> onTap,
+    required List<String> installedIds,
   }) =>
       AppCardGrid(
         appCards: snaps.map(
           (snap) => AppCard.fromSnap(
             snap: snap,
+            isInstalled: installedIds.contains(snap.id),
             onTap: () => onTap(snap),
           ),
         ),
@@ -126,11 +128,13 @@ class SnapImageCardGrid extends StatelessWidget {
   const SnapImageCardGrid({
     required this.snaps,
     required this.onTap,
+    required this.installedIds,
     super.key,
   });
 
   final List<Snap> snaps;
   final ValueChanged<Snap> onTap;
+  final List<String> installedIds;
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +161,7 @@ class SnapImageCardGrid extends StatelessWidget {
           key: ValueKey(snap.id),
           snap: snap,
           onTap: () => onTap(snap),
+          isInstalled: installedIds.contains(snap.id),
         );
       },
     );
