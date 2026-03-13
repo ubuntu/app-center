@@ -271,7 +271,7 @@ class SnapImageCard extends StatelessWidget {
   }
 }
 
-class _InstalledLable extends StatelessWidget {
+class _InstalledLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -282,7 +282,7 @@ class _InstalledLable extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-      child: Text(l10n.installedLable),
+      child: Text(l10n.installedLabel),
     );
   }
 }
@@ -336,7 +336,7 @@ class _AppCardBody extends StatelessWidget {
           ],
         ),
         if (isInstalled)
-          Align(alignment: Alignment.topRight, child: _InstalledLable()),
+          Align(alignment: Alignment.topRight, child: _InstalledLabel()),
       ],
     );
   }

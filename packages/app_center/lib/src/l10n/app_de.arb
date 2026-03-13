@@ -479,5 +479,5 @@
   "@debPageDocumentationLinkLabel": {},
   "managePageDocumentationLinkLabel": "In der Dokumentation erfahren Sie, wie Sie Debian-Pakete verwalten können.",
   "@managePageDocumentationLinkLabel": {},
-  "installedLable": "Installiert"
+  "installedLabel": "Installiert"
 }
