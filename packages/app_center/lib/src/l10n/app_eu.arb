@@ -369,5 +369,15 @@
     "appstreamUrlTypeBugtracker": "Akatsen aztarnaria",
     "snapSortOrderInstalledDateAsc": "Eguneratze zaharrenekoak",
     "snapSortOrderInstalledDateDesc": "Eguneratze berrienekoak",
-    "localDebWarningBody": "Pakete hau hirugarren batek hornitzen du. Aplikazioen zentrotik kanpoko paketeak instalatzeak zure sistema eta datu pertsonalak arriskuan jar ditzake. Ziurtatu jatorria fidagarria dela aurrera egin baino lehen."
+    "localDebWarningBody": "Pakete hau hirugarren batek hornitzen du. Aplikazioen zentrotik kanpoko paketeak instalatzeak zure sistema eta datu pertsonalak arriskuan jar ditzake. Ziurtatu jatorria fidagarria dela aurrera egin baino lehen.",
+    "appUrlTypeContact": "Kontaktatu {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Garatzailearen webgunea",
+    "appUrlTypeUnknown": "Esteka"
 }
