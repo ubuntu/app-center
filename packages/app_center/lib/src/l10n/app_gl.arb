@@ -39,7 +39,7 @@
     "explorePageLabel": "Explorar",
     "explorePageCategoriesLabel": "Categorías",
     "managePageOwnUpdateAvailable": "Actualización do centro de aplicacións dispoñible",
-    "appstreamSearchGreylist": "aplicación; aplicación; paquete; programa; programa; conxunto de programas; ferramenta",
+    "appstreamSearchGreylist": "aplicación; aplicativo; paquete; programa; programas; conxunto de programas; ferramenta",
     "snapPageChannelLabel": "Canle",
     "snapPageConfinementLabel": "Confinamento",
     "snapPageContactPublisherLabel": "Contactar con {publisher}",
@@ -122,7 +122,7 @@
     "aboutPageContributeLabel": "Contribúe ou informa dun becho",
     "aboutPageGitHubLabel": "Atópanos en GitHub",
     "aboutPagePublishLabel": "Publicar na Snap Store",
-    "aboutPageLearnMoreLabel": "Aprender máis",
+    "aboutPageLearnMoreLabel": "Saber máis",
     "appUrlTypeContact": "Contactar {publisher}",
     "@appUrlTypeContact": {
         "placeholders": {
