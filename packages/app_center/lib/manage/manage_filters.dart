@@ -68,8 +68,11 @@ extension AppSort on List<ManageAppData> {
     return sorted;
   }
 
-  int _compareDates(ManageAppData a, ManageAppData b,
-      {required bool ascending}) {
+  int _compareDates(
+    ManageAppData a,
+    ManageAppData b, {
+    required bool ascending,
+  }) {
     final dateA = a.installDate;
     final dateB = b.installDate;
 
@@ -82,8 +85,11 @@ extension AppSort on List<ManageAppData> {
     return ascending ? dateA.compareTo(dateB) : dateB.compareTo(dateA);
   }
 
-  int _compareSizes(ManageAppData a, ManageAppData b,
-      {required bool ascending}) {
+  int _compareSizes(
+    ManageAppData a,
+    ManageAppData b, {
+    required bool ascending,
+  }) {
     final sizeA = a.installedSize;
     final sizeB = b.installedSize;
 

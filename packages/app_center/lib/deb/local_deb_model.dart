@@ -58,7 +58,10 @@ class LocalDebModel extends _$LocalDebModel {
     final name = details.packageId.name;
     final resolved = await packageKit.resolve([name]);
     return LocalDebData(
-        path: path, details: details, packageInfo: resolved[name]);
+      path: path,
+      details: details,
+      packageInfo: resolved[name],
+    );
   }
 
   Future<void> install() async {

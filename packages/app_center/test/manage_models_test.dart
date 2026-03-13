@@ -120,14 +120,16 @@ void main() {
       final packageKit = createMockPackageKitService();
       when(
         packageKit.resolve(any, installedOnly: true),
-      ).thenAnswer((_) async => {
-            'gimp': const PackageKitPackageEvent(
-              info: PackageKitInfo.installed,
-              packageId: PackageKitPackageId(name: 'gimp', version: '2.10'),
-              summary: 'GNU Image Manipulation Program',
-            ),
-            'missing-pkg': null,
-          });
+      ).thenAnswer(
+        (_) async => {
+          'gimp': const PackageKitPackageEvent(
+            info: PackageKitInfo.installed,
+            packageId: PackageKitPackageId(name: 'gimp', version: '2.10'),
+            summary: 'GNU Image Manipulation Program',
+          ),
+          'missing-pkg': null,
+        },
+      );
 
       final container = createContainer();
       final debs = await container.read(installedDebsProvider.future);

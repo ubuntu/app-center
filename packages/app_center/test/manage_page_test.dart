@@ -17,15 +17,17 @@ import 'test_utils.dart';
 import 'test_utils.mocks.dart';
 
 class _TestInstalledDebs extends InstalledDebs {
-  final List<ManageDebData> _debs;
   _TestInstalledDebs(this._debs);
+
+  final List<ManageDebData> _debs;
   @override
   Future<List<ManageDebData>> build() async => _debs;
 }
 
 class _TestDebUpdates extends DebUpdates {
-  final List<ManageDebData> _updates;
   _TestDebUpdates(this._updates);
+
+  final List<ManageDebData> _updates;
   @override
   Future<List<ManageDebData>> build() async => _updates;
 }

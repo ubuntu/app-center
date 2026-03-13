@@ -16,16 +16,18 @@ import 'test_utils.dart';
 
 /// Test override for InstalledDebs that returns known data.
 class _TestInstalledDebs extends InstalledDebs {
-  final List<ManageDebData> _debs;
   _TestInstalledDebs(this._debs);
+
+  final List<ManageDebData> _debs;
   @override
   Future<List<ManageDebData>> build() async => _debs;
 }
 
 /// Test override for DebUpdates that returns known data.
 class _TestDebUpdates extends DebUpdates {
-  final List<ManageDebData> _updates;
   _TestDebUpdates(this._updates);
+
+  final List<ManageDebData> _updates;
   @override
   Future<List<ManageDebData>> build() async => _updates;
 }
