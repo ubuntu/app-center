@@ -1,4 +1,6 @@
 import 'package:app_center/games/games.dart';
+import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/providers/installed_snaps_provider.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/snap_category_enum.dart';
 import 'package:app_center/snapd/snap_search.dart';
@@ -22,6 +24,8 @@ const snapRating = Rating(
 void main() {
   setUp(() => registerMockRatingsService(rating: snapRating, snapVotes: []));
   tearDown(resetAllServices);
+
+  final mockInstalledSnapsState = SnapListState();
 
   final mockSearchProvider = createMockSnapSearchProvider({
     const SnapSearchParameters(query: 'testsn'): [
@@ -69,6 +73,8 @@ void main() {
         overrides: [
           snapSearchProvider
               .overrideWith((ref, arg) => mockSearchProvider(arg)),
+
+          installedSnapsProvider.overrideWith(() => MockInstalledSnaps(mockInstalledSnapsState)),
         ],
         child: SearchPage(category: SnapCategoryEnum.games.name),
       ),
@@ -129,6 +135,8 @@ void main() {
         overrides: [
           snapSearchProvider
               .overrideWith((ref, arg) => mockSearchProvider(arg)),
+
+          installedSnapsProvider.overrideWith(() => MockInstalledSnaps(mockInstalledSnapsState)),
         ],
         child: const GamesPage(),
       ),

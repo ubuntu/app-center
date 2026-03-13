@@ -1,3 +1,5 @@
+import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/providers/installed_snaps_provider.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/multisnap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -60,12 +62,17 @@ void main() {
   });
   final multiSnapModel = MockMultiSnapModel();
 
+  final mockInstalledSnapsState = SnapListState();
+
+
   testWidgets('query', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
+
+          installedSnapsProvider.overrideWith(() => MockInstalledSnaps(mockInstalledSnapsState)),
         ],
         child: const SearchPage(query: 'testsn'),
       ),
@@ -92,6 +99,8 @@ void main() {
         overrides: [
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
+
+          installedSnapsProvider.overrideWith(() => MockInstalledSnaps(mockInstalledSnapsState)),
         ],
         child: const SearchPage(
           query: 'testsn',
@@ -121,6 +130,8 @@ void main() {
         overrides: [
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
+
+          installedSnapsProvider.overrideWith(() => MockInstalledSnaps(mockInstalledSnapsState)),
         ],
         child: const SearchPage(
           category: 'education',
@@ -145,6 +156,8 @@ void main() {
           snapSearchProvider
               .overrideWith((ref, query) => mockSearchProvider(query)),
           multiSnapModelProvider.overrideWith((ref, arg) => multiSnapModel),
+
+          installedSnapsProvider.overrideWith(() => MockInstalledSnaps(mockInstalledSnapsState)),
         ],
         child: const SearchPage(
           category: 'gameDev',
@@ -172,6 +185,8 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
+
+            installedSnapsProvider.overrideWith(() => MockInstalledSnaps(mockInstalledSnapsState)),
           ],
           child: const SearchPage(query: 'testsn'),
         ),
@@ -198,6 +213,8 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
+
+            installedSnapsProvider.overrideWith(() => MockInstalledSnaps(mockInstalledSnapsState)),
           ],
           child: const SearchPage(query: 'testsn'),
         ),
@@ -227,6 +244,8 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
+
+            installedSnapsProvider.overrideWith(() => MockInstalledSnaps(mockInstalledSnapsState)),
           ],
           child: const SearchPage(query: 'testsn'),
         ),
@@ -259,6 +278,8 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
+
+            installedSnapsProvider.overrideWith(() => MockInstalledSnaps(mockInstalledSnapsState)),
           ],
           child: const SearchPage(query: 'foo'),
         ),
@@ -276,6 +297,8 @@ void main() {
           overrides: [
             snapSearchProvider
                 .overrideWith((ref, query) => mockSearchProvider(query)),
+
+            installedSnapsProvider.overrideWith(() => MockInstalledSnaps(mockInstalledSnapsState)),
           ],
           child: const SearchPage(query: 'foo', category: 'social'),
         ),
