@@ -370,5 +370,5 @@
     "codecPageDescription": "You need to install the following codecs for handling certain video and audio formats:",
     "codecProprietaryDisclaimer": "Some of the recommended codecs could be proprietary.",
     "codecInstallAllButton": "Install recommended codecs",
-    "installedLable": "Installed"
+    "installedLabel": "Installed"
 }
