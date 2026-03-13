@@ -379,5 +379,15 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Ei leidu eelmist kohalikus seadmes paigaldatud versiooni, kuhu tagasi pöörata."
+    "snapRevertNoPreviousRevisionMessage": "Ei leidu eelmist kohalikus seadmes paigaldatud versiooni, kuhu tagasi pöörata.",
+    "appUrlTypeContact": "Võta ühendust avaldajaga: {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Arendaja veebisait",
+    "appUrlTypeUnknown": "Link"
 }
