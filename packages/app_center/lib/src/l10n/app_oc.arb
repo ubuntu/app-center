@@ -372,5 +372,15 @@
     "codecPageTitle": "Còdecs multimèdias mancants",
     "codecPageDescription": "Devètz installar los còdecs seguents per gerir d’unes formats vidèo e àudio :",
     "codecProprietaryDisclaimer": "D’unes còdecs recomandats poirián èsser proprietaris.",
-    "codecInstallAllButton": "Installar los còdecs recomandats"
+    "codecInstallAllButton": "Installar los còdecs recomandats",
+    "appUrlTypeContact": "Contactar {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Site Web del desvolopaire",
+    "appUrlTypeUnknown": "Ligam"
 }
