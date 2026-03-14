@@ -379,5 +379,15 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Níl aon athbhreithniú áitiúil roimhe seo ar fáil le dul ar ais chuige."
+    "snapRevertNoPreviousRevisionMessage": "Níl aon athbhreithniú áitiúil roimhe seo ar fáil le dul ar ais chuige.",
+    "appUrlTypeContact": "Déan teagmháil le {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Suíomh Gréasáin an fhorbróra",
+    "appUrlTypeUnknown": "Nasc"
 }
