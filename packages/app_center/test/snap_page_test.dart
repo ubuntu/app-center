@@ -428,5 +428,18 @@ void main() {
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsNothing);
   });
 
+  testWidgets('show installed label', (tester) async {
+    await tester.pumpApp(
+          (_) => AppCard(
+        title: const AppTitle(title: 'Test App'),
+        summary: 'Summary',
+        isInstalled: true,
+      ),
+    );
+
+    expect(find.text(tester.l10n.installedLabel), findsOneWidget);
+  });
+
+
   // TODO: test loading states with snap change in progress
 }

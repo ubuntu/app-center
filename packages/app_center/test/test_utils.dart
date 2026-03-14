@@ -5,9 +5,11 @@ import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/gstreamer/gstreamer_model.dart';
 import 'package:app_center/gstreamer/gstreamer_resource.dart';
 import 'package:app_center/l10n.dart';
+import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/providers/file_system_provider.dart';
+import 'package:app_center/providers/installed_snaps_provider.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/multisnap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -453,4 +455,17 @@ Snap createSnap({
     website: website,
     refreshInhibit: refreshInhibit,
   );
+}
+
+class MockInstalledSnaps extends InstalledSnaps {
+  MockInstalledSnaps(this.mockState);
+  final SnapListState mockState;
+
+  @override
+  Future<SnapListState> build() async => mockState;
+
+  @override
+  Future<void> addToList(dynamic snap) async {}
+  @override
+  void removeFromList(String snapName) {}
 }

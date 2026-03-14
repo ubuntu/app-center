@@ -22,10 +22,12 @@ class AppCard extends StatelessWidget {
     this.compact = false,
     this.iconUrl,
     this.footer,
+    this.isInstalled = false,
   });
 
   AppCard.fromSnap({
     required Snap snap,
+    bool isInstalled = false,
     VoidCallback? onTap,
   }) : this(
           key: ValueKey(snap.id),
@@ -34,6 +36,7 @@ class AppCard extends StatelessWidget {
           iconUrl: snap.iconUrl,
           footer: _RatingsInfo(snap: snap),
           onTap: onTap,
+          isInstalled: isInstalled,
         );
 
   AppCard.fromDeb({
@@ -74,6 +77,7 @@ class AppCard extends StatelessWidget {
   final bool compact;
   final String? iconUrl;
   final Widget? footer;
+  final bool isInstalled;
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +108,7 @@ class AppCard extends StatelessWidget {
                   title: title,
                   summary: summary,
                   footer: footer,
+                  isInstalled: isInstalled,
                 ),
               ),
             ],
@@ -123,6 +128,7 @@ class RankedAppCard extends StatelessWidget {
     this.compact = false,
     this.iconUrl,
     this.footer,
+    this.isInstalled = false,
     super.key,
   });
 
@@ -146,6 +152,7 @@ class RankedAppCard extends StatelessWidget {
   final bool compact;
   final String? iconUrl;
   final Widget? footer;
+  final bool isInstalled;
   final int rank;
 
   @override
@@ -192,6 +199,7 @@ class RankedAppCard extends StatelessWidget {
                         title: title,
                         summary: '',
                         footer: footer,
+                        isInstalled: isInstalled,
                       ),
                     ),
                   ],
@@ -207,10 +215,16 @@ class RankedAppCard extends StatelessWidget {
 
 // TODO: generalize
 class SnapImageCard extends StatelessWidget {
-  const SnapImageCard({required this.snap, super.key, this.onTap});
+  const SnapImageCard({
+    required this.snap,
+    required this.isInstalled,
+    super.key,
+    this.onTap,
+  });
 
   final Snap snap;
   final VoidCallback? onTap;
+  final bool isInstalled;
 
   @override
   Widget build(BuildContext context) {
@@ -246,6 +260,7 @@ class SnapImageCard extends StatelessWidget {
                   summary: snap.summary,
                   footer: _RatingsInfo(snap: snap),
                   maxlines: 1,
+                  isInstalled: isInstalled,
                 ),
               ),
             ),
@@ -256,10 +271,27 @@ class SnapImageCard extends StatelessWidget {
   }
 }
 
+class _InstalledLabel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+      child: Text(l10n.installedLabel),
+    );
+  }
+}
+
 class _AppCardBody extends StatelessWidget {
   const _AppCardBody({
     required this.title,
     required this.summary,
+    required this.isInstalled,
     this.footer,
     this.maxlines = 2,
   });
@@ -267,37 +299,44 @@ class _AppCardBody extends StatelessWidget {
   final Widget title;
   final String summary;
   final Widget? footer;
+  final bool isInstalled;
   final int maxlines;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Stack(
       children: [
-        ExcludeSemantics(
-          child: Container(
-            constraints: BoxConstraints(minHeight: kIconSize),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: title,
-            ),
-          ),
-        ),
-        if (summary.isNotEmpty) ...[
-          Flexible(
-            child: ExcludeSemantics(
-              child: Text(
-                '$summary\n',
-                maxLines: maxlines,
-                overflow: TextOverflow.ellipsis,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ExcludeSemantics(
+              child: Container(
+                constraints: BoxConstraints(minHeight: kIconSize),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: title,
+                ),
               ),
             ),
-          ),
-        ],
-        if (footer != null) ...[
-          footer!,
-        ],
+            if (summary.isNotEmpty) ...[
+              Flexible(
+                child: ExcludeSemantics(
+                  child: Text(
+                    '$summary\n',
+                    maxLines: maxlines,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ],
+            if (footer != null) ...[
+              footer!,
+            ],
+          ],
+        ),
+        if (isInstalled)
+          Align(alignment: Alignment.topRight, child: _InstalledLabel()),
       ],
     );
   }
