@@ -372,5 +372,15 @@
     "snapRevertConfirmTitle": "Retourner à version précédente ?",
     "snapActionRevertLabel": "Défaire la mise à jour",
     "snapActionRevertingLabel": "Annulation mise à jour",
-    "snapRevertConfirmRevert": "Défaire"
+    "snapRevertConfirmRevert": "Défaire",
+    "appUrlTypeContact": "Contacter {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Site web développeur",
+    "appUrlTypeUnknown": "Lien"
 }
