@@ -54,7 +54,8 @@ class ManagePage extends ConsumerWidget {
                   focused: true,
                   child: Text(
                     l10n.managePageLabel,
-                    style: textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+                    style: textTheme.titleMedium!
+                        .copyWith(fontWeight: FontWeight.w500),
                   ),
                 ),
               ),

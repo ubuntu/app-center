@@ -70,7 +70,7 @@ void main() {
   group('localVersion', () {
     test('returns installed version when snap is installed', () async {
       final localSnap = createSnap(name: 'testsnap', version: '1.0.0');
-      registerMockSnapdService(localSnap: localSnap);
+      registerMockSnapdService(installedSnaps: [localSnap]);
       final container = createContainer();
 
       final version =
@@ -79,10 +79,7 @@ void main() {
     });
 
     test('returns null when snap is not installed', () async {
-      final service = registerMockSnapdService();
-      when(service.getSnap(any)).thenThrow(
-        SnapdException(message: 'snap not found', kind: 'snap-not-found'),
-      );
+      registerMockSnapdService(installedSnaps: []);
       final container = createContainer();
 
       final version =

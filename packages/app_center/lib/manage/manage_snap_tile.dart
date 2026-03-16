@@ -37,7 +37,8 @@ class ManageSnapTile extends ConsumerWidget {
     final actionButtons = Align(
       alignment: Alignment.centerRight,
       child: IntrinsicWidth(
-        child: ManageAppActions(snapName: snap.name, showOnlyUpdate: showOnlyUpdate),
+        child: ManageAppActions(
+            snapName: snap.name, showOnlyUpdate: showOnlyUpdate),
       ),
     );
 
