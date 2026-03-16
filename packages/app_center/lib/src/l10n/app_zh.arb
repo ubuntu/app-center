@@ -1,534 +1,348 @@
 {
-  "snapPageLinksLabel": "链接",
-  "@snapPageLinksLabel": {},
-  "snapPageVersionLabel": "版本",
-  "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "Debian 包",
-  "@packageFormatDebLabel": {},
-  "snapCategoryBooksAndReference": "书籍和参考资料",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryProductivity": "生产力",
-  "@snapCategoryProductivity": {},
-  "snapCategoryUtilities": "工具",
-  "@snapCategoryUtilities": {},
-  "snapCategorySocial": "社交",
-  "@snapCategorySocial": {},
-  "productivityPageLabel": "生产力",
-  "@productivityPageLabel": {},
-  "snapCategoryNewsAndWeather": "新闻和天气",
-  "@snapCategoryNewsAndWeather": {},
-  "gamesPageLabel": "游戏",
-  "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "艺术与设计",
-  "@snapCategoryArtAndDesign": {},
-  "developmentPageLabel": "开发",
-  "@developmentPageLabel": {},
-  "managePageLabel": "管理",
-  "@managePageLabel": {},
-  "snapPageChannelLabel": "频道",
-  "@snapPageChannelLabel": {},
-  "snapCategoryEducation": "教育",
-  "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "更新",
-  "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "排序方式",
-  "@searchPageSortByLabel": {},
-  "snapPageGalleryLabel": "图集",
-  "@snapPageGalleryLabel": {},
-  "searchFieldDebSection": "Debian 包",
-  "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "打开",
-  "@snapActionOpenLabel": {},
-  "snapCategoryDevelopment": "开发",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryHealthAndFitness": "健康与健身",
-  "@snapCategoryHealthAndFitness": {},
-  "appstreamUrlTypeContact": "联系",
-  "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "安全",
-  "@snapCategorySecurity": {},
-  "snapCategoryFinance": "金融",
-  "@snapCategoryFinance": {},
-  "snapCategoryServerAndCloud": "服务器和云",
-  "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "关于",
-  "@aboutPageLabel": {},
-  "snapPageSummaryLabel": "摘要",
-  "@snapPageSummaryLabel": {},
-  "appstreamSearchGreylist": "应用程序;程序包;程序;套件;工具",
-  "@appstreamSearchGreylist": {},
-  "snapCategoryScience": "科学",
-  "@snapCategoryScience": {},
-  "snapCategoryEntertainment": "娱乐",
-  "@snapCategoryEntertainment": {},
-  "snapActionInstallLabel": "安装",
-  "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "许可证",
-  "@snapPageLicenseLabel": {},
-  "snapCategoryPhotoAndVideo": "照片和视频",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapCategoryMusicAndAudio": "音乐与音频",
-  "@snapCategoryMusicAndAudio": {},
-  "aboutPageGitHubLabel": "在 GitHub 上找到我们",
-  "@aboutPageGitHubLabel": {},
-  "packageFormatSnapLabel": "Snap 包",
-  "@packageFormatSnapLabel": {},
-  "snapCategoryGames": "游戏",
-  "@snapCategoryGames": {},
-  "snapActionInstallingLabel": "安装中",
-  "@snapActionInstallingLabel": {},
-  "searchFieldSearchHint": "搜索应用",
-  "@searchFieldSearchHint": {},
-  "snapCategoryFeatured": "特色",
-  "@snapCategoryFeatured": {},
-  "managePageSearchFieldSearchHint": "搜索您已安装的应用",
-  "@managePageSearchFieldSearchHint": {},
-  "snapActionCancelLabel": "取消",
-  "@snapActionCancelLabel": {},
-  "snapPagePublisherLabel": "发布者",
-  "@snapPagePublisherLabel": {},
-  "snapPageDescriptionLabel": "描述",
-  "@snapPageDescriptionLabel": {},
-  "explorePageLabel": "探索",
-  "@explorePageLabel": {},
-  "searchFieldSnapSection": "Snap 包",
-  "@searchFieldSnapSection": {},
-  "managePageCheckForUpdates": "检查更新",
-  "@managePageCheckForUpdates": {},
-  "snapPageConfinementLabel": "限制",
-  "@snapPageConfinementLabel": {},
-  "snapPageDeveloperWebsiteLabel": "开发者网站",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapPageShareLinkCopiedMessage": "链接已复制到剪贴板",
-  "@snapPageShareLinkCopiedMessage": {},
-  "managePageCheckingForUpdates": "正在检查更新",
-  "@managePageCheckingForUpdates": {},
-  "managePageDescription": "检查可用更新，更新应用，并管理所有应用的状态。",
-  "@managePageDescription": {},
-  "managePageInstalledAndUpdatedLabel": "已安装和已更新",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "managePageNoUpdatesAvailableDescription": "无可用更新。您的应用均为最新。",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "managePageShowDetailsLabel": "显示详情",
-  "@managePageShowDetailsLabel": {},
-  "managePageShowSystemSnapsLabel": "显示系统 Snap 软件包",
-  "@managePageShowSystemSnapsLabel": {},
-  "managePageUpdateAllLabel": "全部更新",
-  "@managePageUpdateAllLabel": {},
-  "managePageUpdatedDaysAgo": "{n, plural, =1{{n} 天} other{{n} 天}} 前更新",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "gamesPageTitle": "游戏",
-  "@gamesPageTitle": {},
-  "gamesPageTop": "最受好评",
-  "@gamesPageTop": {},
-  "gamesPageFeatured": "特色游戏",
-  "@gamesPageFeatured": {},
-  "gamesPageBundles": "程序包",
-  "@gamesPageBundles": {},
-  "unknownPublisher": "未知发布者",
-  "@unknownPublisher": {},
-  "searchFieldSearchForLabel": "显示“{query}”的所有结果",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchPageFilterByLabel": "筛选条件",
-  "@searchPageFilterByLabel": {},
-  "searchPageNoResultsHint": "试试用不同的或更常见的关键词",
-  "@searchPageNoResultsHint": {},
-  "searchPageRelevanceLabel": "相关性",
-  "@searchPageRelevanceLabel": {},
-  "searchPageTitle": "“{query}”的结果",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageVersionLabel": "版本 {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageContributorTitle": "设计与开发人员：",
-  "@aboutPageContributorTitle": {},
-  "aboutPageCommunityTitle": "成为社区的一部分：",
-  "@aboutPageCommunityTitle": {},
-  "aboutPageContributeLabel": "作出贡献或报告问题",
-  "@aboutPageContributeLabel": {},
-  "aboutPageLearnMoreLabel": "了解更多",
-  "@aboutPageLearnMoreLabel": {},
-  "appstreamUrlTypeBugtracker": "问题跟踪器",
-  "@appstreamUrlTypeBugtracker": {},
-  "appstreamUrlTypeDonation": "捐赠",
-  "@appstreamUrlTypeDonation": {},
-  "appstreamUrlTypeFaq": "常见问题",
-  "@appstreamUrlTypeFaq": {},
-  "appstreamUrlTypeHelp": "帮助",
-  "@appstreamUrlTypeHelp": {},
-  "snapActionRemoveLabel": "卸载",
-  "@snapActionRemoveLabel": {},
-  "snapActionRemovingLabel": "卸载中",
-  "@snapActionRemovingLabel": {},
-  "snapActionSwitchChannelLabel": "切换频道",
-  "@snapActionSwitchChannelLabel": {},
-  "snapCategoryAll": "所有类别",
-  "@snapCategoryAll": {},
-  "snapActionUpdatingLabel": "更新中",
-  "@snapActionUpdatingLabel": {},
-  "snapCategoryDefaultButtonLabel": "发现更多",
-  "@snapCategoryDefaultButtonLabel": {},
-  "snapCategoryDevelopmentSlogan": "开发者不可或缺的 Snap 包",
-  "@snapCategoryDevelopmentSlogan": {},
-  "snapCategoryDevicesAndIot": "设备与物联网",
-  "@snapCategoryDevicesAndIot": {},
-  "snapCategoryFeaturedSlogan": "特色 Snap 包",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapCategoryGamesSlogan": "玩你所爱",
-  "@snapCategoryGamesSlogan": {},
-  "snapCategoryGameDev": "游戏开发",
-  "@snapCategoryGameDev": {},
-  "snapCategoryGameDevSlogan": "游戏开发",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryKdeGames": "KDE 游戏",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryKdeGamesSlogan": "KDE 游戏套件",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapCategoryGameLaunchers": "游戏启动器",
-  "@snapCategoryGameLaunchers": {},
-  "snapCategoryGameLaunchersSlogan": "游戏启动器",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapCategoryGameContentCreation": "内容创作",
-  "@snapCategoryGameContentCreation": {},
-  "snapCategoryGameContentCreationSlogan": "内容创作",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapCategoryPersonalisation": "个性化",
-  "@snapCategoryPersonalisation": {},
-  "snapCategoryProductivityButtonLabel": "探索可以提升您生产力的应用集合",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapCategoryProductivitySlogan": "轻松管理和规划您的待办事项",
-  "@snapCategoryProductivitySlogan": {},
-  "snapCategoryUbuntuDesktop": "Ubuntu 桌面",
-  "@snapCategoryUbuntuDesktop": {},
-  "snapConfinementClassic": "经典",
-  "@snapConfinementClassic": {},
-  "snapConfinementDevmode": "开发模式",
-  "@snapConfinementDevmode": {},
-  "snapConfinementStrict": "严格",
-  "@snapConfinementStrict": {},
-  "snapSortOrderAlphabeticalAsc": "首字母（A 到 Z）",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "snapSortOrderAlphabeticalDesc": "首字母（Z 到 A）",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "snapSortOrderDownloadSizeAsc": "下载大小（从小到大）",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "snapSortOrderDownloadSizeDesc": "下载大小（从大到小）",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "snapSortOrderInstalledSizeAsc": "安装大小（从小到大）",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "snapSortOrderInstalledDateAsc": "最早更新",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapSortOrderInstalledDateDesc": "最近更新",
-  "@snapSortOrderInstalledDateDesc": {},
-  "snapSortOrderRelevance": "相关性",
-  "@snapSortOrderRelevance": {},
-  "snapRatingsBandVeryGood": "非常好",
-  "@snapRatingsBandVeryGood": {},
-  "snapRatingsBandGood": "好",
-  "@snapRatingsBandGood": {},
-  "snapRatingsBandNeutral": "中性",
-  "@snapRatingsBandNeutral": {},
-  "snapRatingsBandPoor": "差",
-  "@snapRatingsBandPoor": {},
-  "snapRatingsBandVeryPoor": "非常差",
-  "@snapRatingsBandVeryPoor": {},
-  "snapRatingsBandInsufficientVotes": "投票不足",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsVotes": "{n} 次投票",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapReportLabel": "举报 {snapName}",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportSelectAnOptionLabel": "选择一项",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportOptionalEmailAddressLabel": "您的电子邮件地址（可选）",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "snapReportCancelButtonLabel": "取消",
-  "@snapReportCancelButtonLabel": {},
-  "snapReportSubmitButtonLabel": "提交举报",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportEnterValidEmailError": "输入有效的电子邮件地址",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportDetailsHint": "评论…",
-  "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementLabel": "在提交此表单时，我确定已阅读并同意 ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical 的隐私声明 ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "snapReportPrivacyAgreementAndLabel": "与 ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "隐私政策",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "externalResources": "附加资源",
-  "@externalResources": {},
-  "externalResourcesButtonLabel": "发现更多",
-  "@externalResourcesButtonLabel": {},
-  "allGamesButtonLabel": "所有游戏",
-  "@allGamesButtonLabel": {},
-  "externalResourcesDisclaimer": "注意：这些应用都是不由 Canonical 所有或发布的外部工具。",
-  "@externalResourcesDisclaimer": {},
-  "openInBrowser": "在浏览器中打开",
-  "@openInBrowser": {},
-  "installAll": "全部安装",
-  "@installAll": {},
-  "appCenterLabel": "应用中心",
-  "@appCenterLabel": {},
-  "snapPageDownloadSizeLabel": "下载大小",
-  "@snapPageDownloadSizeLabel": {},
-  "snapPageContactPublisherLabel": "联系 {publisher}",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPagePublishedLabel": "发布于",
-  "@snapPagePublishedLabel": {},
-  "explorePageCategoriesLabel": "分类",
-  "@explorePageCategoriesLabel": {},
-  "managePageUpdatesAvailable": "更新可用 ({n})",
-  "@managePageUpdatesAvailable": {},
-  "snapCategoryUbuntuDesktopSlogan": "让您的桌面更迅捷，更便利",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "searchPageNoResults": "未找到匹配“{query}”的结果",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchPageNoResultsCategory": "抱歉，我们在此类别中找不到软件包",
-  "@searchPageNoResultsCategory": {},
-  "searchPageNoResultsCategoryHint": "试试不同类别，或者用更常见的关键词",
-  "@searchPageNoResultsCategoryHint": {},
-  "aboutPagePublishLabel": "发布到 Snap 商店",
-  "@aboutPagePublishLabel": {},
-  "appstreamUrlTypeHomepage": "主页",
-  "@appstreamUrlTypeHomepage": {},
-  "appstreamUrlTypeTranslate": "翻译",
-  "@appstreamUrlTypeTranslate": {},
-  "snapCategoryGameEmulators": "模拟器",
-  "@snapCategoryGameEmulators": {},
-  "snapCategoryGameEmulatorsSlogan": "模拟器",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryGnomeGames": "GNOME 游戏",
-  "@snapCategoryGnomeGames": {},
-  "snapCategoryGnomeGamesSlogan": "GNOME 游戏套件",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapSortOrderInstalledSizeDesc": "安装大小（从大到小）",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapReportSelectReportReasonLabel": "选择举报原因",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportOptionCopyrightViolation": "版权或商标侵权",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportOptionStoreViolation": "违反 Snap 商店服务条款",
-  "@snapReportOptionStoreViolation": {},
-  "snapReportDetailsLabel": "请在举报中提供更多详细理由",
-  "@snapReportDetailsLabel": {},
-  "debPageErrorNoPackageInfo": "未找到软件包信息",
-  "@debPageErrorNoPackageInfo": {},
-  "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} 周} other{{n} 周}}前更新",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedYearsAgo": "{n, plural, =1{{n} 年} other{{n} 年}}前更新",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} 个月} other{{n} 个月}}前更新",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "localDebLearnMore": "了解更多有关第三方软件包的信息",
-  "@localDebLearnMore": {},
-  "managePageOwnUpdateQuitButton": "取消更新",
-  "@managePageOwnUpdateQuitButton": {},
-  "managePageOwnUpdateAvailable": "有可用的应用中心更新",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateDescription": "当您退出应用程序时它将自动更新。",
-  "@managePageOwnUpdateDescription": {},
-  "managePageNoInternet": "无法连接到服务器，请检查您的互联网连接或稍后重试。",
-  "@managePageNoInternet": {},
-  "managePageDebUpdatesMessage": "Debian 软件包更新由软件更新器处理。",
-  "@managePageDebUpdatesMessage": {},
-  "snapActionInstalledLabel": "已安装",
-  "@snapActionInstalledLabel": {},
-  "localDebWarningTitle": "有潜在危险",
-  "@localDebWarningTitle": {},
-  "errorViewCheckStatusLabel": "检查状态",
-  "@errorViewCheckStatusLabel": {},
-  "managePageTitle": "管理已安装的 Snap 软件包",
-  "@managePageTitle": {},
-  "appstreamUrlTypeVcsBrowser": "来源",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "snapdExceptionRunningApps": "我们无法更新 {snapName} ，因为它当前正在运行。",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewServerErrorAction": "检查更新状态或稍后重试。",
-  "@errorViewServerErrorAction": {},
-  "errorViewUnknownErrorTitle": "出了点问题",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewNetworkErrorAction": "检查您的连接并重试。",
-  "@errorViewNetworkErrorAction": {},
-  "errorViewServerErrorDescription": "很道歉，应用中心目前遇到了问题。",
-  "@errorViewServerErrorDescription": {},
-  "errorViewUnknownErrorAction": "您可以立即重试，检查更新状态，或稍后再试。",
-  "@errorViewUnknownErrorAction": {},
-  "appstreamUrlTypeContribute": "贡献",
-  "@appstreamUrlTypeContribute": {},
-  "managePageQuitToUpdate": "取消更新",
-  "@managePageQuitToUpdate": {},
-  "managePageOwnUpdateDescriptionSoon": "应用中心将会在 {time} 后自动更新。",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "errorViewNetworkErrorTitle": "连接到互联网",
-  "@errorViewNetworkErrorTitle": {},
-  "errorViewNetworkErrorDescription": "没有可用的互联网连接，我们无法在应用中心加载内容。",
-  "@errorViewNetworkErrorDescription": {},
-  "localDebDialogConfirmation": "您确定要安装吗？",
-  "@localDebDialogConfirmation": {},
-  "snapPageSizeLabel": "安装大小",
-  "@snapPageSizeLabel": {},
-  "localDebWarningBody": "该软件包由第三方提供。安装应用中心以外的软件包会增加您遭遇系统崩溃和个人数据泄露的风险。在安装之前，请确认您信任该软件包的来源。",
-  "@localDebWarningBody": {},
-  "localDebDialogMessage": "该软件包由第三方提供，可能会威胁您的系统和个人数据。",
-  "@localDebDialogMessage": {},
-  "managePageInstallingLabel": "正在安装 ({n})",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesFailedBody": "以下应用正在运行中，我们无法更新：\n\n{snapList}\n当您退出这些应用程序时，它们将自动更新。",
-  "@managePageUpdatesFailedBody": {},
-  "managePageUpdatesFailed": "{n, plural, =1{一项更新} other{{n} 项更新}} 失败",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "errorViewUnknownErrorDescription": "非常抱歉，我们无法确定错误所在。",
-  "@errorViewUnknownErrorDescription": {},
-  "snapCategoryArtAndDesignButtonLabel": "发挥创造力",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapCategoryArtAndDesignSlogan": "从绘画之始至润色之终，在这里探索您艺术创造和挥洒创意的应用。",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "debPageDocumentationLinkLabel": "了解如何管理 Debian 软件包",
-  "@debPageDocumentationLinkLabel": {},
-  "managePageDocumentationLinkLabel": "从文档中了解如何管理 Debian 软件包。",
-  "@managePageDocumentationLinkLabel": {},
-  "snapPageGalleryNextSemanticLabel": "下一张图片",
-  "@snapPageGalleryNextSemanticLabel": {},
-  "snapPageGalleryPreviousSemanticLabel": "上一张图片",
-  "@snapPageGalleryPreviousSemanticLabel": {},
-  "snapPageGalleryImageSemanticLabel": "图片 {n}",
-  "@snapPageGalleryImageSemanticLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapPageShareSemanticLabel": "复制链接",
-  "@snapPageShareSemanticLabel": {},
-  "snapPageReportSemanticLabel": "报告",
-  "@snapPageReportSemanticLabel": {},
-  "sectionExpandSemanticLabel": "展开 {section}",
-  "@sectionExpandSemanticLabel": {
-    "placeholders": {
-      "section": {
-        "type": "String"
-      }
-    }
-  },
-  "sectionCollapseSemanticLabel": "收起 {section}",
-  "@sectionCollapseSemanticLabel": {
-    "placeholders": {
-      "section": {
-        "type": "String"
-      }
-    }
-  },
-  "appCardPublisherSemanticLabel": "由 {publisher} 出版。",
-  "@appCardPublisherSemanticLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "appCardRatingSemanticLabel": "评分 {rating}。",
-  "@appCardRatingSemanticLabel": {
-    "placeholders": {
-      "rating": {
-        "type": "String"
-      }
-    }
-  },
-  "debPageShareLinkCopiedMessage": "链接已复制到粘贴板",
-  "@debPageShareLinkCopiedMessage": {},
-  "debPageShareSemanticLabel": "复制链接",
-  "@debPageShareSemanticLabel": {}
+    "snapPageLinksLabel": "链接",
+    "snapPageVersionLabel": "版本",
+    "packageFormatDebLabel": "Debian 包",
+    "snapCategoryBooksAndReference": "书籍和参考资料",
+    "snapCategoryProductivity": "生产力",
+    "snapCategoryUtilities": "工具",
+    "snapCategorySocial": "社交",
+    "productivityPageLabel": "生产力",
+    "snapCategoryNewsAndWeather": "新闻和天气",
+    "gamesPageLabel": "游戏",
+    "snapCategoryArtAndDesign": "艺术与设计",
+    "developmentPageLabel": "开发",
+    "managePageLabel": "管理",
+    "snapPageChannelLabel": "频道",
+    "snapCategoryEducation": "教育",
+    "snapActionUpdateLabel": "更新",
+    "searchPageSortByLabel": "排序方式",
+    "snapPageGalleryLabel": "图集",
+    "searchFieldDebSection": "Debian 包",
+    "snapActionOpenLabel": "打开",
+    "snapCategoryDevelopment": "开发",
+    "snapCategoryHealthAndFitness": "健康与健身",
+    "appstreamUrlTypeContact": "联系",
+    "snapCategorySecurity": "安全",
+    "snapCategoryFinance": "金融",
+    "snapCategoryServerAndCloud": "服务器和云",
+    "aboutPageLabel": "关于",
+    "snapPageSummaryLabel": "摘要",
+    "appstreamSearchGreylist": "应用程序;程序包;程序;套件;工具",
+    "snapCategoryScience": "科学",
+    "snapCategoryEntertainment": "娱乐",
+    "snapActionInstallLabel": "安装",
+    "snapPageLicenseLabel": "许可证",
+    "snapCategoryPhotoAndVideo": "照片和视频",
+    "snapCategoryMusicAndAudio": "音乐与音频",
+    "aboutPageGitHubLabel": "在 GitHub 上找到我们",
+    "packageFormatSnapLabel": "Snap 包",
+    "snapCategoryGames": "游戏",
+    "snapActionInstallingLabel": "安装中",
+    "searchFieldSearchHint": "搜索应用",
+    "snapCategoryFeatured": "特色",
+    "managePageSearchFieldSearchHint": "搜索您已安装的应用",
+    "snapActionCancelLabel": "取消",
+    "snapPagePublisherLabel": "发布者",
+    "snapPageDescriptionLabel": "描述",
+    "explorePageLabel": "探索",
+    "searchFieldSnapSection": "Snap 包",
+    "managePageCheckForUpdates": "检查更新",
+    "snapPageConfinementLabel": "限制",
+    "snapPageDeveloperWebsiteLabel": "开发者网站",
+    "snapPageShareLinkCopiedMessage": "链接已复制到剪贴板",
+    "managePageCheckingForUpdates": "正在检查更新",
+    "managePageDescription": "检查可用更新，更新应用，并管理所有应用的状态。",
+    "managePageInstalledAndUpdatedLabel": "已安装和已更新",
+    "managePageNoUpdatesAvailableDescription": "无可用更新。您的应用均为最新。",
+    "managePageShowDetailsLabel": "显示详情",
+    "managePageShowSystemSnapsLabel": "显示系统 Snap 软件包",
+    "managePageUpdateAllLabel": "全部更新",
+    "managePageUpdatedDaysAgo": "{n, plural, =1{{n} 天} other{{n} 天}} 前更新",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "gamesPageTitle": "游戏",
+    "gamesPageTop": "最受好评",
+    "gamesPageFeatured": "特色游戏",
+    "gamesPageBundles": "程序包",
+    "unknownPublisher": "未知发布者",
+    "searchFieldSearchForLabel": "显示“{query}”的所有结果",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageFilterByLabel": "筛选条件",
+    "searchPageNoResultsHint": "试试用不同的或更常见的关键词",
+    "searchPageRelevanceLabel": "相关性",
+    "searchPageTitle": "“{query}”的结果",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageVersionLabel": "版本 {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "设计与开发人员：",
+    "aboutPageCommunityTitle": "成为社区的一部分：",
+    "aboutPageContributeLabel": "作出贡献或报告问题",
+    "aboutPageLearnMoreLabel": "了解更多",
+    "appstreamUrlTypeBugtracker": "问题跟踪器",
+    "appstreamUrlTypeDonation": "捐赠",
+    "appstreamUrlTypeFaq": "常见问题",
+    "appstreamUrlTypeHelp": "帮助",
+    "snapActionRemoveLabel": "卸载",
+    "snapActionRemovingLabel": "卸载中",
+    "snapActionSwitchChannelLabel": "切换频道",
+    "snapCategoryAll": "所有类别",
+    "snapActionUpdatingLabel": "更新中",
+    "snapCategoryDefaultButtonLabel": "发现更多",
+    "snapCategoryDevelopmentSlogan": "开发者不可或缺的 Snap 包",
+    "snapCategoryDevicesAndIot": "设备与物联网",
+    "snapCategoryFeaturedSlogan": "特色 Snap 包",
+    "snapCategoryGamesSlogan": "玩你所爱",
+    "snapCategoryGameDev": "游戏开发",
+    "snapCategoryGameDevSlogan": "游戏开发",
+    "snapCategoryKdeGames": "KDE 游戏",
+    "snapCategoryKdeGamesSlogan": "KDE 游戏套件",
+    "snapCategoryGameLaunchers": "游戏启动器",
+    "snapCategoryGameLaunchersSlogan": "游戏启动器",
+    "snapCategoryGameContentCreation": "内容创作",
+    "snapCategoryGameContentCreationSlogan": "内容创作",
+    "snapCategoryPersonalisation": "个性化",
+    "snapCategoryProductivityButtonLabel": "探索可以提升您生产力的应用集合",
+    "snapCategoryProductivitySlogan": "轻松管理和规划您的待办事项",
+    "snapCategoryUbuntuDesktop": "Ubuntu 桌面",
+    "snapConfinementClassic": "经典",
+    "snapConfinementDevmode": "开发模式",
+    "snapConfinementStrict": "严格",
+    "snapSortOrderAlphabeticalAsc": "首字母（A 到 Z）",
+    "snapSortOrderAlphabeticalDesc": "首字母（Z 到 A）",
+    "snapSortOrderDownloadSizeAsc": "下载大小（从小到大）",
+    "snapSortOrderDownloadSizeDesc": "下载大小（从大到小）",
+    "snapSortOrderInstalledSizeAsc": "安装大小（从小到大）",
+    "snapSortOrderInstalledDateAsc": "最早更新",
+    "snapSortOrderInstalledDateDesc": "最近更新",
+    "snapSortOrderRelevance": "相关性",
+    "snapRatingsBandVeryGood": "非常好",
+    "snapRatingsBandGood": "好",
+    "snapRatingsBandNeutral": "中性",
+    "snapRatingsBandPoor": "差",
+    "snapRatingsBandVeryPoor": "非常差",
+    "snapRatingsBandInsufficientVotes": "投票不足",
+    "snapRatingsVotes": "{n} 次投票",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "举报 {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectAnOptionLabel": "选择一项",
+    "snapReportOptionalEmailAddressLabel": "您的电子邮件地址（可选）",
+    "snapReportCancelButtonLabel": "取消",
+    "snapReportSubmitButtonLabel": "提交举报",
+    "snapReportEnterValidEmailError": "输入有效的电子邮件地址",
+    "snapReportDetailsHint": "评论…",
+    "snapReportPrivacyAgreementLabel": "在提交此表单时，我确定已阅读并同意 ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical 的隐私声明 ",
+    "snapReportPrivacyAgreementAndLabel": "与 ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "隐私政策",
+    "externalResources": "附加资源",
+    "externalResourcesButtonLabel": "发现更多",
+    "allGamesButtonLabel": "所有游戏",
+    "externalResourcesDisclaimer": "注意：这些应用都是不由 Canonical 所有或发布的外部工具。",
+    "openInBrowser": "在浏览器中打开",
+    "installAll": "全部安装",
+    "appCenterLabel": "应用中心",
+    "snapPageDownloadSizeLabel": "下载大小",
+    "snapPageContactPublisherLabel": "联系 {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPagePublishedLabel": "发布于",
+    "explorePageCategoriesLabel": "分类",
+    "managePageUpdatesAvailable": "更新可用 ({n})",
+    "snapCategoryUbuntuDesktopSlogan": "让您的桌面更迅捷，更便利",
+    "searchPageNoResults": "未找到匹配“{query}”的结果",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsCategory": "抱歉，我们在此类别中找不到软件包",
+    "searchPageNoResultsCategoryHint": "试试不同类别，或者用更常见的关键词",
+    "aboutPagePublishLabel": "发布到 Snap 商店",
+    "appstreamUrlTypeHomepage": "主页",
+    "appstreamUrlTypeTranslate": "翻译",
+    "snapCategoryGameEmulators": "模拟器",
+    "snapCategoryGameEmulatorsSlogan": "模拟器",
+    "snapCategoryGnomeGames": "GNOME 游戏",
+    "snapCategoryGnomeGamesSlogan": "GNOME 游戏套件",
+    "snapSortOrderInstalledSizeDesc": "安装大小（从大到小）",
+    "snapReportSelectReportReasonLabel": "选择举报原因",
+    "snapReportOptionCopyrightViolation": "版权或商标侵权",
+    "snapReportOptionStoreViolation": "违反 Snap 商店服务条款",
+    "snapReportDetailsLabel": "请在举报中提供更多详细理由",
+    "debPageErrorNoPackageInfo": "未找到软件包信息",
+    "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} 周} other{{n} 周}}前更新",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "{n, plural, =1{{n} 年} other{{n} 年}}前更新",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} 个月} other{{n} 个月}}前更新",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "localDebLearnMore": "了解更多有关第三方软件包的信息",
+    "managePageOwnUpdateQuitButton": "取消更新",
+    "managePageOwnUpdateAvailable": "有可用的应用中心更新",
+    "managePageOwnUpdateDescription": "当您退出应用程序时它将自动更新。",
+    "managePageNoInternet": "无法连接到服务器，请检查您的互联网连接或稍后重试。",
+    "managePageDebUpdatesMessage": "Debian 软件包更新由软件更新器处理。",
+    "snapActionInstalledLabel": "已安装",
+    "localDebWarningTitle": "有潜在危险",
+    "errorViewCheckStatusLabel": "检查状态",
+    "managePageTitle": "管理已安装的 Snap 软件包",
+    "appstreamUrlTypeVcsBrowser": "来源",
+    "snapdExceptionRunningApps": "我们无法更新 {snapName} ，因为它当前正在运行。",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewServerErrorAction": "检查更新状态或稍后重试。",
+    "errorViewUnknownErrorTitle": "出了点问题",
+    "errorViewNetworkErrorAction": "检查您的连接并重试。",
+    "errorViewServerErrorDescription": "很道歉，应用中心目前遇到了问题。",
+    "errorViewUnknownErrorAction": "您可以立即重试，检查更新状态，或稍后再试。",
+    "appstreamUrlTypeContribute": "贡献",
+    "managePageQuitToUpdate": "取消更新",
+    "managePageOwnUpdateDescriptionSoon": "应用中心将会在 {time} 后自动更新。",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewNetworkErrorTitle": "连接到互联网",
+    "errorViewNetworkErrorDescription": "没有可用的互联网连接，我们无法在应用中心加载内容。",
+    "localDebDialogConfirmation": "您确定要安装吗？",
+    "snapPageSizeLabel": "安装大小",
+    "localDebWarningBody": "该软件包由第三方提供。安装应用中心以外的软件包会增加您遭遇系统崩溃和个人数据泄露的风险。在安装之前，请确认您信任该软件包的来源。",
+    "localDebDialogMessage": "该软件包由第三方提供，可能会威胁您的系统和个人数据。",
+    "managePageInstallingLabel": "正在安装 ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "以下应用正在运行中，我们无法更新：\n\n{snapList}\n当您退出这些应用程序时，它们将自动更新。",
+    "managePageUpdatesFailed": "{n, plural, =1{一项更新} other{{n} 项更新}} 失败",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "errorViewUnknownErrorDescription": "非常抱歉，我们无法确定错误所在。",
+    "snapCategoryArtAndDesignButtonLabel": "发挥创造力",
+    "snapCategoryArtAndDesignSlogan": "从绘画之始至润色之终，在这里探索您艺术创造和挥洒创意的应用。",
+    "debPageDocumentationLinkLabel": "了解如何管理 Debian 软件包",
+    "managePageDocumentationLinkLabel": "从文档中了解如何管理 Debian 软件包。",
+    "snapPageGalleryNextSemanticLabel": "下一张图片",
+    "snapPageGalleryPreviousSemanticLabel": "上一张图片",
+    "snapPageGalleryImageSemanticLabel": "图片 {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageShareSemanticLabel": "复制链接",
+    "snapPageReportSemanticLabel": "报告",
+    "sectionExpandSemanticLabel": "展开 {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "收起 {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardPublisherSemanticLabel": "由 {publisher} 出版。",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "评分 {rating}。",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareLinkCopiedMessage": "链接已复制到粘贴板",
+    "debPageShareSemanticLabel": "复制链接"
 }
