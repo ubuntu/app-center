@@ -2,7 +2,6 @@ import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
-import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/active_change_content.dart';
 import 'package:flutter/material.dart';
@@ -40,14 +39,6 @@ class ManageAppActions extends ConsumerWidget {
         : ref.watch(launchProvider(snapData.localSnap!));
     final canOpen = snapLauncher?.isLaunchable ?? false;
     final hasActiveChange = snapData.activeChangeId != null;
-    final hasUpdate = ref.watch(hasUpdateProvider(snap.name));
-
-    final primaryAction = switch ((hasUpdate && !shouldQuitToUpdate, canOpen)) {
-      (true, _) => SnapAction.update,
-      (_, true) => SnapAction.open,
-      _ => null,
-    };
-
     if (hasActiveChange) {
       return ActiveChangeStatus(
         snapName: snap.name,
@@ -62,18 +53,29 @@ class ManageAppActions extends ConsumerWidget {
           const QuitToUpdateNotice(),
           const SizedBox(width: kSpacing),
         ],
-        if (primaryAction != null)
+        if (showOnlyUpdate)
           OutlinedButton(
-            onPressed: primaryAction.callback(
+            onPressed: SnapAction.update.callback(
               snapData,
               snapViewModel,
               snapLauncher,
               context,
             ),
-            child: Text(primaryAction.label(l10n)),
+            child: Text(SnapAction.update.label(l10n)),
           ),
         if (!showOnlyUpdate && snapData.isInstalled) ...[
-          if (primaryAction != null) const SizedBox(width: kSpacing),
+          OutlinedButton(
+            onPressed: canOpen
+                ? SnapAction.open.callback(
+                    snapData,
+                    snapViewModel,
+                    snapLauncher,
+                    context,
+                  )
+                : null,
+            child: Text(SnapAction.open.label(l10n)),
+          ),
+          const SizedBox(width: kSpacing),
           OutlinedButton(
             onPressed: SnapAction.remove.callback(
               snapData,

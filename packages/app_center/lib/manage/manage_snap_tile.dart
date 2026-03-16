@@ -172,7 +172,7 @@ class ManageSnapTile extends ConsumerWidget {
           ],
         ),
         trailing: hasFixedSize
-            ? SizedBox(width: 200, child: actionButtons)
+            ? SizedBox(width: 220, child: actionButtons)
             : IntrinsicWidth(child: actionButtons),
       ),
     );

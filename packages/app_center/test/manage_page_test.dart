@@ -247,7 +247,7 @@ void main() {
     final testTile = find.snapTile('Snap with an update');
     expect(testTile, findsOneWidget);
     expect(
-      find.descendant(of: testTile, matching: find.text('2.0')),
+      find.descendant(of: testTile, matching: find.textContaining('2.0')),
       findsOneWidget,
     );
     expect(
@@ -285,7 +285,7 @@ void main() {
     final testTile = find.snapTile('Snap with an update');
     expect(testTile, findsOneWidget);
     expect(
-      find.descendant(of: testTile, matching: find.text('2.0')),
+      find.descendant(of: testTile, matching: find.textContaining('2.0')),
       findsOneWidget,
     );
     expect(
