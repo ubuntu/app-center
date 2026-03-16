@@ -81,10 +81,7 @@ class ManageAppActions extends ConsumerWidget {
               snapLauncher,
               context,
             ),
-            child: Text(
-              SnapAction.remove.label(l10n),
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
+            child: Text(SnapAction.remove.label(l10n)),
           ),
         ],
       ],
