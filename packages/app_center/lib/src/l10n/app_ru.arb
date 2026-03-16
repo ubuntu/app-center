@@ -79,7 +79,7 @@
     "snapCategoryPersonalisation": "Персонализация",
     "aboutPagePublishLabel": "Публикация приложений в Snap Store",
     "aboutPageContributorTitle": "Участники разработки:",
-    "managePageInstalledAndUpdatedLabel": "Установлено и обновлено",
+    "managePageInstalledAndUpdatedLabel": "Установленные",
     "appstreamUrlTypeHomepage": "Домашняя страница",
     "managePageCheckingForUpdates": "Проверка обновлений",
     "managePageUpdatedDaysAgo": "Обновлено {n, plural, =1{{n} день} other{{n} дн}} назад",
