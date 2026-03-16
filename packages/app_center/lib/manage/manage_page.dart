@@ -395,7 +395,6 @@ class _SelfUpdateInfoBox extends ConsumerWidget {
           ],
         ),
         yaruInfoType: YaruInfoType.information,
-        isThreeLine: true,
       ),
     );
   }

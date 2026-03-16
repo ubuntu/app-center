@@ -1,6 +1,5 @@
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/local_deb_model.dart';
-import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/snapd/snapd.dart';
