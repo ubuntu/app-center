@@ -4,6 +4,7 @@ import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:appstream/appstream.dart';
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -54,7 +55,8 @@ class DebData extends AppMetadata with _$DebData {
       );
 
   @override
-  DateTime? get published => component.releases.firstOrNull?.date;
+  DateTime? get published =>
+      component.releases.map((r) => r.date).whereType<DateTime>().maxOrNull;
 
   @override
   String? get version => packageInfo?.packageId.version;
