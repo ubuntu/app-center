@@ -7,7 +7,6 @@ import 'package:app_center/manage/manage_snap_tile.dart';
 import 'package:app_center/manage/updates_model.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:app_center/snapd/snapd.dart';
-import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
@@ -49,31 +48,14 @@ class ManagePage extends ConsumerWidget {
           padding: const EdgeInsets.only(top: kPagePadding),
           sliver: SliverList.list(
             children: [
-              Semantics(
-                header: true,
-                focused: true,
-                child: Text(
-                  l10n.managePageTitle,
-                  style: textTheme.headlineSmall,
-                ),
-              ),
-              const SizedBox(height: kMargin),
-              Text(
-                l10n.managePageDescription,
-                style: textTheme.titleMedium,
-              ),
-              const SizedBox(height: kMargin),
-              Text(
-                l10n.managePageDebUpdatesMessage,
-                style: textTheme.titleMedium,
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: DefaultTextStyle(
-                  style: textTheme.titleMedium!,
-                  child: HyperlinkText(
-                    text: l10n.managePageDocumentationLinkLabel,
-                    link: debManageDocsUrl,
+              Center(
+                child: Semantics(
+                  header: true,
+                  focused: true,
+                  child: Text(
+                    l10n.managePageLabel,
+                    style: textTheme.titleMedium!
+                        .copyWith(fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
@@ -142,6 +124,7 @@ class ManagePage extends ConsumerWidget {
                   index: index,
                   length: snapListState.snaps.length,
                 ),
+                showOnlyUpdate: true,
               ),
             );
           },
@@ -181,103 +164,72 @@ class ManagePage extends ConsumerWidget {
         SliverList.list(
           children: [
             const SizedBox(height: kSectionSpacing),
-            Builder(
-              builder: (context) {
-                final compact = ResponsiveLayout.of(context).type ==
-                    ResponsiveLayoutType.small;
-                return ConstrainedBox(
-                  constraints: const BoxConstraints(maxHeight: 80),
-                  child: Flex(
-                    direction: compact ? Axis.vertical : Axis.horizontal,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: compact
-                        ? CrossAxisAlignment.start
-                        : CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        l10n.managePageInstalledAndUpdatedLabel,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontWeight: FontWeight.w500),
+            Text(
+              l10n.managePageInstalledAndUpdatedLabel,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: kSpacing),
+            Row(
+              children: [
+                Flexible(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 300),
+                    child: TextFormField(
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlignVertical: TextAlignVertical.center,
+                      cursorWidth: 1,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        contentPadding: kSearchFieldContentPadding,
+                        prefixIcon: kSearchFieldPrefixIcon,
+                        prefixIconConstraints: kSearchFieldIconConstraints,
+                        hintText: l10n.managePageSearchFieldSearchHint,
                       ),
-                      const SizedBox.square(dimension: kSpacing),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Flexible(
-                              child: ConstrainedBox(
-                                constraints:
-                                    const BoxConstraints(maxWidth: 300),
-                                // TODO: refactor - extract common text field decoration from
-                                // here and the `SearchField` widget
-                                child: TextFormField(
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                  textAlignVertical: TextAlignVertical.center,
-                                  cursorWidth: 1,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    contentPadding: kSearchFieldContentPadding,
-                                    prefixIcon: kSearchFieldPrefixIcon,
-                                    prefixIconConstraints:
-                                        kSearchFieldIconConstraints,
-                                    hintText:
-                                        l10n.managePageSearchFieldSearchHint,
-                                  ),
-                                  initialValue:
-                                      ref.watch(localSnapFilterProvider),
-                                  onChanged: (value) => ref
-                                      .read(localSnapFilterProvider.notifier)
-                                      .state = value,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: kSpacing),
-                            Text(l10n.searchPageSortByLabel),
-                            const SizedBox(width: kSpacingSmall),
-                            // TODO: refactor - create proper widget
-                            Consumer(
-                              builder: (context, ref, child) {
-                                final sortOrder =
-                                    ref.watch(localSnapSortOrderProvider);
-                                return MenuButtonBuilder<SnapSortOrder>(
-                                  values: const [
-                                    SnapSortOrder.alphabeticalAsc,
-                                    SnapSortOrder.alphabeticalDesc,
-                                    SnapSortOrder.installedDateAsc,
-                                    SnapSortOrder.installedDateDesc,
-                                    SnapSortOrder.installedSizeAsc,
-                                    SnapSortOrder.installedSizeDesc,
-                                  ],
-                                  itemBuilder: (context, sortOrder, child) =>
-                                      Text(sortOrder.localize(l10n)),
-                                  onSelected: (value) => ref
-                                      .read(
-                                        localSnapSortOrderProvider.notifier,
-                                      )
-                                      .state = value,
-                                  expanded: false,
-                                  child: Text(sortOrder.localize(l10n)),
-                                );
-                              },
-                            ),
-                            const SizedBox(width: kSpacing),
-                            Text(l10n.managePageShowSystemSnapsLabel),
-                            const SizedBox(width: kSpacingSmall),
-                            YaruCheckbox(
-                              value: ref.watch(showLocalSystemAppsProvider),
-                              onChanged: (value) => ref
-                                  .read(showLocalSystemAppsProvider.notifier)
-                                  .state = value ?? false,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      initialValue: ref.watch(localSnapFilterProvider),
+                      onChanged: (value) => ref
+                          .read(localSnapFilterProvider.notifier)
+                          .state = value,
+                    ),
                   ),
-                );
-              },
+                ),
+                const SizedBox(width: kSpacing),
+                Text(l10n.managePageShowSystemSnapsLabel),
+                const SizedBox(width: kSpacingSmall),
+                YaruCheckbox(
+                  value: ref.watch(showLocalSystemAppsProvider),
+                  onChanged: (value) => ref
+                      .read(showLocalSystemAppsProvider.notifier)
+                      .state = value ?? false,
+                ),
+                const Spacer(),
+                Text(l10n.searchPageSortByLabel),
+                const SizedBox(width: kSpacingSmall),
+                Consumer(
+                  builder: (context, ref, child) {
+                    final sortOrder = ref.watch(localSnapSortOrderProvider);
+                    return MenuButtonBuilder<SnapSortOrder>(
+                      values: const [
+                        SnapSortOrder.alphabeticalAsc,
+                        SnapSortOrder.alphabeticalDesc,
+                        SnapSortOrder.installedDateAsc,
+                        SnapSortOrder.installedDateDesc,
+                        SnapSortOrder.installedSizeAsc,
+                        SnapSortOrder.installedSizeDesc,
+                      ],
+                      itemBuilder: (context, sortOrder, child) =>
+                          Text(sortOrder.localize(l10n)),
+                      onSelected: (value) => ref
+                          .read(localSnapSortOrderProvider.notifier)
+                          .state = value,
+                      expanded: false,
+                      child: Text(sortOrder.localize(l10n)),
+                    );
+                  },
+                ),
+              ],
             ),
             const SizedBox(height: kMarginLarge),
           ],

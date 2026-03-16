@@ -18,7 +18,7 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
 
   @override
   Future<SnapListState> build() async {
-    final snapListState = await connectionCheck(_snapd.getSnaps, ref);
+    final snapListState = await ref.watch(localSnapsProvider.future);
     final snaps = snapListState.snaps;
     final refreshableSnaps =
         (await ref.read(updatesModelProvider.future)).snaps.map((s) => s.name);

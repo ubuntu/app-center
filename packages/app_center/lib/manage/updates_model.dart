@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
-import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:collection/collection.dart';
@@ -44,6 +43,28 @@ bool hasUpdate(Ref ref, String snapName) {
         data: (updatesData) => updatesData.snaps.any((s) => s.name == snapName),
       ) ??
       false;
+}
+
+/// Returns the available update version for a snap, if an update exists.
+@Riverpod(keepAlive: true)
+String? updateVersion(Ref ref, String snapName) {
+  final updatesModel = ref.watch(updatesModelProvider);
+  return updatesModel.whenOrNull(
+    data: (updatesData) => updatesData.getSnap(snapName)?.version,
+  );
+}
+
+/// Returns all locally installed snaps.
+@riverpod
+Future<SnapListState> localSnaps(Ref ref) {
+  return connectionCheck(getService<SnapdService>().getSnaps, ref);
+}
+
+/// Returns the currently installed version for a snap.
+@riverpod
+Future<String?> localVersion(Ref ref, String snapName) async {
+  final snaps = await ref.watch(localSnapsProvider.future);
+  return snaps.getSnap(snapName)?.version;
 }
 
 /// Used to see which snaps that are installed but need to be restarted to be
@@ -168,7 +189,7 @@ class UpdatesModel extends _$UpdatesModel {
             );
       }
       ref.invalidateSelf();
-      ref.invalidate(filteredLocalSnapsProvider);
+      ref.invalidate(localSnapsProvider);
     }
   }
 
