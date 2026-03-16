@@ -5,7 +5,6 @@ import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'test_utils.dart';
 

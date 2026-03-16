@@ -38,7 +38,9 @@ class ManageSnapTile extends ConsumerWidget {
       alignment: Alignment.centerRight,
       child: IntrinsicWidth(
         child: ManageAppActions(
-            snapName: snap.name, showOnlyUpdate: showOnlyUpdate),
+          snapName: snap.name,
+          showOnlyUpdate: showOnlyUpdate,
+        ),
       ),
     );
 
