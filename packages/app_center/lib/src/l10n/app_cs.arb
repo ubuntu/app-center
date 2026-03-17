@@ -79,7 +79,7 @@
     "snapCategoryPersonalisation": "Přizpůsobení",
     "aboutPagePublishLabel": "Publikovat ve Snap Store",
     "aboutPageContributorTitle": "Navrženo a vyvinuto:",
-    "managePageInstalledAndUpdatedLabel": "Nainstalováno a aktualizováno",
+    "managePageInstalledAndUpdatedLabel": "Nainstalované aplikace",
     "appstreamUrlTypeHomepage": "Domovská stránka",
     "managePageCheckingForUpdates": "Kontrolují se aktualizace",
     "managePageUpdatedDaysAgo": "Aktualizováno před {n, plural, =1{{n} dnem} other{{n} dny}}",
