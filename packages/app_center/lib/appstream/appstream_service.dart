@@ -157,8 +157,16 @@ class AppstreamService {
   @visibleForTesting
   int get cacheSize => _cache.length;
 
-  /// Exposes all loaded Appstream components for iteration.
-  Iterable<AppstreamComponent> get components => _pool.components;
+  Map<String, AppstreamComponent> getComponentsByPackage() {
+    final result = <String, AppstreamComponent>{};
+    for (final component in _pool.components) {
+      final packageName = component.getPackage();
+      if (packageName.isNotEmpty && !result.containsKey(packageName)) {
+        result[packageName] = component;
+      }
+    }
+    return result;
+  }
 
   void _populateCache() {
     _cache.clear();
