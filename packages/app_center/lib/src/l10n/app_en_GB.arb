@@ -181,7 +181,7 @@
     "snapCategoryGameEmulators": "Emulators",
     "managePageDescription": "Check for available updates, update your apps, and manage the status of all your apps.",
     "managePageShowSystemSnapsLabel": "Show system snaps",
-    "managePageInstalledAndUpdatedLabel": "Installed and updated",
+    "managePageInstalledAndUpdatedLabel": "Installed apps",
     "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
     "managePageSearchFieldSearchHint": "Search your installed apps",
     "managePageShowDetailsLabel": "Show details",
