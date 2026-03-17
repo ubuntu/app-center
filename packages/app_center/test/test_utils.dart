@@ -262,6 +262,7 @@ MockPackageKitTransaction createMockPackageKitTransaction({
       ),
     );
     controller.add(const PackageKitDestroyEvent());
+    await controller.close();
   }
 
   // Add similar statements for further methods as needed.
