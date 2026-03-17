@@ -125,7 +125,7 @@ class PackageKitService {
       (event) {
         if (event is PackageKitFinishedEvent) {
           if (event.exit == PackageKitExit.success) {
-          completer.complete();
+            completer.complete();
           } else {
             completer.completeError(
               PackageKitTransactionError(

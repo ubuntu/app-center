@@ -123,8 +123,9 @@ class DebModel extends _$DebModel {
   Future<PackageKitPackageEvent?> _getPackageInfo(
     AppstreamComponent component,
   ) async {
-    final packageInfo = await packageKit.resolve(component.package ?? id);
-    return packageInfo;
+    final packageName = component.package ?? id;
+    final results = await packageKit.resolve([packageName]);
+    return results[packageName];
   }
 
   Future<bool> _getUpdates(PackageKitPackageEvent packageInfo) async {
@@ -135,8 +136,9 @@ class DebModel extends _$DebModel {
     var hasUpdate = false;
 
     for (final packageUpdate in updates ?? <PackageKitPackageId>[]) {
-      final package = await packageKit.resolve(packageUpdate.toString());
-      hasUpdate = package?.info == PackageKitInfo.installed;
+      final packageName = packageUpdate.name;
+      final results = await packageKit.resolve([packageName]);
+      hasUpdate = results[packageName]?.info == PackageKitInfo.installed;
       break;
     }
 

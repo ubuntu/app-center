@@ -232,7 +232,8 @@ void main() {
         fs: MemoryFileSystem.test(),
       );
       await packageKit.activateService();
-      final info = await packageKit.resolve('foo', 'amd64');
+      final info =
+          (await packageKit.resolve(['foo'], architecture: 'amd64'))['foo'];
       verify(mockTransaction.resolve(['foo'])).called(1);
       expect(info, equals(mockInfo));
     });
@@ -268,7 +269,8 @@ void main() {
         fs: MemoryFileSystem.test(),
       );
       await packageKit.activateService();
-      final info = await packageKit.resolve('foo', 'amd64');
+      final info =
+          (await packageKit.resolve(['foo'], architecture: 'amd64'))['foo'];
       expect(info!.packageId.arch, equals('amd64'));
     });
 
@@ -294,7 +296,8 @@ void main() {
         fs: MemoryFileSystem.test(),
       );
       await packageKit.activateService();
-      final info = await packageKit.resolve('foo', 'all');
+      final info =
+          (await packageKit.resolve(['foo'], architecture: 'all'))['foo'];
       expect(info!.packageId.arch, equals('all'));
     });
   });
@@ -378,8 +381,122 @@ void main() {
         },
       ),
     );
-    final info = await packageKit.resolve('foo');
+    final info = (await packageKit.resolve(['foo']))['foo'];
     expect(info, isNull);
+  });
+
+  test('getDetails for multiple packages', () async {
+    final fooDetails = PackageKitDetailsEvent(
+      packageId:
+          const PackageKitPackageId(name: 'foo', version: '1.0', arch: 'amd64'),
+      summary: 'foo summary',
+    );
+    final barDetails = PackageKitDetailsEvent(
+      packageId:
+          const PackageKitPackageId(name: 'bar', version: '2.0', arch: 'amd64'),
+      summary: 'bar summary',
+    );
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [fooDetails, barDetails],
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final packageIds = [
+      const PackageKitPackageId(name: 'foo', version: '1.0', arch: 'amd64'),
+      const PackageKitPackageId(name: 'bar', version: '2.0', arch: 'amd64'),
+    ];
+    final details = await packageKit.getDetails(packageIds);
+    verify(mockTransaction.getDetails(packageIds)).called(1);
+    expect(details['foo'], equals(fooDetails));
+    expect(details['bar'], equals(barDetails));
+  });
+
+  test('updateAll', () async {
+    final mockTransaction = createMockPackageKitTransaction();
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final packages = [
+      const PackageKitPackageId(name: 'foo', version: '1.0'),
+      const PackageKitPackageId(name: 'bar', version: '2.0'),
+    ];
+    await packageKit.updateAll(packages);
+    verify(mockTransaction.updatePackages(packages)).called(1);
+  });
+
+  test('getInstalledPackages', () async {
+    const fooPackage = PackageKitPackageEvent(
+      info: PackageKitInfo.installed,
+      packageId:
+          PackageKitPackageId(name: 'foo', version: '1.0', arch: 'amd64'),
+      summary: 'foo summary',
+    );
+    const barPackage = PackageKitPackageEvent(
+      info: PackageKitInfo.installed,
+      packageId:
+          PackageKitPackageId(name: 'bar', version: '2.0', arch: 'amd64'),
+      summary: 'bar summary',
+    );
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [fooPackage, barPackage],
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final packages = await packageKit.getInstalledPackages();
+    verify(
+      mockTransaction.getPackages(filter: {PackageKitFilter.installed}),
+    ).called(1);
+    expect(packages, contains(fooPackage));
+    expect(packages, contains(barPackage));
+    expect(packages.length, equals(2));
+  });
+
+  test('getAllAvailableUpdates', () async {
+    const fooUpdate = PackageKitPackageEvent(
+      info: PackageKitInfo.normal,
+      packageId:
+          PackageKitPackageId(name: 'foo', version: '2.0', arch: 'amd64'),
+      summary: 'foo update',
+    );
+    const barUpdate = PackageKitPackageEvent(
+      info: PackageKitInfo.normal,
+      packageId:
+          PackageKitPackageId(name: 'bar', version: '3.0', arch: 'amd64'),
+      summary: 'bar update',
+    );
+    final mockTransaction = createMockPackageKitTransaction(
+      events: [fooUpdate, barUpdate],
+    );
+    final mockClient = createMockPackageKitClient(transaction: mockTransaction);
+    final packageKit = PackageKitService(
+      dbus: createMockDbusClient(),
+      client: mockClient,
+      fs: MemoryFileSystem.test(),
+    );
+    await packageKit.activateService();
+
+    final updates = await packageKit.getAllAvailableUpdates();
+    verify(mockTransaction.getUpdates()).called(1);
+    expect(updates, contains(fooUpdate));
+    expect(updates, contains(barUpdate));
+    expect(updates.length, equals(2));
   });
 }
 
