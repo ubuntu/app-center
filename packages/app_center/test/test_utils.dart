@@ -252,6 +252,9 @@ MockPackageKitTransaction createMockPackageKitTransaction({
     }
     if (end != null) await end;
 
+    // Yield to allow waitTransaction to subscribe before FinishedEvent
+    await Future.delayed(Duration.zero);
+
     controller.add(
       PackageKitFinishedEvent(
         exit: exit ?? PackageKitExit.success,
@@ -274,6 +277,16 @@ MockPackageKitTransaction createMockPackageKitTransaction({
   when(transaction.getDetailsLocal(any))
       .thenAnswer((_) async => unawaited(emitEvents()));
   when(transaction.whatProvides(any))
+      .thenAnswer((_) async => unawaited(emitEvents()));
+  when(transaction.getDetails(any))
+      .thenAnswer((_) async => unawaited(emitEvents()));
+  when(transaction.updatePackages(any))
+      .thenAnswer((_) async => unawaited(emitEvents()));
+  when(transaction.getPackages(filter: anyNamed('filter')))
+      .thenAnswer((_) async => unawaited(emitEvents()));
+  when(transaction.getUpdateDetail(any))
+      .thenAnswer((_) async => unawaited(emitEvents()));
+  when(transaction.getUpdates())
       .thenAnswer((_) async => unawaited(emitEvents()));
   return transaction;
 }
@@ -359,13 +372,24 @@ MockPackageKitService createMockPackageKitService({
   Stream<PackageKitServiceError> errorStream = const Stream.empty(),
 }) {
   final packageKit = MockPackageKitService();
-  when(packageKit.resolve(any)).thenAnswer((_) async => packageInfo);
-  when(packageKit.getDetails(any)).thenAnswer((_) async => packageDetails);
+  when(packageKit.resolve(any)).thenAnswer((invocation) async {
+    final names = invocation.positionalArguments.first as List<String>;
+    return {for (final name in names) name: packageInfo};
+  });
+  when(packageKit.getDetails(any)).thenAnswer((invocation) async {
+    final packageIds =
+        invocation.positionalArguments.first as List<PackageKitPackageId>;
+    return {
+      if (packageDetails != null)
+        for (final id in packageIds) id.name: packageDetails,
+    };
+  });
   when(packageKit.getDetailsLocal(any)).thenAnswer((_) async => packageDetails);
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installAll(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installLocal(any)).thenAnswer((_) async => transactionId);
-  when(packageKit.getUpdates(any)).thenAnswer((_) async => packageUpdates);
+  when(packageKit.getUpdateDetails(any))
+      .thenAnswer((_) async => packageUpdates);
   when(packageKit.update(any)).thenAnswer((_) async => transactionId);
   when(packageKit.whatProvides(any)).thenAnswer((_) async => packageEvents!);
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);

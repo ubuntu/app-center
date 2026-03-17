@@ -75,7 +75,8 @@ class DebModel extends _$DebModel {
 
     final packageInfo = await _getPackageInfo(component);
     final hasUpdate = await _getUpdates(packageInfo!);
-    final details = await packageKit.getDetails(packageInfo.packageId);
+    final details = (await packageKit
+        .getDetails([packageInfo.packageId]))[packageInfo.packageId.name];
 
     final errorListener = packageKit.errorStream.listen(_onError);
     ref.onDispose(errorListener.cancel);
@@ -123,20 +124,23 @@ class DebModel extends _$DebModel {
   Future<PackageKitPackageEvent?> _getPackageInfo(
     AppstreamComponent component,
   ) async {
-    final packageInfo = await packageKit.resolve(component.package ?? id);
-    return packageInfo;
+    final packageName = component.package ?? id;
+    final results = await packageKit.resolve([packageName]);
+    return results[packageName];
   }
 
   Future<bool> _getUpdates(PackageKitPackageEvent packageInfo) async {
-    final detailsEvent = await packageKit.getUpdates(packageInfo.packageId);
+    final detailsEvent =
+        await packageKit.getUpdateDetails(packageInfo.packageId);
     // a package will list itself in its updates if its up-to-date, so ignore those
     final updates =
         detailsEvent?.updates.where((pid) => pid != packageInfo.packageId);
     var hasUpdate = false;
 
     for (final packageUpdate in updates ?? <PackageKitPackageId>[]) {
-      final package = await packageKit.resolve(packageUpdate.toString());
-      hasUpdate = package?.info == PackageKitInfo.installed;
+      final packageName = packageUpdate.name;
+      final results = await packageKit.resolve([packageName]);
+      hasUpdate = results[packageName]?.info == PackageKitInfo.installed;
       break;
     }
 
