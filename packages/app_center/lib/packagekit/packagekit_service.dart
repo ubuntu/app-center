@@ -230,6 +230,24 @@ class PackageKitService {
     return details;
   }
 
+  Future<PackageKitDetailsEvent?> getDetails(
+    PackageKitPackageId packageId,
+  ) async {
+    PackageKitDetailsEvent? details;
+    await _createTransaction(
+      action: (transaction) => transaction.getDetails([packageId]),
+      listener: (event) {
+        if (event is PackageKitDetailsEvent) {
+          details = event;
+        }
+      },
+    ).then(waitTransaction);
+    if (details == null) {
+      log.error('Couldn\'t get details for package $packageId');
+    }
+    return details;
+  }
+
   Future<PackageKitPackageDetails?> getDetailsLocal(String path) async {
     PackageKitPackageDetails? details;
     final absolutePath = _getAbsolutePath(path);

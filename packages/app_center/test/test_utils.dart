@@ -360,6 +360,7 @@ MockPackageKitService createMockPackageKitService({
 }) {
   final packageKit = MockPackageKitService();
   when(packageKit.resolve(any)).thenAnswer((_) async => packageInfo);
+  when(packageKit.getDetails(any)).thenAnswer((_) async => packageDetails);
   when(packageKit.getDetailsLocal(any)).thenAnswer((_) async => packageDetails);
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installAll(any)).thenAnswer((_) async => transactionId);
