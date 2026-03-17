@@ -79,7 +79,7 @@
     "snapCategoryPersonalisation": "Personalizacion",
     "aboutPagePublishLabel": "Publicar a la botiga de Snap",
     "aboutPageContributorTitle": "Concepcion e desvolopament per :",
-    "managePageInstalledAndUpdatedLabel": "Installat e mes a jorn",
+    "managePageInstalledAndUpdatedLabel": "Aplicacions installadas",
     "appstreamUrlTypeHomepage": "Pagina d’acuèlh",
     "managePageCheckingForUpdates": "Verificacion de mesas a jorn",
     "managePageUpdatedDaysAgo": "Actualizat fa {n, plural, =1{{n} jorn} other{{n} jorns}}",
