@@ -15,6 +15,14 @@ typedef PackageKitPackageInfo = PackageKitPackageEvent;
 typedef PackageKitServiceError = PackageKitErrorCodeEvent;
 typedef PackageKitPackageDetails = PackageKitDetailsEvent;
 
+class PackageKitTransactionError implements Exception {
+  PackageKitTransactionError(this.message);
+  final String message;
+
+  @override
+  String toString() => 'PackageKitTransactionError: $message';
+}
+
 class PackageKitService {
   PackageKitService({
     @visibleForTesting PackageKitClient? client,
@@ -105,21 +113,43 @@ class PackageKitService {
   }
 
   /// Waits until the transaction specified by the internal `id` has finished.
+  /// Throws a [PackageKitTransactionError] if the transaction fails or is
+  /// destroyed before finishing.
   Future<void> waitTransaction(int id) async {
-    if (!_transactions.keys.contains(id)) return;
+    if (!_transactions.keys.contains(id)) {
+      throw PackageKitTransactionError('Transaction $id not found');
+    }
 
     final completer = Completer();
     final subscription = _transactions[id]!.events.listen(
       (event) {
-        if (event is PackageKitFinishedEvent ||
-            event is PackageKitDestroyEvent) {
+        if (event is PackageKitFinishedEvent) {
+          if (event.exit == PackageKitExit.success) {
           completer.complete();
+          } else {
+            completer.completeError(
+              PackageKitTransactionError(
+                'Transaction $id finished with exit code: ${event.exit}',
+              ),
+            );
+          }
+        } else if (event is PackageKitDestroyEvent) {
+          completer.completeError(
+            PackageKitTransactionError('Transaction $id was destroyed'),
+          );
         }
       },
-      onDone: completer.complete,
+      onDone: () {
+        if (!completer.isCompleted) {
+          completer.completeError(
+            PackageKitTransactionError(
+              'Transaction $id stream closed unexpectedly',
+            ),
+          );
+        }
+      },
     );
-    await completer.future;
-    await subscription.cancel();
+    await completer.future.whenComplete(subscription.cancel);
   }
 
   Future<void> cancelTransaction(int id) async {
@@ -185,31 +215,36 @@ class PackageKitService {
 
   String _getAbsolutePath(String path) => _fs.file(path).absolute.path;
 
-  /// Resolves a single package name provided by `name`.
-  Future<PackageKitPackageInfo?> resolve(
-    String name, [
+  /// Resolves package names in a single transaction.
+  /// Returns a map of package name to package info.
+  /// If [installedOnly] is true, only installed packages are returned.
+  Future<Map<String, PackageKitPackageInfo?>> resolve(
+    List<String> names, {
+    bool installedOnly = false,
     @visibleForTesting String? architecture,
-  ]) async {
+  }) async {
+    if (names.isEmpty) return {};
+
     final possibleArchs = [
       architecture ?? await _getNativeArchitecture(),
       'all',
     ];
-    PackageKitPackageInfo? info;
+    final results = {
+      for (final name in names) name: null as PackageKitPackageInfo?,
+    };
+
     await _createTransaction(
-      action: (transaction) => transaction.resolve([name]),
+      action: (transaction) => transaction.resolve(names),
       listener: (event) {
         if (event is PackageKitPackageEvent &&
-            possibleArchs.contains(event.packageId.arch)) {
-          info = event;
+            possibleArchs.contains(event.packageId.arch) &&
+            (!installedOnly || event.info == PackageKitInfo.installed)) {
+          results[event.packageId.name] = event;
         }
       },
     ).then(waitTransaction);
-    if (info == null) {
-      log.error(
-        'Couldn\'t resolve package $name with architectures $possibleArchs',
-      );
-    }
-    return info;
+
+    return results;
   }
 
   Future<PackageKitUpdateDetailEvent?> getUpdates(
@@ -230,22 +265,18 @@ class PackageKitService {
     return details;
   }
 
-  Future<PackageKitDetailsEvent?> getDetails(
-    PackageKitPackageId packageId,
-  ) async {
-    PackageKitDetailsEvent? details;
+  /// Returns all packages that have updates available.
+  Future<List<PackageKitPackageInfo>> getAllAvailableUpdates() async {
+    final updates = <PackageKitPackageInfo>[];
     await _createTransaction(
-      action: (transaction) => transaction.getDetails([packageId]),
+      action: (transaction) => transaction.getUpdates(),
       listener: (event) {
-        if (event is PackageKitDetailsEvent) {
-          details = event;
+        if (event is PackageKitPackageEvent) {
+          updates.add(event);
         }
       },
     ).then(waitTransaction);
-    if (details == null) {
-      log.error('Couldn\'t get details for package $packageId');
-    }
-    return details;
+    return updates;
   }
 
   Future<PackageKitPackageDetails?> getDetailsLocal(String path) async {
@@ -263,6 +294,47 @@ class PackageKitService {
       log.error('Couldn\'t get details for local package $absolutePath');
     }
     return details;
+  }
+
+  /// Returns details for multiple packages in a single transaction.
+  /// Returns a map of package name to details.
+  Future<Map<String, PackageKitPackageDetails>> getDetails(
+    List<PackageKitPackageId> packageIds,
+  ) async {
+    if (packageIds.isEmpty) return {};
+
+    final results = <String, PackageKitPackageDetails>{};
+    await _createTransaction(
+      action: (transaction) => transaction.getDetails(packageIds),
+      listener: (event) {
+        if (event is PackageKitDetailsEvent) {
+          results[event.packageId.name] = event;
+        }
+      },
+    ).then(waitTransaction);
+    return results;
+  }
+
+  /// Updates all of the given packages in a single transaction.
+  Future<void> updateAll(Iterable<PackageKitPackageId> packageIds) =>
+      _createTransaction(
+        action: (transaction) => transaction.updatePackages(packageIds),
+      ).then(waitTransaction);
+
+  /// Returns all installed packages on the system.
+  Future<List<PackageKitPackageInfo>> getInstalledPackages() async {
+    final packages = <PackageKitPackageInfo>[];
+    await _createTransaction(
+      action: (transaction) => transaction.getPackages(
+        filter: {PackageKitFilter.installed},
+      ),
+      listener: (event) {
+        if (event is PackageKitPackageEvent) {
+          packages.add(event);
+        }
+      },
+    ).then(waitTransaction);
+    return packages;
   }
 
   Future<void> dispose() async {

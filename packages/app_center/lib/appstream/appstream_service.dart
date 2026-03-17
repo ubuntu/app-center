@@ -157,6 +157,9 @@ class AppstreamService {
   @visibleForTesting
   int get cacheSize => _cache.length;
 
+  /// Exposes all loaded Appstream components for iteration.
+  Iterable<AppstreamComponent> get components => _pool.components;
+
   void _populateCache() {
     _cache.clear();
     for (final component in _pool.components) {
