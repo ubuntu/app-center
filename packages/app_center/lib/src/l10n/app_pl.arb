@@ -2,7 +2,7 @@
     "snapPageChannelLabel": "Kanał",
     "snapPageDeveloperWebsiteLabel": "Witryna twórców",
     "appstreamSearchGreylist": "apka;aplikacja;pakiet;program;oprogramowanie;pakiet;narzędzie",
-    "snapPageConfinementLabel": "Ograniczenia",
+    "snapPageConfinementLabel": "Uprawnienia",
     "snapPageContactPublisherLabel": "Skontaktuj się z {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
@@ -16,7 +16,7 @@
     "explorePageCategoriesLabel": "Kategorie",
     "snapPageDownloadSizeLabel": "Rozmiar pobierania",
     "snapPageVersionLabel": "Wersja",
-    "snapPagePublishedLabel": "Opublikowano",
+    "snapPagePublishedLabel": "Ostatnio zaktualizowano",
     "snapPageGalleryLabel": "Galeria",
     "managePageCheckingForUpdates": "Sprawdzanie aktualizacji",
     "snapPageSummaryLabel": "Podsumowanie",
@@ -382,5 +382,12 @@
         }
     },
     "appUrlTypeHomepage": "Witryna twórców",
-    "appUrlTypeUnknown": "Łącze"
+    "appUrlTypeUnknown": "Łącze",
+    "appConfinementUnknown": "Nieznane",
+    "appConfinementStrict": "Odizolowane",
+    "appConfinementDevelopment": "Tryb programisty",
+    "appConfinementClassic": "Nieograniczone",
+    "appConfinementUnrestricted": "Nieograniczone",
+    "appLicenseUnknown": "Nieznana",
+    "appPublishedUnknown": "Nieznane"
 }
