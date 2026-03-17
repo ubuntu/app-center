@@ -268,7 +268,7 @@ class _SwitchChannelButton extends ConsumerWidget {
                 )
               : null,
           child: Text(l10n.snapActionSwitchChannelLabel),
-        )
+        ),
       ],
     );
   }
