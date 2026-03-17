@@ -107,8 +107,8 @@ Future<void> testRemoveSnap(
   final installButton = find.button(tester.l10n.snapActionInstallLabel);
   expect(installButton, findsNothing);
   final menuButton = find.descendant(
-    of: find.byType(YaruSplitButton),
-    matching: find.iconButton(YaruIcons.pan_down),
+    of: find.byType(YaruPopupMenuButton),
+    matching: find.byIcon(YaruIcons.view_more),
   );
 
   await tester.tap(menuButton);
