@@ -75,7 +75,8 @@ class DebModel extends _$DebModel {
 
     final packageInfo = await _getPackageInfo(component);
     final hasUpdate = await _getUpdates(packageInfo!);
-    final details = await packageKit.getDetails(packageInfo.packageId);
+    final details = (await packageKit
+        .getDetails([packageInfo.packageId]))[packageInfo.packageId.name];
 
     final errorListener = packageKit.errorStream.listen(_onError);
     ref.onDispose(errorListener.cancel);

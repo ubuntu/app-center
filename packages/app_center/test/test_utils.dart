@@ -380,7 +380,8 @@ MockPackageKitService createMockPackageKitService({
     final packageIds =
         invocation.positionalArguments.first as List<PackageKitPackageId>;
     return {
-      for (final id in packageIds) id.name: packageDetails,
+      if (packageDetails != null)
+        for (final id in packageIds) id.name: packageDetails,
     };
   });
   when(packageKit.getDetailsLocal(any)).thenAnswer((_) async => packageDetails);
