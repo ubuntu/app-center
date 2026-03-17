@@ -206,7 +206,7 @@
     "managePageOwnUpdateAvailable": "Alkalmazásközpont frissítése érhető el",
     "managePageOwnUpdateQuitButton": "Kilépés a frissítéshez",
     "managePageNoInternet": "Nem érhető el a kiszolgáló. Ellenőrizze az internetkapcsolatát, vagy próbálja meg később újra.",
-    "managePageInstalledAndUpdatedLabel": "Telepítve és frissítve",
+    "managePageInstalledAndUpdatedLabel": "Telepített alkalmazások",
     "managePageNoUpdatesAvailableDescription": "Nem érhetők el frissítések. Az összes alkalmazása naprakész.",
     "searchPageNoResults": "Nincsenek találatok erre: „{query}”",
     "@searchPageNoResults": {
@@ -372,5 +372,15 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "Nem érhető el korábbi helyi revízió, amelyre vissza lehetne állni."
+    "snapRevertNoPreviousRevisionMessage": "Nem érhető el korábbi helyi revízió, amelyre vissza lehetne állni.",
+    "appUrlTypeContact": "Kapcsolatfelvétel: {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Fejlesztő webhelye",
+    "appUrlTypeUnknown": "Hivatkozás"
 }
