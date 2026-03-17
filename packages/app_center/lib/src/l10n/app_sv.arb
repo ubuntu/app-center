@@ -79,7 +79,7 @@
     "snapCategoryPersonalisation": "Personalisering",
     "aboutPagePublishLabel": "Publicera till Snap Store",
     "aboutPageContributorTitle": "Designad och utvecklad av:",
-    "managePageInstalledAndUpdatedLabel": "Installerade och uppdaterade",
+    "managePageInstalledAndUpdatedLabel": "Installerade appar",
     "appstreamUrlTypeHomepage": "Webbsida",
     "managePageCheckingForUpdates": "Letar efter uppdateringar",
     "managePageUpdatedDaysAgo": "Uppdaterades för {n, plural, =1{{n} dag} other{{n} dagar}} sedan",
