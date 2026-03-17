@@ -129,7 +129,8 @@ class DebModel extends _$DebModel {
   }
 
   Future<bool> _getUpdates(PackageKitPackageEvent packageInfo) async {
-    final detailsEvent = await packageKit.getUpdates(packageInfo.packageId);
+    final detailsEvent =
+        await packageKit.getUpdateDetails(packageInfo.packageId);
     // a package will list itself in its updates if its up-to-date, so ignore those
     final updates =
         detailsEvent?.updates.where((pid) => pid != packageInfo.packageId);

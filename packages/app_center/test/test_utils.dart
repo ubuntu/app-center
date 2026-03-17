@@ -387,7 +387,8 @@ MockPackageKitService createMockPackageKitService({
   when(packageKit.install(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installAll(any)).thenAnswer((_) async => transactionId);
   when(packageKit.installLocal(any)).thenAnswer((_) async => transactionId);
-  when(packageKit.getUpdates(any)).thenAnswer((_) async => packageUpdates);
+  when(packageKit.getUpdateDetails(any))
+      .thenAnswer((_) async => packageUpdates);
   when(packageKit.update(any)).thenAnswer((_) async => transactionId);
   when(packageKit.whatProvides(any)).thenAnswer((_) async => packageEvents!);
   when(packageKit.remove(any)).thenAnswer((_) async => transactionId);

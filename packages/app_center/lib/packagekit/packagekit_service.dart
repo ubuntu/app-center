@@ -247,7 +247,7 @@ class PackageKitService {
     return results;
   }
 
-  Future<PackageKitUpdateDetailEvent?> getUpdates(
+  Future<PackageKitUpdateDetailEvent?> getUpdateDetails(
     PackageKitPackageId packageId,
   ) async {
     PackageKitUpdateDetailEvent? details;
@@ -266,7 +266,7 @@ class PackageKitService {
   }
 
   /// Returns all packages that have updates available.
-  Future<List<PackageKitPackageInfo>> getAllAvailableUpdates() async {
+  Future<List<PackageKitPackageInfo>> getUpdates() async {
     final updates = <PackageKitPackageInfo>[];
     await _createTransaction(
       action: (transaction) => transaction.getUpdates(),
@@ -297,7 +297,6 @@ class PackageKitService {
   }
 
   /// Returns details for multiple packages in a single transaction.
-  /// Returns a map of package name to details.
   Future<Map<String, PackageKitPackageDetails>> getDetails(
     List<PackageKitPackageId> packageIds,
   ) async {

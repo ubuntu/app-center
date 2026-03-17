@@ -468,7 +468,7 @@ void main() {
     expect(packages.length, equals(2));
   });
 
-  test('getAllAvailableUpdates', () async {
+  test('getUpdates', () async {
     const fooUpdate = PackageKitPackageEvent(
       info: PackageKitInfo.normal,
       packageId:
@@ -492,7 +492,7 @@ void main() {
     );
     await packageKit.activateService();
 
-    final updates = await packageKit.getAllAvailableUpdates();
+    final updates = await packageKit.getUpdates();
     verify(mockTransaction.getUpdates()).called(1);
     expect(updates, contains(fooUpdate));
     expect(updates, contains(barUpdate));
