@@ -33,7 +33,7 @@
     "snapActionInstallLabel": "Inštalovať",
     "snapPageLicenseLabel": "Licencia",
     "snapCategoryPhotoAndVideo": "Foto a video",
-    "snapPageConfinementLabel": "Izolácia",
+    "snapPageConfinementLabel": "Oprávnenia",
     "snapCategoryMusicAndAudio": "Hudba a zvuk",
     "aboutPageGitHubLabel": "Nájdete nás na GitHube",
     "packageFormatSnapLabel": "Snap balíky",
@@ -61,9 +61,9 @@
     "explorePageCategoriesLabel": "Kategórie",
     "snapCategoryDefaultButtonLabel": "Objavte viac",
     "managePageShowDetailsLabel": "Zobraziť podrobnosti",
-    "snapPageDownloadSizeLabel": "Veľkosť na stiahnutie",
+    "snapPageDownloadSizeLabel": "Veľkosť preberania",
     "snapCategoryProductivityButtonLabel": "Objavte zbierku produktivity",
-    "snapPagePublishedLabel": "Vydané",
+    "snapPagePublishedLabel": "Posledná aktualizácia",
     "aboutPageLearnMoreLabel": "Zistiť viac",
     "snapRatingsBandNeutral": "Neutrálne",
     "appstreamUrlTypeTranslate": "Preklady",
@@ -382,5 +382,12 @@
         }
     },
     "appUrlTypeHomepage": "Stránka vývojára",
-    "appUrlTypeUnknown": "Odkaz"
+    "appUrlTypeUnknown": "Odkaz",
+    "appConfinementUnknown": "Neznáme",
+    "appConfinementStrict": "Izolované",
+    "appConfinementDevelopment": "Vývojársky režim",
+    "appConfinementClassic": "Neobmedzené",
+    "appConfinementUnrestricted": "Neobmedzené",
+    "appLicenseUnknown": "Neznáme",
+    "appPublishedUnknown": "Neznáme"
 }
