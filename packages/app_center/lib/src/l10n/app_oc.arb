@@ -33,7 +33,7 @@
     "snapActionInstallLabel": "Installar",
     "snapPageLicenseLabel": "Licéncia",
     "snapCategoryPhotoAndVideo": "Fòtos e vidèo",
-    "snapPageConfinementLabel": "Isolacion",
+    "snapPageConfinementLabel": "Autorizacions",
     "snapCategoryMusicAndAudio": "Musica e àudio",
     "aboutPageGitHubLabel": "Retrobatz-nos sus Github",
     "packageFormatSnapLabel": "Paquets Snap",
@@ -63,7 +63,7 @@
     "managePageShowDetailsLabel": "Mostrar los detalhs",
     "snapPageDownloadSizeLabel": "Talha del telecargament",
     "snapCategoryProductivityButtonLabel": "Descobrir la colleccion de productivitat",
-    "snapPagePublishedLabel": "Publicat",
+    "snapPagePublishedLabel": "Darrièra actualizacion",
     "aboutPageLearnMoreLabel": "Ne saber mai",
     "snapRatingsBandNeutral": "Neutra",
     "appstreamUrlTypeTranslate": "Traduccions",
@@ -382,5 +382,12 @@
         }
     },
     "appUrlTypeHomepage": "Site Web del desvolopaire",
-    "appUrlTypeUnknown": "Ligam"
+    "appUrlTypeUnknown": "Ligam",
+    "appConfinementUnknown": "Desconegut",
+    "appConfinementStrict": "Isolada",
+    "appConfinementDevelopment": "Mòde desvolopament",
+    "appConfinementClassic": "Non restrench",
+    "appConfinementUnrestricted": "Non restrench",
+    "appLicenseUnknown": "Desconeguda",
+    "appPublishedUnknown": "Desconeguda"
 }
