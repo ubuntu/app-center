@@ -33,7 +33,7 @@
     "snapActionInstallLabel": "Installera",
     "snapPageLicenseLabel": "Licens",
     "snapCategoryPhotoAndVideo": "Foto och video",
-    "snapPageConfinementLabel": "Isolering",
+    "snapPageConfinementLabel": "Rättigheter",
     "snapCategoryMusicAndAudio": "Musik och ljud",
     "aboutPageGitHubLabel": "Hitta oss på GitHub",
     "packageFormatSnapLabel": "Snap-paket",
@@ -63,7 +63,7 @@
     "managePageShowDetailsLabel": "Visa detaljer",
     "snapPageDownloadSizeLabel": "Nedladdningsstorlek",
     "snapCategoryProductivityButtonLabel": "Upptäck produktivitetssamlingen",
-    "snapPagePublishedLabel": "Publicerades",
+    "snapPagePublishedLabel": "Senast uppdaterad",
     "aboutPageLearnMoreLabel": "Läs mer",
     "snapRatingsBandNeutral": "Neutral",
     "appstreamUrlTypeTranslate": "Översättningar",
@@ -382,5 +382,12 @@
             }
         }
     },
-    "appUrlTypeHomepage": "Utvecklarens webbplats"
+    "appUrlTypeHomepage": "Utvecklarens webbplats",
+    "appConfinementUnknown": "Okänt",
+    "appConfinementStrict": "Sandlåda",
+    "appConfinementDevelopment": "Utv.-läge",
+    "appConfinementClassic": "Obegränsad",
+    "appConfinementUnrestricted": "Obegränsad",
+    "appLicenseUnknown": "Okänd",
+    "appPublishedUnknown": "Okänt"
 }
