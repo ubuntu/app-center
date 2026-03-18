@@ -1,4 +1,4 @@
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snap_model.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -36,7 +36,7 @@ void main() {
     test('no updates available', () async {
       registerMockSnapdService();
       final container = createContainer();
-      final model = await container.read(updatesModelProvider.future);
+      final model = await container.read(snapUpdatesModelProvider.future);
       expect(model.isEmpty, isTrue);
     });
 
@@ -45,7 +45,7 @@ void main() {
         refreshableSnaps: [createSnap(name: 'firefox')],
       );
       final container = createContainer();
-      final model = await container.read(updatesModelProvider.future);
+      final model = await container.read(snapUpdatesModelProvider.future);
       expect(model.single.name, equals('firefox'));
     });
   });
@@ -60,8 +60,8 @@ void main() {
     );
     final container = createContainer();
     await container.read(snapModelProvider('testsnap3').future);
-    await container.read(updatesModelProvider.future);
-    await container.read(updatesModelProvider.notifier).refreshAll();
+    await container.read(snapUpdatesModelProvider.future);
+    await container.read(snapUpdatesModelProvider.notifier).refreshAll();
     verify(service.refresh('testsnap3', channel: anyNamed('channel')))
         .called(1);
   });
@@ -93,7 +93,7 @@ void main() {
       registerMockSnapdService(refreshableSnaps: [updateSnap]);
       final container = createContainer();
 
-      await container.read(updatesModelProvider.future);
+      await container.read(snapUpdatesModelProvider.future);
 
       final version = container.read(updateVersionProvider('testsnap'));
       expect(version, equals('2.0.0'));
@@ -103,7 +103,7 @@ void main() {
       registerMockSnapdService();
       final container = createContainer();
 
-      await container.read(updatesModelProvider.future);
+      await container.read(snapUpdatesModelProvider.future);
 
       final version = container.read(updateVersionProvider('testsnap'));
       expect(version, isNull);
@@ -122,7 +122,7 @@ void main() {
         ),
       );
 
-      expect(container.read(updatesModelProvider.future), throwsException);
+      expect(container.read(snapUpdatesModelProvider.future), throwsException);
     });
 
     test('refresh no internet', () async {
@@ -133,7 +133,8 @@ void main() {
         SnapdException(message: ''),
       );
 
-      final snapListState = await container.read(updatesModelProvider.future);
+      final snapListState =
+          await container.read(snapUpdatesModelProvider.future);
       expect(snapListState.hasInternet, isFalse);
     });
 
@@ -154,7 +155,7 @@ void main() {
           kind: 'error kind',
         ),
       );
-      await container.read(updatesModelProvider.future);
+      await container.read(snapUpdatesModelProvider.future);
 
       container.listen(
         errorStreamProvider,
@@ -167,7 +168,7 @@ void main() {
           );
         },
       );
-      await container.read(updatesModelProvider.notifier).refreshAll();
+      await container.read(snapUpdatesModelProvider.notifier).refreshAll();
     });
   });
 }

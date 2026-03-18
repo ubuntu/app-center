@@ -1,8 +1,10 @@
 import 'package:app_center/constants.dart';
+import 'package:app_center/manage/deb_updates_model.dart';
+import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,12 @@ import 'package:yaru_test/yaru_test.dart';
 
 import 'test_utils.dart';
 import 'test_utils.mocks.dart';
+
+/// Common overrides to disable deb-related providers for snap-focused tests.
+List<Override> get debProviderOverrides => [
+      localDebsProvider.overrideWith((ref) async => []),
+      debUpdatesModelProvider.overrideWith(DebUpdatesModel.new),
+    ];
 
 void main() {
   final nonRefreshableSnaps = [
@@ -122,6 +130,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
+          ...debProviderOverrides,
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
         ],
@@ -177,6 +186,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
+          ...debProviderOverrides,
           launchProvider.overrideWith(
             (_, snap) => switch (snap.name) {
               'testsnap' => snapLauncher,
@@ -236,6 +246,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
+          ...debProviderOverrides,
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
         ],
@@ -268,6 +279,7 @@ void main() {
   testWidgets('refresh individual snap', (tester) async {
     final container = createContainer(
       overrides: [
+        ...debProviderOverrides,
         launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
       ],
@@ -315,6 +327,7 @@ void main() {
 
     final container = createContainer(
       overrides: [
+        ...debProviderOverrides,
         launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
         activeChangeProvider.overrideWith((_, __) => mockChange),
@@ -357,6 +370,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
+          ...debProviderOverrides,
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           activeChangeProvider.overrideWith((_, __) => mockChange),
           currentlyRefreshAllSnapsProvider.overrideWith((_) => ['name']),
@@ -382,6 +396,7 @@ void main() {
 
     final container = createContainer(
       overrides: [
+        ...debProviderOverrides,
         launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
       ],
@@ -415,6 +430,7 @@ void main() {
 
       final container = createContainer(
         overrides: [
+          ...debProviderOverrides,
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
         ],
