@@ -50,7 +50,7 @@
     "appCenterLabel": "Lárionad Aipeanna",
     "appstreamSearchGreylist": "aip; iarratas; pacáiste; clár; an chláir; svuít; uirlis",
     "snapPageChannelLabel": "Cainéal",
-    "snapPageConfinementLabel": "Gaibhniú",
+    "snapPageConfinementLabel": "Ceadanna",
     "snapPageContactPublisherLabel": "Déan teagmháil le {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
@@ -67,7 +67,7 @@
     "snapPageLicenseLabel": "Ceadúnas",
     "snapPageLinksLabel": "Naisc",
     "snapPagePublisherLabel": "Foilsitheoir",
-    "snapPagePublishedLabel": "Foilsithe",
+    "snapPagePublishedLabel": "Nuashonraithe go deireanach",
     "snapPageSummaryLabel": "Achoimre",
     "managePageOwnUpdateDescriptionSoon": "Nuashonróidh an t-ionad feidhmchláir go huathoibríoch i {time}.",
     "@managePageOwnUpdateDescriptionSoon": {
@@ -87,7 +87,7 @@
     "managePageDescription": "Seiceáil le haghaidh nuashonruithe atá ar fáil, nuashonraigh d'fheidhmchláir, agus bainistigh stádas d'fheidhmchláir go léir.",
     "managePageDebUpdatesMessage": "Láimhseálann an Updater Bogearraí nuashonruithe pacáiste Debian.",
     "gamesPageTitle": "Cluichí",
-    "managePageInstalledAndUpdatedLabel": "Suiteáilte agus nuashonraithe",
+    "managePageInstalledAndUpdatedLabel": "Aipeanna suiteáilte",
     "managePageInstallingLabel": "Suiteáil ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -389,5 +389,12 @@
         }
     },
     "appUrlTypeHomepage": "Suíomh Gréasáin an fhorbróra",
-    "appUrlTypeUnknown": "Nasc"
+    "appUrlTypeUnknown": "Nasc",
+    "appConfinementUnknown": "Anaithnid",
+    "appConfinementStrict": "Bosca gainimh",
+    "appConfinementDevelopment": "Mód Forbartha",
+    "appConfinementClassic": "Gan srian",
+    "appConfinementUnrestricted": "Gan srian",
+    "appLicenseUnknown": "Anaithnid",
+    "appPublishedUnknown": "Anaithnid"
 }
