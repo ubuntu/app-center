@@ -1,4 +1,4 @@
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,7 +21,7 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
     final snapListState = await ref.watch(localSnapsProvider.future);
     final snaps = snapListState.snaps;
     final refreshableSnaps =
-        (await ref.read(updatesModelProvider.future)).snaps.map((s) => s.name);
+        (await ref.read(snapUpdatesModelProvider.future)).snaps.map((s) => s.name);
     final nonRefreshableSnaps =
         snaps.where((s) => !refreshableSnaps.contains(s.name));
     return snapListState.copyWith(snaps: nonRefreshableSnaps);

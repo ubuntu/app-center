@@ -3,7 +3,7 @@ import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/logger.dart';
 import 'package:app_center/manage/manage_app_data.dart';
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -19,7 +19,7 @@ final appSortOrderProvider =
 /// pending updates, used to populate the "Updates" section of the manage page.
 @riverpod
 Future<List<ManageAppData>> appUpdates(Ref ref) async {
-  final snapUpdates = await ref.watch(updatesModelProvider.future);
+  final snapUpdates = await ref.watch(snapUpdatesModelProvider.future);
   final debUpdates = await ref.watch(debUpdatesModelProvider.future);
 
   final snapApps = snapUpdates.snaps.map(
@@ -53,7 +53,7 @@ class InstalledApps extends _$InstalledApps {
     final snapListState = await ref.watch(localSnapsProvider.future);
     final debs = await ref.watch(localDebsProvider.future);
     final refreshableSnaps =
-        (await ref.read(updatesModelProvider.future)).snaps.map((s) => s.name);
+        (await ref.read(snapUpdatesModelProvider.future)).snaps.map((s) => s.name);
 
     final snapApps = snapListState.snaps
         .where((s) => !refreshableSnaps.contains(s.name))
