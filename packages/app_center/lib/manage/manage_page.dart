@@ -229,8 +229,12 @@ class _ActionButtons extends ConsumerWidget {
           .select((value) => value.valueOrNull?.hasInternet ?? true),
     );
     final isLoading = appUpdatesModel.isLoading;
-    final isSilentlyCheckingUpdates =
+    final isSilentlyCheckingSnapUpdates =
         ref.watch(isSilentlyCheckingUpdatesProvider);
+    final isSilentlyCheckingDebUpdates =
+        ref.watch(isSilentlyCheckingDebUpdatesProvider);
+    final isSilentlyCheckingUpdates =
+        isSilentlyCheckingSnapUpdates || isSilentlyCheckingDebUpdates;
 
     return Wrap(
       spacing: 10,
@@ -243,7 +247,14 @@ class _ActionButtons extends ConsumerWidget {
                   isLoading ||
                   isSilentlyCheckingUpdates
               ? null
-              : ref.read(snapUpdatesModelProvider.notifier).silentUpdatesCheck,
+              : () {
+                  ref
+                      .read(snapUpdatesModelProvider.notifier)
+                      .silentUpdatesCheck();
+                  ref
+                      .read(debUpdatesModelProvider.notifier)
+                      .silentUpdatesCheck();
+                },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

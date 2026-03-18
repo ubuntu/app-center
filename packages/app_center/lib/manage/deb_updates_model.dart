@@ -5,6 +5,7 @@ import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/logger.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
@@ -14,6 +15,9 @@ part 'deb_updates_model.g.dart';
 /// Tracks the IDs of debs currently being updated by [DebUpdatesModel.updateAll].
 /// Empty when no bulk update is in progress.
 final currentlyUpdatingAllDebsProvider = StateProvider<List<String>>((_) => []);
+
+/// Tracks whether a silent deb updates check is in progress.
+final isSilentlyCheckingDebUpdatesProvider = StateProvider<bool>((_) => false);
 
 /// Provides the progress (0.0 to 1.0) of an active PackageKit transaction.
 /// Returns null if no transaction is active or the transaction cannot be found.
@@ -62,6 +66,59 @@ class DebUpdatesModel extends _$DebUpdatesModel {
   void removeFromList(String debId) {
     if (!state.hasValue) return;
     state = AsyncData(state.value!.where((d) => d.id != debId).toList());
+  }
+
+  /// Silently checks for deb updates without invalidating the UI.
+  /// Only updates the state if the list of updates has changed.
+  Future<void> silentUpdatesCheck() async {
+    ref.read(isSilentlyCheckingDebUpdatesProvider.notifier).state = true;
+    try {
+      final updatesMap = await _packageKit.getUpdates();
+      final installed = await ref.read(installedPackagesProvider.future);
+      final componentsByPkg =
+          await ref.read(componentsByPackageProvider.future);
+
+      // Build map of package name -> update package ID
+      final newUpdatesMap = {
+        for (final u in updatesMap) u.packageId.name: u.packageId,
+      };
+
+      // Filter to packages with Appstream entries that have updates
+      final guiPackagesWithUpdates = installed
+          .where(
+            (pkg) =>
+                componentsByPkg.containsKey(pkg.packageId.name) &&
+                newUpdatesMap.containsKey(pkg.packageId.name),
+          )
+          .toList();
+
+      final packageIds =
+          guiPackagesWithUpdates.map((p) => p.packageId).toList();
+      final details = packageIds.isNotEmpty
+          ? await _packageKit.getDetails(packageIds)
+          : <String, PackageKitPackageDetails>{};
+
+      final newDebsList = guiPackagesWithUpdates.map((pkg) {
+        final name = pkg.packageId.name;
+        final component = componentsByPkg[name];
+        return LocalDebInfo(
+          id: component?.id ?? name,
+          packageInfo: pkg,
+          component: component,
+          details: details[name],
+          updatePackageId: newUpdatesMap[name],
+        );
+      }).toList();
+
+      // Only update if list changed
+      final currentIds = state.valueOrNull?.map((d) => d.id).toSet() ?? {};
+      final newIds = newDebsList.map((d) => d.id).toSet();
+      if (!const SetEquality<String>().equals(currentIds, newIds)) {
+        state = AsyncData(newDebsList);
+      }
+    } finally {
+      ref.read(isSilentlyCheckingDebUpdatesProvider.notifier).state = false;
+    }
   }
 
   /// Updates a single deb package by starting a PackageKit transaction,
