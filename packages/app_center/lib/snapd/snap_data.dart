@@ -69,6 +69,36 @@ class SnapData extends AppMetadata with _$SnapData {
     }
   }
 
+  SnapAction? primaryAction([SnapLauncher? snapLauncher]) {
+    final SnapAction? primaryAction;
+    final shouldQuitToUpdate = localSnap?.refreshInhibit != null;
+    final canOpen = snapLauncher?.isLaunchable ?? false;
+    if (isInstalled) {
+      if (!shouldQuitToUpdate && hasUpdate) {
+        primaryAction = SnapAction.update;
+      } else if (canOpen) {
+        primaryAction = SnapAction.open;
+      } else {
+        primaryAction = null;
+      }
+    } else {
+      primaryAction = SnapAction.install;
+    }
+
+    return primaryAction;
+  }
+
+  List<SnapAction> secondaryActions([SnapLauncher? snapLauncher]) {
+    final shouldQuitToUpdate = localSnap?.refreshInhibit != null;
+    final canOpen = snapLauncher?.isLaunchable ?? false;
+    return [
+      if (canOpen) SnapAction.open,
+      if (!shouldQuitToUpdate && hasUpdate) SnapAction.update,
+      if (canRevert) SnapAction.revert,
+      if (isInstalled) SnapAction.remove,
+    ];
+  }
+
   @override
   String? get publisher => snap.publisher?.displayName;
 
