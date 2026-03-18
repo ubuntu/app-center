@@ -75,6 +75,10 @@
     "managePageSearchFieldSearchHint": "Search your installed apps",
     "managePageShowDetailsLabel": "Show details",
     "managePageShowSystemSnapsLabel": "Show system snaps",
+    "managePagePackageTypeLabel": "Package type",
+    "managePagePackageTypeAll": "All",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
     "managePageUpdateAllLabel": "Update all",
     "managePageUpdatedDaysAgo": "Updated {n, plural, =1{{n} day} other{{n} days}} ago",
     "@managePageUpdatedDaysAgo": {

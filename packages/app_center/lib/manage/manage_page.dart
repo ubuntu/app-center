@@ -172,68 +172,7 @@ class ManagePage extends ConsumerWidget {
                   .copyWith(fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: kSpacing),
-            Row(
-              children: [
-                Flexible(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 300),
-                    child: TextFormField(
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      textAlignVertical: TextAlignVertical.center,
-                      cursorWidth: 1,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        contentPadding: kSearchFieldContentPadding,
-                        prefixIcon: kSearchFieldPrefixIcon,
-                        prefixIconConstraints: kSearchFieldIconConstraints,
-                        hintText: l10n.managePageSearchFieldSearchHint,
-                      ),
-                      onChanged: (value) {
-                        ref.read(localSnapFilterProvider.notifier).state =
-                            value;
-                        ref.read(localDebFilterProvider.notifier).state = value;
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(width: kSpacing),
-                Text(l10n.managePageShowSystemSnapsLabel),
-                const SizedBox(width: kSpacingSmall),
-                YaruCheckbox(
-                  value: ref.watch(showLocalSystemAppsProvider),
-                  onChanged: (value) {
-                    ref.read(showLocalSystemAppsProvider.notifier).state =
-                        value ?? false;
-                    ref.read(showLocalSystemDebsProvider.notifier).state =
-                        value ?? false;
-                  },
-                ),
-                const Spacer(),
-                Text(l10n.searchPageSortByLabel),
-                const SizedBox(width: kSpacingSmall),
-                Consumer(
-                  builder: (context, ref, child) {
-                    final sortOrder = ref.watch(appSortOrderProvider);
-                    return MenuButtonBuilder<AppSortOrder>(
-                      values: const [
-                        AppSortOrder.alphabeticalAsc,
-                        AppSortOrder.alphabeticalDesc,
-                        AppSortOrder.installedDateAsc,
-                        AppSortOrder.installedDateDesc,
-                        AppSortOrder.installedSizeAsc,
-                        AppSortOrder.installedSizeDesc,
-                      ],
-                      itemBuilder: (context, sortOrder, child) =>
-                          Text(sortOrder.localize(l10n)),
-                      onSelected: (value) =>
-                          ref.read(appSortOrderProvider.notifier).state = value,
-                      expanded: false,
-                      child: Text(sortOrder.localize(l10n)),
-                    );
-                  },
-                ),
-              ],
-            ),
+            _FilterRow(),
             const SizedBox(height: kMarginLarge),
           ],
         ),
@@ -456,6 +395,162 @@ class _SmallLoadingIndicator extends StatelessWidget {
         value: progress,
         strokeWidth: 2,
       ),
+    );
+  }
+}
+
+class _FilterRow extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final compact =
+        ResponsiveLayout.of(context).type == ResponsiveLayoutType.small;
+
+    final searchField = SizedBox(
+      width: 170,
+      child: TextFormField(
+        style: Theme.of(context).textTheme.bodyMedium,
+        textAlignVertical: TextAlignVertical.center,
+        cursorWidth: 1,
+        decoration: InputDecoration(
+          isDense: true,
+          contentPadding: kSearchFieldContentPadding,
+          prefixIcon: kSearchFieldPrefixIcon,
+          prefixIconConstraints: kSearchFieldIconConstraints,
+          hintText: l10n.managePageSearchFieldSearchHint,
+        ),
+        onChanged: (value) {
+          ref.read(localSnapFilterProvider.notifier).state = value;
+          ref.read(localDebFilterProvider.notifier).state = value;
+        },
+      ),
+    );
+
+    final packageTypeFilter = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(l10n.managePagePackageTypeLabel),
+        const SizedBox(width: kSpacingSmall),
+        Consumer(
+          builder: (context, ref, child) {
+            final packageType = ref.watch(packageTypeFilterProvider);
+            return IntrinsicWidth(
+              child: Stack(
+                children: [
+                  // Invisible texts to establish fixed width
+                  for (final type in PackageTypeFilter.values)
+                    Visibility(
+                      visible: false,
+                      maintainSize: true,
+                      maintainAnimation: true,
+                      maintainState: true,
+                      child: MenuButtonBuilder<PackageTypeFilter>(
+                        values: const [],
+                        itemBuilder: (context, type, child) =>
+                            const SizedBox.shrink(),
+                        onSelected: (_) {},
+                        expanded: false,
+                        child: Text(type.localize(l10n)),
+                      ),
+                    ),
+                  // Actual visible dropdown
+                  MenuButtonBuilder<PackageTypeFilter>(
+                    values: PackageTypeFilter.values,
+                    itemBuilder: (context, type, child) =>
+                        Text(type.localize(l10n)),
+                    onSelected: (value) => ref
+                        .read(packageTypeFilterProvider.notifier)
+                        .state = value,
+                    expanded: false,
+                    child: Text(packageType.localize(l10n)),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
+    );
+
+    final showSystemApps = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(l10n.managePageShowSystemSnapsLabel),
+        const SizedBox(width: kSpacingSmall),
+        YaruCheckbox(
+          value: ref.watch(showLocalSystemAppsProvider),
+          onChanged: (value) {
+            ref.read(showLocalSystemAppsProvider.notifier).state =
+                value ?? false;
+            ref.read(showLocalSystemDebsProvider.notifier).state =
+                value ?? false;
+          },
+        ),
+      ],
+    );
+
+    final sortBy = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(l10n.searchPageSortByLabel),
+        const SizedBox(width: kSpacingSmall),
+        Consumer(
+          builder: (context, ref, child) {
+            final sortOrder = ref.watch(appSortOrderProvider);
+            return MenuButtonBuilder<AppSortOrder>(
+              values: const [
+                AppSortOrder.alphabeticalAsc,
+                AppSortOrder.alphabeticalDesc,
+                AppSortOrder.installedDateAsc,
+                AppSortOrder.installedDateDesc,
+                AppSortOrder.installedSizeAsc,
+                AppSortOrder.installedSizeDesc,
+              ],
+              itemBuilder: (context, sortOrder, child) =>
+                  Text(sortOrder.localize(l10n)),
+              onSelected: (value) =>
+                  ref.read(appSortOrderProvider.notifier).state = value,
+              expanded: false,
+              child: Text(sortOrder.localize(l10n)),
+            );
+          },
+        ),
+      ],
+    );
+
+    if (compact) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              searchField,
+              const SizedBox(width: kSpacing),
+              packageTypeFilter,
+            ],
+          ),
+          const SizedBox(height: kSpacing),
+          Row(
+            children: [
+              showSystemApps,
+              const Spacer(),
+              sortBy,
+            ],
+          ),
+        ],
+      );
+    }
+
+    return Row(
+      children: [
+        searchField,
+        const SizedBox(width: kSpacing),
+        packageTypeFilter,
+        const SizedBox(width: kSpacing),
+        showSystemApps,
+        const Spacer(),
+        sortBy,
+      ],
     );
   }
 }
