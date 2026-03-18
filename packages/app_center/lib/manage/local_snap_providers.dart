@@ -24,13 +24,7 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
         (await ref.read(updatesModelProvider.future)).snaps.map((s) => s.name);
     final nonRefreshableSnaps =
         snaps.where((s) => !refreshableSnaps.contains(s.name));
-    void refreshFunction(_, __) => _refreshWithFilters(nonRefreshableSnaps);
-    ref.listen(localSnapFilterProvider, refreshFunction);
-    ref.listen(showLocalSystemAppsProvider, refreshFunction);
-    ref.listen(localSnapSortOrderProvider, refreshFunction);
-    return snapListState.copyWith(
-      snaps: _refreshWithFilters(nonRefreshableSnaps, updateState: false),
-    );
+    return snapListState.copyWith(snaps: nonRefreshableSnaps);
   }
 
   /// Used to add a snap from the list without reloading the whole provider.
@@ -39,7 +33,9 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
   Future<void> addToList(Snap snap) async {
     if (!state.hasValue) return;
     final localSnap = await _snapd.getSnap(snap.name);
-    _refreshWithFilters([...state.value!.snaps, localSnap]);
+    state = AsyncData(
+      state.value!.copyWith(snaps: [...state.value!.snaps, localSnap]),
+    );
   }
 
   /// Used to remove a snap from the list without reloading the whole provider.
@@ -52,31 +48,5 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
         snaps: state.value!.snaps.where((s) => s.name != snapName),
       ),
     );
-  }
-
-  Iterable<Snap> _refreshWithFilters(
-    Iterable<Snap> nonRefreshableSnaps, {
-    bool updateState = true,
-  }) {
-    final filter = ref.read(localSnapFilterProvider).toLowerCase();
-    final showSystemApps = ref.read(showLocalSystemAppsProvider);
-    final sortOrder = ref.read(localSnapSortOrderProvider);
-    final filteredSnaps = nonRefreshableSnaps
-        .where(
-          (snap) =>
-              snap.titleOrName.toLowerCase().contains(filter) &&
-              (showSystemApps || snap.apps.isNotEmpty),
-        )
-        .toSet()
-        .sortedSnaps(sortOrder);
-    if (updateState) {
-      state = AsyncData(
-        SnapListState(
-          snaps: filteredSnaps,
-          hasInternet: state.value?.hasInternet ?? true,
-        ),
-      );
-    }
-    return filteredSnaps;
   }
 }
