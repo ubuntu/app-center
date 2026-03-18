@@ -10,8 +10,7 @@ part 'deb_updates_model.g.dart';
 
 /// Tracks the IDs of debs currently being updated by [DebUpdatesModel.updateAll].
 /// Empty when no bulk update is in progress.
-final currentlyUpdatingAllDebsProvider =
-    StateProvider<List<String>>((_) => []);
+final currentlyUpdatingAllDebsProvider = StateProvider<List<String>>((_) => []);
 
 /// Manages the list of locally-installed deb packages that have available
 /// updates, and exposes actions to update or cancel individual or bulk updates

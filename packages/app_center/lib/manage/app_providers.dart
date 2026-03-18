@@ -52,8 +52,9 @@ class InstalledApps extends _$InstalledApps {
   Future<List<ManageAppData>> build() async {
     final snapListState = await ref.watch(localSnapsProvider.future);
     final debs = await ref.watch(localDebsProvider.future);
-    final refreshableSnaps =
-        (await ref.read(snapUpdatesModelProvider.future)).snaps.map((s) => s.name);
+    final refreshableSnaps = (await ref.read(snapUpdatesModelProvider.future))
+        .snaps
+        .map((s) => s.name);
 
     final snapApps = snapListState.snaps
         .where((s) => !refreshableSnaps.contains(s.name))

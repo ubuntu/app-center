@@ -2,11 +2,14 @@ import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/manage/app_providers.dart';
+import 'package:app_center/manage/deb_updates_model.dart';
+import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
-import 'package:app_center/manage/manage_snap_tile.dart';
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/manage_app_data.dart';
+import 'package:app_center/manage/manage_app_tile.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
-import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
@@ -21,26 +24,28 @@ class ManagePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final updatesModel = ref.watch(updatesModelProvider);
-    final localSnapsModel = ref.watch(filteredLocalSnapsProvider);
+    final appUpdatesModel = ref.watch(appUpdatesProvider);
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
-    final isLoading = updatesModel.isLoading || localSnapsModel.isLoading;
     final currentlyInstalling = ref.watch(currentlyInstallingModelProvider);
     final currentlyInstallingNames = currentlyInstalling.keys.toList();
 
-    if (updatesModel.hasError || localSnapsModel.hasError) {
+    if (appUpdatesModel.hasError) {
       return ErrorView(
-        error: updatesModel.error ?? localSnapsModel.error,
+        error: appUpdatesModel.error,
         onRetry: () {
-          ref.invalidate(updatesModelProvider);
-          ref.invalidate(filteredLocalSnapsProvider);
+          ref.invalidate(appUpdatesProvider);
+          ref.invalidate(installedAppsProvider);
         },
       );
     }
 
-    final refreshableSnaps = updatesModel.valueOrNull?.snaps ?? [];
-    final hasInternet = updatesModel.valueOrNull?.hasInternet ?? true;
+    final appUpdates = appUpdatesModel.valueOrNull ?? [];
+    final isLoading = appUpdatesModel.isLoading;
+    final hasInternet = ref.watch(
+      snapUpdatesModelProvider
+          .select((value) => value.valueOrNull?.hasInternet ?? true),
+    );
 
     return ResponsiveLayoutScrollView(
       slivers: [
@@ -74,7 +79,7 @@ class ManagePage extends ConsumerWidget {
                     children: [
                       Text(
                         l10n.managePageUpdatesAvailable(
-                          refreshableSnaps.length,
+                          appUpdates.length,
                         ),
                         style: Theme.of(context)
                             .textTheme
@@ -95,7 +100,7 @@ class ManagePage extends ConsumerWidget {
                     style: textTheme.titleMedium,
                   ),
                 )
-              else if (refreshableSnaps.isEmpty && !isLoading)
+              else if (appUpdates.isEmpty && !isLoading)
                 _MinHeightAsProgressIndicator(
                   child: Text(
                     l10n.managePageNoUpdatesAvailableDescription,
@@ -106,23 +111,15 @@ class ManagePage extends ConsumerWidget {
           ),
         ),
 
-        updatesModel.when(
-          data: (snapListState) {
-            // Due to the updates model loading a lot faster than the
-            // local filtered snaps we force this list to show the loading
-            // state too.
-            if (localSnapsModel.isLoading) {
-              return const SliverToBoxAdapter(
-                child: Center(child: YaruCircularProgressIndicator()),
-              );
-            }
+        appUpdatesModel.when(
+          data: (updates) {
             return SliverList.builder(
-              itemCount: snapListState.snaps.length,
-              itemBuilder: (context, index) => ManageSnapTile(
-                snap: snapListState.snaps.elementAt(index),
+              itemCount: updates.length,
+              itemBuilder: (context, index) => ManageAppTile(
+                app: updates.elementAt(index),
                 position: determineTilePosition(
                   index: index,
-                  length: snapListState.snaps.length,
+                  length: updates.length,
                 ),
                 showOnlyUpdate: true,
               ),
@@ -151,8 +148,11 @@ class ManagePage extends ConsumerWidget {
           ),
           SliverList.builder(
             itemCount: currentlyInstalling.length,
-            itemBuilder: (context, index) => ManageSnapTile(
-              snap: currentlyInstalling[currentlyInstallingNames[index]]!.snap,
+            itemBuilder: (context, index) => ManageAppTile(
+              app: ManageAppData.snap(
+                snap:
+                    currentlyInstalling[currentlyInstallingNames[index]]!.snap,
+              ),
               position: determineTilePosition(
                 index: index,
                 length: currentlyInstalling.length,
@@ -188,10 +188,11 @@ class ManagePage extends ConsumerWidget {
                         prefixIconConstraints: kSearchFieldIconConstraints,
                         hintText: l10n.managePageSearchFieldSearchHint,
                       ),
-                      initialValue: ref.watch(localSnapFilterProvider),
-                      onChanged: (value) => ref
-                          .read(localSnapFilterProvider.notifier)
-                          .state = value,
+                      onChanged: (value) {
+                        ref.read(localSnapFilterProvider.notifier).state =
+                            value;
+                        ref.read(localDebFilterProvider.notifier).state = value;
+                      },
                     ),
                   ),
                 ),
@@ -200,30 +201,32 @@ class ManagePage extends ConsumerWidget {
                 const SizedBox(width: kSpacingSmall),
                 YaruCheckbox(
                   value: ref.watch(showLocalSystemAppsProvider),
-                  onChanged: (value) => ref
-                      .read(showLocalSystemAppsProvider.notifier)
-                      .state = value ?? false,
+                  onChanged: (value) {
+                    ref.read(showLocalSystemAppsProvider.notifier).state =
+                        value ?? false;
+                    ref.read(showLocalSystemDebsProvider.notifier).state =
+                        value ?? false;
+                  },
                 ),
                 const Spacer(),
                 Text(l10n.searchPageSortByLabel),
                 const SizedBox(width: kSpacingSmall),
                 Consumer(
                   builder: (context, ref, child) {
-                    final sortOrder = ref.watch(localSnapSortOrderProvider);
-                    return MenuButtonBuilder<SnapSortOrder>(
+                    final sortOrder = ref.watch(appSortOrderProvider);
+                    return MenuButtonBuilder<AppSortOrder>(
                       values: const [
-                        SnapSortOrder.alphabeticalAsc,
-                        SnapSortOrder.alphabeticalDesc,
-                        SnapSortOrder.installedDateAsc,
-                        SnapSortOrder.installedDateDesc,
-                        SnapSortOrder.installedSizeAsc,
-                        SnapSortOrder.installedSizeDesc,
+                        AppSortOrder.alphabeticalAsc,
+                        AppSortOrder.alphabeticalDesc,
+                        AppSortOrder.installedDateAsc,
+                        AppSortOrder.installedDateDesc,
+                        AppSortOrder.installedSizeAsc,
+                        AppSortOrder.installedSizeDesc,
                       ],
                       itemBuilder: (context, sortOrder, child) =>
                           Text(sortOrder.localize(l10n)),
-                      onSelected: (value) => ref
-                          .read(localSnapSortOrderProvider.notifier)
-                          .state = value,
+                      onSelected: (value) =>
+                          ref.read(appSortOrderProvider.notifier).state = value,
                       expanded: false,
                       child: Text(sortOrder.localize(l10n)),
                     );
@@ -235,24 +238,30 @@ class ManagePage extends ConsumerWidget {
           ],
         ),
 
-        localSnapsModel.when(
-          data: (snapListState) => SliverList.builder(
-            itemCount: snapListState.snaps.length,
-            itemBuilder: (context, index) => ManageSnapTile(
-              snap: snapListState.snaps.elementAt(index),
-              position: determineTilePosition(
-                index: index,
-                length: snapListState.snaps.length,
+        Consumer(
+          builder: (context, ref, child) {
+            final installedAppsModel = ref.watch(installedAppsProvider);
+            return installedAppsModel.when(
+              data: (apps) => SliverList.builder(
+                itemCount: apps.length,
+                itemBuilder: (context, index) => ManageAppTile(
+                  app: apps.elementAt(index),
+                  position: determineTilePosition(
+                    index: index,
+                    length: apps.length,
+                  ),
+                  hasFixedSize: true,
+                ),
               ),
-              hasFixedSize: true,
-            ),
-          ),
-          error: (_, __) => const SliverToBoxAdapter(child: SizedBox.shrink()),
-          loading: () => const SliverToBoxAdapter(
-            child: Center(
-              child: YaruCircularProgressIndicator(),
-            ),
-          ),
+              error: (_, __) =>
+                  const SliverToBoxAdapter(child: SizedBox.shrink()),
+              loading: () => const SliverToBoxAdapter(
+                child: Center(
+                  child: YaruCircularProgressIndicator(),
+                ),
+              ),
+            );
+          },
         ),
 
         // Bottom spacing
@@ -264,19 +273,23 @@ class ManagePage extends ConsumerWidget {
   }
 }
 
-// TODO: refactor/generalize - similar to `_SnapActionButtons`
 class _ActionButtons extends ConsumerWidget {
   const _ActionButtons();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final updatesModel = ref.watch(updatesModelProvider);
-    final localSnapsModel = ref.watch(filteredLocalSnapsProvider);
+    final appUpdatesModel = ref.watch(appUpdatesProvider);
     final isRefreshingAll =
         ref.watch(currentlyRefreshAllSnapsProvider).isNotEmpty;
-    final hasInternet = updatesModel.value?.hasInternet ?? true;
-    final isLoading = updatesModel.isLoading || localSnapsModel.isLoading;
+    final isUpdatingAllDebs =
+        ref.watch(currentlyUpdatingAllDebsProvider).isNotEmpty;
+    final isUpdatingAll = isRefreshingAll || isUpdatingAllDebs;
+    final hasInternet = ref.watch(
+      snapUpdatesModelProvider
+          .select((value) => value.valueOrNull?.hasInternet ?? true),
+    );
+    final isLoading = appUpdatesModel.isLoading;
     final isSilentlyCheckingUpdates =
         ref.watch(isSilentlyCheckingUpdatesProvider);
 
@@ -286,12 +299,12 @@ class _ActionButtons extends ConsumerWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         PushButton.outlined(
-          onPressed: isRefreshingAll ||
-                  updatesModel.hasError ||
+          onPressed: isUpdatingAll ||
+                  appUpdatesModel.hasError ||
                   isLoading ||
                   isSilentlyCheckingUpdates
               ? null
-              : ref.read(updatesModelProvider.notifier).silentUpdatesCheck,
+              : ref.read(snapUpdatesModelProvider.notifier).silentUpdatesCheck,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -310,11 +323,16 @@ class _ActionButtons extends ConsumerWidget {
           ),
         ),
         PushButton.elevated(
-          onPressed: ref.watch(updatesModelProvider).whenOrNull(
-                data: (snapListState) => snapListState.snaps.isNotEmpty &&
-                        !isRefreshingAll &&
+          onPressed: ref.watch(appUpdatesProvider).whenOrNull(
+                data: (updates) => updates.isNotEmpty &&
+                        !isUpdatingAll &&
                         hasInternet
-                    ? ref.read(updatesModelProvider.notifier).refreshAll
+                    ? () {
+                        ref
+                            .read(snapUpdatesModelProvider.notifier)
+                            .refreshAll();
+                        ref.read(debUpdatesModelProvider.notifier).updateAll();
+                      }
                     : null,
               ),
           child: Row(
@@ -324,7 +342,7 @@ class _ActionButtons extends ConsumerWidget {
               const SizedBox(width: 8),
               Flexible(
                 child: Text(
-                  isRefreshingAll
+                  isUpdatingAll
                       ? l10n.snapActionUpdatingLabel
                       : l10n.managePageUpdateAllLabel,
                   maxLines: 1,
@@ -334,10 +352,12 @@ class _ActionButtons extends ConsumerWidget {
             ],
           ),
         ),
-        if (isRefreshingAll)
+        if (isUpdatingAll)
           PushButton.outlined(
-            onPressed: () =>
-                ref.read(updatesModelProvider.notifier).cancelRefreshAll(),
+            onPressed: () {
+              ref.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
+              ref.read(debUpdatesModelProvider.notifier).cancelAll();
+            },
             child: Text(
               l10n.snapActionCancelLabel,
               maxLines: 1,

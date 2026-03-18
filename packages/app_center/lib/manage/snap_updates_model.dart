@@ -159,7 +159,9 @@ class SnapUpdatesModel extends _$SnapUpdatesModel {
         try {
           final completedSuccessfully = await refreshFuture;
           if (completedSuccessfully) {
-            ref.read(snapUpdatesModelProvider.notifier).removeFromList(snapName);
+            ref
+                .read(snapUpdatesModelProvider.notifier)
+                .removeFromList(snapName);
           }
         } on Exception catch (e) {
           if (e is SnapdException && e.kind == 'auth-cancelled') {

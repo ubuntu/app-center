@@ -20,8 +20,9 @@ class FilteredLocalSnaps extends _$FilteredLocalSnaps {
   Future<SnapListState> build() async {
     final snapListState = await ref.watch(localSnapsProvider.future);
     final snaps = snapListState.snaps;
-    final refreshableSnaps =
-        (await ref.read(snapUpdatesModelProvider.future)).snaps.map((s) => s.name);
+    final refreshableSnaps = (await ref.read(snapUpdatesModelProvider.future))
+        .snaps
+        .map((s) => s.name);
     final nonRefreshableSnaps =
         snaps.where((s) => !refreshableSnaps.contains(s.name));
     return snapListState.copyWith(snaps: nonRefreshableSnaps);
