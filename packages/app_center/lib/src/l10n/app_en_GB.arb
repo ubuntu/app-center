@@ -13,7 +13,7 @@
     "snapPageLicenseLabel": "Licence",
     "snapPageLinksLabel": "Links",
     "snapPagePublisherLabel": "Publisher",
-    "snapPagePublishedLabel": "Published",
+    "snapPagePublishedLabel": "Last updated",
     "snapPageSummaryLabel": "Summary",
     "snapPageVersionLabel": "Version",
     "snapPageShareLinkCopiedMessage": "Link copied to clipboard",
@@ -235,7 +235,7 @@
     "snapSortOrderInstalledDateDesc": "Most recently updated",
     "snapSortOrderRelevance": "Relevance",
     "snapRatingsBandVeryGood": "Very good",
-    "snapPageConfinementLabel": "Confinement",
+    "snapPageConfinementLabel": "Permissions",
     "snapPageDeveloperWebsiteLabel": "Developer website",
     "managePageQuitToUpdate": "Quit to update",
     "localDebWarningBody": "This package is provided by a third party. Installing packages from outside the App Centre can increase the risk to your system and personal data. Ensure you trust the source before proceeding.",
@@ -382,5 +382,12 @@
         }
     },
     "appUrlTypeHomepage": "Developer website",
-    "appUrlTypeUnknown": "Link"
+    "appUrlTypeUnknown": "Link",
+    "appConfinementUnknown": "Unknown",
+    "appConfinementStrict": "Sandboxed",
+    "appConfinementDevelopment": "Devmode",
+    "appConfinementClassic": "Unrestricted",
+    "appConfinementUnrestricted": "Unrestricted",
+    "appLicenseUnknown": "Unknown",
+    "appPublishedUnknown": "Unknown"
 }
