@@ -60,10 +60,11 @@ class ManageAppData with _$ManageAppData {
         deb: (debInfo) => debInfo.hasAppstreamEntry,
       );
 
-  /// Install date. Only available for snaps; debs return null.
+  /// Install/release date. For snaps, this is the install date. For debs,
+  /// this is the release date of the installed version from AppStream metadata.
   DateTime? get installDate => when(
         snap: (snap, _) => snap.installDate,
-        deb: (_) => null,
+        deb: (debInfo) => debInfo.releaseDate,
       );
 
   /// Installed size in bytes, used for sort-by-size.

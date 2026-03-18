@@ -1,6 +1,7 @@
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:appstream/appstream.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
@@ -39,6 +40,23 @@ class LocalDebInfo with _$LocalDebInfo {
 
   /// Whether this deb has an Appstream entry (user-facing app vs system package).
   bool get hasAppstreamEntry => component != null;
+
+  /// Returns the release date for the currently installed version from
+  /// AppStream metadata, or the most recent release date if no exact match.
+  DateTime? get releaseDate {
+    final installedVersion = packageInfo.packageId.version;
+    // Try to find exact version match
+    final matchingRelease = component?.releases
+        .firstWhereOrNull((r) => r.version == installedVersion);
+    if (matchingRelease?.date != null) {
+      return matchingRelease!.date;
+    }
+    // Fall back to most recent release date
+    return component?.releases
+        .map((r) => r.date)
+        .whereType<DateTime>()
+        .maxOrNull;
+  }
 }
 
 final localDebFilterProvider = StateProvider.autoDispose<String>((_) => '');
