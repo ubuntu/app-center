@@ -131,9 +131,17 @@ class InstalledApps extends _$InstalledApps {
     return filtered;
   }
 
-  // Deb lifecycle actions (remove, cancel) live here because there is no
+  // Deb lifecycle actions (remove, cancel, add) live here because there is no
   // per-deb notifier equivalent to `SnapModel`. Since `InstalledApps` owns the
   // list that these actions mutate, it also handles the PackageKit transactions.
+
+  /// Adds an updated deb to the installed apps list without reloading the
+  /// whole provider. Used when a deb finishes updating to move it from the
+  /// updates list to the installed list.
+  void addDebToList(LocalDebInfo debInfo) {
+    _allApps = [..._allApps, ManageAppData.deb(debInfo: debInfo)];
+    _applyFilters();
+  }
 
   /// Removes a deb package via PackageKit, tracks the transaction in state,
   /// and removes the app from the list once the transaction completes.

@@ -1,3 +1,4 @@
+import 'package:app_center/manage/app_providers.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/logger.dart';
 import 'package:app_center/packagekit/packagekit.dart';
@@ -34,8 +35,8 @@ class DebUpdatesModel extends _$DebUpdatesModel {
   }
 
   /// Updates a single deb package by starting a PackageKit transaction,
-  /// waiting for it to complete, then removing the deb from the update list
-  /// and refreshing the local debs provider.
+  /// waiting for it to complete, then moving the deb from the updates list
+  /// to the installed apps list.
   Future<void> updateDeb(String debId) async {
     if (!state.hasValue) return;
     final deb = state.value!.firstWhere((d) => d.id == debId);
@@ -47,7 +48,12 @@ class DebUpdatesModel extends _$DebUpdatesModel {
     log.info('Update transaction completed: $transactionId for $debId');
     _updateTransactionId(debId, null);
     removeFromList(debId);
-    ref.invalidate(localDebsProvider);
+    // Add the updated deb to the installed apps list (with update cleared)
+    final updatedDeb = deb.copyWith(
+      updatePackageId: null,
+      activeTransactionId: null,
+    );
+    ref.read(installedAppsProvider.notifier).addDebToList(updatedDeb);
   }
 
   /// Cancels an in-progress PackageKit transaction for the given deb.
