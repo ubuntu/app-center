@@ -33,7 +33,7 @@
     "snapActionInstallLabel": "Установить",
     "snapPageLicenseLabel": "Лицензия",
     "snapCategoryPhotoAndVideo": "Фото и видео",
-    "snapPageConfinementLabel": "Уровень изоляции",
+    "snapPageConfinementLabel": "Разрешения",
     "snapCategoryMusicAndAudio": "Музыка и аудио",
     "aboutPageGitHubLabel": "Проект на GitHub",
     "packageFormatSnapLabel": "Snap-пакеты",
@@ -49,7 +49,7 @@
     "searchFieldSnapSection": "Snap-пакеты",
     "snapCategoryDevicesAndIot": "Устройства и IoT",
     "managePageCheckForUpdates": "Проверить наличие обновлений",
-    "managePageUpdateAllLabel": "Обновить всё",
+    "managePageUpdateAllLabel": "Обновить все",
     "searchFieldSearchForLabel": "Показать все результаты для \"{query}\"",
     "@searchFieldSearchForLabel": {
         "placeholders": {
@@ -63,7 +63,7 @@
     "managePageShowDetailsLabel": "Подробнее",
     "snapPageDownloadSizeLabel": "Размер загрузки",
     "snapCategoryProductivityButtonLabel": "Исследовать коллекцию для работы",
-    "snapPagePublishedLabel": "Опубликовано",
+    "snapPagePublishedLabel": "Обновлено",
     "aboutPageLearnMoreLabel": "Подробнее",
     "snapRatingsBandNeutral": "Нейтральные",
     "appstreamUrlTypeTranslate": "Локализация",
@@ -178,9 +178,9 @@
     "snapCategoryGameContentCreation": "Создание контента",
     "snapReportPrivacyAgreementPrivacyPolicy": "Политикой конфиденциальности",
     "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Уведомлением о конфиденциальности Canonical ",
-    "snapReportEnterValidEmailError": "Введите действительный адрес электронной почты",
+    "snapReportEnterValidEmailError": "Введите действительный адрес эл. почты",
     "snapReportSubmitButtonLabel": "Отправить жалобу",
-    "snapReportOptionalEmailAddressLabel": "Ваш адрес электронной почты (необязательно)",
+    "snapReportOptionalEmailAddressLabel": "Ваш адрес эл. почты (необязательно)",
     "snapReportDetailsLabel": "Предоставьте более подробное обоснование к жалобе",
     "snapReportLabel": "Пожаловаться на {snapName}",
     "@snapReportLabel": {
@@ -382,5 +382,12 @@
         }
     },
     "appUrlTypeHomepage": "Веб-сайт разработчика",
-    "appUrlTypeUnknown": "Ссылка"
+    "appUrlTypeUnknown": "Ссылка",
+    "appConfinementUnknown": "Неизвестны",
+    "appConfinementStrict": "Изолированы",
+    "appConfinementDevelopment": "Режим разработчика",
+    "appConfinementClassic": "Неограничены",
+    "appConfinementUnrestricted": "Неограничены",
+    "appLicenseUnknown": "Неизвестна",
+    "appPublishedUnknown": "Неизвестно"
 }
