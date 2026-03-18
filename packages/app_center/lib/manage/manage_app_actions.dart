@@ -138,12 +138,26 @@ class ManageAppActions extends ConsumerWidget {
     final hasActiveTransaction = debInfo.activeTransactionId != null;
 
     if (hasActiveTransaction) {
+      final progress = ref
+          .watch(debTransactionProgressProvider(debInfo.activeTransactionId));
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox.square(
-            dimension: kLoaderMediumHeight,
-            child: YaruCircularProgressIndicator(),
+          SizedBox.square(
+            dimension: kLoaderHeight,
+            child: YaruCircularProgressIndicator(
+              value: progress,
+              strokeWidth: 2,
+            ),
+          ),
+          const SizedBox(width: kSpacingSmall),
+          Text(
+            showOnlyUpdate
+                ? l10n.snapActionUpdatingLabel
+                : l10n.snapActionRemovingLabel,
+            style: Theme.of(context).textTheme.bodyMedium,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(width: kSpacing),
           OutlinedButton(

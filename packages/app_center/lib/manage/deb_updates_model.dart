@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/manage/app_providers.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/logger.dart';
@@ -12,6 +14,34 @@ part 'deb_updates_model.g.dart';
 /// Tracks the IDs of debs currently being updated by [DebUpdatesModel.updateAll].
 /// Empty when no bulk update is in progress.
 final currentlyUpdatingAllDebsProvider = StateProvider<List<String>>((_) => []);
+
+/// Provides the progress (0.0 to 1.0) of an active PackageKit transaction.
+/// Returns null if no transaction is active or the transaction cannot be found.
+final debTransactionProgressProvider =
+    StateProvider.family<double?, int?>((ref, transactionId) {
+  if (transactionId == null) return null;
+
+  final packageKit = getService<PackageKitService>();
+  final transaction = packageKit.getTransaction(transactionId);
+  if (transaction == null) return null;
+
+  // Listen to property changes and update progress
+  late final StreamSubscription<List<String>> subscription;
+  subscription = transaction.propertiesChanged.listen((changedProps) {
+    if (changedProps.contains('Percentage')) {
+      final percentage = transaction.percentage;
+      // PackageKit returns 101 when percentage is unknown
+      if (percentage <= 100) {
+        ref.controller.state = percentage / 100.0;
+      }
+    }
+  });
+  ref.onDispose(subscription.cancel);
+
+  // Return initial progress
+  final percentage = transaction.percentage;
+  return percentage <= 100 ? percentage / 100.0 : null;
+});
 
 /// Manages the list of locally-installed deb packages that have available
 /// updates, and exposes actions to update or cancel individual or bulk updates
@@ -44,16 +74,20 @@ class DebUpdatesModel extends _$DebUpdatesModel {
     final transactionId = await _packageKit.update(deb.updatePackageId!);
     log.info('Update transaction started: $transactionId for $debId');
     _updateTransactionId(debId, transactionId);
-    await _packageKit.waitTransaction(transactionId);
-    log.info('Update transaction completed: $transactionId for $debId');
-    _updateTransactionId(debId, null);
-    removeFromList(debId);
-    // Add the updated deb to the installed apps list (with update cleared)
-    final updatedDeb = deb.copyWith(
-      updatePackageId: null,
-      activeTransactionId: null,
-    );
-    ref.read(installedAppsProvider.notifier).addDebToList(updatedDeb);
+    try {
+      await _packageKit.waitTransaction(transactionId);
+      log.info('Update transaction completed: $transactionId for $debId');
+      removeFromList(debId);
+      // Add the updated deb to the installed apps list (with update cleared)
+      final updatedDeb = deb.copyWith(
+        updatePackageId: null,
+        activeTransactionId: null,
+      );
+      ref.read(installedAppsProvider.notifier).addDebToList(updatedDeb);
+    } finally {
+      // Always clear the transaction state, even if cancelled or failed
+      _updateTransactionId(debId, null);
+    }
   }
 
   /// Cancels an in-progress PackageKit transaction for the given deb.

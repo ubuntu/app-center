@@ -153,9 +153,14 @@ class InstalledApps extends _$InstalledApps {
         await _packageKit.remove(debInfo.packageInfo.packageId);
     log.info('Remove transaction started: $transactionId for $debId');
     _updateDebTransactionId(debId, transactionId);
-    await _packageKit.waitTransaction(transactionId);
-    log.info('Remove transaction completed: $transactionId for $debId');
-    _removeDebFromList(debId);
+    try {
+      await _packageKit.waitTransaction(transactionId);
+      log.info('Remove transaction completed: $transactionId for $debId');
+      _removeDebFromList(debId);
+    } finally {
+      // Always clear the transaction state, even if cancelled or failed
+      _updateDebTransactionId(debId, null);
+    }
   }
 
   /// Cancels an in-progress PackageKit removal transaction for the given deb.
