@@ -165,26 +165,24 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
     if (debIds.isEmpty) return;
 
     final errors = <String, Exception>{};
-    try {
-      ref.read(currentlyUpdatingAllDebsProvider.notifier).state = debIds;
+    ref.read(currentlyUpdatingAllDebsProvider.notifier).state = debIds;
 
-      for (final debId in debIds) {
-        try {
-          await updateDeb(debId);
-        } on Exception catch (e) {
-          errors[debId] = e;
-        }
+    for (final debId in debIds) {
+      try {
+        await updateDeb(debId);
+      } on Exception catch (e) {
+        errors[debId] = e;
       }
-    } finally {
-      ref.read(currentlyUpdatingAllDebsProvider.notifier).state = [];
-      if (errors.isNotEmpty) {
-        for (final error in errors.values) {
-          ref.read(errorStreamControllerProvider).add(error);
-        }
-      }
-      ref.invalidateSelf();
-      ref.invalidate(localDebsProvider);
     }
+
+    ref.read(currentlyUpdatingAllDebsProvider.notifier).state = [];
+    if (errors.isNotEmpty) {
+      for (final error in errors.values) {
+        ref.read(errorStreamControllerProvider).add(error);
+      }
+    }
+    ref.invalidateSelf();
+    ref.invalidate(localDebsProvider);
   }
 
   /// Cancels all in-progress transactions for the current bulk update.
@@ -193,17 +191,15 @@ class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
     final debIds = ref.read(currentlyUpdatingAllDebsProvider);
     if (debIds.isEmpty) return;
 
-    try {
-      for (final debId in debIds) {
-        try {
-          await cancelTransaction(debId);
-        } on Exception catch (e) {
-          log.warning('Failed to cancel transaction for $debId: $e');
-        }
+    for (final debId in debIds) {
+      try {
+        await cancelTransaction(debId);
+      } on Exception catch (e) {
+        log.warning('Failed to cancel transaction for $debId: $e');
       }
-    } finally {
-      ref.read(currentlyUpdatingAllDebsProvider.notifier).state = [];
     }
+
+    ref.read(currentlyUpdatingAllDebsProvider.notifier).state = [];
   }
 
   /// Updates the active transaction ID for a deb in the current state,
