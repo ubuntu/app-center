@@ -302,7 +302,8 @@ void main() {
       final mockPackageKit = createMockPackageKitService();
       when(mockPackageKit.update(any)).thenThrow(Exception('Update failed'));
 
-      final mockErrorStream = registerMockErrorStreamControllerService();
+      // ignore: close_sinks
+      final errorStream = registerMockErrorStreamControllerService();
 
       final container = createContainer(
         overrides: [
@@ -316,7 +317,7 @@ void main() {
       await container.read(localDebUpdatesModelProvider.notifier).updateAll();
 
       // Verify error was reported
-      verify(mockErrorStream.add(any)).called(1);
+      verify(errorStream.add(any)).called(1);
     });
 
     test('silentUpdatesCheck updates state when updates change', () async {
