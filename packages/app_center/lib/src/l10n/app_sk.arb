@@ -388,6 +388,6 @@
     "appConfinementDevelopment": "Vývojársky režim",
     "appConfinementClassic": "Neobmedzené",
     "appConfinementUnrestricted": "Neobmedzené",
-    "appLicenseUnknown": "Neznáme",
-    "appPublishedUnknown": "Neznáme"
+    "appLicenseUnknown": "Neznáma",
+    "appPublishedUnknown": "Neznámy"
 }
