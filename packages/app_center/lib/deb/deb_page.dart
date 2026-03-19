@@ -210,7 +210,6 @@ class _MoreActionsButton extends ConsumerWidget {
     final secondaryActions = [
       if (debData.hasUpdate) DebAction.update,
       if (debData.isInstalled || debData.hasUpdate) DebAction.remove,
-      if (!debData.isInstalled && !debData.hasUpdate) DebAction.install,
     ]..remove(primaryAction);
 
     return secondaryActions.isNotEmpty
