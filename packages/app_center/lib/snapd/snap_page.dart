@@ -206,6 +206,7 @@ class _MoreActionsButton extends ConsumerWidget {
 
     return secondaryActions.isNotEmpty
         ? YaruPopupMenuButton(
+            semanticLabel: l10n.appMoreActionsSemanticLabel,
             childPadding: EdgeInsets.symmetric(horizontal: 2),
             itemBuilder: (context) => [
               ...secondaryActions.map((action) {
