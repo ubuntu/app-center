@@ -393,5 +393,6 @@
     "managePagePackageTypeLabel": "Rodzaj pakietu",
     "managePagePackageTypeAll": "Wszystkie",
     "managePagePackageTypeSnap": "Snap",
-    "managePagePackageTypeDeb": "Deb"
+    "managePagePackageTypeDeb": "Deb",
+    "appMoreActionsSemanticLabel": "Więcej czynności"
 }
