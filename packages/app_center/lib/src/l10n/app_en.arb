@@ -72,7 +72,7 @@
     "managePageLabel": "Manage",
     "managePageTitle": "Manage installed snaps",
     "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
-    "managePageSearchFieldSearchHint": "Search your installed apps",
+    "managePageSearchFieldSearchHint": "Search installed apps",
     "managePageShowDetailsLabel": "Show details",
     "managePageShowSystemSnapsLabel": "Show system snaps",
     "managePagePackageTypeLabel": "Package type",

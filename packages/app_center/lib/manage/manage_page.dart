@@ -522,7 +522,7 @@ class _FilterRow extends ConsumerWidget {
         children: [
           Row(
             children: [
-              searchField,
+              Expanded(child: searchField),
               const SizedBox(width: kSpacing),
               packageTypeFilter,
             ],
@@ -541,12 +541,12 @@ class _FilterRow extends ConsumerWidget {
 
     return Row(
       children: [
-        searchField,
+        Expanded(child: searchField),
         const SizedBox(width: kSpacing),
         packageTypeFilter,
         const SizedBox(width: kSpacing),
         showSystemApps,
-        const Spacer(),
+        const SizedBox(width: kSpacing),
         sortBy,
       ],
     );
@@ -582,8 +582,8 @@ class _DebouncedSearchFieldState extends ConsumerState<_DebouncedSearchField> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 170,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minWidth: 170),
       child: TextFormField(
         style: Theme.of(context).textTheme.bodyMedium,
         textAlignVertical: TextAlignVertical.center,
