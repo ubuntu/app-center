@@ -139,7 +139,8 @@ class DebModel extends _$DebModel {
 
     for (final packageUpdate in updates ?? <PackageKitPackageId>[]) {
       final packageName = packageUpdate.name;
-      final results = await packageKit.resolve([packageName]);
+      final results =
+          await packageKit.resolve([packageName], installedOnly: true);
       hasUpdate = results[packageName]?.info == PackageKitInfo.installed;
       break;
     }

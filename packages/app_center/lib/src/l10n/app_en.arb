@@ -210,6 +210,7 @@
     "appConfinementUnrestricted": "Unrestricted",
     "appLicenseUnknown": "Unknown",
     "appPublishedUnknown": "Unknown",
+    "appMoreActionsSemanticLabel": "More actions",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
     "snapActionCancelLabel": "Cancel",
