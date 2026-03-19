@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
@@ -418,24 +420,8 @@ class _FilterRow extends ConsumerWidget {
     final compact =
         ResponsiveLayout.of(context).type == ResponsiveLayoutType.small;
 
-    final searchField = SizedBox(
-      width: 170,
-      child: TextFormField(
-        style: Theme.of(context).textTheme.bodyMedium,
-        textAlignVertical: TextAlignVertical.center,
-        cursorWidth: 1,
-        decoration: InputDecoration(
-          isDense: true,
-          contentPadding: kSearchFieldContentPadding,
-          prefixIcon: kSearchFieldPrefixIcon,
-          prefixIconConstraints: kSearchFieldIconConstraints,
-          hintText: l10n.managePageSearchFieldSearchHint,
-        ),
-        onChanged: (value) {
-          ref.read(localSnapFilterProvider.notifier).state = value;
-          ref.read(localDebFilterProvider.notifier).state = value;
-        },
-      ),
+    final searchField = _DebouncedSearchField(
+      hintText: l10n.managePageSearchFieldSearchHint,
     );
 
     final packageTypeFilter = Row(
@@ -563,6 +549,54 @@ class _FilterRow extends ConsumerWidget {
         const Spacer(),
         sortBy,
       ],
+    );
+  }
+}
+
+class _DebouncedSearchField extends ConsumerStatefulWidget {
+  const _DebouncedSearchField({required this.hintText});
+
+  final String hintText;
+
+  @override
+  ConsumerState<_DebouncedSearchField> createState() =>
+      _DebouncedSearchFieldState();
+}
+
+class _DebouncedSearchFieldState extends ConsumerState<_DebouncedSearchField> {
+  Timer? _debounce;
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  void _onSearchChanged(String value) {
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () {
+      ref.read(localSnapFilterProvider.notifier).state = value;
+      ref.read(localDebFilterProvider.notifier).state = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 170,
+      child: TextFormField(
+        style: Theme.of(context).textTheme.bodyMedium,
+        textAlignVertical: TextAlignVertical.center,
+        cursorWidth: 1,
+        decoration: InputDecoration(
+          isDense: true,
+          contentPadding: kSearchFieldContentPadding,
+          prefixIcon: kSearchFieldPrefixIcon,
+          prefixIconConstraints: kSearchFieldIconConstraints,
+          hintText: widget.hintText,
+        ),
+        onChanged: _onSearchChanged,
+      ),
     );
   }
 }
