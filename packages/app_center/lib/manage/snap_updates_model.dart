@@ -11,8 +11,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-part 'updates_model.g.dart';
-part 'updates_model.freezed.dart';
+part 'snap_updates_model.g.dart';
+part 'snap_updates_model.freezed.dart';
 
 @freezed
 class SnapListState with _$SnapListState {
@@ -38,7 +38,7 @@ final isSilentlyCheckingUpdatesProvider = StateProvider<bool>((_) => false);
 
 @Riverpod(keepAlive: true)
 bool hasUpdate(Ref ref, String snapName) {
-  final updatesModel = ref.watch(updatesModelProvider);
+  final updatesModel = ref.watch(snapUpdatesModelProvider);
   return updatesModel.whenOrNull(
         data: (updatesData) => updatesData.snaps.any((s) => s.name == snapName),
       ) ??
@@ -48,7 +48,7 @@ bool hasUpdate(Ref ref, String snapName) {
 /// Returns the available update version for a snap, if an update exists.
 @Riverpod(keepAlive: true)
 String? updateVersion(Ref ref, String snapName) {
-  final updatesModel = ref.watch(updatesModelProvider);
+  final updatesModel = ref.watch(snapUpdatesModelProvider);
   return updatesModel.whenOrNull(
     data: (updatesData) => updatesData.getSnap(snapName)?.version,
   );
@@ -76,7 +76,7 @@ Future<List<Snap>> refreshInhibitSnaps(Ref ref) async {
 }
 
 @Riverpod(keepAlive: true)
-class UpdatesModel extends _$UpdatesModel {
+class SnapUpdatesModel extends _$SnapUpdatesModel {
   late final _snapd = getService<SnapdService>();
 
   @override
@@ -159,7 +159,9 @@ class UpdatesModel extends _$UpdatesModel {
         try {
           final completedSuccessfully = await refreshFuture;
           if (completedSuccessfully) {
-            ref.read(updatesModelProvider.notifier).removeFromList(snapName);
+            ref
+                .read(snapUpdatesModelProvider.notifier)
+                .removeFromList(snapName);
           }
         } on Exception catch (e) {
           if (e is SnapdException && e.kind == 'auth-cancelled') {

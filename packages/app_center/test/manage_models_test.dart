@@ -1,5 +1,5 @@
 import 'package:app_center/manage/local_snap_providers.dart';
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'test_utils.dart';
@@ -16,7 +16,8 @@ void main() {
     container.read(showLocalSystemAppsProvider.notifier).state = true;
     final nonRefreshableSnaps =
         await container.read(filteredLocalSnapsProvider.future);
-    final refreshableSnaps = await container.read(updatesModelProvider.future);
+    final refreshableSnaps =
+        await container.read(snapUpdatesModelProvider.future);
 
     expect(
       nonRefreshableSnaps,
@@ -26,7 +27,7 @@ void main() {
         ),
       ),
     );
-    expect(refreshableSnaps, isEmpty);
+    expect(refreshableSnaps.isEmpty, isTrue);
   });
 
   test('update available', () async {
@@ -43,7 +44,8 @@ void main() {
     container.read(showLocalSystemAppsProvider.notifier).state = true;
     final nonRefreshableSnaps =
         await container.read(filteredLocalSnapsProvider.future);
-    final refreshableSnaps = await container.read(updatesModelProvider.future);
+    final refreshableSnaps =
+        await container.read(snapUpdatesModelProvider.future);
 
     expect(
       nonRefreshableSnaps,
