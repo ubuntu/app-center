@@ -1,6 +1,6 @@
 import 'package:app_center/constants.dart';
-import 'package:app_center/manage/deb_updates_model.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
+import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
@@ -22,7 +22,7 @@ import 'test_utils.mocks.dart';
 /// Common overrides to disable deb-related providers for snap-focused tests.
 List<Override> get debProviderOverrides => [
       localDebsProvider.overrideWith((ref) async => []),
-      debUpdatesModelProvider.overrideWith(DebUpdatesModel.new),
+      localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
     ];
 
 void main() {

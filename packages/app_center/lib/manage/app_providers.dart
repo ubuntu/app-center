@@ -1,6 +1,6 @@
 import 'package:app_center/l10n.dart';
-import 'package:app_center/manage/deb_updates_model.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
+import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/logger.dart';
 import 'package:app_center/manage/manage_app_data.dart';
@@ -40,7 +40,7 @@ final appSortOrderProvider =
 @riverpod
 Future<List<ManageAppData>> appUpdates(Ref ref) async {
   final snapUpdates = await ref.watch(snapUpdatesModelProvider.future);
-  final debUpdates = await ref.watch(debUpdatesModelProvider.future);
+  final debUpdates = await ref.watch(localDebUpdatesModelProvider.future);
 
   final snapApps = snapUpdates.snaps.map(
     (snap) => ManageAppData.snap(

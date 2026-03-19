@@ -10,9 +10,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-part 'deb_updates_model.g.dart';
+part 'local_deb_updates_model.g.dart';
 
-/// Tracks the IDs of debs currently being updated by [DebUpdatesModel.updateAll].
+/// Tracks the IDs of debs currently being updated by [LocalDebUpdatesModel.updateAll].
 /// Empty when no bulk update is in progress.
 final currentlyUpdatingAllDebsProvider = StateProvider<List<String>>((_) => []);
 
@@ -51,7 +51,7 @@ final debTransactionProgressProvider =
 /// updates, and exposes actions to update or cancel individual or bulk updates
 /// via PackageKit.
 @Riverpod(keepAlive: true)
-class DebUpdatesModel extends _$DebUpdatesModel {
+class LocalDebUpdatesModel extends _$LocalDebUpdatesModel {
   late final _packageKit = getService<PackageKitService>();
 
   /// Builds the initial state by filtering local debs to only those with

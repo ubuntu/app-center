@@ -3,8 +3,8 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/app_providers.dart';
-import 'package:app_center/manage/deb_updates_model.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
+import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/manage_app_tile.dart';
@@ -252,7 +252,7 @@ class _ActionButtons extends ConsumerWidget {
                       .read(snapUpdatesModelProvider.notifier)
                       .silentUpdatesCheck();
                   ref
-                      .read(debUpdatesModelProvider.notifier)
+                      .read(localDebUpdatesModelProvider.notifier)
                       .silentUpdatesCheck();
                 },
           child: Row(
@@ -274,16 +274,17 @@ class _ActionButtons extends ConsumerWidget {
         ),
         PushButton.elevated(
           onPressed: ref.watch(appUpdatesProvider).whenOrNull(
-                data: (updates) => updates.isNotEmpty &&
-                        !isUpdatingAll &&
-                        hasInternet
-                    ? () {
-                        ref
-                            .read(snapUpdatesModelProvider.notifier)
-                            .refreshAll();
-                        ref.read(debUpdatesModelProvider.notifier).updateAll();
-                      }
-                    : null,
+                data: (updates) =>
+                    updates.isNotEmpty && !isUpdatingAll && hasInternet
+                        ? () {
+                            ref
+                                .read(snapUpdatesModelProvider.notifier)
+                                .refreshAll();
+                            ref
+                                .read(localDebUpdatesModelProvider.notifier)
+                                .updateAll();
+                          }
+                        : null,
               ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -306,7 +307,7 @@ class _ActionButtons extends ConsumerWidget {
           PushButton.outlined(
             onPressed: () {
               ref.read(snapUpdatesModelProvider.notifier).cancelRefreshAll();
-              ref.read(debUpdatesModelProvider.notifier).cancelAll();
+              ref.read(localDebUpdatesModelProvider.notifier).cancelAll();
             },
             child: Text(
               l10n.snapActionCancelLabel,

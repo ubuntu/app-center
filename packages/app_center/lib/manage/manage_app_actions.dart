@@ -2,8 +2,8 @@ import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/app_providers.dart';
-import 'package:app_center/manage/deb_updates_model.dart';
 import 'package:app_center/manage/local_deb_providers.dart';
+import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -127,7 +127,7 @@ class ManageAppActions extends ConsumerWidget {
   /// Builds deb action buttons. Shows a progress indicator with a cancel button
   /// when a PackageKit transaction is active, or update/remove buttons otherwise.
   ///
-  /// Cancel and update/remove are routed to [DebUpdatesModel] (updates section)
+  /// Cancel and update/remove are routed to [LocalDebUpdatesModel] (updates section)
   /// or [InstalledApps] (installed section) depending on [showOnlyUpdate].
   Widget _buildDebActions(
     BuildContext context,
@@ -163,7 +163,7 @@ class ManageAppActions extends ConsumerWidget {
           OutlinedButton(
             onPressed: () => showOnlyUpdate
                 ? ref
-                    .read(debUpdatesModelProvider.notifier)
+                    .read(localDebUpdatesModelProvider.notifier)
                     .cancelTransaction(debInfo.id)
                 : ref
                     .read(installedAppsProvider.notifier)
@@ -180,7 +180,7 @@ class ManageAppActions extends ConsumerWidget {
         if (showOnlyUpdate)
           OutlinedButton(
             onPressed: () => ref
-                .read(debUpdatesModelProvider.notifier)
+                .read(localDebUpdatesModelProvider.notifier)
                 .updateDeb(debInfo.id),
             child: Text(l10n.snapActionUpdateLabel),
           ),
