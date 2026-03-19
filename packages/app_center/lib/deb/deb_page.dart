@@ -11,7 +11,6 @@ import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:app_center/store/store_app.dart';
-import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -96,14 +95,13 @@ class _DebView extends ConsumerWidget {
               )
             : null,
       ),
-      actionBar: Row(
+      actionBar: Wrap(
+        runSpacing: kSpacing,
+        spacing: kSpacing,
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           _DebActionButtons(debModel: debModel),
-          const SizedBox(width: 32),
-          HyperlinkText(
-            text: '${l10n.debPageDocumentationLinkLabel} >',
-            link: debManageDocsUrl,
-          ),
+          _MoreActionsButton(debData: debModel),
         ],
       ),
       infoBar: DebInfoBar(debData: debModel),
@@ -186,9 +184,65 @@ class _DebActionButtons extends ConsumerWidget {
           primaryActionButton
         else
           Text(l10n.debPageErrorNoPackageInfo),
-        if (debModel.activeTransactionId != null) cancelButton,
+        if (debModel.activeTransactionId != null) ...[
+          const SizedBox(width: kSpacing),
+          cancelButton,
+        ],
       ].nonNulls.toList(),
     );
+  }
+}
+
+class _MoreActionsButton extends ConsumerWidget {
+  const _MoreActionsButton({required this.debData});
+
+  final DebData debData;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final primaryAction = debData.hasUpdate
+        ? DebAction.update
+        : debData.isInstalled
+            ? DebAction.remove
+            : DebAction.install;
+
+    final secondaryActions = [
+      if (debData.hasUpdate) DebAction.update,
+      if (debData.isInstalled || debData.hasUpdate) DebAction.remove,
+      if (!debData.isInstalled && !debData.hasUpdate) DebAction.install,
+    ]..remove(primaryAction);
+
+    return secondaryActions.isNotEmpty
+        ? YaruPopupMenuButton(
+            semanticLabel: l10n.appMoreActionsSemanticLabel,
+            childPadding: EdgeInsets.symmetric(horizontal: 2),
+            itemBuilder: (context) => [
+              ...secondaryActions.map((action) {
+                final color = action == DebAction.remove
+                    ? Theme.of(context).colorScheme.error
+                    : null;
+                return PopupMenuItem(
+                  onTap: action.callback(
+                    ref,
+                    debData,
+                  ),
+                  child: IntrinsicWidth(
+                    child: ListTile(
+                      mouseCursor: SystemMouseCursors.click,
+                      title: Text(
+                        action.label(l10n),
+                        style: TextStyle(color: color),
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ],
+            onSelected: (value) => {},
+            child: Icon(YaruIcons.view_more),
+          )
+        : SizedBox.shrink();
   }
 }
 
