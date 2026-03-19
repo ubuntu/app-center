@@ -20,7 +20,7 @@ class ManageAppData with _$ManageAppData {
 
   /// A deb package, backed by [LocalDebInfo] which aggregates PackageKit and
   /// Appstream data.
-  const factory ManageAppData.deb({
+  const factory ManageAppData.localDeb({
     required LocalDebInfo debInfo,
   }) = ManageDebData;
 
@@ -30,13 +30,13 @@ class ManageAppData with _$ManageAppData {
   /// package name).
   String get id => when(
         snap: (snap, _) => snap.id,
-        deb: (debInfo) => debInfo.id,
+        localDeb: (debInfo) => debInfo.id,
       );
 
   /// Display name: snap title or localized Appstream name.
   String get name => when(
         snap: (snap, _) => snap.titleOrName,
-        deb: (debInfo) =>
+        localDeb: (debInfo) =>
             debInfo.component?.getLocalizedName() ??
             debInfo.packageInfo.packageId.name,
       );
@@ -44,39 +44,39 @@ class ManageAppData with _$ManageAppData {
   /// Icon URL for display in the app list.
   String? get iconUrl => when(
         snap: (snap, _) => snap.iconUrl,
-        deb: (debInfo) => debInfo.component?.icon,
+        localDeb: (debInfo) => debInfo.component?.icon,
       );
 
   /// Whether this package has a pending update.
   bool get hasUpdate => when(
         snap: (_, updateVersion) => updateVersion != null,
-        deb: (debInfo) => debInfo.hasUpdate,
+        localDeb: (debInfo) => debInfo.hasUpdate,
       );
 
   /// Whether this is a user-facing app (has desktop entries or Appstream data)
   /// vs a system/library package.
   bool get isLaunchable => when(
         snap: (snap, _) => snap.apps.isNotEmpty,
-        deb: (debInfo) => debInfo.hasAppstreamEntry,
+        localDeb: (debInfo) => debInfo.hasAppstreamEntry,
       );
 
   /// Install/release date. For snaps, this is the install date. For debs,
   /// this is the release date of the installed version from AppStream metadata.
   DateTime? get installDate => when(
         snap: (snap, _) => snap.installDate,
-        deb: (debInfo) => debInfo.releaseDate,
+        localDeb: (debInfo) => debInfo.releaseDate,
       );
 
   /// Installed size in bytes, used for sort-by-size.
   int? get installedSize => when(
         snap: (snap, _) => snap.installedSize,
-        deb: (debInfo) => debInfo.details?.size,
+        localDeb: (debInfo) => debInfo.details?.size,
       );
 
   /// Currently installed version string.
   String get version => when(
         snap: (snap, _) => snap.version,
-        deb: (debInfo) => debInfo.packageInfo.packageId.version,
+        localDeb: (debInfo) => debInfo.packageInfo.packageId.version,
       );
 }
 

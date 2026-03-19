@@ -49,7 +49,7 @@ Future<List<ManageAppData>> appUpdates(Ref ref) async {
     ),
   );
 
-  final debApps = debUpdates.map((deb) => ManageAppData.deb(debInfo: deb));
+  final debApps = debUpdates.map((deb) => ManageAppData.localDeb(debInfo: deb));
 
   return [...snapApps, ...debApps]..sort(
       (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
@@ -87,7 +87,7 @@ class InstalledApps extends _$InstalledApps {
 
     final debApps = debs
         .where((deb) => !deb.hasUpdate)
-        .map((deb) => ManageAppData.deb(debInfo: deb));
+        .map((deb) => ManageAppData.localDeb(debInfo: deb));
 
     _allApps = [...snapApps, ...debApps];
 
@@ -139,7 +139,7 @@ class InstalledApps extends _$InstalledApps {
   /// whole provider. Used when a deb finishes updating to move it from the
   /// updates list to the installed list.
   void addDebToList(LocalDebInfo debInfo) {
-    _allApps = [..._allApps, ManageAppData.deb(debInfo: debInfo)];
+    _allApps = [..._allApps, ManageAppData.localDeb(debInfo: debInfo)];
     _applyFilters();
   }
 
@@ -184,7 +184,7 @@ class InstalledApps extends _$InstalledApps {
   void _updateDebTransactionId(String debId, int? transactionId) {
     _allApps = _allApps.map((app) {
       if (app.id == debId && app is ManageDebData) {
-        return ManageAppData.deb(
+        return ManageAppData.localDeb(
           debInfo: app.debInfo.copyWith(activeTransactionId: transactionId),
         );
       }

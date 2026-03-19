@@ -41,7 +41,8 @@ class ManageAppActions extends ConsumerWidget {
         snapData.snap,
         snapData.updateVersion,
       ),
-      deb: (debData) => _buildDebActions(context, ref, l10n, debData.debInfo),
+      localDeb: (debData) =>
+          _buildDebActions(context, ref, l10n, debData.debInfo),
     );
   }
 

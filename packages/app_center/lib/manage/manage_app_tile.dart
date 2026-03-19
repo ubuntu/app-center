@@ -196,7 +196,8 @@ class ManageAppTile extends ConsumerWidget {
     app.map(
       snap: (snapData) =>
           StoreNavigator.pushSnap(context, name: snapData.snap.name),
-      deb: (debData) => StoreNavigator.pushDeb(context, id: debData.debInfo.id),
+      localDeb: (debData) =>
+          StoreNavigator.pushDeb(context, id: debData.debInfo.id),
     );
   }
 }
@@ -234,7 +235,7 @@ class _SourceDisplay extends StatelessWidget {
     return app.map(
       snap: (snapData) =>
           _buildSnapSource(snapData.snap, snapData.updateVersion),
-      deb: (debData) => _buildDebSource(debData.debInfo),
+      localDeb: (debData) => _buildDebSource(debData.debInfo),
     );
   }
 
