@@ -29,7 +29,7 @@
     "managePageLabel": "Zarządzaj",
     "managePageInstalledAndUpdatedLabel": "Zainstalowane programy",
     "managePageDescription": "Sprawdzaj dostępne aktualizacje, aktualizuj swoje programy i zarządzaj stanem ich wszystkich.",
-    "managePageSearchFieldSearchHint": "Wyszukiwanie zainstalowanych programów",
+    "managePageSearchFieldSearchHint": "Wyszukaj zainstalowane programy",
     "managePageNoUpdatesAvailableDescription": "Brak dostępnych aktualizacji. Wszystkie programy są aktualne.",
     "managePageShowSystemSnapsLabel": "Pokaż snapy systemowe",
     "searchFieldSearchForLabel": "Zobacz wszystkie wyniki „{query}”",
@@ -389,5 +389,9 @@
     "appConfinementClassic": "Nieograniczone",
     "appConfinementUnrestricted": "Nieograniczone",
     "appLicenseUnknown": "Nieznana",
-    "appPublishedUnknown": "Nieznane"
+    "appPublishedUnknown": "Nieznane",
+    "managePagePackageTypeLabel": "Rodzaj pakietu",
+    "managePagePackageTypeAll": "Wszystkie",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb"
 }
