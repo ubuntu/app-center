@@ -41,7 +41,7 @@
     "snapActionInstallingLabel": "Установка",
     "searchFieldSearchHint": "Поиск приложений",
     "snapCategoryFeatured": "Избранное",
-    "managePageSearchFieldSearchHint": "Поиск установленных приложений",
+    "managePageSearchFieldSearchHint": "Поиск установленных",
     "snapActionCancelLabel": "Отменить",
     "snapPagePublisherLabel": "Издатель",
     "snapPageDescriptionLabel": "Описание",
@@ -79,7 +79,7 @@
     "snapCategoryPersonalisation": "Персонализация",
     "aboutPagePublishLabel": "Публикация приложений в Snap Store",
     "aboutPageContributorTitle": "Участники разработки:",
-    "managePageInstalledAndUpdatedLabel": "Установленные",
+    "managePageInstalledAndUpdatedLabel": "Установленные приложения",
     "appstreamUrlTypeHomepage": "Домашняя страница",
     "managePageCheckingForUpdates": "Проверка обновлений",
     "managePageUpdatedDaysAgo": "Обновлено {n, plural, =1{{n} день} other{{n} дн}} назад",
@@ -389,5 +389,10 @@
     "appConfinementClassic": "Неограничены",
     "appConfinementUnrestricted": "Неограничены",
     "appLicenseUnknown": "Неизвестна",
-    "appPublishedUnknown": "Неизвестно"
+    "appPublishedUnknown": "Неизвестно",
+    "managePagePackageTypeLabel": "Тип пакетов",
+    "managePagePackageTypeAll": "Все",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appMoreActionsSemanticLabel": "Другие действия"
 }
