@@ -18,7 +18,7 @@
     "snapPageLicenseLabel": "רישיון",
     "snapPageLinksLabel": "קישורים",
     "snapPagePublisherLabel": "מפיץ",
-    "snapPagePublishedLabel": "מועד פרסום",
+    "snapPagePublishedLabel": "עדכון אחרון",
     "snapPageSummaryLabel": "תקציר",
     "snapPageVersionLabel": "גרסה",
     "snapPageShareLinkCopiedMessage": "הקישור הועתק ללוח הגזירים",
@@ -35,7 +35,7 @@
         }
     },
     "managePageOwnUpdateQuitButton": "יש לצאת כדי לעדכן",
-    "snapPageConfinementLabel": "בידוד",
+    "snapPageConfinementLabel": "הרשאות",
     "managePageNoInternet": "לא ניתן להגיע לשרת, נא לבדוק את החיבור שלך לאינטרנט ולנסות שוב בהמשך.",
     "managePageSearchFieldSearchHint": "חיפוש ביישומים המותקנים",
     "managePageTitle": "ניהול חבילות Snap מותקנות",
@@ -389,5 +389,17 @@
         }
     },
     "appUrlTypeHomepage": "אתר האינטרנט של המפתחים",
-    "appUrlTypeUnknown": "קישור"
+    "appUrlTypeUnknown": "קישור",
+    "appMoreActionsSemanticLabel": "פעולות נוספות",
+    "managePagePackageTypeLabel": "סוג חבילה",
+    "managePagePackageTypeAll": "הכול",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appConfinementUnknown": "לא ידוע",
+    "appConfinementStrict": "מבודד",
+    "appConfinementDevelopment": "מצב פיתוח",
+    "appConfinementClassic": "ללא הגבלה",
+    "appConfinementUnrestricted": "ללא הגבלה",
+    "appLicenseUnknown": "לא ידוע",
+    "appPublishedUnknown": "לא ידוע"
 }
