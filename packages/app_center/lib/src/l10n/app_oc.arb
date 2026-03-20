@@ -389,5 +389,10 @@
     "appConfinementClassic": "Non restrench",
     "appConfinementUnrestricted": "Non restrench",
     "appLicenseUnknown": "Desconeguda",
-    "appPublishedUnknown": "Desconeguda"
+    "appPublishedUnknown": "Desconeguda",
+    "managePagePackageTypeLabel": "Tipe de paquet",
+    "managePagePackageTypeAll": "Totes",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appMoreActionsSemanticLabel": "Mai d’accions"
 }
