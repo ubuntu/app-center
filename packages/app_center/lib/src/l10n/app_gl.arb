@@ -14,7 +14,7 @@
     },
     "snapPageLicenseLabel": "Licenza",
     "snapPageLinksLabel": "Ligazóns",
-    "snapPagePublishedLabel": "Publicado",
+    "snapPagePublishedLabel": "Última actualización",
     "snapPageSummaryLabel": "Resumo",
     "snapPageVersionLabel": "Versión",
     "snapPageShareLinkCopiedMessage": "Ligazón copiada ao portapapeis",
@@ -41,7 +41,7 @@
     "managePageOwnUpdateAvailable": "Actualización do centro de aplicacións dispoñible",
     "appstreamSearchGreylist": "aplicación; aplicativo; paquete; programa; programas; conxunto de programas; ferramenta",
     "snapPageChannelLabel": "Canle",
-    "snapPageConfinementLabel": "Confinamento",
+    "snapPageConfinementLabel": "Permisos",
     "snapPageContactPublisherLabel": "Contactar con {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
@@ -61,7 +61,7 @@
     "managePageNoInternet": "Non se pode acceder ao servidor, comproba a conexión a internet, ou téntao de novo máis tarde.",
     "managePageDescription": "Comproba se hai actualizacións dispoñibles, actualiza as túas aplicacións e xestiona o estado de todas as túas aplicacións.",
     "managePageDebUpdatesMessage": "As actualizacións dos paquetes de Debian son xestionadas polo Actualizador de Software.",
-    "managePageInstalledAndUpdatedLabel": "Instalado e actualizado",
+    "managePageInstalledAndUpdatedLabel": "Aplicacións instaladas",
     "managePageInstallingLabel": "Instalando ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -73,7 +73,7 @@
     "managePageLabel": "Xestionar",
     "managePageTitle": "Xestionar snaps instalados",
     "managePageNoUpdatesAvailableDescription": "Non hai actualizacións dispoñíbeis. As túas aplicacións están todas actualizadas.",
-    "managePageSearchFieldSearchHint": "Busca as túas aplicacións instaladas",
+    "managePageSearchFieldSearchHint": "Busca as aplicacións instaladas",
     "managePageShowDetailsLabel": "Amosar detalles",
     "managePageShowSystemSnapsLabel": "Amosar snaps do sistema",
     "managePageUpdateAllLabel": "Anovar todo",
@@ -371,5 +371,16 @@
     "codecPageTitle": "Faltan códecs multimedia",
     "codecPageDescription": "Necesitas instalar os seguintes códecs para xestionar certos formatos de vídeo e audio:",
     "codecProprietaryDisclaimer": "Algúns dos códecs recomendados poderían ser propietarios.",
-    "codecInstallAllButton": "Instalar os códecs recomendados"
+    "codecInstallAllButton": "Instalar os códecs recomendados",
+    "managePagePackageTypeLabel": "Tipo de paquete",
+    "managePagePackageTypeAll": "Todo",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appConfinementUnknown": "Descoñecido",
+    "appConfinementDevelopment": "Modo de desenvolvemento",
+    "appConfinementClassic": "Sen restricións",
+    "appConfinementUnrestricted": "Sen restricións",
+    "appLicenseUnknown": "Descoñecido",
+    "appPublishedUnknown": "Descoñecido",
+    "appMoreActionsSemanticLabel": "Máis accións"
 }
