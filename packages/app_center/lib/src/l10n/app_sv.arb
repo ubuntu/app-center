@@ -41,7 +41,7 @@
     "snapActionInstallingLabel": "Installerar",
     "searchFieldSearchHint": "Sök efter program",
     "snapCategoryFeatured": "Utvalda",
-    "managePageSearchFieldSearchHint": "Sök bland dina installerade appar",
+    "managePageSearchFieldSearchHint": "Sök bland installerade appar",
     "snapActionCancelLabel": "Avbryt",
     "snapPagePublisherLabel": "Utgivare",
     "snapPageDescriptionLabel": "Beskrivning",
@@ -389,5 +389,10 @@
     "appConfinementClassic": "Obegränsad",
     "appConfinementUnrestricted": "Obegränsad",
     "appLicenseUnknown": "Okänd",
-    "appPublishedUnknown": "Okänt"
+    "appPublishedUnknown": "Okänt",
+    "managePagePackageTypeLabel": "Pakettyp",
+    "managePagePackageTypeAll": "Alla",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appMoreActionsSemanticLabel": "Fler åtgärder"
 }
