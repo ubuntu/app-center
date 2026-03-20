@@ -183,7 +183,7 @@
     "managePageShowSystemSnapsLabel": "Show system snaps",
     "managePageInstalledAndUpdatedLabel": "Installed apps",
     "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
-    "managePageSearchFieldSearchHint": "Search your installed apps",
+    "managePageSearchFieldSearchHint": "Search installed apps",
     "managePageShowDetailsLabel": "Show details",
     "managePageUpdatedDaysAgo": "Updated {n, plural, =1{{n} day} other{{n} days}} ago",
     "@managePageUpdatedDaysAgo": {
@@ -389,5 +389,10 @@
     "appConfinementClassic": "Unrestricted",
     "appConfinementUnrestricted": "Unrestricted",
     "appLicenseUnknown": "Unknown",
-    "appPublishedUnknown": "Unknown"
+    "appPublishedUnknown": "Unknown",
+    "managePagePackageTypeLabel": "Package type",
+    "managePagePackageTypeAll": "All",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appMoreActionsSemanticLabel": "More actions"
 }
