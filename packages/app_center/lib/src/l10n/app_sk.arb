@@ -41,7 +41,7 @@
     "snapActionInstallingLabel": "Inštaluje sa",
     "searchFieldSearchHint": "Vyhľadajte aplikácie",
     "snapCategoryFeatured": "Odporúčané",
-    "managePageSearchFieldSearchHint": "Nájsť nainštalované",
+    "managePageSearchFieldSearchHint": "Hľadať v zozname",
     "snapActionCancelLabel": "Zrušiť",
     "snapPagePublisherLabel": "Vydavateľ",
     "snapPageDescriptionLabel": "Popis",
@@ -70,7 +70,7 @@
     "searchPageNoResultsHint": "Skúste použiť iné alebo všeobecnejšie výrazy",
     "snapRatingsBandGood": "Dobré",
     "snapCategoryFeaturedSlogan": "Odporúčané aplikácie",
-    "snapSortOrderInstalledDateAsc": "Najmenej aktualizované",
+    "snapSortOrderInstalledDateAsc": "Najstaršie aktualizácie",
     "snapCategoryProductivitySlogan": "Urobte prvý krok k efektívnejšej práci",
     "appstreamUrlTypeDonation": "Darovať",
     "snapRatingsBandVeryGood": "Veľmi dobré",
@@ -94,7 +94,7 @@
     "snapRatingsBandVeryPoor": "Veľmi zlé",
     "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a sledujte ich stav.",
     "snapActionRemovingLabel": "Odinštaluje sa",
-    "snapSortOrderInstalledSizeDesc": "Veľkosti (od najväčšieho po najmenší)",
+    "snapSortOrderInstalledSizeDesc": "Veľkosti (najväčšie → najmenšie)",
     "snapPageDeveloperWebsiteLabel": "Stránka vývojára",
     "snapConfinementClassic": "Klasická",
     "snapRatingsBandPoor": "Zlé",
@@ -116,7 +116,7 @@
     "managePageUpdatesAvailable": "Dostupné aktualizácie ({n})",
     "aboutPageCommunityTitle": "Staňte sa súčasťou komunity:",
     "searchPageNoResultsCategoryHint": "Skúste inú kategóriu alebo použite všeobecnejšie výrazy",
-    "snapSortOrderAlphabeticalDesc": "Abecedy (od Z po A)",
+    "snapSortOrderAlphabeticalDesc": "Abecedy (Z–A)",
     "searchPageNoResultsCategory": "Ľutujeme, v tejto kategórii sa nenašli žiadne balíky",
     "snapRatingsVotes": "Hlasov ({n})",
     "@snapRatingsVotes": {
@@ -127,7 +127,7 @@
         }
     },
     "snapCategoryAll": "Všetky kategórie",
-    "snapSortOrderInstalledSizeAsc": "Veľkosti (od najmenšieho po najväčší)",
+    "snapSortOrderInstalledSizeAsc": "Veľkosti (najmenšie → najväčšie)",
     "aboutPageVersionLabel": "Verzia {version}",
     "@aboutPageVersionLabel": {
         "placeholders": {
@@ -153,19 +153,19 @@
             }
         }
     },
-    "snapSortOrderDownloadSizeAsc": "Veľkosti (od najmenšieho po najväčší)",
+    "snapSortOrderDownloadSizeAsc": "Veľkosti (najmenšie → najväčšie)",
     "unknownPublisher": "Neznámy vydavateľ",
     "snapCategoryUbuntuDesktopSlogan": "Rýchly prístup k nástrojom na plochu",
     "snapActionUpdatingLabel": "Aktualizuje sa",
     "searchPageRelevanceLabel": "Relevantnosť",
-    "snapSortOrderAlphabeticalAsc": "Abecedy (od A po Z)",
+    "snapSortOrderAlphabeticalAsc": "Abecedy (A–Z)",
     "managePageNoUpdatesAvailableDescription": "Nie sú k dispozícii žiadne aktualizácie. Všetky vaše aplikácie sú aktuálne.",
-    "snapSortOrderRelevance": "Relevantnosti",
-    "snapSortOrderDownloadSizeDesc": "Veľkosti (od najväčšieho po najmenší)",
+    "snapSortOrderRelevance": "Relevancie",
+    "snapSortOrderDownloadSizeDesc": "Veľkosti (najväčšie → najmenšie)",
     "appstreamUrlTypeBugtracker": "Sledovanie chýb",
-    "managePageShowSystemSnapsLabel": "Zobraziť systémové",
+    "managePageShowSystemSnapsLabel": "Systémové snapy",
     "searchPageFilterByLabel": "Filtrovať podľa",
-    "snapSortOrderInstalledDateDesc": "Najviac aktualizované",
+    "snapSortOrderInstalledDateDesc": "Najnovšie aktualizácie",
     "appCenterLabel": "Centrum aplikácií",
     "gamesPageTitle": "Hry",
     "gamesPageTop": "Najlepšie hodnotené",
@@ -389,5 +389,10 @@
     "appConfinementClassic": "Neobmedzené",
     "appConfinementUnrestricted": "Neobmedzené",
     "appLicenseUnknown": "Neznáma",
-    "appPublishedUnknown": "Neznámy"
+    "appPublishedUnknown": "Neznámy",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "managePagePackageTypeLabel": "Typ balíka",
+    "managePagePackageTypeAll": "Všetky",
+    "appMoreActionsSemanticLabel": "Viac akcií"
 }
