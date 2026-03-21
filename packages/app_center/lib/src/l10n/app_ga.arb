@@ -99,7 +99,7 @@
     "managePageLabel": "Bainistigh",
     "managePageTitle": "Bainistigh snapanna suiteáilte",
     "managePageNoUpdatesAvailableDescription": "Níl aon nuashonruithe ar fáil. Tá d'iarratais cothrom le dáta ar fad.",
-    "managePageSearchFieldSearchHint": "Cuardaigh d'fheidhmchláir suiteáilte",
+    "managePageSearchFieldSearchHint": "Cuardaigh aipeanna suiteáilte",
     "managePageShowDetailsLabel": "Taispeáin sonraí",
     "managePageShowSystemSnapsLabel": "Taispeáin snapanna an chórais",
     "managePageUpdateAllLabel": "Nuashonraigh gach rud",
@@ -396,5 +396,10 @@
     "appConfinementClassic": "Gan srian",
     "appConfinementUnrestricted": "Gan srian",
     "appLicenseUnknown": "Anaithnid",
-    "appPublishedUnknown": "Anaithnid"
+    "appPublishedUnknown": "Anaithnid",
+    "managePagePackageTypeLabel": "Cineál pacáiste",
+    "managePagePackageTypeAll": "Gach",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appMoreActionsSemanticLabel": "Tuilleadh gníomhartha"
 }
