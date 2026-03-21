@@ -33,7 +33,7 @@
     "snapActionInstallLabel": "Installieren",
     "snapPageLicenseLabel": "Lizenz",
     "snapCategoryPhotoAndVideo": "Foto und Video",
-    "snapPageConfinementLabel": "Einschränkung",
+    "snapPageConfinementLabel": "Berechtigungen",
     "snapCategoryMusicAndAudio": "Musik und Audio",
     "aboutPageGitHubLabel": "Finde uns auf GitHub",
     "packageFormatSnapLabel": "Snap-Pakete",
@@ -41,7 +41,7 @@
     "snapActionInstallingLabel": "Wird installiert",
     "searchFieldSearchHint": "Nach Apps suchen",
     "snapCategoryFeatured": "Vorgestellt",
-    "managePageSearchFieldSearchHint": "Durchsuchen Sie Ihre installierten Apps",
+    "managePageSearchFieldSearchHint": "Installierte Apps durchsuchen",
     "snapActionCancelLabel": "Abbrechen",
     "snapPagePublisherLabel": "Herausgeber",
     "snapPageDescriptionLabel": "Beschreibung",
@@ -51,7 +51,7 @@
     "managePageCheckForUpdates": "Auf Aktualisierungen prüfen",
     "explorePageCategoriesLabel": "Kategorien",
     "snapPageDownloadSizeLabel": "Downloadgröße",
-    "snapPagePublishedLabel": "Veröffentlicht",
+    "snapPagePublishedLabel": "Zuletzt aktualisiert",
     "managePageCheckingForUpdates": "Prüfe auf updates",
     "snapPageContactPublisherLabel": "Kontakt {publisher}",
     "@snapPageContactPublisherLabel": {
@@ -88,7 +88,7 @@
     "snapCategoryPersonalisation": "Personalisierung",
     "aboutPagePublishLabel": "Im Snap Store veröffentlichen",
     "aboutPageContributorTitle": "Entworfen und entwickelt von:",
-    "managePageInstalledAndUpdatedLabel": "Installiert und aktualisiert",
+    "managePageInstalledAndUpdatedLabel": "Installierte Apps",
     "appstreamUrlTypeHomepage": "Homepage",
     "managePageUpdatedDaysAgo": "Aktualisiert vor {n, plural, =1{{n} Tag} other{{n} Tagen}}",
     "@managePageUpdatedDaysAgo": {
@@ -382,5 +382,17 @@
         }
     },
     "appUrlTypeHomepage": "Entwickler-Website",
-    "appUrlTypeUnknown": "Link"
+    "appUrlTypeUnknown": "Link",
+    "managePagePackageTypeLabel": "Pakettyp",
+    "managePagePackageTypeAll": "Alle",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appConfinementUnknown": "Unbekannt",
+    "appConfinementStrict": "In einer Sandbox",
+    "appConfinementDevelopment": "Entwicklermodus",
+    "appConfinementClassic": "Unbeschränkt",
+    "appConfinementUnrestricted": "Unbeschränkt",
+    "appLicenseUnknown": "Unbekannt",
+    "appPublishedUnknown": "Unbekannt",
+    "appMoreActionsSemanticLabel": "Weitere Aktionen"
 }
