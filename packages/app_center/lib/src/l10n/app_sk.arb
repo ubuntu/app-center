@@ -157,7 +157,7 @@
     "unknownPublisher": "Neznámy vydavateľ",
     "snapCategoryUbuntuDesktopSlogan": "Rýchly prístup k nástrojom na plochu",
     "snapActionUpdatingLabel": "Aktualizuje sa",
-    "searchPageRelevanceLabel": "Relevantnosť",
+    "searchPageRelevanceLabel": "Relevancie",
     "snapSortOrderAlphabeticalAsc": "Abecedy (A–Z)",
     "managePageNoUpdatesAvailableDescription": "Nie sú k dispozícii žiadne aktualizácie. Všetky vaše aplikácie sú aktuálne.",
     "snapSortOrderRelevance": "Relevancie",
@@ -392,7 +392,7 @@
     "appPublishedUnknown": "Neznámy",
     "managePagePackageTypeSnap": "Snap",
     "managePagePackageTypeDeb": "Deb",
-    "managePagePackageTypeLabel": "Typ balíka",
+    "managePagePackageTypeLabel": "Balíky",
     "managePagePackageTypeAll": "Všetky",
     "appMoreActionsSemanticLabel": "Viac akcií"
 }
