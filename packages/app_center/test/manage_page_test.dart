@@ -1,14 +1,17 @@
 import 'package:app_center/constants.dart';
+import 'package:app_center/manage/local_deb_providers.dart';
+import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage.dart';
-import 'package:app_center/manage/snap_actions_button.dart';
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/quit_to_update_notice.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:packagekit/packagekit.dart';
 import 'package:snapd/snapd.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:yaru/yaru.dart';
@@ -16,6 +19,12 @@ import 'package:yaru_test/yaru_test.dart';
 
 import 'test_utils.dart';
 import 'test_utils.mocks.dart';
+
+/// Common overrides to disable deb-related providers for snap-focused tests.
+List<Override> get debProviderOverrides => [
+      localDebsProvider.overrideWith((ref) async => []),
+      localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+    ];
 
 void main() {
   final nonRefreshableSnaps = [
@@ -122,6 +131,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
+          ...debProviderOverrides,
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
         ],
@@ -177,6 +187,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
+          ...debProviderOverrides,
           launchProvider.overrideWith(
             (_, snap) => switch (snap.name) {
               'testsnap' => snapLauncher,
@@ -236,6 +247,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
+          ...debProviderOverrides,
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
         ],
@@ -247,7 +259,7 @@ void main() {
     final testTile = find.snapTile('Snap with an update');
     expect(testTile, findsOneWidget);
     expect(
-      find.descendant(of: testTile, matching: find.text('2.0')),
+      find.descendant(of: testTile, matching: find.textContaining('2.0')),
       findsOneWidget,
     );
     expect(
@@ -268,6 +280,7 @@ void main() {
   testWidgets('refresh individual snap', (tester) async {
     final container = createContainer(
       overrides: [
+        ...debProviderOverrides,
         launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
       ],
@@ -285,7 +298,7 @@ void main() {
     final testTile = find.snapTile('Snap with an update');
     expect(testTile, findsOneWidget);
     expect(
-      find.descendant(of: testTile, matching: find.text('2.0')),
+      find.descendant(of: testTile, matching: find.textContaining('2.0')),
       findsOneWidget,
     );
     expect(
@@ -315,6 +328,7 @@ void main() {
 
     final container = createContainer(
       overrides: [
+        ...debProviderOverrides,
         launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
         activeChangeProvider.overrideWith((_, __) => mockChange),
@@ -357,6 +371,7 @@ void main() {
     await tester.pumpApp(
       (_) => ProviderScope(
         overrides: [
+          ...debProviderOverrides,
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           activeChangeProvider.overrideWith((_, __) => mockChange),
           currentlyRefreshAllSnapsProvider.overrideWith((_) => ['name']),
@@ -382,6 +397,7 @@ void main() {
 
     final container = createContainer(
       overrides: [
+        ...debProviderOverrides,
         launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
         showLocalSystemAppsProvider.overrideWith((ref) => true),
       ],
@@ -415,6 +431,7 @@ void main() {
 
       final container = createContainer(
         overrides: [
+          ...debProviderOverrides,
           launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
           showLocalSystemAppsProvider.overrideWith((ref) => true),
         ],
@@ -436,7 +453,186 @@ void main() {
     },
   );
 
-  // TODO: test sorting and filtering
+  testWidgets('list deb updates on manage page', (tester) async {
+    await resetAllServices();
+    registerMockSnapdService(installedSnaps: []);
+
+    final debUpdate = createLocalDebInfo(
+      id: 'gimp',
+      name: 'GIMP',
+      packageName: 'gimp',
+      version: '2.10',
+      updatePackageId: const PackageKitPackageId(
+        name: 'gimp',
+        version: '2.11',
+      ),
+    );
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          localDebsProvider.overrideWith((ref) async => [debUpdate]),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final debTile = find.snapTile('GIMP');
+    expect(debTile, findsOneWidget);
+
+    expect(
+      find.descendant(
+        of: debTile,
+        matching: find.text('2.10 → 2.11'),
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('list installed debs on manage page', (tester) async {
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          localDebsProvider.overrideWith((ref) async => [defaultInstalledDeb]),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final debTile = find.snapTile('GIMP');
+    expect(debTile, findsOneWidget);
+
+    expect(
+      find.descendant(of: debTile, matching: find.text('2.10')),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('mixed snap and deb updates shown', (tester) async {
+    final debUpdate = createLocalDebInfo(
+      id: 'gimp',
+      name: 'GIMP',
+      packageName: 'gimp',
+      version: '2.10',
+      updatePackageId: const PackageKitPackageId(
+        name: 'gimp',
+        version: '2.11',
+      ),
+    );
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          localDebsProvider.overrideWith((ref) async => [debUpdate]),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.snapTile('Snap with an update'), findsOneWidget);
+    expect(find.snapTile('GIMP'), findsOneWidget);
+  });
+
+  testWidgets('package type filter shows only debs', (tester) async {
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          localDebsProvider.overrideWith((ref) async => [defaultInstalledDeb]),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+          packageTypeFilterProvider.overrideWith(
+            (_) => PackageTypeFilter.deb,
+          ),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.snapTile('GIMP'), findsOneWidget);
+    expect(find.snapTile('Test Snap'), findsNothing);
+    expect(find.snapTile('Another Test Snap'), findsNothing);
+  });
+
+  testWidgets('search filter narrows results', (tester) async {
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          ...debProviderOverrides,
+          localSnapFilterProvider.overrideWith((_) => 'Another'),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.snapTile('Another Test Snap'), findsOneWidget);
+    expect(find.snapTile('Test Snap'), findsNothing);
+  });
+
+  testWidgets('update all triggers both snap refresh and deb update',
+      (tester) async {
+    final debUpdate = createLocalDebInfo(
+      id: 'gimp',
+      name: 'GIMP',
+      packageName: 'gimp',
+      version: '2.10',
+      updatePackageId: const PackageKitPackageId(
+        name: 'gimp',
+        version: '2.11',
+      ),
+    );
+
+    final mockPackageKit = createMockPackageKitService();
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          localDebsProvider.overrideWith((ref) async => [debUpdate]),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    // Both snap and deb updates should be shown
+    expect(find.snapTile('Snap with an update'), findsOneWidget);
+    expect(find.snapTile('GIMP'), findsOneWidget);
+
+    // Tap update all
+    await tester.tap(find.text(tester.l10n.managePageUpdateAllLabel));
+    await tester.pump();
+
+    // Verify snap refresh was called
+    verify(
+      snapd.refresh(
+        refreshableSnaps.first.name,
+        channel: anyNamed('channel'),
+        classic: anyNamed('classic'),
+      ),
+    ).called(1);
+
+    // Verify deb update was called
+    verify(mockPackageKit.update(any)).called(1);
+  });
 }
 
 extension on CommonFinders {

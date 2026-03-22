@@ -1,6 +1,7 @@
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/providers/error_stream_provider.dart';
 import 'package:app_center/snapd/snap_model.dart';
+import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:snapd/snapd.dart';
@@ -35,7 +36,7 @@ void main() {
     test('no updates available', () async {
       registerMockSnapdService();
       final container = createContainer();
-      final model = await container.read(updatesModelProvider.future);
+      final model = await container.read(snapUpdatesModelProvider.future);
       expect(model.isEmpty, isTrue);
     });
 
@@ -44,7 +45,7 @@ void main() {
         refreshableSnaps: [createSnap(name: 'firefox')],
       );
       final container = createContainer();
-      final model = await container.read(updatesModelProvider.future);
+      final model = await container.read(snapUpdatesModelProvider.future);
       expect(model.single.name, equals('firefox'));
     });
   });
@@ -59,10 +60,54 @@ void main() {
     );
     final container = createContainer();
     await container.read(snapModelProvider('testsnap3').future);
-    await container.read(updatesModelProvider.future);
-    await container.read(updatesModelProvider.notifier).refreshAll();
+    await container.read(snapUpdatesModelProvider.future);
+    await container.read(snapUpdatesModelProvider.notifier).refreshAll();
     verify(service.refresh('testsnap3', channel: anyNamed('channel')))
         .called(1);
+  });
+
+  group('localVersion', () {
+    test('returns installed version when snap is installed', () async {
+      final localSnap = createSnap(name: 'testsnap', version: '1.0.0');
+      registerMockSnapdService(installedSnaps: [localSnap]);
+      final container = createContainer();
+
+      final version =
+          await container.read(localVersionProvider('testsnap').future);
+      expect(version, equals('1.0.0'));
+    });
+
+    test('returns null when snap is not installed', () async {
+      registerMockSnapdService(installedSnaps: []);
+      final container = createContainer();
+
+      final version =
+          await container.read(localVersionProvider('nonexistent').future);
+      expect(version, isNull);
+    });
+  });
+
+  group('updateVersion', () {
+    test('returns update version when update is available', () async {
+      final updateSnap = createSnap(name: 'testsnap', version: '2.0.0');
+      registerMockSnapdService(refreshableSnaps: [updateSnap]);
+      final container = createContainer();
+
+      await container.read(snapUpdatesModelProvider.future);
+
+      final version = container.read(updateVersionProvider('testsnap'));
+      expect(version, equals('2.0.0'));
+    });
+
+    test('returns null when no update is available', () async {
+      registerMockSnapdService();
+      final container = createContainer();
+
+      await container.read(snapUpdatesModelProvider.future);
+
+      final version = container.read(updateVersionProvider('testsnap'));
+      expect(version, isNull);
+    });
   });
 
   group('error stream', () {
@@ -77,7 +122,7 @@ void main() {
         ),
       );
 
-      expect(container.read(updatesModelProvider.future), throwsException);
+      expect(container.read(snapUpdatesModelProvider.future), throwsException);
     });
 
     test('refresh no internet', () async {
@@ -88,7 +133,8 @@ void main() {
         SnapdException(message: ''),
       );
 
-      final snapListState = await container.read(updatesModelProvider.future);
+      final snapListState =
+          await container.read(snapUpdatesModelProvider.future);
       expect(snapListState.hasInternet, isFalse);
     });
 
@@ -109,7 +155,7 @@ void main() {
           kind: 'error kind',
         ),
       );
-      await container.read(updatesModelProvider.future);
+      await container.read(snapUpdatesModelProvider.future);
 
       container.listen(
         errorStreamProvider,
@@ -122,7 +168,7 @@ void main() {
           );
         },
       );
-      await container.read(updatesModelProvider.notifier).refreshAll();
+      await container.read(snapUpdatesModelProvider.notifier).refreshAll();
     });
   });
 }

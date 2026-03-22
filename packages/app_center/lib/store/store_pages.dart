@@ -2,8 +2,9 @@ import 'package:app_center/about/about.dart';
 import 'package:app_center/explore/explore.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
+import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/manage.dart';
-import 'package:app_center/manage/updates_model.dart';
+import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/search/search.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
@@ -111,13 +112,16 @@ final pages = <StorePage>[
           title: Text(ManagePage.label(context)),
           trailing: Consumer(
             builder: (context, ref, child) {
-              return ref.watch(updatesModelProvider).when(
-                    data: (snapListState) => snapListState.isNotEmpty
-                        ? Badge(label: Text('${snapListState.length}'))
-                        : const SizedBox.shrink(),
-                    loading: SizedBox.shrink,
-                    error: (_, __) => const SizedBox.shrink(),
-                  );
+              final snapUpdates = ref.watch(snapUpdatesModelProvider);
+              final debUpdates = ref.watch(localDebUpdatesModelProvider);
+
+              final snapCount = snapUpdates.valueOrNull?.length ?? 0;
+              final debCount = debUpdates.valueOrNull?.length ?? 0;
+              final totalCount = snapCount + debCount;
+
+              return totalCount > 0
+                  ? Badge(label: Text('$totalCount'))
+                  : const SizedBox.shrink();
             },
           ),
         ),

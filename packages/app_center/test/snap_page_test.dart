@@ -165,8 +165,8 @@ void main() {
     ).called(1);
 
     final viewMoreButton = find.descendant(
-      of: find.byType(YaruSplitButton),
-      matching: find.byIcon(YaruIcons.pan_down),
+      of: find.byType(YaruPopupMenuButton),
+      matching: find.byIcon(YaruIcons.view_more),
     );
     expect(viewMoreButton, findsOneWidget);
     await tester.tap(viewMoreButton);
@@ -235,8 +235,8 @@ void main() {
     ).called(1);
 
     final viewMoreButton = find.descendant(
-      of: find.byType(YaruSplitButton),
-      matching: find.byIcon(YaruIcons.pan_down),
+      of: find.byType(YaruPopupMenuButton),
+      matching: find.byIcon(YaruIcons.view_more),
     );
     expect(viewMoreButton, findsOneWidget);
     await tester.tap(viewMoreButton);
@@ -384,8 +384,8 @@ void main() {
     await tester.pumpAndSettle();
 
     final viewMoreButton = find.descendant(
-      of: find.byType(YaruSplitButton),
-      matching: find.byIcon(YaruIcons.pan_down),
+      of: find.byType(YaruPopupMenuButton),
+      matching: find.byIcon(YaruIcons.view_more),
     );
     expect(viewMoreButton, findsOneWidget);
     await tester.tap(viewMoreButton);
