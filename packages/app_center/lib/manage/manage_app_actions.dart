@@ -46,10 +46,9 @@ class ManageAppActions extends ConsumerWidget {
     );
   }
 
-  /// Builds snap action buttons using the per-snap [SnapModel]. Shows a loading
-  /// indicator while the snap model loads, an active change status when a snapd
-  /// operation is in progress, or the appropriate action buttons (update, open,
-  /// remove) otherwise.
+  /// Builds snap action buttons. Uses data from [snap] directly for display
+  /// decisions to avoid creating per-snap [SnapModel] instances on each tile.
+  /// Only creates a [SnapModel] when an action is actually performed.
   Widget _buildSnapActions(
     BuildContext context,
     WidgetRef ref,
@@ -57,29 +56,20 @@ class ManageAppActions extends ConsumerWidget {
     Snap snap,
     String? updateVersion,
   ) {
-    final snapModel = ref.watch(snapModelProvider(snap.name));
-    if (!snapModel.hasValue) {
-      return const Center(
-        child: SizedBox.square(
-          dimension: kLoaderMediumHeight,
-          child: YaruCircularProgressIndicator(),
-        ),
-      );
-    }
-    final snapData = snapModel.value!;
-    final shouldQuitToUpdate = snapData.localSnap?.refreshInhibit != null;
-    final snapViewModel = ref.watch(snapModelProvider(snap.name).notifier);
-    final snapLauncher = snapData.localSnap == null
-        ? null
-        : ref.watch(launchProvider(snapData.localSnap!));
-    final canOpen = snapLauncher?.isLaunchable ?? false;
-    final hasActiveChange = snapData.activeChangeId != null;
+    final currentlyInstalling = ref.watch(currentlyInstallingModelProvider);
+    final activeChangeData = currentlyInstalling[snap.name];
+    final hasActiveChange = activeChangeData?.activeChangeId != null;
+
     if (hasActiveChange) {
       return ActiveChangeStatus(
         snapName: snap.name,
-        activeChangeId: snapData.activeChangeId!,
+        activeChangeId: activeChangeData!.activeChangeId!,
       );
     }
+
+    final shouldQuitToUpdate = snap.refreshInhibit != null;
+    final canOpen = snap.apps.isNotEmpty;
+    final hasUpdate = updateVersion != null;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -90,34 +80,26 @@ class ManageAppActions extends ConsumerWidget {
         ],
         if (showOnlyUpdate)
           OutlinedButton(
-            onPressed: SnapAction.update.callback(
-              snapData,
-              snapViewModel,
-              snapLauncher,
-              context,
-            ),
+            onPressed: () => ref
+                .read(snapModelProvider(snap.name).notifier)
+                .refresh()
+                .then((_) {}),
             child: Text(SnapAction.update.label(l10n)),
           ),
-        if (!showOnlyUpdate && snapData.isInstalled) ...[
+        if (!showOnlyUpdate) ...[
           OutlinedButton(
             onPressed: canOpen
-                ? SnapAction.open.callback(
-                    snapData,
-                    snapViewModel,
-                    snapLauncher,
-                    context,
-                  )
+                ? () {
+                    final launcher = ref.read(launchProvider(snap));
+                    if (launcher.isLaunchable) launcher.open();
+                  }
                 : null,
             child: Text(SnapAction.open.label(l10n)),
           ),
           const SizedBox(width: kSpacing),
           OutlinedButton(
-            onPressed: SnapAction.remove.callback(
-              snapData,
-              snapViewModel,
-              snapLauncher,
-              context,
-            ),
+            onPressed: () =>
+                ref.read(snapModelProvider(snap.name).notifier).remove(),
             child: Text(SnapAction.remove.label(l10n)),
           ),
         ],
