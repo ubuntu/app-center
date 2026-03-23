@@ -159,6 +159,16 @@ class SnapModel extends _$SnapModel {
     ref.read(filteredLocalSnapsProvider.notifier).removeFromList(snapName);
   }
 
+  /// Uninstalls the snap and removes all user data.
+  Future<void> removeWithPurge() async {
+    assert(state.hasValue, 'The snap must be loaded before removing it');
+    final changeId = await _snapd.remove(snapName, purge: true);
+    _updateChangeId(changeId);
+    await _listenUntilDone(changeId, ref);
+    ref.read(snapUpdatesModelProvider.notifier).removeFromList(snapName);
+    ref.read(filteredLocalSnapsProvider.notifier).removeFromList(snapName);
+  }
+
   Future<void> revert() async {
     assert(state.hasValue, 'The snap must be loaded before reverting it');
     assert(

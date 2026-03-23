@@ -9,6 +9,7 @@ enum SnapAction {
   install,
   open,
   remove,
+  removePurge,
   revert,
   switchChannel,
   update;
@@ -18,6 +19,7 @@ enum SnapAction {
         install => l10n.snapActionInstallLabel,
         open => l10n.snapActionOpenLabel,
         remove => l10n.snapActionRemoveLabel,
+        removePurge => l10n.snapActionPurgeLabel,
         revert => l10n.snapActionRevertLabel,
         switchChannel => l10n.snapActionSwitchChannelLabel,
         update => l10n.snapActionUpdateLabel,
@@ -26,6 +28,7 @@ enum SnapAction {
   IconData? get icon => switch (this) {
         update => YaruIcons.refresh,
         remove => YaruIcons.trash,
+        removePurge => YaruIcons.trash,
         revert => YaruIcons.undo,
         _ => null,
       };
@@ -38,16 +41,19 @@ enum SnapAction {
   ]) {
     return switch (this) {
       SnapAction.cancel => model.cancel,
-      SnapAction.install => snapData?.storeSnap != null ? model.install : null,
+      SnapAction.install =>
+        snapData?.storeSnap != null ? model.install : null,
       SnapAction.open =>
         launcher?.isLaunchable ?? false ? launcher!.open : null,
       SnapAction.remove => model.remove,
+      SnapAction.removePurge => model.removeWithPurge,
       SnapAction.revert => (snapData?.canRevert ?? false)
           ? () => confirmRevertAndRun(context!, snapData!, model)
           : null,
       SnapAction.switchChannel =>
         snapData?.storeSnap != null ? model.refresh : null,
-      SnapAction.update => snapData?.storeSnap != null ? model.refresh : null,
+      SnapAction.update =>
+        snapData?.storeSnap != null ? model.refresh : null,
     };
   }
 }

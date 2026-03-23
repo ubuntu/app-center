@@ -111,14 +111,39 @@ class ManageAppActions extends ConsumerWidget {
             child: Text(SnapAction.open.label(l10n)),
           ),
           const SizedBox(width: kSpacing),
-          OutlinedButton(
-            onPressed: SnapAction.remove.callback(
-              snapData,
-              snapViewModel,
-              snapLauncher,
-              context,
+          MenuAnchor(
+            menuChildren: [
+              MenuItemButton(
+                onPressed: SnapAction.remove.callback(
+                  snapData,
+                  snapViewModel,
+                  snapLauncher,
+                  context,
+                ),
+                child: Text(SnapAction.remove.label(l10n)),
+              ),
+              MenuItemButton(
+                onPressed: SnapAction.removePurge.callback(
+                  snapData,
+                  snapViewModel,
+                  snapLauncher,
+                  context,
+                ),
+                child: Text(SnapAction.removePurge.label(l10n)),
+              ),
+            ],
+            builder: (context, controller, child) => OutlinedButton.icon(
+              onPressed: () {
+                if (controller.isOpen) {
+                  controller.close();
+                } else {
+                  controller.open();
+                }
+              },
+              icon: const Icon(Icons.arrow_drop_down, size: 18),
+              iconAlignment: IconAlignment.end,
+              label: Text(SnapAction.remove.label(l10n)),
             ),
-            child: Text(SnapAction.remove.label(l10n)),
           ),
         ],
       ],

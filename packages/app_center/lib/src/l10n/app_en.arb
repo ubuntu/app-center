@@ -220,6 +220,8 @@
     "snapActionOpenLabel": "Open",
     "snapActionRemoveLabel": "Uninstall",
     "snapActionRemovingLabel": "Uninstalling",
+    "snapActionPurgeLabel": "Uninstall (remove data)",
+    "snapActionPurgeSemanticLabel": "Uninstall snap and remove all user data",
     "snapActionRevertLabel": "Revert update",
     "snapActionRevertingLabel": "Reverting update",
     "snapRevertConfirmTitle": "Revert to previous version?",
