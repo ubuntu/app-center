@@ -189,18 +189,21 @@ class _BannerIconState extends State<_BannerIcon> {
 
   @override
   Widget build(BuildContext context) {
-    return Tooltip(
-      key: tooltipKey,
-      waitDuration: Duration.zero,
-      showDuration: Duration.zero,
-      verticalOffset: widget.maxSize.height / 2,
-      message: widget.snap.titleOrName,
-      triggerMode: TooltipTriggerMode.manual,
-      child: InkWell(
-        onTap: () => StoreNavigator.pushSnap(context, name: widget.snap.name),
-        onHover: _toggleFocus,
-        onFocusChange: _toggleFocus,
-        child: SizedBox(
+    return Semantics(
+      label: widget.snap.titleOrName,
+      button: true,
+      child: Tooltip(
+        key: tooltipKey,
+        waitDuration: Duration.zero,
+        showDuration: Duration.zero,
+        verticalOffset: widget.maxSize.height / 2,
+        message: widget.snap.titleOrName,
+        triggerMode: TooltipTriggerMode.manual,
+        child: InkWell(
+          onTap: () => StoreNavigator.pushSnap(context, name: widget.snap.name),
+          onHover: _toggleFocus,
+          onFocusChange: _toggleFocus,
+          child: SizedBox(
           height: widget.maxSize.height,
           width: widget.maxSize.width,
           child: Center(
