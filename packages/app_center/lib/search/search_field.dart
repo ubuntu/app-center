@@ -60,7 +60,12 @@ class _SearchFieldState extends ConsumerState<SearchField> {
     return RawAutocomplete<AutoCompleteOption>(
       optionsBuilder: (query) async {
         ref.read(queryProvider.notifier).state = query.text;
-        final options = await ref.watch(autoCompleteProvider.future);
+        final AutoCompleteOptions options;
+        try {
+          options = await ref.watch(autoCompleteProvider.future);
+        } on Exception {
+          return <AutoCompleteOption>[];
+        }
         if (options.snaps.isEmpty && options.debs.isEmpty) return [];
         _optionsAvailable = true;
         final snapOptions = options.snaps
