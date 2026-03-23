@@ -11,10 +11,19 @@ enum SnapSortOrder {
   installedDateDesc,
   installedSizeAsc,
   installedSizeDesc,
+  publishedDateAsc,
+  publishedDateDesc,
 }
 
 // TODO: simplify; reconsider default values; separate order direction(?)
 extension SnapSort on Iterable<Snap> {
+  DateTime? _latestReleaseDate(Snap snap) {
+    if (snap.channels.isEmpty) return null;
+    return snap.channels.values
+        .map((channel) => channel.releasedAt)
+        .reduce((a, b) => a.isAfter(b) ? a : b);
+  }
+
   Iterable<Snap> sortedSnaps(SnapSortOrder? order) => order != null
       ? sorted(
           (a, b) => switch (order) {
@@ -36,6 +45,12 @@ extension SnapSort on Iterable<Snap> {
                 .compareTo(b.installDate ?? DateTime(1970)),
             SnapSortOrder.installedDateDesc => (b.installDate ?? DateTime(1970))
                 .compareTo(a.installDate ?? DateTime(1970)),
+            SnapSortOrder.publishedDateAsc =>
+              (_latestReleaseDate(a) ?? DateTime(1970))
+                  .compareTo(_latestReleaseDate(b) ?? DateTime(1970)),
+            SnapSortOrder.publishedDateDesc =>
+              (_latestReleaseDate(b) ?? DateTime(1970))
+                  .compareTo(_latestReleaseDate(a) ?? DateTime(1970)),
           },
         )
       : toList();

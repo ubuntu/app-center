@@ -306,6 +306,8 @@
     "snapSortOrderInstalledSizeDesc": "Size (Largest to smallest)",
     "snapSortOrderInstalledDateAsc": "Least recently updated",
     "snapSortOrderInstalledDateDesc": "Most recently updated",
+    "snapSortOrderPublishedDateAsc": "Publication date (Oldest first)",
+    "snapSortOrderPublishedDateDesc": "Publication date (Newest first)",
     "snapSortOrderRelevance": "Relevance",
     "snapRatingsBandVeryGood": "Very good",
     "snapRatingsBandGood": "Good",
