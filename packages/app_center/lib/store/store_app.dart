@@ -190,6 +190,7 @@ class _StoreAppHome extends ConsumerWidget {
                 appBar: searchField,
                 body: SnapPage(
                   snapName: StoreRoutes.snapOf(settings)!,
+                  channel: StoreRoutes.channelOf(settings),
                 ),
               ),
             ),

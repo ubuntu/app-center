@@ -18,11 +18,19 @@ void main() {
     expect(StoreRoutes.routeOf(snap), equals('/snap'));
     expect(StoreRoutes.isSnap(snap), isTrue);
     expect(StoreRoutes.snapOf(snap), equals('foo'));
+    expect(StoreRoutes.channelOf(snap), isNull);
     expect(StoreRoutes.isSearch(snap), isFalse);
     expect(StoreRoutes.queryOf(snap), isNull);
     expect(StoreRoutes.categoryOf(snap), isNull);
     expect(StoreRoutes.isDeb(snap), isFalse);
     expect(StoreRoutes.debOf(snap), isNull);
+
+    const snapWithChannel =
+        RouteSettings(name: '/snap?snap=foo&channel=latest/edge');
+    expect(StoreRoutes.routeOf(snapWithChannel), equals('/snap'));
+    expect(StoreRoutes.isSnap(snapWithChannel), isTrue);
+    expect(StoreRoutes.snapOf(snapWithChannel), equals('foo'));
+    expect(StoreRoutes.channelOf(snapWithChannel), equals('latest/edge'));
 
     const search = RouteSettings(name: '/search?query=bar&category=qux');
     expect(StoreRoutes.routeOf(search), equals('/search'));
@@ -64,6 +72,10 @@ void main() {
     );
 
     expect(StoreRoutes.namedSnap(name: 'foo'), equals('/snap?snap=foo'));
+    expect(
+      StoreRoutes.namedSnap(name: 'foo', channel: 'latest/edge'),
+      equals('/snap?snap=foo&channel=latest%2Fedge'),
+    );
     expect(
       StoreRoutes.namedSearch(query: 'bar', category: 'qux'),
       equals('/search?query=bar&category=qux'),
