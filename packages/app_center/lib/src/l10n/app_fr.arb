@@ -389,7 +389,7 @@
     "managePagePackageTypeDeb": "Deb",
     "appConfinementUnknown": "Inconnus",
     "appConfinementStrict": "En bac à sable",
-    "appConfinementDevelopment": "",
+    "appConfinementDevelopment": "Mode Dev",
     "appConfinementClassic": "Sans restriction",
     "appConfinementUnrestricted": "Sans restriction",
     "appLicenseUnknown": "Inconnu",
