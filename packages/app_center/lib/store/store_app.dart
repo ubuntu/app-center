@@ -62,8 +62,8 @@ class _StoreAppState extends ConsumerState<StoreApp> {
       },
       child: YaruTheme(
         builder: (context, yaru, child) => MaterialApp(
-          theme: yaru.theme?.customize(),
-          darkTheme: yaru.darkTheme?.customize(),
+          theme: yaru.theme.customize(),
+          darkTheme: yaru.darkTheme.customize(),
           highContrastTheme:
               yaruHighContrastLight.customize(highContrast: true),
           highContrastDarkTheme:
@@ -147,89 +147,91 @@ class _StoreAppHome extends ConsumerWidget {
       ),
     );
 
-    return YaruMasterDetailPage(
-      navigatorKey: navigatorKey,
-      navigatorObservers: [StoreObserver(ref)],
-      initialRoute: ref.watch(initialRouteProvider),
-      controller: ref.watch(yaruPageControllerProvider),
-      tileBuilder: (context, index, selected, availableWidth) =>
-          pages[index].tileBuilder(context, selected),
-      pageBuilder: (context, index) =>
-          pages[index].pageBuilder(context, searchField),
-      paneLayoutDelegate: YaruResizablePaneDelegate(
-        initialPaneSize: kPaneWidth * textScalar.scale(1),
-        minPaneSize: kPaneWidth * textScalar.scale(1),
-        minPageSize: kCardSizeWide.width + (kPagePadding * 2),
+    return Scaffold(
+      body: YaruMasterDetailPage(
+        navigatorKey: navigatorKey,
+        navigatorObservers: [StoreObserver(ref)],
+        initialRoute: ref.watch(initialRouteProvider),
+        controller: ref.watch(yaruPageControllerProvider),
+        tileBuilder: (context, index, selected, availableWidth) =>
+            pages[index].tileBuilder(context, selected),
+        pageBuilder: (context, index) =>
+            pages[index].pageBuilder(context, searchField),
+        paneLayoutDelegate: YaruResizablePaneDelegate(
+          initialPaneSize: kPaneWidth * textScalar.scale(1),
+          minPaneSize: kPaneWidth * textScalar.scale(1),
+          minPageSize: kCardSizeWide.width + (kPagePadding * 2),
+        ),
+        appBar: YaruWindowTitleBar(
+          title: Text(l10n.appCenterLabel),
+          border: BorderSide.none,
+          backgroundColor: YaruMasterDetailTheme.of(context).sideBarColor,
+        ),
+        breakpoint: 0, // always landscape
+        onGenerateRoute: (settings) => switch (StoreRoutes.routeOf(settings)) {
+          StoreRoutes.deb => MaterialPageRoute(
+              settings: settings,
+              builder: (_) => YaruDetailPage(
+                appBar: searchField,
+                body: DebPage(
+                  id: StoreRoutes.debOf(settings)!,
+                ),
+              ),
+            ),
+          StoreRoutes.localDeb => MaterialPageRoute(
+              settings: settings,
+              builder: (_) => YaruDetailPage(
+                appBar: searchField,
+                body: LocalDebPage(
+                  path: StoreRoutes.localDebOf(settings)!,
+                ),
+              ),
+            ),
+          StoreRoutes.snap => MaterialPageRoute(
+              settings: settings,
+              builder: (_) => YaruDetailPage(
+                appBar: searchField,
+                body: SnapPage(
+                  snapName: StoreRoutes.snapOf(settings)!,
+                ),
+              ),
+            ),
+          StoreRoutes.search => MaterialPageRoute(
+              settings: settings,
+              builder: (_) => YaruDetailPage(
+                appBar: searchField,
+                body: SearchPage(
+                  query: StoreRoutes.queryOf(settings),
+                  category: StoreRoutes.categoryOf(settings),
+                ),
+              ),
+            ),
+          StoreRoutes.externalTools => MaterialPageRoute(
+              settings: settings,
+              builder: (_) => YaruDetailPage(
+                appBar: searchField,
+                body: const ExternalTools(),
+              ),
+            ),
+          StoreRoutes.manage => MaterialPageRoute(
+              settings: settings,
+              builder: (_) => YaruDetailPage(
+                appBar: searchField,
+                body: const ManagePage(),
+              ),
+            ),
+          StoreRoutes.gstreamer => MaterialPageRoute(
+              settings: settings,
+              builder: (_) => YaruDetailPage(
+                appBar: searchField,
+                body: GStreamerPage(
+                  resources: StoreRoutes.gstResourcesOf(settings),
+                ),
+              ),
+            ),
+          _ => null,
+        },
       ),
-      appBar: YaruWindowTitleBar(
-        title: Text(l10n.appCenterLabel),
-        border: BorderSide.none,
-        backgroundColor: YaruMasterDetailTheme.of(context).sideBarColor,
-      ),
-      breakpoint: 0, // always landscape
-      onGenerateRoute: (settings) => switch (StoreRoutes.routeOf(settings)) {
-        StoreRoutes.deb => MaterialPageRoute(
-            settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: DebPage(
-                id: StoreRoutes.debOf(settings)!,
-              ),
-            ),
-          ),
-        StoreRoutes.localDeb => MaterialPageRoute(
-            settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: LocalDebPage(
-                path: StoreRoutes.localDebOf(settings)!,
-              ),
-            ),
-          ),
-        StoreRoutes.snap => MaterialPageRoute(
-            settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: SnapPage(
-                snapName: StoreRoutes.snapOf(settings)!,
-              ),
-            ),
-          ),
-        StoreRoutes.search => MaterialPageRoute(
-            settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: SearchPage(
-                query: StoreRoutes.queryOf(settings),
-                category: StoreRoutes.categoryOf(settings),
-              ),
-            ),
-          ),
-        StoreRoutes.externalTools => MaterialPageRoute(
-            settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: const ExternalTools(),
-            ),
-          ),
-        StoreRoutes.manage => MaterialPageRoute(
-            settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: const ManagePage(),
-            ),
-          ),
-        StoreRoutes.gstreamer => MaterialPageRoute(
-            settings: settings,
-            builder: (_) => YaruDetailPage(
-              appBar: searchField,
-              body: GStreamerPage(
-                resources: StoreRoutes.gstResourcesOf(settings),
-              ),
-            ),
-          ),
-        _ => null,
-      },
     );
   }
 }

@@ -2,7 +2,7 @@
     "appCenterLabel": "App Center",
     "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
     "snapPageChannelLabel": "Channel",
-    "snapPageConfinementLabel": "Confinement",
+    "snapPageConfinementLabel": "Permissions",
     "snapPageContactPublisherLabel": "Contact {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
@@ -11,11 +11,9 @@
             }
         }
     },
-    "snapPageDescriptionLabel": "Description",
     "snapPageDeveloperWebsiteLabel": "Developer website",
     "snapPageDownloadSizeLabel": "Download size",
     "snapPageSizeLabel": "Size",
-    "snapPageGalleryLabel": "Gallery",
     "snapPageGalleryNextSemanticLabel": "Next image",
     "snapPageGalleryPreviousSemanticLabel": "Previous image",
     "snapPageGalleryImageSemanticLabel": "Image {n}",
@@ -29,7 +27,7 @@
     "snapPageLicenseLabel": "License",
     "snapPageLinksLabel": "Links",
     "snapPagePublisherLabel": "Publisher",
-    "snapPagePublishedLabel": "Published",
+    "snapPagePublishedLabel": "Last updated",
     "snapPageSummaryLabel": "Summary",
     "snapPageVersionLabel": "Version",
     "snapPageShareLinkCopiedMessage": "Link copied to clipboard",
@@ -62,7 +60,7 @@
     "managePageNoInternet": "Can't reach server, check your internet connection or try again later.",
     "managePageDescription": "Check for available updates, update your apps, and manage the status of all your apps.",
     "managePageDebUpdatesMessage": "Debian package updates are handled by the Software Updater.",
-    "managePageInstalledAndUpdatedLabel": "Installed and updated",
+    "managePageInstalledAndUpdatedLabel": "Installed apps",
     "managePageInstallingLabel": "Installing ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -74,9 +72,13 @@
     "managePageLabel": "Manage",
     "managePageTitle": "Manage installed snaps",
     "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
-    "managePageSearchFieldSearchHint": "Search your installed apps",
+    "managePageSearchFieldSearchHint": "Search installed apps",
     "managePageShowDetailsLabel": "Show details",
     "managePageShowSystemSnapsLabel": "Show system snaps",
+    "managePagePackageTypeLabel": "Package type",
+    "managePagePackageTypeAll": "All",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
     "managePageUpdateAllLabel": "Update all",
     "managePageUpdatedDaysAgo": "Updated {n, plural, =1{{n} day} other{{n} days}} ago",
     "@managePageUpdatedDaysAgo": {
@@ -191,15 +193,24 @@
     "aboutPageGitHubLabel": "Find us on GitHub",
     "aboutPagePublishLabel": "Publish to the Snap Store",
     "aboutPageLearnMoreLabel": "Learn more",
-    "appstreamUrlTypeBugtracker": "Bugtracker",
-    "appstreamUrlTypeContact": "Contact",
-    "appstreamUrlTypeContribute": "Contribute",
-    "appstreamUrlTypeDonation": "Donate",
-    "appstreamUrlTypeFaq": "FAQ",
-    "appstreamUrlTypeHelp": "Help",
-    "appstreamUrlTypeHomepage": "Homepage",
-    "appstreamUrlTypeTranslate": "Translations",
-    "appstreamUrlTypeVcsBrowser": "Source",
+    "appUrlTypeContact": "Contact {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Developer website",
+    "appUrlTypeUnknown": "Link",
+    "appConfinementUnknown": "Unknown",
+    "appConfinementStrict": "Sandboxed",
+    "appConfinementDevelopment": "Devmode",
+    "appConfinementClassic": "Unrestricted",
+    "appConfinementUnrestricted": "Unrestricted",
+    "appLicenseUnknown": "Unknown",
+    "appPublishedUnknown": "Unknown",
+    "appMoreActionsSemanticLabel": "More actions",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
     "snapActionCancelLabel": "Cancel",
@@ -287,9 +298,6 @@
     "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
     "snapCategoryUbuntuDesktopSlogan": "Jump start your desktop",
     "snapCategoryUtilities": "Utilities",
-    "snapConfinementClassic": "Classic",
-    "snapConfinementDevmode": "Devmode",
-    "snapConfinementStrict": "Strict",
     "snapSortOrderAlphabeticalAsc": "Alphabetical (A to Z)",
     "snapSortOrderAlphabeticalDesc": "Alphabetical (Z to A)",
     "snapSortOrderDownloadSizeAsc": "Size (Smallest to largest)",

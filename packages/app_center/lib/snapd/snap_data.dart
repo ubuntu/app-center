@@ -1,3 +1,4 @@
+import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -7,7 +8,7 @@ part 'snap_data.freezed.dart';
 
 // TODO: Better naming, easily confused with the Snap class.
 @freezed
-class SnapData with _$SnapData {
+class SnapData extends AppMetadata with _$SnapData {
   factory SnapData({
     required String name,
     required Snap? localSnap,
@@ -67,4 +68,64 @@ class SnapData with _$SnapData {
           channels?.firstOrNull;
     }
   }
+
+  SnapAction? primaryAction([SnapLauncher? snapLauncher]) {
+    final SnapAction? primaryAction;
+    final shouldQuitToUpdate = localSnap?.refreshInhibit != null;
+    final canOpen = snapLauncher?.isLaunchable ?? false;
+    if (isInstalled) {
+      if (!shouldQuitToUpdate && hasUpdate) {
+        primaryAction = SnapAction.update;
+      } else if (canOpen) {
+        primaryAction = SnapAction.open;
+      } else {
+        primaryAction = null;
+      }
+    } else {
+      primaryAction = SnapAction.install;
+    }
+
+    return primaryAction;
+  }
+
+  List<SnapAction> secondaryActions([SnapLauncher? snapLauncher]) {
+    final shouldQuitToUpdate = localSnap?.refreshInhibit != null;
+    final canOpen = snapLauncher?.isLaunchable ?? false;
+    return [
+      if (canOpen) SnapAction.open,
+      if (!shouldQuitToUpdate && hasUpdate) SnapAction.update,
+      if (canRevert) SnapAction.revert,
+      if (isInstalled) SnapAction.remove,
+    ];
+  }
+
+  @override
+  String? get publisher => snap.publisher?.displayName;
+
+  @override
+  String? get version =>
+      isInstalled ? localSnap!.version : (channelInfo?.version ?? snap.version);
+
+  @override
+  DateTime? get published => channelInfo?.releasedAt;
+
+  @override
+  String? get license => snap.license;
+
+  @override
+  int? get downloadSize => channelInfo?.size;
+
+  @override
+  AppConfinement? get confinement =>
+      AppConfinement.fromSnap(channelInfo?.confinement ?? snap.confinement);
+
+  @override
+  Map<AppLink, String>? get links => {
+        if (snap.website?.isNotEmpty ?? false) ...{
+          AppLink.homepage: snap.website!,
+        },
+        if ((snap.contact.isNotEmpty) && snap.publisher != null) ...{
+          AppLink.contact: snap.contact,
+        },
+      };
 }

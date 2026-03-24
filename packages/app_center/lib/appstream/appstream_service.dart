@@ -157,6 +157,17 @@ class AppstreamService {
   @visibleForTesting
   int get cacheSize => _cache.length;
 
+  Map<String, AppstreamComponent> getComponentsByPackage() {
+    final result = <String, AppstreamComponent>{};
+    for (final component in _pool.components) {
+      final packageName = component.getPackage();
+      if (packageName.isNotEmpty && !result.containsKey(packageName)) {
+        result[packageName] = component;
+      }
+    }
+    return result;
+  }
+
   void _populateCache() {
     _cache.clear();
     for (final component in _pool.components) {
