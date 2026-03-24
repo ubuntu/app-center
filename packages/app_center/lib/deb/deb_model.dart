@@ -115,10 +115,18 @@ class DebModel extends _$DebModel {
   Future<void> cancelTransaction() async {
     if (state.value?.activeTransactionId == null) return;
     await packageKit.cancelTransaction(state.value!.activeTransactionId!);
+    state = AsyncValue.data(
+      state.value!.copyWith(activeTransactionId: null),
+    );
   }
 
   Future<void> _onError(PackageKitServiceError error) async {
-    state = AsyncValue.data(state.value!.copyWith(error: error));
+    state = AsyncValue.data(
+      state.value!.copyWith(
+        error: error,
+        activeTransactionId: null,
+      ),
+    );
   }
 
   Future<PackageKitPackageEvent?> _getPackageInfo(
