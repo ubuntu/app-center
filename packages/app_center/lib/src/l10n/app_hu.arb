@@ -66,7 +66,7 @@
     "localDebWarningTitle": "Potenciálisan nem biztonságos",
     "appCenterLabel": "Alkalmazásközpont",
     "appstreamSearchGreylist": "alkalmazás;csomag;program;alkalmazáscsomag;eszköz",
-    "snapPagePublishedLabel": "Kiadva",
+    "snapPagePublishedLabel": "Utoljára frissítve",
     "snapPagePublisherLabel": "Kiadó",
     "snapPageDeveloperWebsiteLabel": "Fejlesztő webhelye",
     "snapPageDownloadSizeLabel": "Letöltési méret",
@@ -162,7 +162,7 @@
     "snapConfinementStrict": "Szigorú",
     "localDebDialogMessage": "Ezt a csomagot harmadik fél biztosítja, és veszélyeztetheti a rendszerét és a személyes adatait.",
     "localDebDialogConfirmation": "Biztosan telepíteni szeretné?",
-    "snapPageConfinementLabel": "Bezártság",
+    "snapPageConfinementLabel": "Jogosultságok",
     "snapPageContactPublisherLabel": "Kapcsolatfelvétel: {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
@@ -382,5 +382,17 @@
         }
     },
     "appUrlTypeHomepage": "Fejlesztő webhelye",
-    "appUrlTypeUnknown": "Hivatkozás"
+    "appUrlTypeUnknown": "Hivatkozás",
+    "managePagePackageTypeLabel": "Csomag típusa",
+    "managePagePackageTypeAll": "Összes",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appConfinementUnknown": "Ismeretlen",
+    "appConfinementStrict": "Védőfalas",
+    "appConfinementDevelopment": "Fejlesztői mód",
+    "appConfinementClassic": "Nem korlátozott",
+    "appConfinementUnrestricted": "Nem korlátozott",
+    "appLicenseUnknown": "Ismeretlen",
+    "appPublishedUnknown": "Ismeretlen",
+    "appMoreActionsSemanticLabel": "További műveletek"
 }
