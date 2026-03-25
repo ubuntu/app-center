@@ -73,7 +73,7 @@
     "snapSortOrderInstalledDateAsc": "Najstaršie aktualizácie",
     "snapCategoryProductivitySlogan": "Urobte prvý krok k efektívnejšej práci",
     "appstreamUrlTypeDonation": "Darovať",
-    "snapRatingsBandVeryGood": "Veľmi dobré",
+    "snapRatingsBandVeryGood": "Výborné",
     "snapActionRemoveLabel": "Odinštalovať",
     "appstreamUrlTypeHelp": "Pomoc",
     "snapCategoryPersonalisation": "Prispôsobenie",
@@ -97,7 +97,7 @@
     "snapSortOrderInstalledSizeDesc": "Veľkosti (najväčšie → najmenšie)",
     "snapPageDeveloperWebsiteLabel": "Stránka vývojára",
     "snapConfinementClassic": "Klasická",
-    "snapRatingsBandPoor": "Zlé",
+    "snapRatingsBandPoor": "Slabé",
     "snapCategoryDevelopmentSlogan": "Užitočné nástroje pre vývojárov",
     "searchPageTitle": "Výsledky pre „{query}“",
     "@searchPageTitle": {
