@@ -32,7 +32,7 @@
     "snapActionInstallLabel": "インストール",
     "snapPageLicenseLabel": "ライセンス",
     "snapCategoryPhotoAndVideo": "写真とビデオ",
-    "snapPageConfinementLabel": "隔離",
+    "snapPageConfinementLabel": "パーミッション",
     "snapCategoryMusicAndAudio": "音楽とオーディオ",
     "aboutPageGitHubLabel": "GitHubリポジトリ",
     "packageFormatSnapLabel": "Snapパッケージ",
@@ -40,7 +40,7 @@
     "snapActionInstallingLabel": "インストール中",
     "searchFieldSearchHint": "アプリを検索",
     "snapCategoryFeatured": "おすすめ",
-    "managePageSearchFieldSearchHint": "インストールされているアプリを検索",
+    "managePageSearchFieldSearchHint": "インストール済みのアプリを検索",
     "snapActionCancelLabel": "キャンセル",
     "snapPagePublisherLabel": "パブリッシャー",
     "snapPageDescriptionLabel": "詳細",
@@ -76,7 +76,7 @@
     "snapReportOptionCopyrightViolation": "著作権または商標権違反",
     "snapReportEnterValidEmailError": "正しいメールアドレスを入力してください",
     "appCenterLabel": "アプリセンター",
-    "snapPageContactPublisherLabel": "{publisher} に連絡を取る",
+    "snapPageContactPublisherLabel": "{publisher}に連絡",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
             "publisher": {
@@ -84,10 +84,10 @@
             }
         }
     },
-    "snapPageDeveloperWebsiteLabel": "開発者のWebサイト",
+    "snapPageDeveloperWebsiteLabel": "開発者のウェブサイト",
     "snapPageDownloadSizeLabel": "ダウンロードサイズ",
-    "managePageInstalledAndUpdatedLabel": "インストールとアップデート",
-    "snapPagePublishedLabel": "リリース日",
+    "managePageInstalledAndUpdatedLabel": "インストール済みアプリ",
+    "snapPagePublishedLabel": "最終更新日",
     "managePageCheckingForUpdates": "アップデートを確認",
     "managePageNoUpdatesAvailableDescription": "アップデートはありません。すべてのアプリケーションは最新です。",
     "managePageShowDetailsLabel": "詳細を表示",
@@ -240,7 +240,7 @@
     "managePageQuitToUpdate": "アップデートを終了",
     "appstreamUrlTypeContribute": "貢献",
     "managePageDebUpdatesMessage": "Debianパッケージのアップデートはソフトウェアアップデートで管理されています。",
-    "snapActionInstalledLabel": "インストール済",
+    "snapActionInstalledLabel": "インストール済み",
     "localDebWarningTitle": "潜在的に安全ではない",
     "localDebDialogMessage": "このパッケージはサードパーティによって提供されており、システムと個人データを脅かすことになるかもしれません。",
     "snapPageSizeLabel": "サイズ",
@@ -277,7 +277,7 @@
     "errorViewServerErrorAction": "アップデートの状況を確認してやり直してください。",
     "errorViewUnknownErrorTitle": "何かがおかしいです",
     "errorViewUnknownErrorDescription": "どんなエラーが起きているのかよくわかっていません。",
-    "managePageTitle": "インストールしたsnapの管理",
+    "managePageTitle": "インストール済みのsnapの管理",
     "managePageDocumentationLinkLabel": "Debianパッケージの使い方についてはドキュメントを参照してください。",
     "managePageUpdatesFailed": "{n, plural, =1{1 個のアップデート} other{{n} 個のアップデート}}に失敗しました",
     "@managePageUpdatesFailed": {
@@ -319,7 +319,7 @@
             }
         }
     },
-    "managePageInstallingLabel": "インストール中 ({n})",
+    "managePageInstallingLabel": "({n}) 個目をインストール中",
     "@managePageInstallingLabel": {
         "placeholders": {
             "n": {
@@ -348,5 +348,51 @@
     "codecPageTitle": "メディアコーデックがありません",
     "codecPageDescription": "特定のビデオおよびオーディオ形式を扱うには、以下のコーデックをインストールする必要があります:",
     "codecProprietaryDisclaimer": "推奨されるコーデックにはプロプライエタリなものが含まれている可能性があります。",
-    "codecInstallAllButton": "推奨コーデックをインストール"
+    "codecInstallAllButton": "推奨コーデックをインストール",
+    "managePagePackageTypeLabel": "パッケージ種別",
+    "managePagePackageTypeAll": "すべて",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appUrlTypeContact": "{publisher}に連絡",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "開発者ウェブサイト",
+    "appConfinementUnknown": "不明",
+    "appConfinementStrict": "サンドボックス",
+    "appUrlTypeUnknown": "リンク",
+    "appLicenseUnknown": "不明",
+    "appPublishedUnknown": "不明",
+    "appMoreActionsSemanticLabel": "その他のアクション",
+    "appConfinementDevelopment": "デベロッパーモード",
+    "appConfinementClassic": "制限なし",
+    "appConfinementUnrestricted": "制限なし",
+    "snapActionRevertLabel": "アップデートを元に戻す",
+    "snapActionRevertingLabel": "アップデートを元に戻しています",
+    "snapRevertConfirmTitle": "以前のバージョンに戻しますか?",
+    "snapRevertConfirmMessage": "新しいバージョンが利用可能になったら自動更新が再開されます。",
+    "snapRevertConfirmRevert": "元に戻す",
+    "snapRevertConfirmCancel": "キャンセル",
+    "snapRevertConfirmTitleWithVersions": "{currentVersion} (rev {currentRevision}) から {previousVersion} (rev {previousRevision}) に戻しますか?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "元に戻すのに利用可能なローカルリビジョンがありません。"
 }
