@@ -91,7 +91,7 @@
         }
     },
     "snapRatingsBandInsufficientVotes": "Nedostatok hlasov",
-    "snapRatingsBandVeryPoor": "Veľmi zlé",
+    "snapRatingsBandVeryPoor": "Zlé",
     "managePageDescription": "Skontrolujte dostupné aktualizácie, aktualizujte svoje aplikácie a sledujte ich stav.",
     "snapActionRemovingLabel": "Odinštaluje sa",
     "snapSortOrderInstalledSizeDesc": "Veľkosti (najväčšie → najmenšie)",
@@ -174,7 +174,7 @@
     "snapCategoryGameEmulatorsSlogan": "Emulátory",
     "snapCategoryGnomeGames": "Hry GNOME",
     "snapCategoryKdeGames": "Hry KDE",
-    "snapCategoryKdeGamesSlogan": "Herná kolekcia KDE",
+    "snapCategoryKdeGamesSlogan": "Kolekcia hier KDE",
     "snapCategoryGameLaunchers": "Spúšťanie hier",
     "snapCategoryGameLaunchersSlogan": "Spúšťanie hier",
     "snapCategoryGameContentCreation": "Vytváranie obsahu",
@@ -211,7 +211,7 @@
     "snapCategoryGameDev": "Vývoj hier",
     "snapReportOptionCopyrightViolation": "Porušenie autorských práv alebo ochrannej známky",
     "snapReportOptionStoreViolation": "Porušenie zmluvných podmienok obchodu Snap Store",
-    "snapCategoryGnomeGamesSlogan": "Herná kolekcia GNOME",
+    "snapCategoryGnomeGamesSlogan": "Kolekcia hier GNOME",
     "externalResourcesDisclaimer": "Poznámka: Všetky tieto nástroje sú externé. Nie sú vo vlastníctve ani spravované spoločnosťou Canonical.",
     "managePageUpdatedMonthsAgo": "Upravené pred {n, plural, =1{{n} mesiacom} other{{n} mesiacmi}}",
     "@managePageUpdatedMonthsAgo": {
