@@ -1,36 +1,36 @@
 {
-    "managePageInstalledAndUpdatedLabel": "Εγκαταστάθηκε και ενημερώθηκε",
-    "searchPageNoResultsCategory": "Συγνώμη,δεν μπορούσαμε να βρούμε κανένα πακέτο σε αυτή την κατηγορία",
-    "snapCategoryGnomeGames": "Gnome Παιχνίδια",
+    "managePageInstalledAndUpdatedLabel": "Εγκατεστημένες εφαρμογές",
+    "searchPageNoResultsCategory": "Λυπούμαστε, δεν βρέθηκαν πακέτα σε αυτήν την κατηγορία",
+    "snapCategoryGnomeGames": "Παιχνίδια GNOME",
     "searchFieldDebSection": "Πακέτα Debian",
-    "snapCategoryKdeGames": "KDE Παιχνίδια",
+    "snapCategoryKdeGames": "Παιχνίδια KDE",
     "managePageCheckForUpdates": "Έλεγχος για ενημερώσεις",
-    "gamesPageTitle": "Τι νέο υπάρχει",
-    "snapRatingsBandNeutral": "Ουδέτερο",
+    "gamesPageTitle": "Παιχνίδια",
+    "snapRatingsBandNeutral": "Ουδέτερη",
     "snapConfinementDevmode": "Λειτουργία Προγραμματιστή",
-    "managePageDocumentationLinkLabel": "Μάθετε πως κάνετε διαχείριση πακέτων Debian στις οδηγίες.",
+    "managePageDocumentationLinkLabel": "Μάθετε μέσα από την τεκμηρίωση πώς να διαχειρίζεστε τα πακέτα Debian.",
     "developmentPageLabel": "Ανάπτυξη",
     "gamesPageLabel": "Παιχνίδια",
-    "searchFieldSnapSection": "Snap Πακέτα",
-    "searchPageFilterByLabel": "Φίλτρο από",
-    "aboutPageContributorTitle": "Σχεδιασμένο και αναπτυγμένο από:",
+    "searchFieldSnapSection": "Πακέτα snap",
+    "searchPageFilterByLabel": "Φιλτράρισμα κατά",
+    "aboutPageContributorTitle": "Σχεδιασμός και ανάπτυξη:",
     "aboutPageCommunityTitle": "Γίνετε μέλος της κοινότητας:",
     "aboutPageGitHubLabel": "Βρείτε μας στο GitHub",
-    "aboutPagePublishLabel": "Δημοσίευση στο Κατάστημά Snap",
+    "aboutPagePublishLabel": "Δημοσίευση στο Κέντρο πακέτων snap",
     "aboutPageLearnMoreLabel": "Μάθετε περισσότερα",
     "appstreamUrlTypeContact": "Επικοινωνία",
     "appstreamUrlTypeDonation": "Δωρεά",
     "appstreamUrlTypeVcsBrowser": "Πηγή",
     "appstreamUrlTypeHelp": "Βοήθεια",
     "packageFormatDebLabel": "Πακέτα Debian",
-    "packageFormatSnapLabel": "Snap πακέτα",
+    "packageFormatSnapLabel": "Πακέτα snap",
     "appstreamUrlTypeHomepage": "Αρχική σελίδα",
     "appstreamUrlTypeTranslate": "Μεταφράσεις",
     "snapActionCancelLabel": "Ακύρωση",
     "snapActionInstallLabel": "Εγκατάσταση",
     "snapActionInstalledLabel": "Εγκατεστημένο",
     "snapActionInstallingLabel": "Γίνεται εγκατάσταση",
-    "snapActionOpenLabel": "Ανοιχτό",
+    "snapActionOpenLabel": "Άνοιγμα",
     "snapActionRemoveLabel": "Απεγκατάσταση",
     "snapActionRemovingLabel": "Γίνεται απεγκατάσταση",
     "snapActionSwitchChannelLabel": "Αλλαγή καναλιού",
@@ -38,27 +38,27 @@
     "snapActionUpdatingLabel": "Γίνεται ενημέρωση",
     "snapCategoryArtAndDesign": "Τέχνη και Σχεδίαση",
     "snapCategoryAll": "Όλες οι κατηγορίες",
-    "snapCategoryDevelopment": "Ανάπτυξη",
+    "snapCategoryDevelopment": "Ανάπτυξη λογισμικού",
     "snapCategoryFinance": "Οικονομικά",
     "snapCategoryGames": "Παιχνίδια",
-    "snapCategoryGamesSlogan": "Όλα για την νύχτα gaming",
-    "snapCategoryMusicAndAudio": "Μουσική και ήχος",
+    "snapCategoryGamesSlogan": "Όλα για τη βραδιά παιχνιδιού σας",
+    "snapCategoryMusicAndAudio": "Μουσική και Ήχος",
     "snapCategoryNewsAndWeather": "Ειδήσεις και Καιρός",
     "snapCategoryPhotoAndVideo": "Φωτογραφία και Βίντεο",
-    "snapCategoryProductivity": "Παραγωγή",
-    "snapCategoryProductivityButtonLabel": "Ανακαλύψτε την παραγωγή συλλογής",
+    "snapCategoryProductivity": "Παραγωγικότητα",
+    "snapCategoryProductivityButtonLabel": "Ανακαλύψτε τη συλλογή εφαρμογών παραγωγικότητας",
     "snapCategoryScience": "Επιστήμη",
-    "snapCategoryUbuntuDesktop": "Ubuntu Επιφάνεια Εργασίας",
-    "snapCategoryServerAndCloud": "Διακομιστές και Cloud",
+    "snapCategoryUbuntuDesktop": "Επιφάνεια εργασίας Ubuntu",
+    "snapCategoryServerAndCloud": "Διακομιστές και Σύννεφο",
     "snapCategorySecurity": "Ασφάλεια",
-    "snapCategoryUbuntuDesktopSlogan": "Ξεκινήστε",
+    "snapCategoryUbuntuDesktopSlogan": "Δώστε ώθηση στην επιφάνεια εργασίας σας",
     "snapConfinementClassic": "Κλασσικό",
-    "snapRatingsBandVeryPoor": "Πολύ φτωχό",
-    "snapReportSelectReportReasonLabel": "Διαλέξτε έναν λόγο γιατί κάνετε αναφορά αυτό το snap",
+    "snapRatingsBandVeryPoor": "Πολύ κακή",
+    "snapReportSelectReportReasonLabel": "Επιλέξτε έναν λόγο για την αναφορά αυτού του «snap»",
     "snapReportSelectAnOptionLabel": "Επιλέξτε μια επιλογή",
     "appCenterLabel": "Κέντρο Εφαρμογών",
     "snapPageChannelLabel": "Κανάλι",
-    "snapPageContactPublisherLabel": "Επαφή",
+    "snapPageContactPublisherLabel": "Επικοινωνία με {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
             "publisher": {
@@ -74,42 +74,42 @@
     "snapPageLicenseLabel": "Άδεια",
     "snapPageLinksLabel": "Σύνδεσμοι",
     "snapPagePublisherLabel": "Εκδότης",
-    "snapPagePublishedLabel": "Δημοσιευμένο",
+    "snapPagePublishedLabel": "Τελευταία ενημέρωση",
     "snapPageSummaryLabel": "Περίληψη",
     "snapPageVersionLabel": "Έκδοση",
-    "snapPageShareLinkCopiedMessage": "Αντιγράφτηκε",
+    "snapPageShareLinkCopiedMessage": "Ο σύνδεσμος αντιγράφηκε στο πρόχειρο",
     "explorePageLabel": "Εξερεύνηση",
     "explorePageCategoriesLabel": "Κατηγορίες",
-    "managePageOwnUpdateAvailable": "Υπάρχει διαθέσιμη ενημέρωση",
-    "snapCategoryGameDev": "Ανάπτυξη Παιχνιδιού",
-    "snapCategoryHealthAndFitness": "Υγεία και Fitness",
-    "managePageCheckingForUpdates": "Ελέγχω για ενημερώσεις",
+    "managePageOwnUpdateAvailable": "Διαθέσιμη ενημέρωση του Κέντρου Εφαρμογών",
+    "snapCategoryGameDev": "Ανάπτυξη παιχνιδιών",
+    "snapCategoryHealthAndFitness": "Υγεία και Φυσική κατάσταση",
+    "managePageCheckingForUpdates": "Γίνεται έλεγχος για ενημερώσεις",
     "managePageLabel": "Διαχείριση",
-    "managePageTitle": "Διαχείριση εγκατεστημένων εφαρμογών",
-    "managePageNoUpdatesAvailableDescription": "Δεν υπάρχουν διαθέσιμες ενημερώσεις.Οι εφαρμογές σας είναι ενημερωμένες.",
-    "managePageSearchFieldSearchHint": "Αναζήτηση Εφαρμογών",
-    "managePageUpdateAllLabel": "Ενημέρωση Όλων",
-    "gamesPageTop": "Υψηλή Βαθμολογία",
-    "gamesPageBundles": "Πακέτα εφαρμογών",
+    "managePageTitle": "Διαχείριση εγκατεστημένων πακέτων snap",
+    "managePageNoUpdatesAvailableDescription": "Δεν υπάρχουν διαθέσιμες ενημερώσεις. Οι εφαρμογές σας είναι ενημερωμένες.",
+    "managePageSearchFieldSearchHint": "Αναζήτηση στις εγκατεστημένες εφαρμογές",
+    "managePageUpdateAllLabel": "Ενημέρωση όλων",
+    "gamesPageTop": "Με την υψηλότερη βαθμολογία",
+    "gamesPageBundles": "Ομάδες εφαρμογών",
     "unknownPublisher": "Άγνωστος εκδότης",
     "searchFieldSearchHint": "Αναζήτηση για εφαρμογές",
-    "searchPageNoResultsCategoryHint": "Δοκιμάστε μια διαφορετική κατηγορία η πιο πολλές γενικές λέξεις",
+    "searchPageNoResultsCategoryHint": "Δοκιμάστε μια άλλη κατηγορία ή χρησιμοποιήστε πιο γενικές λέξεις-κλειδιά",
     "aboutPageLabel": "Σχετικά",
     "snapCategoryDefaultButtonLabel": "Ανακαλύψτε κι άλλα",
-    "snapCategoryDevicesAndIot": "Συσκευές και IoT",
+    "snapCategoryDevicesAndIot": "Συσκευές και ΔτΠ (IoT)",
     "snapCategoryEducation": "Εκπαίδευση",
     "snapCategoryEntertainment": "Ψυχαγωγία",
-    "snapCategoryGameEmulators": "Προσομοιωτές",
-    "snapCategoryGameEmulatorsSlogan": "Προσομοιωτές",
-    "snapCategoryGnomeGamesSlogan": "Gnome Σουίτα Παιχνιδιών",
-    "snapCategoryKdeGamesSlogan": "KDE Σουίτα Παιχνιδιών",
-    "snapCategoryGameLaunchers": "Εκκινητής Παιχνιδιών",
-    "snapCategoryGameLaunchersSlogan": "Εκκινητής Παιχνιδιών",
-    "snapCategoryGameContentCreation": "Δημιουργία Περιεχομένου",
-    "snapCategoryGameContentCreationSlogan": "Δημιουργία Περιεχομένου",
-    "snapRatingsBandVeryGood": "Πολύ καλά",
-    "snapRatingsBandGood": "Καλά",
-    "snapRatingsBandPoor": "Φτωχό",
+    "snapCategoryGameEmulators": "Εξομοιωτές",
+    "snapCategoryGameEmulatorsSlogan": "Εξομοιωτές",
+    "snapCategoryGnomeGamesSlogan": "Σουίτα παιχνιδιών GNOME",
+    "snapCategoryKdeGamesSlogan": "Σουίτα Παιχνιδιών KDE",
+    "snapCategoryGameLaunchers": "Εκκινητές παιχνιδιών",
+    "snapCategoryGameLaunchersSlogan": "Εκκινητές παιχνιδιών",
+    "snapCategoryGameContentCreation": "Δημιουργία περιεχομένου",
+    "snapCategoryGameContentCreationSlogan": "Δημιουργία περιεχομένου",
+    "snapRatingsBandVeryGood": "Πολύ καλή",
+    "snapRatingsBandGood": "Καλή",
+    "snapRatingsBandPoor": "Κακή",
     "snapCategoryArtAndDesignButtonLabel": "Ξεκινήστε να δημιουργείτε",
     "snapReportLabel": "Αναφορά {snapName}",
     "@snapReportLabel": {
@@ -119,28 +119,28 @@
             }
         }
     },
-    "snapReportOptionalEmailAddressLabel": "Το email σας (προαιρετικό)",
-    "debPageDocumentationLinkLabel": "Μάθετε περισσότερα σχετικά με τα πακέτα Debian",
-    "errorViewNetworkErrorTitle": "Συνδεθείτε στο διαδίκτυο",
-    "errorViewServerErrorAction": "Ελέγξτε την κατάσταση για ενημερώσεις η προσπαθήστε ξανά.",
+    "snapReportOptionalEmailAddressLabel": "Η ηλεκτρονική σας διεύθυνση (προαιρετικό)",
+    "debPageDocumentationLinkLabel": "Μάθετε για τη διαχείριση πακέτων Debian",
+    "errorViewNetworkErrorTitle": "Σύνδεση στο διαδίκτυο",
+    "errorViewServerErrorAction": "Ελέγξτε την κατάσταση για ενημερώσεις ή δοκιμάστε ξανά αργότερα.",
     "errorViewUnknownErrorTitle": "Κάτι πήγε στραβά",
-    "errorViewUnknownErrorDescription": "Συγνώμη,δεν είμαστε σίγουροι ποιο είναι το λάθος.",
+    "errorViewUnknownErrorDescription": "Λυπούμαστε, αλλά δεν είμαστε σίγουροι για το ποιο είναι το σφάλμα.",
     "managePageQuitToUpdate": "Κλείσιμο για ενημέρωση",
-    "managePageOwnUpdateDescription": "Όταν κλείσετε την εφαρμογή θα ενημερωθεί αυτόματα.",
+    "managePageOwnUpdateDescription": "Όταν κλείσετε την εφαρμογή, θα ενημερωθεί αυτόματα.",
     "managePageOwnUpdateQuitButton": "Κλείσιμο για ενημέρωση",
-    "snapCategoryGameDevSlogan": "Ανάπτυξη Παιχνιδιών",
+    "snapCategoryGameDevSlogan": "Ανάπτυξη παιχνιδιών",
     "snapReportCancelButtonLabel": "Ακύρωση",
-    "snapReportSubmitButtonLabel": "Στείλτε αναφορά",
-    "snapReportEnterValidEmailError": "Εισάγετε μια έγκυρη διεύθυνση email",
+    "snapReportSubmitButtonLabel": "Αποστολή αναφοράς",
+    "snapReportEnterValidEmailError": "Εισαγάγετε μια έγκυρη διεύθυνση ηλεκτρονικής αλληλογραφίας",
     "snapReportPrivacyAgreementPrivacyPolicy": "Πολιτική Απορρήτου",
     "externalResources": "Περισσότερες πηγές",
     "externalResourcesButtonLabel": "Ανακαλύψτε κι άλλα",
     "allGamesButtonLabel": "Όλα τα παιχνίδια",
-    "localDebWarningTitle": "Πιθανός μη ασφαλή",
-    "openInBrowser": "Άνοιγμα στον browser",
+    "localDebWarningTitle": "Πιθανώς μη ασφαλές",
+    "openInBrowser": "Άνοιγμα στο πρόγραμμα περιήγησης",
     "installAll": "Εγκατάσταση όλων",
-    "errorViewUnknownErrorAction": "Μπορείτε να δοκιμάσετε ξανά τώρα,ελέγξτε την κατάσταση των ενημερώσεων η προσπαθήστε ξανά.",
-    "snapdExceptionRunningApps": "Δεν μπορούσαμε να ενημερώσουμε το {snapName} επειδή τρέχει ήδη.",
+    "errorViewUnknownErrorAction": "Μπορείτε να δοκιμάσετε ξανά τώρα, να ελέγξετε την κατάσταση για ενημερώσεις ή να δοκιμάσετε ξανά αργότερα.",
+    "snapdExceptionRunningApps": "Δεν μπορέσαμε να ενημερώσουμε το {snapName} επειδή εκτελείται αυτήν τη στιγμή.",
     "@snapdExceptionRunningApps": {
         "placeholders": {
             "snapName": {
@@ -149,11 +149,11 @@
         }
     },
     "snapCategoryUtilities": "Εργαλεία",
-    "errorViewCheckStatusLabel": "Ελέγξετε κατάσταση",
-    "errorViewServerErrorDescription": "Συγνώμη,αντιμετωπίζουμε προβλήματα στο Κέντρο Λογισμικού.",
-    "localDebDialogConfirmation": "Είσαι σίγουρος ότι θέλεις να το εγκαταστήσεις?",
-    "snapCategoryFeaturedSlogan": "Προτεινόμενα Snaps",
-    "aboutPageContributeLabel": "Συνεισφέρετε η κάντε αναφορά λάθος",
+    "errorViewCheckStatusLabel": "Έλεγχος κατάστασης",
+    "errorViewServerErrorDescription": "Λυπούμαστε, αυτή τη στιγμή αντιμετωπίζουμε προβλήματα με το Κέντρο Εφαρμογών.",
+    "localDebDialogConfirmation": "Είστε βέβαιοι ότι θέλετε να το εγκαταστήσετε;",
+    "snapCategoryFeaturedSlogan": "Προτεινόμενα πακέτα «snap»",
+    "aboutPageContributeLabel": "Συνεισφορά ή αναφορά σφάλματος",
     "aboutPageVersionLabel": "Έκδοση {version}",
     "@aboutPageVersionLabel": {
         "placeholders": {
@@ -162,9 +162,9 @@
             }
         }
     },
-    "managePageShowDetailsLabel": "Δείξε λεπτομέριες",
-    "managePageShowSystemSnapsLabel": "Δείξε snap πακέτα",
-    "managePageUpdatesAvailable": "Υπάρχουν ενημερώσεις {n}",
+    "managePageShowDetailsLabel": "Εμφάνιση λεπτομερειών",
+    "managePageShowSystemSnapsLabel": "Εμφάνιση πακέτων snap συστήματος",
+    "managePageUpdatesAvailable": "Διαθέσιμες ενημερώσεις ({n})",
     "@managePageUpdatesAvailable": {
         "placeholders": {
             "n": {
@@ -172,17 +172,17 @@
             }
         }
     },
-    "snapCategoryFeatured": "Προτείνεται",
+    "snapCategoryFeatured": "Προτεινόμενα",
     "appstreamUrlTypeContribute": "Συνεισφέρετε",
-    "gamesPageFeatured": "Προτεινόμενοι Τίτλοι",
-    "productivityPageLabel": "Ανάπτυξη",
-    "searchPageNoResultsHint": "Δοκιμάστε διαφορετικές η περισσότερες γενικές λέξεις",
-    "errorViewNetworkErrorDescription": "Δεν μπορούμε να φορτώσουμε το περιεχόμενο στο Κέντρο Λογισμικού χωρίς σύνδεση στο διαδίκτυο.",
-    "errorViewNetworkErrorAction": "Ελέγξτε την σύνδεση σας και προσπαθήστε ξανά.",
-    "externalResourcesDisclaimer": "Σημείωση: Αυτά είναι εξωτερικά εργαλεία.Αυτά δεν ανήκουν η δεν διανέμονται από την Canonical.",
+    "gamesPageFeatured": "Προτεινόμενοι τίτλοι",
+    "productivityPageLabel": "Παραγωγικότητα",
+    "searchPageNoResultsHint": "Δοκιμάστε διαφορετικές ή πιο γενικές λέξεις-κλειδιά",
+    "errorViewNetworkErrorDescription": "Δεν είναι δυνατή η φόρτωση περιεχομένου του Κέντρου Εφαρμογών χωρίς σύνδεση στο διαδίκτυο.",
+    "errorViewNetworkErrorAction": "Ελέγξτε την σύνδεσή σας και προσπαθήστε ξανά.",
+    "externalResourcesDisclaimer": "Σημείωση: Αυτά είναι εξωτερικά εργαλεία. Δεν ανήκουν ούτε διανέμονται από την Canonical.",
     "snapPageGalleryNextSemanticLabel": "Επόμενη εικόνα",
     "snapPageGalleryPreviousSemanticLabel": "Προηγούμενη εικόνα",
-    "snapPageGalleryImageSemanticLabel": "Εικόνα{n}",
+    "snapPageGalleryImageSemanticLabel": "Εικόνα {n}",
     "@snapPageGalleryImageSemanticLabel": {
         "placeholders": {
             "n": {
@@ -192,7 +192,7 @@
     },
     "snapPageShareSemanticLabel": "Αντιγραφή συνδέσμου",
     "snapPageReportSemanticLabel": "Αναφορά",
-    "sectionExpandSemanticLabel": "Ανάπτυξή{section}",
+    "sectionExpandSemanticLabel": "Ανάπτυξη: {section}",
     "@sectionExpandSemanticLabel": {
         "placeholders": {
             "section": {
@@ -200,7 +200,7 @@
             }
         }
     },
-    "sectionCollapseSemanticLabel": "Κατάρευση{section}",
+    "sectionCollapseSemanticLabel": "Σύμπτυξη: {section}",
     "@sectionCollapseSemanticLabel": {
         "placeholders": {
             "section": {
@@ -208,12 +208,187 @@
             }
         }
     },
-    "managePageInstallingLabel": "Γίνεται Εγκατάστασή{n}",
+    "managePageInstallingLabel": "Γίνεται εγκατάσταση ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
             "n": {
                 "type": "int"
             }
         }
-    }
+    },
+    "appstreamSearchGreylist": "εφαρμογή;αππ;πακέτο;πρόγραμμα;προγραμμα;εφαρμογη;άππ;σουιτα;σουΐτα;σουϊτα;εργαλείο;λογισμικό;λογισμικο",
+    "snapPageConfinementLabel": "Δικαιώματα",
+    "managePageNoInternet": "Αδυναμία σύνδεσης στον διακομιστή. Ελέγξτε τη σύνδεσή σας στο διαδίκτυο ή δοκιμάστε ξανά αργότερα.",
+    "managePageDescription": "Ελέγξτε για διαθέσιμες ενημερώσεις, ενημερώστε τις εφαρμογές σας και διαχειριστείτε την κατάσταση όλων των εφαρμογών σας.",
+    "managePageDebUpdatesMessage": "Η διαχείριση των ενημερώσεων πακέτων Debian γίνεται από την Ενημέρωση λογισμικού.",
+    "managePagePackageTypeLabel": "Τύπος πακέτου",
+    "managePagePackageTypeAll": "Όλα",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "managePageUpdatedDaysAgo": "Ενημερώθηκε πριν από {n, plural, =1{{n} ημέρα} other{{n} ημέρες}}",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "Ενημερώθηκε πριν από {n, plural, =1{{n} εβδομάδα} other{{n} εβδομάδες}}",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "Ενημερώθηκε πριν από {n, plural, =1{{n} μήνα} other{{n} μήνες}}",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Ενημερώθηκε πριν από {n, plural, =1{{n} έτος} other{{n} έτη}}",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{Απέτυχε μία ενημέρωση} other{Απέτυχαν {n} ενημερώσεις}}",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "Δεν ήταν δυνατή η ενημέρωση αυτών των εφαρμογών επειδή εκτελούνται αυτήν τη στιγμή.\n\n{snapList}\nΌταν τερματίσετε τις εφαρμογές, θα ενημερωθούν αυτόματα.",
+    "searchFieldSearchForLabel": "Εμφάνιση όλων των αποτελεσμάτων για \"{query}\"",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResults": "Δεν βρέθηκαν αποτελέσματα για \"{query}\"",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageSortByLabel": "Ταξινόμηση κατά",
+    "searchPageRelevanceLabel": "Συνάφεια",
+    "searchPageTitle": "Αποτελέσματα για \"{query}\"",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeContact": "Επικοινωνία με τον εκδότη {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Ιστότοπος προγραμματιστή",
+    "appUrlTypeUnknown": "Σύνδεσμος",
+    "appConfinementUnknown": "Άγνωστο",
+    "appConfinementStrict": "Απομονωμένο",
+    "appConfinementDevelopment": "Λειτουργία προγραμματιστή",
+    "appConfinementClassic": "Χωρίς περιορισμούς",
+    "appConfinementUnrestricted": "Χωρίς περιορισμούς",
+    "appLicenseUnknown": "Άγνωστο",
+    "appPublishedUnknown": "Άγνωστο",
+    "appMoreActionsSemanticLabel": "Περισσότερες ενέργειες",
+    "snapActionRevertLabel": "Επαναφορά ενημέρωσης",
+    "snapActionRevertingLabel": "Γίνεται επαναφορά ενημέρωσης",
+    "snapRevertConfirmTitle": "Επαναφορά στην προηγούμενη έκδοση;",
+    "snapRevertConfirmMessage": "Οι αυτόματες ενημερώσεις θα συνεχιστούν όταν μια νέα έκδοση είναι διαθέσιμη.",
+    "snapRevertConfirmRevert": "Αναίρεση",
+    "snapRevertConfirmCancel": "Ακύρωση",
+    "snapRevertConfirmTitleWithVersions": "Επαναφορά από την έκδοση {currentVersion} (αναθ. {currentRevision}) στην έκδοση {previousVersion} (αναθ. {previousRevision});",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "Δεν υπάρχει διαθέσιμη προηγούμενη τοπική αναθεώρηση για επαναφορά.",
+    "appCardPublisherSemanticLabel": "Δημοσιεύτηκε από {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Βαθμολογία {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryArtAndDesignSlogan": "Από το πρώτο σας σκίτσο μέχρι την τελική πινελιά, εξερευνήστε εφαρμογές για τέχνη και σχεδιασμό.",
+    "snapCategoryBooksAndReference": "Βιβλία και Αναφορά",
+    "snapCategoryDevelopmentSlogan": "Απαραίτητα πακέτα «snap» για προγραμματιστές",
+    "snapCategoryPersonalisation": "Εξατομίκευση",
+    "snapCategoryProductivitySlogan": "Διαγράψτε μια εκκρεμότητα από τη λίστα σας",
+    "snapCategorySocial": "Κοινωνικά δίκτυα",
+    "snapSortOrderAlphabeticalAsc": "Αλφαβητική σειρά (Α έως Ω)",
+    "snapSortOrderAlphabeticalDesc": "Αλφαβητική σειρά (Ω έως Α)",
+    "snapSortOrderDownloadSizeAsc": "Μέγεθος (Από το μικρότερο στο μεγαλύτερο)",
+    "snapSortOrderDownloadSizeDesc": "Μέγεθος (Από το μεγαλύτερο στο μικρότερο)",
+    "snapSortOrderInstalledSizeAsc": "Μέγεθος (Από το μικρότερο στο μεγαλύτερο)",
+    "snapSortOrderInstalledSizeDesc": "Μέγεθος (Από το μεγαλύτερο στο μικρότερο)",
+    "snapSortOrderInstalledDateAsc": "Ενημερώθηκαν πιο παλιά",
+    "snapSortOrderInstalledDateDesc": "Ενημερώθηκαν πιο πρόσφατα",
+    "snapSortOrderRelevance": "Συνάφεια",
+    "snapRatingsBandInsufficientVotes": "Ανεπαρκείς ψήφοι",
+    "snapRatingsVotes": "{n} ψήφοι",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportOptionCopyrightViolation": "Παραβίαση πνευματικών δικαιωμάτων ή εμπορικού σήματος",
+    "snapReportOptionStoreViolation": "Παραβίαση των όρων παροχής υπηρεσιών του Κέντρου πακέτων «snap»",
+    "snapReportDetailsLabel": "Παρακαλούμε δώστε μια πιο λεπτομερή αιτιολογία για την αναφορά σας",
+    "snapReportDetailsHint": "Σχολιασμός…",
+    "snapReportPrivacyAgreementLabel": "Με την υποβολή αυτής της φόρμας, επιβεβαιώνω ότι έχω διαβάσει και συμφωνώ με ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Ειδοποίηση Απορρήτου της Canonical ",
+    "snapReportPrivacyAgreementAndLabel": "και ",
+    "debPageErrorNoPackageInfo": "Δεν βρέθηκαν πληροφορίες πακέτου",
+    "debPageShareLinkCopiedMessage": "Ο σύνδεσμος αντιγράφηκε στο πρόχειρο",
+    "debPageShareSemanticLabel": "Αντιγραφή συνδέσμου",
+    "localDebWarningBody": "Αυτό το πακέτο παρέχεται από άλλη πηγή. Η εγκατάσταση πακέτων εκτός του Κέντρου Εφαρμογών μπορεί να αυξήσει τον κίνδυνο για το σύστημά σας και τα προσωπικά σας δεδομένα. Βεβαιωθείτε ότι εμπιστεύεστε την πηγή πριν προχωρήσετε.",
+    "localDebLearnMore": "Μάθετε περισσότερα για τα πακέτα από πηγή τρίτων",
+    "localDebDialogMessage": "Αυτό το πακέτο παρέχεται από πηγή τρίτων και ενδέχεται να απειλήσει το σύστημά σας και τα προσωπικά σας δεδομένα.",
+    "codecPageTitle": "Λείπουν κωδικοποιητές πολυμέσων (media codecs)",
+    "codecPageDescription": "Πρέπει να εγκαταστήσετε τους ακόλουθους κωδικοποιητές (codecs) για τον χειρισμό ορισμένων μορφών βίντεο και ήχου:",
+    "codecProprietaryDisclaimer": "Ορισμένοι από τους προτεινόμενους κωδικοποιητές ενδέχεται να είναι ιδιοταγείς (proprietary).",
+    "codecInstallAllButton": "Εγκατάσταση προτεινόμενων κωδικοποιητών"
 }
