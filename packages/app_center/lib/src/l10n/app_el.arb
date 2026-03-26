@@ -314,7 +314,7 @@
     "snapActionRevertingLabel": "Γίνεται επαναφορά ενημέρωσης",
     "snapRevertConfirmTitle": "Επαναφορά στην προηγούμενη έκδοση;",
     "snapRevertConfirmMessage": "Οι αυτόματες ενημερώσεις θα συνεχιστούν όταν μια νέα έκδοση είναι διαθέσιμη.",
-    "snapRevertConfirmRevert": "Αναίρεση",
+    "snapRevertConfirmRevert": "Αναίρεση αλλαγών",
     "snapRevertConfirmCancel": "Ακύρωση",
     "snapRevertConfirmTitleWithVersions": "Επαναφορά από την έκδοση {currentVersion} (αναθ. {currentRevision}) στην έκδοση {previousVersion} (αναθ. {previousRevision});",
     "@snapRevertConfirmTitleWithVersions": {
