@@ -18,7 +18,7 @@
     "snapPageLicenseLabel": "Litsents",
     "snapPageLinksLabel": "Lingid",
     "snapPagePublisherLabel": "Väljaandja",
-    "snapPagePublishedLabel": "Avaldatud",
+    "snapPagePublishedLabel": "Viimati uuendatud",
     "snapPageSummaryLabel": "Kokkuvõte",
     "snapPageVersionLabel": "Versioon",
     "snapPageShareLinkCopiedMessage": "Link on kopeeritud lõikelauale",
@@ -49,12 +49,12 @@
         }
     },
     "managePageLabel": "Halda",
-    "managePageSearchFieldSearchHint": "Otsi oma paigaldatud rakendusi",
+    "managePageSearchFieldSearchHint": "Otsi paigaldatud rakendusi",
     "appstreamUrlTypeHomepage": "Koduleht",
     "snapActionInstalledLabel": "Paigaldatud",
     "searchFieldSnapSection": "Snapi paketid",
     "appstreamUrlTypeBugtracker": "Veahaldus",
-    "managePageInstalledAndUpdatedLabel": "Paigaldatud ja uuendatud",
+    "managePageInstalledAndUpdatedLabel": "Paigaldatud rakendused",
     "snapActionUpdatingLabel": "Uuendamisel",
     "searchFieldSearchForLabel": "Vaata kõiki „{query}“ otsingu vastuseid",
     "@searchFieldSearchForLabel": {
@@ -163,7 +163,7 @@
         }
     },
     "searchPageNoResultsHint": "Palun muuda otsingusõna üldisemaks või proovi otsida muid sõnu",
-    "snapPageConfinementLabel": "Eraldatud konteiner",
+    "snapPageConfinementLabel": "Õigused",
     "searchPageNoResultsCategoryHint": "Palun muuda otsingusõna üldisemaks või proovi otsida muust kategooriast",
     "searchPageSortByLabel": "Järjestus",
     "searchPageRelevanceLabel": "Teemakohasus",
@@ -389,5 +389,17 @@
         }
     },
     "appUrlTypeHomepage": "Arendaja veebisait",
-    "appUrlTypeUnknown": "Link"
+    "appUrlTypeUnknown": "Link",
+    "managePagePackageTypeLabel": "Paketi tüüp",
+    "managePagePackageTypeAll": "Kõik",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appConfinementUnknown": "Pole teada",
+    "appConfinementStrict": "Aedikkäituses",
+    "appConfinementClassic": "Piiranguteta",
+    "appConfinementUnrestricted": "Piiranguteta",
+    "appLicenseUnknown": "Pole teada",
+    "appPublishedUnknown": "Pole teada",
+    "appMoreActionsSemanticLabel": "Täiendavad tegevused",
+    "appConfinementDevelopment": "Arendusrežiimis"
 }
