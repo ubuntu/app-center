@@ -63,7 +63,7 @@
     "snapSortOrderDownloadSizeAsc": "Mida (de més petit a més gran)",
     "snapSortOrderInstalledSizeAsc": "Mida (de més petit a més gran)",
     "snapSortOrderInstalledSizeDesc": "Mida (de més gran a més petit)",
-    "snapSortOrderInstalledDateAsc": "El més recent",
+    "snapSortOrderInstalledDateAsc": "El menys recent",
     "snapSortOrderInstalledDateDesc": "El més recentment actualitzat",
     "snapRatingsBandNeutral": "Neutral",
     "snapRatingsBandPoor": "Pobre",
