@@ -2,7 +2,7 @@
     "appCenterLabel": "Aplikazioen zentroa",
     "appstreamSearchGreylist": "app;aplikazioak;aplikazio;pakete;paketeak;programa;programak;softwarea;tresna;tresnak",
     "snapPageChannelLabel": "Kanala",
-    "snapPageConfinementLabel": "Konfinamendua",
+    "snapPageConfinementLabel": "Baimenak",
     "snapPageContactPublisherLabel": "Kontaktatu {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
@@ -27,7 +27,7 @@
     "snapPageLicenseLabel": "Lizentzia",
     "snapPageLinksLabel": "Estekak",
     "snapPagePublisherLabel": "Argitaratzailea",
-    "snapPagePublishedLabel": "Argitaratua",
+    "snapPagePublishedLabel": "Azken aldaketa",
     "snapPageSummaryLabel": "Laburpena",
     "snapPageVersionLabel": "Bertsioa",
     "snapPageShareLinkCopiedMessage": "Esteka arbelera kopiatu da",
@@ -60,7 +60,7 @@
     "managePageNoInternet": "Ezin izan da zerbitzaria atzitu, egiaztatu Internetera konexioa eta saiatu berriz geroago.",
     "managePageDescription": "Bilatu eguneratze erabilgarriak, eguneratu aplikazioak eta kudeatu aplikazio guztien egoera.",
     "managePageDebUpdatesMessage": "Debian paketeen eguneratzeak Software eguneratzailearekin kudeatzen dira.",
-    "managePageInstalledAndUpdatedLabel": "Instalatua eta egunean",
+    "managePageInstalledAndUpdatedLabel": "Instalatutako aplikazioak",
     "managePageInstallingLabel": "Instalatzen ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -379,5 +379,17 @@
         }
     },
     "appUrlTypeHomepage": "Garatzailearen webgunea",
-    "appUrlTypeUnknown": "Esteka"
+    "appUrlTypeUnknown": "Esteka",
+    "managePagePackageTypeLabel": "Pakete mota",
+    "managePagePackageTypeAll": "Denak",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appConfinementUnknown": "Ezezaguna",
+    "appConfinementStrict": "Isolatua",
+    "appConfinementDevelopment": "Garapen modua",
+    "appConfinementClassic": "Murrizpen gabea",
+    "appConfinementUnrestricted": "Murrizpen gabea",
+    "appLicenseUnknown": "Ezezaguna",
+    "appPublishedUnknown": "Ezezaguna",
+    "appMoreActionsSemanticLabel": "Ekintza gehiago"
 }
