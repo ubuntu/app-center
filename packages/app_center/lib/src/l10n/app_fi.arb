@@ -33,7 +33,7 @@
     "snapActionInstallLabel": "Asenna",
     "snapPageLicenseLabel": "Lisenssi",
     "snapCategoryPhotoAndVideo": "Kuva ja video",
-    "snapPageConfinementLabel": "Eristys",
+    "snapPageConfinementLabel": "Oikeudet",
     "snapCategoryMusicAndAudio": "Musiikki ja ääni",
     "aboutPageGitHubLabel": "Löydät meidät GitHubista",
     "packageFormatSnapLabel": "Snap-paketit",
@@ -63,7 +63,7 @@
     "managePageShowDetailsLabel": "Näytä tiedot",
     "snapPageDownloadSizeLabel": "Latauksen koko",
     "snapCategoryProductivityButtonLabel": "Tutustu tuottavuuskokoelmaan",
-    "snapPagePublishedLabel": "Julkaistu",
+    "snapPagePublishedLabel": "Viimeksi päivitetty",
     "aboutPageLearnMoreLabel": "Lue lisää",
     "snapRatingsBandNeutral": "Neutraali",
     "appstreamUrlTypeTranslate": "Käännökset",
@@ -79,7 +79,7 @@
     "snapCategoryPersonalisation": "Mukauttaminen",
     "aboutPagePublishLabel": "Julkaise Snap-kauppaan",
     "aboutPageContributorTitle": "Suunnitellut ja kehittänyt:",
-    "managePageInstalledAndUpdatedLabel": "Asennettu ja päivitetty",
+    "managePageInstalledAndUpdatedLabel": "Asennetut sovellukset",
     "appstreamUrlTypeHomepage": "Verkkosivusto",
     "managePageCheckingForUpdates": "Tarkistetaan päivityksiä",
     "managePageUpdatedDaysAgo": "Päivitetty {n, plural, =1{{n} päivä} other{{n} päivää}} sitten",
@@ -382,5 +382,17 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "managePagePackageTypeLabel": "Pakettityyppi",
+    "managePagePackageTypeAll": "Kaikki",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appConfinementUnknown": "Tuntematon",
+    "appConfinementStrict": "Eristetty",
+    "appConfinementClassic": "Rajoittamaton",
+    "appConfinementUnrestricted": "Rajoittamaton",
+    "appLicenseUnknown": "Tuntematon",
+    "appPublishedUnknown": "Tuntematon",
+    "appMoreActionsSemanticLabel": "Lisää toimintoja",
+    "appConfinementDevelopment": "Devmode"
 }
