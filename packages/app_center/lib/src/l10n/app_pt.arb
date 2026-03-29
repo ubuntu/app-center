@@ -1,5 +1,5 @@
 {
-    "snapPageLinksLabel": "Links",
+    "snapPageLinksLabel": "Ligações",
     "snapPageVersionLabel": "Versão",
     "packageFormatDebLabel": "Pacotes Debian",
     "snapCategoryBooksAndReference": "Livros e Referências",
@@ -31,7 +31,7 @@
     "snapActionInstallLabel": "Instalar",
     "snapPageLicenseLabel": "Licença",
     "snapCategoryPhotoAndVideo": "Fotografia e Vídeo",
-    "snapPageConfinementLabel": "Confinamento",
+    "snapPageConfinementLabel": "Permissões",
     "snapCategoryMusicAndAudio": "Música e Áudio",
     "aboutPageGitHubLabel": "Encontre-nos no GitHub",
     "packageFormatSnapLabel": "Pacotes Snap",
@@ -55,19 +55,19 @@
     "snapPageDownloadSizeLabel": "Tamanho da transferência",
     "appCenterLabel": "Centro de Aplicações",
     "snapPageDeveloperWebsiteLabel": "Website do programador",
-    "snapPagePublishedLabel": "Publicado",
+    "snapPagePublishedLabel": "Última atualização",
     "snapPageSummaryLabel": "Resumo",
-    "snapPageShareLinkCopiedMessage": "Link copiado para a área de transferência",
+    "snapPageShareLinkCopiedMessage": "Ligação copiada para a área de transferência",
     "explorePageCategoriesLabel": "Categorias",
     "managePageCheckingForUpdates": "A procurar por atualizações",
     "managePageDescription": "Procure por atualizações disponíveis, atualize as suas aplicações, e controle o estado de todas as suas aplicações.",
-    "managePageInstalledAndUpdatedLabel": "Instalado e atualizado",
+    "managePageInstalledAndUpdatedLabel": "Aplicações instaladas",
     "managePageLabel": "Gerir",
     "managePageShowDetailsLabel": "Mostrar detalhes",
     "managePageNoUpdatesAvailableDescription": "Não há atualizações disponíveis. As suas aplicações estão todas atualizadas.",
     "managePageShowSystemSnapsLabel": "Mostrar snaps do sistema",
     "managePageUpdateAllLabel": "Atualizar tudo",
-    "managePageSearchFieldSearchHint": "Procurar nas suas aplicações instaladas",
+    "managePageSearchFieldSearchHint": "Pesquisar aplicações instaladas",
     "managePageUpdatesAvailable": "Atualizações disponíveis ({n})",
     "managePageUpdatedDaysAgo": "Atualizado {n, plural, =1{{n} dia} other{{n} dias}} atrás",
     "@managePageUpdatedDaysAgo": {
@@ -96,7 +96,7 @@
         }
     },
     "searchPageNoResultsHint": "Tente utilizar palavras-chave diferentes ou mais gerais",
-    "searchPageNoResultsCategory": "Desculpe, não nos foi possível encontramos quaisquer pacotes nesta categoria",
+    "searchPageNoResultsCategory": "Não nos foi possível encontramos quaisquer pacotes nesta categoria",
     "searchPageNoResultsCategoryHint": "Tente uma categoria diferente ou utilize palavras-chave mais gerais",
     "searchPageRelevanceLabel": "Relevância",
     "searchPageTitle": "Resultados para \"{query}\"",
@@ -165,7 +165,7 @@
         }
     },
     "managePageTitle": "Gerir snaps instalados",
-    "managePageNoInternet": "Não é possível ligar ao servidor. Verifique a sua ligação à Internet ou tente novamente mais tarde.",
+    "managePageNoInternet": "Não foi possível ligar ao servidor. Verifique a sua ligação à Internet ou tente novamente mais tarde.",
     "managePageUpdatedWeeksAgo": "Atualizado há {n, plural, =1{{n} semana} other{{n} semanas}}",
     "@managePageUpdatedWeeksAgo": {
         "placeholders": {
@@ -222,7 +222,7 @@
     "searchFieldSearchHint": "Procurar por aplicações",
     "localDebWarningTitle": "Potencialmente inseguro",
     "gamesPageBundles": "Pacotes de Aplicações",
-    "unknownPublisher": "Publicador desconhecido",
+    "unknownPublisher": "Editor desconhecido",
     "snapRatingsBandInsufficientVotes": "Votos insuficientes",
     "snapReportDetailsHint": "Comentário...",
     "snapReportPrivacyAgreementAndLabel": "e ",
@@ -318,7 +318,7 @@
             }
         }
     },
-    "sectionCollapseSemanticLabel": "Ocultar {section}",
+    "sectionCollapseSemanticLabel": "Recolher {section}",
     "@sectionCollapseSemanticLabel": {
         "placeholders": {
             "section": {
@@ -372,5 +372,27 @@
     "codecPageTitle": "Codecs multimédia em falta",
     "codecPageDescription": "É necessário instalar os seguintes codecs para lidar com determinados formatos de vídeo e áudio:",
     "codecProprietaryDisclaimer": "Alguns dos codecs recomendados podem ser proprietários.",
-    "codecInstallAllButton": "Instalar codecs recomendados"
+    "codecInstallAllButton": "Instalar codecs recomendados",
+    "managePagePackageTypeLabel": "Tipo de pacote",
+    "managePagePackageTypeAll": "Tudo",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appUrlTypeContact": "Contactar {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Website do programador",
+    "appUrlTypeUnknown": "Ligação",
+    "appConfinementUnknown": "Desconhecido",
+    "appConfinementStrict": "Em ambiente isolado",
+    "appConfinementDevelopment": "Modo de desenvolvimento",
+    "appConfinementClassic": "Sem restrições",
+    "appConfinementUnrestricted": "Sem restrições",
+    "appLicenseUnknown": "Desconhecido",
+    "appPublishedUnknown": "Desconhecido",
+    "appMoreActionsSemanticLabel": "Mais ações"
 }
