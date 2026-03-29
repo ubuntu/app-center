@@ -347,5 +347,51 @@
     "codecPageTitle": "ບໍ່ມີ Codecs ສື່",
     "codecPageDescription": "ທ່ານຈຳເປັນຕ້ອງຕິດຕັ້ງ Codecs ຕໍ່ໄປນີ້ເພື່ອຈັດການຮູບແບບວິດີໂອ ແລະ ສຽງບາງປະເພດ:",
     "codecProprietaryDisclaimer": "Codecs ທີ່ແນະນຳບາງອັນອາດເປັນຊັບສິນທາງປັນຍາ.",
-    "codecInstallAllButton": "ຕິດຕັ້ງ Codecs ທີ່ແນະນຳ"
+    "codecInstallAllButton": "ຕິດຕັ້ງ Codecs ທີ່ແນະນຳ",
+    "managePagePackageTypeLabel": "ປະເພດແພັກເກດ",
+    "managePagePackageTypeAll": "ທັງໝົດ",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appUrlTypeContact": "ຕິດຕໍ່ {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "ເວັບໄຊນັກພັດທະນາ",
+    "appUrlTypeUnknown": "ລິ້ງ",
+    "appConfinementUnknown": "ບໍ່ຮູ້ຈັກ",
+    "appConfinementStrict": "Sandboxed",
+    "appConfinementDevelopment": "ໂໝດນັກພັດທະນາ",
+    "appConfinementClassic": "ບໍ່ຈຳກັດ",
+    "appConfinementUnrestricted": "ບໍ່ຈຳກັດ",
+    "appLicenseUnknown": "ບໍ່ຮູ້ຈັກ",
+    "appPublishedUnknown": "ບໍ່ຮູ້ຈັກ",
+    "appMoreActionsSemanticLabel": "ການດຳເນີນການເພີ່ມເຕີມ",
+    "snapActionRevertLabel": "ຍ້ອນກັບການອັບເດດ",
+    "snapActionRevertingLabel": "ກຳລັງຍ້ອນກັບການອັບເດດ",
+    "snapRevertConfirmTitle": "ຍ້ອນກັບໄປເວີຊັນກ່ອນໜ້າບໍ?",
+    "snapRevertConfirmMessage": "ການອັບເດດອັດຕະໂນມັດຈະເລີ່ມຄືນໃໝ່ເມື່ອມີເວີຊັນໃໝ່.",
+    "snapRevertConfirmRevert": "ຍ້ອນກັບ",
+    "snapRevertConfirmCancel": "ຍົກເລີກ",
+    "snapRevertConfirmTitleWithVersions": "ຍ້ອນກັບຈາກ {currentVersion} (rev {currentRevision}) ໄປເປັນ {previousVersion} (rev {previousRevision}) ບໍ?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "ບໍ່ມີລາຍການປັບປຸງກ່ອນໜ້າໃນເຄື່ອງທີ່ຈະຍ້ອນກັບໄປໄດ້."
 }
