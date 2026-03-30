@@ -43,7 +43,7 @@
             }
         }
     },
-    "sectionCollapseSemanticLabel": "ಸಂಕುಚಿಸಿ {ವಿಭಾಗ}ಸಂಕುಚಿಸಿ {ವಿಭಾಗ}",
+    "sectionCollapseSemanticLabel": "ಸಂಕುಚಿಸಿ {section}",
     "@sectionCollapseSemanticLabel": {
         "placeholders": {
             "section": {
@@ -78,7 +78,7 @@
     "managePageShowDetailsLabel": "ವಿವರಗಳನ್ನು ತೋರಿಸಿ",
     "managePageShowSystemSnapsLabel": "ಸಿಸ್ಟಮ್ ಸ್ನ್ಯಾಪ್‌ಗಳನ್ನು ತೋರಿಸಿ",
     "managePageUpdateAllLabel": "ಎಲ್ಲವನ್ನೂ ನವೀಕರಿಸಿ",
-    "managePageUpdatedDaysAgo": "{n, plural, =1{{n} ದಿನ} ಇತರೆ {{n} ದಿನಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ{n, plural, =1{{n} ದಿನ} ಇತರೆ {{n} ದಿನಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ",
+    "managePageUpdatedDaysAgo": "{n, plural, =1{{n} ದಿನ} other{{n} ದಿನಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ",
     "@managePageUpdatedDaysAgo": {
         "placeholders": {
             "n": {
@@ -86,7 +86,7 @@
             }
         }
     },
-    "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} ವಾರ} ಇತರೆ {{n} ವಾರಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ{n, plural, =1{{n} ವಾರ} ಇತರೆ {{n} ವಾರಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ",
+    "managePageUpdatedWeeksAgo": "{n, plural, =1{{n} ವಾರ} other{{n} ವಾರಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ",
     "@managePageUpdatedWeeksAgo": {
         "placeholders": {
             "n": {
@@ -94,7 +94,7 @@
             }
         }
     },
-    "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} ತಿಂಗಳು} ಇತರೆ {{n} ತಿಂಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ{n, plural, =1{{n} ತಿಂಗಳು} ಇತರೆ {{n} ತಿಂಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ",
+    "managePageUpdatedMonthsAgo": "{n, plural, =1{{n} ತಿಂಗಳು} other{{n} ತಿಂಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ",
     "@managePageUpdatedMonthsAgo": {
         "placeholders": {
             "n": {
@@ -102,7 +102,7 @@
             }
         }
     },
-    "managePageUpdatedYearsAgo": "{n, plural, =1{{n} ವರ್ಷ} ಇತರೆ {{n} ವರ್ಷಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ{n, plural, =1{{n} ವರ್ಷ} ಇತರೆ {{n} ವರ್ಷಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ",
+    "managePageUpdatedYearsAgo": "{n, plural, =1{{n} ವರ್ಷ} other{{n} ವರ್ಷಗಳ}} ಹಿಂದೆ ನವೀಕರಿಸಲಾಗಿದೆ",
     "@managePageUpdatedYearsAgo": {
         "placeholders": {
             "n": {
@@ -118,7 +118,7 @@
             }
         }
     },
-    "managePageUpdatesFailed": "{n, plural, =1{ಒಂದು ನವೀಕರಣ} ಇತರೆ{{n} ನವೀಕರಣಗಳು}} ವಿಫಲವಾಗಿದೆ{n, plural, =1{ಒಂದು ನವೀಕರಣ} ಇತರೆ{{n} ನವೀಕರಣಗಳು}} ವಿಫಲವಾಗಿದೆ",
+    "managePageUpdatesFailed": "{n, plural, =1{ಒಂದು ನವೀಕರಣ} other{{n} ನವೀಕರಣಗಳು}} ವಿಫಲವಾಗಿದೆ",
     "@managePageUpdatesFailed": {
         "placeholders": {
             "n": {
