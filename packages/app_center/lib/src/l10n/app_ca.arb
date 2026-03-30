@@ -1,1 +1,351 @@
-{}
+{
+    "searchFieldSearchForLabel": "Mostra tots els resultats per a «{query}»",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "unknownPublisher": "Editor desconegut",
+    "searchFieldDebSection": "Paquets de Debian",
+    "searchFieldSearchHint": "Busca les aplicacions",
+    "searchFieldSnapSection": "Paquets snap",
+    "searchPageFilterByLabel": "Filtra per",
+    "searchPageNoResults": "No s'ha trobat cap resultat per a «{query}»",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsCategoryHint": "Proveu amb una altra categoria o utilitzeu unes paraules clau més generals",
+    "aboutPageContributorTitle": "Dissenyat i desenvolupat per:",
+    "aboutPageContributeLabel": "Contribuïu o informeu d'un error",
+    "aboutPageGitHubLabel": "Trobeu-nos a GitHub",
+    "appstreamUrlTypeBugtracker": "Rastrejador d'errors",
+    "appstreamUrlTypeContribute": "Contribuïu",
+    "appstreamUrlTypeFaq": "Preguntes freqüents",
+    "appstreamUrlTypeHelp": "Ajuda",
+    "appstreamUrlTypeVcsBrowser": "Codi font",
+    "packageFormatSnapLabel": "Paquets snap",
+    "packageFormatDebLabel": "Paquets de Debian",
+    "snapActionCancelLabel": "Cancel·la",
+    "snapActionInstallingLabel": "S'està instal·lant",
+    "snapActionOpenLabel": "Obre",
+    "snapActionRemoveLabel": "Desinstal·la",
+    "snapActionRemovingLabel": "S'està desinstal·lant",
+    "snapActionSwitchChannelLabel": "Canvia de canal",
+    "snapActionUpdateLabel": "Actualitza",
+    "snapCategoryAll": "Totes les categories",
+    "snapCategoryArtAndDesignButtonLabel": "Comenceu a crear",
+    "snapCategoryBooksAndReference": "Llibres i referencia",
+    "snapCategoryDefaultButtonLabel": "Descobriu més",
+    "snapCategoryDevelopment": "Desenvolupament",
+    "snapCategoryDevelopmentSlogan": "Snaps indispensables per a desenvolupadors",
+    "snapCategoryDevicesAndIot": "Dispositius i IoT",
+    "snapCategoryEntertainment": "Entreteniment",
+    "snapCategoryFeaturedSlogan": "Snaps destacats",
+    "snapCategoryFinance": "Finances",
+    "snapCategoryGamesSlogan": "Tot per a la vostra nit de jocs",
+    "snapCategoryGameEmulators": "Emuladors",
+    "snapCategoryGameEmulatorsSlogan": "Emuladors",
+    "snapCategoryGameDev": "Desenvolupament de jocs",
+    "snapCategoryGameDevSlogan": "Desenvolupament de jocs",
+    "snapCategoryGameContentCreationSlogan": "Creació de contingut",
+    "snapCategoryHealthAndFitness": "Salut i benestar físic",
+    "snapCategoryMusicAndAudio": "Música i àudio",
+    "snapCategoryProductivity": "Productivitat",
+    "snapCategoryServerAndCloud": "Servidor i núvol",
+    "snapSortOrderAlphabeticalAsc": "Alfabètic (de l'A a la Z)",
+    "snapSortOrderAlphabeticalDesc": "Alfabètic (de la Z a l'A)",
+    "snapSortOrderDownloadSizeAsc": "Mida (de més petit a més gran)",
+    "snapSortOrderInstalledSizeAsc": "Mida (de més petit a més gran)",
+    "snapSortOrderInstalledSizeDesc": "Mida (de més gran a més petit)",
+    "snapSortOrderInstalledDateAsc": "El menys recent",
+    "snapSortOrderInstalledDateDesc": "El més recentment actualitzat",
+    "snapRatingsBandNeutral": "Neutral",
+    "snapRatingsBandPoor": "Pobre",
+    "snapRatingsBandVeryPoor": "Molt pobre",
+    "snapReportPrivacyAgreementLabel": "En enviar aquest formulari, confirmo que he llegit i accepto el ",
+    "openInBrowser": "Obre el navegador",
+    "debPageDocumentationLinkLabel": "Apreneu a administrar paquets Debian",
+    "externalResources": "Recursos addicionals",
+    "externalResourcesButtonLabel": "Descobriu més",
+    "allGamesButtonLabel": "Totes els jocs",
+    "installAll": "Instal·la-ho tot",
+    "localDebWarningTitle": "Potencialment insegur",
+    "localDebDialogConfirmation": "Segur que voleu instal·lar-ho?",
+    "snapdExceptionRunningApps": "No s'ha pogut actualitzar {snapName} atès que actualment s'està executant.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "localDebDialogMessage": "Aquest paquet el proveeix un tercer i pot amenaçar el vostre sistema i les vostres dades personals.",
+    "errorViewNetworkErrorDescription": "No podem carregar els continguts al Centre d'aplicacions sense connexió a Internet.",
+    "errorViewNetworkErrorAction": "Comproveu la connexió i torneu-ho a intentar.",
+    "errorViewServerErrorDescription": "Ho sentim, estem experimentant problemes amb el Centre d'aplicacions.",
+    "errorViewUnknownErrorDescription": "Ho sentim, no estem segurs de quin ha estat l'error.",
+    "errorViewUnknownErrorTitle": "Alguna cosa ha fallat",
+    "appstreamSearchGreylist": "aplicació;aplicacions;app;paquet;paquets;programa;programes;programari;eina;eines",
+    "snapPageConfinementLabel": "Confinament",
+    "snapPageContactPublisherLabel": "Contactar amb {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDeveloperWebsiteLabel": "Lloc web del desenvolupador",
+    "snapPageDownloadSizeLabel": "Mida de la descàrrega",
+    "snapPageSizeLabel": "Mida",
+    "snapPageGalleryLabel": "Galeria",
+    "snapPageLicenseLabel": "Llicència",
+    "snapPageLinksLabel": "Enllaços",
+    "snapPagePublishedLabel": "Publicat",
+    "snapPageSummaryLabel": "Resum",
+    "snapPageVersionLabel": "Versió",
+    "snapPageShareLinkCopiedMessage": "S'ha copiat l'enllaç al portapapers",
+    "explorePageLabel": "Explora",
+    "explorePageCategoriesLabel": "Categories",
+    "managePageOwnUpdateAvailable": "Actualització disponible per al centre de programari",
+    "managePageQuitToUpdate": "Tanca per actualitzar",
+    "managePageOwnUpdateDescription": "En sortir de l'aplicació, s'actualitzarà automàticament.",
+    "appCenterLabel": "Centre d'aplicacions",
+    "managePageLabel": "Gestiona",
+    "snapReportOptionalEmailAddressLabel": "El vostre correu electrònic (opcional)",
+    "snapCategoryEducation": "Educació",
+    "snapCategoryGameLaunchersSlogan": "Iniciadors de jocs",
+    "snapConfinementClassic": "Clàssic",
+    "snapRatingsBandVeryGood": "Molt bo",
+    "snapCategoryArtAndDesign": "Art i disseny",
+    "appstreamUrlTypeHomepage": "Pàgina principal",
+    "snapPageChannelLabel": "Canal",
+    "snapPagePublisherLabel": "Editor",
+    "searchPageNoResultsCategory": "Ho sentim, no s'ha trobat cap paquet en aquesta categoria",
+    "searchPageSortByLabel": "Ordena per",
+    "searchPageRelevanceLabel": "Rellevància",
+    "aboutPageLabel": "Quant a",
+    "aboutPagePublishLabel": "Publica a la Snap Store",
+    "aboutPageLearnMoreLabel": "Llegiu més",
+    "appstreamUrlTypeDonation": "Doneu",
+    "searchPageNoResultsHint": "Proveu d'utilitzar unes paraules clau diferents o més generals",
+    "snapPageDescriptionLabel": "Descripció",
+    "snapActionUpdatingLabel": "S'està actualitzant",
+    "snapCategoryArtAndDesignSlogan": "Des del vostre primer esbòs fins al toc final, exploreu aplicacions per a art i per a disseny.",
+    "appstreamUrlTypeContact": "Contacte",
+    "aboutPageCommunityTitle": "Forma part de la comunitat:",
+    "aboutPageVersionLabel": "Versió {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "snapConfinementDevmode": "Mode de desenvolupament",
+    "appstreamUrlTypeTranslate": "Traduccions",
+    "snapRatingsBandGood": "Bo",
+    "snapRatingsVotes": "{n} vots",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportSubmitButtonLabel": "Envia l'informe",
+    "snapCategoryUtilities": "Utilitats",
+    "snapCategoryFeatured": "Destacat",
+    "snapRatingsBandInsufficientVotes": "Vots insuficients",
+    "snapCategoryGames": "Jocs",
+    "snapReportOptionCopyrightViolation": "Violació dels drets d'autor o de la marca registrada",
+    "snapCategoryGameLaunchers": "Iniciador de jocs",
+    "snapReportEnterValidEmailError": "Introduïu una adreça vàlida de correu electrònic",
+    "snapSortOrderRelevance": "Rellevància",
+    "snapReportPrivacyAgreementPrivacyPolicy": "Normativa de privacitat",
+    "debPageErrorNoPackageInfo": "No s'ha trobat informació del paquet",
+    "snapCategoryGameContentCreation": "Creació de contingut",
+    "snapConfinementStrict": "Estricte",
+    "snapReportPrivacyAgreementAndLabel": "i la ",
+    "snapSortOrderDownloadSizeDesc": "Mida (de més gran a més petit)",
+    "snapReportCancelButtonLabel": "Cancel·la",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Avís de privacitat de Canonical ",
+    "localDebWarningBody": "Aquest paquet el proporciona un tercer. La instal·lació de paquets des de fora del App Center pot augmentar el risc per al vostre sistema i les vostres dades personals. Assegureu-vos de confiar en la font abans de continuar.",
+    "errorViewCheckStatusLabel": "Comprova l'estat",
+    "errorViewUnknownErrorAction": "Podeu tornar-lo a intentar ara, comproveu l'estat de les actualitzacions o torneu-ho a intentar més tard.",
+    "managePageOwnUpdateQuitButton": "Surt per actualitzar",
+    "managePageCheckForUpdates": "Busca actualitzacions",
+    "managePageCheckingForUpdates": "S'estan buscant actualitzacions",
+    "managePageNoInternet": "No es pot accedir al servidor, comproveu la connexió a Internet o intenteu més tard.",
+    "managePageDescription": "Comproveu si hi ha actualitzacions disponibles, actualitzeu les aplicacions i gestioneu l'estat de totes.",
+    "managePageDebUpdatesMessage": "Les actualitzacions dels paquets de Debian es gestionen amb l'actualitzador de programari.",
+    "managePageInstalledAndUpdatedLabel": "Instal·lat i actualitzat",
+    "managePageInstallingLabel": "S'està instal·lant ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageTitle": "Administra els snaps instal·lats",
+    "managePageNoUpdatesAvailableDescription": "No hi ha actualitzacions disponibles. Totes les aplicacions estan actualitzades.",
+    "managePageSearchFieldSearchHint": "Busca les aplicacions instal·lades",
+    "managePageShowDetailsLabel": "Mostra els detalls",
+    "managePageShowSystemSnapsLabel": "Mostra els snaps del sistema",
+    "managePageUpdateAllLabel": "Actualitza-ho tot",
+    "managePageUpdatedDaysAgo": "Actualitzat fa {n, plural, =1{{n} dia} other{{n} dies}}",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedWeeksAgo": "Actualitzat fa {n, plural, =1{{n} setmana} other{{n} setmanes}}",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedMonthsAgo": "Actualitzat fa {n, plural, =1{{n} mes} other{{n} mesos}}",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "Actualitzat fa {n, plural, =1{{n} any} other{{n} anys}}",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "Actualitzacions disponibles ({n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailed": "{n, plural, =1{Una actualització fallida} other{{n} actualitzacions fallides}}",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesFailedBody": "No es van poder actualitzar aquestes aplicacions porque estan actualment executant-se.\n\n{snapList}\nQuan es tanquin les aplicacions, s'actualitzaran automàticament.",
+    "managePageDocumentationLinkLabel": "Apreneu a administrar paquets Debian en la documentació.",
+    "productivityPageLabel": "Productivitat",
+    "developmentPageLabel": "Desenvolupament",
+    "gamesPageLabel": "Jocs",
+    "gamesPageTitle": "Jocs",
+    "gamesPageTop": "Millor valorats",
+    "gamesPageFeatured": "Títols destacats",
+    "gamesPageBundles": "Paquets d'aplicacions",
+    "searchPageTitle": "Resultats de «{query}»",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "snapActionInstallLabel": "Instal·la",
+    "snapActionInstalledLabel": "Instal·lat",
+    "snapCategoryGnomeGames": "Jocs del GNOME",
+    "snapCategoryGnomeGamesSlogan": "Compilació de jocs del GNOME",
+    "snapCategoryKdeGames": "Jocs del KDE",
+    "snapCategoryKdeGamesSlogan": "Compilació de jocs del KDE",
+    "snapCategoryNewsAndWeather": "Notícies i meteorologia",
+    "snapCategoryPersonalisation": "Personalització",
+    "snapCategoryPhotoAndVideo": "Fotos i vídeo",
+    "snapCategoryProductivityButtonLabel": "Descobriu la col·lecció de productivitat",
+    "snapCategoryProductivitySlogan": "Ratlleu una cosa de la vostra llista de tanques pendents",
+    "snapCategoryScience": "Ciència",
+    "snapCategorySecurity": "Seguritat",
+    "snapCategorySocial": "Xarxes socials",
+    "snapCategoryUbuntuDesktop": "Escriptori de l'Ubuntu",
+    "snapCategoryUbuntuDesktopSlogan": "Traieu el màxim partit al vostre escriptori",
+    "snapReportLabel": "Denuncia {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "Escolliu una raó per denunciar aquest snap",
+    "snapReportSelectAnOptionLabel": "Seleccioneu una opció",
+    "snapReportOptionStoreViolation": "Violació dels terminis de servei de l'Snap Store",
+    "snapReportDetailsLabel": "Proporcioneu un motiu més detallat per a la vostra denúncia",
+    "snapReportDetailsHint": "Comenteu...",
+    "externalResourcesDisclaimer": "Nota: totes aquestes eines són externes. No són propietat de Canonical ni Canonical és responsable de distribuir-les.",
+    "localDebLearnMore": "Apreneu més informació sobre paquets de tercers",
+    "errorViewNetworkErrorTitle": "Connecta a internet",
+    "errorViewServerErrorAction": "Comproveu l'estat de les actualitzacions i torneu-ho a provar més tard.",
+    "snapPageGalleryNextSemanticLabel": "Imatge següent",
+    "snapPageGalleryPreviousSemanticLabel": "Imatge anterior",
+    "snapPageGalleryImageSemanticLabel": "Imatge {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageShareSemanticLabel": "Copia l'enllaç",
+    "snapPageReportSemanticLabel": "Informa",
+    "sectionExpandSemanticLabel": "Expandeix {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Col·lapsa {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardPublisherSemanticLabel": "Publicat per {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Valoració {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareLinkCopiedMessage": "S'ha copiat l'enllaç al portaretalls",
+    "debPageShareSemanticLabel": "Copia l'enllaç",
+    "codecPageTitle": "Falten còdecs multimèdia",
+    "codecPageDescription": "Necessiteu instal·lar els següents còdecs per a gestionar certs formats d'àudio i video:",
+    "codecProprietaryDisclaimer": "Alguns dels còdecs recomanats podrien ser propietaris.",
+    "codecInstallAllButton": "Instal·la els còdecs recomanats"
+}
