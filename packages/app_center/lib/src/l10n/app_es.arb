@@ -33,7 +33,7 @@
     "snapActionInstallLabel": "Instalar",
     "snapPageLicenseLabel": "Licencia",
     "snapCategoryPhotoAndVideo": "Fotos y vídeo",
-    "snapPageConfinementLabel": "Confinamiento",
+    "snapPageConfinementLabel": "Permisos",
     "snapCategoryMusicAndAudio": "Música y audio",
     "aboutPageGitHubLabel": "Encuéntrenos en GitHub",
     "packageFormatSnapLabel": "Paquetes snap",
@@ -41,7 +41,7 @@
     "snapActionInstallingLabel": "Instalando",
     "searchFieldSearchHint": "Buscar las aplicaciones",
     "snapCategoryFeatured": "Destacado",
-    "managePageSearchFieldSearchHint": "Buscar las aplicaciones instaladas",
+    "managePageSearchFieldSearchHint": "Buscar aplicaciones instaladas",
     "snapActionCancelLabel": "Cancelar",
     "snapPagePublisherLabel": "Editor",
     "snapPageDescriptionLabel": "Descripción",
@@ -63,11 +63,11 @@
     "managePageShowDetailsLabel": "Mostrar los detalles",
     "snapPageDownloadSizeLabel": "Tamaño de la descarga",
     "snapCategoryProductivityButtonLabel": "Descubre la colección de productividad",
-    "snapPagePublishedLabel": "Publicado",
+    "snapPagePublishedLabel": "Última actualización",
     "aboutPageLearnMoreLabel": "Leer más",
     "snapRatingsBandNeutral": "Neutral",
     "appstreamUrlTypeTranslate": "Traducciones",
-    "searchPageNoResultsHint": "Prueba a utilizar unas palabras clave diferentes o más generales",
+    "searchPageNoResultsHint": "Pruebe a utilizar palabras clave diferentes o más generales",
     "snapRatingsBandGood": "Bien",
     "snapCategoryFeaturedSlogan": "«Snaps» destacados",
     "snapSortOrderInstalledDateAsc": "Lo menos reciente",
@@ -79,7 +79,7 @@
     "snapCategoryPersonalisation": "Personalización",
     "aboutPagePublishLabel": "Publicar en la Snap Store",
     "aboutPageContributorTitle": "Diseñado y desarrollado por:",
-    "managePageInstalledAndUpdatedLabel": "Instalado y actualizado",
+    "managePageInstalledAndUpdatedLabel": "Aplicaciones instaladas",
     "appstreamUrlTypeHomepage": "Página principal",
     "managePageCheckingForUpdates": "Buscando actualizaciones",
     "managePageUpdatedDaysAgo": "Actualizado hace {n, plural, =1{{n} día} other{{n} días}}",
@@ -114,10 +114,10 @@
     "aboutPageContributeLabel": "Contribuir o informar de un error",
     "snapCategoryUbuntuDesktop": "Escritorio de Ubuntu",
     "managePageUpdatesAvailable": "Actualizaciones disponibles ({n})",
-    "aboutPageCommunityTitle": "Forma parte de la comunidad:",
-    "searchPageNoResultsCategoryHint": "Prueba con otra categoría o utiliza unas palabras clave más generales",
+    "aboutPageCommunityTitle": "Forme parte de la comunidad:",
+    "searchPageNoResultsCategoryHint": "Pruebe con otra categoría o utilice palabras clave más generales",
     "snapSortOrderAlphabeticalDesc": "Alfabético (de la Z a la A)",
-    "searchPageNoResultsCategory": "Lo sentimos, no hemos encontrado ningún paquete en esta categoría",
+    "searchPageNoResultsCategory": "No hemos encontrado ningún paquete en esta categoría",
     "snapRatingsVotes": "{n} votos",
     "@snapRatingsVotes": {
         "placeholders": {
@@ -159,7 +159,7 @@
     "snapActionUpdatingLabel": "Actualizando",
     "searchPageRelevanceLabel": "Relevancia",
     "snapSortOrderAlphabeticalAsc": "Alfabético (de la A a la Z)",
-    "managePageNoUpdatesAvailableDescription": "No hay actualizaciones disponibles. Tus aplicaciones están actualizadas.",
+    "managePageNoUpdatesAvailableDescription": "No hay actualizaciones disponibles. Sus aplicaciones están actualizadas.",
     "snapSortOrderRelevance": "Relevancia",
     "snapSortOrderDownloadSizeDesc": "Tamaño (de mayor a menor)",
     "appstreamUrlTypeBugtracker": "Rastreador de errores",
@@ -204,7 +204,7 @@
     "snapReportOptionCopyrightViolation": "Violación de los derechos de autor o marca registrada",
     "snapReportOptionStoreViolation": "Violación de los términos de servicio de Snap Store",
     "snapReportDetailsLabel": "Proporcione un motivo más detallado para su denuncia",
-    "snapReportSubmitButtonLabel": "Enviar informe",
+    "snapReportSubmitButtonLabel": "Enviar denuncia",
     "snapReportPrivacyAgreementLabel": "Al enviar este formulario, confirmo que he leído y acepto el ",
     "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Aviso de privacidad de Canonical ",
     "snapReportPrivacyAgreementAndLabel": "y la ",
@@ -285,8 +285,8 @@
             }
         }
     },
-    "managePageUpdatesFailedBody": "No pudimos actualizar estas aplicaciones porque están actualmente ejecutandose.\n\n{snapList}\nCuando cierres las aplicaciones, se actualizarán automáticamente.",
-    "managePageTitle": "Administrar snaps instalados",
+    "managePageUpdatesFailedBody": "No pudimos actualizar estas aplicaciones porque se están ejecutando actualmente.\n\n{snapList}\nCuando cierre las aplicaciones, se actualizarán automáticamente.",
+    "managePageTitle": "Gestionar snaps instalados",
     "snapCategoryArtAndDesignButtonLabel": "Empezar a crear",
     "snapCategoryArtAndDesignSlogan": "Desde tu primer boceto hasta el toque final, explora aplicaciones para arte y diseño.",
     "managePageInstallingLabel": "Instalando ({n})",
@@ -319,7 +319,7 @@
             }
         }
     },
-    "sectionCollapseSemanticLabel": "Colapsar {section}",
+    "sectionCollapseSemanticLabel": "Contraer {section}",
     "@sectionCollapseSemanticLabel": {
         "placeholders": {
             "section": {
@@ -372,5 +372,27 @@
             }
         }
     },
-    "snapRevertNoPreviousRevisionMessage": "No está disponible ninguna anterior revisión local para revertir."
+    "snapRevertNoPreviousRevisionMessage": "No está disponible ninguna anterior revisión local para revertir.",
+    "managePagePackageTypeLabel": "Tipo de paquete",
+    "managePagePackageTypeAll": "Todo",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "DEB",
+    "appUrlTypeUnknown": "Enlace",
+    "appConfinementUnknown": "Desconocida",
+    "appConfinementDevelopment": "Modo de desarrollo",
+    "appConfinementClassic": "Sin restricciones",
+    "appConfinementUnrestricted": "Sin restricciones",
+    "appLicenseUnknown": "Desconocida",
+    "appMoreActionsSemanticLabel": "Más acciones",
+    "appUrlTypeContact": "Contactar con {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Sitio web del desarrollador",
+    "appPublishedUnknown": "Desconocido",
+    "appConfinementStrict": "Confinada"
 }
