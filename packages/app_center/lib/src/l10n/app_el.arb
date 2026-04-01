@@ -54,7 +54,7 @@
     "snapCategoryUbuntuDesktopSlogan": "Δώστε ώθηση στην επιφάνεια εργασίας σας",
     "snapConfinementClassic": "Κλασσικό",
     "snapRatingsBandVeryPoor": "Πολύ κακή",
-    "snapReportSelectReportReasonLabel": "Επιλέξτε έναν λόγο για την αναφορά αυτού του «snap»",
+    "snapReportSelectReportReasonLabel": "Επιλέξτε έναν λόγο για την αναφορά αυτού του πακέτου snap",
     "snapReportSelectAnOptionLabel": "Επιλέξτε μια επιλογή",
     "appCenterLabel": "Κέντρο Εφαρμογών",
     "snapPageChannelLabel": "Κανάλι",
@@ -102,7 +102,7 @@
     "snapCategoryGameEmulators": "Εξομοιωτές",
     "snapCategoryGameEmulatorsSlogan": "Εξομοιωτές",
     "snapCategoryGnomeGamesSlogan": "Σουίτα παιχνιδιών GNOME",
-    "snapCategoryKdeGamesSlogan": "Σουίτα Παιχνιδιών KDE",
+    "snapCategoryKdeGamesSlogan": "Σουίτα παιχνιδιών KDE",
     "snapCategoryGameLaunchers": "Εκκινητές παιχνιδιών",
     "snapCategoryGameLaunchersSlogan": "Εκκινητές παιχνιδιών",
     "snapCategoryGameContentCreation": "Δημιουργία περιεχομένου",
@@ -150,10 +150,10 @@
     },
     "snapCategoryUtilities": "Εργαλεία",
     "errorViewCheckStatusLabel": "Έλεγχος κατάστασης",
-    "errorViewServerErrorDescription": "Λυπούμαστε, αυτή τη στιγμή αντιμετωπίζουμε προβλήματα με το Κέντρο Εφαρμογών.",
+    "errorViewServerErrorDescription": "Λυπούμαστε, αυτή τη στιγμή αντιμετωπίζουμε προβλήματα με το Κέντρο εφαρμογών.",
     "localDebDialogConfirmation": "Είστε βέβαιοι ότι θέλετε να το εγκαταστήσετε;",
-    "snapCategoryFeaturedSlogan": "Προτεινόμενα πακέτα «snap»",
-    "aboutPageContributeLabel": "Συνεισφορά ή αναφορά σφάλματος",
+    "snapCategoryFeaturedSlogan": "Προτεινόμενα πακέτα snap",
+    "aboutPageContributeLabel": "Συνεισφέρετε ή αναφέρετε ένα σφάλμα",
     "aboutPageVersionLabel": "Έκδοση {version}",
     "@aboutPageVersionLabel": {
         "placeholders": {
@@ -216,7 +216,7 @@
             }
         }
     },
-    "appstreamSearchGreylist": "εφαρμογή;αππ;πακέτο;πρόγραμμα;προγραμμα;εφαρμογη;άππ;σουιτα;σουΐτα;σουϊτα;εργαλείο;λογισμικό;λογισμικο",
+    "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool;εφαρμογή;αππ;πακέτο;πρόγραμμα;προγραμμα;εφαρμογη;άππ;σουιτα;σουΐτα;σουϊτα;εργαλείο;λογισμικό;λογισμικο",
     "snapPageConfinementLabel": "Δικαιώματα",
     "managePageNoInternet": "Αδυναμία σύνδεσης στον διακομιστή. Ελέγξτε τη σύνδεσή σας στο διαδίκτυο ή δοκιμάστε ξανά αργότερα.",
     "managePageDescription": "Ελέγξτε για διαθέσιμες ενημερώσεις, ενημερώστε τις εφαρμογές σας και διαχειριστείτε την κατάσταση όλων των εφαρμογών σας.",
@@ -266,7 +266,7 @@
         }
     },
     "managePageUpdatesFailedBody": "Δεν ήταν δυνατή η ενημέρωση αυτών των εφαρμογών επειδή εκτελούνται αυτήν τη στιγμή.\n\n{snapList}\nΌταν τερματίσετε τις εφαρμογές, θα ενημερωθούν αυτόματα.",
-    "searchFieldSearchForLabel": "Εμφάνιση όλων των αποτελεσμάτων για \"{query}\"",
+    "searchFieldSearchForLabel": "Εμφάνιση όλων των αποτελεσμάτων για «{query}»",
     "@searchFieldSearchForLabel": {
         "placeholders": {
             "query": {
@@ -274,7 +274,7 @@
             }
         }
     },
-    "searchPageNoResults": "Δεν βρέθηκαν αποτελέσματα για \"{query}\"",
+    "searchPageNoResults": "Δεν βρέθηκαν αποτελέσματα για «{query}»",
     "@searchPageNoResults": {
         "placeholders": {
             "query": {
@@ -284,7 +284,7 @@
     },
     "searchPageSortByLabel": "Ταξινόμηση κατά",
     "searchPageRelevanceLabel": "Συνάφεια",
-    "searchPageTitle": "Αποτελέσματα για \"{query}\"",
+    "searchPageTitle": "Αποτελέσματα για «{query}»",
     "@searchPageTitle": {
         "placeholders": {
             "query": {
@@ -375,7 +375,7 @@
         }
     },
     "snapReportOptionCopyrightViolation": "Παραβίαση πνευματικών δικαιωμάτων ή εμπορικού σήματος",
-    "snapReportOptionStoreViolation": "Παραβίαση των όρων παροχής υπηρεσιών του Κέντρου πακέτων «snap»",
+    "snapReportOptionStoreViolation": "Παραβίαση των όρων παροχής υπηρεσιών του Κέντρου πακέτων snap",
     "snapReportDetailsLabel": "Παρακαλούμε δώστε μια πιο λεπτομερή αιτιολογία για την αναφορά σας",
     "snapReportDetailsHint": "Σχολιασμός…",
     "snapReportPrivacyAgreementLabel": "Με την υποβολή αυτής της φόρμας, επιβεβαιώνω ότι έχω διαβάσει και συμφωνώ με ",
