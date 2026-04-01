@@ -99,18 +99,18 @@ class ManageAppActions extends ConsumerWidget {
             child: Text(SnapAction.update.label(l10n)),
           ),
         if (!showOnlyUpdate && snapData.isInstalled) ...[
-          OutlinedButton(
-            onPressed: canOpen
-                ? SnapAction.open.callback(
-                    snapData,
-                    snapViewModel,
-                    snapLauncher,
-                    context,
-                  )
-                : null,
-            child: Text(SnapAction.open.label(l10n)),
-          ),
-          const SizedBox(width: kSpacing),
+          if (canOpen) ...[
+            OutlinedButton(
+              onPressed: SnapAction.open.callback(
+                snapData,
+                snapViewModel,
+                snapLauncher,
+                context,
+              ),
+              child: Text(SnapAction.open.label(l10n)),
+            ),
+            const SizedBox(width: kSpacing),
+          ],
           OutlinedButton(
             onPressed: SnapAction.remove.callback(
               snapData,
