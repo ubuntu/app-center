@@ -479,7 +479,6 @@ class _FilterRow extends ConsumerWidget {
           value: ref.watch(showLocalSystemAppsProvider),
           onChanged: (value) {
             ref.read(showLocalSystemAppsProvider.notifier).state = value;
-            ref.read(showLocalSystemDebsProvider.notifier).state = value;
           },
         ),
       ],
