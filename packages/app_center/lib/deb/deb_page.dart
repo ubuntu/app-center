@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
 
 class DebPage extends ConsumerWidget {
@@ -144,32 +143,33 @@ class _DebActionButtons extends ConsumerWidget {
         : debModel.isInstalled
             ? DebAction.remove
             : DebAction.install;
+    final button = switch (primaryAction) {
+      DebAction.install || DebAction.update => YaruSplitButton.new,
+      _ => YaruSplitButton.outlined,
+    };
 
-    final primaryActionButton = SizedBox(
-      width: kPrimaryButtonMaxWidth,
-      child: PushButton.elevated(
-        onPressed: debModel.activeTransactionId != null
-            ? null
-            : primaryAction.callback(ref, debModel),
-        child: debModel.activeTransactionId != null
-            ? Consumer(
-                builder: (context, ref, child) {
-                  final transaction = ref
-                      .watch(transactionProvider(debModel.activeTransactionId!))
-                      .valueOrNull;
-                  return Center(
-                    child: SizedBox.square(
-                      dimension: kLoaderHeight,
-                      child: YaruCircularProgressIndicator(
-                        value: (transaction?.percentage ?? 0) / 100.0,
-                        strokeWidth: 2,
-                      ),
+    final primaryActionButton = button(
+      onPressed: debModel.activeTransactionId != null
+          ? null
+          : primaryAction.callback(ref, debModel),
+      child: debModel.activeTransactionId != null
+          ? Consumer(
+              builder: (context, ref, child) {
+                final transaction = ref
+                    .watch(transactionProvider(debModel.activeTransactionId!))
+                    .valueOrNull;
+                return Center(
+                  child: SizedBox.square(
+                    dimension: kLoaderHeight,
+                    child: YaruCircularProgressIndicator(
+                      value: (transaction?.percentage ?? 0) / 100.0,
+                      strokeWidth: 2,
                     ),
-                  );
-                },
-              )
-            : Text(primaryAction.label(l10n)),
-      ),
+                  ),
+                );
+              },
+            )
+          : Text(primaryAction.label(l10n)),
     );
 
     final cancelButton = OutlinedButton(
@@ -181,7 +181,12 @@ class _DebActionButtons extends ConsumerWidget {
       overflowSpacing: 8,
       children: [
         if (debModel.packageInfo != null)
-          primaryActionButton
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              primaryActionButton,
+            ],
+          )
         else
           Text(l10n.debPageErrorNoPackageInfo),
         if (debModel.activeTransactionId != null) ...[
