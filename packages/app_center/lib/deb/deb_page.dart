@@ -123,6 +123,9 @@ class _DebView extends ConsumerWidget {
           const SizedBox(height: kPagePadding),
           Html(
             data: debModel.component.getLocalizedDescription(),
+            style: {
+              'body': Style(margin: Margins.zero, padding: HtmlPaddings.zero),
+            },
           ),
         ],
       ),
