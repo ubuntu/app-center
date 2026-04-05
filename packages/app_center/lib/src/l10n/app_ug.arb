@@ -2,7 +2,7 @@
     "appCenterLabel": "ئەپ مەركىزى",
     "appstreamSearchGreylist": "ئەپ؛قوللىنىشچان پىروگرامما؛بوغچا؛پىروگرامما؛يۈرۈشلۈك؛قورال",
     "snapPageChannelLabel": "قانال",
-    "snapPageConfinementLabel": "چەكلىمە",
+    "snapPageConfinementLabel": "ئىجازەت",
     "snapPageContactPublisherLabel": "ئالاقە{publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
@@ -29,7 +29,7 @@
     "snapPageLicenseLabel": "ئىجازەتنامە",
     "snapPageLinksLabel": "ئۇلانما",
     "snapPagePublisherLabel": "تارقاتقۇچى",
-    "snapPagePublishedLabel": "تارقىتىلدى",
+    "snapPagePublishedLabel": "ئاخىرقى يېڭىلاش",
     "snapPageSummaryLabel": "ئۈزۈندە",
     "snapPageVersionLabel": "نەشرى",
     "snapPageShareLinkCopiedMessage": "ئۇلانما چاپلاش تاختىسىغا كۆچۈرۈلدى",
@@ -62,7 +62,7 @@
     "managePageNoInternet": "مۇلازىمېتىرنى زىيارەت قىلالمىدى، ئىنتېرنېت باغلىنىشىنى تەكشۈرۈڭ ياكى سەل تۇرۇپ قايتا سىناڭ.",
     "managePageDescription": "يېڭىلانما بار يوقلۇقىنى تەكشۈرۈپ، ئەپنى يېڭىلاپ، ھەممە ئەپلىرىڭىزنىڭ ھالىتىنى باشقۇرىدۇ.",
     "managePageDebUpdatesMessage": "Debian بوغچا يېڭىلاشنى يۇمشاق دېتال يېڭىلىغۇچ بىر تەرەپ قىلىدۇ.",
-    "managePageInstalledAndUpdatedLabel": "ئورنىتىپ ۋە يېڭىلىدى",
+    "managePageInstalledAndUpdatedLabel": "ئورنىتىلغان ئەپ",
     "managePageInstallingLabel": "ئورنىتىۋاتقىنى ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -74,7 +74,7 @@
     "managePageLabel": "باشقۇرۇش",
     "managePageTitle": "ئورنىتىلغان بوغچىنى باشقۇرىدۇ",
     "managePageNoUpdatesAvailableDescription": "يېڭىلانما يوق. ھەممە ئەپلىرىڭىز يېڭى ھالەتتە.",
-    "managePageSearchFieldSearchHint": "ئورناتقان ئەپلىرىڭىزنى ئىزدەيدۇ",
+    "managePageSearchFieldSearchHint": "ئورناتقان ئەپنى ئىزدەيدۇ",
     "managePageShowDetailsLabel": "تەپسىلاتىنى كۆرسەت",
     "managePageShowSystemSnapsLabel": "سىستېما بوغچىنى كۆرسەت",
     "managePageUpdateAllLabel": "ھەممىنى يېڭىلا",
@@ -371,5 +371,27 @@
     },
     "snapRevertNoPreviousRevisionMessage": "ئىشلەتكىلى بولىدىغان ئالدىنقى يەرلىك تۈزىتىلگەن نەشرى يوق.",
     "snapActionRevertLabel": "يېڭىلاشنى ئەسلىگە قايتۇر",
-    "snapActionRevertingLabel": "يېڭىلاشنى ئەسلىگە قايتۇرۇۋاتىدۇ"
+    "snapActionRevertingLabel": "يېڭىلاشنى ئەسلىگە قايتۇرۇۋاتىدۇ",
+    "managePagePackageTypeLabel": "بوغچا تۈرى",
+    "managePagePackageTypeAll": "ھەممىسى",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appUrlTypeContact": "{publisher} بىلەن ئالاقىلىشىش",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "ئىجادكار تور بېكىتى",
+    "appUrlTypeUnknown": "ئۇلانما",
+    "appConfinementUnknown": "يوچۇن",
+    "appConfinementStrict": "قۇم قۇتىسىدا سىنالغان",
+    "appConfinementDevelopment": "ئىجادكار ھالىتى",
+    "appConfinementClassic": "چەكلىمىسىز",
+    "appConfinementUnrestricted": "چەكلىمىسىز",
+    "appLicenseUnknown": "يوچۇن",
+    "appPublishedUnknown": "يوچۇن",
+    "appMoreActionsSemanticLabel": "تېخىمۇ كۆپ مەشغۇلات"
 }
