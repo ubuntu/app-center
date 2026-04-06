@@ -144,10 +144,14 @@ class _AppInfoItem extends StatelessWidget {
   factory _AppInfoItem.confinement({
     required BuildContext context,
     required AppMetadata appData,
-  }) =>
-      _AppInfoItem(
-        label: Text(AppLocalizations.of(context).snapPageConfinementLabel),
-        value: Row(
+  }) {
+    final l10n = AppLocalizations.of(context);
+    return _AppInfoItem(
+      label: Text(l10n.snapPageConfinementLabel),
+      value: Tooltip(
+        constraints: BoxConstraints(maxWidth: 200),
+        message: appData.confinement!.localizeTooltip(l10n) ?? '',
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (appData.confinement == AppConfinement.strict) ...const [
@@ -158,10 +162,12 @@ class _AppInfoItem extends StatelessWidget {
               ),
               SizedBox(width: 2),
             ],
-            Text(appData.confinement!.localize(AppLocalizations.of(context))),
+            Text(appData.confinement!.localize(l10n)),
           ],
         ),
-      );
+      ),
+    );
+  }
 
   factory _AppInfoItem.downloadSize({
     required BuildContext context,
