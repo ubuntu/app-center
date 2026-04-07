@@ -97,7 +97,7 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.text('Uninstall'), findsNothing);
+    expect(find.text(tester.l10n.snapActionRemoveLabel), findsNothing);
   });
 
   testWidgets('remove button shown for non-compulsory installed deb',
@@ -120,6 +120,6 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.text('Uninstall'), findsOneWidget);
+    expect(find.text(tester.l10n.snapActionRemoveLabel), findsOneWidget);
   });
 }
