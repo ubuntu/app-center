@@ -30,6 +30,10 @@ class DebData extends AppMetadata with _$DebData {
 
   bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
 
+  /// Returns true if this package is compulsory for any of the given [desktops].
+  bool isCompulsoryFor(List<String> desktops) =>
+      component.isCompulsoryFor(desktops);
+
   @override
   AppConfinement? get confinement => AppConfinement.fromDeb();
 

@@ -41,6 +41,10 @@ class LocalDebInfo with _$LocalDebInfo {
   /// Whether this deb has an Appstream entry (user-facing app vs system package).
   bool get hasAppstreamEntry => component != null;
 
+  /// Returns true if this package is compulsory for any of the given [desktops].
+  bool isCompulsoryFor(List<String> desktops) =>
+      component?.isCompulsoryFor(desktops) ?? false;
+
   /// Returns the release date for the currently installed version from
   /// AppStream metadata, or the most recent release date if no exact match.
   DateTime? get releaseDate {
