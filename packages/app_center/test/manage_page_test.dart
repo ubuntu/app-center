@@ -231,13 +231,7 @@ void main() {
     expect(openButton, findsOneWidget);
     expect(openButton, isEnabled);
 
-    await tester.scrollUntilVisible(
-      openButton2,
-      kMinInteractiveDimension / 2,
-      scrollable: scrollable,
-    );
-    expect(openButton2, findsOneWidget);
-    expect(openButton2, isDisabled);
+    expect(openButton2, findsNothing);
 
     await tester.tap(openButton);
     verify(snapLauncher.open()).called(1);
