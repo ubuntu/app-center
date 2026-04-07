@@ -81,11 +81,6 @@ class _AboutHeader extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
-            ref.watch(versionProvider).maybeWhen(
-                  data: (v) => Text(l10n.aboutPageVersionLabel(v)),
-                  orElse: () => const SizedBox.shrink(),
-                ),
           ],
         ),
       ],
