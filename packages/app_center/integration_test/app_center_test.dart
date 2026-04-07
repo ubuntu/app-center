@@ -92,9 +92,14 @@ Future<void> testInstallSnap(
   expect(openButton, findsNothing);
 
   await tester.tap(installButton);
-  await tester.pumpUntil(openButton);
+  await tester.pumpUntil(
+    find.descendant(
+      of: find.byType(YaruPopupMenuButton),
+      matching: find.byIcon(YaruIcons.view_more),
+    ),
+  );
 
-  expect(openButton, findsOneWidget);
+  expect(openButton, findsNothing); // this snap cannot be opened
   expect(installButton, findsNothing);
 
   expect(installedFile.existsSync(), isTrue);
