@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/appstream/appstream.dart';
-import 'package:app_center/constants.dart';
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/deb_providers.dart';
 import 'package:app_center/error/error.dart';
@@ -157,37 +156,21 @@ class _DebActionButtons extends ConsumerWidget {
     final primaryActionButton = primaryAction == null
         ? null
         : button(
-            onPressed: debModel.activeTransactionId != null
-                ? null
-                : primaryAction.callback(ref, debModel),
-            child: debModel.activeTransactionId != null
-                ? Consumer(
-                    builder: (context, ref, child) {
-                      final transaction = ref
-                          .watch(
-                            transactionProvider(
-                              debModel.activeTransactionId!,
-                            ),
-                          )
-                          .valueOrNull;
-                      return Center(
-                        child: SizedBox.square(
-                          dimension: kLoaderHeight,
-                          child: YaruCircularProgressIndicator(
-                            value: (transaction?.percentage ?? 0) / 100.0,
-                            strokeWidth: 2,
-                          ),
-                        ),
-                      );
-                    },
-                  )
-                : Text(primaryAction.label(l10n)),
+            onPressed: primaryAction.callback(ref, debModel),
+            child: Text(primaryAction.label(l10n)),
           );
 
-    final cancelButton = OutlinedButton(
-      onPressed: DebAction.cancel.callback(ref, debModel),
-      child: Text(DebAction.cancel.label(l10n)),
-    );
+    if (debModel.activeTransactionId != null) {
+      return ActiveChangeStatus(
+        onCancelPressed: () => DebAction.cancel.callback(ref, debModel),
+        progress: (ref
+                    .watch(transactionProvider(debModel.activeTransactionId!))
+                    .valueOrNull
+                    ?.percentage ??
+                0) /
+            100.0,
+      );
+    }
 
     return OverflowBar(
       overflowSpacing: 8,
@@ -201,10 +184,6 @@ class _DebActionButtons extends ConsumerWidget {
           )
         else
           Text(l10n.debPageErrorNoPackageInfo),
-        if (debModel.activeTransactionId != null) ...[
-          const SizedBox(width: kSpacing),
-          cancelButton,
-        ],
       ].nonNulls.toList(),
     );
   }
