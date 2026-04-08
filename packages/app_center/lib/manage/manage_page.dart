@@ -419,6 +419,7 @@ class _FilterRow extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final compact =
         ResponsiveLayout.of(context).type == ResponsiveLayoutType.small;
+    final packageType = ref.watch(packageTypeFilterProvider);
 
     final searchField = _DebouncedSearchField(
       hintText: l10n.managePageSearchFieldSearchHint,
@@ -456,9 +457,14 @@ class _FilterRow extends ConsumerWidget {
                     values: PackageTypeFilter.values,
                     itemBuilder: (context, type, child) =>
                         Text(type.localize(l10n)),
-                    onSelected: (value) => ref
-                        .read(packageTypeFilterProvider.notifier)
-                        .state = value,
+                    onSelected: (value) {
+                      ref.read(packageTypeFilterProvider.notifier).state =
+                          value;
+                      if (value != PackageTypeFilter.snap) {
+                        ref.read(showLocalSystemAppsProvider.notifier).state =
+                            false;
+                      }
+                    },
                     expanded: false,
                     child: Text(packageType.localize(l10n)),
                   ),
@@ -527,8 +533,10 @@ class _FilterRow extends ConsumerWidget {
           const SizedBox(height: kSpacing),
           Row(
             children: [
-              showSystemApps,
-              const Spacer(),
+              if (packageType == PackageTypeFilter.snap) ...[
+                showSystemApps,
+                const Spacer()
+              ],
               sortBy,
             ],
           ),
@@ -542,8 +550,10 @@ class _FilterRow extends ConsumerWidget {
         const SizedBox(width: kSpacing),
         packageTypeFilter,
         const SizedBox(width: kSpacing),
-        showSystemApps,
-        const SizedBox(width: kSpacing),
+        if (packageType == PackageTypeFilter.snap) ...[
+          showSystemApps,
+          const SizedBox(width: kSpacing)
+        ],
         sortBy,
       ],
     );
