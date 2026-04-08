@@ -494,28 +494,38 @@ class _FilterRow extends ConsumerWidget {
     final sortBy = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(l10n.searchPageSortByLabel),
+        Flexible(
+          child: Text(
+            l10n.searchPageSortByLabel,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
         const SizedBox(width: kSpacingSmall),
-        Consumer(
-          builder: (context, ref, child) {
-            final sortOrder = ref.watch(appSortOrderProvider);
-            return MenuButtonBuilder<AppSortOrder>(
-              values: const [
-                AppSortOrder.alphabeticalAsc,
-                AppSortOrder.alphabeticalDesc,
-                AppSortOrder.installedDateAsc,
-                AppSortOrder.installedDateDesc,
-                AppSortOrder.installedSizeAsc,
-                AppSortOrder.installedSizeDesc,
-              ],
-              itemBuilder: (context, sortOrder, child) =>
-                  Text(sortOrder.localize(l10n)),
-              onSelected: (value) =>
-                  ref.read(appSortOrderProvider.notifier).state = value,
-              expanded: false,
-              child: Text(sortOrder.localize(l10n)),
-            );
-          },
+        Flexible(
+          child: Consumer(
+            builder: (context, ref, child) {
+              final sortOrder = ref.watch(appSortOrderProvider);
+              return MenuButtonBuilder<AppSortOrder>(
+                values: const [
+                  AppSortOrder.alphabeticalAsc,
+                  AppSortOrder.alphabeticalDesc,
+                  AppSortOrder.installedDateAsc,
+                  AppSortOrder.installedDateDesc,
+                  AppSortOrder.installedSizeAsc,
+                  AppSortOrder.installedSizeDesc,
+                ],
+                itemBuilder: (context, sortOrder, child) =>
+                    Text(sortOrder.localize(l10n)),
+                onSelected: (value) =>
+                    ref.read(appSortOrderProvider.notifier).state = value,
+                expanded: false,
+                child: Text(
+                  sortOrder.localize(l10n),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              );
+            },
+          ),
         ),
       ],
     );
@@ -525,8 +535,8 @@ class _FilterRow extends ConsumerWidget {
       children: [
         packageTypeFilter,
         if (packageType == PackageTypeFilter.snap) ...[
-          const SizedBox(width: kSpacing),
-          showSystemApps,
+          SizedBox(width: kSpacing),
+          Flexible(child: showSystemApps),
         ],
       ],
     );
@@ -548,10 +558,27 @@ class _FilterRow extends ConsumerWidget {
       );
     }
 
+    // Measure the hint text so the field grows when the hint doesn't fit at
+    // the default 200 px width. Overhead = icon slot (32) + padding on both
+    // sides (12 + 12) = 56.
+    const _searchFieldDecorationOverhead = 56.0;
+    const _searchFieldDefaultWidth = 200.0;
+    final hintPainter = TextPainter(
+      text: TextSpan(
+        text: l10n.managePageSearchFieldSearchHint,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      textDirection: Directionality.of(context),
+      maxLines: 1,
+    )..layout();
+    final searchWidth = hintPainter.width + _searchFieldDecorationOverhead;
+    final effectiveSearchWidth =
+        searchWidth > _searchFieldDefaultWidth ? searchWidth : _searchFieldDefaultWidth;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(width: 200, child: searchField),
+        SizedBox(width: effectiveSearchWidth, child: searchField),
         const SizedBox(width: kSpacing),
         Expanded(child: filterAndSort),
       ],
@@ -608,28 +635,30 @@ class _RenderFilterSort extends RenderBox
   void performLayout() {
     final filter = firstChild!;
     final sort = lastChild!;
-    final loose = constraints.loosen();
-
-    filter.layout(loose, parentUsesSize: true);
-    sort.layout(loose, parentUsesSize: true);
-
-    final fS = filter.size;
-    final sS = sort.size;
     final maxW = constraints.maxWidth;
     final filterParent = filter.parentData! as _FilterSortParentData;
     final sortParent = sort.parentData! as _FilterSortParentData;
 
+    // Layout both at their natural widths first.
+    filter.layout(BoxConstraints(maxWidth: maxW), parentUsesSize: true);
+    sort.layout(BoxConstraints(maxWidth: maxW), parentUsesSize: true);
+    final fS = filter.size;
+    final sS = sort.size;
+
     if (fS.width + _spacing + sS.width <= maxW) {
-      // Inline: filter at left edge, sort at right edge.
+      // Inline: filter left, sort right-aligned.
       filterParent.offset = Offset.zero;
       sortParent.offset = Offset(maxW - sS.width, 0);
       size = constraints.constrain(
         Size(maxW, fS.height > sS.height ? fS.height : sS.height),
       );
     } else {
-      // Overflow: filter top-left, sort bottom-right.
+      // Overflow: filter top-left, sort on second line right-aligned.
       filterParent.offset = Offset.zero;
-      sortParent.offset = Offset(maxW - sS.width, fS.height + _spacing);
+      sortParent.offset = Offset(
+        (maxW - sS.width).clamp(0.0, maxW),
+        fS.height + _spacing,
+      );
       size = constraints.constrain(
         Size(maxW, fS.height + _spacing + sS.height),
       );
