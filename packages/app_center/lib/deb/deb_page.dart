@@ -164,8 +164,11 @@ class _DebActionButtons extends ConsumerWidget {
                 ? Consumer(
                     builder: (context, ref, child) {
                       final transaction = ref
-                          .watch(transactionProvider(
-                              debModel.activeTransactionId!))
+                          .watch(
+                            transactionProvider(
+                              debModel.activeTransactionId!,
+                            ),
+                          )
                           .valueOrNull;
                       return Center(
                         child: SizedBox.square(
