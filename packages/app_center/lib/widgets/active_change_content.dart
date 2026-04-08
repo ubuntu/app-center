@@ -13,7 +13,7 @@ class ActiveChangeStatus extends StatelessWidget {
     super.key,
   });
 
-  final void Function()? onCancelPressed;
+  final void Function(WidgetRef ref)? onCancelPressed;
   final double progress;
   final String? actionLabel;
 
@@ -73,7 +73,7 @@ class _CancelActiveChangeButton extends ConsumerStatefulWidget {
     required this.onCancelPressed,
   });
 
-  final void Function()? onCancelPressed;
+  final void Function(WidgetRef ref)? onCancelPressed;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -92,7 +92,7 @@ class ConsumerActiveChangeButtonState
           ? () {
               setState(() {
                 isPressed = true;
-                widget.onCancelPressed?.call();
+                widget.onCancelPressed?.call(ref);
               });
             }
           : null,

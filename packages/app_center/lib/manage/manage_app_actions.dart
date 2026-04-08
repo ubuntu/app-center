@@ -89,7 +89,7 @@ class ManageAppActions extends ConsumerWidget {
                 .watch(activeChangeProvider(snapData.activeChangeId))
                 ?.progress ??
             0,
-        onCancelPressed: () =>
+        onCancelPressed: (ref) =>
             ref.read(snapModelProvider(snap.name).notifier).cancel(),
       );
     }
