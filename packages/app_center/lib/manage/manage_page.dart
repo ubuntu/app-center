@@ -13,6 +13,7 @@ import 'package:app_center/manage/manage_app_tile.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
 import 'package:app_center/snapd/currently_installing_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
@@ -519,45 +520,129 @@ class _FilterRow extends ConsumerWidget {
       ],
     );
 
+    final filterGroup = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        packageTypeFilter,
+        if (packageType == PackageTypeFilter.snap) ...[
+          const SizedBox(width: kSpacing),
+          showSystemApps,
+        ],
+      ],
+    );
+
+    final filterAndSort = _FilterSortLayout(
+      spacing: kSpacing / 2,
+      filter: filterGroup,
+      sort: sortBy,
+    );
+
     if (compact) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Expanded(child: searchField),
-              const SizedBox(width: kSpacing),
-              packageTypeFilter,
-            ],
-          ),
+          SizedBox(width: double.infinity, child: searchField),
           const SizedBox(height: kSpacing),
-          Row(
-            children: [
-              if (packageType == PackageTypeFilter.snap) ...[
-                showSystemApps,
-                const Spacer()
-              ],
-              sortBy,
-            ],
-          ),
+          filterAndSort,
         ],
       );
     }
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(child: searchField),
+        SizedBox(width: 200, child: searchField),
         const SizedBox(width: kSpacing),
-        packageTypeFilter,
-        const SizedBox(width: kSpacing),
-        if (packageType == PackageTypeFilter.snap) ...[
-          showSystemApps,
-          const SizedBox(width: kSpacing)
-        ],
-        sortBy,
+        Expanded(child: filterAndSort),
       ],
     );
   }
+}
+
+/// Filter left, sort right. When they don't fit, sort wraps to a second line
+/// right-aligned.
+class _FilterSortLayout extends MultiChildRenderObjectWidget {
+  _FilterSortLayout({
+    required Widget filter,
+    required Widget sort,
+    this.spacing = 0,
+  }) : super(children: [filter, sort]);
+
+  final double spacing;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) =>
+      _RenderFilterSort(spacing: spacing);
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderFilterSort renderObject,
+  ) =>
+      renderObject.spacing = spacing;
+}
+
+class _FilterSortParentData extends ContainerBoxParentData<RenderBox> {}
+
+class _RenderFilterSort extends RenderBox
+    with
+        ContainerRenderObjectMixin<RenderBox, _FilterSortParentData>,
+        RenderBoxContainerDefaultsMixin<RenderBox, _FilterSortParentData> {
+  _RenderFilterSort({required double spacing}) : _spacing = spacing;
+
+  double _spacing;
+  set spacing(double v) {
+    if (_spacing == v) return;
+    _spacing = v;
+    markNeedsLayout();
+  }
+
+  @override
+  void setupParentData(RenderBox child) {
+    if (child.parentData is! _FilterSortParentData) {
+      child.parentData = _FilterSortParentData();
+    }
+  }
+
+  @override
+  void performLayout() {
+    final filter = firstChild!;
+    final sort = lastChild!;
+    final loose = constraints.loosen();
+
+    filter.layout(loose, parentUsesSize: true);
+    sort.layout(loose, parentUsesSize: true);
+
+    final fS = filter.size;
+    final sS = sort.size;
+    final maxW = constraints.maxWidth;
+    final filterParent = filter.parentData! as _FilterSortParentData;
+    final sortParent = sort.parentData! as _FilterSortParentData;
+
+    if (fS.width + _spacing + sS.width <= maxW) {
+      // Inline: filter at left edge, sort at right edge.
+      filterParent.offset = Offset.zero;
+      sortParent.offset = Offset(maxW - sS.width, 0);
+      size = constraints.constrain(
+        Size(maxW, fS.height > sS.height ? fS.height : sS.height),
+      );
+    } else {
+      // Overflow: filter top-left, sort bottom-right.
+      filterParent.offset = Offset.zero;
+      sortParent.offset = Offset(maxW - sS.width, fS.height + _spacing);
+      size = constraints.constrain(
+        Size(maxW, fS.height + _spacing + sS.height),
+      );
+    }
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) =>
+      defaultPaint(context, offset);
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) =>
+      defaultHitTestChildren(result, position: position);
 }
 
 class _DebouncedSearchField extends ConsumerStatefulWidget {
