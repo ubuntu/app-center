@@ -222,4 +222,33 @@ void main() {
       verifyNever(mockSelectedCallback(any));
     });
   });
+
+  group('error handling', () {
+    testWidgets('gracefully handles autocomplete error', (tester) async {
+      await tester.pumpApp(
+        (_) => ProviderScope(
+          overrides: [
+            snapSearchProvider.overrideWith(
+              (ref, searchParameters) =>
+                  Stream.error(Exception('Network error')),
+            ),
+            appstreamSearchProvider
+                .overrideWith((ref, query) => Stream.value([])),
+          ],
+          child: SearchField(
+            onSearch: (_) {},
+            onSnapSelected: (_) {},
+            onDebSelected: (_) {},
+            searchFocus: FocusNode(),
+          ),
+        ),
+      );
+
+      final textField = find.byType(TextField);
+      await tester.enterText(textField, 'test');
+      await tester.pumpAndSettle();
+
+      expect(find.byType(TextField), findsOneWidget);
+    });
+  });
 }
