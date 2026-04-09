@@ -10,6 +10,7 @@ import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -140,40 +141,48 @@ class _DebActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final currentDesktops = ref.watch(currentDesktopsProvider);
+    final isCompulsory = debModel.isCompulsoryFor(currentDesktops);
 
     final primaryAction = debModel.hasUpdate
         ? DebAction.update
         : debModel.isInstalled
-            ? DebAction.remove
+            ? (isCompulsory ? null : DebAction.remove)
             : DebAction.install;
     final button = switch (primaryAction) {
       DebAction.install || DebAction.update => YaruSplitButton.new,
       _ => YaruSplitButton.outlined,
     };
 
-    final primaryActionButton = button(
-      onPressed: debModel.activeTransactionId != null
-          ? null
-          : primaryAction.callback(ref, debModel),
-      child: debModel.activeTransactionId != null
-          ? Consumer(
-              builder: (context, ref, child) {
-                final transaction = ref
-                    .watch(transactionProvider(debModel.activeTransactionId!))
-                    .valueOrNull;
-                return Center(
-                  child: SizedBox.square(
-                    dimension: kLoaderHeight,
-                    child: YaruCircularProgressIndicator(
-                      value: (transaction?.percentage ?? 0) / 100.0,
-                      strokeWidth: 2,
-                    ),
-                  ),
-                );
-              },
-            )
-          : Text(primaryAction.label(l10n)),
-    );
+    final primaryActionButton = primaryAction == null
+        ? null
+        : button(
+            onPressed: debModel.activeTransactionId != null
+                ? null
+                : primaryAction.callback(ref, debModel),
+            child: debModel.activeTransactionId != null
+                ? Consumer(
+                    builder: (context, ref, child) {
+                      final transaction = ref
+                          .watch(
+                            transactionProvider(
+                              debModel.activeTransactionId!,
+                            ),
+                          )
+                          .valueOrNull;
+                      return Center(
+                        child: SizedBox.square(
+                          dimension: kLoaderHeight,
+                          child: YaruCircularProgressIndicator(
+                            value: (transaction?.percentage ?? 0) / 100.0,
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : Text(primaryAction.label(l10n)),
+          );
 
     final cancelButton = OutlinedButton(
       onPressed: DebAction.cancel.callback(ref, debModel),
@@ -187,7 +196,7 @@ class _DebActionButtons extends ConsumerWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              primaryActionButton,
+              if (primaryActionButton != null) primaryActionButton,
             ],
           )
         else
@@ -209,15 +218,19 @@ class _MoreActionsButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final currentDesktops = ref.watch(currentDesktopsProvider);
+    final isCompulsory = debData.isCompulsoryFor(currentDesktops);
+
     final primaryAction = debData.hasUpdate
         ? DebAction.update
         : debData.isInstalled
-            ? DebAction.remove
+            ? (isCompulsory ? null : DebAction.remove)
             : DebAction.install;
 
     final secondaryActions = [
       if (debData.hasUpdate) DebAction.update,
-      if (debData.isInstalled || debData.hasUpdate) DebAction.remove,
+      if (!isCompulsory && (debData.isInstalled || debData.hasUpdate))
+        DebAction.remove,
     ]..remove(primaryAction);
 
     return secondaryActions.isNotEmpty

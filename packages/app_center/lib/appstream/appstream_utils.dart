@@ -75,6 +75,15 @@ extension LocalizedComponent on AppstreamComponent {
 }
 
 extension Metadata on AppstreamComponent {
+  /// Returns true if this component is marked compulsory for any desktop in
+  /// [desktops].
+  bool isCompulsoryFor(Iterable<String> desktops) {
+    final running = desktops.map((d) => d.toLowerCase()).toSet();
+    return compulsoryForDesktops.any(
+      (d) => running.contains(d.toLowerCase()),
+    );
+  }
+
   String? get icon {
     final remoteIcon = icons.whereType<AppstreamRemoteIcon>().firstOrNull;
     return remoteIcon?.url;
