@@ -69,6 +69,8 @@ class SearchPage extends StatelessWidget {
                             SnapSortOrder.alphabeticalDesc,
                             SnapSortOrder.downloadSizeAsc,
                             SnapSortOrder.downloadSizeDesc,
+                            SnapSortOrder.publishedDateAsc,
+                            SnapSortOrder.publishedDateDesc,
                           ],
                           itemBuilder: (context, sortOrder, child) => Text(
                             sortOrder?.localize(l10n) ??

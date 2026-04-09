@@ -25,6 +25,8 @@ extension SnapSortOrderL10n on SnapSortOrder {
       SnapSortOrder.installedDateDesc => l10n.snapSortOrderInstalledDateDesc,
       SnapSortOrder.installedSizeAsc => l10n.snapSortOrderInstalledSizeAsc,
       SnapSortOrder.installedSizeDesc => l10n.snapSortOrderInstalledSizeDesc,
+      SnapSortOrder.publishedDateAsc => l10n.snapSortOrderPublishedDateAsc,
+      SnapSortOrder.publishedDateDesc => l10n.snapSortOrderPublishedDateDesc,
     };
   }
 }
