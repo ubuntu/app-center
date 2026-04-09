@@ -177,8 +177,15 @@ class _PrimaryActionButton extends ConsumerWidget {
 
     if (hasActiveChange) {
       return ActiveChangeStatus(
-        snapName: snap.name,
-        activeChangeId: snapData.activeChangeId!,
+        actionLabel: ref
+            .watch(activeChangeProvider(snapData.activeChangeId))
+            ?.localize(l10n),
+        progress: ref
+                .watch(activeChangeProvider(snapData.activeChangeId))
+                ?.progress ??
+            0,
+        onCancelPressed: () =>
+            ref.read(snapModelProvider(snap.name).notifier).cancel(),
       );
     }
 
