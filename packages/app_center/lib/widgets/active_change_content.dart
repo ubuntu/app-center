@@ -2,7 +2,6 @@ import 'package:app_center/constants.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 
 class ActiveChangeStatus extends StatelessWidget {
@@ -13,7 +12,7 @@ class ActiveChangeStatus extends StatelessWidget {
     super.key,
   });
 
-  final void Function(WidgetRef ref)? onCancelPressed;
+  final void Function()? onCancelPressed;
   final double progress;
   final String? actionLabel;
 
@@ -33,7 +32,7 @@ class ActiveChangeStatus extends StatelessWidget {
   }
 }
 
-class _ActiveChangeText extends ConsumerWidget {
+class _ActiveChangeText extends StatelessWidget {
   const _ActiveChangeText({
     required this.progress,
     this.label,
@@ -43,7 +42,7 @@ class _ActiveChangeText extends ConsumerWidget {
   final double progress;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Row(
       children: [
         SizedBox.square(
@@ -68,20 +67,18 @@ class _ActiveChangeText extends ConsumerWidget {
 }
 
 //
-class _CancelActiveChangeButton extends ConsumerStatefulWidget {
+class _CancelActiveChangeButton extends StatefulWidget {
   const _CancelActiveChangeButton({
     required this.onCancelPressed,
   });
 
-  final void Function(WidgetRef ref)? onCancelPressed;
+  final void Function()? onCancelPressed;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      ConsumerActiveChangeButtonState();
+  State<StatefulWidget> createState() => ActiveChangeButtonState();
 }
 
-class ConsumerActiveChangeButtonState
-    extends ConsumerState<_CancelActiveChangeButton> {
+class ActiveChangeButtonState extends State<_CancelActiveChangeButton> {
   bool isPressed = false;
 
   @override
@@ -92,7 +89,7 @@ class ConsumerActiveChangeButtonState
           ? () {
               setState(() {
                 isPressed = true;
-                widget.onCancelPressed?.call(ref);
+                widget.onCancelPressed?.call();
               });
             }
           : null,

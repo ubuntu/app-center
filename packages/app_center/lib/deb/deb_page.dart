@@ -162,7 +162,7 @@ class _DebActionButtons extends ConsumerWidget {
 
     if (debModel.activeTransactionId != null) {
       return ActiveChangeStatus(
-        onCancelPressed: (ref) => DebAction.cancel.callback(ref, debModel),
+        onCancelPressed: () => DebAction.cancel.callback(ref, debModel),
         progress: (ref
                     .watch(transactionProvider(debModel.activeTransactionId!))
                     .valueOrNull
