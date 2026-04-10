@@ -38,7 +38,7 @@ git log --format="%an <%ae>" | grep -i "<name>" | head -1
 
 If no match is found, ask the user for the email directly.
 
-If co-author trailers are relevant, always include the Copilot co-author trailer as well:
+If user is using Copilot, **always** include the Copilot co-author trailer as well:
 
 ```text
 Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
@@ -126,22 +126,22 @@ Use the GitHub MCP tool with:
 - `repo`: `app-center`
 - `head`: `<your-username>:<current-branch>`
 - `base`: `main`
+- `draft`: `true` — **always open as a draft**
+
+PRs must always be opened as drafts. This allows the author to review the PR page, verify the diff, and manually mark it ready when confident.
 
 If the PR body is posted automatically, append the disclosure line `*AI-authored.*`
 
 Include a clear PR body:
-- **What** changed (summary of commits, type of change: "Bug fix (non-breaking)", "New feature (non-breaking)", "Breaking change", "Documentation update")
+- **What** changed with all new commits in the branch (summary, type of change: "Bug fix (non-breaking)", "New feature (non-breaking)", "Breaking change", "Documentation update")
 - **Why** it was needed (context, issue number)
 - **Notes** for reviewers (breaking changes, dependencies, etc.)
 
 **PR body template:**
 
 ```markdown
-## Description
+[Briefly describe what changes with this branch and why. Don't overdo technical details as they are probably in the commits, but provide enough context for reviewers to understand the intent and scope of the change.]
 
-Briefly describe what changed and why.
-
-## Related Issue
 Fixes #123
 
 ## Type of Change
@@ -154,7 +154,12 @@ Documentation update
 - [ ] Generated code updated (`melos run generate`)
 - [ ] Localizations updated (`melos run gen-l10n`)
 - [ ] No breaking changes to public APIs
-- [ ] PR follows Conventional Commits format
+```
+
+**Jira ticket:** If the user has provided a Jira ticket ID (e.g. `APP-123`), include it at the end of the PR title so Jira's GitHub integration picks it up automatically:
+
+```
+feat(snap): add support for classic snaps [APP-123]
 ```
 
 ## Key Notes

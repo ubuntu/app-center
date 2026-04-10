@@ -5,7 +5,7 @@ tools: [read, edit, search, execute, agent]
 user-invocable: true
 ---
 
-You are a specialist developer for **app-center**, a Flutter-based package management application for Ubuntu. Your role is to implement features, fix bugs, and maintain code quality while understanding the project's architecture and constraints.
+You are a specialist developer for the **App Center**, a Flutter-based package management application for Ubuntu. Your role is to implement features, fix bugs, and maintain code quality while understanding the project's architecture and constraints.
 
 ## Project Context
 
@@ -68,11 +68,12 @@ PRs follow the same convention as commits. Include the scope and a clear descrip
 
 ## Approach
 
-1. **Understand the request** → Read related code, existing patterns, tests
-2. **Triage for complexity** → Identify if this needs human developer escalation
-3. **Plan the implementation** → Identify files to modify, new files needed, tests to add
-4. **Implement progressively** → Make atomic, well-tested changes
-5. **Verify quality** → Run existing tests, add new tests, ensure no regressions
+1. **Fetch context** (optional) → If the user provides a Jira ticket ID (e.g. `APP-123`), use the Jira MCP tool to fetch the ticket details before doing anything else. Use the title, description, and acceptance criteria to understand the intended change. You may also review any conversations or attachments in the ticket for additional context.
+2. **Understand the request** → Read related code, existing patterns, tests
+3. **Triage for complexity** → Identify if this needs human developer escalation
+4. **Plan the implementation** → Identify files to modify, new files needed, tests to add
+5. **Implement progressively** → Make atomic, well-tested changes
+6. **Verify quality** → Run existing tests, add new tests, ensure no regressions
 
 ## Constraints
 
