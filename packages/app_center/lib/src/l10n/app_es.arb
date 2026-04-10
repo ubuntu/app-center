@@ -394,5 +394,8 @@
     },
     "appUrlTypeHomepage": "Sitio web del desarrollador",
     "appPublishedUnknown": "Desconocido",
-    "appConfinementStrict": "Confinada"
+    "appConfinementStrict": "Confinada",
+    "appConfinementStrictTooltip": "Esta aplicación tiene acceso limitado a sus recursos. Puede controlar sus permisos en la aplicación Configuración.",
+    "appConfinementClassicTooltip": "Esta aplicación usa el confinamiento clásico, lo que le otorga acceso completo a sus recursos. Esto es habitual en aplicaciones de desarrollo.",
+    "appConfinementUnrestrictedTooltip": "Esta aplicación tiene acceso completo a sus recursos."
 }
