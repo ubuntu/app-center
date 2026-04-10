@@ -27,7 +27,7 @@
     "snapCategoryServerAndCloud": "Server a cloud",
     "aboutPageLabel": "O aplikácii",
     "snapPageSummaryLabel": "Zhrnutie",
-    "appstreamSearchGreylist": "app;aplikácia;balík;program;softvér;sada;súprava;nástroj",
+    "appstreamSearchGreylist": "apka;aplikácia;balík;program;softvér;sada;súprava;nástroj",
     "snapCategoryScience": "Veda",
     "snapCategoryEntertainment": "Zábava",
     "snapActionInstallLabel": "Inštalovať",
@@ -163,7 +163,7 @@
     "snapSortOrderRelevance": "Relevancia",
     "snapSortOrderDownloadSizeDesc": "Najväčšie",
     "appstreamUrlTypeBugtracker": "Sledovanie chýb",
-    "managePageShowSystemSnapsLabel": "Zobraziť systémové snapy",
+    "managePageShowSystemSnapsLabel": "Systémové snapy",
     "searchPageFilterByLabel": "Filtrovať",
     "snapSortOrderInstalledDateDesc": "Najnovšie",
     "appCenterLabel": "Centrum aplikácií",
@@ -394,5 +394,8 @@
     "managePagePackageTypeDeb": "Deb",
     "managePagePackageTypeLabel": "Balíky",
     "managePagePackageTypeAll": "Všetky",
-    "appMoreActionsSemanticLabel": "Viac akcií"
+    "appMoreActionsSemanticLabel": "Viac akcií",
+    "appConfinementStrictTooltip": "Aplikácia má limitovaný prístup k systémovým zdrojom a beží v izolácii. Povolenia môžete meniť v aplikácii Nastavenia.",
+    "appConfinementClassicTooltip": "Aplikácia má plný prístup k systémovým zdrojom, čo je typické pre vývojárske nástroje a umožňuje fungovať mimo izolácie.",
+    "appConfinementUnrestrictedTooltip": "Aplikácia má plný prístup k systémovým zdrojom."
 }
