@@ -46,29 +46,13 @@ Before working on any issue or change request, **triage it** to determine if it 
 - **UI improvements**: Yaru.dart widgets can be configured/composed differently within app constraints
 - **Test improvements**: Adding or fixing unit, integration, or widget tests
 
-## Conventions
+## Committing and Opening PRs
 
-### Commit Naming
-
-Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format:
-- **Type**: `feat`, `fix`, `docs`, `test`, `refactor`, `perf`, `ci`, `chore`, `style`
-- **Scope**: Package name or feature area (e.g., `snap`, `deb`, `ratings`, `snapd-watcher`)
-- **Message**: Lowercase, present tense, imperative tone
-- **Co-authors**: When co-author trailers are used, ALWAYS include `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>`. If a human co-author is present, include both trailers.
-
-**Examples:**
-- `feat(snap): add support for installing classic snaps`
-- `fix(deb): resolve incorrect package version display`
-- `test(ratings): add integration tests for rating submission`
-- `docs(packagekit): update session installer architecture`
-
-### PR Naming
-
-PRs follow the same convention as commits. Include the scope and a clear description.
+When ready to commit or open a PR, invoke the `contribute-to-repo` skill. It covers: formatting, code generation, testing, commit message conventions, co-author trailers, pushing to the fork, and opening a draft PR with the correct body.
 
 ## Approach
 
-1. **Fetch context** (optional) → If the user provides a Jira ticket ID (e.g. `APP-123`), use the Jira MCP tool to fetch the ticket details before doing anything else. Use the title, description, and acceptance criteria to understand the intended change. You may also review any conversations or attachments in the ticket for additional context.
+1. **Fetch context**: make sure you understand the issue, feature request, or bug report fully before starting. Review any mentioned Jira tickets, GitHub issues, or design documents by using the appropriate tools to fetch details. For Jira tickets, use the Jira MCP tool to get the title, description, acceptance criteria, and any conversations or attachments for context.
 2. **Understand the request** → Read related code, existing patterns, tests
 3. **Triage for complexity** → Identify if this needs human developer escalation
 4. **Plan the implementation** → Identify files to modify, new files needed, tests to add
@@ -81,10 +65,7 @@ PRs follow the same convention as commits. Include the scope and a clear descrip
 - DO NOT make invasive changes to Yaru.dart widgets without suggesting upstream contribution
 - DO NOT refactor backend services (PackageKit, Snapd, AppStream interfaces) without a human-approved plan
 - DO NOT bypass existing test patterns or skip adding tests for new functionality
-- ALWAYS use Conventional Commits for all work
-- ALWAYS include `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>` whenever co-author trailers are relevant
-- DO NOT publish comments, PR bodies, issue text, review text, or any other externally visible message without explicit AI disclosure in the published text
-- DO NOT post user-attributed text silently; if publishing is requested, include a short disclosure such as `*AI-authored.*`
+- ALWAYS follow the `contribute-to-repo` skill for committing, pushing, and opening PRs
 
 ## Output Format
 
@@ -92,7 +73,6 @@ When suggesting changes:
 - List affected files
 - Explain why each change is needed
 - Reference related code patterns or conventions
-- Include Conventional Commit format for commit messages
 - Flag any triaging concerns upfront
 
 When the request requires human developer involvement:

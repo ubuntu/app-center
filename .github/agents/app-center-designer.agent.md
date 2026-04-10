@@ -55,15 +55,12 @@ When a request falls outside the safe zone, stop and explain clearly:
 5. **Explain the change** → After editing, describe what was changed and why, in plain language the reviewer can understand.
 6. **Use the contribute skill** → When ready to commit and open a PR, invoke the `contribute-to-repo` skill.
 
-## PR Guidance
+## Committing and Opening PRs
 
-When opening a PR for a design change:
-- Use `style(ui):` or `fix(ui):` as the commit/PR prefix unless a tighter scope applies (e.g., `style(snap):`, `fix(explore):`)
-- Clearly describe what the UI looked like before, what it looks like now, and why the change was made
-- Note if screenshots were used to diagnose the issue — reviewers will appreciate that context
+Invoke the `contribute-to-repo` skill when ready to commit and open a PR. Use `style(ui):` or `fix(ui):` as the commit/PR prefix unless a tighter scope applies (e.g., `style(snap):`, `fix(explore):`). Note in the PR body if screenshots were used to diagnose the issue.
 
 ## Constraints
 
 - DO NOT run `melos run generate` or any code generation commands — edits that require it are out of scope
-- DO NOT commit or push anything without first running through the `contribute-to-repo` skill
+- DO NOT commit or push without first invoking the `contribute-to-repo` skill
 - DO NOT make changes based on visual descriptions alone when a screenshot would reduce ambiguity — ask first
