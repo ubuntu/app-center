@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:app_center/constants.dart';
 import 'package:app_center/error/error.dart';
@@ -532,11 +533,12 @@ class _FilterRow extends ConsumerWidget {
 
     final filterGroup = Row(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         packageTypeFilter,
         if (packageType == PackageTypeFilter.snap) ...[
-          SizedBox(width: kSpacing),
-          Flexible(child: showSystemApps),
+          const SizedBox(width: kSpacing),
+          showSystemApps,
         ],
       ],
     );
@@ -572,16 +574,16 @@ class _FilterRow extends ConsumerWidget {
       maxLines: 1,
     )..layout();
     final searchWidth = hintPainter.width + _searchFieldDecorationOverhead;
-    final effectiveSearchWidth =
-        searchWidth > _searchFieldDefaultWidth ? searchWidth : _searchFieldDefaultWidth;
+    final effectiveSearchWidth = searchWidth > _searchFieldDefaultWidth
+        ? searchWidth
+        : _searchFieldDefaultWidth;
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(width: effectiveSearchWidth, child: searchField),
-        const SizedBox(width: kSpacing),
-        Expanded(child: filterAndSort),
-      ],
+    return _SearchFilterSortLayout(
+      searchWidth: effectiveSearchWidth,
+      spacing: kSpacing,
+      search: searchField,
+      filter: filterGroup,
+      sort: sortBy,
     );
   }
 }
@@ -662,6 +664,175 @@ class _RenderFilterSort extends RenderBox
       size = constraints.constrain(
         Size(maxW, fS.height + _spacing + sS.height),
       );
+    }
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) =>
+      defaultPaint(context, offset);
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) =>
+      defaultHitTestChildren(result, position: position);
+}
+
+/// Lays out a search field, a filter group, and a sort control.
+///
+/// When the filter group fits beside the search field it is placed there, with
+/// the sort control right-aligned (wrapping to a second line if needed).
+/// When the filter group is too wide to sit beside the search field the search
+/// field occupies the first row and the filter + sort occupy the second row
+/// (sort right-aligned, wrapping to a third line if needed).
+class _SearchFilterSortLayout extends MultiChildRenderObjectWidget {
+  _SearchFilterSortLayout({
+    required Widget search,
+    required Widget filter,
+    required Widget sort,
+    required this.searchWidth,
+    this.spacing = 0,
+  }) : super(children: [search, filter, sort]);
+
+  final double searchWidth;
+  final double spacing;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) =>
+      _RenderSearchFilterSort(searchWidth: searchWidth, spacing: spacing);
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderSearchFilterSort renderObject,
+  ) {
+    renderObject
+      ..searchWidth = searchWidth
+      ..spacing = spacing;
+  }
+}
+
+class _RenderSearchFilterSort extends RenderBox
+    with
+        ContainerRenderObjectMixin<RenderBox, _FilterSortParentData>,
+        RenderBoxContainerDefaultsMixin<RenderBox, _FilterSortParentData> {
+  _RenderSearchFilterSort({
+    required double searchWidth,
+    required double spacing,
+  })  : _searchWidth = searchWidth,
+        _spacing = spacing;
+
+  double _searchWidth;
+  set searchWidth(double v) {
+    if (_searchWidth == v) return;
+    _searchWidth = v;
+    markNeedsLayout();
+  }
+
+  double _spacing;
+  set spacing(double v) {
+    if (_spacing == v) return;
+    _spacing = v;
+    markNeedsLayout();
+  }
+
+  @override
+  void setupParentData(RenderBox child) {
+    if (child.parentData is! _FilterSortParentData) {
+      child.parentData = _FilterSortParentData();
+    }
+  }
+
+  @override
+  void performLayout() {
+    final search = firstChild!;
+    final filter = childAfter(search)!;
+    final sort = lastChild!;
+
+    final searchParent = search.parentData! as _FilterSortParentData;
+    final filterParent = filter.parentData! as _FilterSortParentData;
+    final sortParent = sort.parentData! as _FilterSortParentData;
+
+    final maxW = constraints.maxWidth;
+
+    // Lay out sort and search to know their sizes.
+    sort.layout(BoxConstraints(maxWidth: maxW), parentUsesSize: true);
+    final sortSize = sort.size;
+
+    search.layout(
+      BoxConstraints.tightFor(width: _searchWidth),
+      parentUsesSize: true,
+    );
+    final searchSize = search.size;
+
+    // How much horizontal space is available to the right of the search field.
+    final spaceForFilter = maxW - _searchWidth - _spacing;
+
+    // Measure the filter group's natural (unconstrained) width.
+    final filterNatural = filter.getMaxIntrinsicWidth(double.infinity);
+
+    if (filterNatural <= spaceForFilter) {
+      // ── Inline layout ──
+      // [search]  [filter ·····] [sort right-aligned]
+      // Sort wraps to a second line if filter + sort don't both fit.
+      filter.layout(
+        BoxConstraints(maxWidth: spaceForFilter),
+        parentUsesSize: true,
+      );
+      final filterSize = filter.size;
+
+      searchParent.offset = Offset.zero;
+      filterParent.offset = Offset(_searchWidth + _spacing, 0);
+
+      if (filterSize.width + _spacing + sortSize.width <= spaceForFilter) {
+        sortParent.offset = Offset(maxW - sortSize.width, 0);
+        final rowH = [searchSize.height, filterSize.height, sortSize.height]
+            .reduce(math.max);
+        size = constraints.constrain(Size(maxW, rowH));
+      } else {
+        sortParent.offset = Offset(
+          maxW - sortSize.width,
+          filterSize.height + _spacing,
+        );
+        final row1H = math.max(searchSize.height, filterSize.height);
+        size = constraints.constrain(
+          Size(maxW, row1H + _spacing + sortSize.height),
+        );
+      }
+    } else {
+      // ── Stacked layout ──
+      // [search]
+      // [filter ·····] [sort right-aligned]
+      // Sort wraps to a third line if filter + sort don't both fit.
+      filter.layout(BoxConstraints(maxWidth: maxW), parentUsesSize: true);
+      final filterSize = filter.size;
+
+      searchParent.offset = Offset.zero;
+      filterParent.offset = Offset(0, searchSize.height + _spacing);
+
+      if (filterSize.width + _spacing + sortSize.width <= maxW) {
+        sortParent.offset = Offset(
+          maxW - sortSize.width,
+          searchSize.height + _spacing,
+        );
+        final row2H = math.max(filterSize.height, sortSize.height);
+        size = constraints.constrain(
+          Size(maxW, searchSize.height + _spacing + row2H),
+        );
+      } else {
+        sortParent.offset = Offset(
+          maxW - sortSize.width,
+          searchSize.height + _spacing + filterSize.height + _spacing,
+        );
+        size = constraints.constrain(
+          Size(
+            maxW,
+            searchSize.height +
+                _spacing +
+                filterSize.height +
+                _spacing +
+                sortSize.height,
+          ),
+        );
+      }
     }
   }
 
