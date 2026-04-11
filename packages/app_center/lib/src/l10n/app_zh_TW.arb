@@ -33,7 +33,7 @@
     "snapActionInstallLabel": "安裝",
     "snapPageLicenseLabel": "授權條款",
     "snapCategoryPhotoAndVideo": "照片和影片",
-    "snapPageConfinementLabel": "限制權限",
+    "snapPageConfinementLabel": "權限",
     "snapCategoryMusicAndAudio": "音樂與音訊",
     "aboutPageGitHubLabel": "在 GitHub 上找到我們",
     "packageFormatSnapLabel": "Snap 軟體包",
@@ -41,7 +41,7 @@
     "snapActionInstallingLabel": "安裝中",
     "searchFieldSearchHint": "搜尋應用程式",
     "snapCategoryFeatured": "精選",
-    "managePageSearchFieldSearchHint": "搜尋您已安裝的應用程式",
+    "managePageSearchFieldSearchHint": "搜尋已安裝的應用程式",
     "snapActionCancelLabel": "取消",
     "snapPagePublisherLabel": "發布者",
     "snapPageDescriptionLabel": "描述",
@@ -191,12 +191,12 @@
     },
     "snapPageDeveloperWebsiteLabel": "開發者的網站",
     "snapPageDownloadSizeLabel": "下載大小",
-    "snapPagePublishedLabel": "發布日期",
+    "snapPagePublishedLabel": "最後更新時間",
     "snapPageShareLinkCopiedMessage": "連結已複製到剪貼簿",
     "explorePageCategoriesLabel": "類別",
     "managePageCheckingForUpdates": "正在檢查更新",
     "managePageDescription": "檢查可用的更新，更新您的應用程式，並管理所有應用程式的狀態。",
-    "managePageInstalledAndUpdatedLabel": "已安裝和更新",
+    "managePageInstalledAndUpdatedLabel": "已安裝的應用程式",
     "managePageNoUpdatesAvailableDescription": "無可用的更新。您的應用程式都是最新的。",
     "managePageShowDetailsLabel": "顯示詳細資訊",
     "managePageShowSystemSnapsLabel": "顯示系統程式",
@@ -348,5 +348,54 @@
     "codecPageTitle": "缺少媒體編解碼器",
     "codecPageDescription": "您需要安裝以下編解碼器以處理特定的影音格式：",
     "codecProprietaryDisclaimer": "部分推薦的編解碼器可能是專有格式。",
-    "codecInstallAllButton": "安裝建議的編解碼器"
+    "codecInstallAllButton": "安裝建議的編解碼器",
+    "managePagePackageTypeLabel": "軟體包類型",
+    "managePagePackageTypeAll": "全部",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appUrlTypeContact": "聯絡 {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "開發者網站",
+    "appUrlTypeUnknown": "連結",
+    "appConfinementUnknown": "未知",
+    "appConfinementStrict": "沙盒化",
+    "appConfinementDevelopment": "開發模式",
+    "appConfinementClassic": "無限制",
+    "appConfinementUnrestricted": "無限制",
+    "appConfinementStrictTooltip": "此應用程式對資源的存取權限有限。您可以在「設定」應用程式中管理其權限。",
+    "appConfinementClassicTooltip": "此應用程式採用經典的隔離機制，可完全存取您的資源。這在開發類應用程式中相當常見。",
+    "appConfinementUnrestrictedTooltip": "此應用程式擁有您資源的完整存取權限。",
+    "appLicenseUnknown": "未知",
+    "appPublishedUnknown": "未知",
+    "appMoreActionsSemanticLabel": "更多操作",
+    "snapActionRevertLabel": "還原更新",
+    "snapActionRevertingLabel": "正在還原更新",
+    "snapRevertConfirmTitle": "還原到之前的版本？",
+    "snapRevertConfirmMessage": "當有新版本推出時，自動更新將恢復。",
+    "snapRevertConfirmRevert": "還原",
+    "snapRevertConfirmCancel": "取消",
+    "snapRevertConfirmTitleWithVersions": "要從 {currentVersion} (rev {currentRevision}) 還原至 {previousVersion} (rev {previousRevision}) 嗎？",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "目前沒有可還原的先前本機修訂版。"
 }
