@@ -401,5 +401,8 @@
     "appLicenseUnknown": "Pole teada",
     "appPublishedUnknown": "Pole teada",
     "appMoreActionsSemanticLabel": "Täiendavad tegevused",
-    "appConfinementDevelopment": "Arendusrežiimis"
+    "appConfinementDevelopment": "Arendusrežiimis",
+    "appConfinementUnrestrictedTooltip": "Sellel rakendusel on täismahuline ligipääs sinu arvuti/seadme ressurssidele.",
+    "appConfinementClassicTooltip": "Sellel rakendusel on kasutusel klassikaline eraldamine, aga ka täismahuline ligipääs sinu arvuti/seadme ressurssidele. See on tavaline arendustarvikute puhul.",
+    "appConfinementStrictTooltip": "Sellel rakendusel on piiratud ligipääs sinu arvuti/seadme ressurssidele. Õigusi saad kohendada Seadistuste rakendusest."
 }
