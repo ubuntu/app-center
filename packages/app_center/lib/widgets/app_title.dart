@@ -1,15 +1,14 @@
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/local_deb_model.dart';
-import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/games/games.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store_navigator.dart';
+import 'package:app_center/widgets/hyperlink_text.dart';
 import 'package:appstream/appstream.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:snapd/snapd.dart';
-import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
 
 class AppTitle extends StatelessWidget {
@@ -126,8 +125,8 @@ class AppTitle extends StatelessWidget {
             children: snapCategories!
                 .whereNot((c) => c.categoryEnum == SnapCategoryEnum.featured)
                 .map(
-                  (category) => ClickableText(
-                    category.categoryEnum.localize(l10n),
+                  (category) => HyperlinkText(
+                    text: category.categoryEnum.localize(l10n),
                     onTap: () {
                       StoreNavigator.pushSearch(
                         context,

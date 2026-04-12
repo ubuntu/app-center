@@ -56,9 +56,17 @@ abstract class AppMetadata {
 
 extension AppConfinementL10n on AppConfinement {
   String localize(AppLocalizations l10n) => switch (this) {
-        AppConfinement.classic => l10n.snapConfinementClassic,
-        AppConfinement.development => l10n.snapConfinementDevmode,
-        AppConfinement.strict => l10n.snapConfinementStrict,
-        _ => name,
+        AppConfinement.unrestricted => l10n.appConfinementUnrestricted,
+        AppConfinement.classic => l10n.appConfinementClassic,
+        AppConfinement.development => l10n.appConfinementDevelopment,
+        AppConfinement.strict => l10n.appConfinementStrict,
+        AppConfinement.unknown => l10n.appConfinementUnknown,
+      };
+
+  String? localizeTooltip(AppLocalizations l10n) => switch (this) {
+        AppConfinement.unrestricted => l10n.appConfinementUnrestrictedTooltip,
+        AppConfinement.classic => l10n.appConfinementClassicTooltip,
+        AppConfinement.strict => l10n.appConfinementStrictTooltip,
+        _ => null,
       };
 }

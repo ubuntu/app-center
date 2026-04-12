@@ -1,23 +1,28 @@
 import 'package:app_center/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:yaru/yaru.dart';
 
 /// A [Text] widget formatted as an accessible hyperlink.
-class HyperlinkText extends StatefulWidget {
-  const HyperlinkText({required this.text, required this.link, super.key});
+class HyperlinkText extends StatelessWidget {
+  const HyperlinkText({
+    required this.text,
+    this.link,
+    this.onTap,
+    super.key,
+  }) : assert(
+          (link != null) ^ (onTap != null),
+          'Exactly one of link or onTap should be provided',
+        );
 
   /// The data of the [Text] underlying widget.
   final String text;
 
   /// URL to open on click.
-  final String link;
+  final String? link;
 
-  @override
-  State<HyperlinkText> createState() => _HyperlinkTextState();
-}
-
-class _HyperlinkTextState extends State<HyperlinkText> {
-  bool focused = false;
+  /// See [InkWell.onTap].
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -28,34 +33,20 @@ class _HyperlinkTextState extends State<HyperlinkText> {
         : brightness == Brightness.dark
             ? kHyperlinkDark
             : kHyperlinkLight;
+    final textStyle = DefaultTextStyle.of(context);
 
-    return Semantics(
-      link: true,
-      child: DecoratedBox(
-        decoration: ShapeDecoration(
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: focused ? theme.primaryColor : Colors.transparent,
-              width: 2,
-              strokeAlign: 2,
-            ),
-          ),
-        ),
+    return YaruFocusBorder(
+      child: Semantics(
+        link: true,
         child: InkWell(
-          onTap: () async {
-            await launchUrlString(widget.link);
-          },
+          hoverColor: Colors.transparent,
           focusColor: Colors.transparent,
-          onFocusChange: (value) {
-            setState(() {
-              focused = value;
-            });
-          },
+          onTap: onTap ?? () => launchUrlString(link!),
           child: Text(
-            widget.text,
-            style: TextStyle(
-              decoration: TextDecoration.underline,
+            text,
+            style: textStyle.style.copyWith(
               color: hyperlinkColor,
+              decoration: TextDecoration.underline,
             ),
           ),
         ),

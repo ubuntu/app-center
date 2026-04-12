@@ -4,6 +4,7 @@ import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:appstream/appstream.dart';
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -20,6 +21,7 @@ class DebData extends AppMetadata with _$DebData {
     required bool hasUpdate,
     required StreamSubscription<PackageKitServiceError> errorStream,
     PackageKitPackageEvent? packageInfo,
+    PackageKitDetailsEvent? details,
     int? activeTransactionId,
     PackageKitServiceError? error,
   }) = _DebData;
@@ -28,6 +30,10 @@ class DebData extends AppMetadata with _$DebData {
 
   bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
 
+  /// Returns true if this package is compulsory for any of the given [desktops].
+  bool isCompulsoryFor(List<String> desktops) =>
+      component.isCompulsoryFor(desktops);
+
   @override
   AppConfinement? get confinement => AppConfinement.fromDeb();
 
@@ -35,7 +41,7 @@ class DebData extends AppMetadata with _$DebData {
   String? get publisher => component.getLocalizedDeveloperName();
 
   @override
-  int? get downloadSize => null;
+  int? get downloadSize => details?.size;
 
   @override
   String? get license => component.projectLicense;
@@ -53,10 +59,11 @@ class DebData extends AppMetadata with _$DebData {
       );
 
   @override
-  DateTime? get published => null;
+  DateTime? get published =>
+      component.releases.map((r) => r.date).whereType<DateTime>().maxOrNull;
 
   @override
-  String? get version => packageInfo?.packageId.version ?? '';
+  String? get version => packageInfo?.packageId.version;
 }
 
 @riverpod
@@ -72,6 +79,8 @@ class DebModel extends _$DebModel {
 
     final packageInfo = await _getPackageInfo(component);
     final hasUpdate = await _getUpdates(packageInfo!);
+    final details = (await packageKit
+        .getDetails([packageInfo.packageId]))[packageInfo.packageId.name];
 
     final errorListener = packageKit.errorStream.listen(_onError);
     ref.onDispose(errorListener.cancel);
@@ -80,6 +89,7 @@ class DebModel extends _$DebModel {
       id: id,
       component: component,
       packageInfo: packageInfo,
+      details: details,
       hasUpdate: hasUpdate,
       errorStream: errorListener,
     );
@@ -109,29 +119,41 @@ class DebModel extends _$DebModel {
   Future<void> cancelTransaction() async {
     if (state.value?.activeTransactionId == null) return;
     await packageKit.cancelTransaction(state.value!.activeTransactionId!);
+    state = AsyncValue.data(
+      state.value!.copyWith(activeTransactionId: null),
+    );
   }
 
   Future<void> _onError(PackageKitServiceError error) async {
-    state = AsyncValue.data(state.value!.copyWith(error: error));
+    state = AsyncValue.data(
+      state.value!.copyWith(
+        error: error,
+        activeTransactionId: null,
+      ),
+    );
   }
 
   Future<PackageKitPackageEvent?> _getPackageInfo(
     AppstreamComponent component,
   ) async {
-    final packageInfo = await packageKit.resolve(component.package ?? id);
-    return packageInfo;
+    final packageName = component.package ?? id;
+    final results = await packageKit.resolve([packageName]);
+    return results[packageName];
   }
 
   Future<bool> _getUpdates(PackageKitPackageEvent packageInfo) async {
-    final detailsEvent = await packageKit.getUpdates(packageInfo.packageId);
+    final detailsEvent =
+        await packageKit.getUpdateDetails(packageInfo.packageId);
     // a package will list itself in its updates if its up-to-date, so ignore those
     final updates =
         detailsEvent?.updates.where((pid) => pid != packageInfo.packageId);
     var hasUpdate = false;
 
     for (final packageUpdate in updates ?? <PackageKitPackageId>[]) {
-      final package = await packageKit.resolve(packageUpdate.toString());
-      hasUpdate = package?.info == PackageKitInfo.installed;
+      final packageName = packageUpdate.name;
+      final results =
+          await packageKit.resolve([packageName], installedOnly: true);
+      hasUpdate = results[packageName]?.info == PackageKitInfo.installed;
       break;
     }
 

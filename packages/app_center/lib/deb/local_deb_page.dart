@@ -52,22 +52,19 @@ class _LocalDebPage extends StatelessWidget {
           child: Html(
             data:
                 '${l10n.localDebWarningBody} <a href="$localDebInfoUrl">${l10n.localDebLearnMore}</a>',
-            style: {'body': Style(margin: Margins.zero)},
+            style: {
+              'body': Style(margin: Margins.zero, padding: HtmlPaddings.zero),
+            },
             onLinkTap: (url, attributes, element) => launchUrlString(url!),
           ),
         ),
       ),
-      actionBar: Row(
+      actionBar: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: kSpacing,
+        runSpacing: kSpacing,
         children: [
           _LocalDebActionButtons(debData: debData),
-          const SizedBox(width: 32),
-          Html(
-            shrinkWrap: true,
-            data:
-                '<a href="$debManageDocsUrl">${l10n.debPageDocumentationLinkLabel} &gt;</a>',
-            style: {'body': Style(margin: Margins.zero)},
-            onLinkTap: (url, attributes, element) => launchUrlString(url!),
-          ),
         ],
       ),
       infoBar: LocalDebInfoBar(localDebData: debData),
@@ -174,7 +171,7 @@ class _LocalDebActionButtons extends ConsumerWidget {
       children: [
         primaryActionButton,
         if (debData.activeTransactionId != null) ...[
-          const SizedBox(width: 8),
+          const SizedBox(width: kSpacing),
           cancelButton,
         ],
       ],

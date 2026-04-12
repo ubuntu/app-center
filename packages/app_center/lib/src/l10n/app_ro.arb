@@ -1,1 +1,294 @@
-{}
+{
+    "appCenterLabel": "Centru de aplicații",
+    "snapPageChannelLabel": "Canal",
+    "snapPageContactPublisherLabel": "Contactează {publisher}",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageDescriptionLabel": "Descriere",
+    "snapPageDeveloperWebsiteLabel": "Site web al dezvoltatorului",
+    "snapPageSizeLabel": "Dimensiune",
+    "snapPageGalleryLabel": "Galerie",
+    "snapPageGalleryNextSemanticLabel": "Imaginea următoare",
+    "snapPageGalleryPreviousSemanticLabel": "Imaginea precedentă",
+    "snapPageLicenseLabel": "Licență",
+    "snapPageLinksLabel": "Linkuri",
+    "snapPagePublishedLabel": "Publicat",
+    "snapPageSummaryLabel": "Rezumat",
+    "snapPageVersionLabel": "Versiune",
+    "snapPageDownloadSizeLabel": "Dimensiune de descărcare",
+    "snapPageGalleryImageSemanticLabel": "Imagine {n}",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPagePublisherLabel": "Autor",
+    "snapPageShareLinkCopiedMessage": "Link copiat în clipboard",
+    "snapPageShareSemanticLabel": "Copiază linkul",
+    "snapPageReportSemanticLabel": "Raportează",
+    "explorePageLabel": "Explorează",
+    "explorePageCategoriesLabel": "Categorii",
+    "managePageOwnUpdateAvailable": "Actualizare disponibilă a Centrului de Aplicații",
+    "managePageQuitToUpdate": "Închide pentru a actualiza",
+    "managePageOwnUpdateDescription": "Când închizi aplicația, ea se va actualiza automat.",
+    "managePageOwnUpdateQuitButton": "Închide pentru a actualiza",
+    "managePageCheckForUpdates": "Verifică pentru actualizări",
+    "managePageCheckingForUpdates": "Verificând pentru actualizări",
+    "managePageNoInternet": "Nu s-a putut contacta serverul, verifică conexiunea la internet sau încearcă mai târziu.",
+    "managePageDescription": "Verifică pentru actualizări, actualizează-ți aplicațiile și gestionează statutul tuturor aplicațiilor tale.",
+    "managePageDebUpdatesMessage": "Actualizările pachetelor Debian sunt gestionate de Actualizatorul de Software.",
+    "managePageInstalledAndUpdatedLabel": "Instalat și actualizat",
+    "managePageInstallingLabel": "Instalând ({n})",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageLabel": "Gestionează",
+    "managePageNoUpdatesAvailableDescription": "Nicio actualizare disponibilă. Toate aplicațiile tale sunt actualizate.",
+    "managePageSearchFieldSearchHint": "Caută aplicațiile tale instalate",
+    "managePageShowDetailsLabel": "Afișează detalii",
+    "managePageUpdateAllLabel": "Actualizează tot",
+    "managePageUpdatesAvailable": "Actualizări disponibile {n}",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageDocumentationLinkLabel": "Află cum să gestionezi pachete Debian în documentație.",
+    "productivityPageLabel": "Productivitate",
+    "developmentPageLabel": "Dezvoltare",
+    "gamesPageLabel": "Jocuri",
+    "gamesPageTitle": "Jocuri",
+    "gamesPageTop": "Top Evaluate",
+    "unknownPublisher": "Autor necunoscut",
+    "searchFieldDebSection": "Pachete Debian",
+    "searchFieldSearchHint": "Caută aplicații",
+    "searchFieldSearchForLabel": "Vezi toate rezultatele pentru „{query}”",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSnapSection": "Pachete Snap",
+    "searchPageFilterByLabel": "Filtrează după",
+    "searchPageNoResults": "Nici-un rezultat găsit pentru „{query}”",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsHint": "Încearcă să folosești cuvinte-cheie diferite sau mai generale",
+    "searchPageNoResultsCategory": "Scuze, nu am putut găsi vreun packet în această categorie",
+    "searchPageNoResultsCategoryHint": "Încearcă altă categorie sau folosește un cuvânt-cheie mai general",
+    "searchPageSortByLabel": "Sortează după",
+    "searchPageRelevanceLabel": "Relevanță",
+    "searchPageTitle": "Rezultate pentru „{query}”",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageLabel": "Despre",
+    "aboutPageVersionLabel": "Versiune {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "Proiectat și dezvoltat de:",
+    "aboutPageCommunityTitle": "Fă parte din comunitate:",
+    "aboutPageContributeLabel": "Contribută sau raportează o eroare",
+    "aboutPageGitHubLabel": "Găsește-ne pe GitHub",
+    "aboutPagePublishLabel": "Publică pe Snap Store",
+    "aboutPageLearnMoreLabel": "Află mai multe",
+    "appstreamUrlTypeBugtracker": "Urmăritor de erori",
+    "appstreamUrlTypeHelp": "Ajutor",
+    "appstreamUrlTypeHomepage": "Pagina acasă",
+    "appstreamUrlTypeTranslate": "Traduceri",
+    "appstreamUrlTypeVcsBrowser": "Sursă",
+    "packageFormatDebLabel": "Pachete Debian",
+    "packageFormatSnapLabel": "Pachete Snap",
+    "snapActionCancelLabel": "Anulează",
+    "snapActionInstallLabel": "Instalează",
+    "snapActionInstalledLabel": "Instalat",
+    "snapActionInstallingLabel": "Instalând",
+    "snapActionOpenLabel": "Deschide",
+    "snapActionRemoveLabel": "Dezinstalează",
+    "snapActionRemovingLabel": "Dezinstalând",
+    "snapActionSwitchChannelLabel": "Schimbă canalul",
+    "snapActionUpdateLabel": "Actualizează",
+    "snapCategoryAll": "Toate categoriile",
+    "snapActionUpdatingLabel": "Actualizând",
+    "appCardPublisherSemanticLabel": "Publicat de {publisher}.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "Evaluare {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "snapCategoryArtAndDesign": "Artă și design",
+    "snapCategoryArtAndDesignButtonLabel": "Începe a crea",
+    "snapCategoryArtAndDesignSlogan": "De la prima ta schiță până la atingerea finală, explorează aplicații pentru artă și design.",
+    "snapCategoryBooksAndReference": "Cărți și referințe",
+    "snapCategoryDefaultButtonLabel": "Descoperă mai multe",
+    "snapCategoryDevelopment": "Dezvoltare",
+    "snapCategoryDevicesAndIot": "Dispozitive și IoT",
+    "snapCategoryEducation": "Educație",
+    "snapCategoryEntertainment": "Divertisment",
+    "snapCategoryFinance": "Finanță",
+    "snapCategoryGames": "Jocuri",
+    "snapCategoryGamesSlogan": "Totul pentru noaptea ta de jocuri",
+    "snapCategoryGameDev": "Dezvoltare de jocuri",
+    "snapCategoryGameDevSlogan": "Dezvoltare de jocuri",
+    "snapCategoryGameEmulators": "Emulatoare",
+    "snapCategoryGameEmulatorsSlogan": "Emulatoare",
+    "snapCategoryGnomeGames": "Jocuri GNOME",
+    "snapCategoryGnomeGamesSlogan": "Suită de jocuri GNOME",
+    "snapCategoryKdeGames": "Jocuri KDE",
+    "snapCategoryKdeGamesSlogan": "Suită de jocuri KDE",
+    "snapCategoryGameLaunchers": "Lansatoare de jocuri",
+    "snapCategoryGameLaunchersSlogan": "Lansatoare de jocuri",
+    "snapCategoryGameContentCreation": "Creare de conținut",
+    "snapCategoryGameContentCreationSlogan": "Creare de conținut",
+    "snapCategoryHealthAndFitness": "Sănătate și formă",
+    "snapCategoryMusicAndAudio": "Muzică și audio",
+    "snapCategoryNewsAndWeather": "Știri și meteo",
+    "snapCategoryPersonalisation": "Personalizare",
+    "snapCategoryPhotoAndVideo": "Foto și video",
+    "snapCategoryProductivity": "Productivitate",
+    "snapCategoryProductivityButtonLabel": "Descoperă colecția de productivitate",
+    "snapCategoryProductivitySlogan": "Taie încă un lucru de pe lista ta de-făcut",
+    "snapCategoryScience": "Știință",
+    "snapCategorySecurity": "Securitate",
+    "snapCategoryServerAndCloud": "Server și cloud",
+    "snapCategorySocial": "Social",
+    "snapCategoryUbuntuDesktop": "Desktop Ubuntu",
+    "snapCategoryUtilities": "Utilități",
+    "snapConfinementClassic": "Clasic",
+    "snapConfinementDevmode": "Mod de dezvoltare",
+    "snapConfinementStrict": "Strict",
+    "snapSortOrderAlphabeticalAsc": "Alfabetic (A la Z)",
+    "snapSortOrderAlphabeticalDesc": "Alfabetic (Z la A)",
+    "snapSortOrderDownloadSizeAsc": "Dimensiune (de la cea mai mică la cea mai mare)",
+    "snapSortOrderDownloadSizeDesc": "Dimensiune (de la cea mai mare la cea mai mică)",
+    "snapSortOrderInstalledSizeAsc": "Dimensiune (de la mic la mare)",
+    "snapSortOrderInstalledSizeDesc": "Dimensiune (de la mare la mic)",
+    "snapSortOrderInstalledDateAsc": "Actualizate cel mai puțin recent",
+    "snapSortOrderInstalledDateDesc": "Actualizare cel mai recent",
+    "snapSortOrderRelevance": "Relevanță",
+    "snapRatingsBandVeryGood": "Foarte bun",
+    "snapRatingsBandGood": "Bun",
+    "snapRatingsBandNeutral": "Neutru",
+    "snapRatingsBandPoor": "Rău",
+    "snapRatingsBandVeryPoor": "Foarte rău",
+    "snapRatingsBandInsufficientVotes": "Voturi insuficiente",
+    "snapRatingsVotes": "{n} voturi",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportLabel": "Raportează {snapName}",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSelectReportReasonLabel": "Alege un motiv pentru raportarea acestui snap",
+    "snapReportSelectAnOptionLabel": "Alege o opțiune",
+    "snapReportOptionCopyrightViolation": "Violație a dreptului de autor sau marcă",
+    "snapReportOptionStoreViolation": "Violație a condițiilor de utilizare a Snap Store",
+    "snapReportDetailsLabel": "Furnizează un motiv mai detaliat pentru raportul tău",
+    "snapReportOptionalEmailAddressLabel": "Email-ul tău (opțional)",
+    "snapReportCancelButtonLabel": "Anulează",
+    "snapReportSubmitButtonLabel": "Trimite raportul",
+    "snapReportEnterValidEmailError": "Introdu o adresă de email validă",
+    "snapReportDetailsHint": "Comentează...",
+    "snapReportPrivacyAgreementLabel": "Cu trimiterea acestui formular, confirm că am citit și accept ",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Notificarea de confidențialitate a Canonical ",
+    "snapReportPrivacyAgreementAndLabel": "și ",
+    "snapReportPrivacyAgreementPrivacyPolicy": "Politică de confidențialitate",
+    "debPageErrorNoPackageInfo": "Nici-o informație a pachetului găsită",
+    "debPageDocumentationLinkLabel": "Află despre gestionarea pachetelor Debian",
+    "debPageShareLinkCopiedMessage": "Link copiat în clipboard",
+    "debPageShareSemanticLabel": "Copiază link",
+    "externalResources": "Resurse adiționale",
+    "externalResourcesButtonLabel": "Descoperă mai multe",
+    "allGamesButtonLabel": "Toate jocurile",
+    "externalResourcesDisclaimer": "Notă: Acestea sunt toate ustensile externe. Ele nu sunt aparținute sau distribute de Canonical.",
+    "openInBrowser": "Deschide în browser",
+    "installAll": "Instalează tot",
+    "localDebWarningTitle": "Potențial periculos",
+    "localDebWarningBody": "Acest pachet este furnizat de un terț. Instalarea pachetelor din afara Centrului de Aplicații poate ridica riscul la sistemul tău și fișierele personale. Asigură-te că ai încredere în această sursă înainte de a proceda.",
+    "localDebLearnMore": "Află mai multe despre pachete terțe",
+    "localDebDialogMessage": "Acest pachet este furnizat de un terț și îți poate pune sistemul și fișierele personale la risc.",
+    "localDebDialogConfirmation": "Ești sigur că vrei să îl instalezi?",
+    "snapdExceptionRunningApps": "Nu am putut actualiza {snapName} pentru că rulează.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "errorViewCheckStatusLabel": "Verifică statutul",
+    "errorViewNetworkErrorTitle": "Conectează-te la internet",
+    "errorViewNetworkErrorDescription": "Nu putem încărca conținut în Centrul de Aplicații fără o conexiune la internet.",
+    "errorViewNetworkErrorAction": "Verifică conexiunea ta la internet și încearcă iar.",
+    "errorViewServerErrorDescription": "Ne pare rău, dar avem probleme cu Centrul de Aplicații.",
+    "errorViewServerErrorAction": "Verifică statutul pentru actualizări sau încearcă mai târziu.",
+    "errorViewUnknownErrorTitle": "Ceva a mers greșit",
+    "errorViewUnknownErrorDescription": "Ne pare rău, dar nu suntem siguri care este eroarea.",
+    "errorViewUnknownErrorAction": "Poți reîncerca acum, verică statutul de actualizări, sau încearcă mai târziu.",
+    "sectionExpandSemanticLabel": "Mărește {section}",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "Închide {section}",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageTitle": "Gestionează snap-urile instalate",
+    "managePageShowSystemSnapsLabel": "Afișează snap-urile de sistem"
+}

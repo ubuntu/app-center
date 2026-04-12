@@ -6,7 +6,7 @@ import 'package:app_center/extensions/string_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/manage/local_snap_providers.dart';
-import 'package:app_center/manage/snap_actions_button.dart';
+import 'package:app_center/manage/quit_to_update_notice.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snap_report.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -74,25 +74,7 @@ class _SnapView extends StatelessWidget {
     return AppPage(
       titleBar:
           AppTitleBar.fromSnap(snapData, actions: _IconRow(snapData: snapData)),
-      actionBar: Row(
-        children: [
-          if (snapData.availableChannels != null &&
-              snapData.selectedChannel != null) ...[
-            _ChannelDropdown(snapData: snapData),
-            const SizedBox(width: kSpacing),
-          ],
-          Flexible(
-            child: SnapActionsButton(
-              snapName: snapData.name,
-              isPrimary: true,
-            ),
-          ),
-          if (snapData.isInstalled) ...[
-            const SizedBox(width: kSpacing),
-            _RatingsActionButtons(snap: snapData.snap),
-          ],
-        ],
-      ),
+      actionBar: _ActionBar(snapData: snapData),
       infoBar: SnapInfoBar(snapData: snapData),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,6 +98,203 @@ class _SnapView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ActionBar extends ConsumerWidget {
+  const _ActionBar({required this.snapData});
+
+  final SnapData snapData;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final snapLauncher = snapData.localSnap == null
+        ? null
+        : ref.watch(launchProvider(snapData.localSnap!));
+    final primaryAction = snapData.primaryAction(snapLauncher);
+
+    return Wrap(
+      runSpacing: kSpacing,
+      spacing: kSpacing,
+      children: [
+        if (primaryAction != null)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _PrimaryActionButton(
+                snapName: snapData.name,
+                isPrimary: true,
+              ),
+            ],
+          ),
+        if (snapData.availableChannels != null &&
+            snapData.selectedChannel != null) ...[
+          _ChannelDropdown(snapData: snapData),
+          _SwitchChannelButton(snapData: snapData),
+        ],
+        if (snapData.isInstalled) ...[
+          _RatingsActionButtons(snap: snapData.snap),
+        ],
+        _MoreActionsButton(snapData: snapData),
+      ],
+    );
+  }
+}
+
+class _PrimaryActionButton extends ConsumerWidget {
+  const _PrimaryActionButton({
+    required this.snapName,
+    required this.isPrimary,
+  });
+
+  final String snapName;
+  final bool isPrimary;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final snapModel = ref.watch(snapModelProvider(snapName));
+    if (!snapModel.hasValue) {
+      return const Center(
+        child: SizedBox.square(
+          dimension: kLoaderMediumHeight,
+          child: YaruCircularProgressIndicator(),
+        ),
+      );
+    }
+
+    final snapData = snapModel.value!;
+    final shouldQuitToUpdate = snapData.localSnap?.refreshInhibit != null;
+    final snap = snapData.snap;
+    final snapViewModel = ref.watch(snapModelProvider(snap.name).notifier);
+    final snapLauncher = snapData.localSnap == null
+        ? null
+        : ref.watch(launchProvider(snapData.localSnap!));
+    final hasActiveChange = snapData.activeChangeId != null;
+
+    final primaryAction = snapData.primaryAction(snapLauncher);
+
+    if (hasActiveChange) {
+      return ActiveChangeStatus(
+        actionLabel: ref
+            .watch(activeChangeProvider(snapData.activeChangeId))
+            ?.localize(l10n),
+        progress: ref
+                .watch(activeChangeProvider(snapData.activeChangeId))
+                ?.progress ??
+            0,
+        onCancelPressed: () =>
+            ref.read(snapModelProvider(snap.name).notifier).cancel(),
+      );
+    }
+
+    if (shouldQuitToUpdate) {
+      return const QuitToUpdateNotice();
+    }
+
+    return (isPrimary ? YaruSplitButton.new : YaruSplitButton.outlined.call)(
+      onPressed: snapData.activeChangeId == null
+          ? primaryAction?.callback(
+              snapData,
+              snapViewModel,
+              snapLauncher,
+              context,
+            )
+          : null,
+      child: Text(
+        primaryAction?.label(l10n) ?? SnapAction.open.label(l10n),
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+}
+
+class _MoreActionsButton extends ConsumerWidget {
+  const _MoreActionsButton({required this.snapData});
+
+  final SnapData snapData;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+
+    final snapLauncher = snapData.localSnap == null
+        ? null
+        : ref.watch(launchProvider(snapData.localSnap!));
+    final snapViewModel = ref.watch(snapModelProvider(snapData.name).notifier);
+
+    final primaryAction = snapData.primaryAction(snapLauncher);
+    final secondaryActions = snapData.secondaryActions(snapLauncher)
+      ..remove(primaryAction ?? SnapAction.open);
+
+    return secondaryActions.isNotEmpty
+        ? YaruPopupMenuButton(
+            semanticLabel: l10n.appMoreActionsSemanticLabel,
+            childPadding: EdgeInsets.symmetric(horizontal: 2),
+            itemBuilder: (context) => [
+              ...secondaryActions.map((action) {
+                final color = action == SnapAction.remove
+                    ? Theme.of(context).colorScheme.error
+                    : null;
+                return PopupMenuItem(
+                  onTap: action.callback(
+                    snapData,
+                    snapViewModel,
+                    snapLauncher,
+                    context,
+                  ),
+                  child: IntrinsicWidth(
+                    child: ListTile(
+                      mouseCursor: SystemMouseCursors.click,
+                      title: Text(
+                        action.label(l10n),
+                        style: TextStyle(color: color),
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ],
+            onSelected: (value) => {},
+            child: Icon(YaruIcons.view_more),
+          )
+        : SizedBox.shrink();
+  }
+}
+
+class _SwitchChannelButton extends ConsumerWidget {
+  const _SwitchChannelButton({required this.snapData});
+
+  final SnapData snapData;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+
+    final hasChangedChannel = snapData.selectedChannel != null &&
+        snapData.localSnap?.trackingChannel != null &&
+        snapData.selectedChannel != snapData.localSnap!.trackingChannel;
+    final snapViewModel = ref.watch(snapModelProvider(snapData.name).notifier);
+    final snapLauncher = snapData.localSnap == null
+        ? null
+        : ref.watch(launchProvider(snapData.localSnap!));
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        YaruSplitButton.outlined(
+          onPressed: hasChangedChannel && snapData.activeChangeId == null
+              ? SnapAction.switchChannel.callback(
+                  snapData,
+                  snapViewModel,
+                  snapLauncher,
+                  context,
+                )
+              : null,
+          child: Text(l10n.snapActionSwitchChannelLabel),
+        ),
+      ],
     );
   }
 }
