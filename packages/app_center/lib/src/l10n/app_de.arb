@@ -394,5 +394,8 @@
     "appConfinementUnrestricted": "Unbeschränkt",
     "appLicenseUnknown": "Unbekannt",
     "appPublishedUnknown": "Unbekannt",
-    "appMoreActionsSemanticLabel": "Weitere Aktionen"
+    "appMoreActionsSemanticLabel": "Weitere Aktionen",
+    "appConfinementStrictTooltip": "Diese App hat eingeschränkten Zugriff auf Ihre Ressourcen. Sie können ihre Berechtigungen in der App Einstellungen steuern.",
+    "appConfinementClassicTooltip": "Diese App nutzt die klassische Abschottung und gewährt vollen Zugriff auf Ihre Ressourcen. Dies ist bei Entwicklungs-Apps üblich.",
+    "appConfinementUnrestrictedTooltip": "Diese App hat vollständigen Zugriff auf Ihre Ressourcen."
 }
