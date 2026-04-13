@@ -749,7 +749,7 @@ void main() {
 extension on CommonFinders {
   Finder snapTile(String title) => ancestor(
         of: text(title),
-        matching: byType(ListTile),
+        matching: byType(YaruListTile),
       );
   Finder buttonWithText(String text) => ancestor(
         of: this.text(text),
