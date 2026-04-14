@@ -44,7 +44,7 @@ class ManageAppData with _$ManageAppData {
   /// Icon URL for display in the app list.
   String? get iconUrl => when(
         snap: (snap, _) => snap.iconUrl,
-        localDeb: (debInfo) => debInfo.component?.icon,
+        localDeb: (debInfo) => debInfo.component?.remoteIconUrl,
       );
 
   /// Whether this package has a pending update.

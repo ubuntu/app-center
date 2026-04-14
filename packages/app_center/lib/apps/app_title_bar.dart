@@ -1,4 +1,3 @@
-import 'package:app_center/appstream/appstream.dart';
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/local_deb_model.dart';
 import 'package:app_center/layout.dart';
@@ -14,6 +13,7 @@ class AppTitleBar extends StatelessWidget {
     this.banner,
     this.actions,
     this.iconUrl,
+    this.iconWidget,
     super.key,
   });
 
@@ -38,7 +38,7 @@ class AppTitleBar extends StatelessWidget {
     Widget? banner,
   }) =>
       AppTitleBar(
-        iconUrl: debData.component.icon,
+        iconWidget: DebAppIcon(component: debData.component, size: 96),
         title: AppTitle.fromDeb(
           debData.component,
           large: true,
@@ -73,6 +73,9 @@ class AppTitleBar extends StatelessWidget {
   /// Optional URL to use for the app's icon.
   final String? iconUrl;
 
+  /// Optional pre-built icon widget (takes precedence over [iconUrl]).
+  final Widget? iconWidget;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -80,7 +83,7 @@ class AppTitleBar extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppIcon(iconUrl: iconUrl, size: 96),
+            iconWidget ?? AppIcon(iconUrl: iconUrl, size: 96),
             const SizedBox(width: 16),
             Expanded(
               child: Semantics(

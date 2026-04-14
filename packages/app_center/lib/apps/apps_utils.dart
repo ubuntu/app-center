@@ -1,6 +1,13 @@
+import 'dart:io';
+import 'dart:isolate';
+
 import 'package:app_center/l10n.dart';
 import 'package:appstream/appstream.dart';
+import 'package:flutter/foundation.dart';
+import 'package:gsettings/gsettings.dart';
+import 'package:path/path.dart' as p;
 import 'package:snapd/snapd.dart';
+import 'package:xdg_directories/xdg_directories.dart' as xdg;
 
 enum AppConfinement {
   unknown,
@@ -69,4 +76,100 @@ extension AppConfinementL10n on AppConfinement {
         AppConfinement.strict => l10n.appConfinementStrictTooltip,
         _ => null,
       };
+}
+
+/// Returns the name of the active GTK icon theme by querying GSettings.
+@visibleForTesting
+Future<String?> activeIconTheme({
+  String? configHome,
+  GSettingsBackend? backend,
+}) async {
+  final settings = GSettings(
+    'org.gnome.desktop.interface',
+    backend: backend,
+  );
+  try {
+    final value = await settings.get('icon-theme');
+    final themeName = value.asString().trim();
+    if (themeName.isNotEmpty) return themeName;
+  } on Exception {
+    // Schema not installed or key missing
+  } finally {
+    await settings.close();
+  }
+
+  // gtk-3.0/settings.ini fallback
+  final gtk3Settings = File(
+    p.join(configHome ?? xdg.configHome.path, 'gtk-3.0', 'settings.ini'),
+  );
+  if (gtk3Settings.existsSync()) {
+    for (final line in gtk3Settings.readAsLinesSync()) {
+      if (line.startsWith('gtk-icon-theme-name')) {
+        final parts = line.split('=');
+        if (parts.length == 2) {
+          final themeName = parts[1].trim();
+          if (themeName.isNotEmpty) return themeName;
+        }
+        break;
+      }
+    }
+  }
+
+  return null;
+}
+
+final _iconPathCache = <String, Future<String?>>{};
+
+/// Looks up a local filesystem path for a stock icon named [name] by searching
+/// XDG icon theme directories.
+Future<String?> lookupThemedIcon(String name) {
+  return _iconPathCache.putIfAbsent(
+    name,
+    () => Isolate.run(() async {
+      final dataDirs =
+          [xdg.dataHome, ...xdg.dataDirs].map((d) => d.path).toList();
+      final theme = await activeIconTheme();
+      return lookupIconInDirs(
+        name,
+        dataDirs: dataDirs,
+        theme: theme,
+        pixmapsDir: '/usr/share/pixmaps',
+      );
+    }),
+  );
+}
+
+/// Searches [dataDirs] and [pixmapsDir] for an icon file named [name] under
+/// [theme], using the standard XDG size and context subdirectory layout.
+@visibleForTesting
+String? lookupIconInDirs(
+  String name, {
+  required List<String> dataDirs,
+  required String? theme,
+  required String pixmapsDir,
+}) {
+  const supportedExtensions = ['.svg', '.png', '.xpm'];
+  const sizes = ['scalable', '256x256', '128x128', '64x64', '48x48'];
+  const iconSubdirs = ['apps', 'categories'];
+
+  if (theme != null) {
+    for (final dataDir in dataDirs) {
+      for (final size in sizes) {
+        for (final subdir in iconSubdirs) {
+          for (final ext in supportedExtensions) {
+            final path =
+                p.join(dataDir, 'icons', theme, size, subdir, '$name$ext');
+            if (File(path).existsSync()) return path;
+          }
+        }
+      }
+    }
+  }
+
+  for (final ext in supportedExtensions) {
+    final path = p.join(pixmapsDir, '$name$ext');
+    if (File(path).existsSync()) return path;
+  }
+
+  return null;
 }

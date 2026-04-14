@@ -228,10 +228,9 @@ class _AutoCompleteTile extends StatelessWidget {
       AutoCompleteDebOption(deb: final deb) => ListTile(
           selected: selected,
           title: Text(deb.getLocalizedName()),
-          leading: AppIcon(
+          leading: DebAppIcon(
             size: _iconSize,
-            iconUrl:
-                deb.icons.whereType<AppstreamRemoteIcon>().firstOrNull?.url,
+            component: deb,
           ),
           onTap: onTap,
         ),

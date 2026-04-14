@@ -95,7 +95,12 @@ class ManageAppTile extends ConsumerWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         leading: Clickable(
           onTap: () => _navigateToApp(context),
-          child: AppIcon(iconUrl: app.iconUrl, size: 40),
+          child: switch (app) {
+            ManageDebData(debInfo: final debInfo)
+                when debInfo.component != null =>
+              DebAppIcon(component: debInfo.component!, size: 40),
+            _ => AppIcon(iconUrl: app.iconUrl, size: 40),
+          },
         ),
         title: Row(
           children: [
