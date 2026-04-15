@@ -122,22 +122,24 @@ final _iconPathCache = <String, Future<String?>>{};
 
 /// Looks up a local filesystem path for a stock icon named [name] by searching
 /// XDG icon theme directories.
-Future<String?> lookupThemedIcon(String name) {
-  return _iconPathCache.putIfAbsent(
-    name,
-    () => Isolate.run(() async {
-      final dataDirs =
-          [xdg.dataHome, ...xdg.dataDirs].map((d) => d.path).toList();
-      final theme = await activeIconTheme();
-      return lookupIconInDirs(
-        name,
-        dataDirs: dataDirs,
-        theme: theme,
-        pixmapsDir: '/usr/share/pixmaps',
-      );
-    }),
-  );
-}
+Future<String?> lookupThemedIcon(String name) =>
+    _iconPathCache.putIfAbsent(name, () async {
+      try {
+        return Isolate.run(() async {
+          final dataDirs =
+              [xdg.dataHome, ...xdg.dataDirs].map((d) => d.path).toList();
+          final theme = await activeIconTheme();
+          return lookupIconInDirs(
+            name,
+            dataDirs: dataDirs,
+            theme: theme,
+            pixmapsDir: '/usr/share/pixmaps',
+          );
+        });
+      } on Exception catch (_) {
+        return null;
+      }
+    });
 
 /// Searches [dataDirs] and [pixmapsDir] for an icon file named [name] under
 /// [theme], using the standard XDG size and context subdirectory layout.
