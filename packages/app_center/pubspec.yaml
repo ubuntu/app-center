@@ -52,7 +52,7 @@ dependencies:
   ubuntu_widgets: ^0.8.0
   url_launcher: ^6.3.0
   xdg_directories: ^1.0.4
-  yaru: ^10.0.0
+  yaru: ^10.1.0
   yaru_test: ^0.3.2
   yaru_window: ^0.2.1+1
 

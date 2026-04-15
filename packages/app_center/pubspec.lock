@@ -1532,10 +1532,10 @@ packages:
     dependency: "direct main"
     description:
       name: yaru
-      sha256: "8c2d9602963efd52479e77f0052ceea05f491e7a31d2ca337c44901f526f8226"
+      sha256: "02475cdb668b96ea6bc11a483cafe3ea80c1aee5c3f2d856361c6ea1352e5849"
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.0"
+    version: "10.1.0"
   yaru_test:
     dependency: "direct main"
     description:
