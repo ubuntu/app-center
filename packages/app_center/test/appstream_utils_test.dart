@@ -56,6 +56,33 @@ void main() {
     }
   });
 
+  group('AppstreamComponent.iconAsync', () {
+    AppstreamComponent makeComponent(List<AppstreamIcon> icons) =>
+        AppstreamComponent(
+          id: 'org.gnome.Nautilus',
+          type: AppstreamComponentType.desktopApplication,
+          package: 'nautilus',
+          name: const {'C': 'Files'},
+          summary: const {'C': 'Access and organize files'},
+          icons: icons,
+        );
+
+    test('no icons returns null', () async {
+      final component = makeComponent([]);
+      expect(await component.iconAsync, isNull);
+    });
+
+    test('remote icon only returns remote URL', () async {
+      final component = makeComponent(
+        [AppstreamRemoteIcon('https://example.com/nautilus.png')],
+      );
+      expect(
+        await component.iconAsync,
+        equals('https://example.com/nautilus.png'),
+      );
+    });
+  });
+
   group('AppstreamComponent.remoteIconUrl', () {
     final testCases = <({
       String name,
