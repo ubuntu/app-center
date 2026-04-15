@@ -117,16 +117,12 @@ class _ActionBar extends ConsumerWidget {
     return Wrap(
       runSpacing: kSpacing,
       spacing: kSpacing,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         if (primaryAction != null)
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _PrimaryActionButton(
-                snapName: snapData.name,
-                isPrimary: true,
-              ),
-            ],
+          _PrimaryActionButton(
+            snapName: snapData.name,
+            isPrimary: true,
           ),
         if (snapData.availableChannels != null &&
             snapData.selectedChannel != null) ...[
