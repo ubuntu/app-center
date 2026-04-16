@@ -382,5 +382,9 @@
     "appConfinementUnrestricted": "Sen restricións",
     "appLicenseUnknown": "Descoñecido",
     "appPublishedUnknown": "Descoñecido",
-    "appMoreActionsSemanticLabel": "Máis accións"
+    "appMoreActionsSemanticLabel": "Máis accións",
+    "appConfinementUnrestrictedTooltip": "Esta aplicación ten acceso completo aos teus recursos.",
+    "appConfinementStrict": "Confinada",
+    "appConfinementStrictTooltip": "Esta aplicación ten acceso limitado aos teus recursos. Podes controlar os seus permisos na aplicación Preferencias.",
+    "appConfinementClassicTooltip": "Esta aplicación emprega o confinamento clásico, o que che dá acceso completo aos teus recursos. Isto é habitual nas aplicacións de desenvolvemento."
 }

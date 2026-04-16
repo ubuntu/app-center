@@ -391,5 +391,8 @@
     "appConfinementUnrestricted": "Murrizpen gabea",
     "appLicenseUnknown": "Ezezaguna",
     "appPublishedUnknown": "Ezezaguna",
-    "appMoreActionsSemanticLabel": "Ekintza gehiago"
+    "appMoreActionsSemanticLabel": "Ekintza gehiago",
+    "appConfinementStrictTooltip": "Aplikazio honek zure baliabideetara sarbide mugatua dauka. Bere baimenak Ezarpenak aplikaziotik kontrola ditzakezu.",
+    "appConfinementClassicTooltip": "Aplikazio honek konfinamendu klasikoa darabil, zure baliabideetara erabateko sarbidea emanez. Hau ohikoa izaten da garapenerako aplikazioetan.",
+    "appConfinementUnrestrictedTooltip": "Aplikazio honek zure baliabideetara erabateko sarbidea dauka."
 }

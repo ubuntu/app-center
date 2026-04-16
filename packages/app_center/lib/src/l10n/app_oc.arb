@@ -394,5 +394,8 @@
     "managePagePackageTypeAll": "Totes",
     "managePagePackageTypeSnap": "Snap",
     "managePagePackageTypeDeb": "Deb",
-    "appMoreActionsSemanticLabel": "Mai d’accions"
+    "appMoreActionsSemanticLabel": "Mai d’accions",
+    "appConfinementStrictTooltip": "Aquesta aplicacion a un accès limitat a vòstras ressorsas. Podètz contrarotlar sas permissions dins l'aplicacion Paramètres.",
+    "appConfinementClassicTooltip": "Aquesta aplicacion utiliza l’isolament classic, çò que dòna un accès complèt a vòstras ressorsas. Es frequent per las aplicacions de desvolopament.",
+    "appConfinementUnrestrictedTooltip": "Aquesta aplicacion a un accès complèt a vòstras ressorsas."
 }

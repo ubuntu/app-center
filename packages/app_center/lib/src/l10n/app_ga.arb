@@ -401,5 +401,8 @@
     "managePagePackageTypeAll": "Gach",
     "managePagePackageTypeSnap": "Snap",
     "managePagePackageTypeDeb": "Deb",
-    "appMoreActionsSemanticLabel": "Tuilleadh gníomhartha"
+    "appMoreActionsSemanticLabel": "Tuilleadh gníomhartha",
+    "appConfinementStrictTooltip": "Tá rochtain theoranta ag an aip seo ar do chuid acmhainní. Is féidir leat a ceadanna a rialú san aip Socruithe.",
+    "appConfinementClassicTooltip": "Úsáideann an aip seo teorannú clasaiceach, rud a thugann rochtain iomlán ar do chuid acmhainní. Is gnách é seo le haipeanna forbartha.",
+    "appConfinementUnrestrictedTooltip": "Tá rochtain iomlán ag an aip seo ar do chuid acmhainní."
 }
