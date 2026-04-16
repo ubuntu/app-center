@@ -5,6 +5,7 @@ import 'package:app_center/manage/local_snap_providers.dart';
 import 'package:app_center/manage/manage.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
 import 'package:app_center/manage/snap_updates_model.dart';
+import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -231,13 +232,7 @@ void main() {
     expect(openButton, findsOneWidget);
     expect(openButton, isEnabled);
 
-    await tester.scrollUntilVisible(
-      openButton2,
-      kMinInteractiveDimension / 2,
-      scrollable: scrollable,
-    );
-    expect(openButton2, findsOneWidget);
-    expect(openButton2, isDisabled);
+    expect(openButton2, findsNothing);
 
     await tester.tap(openButton);
     verify(snapLauncher.open()).called(1);
@@ -493,6 +488,57 @@ void main() {
     );
   });
 
+  testWidgets('compulsory deb with update shows update button but not remove',
+      (tester) async {
+    await resetAllServices();
+    registerMockSnapdService(installedSnaps: []);
+
+    final compulsoryDebWithUpdate = createLocalDebInfo(
+      id: 'gnome-shell',
+      name: 'GNOME Shell',
+      packageName: 'gnome-shell',
+      version: '45.0',
+      updatePackageId: const PackageKitPackageId(
+        name: 'gnome-shell',
+        version: '46.0',
+      ),
+      compulsoryForDesktops: ['GNOME'],
+    );
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          localDebsProvider
+              .overrideWith((ref) async => [compulsoryDebWithUpdate]),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+          currentDesktopsProvider.overrideWithValue(['GNOME']),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final debTile = find.snapTile('GNOME Shell');
+    expect(debTile, findsOneWidget);
+
+    // The update button must be present — compulsory status must not block it.
+    expect(
+      find.descendant(
+        of: debTile,
+        matching: find.buttonWithText(tester.l10n.snapActionUpdateLabel),
+      ),
+      findsOneWidget,
+    );
+
+    // The uninstall button must not appear anywhere on the page.
+    expect(
+      find.buttonWithText(tester.l10n.snapActionRemoveLabel),
+      findsNothing,
+    );
+  });
+
   testWidgets('list installed debs on manage page', (tester) async {
     await tester.pumpApp(
       (_) => ProviderScope(
@@ -585,6 +631,71 @@ void main() {
     expect(find.snapTile('Test Snap'), findsNothing);
   });
 
+  testWidgets('remove button hidden for compulsory deb', (tester) async {
+    final compulsoryDeb = createLocalDebInfo(
+      id: 'gnome-shell',
+      name: 'GNOME Shell',
+      packageName: 'gnome-shell',
+      version: '45.0',
+      compulsoryForDesktops: ['GNOME'],
+    );
+
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          localDebsProvider.overrideWith((ref) async => [compulsoryDeb]),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+          currentDesktopsProvider.overrideWithValue(['GNOME']),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final debTile = find.snapTile('GNOME Shell');
+    expect(debTile, findsOneWidget);
+    expect(
+      find.descendant(
+        of: debTile,
+        matching: find.buttonWithText(tester.l10n.snapActionRemoveLabel),
+      ),
+      findsNothing,
+    );
+  });
+
+  testWidgets('remove button shown for non-compulsory deb', (tester) async {
+    await tester.pumpApp(
+      (_) => ProviderScope(
+        overrides: [
+          launchProvider.overrideWith((_, __) => createMockSnapLauncher()),
+          showLocalSystemAppsProvider.overrideWith((ref) => true),
+          localDebsProvider.overrideWith((ref) async => [defaultInstalledDeb]),
+          localDebUpdatesModelProvider.overrideWith(LocalDebUpdatesModel.new),
+          currentDesktopsProvider.overrideWithValue(['GNOME']),
+        ],
+        child: const ManagePage(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final debTile = find.snapTile('GIMP');
+    expect(debTile, findsOneWidget);
+
+    final scrollable = find.byType(Scrollable).first;
+    final removeButton = find.descendant(
+      of: debTile,
+      matching: find.buttonWithText(tester.l10n.snapActionRemoveLabel),
+    );
+    await tester.scrollUntilVisible(
+      removeButton,
+      kMinInteractiveDimension / 2,
+      scrollable: scrollable,
+    );
+    expect(removeButton, findsOneWidget);
+  });
+
   testWidgets('update all triggers both snap refresh and deb update',
       (tester) async {
     final debUpdate = createLocalDebInfo(
@@ -638,7 +749,7 @@ void main() {
 extension on CommonFinders {
   Finder snapTile(String title) => ancestor(
         of: text(title),
-        matching: byType(ListTile),
+        matching: byType(YaruListTile),
       );
   Finder buttonWithText(String text) => ancestor(
         of: this.text(text),

@@ -455,6 +455,7 @@ AppstreamComponent createAppstreamComponent({
   String? packageName,
   AppstreamComponentType type = AppstreamComponentType.desktopApplication,
   List<AppstreamLaunchable>? launchables,
+  List<String> compulsoryForDesktops = const [],
 }) {
   return AppstreamComponent(
     id: id ?? 'test-component',
@@ -464,6 +465,7 @@ AppstreamComponent createAppstreamComponent({
     summary: const {'C': 'A test component'},
     launchables:
         launchables ?? [const AppstreamLaunchableDesktopId('test.desktop')],
+    compulsoryForDesktops: compulsoryForDesktops,
   );
 }
 
@@ -477,12 +479,14 @@ LocalDebInfo createLocalDebInfo({
   int? size,
   List<AppstreamLaunchable>? launchables,
   int? activeTransactionId,
+  List<String> compulsoryForDesktops = const [],
 }) {
   final component = createAppstreamComponent(
     id: id,
     name: name,
     packageName: packageName,
     launchables: launchables,
+    compulsoryForDesktops: compulsoryForDesktops,
   );
   final packageInfo = PackageKitPackageEvent(
     info: PackageKitInfo.installed,

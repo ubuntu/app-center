@@ -475,13 +475,10 @@ class _FilterRow extends ConsumerWidget {
       children: [
         Text(l10n.managePageShowSystemSnapsLabel),
         const SizedBox(width: kSpacingSmall),
-        YaruCheckbox(
+        YaruSwitch(
           value: ref.watch(showLocalSystemAppsProvider),
           onChanged: (value) {
-            ref.read(showLocalSystemAppsProvider.notifier).state =
-                value ?? false;
-            ref.read(showLocalSystemDebsProvider.notifier).state =
-                value ?? false;
+            ref.read(showLocalSystemAppsProvider.notifier).state = value;
           },
         ),
       ],

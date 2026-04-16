@@ -74,30 +74,7 @@ class _SnapView extends StatelessWidget {
     return AppPage(
       titleBar:
           AppTitleBar.fromSnap(snapData, actions: _IconRow(snapData: snapData)),
-      actionBar: Wrap(
-        runSpacing: kSpacing,
-        spacing: kSpacing,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _PrimaryActionButton(
-                snapName: snapData.name,
-                isPrimary: true,
-              ),
-            ],
-          ),
-          if (snapData.availableChannels != null &&
-              snapData.selectedChannel != null) ...[
-            _ChannelDropdown(snapData: snapData),
-            _SwitchChannelButton(snapData: snapData),
-          ],
-          if (snapData.isInstalled) ...[
-            _RatingsActionButtons(snap: snapData.snap),
-          ],
-          _MoreActionsButton(snapData: snapData),
-        ],
-      ),
+      actionBar: _ActionBar(snapData: snapData),
       infoBar: SnapInfoBar(snapData: snapData),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,6 +98,46 @@ class _SnapView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ActionBar extends ConsumerWidget {
+  const _ActionBar({required this.snapData});
+
+  final SnapData snapData;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final snapLauncher = snapData.localSnap == null
+        ? null
+        : ref.watch(launchProvider(snapData.localSnap!));
+    final primaryAction = snapData.primaryAction(snapLauncher);
+
+    return Wrap(
+      runSpacing: kSpacing,
+      spacing: kSpacing,
+      children: [
+        if (primaryAction != null)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _PrimaryActionButton(
+                snapName: snapData.name,
+                isPrimary: true,
+              ),
+            ],
+          ),
+        if (snapData.availableChannels != null &&
+            snapData.selectedChannel != null) ...[
+          _ChannelDropdown(snapData: snapData),
+          _SwitchChannelButton(snapData: snapData),
+        ],
+        if (snapData.isInstalled) ...[
+          _RatingsActionButtons(snap: snapData.snap),
+        ],
+        _MoreActionsButton(snapData: snapData),
+      ],
     );
   }
 }
@@ -160,8 +177,15 @@ class _PrimaryActionButton extends ConsumerWidget {
 
     if (hasActiveChange) {
       return ActiveChangeStatus(
-        snapName: snap.name,
-        activeChangeId: snapData.activeChangeId!,
+        actionLabel: ref
+            .watch(activeChangeProvider(snapData.activeChangeId))
+            ?.localize(l10n),
+        progress: ref
+                .watch(activeChangeProvider(snapData.activeChangeId))
+                ?.progress ??
+            0,
+        onCancelPressed: () =>
+            ref.read(snapModelProvider(snap.name).notifier).cancel(),
       );
     }
 

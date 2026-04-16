@@ -394,5 +394,8 @@
     "appLicenseUnknown": "Tuntematon",
     "appPublishedUnknown": "Tuntematon",
     "appMoreActionsSemanticLabel": "Lisää toimintoja",
-    "appConfinementDevelopment": "Devmode"
+    "appConfinementDevelopment": "Devmode",
+    "appConfinementStrictTooltip": "Tällä sovelluksella on rajoitettu pääsy tietokoneen resursseihin. Voit hallita sen oikeuksia Asetukset-sovelluksessa.",
+    "appConfinementClassicTooltip": "Tämä sovellus käyttää perinteistä eristämistä, joka sallii pääsyn kaikkiin tietokoneen resursseihin. Tämä on tyypillistä ohjelmistonkehittämissovelluksille.",
+    "appConfinementUnrestrictedTooltip": "Tällä sovelluksella on täysi pääsy tietokoneen resursseihin."
 }

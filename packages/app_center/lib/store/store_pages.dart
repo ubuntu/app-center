@@ -103,10 +103,6 @@ final pages = <StorePage>[
     pageBuilder: (_, title) => const SizedBox.shrink(),
   ),
   (
-    tileBuilder: (context, selected) => const Divider(),
-    pageBuilder: (_, title) => const SizedBox.shrink(),
-  ),
-  (
     tileBuilder: (context, selected) => _NavigationTile(
           leading: Icon(ManagePage.icon(selected)),
           title: Text(ManagePage.label(context)),

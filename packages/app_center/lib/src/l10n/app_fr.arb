@@ -38,7 +38,7 @@
     "aboutPageGitHubLabel": "Retrouvez-nous sur GitHub",
     "packageFormatSnapLabel": "Paquets Snap",
     "snapCategoryGames": "Jeux",
-    "snapActionInstallingLabel": "En cours d’installation",
+    "snapActionInstallingLabel": "Installation en cours",
     "searchFieldSearchHint": "Rechercher des applications",
     "snapCategoryFeatured": "En vedette",
     "managePageSearchFieldSearchHint": "Rechercher parmi apps installées",
@@ -250,7 +250,7 @@
     "appstreamUrlTypeContribute": "Contribuer",
     "appstreamUrlTypeVcsBrowser": "Source",
     "managePageDebUpdatesMessage": "Les mises à jour des paquets Debian sont gérées par le Gestionnaire de mises à jour.",
-    "snapActionInstalledLabel": "Installée",
+    "snapActionInstalledLabel": "Installé(e)(s)",
     "localDebLearnMore": "En savoir plus sur les paquets tiers",
     "localDebDialogMessage": "Ce paquet est fourni par un tiers et pourrait menacer votre système et vos données personnelles.",
     "snapPageSizeLabel": "Taille",
@@ -392,7 +392,10 @@
     "appConfinementDevelopment": "Mode Dev",
     "appConfinementClassic": "Sans restriction",
     "appConfinementUnrestricted": "Sans restriction",
-    "appLicenseUnknown": "Inconnu",
-    "appPublishedUnknown": "Inconnu",
-    "appMoreActionsSemanticLabel": "Davantage d'actions"
+    "appLicenseUnknown": "Inconnu(e)",
+    "appPublishedUnknown": "Inconnu(e)",
+    "appMoreActionsSemanticLabel": "Autres actions",
+    "appConfinementStrictTooltip": "Cette application a un accès limité à vos ressources. Vous pouvez contrôler ses autorisations dans les Paramètres.",
+    "appConfinementClassicTooltip": "Cette application utilise l'isolement classique, donnant un accès complet à vos ressources. Ceci est habituel pour des applications de développement.",
+    "appConfinementUnrestrictedTooltip": "Cette application a un accès complet à vos ressources."
 }

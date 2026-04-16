@@ -9,6 +9,7 @@ import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
+import 'package:yaru/yaru.dart';
 
 /// Position of a tile within a grouped list, used to apply the correct
 /// border radius (rounded top, bottom, both, or none).
@@ -89,7 +90,7 @@ class ManageAppTile extends ConsumerWidget {
           ManageTilePosition.single => Border.fromBorderSide(border),
         },
       ),
-      child: ListTile(
+      child: YaruListTile(
         key: ValueKey(app.id),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         leading: Clickable(

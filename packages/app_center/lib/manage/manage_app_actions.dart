@@ -6,6 +6,7 @@ import 'package:app_center/manage/local_deb_providers.dart';
 import 'package:app_center/manage/local_deb_updates_model.dart';
 import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/quit_to_update_notice.dart';
+import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/widgets/active_change_content.dart';
 import 'package:flutter/material.dart';
@@ -41,8 +42,13 @@ class ManageAppActions extends ConsumerWidget {
         snapData.snap,
         snapData.updateVersion,
       ),
-      localDeb: (debData) =>
-          _buildDebActions(context, ref, l10n, debData.debInfo),
+      localDeb: (debData) => _buildDebActions(
+        context,
+        ref,
+        l10n,
+        debData.debInfo,
+        debData.debInfo.isCompulsoryFor(ref.watch(currentDesktopsProvider)),
+      ),
     );
   }
 
@@ -76,8 +82,15 @@ class ManageAppActions extends ConsumerWidget {
     final hasActiveChange = snapData.activeChangeId != null;
     if (hasActiveChange) {
       return ActiveChangeStatus(
-        snapName: snap.name,
-        activeChangeId: snapData.activeChangeId!,
+        actionLabel: ref
+            .watch(activeChangeProvider(snapData.activeChangeId))
+            ?.localize(l10n),
+        progress: ref
+                .watch(activeChangeProvider(snapData.activeChangeId))
+                ?.progress ??
+            0,
+        onCancelPressed: () =>
+            ref.read(snapModelProvider(snap.name).notifier).cancel(),
       );
     }
 
@@ -99,18 +112,18 @@ class ManageAppActions extends ConsumerWidget {
             child: Text(SnapAction.update.label(l10n)),
           ),
         if (!showOnlyUpdate && snapData.isInstalled) ...[
-          OutlinedButton(
-            onPressed: canOpen
-                ? SnapAction.open.callback(
-                    snapData,
-                    snapViewModel,
-                    snapLauncher,
-                    context,
-                  )
-                : null,
-            child: Text(SnapAction.open.label(l10n)),
-          ),
-          const SizedBox(width: kSpacing),
+          if (canOpen) ...[
+            OutlinedButton(
+              onPressed: SnapAction.open.callback(
+                snapData,
+                snapViewModel,
+                snapLauncher,
+                context,
+              ),
+              child: Text(SnapAction.open.label(l10n)),
+            ),
+            const SizedBox(width: kSpacing),
+          ],
           OutlinedButton(
             onPressed: SnapAction.remove.callback(
               snapData,
@@ -135,6 +148,7 @@ class ManageAppActions extends ConsumerWidget {
     WidgetRef ref,
     AppLocalizations l10n,
     LocalDebInfo debInfo,
+    bool isCompulsory,
   ) {
     final hasActiveTransaction = debInfo.activeTransactionId != null;
 
@@ -185,7 +199,7 @@ class ManageAppActions extends ConsumerWidget {
                 .updateDeb(debInfo.id),
             child: Text(l10n.snapActionUpdateLabel),
           ),
-        if (!showOnlyUpdate)
+        if (!showOnlyUpdate && !isCompulsory)
           OutlinedButton(
             onPressed: () =>
                 ref.read(installedAppsProvider.notifier).removeDeb(debInfo.id),

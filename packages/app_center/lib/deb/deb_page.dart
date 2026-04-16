@@ -3,20 +3,19 @@ import 'dart:async';
 import 'package:app_center/apps/app_page.dart';
 import 'package:app_center/apps/app_title_bar.dart';
 import 'package:app_center/appstream/appstream.dart';
-import 'package:app_center/constants.dart';
 import 'package:app_center/deb/deb_model.dart';
 import 'package:app_center/deb/deb_providers.dart';
 import 'package:app_center/error/error.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
 import 'package:app_center/packagekit/packagekit.dart';
+import 'package:app_center/providers/current_desktops_provider.dart';
 import 'package:app_center/store/store_app.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 import 'package:yaru/yaru.dart';
 
 class DebPage extends ConsumerWidget {
@@ -123,6 +122,9 @@ class _DebView extends ConsumerWidget {
           const SizedBox(height: kPagePadding),
           Html(
             data: debModel.component.getLocalizedDescription(),
+            style: {
+              'body': Style(margin: Margins.zero, padding: HtmlPaddings.zero),
+            },
           ),
         ],
       ),
@@ -138,56 +140,50 @@ class _DebActionButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final currentDesktops = ref.watch(currentDesktopsProvider);
+    final isCompulsory = debModel.isCompulsoryFor(currentDesktops);
 
     final primaryAction = debModel.hasUpdate
         ? DebAction.update
         : debModel.isInstalled
-            ? DebAction.remove
+            ? (isCompulsory ? null : DebAction.remove)
             : DebAction.install;
+    final button = switch (primaryAction) {
+      DebAction.install || DebAction.update => YaruSplitButton.new,
+      _ => YaruSplitButton.outlined,
+    };
 
-    final primaryActionButton = SizedBox(
-      width: kPrimaryButtonMaxWidth,
-      child: PushButton.elevated(
-        onPressed: debModel.activeTransactionId != null
-            ? null
-            : primaryAction.callback(ref, debModel),
-        child: debModel.activeTransactionId != null
-            ? Consumer(
-                builder: (context, ref, child) {
-                  final transaction = ref
-                      .watch(transactionProvider(debModel.activeTransactionId!))
-                      .valueOrNull;
-                  return Center(
-                    child: SizedBox.square(
-                      dimension: kLoaderHeight,
-                      child: YaruCircularProgressIndicator(
-                        value: (transaction?.percentage ?? 0) / 100.0,
-                        strokeWidth: 2,
-                      ),
-                    ),
-                  );
-                },
-              )
-            : Text(primaryAction.label(l10n)),
-      ),
-    );
+    final primaryActionButton = primaryAction == null
+        ? null
+        : button(
+            onPressed: primaryAction.callback(ref, debModel),
+            child: Text(primaryAction.label(l10n)),
+          );
 
-    final cancelButton = OutlinedButton(
-      onPressed: DebAction.cancel.callback(ref, debModel),
-      child: Text(DebAction.cancel.label(l10n)),
-    );
+    if (debModel.activeTransactionId != null) {
+      return ActiveChangeStatus(
+        onCancelPressed: DebAction.cancel.callback(ref, debModel),
+        progress: (ref
+                    .watch(transactionProvider(debModel.activeTransactionId!))
+                    .valueOrNull
+                    ?.percentage ??
+                0) /
+            100.0,
+      );
+    }
 
     return OverflowBar(
       overflowSpacing: 8,
       children: [
         if (debModel.packageInfo != null)
-          primaryActionButton
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (primaryActionButton != null) primaryActionButton,
+            ],
+          )
         else
           Text(l10n.debPageErrorNoPackageInfo),
-        if (debModel.activeTransactionId != null) ...[
-          const SizedBox(width: kSpacing),
-          cancelButton,
-        ],
       ].nonNulls.toList(),
     );
   }
@@ -201,15 +197,19 @@ class _MoreActionsButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final currentDesktops = ref.watch(currentDesktopsProvider);
+    final isCompulsory = debData.isCompulsoryFor(currentDesktops);
+
     final primaryAction = debData.hasUpdate
         ? DebAction.update
         : debData.isInstalled
-            ? DebAction.remove
+            ? (isCompulsory ? null : DebAction.remove)
             : DebAction.install;
 
     final secondaryActions = [
       if (debData.hasUpdate) DebAction.update,
-      if (debData.isInstalled || debData.hasUpdate) DebAction.remove,
+      if (!isCompulsory && (debData.isInstalled || debData.hasUpdate))
+        DebAction.remove,
     ]..remove(primaryAction);
 
     return secondaryActions.isNotEmpty

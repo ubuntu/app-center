@@ -394,5 +394,8 @@
     "managePagePackageTypeAll": "Vše",
     "managePagePackageTypeSnap": "Snap",
     "managePagePackageTypeDeb": "Deb",
-    "appMoreActionsSemanticLabel": "Další akce"
+    "appMoreActionsSemanticLabel": "Další akce",
+    "appConfinementStrictTooltip": "Tato aplikace má omezený přístup k vašim prostředkům. Její oprávnění můžete spravovat v aplikaci Nastavení.",
+    "appConfinementClassicTooltip": "Tato aplikace používá klasické omezení, které poskytuje plný přístup k vašim prostředkům. To je běžné u vývojářských aplikací.",
+    "appConfinementUnrestrictedTooltip": "Tato aplikace má plný přístup k vašim prostředkům."
 }
