@@ -32,25 +32,28 @@ class _NavigationTile extends StatelessWidget {
     final backgroundColor =
         isSelected ? listTileTheme.selectedTileColor : listTileTheme.tileColor;
 
-    return YaruMasterTile(
-      title: title,
-      decoration: BoxDecoration(
-        border: BoxBorder.all(color: Colors.transparent, width: 2),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(kYaruButtonRadius),
+    return Semantics(
+      button: true,
+      child: YaruMasterTile(
+        title: title,
+        decoration: BoxDecoration(
+          border: BoxBorder.all(color: Colors.transparent, width: 2),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(kYaruButtonRadius),
+          ),
+          color: backgroundColor,
         ),
-        color: backgroundColor,
-      ),
-      focusDecoration: BoxDecoration(
-        border: BoxBorder.all(color: theme.primaryColor, width: 2),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(kYaruButtonRadius),
+        focusDecoration: BoxDecoration(
+          border: BoxBorder.all(color: theme.primaryColor, width: 2),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(kYaruButtonRadius),
+          ),
+          color: backgroundColor ?? theme.cardColor,
         ),
-        color: backgroundColor ?? theme.cardColor,
+        leading: leading,
+        trailing: trailing,
+        selected: isSelected,
       ),
-      leading: leading,
-      trailing: trailing,
-      selected: isSelected,
     );
   }
 }
