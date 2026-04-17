@@ -117,16 +117,12 @@ class _ActionBar extends ConsumerWidget {
     return Wrap(
       runSpacing: kSpacing,
       spacing: kSpacing,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         if (primaryAction != null)
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _PrimaryActionButton(
-                snapName: snapData.name,
-                isPrimary: true,
-              ),
-            ],
+          _PrimaryActionButton(
+            snapName: snapData.name,
+            isPrimary: true,
           ),
         if (snapData.availableChannels != null &&
             snapData.selectedChannel != null) ...[
@@ -230,6 +226,7 @@ class _MoreActionsButton extends ConsumerWidget {
 
     return secondaryActions.isNotEmpty
         ? YaruPopupMenuButton(
+            showArrow: false,
             semanticLabel: l10n.appMoreActionsSemanticLabel,
             childPadding: EdgeInsets.symmetric(horizontal: 2),
             itemBuilder: (context) => [
