@@ -401,5 +401,8 @@
     "appConfinementClassic": "ללא הגבלה",
     "appConfinementUnrestricted": "ללא הגבלה",
     "appLicenseUnknown": "לא ידוע",
-    "appPublishedUnknown": "לא ידוע"
+    "appPublishedUnknown": "לא ידוע",
+    "appConfinementStrictTooltip": "ליישום הזה יש גישה מוגבלת למשאבים שלך. אפשר לשלוט בהרשאות שלו דרך יישום ההגדרות.",
+    "appConfinementClassicTooltip": "היישום הזה משתמש בבידוד קלסי, מה שמעניק גישה מלאה למשאבים שלך. נפוץ ביישומי פיתוח.",
+    "appConfinementUnrestrictedTooltip": "ליישום הזה יש גישה מלאה למשאבים שלך."
 }
