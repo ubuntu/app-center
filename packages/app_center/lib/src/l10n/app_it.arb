@@ -33,7 +33,7 @@
     "snapActionInstallLabel": "Installa",
     "snapPageLicenseLabel": "Licenza",
     "snapCategoryPhotoAndVideo": "Foto e Video",
-    "snapPageConfinementLabel": "Confinamento",
+    "snapPageConfinementLabel": "Permessi",
     "snapCategoryMusicAndAudio": "Musica e Audio",
     "aboutPageGitHubLabel": "Trovaci su GitHub",
     "packageFormatSnapLabel": "Pacchetti Snap",
@@ -56,7 +56,7 @@
     "snapCategoryGnomeGamesSlogan": "Raccolta Giochi GNOME",
     "snapConfinementClassic": "Classici",
     "explorePageCategoriesLabel": "Categorie",
-    "snapPagePublishedLabel": "Pubblicato",
+    "snapPagePublishedLabel": "Ultimo aggiornamento",
     "snapPageShareLinkCopiedMessage": "Collegamento copiato negli appunti",
     "snapSortOrderInstalledSizeDesc": "Per dimensione (dal più grande al più piccolo)",
     "gamesPageBundles": "Pacchetti app",
@@ -93,7 +93,7 @@
     "snapPageDownloadSizeLabel": "Dimensione del download",
     "managePageCheckingForUpdates": "Ricerca aggiornamenti in corso",
     "managePageDescription": "Ricerca nuovi aggiornamenti, aggiorna e gestisci lo stato di tutte le tue app.",
-    "managePageInstalledAndUpdatedLabel": "Installata e aggiornata",
+    "managePageInstalledAndUpdatedLabel": "Applicazioni installate",
     "managePageShowDetailsLabel": "Mostra i dettagli",
     "managePageUpdatesAvailable": "Aggiornamenti disponibili ({n})",
     "@managePageUpdatesAvailable": {
@@ -116,7 +116,7 @@
         }
     },
     "searchPageNoResultsCategory": "Spiacente, non siamo riusciti a trovare nessun pacchetto in questa categoria",
-    "searchPageNoResultsHint": "Prova usando o usa delle parole chiave differenti o più generiche",
+    "searchPageNoResultsHint": "Prova usando parole chiave differenti o più generiche",
     "aboutPageVersionLabel": "Versione {version}",
     "@aboutPageVersionLabel": {
         "placeholders": {
@@ -355,5 +355,54 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "managePagePackageTypeLabel": "Tipo di pacchetto",
+    "managePagePackageTypeAll": "Tutti",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appUrlTypeContact": "Contatta {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Sito dello sviluppatore",
+    "appUrlTypeUnknown": "Collegamento",
+    "appConfinementUnknown": "Sconosciuto",
+    "appConfinementClassic": "Senza restrizioni",
+    "appConfinementUnrestricted": "Senza restrizioni",
+    "appConfinementStrictTooltip": "Questa applicazione ha un accesso limitato alle tue risorse. Puoi controllare i permessi nell'applicazione Impostazioni.",
+    "appConfinementUnrestrictedTooltip": "Questa applicazione ha pieno accesso alle tue risorse.",
+    "appLicenseUnknown": "Sconosciuta",
+    "appPublishedUnknown": "Sconosciuto",
+    "snapActionRevertLabel": "Ripristina aggiornamento",
+    "snapActionRevertingLabel": "Ripristino aggiornamento in corso",
+    "snapRevertConfirmTitle": "Ripristinare la versione precedente?",
+    "snapRevertConfirmMessage": "Appena disponibile una nuova versione verranno ripristinati gli aggiornamenti automatici.",
+    "snapRevertConfirmRevert": "Ripristina",
+    "snapRevertConfirmCancel": "Annulla",
+    "snapRevertConfirmTitleWithVersions": "Avviare il ripristino da {currentVersion} (rev {currentRevision}) a {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "appMoreActionsSemanticLabel": "Ulteriori azioni",
+    "appConfinementClassicTooltip": "Questa applicazione utilizza il confinamento classico, che fornisce l'accesso completo alle risorse. Questa pratica è comune nelle applicazioni in sviluppo.",
+    "appConfinementDevelopment": "Modalità sviluppatore",
+    "appConfinementStrict": "Isolata",
+    "snapRevertNoPreviousRevisionMessage": "Non è disponibile una precedente revisione locale a cui effettuare il ripristino."
 }
