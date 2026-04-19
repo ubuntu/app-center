@@ -199,7 +199,7 @@
     "gamesPageFeatured": "Odporúčané tituly",
     "snapCategoryGameContentCreationSlogan": "Vytváranie obsahu",
     "gamesPageBundles": "Balíky aplikácií",
-    "snapReportLabel": "Nahlásiť {snapName}",
+    "snapReportLabel": "Nahlásiť: {snapName}",
     "@snapReportLabel": {
         "placeholders": {
             "snapName": {
