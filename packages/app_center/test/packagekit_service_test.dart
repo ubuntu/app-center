@@ -15,6 +15,8 @@ const _dBusName = 'org.freedesktop.DBus';
 const _dBusInterface = 'org.freedesktop.DBus';
 const _dBusObjectPath = '/org/freedesktop/DBus';
 const _packageKitDBusName = 'org.freedesktop.PackageKit';
+const _documentsPortalName = 'org.freedesktop.portal.Documents';
+const _documentsPortalPath = '/org/freedesktop/portal/documents';
 
 void main() {
   group('activate service', () {
@@ -468,6 +470,96 @@ void main() {
     expect(packages.length, equals(2));
   });
 
+  group('portal path resolution', () {
+    const portalPath =
+        '/run/user/1000/doc/8cf4b075/balena-etcher_2.1.0_amd64.deb';
+    const realPath = '/home/user/Downloads/balena-etcher_2.1.0_amd64.deb';
+
+    test('install local package via portal path', () async {
+      final completer = Completer();
+      final mockTransaction = createMockPackageKitTransaction(
+        start: completer.future,
+      );
+      final mockClient =
+          createMockPackageKitClient(transaction: mockTransaction);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        sessionDbus: createMockSessionDbus(
+          docId: '8cf4b075',
+          realPath: realPath,
+        ),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final id = await packageKit.installLocal(portalPath);
+      verify(mockTransaction.installFiles([realPath])).called(1);
+      completer.complete();
+      await packageKit.waitTransaction(id);
+    });
+
+    test('get details of local package via portal path', () async {
+      final mockDetails = PackageKitPackageDetails(
+        packageId: const PackageKitPackageId(
+          name: 'balena-etcher',
+          version: '2.1.0',
+          arch: 'amd64',
+        ),
+        summary: 'summary',
+      );
+      final mockTransaction = createMockPackageKitTransaction(
+        events: [mockDetails],
+      );
+      final mockClient =
+          createMockPackageKitClient(transaction: mockTransaction);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        sessionDbus: createMockSessionDbus(
+          docId: '8cf4b075',
+          realPath: realPath,
+        ),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final details = await packageKit.getDetailsLocal(portalPath);
+      verify(mockTransaction.getDetailsLocal([realPath])).called(1);
+      expect(details, equals(mockDetails));
+    });
+
+    test('falls back to original path when portal call fails', () async {
+      final completer = Completer();
+      final mockTransaction = createMockPackageKitTransaction(
+        start: completer.future,
+      );
+      final mockClient =
+          createMockPackageKitClient(transaction: mockTransaction);
+      final failingSessionDbus = MockDBusClient();
+      when(
+        failingSessionDbus.callMethod(
+          path: DBusObjectPath(_documentsPortalPath),
+          destination: _documentsPortalName,
+          name: 'GetHostPaths',
+          interface: _documentsPortalName,
+          values: [
+            DBusArray.string(['8cf4b075']),
+          ],
+        ),
+      ).thenThrow(Exception('portal unavailable'));
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        sessionDbus: failingSessionDbus,
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final id = await packageKit.installLocal(portalPath);
+      verify(mockTransaction.installFiles([portalPath])).called(1);
+      completer.complete();
+      await packageKit.waitTransaction(id);
+    });
+  });
+
   test('getUpdates', () async {
     const fooUpdate = PackageKitPackageEvent(
       info: PackageKitInfo.normal,
@@ -512,5 +604,34 @@ MockDBusClient createMockDbusClient() {
       values: const [DBusString(_packageKitDBusName), DBusUint32(0)],
     ),
   ).thenAnswer((_) async => DBusMethodSuccessResponse());
+  return dbus;
+}
+
+MockDBusClient createMockSessionDbus({
+  required String docId,
+  required String realPath,
+}) {
+  final dbus = MockDBusClient();
+  when(
+    dbus.callMethod(
+      path: DBusObjectPath(_documentsPortalPath),
+      destination: _documentsPortalName,
+      name: 'GetHostPaths',
+      interface: _documentsPortalName,
+      values: [
+        DBusArray.string([docId]),
+      ],
+    ),
+  ).thenAnswer(
+    (_) async => DBusMethodSuccessResponse([
+      DBusDict(
+        DBusSignature('s'),
+        DBusSignature('ay'),
+        {
+          DBusString(docId): DBusArray.byte([...realPath.codeUnits, 0]),
+        },
+      ),
+    ]),
+  );
   return dbus;
 }
