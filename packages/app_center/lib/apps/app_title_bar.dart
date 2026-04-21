@@ -6,6 +6,8 @@ import 'package:app_center/widgets/app_icon.dart';
 import 'package:app_center/widgets/app_title.dart';
 import 'package:flutter/material.dart';
 
+const _kTitleIconSize = 96.0;
+
 /// Title bar for an app. Usually with an app icon, title, and action buttons.
 class AppTitleBar extends StatelessWidget {
   const AppTitleBar({
@@ -38,7 +40,10 @@ class AppTitleBar extends StatelessWidget {
     Widget? banner,
   }) =>
       AppTitleBar(
-        iconWidget: DebAppIcon(component: debData.component, size: 96),
+        iconWidget: DebAppIcon(
+          component: debData.component,
+          size: _kTitleIconSize,
+        ),
         title: AppTitle.fromDeb(
           debData.component,
           large: true,
@@ -83,7 +88,11 @@ class AppTitleBar extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            iconWidget ?? AppIcon(iconUrl: iconUrl, size: 96),
+            iconWidget ??
+                AppIcon(
+                  iconUrl: iconUrl,
+                  size: _kTitleIconSize,
+                ),
             const SizedBox(width: 16),
             Expanded(
               child: Semantics(
