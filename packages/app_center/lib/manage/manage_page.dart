@@ -55,15 +55,12 @@ class ManagePage extends ConsumerWidget {
           padding: const EdgeInsets.only(top: kPagePadding),
           sliver: SliverList.list(
             children: [
-              Center(
-                child: Semantics(
-                  header: true,
-                  focused: true,
-                  child: Text(
-                    l10n.managePageLabel,
-                    style: textTheme.titleMedium!
-                        .copyWith(fontWeight: FontWeight.w500),
-                  ),
+              Semantics(
+                header: true,
+                focused: true,
+                child: Text(
+                  l10n.managePageLabel,
+                  style: textTheme.headlineSmall,
                 ),
               ),
               _SelfUpdateInfoBox(),
