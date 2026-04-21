@@ -7,7 +7,10 @@ import 'package:flutter/foundation.dart';
 import 'package:gsettings/gsettings.dart';
 import 'package:path/path.dart' as p;
 import 'package:snapd/snapd.dart';
+import 'package:ubuntu_logger/ubuntu_logger.dart';
 import 'package:xdg_directories/xdg_directories.dart' as xdg;
+
+final log = Logger('apps_utils');
 
 enum AppConfinement {
   unknown,
@@ -92,8 +95,8 @@ Future<String?> activeIconTheme({
     final value = await settings.get('icon-theme');
     final themeName = value.asString().trim();
     if (themeName.isNotEmpty) return themeName;
-  } on Exception {
-    // Schema not installed or key missing
+  } on Exception catch (e) {
+    log.warning('Could not get icon theme from schema: $e');
   } finally {
     await settings.close();
   }
