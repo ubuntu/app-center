@@ -27,13 +27,16 @@ class PackageKitService {
   PackageKitService({
     @visibleForTesting PackageKitClient? client,
     @visibleForTesting DBusClient? dbus,
+    @visibleForTesting DBusClient? sessionDbus,
     @visibleForTesting FileSystem? fs,
   })  : _client = client ?? getService<PackageKitClient>(),
         _dbus = dbus ?? DBusClient.system(),
+        _sessionDbus = sessionDbus,
         _fs = fs ?? const LocalFileSystem();
 
   final PackageKitClient _client;
   final DBusClient _dbus;
+  final DBusClient? _sessionDbus;
   final FileSystem _fs;
 
   bool get isAvailable => _isAvailable;
@@ -173,10 +176,14 @@ class PackageKitService {
 
   /// Creates a transaction that installs the local package given by `path` and
   /// returns the transaction ID.
-  Future<int> installLocal(String path) async => _createTransaction(
-        action: (transaction) =>
-            transaction.installFiles([_getAbsolutePath(path)]),
-      );
+  Future<int> installLocal(String path) async {
+    final resolvedPath = _isPortalPath(path)
+        ? await _resolvePortalPath(path)
+        : _getAbsolutePath(path);
+    return _createTransaction(
+      action: (transaction) => transaction.installFiles([resolvedPath]),
+    );
+  }
 
   /// Get the packages that provide the given id (usually a codec string).
   Future<Iterable<PackageKitPackageInfo>> whatProvides(String id) async {
@@ -214,6 +221,46 @@ class PackageKitService {
   }
 
   String _getAbsolutePath(String path) => _fs.file(path).absolute.path;
+
+  static bool _isPortalPath(String path) {
+    final parts = path.split('/');
+    // /run/user/<uid>/doc/<docId>/filename
+    return parts.length > 5 &&
+        parts[1] == 'run' &&
+        parts[2] == 'user' &&
+        parts[4] == 'doc';
+  }
+
+  Future<String> _resolvePortalPath(String path) async {
+    final docId = path.split('/')[5];
+    final client = _sessionDbus ?? DBusClient.session();
+    try {
+      final object = DBusRemoteObject(
+        client,
+        name: 'org.freedesktop.portal.Documents',
+        path: DBusObjectPath('/org/freedesktop/portal/documents'),
+      );
+      final result = await object.callMethod(
+        'org.freedesktop.portal.Documents',
+        'GetHostPaths',
+        [
+          DBusArray.string([docId]),
+        ],
+      );
+      // Result is a{say}: doc_id -> null-terminated byte array path
+      final pathsDict = result.values[0] as DBusDict;
+      final pathBytes =
+          (pathsDict.children[DBusString(docId)] as DBusArray).children;
+      return String.fromCharCodes(
+        pathBytes.map((v) => (v as DBusByte).value).where((b) => b != 0),
+      );
+    } on Exception catch (e) {
+      log.warning(
+        'Failed to resolve portal path $path via Documents portal: $e. Falling back to original path.',
+      );
+      return path;
+    }
+  }
 
   /// Resolves package names in a single transaction.
   /// Returns a map of package name to package info.
@@ -281,9 +328,11 @@ class PackageKitService {
 
   Future<PackageKitPackageDetails?> getDetailsLocal(String path) async {
     PackageKitPackageDetails? details;
-    final absolutePath = _getAbsolutePath(path);
+    final resolvedPath = _isPortalPath(path)
+        ? await _resolvePortalPath(path)
+        : _getAbsolutePath(path);
     await _createTransaction(
-      action: (transaction) => transaction.getDetailsLocal([absolutePath]),
+      action: (transaction) => transaction.getDetailsLocal([resolvedPath]),
       listener: (event) {
         if (event is PackageKitDetailsEvent) {
           details = event;
@@ -291,7 +340,7 @@ class PackageKitService {
       },
     ).then(waitTransaction);
     if (details == null) {
-      log.error('Couldn\'t get details for local package $absolutePath');
+      log.error('Couldn\'t get details for local package $resolvedPath');
     }
     return details;
   }
