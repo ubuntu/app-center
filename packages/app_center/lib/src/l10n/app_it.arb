@@ -1,5 +1,5 @@
 {
-    "snapPageLinksLabel": "Link",
+    "snapPageLinksLabel": "Collegamenti",
     "snapPageVersionLabel": "Versione",
     "packageFormatDebLabel": "Pacchetti Debian",
     "snapCategoryBooksAndReference": "Libri e Riferimento",
@@ -89,7 +89,7 @@
             }
         }
     },
-    "snapPageDeveloperWebsiteLabel": "Sito dello sviluppatore",
+    "snapPageDeveloperWebsiteLabel": "Sito web dello sviluppatore",
     "snapPageDownloadSizeLabel": "Dimensione del download",
     "managePageCheckingForUpdates": "Ricerca aggiornamenti in corso",
     "managePageDescription": "Ricerca nuovi aggiornamenti, aggiorna e gestisci lo stato di tutte le tue app.",
@@ -137,7 +137,7 @@
     "snapSortOrderRelevance": "Rilevante",
     "managePageDebUpdatesMessage": "Gli aggiornamenti dei pacchetti Debian sono gestiti da Software Updater.",
     "managePageOwnUpdateAvailable": "Aggiornamento App Center disponibile",
-    "managePageOwnUpdateDescription": "Alla chiusura dell'applicazione sarà aggiornata automaticamente.",
+    "managePageOwnUpdateDescription": "Una volta chiusa, l'applicazione sarà aggiornata automaticamente.",
     "managePageOwnUpdateDescriptionSoon": "App Center sarà aggiornato automaticamente in {time}.",
     "@managePageOwnUpdateDescriptionSoon": {
         "placeholders": {
@@ -217,7 +217,7 @@
     "snapCategoryGameContentCreationSlogan": "Creazione di contenuti",
     "snapCategoryPersonalisation": "Personalizzazione",
     "snapSortOrderInstalledDateAsc": "Aggiornate meno di recente",
-    "managePageNoInternet": "Non è possibile contattare il server, controlla la tua connessione internet o prova nuovamente tra qualche minuto.",
+    "managePageNoInternet": "Non è possibile contattare il server, controlla la tua connessione internet o prova più tardi.",
     "managePageNoUpdatesAvailableDescription": "Non sono disponibili nuovi aggiornamenti. Tutte le tue applicazioni sono aggiornate.",
     "managePageUpdateAllLabel": "Aggiorna tutto",
     "managePageUpdatedMonthsAgo": "Aggiornata/e {n, plural, =1{{n} month} other{{n} months}} fa",
