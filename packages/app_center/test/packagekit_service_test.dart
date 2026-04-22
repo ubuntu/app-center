@@ -471,8 +471,7 @@ void main() {
   });
 
   group('portal path resolution', () {
-    const portalPath =
-        '/run/user/1000/doc/8cf4b075/test-package_1.0_amd64.deb';
+    const portalPath = '/run/user/1000/doc/8cf4b075/test-package_1.0_amd64.deb';
     const realPath = '/home/user/Downloads/test-package_1.0_amd64.deb';
 
     test('install local package via portal path', () async {
@@ -527,7 +526,7 @@ void main() {
       expect(details, equals(mockDetails));
     });
 
-    test('falls back to original path when portal call fails', () async {
+    test('falls back to absolute path when portal is unavailable', () async {
       final completer = Completer();
       final mockTransaction = createMockPackageKitTransaction(
         start: completer.future,
@@ -536,12 +535,14 @@ void main() {
           createMockPackageKitClient(transaction: mockTransaction);
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
-        documentsPortal: createFailingDocumentsPortal(docId: '8cf4b075'),
+        documentsPortal: createUnavailableDocumentsPortal(),
         client: mockClient,
         fs: MemoryFileSystem.test(),
       );
       await packageKit.activateService();
       final id = await packageKit.installLocal(portalPath);
+      // _isPortalPath returns false when getMountPoint fails, so the raw path
+      // is passed through _getAbsolutePath (which equals portalPath on MemoryFS)
       verify(mockTransaction.installFiles([portalPath])).called(1);
       completer.complete();
       await packageKit.waitTransaction(id);
@@ -645,15 +646,9 @@ MockXdgDocumentsPortal createMockDocumentsPortal({
   return portal;
 }
 
-MockXdgDocumentsPortal createFailingDocumentsPortal({
-  required String docId,
-  String mountPoint = '/run/user/1000/doc',
-}) {
+MockXdgDocumentsPortal createUnavailableDocumentsPortal() {
   final portal = MockXdgDocumentsPortal();
-  when(portal.getMountPoint()).thenAnswer(
-    (_) async => io.Directory(mountPoint),
-  );
-  when(portal.getHostPaths([docId])).thenThrow(Exception('portal unavailable'));
+  when(portal.getMountPoint()).thenThrow(Exception('portal unavailable'));
   return portal;
 }
 

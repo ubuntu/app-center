@@ -43,7 +43,7 @@ class PackageKitService {
   final XdgDocumentsPortal? _documentsPortal;
   final FileSystem _fs;
   final String? _runtimeDir;
-  XdgDesktopPortalClient? _portalClient;
+  XdgDesktopPortalClient? _desktopPortalClient;
   Future<io.Directory>? _mountPointFuture;
 
   bool get isAvailable => _isAvailable;
@@ -226,33 +226,34 @@ class PackageKitService {
       return snapArch;
     }
 
-    final result = await io.Process.run('/usr/bin/dpkg', ['--print-architecture']);
+    final result =
+        await io.Process.run('/usr/bin/dpkg', ['--print-architecture']);
     return (result.stdout as String).trim();
   }
 
   String _getAbsolutePath(String path) => _fs.file(path).absolute.path;
 
-  Future<XdgDocumentsPortal> _getPortal() async {
-    return _documentsPortal ?? (_portalClient ??= XdgDesktopPortalClient()).documents;
-  }
+  XdgDocumentsPortal get _portal =>
+      _documentsPortal ??
+      (_desktopPortalClient ??= XdgDesktopPortalClient()).documents;
 
   Future<io.Directory> _getMountPoint() {
-    return _mountPointFuture ??= _getPortal().then((p) async => p.getMountPoint());
+    return _mountPointFuture ??= _portal.getMountPoint();
   }
 
   Future<bool> _isPortalPath(String path) async {
     try {
       final mountPoint = await _getMountPoint();
       return isWithin(mountPoint.path, path);
-    } on Exception {
+    } on Exception catch (e) {
+      log.warning('Failed to check if $path is a portal path: $e');
       return false;
     }
   }
 
   Future<String?> _resolvePortalPath(String path) async {
-    final portal = await _getPortal();
+    final portal = _portal;
     final mountPoint = await _getMountPoint();
-    // Path is /<mountPoint>/<docId>/filename — extract docId as first segment after mount
     final relativePath = relative(path, from: mountPoint.path);
     final docId = split(relativePath).first;
     try {
@@ -263,13 +264,12 @@ class PackageKitService {
         'Documents portal returned no path for $docId. Falling back to original path.',
       );
       return null;
-    } on DBusUnknownMethodException {
-      rethrow;
     } on Exception catch (e) {
       log.warning(
-        'Failed to resolve portal path $path via Documents portal: $e. Falling back to original path.',
+        'Failed to resolve portal path $path via Documents portal '
+        '(${e.runtimeType}): $e — triggering copy fallback.',
       );
-      return null;
+      rethrow;
     }
   }
 
@@ -289,18 +289,14 @@ class PackageKitService {
         resolvedPath: resolved ?? _getAbsolutePath(path),
         tempCopy: null,
       );
-    } on DBusUnknownMethodException {
-      log.info(
-        'GetHostPaths not supported, copying $path to runtime directory',
-      );
+    } on Exception catch (_) {
       final copyPath = await _copyToRuntime(path);
       return (resolvedPath: copyPath, tempCopy: copyPath);
     }
   }
 
   Future<String> _copyToRuntime(String path) async {
-    final dir =
-        _runtimeDir ??
+    final dir = _runtimeDir ??
         io.Platform.environment['SNAP_USER_COMMON'] ??
         io.Directory.systemTemp.path;
     final dest = join(dir, basename(path));
@@ -445,6 +441,6 @@ class PackageKitService {
     await _dbus.close();
     await _client.close();
     await _errorStreamController.close();
-    await _portalClient?.close();
+    await _desktopPortalClient?.close();
   }
 }
