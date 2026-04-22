@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
 import 'package:path/path.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
 export 'package:packagekit/packagekit.dart' show PackageKitTransaction;
 
@@ -28,17 +29,18 @@ class PackageKitService {
   PackageKitService({
     @visibleForTesting PackageKitClient? client,
     @visibleForTesting DBusClient? dbus,
-    @visibleForTesting DBusClient? sessionDbus,
+    @visibleForTesting XdgDocumentsPortal? documentsPortal,
     @visibleForTesting FileSystem? fs,
   })  : _client = client ?? getService<PackageKitClient>(),
         _dbus = dbus ?? DBusClient.system(),
-        _sessionDbus = sessionDbus,
+        _documentsPortal = documentsPortal,
         _fs = fs ?? const LocalFileSystem();
 
   final PackageKitClient _client;
   final DBusClient _dbus;
-  final DBusClient? _sessionDbus;
+  final XdgDocumentsPortal? _documentsPortal;
   final FileSystem _fs;
+  XdgDesktopPortalClient? _portalClient;
 
   bool get isAvailable => _isAvailable;
   bool _isAvailable = false;
@@ -234,27 +236,15 @@ class PackageKitService {
 
   Future<String> _resolvePortalPath(String path) async {
     final docId = split(path)[5];
-    final client = _sessionDbus ?? DBusClient.session();
+    final portal = _documentsPortal ?? (_portalClient ??= XdgDesktopPortalClient()).documents;
     try {
-      final object = DBusRemoteObject(
-        client,
-        name: 'org.freedesktop.portal.Documents',
-        path: DBusObjectPath('/org/freedesktop/portal/documents'),
+      final hostPaths = await portal.getHostPaths([docId]);
+      final file = hostPaths[docId];
+      if (file != null) return file.path;
+      log.warning(
+        'Documents portal returned no path for $docId. Falling back to original path.',
       );
-      final result = await object.callMethod(
-        'org.freedesktop.portal.Documents',
-        'GetHostPaths',
-        [
-          DBusArray.string([docId]),
-        ],
-      );
-      // Result is a{say}: doc_id -> null-terminated byte array path
-      final pathsDict = result.values[0] as DBusDict;
-      final pathBytes =
-          (pathsDict.children[DBusString(docId)] as DBusArray).children;
-      return String.fromCharCodes(
-        pathBytes.map((v) => (v as DBusByte).value).where((b) => b != 0),
-      );
+      return path;
     } on Exception catch (e) {
       log.warning(
         'Failed to resolve portal path $path via Documents portal: $e. Falling back to original path.',
@@ -390,5 +380,6 @@ class PackageKitService {
     await _dbus.close();
     await _client.close();
     await _errorStreamController.close();
+    await _portalClient?.close();
   }
 }

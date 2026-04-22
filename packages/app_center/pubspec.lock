@@ -1504,6 +1504,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+  xdg_desktop_portal:
+    dependency: "direct main"
+    description:
+      name: xdg_desktop_portal
+      sha256: "4fae74b6ed63a449d4c796a74265cebdd912c390336dedc06d705142f3b939d7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.14"
   xdg_directories:
     dependency: "direct main"
     description:

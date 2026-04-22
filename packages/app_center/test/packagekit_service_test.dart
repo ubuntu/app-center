@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:dbus/dbus.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
+import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
 import 'packagekit_service_test.mocks.dart';
 import 'test_utils.dart';
@@ -15,8 +17,6 @@ const _dBusName = 'org.freedesktop.DBus';
 const _dBusInterface = 'org.freedesktop.DBus';
 const _dBusObjectPath = '/org/freedesktop/DBus';
 const _packageKitDBusName = 'org.freedesktop.PackageKit';
-const _documentsPortalName = 'org.freedesktop.portal.Documents';
-const _documentsPortalPath = '/org/freedesktop/portal/documents';
 
 void main() {
   group('activate service', () {
@@ -484,7 +484,7 @@ void main() {
           createMockPackageKitClient(transaction: mockTransaction);
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
-        sessionDbus: createMockSessionDbus(
+        documentsPortal: createMockDocumentsPortal(
           docId: '8cf4b075',
           realPath: realPath,
         ),
@@ -514,7 +514,7 @@ void main() {
           createMockPackageKitClient(transaction: mockTransaction);
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
-        sessionDbus: createMockSessionDbus(
+        documentsPortal: createMockDocumentsPortal(
           docId: '8cf4b075',
           realPath: realPath,
         ),
@@ -534,21 +534,9 @@ void main() {
       );
       final mockClient =
           createMockPackageKitClient(transaction: mockTransaction);
-      final failingSessionDbus = MockDBusClient();
-      when(
-        failingSessionDbus.callMethod(
-          path: DBusObjectPath(_documentsPortalPath),
-          destination: _documentsPortalName,
-          name: 'GetHostPaths',
-          interface: _documentsPortalName,
-          values: [
-            DBusArray.string(['8cf4b075']),
-          ],
-        ),
-      ).thenThrow(Exception('portal unavailable'));
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
-        sessionDbus: failingSessionDbus,
+        documentsPortal: createFailingDocumentsPortal(docId: '8cf4b075'),
         client: mockClient,
         fs: MemoryFileSystem.test(),
       );
@@ -592,7 +580,7 @@ void main() {
   });
 }
 
-@GenerateMocks([DBusClient])
+@GenerateMocks([DBusClient, XdgDocumentsPortal])
 MockDBusClient createMockDbusClient() {
   final dbus = MockDBusClient();
   when(
@@ -607,31 +595,21 @@ MockDBusClient createMockDbusClient() {
   return dbus;
 }
 
-MockDBusClient createMockSessionDbus({
+MockXdgDocumentsPortal createMockDocumentsPortal({
   required String docId,
   required String realPath,
 }) {
-  final dbus = MockDBusClient();
-  when(
-    dbus.callMethod(
-      path: DBusObjectPath(_documentsPortalPath),
-      destination: _documentsPortalName,
-      name: 'GetHostPaths',
-      interface: _documentsPortalName,
-      values: [
-        DBusArray.string([docId]),
-      ],
-    ),
-  ).thenAnswer(
-    (_) async => DBusMethodSuccessResponse([
-      DBusDict(
-        DBusSignature('s'),
-        DBusSignature('ay'),
-        {
-          DBusString(docId): DBusArray.byte([...realPath.codeUnits, 0]),
-        },
-      ),
-    ]),
+  final portal = MockXdgDocumentsPortal();
+  when(portal.getHostPaths([docId])).thenAnswer(
+    (_) async => {docId: File(realPath)},
   );
-  return dbus;
+  return portal;
+}
+
+MockXdgDocumentsPortal createFailingDocumentsPortal({
+  required String docId,
+}) {
+  final portal = MockXdgDocumentsPortal();
+  when(portal.getHostPaths([docId])).thenThrow(Exception('portal unavailable'));
+  return portal;
 }
