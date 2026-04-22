@@ -113,7 +113,11 @@ class PackageKitService {
       if (event is PackageKitFinishedEvent || event is PackageKitDestroyEvent) {
         _transactions.remove(id);
         subscription.cancel();
-        onDone?.call();
+        try {
+          onDone?.call();
+        } on Exception catch (e) {
+          log.warning('onDone callback threw during transaction cleanup: $e');
+        }
       } else if (event is PackageKitErrorCodeEvent) {
         _errorStreamController.add(event);
         log.error(
@@ -121,7 +125,18 @@ class PackageKitService {
         );
       }
     });
-    await action?.call(transaction);
+    try {
+      await action?.call(transaction);
+    } on Exception {
+      subscription.cancel();
+      _transactions.remove(id);
+      try {
+        onDone?.call();
+      } on Exception catch (e) {
+        log.warning('onDone callback threw during transaction cleanup: $e');
+      }
+      rethrow;
+    }
     return id;
   }
 
@@ -189,10 +204,15 @@ class PackageKitService {
   Future<int> installLocal(String path) async {
     final (resolvedPath: resolvedPath, tempCopy: tempCopy) =
         await _resolveLocalPath(path);
-    return _createTransaction(
-      action: (transaction) => transaction.installFiles([resolvedPath]),
-      onDone: tempCopy != null ? () => _deleteTempCopy(tempCopy) : null,
-    );
+    try {
+      return await _createTransaction(
+        action: (transaction) => transaction.installFiles([resolvedPath]),
+        onDone: tempCopy != null ? () => _deleteTempCopy(tempCopy) : null,
+      );
+    } on Exception catch (_) {
+      if (tempCopy != null) await _deleteTempCopy(tempCopy);
+      rethrow;
+    }
   }
 
   /// Get the packages that provide the given id (usually a codec string).
@@ -238,7 +258,10 @@ class PackageKitService {
       (_desktopPortalClient ??= XdgDesktopPortalClient()).documents;
 
   Future<io.Directory> _getMountPoint() {
-    return _mountPointFuture ??= _portal.getMountPoint();
+    return _mountPointFuture ??= _portal.getMountPoint().catchError((Object e) {
+      _mountPointFuture = null;
+      throw e;
+    });
   }
 
   Future<bool> _isPortalPath(String path) async {
@@ -253,9 +276,8 @@ class PackageKitService {
 
   Future<String?> _resolvePortalPath(String path) async {
     final portal = _portal;
-    final mountPoint = await _getMountPoint();
-    final relativePath = relative(path, from: mountPoint.path);
-    final docId = split(relativePath).first;
+    await _getMountPoint();
+    final docId = basename(dirname(path));
     try {
       final hostPaths = await portal.getHostPaths([docId]);
       final file = hostPaths[docId];
@@ -264,7 +286,7 @@ class PackageKitService {
         'Documents portal returned no path for $docId. Falling back to original path.',
       );
       return null;
-    } on Exception catch (e) {
+    } on DBusUnknownMethodException catch (e) {
       log.warning(
         'Failed to resolve portal path $path via Documents portal '
         '(${e.runtimeType}): $e — triggering copy fallback.',
@@ -289,26 +311,30 @@ class PackageKitService {
         resolvedPath: resolved ?? _getAbsolutePath(path),
         tempCopy: null,
       );
-    } on Exception catch (_) {
+    } on DBusUnknownMethodException catch (_) {
       final copyPath = await _copyToRuntime(path);
       return (resolvedPath: copyPath, tempCopy: copyPath);
     }
   }
 
   Future<String> _copyToRuntime(String path) async {
-    final dir = _runtimeDir ??
-        io.Platform.environment['SNAP_USER_COMMON'] ??
-        io.Directory.systemTemp.path;
-    final dest = join(dir, basename(path));
+    final baseDir = _fs.directory(
+      _runtimeDir ??
+          io.Platform.environment['XDG_RUNTIME_DIR'] ??
+          io.Directory.systemTemp.path,
+    );
+    final tempDir = await baseDir.createTemp('packagekit-');
+    final dest = join(tempDir.path, basename(path));
     await _fs.file(path).copy(dest);
     return dest;
   }
 
-  void _deleteTempCopy(String path) {
-    _fs.file(path).delete().catchError((Object e) {
+  Future<void> _deleteTempCopy(String path) async {
+    try {
+      await _fs.directory(dirname(path)).delete(recursive: true);
+    } on Exception catch (e) {
       log.warning('Failed to delete temporary file $path: $e');
-      return _fs.file(path);
-    });
+    }
   }
 
   /// Resolves package names in a single transaction.
@@ -389,7 +415,7 @@ class PackageKitService {
         },
       ).then(waitTransaction);
     } finally {
-      if (tempCopy != null) _deleteTempCopy(tempCopy);
+      if (tempCopy != null) await _deleteTempCopy(tempCopy);
     }
     if (details == null) {
       log.error('Couldn\'t get details for local package $resolvedPath');

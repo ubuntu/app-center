@@ -3,6 +3,7 @@ import 'dart:io' as io;
 
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:dbus/dbus.dart';
+import 'package:file/file.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -559,10 +560,9 @@ void main() {
       final fs = MemoryFileSystem.test();
       const portalPathForCopy =
           '/run/user/1000/doc/8cf4b075/test-package_1.0_amd64.deb';
-      const snapUserCommon = '/snap/user/common';
-      const copyPath = '$snapUserCommon/test-package_1.0_amd64.deb';
+      const runtimeDir = '/run/user/1000';
       await fs.file(portalPathForCopy).create(recursive: true);
-      await fs.directory(snapUserCommon).create(recursive: true);
+      await fs.directory(runtimeDir).create(recursive: true);
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
         documentsPortal: createUnknownMethodDocumentsPortal(
@@ -570,17 +570,33 @@ void main() {
         ),
         client: mockClient,
         fs: fs,
-        runtimeDir: snapUserCommon,
+        runtimeDir: runtimeDir,
       );
       await packageKit.activateService();
       final id = await packageKit.installLocal(portalPathForCopy);
-      verify(mockTransaction.installFiles([copyPath])).called(1);
-      expect(fs.file(copyPath).existsSync(), isTrue);
+      verify(
+        mockTransaction.installFiles(
+          argThat(
+            predicate<List<String>>(
+              (paths) =>
+                  paths.length == 1 &&
+                  paths.first.startsWith('$runtimeDir/packagekit-') &&
+                  paths.first.endsWith('test-package_1.0_amd64.deb'),
+            ),
+          ),
+        ),
+      ).called(1);
+      final tempDir = fs
+          .directory(runtimeDir)
+          .listSync()
+          .whereType<Directory>()
+          .firstWhere((d) => d.basename.startsWith('packagekit-'));
+      expect(tempDir.existsSync(), isTrue);
       completer.complete();
       await packageKit.waitTransaction(id);
       // Give onDone callback a chance to run
       await Future<void>.delayed(Duration.zero);
-      expect(fs.file(copyPath).existsSync(), isFalse);
+      expect(tempDir.existsSync(), isFalse);
     });
   });
 
