@@ -30,6 +30,7 @@ dependencies:
   freezed_annotation: ^2.4.4
   github: ^9.24.0
   glib: ^0.0.1
+  gsettings: ^0.2.8
   gtk: ^2.1.0
   handy_window: ^0.4.0
   http: ^1.2.2

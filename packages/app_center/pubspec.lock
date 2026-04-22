@@ -543,7 +543,7 @@ packages:
     source: hosted
     version: "4.1.0"
   gsettings:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: gsettings
       sha256: "1b0ce661f5436d2db1e51f3c4295a49849f03d304003a7ba177d01e3a858249c"
