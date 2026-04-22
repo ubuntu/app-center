@@ -546,6 +546,41 @@ void main() {
       completer.complete();
       await packageKit.waitTransaction(id);
     });
+
+    test('copies file to runtime dir when GetHostPaths is unavailable',
+        () async {
+      final completer = Completer();
+      final mockTransaction = createMockPackageKitTransaction(
+        start: completer.future,
+      );
+      final mockClient =
+          createMockPackageKitClient(transaction: mockTransaction);
+      final fs = MemoryFileSystem.test();
+      const portalPathForCopy =
+          '/run/user/1000/doc/8cf4b075/test-package_1.0_amd64.deb';
+      const snapUserCommon = '/snap/user/common';
+      const copyPath = '$snapUserCommon/test-package_1.0_amd64.deb';
+      await fs.file(portalPathForCopy).create(recursive: true);
+      await fs.directory(snapUserCommon).create(recursive: true);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        documentsPortal: createUnknownMethodDocumentsPortal(
+          docId: '8cf4b075',
+        ),
+        client: mockClient,
+        fs: fs,
+        runtimeDir: snapUserCommon,
+      );
+      await packageKit.activateService();
+      final id = await packageKit.installLocal(portalPathForCopy);
+      verify(mockTransaction.installFiles([copyPath])).called(1);
+      expect(fs.file(copyPath).existsSync(), isTrue);
+      completer.complete();
+      await packageKit.waitTransaction(id);
+      // Give onDone callback a chance to run
+      await Future<void>.delayed(Duration.zero);
+      expect(fs.file(copyPath).existsSync(), isFalse);
+    });
   });
 
   test('getUpdates', () async {
@@ -619,5 +654,19 @@ MockXdgDocumentsPortal createFailingDocumentsPortal({
     (_) async => io.Directory(mountPoint),
   );
   when(portal.getHostPaths([docId])).thenThrow(Exception('portal unavailable'));
+  return portal;
+}
+
+MockXdgDocumentsPortal createUnknownMethodDocumentsPortal({
+  required String docId,
+  String mountPoint = '/run/user/1000/doc',
+}) {
+  final portal = MockXdgDocumentsPortal();
+  when(portal.getMountPoint()).thenAnswer(
+    (_) async => io.Directory(mountPoint),
+  );
+  when(portal.getHostPaths([docId])).thenThrow(
+    DBusUnknownMethodException(DBusMethodErrorResponse.unknownMethod()),
+  );
   return portal;
 }

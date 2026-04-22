@@ -31,15 +31,18 @@ class PackageKitService {
     @visibleForTesting DBusClient? dbus,
     @visibleForTesting XdgDocumentsPortal? documentsPortal,
     @visibleForTesting FileSystem? fs,
+    @visibleForTesting String? runtimeDir,
   })  : _client = client ?? getService<PackageKitClient>(),
         _dbus = dbus ?? DBusClient.system(),
         _documentsPortal = documentsPortal,
-        _fs = fs ?? const LocalFileSystem();
+        _fs = fs ?? const LocalFileSystem(),
+        _runtimeDir = runtimeDir;
 
   final PackageKitClient _client;
   final DBusClient _dbus;
   final XdgDocumentsPortal? _documentsPortal;
   final FileSystem _fs;
+  final String? _runtimeDir;
   XdgDesktopPortalClient? _portalClient;
   Future<io.Directory>? _mountPointFuture;
 
@@ -92,11 +95,13 @@ class PackageKitService {
 
   /// Creates a new `PackageKitTransaction` and invokes `action` on it, if
   /// provided. If a `listener` is provided it will receive the `PackageKitEvent`s
-  /// from the transaction.
+  /// from the transaction. [onDone] is called once the transaction finishes or
+  /// is destroyed (useful for cleanup).
   /// Returns an internal transaction id.
   Future<int> _createTransaction({
     Future<void> Function(PackageKitTransaction transaction)? action,
     void Function(PackageKitEvent event)? listener,
+    void Function()? onDone,
   }) async {
     final transaction = await _client.createTransaction();
     final id = _nextId++;
@@ -108,6 +113,7 @@ class PackageKitService {
       if (event is PackageKitFinishedEvent || event is PackageKitDestroyEvent) {
         _transactions.remove(id);
         subscription.cancel();
+        onDone?.call();
       } else if (event is PackageKitErrorCodeEvent) {
         _errorStreamController.add(event);
         log.error(
@@ -181,11 +187,11 @@ class PackageKitService {
   /// Creates a transaction that installs the local package given by `path` and
   /// returns the transaction ID.
   Future<int> installLocal(String path) async {
-    final resolvedPath = await _isPortalPath(path)
-        ? await _resolvePortalPath(path) ?? _getAbsolutePath(path)
-        : _getAbsolutePath(path);
+    final (resolvedPath: resolvedPath, tempCopy: tempCopy) =
+        await _resolveLocalPath(path);
     return _createTransaction(
       action: (transaction) => transaction.installFiles([resolvedPath]),
+      onDone: tempCopy != null ? () => _deleteTempCopy(tempCopy) : null,
     );
   }
 
@@ -257,12 +263,56 @@ class PackageKitService {
         'Documents portal returned no path for $docId. Falling back to original path.',
       );
       return null;
+    } on DBusUnknownMethodException {
+      rethrow;
     } on Exception catch (e) {
       log.warning(
         'Failed to resolve portal path $path via Documents portal: $e. Falling back to original path.',
       );
       return null;
     }
+  }
+
+  /// Resolves a local file path for use with PackageKit. For portal FUSE paths,
+  /// attempts GetHostPaths first; falls back to copying the file to a
+  /// PackageKit-accessible location if the method is unavailable (old glib).
+  /// Returns the resolved path and, if a temp copy was made, its path for cleanup.
+  Future<({String resolvedPath, String? tempCopy})> _resolveLocalPath(
+    String path,
+  ) async {
+    if (!await _isPortalPath(path)) {
+      return (resolvedPath: _getAbsolutePath(path), tempCopy: null);
+    }
+    try {
+      final resolved = await _resolvePortalPath(path);
+      return (
+        resolvedPath: resolved ?? _getAbsolutePath(path),
+        tempCopy: null,
+      );
+    } on DBusUnknownMethodException {
+      log.info(
+        'GetHostPaths not supported, copying $path to runtime directory',
+      );
+      final copyPath = await _copyToRuntime(path);
+      return (resolvedPath: copyPath, tempCopy: copyPath);
+    }
+  }
+
+  Future<String> _copyToRuntime(String path) async {
+    final dir =
+        _runtimeDir ??
+        io.Platform.environment['SNAP_USER_COMMON'] ??
+        io.Directory.systemTemp.path;
+    final dest = join(dir, basename(path));
+    await _fs.file(path).copy(dest);
+    return dest;
+  }
+
+  void _deleteTempCopy(String path) {
+    _fs.file(path).delete().catchError((Object e) {
+      log.warning('Failed to delete temporary file $path: $e');
+      return _fs.file(path);
+    });
   }
 
   /// Resolves package names in a single transaction.
@@ -331,17 +381,20 @@ class PackageKitService {
 
   Future<PackageKitPackageDetails?> getDetailsLocal(String path) async {
     PackageKitPackageDetails? details;
-    final resolvedPath = await _isPortalPath(path)
-        ? await _resolvePortalPath(path) ?? _getAbsolutePath(path)
-        : _getAbsolutePath(path);
-    await _createTransaction(
-      action: (transaction) => transaction.getDetailsLocal([resolvedPath]),
-      listener: (event) {
-        if (event is PackageKitDetailsEvent) {
-          details = event;
-        }
-      },
-    ).then(waitTransaction);
+    final (resolvedPath: resolvedPath, tempCopy: tempCopy) =
+        await _resolveLocalPath(path);
+    try {
+      await _createTransaction(
+        action: (transaction) => transaction.getDetailsLocal([resolvedPath]),
+        listener: (event) {
+          if (event is PackageKitDetailsEvent) {
+            details = event;
+          }
+        },
+      ).then(waitTransaction);
+    } finally {
+      if (tempCopy != null) _deleteTempCopy(tempCopy);
+    }
     if (details == null) {
       log.error('Couldn\'t get details for local package $resolvedPath');
     }
