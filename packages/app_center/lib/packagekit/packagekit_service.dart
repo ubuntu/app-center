@@ -7,6 +7,7 @@ import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
+import 'package:path/path.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 export 'package:packagekit/packagekit.dart' show PackageKitTransaction;
@@ -223,8 +224,8 @@ class PackageKitService {
   String _getAbsolutePath(String path) => _fs.file(path).absolute.path;
 
   static bool _isPortalPath(String path) {
-    final parts = path.split('/');
     // /run/user/<uid>/doc/<docId>/filename
+    final parts = split(path);
     return parts.length > 5 &&
         parts[1] == 'run' &&
         parts[2] == 'user' &&
@@ -232,7 +233,7 @@ class PackageKitService {
   }
 
   Future<String> _resolvePortalPath(String path) async {
-    final docId = path.split('/')[5];
+    final docId = split(path)[5];
     final client = _sessionDbus ?? DBusClient.session();
     try {
       final object = DBusRemoteObject(
