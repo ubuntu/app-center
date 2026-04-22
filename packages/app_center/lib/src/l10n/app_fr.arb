@@ -350,7 +350,7 @@
     "codecProprietaryDisclaimer": "Certains des codecs recommandés pourraient être propriétaires.",
     "codecInstallAllButton": "Installer codecs recommandés",
     "snapRevertNoPreviousRevisionMessage": "Aucune révision précédente à laquelle revenir n'est disponible localement.",
-    "snapRevertConfirmTitleWithVersions": "Repasser de {currentVersion} (rev {currentRevision}) à {previousVersion} (rev {previousRevision})?",
+    "snapRevertConfirmTitleWithVersions": "Repasser de {currentVersion} (rev {currentRevision}) à {previousVersion} (rev {previousRevision}) ?",
     "@snapRevertConfirmTitleWithVersions": {
         "placeholders": {
             "currentVersion": {

@@ -1,5 +1,5 @@
 {
-    "snapPageLinksLabel": "Link",
+    "snapPageLinksLabel": "Collegamenti",
     "snapPageVersionLabel": "Versione",
     "packageFormatDebLabel": "Pacchetti Debian",
     "snapCategoryBooksAndReference": "Libri e Riferimento",
@@ -33,7 +33,7 @@
     "snapActionInstallLabel": "Installa",
     "snapPageLicenseLabel": "Licenza",
     "snapCategoryPhotoAndVideo": "Foto e Video",
-    "snapPageConfinementLabel": "Confinamento",
+    "snapPageConfinementLabel": "Permessi",
     "snapCategoryMusicAndAudio": "Musica e Audio",
     "aboutPageGitHubLabel": "Trovaci su GitHub",
     "packageFormatSnapLabel": "Pacchetti Snap",
@@ -56,7 +56,7 @@
     "snapCategoryGnomeGamesSlogan": "Raccolta Giochi GNOME",
     "snapConfinementClassic": "Classici",
     "explorePageCategoriesLabel": "Categorie",
-    "snapPagePublishedLabel": "Pubblicato",
+    "snapPagePublishedLabel": "Ultimo aggiornamento",
     "snapPageShareLinkCopiedMessage": "Collegamento copiato negli appunti",
     "snapSortOrderInstalledSizeDesc": "Per dimensione (dal più grande al più piccolo)",
     "gamesPageBundles": "Pacchetti app",
@@ -89,11 +89,11 @@
             }
         }
     },
-    "snapPageDeveloperWebsiteLabel": "Sito dello sviluppatore",
+    "snapPageDeveloperWebsiteLabel": "Sito web dello sviluppatore",
     "snapPageDownloadSizeLabel": "Dimensione del download",
     "managePageCheckingForUpdates": "Ricerca aggiornamenti in corso",
     "managePageDescription": "Ricerca nuovi aggiornamenti, aggiorna e gestisci lo stato di tutte le tue app.",
-    "managePageInstalledAndUpdatedLabel": "Installata e aggiornata",
+    "managePageInstalledAndUpdatedLabel": "Applicazioni installate",
     "managePageShowDetailsLabel": "Mostra i dettagli",
     "managePageUpdatesAvailable": "Aggiornamenti disponibili ({n})",
     "@managePageUpdatesAvailable": {
@@ -116,7 +116,7 @@
         }
     },
     "searchPageNoResultsCategory": "Spiacente, non siamo riusciti a trovare nessun pacchetto in questa categoria",
-    "searchPageNoResultsHint": "Prova usando o usa delle parole chiave differenti o più generiche",
+    "searchPageNoResultsHint": "Prova usando parole chiave differenti o più generiche",
     "aboutPageVersionLabel": "Versione {version}",
     "@aboutPageVersionLabel": {
         "placeholders": {
@@ -137,7 +137,7 @@
     "snapSortOrderRelevance": "Rilevante",
     "managePageDebUpdatesMessage": "Gli aggiornamenti dei pacchetti Debian sono gestiti da Software Updater.",
     "managePageOwnUpdateAvailable": "Aggiornamento App Center disponibile",
-    "managePageOwnUpdateDescription": "Alla chiusura dell'applicazione sarà aggiornata automaticamente.",
+    "managePageOwnUpdateDescription": "Una volta chiusa, l'applicazione sarà aggiornata automaticamente.",
     "managePageOwnUpdateDescriptionSoon": "App Center sarà aggiornato automaticamente in {time}.",
     "@managePageOwnUpdateDescriptionSoon": {
         "placeholders": {
@@ -217,7 +217,7 @@
     "snapCategoryGameContentCreationSlogan": "Creazione di contenuti",
     "snapCategoryPersonalisation": "Personalizzazione",
     "snapSortOrderInstalledDateAsc": "Aggiornate meno di recente",
-    "managePageNoInternet": "Non è possibile contattare il server, controlla la tua connessione internet o prova nuovamente tra qualche minuto.",
+    "managePageNoInternet": "Non è possibile contattare il server, controlla la tua connessione internet o prova più tardi.",
     "managePageNoUpdatesAvailableDescription": "Non sono disponibili nuovi aggiornamenti. Tutte le tue applicazioni sono aggiornate.",
     "managePageUpdateAllLabel": "Aggiorna tutto",
     "managePageUpdatedMonthsAgo": "Aggiornata/e {n, plural, =1{{n} month} other{{n} months}} fa",
@@ -355,5 +355,54 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "managePagePackageTypeLabel": "Tipo di pacchetto",
+    "managePagePackageTypeAll": "Tutti",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "appUrlTypeContact": "Contatta {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Sito dello sviluppatore",
+    "appUrlTypeUnknown": "Collegamento",
+    "appConfinementUnknown": "Sconosciuto",
+    "appConfinementClassic": "Senza restrizioni",
+    "appConfinementUnrestricted": "Senza restrizioni",
+    "appConfinementStrictTooltip": "Questa applicazione ha un accesso limitato alle tue risorse. Puoi controllare i permessi nell'applicazione Impostazioni.",
+    "appConfinementUnrestrictedTooltip": "Questa applicazione ha pieno accesso alle tue risorse.",
+    "appLicenseUnknown": "Sconosciuta",
+    "appPublishedUnknown": "Sconosciuto",
+    "snapActionRevertLabel": "Ripristina aggiornamento",
+    "snapActionRevertingLabel": "Ripristino aggiornamento in corso",
+    "snapRevertConfirmTitle": "Ripristinare la versione precedente?",
+    "snapRevertConfirmMessage": "Appena disponibile una nuova versione verranno ripristinati gli aggiornamenti automatici.",
+    "snapRevertConfirmRevert": "Ripristina",
+    "snapRevertConfirmCancel": "Annulla",
+    "snapRevertConfirmTitleWithVersions": "Avviare il ripristino da {currentVersion} (rev {currentRevision}) a {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "appMoreActionsSemanticLabel": "Ulteriori azioni",
+    "appConfinementClassicTooltip": "Questa applicazione utilizza il confinamento classico, che fornisce l'accesso completo alle risorse. Questa pratica è comune nelle applicazioni in sviluppo.",
+    "appConfinementDevelopment": "Modalità sviluppatore",
+    "appConfinementStrict": "Isolata",
+    "snapRevertNoPreviousRevisionMessage": "Non è disponibile una precedente revisione locale a cui effettuare il ripristino."
 }
