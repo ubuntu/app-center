@@ -182,7 +182,7 @@ class PackageKitService {
   /// returns the transaction ID.
   Future<int> installLocal(String path) async {
     final resolvedPath = await _isPortalPath(path)
-        ? await _resolvePortalPath(path)
+        ? await _resolvePortalPath(path) ?? _getAbsolutePath(path)
         : _getAbsolutePath(path);
     return _createTransaction(
       action: (transaction) => transaction.installFiles([resolvedPath]),
@@ -243,7 +243,7 @@ class PackageKitService {
     }
   }
 
-  Future<String> _resolvePortalPath(String path) async {
+  Future<String?> _resolvePortalPath(String path) async {
     final portal = await _getPortal();
     final mountPoint = await _getMountPoint();
     // Path is /<mountPoint>/<docId>/filename — extract docId as first segment after mount
@@ -256,12 +256,12 @@ class PackageKitService {
       log.warning(
         'Documents portal returned no path for $docId. Falling back to original path.',
       );
-      return path;
+      return null;
     } on Exception catch (e) {
       log.warning(
         'Failed to resolve portal path $path via Documents portal: $e. Falling back to original path.',
       );
-      return path;
+      return null;
     }
   }
 
@@ -332,7 +332,7 @@ class PackageKitService {
   Future<PackageKitPackageDetails?> getDetailsLocal(String path) async {
     PackageKitPackageDetails? details;
     final resolvedPath = await _isPortalPath(path)
-        ? await _resolvePortalPath(path)
+        ? await _resolvePortalPath(path) ?? _getAbsolutePath(path)
         : _getAbsolutePath(path);
     await _createTransaction(
       action: (transaction) => transaction.getDetailsLocal([resolvedPath]),
