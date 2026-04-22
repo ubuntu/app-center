@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:dbus/dbus.dart';
@@ -598,18 +598,26 @@ MockDBusClient createMockDbusClient() {
 MockXdgDocumentsPortal createMockDocumentsPortal({
   required String docId,
   required String realPath,
+  String mountPoint = '/run/user/1000/doc',
 }) {
   final portal = MockXdgDocumentsPortal();
+  when(portal.getMountPoint()).thenAnswer(
+    (_) async => io.Directory(mountPoint),
+  );
   when(portal.getHostPaths([docId])).thenAnswer(
-    (_) async => {docId: File(realPath)},
+    (_) async => {docId: io.File(realPath)},
   );
   return portal;
 }
 
 MockXdgDocumentsPortal createFailingDocumentsPortal({
   required String docId,
+  String mountPoint = '/run/user/1000/doc',
 }) {
   final portal = MockXdgDocumentsPortal();
+  when(portal.getMountPoint()).thenAnswer(
+    (_) async => io.Directory(mountPoint),
+  );
   when(portal.getHostPaths([docId])).thenThrow(Exception('portal unavailable'));
   return portal;
 }

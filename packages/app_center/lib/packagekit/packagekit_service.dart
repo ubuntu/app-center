@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:app_center/packagekit/logger.dart';
 import 'package:dbus/dbus.dart';
@@ -41,6 +41,7 @@ class PackageKitService {
   final XdgDocumentsPortal? _documentsPortal;
   final FileSystem _fs;
   XdgDesktopPortalClient? _portalClient;
+  Future<io.Directory>? _mountPointFuture;
 
   bool get isAvailable => _isAvailable;
   bool _isAvailable = false;
@@ -180,7 +181,7 @@ class PackageKitService {
   /// Creates a transaction that installs the local package given by `path` and
   /// returns the transaction ID.
   Future<int> installLocal(String path) async {
-    final resolvedPath = _isPortalPath(path)
+    final resolvedPath = await _isPortalPath(path)
         ? await _resolvePortalPath(path)
         : _getAbsolutePath(path);
     return _createTransaction(
@@ -214,29 +215,40 @@ class PackageKitService {
       );
 
   static Future<String> _getNativeArchitecture() async {
-    final snapArch = Platform.environment['SNAP_ARCH'];
+    final snapArch = io.Platform.environment['SNAP_ARCH'];
     if (snapArch != null) {
       return snapArch;
     }
 
-    final result = await Process.run('/usr/bin/dpkg', ['--print-architecture']);
+    final result = await io.Process.run('/usr/bin/dpkg', ['--print-architecture']);
     return (result.stdout as String).trim();
   }
 
   String _getAbsolutePath(String path) => _fs.file(path).absolute.path;
 
-  static bool _isPortalPath(String path) {
-    // /run/user/<uid>/doc/<docId>/filename
-    final parts = split(path);
-    return parts.length > 5 &&
-        parts[1] == 'run' &&
-        parts[2] == 'user' &&
-        parts[4] == 'doc';
+  Future<XdgDocumentsPortal> _getPortal() async {
+    return _documentsPortal ?? (_portalClient ??= XdgDesktopPortalClient()).documents;
+  }
+
+  Future<io.Directory> _getMountPoint() {
+    return _mountPointFuture ??= _getPortal().then((p) async => p.getMountPoint());
+  }
+
+  Future<bool> _isPortalPath(String path) async {
+    try {
+      final mountPoint = await _getMountPoint();
+      return isWithin(mountPoint.path, path);
+    } on Exception {
+      return false;
+    }
   }
 
   Future<String> _resolvePortalPath(String path) async {
-    final docId = split(path)[5];
-    final portal = _documentsPortal ?? (_portalClient ??= XdgDesktopPortalClient()).documents;
+    final portal = await _getPortal();
+    final mountPoint = await _getMountPoint();
+    // Path is /<mountPoint>/<docId>/filename — extract docId as first segment after mount
+    final relativePath = relative(path, from: mountPoint.path);
+    final docId = split(relativePath).first;
     try {
       final hostPaths = await portal.getHostPaths([docId]);
       final file = hostPaths[docId];
@@ -319,7 +331,7 @@ class PackageKitService {
 
   Future<PackageKitPackageDetails?> getDetailsLocal(String path) async {
     PackageKitPackageDetails? details;
-    final resolvedPath = _isPortalPath(path)
+    final resolvedPath = await _isPortalPath(path)
         ? await _resolvePortalPath(path)
         : _getAbsolutePath(path);
     await _createTransaction(
