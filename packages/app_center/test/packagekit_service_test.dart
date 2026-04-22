@@ -472,8 +472,8 @@ void main() {
 
   group('portal path resolution', () {
     const portalPath =
-        '/run/user/1000/doc/8cf4b075/balena-etcher_2.1.0_amd64.deb';
-    const realPath = '/home/user/Downloads/balena-etcher_2.1.0_amd64.deb';
+        '/run/user/1000/doc/8cf4b075/test-package_1.0_amd64.deb';
+    const realPath = '/home/user/Downloads/test-package_1.0_amd64.deb';
 
     test('install local package via portal path', () async {
       final completer = Completer();
@@ -501,8 +501,8 @@ void main() {
     test('get details of local package via portal path', () async {
       final mockDetails = PackageKitPackageDetails(
         packageId: const PackageKitPackageId(
-          name: 'balena-etcher',
-          version: '2.1.0',
+          name: 'test-package',
+          version: '1.0',
           arch: 'amd64',
         ),
         summary: 'summary',
