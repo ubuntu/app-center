@@ -7,7 +7,7 @@ import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as p;
 import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
@@ -128,7 +128,7 @@ class PackageKitService {
     try {
       await action?.call(transaction);
     } on Exception {
-      subscription.cancel();
+      await subscription.cancel();
       _transactions.remove(id);
       try {
         onDone?.call();
@@ -267,7 +267,7 @@ class PackageKitService {
   Future<bool> _isPortalPath(String path) async {
     try {
       final mountPoint = await _getMountPoint();
-      return isWithin(mountPoint.path, path);
+      return p.isWithin(mountPoint.path, path);
     } on Exception catch (e) {
       log.warning('Failed to check if $path is a portal path: $e');
       return false;
@@ -277,7 +277,7 @@ class PackageKitService {
   Future<String?> _resolvePortalPath(String path) async {
     final portal = _portal;
     await _getMountPoint();
-    final docId = basename(dirname(path));
+    final docId = p.basename(p.dirname(path));
     try {
       final hostPaths = await portal.getHostPaths([docId]);
       final file = hostPaths[docId];
@@ -324,14 +324,14 @@ class PackageKitService {
           io.Directory.systemTemp.path,
     );
     final tempDir = await baseDir.createTemp('packagekit-');
-    final dest = join(tempDir.path, basename(path));
+    final dest = p.join(tempDir.path, p.basename(path));
     await _fs.file(path).copy(dest);
     return dest;
   }
 
   Future<void> _deleteTempCopy(String path) async {
     try {
-      await _fs.directory(dirname(path)).delete(recursive: true);
+      await _fs.directory(p.dirname(path)).delete(recursive: true);
     } on Exception catch (e) {
       log.warning('Failed to delete temporary file $path: $e');
     }
