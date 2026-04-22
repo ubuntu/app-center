@@ -51,6 +51,7 @@ dependencies:
   ubuntu_test: ^0.2.3
   ubuntu_widgets: ^0.8.0
   url_launcher: ^6.3.0
+  xdg_desktop_portal: ^0.1.14
   xdg_directories: ^1.0.4
   yaru: ^10.1.0
   yaru_test: ^0.3.2
