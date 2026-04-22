@@ -536,7 +536,7 @@ void main() {
           createMockPackageKitClient(transaction: mockTransaction);
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
-        documentsPortal: createUnavailableDocumentsPortal(),
+        documentsPortal: createMockDocumentsPortal(portalUnavailable: true),
         client: mockClient,
         fs: MemoryFileSystem.test(),
       );
@@ -565,8 +565,9 @@ void main() {
       await fs.directory(runtimeDir).create(recursive: true);
       final packageKit = PackageKitService(
         dbus: createMockDbusClient(),
-        documentsPortal: createUnknownMethodDocumentsPortal(
+        documentsPortal: createMockDocumentsPortal(
           docId: '8cf4b075',
+          getHostPathsUnknown: true,
         ),
         client: mockClient,
         fs: fs,
@@ -648,36 +649,28 @@ MockDBusClient createMockDbusClient() {
 }
 
 MockXdgDocumentsPortal createMockDocumentsPortal({
-  required String docId,
-  required String realPath,
+  String? docId,
+  String? realPath,
   String mountPoint = '/run/user/1000/doc',
+  bool portalUnavailable = false,
+  bool getHostPathsUnknown = false,
 }) {
   final portal = MockXdgDocumentsPortal();
-  when(portal.getMountPoint()).thenAnswer(
-    (_) async => io.Directory(mountPoint),
-  );
-  when(portal.getHostPaths([docId])).thenAnswer(
-    (_) async => {docId: io.File(realPath)},
-  );
-  return portal;
-}
-
-MockXdgDocumentsPortal createUnavailableDocumentsPortal() {
-  final portal = MockXdgDocumentsPortal();
-  when(portal.getMountPoint()).thenThrow(Exception('portal unavailable'));
-  return portal;
-}
-
-MockXdgDocumentsPortal createUnknownMethodDocumentsPortal({
-  required String docId,
-  String mountPoint = '/run/user/1000/doc',
-}) {
-  final portal = MockXdgDocumentsPortal();
-  when(portal.getMountPoint()).thenAnswer(
-    (_) async => io.Directory(mountPoint),
-  );
-  when(portal.getHostPaths([docId])).thenThrow(
-    DBusUnknownMethodException(DBusMethodErrorResponse.unknownMethod()),
-  );
+  if (portalUnavailable) {
+    when(portal.getMountPoint()).thenThrow(Exception('portal unavailable'));
+  } else {
+    when(portal.getMountPoint()).thenAnswer(
+      (_) async => io.Directory(mountPoint),
+    );
+    if (getHostPathsUnknown) {
+      when(portal.getHostPaths([docId!])).thenThrow(
+        DBusUnknownMethodException(DBusMethodErrorResponse.unknownMethod()),
+      );
+    } else {
+      when(portal.getHostPaths([docId!])).thenAnswer(
+        (_) async => {docId: io.File(realPath!)},
+      );
+    }
+  }
   return portal;
 }

@@ -44,7 +44,7 @@ class PackageKitService {
   final FileSystem _fs;
   final String? _runtimeDir;
   XdgDesktopPortalClient? _desktopPortalClient;
-  Future<io.Directory>? _mountPointFuture;
+  io.Directory? _mountPoint;
 
   bool get isAvailable => _isAvailable;
   bool _isAvailable = false;
@@ -257,11 +257,8 @@ class PackageKitService {
       _documentsPortal ??
       (_desktopPortalClient ??= XdgDesktopPortalClient()).documents;
 
-  Future<io.Directory> _getMountPoint() {
-    return _mountPointFuture ??= _portal.getMountPoint().catchError((Object e) {
-      _mountPointFuture = null;
-      throw e;
-    });
+  Future<io.Directory> _getMountPoint() async {
+    return _mountPoint ??= await _portal.getMountPoint();
   }
 
   Future<bool> _isPortalPath(String path) async {
@@ -275,11 +272,10 @@ class PackageKitService {
   }
 
   Future<String?> _resolvePortalPath(String path) async {
-    final portal = _portal;
     await _getMountPoint();
     final docId = p.basename(p.dirname(path));
     try {
-      final hostPaths = await portal.getHostPaths([docId]);
+      final hostPaths = await _portal.getHostPaths([docId]);
       final file = hostPaths[docId];
       if (file != null) return file.path;
       log.warning(
