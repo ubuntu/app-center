@@ -240,12 +240,17 @@ class _MaybeBackButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final routeName = ref.watch(routeNameProvider);
     final canPop = routeName != null && routeName != '/';
     return canPop
-        ? YaruBackButton(
-            style: YaruBackButtonStyle.rounded,
-            onPressed: navigatorKey.currentState?.pop,
+        ? Semantics(
+            label: l10n.backButtonSemanticLabel,
+            button: true,
+            child: YaruBackButton(
+              style: YaruBackButtonStyle.rounded,
+              onPressed: navigatorKey.currentState?.pop,
+            ),
           )
         : const SizedBox();
   }
