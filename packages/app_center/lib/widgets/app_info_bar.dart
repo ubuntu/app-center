@@ -252,7 +252,6 @@ class _AppInfoItem extends StatelessWidget {
         children: [
           label,
           SelectionArea(
-            focusNode: FocusNode(canRequestFocus: false),
             child: DefaultTextStyle.merge(
               style: const TextStyle(fontWeight: FontWeight.w500),
               child: value,
