@@ -63,6 +63,28 @@ void main() {
     verify(listener(null, StoreRoutes.namedSnap(name: 'bar'))).called(1);
   });
 
+  test('snap url with channel', () {
+    final container = ProviderContainer(
+      overrides: [
+        commandLineProvider
+            .overrideWith((ref) => ['snap://bar?channel=preview/stable']),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final listener = MockInitialRouteListener();
+    container.listen<String?>(
+      initialRouteProvider,
+      listener.call,
+      fireImmediately: true,
+    );
+
+    verify(listener(
+      null,
+      StoreRoutes.namedSnap(name: 'bar', channel: 'preview/stable'),
+    )).called(1);
+  });
+
   test('local debian package', () {
     final container = ProviderContainer(
       overrides: [

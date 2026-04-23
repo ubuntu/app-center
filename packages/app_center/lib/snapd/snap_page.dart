@@ -27,9 +27,10 @@ const _kChannelDropdownWidth = 220.0;
 typedef SnapInfo = ({Widget label, Widget value});
 
 class SnapPage extends ConsumerWidget {
-  const SnapPage({required this.snapName, super.key});
+  const SnapPage({required this.snapName, super.key, this.channel});
 
   final String snapName;
+  final String? channel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,11 +49,20 @@ class SnapPage extends ConsumerWidget {
     }
 
     return snap.when(
-      data: (snapData) => ResponsiveLayoutBuilder(
-        builder: (_) {
-          return _SnapView(snapData: snapData);
-        },
-      ),
+      data: (snapData) {
+        if (channel != null &&
+            snapData.availableChannels?.containsKey(channel) == true &&
+            snapData.selectedChannel != channel) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ref.read(snapModelProvider(snapName).notifier).selectChannel(channel!);
+          });
+        }
+        return ResponsiveLayoutBuilder(
+          builder: (_) {
+            return _SnapView(snapData: snapData);
+          },
+        );
+      },
       error: (error, stackTrace) => ErrorView(
         error: error,
         onRetry: () => ref.invalidate(storeSnapProvider(snapName)),
