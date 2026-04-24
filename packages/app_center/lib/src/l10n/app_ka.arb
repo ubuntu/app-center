@@ -347,5 +347,54 @@
     "codecPageTitle": "ნაკლული მედიის კოდეკები",
     "codecPageDescription": "გჭირდებათ, დააყენოთ შემდეგი კოდეკები ზოგიერთი ვიდეო და აუდიოფორმატების დასამუშავებლად:",
     "codecProprietaryDisclaimer": "ზოგიერთი რეკომენდებული კოდეკი დახურული წყაროთია.",
-    "codecInstallAllButton": "რეკომენდებული კოდეკების დაყენება"
+    "codecInstallAllButton": "რეკომენდებული კოდეკების დაყენება",
+    "snapRevertConfirmRevert": "დაბრუნება",
+    "snapRevertConfirmCancel": "გაუქმება",
+    "appUrlTypeUnknown": "ბმული",
+    "appConfinementUnknown": "უცნობი",
+    "appConfinementStrict": "იზოლირებული",
+    "appConfinementDevelopment": "პროგრამისტის რეჟიმი",
+    "appConfinementClassic": "შეუზღუდავი",
+    "appConfinementUnrestricted": "შეუზღუდავი",
+    "appLicenseUnknown": "უცნობი",
+    "appPublishedUnknown": "უცნობი",
+    "managePagePackageTypeAll": "ყველა",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
+    "snapActionRevertLabel": "განახლების გაუქმება",
+    "snapActionRevertingLabel": "მიმდინარეობს განახლების გაუქმება",
+    "appUrlTypeContact": "{publisher}-თან დაკავშირება",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "პროგრამისტის ვებგვერდი",
+    "managePagePackageTypeLabel": "პაკეტის ტიპი",
+    "appMoreActionsSemanticLabel": "მეტი ქმედება",
+    "snapRevertConfirmTitle": "დაბრუნდეს წინა ვერსიაზე?",
+    "appConfinementUnrestrictedTooltip": "ამ აპს სრული წვდომა აქვს თქვენი კომპიუტერის რესურსებთან.",
+    "snapRevertConfirmTitleWithVersions": "დავაბრუნო {currentVersion} (rev {currentRevision})-დან {previousVersion} (rev {previousRevision})-ზე?",
+    "@snapRevertConfirmTitleWithVersions": {
+        "placeholders": {
+            "currentVersion": {
+                "type": "String"
+            },
+            "currentRevision": {
+                "type": "int"
+            },
+            "previousVersion": {
+                "type": "String"
+            },
+            "previousRevision": {
+                "type": "int"
+            }
+        }
+    },
+    "snapRevertNoPreviousRevisionMessage": "დასაბრუნებლად წინა ლოკალური რევიზია ხელმისაწვდომი არაა.",
+    "snapRevertConfirmMessage": "ავტომატური განახლებები გაგრძელდება, როცა ხელმისაწვდომი იქნება ახალი ვერსია.",
+    "appConfinementStrictTooltip": "ამ აპს თქვენი კომპიუტერის რესურსებთან შეზღუდული წვდომა აქვს. მიწი წვდომების მართვა მორგების აპიდან შეგიძლიათ.",
+    "appConfinementClassicTooltip": "ეს აპი კლასიკურ შეზღუდვას იყენებს, რაც მას თქვენი კომპიუტერის რესურსებთან სრულ წვდომას აძლევს. ეს, ჩვეულებრივ, პროგრამირების ხელსაწყოებთან ხდება."
 }
