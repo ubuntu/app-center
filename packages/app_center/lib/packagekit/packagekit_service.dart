@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:app_center/packagekit/logger.dart';
 import 'package:dbus/dbus.dart';
@@ -7,7 +7,9 @@ import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:flutter/material.dart';
 import 'package:packagekit/packagekit.dart';
+import 'package:path/path.dart' as p;
 import 'package:ubuntu_service/ubuntu_service.dart';
+import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
 export 'package:packagekit/packagekit.dart' show PackageKitTransaction;
 
@@ -15,18 +17,34 @@ typedef PackageKitPackageInfo = PackageKitPackageEvent;
 typedef PackageKitServiceError = PackageKitErrorCodeEvent;
 typedef PackageKitPackageDetails = PackageKitDetailsEvent;
 
+class PackageKitTransactionError implements Exception {
+  PackageKitTransactionError(this.message);
+  final String message;
+
+  @override
+  String toString() => 'PackageKitTransactionError: $message';
+}
+
 class PackageKitService {
   PackageKitService({
     @visibleForTesting PackageKitClient? client,
     @visibleForTesting DBusClient? dbus,
+    @visibleForTesting XdgDocumentsPortal? documentsPortal,
     @visibleForTesting FileSystem? fs,
+    @visibleForTesting String? runtimeDir,
   })  : _client = client ?? getService<PackageKitClient>(),
         _dbus = dbus ?? DBusClient.system(),
-        _fs = fs ?? const LocalFileSystem();
+        _documentsPortal = documentsPortal,
+        _fs = fs ?? const LocalFileSystem(),
+        _runtimeDir = runtimeDir;
 
   final PackageKitClient _client;
   final DBusClient _dbus;
+  final XdgDocumentsPortal? _documentsPortal;
   final FileSystem _fs;
+  final String? _runtimeDir;
+  XdgDesktopPortalClient? _desktopPortalClient;
+  io.Directory? _mountPoint;
 
   bool get isAvailable => _isAvailable;
   bool _isAvailable = false;
@@ -77,11 +95,13 @@ class PackageKitService {
 
   /// Creates a new `PackageKitTransaction` and invokes `action` on it, if
   /// provided. If a `listener` is provided it will receive the `PackageKitEvent`s
-  /// from the transaction.
+  /// from the transaction. [onDone] is called once the transaction finishes or
+  /// is destroyed (useful for cleanup).
   /// Returns an internal transaction id.
   Future<int> _createTransaction({
     Future<void> Function(PackageKitTransaction transaction)? action,
     void Function(PackageKitEvent event)? listener,
+    void Function()? onDone,
   }) async {
     final transaction = await _client.createTransaction();
     final id = _nextId++;
@@ -93,6 +113,11 @@ class PackageKitService {
       if (event is PackageKitFinishedEvent || event is PackageKitDestroyEvent) {
         _transactions.remove(id);
         subscription.cancel();
+        try {
+          onDone?.call();
+        } on Exception catch (e) {
+          log.warning('onDone callback threw during transaction cleanup: $e');
+        }
       } else if (event is PackageKitErrorCodeEvent) {
         _errorStreamController.add(event);
         log.error(
@@ -100,26 +125,59 @@ class PackageKitService {
         );
       }
     });
-    await action?.call(transaction);
+    try {
+      await action?.call(transaction);
+    } on Exception {
+      await subscription.cancel();
+      _transactions.remove(id);
+      try {
+        onDone?.call();
+      } on Exception catch (e) {
+        log.warning('onDone callback threw during transaction cleanup: $e');
+      }
+      rethrow;
+    }
     return id;
   }
 
   /// Waits until the transaction specified by the internal `id` has finished.
+  /// Throws a [PackageKitTransactionError] if the transaction fails or is
+  /// destroyed before finishing.
   Future<void> waitTransaction(int id) async {
-    if (!_transactions.keys.contains(id)) return;
+    if (!_transactions.keys.contains(id)) {
+      throw PackageKitTransactionError('Transaction $id not found');
+    }
 
     final completer = Completer();
     final subscription = _transactions[id]!.events.listen(
       (event) {
-        if (event is PackageKitFinishedEvent ||
-            event is PackageKitDestroyEvent) {
-          completer.complete();
+        if (event is PackageKitFinishedEvent) {
+          if (event.exit == PackageKitExit.success) {
+            completer.complete();
+          } else {
+            completer.completeError(
+              PackageKitTransactionError(
+                'Transaction $id finished with exit code: ${event.exit}',
+              ),
+            );
+          }
+        } else if (event is PackageKitDestroyEvent) {
+          completer.completeError(
+            PackageKitTransactionError('Transaction $id was destroyed'),
+          );
         }
       },
-      onDone: completer.complete,
+      onDone: () {
+        if (!completer.isCompleted) {
+          completer.completeError(
+            PackageKitTransactionError(
+              'Transaction $id stream closed unexpectedly',
+            ),
+          );
+        }
+      },
     );
-    await completer.future;
-    await subscription.cancel();
+    await completer.future.whenComplete(subscription.cancel);
   }
 
   Future<void> cancelTransaction(int id) async {
@@ -134,12 +192,42 @@ class PackageKitService {
         action: (transaction) => transaction.installPackages([packageId]),
       );
 
+  /// Creates a transaction that installs all of the given packages by
+  /// `packageId` and returns the transaction ID.
+  Future<int> installAll(Iterable<PackageKitPackageId> packageId) async =>
+      _createTransaction(
+        action: (transaction) => transaction.installPackages(packageId),
+      );
+
   /// Creates a transaction that installs the local package given by `path` and
   /// returns the transaction ID.
-  Future<int> installLocal(String path) async => _createTransaction(
-        action: (transaction) =>
-            transaction.installFiles([_getAbsolutePath(path)]),
+  Future<int> installLocal(String path) async {
+    final (resolvedPath: resolvedPath, tempCopy: tempCopy) =
+        await _resolveLocalPath(path);
+    try {
+      return await _createTransaction(
+        action: (transaction) => transaction.installFiles([resolvedPath]),
+        onDone: tempCopy != null ? () => _deleteTempCopy(tempCopy) : null,
       );
+    } on Exception catch (_) {
+      if (tempCopy != null) await _deleteTempCopy(tempCopy);
+      rethrow;
+    }
+  }
+
+  /// Get the packages that provide the given id (usually a codec string).
+  Future<Iterable<PackageKitPackageInfo>> whatProvides(String id) async {
+    final info = <PackageKitPackageInfo>[];
+    await _createTransaction(
+      action: (transaction) => transaction.whatProvides([id]),
+      listener: (event) {
+        if (event is PackageKitPackageEvent) {
+          info.add(event);
+        }
+      },
+    ).then(waitTransaction);
+    return info;
+  }
 
   /// Creates a transaction that removes the package given by `packageId` and
   /// returns the transaction ID.
@@ -148,65 +236,233 @@ class PackageKitService {
         action: (transaction) => transaction.removePackages([packageId]),
       );
 
+  Future<int> update(PackageKitPackageId packageId) async => _createTransaction(
+        action: (transaction) => transaction.updatePackages([packageId]),
+      );
+
   static Future<String> _getNativeArchitecture() async {
-    final snapArch = Platform.environment['SNAP_ARCH'];
+    final snapArch = io.Platform.environment['SNAP_ARCH'];
     if (snapArch != null) {
       return snapArch;
     }
 
-    final result = await Process.run('/usr/bin/dpkg', ['--print-architecture']);
+    final result =
+        await io.Process.run('/usr/bin/dpkg', ['--print-architecture']);
     return (result.stdout as String).trim();
   }
 
   String _getAbsolutePath(String path) => _fs.file(path).absolute.path;
 
-  /// Resolves a single package name provided by `name`.
-  Future<PackageKitPackageInfo?> resolve(
-    String name, [
+  XdgDocumentsPortal get _portal =>
+      _documentsPortal ??
+      (_desktopPortalClient ??= XdgDesktopPortalClient()).documents;
+
+  Future<io.Directory> _getMountPoint() async {
+    return _mountPoint ??= await _portal.getMountPoint();
+  }
+
+  Future<bool> _isPortalPath(String path) async {
+    try {
+      final mountPoint = await _getMountPoint();
+      return p.isWithin(mountPoint.path, path);
+    } on Exception catch (e) {
+      log.warning('Failed to check if $path is a portal path: $e');
+      return false;
+    }
+  }
+
+  Future<String?> _resolvePortalPath(String path) async {
+    await _getMountPoint();
+    final docId = p.basename(p.dirname(path));
+    try {
+      final hostPaths = await _portal.getHostPaths([docId]);
+      final file = hostPaths[docId];
+      if (file != null) return file.path;
+      log.warning(
+        'Documents portal returned no path for $docId. Falling back to original path.',
+      );
+      return null;
+    } on DBusUnknownMethodException catch (e) {
+      log.warning(
+        'Failed to resolve portal path $path via Documents portal '
+        '(${e.runtimeType}): $e — triggering copy fallback.',
+      );
+      rethrow;
+    }
+  }
+
+  /// Resolves a local file path for use with PackageKit. For portal FUSE paths,
+  /// attempts GetHostPaths first; falls back to copying the file to a
+  /// PackageKit-accessible location if the method is unavailable (old glib).
+  /// Returns the resolved path and, if a temp copy was made, its path for cleanup.
+  Future<({String resolvedPath, String? tempCopy})> _resolveLocalPath(
+    String path,
+  ) async {
+    if (!await _isPortalPath(path)) {
+      return (resolvedPath: _getAbsolutePath(path), tempCopy: null);
+    }
+    try {
+      final resolved = await _resolvePortalPath(path);
+      return (
+        resolvedPath: resolved ?? _getAbsolutePath(path),
+        tempCopy: null,
+      );
+    } on DBusUnknownMethodException catch (_) {
+      final copyPath = await _copyToRuntime(path);
+      return (resolvedPath: copyPath, tempCopy: copyPath);
+    }
+  }
+
+  Future<String> _copyToRuntime(String path) async {
+    final baseDir = _fs.directory(
+      _runtimeDir ??
+          io.Platform.environment['XDG_RUNTIME_DIR'] ??
+          io.Directory.systemTemp.path,
+    );
+    final tempDir = await baseDir.createTemp('packagekit-');
+    final dest = p.join(tempDir.path, p.basename(path));
+    await _fs.file(path).copy(dest);
+    return dest;
+  }
+
+  Future<void> _deleteTempCopy(String path) async {
+    try {
+      await _fs.directory(p.dirname(path)).delete(recursive: true);
+    } on Exception catch (e) {
+      log.warning('Failed to delete temporary file $path: $e');
+    }
+  }
+
+  /// Resolves package names in a single transaction.
+  /// Returns a map of package name to package info.
+  /// If [installedOnly] is true, only installed packages are returned.
+  Future<Map<String, PackageKitPackageInfo?>> resolve(
+    List<String> names, {
+    bool installedOnly = false,
     @visibleForTesting String? architecture,
-  ]) async {
+  }) async {
+    if (names.isEmpty) return {};
+
     final possibleArchs = [
       architecture ?? await _getNativeArchitecture(),
       'all',
     ];
-    PackageKitPackageInfo? info;
+    final results = {
+      for (final name in names) name: null as PackageKitPackageInfo?,
+    };
+
     await _createTransaction(
-      action: (transaction) => transaction.resolve([name]),
+      action: (transaction) => transaction.resolve(names),
       listener: (event) {
         if (event is PackageKitPackageEvent &&
-            possibleArchs.contains(event.packageId.arch)) {
-          info = event;
+            possibleArchs.contains(event.packageId.arch) &&
+            (!installedOnly || event.info == PackageKitInfo.installed)) {
+          results[event.packageId.name] = event;
         }
       },
     ).then(waitTransaction);
-    if (info == null) {
-      log.error(
-        'Couldn\'t resolve package $name with architectures $possibleArchs',
-      );
-    }
-    return info;
+
+    return results;
   }
 
-  Future<PackageKitPackageDetails?> getDetailsLocal(String path) async {
-    PackageKitPackageDetails? details;
-    final absolutePath = _getAbsolutePath(path);
+  Future<PackageKitUpdateDetailEvent?> getUpdateDetails(
+    PackageKitPackageId packageId,
+  ) async {
+    PackageKitUpdateDetailEvent? details;
     await _createTransaction(
-      action: (transaction) => transaction.getDetailsLocal([absolutePath]),
+      action: (transaction) => transaction.getUpdateDetail([packageId]),
       listener: (event) {
-        if (event is PackageKitDetailsEvent) {
+        if (event is PackageKitUpdateDetailEvent) {
           details = event;
         }
       },
     ).then(waitTransaction);
     if (details == null) {
-      log.error('Couldn\'t get details for local package $absolutePath');
+      log.error('Couldn\'t get update details for package $packageId');
     }
     return details;
+  }
+
+  /// Returns all packages that have updates available.
+  Future<List<PackageKitPackageInfo>> getUpdates() async {
+    final updates = <PackageKitPackageInfo>[];
+    await _createTransaction(
+      action: (transaction) => transaction.getUpdates(),
+      listener: (event) {
+        if (event is PackageKitPackageEvent) {
+          updates.add(event);
+        }
+      },
+    ).then(waitTransaction);
+    return updates;
+  }
+
+  Future<PackageKitPackageDetails?> getDetailsLocal(String path) async {
+    PackageKitPackageDetails? details;
+    final (resolvedPath: resolvedPath, tempCopy: tempCopy) =
+        await _resolveLocalPath(path);
+    try {
+      await _createTransaction(
+        action: (transaction) => transaction.getDetailsLocal([resolvedPath]),
+        listener: (event) {
+          if (event is PackageKitDetailsEvent) {
+            details = event;
+          }
+        },
+      ).then(waitTransaction);
+    } finally {
+      if (tempCopy != null) await _deleteTempCopy(tempCopy);
+    }
+    if (details == null) {
+      log.error('Couldn\'t get details for local package $resolvedPath');
+    }
+    return details;
+  }
+
+  /// Returns details for multiple packages in a single transaction.
+  Future<Map<String, PackageKitPackageDetails>> getDetails(
+    List<PackageKitPackageId> packageIds,
+  ) async {
+    if (packageIds.isEmpty) return {};
+
+    final results = <String, PackageKitPackageDetails>{};
+    await _createTransaction(
+      action: (transaction) => transaction.getDetails(packageIds),
+      listener: (event) {
+        if (event is PackageKitDetailsEvent) {
+          results[event.packageId.name] = event;
+        }
+      },
+    ).then(waitTransaction);
+    return results;
+  }
+
+  /// Updates all of the given packages in a single transaction.
+  Future<void> updateAll(Iterable<PackageKitPackageId> packageIds) =>
+      _createTransaction(
+        action: (transaction) => transaction.updatePackages(packageIds),
+      ).then(waitTransaction);
+
+  /// Returns all installed packages on the system.
+  Future<List<PackageKitPackageInfo>> getInstalledPackages() async {
+    final packages = <PackageKitPackageInfo>[];
+    await _createTransaction(
+      action: (transaction) => transaction.getPackages(
+        filter: {PackageKitFilter.installed},
+      ),
+      listener: (event) {
+        if (event is PackageKitPackageEvent) {
+          packages.add(event);
+        }
+      },
+    ).then(waitTransaction);
+    return packages;
   }
 
   Future<void> dispose() async {
     await _dbus.close();
     await _client.close();
     await _errorStreamController.close();
+    await _desktopPortalClient?.close();
   }
 }

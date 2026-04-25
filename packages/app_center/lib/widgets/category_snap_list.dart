@@ -77,8 +77,9 @@ class RatedCategorySnapList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ratedCategoryModel =
-        ref.watch(ratedCategoryModelProvider(categories, numberOfSnaps));
+    final ratedCategoryModel = ref.watch(
+      ratedCategoryModelProvider(CategoryList(categories), numberOfSnaps),
+    );
 
     return ratedCategoryModel.when(
       data: (snaps) => RankedAppCardGrid.fromRankedSnaps(

@@ -1,488 +1,355 @@
 {
-  "snapPageVersionLabel": "버전",
-  "@snapPageVersionLabel": {},
-  "packageFormatDebLabel": "데비안 패키지",
-  "@packageFormatDebLabel": {},
-  "snapCategoryBooksAndReference": "도서 및 참고 자료",
-  "@snapCategoryBooksAndReference": {},
-  "snapCategoryProductivity": "생산성",
-  "@snapCategoryProductivity": {},
-  "snapCategoryUtilities": "유틸리티",
-  "@snapCategoryUtilities": {},
-  "snapCategorySocial": "소셜",
-  "@snapCategorySocial": {},
-  "productivityPageLabel": "생산성",
-  "@productivityPageLabel": {},
-  "snapCategoryNewsAndWeather": "뉴스 및 날씨",
-  "@snapCategoryNewsAndWeather": {},
-  "gamesPageLabel": "게임",
-  "@gamesPageLabel": {},
-  "snapCategoryArtAndDesign": "미술 및 디자인",
-  "@snapCategoryArtAndDesign": {},
-  "developmentPageLabel": "개발",
-  "@developmentPageLabel": {},
-  "snapPageChannelLabel": "채널",
-  "@snapPageChannelLabel": {},
-  "snapCategoryEducation": "교육",
-  "@snapCategoryEducation": {},
-  "snapActionUpdateLabel": "업데이트",
-  "@snapActionUpdateLabel": {},
-  "searchPageSortByLabel": "정렬 기준",
-  "@searchPageSortByLabel": {},
-  "searchFieldDebSection": "데비안 패키지",
-  "@searchFieldDebSection": {},
-  "snapActionOpenLabel": "열기",
-  "@snapActionOpenLabel": {},
-  "snapCategoryDevelopment": "개발",
-  "@snapCategoryDevelopment": {},
-  "snapCategoryHealthAndFitness": "건강 및 피트니스",
-  "@snapCategoryHealthAndFitness": {},
-  "appstreamUrlTypeContact": "연락하기",
-  "@appstreamUrlTypeContact": {},
-  "snapCategorySecurity": "보안",
-  "@snapCategorySecurity": {},
-  "snapCategoryFinance": "금융",
-  "@snapCategoryFinance": {},
-  "snapCategoryServerAndCloud": "서버 및 클라우드",
-  "@snapCategoryServerAndCloud": {},
-  "aboutPageLabel": "정보",
-  "@aboutPageLabel": {},
-  "snapCategoryScience": "과학",
-  "@snapCategoryScience": {},
-  "snapCategoryEntertainment": "엔터테인먼트",
-  "@snapCategoryEntertainment": {},
-  "snapActionInstallLabel": "설치하기",
-  "@snapActionInstallLabel": {},
-  "snapPageLicenseLabel": "라이선스",
-  "@snapPageLicenseLabel": {},
-  "snapCategoryPhotoAndVideo": "사진 및 비디오",
-  "@snapCategoryPhotoAndVideo": {},
-  "snapPageConfinementLabel": "격리",
-  "@snapPageConfinementLabel": {},
-  "snapCategoryMusicAndAudio": "음악 및 오디오",
-  "@snapCategoryMusicAndAudio": {},
-  "aboutPageGitHubLabel": "GitHub에서 찾기",
-  "@aboutPageGitHubLabel": {},
-  "packageFormatSnapLabel": "Snap 패키지",
-  "@packageFormatSnapLabel": {},
-  "snapCategoryGames": "게임",
-  "@snapCategoryGames": {},
-  "snapCategoryFeatured": "추천",
-  "@snapCategoryFeatured": {},
-  "snapActionCancelLabel": "취소하기",
-  "@snapActionCancelLabel": {},
-  "snapPageDescriptionLabel": "설명",
-  "@snapPageDescriptionLabel": {},
-  "explorePageLabel": "찾아보기",
-  "@explorePageLabel": {},
-  "searchFieldSnapSection": "Snap 패키지",
-  "@searchFieldSnapSection": {},
-  "appCenterLabel": "앱 센터",
-  "@appCenterLabel": {},
-  "snapPageDeveloperWebsiteLabel": "개발자 웹사이트",
-  "@snapPageDeveloperWebsiteLabel": {},
-  "snapPageDownloadSizeLabel": "다운로드 크기",
-  "@snapPageDownloadSizeLabel": {},
-  "snapPageGalleryLabel": "갤러리",
-  "@snapPageGalleryLabel": {},
-  "snapPageLinksLabel": "링크",
-  "@snapPageLinksLabel": {},
-  "snapPagePublisherLabel": "게시자",
-  "@snapPagePublisherLabel": {},
-  "managePageLabel": "관리",
-  "@managePageLabel": {},
-  "managePageNoUpdatesAvailableDescription": "이용 가능한 업데이트가 없습니다. 모든 애플리케이션이 최신 상태입니다.",
-  "@managePageNoUpdatesAvailableDescription": {},
-  "snapPagePublishedLabel": "게시됨",
-  "@snapPagePublishedLabel": {},
-  "snapPageSizeLabel": "크기",
-  "@snapPageSizeLabel": {},
-  "appstreamUrlTypeContribute": "기여",
-  "@appstreamUrlTypeContribute": {},
-  "snapCategoryDevelopmentSlogan": "개발자에게 꼭 필요한 스냅 목록",
-  "@snapCategoryDevelopmentSlogan": {},
-  "snapCategoryGameContentCreationSlogan": "컨텐츠 제작",
-  "@snapCategoryGameContentCreationSlogan": {},
-  "snapRatingsBandPoor": "나쁨",
-  "@snapRatingsBandPoor": {},
-  "managePageDescription": "사용 가능한 업데이트를 확인하고, 앱을 업데이트하고, 설치된 모든 앱의 상태를 관리할 수 있습니다.",
-  "@managePageDescription": {},
-  "searchPageNoResultsHint": "다른 검색어를 사용하거나, 좀더 포괄적인 검색어를 사용해 보세요",
-  "@searchPageNoResultsHint": {},
-  "snapActionRemovingLabel": "제거 중",
-  "@snapActionRemovingLabel": {},
-  "snapActionSwitchChannelLabel": "채널 변경",
-  "@snapActionSwitchChannelLabel": {},
-  "externalResources": "추가 리소스",
-  "@externalResources": {},
-  "snapCategoryDefaultButtonLabel": "더 둘러보기",
-  "@snapCategoryDefaultButtonLabel": {},
-  "snapCategoryKdeGames": "KDE 게임",
-  "@snapCategoryKdeGames": {},
-  "snapCategoryGameContentCreation": "컨텐츠 제작",
-  "@snapCategoryGameContentCreation": {},
-  "snapReportOptionStoreViolation": "스냅 스토어 이용 약관 위반",
-  "@snapReportOptionStoreViolation": {},
-  "searchFieldSearchForLabel": "\"{query}\"에 대한 모든 결과 보기",
-  "@searchFieldSearchForLabel": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchFieldSearchHint": "앱 찾아보기",
-  "@searchFieldSearchHint": {},
-  "snapActionRemoveLabel": "제거하기",
-  "@snapActionRemoveLabel": {},
-  "snapCategoryAll": "모든 카테고리",
-  "@snapCategoryAll": {},
-  "snapActionUpdatingLabel": "업데이트 중",
-  "@snapActionUpdatingLabel": {},
-  "snapCategoryGamesSlogan": "밤새 게임을 즐기기 위한 모든 것",
-  "@snapCategoryGamesSlogan": {},
-  "snapSortOrderDownloadSizeDesc": "크기 (내림차순)",
-  "@snapSortOrderDownloadSizeDesc": {},
-  "snapConfinementStrict": "엄격",
-  "@snapConfinementStrict": {},
-  "installAll": "모두 설치",
-  "@installAll": {},
-  "localDebWarningTitle": "안전하지 않을 수 있음",
-  "@localDebWarningTitle": {},
-  "managePageInstallingLabel": "({n}) 설치 중",
-  "@managePageInstallingLabel": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapPageContactPublisherLabel": "{publisher} 에게 문의",
-  "@snapPageContactPublisherLabel": {
-    "placeholders": {
-      "publisher": {
-        "type": "String"
-      }
-    }
-  },
-  "snapPageShareLinkCopiedMessage": "클립보드에 링크 복사됨",
-  "@snapPageShareLinkCopiedMessage": {},
-  "snapPageSummaryLabel": "요약",
-  "@snapPageSummaryLabel": {},
-  "explorePageCategoriesLabel": "카테고리",
-  "@explorePageCategoriesLabel": {},
-  "managePageCheckForUpdates": "업데이트 확인",
-  "@managePageCheckForUpdates": {},
-  "managePageCheckingForUpdates": "업데이트 확인 중",
-  "@managePageCheckingForUpdates": {},
-  "managePageInstalledAndUpdatedLabel": "설치 및 업데이트됨",
-  "@managePageInstalledAndUpdatedLabel": {},
-  "managePageSearchFieldSearchHint": "설치된 앱 검색",
-  "@managePageSearchFieldSearchHint": {},
-  "managePageShowSystemSnapsLabel": "시스템 스냅 표시",
-  "@managePageShowSystemSnapsLabel": {},
-  "managePageShowDetailsLabel": "자세히 보기",
-  "@managePageShowDetailsLabel": {},
-  "managePageUpdateAllLabel": "모두 업데이트",
-  "@managePageUpdateAllLabel": {},
-  "managePageUpdatedDaysAgo": "({n})일 전 업데이트됨",
-  "@managePageUpdatedDaysAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatesAvailable": "업데이트 사용 가능 ({n})",
-  "@managePageUpdatesAvailable": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "gamesPageTop": "평점 높은 항목",
-  "@gamesPageTop": {},
-  "gamesPageTitle": "추천",
-  "@gamesPageTitle": {},
-  "gamesPageBundles": "앱 번들",
-  "@gamesPageBundles": {},
-  "unknownPublisher": "알 수 없는 게시자",
-  "@unknownPublisher": {},
-  "searchPageNoResults": "\"{query}\"에 대한 결과 찾을 수 없음",
-  "@searchPageNoResults": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "searchPageNoResultsCategory": "죄송합니다. 이 카테고리에서 패키지를 찾을 수 없습니다.",
-  "@searchPageNoResultsCategory": {},
-  "appstreamUrlTypeHelp": "도움말",
-  "@appstreamUrlTypeHelp": {},
-  "appstreamUrlTypeHomepage": "홈페이지",
-  "@appstreamUrlTypeHomepage": {},
-  "appstreamUrlTypeTranslate": "번역",
-  "@appstreamUrlTypeTranslate": {},
-  "snapCategoryGameDevSlogan": "게임 개발",
-  "@snapCategoryGameDevSlogan": {},
-  "snapCategoryGameEmulators": "에뮬레이터",
-  "@snapCategoryGameEmulators": {},
-  "snapCategoryGnomeGames": "그놈 게임",
-  "@snapCategoryGnomeGames": {},
-  "snapSortOrderAlphabeticalAsc": "사전순 (A ~Z)",
-  "@snapSortOrderAlphabeticalAsc": {},
-  "snapSortOrderAlphabeticalDesc": "사전순 (Z ~ A)",
-  "@snapSortOrderAlphabeticalDesc": {},
-  "snapSortOrderDownloadSizeAsc": "크기 (오름차순)",
-  "@snapSortOrderDownloadSizeAsc": {},
-  "snapSortOrderRelevance": "연관성",
-  "@snapSortOrderRelevance": {},
-  "snapSortOrderInstalledSizeDesc": "크기 (내림차순)",
-  "@snapSortOrderInstalledSizeDesc": {},
-  "snapRatingsBandVeryGood": "매우 좋음",
-  "@snapRatingsBandVeryGood": {},
-  "snapRatingsBandGood": "좋음",
-  "@snapRatingsBandGood": {},
-  "snapReportSelectReportReasonLabel": "이 스냅을 신고하는 이유를 선택해 주세요",
-  "@snapReportSelectReportReasonLabel": {},
-  "snapReportSelectAnOptionLabel": "옵션 선택",
-  "@snapReportSelectAnOptionLabel": {},
-  "snapReportLabel": "{snapName} 신고하기",
-  "@snapReportLabel": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportSubmitButtonLabel": "신고 보내기",
-  "@snapReportSubmitButtonLabel": {},
-  "snapReportEnterValidEmailError": "올바른 이메일 주소를 입력해주세요",
-  "@snapReportEnterValidEmailError": {},
-  "snapReportDetailsHint": "댓글...",
-  "@snapReportDetailsHint": {},
-  "snapReportPrivacyAgreementPrivacyPolicy": "개인정보 처리방침",
-  "@snapReportPrivacyAgreementPrivacyPolicy": {},
-  "debPageErrorNoPackageInfo": "패키지 정보 찾을 수 없음",
-  "@debPageErrorNoPackageInfo": {},
-  "snapReportPrivacyAgreementAndLabel": "과 ",
-  "@snapReportPrivacyAgreementAndLabel": {},
-  "allGamesButtonLabel": "모든 게임",
-  "@allGamesButtonLabel": {},
-  "managePageOwnUpdateAvailable": "앱 센터 업데이트 사용 가능",
-  "@managePageOwnUpdateAvailable": {},
-  "managePageOwnUpdateDescription": "프로그램을 종료하면 자동으로 업데이트됩니다.",
-  "@managePageOwnUpdateDescription": {},
-  "managePageOwnUpdateDescriptionSoon": "앱 센터가 {time} 이후에 자동으로 업데이트됩니다.",
-  "@managePageOwnUpdateDescriptionSoon": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "managePageNoInternet": "서버에 연결할 수 없습니다. 인터넷 연결을 확인하거나 잠시 후에 다시 시도해 보십시오.",
-  "@managePageNoInternet": {},
-  "managePageDebUpdatesMessage": "데비안 패키지 업데이트는 소프트웨어 업데이터에서 관리합니다.",
-  "@managePageDebUpdatesMessage": {},
-  "managePageUpdatedWeeksAgo": "({n})주 전 업데이트됨",
-  "@managePageUpdatedWeeksAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "appstreamUrlTypeDonation": "후원",
-  "@appstreamUrlTypeDonation": {},
-  "appstreamUrlTypeFaq": "FAQ",
-  "@appstreamUrlTypeFaq": {},
-  "snapCategoryGameDev": "게임 개발",
-  "@snapCategoryGameDev": {},
-  "snapCategoryDevicesAndIot": "장치 및 IoT",
-  "@snapCategoryDevicesAndIot": {},
-  "snapCategoryGameEmulatorsSlogan": "에뮬레이터",
-  "@snapCategoryGameEmulatorsSlogan": {},
-  "snapCategoryGameLaunchersSlogan": "게임 런처",
-  "@snapCategoryGameLaunchersSlogan": {},
-  "snapCategoryUbuntuDesktop": "우분투 데스크톱",
-  "@snapCategoryUbuntuDesktop": {},
-  "snapCategoryPersonalisation": "개인 설정",
-  "@snapCategoryPersonalisation": {},
-  "snapRatingsBandNeutral": "복합적",
-  "@snapRatingsBandNeutral": {},
-  "snapRatingsBandVeryPoor": "매우 나쁨",
-  "@snapRatingsBandVeryPoor": {},
-  "snapRatingsBandInsufficientVotes": "투표수가 충분하지 않음",
-  "@snapRatingsBandInsufficientVotes": {},
-  "snapRatingsVotes": "{n}개의 투표",
-  "@snapRatingsVotes": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapReportOptionCopyrightViolation": "저작권 또는 상표권 침해",
-  "@snapReportOptionCopyrightViolation": {},
-  "snapReportCancelButtonLabel": "취소",
-  "@snapReportCancelButtonLabel": {},
-  "externalResourcesDisclaimer": "참고: 이 목록에서 제공하는 외부 도구는 Canonical이 권리를 보유하거나 배포하지 않습니다.",
-  "@externalResourcesDisclaimer": {},
-  "searchPageFilterByLabel": "필터",
-  "@searchPageFilterByLabel": {},
-  "searchPageNoResultsCategoryHint": "다른 카테고리를 찾아보거나 보다 포괄적인 검색어를 사용해 보세요",
-  "@searchPageNoResultsCategoryHint": {},
-  "managePageUpdatesFailedBody": "지금은 이 애플리케이션을 업데이트 할 수 없습니다. 애플리케이션이 실행 중입니다.\n\n{snapList}\n애플리케이션을 종료하면 자동으로 업데이트를 진행합니다.",
-  "@managePageUpdatesFailedBody": {},
-  "snapActionInstalledLabel": "설치됨",
-  "@snapActionInstalledLabel": {},
-  "snapActionInstallingLabel": "설치 중",
-  "@snapActionInstallingLabel": {},
-  "snapReportDetailsLabel": "신고하는 상세한 이유를 적어 주세요",
-  "@snapReportDetailsLabel": {},
-  "snapReportOptionalEmailAddressLabel": "이메일 주소 (선택)",
-  "@snapReportOptionalEmailAddressLabel": {},
-  "appstreamUrlTypeVcsBrowser": "소스",
-  "@appstreamUrlTypeVcsBrowser": {},
-  "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical 개인정보 보호 정책 ",
-  "@snapReportPrivacyAgreementCanonicalPrivacyNotice": {},
-  "externalResourcesButtonLabel": "더 둘러보기",
-  "@externalResourcesButtonLabel": {},
-  "managePageTitle": "설치된 스냅 관리",
-  "@managePageTitle": {},
-  "openInBrowser": "브라우저에서 열기",
-  "@openInBrowser": {},
-  "managePageQuitToUpdate": "종료하여 업데이트하기",
-  "@managePageQuitToUpdate": {},
-  "managePageUpdatedMonthsAgo": "({n})개월 전 업데이트됨",
-  "@managePageUpdatedMonthsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "managePageUpdatedYearsAgo": "({n})년 전 업데이트됨",
-  "@managePageUpdatedYearsAgo": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "snapSortOrderInstalledSizeAsc": "크기 (오름차순)",
-  "@snapSortOrderInstalledSizeAsc": {},
-  "aboutPagePublishLabel": "Snap 스토어에 배포하기",
-  "@aboutPagePublishLabel": {},
-  "snapCategoryProductivityButtonLabel": "생산성 앱들을 만나보세요",
-  "@snapCategoryProductivityButtonLabel": {},
-  "snapCategoryKdeGamesSlogan": "KDE 게임 모음",
-  "@snapCategoryKdeGamesSlogan": {},
-  "snapCategoryArtAndDesignSlogan": "스케치부터 후보정까지, 예술과 디자인을 위한 앱을 만나보세요.",
-  "@snapCategoryArtAndDesignSlogan": {},
-  "appstreamSearchGreylist": "앱;애플리케이션;프로그램;패키지;소프트웨어;어플;툴;스토어;설치;업데이트;app;application;package;program;programme;suite;tool",
-  "@appstreamSearchGreylist": {},
-  "searchPageRelevanceLabel": "연관성",
-  "@searchPageRelevanceLabel": {},
-  "searchPageTitle": "\"{query}\"에 대한 결과",
-  "@searchPageTitle": {
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageContributorTitle": "디자인 및 개발:",
-  "@aboutPageContributorTitle": {},
-  "aboutPageLearnMoreLabel": "더 알아보기",
-  "@aboutPageLearnMoreLabel": {},
-  "appstreamUrlTypeBugtracker": "버그 트래커",
-  "@appstreamUrlTypeBugtracker": {},
-  "managePageOwnUpdateQuitButton": "종료하여 업데이트하기",
-  "@managePageOwnUpdateQuitButton": {},
-  "snapCategoryFeaturedSlogan": "추천 Snap 패키지",
-  "@snapCategoryFeaturedSlogan": {},
-  "snapCategoryGnomeGamesSlogan": "GNOME 게임 모음",
-  "@snapCategoryGnomeGamesSlogan": {},
-  "snapCategoryGameLaunchers": "게임 런처",
-  "@snapCategoryGameLaunchers": {},
-  "managePageUpdatesFailed": "{n, plural, =1{1개 업데이트} other{{n}개 업데이트}} 실패",
-  "@managePageUpdatesFailed": {
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
-  },
-  "aboutPageVersionLabel": "버전 {version}",
-  "@aboutPageVersionLabel": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutPageCommunityTitle": "커뮤니티에 참여하세요:",
-  "@aboutPageCommunityTitle": {},
-  "aboutPageContributeLabel": "기여 또는 버그 제보",
-  "@aboutPageContributeLabel": {},
-  "snapCategoryArtAndDesignButtonLabel": "창작 활동 시작하기",
-  "@snapCategoryArtAndDesignButtonLabel": {},
-  "snapSortOrderInstalledDateAsc": "가장 최근에 업데이트된",
-  "@snapSortOrderInstalledDateAsc": {},
-  "snapConfinementClassic": "클래식",
-  "@snapConfinementClassic": {},
-  "gamesPageFeatured": "추천 타이틀",
-  "@gamesPageFeatured": {},
-  "snapSortOrderInstalledDateDesc": "가장 최근에 업데이트된",
-  "@snapSortOrderInstalledDateDesc": {},
-  "managePageDocumentationLinkLabel": "문서를 통하여 데비안 패키지를 관리하는 방법을 알아보세요.",
-  "@managePageDocumentationLinkLabel": {},
-  "debPageDocumentationLinkLabel": "데비안 패키지 관리 방법 알아보기",
-  "@debPageDocumentationLinkLabel": {},
-  "localDebDialogConfirmation": "그래도 이 패키지를 설치하시겠습니까?",
-  "@localDebDialogConfirmation": {},
-  "localDebDialogMessage": "이 패키지는 서드 파티에 의해 제공되었으며 시스템과 개인 데이터를 위협할 수 있습니다.",
-  "@localDebDialogMessage": {},
-  "localDebLearnMore": "서드 파티 패키지에 대해 더 알아보기",
-  "@localDebLearnMore": {},
-  "snapdExceptionRunningApps": "현재 실행중이기 때문에 {snapName}을(를) 업데이트할 수 없습니다.",
-  "@snapdExceptionRunningApps": {
-    "placeholders": {
-      "snapName": {
-        "type": "String"
-      }
-    }
-  },
-  "snapReportPrivacyAgreementLabel": "이 양식을 제출함으로써 다음 약관을 읽고 동의합니다. ",
-  "@snapReportPrivacyAgreementLabel": {},
-  "localDebWarningBody": "이 패키지는 서드 파티에 의해 제공됩니다. App Center 외부의 패키지를 설치하면 시스템 및 개인 데이터에 위험을 증가시킬 수 있습니다. 계속하기 전에 신뢰할 수 있는 소스에서 받은 패키지인지 확인해 주십시오.",
-  "@localDebWarningBody": {},
-  "errorViewCheckStatusLabel": "상태 확인",
-  "@errorViewCheckStatusLabel": {},
-  "snapConfinementDevmode": "개발 모드",
-  "@snapConfinementDevmode": {},
-  "errorViewNetworkErrorTitle": "인터넷에 연결",
-  "@errorViewNetworkErrorTitle": {},
-  "errorViewServerErrorDescription": "죄송합니다. 현재 App Center에 문제가 발생했습니다.",
-  "@errorViewServerErrorDescription": {},
-  "errorViewUnknownErrorAction": "지금 다시 시도하거나, 업데이트 상태를 확인하거나, 또는 나중에 다시 시도하십시오.",
-  "@errorViewUnknownErrorAction": {},
-  "errorViewNetworkErrorDescription": "인터넷 연결 없이는 App Center의 콘텐츠를 불러올 수 없습니다.",
-  "@errorViewNetworkErrorDescription": {},
-  "errorViewUnknownErrorTitle": "알 수 없는 문제가 발생했습니다",
-  "@errorViewUnknownErrorTitle": {},
-  "errorViewServerErrorAction": "업데이트 상태를 확인하고 나중에 다시 시도하십시오.",
-  "@errorViewServerErrorAction": {},
-  "errorViewUnknownErrorDescription": "죄송합니다. 원인을 알 수 없는 오류입니다.",
-  "@errorViewUnknownErrorDescription": {},
-  "snapCategoryProductivitySlogan": "할 일 목록에서 하나 완료하기",
-  "@snapCategoryProductivitySlogan": {},
-  "snapCategoryUbuntuDesktopSlogan": "데스크톱을 손쉽게 시작하세요",
-  "@snapCategoryUbuntuDesktopSlogan": {},
-  "errorViewNetworkErrorAction": "연결 상태를 확인하고 다시 시도해 주세요.",
-  "@errorViewNetworkErrorAction": {}
+    "snapPageVersionLabel": "버전",
+    "packageFormatDebLabel": "데비안 패키지",
+    "snapCategoryBooksAndReference": "도서 및 참고 자료",
+    "snapCategoryProductivity": "생산성",
+    "snapCategoryUtilities": "유틸리티",
+    "snapCategorySocial": "소셜",
+    "productivityPageLabel": "생산성",
+    "snapCategoryNewsAndWeather": "뉴스 및 날씨",
+    "gamesPageLabel": "게임",
+    "snapCategoryArtAndDesign": "미술 및 디자인",
+    "developmentPageLabel": "개발",
+    "snapPageChannelLabel": "채널",
+    "snapCategoryEducation": "교육",
+    "snapActionUpdateLabel": "업데이트",
+    "searchPageSortByLabel": "정렬 기준",
+    "searchFieldDebSection": "데비안 패키지",
+    "snapActionOpenLabel": "열기",
+    "snapCategoryDevelopment": "개발",
+    "snapCategoryHealthAndFitness": "건강 및 피트니스",
+    "appstreamUrlTypeContact": "연락하기",
+    "snapCategorySecurity": "보안",
+    "snapCategoryFinance": "금융",
+    "snapCategoryServerAndCloud": "서버 및 클라우드",
+    "aboutPageLabel": "정보",
+    "snapCategoryScience": "과학",
+    "snapCategoryEntertainment": "엔터테인먼트",
+    "snapActionInstallLabel": "설치하기",
+    "snapPageLicenseLabel": "라이선스",
+    "snapCategoryPhotoAndVideo": "사진 및 비디오",
+    "snapPageConfinementLabel": "격리",
+    "snapCategoryMusicAndAudio": "음악 및 오디오",
+    "aboutPageGitHubLabel": "GitHub에서 찾기",
+    "packageFormatSnapLabel": "Snap 패키지",
+    "snapCategoryGames": "게임",
+    "snapCategoryFeatured": "추천",
+    "snapActionCancelLabel": "취소하기",
+    "snapPageDescriptionLabel": "설명",
+    "explorePageLabel": "찾아보기",
+    "searchFieldSnapSection": "Snap 패키지",
+    "appCenterLabel": "앱 센터",
+    "snapPageDeveloperWebsiteLabel": "개발자 웹사이트",
+    "snapPageDownloadSizeLabel": "다운로드 크기",
+    "snapPageGalleryLabel": "갤러리",
+    "snapPageLinksLabel": "링크",
+    "snapPagePublisherLabel": "게시자",
+    "managePageLabel": "관리",
+    "managePageNoUpdatesAvailableDescription": "이용 가능한 업데이트가 없습니다. 모든 애플리케이션이 최신 상태입니다.",
+    "snapPagePublishedLabel": "게시됨",
+    "snapPageSizeLabel": "크기",
+    "appstreamUrlTypeContribute": "기여",
+    "snapCategoryDevelopmentSlogan": "개발자에게 꼭 필요한 스냅 목록",
+    "snapCategoryGameContentCreationSlogan": "컨텐츠 제작",
+    "snapRatingsBandPoor": "나쁨",
+    "managePageDescription": "사용 가능한 업데이트를 확인하고, 앱을 업데이트하고, 설치된 모든 앱의 상태를 관리할 수 있습니다.",
+    "searchPageNoResultsHint": "다른 검색어를 사용하거나, 좀더 포괄적인 검색어를 사용해 보세요",
+    "snapActionRemovingLabel": "제거 중",
+    "snapActionSwitchChannelLabel": "채널 변경",
+    "externalResources": "추가 리소스",
+    "snapCategoryDefaultButtonLabel": "더 둘러보기",
+    "snapCategoryKdeGames": "KDE 게임",
+    "snapCategoryGameContentCreation": "컨텐츠 제작",
+    "snapReportOptionStoreViolation": "스냅 스토어 이용 약관 위반",
+    "searchFieldSearchForLabel": "\"{query}\"에 대한 모든 결과 보기",
+    "@searchFieldSearchForLabel": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchFieldSearchHint": "앱 찾아보기",
+    "snapActionRemoveLabel": "제거하기",
+    "snapCategoryAll": "모든 카테고리",
+    "snapActionUpdatingLabel": "업데이트 중",
+    "snapCategoryGamesSlogan": "밤새 게임을 즐기기 위한 모든 것",
+    "snapSortOrderDownloadSizeDesc": "크기 (내림차순)",
+    "snapConfinementStrict": "엄격",
+    "installAll": "모두 설치",
+    "localDebWarningTitle": "안전하지 않을 수 있음",
+    "managePageInstallingLabel": "({n}) 설치 중",
+    "@managePageInstallingLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageContactPublisherLabel": "{publisher} 에게 문의",
+    "@snapPageContactPublisherLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "snapPageShareLinkCopiedMessage": "클립보드에 링크 복사됨",
+    "snapPageSummaryLabel": "요약",
+    "explorePageCategoriesLabel": "카테고리",
+    "managePageCheckForUpdates": "업데이트 확인",
+    "managePageCheckingForUpdates": "업데이트 확인 중",
+    "managePageInstalledAndUpdatedLabel": "설치 및 업데이트됨",
+    "managePageSearchFieldSearchHint": "설치된 앱 검색",
+    "managePageShowSystemSnapsLabel": "시스템 스냅 표시",
+    "managePageShowDetailsLabel": "자세히 보기",
+    "managePageUpdateAllLabel": "모두 업데이트",
+    "managePageUpdatedDaysAgo": "({n})일 전 업데이트됨",
+    "@managePageUpdatedDaysAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatesAvailable": "업데이트 사용 가능 ({n})",
+    "@managePageUpdatesAvailable": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "gamesPageTop": "평점 높은 항목",
+    "gamesPageTitle": "게임",
+    "gamesPageBundles": "앱 번들",
+    "unknownPublisher": "알 수 없는 게시자",
+    "searchPageNoResults": "\"{query}\"에 대한 결과 찾을 수 없음",
+    "@searchPageNoResults": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "searchPageNoResultsCategory": "죄송합니다. 이 카테고리에서 패키지를 찾을 수 없습니다",
+    "appstreamUrlTypeHelp": "도움말",
+    "appstreamUrlTypeHomepage": "홈페이지",
+    "appstreamUrlTypeTranslate": "번역",
+    "snapCategoryGameDevSlogan": "게임 개발",
+    "snapCategoryGameEmulators": "에뮬레이터",
+    "snapCategoryGnomeGames": "그놈 게임",
+    "snapSortOrderAlphabeticalAsc": "사전순 (A ~Z)",
+    "snapSortOrderAlphabeticalDesc": "사전순 (Z ~ A)",
+    "snapSortOrderDownloadSizeAsc": "크기 (오름차순)",
+    "snapSortOrderRelevance": "연관성",
+    "snapSortOrderInstalledSizeDesc": "크기 (내림차순)",
+    "snapRatingsBandVeryGood": "매우 좋음",
+    "snapRatingsBandGood": "좋음",
+    "snapReportSelectReportReasonLabel": "이 스냅을 신고하는 이유를 선택해 주세요",
+    "snapReportSelectAnOptionLabel": "옵션 선택",
+    "snapReportLabel": "{snapName} 신고하기",
+    "@snapReportLabel": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportSubmitButtonLabel": "신고 보내기",
+    "snapReportEnterValidEmailError": "올바른 이메일 주소를 입력해주세요",
+    "snapReportDetailsHint": "댓글...",
+    "snapReportPrivacyAgreementPrivacyPolicy": "개인정보 처리방침",
+    "debPageErrorNoPackageInfo": "패키지 정보 찾을 수 없음",
+    "snapReportPrivacyAgreementAndLabel": "과 ",
+    "allGamesButtonLabel": "모든 게임",
+    "managePageOwnUpdateAvailable": "앱 센터 업데이트 사용 가능",
+    "managePageOwnUpdateDescription": "프로그램을 종료하면 자동으로 업데이트됩니다.",
+    "managePageOwnUpdateDescriptionSoon": "앱 센터가 {time} 이후에 자동으로 업데이트됩니다.",
+    "@managePageOwnUpdateDescriptionSoon": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "managePageNoInternet": "서버에 연결할 수 없습니다. 인터넷 연결을 확인하거나 잠시 후에 다시 시도해 보십시오.",
+    "managePageDebUpdatesMessage": "데비안 패키지 업데이트는 소프트웨어 업데이터에서 관리합니다.",
+    "managePageUpdatedWeeksAgo": "({n})주 전 업데이트됨",
+    "@managePageUpdatedWeeksAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "appstreamUrlTypeDonation": "후원",
+    "appstreamUrlTypeFaq": "FAQ",
+    "snapCategoryGameDev": "게임 개발",
+    "snapCategoryDevicesAndIot": "장치 및 IoT",
+    "snapCategoryGameEmulatorsSlogan": "에뮬레이터",
+    "snapCategoryGameLaunchersSlogan": "게임 런처",
+    "snapCategoryUbuntuDesktop": "우분투 데스크톱",
+    "snapCategoryPersonalisation": "개인 설정",
+    "snapRatingsBandNeutral": "복합적",
+    "snapRatingsBandVeryPoor": "매우 나쁨",
+    "snapRatingsBandInsufficientVotes": "투표수가 충분하지 않음",
+    "snapRatingsVotes": "{n}개의 투표",
+    "@snapRatingsVotes": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapReportOptionCopyrightViolation": "저작권 또는 상표권 침해",
+    "snapReportCancelButtonLabel": "취소",
+    "externalResourcesDisclaimer": "참고: 이 목록에서 제공하는 외부 도구는 Canonical이 권리를 보유하거나 배포하지 않습니다.",
+    "searchPageFilterByLabel": "필터",
+    "searchPageNoResultsCategoryHint": "다른 카테고리를 찾아보거나 보다 포괄적인 검색어를 사용해 보세요",
+    "managePageUpdatesFailedBody": "지금은 이 애플리케이션을 업데이트 할 수 없습니다. 애플리케이션이 실행 중입니다.\n\n{snapList}\n애플리케이션을 종료하면 자동으로 업데이트를 진행합니다.",
+    "snapActionInstalledLabel": "설치됨",
+    "snapActionInstallingLabel": "설치 중",
+    "snapReportDetailsLabel": "신고하는 상세한 이유를 적어 주세요",
+    "snapReportOptionalEmailAddressLabel": "이메일 주소 (선택)",
+    "appstreamUrlTypeVcsBrowser": "소스",
+    "snapReportPrivacyAgreementCanonicalPrivacyNotice": "Canonical 개인정보 보호 정책 ",
+    "externalResourcesButtonLabel": "더 둘러보기",
+    "managePageTitle": "설치된 스냅 관리",
+    "openInBrowser": "브라우저에서 열기",
+    "managePageQuitToUpdate": "종료하여 업데이트하기",
+    "managePageUpdatedMonthsAgo": "({n})개월 전 업데이트됨",
+    "@managePageUpdatedMonthsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "managePageUpdatedYearsAgo": "{n, plural, =1{작년에} other{{n}년 전}} 업데이트됨",
+    "@managePageUpdatedYearsAgo": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapSortOrderInstalledSizeAsc": "크기 (오름차순)",
+    "aboutPagePublishLabel": "Snap 스토어에 배포하기",
+    "snapCategoryProductivityButtonLabel": "생산성 앱들을 만나보세요",
+    "snapCategoryKdeGamesSlogan": "KDE 게임 모음",
+    "snapCategoryArtAndDesignSlogan": "스케치부터 후보정까지, 예술과 디자인을 위한 앱을 만나보세요.",
+    "appstreamSearchGreylist": "앱;애플리케이션;프로그램;패키지;소프트웨어;어플;툴;스토어;설치;업데이트;app;application;package;program;programme;suite;tool",
+    "searchPageRelevanceLabel": "연관성",
+    "searchPageTitle": "\"{query}\"에 대한 결과",
+    "@searchPageTitle": {
+        "placeholders": {
+            "query": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageContributorTitle": "디자인 및 개발:",
+    "aboutPageLearnMoreLabel": "더 알아보기",
+    "appstreamUrlTypeBugtracker": "버그 트래커",
+    "managePageOwnUpdateQuitButton": "종료하여 업데이트하기",
+    "snapCategoryFeaturedSlogan": "추천 Snap 패키지",
+    "snapCategoryGnomeGamesSlogan": "GNOME 게임 모음",
+    "snapCategoryGameLaunchers": "게임 런처",
+    "managePageUpdatesFailed": "{n, plural, =1{1개 업데이트} other{{n}개 업데이트}} 실패",
+    "@managePageUpdatesFailed": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "aboutPageVersionLabel": "버전 {version}",
+    "@aboutPageVersionLabel": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutPageCommunityTitle": "커뮤니티에 참여하세요:",
+    "aboutPageContributeLabel": "기여 또는 버그 제보",
+    "snapCategoryArtAndDesignButtonLabel": "창작 활동 시작하기",
+    "snapSortOrderInstalledDateAsc": "가장 최근에 업데이트된",
+    "snapConfinementClassic": "클래식",
+    "gamesPageFeatured": "추천 타이틀",
+    "snapSortOrderInstalledDateDesc": "가장 최근에 업데이트된",
+    "managePageDocumentationLinkLabel": "문서를 통하여 데비안 패키지를 관리하는 방법을 알아보세요.",
+    "debPageDocumentationLinkLabel": "데비안 패키지 관리 방법 알아보기",
+    "localDebDialogConfirmation": "그래도 이 패키지를 설치하시겠습니까?",
+    "localDebDialogMessage": "이 패키지는 서드 파티에 의해 제공되었으며 시스템과 개인 데이터를 위협할 수 있습니다.",
+    "localDebLearnMore": "서드 파티 패키지에 대해 더 알아보기",
+    "snapdExceptionRunningApps": "현재 실행중이기 때문에 {snapName}을(를) 업데이트할 수 없습니다.",
+    "@snapdExceptionRunningApps": {
+        "placeholders": {
+            "snapName": {
+                "type": "String"
+            }
+        }
+    },
+    "snapReportPrivacyAgreementLabel": "이 양식을 제출함으로써 다음 약관을 읽고 동의합니다. ",
+    "localDebWarningBody": "이 패키지는 서드 파티에 의해 제공됩니다. App Center 외부의 패키지를 설치하면 시스템 및 개인 데이터에 위험을 증가시킬 수 있습니다. 계속하기 전에 신뢰할 수 있는 소스에서 받은 패키지인지 확인해 주십시오.",
+    "errorViewCheckStatusLabel": "상태 확인",
+    "snapConfinementDevmode": "개발 모드",
+    "errorViewNetworkErrorTitle": "인터넷에 연결",
+    "errorViewServerErrorDescription": "죄송합니다. 현재 App Center에 문제가 발생했습니다.",
+    "errorViewUnknownErrorAction": "지금 다시 시도하거나, 업데이트 상태를 확인하거나, 또는 나중에 다시 시도하십시오.",
+    "errorViewNetworkErrorDescription": "인터넷 연결 없이는 App Center의 콘텐츠를 불러올 수 없습니다.",
+    "errorViewUnknownErrorTitle": "알 수 없는 문제가 발생했습니다",
+    "errorViewServerErrorAction": "업데이트 상태를 확인하고 나중에 다시 시도하십시오.",
+    "errorViewUnknownErrorDescription": "죄송합니다. 원인을 알 수 없는 오류입니다.",
+    "snapCategoryProductivitySlogan": "할 일 목록에서 하나 완료하기",
+    "snapCategoryUbuntuDesktopSlogan": "데스크톱을 손쉽게 시작하세요",
+    "errorViewNetworkErrorAction": "연결 상태를 확인하고 다시 시도해 주세요.",
+    "snapPageGalleryNextSemanticLabel": "다음 이미지",
+    "snapPageGalleryPreviousSemanticLabel": "이전 이미지",
+    "snapPageGalleryImageSemanticLabel": "{n}번째 이미지",
+    "@snapPageGalleryImageSemanticLabel": {
+        "placeholders": {
+            "n": {
+                "type": "int"
+            }
+        }
+    },
+    "snapPageShareSemanticLabel": "링크 복사",
+    "snapPageReportSemanticLabel": "신고",
+    "sectionExpandSemanticLabel": "{section} 더 보기",
+    "@sectionExpandSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "sectionCollapseSemanticLabel": "{section} 접기",
+    "@sectionCollapseSemanticLabel": {
+        "placeholders": {
+            "section": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardPublisherSemanticLabel": "{publisher}가 배포함.",
+    "@appCardPublisherSemanticLabel": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appCardRatingSemanticLabel": "평점 {rating}.",
+    "@appCardRatingSemanticLabel": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "debPageShareLinkCopiedMessage": "클립보드에 링크 복사됨",
+    "debPageShareSemanticLabel": "링크 복사"
 }

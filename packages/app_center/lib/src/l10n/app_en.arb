@@ -2,7 +2,7 @@
     "appCenterLabel": "App Center",
     "appstreamSearchGreylist": "app;application;package;program;programme;suite;tool",
     "snapPageChannelLabel": "Channel",
-    "snapPageConfinementLabel": "Confinement",
+    "snapPageConfinementLabel": "Permissions",
     "snapPageContactPublisherLabel": "Contact {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
@@ -11,11 +11,9 @@
             }
         }
     },
-    "snapPageDescriptionLabel": "Description",
     "snapPageDeveloperWebsiteLabel": "Developer website",
     "snapPageDownloadSizeLabel": "Download size",
     "snapPageSizeLabel": "Size",
-    "snapPageGalleryLabel": "Gallery",
     "snapPageGalleryNextSemanticLabel": "Next image",
     "snapPageGalleryPreviousSemanticLabel": "Previous image",
     "snapPageGalleryImageSemanticLabel": "Image {n}",
@@ -29,7 +27,7 @@
     "snapPageLicenseLabel": "License",
     "snapPageLinksLabel": "Links",
     "snapPagePublisherLabel": "Publisher",
-    "snapPagePublishedLabel": "Published",
+    "snapPagePublishedLabel": "Last updated",
     "snapPageSummaryLabel": "Summary",
     "snapPageVersionLabel": "Version",
     "snapPageShareLinkCopiedMessage": "Link copied to clipboard",
@@ -62,7 +60,7 @@
     "managePageNoInternet": "Can't reach server, check your internet connection or try again later.",
     "managePageDescription": "Check for available updates, update your apps, and manage the status of all your apps.",
     "managePageDebUpdatesMessage": "Debian package updates are handled by the Software Updater.",
-    "managePageInstalledAndUpdatedLabel": "Installed and updated",
+    "managePageInstalledAndUpdatedLabel": "Installed apps",
     "managePageInstallingLabel": "Installing ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -74,9 +72,13 @@
     "managePageLabel": "Manage",
     "managePageTitle": "Manage installed snaps",
     "managePageNoUpdatesAvailableDescription": "No updates available. Your applications are all up to date.",
-    "managePageSearchFieldSearchHint": "Search your installed apps",
+    "managePageSearchFieldSearchHint": "Search installed apps",
     "managePageShowDetailsLabel": "Show details",
     "managePageShowSystemSnapsLabel": "Show system snaps",
+    "managePagePackageTypeLabel": "Package type",
+    "managePagePackageTypeAll": "All",
+    "managePagePackageTypeSnap": "Snap",
+    "managePagePackageTypeDeb": "Deb",
     "managePageUpdateAllLabel": "Update all",
     "managePageUpdatedDaysAgo": "Updated {n, plural, =1{{n} day} other{{n} days}} ago",
     "@managePageUpdatedDaysAgo": {
@@ -191,15 +193,27 @@
     "aboutPageGitHubLabel": "Find us on GitHub",
     "aboutPagePublishLabel": "Publish to the Snap Store",
     "aboutPageLearnMoreLabel": "Learn more",
-    "appstreamUrlTypeBugtracker": "Bugtracker",
-    "appstreamUrlTypeContact": "Contact",
-    "appstreamUrlTypeContribute": "Contribute",
-    "appstreamUrlTypeDonation": "Donate",
-    "appstreamUrlTypeFaq": "FAQ",
-    "appstreamUrlTypeHelp": "Help",
-    "appstreamUrlTypeHomepage": "Homepage",
-    "appstreamUrlTypeTranslate": "Translations",
-    "appstreamUrlTypeVcsBrowser": "Source",
+    "appUrlTypeContact": "Contact {publisher}",
+    "@appUrlTypeContact": {
+        "placeholders": {
+            "publisher": {
+                "type": "String"
+            }
+        }
+    },
+    "appUrlTypeHomepage": "Developer website",
+    "appUrlTypeUnknown": "Link",
+    "appConfinementUnknown": "Unknown",
+    "appConfinementStrict": "Sandboxed",
+    "appConfinementDevelopment": "Devmode",
+    "appConfinementClassic": "Unrestricted",
+    "appConfinementUnrestricted": "Unrestricted",
+    "appConfinementStrictTooltip": "This app has limited access to your resources. You can control its permissions in the Settings app.",
+    "appConfinementClassicTooltip": "This app uses classic confinement, giving full access to your resources. This is common with development apps.",
+    "appConfinementUnrestrictedTooltip": "This app has full access to your resources.",
+    "appLicenseUnknown": "Unknown",
+    "appPublishedUnknown": "Unknown",
+    "appMoreActionsSemanticLabel": "More actions",
     "packageFormatDebLabel": "Debian packages",
     "packageFormatSnapLabel": "Snap packages",
     "snapActionCancelLabel": "Cancel",
@@ -209,6 +223,22 @@
     "snapActionOpenLabel": "Open",
     "snapActionRemoveLabel": "Uninstall",
     "snapActionRemovingLabel": "Uninstalling",
+    "snapActionRevertLabel": "Revert update",
+    "snapActionRevertingLabel": "Reverting update",
+    "snapRevertConfirmTitle": "Revert to previous version?",
+    "snapRevertConfirmMessage": "Automatic updates will resume when a new version is available.",
+    "snapRevertConfirmRevert": "Revert",
+    "snapRevertConfirmCancel": "Cancel",
+    "snapRevertConfirmTitleWithVersions": "Revert from {currentVersion} (rev {currentRevision}) to {previousVersion} (rev {previousRevision})?",
+    "@snapRevertConfirmTitleWithVersions": {
+      "placeholders": {
+        "currentVersion": {"type": "String"},
+        "currentRevision": {"type": "int"},
+        "previousVersion": {"type": "String"},
+        "previousRevision": {"type": "int"}
+      }
+    },
+    "snapRevertNoPreviousRevisionMessage": "No previous local revision is available to revert to.",
     "snapActionSwitchChannelLabel": "Switch channel",
     "snapActionUpdateLabel": "Update",
     "snapCategoryAll": "All categories",
@@ -271,9 +301,6 @@
     "snapCategoryUbuntuDesktop": "Ubuntu Desktop",
     "snapCategoryUbuntuDesktopSlogan": "Jump start your desktop",
     "snapCategoryUtilities": "Utilities",
-    "snapConfinementClassic": "Classic",
-    "snapConfinementDevmode": "Devmode",
-    "snapConfinementStrict": "Strict",
     "snapSortOrderAlphabeticalAsc": "Alphabetical (A to Z)",
     "snapSortOrderAlphabeticalDesc": "Alphabetical (Z to A)",
     "snapSortOrderDownloadSizeAsc": "Size (Smallest to largest)",
@@ -350,5 +377,9 @@
     "errorViewServerErrorAction": "Check the status for updates or try again later.",
     "errorViewUnknownErrorTitle": "Something went wrong",
     "errorViewUnknownErrorDescription": "We're sorry, but we’re not sure what the error is.",
-    "errorViewUnknownErrorAction": "You can retry now, check the status for updates, or try again later."
+    "errorViewUnknownErrorAction": "You can retry now, check the status for updates, or try again later.",
+    "codecPageTitle": "Missing media codecs",
+    "codecPageDescription": "You need to install the following codecs for handling certain video and audio formats:",
+    "codecProprietaryDisclaimer": "Some of the recommended codecs could be proprietary.",
+    "codecInstallAllButton": "Install recommended codecs"
 }

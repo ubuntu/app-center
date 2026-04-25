@@ -81,11 +81,6 @@ class _AboutHeader extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
-            ref.watch(versionProvider).maybeWhen(
-                  data: (v) => Text(l10n.aboutPageVersionLabel(v)),
-                  orElse: () => const SizedBox.shrink(),
-                ),
           ],
         ),
       ],
@@ -213,15 +208,14 @@ class _CommunityTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return YaruTile(
+    return YaruListTile(
+      contentPadding: EdgeInsets.zero,
       // TODO: icon
-      style: YaruTileStyle.banner,
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: HyperlinkText(text: subtitle, link: href),
-      padding: EdgeInsets.zero,
     );
   }
 }

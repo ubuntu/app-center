@@ -1,56 +1,61 @@
 import 'package:app_center/constants.dart';
-import 'package:app_center/extensions/iterable_extensions.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
-import 'package:app_center/snapd/snapd.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaru/yaru.dart';
 
 class ActiveChangeStatus extends StatelessWidget {
   const ActiveChangeStatus({
-    required this.snapName,
-    required this.activeChangeId,
+    required this.onCancelPressed,
+    required this.progress,
+    this.actionLabel,
     super.key,
   });
 
-  final String? snapName;
-  final String activeChangeId;
+  final void Function()? onCancelPressed;
+  final double progress;
+  final String? actionLabel;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        _ActiveChangeText(activeChangeId),
-        _CancelActiveChangeButton(snapName),
+        _ActiveChangeText(
+          label: actionLabel,
+          progress: progress,
+        ),
+        _CancelActiveChangeButton(
+          onCancelPressed: onCancelPressed,
+        ),
       ].separatedBy(const SizedBox(width: kSpacing)),
     );
   }
 }
 
-class _ActiveChangeText extends ConsumerWidget {
-  const _ActiveChangeText(this.changeId);
+class _ActiveChangeText extends StatelessWidget {
+  const _ActiveChangeText({
+    required this.progress,
+    this.label,
+  });
 
-  final String changeId;
+  final String? label;
+  final double progress;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final change = ref.watch(activeChangeProvider(changeId));
-
+  Widget build(BuildContext context) {
     return Row(
       children: [
         SizedBox.square(
           dimension: kLoaderHeight,
           child: YaruCircularProgressIndicator(
-            value: change?.progress,
+            value: progress,
             strokeWidth: 2,
           ),
         ),
-        if (change != null) ...[
+        if (label != null) ...[
           const SizedBox(width: kSpacingSmall),
           Text(
-            change.localize(l10n) ?? '',
+            label!,
             style: Theme.of(context).textTheme.bodyMedium,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -62,29 +67,29 @@ class _ActiveChangeText extends ConsumerWidget {
 }
 
 //
-class _CancelActiveChangeButton extends ConsumerStatefulWidget {
-  const _CancelActiveChangeButton(this.snapName);
+class _CancelActiveChangeButton extends StatefulWidget {
+  const _CancelActiveChangeButton({
+    required this.onCancelPressed,
+  });
 
-  final String? snapName;
+  final void Function()? onCancelPressed;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      ConsumerActiveChangeButtonState();
+  State<StatefulWidget> createState() => ActiveChangeButtonState();
 }
 
-class ConsumerActiveChangeButtonState
-    extends ConsumerState<_CancelActiveChangeButton> {
+class ActiveChangeButtonState extends State<_CancelActiveChangeButton> {
   bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return OutlinedButton(
-      onPressed: widget.snapName != null && !isPressed
+      onPressed: widget.onCancelPressed != null && !isPressed
           ? () {
               setState(() {
                 isPressed = true;
-                ref.read(snapModelProvider(widget.snapName!).notifier).cancel();
+                widget.onCancelPressed?.call();
               });
             }
           : null,

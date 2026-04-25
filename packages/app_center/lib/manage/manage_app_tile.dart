@@ -1,38 +1,63 @@
 import 'package:app_center/l10n.dart';
 import 'package:app_center/layout.dart';
+import 'package:app_center/manage/local_deb_providers.dart';
+import 'package:app_center/manage/manage_app_actions.dart';
+import 'package:app_center/manage/manage_app_data.dart';
 import 'package:app_center/manage/manage_l10n.dart';
-import 'package:app_center/manage/snap_actions_button.dart';
-import 'package:app_center/snapd/snapd.dart';
 import 'package:app_center/store/store.dart';
 import 'package:app_center/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snapd/snapd.dart';
+import 'package:yaru/yaru.dart';
 
+/// Position of a tile within a grouped list, used to apply the correct
+/// border radius (rounded top, bottom, both, or none).
 enum ManageTilePosition { first, middle, last, single }
 
-class ManageSnapTile extends StatelessWidget {
-  const ManageSnapTile({
-    required this.snap,
+/// A list tile for displaying an installed app (snap or deb) on the manage page.
+///
+/// Shows the app icon, name, install date, size, source/version info, and
+/// action buttons. Adapts its layout for small screens by moving date and size
+/// into the subtitle row.
+///
+/// [showOnlyUpdate] controls whether the tile shows update-only actions (for
+/// the updates section) or full actions like open/remove (for the installed
+/// section). [hasFixedSize] gives the trailing action buttons a fixed width,
+/// used when tiles appear in the "currently installing" section.
+class ManageAppTile extends ConsumerWidget {
+  const ManageAppTile({
+    required this.app,
     this.position = ManageTilePosition.middle,
+    this.showOnlyUpdate = false,
     this.hasFixedSize = false,
     super.key,
   });
 
-  final Snap snap;
+  final ManageAppData app;
   final ManageTilePosition position;
+  final bool showOnlyUpdate;
   final bool hasFixedSize;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final border = BorderSide(color: Theme.of(context).colorScheme.outline);
-    final dateTimeSinceUpdate = snap.installDate != null
-        ? DateTime.now().difference(snap.installDate!)
+    final dateTimeSinceUpdate = app.installDate != null
+        ? DateTime.now().difference(app.installDate!)
         : null;
     const radius = Radius.circular(8);
+    // Hide size for debs in the updates section
+    final shouldShowSize =
+        app.installedSize != null && !(showOnlyUpdate && app is ManageDebData);
     final actionButtons = Align(
       alignment: Alignment.centerRight,
-      child: SnapActionsButton(snapName: snap.name, isPrimary: false),
+      child: IntrinsicWidth(
+        child: ManageAppActions(
+          app: app,
+          showOnlyUpdate: showOnlyUpdate,
+        ),
+      ),
     );
 
     return DecoratedBox(
@@ -65,12 +90,12 @@ class ManageSnapTile extends StatelessWidget {
           ManageTilePosition.single => Border.fromBorderSide(border),
         },
       ),
-      child: ListTile(
-        key: ValueKey(snap.id),
+      child: YaruListTile(
+        key: ValueKey(app.id),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         leading: Clickable(
-          onTap: () => StoreNavigator.pushSnap(context, name: snap.name),
-          child: AppIcon(iconUrl: snap.iconUrl, size: 40),
+          onTap: () => _navigateToApp(context),
+          child: AppIcon(iconUrl: app.iconUrl, size: 40),
         ),
         title: Row(
           children: [
@@ -79,10 +104,9 @@ class ManageSnapTile extends StatelessWidget {
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
                 child: Clickable(
-                  onTap: () =>
-                      StoreNavigator.pushSnap(context, name: snap.name),
+                  onTap: () => _navigateToApp(context),
                   child: Text(
-                    snap.titleOrName,
+                    app.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,
@@ -105,10 +129,10 @@ class ManageSnapTile extends StatelessWidget {
                     : const SizedBox(),
               ),
               Expanded(
-                child: snap.installedSize != null
+                child: shouldShowSize
                     ? Text(
                         context.formatByteSize(
-                          snap.installedSize!,
+                          app.installedSize!,
                           precision: 0,
                         ),
                         maxLines: 1,
@@ -125,9 +149,7 @@ class ManageSnapTile extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text(snap.channel),
-                const SizedBox(width: 4),
-                Text(snap.version),
+                _SourceDisplay(app: app),
               ],
             ),
             if (ResponsiveLayout.of(context).type == ResponsiveLayoutType.small)
@@ -145,10 +167,10 @@ class ManageSnapTile extends StatelessWidget {
                         : const SizedBox(),
                   ),
                   Expanded(
-                    child: snap.installedSize != null
+                    child: shouldShowSize
                         ? Text(
                             context.formatByteSize(
-                              snap.installedSize!,
+                              app.installedSize!,
                               precision: 0,
                             ),
                             maxLines: 1,
@@ -163,13 +185,26 @@ class ManageSnapTile extends StatelessWidget {
           ],
         ),
         trailing: hasFixedSize
-            ? SizedBox(width: 200, child: actionButtons)
+            ? SizedBox(width: 220, child: actionButtons)
             : IntrinsicWidth(child: actionButtons),
       ),
     );
   }
+
+  /// Navigates to the snap detail page or deb detail page when the icon or
+  /// name is tapped.
+  void _navigateToApp(BuildContext context) {
+    app.map(
+      snap: (snapData) =>
+          StoreNavigator.pushSnap(context, name: snapData.snap.name),
+      localDeb: (debData) =>
+          StoreNavigator.pushDeb(context, id: debData.debInfo.id),
+    );
+  }
 }
 
+/// Returns the [ManageTilePosition] for a tile at [index] in a list of
+/// [length], so the first and last tiles get rounded corners.
 ManageTilePosition determineTilePosition({
   required int index,
   required int length,
@@ -186,5 +221,46 @@ ManageTilePosition determineTilePosition({
     return ManageTilePosition.first;
   } else {
     return ManageTilePosition.middle;
+  }
+}
+
+/// Displays the package source info: channel + version for snaps, or just
+/// version for debs. Shows "current → update" when an update is available.
+class _SourceDisplay extends StatelessWidget {
+  const _SourceDisplay({required this.app});
+
+  final ManageAppData app;
+
+  @override
+  Widget build(BuildContext context) {
+    return app.map(
+      snap: (snapData) =>
+          _buildSnapSource(snapData.snap, snapData.updateVersion),
+      localDeb: (debData) => _buildDebSource(debData.debInfo),
+    );
+  }
+
+  Widget _buildSnapSource(Snap snap, String? updateVersion) {
+    final version = snap.version;
+    final versionText =
+        updateVersion != null ? '$version → $updateVersion' : version;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(snap.channel),
+        const SizedBox(width: 4),
+        Text(versionText),
+      ],
+    );
+  }
+
+  Widget _buildDebSource(LocalDebInfo debInfo) {
+    final version = debInfo.packageInfo.packageId.version;
+    final updateVersion = debInfo.updateVersion;
+    final versionText =
+        updateVersion != null ? '$version → $updateVersion' : version;
+
+    return Text(versionText);
   }
 }

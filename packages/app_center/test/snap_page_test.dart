@@ -1,3 +1,4 @@
+import 'package:app_center/apps/apps.dart';
 import 'package:app_center/l10n.dart';
 import 'package:app_center/ratings/ratings.dart';
 import 'package:app_center/snapd/snapd.dart';
@@ -82,7 +83,6 @@ void expectSnapInfos(
   expect(find.text(snap.license!), findsOneWidget);
 
   expect(find.text(tester.l10n.snapPageConfinementLabel), findsOneWidget);
-  expect(find.text(tester.l10n.snapPageDescriptionLabel), findsOneWidget);
   expect(find.text(tester.l10n.snapPageLicenseLabel), findsOneWidget);
   expect(find.text(tester.l10n.snapPageVersionLabel), findsOneWidget);
   expect(find.text(tester.l10n.snapPagePublishedLabel), findsOneWidget);
@@ -90,7 +90,9 @@ void expectSnapInfos(
   final snapChannel = snap.channels[channel];
   if (snapChannel != null) {
     expect(
-      find.text(snapChannel.confinement.localize(tester.l10n)),
+      find.text(
+        AppConfinement.fromSnap(snapChannel.confinement).localize(tester.l10n),
+      ),
       findsOneWidget,
     );
     expect(find.text(tester.l10n.snapPageDownloadSizeLabel), findsOneWidget);
@@ -163,8 +165,8 @@ void main() {
     ).called(1);
 
     final viewMoreButton = find.descendant(
-      of: find.byType(YaruSplitButton),
-      matching: find.byIcon(YaruIcons.pan_down),
+      of: find.byType(YaruPopupMenuButton),
+      matching: find.byIcon(YaruIcons.view_more),
     );
     expect(viewMoreButton, findsOneWidget);
     await tester.tap(viewMoreButton);
@@ -233,8 +235,8 @@ void main() {
     ).called(1);
 
     final viewMoreButton = find.descendant(
-      of: find.byType(YaruSplitButton),
-      matching: find.byIcon(YaruIcons.pan_down),
+      of: find.byType(YaruPopupMenuButton),
+      matching: find.byIcon(YaruIcons.view_more),
     );
     expect(viewMoreButton, findsOneWidget);
     await tester.tap(viewMoreButton);
@@ -334,7 +336,7 @@ void main() {
     verify(snapLauncher.open()).called(1);
     await tester.pump();
 
-    final findMoreButton = find.byIcon(YaruIcons.pan_down);
+    final findMoreButton = find.byIcon(YaruIcons.view_more);
     expect(findMoreButton, findsOneWidget);
     await tester.tap(findMoreButton);
     await tester.pumpAndSettle();
@@ -352,6 +354,45 @@ void main() {
       findsOneWidget,
     );
     expect(find.text(snapRating.ratingsBand.localize(l10n)), findsOneWidget);
+  });
+
+  testWidgets('revert button appears in dropdown when previous revision exists',
+      (tester) async {
+    final service = registerMockSnapdService(
+      localSnap: localSnap,
+      storeSnap: storeSnap,
+    );
+
+    when(service.hasPreviousRevision(any)).thenAnswer((_) async => true);
+
+    final snapLauncher = createMockSnapLauncher(isLaunchable: true);
+
+    final container = createContainer(
+      overrides: [
+        launchProvider.overrideWith((ref, arg) => snapLauncher),
+      ],
+    );
+
+    await tester.pumpApp(
+      (_) => UncontrolledProviderScope(
+        container: container,
+        child: const SnapPage(snapName: 'testsnap'),
+      ),
+    );
+    await container.read(snapModelProvider('testsnap').future);
+    await container.read(ratingsModelProvider('testsnap').future);
+    await tester.pumpAndSettle();
+
+    final viewMoreButton = find.descendant(
+      of: find.byType(YaruPopupMenuButton),
+      matching: find.byIcon(YaruIcons.view_more),
+    );
+    expect(viewMoreButton, findsOneWidget);
+    await tester.tap(viewMoreButton);
+    await tester.pumpAndSettle();
+
+    final revertButton = find.text(tester.l10n.snapActionRevertLabel);
+    expect(revertButton, findsOneWidget);
   });
 
   testWidgets('loading', (tester) async {

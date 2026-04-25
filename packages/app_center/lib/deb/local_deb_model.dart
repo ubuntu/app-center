@@ -1,3 +1,4 @@
+import 'package:app_center/apps/apps_utils.dart';
 import 'package:app_center/packagekit/packagekit.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:packagekit/packagekit.dart';
@@ -8,7 +9,7 @@ part 'local_deb_model.freezed.dart';
 part 'local_deb_model.g.dart';
 
 @freezed
-class LocalDebData with _$LocalDebData {
+class LocalDebData extends AppMetadata with _$LocalDebData {
   factory LocalDebData({
     required String path,
     required PackageKitDetailsEvent details,
@@ -19,6 +20,29 @@ class LocalDebData with _$LocalDebData {
   LocalDebData._();
 
   bool get isInstalled => packageInfo?.info == PackageKitInfo.installed;
+
+  @override
+  AppConfinement? get confinement => AppConfinement.fromDeb();
+
+  @override
+  String? get publisher => details.packageId.name;
+
+  @override
+  int? get downloadSize => details.size;
+
+  @override
+  String? get license => details.license;
+
+  @override
+  Map<AppLink, String>? get links => {
+        AppLink.homepage: details.url,
+      };
+
+  @override
+  DateTime? get published => null;
+
+  @override
+  String? get version => details.packageId.version;
 }
 
 @riverpod
@@ -31,7 +55,9 @@ class LocalDebModel extends _$LocalDebModel {
     if (details == null) {
       throw Exception('Failed to get package details');
     }
-    final packageInfo = await packageKit.resolve(details.packageId.name);
+    final packageName = details.packageId.name;
+    final results = await packageKit.resolve([packageName]);
+    final packageInfo = results[packageName];
     return LocalDebData(path: path, details: details, packageInfo: packageInfo);
   }
 
