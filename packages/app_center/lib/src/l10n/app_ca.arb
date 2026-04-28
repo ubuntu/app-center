@@ -92,7 +92,7 @@
     "errorViewUnknownErrorDescription": "Ho sentim, no estem segurs de quin ha estat l'error.",
     "errorViewUnknownErrorTitle": "Alguna cosa ha fallat",
     "appstreamSearchGreylist": "aplicació;aplicacions;app;paquet;paquets;programa;programes;programari;eina;eines",
-    "snapPageConfinementLabel": "Confinament",
+    "snapPageConfinementLabel": "Permisos",
     "snapPageContactPublisherLabel": "Contactar amb {publisher}",
     "@snapPageContactPublisherLabel": {
         "placeholders": {
@@ -185,7 +185,7 @@
     "managePageNoInternet": "No es pot accedir al servidor, comproveu la connexió a Internet o intenteu més tard.",
     "managePageDescription": "Comproveu si hi ha actualitzacions disponibles, actualitzeu les aplicacions i gestioneu l'estat de totes.",
     "managePageDebUpdatesMessage": "Les actualitzacions dels paquets de Debian es gestionen amb l'actualitzador de programari.",
-    "managePageInstalledAndUpdatedLabel": "Instal·lat i actualitzat",
+    "managePageInstalledAndUpdatedLabel": "Aplicacions instal·lades",
     "managePageInstallingLabel": "S'està instal·lant ({n})",
     "@managePageInstallingLabel": {
         "placeholders": {
@@ -256,7 +256,7 @@
     "gamesPageTitle": "Jocs",
     "gamesPageTop": "Millor valorats",
     "gamesPageFeatured": "Títols destacats",
-    "gamesPageBundles": "Paquets d'aplicacions",
+    "gamesPageBundles": "Col·leccions d'aplicacions",
     "searchPageTitle": "Resultats de «{query}»",
     "@searchPageTitle": {
         "placeholders": {
@@ -347,5 +347,17 @@
     "codecPageTitle": "Falten còdecs multimèdia",
     "codecPageDescription": "Necessiteu instal·lar els següents còdecs per a gestionar certs formats d'àudio i video:",
     "codecProprietaryDisclaimer": "Alguns dels còdecs recomanats podrien ser propietaris.",
-    "codecInstallAllButton": "Instal·la els còdecs recomanats"
+    "codecInstallAllButton": "Instal·la els còdecs recomanats",
+    "managePagePackageTypeLabel": "Tipus de paquet",
+    "managePagePackageTypeAll": "Tot",
+    "managePagePackageTypeDeb": "DEB",
+    "appUrlTypeHomepage": "Lloc web del desenvolupador",
+    "appUrlTypeUnknown": "Enllaç",
+    "appConfinementUnknown": "Desconegut",
+    "snapRevertConfirmCancel": "Cancel·la",
+    "snapRevertConfirmRevert": "Reverteix",
+    "appConfinementClassic": "Sense restriccions",
+    "appConfinementUnrestricted": "Sense restriccions",
+    "appLicenseUnknown": "Desconeguda",
+    "appMoreActionsSemanticLabel": "Més accions"
 }

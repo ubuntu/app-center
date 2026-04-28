@@ -123,7 +123,7 @@
     "aboutPageGitHubLabel": "Atópanos en GitHub",
     "aboutPagePublishLabel": "Publicar na Snap Store",
     "aboutPageLearnMoreLabel": "Saber máis",
-    "appUrlTypeContact": "Contactar {publisher}",
+    "appUrlTypeContact": "Contactar con {publisher}",
     "@appUrlTypeContact": {
         "placeholders": {
             "publisher": {
@@ -166,7 +166,7 @@
         }
     },
     "snapRevertNoPreviousRevisionMessage": "Non hai ningunha revisión local anterior dispoñíbel á que volver.",
-    "snapActionSwitchChannelLabel": "Cambiar de canal",
+    "snapActionSwitchChannelLabel": "Cambiar de canle",
     "snapActionUpdateLabel": "Actualizar",
     "snapCategoryAll": "Todas as categorías",
     "snapActionUpdatingLabel": "Actualizando",
@@ -190,7 +190,7 @@
     "snapCategoryArtAndDesignButtonLabel": "Comezar a crear",
     "snapCategoryArtAndDesignSlogan": "Desde o teu primeiro bosquexo ata o toque final, explora aplicacións para arte e deseño.",
     "snapCategoryBooksAndReference": "Libros e referencia",
-    "managePageUpdatedDaysAgo": "Actualizado fai {n, plural, =1{{n} día} other{{n} días}}",
+    "managePageUpdatedDaysAgo": "Actualizado hai {n, plural, =1{{n} día} other{{n} días}}",
     "@managePageUpdatedDaysAgo": {
         "placeholders": {
             "n": {
@@ -282,8 +282,8 @@
     "snapConfinementClassic": "Clásico",
     "snapConfinementDevmode": "Modo de desenvolvemento",
     "snapConfinementStrict": "Estrito",
-    "snapSortOrderAlphabeticalAsc": "Alfabético (A á Z)",
-    "snapSortOrderAlphabeticalDesc": "Alfabético (Z á A)",
+    "snapSortOrderAlphabeticalAsc": "Alfabeticamente (A á Z)",
+    "snapSortOrderAlphabeticalDesc": "Alfabeticamente (Z á A)",
     "snapSortOrderDownloadSizeAsc": "Tamaño (de menor a maior)",
     "snapSortOrderDownloadSizeDesc": "Tamaño (de maior a menor)",
     "snapSortOrderInstalledSizeAsc": "Tamaño (de menor a maior)",
