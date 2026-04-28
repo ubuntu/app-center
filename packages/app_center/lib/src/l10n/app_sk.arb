@@ -82,7 +82,7 @@
     "managePageInstalledAndUpdatedLabel": "Nainštalované aplikácie",
     "appstreamUrlTypeHomepage": "Domovská stránka",
     "managePageCheckingForUpdates": "Kontrolujú sa aktualizácie",
-    "managePageUpdatedDaysAgo": "Upravené pred {n, plural, =1{{n} dňom} other{{n} dňami}}",
+    "managePageUpdatedDaysAgo": "Upravené pred {n, plural, =1{{n} dňom} few{{n} dňami} other{{n} dňami}}",
     "@managePageUpdatedDaysAgo": {
         "placeholders": {
             "n": {
@@ -213,7 +213,7 @@
     "snapReportOptionStoreViolation": "Porušenie zmluvných podmienok obchodu Snap Store",
     "snapCategoryGnomeGamesSlogan": "Kolekcia hier GNOME",
     "externalResourcesDisclaimer": "Poznámka: Všetky tieto nástroje sú externé. Nie sú vo vlastníctve ani spravované spoločnosťou Canonical.",
-    "managePageUpdatedMonthsAgo": "Upravené pred {n, plural, =1{{n} mesiacom} other{{n} mesiacmi}}",
+    "managePageUpdatedMonthsAgo": "Upravené pred {n, plural, =1{{n} mesiacom} few{{n} mesiacmi} other{{n} mesiacmi}}",
     "@managePageUpdatedMonthsAgo": {
         "placeholders": {
             "n": {
@@ -221,7 +221,7 @@
             }
         }
     },
-    "managePageUpdatedYearsAgo": "Upravené pred {n, plural, =1{{n} rokom} other{{n} rokmi}}",
+    "managePageUpdatedYearsAgo": "Upravené pred {n, plural, =1{{n} rokom} few{{n} rokmi} other{{n} rokmi}}",
     "@managePageUpdatedYearsAgo": {
         "placeholders": {
             "n": {
@@ -229,7 +229,7 @@
             }
         }
     },
-    "managePageUpdatedWeeksAgo": "Upravené pred {n, plural, =1{{n} týždňom} other{{n} týždňami}}",
+    "managePageUpdatedWeeksAgo": "Upravené pred {n, plural, =1{{n} týždňom} few{{n} týždňami} other{{n} týždňami}}",
     "@managePageUpdatedWeeksAgo": {
         "placeholders": {
             "n": {
@@ -277,7 +277,7 @@
         }
     },
     "managePageQuitToUpdate": "Ukončite kvôli aktualizácii",
-    "managePageUpdatesFailed": "Zlyhanie {n, plural, =1{jednej aktualizácie} other{({n}) aktualizácií}}",
+    "managePageUpdatesFailed": "Zlyhanie {n, plural, =1{jednej aktualizácie} few{{n} aktualizácií} other{{n} aktualizácií}}",
     "@managePageUpdatesFailed": {
         "placeholders": {
             "n": {
