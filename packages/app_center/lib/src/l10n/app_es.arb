@@ -299,7 +299,7 @@
     },
     "managePageDocumentationLinkLabel": "Aprenda a gestionar los paquetes de Debian en la documentación.",
     "debPageDocumentationLinkLabel": "Aprenda a administrar paquetes Debian",
-    "snapPageGalleryNextSemanticLabel": "Siguiente imagen",
+    "snapPageGalleryNextSemanticLabel": "Imagen siguiente",
     "snapPageGalleryPreviousSemanticLabel": "Imagen anterior",
     "snapPageGalleryImageSemanticLabel": "Imagen {n}",
     "@snapPageGalleryImageSemanticLabel": {
