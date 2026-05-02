@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:io' as io;
 
 import 'package:app_center/packagekit/packagekit_service.dart';
 import 'package:dbus/dbus.dart';
+import 'package:file/file.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:packagekit/packagekit.dart';
+import 'package:xdg_desktop_portal/xdg_desktop_portal.dart';
 
 import 'packagekit_service_test.mocks.dart';
 import 'test_utils.dart';
@@ -468,6 +471,136 @@ void main() {
     expect(packages.length, equals(2));
   });
 
+  group('portal path resolution', () {
+    const portalPath = '/run/user/1000/doc/8cf4b075/test-package_1.0_amd64.deb';
+    const realPath = '/home/user/Downloads/test-package_1.0_amd64.deb';
+
+    test('install local package via portal path', () async {
+      final completer = Completer();
+      final mockTransaction = createMockPackageKitTransaction(
+        start: completer.future,
+      );
+      final mockClient =
+          createMockPackageKitClient(transaction: mockTransaction);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        documentsPortal: createMockDocumentsPortal(
+          docId: '8cf4b075',
+          realPath: realPath,
+        ),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final id = await packageKit.installLocal(portalPath);
+      verify(mockTransaction.installFiles([realPath])).called(1);
+      completer.complete();
+      await packageKit.waitTransaction(id);
+    });
+
+    test('get details of local package via portal path', () async {
+      final mockDetails = PackageKitPackageDetails(
+        packageId: const PackageKitPackageId(
+          name: 'test-package',
+          version: '1.0',
+          arch: 'amd64',
+        ),
+        summary: 'summary',
+      );
+      final mockTransaction = createMockPackageKitTransaction(
+        events: [mockDetails],
+      );
+      final mockClient =
+          createMockPackageKitClient(transaction: mockTransaction);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        documentsPortal: createMockDocumentsPortal(
+          docId: '8cf4b075',
+          realPath: realPath,
+        ),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final details = await packageKit.getDetailsLocal(portalPath);
+      verify(mockTransaction.getDetailsLocal([realPath])).called(1);
+      expect(details, equals(mockDetails));
+    });
+
+    test('falls back to absolute path when portal is unavailable', () async {
+      final completer = Completer();
+      final mockTransaction = createMockPackageKitTransaction(
+        start: completer.future,
+      );
+      final mockClient =
+          createMockPackageKitClient(transaction: mockTransaction);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        documentsPortal: createMockDocumentsPortal(portalUnavailable: true),
+        client: mockClient,
+        fs: MemoryFileSystem.test(),
+      );
+      await packageKit.activateService();
+      final id = await packageKit.installLocal(portalPath);
+      // _isPortalPath returns false when getMountPoint fails, so the raw path
+      // is passed through _getAbsolutePath (which equals portalPath on MemoryFS)
+      verify(mockTransaction.installFiles([portalPath])).called(1);
+      completer.complete();
+      await packageKit.waitTransaction(id);
+    });
+
+    test('copies file to runtime dir when GetHostPaths is unavailable',
+        () async {
+      final completer = Completer();
+      final mockTransaction = createMockPackageKitTransaction(
+        start: completer.future,
+      );
+      final mockClient =
+          createMockPackageKitClient(transaction: mockTransaction);
+      final fs = MemoryFileSystem.test();
+      const portalPathForCopy =
+          '/run/user/1000/doc/8cf4b075/test-package_1.0_amd64.deb';
+      const runtimeDir = '/run/user/1000';
+      await fs.file(portalPathForCopy).create(recursive: true);
+      await fs.directory(runtimeDir).create(recursive: true);
+      final packageKit = PackageKitService(
+        dbus: createMockDbusClient(),
+        documentsPortal: createMockDocumentsPortal(
+          docId: '8cf4b075',
+          getHostPathsUnknown: true,
+        ),
+        client: mockClient,
+        fs: fs,
+        runtimeDir: runtimeDir,
+      );
+      await packageKit.activateService();
+      final id = await packageKit.installLocal(portalPathForCopy);
+      verify(
+        mockTransaction.installFiles(
+          argThat(
+            predicate<List<String>>(
+              (paths) =>
+                  paths.length == 1 &&
+                  paths.first.startsWith('$runtimeDir/packagekit-') &&
+                  paths.first.endsWith('test-package_1.0_amd64.deb'),
+            ),
+          ),
+        ),
+      ).called(1);
+      final tempDir = fs
+          .directory(runtimeDir)
+          .listSync()
+          .whereType<Directory>()
+          .firstWhere((d) => d.basename.startsWith('packagekit-'));
+      expect(tempDir.existsSync(), isTrue);
+      completer.complete();
+      await packageKit.waitTransaction(id);
+      // Give onDone callback a chance to run
+      await Future<void>.delayed(Duration.zero);
+      expect(tempDir.existsSync(), isFalse);
+    });
+  });
+
   test('getUpdates', () async {
     const fooUpdate = PackageKitPackageEvent(
       info: PackageKitInfo.normal,
@@ -500,7 +633,7 @@ void main() {
   });
 }
 
-@GenerateMocks([DBusClient])
+@GenerateMocks([DBusClient, XdgDocumentsPortal])
 MockDBusClient createMockDbusClient() {
   final dbus = MockDBusClient();
   when(
@@ -513,4 +646,31 @@ MockDBusClient createMockDbusClient() {
     ),
   ).thenAnswer((_) async => DBusMethodSuccessResponse());
   return dbus;
+}
+
+MockXdgDocumentsPortal createMockDocumentsPortal({
+  String? docId,
+  String? realPath,
+  String mountPoint = '/run/user/1000/doc',
+  bool portalUnavailable = false,
+  bool getHostPathsUnknown = false,
+}) {
+  final portal = MockXdgDocumentsPortal();
+  if (portalUnavailable) {
+    when(portal.getMountPoint()).thenThrow(Exception('portal unavailable'));
+  } else {
+    when(portal.getMountPoint()).thenAnswer(
+      (_) async => io.Directory(mountPoint),
+    );
+    if (getHostPathsUnknown) {
+      when(portal.getHostPaths([docId!])).thenThrow(
+        DBusUnknownMethodException(DBusMethodErrorResponse.unknownMethod()),
+      );
+    } else {
+      when(portal.getHostPaths([docId!])).thenAnswer(
+        (_) async => {docId: io.File(realPath!)},
+      );
+    }
+  }
+  return portal;
 }

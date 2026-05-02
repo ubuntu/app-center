@@ -336,7 +336,7 @@ void main() {
     verify(snapLauncher.open()).called(1);
     await tester.pump();
 
-    final findMoreButton = find.byIcon(YaruIcons.pan_down);
+    final findMoreButton = find.byIcon(YaruIcons.view_more);
     expect(findMoreButton, findsOneWidget);
     await tester.tap(findMoreButton);
     await tester.pumpAndSettle();

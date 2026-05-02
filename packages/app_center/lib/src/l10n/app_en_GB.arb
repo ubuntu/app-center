@@ -394,5 +394,8 @@
     "managePagePackageTypeAll": "All",
     "managePagePackageTypeSnap": "Snap",
     "managePagePackageTypeDeb": "Deb",
-    "appMoreActionsSemanticLabel": "More actions"
+    "appMoreActionsSemanticLabel": "More actions",
+    "appConfinementStrictTooltip": "This app has limited access to your resources. You can control its permissions in the Settings app.",
+    "appConfinementClassicTooltip": "This app uses classic confinement, giving full access to your resources. This is common with development apps.",
+    "appConfinementUnrestrictedTooltip": "This app has full access to your resources."
 }
