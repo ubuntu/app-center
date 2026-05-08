@@ -2,9 +2,6 @@ name: Feature request
 description: Suggest an idea for the App Center
 labels:
   - enhancement
-assignees:
-  - d-loose
-  - matthew-hagemann
 body:
 - type: checkboxes
   attributes:
