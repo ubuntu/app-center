@@ -287,7 +287,7 @@
             }
         }
     },
-    "snapCategoryArtAndDesignSlogan": "最初のスケッチから最後の仕上げまで、アートとデザイン向けアプリを探索。",
+    "snapCategoryArtAndDesignSlogan": "最初のスケッチから最後の仕上げまで、アートとデザイン向けアプリを探る",
     "snapCategoryArtAndDesignButtonLabel": "作成を始める",
     "debPageDocumentationLinkLabel": "Debianパッケージの管理について知る",
     "managePageUpdatesFailedBody": "以下のアプリは現在実行中のためアップデートできません。\n\n{snapList}\nアプリケーションを終了すると自動的にアップデートが開始されます。",
